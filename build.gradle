@@ -21,3 +21,20 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext {
+    compileSdkVersion = 23
+    buildToolsVersion = "23.0.3"
+    minSdkVersion = 14
+    targetSdkVersion = 23
+    versionCode = buildNumber == 'SNAPSHOT' ? 1 : buildNumber.toInteger()
+    versionName = "${version} (${buildNumber})"
+}
+
+ext.deps = [
+        // Android
+        appCompatv7: 'com.android.support:appcompat-v7:23.4.0',
+        supportv4: 'com.android.support:support-v4:23.4.0',
+        // Test dependencies
+        junit    : 'junit:junit:4.12'
+]
