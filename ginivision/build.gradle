@@ -22,3 +22,5 @@ dependencies {
     compile deps.appCompatv7
     compile deps.supportv4
 }
+
+apply from: rootProject.file('gradle/codequality.gradle')
