@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Vision Adv. Test</string>
+    <string name="app_name">Vision Advanced</string>
+
+    <string name="title_scanner">Angepasster Scanner</string>
 </resources>
