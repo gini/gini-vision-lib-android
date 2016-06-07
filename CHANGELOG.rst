@@ -1,1 +1,1 @@
-src/doc/source/changelog.rst
+ginivision/src/doc/source/changelog.rst
