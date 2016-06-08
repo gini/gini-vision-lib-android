@@ -15,14 +15,15 @@
         android:background="#999" />
 
     <ImageView
+        android:id="@+id/gv_image_corners"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignBottom="@+id/gv_camera_preview"
         android:layout_alignLeft="@id/gv_camera_preview"
         android:layout_alignRight="@id/gv_camera_preview"
         android:layout_alignTop="@+id/gv_camera_preview"
-        android:padding="@dimen/gv_corners_padding"
-        android:src="@drawable/gv_corners" />
+        android:padding="@dimen/gv_camera_preview_corners_padding"
+        android:src="@drawable/gv_camera_preview_corners" />
 
     <ImageButton
         android:id="@+id/gv_button_camera"

@@ -2,6 +2,6 @@
     <string name="gv_title_scanner">Dokument fotografieren</string>
 
     <string name="gv_show_onboarding">Hilfe</string>
-
+    <string name="gv_select_from_camera_roll">Eigenes Bild auswählen</string>
 
 </resources>
