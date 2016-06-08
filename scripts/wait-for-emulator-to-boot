@@ -1,0 +1,21 @@
+#!/bin/bash
+#
+# Waits for the emulator to finish booting.
+#
+# Usage: ./wait-for-emulator-to-boot emulator_qualifier
+#
+
+if [ $# -ne 1 ]; then
+    echo "Usage: ./wait-for-emulator-to-boot emulator_qualifier"
+    exit
+fi
+
+echo "checking if the emulator has booted"
+
+while [ "stopped" != "`adb -s $1 shell getprop init.svc.bootanim | sed 's/\(stopped\).*/\1/'`" ]; do
+    sleep 5
+    echo "waiting for the emulator to finish booting";
+done;
+
+echo "emulator finished booting"
+
