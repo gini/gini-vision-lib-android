@@ -1,0 +1,29 @@
+apply plugin: 'maven'
+
+// In order to upload to the repo, you need a file ~/.gradle/gradle.properties with
+// repoUser=<your user name>
+// repoPassword=<your password>
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            pom.groupId = groupId
+            pom.artifactId = artifactId
+            pom.version = version
+
+            snapshotRepository(url: mavenSnapshotsRepoUrl) {
+                authentication(
+                        userName: project.hasProperty('repoUser') ? repoUser : "invalidUserName",
+                        password: project.hasProperty('repoPassword') ? repoPassword : "invalidPassword"
+                )
+                uniqueVersion = false
+            }
+
+            repository(url: mavenReleasesRepoUrl) {
+                authentication(
+                        userName: project.hasProperty('repoUser') ? repoUser : 'invalidUserName',
+                        password: project.hasProperty('repoPassword') ? repoPassword : 'invalidPassword'
+                )
+            }
+        }
+    }
+}

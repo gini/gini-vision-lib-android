@@ -24,3 +24,5 @@ dependencies {
 }
 
 apply from: rootProject.file('gradle/codequality.gradle')
+
+apply from: rootProject.file('gradle/maven.gradle')
