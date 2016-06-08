@@ -10,6 +10,6 @@ public class ScannerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.gini_vision_activity_scanner);
+        setContentView(R.layout.gv_activity_scanner);
     }
 }

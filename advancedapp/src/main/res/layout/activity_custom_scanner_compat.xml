@@ -11,7 +11,7 @@
 
     <fragment
         android:id="@+id/fragment_scanner"
-        android:name="net.gini.android.vision.scanner.ScannerFragmentStandard"
+        android:name="net.gini.android.vision.scanner.ScannerFragmentCompat"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/text_info"
