@@ -7,4 +7,5 @@
     <color name="gv_activities_background">#fff</color>
 
     <color name="gv_scanner_fragment_background">#000</color>
+    <color name="gv_onboarding_fragment_background">#000</color>
 </resources>
