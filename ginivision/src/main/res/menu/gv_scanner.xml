@@ -6,10 +6,4 @@
         android:icon="@drawable/gv_icon_onboarding"
         android:title="@string/gv_show_onboarding"
         app:showAsAction="always" />
-    <item
-        android:id="@+id/gv_action_select_from_camera_roll"
-        android:title="@string/gv_select_from_camera_roll"
-        android:icon="@drawable/gv_icon_camera_roll"
-        android:visible="@bool/gv_camera_roll_enabled"
-        app:showAsAction="always" />
 </menu>
