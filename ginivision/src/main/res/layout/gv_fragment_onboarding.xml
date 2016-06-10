@@ -79,6 +79,6 @@
         android:layout_marginBottom="@dimen/gv_fab_vertical_margin"
         android:layout_marginRight="@dimen/gv_fab_horizontal_margin"
         android:background="@drawable/gv_fab_background"
-        android:src="@drawable/gv_next" />
+        android:src="@drawable/gv_onboarding_fab_next" />
 
 </RelativeLayout>
