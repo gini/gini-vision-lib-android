@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#99000000">
+    android:background="@color/gv_onboarding_page_background">
 
     <ImageView
         android:id="@+id/image_onboarding"
@@ -10,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/text_message"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/gv_onboarding_illustration_vertical_margin"/>
+        android:layout_marginBottom="@dimen/gv_onboarding_illustration_vertical_margin" />
 
     <TextView
         android:id="@+id/text_message"

@@ -22,6 +22,8 @@ dependencies {
     compile deps.appCompatv7
     compile deps.supportv4
     compile deps.supportDesign
+//    compile deps.fabProgressCircle
+    compile 'com.github.jorgecastilloprz:fabprogresscircle:1.01@aar'
 }
 
 apply from: rootProject.file('gradle/codequality.gradle')

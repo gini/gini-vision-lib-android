@@ -7,9 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import net.gini.android.vision.ui.FragmentImplCallback;
+
 import java.util.ArrayList;
 
-public class OnboardingFragmentStandard extends Fragment {
+public class OnboardingFragmentStandard extends Fragment implements FragmentImplCallback {
 
     private OnboardingFragmentImpl mFragmentImpl;
 
@@ -26,7 +28,7 @@ public class OnboardingFragmentStandard extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFragmentImpl = OnboardingFragmentHelper.createFragmentImpl(getArguments());
+        mFragmentImpl = OnboardingFragmentHelper.createFragmentImpl(this, getArguments());
     }
 
     @Nullable

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/gv_onboarding_fragment_background">
+    android:background="@color/gv_onboarding_fragment_background"
+    android:orientation="vertical">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/gv_viewpager"
@@ -12,6 +13,13 @@
         android:layout_height="match_parent">
 
     </android.support.v4.view.ViewPager>
+
+    <!-- For viewing given onboarding pages' text and image. ONLY FOR POC -->
+    <ListView
+        android:id="@+id/gv_list_onboarding_pages"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@android:layout/simple_list_item_2" />
 
     <LinearLayout
         android:id="@+id/gv_layout_page_indicators"
@@ -62,8 +70,7 @@
             android:src="@drawable/gv_onboarding_camicon" />
     </LinearLayout>
 
-
-    <android.support.design.widget.FloatingActionButton
+    <ImageButton
         android:id="@+id/gv_button_next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -71,8 +78,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginBottom="@dimen/gv_fab_vertical_margin"
         android:layout_marginRight="@dimen/gv_fab_horizontal_margin"
-        android:background="@android:color/transparent"
-        android:src="@drawable/gv_next"
-        app:useCompatPadding="true" />
+        android:background="@drawable/gv_fab_background"
+        android:src="@drawable/gv_next" />
 
 </RelativeLayout>

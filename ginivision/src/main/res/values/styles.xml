@@ -8,4 +8,11 @@
         <item name="colorAccent">@color/gv_colorAccent</item>
     </style>
 
+    <style name="GiniVisionTheme.Transparent">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+    </style>
+
 </resources>
