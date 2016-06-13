@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="gv_colorPrimary">#3F51B5</color>
+    <color name="gv_colorPrimaryDark">#303F9F</color>
+    <color name="gv_colorAccent">#FF4081</color>
+
+    <color name="gv_scanner_activity_background">#fff</color>
+    <color name="gv_onboarding_activity_background">#99000000</color>
+
+    <color name="gv_scanner_fragment_background">#000</color>
+    <color name="gv_onboarding_fragment_background">@android:color/transparent</color>
+    <color name="gv_onboarding_page_background">@android:color/transparent</color>
+
+    <color name="gv_fab_color">#009edc</color>
+    <color name="gv_fab_color_selected">#0095cf</color>
+    <color name="gv_fab_progress">#fa6912</color>
 </resources>

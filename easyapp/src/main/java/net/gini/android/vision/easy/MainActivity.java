@@ -7,7 +7,11 @@ import android.view.View;
 import android.widget.Button;
 
 import net.gini.android.ginivisiontest.R;
+import net.gini.android.vision.onboarding.DefaultPages;
+import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.scanner.ScannerActivity;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,10 +36,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void startScanner() {
         Intent intent = new Intent(this, ScannerActivity.class);
+        intent.putParcelableArrayListExtra(ScannerActivity.EXTRA_ONBOARDING_PAGES, getOnboardingPages());
         startActivity(intent);
     }
 
     private void bindViews() {
         mButtonStartScanner = (Button) findViewById(R.id.button_start_scanner);
+    }
+
+    private ArrayList<OnboardingPage> getOnboardingPages() {
+        ArrayList<OnboardingPage> pages = new ArrayList<>(DefaultPages.getPages());
+        pages.add(new OnboardingPage(R.string.additional_onboarding_page, R.drawable.additional_onboarding_illustration));
+        return pages;
     }
 }

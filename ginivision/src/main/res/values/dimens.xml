@@ -1,5 +1,26 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="gini_vision_activity_horizontal_margin">16dp</dimen>
-    <dimen name="gini_vision_activity_vertical_margin">16dp</dimen>
+    <dimen name="gv_activity_horizontal_margin">16dp</dimen>
+    <dimen name="gv_activity_vertical_margin">16dp</dimen>
+
+    <dimen name="gv_fab_vertical_margin">16dp</dimen>
+    <dimen name="gv_fab_horizontal_margin">16dp</dimen>
+
+    <dimen name="gv_camera_preview_corners_padding">20dp</dimen>
+    <dimen name="gv_camera_button_vertical_margin">20dp</dimen>
+    <dimen name="gv_camera_roll_vertical_margin">20dp</dimen>
+    <dimen name="gv_camera_roll_horizontal_margin">20dp</dimen>
+
+    <dimen name="gv_onboarding_indicators_vertical_margin">41dp</dimen>
+    <dimen name="gv_onboarding_indicator_width">10dp</dimen>
+    <dimen name="gv_onboarding_indicator_height">10dp</dimen>
+    <dimen name="gv_onboarding_illustration_vertical_margin">40dp</dimen>
+    <dimen name="gv_onboarding_text_vertical_margin">150dp</dimen>
+    <dimen name="gv_onboarding_message_text_size">33sp</dimen>
+
+    <dimen name="gv_fab_width">56dp</dimen>
+    <dimen name="gv_fab_height">56dp</dimen>
+    <dimen name="gv_fab_shadow_width_selected">58dp</dimen>
+    <dimen name="gv_fab_shadow_height_selected">58dp</dimen>
+    <dimen name="gv_fab_progress_arc_width">2dp</dimen>
 </resources>

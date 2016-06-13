@@ -35,6 +35,9 @@ ext.deps = [
         // Android
         appCompatv7: 'com.android.support:appcompat-v7:23.4.0',
         supportv4: 'com.android.support:support-v4:23.4.0',
+        supportDesign: 'com.android.support:design:23.4.0',
+        // Progress
+        fabProgressCircle: 'com.github.jorgecastilloprz:fabprogresscircle:1.01@aar',
         // Test dependencies
         junit    : 'junit:junit:4.12'
 ]
