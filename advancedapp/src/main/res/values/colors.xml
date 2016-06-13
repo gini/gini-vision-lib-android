@@ -4,5 +4,9 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="gv_background">#009edc</color>
+    <color name="gv_background">#35070b</color>
+
+    <color name="gv_fab_color">#ea5e63</color>
+    <color name="gv_fab_color_selected">#c14d51</color>
+    <color name="gv_fab_progress">#ece060</color>
 </resources>
