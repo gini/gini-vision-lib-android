@@ -4,12 +4,15 @@
     <color name="gv_colorPrimaryDark">#303F9F</color>
     <color name="gv_colorAccent">#FF4081</color>
 
-    <color name="gv_scanner_activity_background">#fff</color>
-    <color name="gv_onboarding_activity_background">#99000000</color>
+    <color name="gv_background">#000</color>
 
-    <color name="gv_scanner_fragment_background">#000</color>
+    <color name="gv_scanner_activity_background">@android:color/transparent</color>
+    <color name="gv_onboarding_activity_background">@android:color/transparent</color>
+
+    <color name="gv_scanner_fragment_background">@color/gv_background</color>
     <color name="gv_onboarding_fragment_background">@android:color/transparent</color>
-    <color name="gv_onboarding_page_background">@android:color/transparent</color>
+    <color name="gv_onboarding_page_container_background">@android:color/transparent</color>
+    <color name="gv_onboarding_page_fragment_background">@color/gv_background</color>
 
     <color name="gv_fab_color">#009edc</color>
     <color name="gv_fab_color_selected">#0095cf</color>
