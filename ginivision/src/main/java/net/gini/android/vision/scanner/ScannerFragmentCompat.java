@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 public class ScannerFragmentCompat extends Fragment {
 
-    private final ScannerFragment mFragmentImpl = new ScannerFragment();
+    private final ScannerFragmentImpl mFragmentImpl = new ScannerFragmentImpl();
 
     @Nullable
     @Override

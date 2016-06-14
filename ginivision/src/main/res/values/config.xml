@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <bool name="gv_camera_roll_enabled">false</bool>
-
-    <item name="gv_onboarding_page_alpha" format="float" type="fraction">0.6</item>
-</resources>
