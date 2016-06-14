@@ -22,7 +22,8 @@ dependencies {
     compile deps.appCompatv7
     compile deps.supportv4
     compile deps.supportDesign
-//    compile deps.fabProgressCircle
+    compile deps.fabProgressCircle
+    compile deps.sanselan
     compile 'com.github.jorgecastilloprz:fabprogresscircle:1.01@aar'
 }
 

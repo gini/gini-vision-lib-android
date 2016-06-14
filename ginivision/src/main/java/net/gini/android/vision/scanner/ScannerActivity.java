@@ -9,15 +9,18 @@ import android.view.MenuItem;
 import net.gini.android.vision.R;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
+import net.gini.android.vision.scanner.photo.Photo;
 
 import java.util.ArrayList;
 
-public class ScannerActivity extends AppCompatActivity {
+public class ScannerActivity extends AppCompatActivity implements ScannerFragmentListener {
 
     /**
      * Type: {@code ArrayList<OnboardingPage>}
      */
     public static final String EXTRA_ONBOARDING_PAGES = "GV_EXTRA_PAGES";
+    public static final String EXTRA_PHOTO = "GV_EXTRA_PHOTO";
+
     private ArrayList<OnboardingPage> mOnboardingPages;
 
     @Override
@@ -55,5 +58,13 @@ public class ScannerActivity extends AppCompatActivity {
             intent.putParcelableArrayListExtra(OnboardingActivity.EXTRA_ONBOARDING_PAGES, mOnboardingPages);
         }
         startActivity(intent);
+    }
+
+    @Override
+    public void onPhotoTaken(Photo photo) {
+        // Start ReviewPhotoActivity
+        Intent intent = new Intent(this, ReviewPhotoActivity.class);
+        intent.putExtra(EXTRA_PHOTO, photo);
+        startActivityForResult(intent, REVIEW_PHOTO_REQUEST); // TODO: continue from here!
     }
 }
