@@ -3,4 +3,15 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="gv_action_bar">#5eeac5</color>
+    <color name="gv_status_bar">#4ec2a4</color>
+
+    <color name="gv_action_bar_title">#42a48b</color>
+
+    <color name="gv_background">#073529</color>
+
+    <color name="gv_fab_color">#5eeac5</color>
+    <color name="gv_fab_color_selected">#4ec2a4</color>
+    <color name="gv_fab_progress">#9985ff</color>
 </resources>

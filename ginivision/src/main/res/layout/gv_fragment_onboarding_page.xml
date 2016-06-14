@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gv_onboarding_page_container_background">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="@fraction/gv_onboarding_page_alpha"
+        android:background="@color/gv_onboarding_page_fragment_background" />
+
+    <ImageView
+        android:id="@+id/image_onboarding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/text_message"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/gv_onboarding_illustration_vertical_margin"
+        tools:src="@drawable/gv_onboarding_flat" />
+
+    <TextView
+        android:id="@+id/text_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/gv_onboarding_text_vertical_margin"
+        android:fontFamily="sans-serif-thin"
+        android:gravity="center"
+        android:textColor="#fff"
+        android:textSize="@dimen/gv_onboarding_message_text_size"
+        tools:text="Dokument flach\nauf eine einfarbige\nFläche legen" />
+
+</RelativeLayout>
