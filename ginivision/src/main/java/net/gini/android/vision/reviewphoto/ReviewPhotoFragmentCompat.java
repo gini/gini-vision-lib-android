@@ -1,6 +1,5 @@
 package net.gini.android.vision.reviewphoto;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,23 +7,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class ReviewPhotoFragmentCompat extends Fragment {
+import net.gini.android.vision.scanner.photo.Photo;
+import net.gini.android.vision.ui.FragmentImplCallback;
 
-    private ReviewPhotoFragmentImpl mFragmentImpl = new ReviewPhotoFragmentImpl();
+public class ReviewPhotoFragmentCompat extends Fragment implements FragmentImplCallback {
+
+    private ReviewPhotoFragmentImpl mFragmentImpl;
+
+    public static ReviewPhotoFragmentCompat createInstance(Photo photo) {
+        ReviewPhotoFragmentCompat fragment = new ReviewPhotoFragmentCompat();
+        fragment.setArguments(ReviewPhotoFragmentHelper.createArguments(photo));
+        return fragment;
+    }
 
     public void setPhotoWasAnalyzed(boolean photoWasAnalyzed) {
         mFragmentImpl.setPhotoWasAnalyzed(photoWasAnalyzed);
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        ReviewPhotoFragmentHelper.setListener(mFragmentImpl, context);
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mFragmentImpl = ReviewPhotoFragmentHelper.createFragmentImpl(this, getArguments());
+        ReviewPhotoFragmentHelper.setListener(mFragmentImpl, getActivity());
         mFragmentImpl.onCreate(savedInstanceState);
     }
 

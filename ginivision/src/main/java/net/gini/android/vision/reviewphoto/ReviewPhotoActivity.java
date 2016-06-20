@@ -9,17 +9,50 @@ import net.gini.android.vision.scanner.photo.Photo;
 
 public abstract class ReviewPhotoActivity extends AppCompatActivity implements ReviewPhotoFragmentListener {
 
+    public static final String EXTRA_PHOTO = "GV_EXTRA_PHOTO";
+
     private ReviewPhotoFragmentCompat mFragment;
+    private Photo mPhoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gv_activity_review_photo);
         bindViews();
+        if (savedInstanceState == null) {
+            readExtras();
+            createFragment();
+            showFragment();
+        }
     }
 
     private void bindViews() {
         mFragment = (ReviewPhotoFragmentCompat) getSupportFragmentManager().findFragmentById(R.id.gv_fragment_review_photo);
+    }
+
+    private void readExtras() {
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            mPhoto = extras.getParcelable(EXTRA_PHOTO);
+        }
+        checkRequiredExtras();
+    }
+
+    private void checkRequiredExtras() {
+        if (mPhoto == null) {
+            throw new IllegalStateException("ReviewPhotoActivity requires a Photo. Set it as an extra using the EXTRA_PHOTO key.");
+        }
+    }
+
+    private void createFragment() {
+        mFragment = ReviewPhotoFragmentCompat.createInstance(mPhoto);
+    }
+
+    private void showFragment() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.gv_fragment_review_photo, mFragment)
+                .commit();
     }
 
     // callback for subclasses for uploading the photo before it was reviewed, if the photo is not changed

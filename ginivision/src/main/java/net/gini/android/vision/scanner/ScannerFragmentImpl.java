@@ -46,7 +46,7 @@ class ScannerFragmentImpl {
             @Override
             public void onClick(View v) {
                 // TODO: return real photo when ready
-                mListener.onPhotoTaken(Photo.fromJpeg(new byte[] {}, 0));
+                mListener.onPhotoTaken(Photo.fromJpeg(new byte[]{1, 2}, 0));
             }
         });
     }

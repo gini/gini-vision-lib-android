@@ -18,11 +18,19 @@ public class CustomReviewPhotoAppCompatActivity extends AppCompatActivity implem
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_review_photo_compat);
-        bindViews();
+        createFragment();
+        showFragment();
     }
 
-    private void bindViews() {
-        mFragment = (ReviewPhotoFragmentCompat) getSupportFragmentManager().findFragmentById(R.id.fragment_review_photo);
+    private void createFragment() {
+        mFragment = ReviewPhotoFragmentCompat.createInstance(Photo.fromJpeg(new byte[]{}, 0));
+    }
+
+    private void showFragment() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_review_photo, mFragment)
+                .commit();
     }
 
     @Override

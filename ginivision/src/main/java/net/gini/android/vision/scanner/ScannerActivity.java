@@ -24,7 +24,6 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
      */
     public static final String EXTRA_ONBOARDING_PAGES = "GV_EXTRA_PAGES";
     public static final String EXTRA_REVIEW_PHOTO_ACTIVITY = "GV_EXTRA_REVIEW_PHOTO_ACTIVITY";
-    public static final String EXTRA_PHOTO = "GV_EXTRA_PHOTO";
 
     private static final int REVIEW_PHOTO_REQUEST = 1;
 
@@ -85,7 +84,7 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
     @Override
     public void onPhotoTaken(Photo photo) {
         // Start ReviewPhotoActivity
-        mReviewPhotoActivityIntent.putExtra(EXTRA_PHOTO, photo);
+        mReviewPhotoActivityIntent.putExtra(ReviewPhotoActivity.EXTRA_PHOTO, photo);
         startActivityForResult(mReviewPhotoActivityIntent, REVIEW_PHOTO_REQUEST);
     }
 

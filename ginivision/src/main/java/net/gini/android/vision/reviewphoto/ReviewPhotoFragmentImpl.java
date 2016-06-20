@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 
 import net.gini.android.vision.R;
 import net.gini.android.vision.scanner.photo.Photo;
+import net.gini.android.vision.ui.FragmentImplCallback;
 
 public class ReviewPhotoFragmentImpl {
 
@@ -29,9 +30,16 @@ public class ReviewPhotoFragmentImpl {
     private ImageButton mButtonRotate;
     private ImageButton mButtonNext;
 
+    private final FragmentImplCallback mFragment;
+    private final Photo mPhoto;
     private ReviewPhotoFragmentListener mListener = NO_OP_LISTENER;
     private boolean mPhotoWasAnalyzed = false;
     private boolean mPhotoWasModified = false;
+
+    public ReviewPhotoFragmentImpl(FragmentImplCallback fragment, Photo photo) {
+        mFragment = fragment;
+        mPhoto = photo;
+    }
 
     public void setListener(ReviewPhotoFragmentListener listener) {
         if (listener == null) {
@@ -46,7 +54,7 @@ public class ReviewPhotoFragmentImpl {
     }
 
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        mListener.onShouldAnalyzePhoto(Photo.fromJpeg(new byte[]{}, 0));
+        mListener.onShouldAnalyzePhoto(mPhoto);
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -85,14 +93,14 @@ public class ReviewPhotoFragmentImpl {
         if (!mPhotoWasModified) {
             if (!mPhotoWasAnalyzed) {
                 // TODO: can go on to the analyze screen
-                mListener.onProceedToAnalyzePhotoScreen(Photo.fromJpeg(new byte[]{}, 0));
+                mListener.onProceedToAnalyzePhotoScreen(mPhoto);
             } else {
                 // TODO: photo was not modified and already analyzed, client should show extraction results
-                mListener.onPhotoReviewedAndAnalyzed(Photo.fromJpeg(new byte[]{}, 0));
+                mListener.onPhotoReviewedAndAnalyzed(mPhoto);
             }
         } else {
             // TODO: can go on to the analyze screen
-            mListener.onProceedToAnalyzePhotoScreen(Photo.fromJpeg(new byte[]{}, 0));
+            mListener.onProceedToAnalyzePhotoScreen(mPhoto);
         }
     }
 }
