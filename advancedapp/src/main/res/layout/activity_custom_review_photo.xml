@@ -7,15 +7,15 @@
     android:paddingLeft="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_vertical_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="net.gini.android.vision.advanced.CustomOnboardingActivity">
+    tools:context="net.gini.android.vision.advanced.CustomReviewPhotoActivity">
 
     <fragment
-        android:id="@+id/fragment_scanner"
-        android:name="net.gini.android.vision.onboarding.OnboardingFragmentStandard"
+        android:id="@+id/fragment_review_photo"
+        android:name="net.gini.android.vision.reviewphoto.ReviewPhotoFragmentStandard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/text_info"
-        tools:layout="@layout/gv_fragment_onboarding" />
+        tools:layout="@layout/gv_fragment_review_photo" />
 
     <TextView
         android:id="@+id/text_info"
@@ -23,6 +23,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:padding="8dp"
-        android:text="Onboarding wurde als ein Fragment in die eigene Activity eingebunden." />
+        android:text="Photo Reviewer wurde als ein Fragment in die eigene Activity eingebunden." />
 
 </RelativeLayout>

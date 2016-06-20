@@ -14,7 +14,12 @@
             android:exported="false"
             android:label="@string/gv_title_onboarding"
             android:screenOrientation="portrait"
-            android:theme="@style/GiniVisionTheme.Transparent"/>
+            android:theme="@style/GiniVisionTheme.Transparent" />
+        <activity android:name=".reviewphoto.ReviewPhotoActivity"
+            android:exported="false"
+            android:label="@string/gv_title_review_photo"
+            android:screenOrientation="portrait"
+            android:theme="@style/GiniVisionTheme"/>
     </application>
 
 </manifest>

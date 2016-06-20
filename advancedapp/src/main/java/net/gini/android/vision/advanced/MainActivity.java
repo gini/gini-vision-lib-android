@@ -14,6 +14,8 @@ public class MainActivity extends Activity {
     private Button mButtonStartScannerCompat;
     private Button mButtonStartOnboarding;
     private Button mButtonStartOnboardingCompat;
+    private Button mButtonStartReviewPhoto;
+    private Button mButtonStartReviewPhotoCompat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,18 @@ public class MainActivity extends Activity {
                 startOnboardingCompat();
             }
         });
+        mButtonStartReviewPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startReviewPhoto();
+            }
+        });
+        mButtonStartReviewPhotoCompat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startReviewPhotoCompat();
+            }
+        });
     }
 
     private void startScanner() {
@@ -70,10 +84,22 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
+    private void startReviewPhoto() {
+        Intent intent = new Intent(this, CustomReviewPhotoActivity.class);
+        startActivity(intent);
+    }
+
+    private void startReviewPhotoCompat() {
+        Intent intent = new Intent(this, CustomReviewPhotoAppCompatActivity.class);
+        startActivity(intent);
+    }
+
     private void bindViews() {
         mButtonStartScanner = (Button) findViewById(R.id.button_start_scanner);
         mButtonStartScannerCompat = (Button) findViewById(R.id.button_start_scanner_compat);
         mButtonStartOnboarding = (Button) findViewById(R.id.button_start_onboarding);
         mButtonStartOnboardingCompat = (Button) findViewById(R.id.button_start_onboarding_compat);
+        mButtonStartReviewPhoto = (Button) findViewById(R.id.button_start_review_photo);
+        mButtonStartReviewPhotoCompat = (Button) findViewById(R.id.button_start_review_photo_compat);
     }
 }

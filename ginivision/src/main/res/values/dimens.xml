@@ -1,7 +1,4 @@
 <resources>
-    <dimen name="gv_fab_vertical_margin">16dp</dimen>
-    <dimen name="gv_fab_horizontal_margin">16dp</dimen>
-
     <dimen name="gv_camera_preview_corners_padding">20dp</dimen>
     <dimen name="gv_camera_button_vertical_margin">20dp</dimen>
     <dimen name="gv_camera_roll_vertical_margin">20dp</dimen>
@@ -14,9 +11,21 @@
     <dimen name="gv_onboarding_text_vertical_margin">150dp</dimen>
     <dimen name="gv_onboarding_message_text_size">33sp</dimen>
 
+    <dimen name="gv_review_photo_button_rotate_vertical_margin">7dp</dimen>
+    <dimen name="gv_review_photo_button_rotate_horizontal_margin">8dp</dimen>
+    <dimen name="gv_review_photo_bottom_panel_horizontal_padding">16dp</dimen>
+    <dimen name="gv_review_photo_bottom_panel_vertical_padding">16dp</dimen>
+    <dimen name="gv_review_photo_bottom_text_size">14sp</dimen>
+
+    <dimen name="gv_fab_vertical_margin">16dp</dimen>
+    <dimen name="gv_fab_horizontal_margin">16dp</dimen>
     <dimen name="gv_fab_width">56dp</dimen>
     <dimen name="gv_fab_height">56dp</dimen>
     <dimen name="gv_fab_shadow_width_selected">58dp</dimen>
     <dimen name="gv_fab_shadow_height_selected">58dp</dimen>
     <dimen name="gv_fab_progress_arc_width">2dp</dimen>
+    <dimen name="gv_fab_mini_width">40dp</dimen>
+    <dimen name="gv_fab_mini_height">40dp</dimen>
+    <dimen name="gv_fab_mini_shadow_width_selected">42dp</dimen>
+    <dimen name="gv_fab_mini_shadow_height_selected">42dp</dimen>
 </resources>

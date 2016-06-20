@@ -3,6 +3,8 @@ package net.gini.android.vision.scanner.photo;
 import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -76,13 +78,17 @@ public enum ImageCache {
     private Map<Token, Bitmap> mBitmapCache = new ConcurrentHashMap<>();
     private Map<Token, byte[]> mJpegCache = new ConcurrentHashMap<>();
 
-    public Bitmap getBitmap(final Token token) {
+    @Nullable
+    public Bitmap getBitmap(@NonNull final Token token) {
         return mBitmapCache.get(token);
     }
 
-    public Token storeBitmap(final Bitmap documentBitmap) {
+    @NonNull
+    public Token storeBitmap(@Nullable final Bitmap documentBitmap) {
         final Token token = Token.next();
-        mBitmapCache.put(token, documentBitmap);
+        if (documentBitmap != null) {
+            mBitmapCache.put(token, documentBitmap);
+        }
         return token;
     }
 

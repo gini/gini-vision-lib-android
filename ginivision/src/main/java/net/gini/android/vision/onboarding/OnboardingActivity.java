@@ -44,7 +44,7 @@ public class OnboardingActivity extends AppCompatActivity {
     private void showFragment() {
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.gv_fragment_container, mOnboardingFragment)
+                .add(R.id.gv_fragment_onboarding, mOnboardingFragment)
                 .commit();
     }
 }

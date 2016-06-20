@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private void startScanner() {
         Intent intent = new Intent(this, ScannerActivity.class);
         intent.putParcelableArrayListExtra(ScannerActivity.EXTRA_ONBOARDING_PAGES, getOnboardingPages());
+        ScannerActivity.setReviewPhotoActivityExtra(intent, this, ReviewPhotoActivity.class);
         startActivity(intent);
     }
 

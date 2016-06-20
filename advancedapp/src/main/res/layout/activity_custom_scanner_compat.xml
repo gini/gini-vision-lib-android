@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_vertical_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="net.gini.android.vision.advanced.CustomScannerActivity">
+    tools:context="net.gini.android.vision.advanced.CustomScannerAppCompatActivity">
 
     <fragment
         android:id="@+id/fragment_scanner"

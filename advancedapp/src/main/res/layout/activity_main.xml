@@ -30,6 +30,13 @@
             android:text="Start Onboarding Standard" />
 
         <Button
+            android:id="@+id/button_start_review_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Start Review Photo Standard" />
+
+        <Button
             android:id="@+id/button_start_scanner_compat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,6 +49,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Start Onboarding Compat" />
+
+        <Button
+            android:id="@+id/button_start_review_photo_compat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Start Review Photo Compat" />
 
     </LinearLayout>
 </RelativeLayout>

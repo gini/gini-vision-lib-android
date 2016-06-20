@@ -29,6 +29,13 @@
             android:name="net.gini.android.vision.advanced.CustomOnboardingAppCompatActivity"
             android:label="@string/title_onboarding"
             android:theme="@style/AppThemeCompat" />
+        <activity
+            android:name="net.gini.android.vision.advanced.CustomReviewPhotoActivity"
+            android:label="@string/title_review_photo"/>
+        <activity
+            android:name="net.gini.android.vision.advanced.CustomReviewPhotoAppCompatActivity"
+            android:label="@string/title_review_photo"
+            android:theme="@style/AppThemeCompat" />
     </application>
 
 </manifest>

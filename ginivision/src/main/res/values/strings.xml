@@ -1,12 +1,14 @@
 <resources>
     <string name="gv_title_scanner">Dokument fotografieren</string>
     <string name="gv_title_onboarding">Anleitung</string>
+    <string name="gv_title_review_photo">Foto überprüfen</string>
 
     <string name="gv_show_onboarding">Hilfe</string>
     <string name="gv_select_from_camera_roll">Eigenes Bild auswählen</string>
 
-    <string name="gv_onboarding_flat">Dokument flach\\nauf eine einfarbige\\nFläche legen</string>
-    <string name="gv_onboarding_parallel">Handy parallel\\nzum Dokument\\nhalten</string>
-    <string name="gv_onboarding_align">Dokument\\nvollständig in\\nRahmen einpassen</string>
+    <string name="gv_onboarding_flat">Dokument flach\nauf eine einfarbige\nFläche legen</string>
+    <string name="gv_onboarding_parallel">Handy parallel\nzum Dokument\nhalten</string>
+    <string name="gv_onboarding_align">Dokument\nvollständig in\nRahmen einpassen</string>
 
+    <string name="gv_review_photo_bottom_panel_text">Dokument vollständig, scharf und in Leserichtung?\n\nDoppeltippen um Schärfe zu prüfen.</string>
 </resources>
