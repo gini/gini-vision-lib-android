@@ -1,5 +1,6 @@
 package net.gini.android.vision.reviewphoto;
 
+import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.scanner.photo.Photo;
 
 public interface ReviewPhotoFragmentListener {
@@ -10,4 +11,6 @@ public interface ReviewPhotoFragmentListener {
     void onProceedToAnalyzePhotoScreen(Photo photo);
 
     void onPhotoReviewedAndAnalyzed(Photo photo);
+
+    void onError(GiniVisionError error);
 }

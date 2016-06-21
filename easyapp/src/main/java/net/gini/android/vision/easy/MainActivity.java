@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import net.gini.android.ginivisiontest.R;
+import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.onboarding.DefaultPages;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.scanner.ScannerActivity;
@@ -60,8 +62,15 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 Photo original = data.getParcelableExtra(ScannerActivity.EXTRA_ORIGINAL_DOCUMENT);
                 Photo document = data.getParcelableExtra(ScannerActivity.EXTRA_DOCUMENT);
+                String extractions = data.getStringExtra(ReviewPhotoActivity.EXTRA_OUT_EXTRACTIONS);
             } else {
-                String error = data.getStringExtra(ScannerActivity.EXTRA_ERROR);
+                GiniVisionError error = data.getParcelableExtra(ScannerActivity.EXTRA_ERROR);
+                if (error != null) {
+                    Toast.makeText(this, "Error: " +
+                                    error.getErrorCode() + " - " +
+                                    error.getMessage(),
+                            Toast.LENGTH_LONG).show();
+                }
             }
         }
     }

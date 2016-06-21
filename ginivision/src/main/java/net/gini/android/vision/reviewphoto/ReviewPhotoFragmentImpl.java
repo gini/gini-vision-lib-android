@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.scanner.photo.Photo;
 import net.gini.android.vision.ui.FragmentImplCallback;
@@ -24,6 +25,10 @@ public class ReviewPhotoFragmentImpl implements ReviewPhotoFragmentInterface {
 
         @Override
         public void onPhotoReviewedAndAnalyzed(Photo photo) {
+        }
+
+        @Override
+        public void onError(GiniVisionError error) {
         }
     };
 

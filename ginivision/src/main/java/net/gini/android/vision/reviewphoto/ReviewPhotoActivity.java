@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.scanner.photo.Photo;
 
@@ -84,5 +85,13 @@ public abstract class ReviewPhotoActivity extends AppCompatActivity implements R
     // be started, if the photo was already analyzed and the user didn't change it
     protected void onPhotoAnalyzed() {
         mFragment.onPhotoAnalyzed();
+    }
+
+    @Override
+    public void onError(GiniVisionError error) {
+        Intent result = new Intent();
+        result.putExtra(EXTRA_ERROR, error);
+        setResult(RESULT_CANCELED, result);
+        finish();
     }
 }

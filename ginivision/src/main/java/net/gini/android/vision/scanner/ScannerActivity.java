@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import net.gini.android.vision.ActivityHelpers;
+import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
@@ -95,20 +95,24 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
     }
 
     @Override
+    public void onError(GiniVisionError error) {
+        Intent result = new Intent();
+        result.putExtra(EXTRA_ERROR, error);
+        setResult(RESULT_CANCELED, result);
+        finish();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REVIEW_PHOTO_REQUEST) {
             if (data == null) {
                 data = new Intent();
             }
-
             if (mPhoto != null) {
                 data.putExtra(EXTRA_ORIGINAL_DOCUMENT, mPhoto);
             }
-
             setResult(resultCode, data);
             finish();
-
-            Toast.makeText(this, "Back from review photo", Toast.LENGTH_SHORT).show();
         }
     }
 }

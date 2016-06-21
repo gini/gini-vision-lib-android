@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.reviewphoto.ReviewPhotoFragmentCompat;
 import net.gini.android.vision.reviewphoto.ReviewPhotoFragmentListener;
 import net.gini.android.vision.scanner.photo.Photo;
@@ -52,5 +53,10 @@ public class CustomReviewPhotoAppCompatActivity extends AppCompatActivity implem
     @Override
     public void onPhotoReviewedAndAnalyzed(Photo photo) {
         Toast.makeText(this, "Photo extractions received", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onError(GiniVisionError error) {
+
     }
 }

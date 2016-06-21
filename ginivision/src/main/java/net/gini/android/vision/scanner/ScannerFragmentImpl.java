@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.scanner.photo.Photo;
 
@@ -14,6 +15,10 @@ class ScannerFragmentImpl {
     private static final ScannerFragmentListener NO_OP_LISTENER = new ScannerFragmentListener() {
         @Override
         public void onPhotoTaken(Photo photo) {
+        }
+
+        @Override
+        public void onError(GiniVisionError error) {
         }
     };
 

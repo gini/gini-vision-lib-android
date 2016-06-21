@@ -8,9 +8,12 @@ import net.gini.android.vision.scanner.photo.Photo;
 
 public class ReviewPhotoActivity extends net.gini.android.vision.reviewphoto.ReviewPhotoActivity {
 
+    public static final String EXTRA_OUT_EXTRACTIONS = "EXTRA_OUT_EXTRACTIONS";
+
     @Override
     public void onAddDataToResult(Intent result) {
         // TODO: add extractions to result
+        result.putExtra(EXTRA_OUT_EXTRACTIONS, "extractions");
     }
 
     @Override
