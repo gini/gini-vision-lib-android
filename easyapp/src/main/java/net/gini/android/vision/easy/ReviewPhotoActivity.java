@@ -1,5 +1,6 @@
 package net.gini.android.vision.easy;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.widget.Toast;
 
@@ -8,9 +9,8 @@ import net.gini.android.vision.scanner.photo.Photo;
 public class ReviewPhotoActivity extends net.gini.android.vision.reviewphoto.ReviewPhotoActivity {
 
     @Override
-    public void onPhotoReviewedAndAnalyzed(Photo photo) {
-        // TODO: show extraction result
-        Toast.makeText(this, "Photo extractions received", Toast.LENGTH_SHORT).show();
+    public void onAddDataToResult(Intent result) {
+        // TODO: add extractions to result
     }
 
     @Override

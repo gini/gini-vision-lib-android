@@ -1,5 +1,6 @@
 package net.gini.android.vision.reviewphoto;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
@@ -9,7 +10,8 @@ import net.gini.android.vision.scanner.photo.Photo;
 
 public abstract class ReviewPhotoActivity extends AppCompatActivity implements ReviewPhotoFragmentListener {
 
-    public static final String EXTRA_PHOTO = "GV_EXTRA_PHOTO";
+    public static final String EXTRA_DOCUMENT = "GV_EXTRA_DOCUMENT";
+    public static final String EXTRA_ERROR = "GV_EXTRA_ERROR";
 
     private ReviewPhotoFragmentCompat mFragment;
     private Photo mPhoto;
@@ -33,7 +35,7 @@ public abstract class ReviewPhotoActivity extends AppCompatActivity implements R
     private void readExtras() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            mPhoto = extras.getParcelable(EXTRA_PHOTO);
+            mPhoto = extras.getParcelable(EXTRA_DOCUMENT);
         }
         checkRequiredExtras();
     }
@@ -67,7 +69,16 @@ public abstract class ReviewPhotoActivity extends AppCompatActivity implements R
     }
 
     @Override
-    public abstract void onPhotoReviewedAndAnalyzed(Photo photo);
+    public void onPhotoReviewedAndAnalyzed(Photo photo) {
+        Intent result = new Intent();
+        result.putExtra(EXTRA_DOCUMENT, photo);
+        onAddDataToResult(result);
+        setResult(RESULT_OK, result);
+        finish();
+    }
+
+    // Photo was already analyzed, add the extractions to the result
+    public abstract void onAddDataToResult(Intent result);
 
     // TODO: call this, if the photo was analyzed before the review was completed, it prevents the analyze activity to
     // be started, if the photo was already analyzed and the user didn't change it

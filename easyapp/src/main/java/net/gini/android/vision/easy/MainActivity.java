@@ -10,10 +10,13 @@ import net.gini.android.ginivisiontest.R;
 import net.gini.android.vision.onboarding.DefaultPages;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.scanner.ScannerActivity;
+import net.gini.android.vision.scanner.photo.Photo;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final int REQUEST_SCAN = 1;
 
     private Button mButtonStartScanner;
 
@@ -38,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ScannerActivity.class);
         intent.putParcelableArrayListExtra(ScannerActivity.EXTRA_ONBOARDING_PAGES, getOnboardingPages());
         ScannerActivity.setReviewPhotoActivityExtra(intent, this, ReviewPhotoActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_SCAN);
     }
 
     private void bindViews() {
@@ -49,5 +52,17 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<OnboardingPage> pages = new ArrayList<>(DefaultPages.getPages());
         pages.add(new OnboardingPage(R.string.additional_onboarding_page, R.drawable.additional_onboarding_illustration));
         return pages;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_SCAN) {
+            if (resultCode == RESULT_OK) {
+                Photo original = data.getParcelableExtra(ScannerActivity.EXTRA_ORIGINAL_DOCUMENT);
+                Photo document = data.getParcelableExtra(ScannerActivity.EXTRA_DOCUMENT);
+            } else {
+                String error = data.getStringExtra(ScannerActivity.EXTRA_ERROR);
+            }
+        }
     }
 }

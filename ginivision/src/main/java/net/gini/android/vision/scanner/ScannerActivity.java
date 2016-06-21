@@ -25,10 +25,15 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
     public static final String EXTRA_ONBOARDING_PAGES = "GV_EXTRA_PAGES";
     public static final String EXTRA_REVIEW_PHOTO_ACTIVITY = "GV_EXTRA_REVIEW_PHOTO_ACTIVITY";
 
+    public static final String EXTRA_ORIGINAL_DOCUMENT = "GV_EXTRA_ORIGINAL_DOCUMENT";
+    public static final String EXTRA_DOCUMENT = "GV_EXTRA_DOCUMENT";
+    public static final String EXTRA_ERROR = "GV_EXTRA_ERROR";
+
     private static final int REVIEW_PHOTO_REQUEST = 1;
 
     private ArrayList<OnboardingPage> mOnboardingPages;
     private Intent mReviewPhotoActivityIntent;
+    private Photo mPhoto;
 
     public static <T extends ReviewPhotoActivity> void setReviewPhotoActivityExtra(Intent target,
                                                                                    Context context,
@@ -83,14 +88,26 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
 
     @Override
     public void onPhotoTaken(Photo photo) {
+        mPhoto = photo;
         // Start ReviewPhotoActivity
-        mReviewPhotoActivityIntent.putExtra(ReviewPhotoActivity.EXTRA_PHOTO, photo);
+        mReviewPhotoActivityIntent.putExtra(EXTRA_DOCUMENT, photo);
         startActivityForResult(mReviewPhotoActivityIntent, REVIEW_PHOTO_REQUEST);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REVIEW_PHOTO_REQUEST) {
+            if (data == null) {
+                data = new Intent();
+            }
+
+            if (mPhoto != null) {
+                data.putExtra(EXTRA_ORIGINAL_DOCUMENT, mPhoto);
+            }
+
+            setResult(resultCode, data);
+            finish();
+
             Toast.makeText(this, "Back from review photo", Toast.LENGTH_SHORT).show();
         }
     }
