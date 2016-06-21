@@ -142,7 +142,7 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
                     if (mPhoto != null) {
                         data.putExtra(EXTRA_OUT_ORIGINAL_DOCUMENT, Document.fromPhoto(mPhoto));
                     }
-                    setResult(resultCode, data);
+                    setResult(RESULT_OK, data);
                     finish();
                     break;
                 case ReviewDocumentActivity.RESULT_ERROR:
@@ -159,7 +159,7 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
                     if (mPhoto != null) {
                         data.putExtra(EXTRA_OUT_ORIGINAL_DOCUMENT, Document.fromPhoto(mPhoto));
                     }
-                    setResult(resultCode, data);
+                    setResult(RESULT_OK, data);
                     finish();
                     break;
                 case AnalyseDocumentActivity.RESULT_ERROR:
