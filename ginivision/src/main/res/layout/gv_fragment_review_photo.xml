@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:id="@+id/layout_root"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gv_review_photo_fragment_background">
@@ -27,32 +27,23 @@
         android:id="@+id/gv_button_rotate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/gv_progress_button_next"
-        android:layout_alignRight="@+id/gv_progress_button_next"
-        android:background="@drawable/gv_review_photo_fab_mini_background"
+        android:layout_above="@+id/gv_button_next"
+        android:layout_alignRight="@+id/gv_button_next"
         android:layout_marginBottom="@dimen/gv_review_photo_button_rotate_vertical_margin"
         android:layout_marginRight="@dimen/gv_review_photo_button_rotate_horizontal_margin"
+        android:background="@drawable/gv_review_photo_fab_mini_background"
         android:src="@drawable/gv_review_photo_button_rotate" />
 
-    <com.github.jorgecastilloprz.FABProgressCircle
-        android:id="@+id/gv_progress_button_next"
+    <ImageButton
+        android:id="@+id/gv_button_next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/gv_bottom_panel"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="@dimen/gv_fab_vertical_margin"
         android:layout_marginRight="@dimen/gv_fab_horizontal_margin"
-        app:arcColor="@color/gv_review_photo_fab_progress"
-        app:arcWidth="@dimen/gv_fab_progress_arc_width">
-
-        <ImageButton
-            android:id="@+id/gv_button_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/gv_review_photo_fab_background"
-            android:src="@drawable/gv_review_photo_fab_next" />
-
-    </com.github.jorgecastilloprz.FABProgressCircle>
+        android:background="@drawable/gv_review_photo_fab_background"
+        android:src="@drawable/gv_review_photo_fab_next" />
 
     <LinearLayout
         android:id="@+id/gv_bottom_panel"
@@ -62,10 +53,10 @@
         android:layout_centerHorizontal="true"
         android:background="@color/gv_review_photo_bottom_panel_background"
         android:orientation="vertical"
+        android:paddingBottom="@dimen/gv_review_photo_bottom_panel_vertical_padding"
         android:paddingLeft="@dimen/gv_review_photo_bottom_panel_horizontal_padding"
         android:paddingRight="@dimen/gv_review_photo_bottom_panel_horizontal_padding"
-        android:paddingTop="@dimen/gv_review_photo_bottom_panel_vertical_padding"
-        android:paddingBottom="@dimen/gv_review_photo_bottom_panel_vertical_padding">
+        android:paddingTop="@dimen/gv_review_photo_bottom_panel_vertical_padding">
 
         <TextView
             android:id="@+id/gv_bottom_panel_text"
