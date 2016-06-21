@@ -36,7 +36,7 @@ public class ReviewPhotoFragmentImpl implements ReviewPhotoFragmentInterface {
     private ImageButton mButtonNext;
 
     private final FragmentImplCallback mFragment;
-    private final Photo mPhoto;
+    private Photo mPhoto;
     private ReviewPhotoFragmentListener mListener = NO_OP_LISTENER;
     private boolean mPhotoWasAnalyzed = false;
     private boolean mPhotoWasModified = false;
@@ -68,6 +68,10 @@ public class ReviewPhotoFragmentImpl implements ReviewPhotoFragmentInterface {
         bindViews(view);
         setInputHandlers();
         return view;
+    }
+
+    public void onDestroy() {
+        mPhoto = null;
     }
 
     private void bindViews(View view) {

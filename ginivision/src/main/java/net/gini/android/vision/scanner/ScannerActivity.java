@@ -29,6 +29,8 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
     public static final String EXTRA_OUT_DOCUMENT = "GV_EXTRA_OUT_DOCUMENT";
     public static final String EXTRA_OUT_ERROR = "GV_EXTRA_OUT_ERROR";
 
+    public static final int RESULT_ERROR = RESULT_FIRST_USER + 1;
+
     private static final int REVIEW_PHOTO_REQUEST = 1;
 
     private ArrayList<OnboardingPage> mOnboardingPages;
@@ -46,6 +48,12 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gv_activity_scanner);
         readExtras();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        clearMemory();
     }
 
     private void readExtras() {
@@ -98,21 +106,34 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
     public void onError(GiniVisionError error) {
         Intent result = new Intent();
         result.putExtra(EXTRA_OUT_ERROR, error);
-        setResult(RESULT_CANCELED, result);
+        setResult(RESULT_ERROR, result);
         finish();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REVIEW_PHOTO_REQUEST) {
-            if (data == null) {
-                data = new Intent();
+            switch (resultCode) {
+                case ReviewPhotoActivity.RESULT_PHOTO_WAS_REVIEWED:
+                    if (data == null) {
+                        data = new Intent();
+                    }
+                    if (mPhoto != null) {
+                        data.putExtra(EXTRA_OUT_ORIGINAL_DOCUMENT, Document.fromPhoto(mPhoto));
+                    }
+                    setResult(RESULT_OK, data);
+                    finish();
+                    break;
+                case ReviewPhotoActivity.RESULT_ERROR:
+                    setResult(RESULT_ERROR, data);
+                    finish();
+                    break;
             }
-            if (mPhoto != null) {
-                data.putExtra(EXTRA_OUT_ORIGINAL_DOCUMENT, Document.fromPhoto(mPhoto));
-            }
-            setResult(resultCode, data);
-            finish();
         }
+        clearMemory();
+    }
+
+    private void clearMemory() {
+        mPhoto = null;
     }
 }

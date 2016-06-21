@@ -59,18 +59,24 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_SCAN) {
-            if (resultCode == RESULT_OK) {
-                Document original = data.getParcelableExtra(ScannerActivity.EXTRA_OUT_ORIGINAL_DOCUMENT);
-                Document document = data.getParcelableExtra(ScannerActivity.EXTRA_OUT_DOCUMENT);
-                String extractions = data.getStringExtra(ReviewPhotoActivity.EXTRA_OUT_EXTRACTIONS);
-            } else {
-                GiniVisionError error = data.getParcelableExtra(ScannerActivity.EXTRA_OUT_ERROR);
-                if (error != null) {
-                    Toast.makeText(this, "Error: " +
-                                    error.getErrorCode() + " - " +
-                                    error.getMessage(),
-                            Toast.LENGTH_LONG).show();
-                }
+            if (data == null) {
+                return;
+            }
+            switch (resultCode) {
+                case RESULT_OK:
+                    Document original = data.getParcelableExtra(ScannerActivity.EXTRA_OUT_ORIGINAL_DOCUMENT);
+                    Document document = data.getParcelableExtra(ScannerActivity.EXTRA_OUT_DOCUMENT);
+                    String extractions = data.getStringExtra(ReviewPhotoActivity.EXTRA_OUT_EXTRACTIONS);
+                    break;
+                case ScannerActivity.RESULT_ERROR:
+                    GiniVisionError error = data.getParcelableExtra(ScannerActivity.EXTRA_OUT_ERROR);
+                    if (error != null) {
+                        Toast.makeText(this, "Error: " +
+                                        error.getErrorCode() + " - " +
+                                        error.getMessage(),
+                                Toast.LENGTH_LONG).show();
+                    }
+                    break;
             }
         }
     }

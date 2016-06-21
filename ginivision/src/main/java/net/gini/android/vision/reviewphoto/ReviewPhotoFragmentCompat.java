@@ -35,7 +35,17 @@ public class ReviewPhotoFragmentCompat extends Fragment implements FragmentImplC
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mFragmentImpl.onDestroy();
+        mFragmentImpl = null;
+    }
+
+    @Override
     public void onPhotoAnalyzed() {
+        if (mFragmentImpl == null) {
+            return;
+        }
         mFragmentImpl.onPhotoAnalyzed();
     }
 }

@@ -35,7 +35,17 @@ public class ReviewPhotoFragmentStandard extends Fragment implements FragmentImp
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mFragmentImpl.onDestroy();
+        mFragmentImpl = null;
+    }
+
+    @Override
     public void onPhotoAnalyzed() {
+        if (mFragmentImpl == null) {
+            return;
+        }
         mFragmentImpl.onPhotoAnalyzed();
     }
 }

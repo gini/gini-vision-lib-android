@@ -16,6 +16,9 @@ public abstract class ReviewPhotoActivity extends AppCompatActivity implements R
     public static final String EXTRA_OUT_DOCUMENT = "GV_EXTRA_OUT_DOCUMENT";
     public static final String EXTRA_OUT_ERROR = "GV_EXTRA_OUT_ERROR";
 
+    public static final int RESULT_PHOTO_WAS_REVIEWED = RESULT_FIRST_USER + 1;
+    public static final int RESULT_ERROR = RESULT_FIRST_USER + 2;
+
     private ReviewPhotoFragmentCompat mFragment;
     private Photo mPhoto;
 
@@ -29,6 +32,12 @@ public abstract class ReviewPhotoActivity extends AppCompatActivity implements R
             createFragment();
             showFragment();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPhoto = null;
     }
 
     private void bindViews() {
@@ -76,7 +85,7 @@ public abstract class ReviewPhotoActivity extends AppCompatActivity implements R
         Intent result = new Intent();
         result.putExtra(EXTRA_OUT_DOCUMENT, Document.fromPhoto(photo));
         onAddDataToResult(result);
-        setResult(RESULT_OK, result);
+        setResult(RESULT_PHOTO_WAS_REVIEWED, result);
         finish();
     }
 
@@ -93,7 +102,7 @@ public abstract class ReviewPhotoActivity extends AppCompatActivity implements R
     public void onError(GiniVisionError error) {
         Intent result = new Intent();
         result.putExtra(EXTRA_OUT_ERROR, error);
-        setResult(RESULT_CANCELED, result);
+        setResult(RESULT_ERROR, result);
         finish();
     }
 }
