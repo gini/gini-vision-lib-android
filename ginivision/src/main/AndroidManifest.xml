@@ -6,9 +6,15 @@
         <activity
             android:name=".scanner.ScannerActivity"
             android:exported="false"
-            android:label="@string/gini_vision_title_scanner"
+            android:label="@string/gv_title_scanner"
             android:screenOrientation="portrait"
             android:theme="@style/GiniVisionTheme" />
+        <activity
+            android:name=".onboarding.OnboardingActivity"
+            android:exported="false"
+            android:label="@string/gv_title_onboarding"
+            android:screenOrientation="portrait"
+            android:theme="@style/GiniVisionTheme.Transparent" />
     </application>
 
 </manifest>

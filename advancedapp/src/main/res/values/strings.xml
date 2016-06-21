@@ -2,4 +2,6 @@
     <string name="app_name">Vision Advanced</string>
 
     <string name="title_scanner">Angepasster Scanner</string>
+    <string name="title_onboarding">Angepasstes Onboarding</string>
+    <string name="title_review_document">Angepasstes Photo Reviewer</string>
 </resources>

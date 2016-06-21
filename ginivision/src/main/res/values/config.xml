@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="gv_onboarding_page_fragment_background_alpha" format="float" type="fraction">0.6</item>
+</resources>
