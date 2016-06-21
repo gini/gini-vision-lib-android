@@ -19,7 +19,7 @@ public class CustomScannerAppCompatActivity extends AppCompatActivity implements
 
     @Override
     public void onPhotoTaken(Photo photo) {
-        Intent intent = new Intent(this, CustomReviewPhotoAppCompatActivity.class);
+        Intent intent = new Intent(this, CustomReviewDocumentAppCompatActivity.class);
         startActivity(intent);
     }
 

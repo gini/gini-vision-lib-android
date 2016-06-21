@@ -14,8 +14,8 @@ public class MainActivity extends Activity {
     private Button mButtonStartScannerCompat;
     private Button mButtonStartOnboarding;
     private Button mButtonStartOnboardingCompat;
-    private Button mButtonStartReviewPhoto;
-    private Button mButtonStartReviewPhotoCompat;
+    private Button mButtonStartReviewDocument;
+    private Button mButtonStartReviewDocumentCompat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,16 +50,16 @@ public class MainActivity extends Activity {
                 startOnboardingCompat();
             }
         });
-        mButtonStartReviewPhoto.setOnClickListener(new View.OnClickListener() {
+        mButtonStartReviewDocument.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startReviewPhoto();
+                startReviewDocument();
             }
         });
-        mButtonStartReviewPhotoCompat.setOnClickListener(new View.OnClickListener() {
+        mButtonStartReviewDocumentCompat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startReviewPhotoCompat();
+                startReviewDocumentCompat();
             }
         });
     }
@@ -84,13 +84,13 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
-    private void startReviewPhoto() {
-        Intent intent = new Intent(this, CustomReviewPhotoActivity.class);
+    private void startReviewDocument() {
+        Intent intent = new Intent(this, CustomReviewDocumentActivity.class);
         startActivity(intent);
     }
 
-    private void startReviewPhotoCompat() {
-        Intent intent = new Intent(this, CustomReviewPhotoAppCompatActivity.class);
+    private void startReviewDocumentCompat() {
+        Intent intent = new Intent(this, CustomReviewDocumentAppCompatActivity.class);
         startActivity(intent);
     }
 
@@ -99,7 +99,7 @@ public class MainActivity extends Activity {
         mButtonStartScannerCompat = (Button) findViewById(R.id.button_start_scanner_compat);
         mButtonStartOnboarding = (Button) findViewById(R.id.button_start_onboarding);
         mButtonStartOnboardingCompat = (Button) findViewById(R.id.button_start_onboarding_compat);
-        mButtonStartReviewPhoto = (Button) findViewById(R.id.button_start_review_photo);
-        mButtonStartReviewPhotoCompat = (Button) findViewById(R.id.button_start_review_photo_compat);
+        mButtonStartReviewDocument = (Button) findViewById(R.id.button_start_review_document);
+        mButtonStartReviewDocumentCompat = (Button) findViewById(R.id.button_start_review_document_compat);
     }
 }

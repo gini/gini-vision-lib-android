@@ -30,11 +30,11 @@
             android:label="@string/title_onboarding"
             android:theme="@style/AppThemeCompat" />
         <activity
-            android:name="net.gini.android.vision.advanced.CustomReviewPhotoActivity"
-            android:label="@string/title_review_photo"/>
+            android:name="net.gini.android.vision.advanced.CustomReviewDocumentActivity"
+            android:label="@string/title_review_document"/>
         <activity
-            android:name="net.gini.android.vision.advanced.CustomReviewPhotoAppCompatActivity"
-            android:label="@string/title_review_photo"
+            android:name="net.gini.android.vision.advanced.CustomReviewDocumentAppCompatActivity"
+            android:label="@string/title_review_document"
             android:theme="@style/AppThemeCompat" />
     </application>
 

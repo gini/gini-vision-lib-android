@@ -1,4 +1,4 @@
-package net.gini.android.vision.reviewphoto;
+package net.gini.android.vision.reviewdocument;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,22 +9,26 @@ import android.widget.ImageButton;
 
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
+import net.gini.android.vision.scanner.Document;
 import net.gini.android.vision.scanner.photo.Photo;
 import net.gini.android.vision.ui.FragmentImplCallback;
 
-public class ReviewPhotoFragmentImpl implements ReviewPhotoFragmentInterface {
+public class ReviewDocumentFragmentImpl implements ReviewDocumentFragmentInterface {
 
-    private static final ReviewPhotoFragmentListener NO_OP_LISTENER = new ReviewPhotoFragmentListener() {
+    private static final ReviewDocumentFragmentListener NO_OP_LISTENER = new ReviewDocumentFragmentListener() {
         @Override
-        public void onShouldAnalyzePhoto(Photo photo) {
+        public void onShouldAnalyzeDocument(Document document) {
+
         }
 
         @Override
-        public void onProceedToAnalyzePhotoScreen(Photo photo) {
+        public void onProceedToAnalyzeScreen(Document document) {
+
         }
 
         @Override
-        public void onPhotoReviewedAndAnalyzed(Photo photo) {
+        public void onDocumentReviewedAndAnalyzed(Document document) {
+
         }
 
         @Override
@@ -37,16 +41,16 @@ public class ReviewPhotoFragmentImpl implements ReviewPhotoFragmentInterface {
 
     private final FragmentImplCallback mFragment;
     private Photo mPhoto;
-    private ReviewPhotoFragmentListener mListener = NO_OP_LISTENER;
+    private ReviewDocumentFragmentListener mListener = NO_OP_LISTENER;
     private boolean mPhotoWasAnalyzed = false;
     private boolean mPhotoWasModified = false;
 
-    public ReviewPhotoFragmentImpl(FragmentImplCallback fragment, Photo photo) {
+    public ReviewDocumentFragmentImpl(FragmentImplCallback fragment, Photo photo) {
         mFragment = fragment;
         mPhoto = photo;
     }
 
-    public void setListener(ReviewPhotoFragmentListener listener) {
+    public void setListener(ReviewDocumentFragmentListener listener) {
         if (listener == null) {
             mListener = NO_OP_LISTENER;
         } else {
@@ -59,12 +63,12 @@ public class ReviewPhotoFragmentImpl implements ReviewPhotoFragmentInterface {
     }
 
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        mListener.onShouldAnalyzePhoto(mPhoto);
+        mListener.onShouldAnalyzeDocument(Document.fromPhoto(mPhoto));
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.gv_fragment_review_photo, container, false);
+        View view = inflater.inflate(R.layout.gv_fragment_review_document, container, false);
         bindViews(view);
         setInputHandlers();
         return view;
@@ -99,17 +103,18 @@ public class ReviewPhotoFragmentImpl implements ReviewPhotoFragmentInterface {
     }
 
     private void onNextClicked() {
+        Document document = Document.fromPhoto(mPhoto);
         if (!mPhotoWasModified) {
             if (!mPhotoWasAnalyzed) {
                 // TODO: can go on to the analyze screen
-                mListener.onProceedToAnalyzePhotoScreen(mPhoto);
+                mListener.onProceedToAnalyzeScreen(document);
             } else {
                 // TODO: photo was not modified and already analyzed, client should show extraction results
-                mListener.onPhotoReviewedAndAnalyzed(mPhoto);
+                mListener.onDocumentReviewedAndAnalyzed(document);
             }
         } else {
             // TODO: can go on to the analyze screen
-            mListener.onProceedToAnalyzePhotoScreen(mPhoto);
+            mListener.onProceedToAnalyzeScreen(document);
         }
     }
 }

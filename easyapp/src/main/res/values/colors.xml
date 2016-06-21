@@ -14,9 +14,9 @@
     <color name="gv_onboarding_fab">#805d2d</color>
     <color name="gv_onboarding_fab_selected">#4ec2a4</color>
 
-    <color name="gv_review_photo_fab">#c64a28</color>
-    <color name="gv_review_photo_fab_selected">#4894b4</color>
-    <color name="gv_review_photo_fab_progress">#32d24f</color>
-    <color name="gv_review_photo_fab_mini">#fff</color>
-    <color name="gv_review_photo_fab_mini_selected">#f2f2f2</color>
+    <color name="gv_review_document_fab">#c64a28</color>
+    <color name="gv_review_document_fab_selected">#4894b4</color>
+    <color name="gv_review_document_fab_progress">#32d24f</color>
+    <color name="gv_review_document_fab_mini">#fff</color>
+    <color name="gv_review_document_fab_mini_selected">#f2f2f2</color>
 </resources>

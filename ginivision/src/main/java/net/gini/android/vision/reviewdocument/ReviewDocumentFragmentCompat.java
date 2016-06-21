@@ -1,8 +1,8 @@
-package net.gini.android.vision.reviewphoto;
+package net.gini.android.vision.reviewdocument;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,21 +10,21 @@ import android.view.ViewGroup;
 import net.gini.android.vision.scanner.photo.Photo;
 import net.gini.android.vision.ui.FragmentImplCallback;
 
-public class ReviewPhotoFragmentStandard extends Fragment implements FragmentImplCallback, ReviewPhotoFragmentInterface {
+public class ReviewDocumentFragmentCompat extends Fragment implements FragmentImplCallback, ReviewDocumentFragmentInterface {
 
-    private ReviewPhotoFragmentImpl mFragmentImpl;
+    private ReviewDocumentFragmentImpl mFragmentImpl;
 
-    public static ReviewPhotoFragmentStandard createInstance(Photo photo) {
-        ReviewPhotoFragmentStandard fragment = new ReviewPhotoFragmentStandard();
-        fragment.setArguments(ReviewPhotoFragmentHelper.createArguments(photo));
+    public static ReviewDocumentFragmentCompat createInstance(Photo photo) {
+        ReviewDocumentFragmentCompat fragment = new ReviewDocumentFragmentCompat();
+        fragment.setArguments(ReviewDocumentFragmentHelper.createArguments(photo));
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFragmentImpl = ReviewPhotoFragmentHelper.createFragmentImpl(this, getArguments());
-        ReviewPhotoFragmentHelper.setListener(mFragmentImpl, getActivity());
+        mFragmentImpl = ReviewDocumentFragmentHelper.createFragmentImpl(this, getArguments());
+        ReviewDocumentFragmentHelper.setListener(mFragmentImpl, getActivity());
         mFragmentImpl.onCreate(savedInstanceState);
     }
 

@@ -4,9 +4,9 @@ import android.content.Intent;
 import android.os.Handler;
 import android.widget.Toast;
 
-import net.gini.android.vision.scanner.photo.Photo;
+import net.gini.android.vision.scanner.Document;
 
-public class ReviewPhotoActivity extends net.gini.android.vision.reviewphoto.ReviewPhotoActivity {
+public class ReviewDocumentActivity extends net.gini.android.vision.reviewdocument.ReviewDocumentActivity {
 
     public static final String EXTRA_OUT_EXTRACTIONS = "EXTRA_OUT_EXTRACTIONS";
 
@@ -17,12 +17,12 @@ public class ReviewPhotoActivity extends net.gini.android.vision.reviewphoto.Rev
     }
 
     @Override
-    public void onShouldAnalyzePhoto(Photo photo) {
+    public void onShouldAnalyzeDocument(Document document) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 onPhotoAnalyzed();
-                Toast.makeText(ReviewPhotoActivity.this, "Photo was analyzed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(net.gini.android.vision.easy.ReviewDocumentActivity.this, "Photo was analyzed", Toast.LENGTH_SHORT).show();
             }
         }, 3000);
     }

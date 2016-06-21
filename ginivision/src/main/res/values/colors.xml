@@ -18,15 +18,15 @@
     <color name="gv_onboarding_fab">#009edc</color>
     <color name="gv_onboarding_fab_selected">#0095cf</color>
 
-    <color name="gv_review_photo_activity_background">@android:color/transparent</color>
-    <color name="gv_review_photo_fragment_background">@color/gv_background</color>
+    <color name="gv_review_document_activity_background">@android:color/transparent</color>
+    <color name="gv_review_document_fragment_background">@color/gv_background</color>
 
-    <color name="gv_review_photo_fab">#009edc</color>
-    <color name="gv_review_photo_fab_selected">#0095cf</color>
+    <color name="gv_review_document_fab">#009edc</color>
+    <color name="gv_review_document_fab_selected">#0095cf</color>
 
-    <color name="gv_review_photo_fab_mini">#fff</color>
-    <color name="gv_review_photo_fab_mini_selected">#f2f2f2</color>
+    <color name="gv_review_document_fab_mini">#fff</color>
+    <color name="gv_review_document_fab_mini_selected">#f2f2f2</color>
 
-    <color name="gv_review_photo_bottom_panel_background">#262626</color>
-    <color name="gv_review_photo_bottom_panel_text">#fff</color>
+    <color name="gv_review_document_bottom_panel_background">#262626</color>
+    <color name="gv_review_document_bottom_panel_text">#fff</color>
 </resources>

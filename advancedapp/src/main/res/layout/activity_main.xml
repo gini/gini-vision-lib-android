@@ -30,7 +30,7 @@
             android:text="Start Onboarding Standard" />
 
         <Button
-            android:id="@+id/button_start_review_photo"
+            android:id="@+id/button_start_review_document"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -51,7 +51,7 @@
             android:text="Start Onboarding Compat" />
 
         <Button
-            android:id="@+id/button_start_review_photo_compat"
+            android:id="@+id/button_start_review_document_compat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

@@ -12,7 +12,7 @@ import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
-import net.gini.android.vision.reviewphoto.ReviewPhotoActivity;
+import net.gini.android.vision.reviewdocument.ReviewDocumentActivity;
 import net.gini.android.vision.scanner.photo.Photo;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
      * Type: {@code ArrayList<OnboardingPage>}
      */
     public static final String EXTRA_IN_ONBOARDING_PAGES = "GV_EXTRA_IN_ONBOARDING_PAGES";
-    public static final String EXTRA_IN_REVIEW_PHOTO_ACTIVITY = "GV_EXTRA_IN_REVIEW_PHOTO_ACTIVITY";
+    public static final String EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY = "GV_EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY";
 
     public static final String EXTRA_OUT_ORIGINAL_DOCUMENT = "GV_EXTRA_OUT_ORIGINAL_DOCUMENT";
     public static final String EXTRA_OUT_DOCUMENT = "GV_EXTRA_OUT_DOCUMENT";
@@ -31,16 +31,16 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
 
     public static final int RESULT_ERROR = RESULT_FIRST_USER + 1;
 
-    private static final int REVIEW_PHOTO_REQUEST = 1;
+    private static final int REVIEW_DOCUMENT_REQUEST = 1;
 
     private ArrayList<OnboardingPage> mOnboardingPages;
-    private Intent mReviewPhotoActivityIntent;
+    private Intent mReviewDocumentActivityIntent;
     private Photo mPhoto;
 
-    public static <T extends ReviewPhotoActivity> void setReviewPhotoActivityExtra(Intent target,
-                                                                                   Context context,
-                                                                                   Class<T> reviewPhotoActivityClass) {
-        ActivityHelpers.setActivityExtra(target, EXTRA_IN_REVIEW_PHOTO_ACTIVITY, context, reviewPhotoActivityClass);
+    public static <T extends ReviewDocumentActivity> void setReviewDocumentActivityExtra(Intent target,
+                                                                                      Context context,
+                                                                                      Class<T> reviewPhotoActivityClass) {
+        ActivityHelpers.setActivityExtra(target, EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY, context, reviewPhotoActivityClass);
     }
 
     @Override
@@ -60,14 +60,14 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mOnboardingPages = extras.getParcelableArrayList(EXTRA_IN_ONBOARDING_PAGES);
-            mReviewPhotoActivityIntent = extras.getParcelable(EXTRA_IN_REVIEW_PHOTO_ACTIVITY);
+            mReviewDocumentActivityIntent = extras.getParcelable(EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY);
         }
         checkRequiredExtras();
     }
 
     private void checkRequiredExtras() {
-        if (mReviewPhotoActivityIntent == null) {
-            throw new IllegalStateException("ScannerActivity requires a ReviewPhotoActivity class. Call setReviewPhotoActivityExtra() to set it.");
+        if (mReviewDocumentActivityIntent == null) {
+            throw new IllegalStateException("ScannerActivity requires a ReviewDocumentActivity class. Call setReviewDocumentActivityExtra() to set it.");
         }
     }
 
@@ -97,9 +97,9 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
     @Override
     public void onPhotoTaken(Photo photo) {
         mPhoto = photo;
-        // Start ReviewPhotoActivity
-        mReviewPhotoActivityIntent.putExtra(ReviewPhotoActivity.EXTRA_IN_PHOTO, photo);
-        startActivityForResult(mReviewPhotoActivityIntent, REVIEW_PHOTO_REQUEST);
+        // Start ReviewDocumentActivity
+        mReviewDocumentActivityIntent.putExtra(ReviewDocumentActivity.EXTRA_IN_PHOTO, photo);
+        startActivityForResult(mReviewDocumentActivityIntent, REVIEW_DOCUMENT_REQUEST);
     }
 
     @Override
@@ -112,9 +112,9 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REVIEW_PHOTO_REQUEST) {
+        if (requestCode == REVIEW_DOCUMENT_REQUEST) {
             switch (resultCode) {
-                case ReviewPhotoActivity.RESULT_PHOTO_WAS_REVIEWED:
+                case ReviewDocumentActivity.RESULT_PHOTO_WAS_REVIEWED:
                     if (data == null) {
                         data = new Intent();
                     }
@@ -124,7 +124,7 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
                     setResult(RESULT_OK, data);
                     finish();
                     break;
-                case ReviewPhotoActivity.RESULT_ERROR:
+                case ReviewDocumentActivity.RESULT_ERROR:
                     setResult(RESULT_ERROR, data);
                     finish();
                     break;

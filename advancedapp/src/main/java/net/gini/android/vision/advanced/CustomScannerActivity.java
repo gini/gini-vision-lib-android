@@ -19,7 +19,7 @@ public class CustomScannerActivity extends Activity implements ScannerFragmentLi
 
     @Override
     public void onPhotoTaken(Photo photo) {
-        Intent intent = new Intent(this, CustomReviewPhotoActivity.class);
+        Intent intent = new Intent(this, CustomReviewDocumentActivity.class);
         startActivity(intent);
     }
 

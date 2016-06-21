@@ -14,7 +14,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="net.gini.android.vision.easy.ReviewPhotoActivity"/>
+        <activity android:name="net.gini.android.vision.easy.ReviewDocumentActivity"/>
     </application>
 
 </manifest>

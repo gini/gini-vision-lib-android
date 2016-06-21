@@ -1,4 +1,4 @@
-package net.gini.android.vision.reviewphoto;
+package net.gini.android.vision.reviewdocument;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import net.gini.android.vision.R;
 import net.gini.android.vision.scanner.Document;
 import net.gini.android.vision.scanner.photo.Photo;
 
-public abstract class ReviewPhotoActivity extends AppCompatActivity implements ReviewPhotoFragmentListener {
+public abstract class ReviewDocumentActivity extends AppCompatActivity implements ReviewDocumentFragmentListener {
 
     public static final String EXTRA_IN_PHOTO = "GV_EXTRA_IN_PHOTO";
     public static final String EXTRA_OUT_DOCUMENT = "GV_EXTRA_OUT_DOCUMENT";
@@ -19,13 +19,13 @@ public abstract class ReviewPhotoActivity extends AppCompatActivity implements R
     public static final int RESULT_PHOTO_WAS_REVIEWED = RESULT_FIRST_USER + 1;
     public static final int RESULT_ERROR = RESULT_FIRST_USER + 2;
 
-    private ReviewPhotoFragmentCompat mFragment;
+    private ReviewDocumentFragmentCompat mFragment;
     private Photo mPhoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.gv_activity_review_photo);
+        setContentView(R.layout.gv_activity_review_document);
         bindViews();
         if (savedInstanceState == null) {
             readExtras();
@@ -41,7 +41,7 @@ public abstract class ReviewPhotoActivity extends AppCompatActivity implements R
     }
 
     private void bindViews() {
-        mFragment = (ReviewPhotoFragmentCompat) getSupportFragmentManager().findFragmentById(R.id.gv_fragment_review_photo);
+        mFragment = (ReviewDocumentFragmentCompat) getSupportFragmentManager().findFragmentById(R.id.gv_fragment_review_document);
     }
 
     private void readExtras() {
@@ -54,36 +54,36 @@ public abstract class ReviewPhotoActivity extends AppCompatActivity implements R
 
     private void checkRequiredExtras() {
         if (mPhoto == null) {
-            throw new IllegalStateException("ReviewPhotoActivity requires a Photo. Set it as an extra using the EXTRA_PHOTO key.");
+            throw new IllegalStateException("ReviewDocumentActivity requires a Photo. Set it as an extra using the EXTRA_PHOTO key.");
         }
     }
 
     private void createFragment() {
-        mFragment = ReviewPhotoFragmentCompat.createInstance(mPhoto);
+        mFragment = ReviewDocumentFragmentCompat.createInstance(mPhoto);
     }
 
     private void showFragment() {
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.gv_fragment_review_photo, mFragment)
+                .add(R.id.gv_fragment_review_document, mFragment)
                 .commit();
     }
 
     // callback for subclasses for uploading the photo before it was reviewed, if the photo is not changed
     // no new upload is required
     @Override
-    public abstract void onShouldAnalyzePhoto(Photo photo);
+    public abstract void onShouldAnalyzeDocument(Document document);
 
     @Override
-    public void onProceedToAnalyzePhotoScreen(Photo photo) {
+    public void onProceedToAnalyzeScreen(Document document) {
         // TODO: start analyze screen
         Toast.makeText(this, "Should proceed to Analyze Screen", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onPhotoReviewedAndAnalyzed(Photo photo) {
+    public void onDocumentReviewedAndAnalyzed(Document document) {
         Intent result = new Intent();
-        result.putExtra(EXTRA_OUT_DOCUMENT, Document.fromPhoto(photo));
+        result.putExtra(EXTRA_OUT_DOCUMENT, document);
         onAddDataToResult(result);
         setResult(RESULT_PHOTO_WAS_REVIEWED, result);
         finish();
