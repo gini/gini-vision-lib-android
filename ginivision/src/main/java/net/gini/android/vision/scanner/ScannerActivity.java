@@ -22,12 +22,12 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
     /**
      * Type: {@code ArrayList<OnboardingPage>}
      */
-    public static final String EXTRA_ONBOARDING_PAGES = "GV_EXTRA_PAGES";
-    public static final String EXTRA_REVIEW_PHOTO_ACTIVITY = "GV_EXTRA_REVIEW_PHOTO_ACTIVITY";
+    public static final String EXTRA_IN_ONBOARDING_PAGES = "GV_EXTRA_IN_ONBOARDING_PAGES";
+    public static final String EXTRA_IN_REVIEW_PHOTO_ACTIVITY = "GV_EXTRA_IN_REVIEW_PHOTO_ACTIVITY";
 
-    public static final String EXTRA_ORIGINAL_DOCUMENT = "GV_EXTRA_ORIGINAL_DOCUMENT";
-    public static final String EXTRA_DOCUMENT = "GV_EXTRA_DOCUMENT";
-    public static final String EXTRA_ERROR = "GV_EXTRA_ERROR";
+    public static final String EXTRA_OUT_ORIGINAL_DOCUMENT = "GV_EXTRA_OUT_ORIGINAL_DOCUMENT";
+    public static final String EXTRA_OUT_DOCUMENT = "GV_EXTRA_OUT_DOCUMENT";
+    public static final String EXTRA_OUT_ERROR = "GV_EXTRA_OUT_ERROR";
 
     private static final int REVIEW_PHOTO_REQUEST = 1;
 
@@ -38,7 +38,7 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
     public static <T extends ReviewPhotoActivity> void setReviewPhotoActivityExtra(Intent target,
                                                                                    Context context,
                                                                                    Class<T> reviewPhotoActivityClass) {
-        ActivityHelpers.setActivityExtra(target, EXTRA_REVIEW_PHOTO_ACTIVITY, context, reviewPhotoActivityClass);
+        ActivityHelpers.setActivityExtra(target, EXTRA_IN_REVIEW_PHOTO_ACTIVITY, context, reviewPhotoActivityClass);
     }
 
     @Override
@@ -51,8 +51,8 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
     private void readExtras() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            mOnboardingPages = extras.getParcelableArrayList(EXTRA_ONBOARDING_PAGES);
-            mReviewPhotoActivityIntent = extras.getParcelable(EXTRA_REVIEW_PHOTO_ACTIVITY);
+            mOnboardingPages = extras.getParcelableArrayList(EXTRA_IN_ONBOARDING_PAGES);
+            mReviewPhotoActivityIntent = extras.getParcelable(EXTRA_IN_REVIEW_PHOTO_ACTIVITY);
         }
         checkRequiredExtras();
     }
@@ -90,14 +90,14 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
     public void onPhotoTaken(Photo photo) {
         mPhoto = photo;
         // Start ReviewPhotoActivity
-        mReviewPhotoActivityIntent.putExtra(EXTRA_DOCUMENT, photo);
+        mReviewPhotoActivityIntent.putExtra(EXTRA_OUT_DOCUMENT, photo);
         startActivityForResult(mReviewPhotoActivityIntent, REVIEW_PHOTO_REQUEST);
     }
 
     @Override
     public void onError(GiniVisionError error) {
         Intent result = new Intent();
-        result.putExtra(EXTRA_ERROR, error);
+        result.putExtra(EXTRA_OUT_ERROR, error);
         setResult(RESULT_CANCELED, result);
         finish();
     }
@@ -109,7 +109,7 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
                 data = new Intent();
             }
             if (mPhoto != null) {
-                data.putExtra(EXTRA_ORIGINAL_DOCUMENT, mPhoto);
+                data.putExtra(EXTRA_OUT_ORIGINAL_DOCUMENT, mPhoto);
             }
             setResult(resultCode, data);
             finish();

@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void startScanner() {
         Intent intent = new Intent(this, ScannerActivity.class);
-        intent.putParcelableArrayListExtra(ScannerActivity.EXTRA_ONBOARDING_PAGES, getOnboardingPages());
+        intent.putParcelableArrayListExtra(ScannerActivity.EXTRA_IN_ONBOARDING_PAGES, getOnboardingPages());
         ScannerActivity.setReviewPhotoActivityExtra(intent, this, ReviewPhotoActivity.class);
         startActivityForResult(intent, REQUEST_SCAN);
     }
@@ -60,11 +60,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_SCAN) {
             if (resultCode == RESULT_OK) {
-                Photo original = data.getParcelableExtra(ScannerActivity.EXTRA_ORIGINAL_DOCUMENT);
-                Photo document = data.getParcelableExtra(ScannerActivity.EXTRA_DOCUMENT);
+                Photo original = data.getParcelableExtra(ScannerActivity.EXTRA_OUT_ORIGINAL_DOCUMENT);
+                Photo document = data.getParcelableExtra(ScannerActivity.EXTRA_OUT_DOCUMENT);
                 String extractions = data.getStringExtra(ReviewPhotoActivity.EXTRA_OUT_EXTRACTIONS);
             } else {
-                GiniVisionError error = data.getParcelableExtra(ScannerActivity.EXTRA_ERROR);
+                GiniVisionError error = data.getParcelableExtra(ScannerActivity.EXTRA_OUT_ERROR);
                 if (error != null) {
                     Toast.makeText(this, "Error: " +
                                     error.getErrorCode() + " - " +
