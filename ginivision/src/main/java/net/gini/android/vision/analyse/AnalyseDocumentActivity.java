@@ -15,7 +15,7 @@ public abstract class AnalyseDocumentActivity extends AppCompatActivity implemen
 
     public static final int RESULT_ERROR = RESULT_FIRST_USER + 1;
 
-    AnalyseDocumentFragmentCompat mFragment;
+    private AnalyseDocumentFragmentCompat mFragment;
     private Document mDocument;
 
     @Override
