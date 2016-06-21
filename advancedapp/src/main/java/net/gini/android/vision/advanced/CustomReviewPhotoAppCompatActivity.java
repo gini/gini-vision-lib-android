@@ -38,7 +38,7 @@ public class CustomReviewPhotoAppCompatActivity extends AppCompatActivity implem
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mFragment.setPhotoWasAnalyzed(true);
+                mFragment.onPhotoAnalyzed();
                 Toast.makeText(CustomReviewPhotoAppCompatActivity.this, "Photo was analyzed", Toast.LENGTH_SHORT).show();
             }
         }, 3000);

@@ -18,7 +18,7 @@ public class ReviewPhotoActivity extends net.gini.android.vision.reviewphoto.Rev
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                setPhotoWasAnalyzed(true);
+                onPhotoAnalyzed();
                 Toast.makeText(ReviewPhotoActivity.this, "Photo was analyzed", Toast.LENGTH_SHORT).show();
             }
         }, 3000);

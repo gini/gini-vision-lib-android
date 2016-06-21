@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import net.gini.android.vision.scanner.photo.Photo;
 import net.gini.android.vision.ui.FragmentImplCallback;
 
-public class ReviewPhotoFragmentCompat extends Fragment implements FragmentImplCallback {
+public class ReviewPhotoFragmentCompat extends Fragment implements FragmentImplCallback, ReviewPhotoFragmentInterface {
 
     private ReviewPhotoFragmentImpl mFragmentImpl;
 
@@ -18,10 +18,6 @@ public class ReviewPhotoFragmentCompat extends Fragment implements FragmentImplC
         ReviewPhotoFragmentCompat fragment = new ReviewPhotoFragmentCompat();
         fragment.setArguments(ReviewPhotoFragmentHelper.createArguments(photo));
         return fragment;
-    }
-
-    public void setPhotoWasAnalyzed(boolean photoWasAnalyzed) {
-        mFragmentImpl.setPhotoWasAnalyzed(photoWasAnalyzed);
     }
 
     @Override
@@ -36,5 +32,10 @@ public class ReviewPhotoFragmentCompat extends Fragment implements FragmentImplC
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return mFragmentImpl.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onPhotoAnalyzed() {
+        mFragmentImpl.onPhotoAnalyzed();
     }
 }

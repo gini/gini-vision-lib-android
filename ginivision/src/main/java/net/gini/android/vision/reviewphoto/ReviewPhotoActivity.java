@@ -71,7 +71,7 @@ public abstract class ReviewPhotoActivity extends AppCompatActivity implements R
 
     // TODO: call this, if the photo was analyzed before the review was completed, it prevents the analyze activity to
     // be started, if the photo was already analyzed and the user didn't change it
-    protected void setPhotoWasAnalyzed(boolean photoWasAnalyzed) {
-        mFragment.setPhotoWasAnalyzed(photoWasAnalyzed);
+    protected void onPhotoAnalyzed() {
+        mFragment.onPhotoAnalyzed();
     }
 }

@@ -11,7 +11,7 @@ import net.gini.android.vision.R;
 import net.gini.android.vision.scanner.photo.Photo;
 import net.gini.android.vision.ui.FragmentImplCallback;
 
-public class ReviewPhotoFragmentImpl {
+public class ReviewPhotoFragmentImpl implements ReviewPhotoFragmentInterface {
 
     private static final ReviewPhotoFragmentListener NO_OP_LISTENER = new ReviewPhotoFragmentListener() {
         @Override
@@ -49,8 +49,8 @@ public class ReviewPhotoFragmentImpl {
         }
     }
 
-    public void setPhotoWasAnalyzed(boolean photoWasAnalyzed) {
-        mPhotoWasAnalyzed = photoWasAnalyzed;
+    public void onPhotoAnalyzed() {
+        mPhotoWasAnalyzed = true;
     }
 
     public void onCreate(@Nullable Bundle savedInstanceState) {
