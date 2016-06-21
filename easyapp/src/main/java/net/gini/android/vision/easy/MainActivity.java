@@ -11,8 +11,8 @@ import net.gini.android.ginivisiontest.R;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.onboarding.DefaultPages;
 import net.gini.android.vision.onboarding.OnboardingPage;
+import net.gini.android.vision.scanner.Document;
 import net.gini.android.vision.scanner.ScannerActivity;
-import net.gini.android.vision.scanner.photo.Photo;
 
 import java.util.ArrayList;
 
@@ -60,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_SCAN) {
             if (resultCode == RESULT_OK) {
-                Photo original = data.getParcelableExtra(ScannerActivity.EXTRA_OUT_ORIGINAL_DOCUMENT);
-                Photo document = data.getParcelableExtra(ScannerActivity.EXTRA_OUT_DOCUMENT);
+                Document original = data.getParcelableExtra(ScannerActivity.EXTRA_OUT_ORIGINAL_DOCUMENT);
+                Document document = data.getParcelableExtra(ScannerActivity.EXTRA_OUT_DOCUMENT);
                 String extractions = data.getStringExtra(ReviewPhotoActivity.EXTRA_OUT_EXTRACTIONS);
             } else {
                 GiniVisionError error = data.getParcelableExtra(ScannerActivity.EXTRA_OUT_ERROR);

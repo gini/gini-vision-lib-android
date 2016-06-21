@@ -7,10 +7,12 @@ import android.widget.Toast;
 
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
+import net.gini.android.vision.scanner.Document;
 import net.gini.android.vision.scanner.photo.Photo;
 
 public abstract class ReviewPhotoActivity extends AppCompatActivity implements ReviewPhotoFragmentListener {
 
+    public static final String EXTRA_IN_PHOTO = "GV_EXTRA_IN_PHOTO";
     public static final String EXTRA_OUT_DOCUMENT = "GV_EXTRA_OUT_DOCUMENT";
     public static final String EXTRA_OUT_ERROR = "GV_EXTRA_OUT_ERROR";
 
@@ -36,7 +38,7 @@ public abstract class ReviewPhotoActivity extends AppCompatActivity implements R
     private void readExtras() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            mPhoto = extras.getParcelable(EXTRA_OUT_DOCUMENT);
+            mPhoto = extras.getParcelable(EXTRA_IN_PHOTO);
         }
         checkRequiredExtras();
     }
@@ -72,7 +74,7 @@ public abstract class ReviewPhotoActivity extends AppCompatActivity implements R
     @Override
     public void onPhotoReviewedAndAnalyzed(Photo photo) {
         Intent result = new Intent();
-        result.putExtra(EXTRA_OUT_DOCUMENT, photo);
+        result.putExtra(EXTRA_OUT_DOCUMENT, Document.fromPhoto(photo));
         onAddDataToResult(result);
         setResult(RESULT_OK, result);
         finish();

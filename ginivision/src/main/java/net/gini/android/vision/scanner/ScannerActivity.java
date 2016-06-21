@@ -90,7 +90,7 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
     public void onPhotoTaken(Photo photo) {
         mPhoto = photo;
         // Start ReviewPhotoActivity
-        mReviewPhotoActivityIntent.putExtra(EXTRA_OUT_DOCUMENT, photo);
+        mReviewPhotoActivityIntent.putExtra(ReviewPhotoActivity.EXTRA_IN_PHOTO, photo);
         startActivityForResult(mReviewPhotoActivityIntent, REVIEW_PHOTO_REQUEST);
     }
 
@@ -109,7 +109,7 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
                 data = new Intent();
             }
             if (mPhoto != null) {
-                data.putExtra(EXTRA_OUT_ORIGINAL_DOCUMENT, mPhoto);
+                data.putExtra(EXTRA_OUT_ORIGINAL_DOCUMENT, Document.fromPhoto(mPhoto));
             }
             setResult(resultCode, data);
             finish();
