@@ -58,7 +58,7 @@ public class ReviewDocumentFragmentImpl implements ReviewDocumentFragmentInterfa
         }
     }
 
-    public void onPhotoAnalyzed() {
+    public void onDocumentAnalyzed() {
         mPhotoWasAnalyzed = true;
     }
 

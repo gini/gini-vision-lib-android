@@ -1,11 +1,13 @@
 package net.gini.android.vision.advanced;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.analyse.AnalyseDocumentActivity;
 import net.gini.android.vision.reviewdocument.ReviewDocumentFragmentCompat;
 import net.gini.android.vision.reviewdocument.ReviewDocumentFragmentListener;
 import net.gini.android.vision.scanner.Document;
@@ -40,20 +42,23 @@ public class CustomReviewDocumentAppCompatActivity extends AppCompatActivity imp
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mFragment.onPhotoAnalyzed();
+                mFragment.onDocumentAnalyzed();
                 Toast.makeText(CustomReviewDocumentAppCompatActivity.this, "Photo was analyzed", Toast.LENGTH_SHORT).show();
             }
-        }, 3000);
+        }, 2000);
     }
 
     @Override
     public void onProceedToAnalyzeScreen(Document document) {
-        Toast.makeText(this, "Should proceed to Analyze Screen", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, CustomAnalyseDocumentAppCompatActivity.class);
+        intent.putExtra(AnalyseDocumentActivity.EXTRA_IN_DOCUMENT, document);
+        startActivity(intent);
     }
 
     @Override
     public void onDocumentReviewedAndAnalyzed(Document document) {
         Toast.makeText(this, "Photo extractions received", Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     @Override

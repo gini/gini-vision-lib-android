@@ -8,8 +8,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name="net.gini.android.vision.advanced.MainActivity">
+        <activity android:name="net.gini.android.vision.advanced.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -17,24 +16,31 @@
         </activity>
         <activity
             android:name="net.gini.android.vision.advanced.CustomScannerActivity"
-            android:label="@string/title_scanner"/>
+            android:label="@string/title_scanner" />
         <activity
             android:name="net.gini.android.vision.advanced.CustomScannerAppCompatActivity"
             android:label="@string/title_scanner"
             android:theme="@style/AppThemeCompat" />
         <activity
             android:name="net.gini.android.vision.advanced.CustomOnboardingActivity"
-            android:label="@string/title_onboarding"/>
+            android:label="@string/title_onboarding" />
         <activity
             android:name="net.gini.android.vision.advanced.CustomOnboardingAppCompatActivity"
             android:label="@string/title_onboarding"
             android:theme="@style/AppThemeCompat" />
         <activity
             android:name="net.gini.android.vision.advanced.CustomReviewDocumentActivity"
-            android:label="@string/title_review_document"/>
+            android:label="@string/title_review_document" />
         <activity
             android:name="net.gini.android.vision.advanced.CustomReviewDocumentAppCompatActivity"
             android:label="@string/title_review_document"
+            android:theme="@style/AppThemeCompat" />
+        <activity
+            android:name="net.gini.android.vision.advanced.CustomAnalyseDocumentActivity"
+            android:label="@string/title_analyse_document" />
+        <activity
+            android:name="net.gini.android.vision.advanced.CustomAnalyseDocumentAppCompatActivity"
+            android:label="@string/title_analyse_document"
             android:theme="@style/AppThemeCompat" />
     </application>
 

@@ -1,4 +1,4 @@
-package net.gini.android.vision.reviewdocument;
+package net.gini.android.vision.analyse;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -7,24 +7,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import net.gini.android.vision.scanner.photo.Photo;
+import net.gini.android.vision.scanner.Document;
 import net.gini.android.vision.ui.FragmentImplCallback;
 
-public class ReviewDocumentFragmentStandard extends Fragment implements FragmentImplCallback, ReviewDocumentFragmentInterface {
+public class AnalyseDocumentFragmentStandard extends Fragment implements FragmentImplCallback, AnalyseDocumentFragmentInterface {
 
-    private ReviewDocumentFragmentImpl mFragmentImpl;
+    private AnalyseDocumentFragmentImpl mFragmentImpl;
 
-    public static ReviewDocumentFragmentStandard createInstance(Photo photo) {
-        ReviewDocumentFragmentStandard fragment = new ReviewDocumentFragmentStandard();
-        fragment.setArguments(ReviewDocumentFragmentHelper.createArguments(photo));
+    public static AnalyseDocumentFragmentStandard createInstance(Document document) {
+        AnalyseDocumentFragmentStandard fragment = new AnalyseDocumentFragmentStandard();
+        fragment.setArguments(AnalyseDocumentFragmentHelper.createArguments(document));
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFragmentImpl = ReviewDocumentFragmentHelper.createFragmentImpl(this, getArguments());
-        ReviewDocumentFragmentHelper.setListener(mFragmentImpl, getActivity());
+        mFragmentImpl = AnalyseDocumentFragmentHelper.createFragmentImpl(this, getArguments());
+        AnalyseDocumentFragmentHelper.setListener(mFragmentImpl, getActivity());
         mFragmentImpl.onCreate(savedInstanceState);
     }
 
@@ -42,10 +42,17 @@ public class ReviewDocumentFragmentStandard extends Fragment implements Fragment
     }
 
     @Override
+    public void startScanAnimation() {
+        mFragmentImpl.startScanAnimation();
+    }
+
+    @Override
+    public void stopScanAnimation() {
+        mFragmentImpl.stopScanAnimation();
+    }
+
+    @Override
     public void onDocumentAnalyzed() {
-        if (mFragmentImpl == null) {
-            return;
-        }
         mFragmentImpl.onDocumentAnalyzed();
     }
 }
