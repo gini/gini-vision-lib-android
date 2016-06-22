@@ -13,15 +13,16 @@ class OnboardingPageFragmentHelper {
     }
 
     static OnboardingPageFragmentImpl createFragmentImpl(Bundle arguments) {
-        if (arguments == null) {
-            throw new RuntimeException("Missing OnboardingPage.");
-        }
-
-        OnboardingPage page = arguments.getParcelable(ARGS_PAGE);
-        if (page == null) {
-            throw new RuntimeException("Missing OnboardingPage.");
-        }
-
-        return new OnboardingPageFragmentImpl(page);
+        // Reenable check when functionality is implemented
+//        if (arguments == null) {
+//            throw new RuntimeException("Missing OnboardingPage.");
+//        }
+//
+//        OnboardingPage page = arguments.getParcelable(ARGS_PAGE);
+//        if (page == null) {
+//            throw new RuntimeException("Missing OnboardingPage.");
+//        }
+//        return new OnboardingPageFragmentImpl(page);
+        return new OnboardingPageFragmentImpl(null);
     }
 }
