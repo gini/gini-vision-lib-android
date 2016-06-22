@@ -5,15 +5,20 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import net.gini.android.ginivisiontest.R;
+import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.onboarding.DefaultPages;
 import net.gini.android.vision.onboarding.OnboardingPage;
+import net.gini.android.vision.scanner.Document;
 import net.gini.android.vision.scanner.ScannerActivity;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final int REQUEST_SCAN = 1;
 
     private Button mButtonStartScanner;
 
@@ -36,8 +41,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void startScanner() {
         Intent intent = new Intent(this, ScannerActivity.class);
-        intent.putParcelableArrayListExtra(ScannerActivity.EXTRA_ONBOARDING_PAGES, getOnboardingPages());
-        startActivity(intent);
+        intent.putParcelableArrayListExtra(ScannerActivity.EXTRA_IN_ONBOARDING_PAGES, getOnboardingPages());
+        ScannerActivity.setReviewDocumentActivityExtra(intent, this, ReviewDocumentActivity.class);
+        startActivityForResult(intent, REQUEST_SCAN);
     }
 
     private void bindViews() {
@@ -48,5 +54,30 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<OnboardingPage> pages = new ArrayList<>(DefaultPages.getPages());
         pages.add(new OnboardingPage(R.string.additional_onboarding_page, R.drawable.additional_onboarding_illustration));
         return pages;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_SCAN) {
+            if (data == null) {
+                return;
+            }
+            switch (resultCode) {
+                case RESULT_OK:
+                    Document original = data.getParcelableExtra(ScannerActivity.EXTRA_OUT_ORIGINAL_DOCUMENT);
+                    Document document = data.getParcelableExtra(ScannerActivity.EXTRA_OUT_DOCUMENT);
+                    String extractions = data.getStringExtra(ReviewDocumentActivity.EXTRA_OUT_EXTRACTIONS);
+                    break;
+                case ScannerActivity.RESULT_ERROR:
+                    GiniVisionError error = data.getParcelableExtra(ScannerActivity.EXTRA_OUT_ERROR);
+                    if (error != null) {
+                        Toast.makeText(this, "Error: " +
+                                        error.getErrorCode() + " - " +
+                                        error.getMessage(),
+                                Toast.LENGTH_LONG).show();
+                    }
+                    break;
+            }
+        }
     }
 }

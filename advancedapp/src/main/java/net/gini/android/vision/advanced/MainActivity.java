@@ -14,6 +14,8 @@ public class MainActivity extends Activity {
     private Button mButtonStartScannerCompat;
     private Button mButtonStartOnboarding;
     private Button mButtonStartOnboardingCompat;
+    private Button mButtonStartReviewDocument;
+    private Button mButtonStartReviewDocumentCompat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,18 @@ public class MainActivity extends Activity {
                 startOnboardingCompat();
             }
         });
+        mButtonStartReviewDocument.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startReviewDocument();
+            }
+        });
+        mButtonStartReviewDocumentCompat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startReviewDocumentCompat();
+            }
+        });
     }
 
     private void startScanner() {
@@ -70,10 +84,22 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
+    private void startReviewDocument() {
+        Intent intent = new Intent(this, CustomReviewDocumentActivity.class);
+        startActivity(intent);
+    }
+
+    private void startReviewDocumentCompat() {
+        Intent intent = new Intent(this, CustomReviewDocumentAppCompatActivity.class);
+        startActivity(intent);
+    }
+
     private void bindViews() {
         mButtonStartScanner = (Button) findViewById(R.id.button_start_scanner);
         mButtonStartScannerCompat = (Button) findViewById(R.id.button_start_scanner_compat);
         mButtonStartOnboarding = (Button) findViewById(R.id.button_start_onboarding);
         mButtonStartOnboardingCompat = (Button) findViewById(R.id.button_start_onboarding_compat);
+        mButtonStartReviewDocument = (Button) findViewById(R.id.button_start_review_document);
+        mButtonStartReviewDocumentCompat = (Button) findViewById(R.id.button_start_review_document_compat);
     }
 }

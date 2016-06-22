@@ -1,7 +1,6 @@
 package net.gini.android.vision.onboarding;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class OnboardingFragmentImpl<T extends Fragment> {
+class OnboardingFragmentImpl {
 
     private final FragmentImplCallback mFragment;
     private final ArrayList<OnboardingPage> mPages;

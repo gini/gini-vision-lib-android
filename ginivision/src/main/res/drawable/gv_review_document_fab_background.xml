@@ -9,7 +9,7 @@
             </item>
             <item android:width="@dimen/gv_fab_width" android:height="@dimen/gv_fab_height" android:gravity="center">
                 <shape android:shape="oval">
-                    <solid android:color="@color/gv_fab_color_selected" />
+                    <solid android:color="@color/gv_review_document_fab_selected" />
                 </shape>
             </item>
         </layer-list>
@@ -23,7 +23,7 @@
             </item>
             <item android:width="@dimen/gv_fab_width" android:height="@dimen/gv_fab_height" android:gravity="center">
                 <shape android:shape="oval">
-                    <solid android:color="@color/gv_fab_color" />
+                    <solid android:color="@color/gv_review_document_fab" />
                 </shape>
             </item>
         </layer-list>

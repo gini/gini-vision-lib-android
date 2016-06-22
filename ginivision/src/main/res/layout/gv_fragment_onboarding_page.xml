@@ -2,13 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/gv_onboarding_page_container_background">
+    android:layout_height="match_parent">
 
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="@fraction/gv_onboarding_page_alpha"
+        android:alpha="@fraction/gv_onboarding_page_fragment_background_alpha"
         android:background="@color/gv_onboarding_page_fragment_background" />
 
     <ImageView
