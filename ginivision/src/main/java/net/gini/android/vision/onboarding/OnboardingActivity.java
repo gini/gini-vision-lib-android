@@ -3,11 +3,12 @@ package net.gini.android.vision.onboarding;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 
 import java.util.ArrayList;
 
-public class OnboardingActivity extends AppCompatActivity {
+public class OnboardingActivity extends AppCompatActivity implements OnboardingFragmentListener {
 
     /**
      * Type: {@code ArrayList<OnboardingPage>}
@@ -46,5 +47,15 @@ public class OnboardingActivity extends AppCompatActivity {
                 .beginTransaction()
                 .add(R.id.gv_fragment_onboarding, mOnboardingFragment)
                 .commit();
+    }
+
+    @Override
+    public void onCloseOnboarding() {
+        finish();
+    }
+
+    @Override
+    public void onError(GiniVisionError giniVisionError) {
+
     }
 }

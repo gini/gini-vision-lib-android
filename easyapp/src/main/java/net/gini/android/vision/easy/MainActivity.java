@@ -18,6 +18,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String EXTRA_OUT_EXTRACTIONS = "EXTRA_OUT_EXTRACTIONS";
+
     private static final int REQUEST_SCAN = 1;
 
     private Button mButtonStartScanner;
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ScannerActivity.class);
         intent.putParcelableArrayListExtra(ScannerActivity.EXTRA_IN_ONBOARDING_PAGES, getOnboardingPages());
         ScannerActivity.setReviewDocumentActivityExtra(intent, this, ReviewDocumentActivity.class);
+        ScannerActivity.setAnalyseDocumentActivityExtra(intent, this, AnalyseDocumentActivity.class);
         startActivityForResult(intent, REQUEST_SCAN);
     }
 
@@ -66,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 case RESULT_OK:
                     Document original = data.getParcelableExtra(ScannerActivity.EXTRA_OUT_ORIGINAL_DOCUMENT);
                     Document document = data.getParcelableExtra(ScannerActivity.EXTRA_OUT_DOCUMENT);
-                    String extractions = data.getStringExtra(ReviewDocumentActivity.EXTRA_OUT_EXTRACTIONS);
+                    String extractions = data.getStringExtra(EXTRA_OUT_EXTRACTIONS);
                     break;
                 case ScannerActivity.RESULT_ERROR:
                     GiniVisionError error = data.getParcelableExtra(ScannerActivity.EXTRA_OUT_ERROR);

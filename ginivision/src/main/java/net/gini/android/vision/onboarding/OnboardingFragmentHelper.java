@@ -1,7 +1,10 @@
 package net.gini.android.vision.onboarding;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import net.gini.android.vision.reviewdocument.ReviewDocumentFragmentImpl;
+import net.gini.android.vision.reviewdocument.ReviewDocumentFragmentListener;
 import net.gini.android.vision.ui.FragmentImplCallback;
 
 import java.util.ArrayList;
@@ -24,5 +27,13 @@ class OnboardingFragmentHelper {
             }
         }
         return new OnboardingFragmentImpl(fragment);
+    }
+
+    public static void setListener(OnboardingFragmentImpl fragmentImpl, Context context) {
+        if (context instanceof OnboardingFragmentListener) {
+            fragmentImpl.setListener((OnboardingFragmentListener) context);
+        } else {
+            throw new IllegalStateException("Hosting activity must implement OnboardingFragmentListener.");
+        }
     }
 }

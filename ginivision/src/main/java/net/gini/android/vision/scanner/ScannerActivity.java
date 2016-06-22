@@ -8,12 +8,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import net.gini.android.vision.ActivityHelpers;
+import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
+import net.gini.android.vision.analyse.AnalyseDocumentActivity;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.reviewdocument.ReviewDocumentActivity;
-import net.gini.android.vision.scanner.photo.Photo;
 
 import java.util.ArrayList;
 
@@ -24,6 +25,8 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
      */
     public static final String EXTRA_IN_ONBOARDING_PAGES = "GV_EXTRA_IN_ONBOARDING_PAGES";
     public static final String EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY = "GV_EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY";
+    public static final String EXTRA_IN_ANALYSE_DOCUMENT_ACTIVITY = "GV_EXTRA_IN_ANALYSE_DOCUMENT_ACTIVITY";
+    public static final String EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN = "GV_EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN";
 
     public static final String EXTRA_OUT_ORIGINAL_DOCUMENT = "GV_EXTRA_OUT_ORIGINAL_DOCUMENT";
     public static final String EXTRA_OUT_DOCUMENT = "GV_EXTRA_OUT_DOCUMENT";
@@ -32,15 +35,25 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
     public static final int RESULT_ERROR = RESULT_FIRST_USER + 1;
 
     private static final int REVIEW_DOCUMENT_REQUEST = 1;
+    private static final int ANALYSE_DOCUMENT_REQUEST = 2;
 
     private ArrayList<OnboardingPage> mOnboardingPages;
     private Intent mReviewDocumentActivityIntent;
-    private Photo mPhoto;
+    private Intent mAnalyseDocumentActivityIntent;
+    private boolean mShowOnboardingAtFirstRun = true;
+    private GiniVisionCoordinator mGiniVisionCoordinator;
+    private Document mDocument;
 
     public static <T extends ReviewDocumentActivity> void setReviewDocumentActivityExtra(Intent target,
-                                                                                      Context context,
-                                                                                      Class<T> reviewPhotoActivityClass) {
+                                                                                         Context context,
+                                                                                         Class<T> reviewPhotoActivityClass) {
         ActivityHelpers.setActivityExtra(target, EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY, context, reviewPhotoActivityClass);
+    }
+
+    public static <T extends AnalyseDocumentActivity> void setAnalyseDocumentActivityExtra(Intent target,
+                                                                                           Context context,
+                                                                                           Class<T> reviewPhotoActivityClass) {
+        ActivityHelpers.setActivityExtra(target, EXTRA_IN_ANALYSE_DOCUMENT_ACTIVITY, context, reviewPhotoActivityClass);
     }
 
     @Override
@@ -48,6 +61,13 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gv_activity_scanner);
         readExtras();
+        createGiniVisionCoordinator();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mGiniVisionCoordinator.onScannerStarted();
     }
 
     @Override
@@ -61,6 +81,8 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
         if (extras != null) {
             mOnboardingPages = extras.getParcelableArrayList(EXTRA_IN_ONBOARDING_PAGES);
             mReviewDocumentActivityIntent = extras.getParcelable(EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY);
+            mAnalyseDocumentActivityIntent = extras.getParcelable(EXTRA_IN_ANALYSE_DOCUMENT_ACTIVITY);
+            mShowOnboardingAtFirstRun = extras.getBoolean(EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN, true);
         }
         checkRequiredExtras();
     }
@@ -69,6 +91,21 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
         if (mReviewDocumentActivityIntent == null) {
             throw new IllegalStateException("ScannerActivity requires a ReviewDocumentActivity class. Call setReviewDocumentActivityExtra() to set it.");
         }
+        if (mAnalyseDocumentActivityIntent == null) {
+            throw new IllegalStateException("ScannerActivity requires an AnalyseDocumentActivity class. Call setAnalyseDocumentActivityExtra() to set it.");
+        }
+    }
+
+    private void createGiniVisionCoordinator() {
+        mGiniVisionCoordinator = GiniVisionCoordinator.createInstance(this);
+        mGiniVisionCoordinator
+                .setShowOnboardingAtFirstRun(mShowOnboardingAtFirstRun)
+                .setListener(new GiniVisionCoordinator.Listener() {
+                    @Override
+                    public void onShowOnboarding() {
+                        startOnboardingActivity();
+                    }
+                });
     }
 
     @Override
@@ -95,10 +132,10 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
     }
 
     @Override
-    public void onPhotoTaken(Photo photo) {
-        mPhoto = photo;
+    public void onDocumentAvailable(Document document) {
+        mDocument = document;
         // Start ReviewDocumentActivity
-        mReviewDocumentActivityIntent.putExtra(ReviewDocumentActivity.EXTRA_IN_PHOTO, photo);
+        mReviewDocumentActivityIntent.putExtra(ReviewDocumentActivity.EXTRA_IN_DOCUMENT, document);
         startActivityForResult(mReviewDocumentActivityIntent, REVIEW_DOCUMENT_REQUEST);
     }
 
@@ -115,11 +152,18 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
         if (requestCode == REVIEW_DOCUMENT_REQUEST) {
             switch (resultCode) {
                 case ReviewDocumentActivity.RESULT_PHOTO_WAS_REVIEWED:
+                    if (data != null) {
+                        Document document = data.getParcelableExtra(ReviewDocumentActivity.EXTRA_OUT_DOCUMENT);
+                        mAnalyseDocumentActivityIntent.putExtra(AnalyseDocumentActivity.EXTRA_IN_DOCUMENT, document);
+                        startActivityForResult(mAnalyseDocumentActivityIntent, ANALYSE_DOCUMENT_REQUEST);
+                    }
+                    break;
+                case ReviewDocumentActivity.RESULT_PHOTO_WAS_REVIEWED_AND_ANALYZED:
                     if (data == null) {
                         data = new Intent();
                     }
-                    if (mPhoto != null) {
-                        data.putExtra(EXTRA_OUT_ORIGINAL_DOCUMENT, Document.fromPhoto(mPhoto));
+                    if (mDocument != null) {
+                        data.putExtra(EXTRA_OUT_ORIGINAL_DOCUMENT, mDocument);
                     }
                     setResult(RESULT_OK, data);
                     finish();
@@ -129,11 +173,28 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
                     finish();
                     break;
             }
+        } else if (requestCode == ANALYSE_DOCUMENT_REQUEST) {
+            switch (resultCode) {
+                case RESULT_OK:
+                    if (data == null) {
+                        data = new Intent();
+                    }
+                    if (mDocument != null) {
+                        data.putExtra(EXTRA_OUT_ORIGINAL_DOCUMENT, mDocument);
+                    }
+                    setResult(RESULT_OK, data);
+                    finish();
+                    break;
+                case AnalyseDocumentActivity.RESULT_ERROR:
+                    setResult(RESULT_ERROR, data);
+                    finish();
+                    break;
+            }
         }
         clearMemory();
     }
 
     private void clearMemory() {
-        mPhoto = null;
+        mDocument = null;
     }
 }

@@ -8,12 +8,10 @@ import net.gini.android.vision.scanner.Document;
 
 public class ReviewDocumentActivity extends net.gini.android.vision.reviewdocument.ReviewDocumentActivity {
 
-    public static final String EXTRA_OUT_EXTRACTIONS = "EXTRA_OUT_EXTRACTIONS";
-
     @Override
     public void onAddDataToResult(Intent result) {
         // TODO: add extractions to result
-        result.putExtra(EXTRA_OUT_EXTRACTIONS, "extractions");
+        result.putExtra(MainActivity.EXTRA_OUT_EXTRACTIONS, "extractions from review screen");
     }
 
     @Override
@@ -21,9 +19,9 @@ public class ReviewDocumentActivity extends net.gini.android.vision.reviewdocume
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                onPhotoAnalyzed();
+                onDocumentAnalyzed();
                 Toast.makeText(net.gini.android.vision.easy.ReviewDocumentActivity.this, "Photo was analyzed", Toast.LENGTH_SHORT).show();
             }
-        }, 3000);
+        }, 2000);
     }
 }

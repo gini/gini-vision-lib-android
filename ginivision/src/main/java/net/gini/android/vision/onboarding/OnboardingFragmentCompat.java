@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import net.gini.android.vision.reviewdocument.ReviewDocumentFragmentHelper;
 import net.gini.android.vision.ui.FragmentImplCallback;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class OnboardingFragmentCompat extends Fragment implements FragmentImplCa
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFragmentImpl = OnboardingFragmentHelper.createFragmentImpl(this, getArguments());
+        OnboardingFragmentHelper.setListener(mFragmentImpl, getActivity());
     }
 
     @Nullable

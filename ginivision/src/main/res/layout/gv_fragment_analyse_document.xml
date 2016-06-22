@@ -1,0 +1,20 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gv_analyse_document_fragment_background"
+    tools:context=".analyse.AnalyseDocumentFragmentCompat">
+
+    <ImageView
+        android:id="@+id/gv_image_picture"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:id="@+id/gv_image_scanner_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/gv_analyse_scanner_line_height"
+        android:layout_margin="@dimen/gv_analyse_scanner_line_margin"
+        android:src="@drawable/gv_analyse_scanner_line" />
+
+</RelativeLayout>

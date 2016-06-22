@@ -20,6 +20,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:padding="8dp"
-        android:text="Photo Reviewer wurde als ein Fragment in die eigene Activity eingebunden." />
+        android:text="Document Reviewer wurde als ein Fragment in die eigene Activity eingebunden." />
 
 </RelativeLayout>

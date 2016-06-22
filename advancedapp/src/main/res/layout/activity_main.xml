@@ -34,7 +34,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Start Review Photo Standard" />
+            android:text="Start Review Document Standard" />
+
+        <Button
+            android:id="@+id/button_start_analyse_document"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Start Analyse Document" />
 
         <Button
             android:id="@+id/button_start_scanner_compat"
@@ -55,7 +62,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Start Review Photo Compat" />
+            android:text="Start Review Document Compat" />
+
+        <Button
+            android:id="@+id/button_start_analyse_document_compat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Start Analyse Document Compat" />
 
     </LinearLayout>
 </RelativeLayout>

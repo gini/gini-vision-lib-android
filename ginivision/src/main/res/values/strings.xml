@@ -2,6 +2,7 @@
     <string name="gv_title_scanner">Dokument fotografieren</string>
     <string name="gv_title_onboarding">Anleitung</string>
     <string name="gv_title_review_document">Foto überprüfen</string>
+    <string name="gv_title_analyse_document">Etwas Geduld, analysiere Daten</string>
 
     <string name="gv_show_onboarding">Hilfe</string>
     <string name="gv_select_from_camera_roll">Eigenes Bild auswählen</string>

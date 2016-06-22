@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.ui.FragmentImplCallback;
 
@@ -18,7 +19,18 @@ import java.util.Map;
 
 class OnboardingFragmentImpl {
 
+    private static final OnboardingFragmentListener NO_OP_LISTENER = new OnboardingFragmentListener() {
+        @Override
+        public void onCloseOnboarding() {
+        }
+
+        @Override
+        public void onError(GiniVisionError error) {
+        }
+    };
+
     private final FragmentImplCallback mFragment;
+    private OnboardingFragmentListener mListener = NO_OP_LISTENER;
     private final ArrayList<OnboardingPage> mPages;
     private ListView mListOnboardingPages;
 
@@ -30,6 +42,14 @@ class OnboardingFragmentImpl {
     public OnboardingFragmentImpl(FragmentImplCallback fragment, ArrayList<OnboardingPage> pages) {
         mFragment = fragment;
         mPages = pages != null ? pages : DefaultPages.getPages();
+    }
+
+    public void setListener(OnboardingFragmentListener listener) {
+        if (listener == null) {
+            mListener = NO_OP_LISTENER;
+        } else {
+            mListener = listener;
+        }
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

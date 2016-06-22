@@ -14,7 +14,7 @@ class ScannerFragmentImpl {
 
     private static final ScannerFragmentListener NO_OP_LISTENER = new ScannerFragmentListener() {
         @Override
-        public void onPhotoTaken(Photo photo) {
+        public void onDocumentAvailable(Document document) {
         }
 
         @Override
@@ -51,7 +51,7 @@ class ScannerFragmentImpl {
             @Override
             public void onClick(View v) {
                 // TODO: return real photo when ready
-                mListener.onPhotoTaken(Photo.fromJpeg(new byte[1024*1024*10], 0));
+                mListener.onDocumentAvailable(Document.fromPhoto(Photo.fromJpeg(new byte[1024 * 1024 * 10], 0)));
             }
         });
     }
