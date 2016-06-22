@@ -32,6 +32,10 @@ public abstract class AnalyseDocumentActivity extends AppCompatActivity implemen
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        clearMemory();
+    }
+
+    private void clearMemory() {
         mDocument = null;
     }
 

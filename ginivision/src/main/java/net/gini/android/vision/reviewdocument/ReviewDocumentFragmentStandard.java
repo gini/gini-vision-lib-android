@@ -7,16 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import net.gini.android.vision.scanner.photo.Photo;
+import net.gini.android.vision.scanner.Document;
 import net.gini.android.vision.ui.FragmentImplCallback;
 
 public class ReviewDocumentFragmentStandard extends Fragment implements FragmentImplCallback, ReviewDocumentFragmentInterface {
 
     private ReviewDocumentFragmentImpl mFragmentImpl;
 
-    public static ReviewDocumentFragmentStandard createInstance(Photo photo) {
+    public static ReviewDocumentFragmentStandard createInstance(Document document) {
         ReviewDocumentFragmentStandard fragment = new ReviewDocumentFragmentStandard();
-        fragment.setArguments(ReviewDocumentFragmentHelper.createArguments(photo));
+        fragment.setArguments(ReviewDocumentFragmentHelper.createArguments(document));
         return fragment;
     }
 

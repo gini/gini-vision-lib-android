@@ -10,7 +10,6 @@ import android.widget.ImageButton;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.scanner.Document;
-import net.gini.android.vision.scanner.photo.Photo;
 import net.gini.android.vision.ui.FragmentImplCallback;
 
 public class ReviewDocumentFragmentImpl implements ReviewDocumentFragmentInterface {
@@ -40,14 +39,14 @@ public class ReviewDocumentFragmentImpl implements ReviewDocumentFragmentInterfa
     private ImageButton mButtonNext;
 
     private final FragmentImplCallback mFragment;
-    private Photo mPhoto;
+    private Document mDocument;
     private ReviewDocumentFragmentListener mListener = NO_OP_LISTENER;
     private boolean mPhotoWasAnalyzed = false;
     private boolean mPhotoWasModified = false;
 
-    public ReviewDocumentFragmentImpl(FragmentImplCallback fragment, Photo photo) {
+    public ReviewDocumentFragmentImpl(FragmentImplCallback fragment, Document document) {
         mFragment = fragment;
-        mPhoto = photo;
+        mDocument = document;
     }
 
     public void setListener(ReviewDocumentFragmentListener listener) {
@@ -63,7 +62,7 @@ public class ReviewDocumentFragmentImpl implements ReviewDocumentFragmentInterfa
     }
 
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        mListener.onShouldAnalyzeDocument(Document.fromPhoto(mPhoto));
+        mListener.onShouldAnalyzeDocument(mDocument);
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,7 +74,7 @@ public class ReviewDocumentFragmentImpl implements ReviewDocumentFragmentInterfa
     }
 
     public void onDestroy() {
-        mPhoto = null;
+        mDocument = null;
     }
 
     private void bindViews(View view) {
@@ -103,18 +102,17 @@ public class ReviewDocumentFragmentImpl implements ReviewDocumentFragmentInterfa
     }
 
     private void onNextClicked() {
-        Document document = Document.fromPhoto(mPhoto);
         if (!mPhotoWasModified) {
             if (!mPhotoWasAnalyzed) {
                 // TODO: can go on to the analyze screen
-                mListener.onProceedToAnalyzeScreen(document);
+                mListener.onProceedToAnalyzeScreen(mDocument);
             } else {
                 // TODO: photo was not modified and already analyzed, client should show extraction results
-                mListener.onDocumentReviewedAndAnalyzed(document);
+                mListener.onDocumentReviewedAndAnalyzed(mDocument);
             }
         } else {
             // TODO: can go on to the analyze screen
-            mListener.onProceedToAnalyzeScreen(document);
+            mListener.onProceedToAnalyzeScreen(mDocument);
         }
     }
 }

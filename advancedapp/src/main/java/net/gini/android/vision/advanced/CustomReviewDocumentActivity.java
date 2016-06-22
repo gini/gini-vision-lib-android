@@ -27,7 +27,7 @@ public class CustomReviewDocumentActivity extends Activity implements ReviewDocu
     }
 
     private void createFragment() {
-        mFragment = ReviewDocumentFragmentStandard.createInstance(Photo.fromJpeg(new byte[]{}, 0));
+        mFragment = ReviewDocumentFragmentStandard.createInstance(Document.fromPhoto(Photo.fromJpeg(new byte[]{}, 0)));
     }
 
     private void showFragment() {

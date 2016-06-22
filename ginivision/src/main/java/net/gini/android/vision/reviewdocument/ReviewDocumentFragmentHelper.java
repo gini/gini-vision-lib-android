@@ -3,24 +3,24 @@ package net.gini.android.vision.reviewdocument;
 import android.content.Context;
 import android.os.Bundle;
 
-import net.gini.android.vision.scanner.photo.Photo;
+import net.gini.android.vision.scanner.Document;
 import net.gini.android.vision.ui.FragmentImplCallback;
 
 public class ReviewDocumentFragmentHelper {
 
-    private static final String ARGS_PHOTO = "GV_PHOTO";
+    private static final String ARGS_DOCUMENT = "GV_ARGS_DOCUMENT";
 
-    public static Bundle createArguments(Photo photo) {
+    public static Bundle createArguments(Document document) {
         Bundle arguments = new Bundle();
-        arguments.putParcelable(ARGS_PHOTO, photo);
+        arguments.putParcelable(ARGS_DOCUMENT, document);
         return arguments;
     }
 
     static ReviewDocumentFragmentImpl createFragmentImpl(FragmentImplCallback fragment, Bundle arguments) {
         if (arguments != null) {
-            Photo photo = arguments.getParcelable(ARGS_PHOTO);
-            if (photo != null) {
-                return new ReviewDocumentFragmentImpl(fragment, photo);
+            Document document = arguments.getParcelable(ARGS_DOCUMENT);
+            if (document != null) {
+                return new ReviewDocumentFragmentImpl(fragment, document);
             } else {
                 throw new IllegalStateException("ReviewDocumentFragmentCompat and ReviewDocumentFragmentStandard require a Photo. Use the createInstance() method of these classes for instantiating.");
             }

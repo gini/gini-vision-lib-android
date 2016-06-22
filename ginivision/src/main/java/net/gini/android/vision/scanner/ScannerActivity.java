@@ -14,7 +14,6 @@ import net.gini.android.vision.analyse.AnalyseDocumentActivity;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.reviewdocument.ReviewDocumentActivity;
-import net.gini.android.vision.scanner.photo.Photo;
 
 import java.util.ArrayList;
 
@@ -39,7 +38,7 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
     private ArrayList<OnboardingPage> mOnboardingPages;
     private Intent mReviewDocumentActivityIntent;
     private Intent mAnalyseDocumentActivityIntent;
-    private Photo mPhoto;
+    private Document mDocument;
 
     public static <T extends ReviewDocumentActivity> void setReviewDocumentActivityExtra(Intent target,
                                                                                       Context context,
@@ -109,10 +108,10 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
     }
 
     @Override
-    public void onPhotoTaken(Photo photo) {
-        mPhoto = photo;
+    public void onDocumentAvailable(Document document) {
+        mDocument = document;
         // Start ReviewDocumentActivity
-        mReviewDocumentActivityIntent.putExtra(ReviewDocumentActivity.EXTRA_IN_PHOTO, photo);
+        mReviewDocumentActivityIntent.putExtra(ReviewDocumentActivity.EXTRA_IN_DOCUMENT, document);
         startActivityForResult(mReviewDocumentActivityIntent, REVIEW_DOCUMENT_REQUEST);
     }
 
@@ -139,8 +138,8 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
                     if (data == null) {
                         data = new Intent();
                     }
-                    if (mPhoto != null) {
-                        data.putExtra(EXTRA_OUT_ORIGINAL_DOCUMENT, Document.fromPhoto(mPhoto));
+                    if (mDocument != null) {
+                        data.putExtra(EXTRA_OUT_ORIGINAL_DOCUMENT, mDocument);
                     }
                     setResult(RESULT_OK, data);
                     finish();
@@ -156,8 +155,8 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
                     if (data == null) {
                         data = new Intent();
                     }
-                    if (mPhoto != null) {
-                        data.putExtra(EXTRA_OUT_ORIGINAL_DOCUMENT, Document.fromPhoto(mPhoto));
+                    if (mDocument != null) {
+                        data.putExtra(EXTRA_OUT_ORIGINAL_DOCUMENT, mDocument);
                     }
                     setResult(RESULT_OK, data);
                     finish();
@@ -172,6 +171,6 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
     }
 
     private void clearMemory() {
-        mPhoto = null;
+        mDocument = null;
     }
 }

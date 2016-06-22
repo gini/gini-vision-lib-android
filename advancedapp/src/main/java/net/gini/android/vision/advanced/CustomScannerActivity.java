@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.scanner.Document;
 import net.gini.android.vision.scanner.ScannerFragmentListener;
-import net.gini.android.vision.scanner.photo.Photo;
 import net.gini.android.visionadvtest.R;
 
 public class CustomScannerActivity extends Activity implements ScannerFragmentListener {
@@ -18,7 +18,7 @@ public class CustomScannerActivity extends Activity implements ScannerFragmentLi
     }
 
     @Override
-    public void onPhotoTaken(Photo photo) {
+    public void onDocumentAvailable(Document document) {
         Intent intent = new Intent(this, CustomReviewDocumentActivity.class);
         startActivity(intent);
     }

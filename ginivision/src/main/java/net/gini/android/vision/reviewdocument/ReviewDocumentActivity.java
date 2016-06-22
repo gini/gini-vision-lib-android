@@ -7,11 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.scanner.Document;
-import net.gini.android.vision.scanner.photo.Photo;
 
 public abstract class ReviewDocumentActivity extends AppCompatActivity implements ReviewDocumentFragmentListener, ReviewDocumentFragmentInterface {
 
-    public static final String EXTRA_IN_PHOTO = "GV_EXTRA_IN_PHOTO";
+    public static final String EXTRA_IN_DOCUMENT = "GV_EXTRA_IN_DOCUMENT";
     public static final String EXTRA_OUT_DOCUMENT = "GV_EXTRA_OUT_DOCUMENT";
     public static final String EXTRA_OUT_ERROR = "GV_EXTRA_OUT_ERROR";
 
@@ -20,7 +19,7 @@ public abstract class ReviewDocumentActivity extends AppCompatActivity implement
     public static final int RESULT_ERROR = RESULT_FIRST_USER + 3;
 
     private ReviewDocumentFragmentCompat mFragment;
-    private Photo mPhoto;
+    private Document mDocument;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,25 +35,29 @@ public abstract class ReviewDocumentActivity extends AppCompatActivity implement
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mPhoto = null;
+        clearMemory();
+    }
+
+    private void clearMemory() {
+        mDocument = null;
     }
 
     private void readExtras() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            mPhoto = extras.getParcelable(EXTRA_IN_PHOTO);
+            mDocument = extras.getParcelable(EXTRA_IN_DOCUMENT);
         }
         checkRequiredExtras();
     }
 
     private void checkRequiredExtras() {
-        if (mPhoto == null) {
-            throw new IllegalStateException("ReviewDocumentActivity requires a Photo. Set it as an extra using the EXTRA_IN_PHOTO key.");
+        if (mDocument == null) {
+            throw new IllegalStateException("ReviewDocumentActivity requires a Document. Set it as an extra using the EXTRA_IN_DOCUMENT key.");
         }
     }
 
     private void createFragment() {
-        mFragment = ReviewDocumentFragmentCompat.createInstance(mPhoto);
+        mFragment = ReviewDocumentFragmentCompat.createInstance(mDocument);
     }
 
     private void showFragment() {

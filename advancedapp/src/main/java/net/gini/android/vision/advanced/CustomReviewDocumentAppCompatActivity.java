@@ -27,7 +27,7 @@ public class CustomReviewDocumentAppCompatActivity extends AppCompatActivity imp
     }
 
     private void createFragment() {
-        mFragment = ReviewDocumentFragmentCompat.createInstance(Photo.fromJpeg(new byte[]{}, 0));
+        mFragment = ReviewDocumentFragmentCompat.createInstance(Document.fromPhoto(Photo.fromJpeg(new byte[]{}, 0)));
     }
 
     private void showFragment() {
