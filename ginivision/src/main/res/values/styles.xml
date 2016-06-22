@@ -1,11 +1,9 @@
 <resources>
 
-    <!-- Base application theme. -->
     <style name="GiniVisionTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/gv_colorPrimary</item>
-        <item name="colorPrimaryDark">@color/gv_colorPrimaryDark</item>
-        <item name="colorAccent">@color/gv_colorAccent</item>
+        <item name="colorPrimary">@color/gv_action_bar</item>
+        <item name="colorPrimaryDark">@color/gv_status_bar</item>
+        <item name="actionBarStyle">@style/GiniVisionTheme.ActionBar</item>
     </style>
 
     <style name="GiniVisionTheme.Transparent">
@@ -13,6 +11,14 @@
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
+    </style>
+
+    <style name="GiniVisionTheme.ActionBar" parent="Widget.AppCompat.ActionBar.Solid">
+        <item name="titleTextStyle">@style/GiniVisionTheme.ActionBar.TextStyle</item>
+    </style>
+
+    <style name="GiniVisionTheme.ActionBar.TextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/gv_action_bar_title</item>
     </style>
 
 </resources>
