@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import net.gini.android.vision.ActivityHelpers;
+import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analyse.AnalyseDocumentActivity;
@@ -24,7 +25,8 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
      */
     public static final String EXTRA_IN_ONBOARDING_PAGES = "GV_EXTRA_IN_ONBOARDING_PAGES";
     public static final String EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY = "GV_EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY";
-    public static final String EXTRA_IN_ANALYSE_DOCUMENT_ACTIVITY = "EXTRA_IN_ANALYSE_DOCUMENT_ACTIVITY";
+    public static final String EXTRA_IN_ANALYSE_DOCUMENT_ACTIVITY = "GV_EXTRA_IN_ANALYSE_DOCUMENT_ACTIVITY";
+    public static final String EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN = "GV_EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN";
 
     public static final String EXTRA_OUT_ORIGINAL_DOCUMENT = "GV_EXTRA_OUT_ORIGINAL_DOCUMENT";
     public static final String EXTRA_OUT_DOCUMENT = "GV_EXTRA_OUT_DOCUMENT";
@@ -38,11 +40,13 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
     private ArrayList<OnboardingPage> mOnboardingPages;
     private Intent mReviewDocumentActivityIntent;
     private Intent mAnalyseDocumentActivityIntent;
+    private boolean mShowOnboardingAtFirstRun = true;
+    private GiniVisionCoordinator mGiniVisionCoordinator;
     private Document mDocument;
 
     public static <T extends ReviewDocumentActivity> void setReviewDocumentActivityExtra(Intent target,
-                                                                                      Context context,
-                                                                                      Class<T> reviewPhotoActivityClass) {
+                                                                                         Context context,
+                                                                                         Class<T> reviewPhotoActivityClass) {
         ActivityHelpers.setActivityExtra(target, EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY, context, reviewPhotoActivityClass);
     }
 
@@ -57,6 +61,13 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gv_activity_scanner);
         readExtras();
+        createGiniVisionCoordinator();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mGiniVisionCoordinator.onScannerStarted();
     }
 
     @Override
@@ -71,6 +82,7 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
             mOnboardingPages = extras.getParcelableArrayList(EXTRA_IN_ONBOARDING_PAGES);
             mReviewDocumentActivityIntent = extras.getParcelable(EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY);
             mAnalyseDocumentActivityIntent = extras.getParcelable(EXTRA_IN_ANALYSE_DOCUMENT_ACTIVITY);
+            mShowOnboardingAtFirstRun = extras.getBoolean(EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN, true);
         }
         checkRequiredExtras();
     }
@@ -82,6 +94,18 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
         if (mAnalyseDocumentActivityIntent == null) {
             throw new IllegalStateException("ScannerActivity requires an AnalyseDocumentActivity class. Call setAnalyseDocumentActivityExtra() to set it.");
         }
+    }
+
+    private void createGiniVisionCoordinator() {
+        mGiniVisionCoordinator = GiniVisionCoordinator.createInstance(this);
+        mGiniVisionCoordinator
+                .setShowOnboardingAtFirstRun(mShowOnboardingAtFirstRun)
+                .setListener(new GiniVisionCoordinator.Listener() {
+                    @Override
+                    public void onShowOnboarding() {
+                        startOnboardingActivity();
+                    }
+                });
     }
 
     @Override
