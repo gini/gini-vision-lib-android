@@ -1,5 +1,10 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="gini_vision_activity_horizontal_margin">16dp</dimen>
-    <dimen name="gini_vision_activity_vertical_margin">16dp</dimen>
+    <dimen name="gv_activity_horizontal_margin">16dp</dimen>
+    <dimen name="gv_activity_vertical_margin">16dp</dimen>
+
+    <dimen name="gv_camera_preview_corners_padding">20dp</dimen>
+    <dimen name="gv_camera_button_vertical_margin">20dp</dimen>
+    <dimen name="gv_camera_roll_vertical_margin">20dp</dimen>
+    <dimen name="gv_camera_roll_horizontal_margin">20dp</dimen>
 </resources>

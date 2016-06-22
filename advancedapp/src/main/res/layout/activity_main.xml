@@ -3,17 +3,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/gini_vision_activity_vertical_margin"
-    android:paddingLeft="@dimen/gini_vision_activity_horizontal_margin"
-    android:paddingRight="@dimen/gini_vision_activity_horizontal_margin"
-    android:paddingTop="@dimen/gini_vision_activity_vertical_margin"
+    android:paddingBottom="@dimen/gv_activity_vertical_margin"
+    android:paddingLeft="@dimen/gv_activity_horizontal_margin"
+    android:paddingRight="@dimen/gv_activity_horizontal_margin"
+    android:paddingTop="@dimen/gv_activity_vertical_margin"
     tools:context="net.gini.android.vision.advanced.MainActivity">
 
-    <Button
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start Scanner"
-        android:id="@+id/button_start_scanner"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/button_start_scanner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Start Scanner Standard" />
+
+        <Button
+            android:id="@+id/button_start_scanner_compat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Start Scanner Compat" />
+
+    </LinearLayout>
 </RelativeLayout>

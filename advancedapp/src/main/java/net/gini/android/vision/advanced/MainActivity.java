@@ -1,16 +1,17 @@
 package net.gini.android.vision.advanced;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
 import net.gini.android.visionadvtest.R;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     private Button mButtonStartScanner;
+    private Button mButtonStartScannerCompat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,12 @@ public class MainActivity extends AppCompatActivity {
                 startScanner();
             }
         });
+        mButtonStartScannerCompat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startScannerCompat();
+            }
+        });
     }
 
     private void startScanner() {
@@ -34,7 +41,13 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void startScannerCompat() {
+        Intent intent = new Intent(this, CustomScannerAppCompatActivity.class);
+        startActivity(intent);
+    }
+
     private void bindViews() {
         mButtonStartScanner = (Button) findViewById(R.id.button_start_scanner);
+        mButtonStartScannerCompat = (Button) findViewById(R.id.button_start_scanner_compat);
     }
 }
