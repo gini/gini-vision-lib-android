@@ -29,6 +29,7 @@ public class OnboardingFragmentStandard extends Fragment implements FragmentImpl
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFragmentImpl = OnboardingFragmentHelper.createFragmentImpl(this, getArguments());
+        OnboardingFragmentHelper.setListener(mFragmentImpl, getActivity());
     }
 
     @Nullable
