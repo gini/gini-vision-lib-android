@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="net.gini.android.vision.scanner.ScannerActivity"
-    android:background="@color/gv_activities_background">
+    android:background="@color/gv_scanner_activity_background"
+    tools:context="net.gini.android.vision.scanner.ScannerActivity">
 
     <fragment
         android:id="@+id/gv_fragment_scanner"
