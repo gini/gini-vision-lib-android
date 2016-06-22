@@ -20,6 +20,10 @@ public class ReviewDocumentFragmentCompat extends Fragment implements FragmentIm
         return fragment;
     }
 
+    /**
+     * @exclude
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,12 +32,22 @@ public class ReviewDocumentFragmentCompat extends Fragment implements FragmentIm
         mFragmentImpl.onCreate(savedInstanceState);
     }
 
+    /**
+     * @exclude
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return mFragmentImpl.onCreateView(inflater, container, savedInstanceState);
     }
 
+    /**
+     * @exclude
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();

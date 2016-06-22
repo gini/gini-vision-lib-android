@@ -9,7 +9,7 @@ import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.scanner.Document;
 import net.gini.android.vision.ui.FragmentImplCallback;
 
-public class AnalyseDocumentFragmentImpl implements AnalyseDocumentFragmentInterface {
+class AnalyseDocumentFragmentImpl implements AnalyseDocumentFragmentInterface {
 
     private static final AnalyseDocumentFragmentListener NO_OP_LISTENER = new AnalyseDocumentFragmentListener() {
         @Override

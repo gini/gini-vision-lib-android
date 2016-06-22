@@ -6,7 +6,7 @@ import android.os.Bundle;
 import net.gini.android.vision.scanner.Document;
 import net.gini.android.vision.ui.FragmentImplCallback;
 
-public class ReviewDocumentFragmentHelper {
+class ReviewDocumentFragmentHelper {
 
     private static final String ARGS_DOCUMENT = "GV_ARGS_DOCUMENT";
 

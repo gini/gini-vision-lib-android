@@ -10,14 +10,28 @@ public class Document implements Parcelable {
 
     private final byte[] mJpeg;
 
+    /**
+     * @exclude
+     * @param photo
+     * @return
+     */
     public static Document fromPhoto(Photo photo) {
         return new Document(photo.getJpeg());
     }
 
-    public Document(byte[] jpeg) {
+    private Document(byte[] jpeg) {
         mJpeg = jpeg;
     }
 
+    public byte[] getJpeg() {
+        return mJpeg;
+    }
+
+    /**
+     * @exclude
+     * @param dest
+     * @param flags
+     */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         ImageCache cache = ImageCache.getInstance();
@@ -26,11 +40,18 @@ public class Document implements Parcelable {
         dest.writeParcelable(token, flags);
     }
 
+    /**
+     * @exclude
+     * @return
+     */
     @Override
     public int describeContents() {
         return 0;
     }
 
+    /**
+     * @exclude
+     */
     public static final Creator<Document> CREATOR = new Creator<Document>() {
         @Override
         public Document createFromParcel(Parcel in) {
@@ -43,7 +64,7 @@ public class Document implements Parcelable {
         }
     };
 
-    protected Document(Parcel in) {
+    private Document(Parcel in) {
         ImageCache cache = ImageCache.getInstance();
 
         ImageCache.Token token = in.readParcelable(ImageCache.Token.class.getClassLoader());

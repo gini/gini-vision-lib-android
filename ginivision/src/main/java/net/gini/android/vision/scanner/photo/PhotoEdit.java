@@ -8,6 +8,9 @@ import android.support.annotation.NonNull;
 
 import java.io.ByteArrayOutputStream;
 
+/**
+ * @exclude
+ */
 public class PhotoEdit {
 
     private static final int DEF_QUALITY = 100;

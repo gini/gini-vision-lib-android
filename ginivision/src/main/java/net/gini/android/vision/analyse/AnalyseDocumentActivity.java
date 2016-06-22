@@ -8,6 +8,10 @@ import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.scanner.Document;
 
+/**
+ * Activity for displaying the captured document and an activity indicator while the document is being analysed by
+ * the Gini API.
+ */
 public abstract class AnalyseDocumentActivity extends AppCompatActivity implements AnalyseDocumentFragmentListener, AnalyseDocumentFragmentInterface {
 
     public static final String EXTRA_IN_DOCUMENT = "GV_EXTRA_IN_DOCUMENT";
@@ -94,5 +98,5 @@ public abstract class AnalyseDocumentActivity extends AppCompatActivity implemen
         finish();
     }
 
-    protected abstract void onAddDataToResult(Intent result);
+    public abstract void onAddDataToResult(Intent result);
 }

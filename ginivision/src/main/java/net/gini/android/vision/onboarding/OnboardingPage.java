@@ -25,17 +25,29 @@ public class OnboardingPage implements Parcelable {
         return mImageResId;
     }
 
+    /**
+     * @exclude
+     * @return
+     */
     @Override
     public int describeContents() {
         return 0;
     }
 
+    /**
+     * @exclude
+     * @param dest
+     * @param flags
+     */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(mTextResId);
         dest.writeInt(mImageResId);
     }
 
+    /**
+     * @exclude
+     */
     public static final Creator<OnboardingPage> CREATOR = new Creator<OnboardingPage>() {
         @Override
         public OnboardingPage createFromParcel(Parcel in) {

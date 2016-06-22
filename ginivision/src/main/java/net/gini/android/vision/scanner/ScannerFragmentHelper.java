@@ -2,7 +2,7 @@ package net.gini.android.vision.scanner;
 
 import android.content.Context;
 
-public class ScannerFragmentHelper {
+class ScannerFragmentHelper {
 
     public static void setListener(ScannerFragmentImpl fragmentImpl, Context context) {
         if (context instanceof ScannerFragmentListener) {

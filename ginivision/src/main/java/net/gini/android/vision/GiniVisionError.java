@@ -24,17 +24,29 @@ public class GiniVisionError implements Parcelable {
         return mMessage;
     }
 
+    /**
+     * @exclude
+     * @return
+     */
     @Override
     public int describeContents() {
         return 0;
     }
 
+    /**
+     * @exclude
+     * @param dest
+     * @param flags
+     */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(mErrorCode.ordinal());
         dest.writeString(mMessage);
     }
 
+    /**
+     * @exclude
+     */
     public static final Creator<GiniVisionError> CREATOR = new Creator<GiniVisionError>() {
         @Override
         public GiniVisionError createFromParcel(Parcel in) {
@@ -47,7 +59,7 @@ public class GiniVisionError implements Parcelable {
         }
     };
 
-    protected GiniVisionError(Parcel in) {
+    private GiniVisionError(Parcel in) {
         mErrorCode = ErrorCode.values()[in.readInt()];
         mMessage = in.readString();
     }

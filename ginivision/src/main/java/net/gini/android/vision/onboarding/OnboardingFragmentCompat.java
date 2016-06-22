@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import net.gini.android.vision.reviewdocument.ReviewDocumentFragmentHelper;
 import net.gini.android.vision.ui.FragmentImplCallback;
 
 import java.util.ArrayList;
@@ -26,6 +25,10 @@ public class OnboardingFragmentCompat extends Fragment implements FragmentImplCa
         return fragment;
     }
 
+    /**
+     * @exclude
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +36,13 @@ public class OnboardingFragmentCompat extends Fragment implements FragmentImplCa
         OnboardingFragmentHelper.setListener(mFragmentImpl, getActivity());
     }
 
+    /**
+     * @exclude
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

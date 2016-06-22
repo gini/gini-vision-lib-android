@@ -15,6 +15,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+/**
+ * @exclude
+ */
 public class Photo implements Parcelable {
 
     private Bitmap mBitmapPreview;

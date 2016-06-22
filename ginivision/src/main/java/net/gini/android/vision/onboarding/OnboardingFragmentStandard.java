@@ -25,6 +25,10 @@ public class OnboardingFragmentStandard extends Fragment implements FragmentImpl
         return fragment;
     }
 
+    /**
+     * @exclude
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +36,13 @@ public class OnboardingFragmentStandard extends Fragment implements FragmentImpl
         OnboardingFragmentHelper.setListener(mFragmentImpl, getActivity());
     }
 
+    /**
+     * @exclude
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

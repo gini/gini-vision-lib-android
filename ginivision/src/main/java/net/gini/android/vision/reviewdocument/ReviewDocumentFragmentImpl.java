@@ -12,7 +12,7 @@ import net.gini.android.vision.R;
 import net.gini.android.vision.scanner.Document;
 import net.gini.android.vision.ui.FragmentImplCallback;
 
-public class ReviewDocumentFragmentImpl implements ReviewDocumentFragmentInterface {
+class ReviewDocumentFragmentImpl implements ReviewDocumentFragmentInterface {
 
     private static final ReviewDocumentFragmentListener NO_OP_LISTENER = new ReviewDocumentFragmentListener() {
         @Override

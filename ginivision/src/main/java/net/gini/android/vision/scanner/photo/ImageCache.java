@@ -15,6 +15,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  * because it is not possible to pass large bitmaps via intents.
  *
  * You should never use this service directly but instead work with the Photo.
+ *
+ * @exclude
  */
 public enum ImageCache {
 

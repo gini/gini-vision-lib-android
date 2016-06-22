@@ -12,12 +12,23 @@ public class ScannerFragmentCompat extends Fragment {
 
     private final ScannerFragmentImpl mFragmentImpl = new ScannerFragmentImpl();
 
+    /**
+     * @exclude
+     * @param context
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         ScannerFragmentHelper.setListener(mFragmentImpl, context);
     }
 
+    /**
+     * @exclude
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

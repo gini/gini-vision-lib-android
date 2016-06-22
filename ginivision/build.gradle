@@ -29,3 +29,20 @@ dependencies {
 apply from: rootProject.file('gradle/codequality.gradle')
 
 apply from: rootProject.file('gradle/maven.gradle')
+
+android.libraryVariants.all { variant ->
+    task("generate${variant.name.capitalize()}Javadoc", type: Javadoc) {
+        source = variant.javaCompile.source
+        exclude '**/BuildConfig.java'
+        exclude '**/R.java'
+        exclude '**/TouchImageView.java'
+        failOnError = false
+        options.showFromPublic()
+        List pathList = new ArrayList();
+        pathList.add(file("${project.rootDir}/tools/excludedoclet/doclet.jar"));
+        options.docletpath = pathList
+        options.doclet = "ExcludeDoclet"
+    }
+}
+
+

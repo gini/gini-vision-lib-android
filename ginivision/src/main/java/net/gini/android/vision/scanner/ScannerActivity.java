@@ -108,12 +108,22 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
                 });
     }
 
+    /**
+     * @exclude
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.gv_scanner, menu);
         return true;
     }
 
+    /**
+     * @exclude
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.gv_action_show_onboarding) {

@@ -3,8 +3,6 @@ package net.gini.android.vision.onboarding;
 import android.content.Context;
 import android.os.Bundle;
 
-import net.gini.android.vision.reviewdocument.ReviewDocumentFragmentImpl;
-import net.gini.android.vision.reviewdocument.ReviewDocumentFragmentListener;
 import net.gini.android.vision.ui.FragmentImplCallback;
 
 import java.util.ArrayList;
