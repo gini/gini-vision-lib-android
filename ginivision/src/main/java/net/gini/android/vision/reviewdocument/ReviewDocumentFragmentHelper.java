@@ -22,10 +22,10 @@ class ReviewDocumentFragmentHelper {
             if (document != null) {
                 return new ReviewDocumentFragmentImpl(fragment, document);
             } else {
-                throw new IllegalStateException("ReviewDocumentFragmentCompat and ReviewDocumentFragmentStandard require a Photo. Use the createInstance() method of these classes for instantiating.");
+                throw new IllegalStateException("ReviewDocumentFragmentCompat and ReviewDocumentFragmentStandard require a Document. Use the createInstance() method of these classes for instantiating.");
             }
         } else {
-            throw new IllegalStateException("ReviewDocumentFragmentCompat and ReviewDocumentFragmentStandard require a Photo. Use the createInstance() method of these classes for instantiating.");
+            throw new IllegalStateException("ReviewDocumentFragmentCompat and ReviewDocumentFragmentStandard require a Document. Use the createInstance() method of these classes for instantiating.");
         }
     }
 

@@ -6,14 +6,28 @@ import android.os.Parcelable;
 import net.gini.android.vision.scanner.photo.ImageCache;
 import net.gini.android.vision.scanner.photo.Photo;
 
+/**
+ * <p>
+ * This class is the container for transferring the image of a document as a JPEG between the client application and the
+ * Gini Vision Lib and between the Fragments of the Gini Vision Lib.
+ * </p>
+ *
+ * <p>
+ * Due to the size limitations of the {@link android.os.Bundle}, the JPEG has to be stored in a memory cache when
+ * parceling and read from the cache when unparceling.
+ * </p>
+ *
+ * <p>
+ * <b>Note:</b> Always retrieve the {@link Document} extras from a Bundle to force unparceling and removing of the reference to
+ * the JPEG byte array from the memory cache. Failing to do so will lead to memory leaks.
+ * </p>
+ */
 public class Document implements Parcelable {
 
     private final byte[] mJpeg;
 
     /**
      * @exclude
-     * @param photo
-     * @return
      */
     public static Document fromPhoto(Photo photo) {
         return new Document(photo.getJpeg());
@@ -23,14 +37,17 @@ public class Document implements Parcelable {
         mJpeg = jpeg;
     }
 
+    /**
+     * The image of a document as a JPEG.
+     *
+     * @return a byte array containg a JPEG
+     */
     public byte[] getJpeg() {
         return mJpeg;
     }
 
     /**
      * @exclude
-     * @param dest
-     * @param flags
      */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
@@ -42,7 +59,6 @@ public class Document implements Parcelable {
 
     /**
      * @exclude
-     * @return
      */
     @Override
     public int describeContents() {
