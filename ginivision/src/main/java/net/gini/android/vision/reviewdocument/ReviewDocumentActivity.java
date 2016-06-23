@@ -17,7 +17,7 @@ import net.gini.android.vision.scanner.Document;
  *     You must extend the {@code ReviewDocumentActivity} in your application and provide it to the {@link net.gini.android.vision.scanner.ScannerActivity} by using the {@link net.gini.android.vision.scanner.ScannerActivity#setReviewDocumentActivityExtra(Intent, Context, Class)} helper method.
  * </p>
  * <p>
- *     Note: {@code ReviewDocumentActivity} extends {@link AppCompatActivity} and requires an AppCompat Theme.
+ *     <b>Note:</b> {@code ReviewDocumentActivity} extends {@link AppCompatActivity} and requires an AppCompat Theme.
  * </p>
  * <p>
  *     The {@code ReviewDocumentActivity} is started by the {@link net.gini.android.vision.scanner.ScannerActivity} after the user took an image of a document.

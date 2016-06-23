@@ -15,7 +15,7 @@ import net.gini.android.vision.ui.FragmentImplCallback;
  *     When using the Compontent API {@code ReviewDocumentFragmentStandard} displays the photographed document and allows the user to review it by checking the sharpness, quality and orientation of the image. The user can correct the orientation by rotating the image.
  * </p>
  * <p>
- *     Include the {@code ReviewDocumentFragmentStandard} into your layout by using the {@link ReviewDocumentFragmentStandard#createInstance(Document)} factory method to create an instance and display it using the {@link android.support.v4.app.FragmentManager}.
+ *     Include the {@code ReviewDocumentFragmentStandard} into your layout by using the {@link ReviewDocumentFragmentStandard#createInstance(Document)} factory method to create an instance and display it using the {@link android.app.FragmentManager}.
  * </p>
  * <p>
  *     Your Activity must implement the {@link ReviewDocumentFragmentListener} interface to receive events from the Review Document Fragment. Failing to do so will throw an exception.
