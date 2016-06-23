@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>Gini Vision Lib for Android</title>
+</head>
+<body>
+
+<p>
+    The Gini Vision Lib for Android provides Activities and Fragments for capturing, reviewing and analysing documents.
+</p>
+<p>
+    By integrating this library in your application you can allow your users to easily take pictures of documents, review them and - by implementing the necessary callbacks - upload the document for analysis to the Gini API.
+</p>
+<p>
+    Communicating with the Gini API is not part of this library. You can either use the Gini API SDK for Android or implement communicating with the Gini API yourself.
+</p>
+<p>
+    The Gini Vision Lib for Android can be integrated in two ways, either by using the Screen API or the Component API. The Screen API provides Activities for easy integration, while the Component API provides Fragments for advanced integration with more freedom for customisation.
+</p>
+<p>
+    Customising the Views is provided mostly via app resources overriding: dimensions, strings, colors, texts, etc. The Onboarding can also be customised to show your own pages, each consisting of an image and a short text.
+</p>
+
+<h3>Screen API</h3>
+
+<p>
+    The Screen API provides a main Activity with which to start the Gini Vision Lib and two abstract Activities which you need to override to react to events coming from the Gini Vision Lib.
+</p>
+<p>
+    For supporting the widest variety of Android versions while keeping the look and feel consistent, we use the Android Support Library and provide only Activities subclassing the AppCompatActivity.
+</p>
+
+<h3>Component API</h3>
+
+<p>
+    The Component API provides four Fragments which you can include in your own layouts. This allows you more freedom for customising the Gini Vision Lib, by not restricting you to AppCompatActivities and the Gini Vision Lib Theme.
+</p>
+<p>
+    To allow usage even, if you aren't using the Android Support Library, we provide a Standard and a Compat version of each Fragment.
+</p>
+
+@version 2.0
+@author Gini GmbH
+</body>
+</html>

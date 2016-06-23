@@ -42,6 +42,11 @@ android.libraryVariants.all { variant ->
         pathList.add(file("${project.rootDir}/tools/excludedoclet/doclet.jar"));
         options.docletpath = pathList
         options.doclet = "ExcludeDoclet"
+        options.overview = 'src/main/java/net/gini/android/vision/overview.html'
+        options.version = true
+        options.author = true
+        options.windowTitle = "Gini Vision Lib for Android"
+        options.docTitle = "Gini Vision Lib for Android"
     }
 }
 
