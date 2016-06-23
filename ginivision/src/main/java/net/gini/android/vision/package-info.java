@@ -1,7 +1,9 @@
 /**
- * The Gini Vision Library provides functionality to capture documents with mobile phones.
- *
- * The captured images can be reviewed and rotated to the correct orientation by the user and are optimized on the device
- * to provide the best results when used with the Gini API.
+ * <p>
+ * The Gini Vision Lib for Android provides Activities and Fragments for capturing, reviewing and analysing documents.
+ * </p>
+ * <p>
+ * For details please consult the <a href="../../../../overview-summary.html" target="classFrame">Overview</a>.
+ * </p>
  */
 package net.gini.android.vision;
