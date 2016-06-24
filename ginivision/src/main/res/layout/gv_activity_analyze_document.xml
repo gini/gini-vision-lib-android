@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gv_analyse_document_activity_background"
+    android:background="@color/gv_analyze_document_activity_background"
     tools:context="net.gini.android.vision.scanner.ScannerActivity">
 
     <FrameLayout
-        android:id="@+id/gv_fragment_analyse_document"
+        android:id="@+id/gv_fragment_analyze_document"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

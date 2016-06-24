@@ -30,9 +30,9 @@
     <color name="gv_review_document_bottom_panel_background">#262626</color>
     <color name="gv_review_document_bottom_panel_text">#fff</color>
 
-    <color name="gv_analyse_document_activity_background">@android:color/transparent</color>
-    <color name="gv_analyse_document_fragment_background">@color/gv_background</color>
-    <color name="gv_analyse_document_activity_indicator">#fa6912</color>
+    <color name="gv_analyze_document_activity_background">@android:color/transparent</color>
+    <color name="gv_analyze_document_fragment_background">@color/gv_background</color>
+    <color name="gv_analyze_document_activity_indicator">#fa6912</color>
 
 
 </resources>

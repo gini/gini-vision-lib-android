@@ -7,7 +7,7 @@ import android.os.Handler;
 import android.widget.Toast;
 
 import net.gini.android.vision.GiniVisionError;
-import net.gini.android.vision.analyse.AnalyseDocumentActivity;
+import net.gini.android.vision.analyze.AnalyzeDocumentActivity;
 import net.gini.android.vision.reviewdocument.ReviewDocumentFragmentListener;
 import net.gini.android.vision.reviewdocument.ReviewDocumentFragmentStandard;
 import net.gini.android.vision.scanner.Document;
@@ -38,25 +38,25 @@ public class CustomReviewDocumentActivity extends Activity implements ReviewDocu
     }
 
     @Override
-    public void onShouldAnalyseDocument(Document document) {
+    public void onShouldAnalyzeDocument(Document document) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mFragment.onDocumentAnalysed();
+                mFragment.onDocumentAnalyzed();
                 Toast.makeText(CustomReviewDocumentActivity.this, "Photo was analyzed", Toast.LENGTH_SHORT).show();
             }
         }, 2000);
     }
 
     @Override
-    public void onProceedToAnalyseScreen(Document document) {
-        Intent intent = new Intent(this, CustomAnalyseDocumentActivity.class);
-        intent.putExtra(AnalyseDocumentActivity.EXTRA_IN_DOCUMENT, document);
+    public void onProceedToAnalyzeScreen(Document document) {
+        Intent intent = new Intent(this, CustomAnalyzeDocumentActivity.class);
+        intent.putExtra(AnalyzeDocumentActivity.EXTRA_IN_DOCUMENT, document);
         startActivity(intent);
     }
 
     @Override
-    public void onDocumentReviewedAndAnalysed(Document document) {
+    public void onDocumentReviewedAndAnalyzed(Document document) {
         Toast.makeText(this, "Photo extractions received", Toast.LENGTH_SHORT).show();
         finish();
     }

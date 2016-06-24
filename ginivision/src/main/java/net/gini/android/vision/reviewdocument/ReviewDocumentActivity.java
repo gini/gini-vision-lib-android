@@ -25,8 +25,8 @@ import net.gini.android.vision.scanner.Document;
  * <p>
  *     In your {@code ReviewDocumentActivity} subclass you have to implement the following methods:
  *     <ul>
- *         <li>{@link ReviewDocumentActivity#onShouldAnalyseDocument(Document)} - you should start analysing the original document by sending it to the Gini API. We assume that in most cases the photo is good enough and this way we are able to provide analysis results quicker.<br/><b>Note:</b> Call {@link ReviewDocumentActivity#onDocumentAnalysed()} when the analysis is done and the Activity wasn't stopped.</li>
- *         <li>{@link ReviewDocumentActivity#onAddDataToResult(Intent)} - you can add the results of the analysis to the Intent as extras and retrieve them when the {@link net.gini.android.vision.scanner.ScannerActivity} returned.<br/>This is called only, if you called {@link ReviewDocumentActivity#onDocumentAnalysed()} and the image wasn't changed before the user tapped on the Next button.<br/>When this is called, your {@link net.gini.android.vision.analyse.AnalyseDocumentActivity} subclass is not launched, instead control is returned to your Activity which started the {@link net.gini.android.vision.scanner.ScannerActivity} and you can extract the results of the analysis.</li>
+ *         <li>{@link ReviewDocumentActivity#onShouldAnalyzeDocument(Document)} - you should start analysing the original document by sending it to the Gini API. We assume that in most cases the photo is good enough and this way we are able to provide analysis results quicker.<br/><b>Note:</b> Call {@link ReviewDocumentActivity#onDocumentAnalyzed()} when the analysis is done and the Activity wasn't stopped.</li>
+ *         <li>{@link ReviewDocumentActivity#onAddDataToResult(Intent)} - you can add the results of the analysis to the Intent as extras and retrieve them when the {@link net.gini.android.vision.scanner.ScannerActivity} returned.<br/>This is called only, if you called {@link ReviewDocumentActivity#onDocumentAnalyzed()} and the image wasn't changed before the user tapped on the Next button.<br/>When this is called, your {@link net.gini.android.vision.analyze.AnalyzeDocumentActivity} subclass is not launched, instead control is returned to your Activity which started the {@link net.gini.android.vision.scanner.ScannerActivity} and you can extract the results of the analysis.</li>
  *     </ul>
  * </p>
  *
@@ -142,10 +142,10 @@ public abstract class ReviewDocumentActivity extends AppCompatActivity implement
     // callback for subclasses for uploading the photo before it was reviewed, if the photo is not changed
     // no new upload is required
     @Override
-    public abstract void onShouldAnalyseDocument(Document document);
+    public abstract void onShouldAnalyzeDocument(Document document);
 
     @Override
-    public void onProceedToAnalyseScreen(Document document) {
+    public void onProceedToAnalyzeScreen(Document document) {
         Intent result = new Intent();
         result.putExtra(EXTRA_OUT_DOCUMENT, document);
         onAddDataToResult(result);
@@ -154,7 +154,7 @@ public abstract class ReviewDocumentActivity extends AppCompatActivity implement
     }
 
     @Override
-    public void onDocumentReviewedAndAnalysed(Document document) {
+    public void onDocumentReviewedAndAnalyzed(Document document) {
         Intent result = new Intent();
         result.putExtra(EXTRA_OUT_DOCUMENT, document);
         onAddDataToResult(result);
@@ -167,23 +167,23 @@ public abstract class ReviewDocumentActivity extends AppCompatActivity implement
      *     Callback for adding your own data to the Activity's result.
      * </p>
      * <p>
-     *     Called when the document was analysed and wasn't modified at the time the user tapped on the Next button.
+     *     Called when the document was analyzed and wasn't modified at the time the user tapped on the Next button.
      * </p>
      * <p>
      *     You should add the results of the analysis as extras and retrieve them when the {@link net.gini.android.vision.scanner.ScannerActivity} returned.
      * </p>
      * <p>
-     *     <b>Note:</b> you should call {@link ReviewDocumentActivity#onDocumentAnalysed()} after you received the analysis results from the Gini API, otherwise this method won't be invoked.
+     *     <b>Note:</b> you should call {@link ReviewDocumentActivity#onDocumentAnalyzed()} after you received the analysis results from the Gini API, otherwise this method won't be invoked.
      * </p>
      * @param result the {@link Intent} which will be returned as the result data.
      */
     public abstract void onAddDataToResult(Intent result);
 
-    // TODO: call this, if the photo was analysed before the review was completed, it prevents the analyse activity to
-    // be started, if the photo was already analysed and the user didn't change it
+    // TODO: call this, if the photo was analyzed before the review was completed, it prevents the analyze activity to
+    // be started, if the photo was already analyzed and the user didn't change it
     @Override
-    public void onDocumentAnalysed() {
-        mFragment.onDocumentAnalysed();
+    public void onDocumentAnalyzed() {
+        mFragment.onDocumentAnalyzed();
     }
 
     @Override

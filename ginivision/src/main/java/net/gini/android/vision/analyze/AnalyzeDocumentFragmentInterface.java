@@ -1,11 +1,11 @@
-package net.gini.android.vision.analyse;
+package net.gini.android.vision.analyze;
 
 /**
  * <p>
- *     Methods which both Analyse Document Fragment's must implement.
+ *     Methods which both Analyze Document Fragment's must implement.
  * </p>
  */
-public interface AnalyseDocumentFragmentInterface {
+public interface AnalyzeDocumentFragmentInterface {
     /**
      * <p>
      *     You should call this method when you start the document analysis using the Gini API.
@@ -25,5 +25,5 @@ public interface AnalyseDocumentFragmentInterface {
      *     You should call this method after you received the analysis results from the Gini API.
      * </p>
      */
-    void onDocumentAnalysed();
+    void onDocumentAnalyzed();
 }

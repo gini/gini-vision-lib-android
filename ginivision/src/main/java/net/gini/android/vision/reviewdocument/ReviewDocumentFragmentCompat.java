@@ -89,10 +89,10 @@ public class ReviewDocumentFragmentCompat extends Fragment implements FragmentIm
     }
 
     @Override
-    public void onDocumentAnalysed() {
+    public void onDocumentAnalyzed() {
         if (mFragmentImpl == null) {
             return;
         }
-        mFragmentImpl.onDocumentAnalysed();
+        mFragmentImpl.onDocumentAnalyzed();
     }
 }

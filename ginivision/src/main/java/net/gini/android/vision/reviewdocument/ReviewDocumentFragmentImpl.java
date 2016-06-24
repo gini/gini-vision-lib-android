@@ -16,17 +16,17 @@ class ReviewDocumentFragmentImpl implements ReviewDocumentFragmentInterface {
 
     private static final ReviewDocumentFragmentListener NO_OP_LISTENER = new ReviewDocumentFragmentListener() {
         @Override
-        public void onShouldAnalyseDocument(Document document) {
+        public void onShouldAnalyzeDocument(Document document) {
 
         }
 
         @Override
-        public void onProceedToAnalyseScreen(Document document) {
+        public void onProceedToAnalyzeScreen(Document document) {
 
         }
 
         @Override
-        public void onDocumentReviewedAndAnalysed(Document document) {
+        public void onDocumentReviewedAndAnalyzed(Document document) {
 
         }
 
@@ -41,7 +41,7 @@ class ReviewDocumentFragmentImpl implements ReviewDocumentFragmentInterface {
     private final FragmentImplCallback mFragment;
     private Document mDocument;
     private ReviewDocumentFragmentListener mListener = NO_OP_LISTENER;
-    private boolean mPhotoWasAnalysed = false;
+    private boolean mPhotoWasAnalyzed = false;
     private boolean mPhotoWasModified = false;
 
     public ReviewDocumentFragmentImpl(FragmentImplCallback fragment, Document document) {
@@ -57,12 +57,12 @@ class ReviewDocumentFragmentImpl implements ReviewDocumentFragmentInterface {
         }
     }
 
-    public void onDocumentAnalysed() {
-        mPhotoWasAnalysed = true;
+    public void onDocumentAnalyzed() {
+        mPhotoWasAnalyzed = true;
     }
 
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        mListener.onShouldAnalyseDocument(mDocument);
+        mListener.onShouldAnalyzeDocument(mDocument);
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -103,16 +103,16 @@ class ReviewDocumentFragmentImpl implements ReviewDocumentFragmentInterface {
 
     private void onNextClicked() {
         if (!mPhotoWasModified) {
-            if (!mPhotoWasAnalysed) {
-                // TODO: can go on to the analyse screen
-                mListener.onProceedToAnalyseScreen(mDocument);
+            if (!mPhotoWasAnalyzed) {
+                // TODO: can go on to the analyze screen
+                mListener.onProceedToAnalyzeScreen(mDocument);
             } else {
-                // TODO: photo was not modified and already analysed, client should show extraction results
-                mListener.onDocumentReviewedAndAnalysed(mDocument);
+                // TODO: photo was not modified and already analyzed, client should show extraction results
+                mListener.onDocumentReviewedAndAnalyzed(mDocument);
             }
         } else {
-            // TODO: can go on to the analyse screen
-            mListener.onProceedToAnalyseScreen(mDocument);
+            // TODO: can go on to the analyze screen
+            mListener.onProceedToAnalyzeScreen(mDocument);
         }
     }
 }

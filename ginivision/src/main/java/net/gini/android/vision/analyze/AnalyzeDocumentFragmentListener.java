@@ -1,21 +1,21 @@
-package net.gini.android.vision.analyse;
+package net.gini.android.vision.analyze;
 
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.scanner.Document;
 
 /**
  * <p>
- * Interface used by {@link AnalyseDocumentFragmentStandard} and {@link AnalyseDocumentFragmentCompat} to dispatch events to the hosting Activity.
+ * Interface used by {@link AnalyzeDocumentFragmentStandard} and {@link AnalyzeDocumentFragmentCompat} to dispatch events to the hosting Activity.
  * </p>
  */
-public interface AnalyseDocumentFragmentListener {
+public interface AnalyzeDocumentFragmentListener {
     /**
      * <p>
-     *     Called when the Analyse Document Fragment started and the document can be analysed.
+     *     Called when the Analyze Document Fragment started and the document can be analyzed.
      * </p>
      * @param document contains the image taken by the camera (original or modified)
      */
-    void onAnalyseDocument(Document document);
+    void onAnalyzeDocument(Document document);
 
     /**
      * <p>

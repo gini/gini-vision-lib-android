@@ -16,11 +16,11 @@ public interface ReviewDocumentFragmentInterface {
      *     This is important for managing the behaviour of the Review Document Fragment when the Next button was clicked.
      * </p>
      * <p>
-     *     If the document was already analysed and the image wasn't changed when the user tapped the Next button, {@link ReviewDocumentFragmentListener#onDocumentReviewedAndAnalysed(Document)} is called and there is no need to show an {@link net.gini.android.vision.analyse.AnalyseDocumentActivity} or {@link net.gini.android.vision.analyse.AnalyseDocumentFragmentStandard} or {@link net.gini.android.vision.analyse.AnalyseDocumentFragmentCompat}.
+     *     If the document was already analyzed and the image wasn't changed when the user tapped the Next button, {@link ReviewDocumentFragmentListener#onDocumentReviewedAndAnalyzed(Document)} is called and there is no need to show an {@link net.gini.android.vision.analyze.AnalyzeDocumentActivity} or {@link net.gini.android.vision.analyze.AnalyzeDocumentFragmentStandard} or {@link net.gini.android.vision.analyze.AnalyzeDocumentFragmentCompat}.
      * </p>
      * <p>
-     *     If the document wasn't analysed or the image was changed when the user tapped the Next button, {@link ReviewDocumentFragmentListener#onProceedToAnalyseScreen(Document)} is called.
+     *     If the document wasn't analyzed or the image was changed when the user tapped the Next button, {@link ReviewDocumentFragmentListener#onProceedToAnalyzeScreen(Document)} is called.
      * </p>
      */
-    void onDocumentAnalysed();
+    void onDocumentAnalyzed();
 }

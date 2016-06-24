@@ -16,8 +16,8 @@ public class MainActivity extends Activity {
     private Button mButtonStartOnboardingCompat;
     private Button mButtonStartReviewDocument;
     private Button mButtonStartReviewDocumentCompat;
-    private Button mButtonStartAnalyseDocument;
-    private Button mButtonStartAnalyseDocumentCompat;
+    private Button mButtonStartAnalyzeDocument;
+    private Button mButtonStartAnalyzeDocumentCompat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,16 +64,16 @@ public class MainActivity extends Activity {
                 startReviewDocumentCompat();
             }
         });
-        mButtonStartAnalyseDocument.setOnClickListener(new View.OnClickListener() {
+        mButtonStartAnalyzeDocument.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startAnalyseDocument();
+                startAnalyzeDocument();
             }
         });
-        mButtonStartAnalyseDocumentCompat.setOnClickListener(new View.OnClickListener() {
+        mButtonStartAnalyzeDocumentCompat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startAnalyseDocumentCompat();
+                startAnalyzeDocumentCompat();
             }
         });
     }
@@ -108,13 +108,13 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
-    private void startAnalyseDocument() {
-        Intent intent = new Intent(this, CustomAnalyseDocumentActivity.class);
+    private void startAnalyzeDocument() {
+        Intent intent = new Intent(this, CustomAnalyzeDocumentActivity.class);
         startActivity(intent);
     }
 
-    private void startAnalyseDocumentCompat() {
-        Intent intent = new Intent(this, CustomAnalyseDocumentAppCompatActivity.class);
+    private void startAnalyzeDocumentCompat() {
+        Intent intent = new Intent(this, CustomAnalyzeDocumentAppCompatActivity.class);
         startActivity(intent);
     }
 
@@ -125,7 +125,7 @@ public class MainActivity extends Activity {
         mButtonStartOnboardingCompat = (Button) findViewById(R.id.button_start_onboarding_compat);
         mButtonStartReviewDocument = (Button) findViewById(R.id.button_start_review_document);
         mButtonStartReviewDocumentCompat = (Button) findViewById(R.id.button_start_review_document_compat);
-        mButtonStartAnalyseDocument = (Button) findViewById(R.id.button_start_analyse_document);
-        mButtonStartAnalyseDocumentCompat = (Button) findViewById(R.id.button_start_analyse_document_compat);
+        mButtonStartAnalyzeDocument = (Button) findViewById(R.id.button_start_analyze_document);
+        mButtonStartAnalyzeDocumentCompat = (Button) findViewById(R.id.button_start_analyze_document_compat);
     }
 }

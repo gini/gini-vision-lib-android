@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gv_analyse_document_fragment_background"
-    tools:context=".analyse.AnalyseDocumentFragmentCompat">
+    android:background="@color/gv_analyze_document_fragment_background"
+    tools:context=".analyze.AnalyzeDocumentFragmentCompat">
 
     <ImageView
         android:id="@+id/gv_image_picture"
@@ -13,8 +13,8 @@
     <ImageView
         android:id="@+id/gv_image_scanner_line"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/gv_analyse_scanner_line_height"
-        android:layout_margin="@dimen/gv_analyse_scanner_line_margin"
-        android:src="@drawable/gv_analyse_scanner_line" />
+        android:layout_height="@dimen/gv_analyze_scanner_line_height"
+        android:layout_margin="@dimen/gv_analyze_scanner_line_margin"
+        android:src="@drawable/gv_analyze_scanner_line" />
 
 </RelativeLayout>

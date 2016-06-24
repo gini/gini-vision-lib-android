@@ -15,11 +15,11 @@ public class ReviewDocumentActivity extends net.gini.android.vision.reviewdocume
     }
 
     @Override
-    public void onShouldAnalyseDocument(Document document) {
+    public void onShouldAnalyzeDocument(Document document) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                onDocumentAnalysed();
+                onDocumentAnalyzed();
                 Toast.makeText(net.gini.android.vision.easy.ReviewDocumentActivity.this, "Photo was analyzed", Toast.LENGTH_SHORT).show();
             }
         }, 2000);

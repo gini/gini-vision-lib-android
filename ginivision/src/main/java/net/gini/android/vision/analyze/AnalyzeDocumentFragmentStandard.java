@@ -1,4 +1,4 @@
-package net.gini.android.vision.analyse;
+package net.gini.android.vision.analyze;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -12,27 +12,27 @@ import net.gini.android.vision.ui.FragmentImplCallback;
 
 /**
  * <p>
- *     When using the Component API the {@code AnalyseDocumentFragmentStandard} displays the captured document and an activity indicator while the document is being analysed by the Gini API.
+ *     When using the Component API the {@code AnalyzeDocumentFragmentStandard} displays the captured document and an activity indicator while the document is being analyzed by the Gini API.
  * </p>
  * <p>
- *     Include the {@code AnalyseDocumentFragmentStandard} into your layout by using the {@link AnalyseDocumentFragmentStandard#createInstance(Document)} factory method to create an instance and display it using the {@link android.app.FragmentManager}.
+ *     Include the {@code AnalyzeDocumentFragmentStandard} into your layout by using the {@link AnalyzeDocumentFragmentStandard#createInstance(Document)} factory method to create an instance and display it using the {@link android.app.FragmentManager}.
  * </p>
  * <p>
- *     Your Activity must implement the {@link AnalyseDocumentFragmentListener} interface to receive events from the Analyse Document Fragment. Failing to do so will throw an exception.
+ *     Your Activity must implement the {@link AnalyzeDocumentFragmentListener} interface to receive events from the Analyze Document Fragment. Failing to do so will throw an exception.
  * </p>
  * <p>
- *     Your Activity is automatically set as the listener in {@link AnalyseDocumentFragmentStandard#onCreate(Bundle)}.
+ *     Your Activity is automatically set as the listener in {@link AnalyzeDocumentFragmentStandard#onCreate(Bundle)}.
  * </p>
  *
  * <h3>Customising the Analysis Screen</h3>
  *
  * <p>
- *     See the {@link AnalyseDocumentActivity} for details.
+ *     See the {@link AnalyzeDocumentActivity} for details.
  * </p>
  */
-public class AnalyseDocumentFragmentStandard extends Fragment implements FragmentImplCallback, AnalyseDocumentFragmentInterface {
+public class AnalyzeDocumentFragmentStandard extends Fragment implements FragmentImplCallback, AnalyzeDocumentFragmentInterface {
 
-    private AnalyseDocumentFragmentImpl mFragmentImpl;
+    private AnalyzeDocumentFragmentImpl mFragmentImpl;
 
     /**
      * <p>
@@ -41,12 +41,12 @@ public class AnalyseDocumentFragmentStandard extends Fragment implements Fragmen
      * <p>
      *     <b>Note:</b> Always use this method to create new instances. Document is required and an exception is thrown if it's missing.
      * </p>
-     * @param document must be the {@link Document} from {@link net.gini.android.vision.reviewdocument.ReviewDocumentFragmentListener#onProceedToAnalyseScreen(Document)}
+     * @param document must be the {@link Document} from {@link net.gini.android.vision.reviewdocument.ReviewDocumentFragmentListener#onProceedToAnalyzeScreen(Document)}
      * @return a new instance of the Fragment
      */
-    public static AnalyseDocumentFragmentStandard createInstance(Document document) {
-        AnalyseDocumentFragmentStandard fragment = new AnalyseDocumentFragmentStandard();
-        fragment.setArguments(AnalyseDocumentFragmentHelper.createArguments(document));
+    public static AnalyzeDocumentFragmentStandard createInstance(Document document) {
+        AnalyzeDocumentFragmentStandard fragment = new AnalyzeDocumentFragmentStandard();
+        fragment.setArguments(AnalyzeDocumentFragmentHelper.createArguments(document));
         return fragment;
     }
 
@@ -57,8 +57,8 @@ public class AnalyseDocumentFragmentStandard extends Fragment implements Fragmen
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFragmentImpl = AnalyseDocumentFragmentHelper.createFragmentImpl(this, getArguments());
-        AnalyseDocumentFragmentHelper.setListener(mFragmentImpl, getActivity());
+        mFragmentImpl = AnalyzeDocumentFragmentHelper.createFragmentImpl(this, getArguments());
+        AnalyzeDocumentFragmentHelper.setListener(mFragmentImpl, getActivity());
         mFragmentImpl.onCreate(savedInstanceState);
     }
 
@@ -96,7 +96,7 @@ public class AnalyseDocumentFragmentStandard extends Fragment implements Fragmen
     }
 
     @Override
-    public void onDocumentAnalysed() {
-        mFragmentImpl.onDocumentAnalysed();
+    public void onDocumentAnalyzed() {
+        mFragmentImpl.onDocumentAnalyzed();
     }
 }

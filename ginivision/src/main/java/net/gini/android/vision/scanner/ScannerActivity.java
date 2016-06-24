@@ -11,7 +11,7 @@ import net.gini.android.vision.ActivityHelpers;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
-import net.gini.android.vision.analyse.AnalyseDocumentActivity;
+import net.gini.android.vision.analyze.AnalyzeDocumentActivity;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.reviewdocument.ReviewDocumentActivity;
@@ -32,7 +32,7 @@ import java.util.ArrayList;
  *     These extras are mandatory:
  *     <ul>
  *         <li>{@link ScannerActivity#EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY} - use the {@link ScannerActivity#setReviewDocumentActivityExtra(Intent, Context, Class)} helper to set it. Must contain an explicit Intent to the {@link ReviewDocumentActivity} subclass from your application</li>
- *         <li>{@link ScannerActivity#EXTRA_IN_ANALYSE_DOCUMENT_ACTIVITY} - use the {@link ScannerActivity#setAnalyseDocumentActivityExtra(Intent, Context, Class)} helper to set it. Must contain an explicit Intent to the {@link AnalyseDocumentActivity} subclass from your application</li>
+ *         <li>{@link ScannerActivity#EXTRA_IN_ANALYSE_DOCUMENT_ACTIVITY} - use the {@link ScannerActivity#setAnalyzeDocumentActivityExtra(Intent, Context, Class)} helper to set it. Must contain an explicit Intent to the {@link AnalyzeDocumentActivity} subclass from your application</li>
  *     </ul>
  * </p>
  * <p>
@@ -45,7 +45,7 @@ import java.util.ArrayList;
  * <p>
  *     The following result codes need to be handled:
  *     <ul>
- *         <li>{@link ScannerActivity#RESULT_OK} - image of a document was taken, reviewed and analysed</li>
+ *         <li>{@link ScannerActivity#RESULT_OK} - image of a document was taken, reviewed and analyzed</li>
  *         <li>{@link ScannerActivity#RESULT_CANCELED} - image of document was not taken, user cancelled the Gini Vision Lib</li>
  *         <li>{@link ScannerActivity#RESULT_ERROR} - an error occured</li>
  *     </ul>
@@ -62,7 +62,7 @@ import java.util.ArrayList;
  *     <b>Note:</b> It is important to retrieve the {@link Document} extras ({@link ScannerActivity#EXTRA_OUT_ORIGINAL_DOCUMENT} and {@link ScannerActivity#EXTRA_OUT_DOCUMENT}) to force unparceling of the {@link Document}s and removing of the references to their JPEG byte arrays from the memory cache. Failing to do so will lead to memory leaks.
  * </p>
  * <p>
- *     <b>Note:</b> For returning the extractions from the Gini API you can add your own extras in {@link ReviewDocumentActivity#onAddDataToResult(Intent)} or {@link AnalyseDocumentActivity#onAddDataToResult(Intent)}.
+ *     <b>Note:</b> For returning the extractions from the Gini API you can add your own extras in {@link ReviewDocumentActivity#onAddDataToResult(Intent)} or {@link AnalyzeDocumentActivity#onAddDataToResult(Intent)}.
  * </p>
  *
  * <h3>Customising the Scanner Screen</h3>
@@ -104,10 +104,10 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
     public static final String EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY = "GV_EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY";
     /**
      * <p>
-     * Mandatory extra which must contain an explicit Intent to the {@link AnalyseDocumentActivity} subclass from your application.
+     * Mandatory extra which must contain an explicit Intent to the {@link AnalyzeDocumentActivity} subclass from your application.
      * </p>
      * <p>
-     *     Use the {@link ScannerActivity#setAnalyseDocumentActivityExtra(Intent, Context, Class)} helper to set it.
+     *     Use the {@link ScannerActivity#setAnalyzeDocumentActivityExtra(Intent, Context, Class)} helper to set it.
      * </p>
      */
     public static final String EXTRA_IN_ANALYSE_DOCUMENT_ACTIVITY = "GV_EXTRA_IN_ANALYSE_DOCUMENT_ACTIVITY";
@@ -164,7 +164,7 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
 
     private ArrayList<OnboardingPage> mOnboardingPages;
     private Intent mReviewDocumentActivityIntent;
-    private Intent mAnalyseDocumentActivityIntent;
+    private Intent mAnalyzeDocumentActivityIntent;
     private boolean mShowOnboardingAtFirstRun = true;
     private GiniVisionCoordinator mGiniVisionCoordinator;
     private Document mDocument;
@@ -191,11 +191,11 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
      * </p>
      *
      * @param target your explicit {@link Intent} used to start the {@link ScannerActivity}
-     * @param context {@link Context} used to create the explicit {@link Intent} for your {@link AnalyseDocumentActivity} subclass
-     * @param reviewPhotoActivityClass class of your {@link AnalyseDocumentActivity} subclass
-     * @param <T> type of your {@link AnalyseDocumentActivity} subclass
+     * @param context {@link Context} used to create the explicit {@link Intent} for your {@link AnalyzeDocumentActivity} subclass
+     * @param reviewPhotoActivityClass class of your {@link AnalyzeDocumentActivity} subclass
+     * @param <T> type of your {@link AnalyzeDocumentActivity} subclass
      */
-    public static <T extends AnalyseDocumentActivity> void setAnalyseDocumentActivityExtra(Intent target,
+    public static <T extends AnalyzeDocumentActivity> void setAnalyzeDocumentActivityExtra(Intent target,
                                                                                            Context context,
                                                                                            Class<T> reviewPhotoActivityClass) {
         ActivityHelpers.setActivityExtra(target, EXTRA_IN_ANALYSE_DOCUMENT_ACTIVITY, context, reviewPhotoActivityClass);
@@ -226,7 +226,7 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
         if (extras != null) {
             mOnboardingPages = extras.getParcelableArrayList(EXTRA_IN_ONBOARDING_PAGES);
             mReviewDocumentActivityIntent = extras.getParcelable(EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY);
-            mAnalyseDocumentActivityIntent = extras.getParcelable(EXTRA_IN_ANALYSE_DOCUMENT_ACTIVITY);
+            mAnalyzeDocumentActivityIntent = extras.getParcelable(EXTRA_IN_ANALYSE_DOCUMENT_ACTIVITY);
             mShowOnboardingAtFirstRun = extras.getBoolean(EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN, true);
         }
         checkRequiredExtras();
@@ -236,8 +236,8 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
         if (mReviewDocumentActivityIntent == null) {
             throw new IllegalStateException("ScannerActivity requires a ReviewDocumentActivity class. Call setReviewDocumentActivityExtra() to set it.");
         }
-        if (mAnalyseDocumentActivityIntent == null) {
-            throw new IllegalStateException("ScannerActivity requires an AnalyseDocumentActivity class. Call setAnalyseDocumentActivityExtra() to set it.");
+        if (mAnalyzeDocumentActivityIntent == null) {
+            throw new IllegalStateException("ScannerActivity requires an AnalyzeDocumentActivity class. Call setAnalyzeDocumentActivityExtra() to set it.");
         }
     }
 
@@ -309,8 +309,8 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
                 case ReviewDocumentActivity.RESULT_PHOTO_WAS_REVIEWED:
                     if (data != null) {
                         Document document = data.getParcelableExtra(ReviewDocumentActivity.EXTRA_OUT_DOCUMENT);
-                        mAnalyseDocumentActivityIntent.putExtra(AnalyseDocumentActivity.EXTRA_IN_DOCUMENT, document);
-                        startActivityForResult(mAnalyseDocumentActivityIntent, ANALYSE_DOCUMENT_REQUEST);
+                        mAnalyzeDocumentActivityIntent.putExtra(AnalyzeDocumentActivity.EXTRA_IN_DOCUMENT, document);
+                        startActivityForResult(mAnalyzeDocumentActivityIntent, ANALYSE_DOCUMENT_REQUEST);
                     }
                     break;
                 case ReviewDocumentActivity.RESULT_PHOTO_WAS_REVIEWED_AND_ANALYZED:
@@ -340,7 +340,7 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
                     setResult(RESULT_OK, data);
                     finish();
                     break;
-                case AnalyseDocumentActivity.RESULT_ERROR:
+                case AnalyzeDocumentActivity.RESULT_ERROR:
                     setResult(RESULT_ERROR, data);
                     finish();
                     break;

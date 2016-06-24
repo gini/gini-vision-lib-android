@@ -5,16 +5,16 @@ import android.os.Handler;
 
 import net.gini.android.vision.scanner.Document;
 
-public class AnalyseDocumentActivity extends net.gini.android.vision.analyse.AnalyseDocumentActivity {
+public class AnalyzeDocumentActivity extends net.gini.android.vision.analyze.AnalyzeDocumentActivity {
 
     @Override
-    public void onAnalyseDocument(Document document) {
+    public void onAnalyzeDocument(Document document) {
         startScanAnimation();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 stopScanAnimation();
-                onDocumentAnalysed();
+                onDocumentAnalyzed();
             }
         }, 1000);
     }
@@ -22,6 +22,6 @@ public class AnalyseDocumentActivity extends net.gini.android.vision.analyse.Ana
     @Override
     public void onAddDataToResult(Intent result) {
         // TODO: add extractions to result
-        result.putExtra(MainActivity.EXTRA_OUT_EXTRACTIONS, "extractions from analyse screen");
+        result.putExtra(MainActivity.EXTRA_OUT_EXTRACTIONS, "extractions from analyze screen");
     }
 }

@@ -1,4 +1,4 @@
-package net.gini.android.vision.analyse;
+package net.gini.android.vision.analyze;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,11 +9,11 @@ import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.scanner.Document;
 import net.gini.android.vision.ui.FragmentImplCallback;
 
-class AnalyseDocumentFragmentImpl implements AnalyseDocumentFragmentInterface {
+class AnalyzeDocumentFragmentImpl implements AnalyzeDocumentFragmentInterface {
 
-    private static final AnalyseDocumentFragmentListener NO_OP_LISTENER = new AnalyseDocumentFragmentListener() {
+    private static final AnalyzeDocumentFragmentListener NO_OP_LISTENER = new AnalyzeDocumentFragmentListener() {
         @Override
-        public void onAnalyseDocument(Document document) {
+        public void onAnalyzeDocument(Document document) {
         }
 
         @Override
@@ -23,14 +23,14 @@ class AnalyseDocumentFragmentImpl implements AnalyseDocumentFragmentInterface {
     private final FragmentImplCallback mFragment;
     private Document mDocument;
 
-    private AnalyseDocumentFragmentListener mListener = NO_OP_LISTENER;
+    private AnalyzeDocumentFragmentListener mListener = NO_OP_LISTENER;
 
-    public AnalyseDocumentFragmentImpl(FragmentImplCallback fragment, Document document) {
+    public AnalyzeDocumentFragmentImpl(FragmentImplCallback fragment, Document document) {
         mFragment = fragment;
         mDocument = document;
     }
 
-    public void setListener(AnalyseDocumentFragmentListener listener) {
+    public void setListener(AnalyzeDocumentFragmentListener listener) {
         if (listener == null) {
             mListener = NO_OP_LISTENER;
         } else {
@@ -39,7 +39,7 @@ class AnalyseDocumentFragmentImpl implements AnalyseDocumentFragmentInterface {
     }
 
     public void onCreate(Bundle savedInstanceState) {
-        mListener.onAnalyseDocument(mDocument);
+        mListener.onAnalyzeDocument(mDocument);
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,7 +61,7 @@ class AnalyseDocumentFragmentImpl implements AnalyseDocumentFragmentInterface {
     }
 
     @Override
-    public void onDocumentAnalysed() {
+    public void onDocumentAnalyzed() {
 
     }
 }
