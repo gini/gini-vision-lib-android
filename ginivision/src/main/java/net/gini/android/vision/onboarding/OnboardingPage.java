@@ -14,7 +14,7 @@ import java.util.ArrayList;
  *     The {@code OnboardingPage} is used by the Onboarding Fragment for displaying an image and a short text.
  * </p>
  * <p>
- *     Use this class for showing a different number of pages in the Onboarding Screen. Customising the default onboarding pages can be done via app resources overriding.
+ *     Use this class for showing a different number of pages in the Onboarding Screen. Customizing the default onboarding pages can be done via app resources overriding.
  * </p>
  * <p>
  *     When using the Screen API set an {@link java.util.ArrayList} containing {@code OnboardingPage} objects as the {@link CameraActivity#EXTRA_IN_ONBOARDING_PAGES} when starting the {@link CameraActivity}.

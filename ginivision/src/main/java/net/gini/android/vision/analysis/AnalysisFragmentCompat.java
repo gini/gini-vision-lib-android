@@ -30,7 +30,7 @@ import net.gini.android.vision.ui.FragmentImplCallback;
  *     Your Activity is automatically set as the listener in {@link AnalysisFragmentCompat#onCreate(Bundle)}.
  * </p>
  *
- * <h3>Customising the Analysis Screen</h3>
+ * <h3>Customizing the Analysis Screen</h3>
  *
  * <p>
  *     See the {@link AnalysisActivity} for details.

@@ -35,10 +35,10 @@ import net.gini.android.vision.camera.Document;
  *     </ul>
  * </p>
  *
- * <h3>Customising the Analysis Screen</h3>
+ * <h3>Customizing the Analysis Screen</h3>
  *
  * <p>
- *   Customising the look of the Analysis Screen is done via app resources overriding.
+ *   Customizing the look of the Analysis Screen is done via app resources overriding.
  * </p>
  * <p>
  *     The following items are customizable:

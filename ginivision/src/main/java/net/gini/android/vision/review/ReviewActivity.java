@@ -34,10 +34,10 @@ import net.gini.android.vision.camera.Document;
  *     </ul>
  * </p>
  *
- * <h3>Customising the Review Screen</h3>
+ * <h3>Customizing the Review Screen</h3>
  *
  * <p>
- *   Customising the look of the Review Screen is done via app resources overriding.
+ *   Customizing the look of the Review Screen is done via app resources overriding.
  * </p>
  * <p>
  *     The following items are customizable:

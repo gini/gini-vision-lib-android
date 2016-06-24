@@ -22,10 +22,10 @@ import java.util.ArrayList;
  *     You can change the number of displayed pages and their content (image and short text) by setting an {@link ArrayList} containing {@link OnboardingPage} objects for the {@link CameraActivity#EXTRA_IN_ONBOARDING_PAGES} when starting the {@link CameraActivity}.
  * </p>
  *
- * <h3>Customising the Onboarding Screen</h3>
+ * <h3>Customizing the Onboarding Screen</h3>
  *
  * <p>
- *   Customising the look of the Onboarding Screen is done via app resources overriding or by providing your own pages with your own string and drawable resources.
+ *   Customizing the look of the Onboarding Screen is done via app resources overriding or by providing your own pages with your own string and drawable resources.
  * </p>
  * <p>
  *     The following items are customizable:

@@ -30,7 +30,7 @@ import net.gini.android.vision.ui.FragmentImplCallback;
  *     Your Activity is automatically set as the listener in {@link ReviewFragmentCompat#onCreate(Bundle)}.
  * </p>
  *
- * <h3>Customising the Review Screen</h3>
+ * <h3>Customizing the Review Screen</h3>
  *
  * <p>
  *     See the {@link ReviewActivity} for details.
