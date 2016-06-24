@@ -18,6 +18,44 @@ import java.util.ArrayList;
  * <p>
  *     You can change the number of displayed pages and their content (image and short text) by setting an {@link ArrayList} containing {@link OnboardingPage} objects for the {@link net.gini.android.vision.scanner.ScannerActivity#EXTRA_IN_ONBOARDING_PAGES} when starting the {@link net.gini.android.vision.scanner.ScannerActivity}.
  * </p>
+ *
+ * <h3>Customising the Onboarding Screen</h3>
+ *
+ * <p>
+ *   Customising the look of the Onboarding Screen is done via app resources overriding or by providing your own pages with your own string and drawable resources.
+ * </p>
+ * <p>
+ *     The following items are customisable:
+ *     <ul>
+ *         <li>
+ *             <b>Next button icon:</b> with images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_onboarding_fab_next.png}
+ *         </li>
+ *         <li>
+ *             <b>Next button color:</b> with the color resources named {@code gv_onboarding_fab} and {@code gv_onboarding_fab_selected}
+ *         </li>
+ *         <li>
+ *             <b>Page indicators:</b> with images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_onboarding_indicator_active.png} and {@code gv_onboarding_indicator_inactive.png}
+ *         </li>
+ *         <li>
+ *             <b>First page image:</b> with images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_onboarding_flat.png}
+ *         </li>
+ *         <li>
+ *             <b>First page text:</b> with the string resource named {@code gv_onboarding_flat}
+ *         </li>
+ *         <li>
+ *             <b>Second page image:</b> with images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_onboarding_parallel.png}
+ *         </li>
+ *         <li>
+ *             <b>Second page text:</b> with the string resource named {@code gv_onboarding_parallel}
+ *         </li>
+ *         <li>
+ *             <b>Third page image:</b> with images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_onboarding_align.png}
+ *         </li>
+ *         <li>
+ *             <b>Third page text:</b> with the string resource named {@code gv_onboarding_align}
+ *         </li>
+ *     </ul>
+ * </p>
  */
 public class OnboardingActivity extends AppCompatActivity implements OnboardingFragmentListener {
 

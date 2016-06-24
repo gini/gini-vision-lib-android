@@ -31,6 +31,20 @@ import net.gini.android.vision.scanner.Document;
  *         <li>{@link AnalyseDocumentActivity#onAddDataToResult(Intent)} - you should add the results of the analysis to the Intent as extras and retrieve them when the {@link net.gini.android.vision.scanner.ScannerActivity} returned.<br/>This is called only, if you called {@link AnalyseDocumentActivity#onDocumentAnalysed()} before.<br/>When this is called control is returned to your Activity which started the {@link net.gini.android.vision.scanner.ScannerActivity} and you can extract the results of the analysis.</li>
  *     </ul>
  * </p>
+ *
+ * <h3>Customising the Analysis Screen</h3>
+ *
+ * <p>
+ *   Customising the look of the Analysis Screen is done via app resources overriding.
+ * </p>
+ * <p>
+ *     The following items are customisable:
+ *     <ul>
+ *         <li>
+ *             <b>Activity indicator color:</b> with the color resource name {@code gv_analyse_document_activity_indicator}
+ *         </li>
+ *     </ul>
+ * </p>
  */
 public abstract class AnalyseDocumentActivity extends AppCompatActivity implements AnalyseDocumentFragmentListener, AnalyseDocumentFragmentInterface {
 

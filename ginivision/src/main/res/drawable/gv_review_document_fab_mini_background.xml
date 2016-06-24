@@ -9,7 +9,7 @@
             </item>
             <item android:width="@dimen/gv_fab_mini_width" android:height="@dimen/gv_fab_mini_height" android:gravity="center">
                 <shape android:shape="oval">
-                    <solid android:color="@color/gv_review_document_fab_mini_selected" />
+                    <solid android:color="@color/gv_review_document_fab_mini_pressed" />
                 </shape>
             </item>
         </layer-list>

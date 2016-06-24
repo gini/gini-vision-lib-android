@@ -30,6 +30,12 @@ import java.util.ArrayList;
  * <p>
  *     Your Activity is automatically set as the listener in {@link OnboardingFragmentCompat#onCreate(Bundle)}.
  * </p>
+ *
+ * <h3>Customising the Onboarding Screen</h3>
+ *
+ * <p>
+ *     See the {@link OnboardingActivity} for details.
+ * </p>
  */
 public class OnboardingFragmentCompat extends Fragment implements FragmentImplCallback {
 

@@ -23,6 +23,12 @@ import net.gini.android.vision.ui.FragmentImplCallback;
  * <p>
  *     Your Activity is automatically set as the listener in {@link AnalyseDocumentFragmentStandard#onCreate(Bundle)}.
  * </p>
+ *
+ * <h3>Customising the Analysis Screen</h3>
+ *
+ * <p>
+ *     See the {@link AnalyseDocumentActivity} for details.
+ * </p>
  */
 public class AnalyseDocumentFragmentStandard extends Fragment implements FragmentImplCallback, AnalyseDocumentFragmentInterface {
 

@@ -23,6 +23,12 @@ import net.gini.android.vision.ui.FragmentImplCallback;
  * <p>
  *     Your Activity is automatically set as the listener in {@link ReviewDocumentFragmentStandard#onCreate(Bundle)}.
  * </p>
+ *
+ * <h3>Customising the Review Screen</h3>
+ *
+ * <p>
+ *     See the {@link ReviewDocumentActivity} for details.
+ * </p>
  */
 public class ReviewDocumentFragmentStandard extends Fragment implements FragmentImplCallback, ReviewDocumentFragmentInterface {
 

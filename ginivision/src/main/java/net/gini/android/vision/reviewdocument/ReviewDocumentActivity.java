@@ -29,6 +29,38 @@ import net.gini.android.vision.scanner.Document;
  *         <li>{@link ReviewDocumentActivity#onAddDataToResult(Intent)} - you can add the results of the analysis to the Intent as extras and retrieve them when the {@link net.gini.android.vision.scanner.ScannerActivity} returned.<br/>This is called only, if you called {@link ReviewDocumentActivity#onDocumentAnalysed()} and the image wasn't changed before the user tapped on the Next button.<br/>When this is called, your {@link net.gini.android.vision.analyse.AnalyseDocumentActivity} subclass is not launched, instead control is returned to your Activity which started the {@link net.gini.android.vision.scanner.ScannerActivity} and you can extract the results of the analysis.</li>
  *     </ul>
  * </p>
+ *
+ * <h3>Customising the Review Screen</h3>
+ *
+ * <p>
+ *   Customising the look of the Review Screen is done via app resources overriding.
+ * </p>
+ * <p>
+ *     The following items are customisable:
+ *     <ul>
+ *         <li>
+ *             <b>Rotate button icon:</b> with images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_review_document_button_rotate.png}
+ *         </li>
+ *         <li>
+ *             <b>Rotate button color:</b>  with the color resources named {@code gv_review_document_fab_mini}  and {@code gv_review_document_fab_mini_pressed}
+ *         </li>
+ *         <li>
+ *             <b>Next button icon:</b> with images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_review_document_fab_next.png}
+ *         </li>
+ *         <li>
+ *             <b>Next button color:</b> with the color resources named {@code gv_review_document_fab} and {@code gv_review_document_fab_pressed}
+ *         </li>
+ *         <li>
+ *             <b>Bottom advice text:</b> with the string resource named {@code gv_review_document_bottom_panel_text}
+ *         </li>
+ *         <li>
+ *             <b>Bottom text color:</b> with the color resource named {@code gv_review_document_bottom_panel_text}
+ *         </li>
+ *         <li>
+ *             <b>Bottom panel background color:</b> with the color resource named {@code gv_review_document_bottom_panel_background}
+ *         </li>
+ *     </ul>
+ * </p>
  */
 public abstract class ReviewDocumentActivity extends AppCompatActivity implements ReviewDocumentFragmentListener, ReviewDocumentFragmentInterface {
 
