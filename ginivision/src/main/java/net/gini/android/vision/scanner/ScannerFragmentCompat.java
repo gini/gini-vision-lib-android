@@ -28,7 +28,7 @@ import android.view.ViewGroup;
  *     Your Activity is automatically set as the listener in {@link ScannerFragmentCompat#onAttach(Context)}.
  * </p>
  */
-public class ScannerFragmentCompat extends Fragment {
+public class ScannerFragmentCompat extends Fragment implements ScannerFragmentInterface {
 
     private final ScannerFragmentImpl mFragmentImpl = new ScannerFragmentImpl();
 
@@ -53,5 +53,25 @@ public class ScannerFragmentCompat extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return mFragmentImpl.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onShowDocumentCornerGuides() {
+        mFragmentImpl.onShowDocumentCornerGuides();
+    }
+
+    @Override
+    public void onHideDocumentCornerGuides() {
+        mFragmentImpl.onHideDocumentCornerGuides();
+    }
+
+    @Override
+    public void onShowCameraTriggerButton() {
+        mFragmentImpl.onShowCameraTriggerButton();
+    }
+
+    @Override
+    public void onHideCameraTriggerButton() {
+        mFragmentImpl.onHideCameraTriggerButton();
     }
 }

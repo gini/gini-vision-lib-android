@@ -10,11 +10,16 @@ import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.scanner.photo.Photo;
 
-class ScannerFragmentImpl {
+class ScannerFragmentImpl implements ScannerFragmentInterface {
 
     private static final ScannerFragmentListener NO_OP_LISTENER = new ScannerFragmentListener() {
         @Override
         public void onDocumentAvailable(Document document) {
+        }
+
+        @Override
+        public boolean onShouldPreventCameraFromStopping() {
+            return false;
         }
 
         @Override
@@ -54,5 +59,25 @@ class ScannerFragmentImpl {
                 mListener.onDocumentAvailable(Document.fromPhoto(Photo.fromJpeg(new byte[1024 * 1024 * 10], 0)));
             }
         });
+    }
+
+    @Override
+    public void onShowDocumentCornerGuides() {
+
+    }
+
+    @Override
+    public void onHideDocumentCornerGuides() {
+
+    }
+
+    @Override
+    public void onShowCameraTriggerButton() {
+
+    }
+
+    @Override
+    public void onHideCameraTriggerButton() {
+
     }
 }
