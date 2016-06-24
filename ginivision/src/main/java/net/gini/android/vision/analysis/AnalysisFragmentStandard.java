@@ -1,8 +1,8 @@
-package net.gini.android.vision.analyze;
+package net.gini.android.vision.analysis;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,30 +12,27 @@ import net.gini.android.vision.ui.FragmentImplCallback;
 
 /**
  * <p>
- *     When using the Component API the {@code AnalyzeDocumentFragmentCompat} displays the captured document and an activity indicator while the document is being analyzed by the Gini API.
+ *     When using the Component API the {@code AnalyzeDocumentFragmentStandard} displays the captured document and an activity indicator while the document is being analyzed by the Gini API.
  * </p>
  * <p>
- *     <b>Note:</b> Your Activity hosting this Fragment must extend the {@link android.support.v7.app.AppCompatActivity} and use an AppCompat Theme.
+ *     Include the {@code AnalyzeDocumentFragmentStandard} into your layout by using the {@link AnalysisFragmentStandard#createInstance(Document)} factory method to create an instance and display it using the {@link android.app.FragmentManager}.
  * </p>
  * <p>
- *     Include the {@code AnalyzeDocumentFragmentCompat} into your layout by using the {@link AnalyzeDocumentFragmentCompat#createInstance(Document)} factory method to create an instance and display it using the {@link android.support.v4.app.FragmentManager}.
+ *     Your Activity must implement the {@link AnalysisFragmentListener} interface to receive events from the Analyze Document Fragment. Failing to do so will throw an exception.
  * </p>
  * <p>
- *     Your Activity must implement the {@link AnalyzeDocumentFragmentListener} interface to receive events from the Analyze Document Fragment. Failing to do so will throw an exception.
- * </p>
- * <p>
- *     Your Activity is automatically set as the listener in {@link AnalyzeDocumentFragmentCompat#onCreate(Bundle)}.
+ *     Your Activity is automatically set as the listener in {@link AnalysisFragmentStandard#onCreate(Bundle)}.
  * </p>
  *
  * <h3>Customising the Analysis Screen</h3>
  *
  * <p>
- *     See the {@link AnalyzeDocumentActivity} for details.
+ *     See the {@link AnalysisActivity} for details.
  * </p>
  */
-public class AnalyzeDocumentFragmentCompat extends Fragment implements FragmentImplCallback, AnalyzeDocumentFragmentInterface {
+public class AnalysisFragmentStandard extends Fragment implements FragmentImplCallback, AnalysisFragmentInterface {
 
-    private AnalyzeDocumentFragmentImpl mFragmentImpl;
+    private AnalysisFragmentImpl mFragmentImpl;
 
     /**
      * <p>
@@ -47,9 +44,9 @@ public class AnalyzeDocumentFragmentCompat extends Fragment implements FragmentI
      * @param document must be the {@link Document} from {@link net.gini.android.vision.reviewdocument.ReviewDocumentFragmentListener#onProceedToAnalyzeScreen(Document)}
      * @return a new instance of the Fragment
      */
-    public static AnalyzeDocumentFragmentCompat createInstance(Document document) {
-        AnalyzeDocumentFragmentCompat fragment = new AnalyzeDocumentFragmentCompat();
-        fragment.setArguments(AnalyzeDocumentFragmentHelper.createArguments(document));
+    public static AnalysisFragmentStandard createInstance(Document document) {
+        AnalysisFragmentStandard fragment = new AnalysisFragmentStandard();
+        fragment.setArguments(AnalysisFragmentHelper.createArguments(document));
         return fragment;
     }
 
@@ -60,8 +57,8 @@ public class AnalyzeDocumentFragmentCompat extends Fragment implements FragmentI
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFragmentImpl = AnalyzeDocumentFragmentHelper.createFragmentImpl(this, getArguments());
-        AnalyzeDocumentFragmentHelper.setListener(mFragmentImpl, getActivity());
+        mFragmentImpl = AnalysisFragmentHelper.createFragmentImpl(this, getArguments());
+        AnalysisFragmentHelper.setListener(mFragmentImpl, getActivity());
         mFragmentImpl.onCreate(savedInstanceState);
     }
 

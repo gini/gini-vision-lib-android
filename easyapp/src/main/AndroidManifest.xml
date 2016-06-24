@@ -18,7 +18,7 @@
             android:name="net.gini.android.vision.easy.ReviewDocumentActivity"
             android:label="@string/gv_title_review_document" />
         <activity
-            android:name="net.gini.android.vision.easy.AnalyzeDocumentActivity"
+            android:name="net.gini.android.vision.easy.AnalysisActivity"
             android:label="@string/gv_title_analyze_document" />
     </application>
 

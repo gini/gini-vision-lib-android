@@ -11,7 +11,7 @@ import net.gini.android.vision.ActivityHelpers;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
-import net.gini.android.vision.analyze.AnalyzeDocumentActivity;
+import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.reviewdocument.ReviewDocumentActivity;
@@ -32,7 +32,7 @@ import java.util.ArrayList;
  *     These extras are mandatory:
  *     <ul>
  *         <li>{@link ScannerActivity#EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY} - use the {@link ScannerActivity#setReviewDocumentActivityExtra(Intent, Context, Class)} helper to set it. Must contain an explicit Intent to the {@link ReviewDocumentActivity} subclass from your application</li>
- *         <li>{@link ScannerActivity#EXTRA_IN_ANALYSE_DOCUMENT_ACTIVITY} - use the {@link ScannerActivity#setAnalyzeDocumentActivityExtra(Intent, Context, Class)} helper to set it. Must contain an explicit Intent to the {@link AnalyzeDocumentActivity} subclass from your application</li>
+ *         <li>{@link ScannerActivity#EXTRA_IN_ANALYSIS_ACTIVITY} - use the {@link ScannerActivity#setAnalysisActivityExtra(Intent, Context, Class)} helper to set it. Must contain an explicit Intent to the {@link AnalysisActivity} subclass from your application</li>
  *     </ul>
  * </p>
  * <p>
@@ -62,7 +62,7 @@ import java.util.ArrayList;
  *     <b>Note:</b> It is important to retrieve the {@link Document} extras ({@link ScannerActivity#EXTRA_OUT_ORIGINAL_DOCUMENT} and {@link ScannerActivity#EXTRA_OUT_DOCUMENT}) to force unparceling of the {@link Document}s and removing of the references to their JPEG byte arrays from the memory cache. Failing to do so will lead to memory leaks.
  * </p>
  * <p>
- *     <b>Note:</b> For returning the extractions from the Gini API you can add your own extras in {@link ReviewDocumentActivity#onAddDataToResult(Intent)} or {@link AnalyzeDocumentActivity#onAddDataToResult(Intent)}.
+ *     <b>Note:</b> For returning the extractions from the Gini API you can add your own extras in {@link ReviewDocumentActivity#onAddDataToResult(Intent)} or {@link AnalysisActivity#onAddDataToResult(Intent)}.
  * </p>
  *
  * <h3>Customising the Scanner Screen</h3>
@@ -104,13 +104,13 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
     public static final String EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY = "GV_EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY";
     /**
      * <p>
-     * Mandatory extra which must contain an explicit Intent to the {@link AnalyzeDocumentActivity} subclass from your application.
+     * Mandatory extra which must contain an explicit Intent to the {@link AnalysisActivity} subclass from your application.
      * </p>
      * <p>
-     *     Use the {@link ScannerActivity#setAnalyzeDocumentActivityExtra(Intent, Context, Class)} helper to set it.
+     *     Use the {@link ScannerActivity#setAnalysisActivityExtra(Intent, Context, Class)} helper to set it.
      * </p>
      */
-    public static final String EXTRA_IN_ANALYSE_DOCUMENT_ACTIVITY = "GV_EXTRA_IN_ANALYSE_DOCUMENT_ACTIVITY";
+    public static final String EXTRA_IN_ANALYSIS_ACTIVITY = "GV_EXTRA_IN_ANALYSIS_ACTIVITY";
     /**
      * <p>
      *     Optional extra which must contain an {@code ArrayList} with {@link OnboardingPage} objects.
@@ -187,18 +187,18 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
 
     /**
      * <p>
-     * Helper for setting the {@link ScannerActivity#EXTRA_IN_ANALYSE_DOCUMENT_ACTIVITY}.
+     * Helper for setting the {@link ScannerActivity#EXTRA_IN_ANALYSIS_ACTIVITY}.
      * </p>
      *
      * @param target your explicit {@link Intent} used to start the {@link ScannerActivity}
-     * @param context {@link Context} used to create the explicit {@link Intent} for your {@link AnalyzeDocumentActivity} subclass
-     * @param reviewPhotoActivityClass class of your {@link AnalyzeDocumentActivity} subclass
-     * @param <T> type of your {@link AnalyzeDocumentActivity} subclass
+     * @param context {@link Context} used to create the explicit {@link Intent} for your {@link AnalysisActivity} subclass
+     * @param reviewPhotoActivityClass class of your {@link AnalysisActivity} subclass
+     * @param <T> type of your {@link AnalysisActivity} subclass
      */
-    public static <T extends AnalyzeDocumentActivity> void setAnalyzeDocumentActivityExtra(Intent target,
-                                                                                           Context context,
-                                                                                           Class<T> reviewPhotoActivityClass) {
-        ActivityHelpers.setActivityExtra(target, EXTRA_IN_ANALYSE_DOCUMENT_ACTIVITY, context, reviewPhotoActivityClass);
+    public static <T extends AnalysisActivity> void setAnalysisActivityExtra(Intent target,
+                                                                             Context context,
+                                                                             Class<T> reviewPhotoActivityClass) {
+        ActivityHelpers.setActivityExtra(target, EXTRA_IN_ANALYSIS_ACTIVITY, context, reviewPhotoActivityClass);
     }
 
     @Override
@@ -226,7 +226,7 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
         if (extras != null) {
             mOnboardingPages = extras.getParcelableArrayList(EXTRA_IN_ONBOARDING_PAGES);
             mReviewDocumentActivityIntent = extras.getParcelable(EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY);
-            mAnalyzeDocumentActivityIntent = extras.getParcelable(EXTRA_IN_ANALYSE_DOCUMENT_ACTIVITY);
+            mAnalyzeDocumentActivityIntent = extras.getParcelable(EXTRA_IN_ANALYSIS_ACTIVITY);
             mShowOnboardingAtFirstRun = extras.getBoolean(EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN, true);
         }
         checkRequiredExtras();
@@ -309,7 +309,7 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
                 case ReviewDocumentActivity.RESULT_PHOTO_WAS_REVIEWED:
                     if (data != null) {
                         Document document = data.getParcelableExtra(ReviewDocumentActivity.EXTRA_OUT_DOCUMENT);
-                        mAnalyzeDocumentActivityIntent.putExtra(AnalyzeDocumentActivity.EXTRA_IN_DOCUMENT, document);
+                        mAnalyzeDocumentActivityIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, document);
                         startActivityForResult(mAnalyzeDocumentActivityIntent, ANALYSE_DOCUMENT_REQUEST);
                     }
                     break;
@@ -340,7 +340,7 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
                     setResult(RESULT_OK, data);
                     finish();
                     break;
-                case AnalyzeDocumentActivity.RESULT_ERROR:
+                case AnalysisActivity.RESULT_ERROR:
                     setResult(RESULT_ERROR, data);
                     finish();
                     break;

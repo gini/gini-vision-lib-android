@@ -1,14 +1,14 @@
-package net.gini.android.vision.analyze;
+package net.gini.android.vision.analysis;
 
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.scanner.Document;
 
 /**
  * <p>
- * Interface used by {@link AnalyzeDocumentFragmentStandard} and {@link AnalyzeDocumentFragmentCompat} to dispatch events to the hosting Activity.
+ * Interface used by {@link AnalysisFragmentStandard} and {@link AnalysisFragmentCompat} to dispatch events to the hosting Activity.
  * </p>
  */
-public interface AnalyzeDocumentFragmentListener {
+public interface AnalysisFragmentListener {
     /**
      * <p>
      *     Called when the Analyze Document Fragment started and the document can be analyzed.

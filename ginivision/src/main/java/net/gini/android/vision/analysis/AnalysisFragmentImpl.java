@@ -1,4 +1,4 @@
-package net.gini.android.vision.analyze;
+package net.gini.android.vision.analysis;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -6,12 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.R;
 import net.gini.android.vision.scanner.Document;
 import net.gini.android.vision.ui.FragmentImplCallback;
 
-class AnalyzeDocumentFragmentImpl implements AnalyzeDocumentFragmentInterface {
+class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
-    private static final AnalyzeDocumentFragmentListener NO_OP_LISTENER = new AnalyzeDocumentFragmentListener() {
+    private static final AnalysisFragmentListener NO_OP_LISTENER = new AnalysisFragmentListener() {
         @Override
         public void onAnalyzeDocument(Document document) {
         }
@@ -23,14 +24,14 @@ class AnalyzeDocumentFragmentImpl implements AnalyzeDocumentFragmentInterface {
     private final FragmentImplCallback mFragment;
     private Document mDocument;
 
-    private AnalyzeDocumentFragmentListener mListener = NO_OP_LISTENER;
+    private AnalysisFragmentListener mListener = NO_OP_LISTENER;
 
-    public AnalyzeDocumentFragmentImpl(FragmentImplCallback fragment, Document document) {
+    public AnalysisFragmentImpl(FragmentImplCallback fragment, Document document) {
         mFragment = fragment;
         mDocument = document;
     }
 
-    public void setListener(AnalyzeDocumentFragmentListener listener) {
+    public void setListener(AnalysisFragmentListener listener) {
         if (listener == null) {
             mListener = NO_OP_LISTENER;
         } else {
@@ -43,7 +44,7 @@ class AnalyzeDocumentFragmentImpl implements AnalyzeDocumentFragmentInterface {
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return null;
+        return inflater.inflate(R.layout.gv_fragment_analysis, container, false);
     }
 
     public void onDestroy() {

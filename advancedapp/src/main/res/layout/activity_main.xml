@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Start Analyze Document" />
+            android:text="Start Analysis Screen Standard" />
 
         <Button
             android:id="@+id/button_start_scanner_compat"
@@ -69,7 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Start Analyze Document Compat" />
+            android:text="Start Analysis Screen Compat" />
 
     </LinearLayout>
 </RelativeLayout>

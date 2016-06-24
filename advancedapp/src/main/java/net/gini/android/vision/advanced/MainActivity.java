@@ -109,12 +109,12 @@ public class MainActivity extends Activity {
     }
 
     private void startAnalyzeDocument() {
-        Intent intent = new Intent(this, CustomAnalyzeDocumentActivity.class);
+        Intent intent = new Intent(this, CustomAnalysisActivity.class);
         startActivity(intent);
     }
 
     private void startAnalyzeDocumentCompat() {
-        Intent intent = new Intent(this, CustomAnalyzeDocumentAppCompatActivity.class);
+        Intent intent = new Intent(this, CustomAnalysisAppCompatActivity.class);
         startActivity(intent);
     }
 

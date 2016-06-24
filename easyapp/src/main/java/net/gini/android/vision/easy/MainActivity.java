@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ScannerActivity.class);
         intent.putParcelableArrayListExtra(ScannerActivity.EXTRA_IN_ONBOARDING_PAGES, getOnboardingPages());
         ScannerActivity.setReviewDocumentActivityExtra(intent, this, ReviewDocumentActivity.class);
-        ScannerActivity.setAnalyzeDocumentActivityExtra(intent, this, AnalyzeDocumentActivity.class);
+        ScannerActivity.setAnalysisActivityExtra(intent, this, AnalysisActivity.class);
         startActivityForResult(intent, REQUEST_SCAN);
     }
 

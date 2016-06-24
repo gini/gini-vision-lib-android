@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import net.gini.android.vision.GiniVisionError;
-import net.gini.android.vision.analyze.AnalyzeDocumentActivity;
+import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.reviewdocument.ReviewDocumentFragmentCompat;
 import net.gini.android.vision.reviewdocument.ReviewDocumentFragmentListener;
 import net.gini.android.vision.scanner.Document;
@@ -50,8 +50,8 @@ public class CustomReviewDocumentAppCompatActivity extends AppCompatActivity imp
 
     @Override
     public void onProceedToAnalyzeScreen(Document document) {
-        Intent intent = new Intent(this, CustomAnalyzeDocumentAppCompatActivity.class);
-        intent.putExtra(AnalyzeDocumentActivity.EXTRA_IN_DOCUMENT, document);
+        Intent intent = new Intent(this, CustomAnalysisAppCompatActivity.class);
+        intent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, document);
         startActivity(intent);
     }
 

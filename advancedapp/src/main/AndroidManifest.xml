@@ -36,10 +36,10 @@
             android:label="@string/title_review_document"
             android:theme="@style/AppThemeCompat" />
         <activity
-            android:name="net.gini.android.vision.advanced.CustomAnalyzeDocumentActivity"
+            android:name="net.gini.android.vision.advanced.CustomAnalysisActivity"
             android:label="@string/title_analyze_document" />
         <activity
-            android:name="net.gini.android.vision.advanced.CustomAnalyzeDocumentAppCompatActivity"
+            android:name="net.gini.android.vision.advanced.CustomAnalysisAppCompatActivity"
             android:label="@string/title_analyze_document"
             android:theme="@style/AppThemeCompat" />
     </application>

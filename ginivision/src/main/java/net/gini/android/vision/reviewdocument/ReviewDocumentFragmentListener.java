@@ -1,6 +1,7 @@
 package net.gini.android.vision.reviewdocument;
 
 import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.scanner.Document;
 
 /**
@@ -28,7 +29,7 @@ public interface ReviewDocumentFragmentListener {
      *     Called when you didn't call {@link ReviewDocumentFragmentStandard#onDocumentAnalyzed()} or {@link ReviewDocumentFragmentCompat#onDocumentAnalyzed()} or the image was changed and the user tapped on the Next button.
      * </p>
      * <p>
-     *     You should start your Activity extending {@link net.gini.android.vision.analyze.AnalyzeDocumentActivity} and set the document as the {@link net.gini.android.vision.analyze.AnalyzeDocumentActivity#EXTRA_IN_DOCUMENT} extra.
+     *     You should start your Activity extending {@link AnalysisActivity} and set the document as the {@link AnalysisActivity#EXTRA_IN_DOCUMENT} extra.
      * </p>
      *
      * @param document contains the reviewed image (can be the original one or a modified image)
