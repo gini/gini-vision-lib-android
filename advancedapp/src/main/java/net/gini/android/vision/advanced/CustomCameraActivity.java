@@ -41,7 +41,7 @@ public class CustomCameraActivity extends Activity implements CameraFragmentList
 
     @Override
     public void onDocumentAvailable(Document document) {
-        Intent intent = new Intent(this, CustomReviewDocumentActivity.class);
+        Intent intent = new Intent(this, CustomReviewActivity.class);
         startActivity(intent);
     }
 

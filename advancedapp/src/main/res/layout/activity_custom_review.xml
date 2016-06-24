@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_vertical_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="net.gini.android.vision.advanced.CustomReviewDocumentActivity">
+    tools:context="net.gini.android.vision.advanced.CustomReviewActivity">
 
     <FrameLayout
         android:id="@+id/fragment_review_document"

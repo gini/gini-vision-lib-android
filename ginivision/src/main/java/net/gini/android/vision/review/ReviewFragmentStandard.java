@@ -1,4 +1,4 @@
-package net.gini.android.vision.reviewdocument;
+package net.gini.android.vision.review;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -13,27 +13,27 @@ import net.gini.android.vision.ui.FragmentImplCallback;
 
 /**
  * <p>
- *     When using the Compontent API {@code ReviewDocumentFragmentStandard} displays the photographed document and allows the user to review it by checking the sharpness, quality and orientation of the image. The user can correct the orientation by rotating the image.
+ *     When using the Compontent API {@code ReviewFragmentStandard} displays the photographed document and allows the user to review it by checking the sharpness, quality and orientation of the image. The user can correct the orientation by rotating the image.
  * </p>
  * <p>
- *     Include the {@code ReviewDocumentFragmentStandard} into your layout by using the {@link ReviewDocumentFragmentStandard#createInstance(Document)} factory method to create an instance and display it using the {@link android.app.FragmentManager}.
+ *     Include the {@code ReviewFragmentStandard} into your layout by using the {@link ReviewFragmentStandard#createInstance(Document)} factory method to create an instance and display it using the {@link android.app.FragmentManager}.
  * </p>
  * <p>
- *     Your Activity must implement the {@link ReviewDocumentFragmentListener} interface to receive events from the Review Document Fragment. Failing to do so will throw an exception.
+ *     Your Activity must implement the {@link ReviewFragmentListener} interface to receive events from the Review Document Fragment. Failing to do so will throw an exception.
  * </p>
  * <p>
- *     Your Activity is automatically set as the listener in {@link ReviewDocumentFragmentStandard#onCreate(Bundle)}.
+ *     Your Activity is automatically set as the listener in {@link ReviewFragmentStandard#onCreate(Bundle)}.
  * </p>
  *
  * <h3>Customising the Review Screen</h3>
  *
  * <p>
- *     See the {@link ReviewDocumentActivity} for details.
+ *     See the {@link ReviewActivity} for details.
  * </p>
  */
-public class ReviewDocumentFragmentStandard extends Fragment implements FragmentImplCallback, ReviewDocumentFragmentInterface {
+public class ReviewFragmentStandard extends Fragment implements FragmentImplCallback, ReviewFragmentInterface {
 
-    private ReviewDocumentFragmentImpl mFragmentImpl;
+    private ReviewFragmentImpl mFragmentImpl;
 
     /**
      * <p>
@@ -45,9 +45,9 @@ public class ReviewDocumentFragmentStandard extends Fragment implements Fragment
      * @param document must be the {@link Document} from {@link CameraFragmentListener#onDocumentAvailable(Document)}
      * @return a new instance of the Fragment
      */
-    public static ReviewDocumentFragmentStandard createInstance(Document document) {
-        ReviewDocumentFragmentStandard fragment = new ReviewDocumentFragmentStandard();
-        fragment.setArguments(ReviewDocumentFragmentHelper.createArguments(document));
+    public static ReviewFragmentStandard createInstance(Document document) {
+        ReviewFragmentStandard fragment = new ReviewFragmentStandard();
+        fragment.setArguments(ReviewFragmentHelper.createArguments(document));
         return fragment;
     }
 
@@ -58,8 +58,8 @@ public class ReviewDocumentFragmentStandard extends Fragment implements Fragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFragmentImpl = ReviewDocumentFragmentHelper.createFragmentImpl(this, getArguments());
-        ReviewDocumentFragmentHelper.setListener(mFragmentImpl, getActivity());
+        mFragmentImpl = ReviewFragmentHelper.createFragmentImpl(this, getArguments());
+        ReviewFragmentHelper.setListener(mFragmentImpl, getActivity());
         mFragmentImpl.onCreate(savedInstanceState);
     }
 

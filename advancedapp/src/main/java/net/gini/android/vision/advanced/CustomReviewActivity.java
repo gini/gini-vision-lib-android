@@ -8,26 +8,26 @@ import android.widget.Toast;
 
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.analysis.AnalysisActivity;
-import net.gini.android.vision.reviewdocument.ReviewDocumentFragmentListener;
-import net.gini.android.vision.reviewdocument.ReviewDocumentFragmentStandard;
+import net.gini.android.vision.review.ReviewFragmentListener;
+import net.gini.android.vision.review.ReviewFragmentStandard;
 import net.gini.android.vision.camera.Document;
 import net.gini.android.vision.camera.photo.Photo;
 import net.gini.android.visionadvtest.R;
 
-public class CustomReviewDocumentActivity extends Activity implements ReviewDocumentFragmentListener {
+public class CustomReviewActivity extends Activity implements ReviewFragmentListener {
 
-    ReviewDocumentFragmentStandard mFragment;
+    ReviewFragmentStandard mFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_custom_review_document);
+        setContentView(R.layout.activity_custom_review);
         createFragment();
         showFragment();
     }
 
     private void createFragment() {
-        mFragment = ReviewDocumentFragmentStandard.createInstance(Document.fromPhoto(Photo.fromJpeg(new byte[]{}, 0)));
+        mFragment = ReviewFragmentStandard.createInstance(Document.fromPhoto(Photo.fromJpeg(new byte[]{}, 0)));
     }
 
     private void showFragment() {
@@ -43,7 +43,7 @@ public class CustomReviewDocumentActivity extends Activity implements ReviewDocu
             @Override
             public void run() {
                 mFragment.onDocumentAnalyzed();
-                Toast.makeText(CustomReviewDocumentActivity.this, "Photo was analyzed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CustomReviewActivity.this, "Photo was analyzed", Toast.LENGTH_SHORT).show();
             }
         }, 2000);
     }

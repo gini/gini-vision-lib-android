@@ -1,4 +1,4 @@
-package net.gini.android.vision.reviewdocument;
+package net.gini.android.vision.review;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,9 +12,9 @@ import net.gini.android.vision.R;
 import net.gini.android.vision.camera.Document;
 import net.gini.android.vision.ui.FragmentImplCallback;
 
-class ReviewDocumentFragmentImpl implements ReviewDocumentFragmentInterface {
+class ReviewFragmentImpl implements ReviewFragmentInterface {
 
-    private static final ReviewDocumentFragmentListener NO_OP_LISTENER = new ReviewDocumentFragmentListener() {
+    private static final ReviewFragmentListener NO_OP_LISTENER = new ReviewFragmentListener() {
         @Override
         public void onShouldAnalyzeDocument(Document document) {
 
@@ -40,16 +40,16 @@ class ReviewDocumentFragmentImpl implements ReviewDocumentFragmentInterface {
 
     private final FragmentImplCallback mFragment;
     private Document mDocument;
-    private ReviewDocumentFragmentListener mListener = NO_OP_LISTENER;
+    private ReviewFragmentListener mListener = NO_OP_LISTENER;
     private boolean mPhotoWasAnalyzed = false;
     private boolean mPhotoWasModified = false;
 
-    public ReviewDocumentFragmentImpl(FragmentImplCallback fragment, Document document) {
+    public ReviewFragmentImpl(FragmentImplCallback fragment, Document document) {
         mFragment = fragment;
         mDocument = document;
     }
 
-    public void setListener(ReviewDocumentFragmentListener listener) {
+    public void setListener(ReviewFragmentListener listener) {
         if (listener == null) {
             mListener = NO_OP_LISTENER;
         } else {
@@ -67,7 +67,7 @@ class ReviewDocumentFragmentImpl implements ReviewDocumentFragmentInterface {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.gv_fragment_review_document, container, false);
+        View view = inflater.inflate(R.layout.gv_fragment_review, container, false);
         bindViews(view);
         setInputHandlers();
         return view;

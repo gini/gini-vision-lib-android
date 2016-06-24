@@ -42,7 +42,7 @@ import net.gini.android.vision.camera.Document;
  *     The following items are customizable:
  *     <ul>
  *         <li>
- *             <b>Activity indicator color:</b> with the color resource name {@code gv_analyze_document_activity_indicator}
+ *             <b>Activity indicator color:</b> with the color resource name {@code gv_analyze_activity_indicator}
  *         </li>
  *     </ul>
  * </p>

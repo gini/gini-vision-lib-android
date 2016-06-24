@@ -1,4 +1,4 @@
-package net.gini.android.vision.reviewdocument;
+package net.gini.android.vision.review;
 
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.analysis.AnalysisActivity;
@@ -6,10 +6,10 @@ import net.gini.android.vision.camera.Document;
 
 /**
  * <p>
- * Interface used by {@link ReviewDocumentFragmentStandard} and {@link ReviewDocumentFragmentCompat} to dispatch events to the hosting Activity.
+ * Interface used by {@link ReviewFragmentStandard} and {@link ReviewFragmentCompat} to dispatch events to the hosting Activity.
  * </p>
  */
-public interface ReviewDocumentFragmentListener {
+public interface ReviewFragmentListener {
     /**
      * <p>
      * Called when the Review Document Fragment was started and you should start analysing the original document by sending it to the Gini API.
@@ -18,7 +18,7 @@ public interface ReviewDocumentFragmentListener {
      *     We assume that in most cases the photo is good enough and this way we are able to provide analysis results quicker.
      * </p>
      * <p>
-     *     <b>Note:</b> Call {@link ReviewDocumentFragmentStandard#onDocumentAnalyzed()} or {@link ReviewDocumentFragmentCompat#onDocumentAnalyzed()} when the analysis is done and your Activity wasn't stopped.
+     *     <b>Note:</b> Call {@link ReviewFragmentStandard#onDocumentAnalyzed()} or {@link ReviewFragmentCompat#onDocumentAnalyzed()} when the analysis is done and your Activity wasn't stopped.
      * </p>
      * @param document contains the original image taken by the camera
      */
@@ -26,7 +26,7 @@ public interface ReviewDocumentFragmentListener {
 
     /**
      * <p>
-     *     Called when you didn't call {@link ReviewDocumentFragmentStandard#onDocumentAnalyzed()} or {@link ReviewDocumentFragmentCompat#onDocumentAnalyzed()} or the image was changed and the user tapped on the Next button.
+     *     Called when you didn't call {@link ReviewFragmentStandard#onDocumentAnalyzed()} or {@link ReviewFragmentCompat#onDocumentAnalyzed()} or the image was changed and the user tapped on the Next button.
      * </p>
      * <p>
      *     You should start your Activity extending {@link AnalysisActivity} and set the document as the {@link AnalysisActivity#EXTRA_IN_DOCUMENT} extra.
@@ -38,7 +38,7 @@ public interface ReviewDocumentFragmentListener {
 
     /**
      * <p>
-     *     Called when you called {@link ReviewDocumentFragmentStandard#onDocumentAnalyzed()} or {@link ReviewDocumentFragmentCompat#onDocumentAnalyzed()} and the image wasn't changed and the user tapped on the Next button.
+     *     Called when you called {@link ReviewFragmentStandard#onDocumentAnalyzed()} or {@link ReviewFragmentCompat#onDocumentAnalyzed()} and the image wasn't changed and the user tapped on the Next button.
      * </p>
      * <p>
      *     You should finish your Activity and proceed to handling the results of the analysis.

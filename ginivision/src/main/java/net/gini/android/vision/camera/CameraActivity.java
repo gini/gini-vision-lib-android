@@ -14,7 +14,7 @@ import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
-import net.gini.android.vision.reviewdocument.ReviewDocumentActivity;
+import net.gini.android.vision.review.ReviewActivity;
 
 import java.util.ArrayList;
 
@@ -31,7 +31,7 @@ import java.util.ArrayList;
  * <p>
  *     These extras are mandatory:
  *     <ul>
- *         <li>{@link CameraActivity#EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY} - use the {@link CameraActivity#setReviewDocumentActivityExtra(Intent, Context, Class)} helper to set it. Must contain an explicit Intent to the {@link ReviewDocumentActivity} subclass from your application</li>
+ *         <li>{@link CameraActivity#EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY} - use the {@link CameraActivity#setReviewDocumentActivityExtra(Intent, Context, Class)} helper to set it. Must contain an explicit Intent to the {@link ReviewActivity} subclass from your application</li>
  *         <li>{@link CameraActivity#EXTRA_IN_ANALYSIS_ACTIVITY} - use the {@link CameraActivity#setAnalysisActivityExtra(Intent, Context, Class)} helper to set it. Must contain an explicit Intent to the {@link AnalysisActivity} subclass from your application</li>
  *     </ul>
  * </p>
@@ -62,7 +62,7 @@ import java.util.ArrayList;
  *     <b>Note:</b> It is important to retrieve the {@link Document} extras ({@link CameraActivity#EXTRA_OUT_ORIGINAL_DOCUMENT} and {@link CameraActivity#EXTRA_OUT_DOCUMENT}) to force unparceling of the {@link Document}s and removing of the references to their JPEG byte arrays from the memory cache. Failing to do so will lead to memory leaks.
  * </p>
  * <p>
- *     <b>Note:</b> For returning the extractions from the Gini API you can add your own extras in {@link ReviewDocumentActivity#onAddDataToResult(Intent)} or {@link AnalysisActivity#onAddDataToResult(Intent)}.
+ *     <b>Note:</b> For returning the extractions from the Gini API you can add your own extras in {@link ReviewActivity#onAddDataToResult(Intent)} or {@link AnalysisActivity#onAddDataToResult(Intent)}.
  * </p>
  *
  * <h3>Customising the Scanner Screen</h3>
@@ -95,7 +95,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
 
     /**
      * <p>
-     * Mandatory extra which must contain an explicit Intent to the {@link ReviewDocumentActivity} subclass from your application.
+     * Mandatory extra which must contain an explicit Intent to the {@link ReviewActivity} subclass from your application.
      * </p>
      * <p>
      *     Use the {@link CameraActivity#setReviewDocumentActivityExtra(Intent, Context, Class)} helper to set it.
@@ -175,13 +175,13 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * </p>
      *
      * @param target your explicit {@link Intent} used to start the {@link CameraActivity}
-     * @param context {@link Context} used to create the explicit {@link Intent} for your {@link ReviewDocumentActivity} subclass
-     * @param reviewPhotoActivityClass class of your {@link ReviewDocumentActivity} subclass
-     * @param <T> type of your {@link ReviewDocumentActivity} subclass
+     * @param context {@link Context} used to create the explicit {@link Intent} for your {@link ReviewActivity} subclass
+     * @param reviewPhotoActivityClass class of your {@link ReviewActivity} subclass
+     * @param <T> type of your {@link ReviewActivity} subclass
      */
-    public static <T extends ReviewDocumentActivity> void setReviewDocumentActivityExtra(Intent target,
-                                                                                         Context context,
-                                                                                         Class<T> reviewPhotoActivityClass) {
+    public static <T extends ReviewActivity> void setReviewDocumentActivityExtra(Intent target,
+                                                                                 Context context,
+                                                                                 Class<T> reviewPhotoActivityClass) {
         ActivityHelpers.setActivityExtra(target, EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY, context, reviewPhotoActivityClass);
     }
 
@@ -234,7 +234,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
 
     private void checkRequiredExtras() {
         if (mReviewDocumentActivityIntent == null) {
-            throw new IllegalStateException("CameraActivity requires a ReviewDocumentActivity class. Call setReviewDocumentActivityExtra() to set it.");
+            throw new IllegalStateException("CameraActivity requires a ReviewActivity class. Call setReviewDocumentActivityExtra() to set it.");
         }
         if (mAnalyzeDocumentActivityIntent == null) {
             throw new IllegalStateException("CameraActivity requires an AnalyzeDocumentActivity class. Call setAnalyzeDocumentActivityExtra() to set it.");
@@ -289,8 +289,8 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     @Override
     public void onDocumentAvailable(Document document) {
         mDocument = document;
-        // Start ReviewDocumentActivity
-        mReviewDocumentActivityIntent.putExtra(ReviewDocumentActivity.EXTRA_IN_DOCUMENT, document);
+        // Start ReviewActivity
+        mReviewDocumentActivityIntent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, document);
         startActivityForResult(mReviewDocumentActivityIntent, REVIEW_DOCUMENT_REQUEST);
     }
 
@@ -306,14 +306,14 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REVIEW_DOCUMENT_REQUEST) {
             switch (resultCode) {
-                case ReviewDocumentActivity.RESULT_PHOTO_WAS_REVIEWED:
+                case ReviewActivity.RESULT_PHOTO_WAS_REVIEWED:
                     if (data != null) {
-                        Document document = data.getParcelableExtra(ReviewDocumentActivity.EXTRA_OUT_DOCUMENT);
+                        Document document = data.getParcelableExtra(ReviewActivity.EXTRA_OUT_DOCUMENT);
                         mAnalyzeDocumentActivityIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, document);
                         startActivityForResult(mAnalyzeDocumentActivityIntent, ANALYSE_DOCUMENT_REQUEST);
                     }
                     break;
-                case ReviewDocumentActivity.RESULT_PHOTO_WAS_REVIEWED_AND_ANALYZED:
+                case ReviewActivity.RESULT_PHOTO_WAS_REVIEWED_AND_ANALYZED:
                     if (data == null) {
                         data = new Intent();
                     }
@@ -323,7 +323,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
                     setResult(RESULT_OK, data);
                     finish();
                     break;
-                case ReviewDocumentActivity.RESULT_ERROR:
+                case ReviewActivity.RESULT_ERROR:
                     setResult(RESULT_ERROR, data);
                     finish();
                     break;

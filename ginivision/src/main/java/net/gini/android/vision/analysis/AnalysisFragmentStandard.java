@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import net.gini.android.vision.camera.Document;
+import net.gini.android.vision.review.ReviewFragmentListener;
 import net.gini.android.vision.ui.FragmentImplCallback;
 
 /**
@@ -41,7 +42,7 @@ public class AnalysisFragmentStandard extends Fragment implements FragmentImplCa
      * <p>
      *     <b>Note:</b> Always use this method to create new instances. Document is required and an exception is thrown if it's missing.
      * </p>
-     * @param document must be the {@link Document} from {@link net.gini.android.vision.reviewdocument.ReviewDocumentFragmentListener#onProceedToAnalyzeScreen(Document)}
+     * @param document must be the {@link Document} from {@link ReviewFragmentListener#onProceedToAnalyzeScreen(Document)}
      * @return a new instance of the Fragment
      */
     public static AnalysisFragmentStandard createInstance(Document document) {

@@ -6,7 +6,7 @@ import android.widget.Toast;
 
 import net.gini.android.vision.camera.Document;
 
-public class ReviewDocumentActivity extends net.gini.android.vision.reviewdocument.ReviewDocumentActivity {
+public class ReviewActivity extends net.gini.android.vision.review.ReviewActivity {
 
     @Override
     public void onAddDataToResult(Intent result) {
@@ -20,7 +20,7 @@ public class ReviewDocumentActivity extends net.gini.android.vision.reviewdocume
             @Override
             public void run() {
                 onDocumentAnalyzed();
-                Toast.makeText(net.gini.android.vision.easy.ReviewDocumentActivity.this, "Photo was analyzed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(net.gini.android.vision.easy.ReviewActivity.this, "Photo was analyzed", Toast.LENGTH_SHORT).show();
             }
         }, 2000);
     }

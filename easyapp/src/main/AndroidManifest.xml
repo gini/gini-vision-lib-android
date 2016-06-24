@@ -15,11 +15,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="net.gini.android.vision.easy.ReviewDocumentActivity"
-            android:label="@string/gv_title_review_document" />
+            android:name="net.gini.android.vision.easy.ReviewActivity"
+            android:label="@string/gv_title_review" />
         <activity
             android:name="net.gini.android.vision.easy.AnalysisActivity"
-            android:label="@string/gv_title_analyze_document" />
+            android:label="@string/gv_title_analysis" />
     </application>
 
 </manifest>

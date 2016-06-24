@@ -29,7 +29,7 @@ public class CustomCameraAppCompatActivity extends AppCompatActivity implements 
 
     @Override
     public void onDocumentAvailable(Document document) {
-        Intent intent = new Intent(this, CustomReviewDocumentAppCompatActivity.class);
+        Intent intent = new Intent(this, CustomReviewAppCompatActivity.class);
         startActivity(intent);
         createGiniVisionCoordinator();
     }

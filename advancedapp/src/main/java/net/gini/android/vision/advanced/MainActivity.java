@@ -99,12 +99,12 @@ public class MainActivity extends Activity {
     }
 
     private void startReviewDocument() {
-        Intent intent = new Intent(this, CustomReviewDocumentActivity.class);
+        Intent intent = new Intent(this, CustomReviewActivity.class);
         startActivity(intent);
     }
 
     private void startReviewDocumentCompat() {
-        Intent intent = new Intent(this, CustomReviewDocumentAppCompatActivity.class);
+        Intent intent = new Intent(this, CustomReviewAppCompatActivity.class);
         startActivity(intent);
     }
 
