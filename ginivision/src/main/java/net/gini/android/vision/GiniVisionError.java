@@ -3,23 +3,53 @@ package net.gini.android.vision;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * <p>
+ *     Provides details about the error which caused the Gini Vision Lib to fail.
+ * </p>
+ */
 public class GiniVisionError implements Parcelable {
 
+    /**
+     * <p>
+     *     Definition of Gini Vision Lib error codes.
+     * </p>
+     */
     public enum ErrorCode {
     }
 
     private final ErrorCode mErrorCode;
     private final String mMessage;
 
+    /**
+     * @exclude
+     * @param code
+     * @param message
+     */
     public GiniVisionError(ErrorCode code, String message) {
         mErrorCode = code;
         mMessage = message;
     }
 
+    /**
+     * <p>
+     *     Use the {@link ErrorCode} to find the cause of the error.
+     * </p>
+     * @return the error code
+     */
     public ErrorCode getErrorCode() {
         return mErrorCode;
     }
 
+    /**
+     * <p>
+     *     Use the error message to find out the details about the error.
+     * </p>
+     * <p>
+     *     <b>Note:</b> you should not show this message to the user. It is for logging and debugging purposes only.
+     * </p>
+     * @return the error message
+     */
     public String getMessage() {
         return mMessage;
     }
