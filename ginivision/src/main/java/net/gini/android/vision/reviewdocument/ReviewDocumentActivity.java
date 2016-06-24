@@ -37,7 +37,7 @@ import net.gini.android.vision.scanner.Document;
  *   Customising the look of the Review Screen is done via app resources overriding.
  * </p>
  * <p>
- *     The following items are customisable:
+ *     The following items are customizable:
  *     <ul>
  *         <li>
  *             <b>Rotate button icon:</b> with images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_review_document_button_rotate.png}

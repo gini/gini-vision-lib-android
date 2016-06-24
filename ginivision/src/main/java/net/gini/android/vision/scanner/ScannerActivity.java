@@ -71,7 +71,7 @@ import java.util.ArrayList;
  *   Customising the look of the Scanner Screen is done via app resources overriding.
  * </p>
  * <p>
- *     The following items are customisable:
+ *     The following items are customizable:
  *     <ul>
  *         <li>
  *             <b>Document corner guides:</b> with images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_camera_preview_corners.png}

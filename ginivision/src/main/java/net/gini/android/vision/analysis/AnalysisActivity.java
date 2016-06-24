@@ -38,7 +38,7 @@ import net.gini.android.vision.scanner.Document;
  *   Customising the look of the Analysis Screen is done via app resources overriding.
  * </p>
  * <p>
- *     The following items are customisable:
+ *     The following items are customizable:
  *     <ul>
  *         <li>
  *             <b>Activity indicator color:</b> with the color resource name {@code gv_analyze_document_activity_indicator}

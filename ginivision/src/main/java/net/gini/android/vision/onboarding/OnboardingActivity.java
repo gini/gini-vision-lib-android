@@ -25,7 +25,7 @@ import java.util.ArrayList;
  *   Customising the look of the Onboarding Screen is done via app resources overriding or by providing your own pages with your own string and drawable resources.
  * </p>
  * <p>
- *     The following items are customisable:
+ *     The following items are customizable:
  *     <ul>
  *         <li>
  *             <b>Next button icon:</b> with images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_onboarding_fab_next.png}
