@@ -27,6 +27,12 @@ import android.view.ViewGroup;
  * <p>
  *     Your Activity is automatically set as the listener in {@link ScannerFragmentCompat#onAttach(Context)}.
  * </p>
+ *
+ * <h3>Customising the Scanner Screen</h3>
+ *
+ * <p>
+ *     See the {@link ScannerActivity} for details.
+ * </p>
  */
 public class ScannerFragmentCompat extends Fragment implements ScannerFragmentInterface {
 

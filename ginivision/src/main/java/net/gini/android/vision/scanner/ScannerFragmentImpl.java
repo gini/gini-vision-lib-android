@@ -18,11 +18,6 @@ class ScannerFragmentImpl implements ScannerFragmentInterface {
         }
 
         @Override
-        public boolean onShouldPreventCameraFromStopping() {
-            return false;
-        }
-
-        @Override
         public void onError(GiniVisionError error) {
         }
     };

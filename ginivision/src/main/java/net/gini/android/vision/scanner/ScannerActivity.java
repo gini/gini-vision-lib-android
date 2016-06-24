@@ -64,6 +64,32 @@ import java.util.ArrayList;
  * <p>
  *     <b>Note:</b> For returning the extractions from the Gini API you can add your own extras in {@link ReviewDocumentActivity#onAddDataToResult(Intent)} or {@link AnalyseDocumentActivity#onAddDataToResult(Intent)}.
  * </p>
+ *
+ * <h3>Customising the Scanner Screen</h3>
+ *
+ * <p>
+ *   Customising the look of the Scanner Screen is done via app resources overriding.
+ * </p>
+ * <p>
+ *     The following items are customisable:
+ *     <ul>
+ *         <li>
+ *             <b>Document corner guides:</b> with images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_camera_preview_corners.png}
+ *         </li>
+ *         <li>
+ *             <b>Camera trigger button:</b> with images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_camera_trigger_default.png} and {@code gv_camera_trigger_pressed.png}
+ *         </li>
+ *         <li>
+ *             <b>Tap-to-focus indicator:</b> with images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_camera_focus_rect.png}
+ *         </li>
+ *         <li>
+ *             <b>Onboarding menu item icon:</b> with images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_icon_onboarding.png}
+ *         </li>
+ *         <li>
+ *             <b>Onboarding menu item title:</b> with the string resource named {@code gv_show_onboarding}
+ *         </li>
+ *     </ul>
+ * </p>
  */
 public class ScannerActivity extends AppCompatActivity implements ScannerFragmentListener {
 
