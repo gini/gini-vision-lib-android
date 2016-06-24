@@ -12,7 +12,7 @@
  * </p>
  *
  * <p>
- * {@link net.gini.android.vision.reviewdocument.ReviewDocumentActivity} extends {@link
+ * <b>Note:</b> {@link net.gini.android.vision.reviewdocument.ReviewDocumentActivity} extends {@link
  * android.support.v7.app.AppCompatActivity}, therefore you have to use an {@code AppCompat} theme for your {@link
  * net.gini.android.vision.reviewdocument.ReviewDocumentActivity} subclass.
  * </p>

@@ -11,21 +11,21 @@ import net.gini.android.vision.scanner.Document;
 public interface ReviewDocumentFragmentListener {
     /**
      * <p>
-     * Called when the Review Document Fragment was created and you should start analysing the original document by sending it to the Gini API.
+     * Called when the Review Document Fragment was started and you should start analysing the original document by sending it to the Gini API.
      * </p>
      * <p>
      *     We assume that in most cases the photo is good enough and this way we are able to provide analysis results quicker.
      * </p>
      * <p>
-     *     <b>Note:</b> Call {@link ReviewDocumentFragmentStandard#onDocumentAnalyzed()} or {@link ReviewDocumentFragmentCompat#onDocumentAnalyzed()} when the analysis is done and your Activity wasn't stopped.
+     *     <b>Note:</b> Call {@link ReviewDocumentFragmentStandard#onDocumentAnalysed()} or {@link ReviewDocumentFragmentCompat#onDocumentAnalysed()} when the analysis is done and your Activity wasn't stopped.
      * </p>
      * @param document contains the original image taken by the camera
      */
-    void onShouldAnalyzeDocument(Document document);
+    void onShouldAnalyseDocument(Document document);
 
     /**
      * <p>
-     *     Called when you didn't call {@link ReviewDocumentFragmentStandard#onDocumentAnalyzed()} or {@link ReviewDocumentFragmentCompat#onDocumentAnalyzed()} or the image was changed and the user tapped on the Next button.
+     *     Called when you didn't call {@link ReviewDocumentFragmentStandard#onDocumentAnalysed()} or {@link ReviewDocumentFragmentCompat#onDocumentAnalysed()} or the image was changed and the user tapped on the Next button.
      * </p>
      * <p>
      *     You should start your Activity extending {@link net.gini.android.vision.analyse.AnalyseDocumentActivity} and set the document as the {@link net.gini.android.vision.analyse.AnalyseDocumentActivity#EXTRA_IN_DOCUMENT} extra.
@@ -33,18 +33,18 @@ public interface ReviewDocumentFragmentListener {
      *
      * @param document contains the reviewed image (can be the original one or a modified image)
      */
-    void onProceedToAnalyzeScreen(Document document);
+    void onProceedToAnalyseScreen(Document document);
 
     /**
      * <p>
-     *     Called when you called {@link ReviewDocumentFragmentStandard#onDocumentAnalyzed()} or {@link ReviewDocumentFragmentCompat#onDocumentAnalyzed()} and the image wasn't changed and the user tapped on the Next button.
+     *     Called when you called {@link ReviewDocumentFragmentStandard#onDocumentAnalysed()} or {@link ReviewDocumentFragmentCompat#onDocumentAnalysed()} and the image wasn't changed and the user tapped on the Next button.
      * </p>
      * <p>
      *     You should finish your Activity and proceed to handling the results of the analysis.
      * </p>
      * @param document contains the reviewed image (can be the original one or a modified image)
      */
-    void onDocumentReviewedAndAnalyzed(Document document);
+    void onDocumentReviewedAndAnalysed(Document document);
 
     /**
      * <p>

@@ -11,14 +11,37 @@ import net.gini.android.vision.ui.FragmentImplCallback;
 
 import java.util.ArrayList;
 
+/**
+ * <p>
+ *     When using the Component API the {@code OnboardingFragmentStandard} displays important advices for correctly photgraphing a document.
+ * </p>
+ * <p>
+ *     Include the {@code OnboardingFragmentCompat} into your layout either directly with {@code <fragment>} in your Activitie's layout or using the {@link android.app.FragmentManager}.
+ * </p>
+ * <p>
+ *     If you would like to display a different number of pages, you can use the {@link OnboardingFragmentStandard#createInstance(ArrayList)} factory method and provide the list of {@link OnboardingPage} objects.
+ * </p>
+ * <p>
+ *     Your Activity must implement the {@link OnboardingFragmentListener} interface to receive events from the Onboarding Fragment. Failing to do so will throw an exception.
+ * </p>
+ * <p>
+ *     Your Activity is automatically set as the listener in {@link OnboardingFragmentStandard#onCreate(Bundle)}.
+ * </p>
+ */
 public class OnboardingFragmentStandard extends Fragment implements FragmentImplCallback {
 
     private OnboardingFragmentImpl mFragmentImpl;
 
-    public static OnboardingFragmentStandard createInstance() {
-        return new OnboardingFragmentStandard();
-    }
-
+    /**
+     * <p>
+     *     Factory method for creating a new instance of the Fragment using the provided list of onboarding pages.
+     * </p>
+     * <p>
+     *     If you don't need a custom number of pages, you can use the default constructor.
+     * </p>
+     * @param pages the pages to be shown
+     * @return a new instance of the Fragment
+     */
     public static OnboardingFragmentStandard createInstance(ArrayList<OnboardingPage> pages) {
         OnboardingFragmentStandard fragment = new OnboardingFragmentStandard();
         fragment.setArguments(OnboardingFragmentHelper.createArguments(pages));

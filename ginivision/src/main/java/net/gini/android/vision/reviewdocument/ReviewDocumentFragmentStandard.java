@@ -80,10 +80,10 @@ public class ReviewDocumentFragmentStandard extends Fragment implements Fragment
     }
 
     @Override
-    public void onDocumentAnalyzed() {
+    public void onDocumentAnalysed() {
         if (mFragmentImpl == null) {
             return;
         }
-        mFragmentImpl.onDocumentAnalyzed();
+        mFragmentImpl.onDocumentAnalysed();
     }
 }

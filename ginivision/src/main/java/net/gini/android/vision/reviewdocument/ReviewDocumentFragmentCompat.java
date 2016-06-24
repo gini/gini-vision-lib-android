@@ -12,7 +12,7 @@ import net.gini.android.vision.ui.FragmentImplCallback;
 
 /**
  * <p>
- *     When using the Compontent API {@code ReviewDocumentFragmentCompat} displays the photographed document and allows the user to review it by checking the sharpness, quality and orientation of the image. The user can correct the orientation by rotating the image.
+ *     When using the Compontent API the {@code ReviewDocumentFragmentCompat} displays the photographed document and allows the user to review it by checking the sharpness, quality and orientation of the image. The user can correct the orientation by rotating the image.
  * </p>
  * <p>
  *     <b>Note:</b> Your Activity hosting this Fragment must extend the {@link android.support.v7.app.AppCompatActivity} and use an AppCompat Theme.
@@ -83,10 +83,10 @@ public class ReviewDocumentFragmentCompat extends Fragment implements FragmentIm
     }
 
     @Override
-    public void onDocumentAnalyzed() {
+    public void onDocumentAnalysed() {
         if (mFragmentImpl == null) {
             return;
         }
-        mFragmentImpl.onDocumentAnalyzed();
+        mFragmentImpl.onDocumentAnalysed();
     }
 }

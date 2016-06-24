@@ -10,10 +10,34 @@ import android.view.ViewGroup;
 import net.gini.android.vision.scanner.Document;
 import net.gini.android.vision.ui.FragmentImplCallback;
 
+/**
+ * <p>
+ *     When using the Component API the {@code AnalyseDocumentFragmentStandard} displays the captured document and an activity indicator while the document is being analysed by the Gini API.
+ * </p>
+ * <p>
+ *     Include the {@code AnalyseDocumentFragmentStandard} into your layout by using the {@link AnalyseDocumentFragmentStandard#createInstance(Document)} factory method to create an instance and display it using the {@link android.app.FragmentManager}.
+ * </p>
+ * <p>
+ *     Your Activity must implement the {@link AnalyseDocumentFragmentListener} interface to receive events from the Analyse Document Fragment. Failing to do so will throw an exception.
+ * </p>
+ * <p>
+ *     Your Activity is automatically set as the listener in {@link AnalyseDocumentFragmentStandard#onCreate(Bundle)}.
+ * </p>
+ */
 public class AnalyseDocumentFragmentStandard extends Fragment implements FragmentImplCallback, AnalyseDocumentFragmentInterface {
 
     private AnalyseDocumentFragmentImpl mFragmentImpl;
 
+    /**
+     * <p>
+     *     Factory method for creating a new instance of the Fragment using the provided document.
+     * </p>
+     * <p>
+     *     <b>Note:</b> Always use this method to create new instances. Document is required and an exception is thrown if it's missing.
+     * </p>
+     * @param document must be the {@link Document} from {@link net.gini.android.vision.reviewdocument.ReviewDocumentFragmentListener#onProceedToAnalyseScreen(Document)}
+     * @return a new instance of the Fragment
+     */
     public static AnalyseDocumentFragmentStandard createInstance(Document document) {
         AnalyseDocumentFragmentStandard fragment = new AnalyseDocumentFragmentStandard();
         fragment.setArguments(AnalyseDocumentFragmentHelper.createArguments(document));
@@ -66,7 +90,7 @@ public class AnalyseDocumentFragmentStandard extends Fragment implements Fragmen
     }
 
     @Override
-    public void onDocumentAnalyzed() {
-        mFragmentImpl.onDocumentAnalyzed();
+    public void onDocumentAnalysed() {
+        mFragmentImpl.onDocumentAnalysed();
     }
 }

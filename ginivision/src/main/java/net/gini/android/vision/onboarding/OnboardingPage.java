@@ -5,21 +5,53 @@ import android.os.Parcelable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 
+import java.util.ArrayList;
+
+/**
+ * <p>
+ *     The {@code OnboardingPage} is used by the Onboarding Fragment for displaying an image and a short text.
+ * </p>
+ * <p>
+ *     Use this class for showing a different number of pages in the Onboarding Screen. Customising the default onboarding pages can be done via app resources overriding.
+ * </p>
+ * <p>
+ *     When using the Screen API set an {@link java.util.ArrayList} containing {@code OnboardingPage} objects as the {@link net.gini.android.vision.scanner.ScannerActivity#EXTRA_IN_ONBOARDING_PAGES} when starting the {@link net.gini.android.vision.scanner.ScannerActivity}.
+ * </p>
+ * <p>
+ *     When using the Componenent API provide an {@link java.util.ArrayList} containing {@code OnboardingPage} objects as the argument for the Onboarding Fragment factory method {@link OnboardingFragmentStandard#createInstance(ArrayList)} or {@link OnboardingFragmentCompat#createInstance(ArrayList)}.
+ * </p>
+ */
 public class OnboardingPage implements Parcelable {
 
     private final int mTextResId;
     private final int mImageResId;
 
+    /**
+     * <p>
+     *     Create a new onboarding page with the desired string resource and drawable resource.
+     * </p>
+     * <p>
+     *     <b>Note:</b> the string should be a short sentence.
+     * </p>
+     * @param textResId a string resource id which will be shown in the onboarding page
+     * @param imageResId an drawable resource id which will be shown in the onboarding page
+     */
     public OnboardingPage(@StringRes int textResId, @DrawableRes int imageResId) {
         mTextResId = textResId;
         mImageResId = imageResId;
     }
 
+    /**
+     * @return the string resource id of the text shown in the onboarding page.
+     */
     @StringRes
     public int getTextResId() {
         return mTextResId;
     }
 
+    /**
+     * @return the drawable resource id of the text shown in the onboarding page.
+     */
     @DrawableRes
     public int getImageResId() {
         return mImageResId;

@@ -8,10 +8,21 @@ import net.gini.android.vision.R;
 
 import java.util.ArrayList;
 
+/**
+ * <p>
+ *     When using the Screen API {@code OnboardingActivity} displays important advices for correctly photgraphing a document.
+ * </p>
+ * <p>
+ *     The {@code OnboardingActivity} is started by the {@link net.gini.android.vision.scanner.ScannerActivity} when it is launched for the first time. You may disable this behaviour - we recommend keeping it - by setting the {@link net.gini.android.vision.scanner.ScannerActivity#EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN} to {@code false} when starting the {@link net.gini.android.vision.scanner.ScannerActivity}.
+ * </p>
+ * <p>
+ *     You can change the number of displayed pages and their content (image and short text) by setting an {@link ArrayList} containing {@link OnboardingPage} objects for the {@link net.gini.android.vision.scanner.ScannerActivity#EXTRA_IN_ONBOARDING_PAGES} when starting the {@link net.gini.android.vision.scanner.ScannerActivity}.
+ * </p>
+ */
 public class OnboardingActivity extends AppCompatActivity implements OnboardingFragmentListener {
 
     /**
-     * Type: {@code ArrayList<OnboardingPage>}
+     * @exclude
      */
     public static final String EXTRA_ONBOARDING_PAGES = "GV_EXTRA_PAGES";
 
@@ -38,7 +49,7 @@ public class OnboardingActivity extends AppCompatActivity implements OnboardingF
         if (mPages != null) {
             mOnboardingFragment = OnboardingFragmentCompat.createInstance(mPages);
         } else {
-            mOnboardingFragment = OnboardingFragmentCompat.createInstance();
+            mOnboardingFragment = new OnboardingFragmentCompat();
         }
     }
 

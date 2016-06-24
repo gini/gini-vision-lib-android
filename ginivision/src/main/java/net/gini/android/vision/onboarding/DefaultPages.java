@@ -4,6 +4,9 @@ import net.gini.android.vision.R;
 
 import java.util.ArrayList;
 
+/**
+ * @exclude
+ */
 public final class DefaultPages {
 
     private static final ArrayList<OnboardingPage> DEFAULT_PAGES = new ArrayList<>(3);

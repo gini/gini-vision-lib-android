@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * @exclude
+ */
 public class OnboardingPageFragmentStandard extends Fragment {
 
     private OnboardingPageFragmentImpl mFragmentImpl;
@@ -17,23 +20,12 @@ public class OnboardingPageFragmentStandard extends Fragment {
         return fragment;
     }
 
-    /**
-     * @exclude
-     * @param savedInstanceState
-     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFragmentImpl = OnboardingPageFragmentHelper.createFragmentImpl(getArguments());
     }
 
-    /**
-     * @exclude
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
-     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

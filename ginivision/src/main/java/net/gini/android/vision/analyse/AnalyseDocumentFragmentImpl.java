@@ -13,7 +13,7 @@ class AnalyseDocumentFragmentImpl implements AnalyseDocumentFragmentInterface {
 
     private static final AnalyseDocumentFragmentListener NO_OP_LISTENER = new AnalyseDocumentFragmentListener() {
         @Override
-        public void onAnalyzeDocument(Document document) {
+        public void onAnalyseDocument(Document document) {
         }
 
         @Override
@@ -39,7 +39,7 @@ class AnalyseDocumentFragmentImpl implements AnalyseDocumentFragmentInterface {
     }
 
     public void onCreate(Bundle savedInstanceState) {
-        mListener.onAnalyzeDocument(mDocument);
+        mListener.onAnalyseDocument(mDocument);
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,7 +61,7 @@ class AnalyseDocumentFragmentImpl implements AnalyseDocumentFragmentInterface {
     }
 
     @Override
-    public void onDocumentAnalyzed() {
+    public void onDocumentAnalysed() {
 
     }
 }
