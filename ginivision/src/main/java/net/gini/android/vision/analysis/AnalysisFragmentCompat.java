@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import net.gini.android.vision.scanner.Document;
+import net.gini.android.vision.camera.Document;
 import net.gini.android.vision.ui.FragmentImplCallback;
 
 /**

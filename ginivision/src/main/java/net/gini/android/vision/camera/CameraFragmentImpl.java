@@ -1,4 +1,4 @@
-package net.gini.android.vision.scanner;
+package net.gini.android.vision.camera;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,11 +8,11 @@ import android.widget.ImageButton;
 
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
-import net.gini.android.vision.scanner.photo.Photo;
+import net.gini.android.vision.camera.photo.Photo;
 
-class ScannerFragmentImpl implements ScannerFragmentInterface {
+class CameraFragmentImpl implements CameraFragmentInterface {
 
-    private static final ScannerFragmentListener NO_OP_LISTENER = new ScannerFragmentListener() {
+    private static final CameraFragmentListener NO_OP_LISTENER = new CameraFragmentListener() {
         @Override
         public void onDocumentAvailable(Document document) {
         }
@@ -22,11 +22,11 @@ class ScannerFragmentImpl implements ScannerFragmentInterface {
         }
     };
 
-    private ScannerFragmentListener mListener = NO_OP_LISTENER;
+    private CameraFragmentListener mListener = NO_OP_LISTENER;
 
     private ImageButton mButtonCameraTrigger;
 
-    public void setListener(ScannerFragmentListener listener) {
+    public void setListener(CameraFragmentListener listener) {
         if (listener == null) {
             mListener = NO_OP_LISTENER;
         } else {
@@ -36,7 +36,7 @@ class ScannerFragmentImpl implements ScannerFragmentInterface {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.gv_fragment_scanner, container, false);
+        View view = inflater.inflate(R.layout.gv_fragment_camera, container, false);
         bindViews(view);
         setInputHandlers();
         return view;

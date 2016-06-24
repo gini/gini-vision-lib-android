@@ -6,7 +6,7 @@
  * <h3>Screen API</h3>
  *
  * <p>
- * The {@link net.gini.android.vision.onboarding.OnboardingActivity} is launched directly by the {@link net.gini.android.vision.scanner.ScannerActivity}. It can be configured by overriding Gini Vision Lib app resources and/or by supplying the {@link net.gini.android.vision.scanner.ScannerActivity} an {@link java.util.ArrayList} with {@link net.gini.android.vision.onboarding.OnboardingPage} objects in the {@link net.gini.android.vision.scanner.ScannerActivity#EXTRA_IN_ONBOARDING_PAGES} extra.
+ * The {@link net.gini.android.vision.onboarding.OnboardingActivity} is launched directly by the {@link net.gini.android.vision.camera.CameraActivity}. It can be configured by overriding Gini Vision Lib app resources and/or by supplying the {@link net.gini.android.vision.camera.CameraActivity} an {@link java.util.ArrayList} with {@link net.gini.android.vision.onboarding.OnboardingPage} objects in the {@link net.gini.android.vision.camera.CameraActivity#EXTRA_IN_ONBOARDING_PAGES} extra.
  * </p>
  *
  * <h3>Component API</h3>

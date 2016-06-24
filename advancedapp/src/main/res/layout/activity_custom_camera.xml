@@ -7,15 +7,15 @@
     android:paddingLeft="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_vertical_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="net.gini.android.vision.advanced.CustomScannerActivity">
+    tools:context="net.gini.android.vision.advanced.CustomCameraActivity">
 
     <fragment
         android:id="@+id/fragment_scanner"
-        android:name="net.gini.android.vision.scanner.ScannerFragmentStandard"
+        android:name="net.gini.android.vision.camera.CameraFragmentStandard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/text_info"
-        tools:layout="@layout/gv_fragment_scanner" />
+        tools:layout="@layout/gv_fragment_camera" />
 
     <TextView
         android:id="@+id/text_info"

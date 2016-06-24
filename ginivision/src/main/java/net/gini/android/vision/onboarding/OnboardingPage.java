@@ -5,6 +5,8 @@ import android.os.Parcelable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 
+import net.gini.android.vision.camera.CameraActivity;
+
 import java.util.ArrayList;
 
 /**
@@ -15,7 +17,7 @@ import java.util.ArrayList;
  *     Use this class for showing a different number of pages in the Onboarding Screen. Customising the default onboarding pages can be done via app resources overriding.
  * </p>
  * <p>
- *     When using the Screen API set an {@link java.util.ArrayList} containing {@code OnboardingPage} objects as the {@link net.gini.android.vision.scanner.ScannerActivity#EXTRA_IN_ONBOARDING_PAGES} when starting the {@link net.gini.android.vision.scanner.ScannerActivity}.
+ *     When using the Screen API set an {@link java.util.ArrayList} containing {@code OnboardingPage} objects as the {@link CameraActivity#EXTRA_IN_ONBOARDING_PAGES} when starting the {@link CameraActivity}.
  * </p>
  * <p>
  *     When using the Componenent API provide an {@link java.util.ArrayList} containing {@code OnboardingPage} objects as the argument for the Onboarding Fragment factory method {@link OnboardingFragmentStandard#createInstance(ArrayList)} or {@link OnboardingFragmentCompat#createInstance(ArrayList)}.

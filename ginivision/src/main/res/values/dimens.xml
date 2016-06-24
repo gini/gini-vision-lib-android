@@ -28,6 +28,6 @@
     <dimen name="gv_fab_mini_shadow_width_selected">42dp</dimen>
     <dimen name="gv_fab_mini_shadow_height_selected">42dp</dimen>
 
-    <dimen name="gv_analyze_scanner_line_height">2dp</dimen>
-    <dimen name="gv_analyze_scanner_line_margin">16dp</dimen>
+    <dimen name="gv_analysis_scanner_line_height">2dp</dimen>
+    <dimen name="gv_analysis_scanner_line_margin">16dp</dimen>
 </resources>

@@ -16,11 +16,11 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/button_start_scanner"
+            android:id="@+id/button_start_camera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Start Scanner Standard" />
+            android:text="Start Camera Standard" />
 
         <Button
             android:id="@+id/button_start_onboarding"
@@ -37,18 +37,18 @@
             android:text="Start Review Document Standard" />
 
         <Button
-            android:id="@+id/button_start_analyze_document"
+            android:id="@+id/button_start_analysis"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Start Analysis Screen Standard" />
 
         <Button
-            android:id="@+id/button_start_scanner_compat"
+            android:id="@+id/button_start_camera_compat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Start Scanner Compat" />
+            android:text="Start Camera Compat" />
 
         <Button
             android:id="@+id/button_start_onboarding_compat"
@@ -65,7 +65,7 @@
             android:text="Start Review Document Compat" />
 
         <Button
-            android:id="@+id/button_start_analyze_document_compat"
+            android:id="@+id/button_start_analysis_compat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

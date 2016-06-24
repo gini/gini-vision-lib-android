@@ -3,7 +3,7 @@ package net.gini.android.vision.easy;
 import android.content.Intent;
 import android.os.Handler;
 
-import net.gini.android.vision.scanner.Document;
+import net.gini.android.vision.camera.Document;
 
 public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisActivity {
 

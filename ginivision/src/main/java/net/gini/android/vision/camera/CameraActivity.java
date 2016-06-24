@@ -1,4 +1,4 @@
-package net.gini.android.vision.scanner;
+package net.gini.android.vision.camera;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,46 +20,46 @@ import java.util.ArrayList;
 
 /**
  * <p>
- * {@code ScannerActivity} is the main entry point to the Gini Vision Lib when using the Screen API.
+ * {@code CameraActivity} is the main entry point to the Gini Vision Lib when using the Screen API.
  * </p>
  * <p>
  *     It shows a camera preview with tap-to-focus functionality and a trigger button. The camera preview also shows document corner guides to which the user should align the document.
  * </p>
  * <p>
- *     Start the {@code ScannerActivity} with {@link android.app.Activity#startActivityForResult(Intent, int)} to receive the original {@link Document} and the reviewed {@link Document} and also the {@link GiniVisionError}, if there was an error.
+ *     Start the {@code CameraActivity} with {@link android.app.Activity#startActivityForResult(Intent, int)} to receive the original {@link Document} and the reviewed {@link Document} and also the {@link GiniVisionError}, if there was an error.
  * </p>
  * <p>
  *     These extras are mandatory:
  *     <ul>
- *         <li>{@link ScannerActivity#EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY} - use the {@link ScannerActivity#setReviewDocumentActivityExtra(Intent, Context, Class)} helper to set it. Must contain an explicit Intent to the {@link ReviewDocumentActivity} subclass from your application</li>
- *         <li>{@link ScannerActivity#EXTRA_IN_ANALYSIS_ACTIVITY} - use the {@link ScannerActivity#setAnalysisActivityExtra(Intent, Context, Class)} helper to set it. Must contain an explicit Intent to the {@link AnalysisActivity} subclass from your application</li>
+ *         <li>{@link CameraActivity#EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY} - use the {@link CameraActivity#setReviewDocumentActivityExtra(Intent, Context, Class)} helper to set it. Must contain an explicit Intent to the {@link ReviewDocumentActivity} subclass from your application</li>
+ *         <li>{@link CameraActivity#EXTRA_IN_ANALYSIS_ACTIVITY} - use the {@link CameraActivity#setAnalysisActivityExtra(Intent, Context, Class)} helper to set it. Must contain an explicit Intent to the {@link AnalysisActivity} subclass from your application</li>
  *     </ul>
  * </p>
  * <p>
  *     Optional extras are:
  *     <ul>
- *         <li>{@link ScannerActivity#EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN} - if set and {@code true} the Onboarding Screen is shown the first time Gini Vision Lib is started</li>
- *         <li>{@link ScannerActivity#EXTRA_IN_ONBOARDING_PAGES} - custom pages for the Onboarding Screen as an {@link ArrayList} containing {@link OnboardingPage} objects</li>
+ *         <li>{@link CameraActivity#EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN} - if set and {@code true} the Onboarding Screen is shown the first time Gini Vision Lib is started</li>
+ *         <li>{@link CameraActivity#EXTRA_IN_ONBOARDING_PAGES} - custom pages for the Onboarding Screen as an {@link ArrayList} containing {@link OnboardingPage} objects</li>
  *     </ul>
  * </p>
  * <p>
  *     The following result codes need to be handled:
  *     <ul>
- *         <li>{@link ScannerActivity#RESULT_OK} - image of a document was taken, reviewed and analyzed</li>
- *         <li>{@link ScannerActivity#RESULT_CANCELED} - image of document was not taken, user cancelled the Gini Vision Lib</li>
- *         <li>{@link ScannerActivity#RESULT_ERROR} - an error occured</li>
+ *         <li>{@link CameraActivity#RESULT_OK} - image of a document was taken, reviewed and analyzed</li>
+ *         <li>{@link CameraActivity#RESULT_CANCELED} - image of document was not taken, user cancelled the Gini Vision Lib</li>
+ *         <li>{@link CameraActivity#RESULT_ERROR} - an error occured</li>
  *     </ul>
  * </p>
  * <p>
- *     Result extras returned by the {@code ScannerActivity}:
+ *     Result extras returned by the {@code CameraActivity}:
  *     <ul>
- *         <li>{@link ScannerActivity#EXTRA_OUT_ORIGINAL_DOCUMENT} - set when result is {@link ScannerActivity#RESULT_OK}, contains the unaltered image taken by the camera</li>
- *         <li>{@link ScannerActivity#EXTRA_OUT_DOCUMENT} - set when result is {@link ScannerActivity#RESULT_OK}, contains the reviewed image taken by the camera which should have been also uploaded to the Gini API</li>
- *         <li>{@link ScannerActivity#EXTRA_OUT_ERROR} - set when result is {@link ScannerActivity#RESULT_ERROR}, contains a {@link GiniVisionError} object detailing what went wrong</li>
+ *         <li>{@link CameraActivity#EXTRA_OUT_ORIGINAL_DOCUMENT} - set when result is {@link CameraActivity#RESULT_OK}, contains the unaltered image taken by the camera</li>
+ *         <li>{@link CameraActivity#EXTRA_OUT_DOCUMENT} - set when result is {@link CameraActivity#RESULT_OK}, contains the reviewed image taken by the camera which should have been also uploaded to the Gini API</li>
+ *         <li>{@link CameraActivity#EXTRA_OUT_ERROR} - set when result is {@link CameraActivity#RESULT_ERROR}, contains a {@link GiniVisionError} object detailing what went wrong</li>
  *     </ul>
  * </p>
  * <p>
- *     <b>Note:</b> It is important to retrieve the {@link Document} extras ({@link ScannerActivity#EXTRA_OUT_ORIGINAL_DOCUMENT} and {@link ScannerActivity#EXTRA_OUT_DOCUMENT}) to force unparceling of the {@link Document}s and removing of the references to their JPEG byte arrays from the memory cache. Failing to do so will lead to memory leaks.
+ *     <b>Note:</b> It is important to retrieve the {@link Document} extras ({@link CameraActivity#EXTRA_OUT_ORIGINAL_DOCUMENT} and {@link CameraActivity#EXTRA_OUT_DOCUMENT}) to force unparceling of the {@link Document}s and removing of the references to their JPEG byte arrays from the memory cache. Failing to do so will lead to memory leaks.
  * </p>
  * <p>
  *     <b>Note:</b> For returning the extractions from the Gini API you can add your own extras in {@link ReviewDocumentActivity#onAddDataToResult(Intent)} or {@link AnalysisActivity#onAddDataToResult(Intent)}.
@@ -91,14 +91,14 @@ import java.util.ArrayList;
  *     </ul>
  * </p>
  */
-public class ScannerActivity extends AppCompatActivity implements ScannerFragmentListener {
+public class CameraActivity extends AppCompatActivity implements CameraFragmentListener {
 
     /**
      * <p>
      * Mandatory extra which must contain an explicit Intent to the {@link ReviewDocumentActivity} subclass from your application.
      * </p>
      * <p>
-     *     Use the {@link ScannerActivity#setReviewDocumentActivityExtra(Intent, Context, Class)} helper to set it.
+     *     Use the {@link CameraActivity#setReviewDocumentActivityExtra(Intent, Context, Class)} helper to set it.
      * </p>
      */
     public static final String EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY = "GV_EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY";
@@ -107,7 +107,7 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
      * Mandatory extra which must contain an explicit Intent to the {@link AnalysisActivity} subclass from your application.
      * </p>
      * <p>
-     *     Use the {@link ScannerActivity#setAnalysisActivityExtra(Intent, Context, Class)} helper to set it.
+     *     Use the {@link CameraActivity#setAnalysisActivityExtra(Intent, Context, Class)} helper to set it.
      * </p>
      */
     public static final String EXTRA_IN_ANALYSIS_ACTIVITY = "GV_EXTRA_IN_ANALYSIS_ACTIVITY";
@@ -129,7 +129,7 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
 
     /**
      * <p>
-     *     Returned when the result code is {@link ScannerActivity#RESULT_OK} and contains the original image taken by the camera.
+     *     Returned when the result code is {@link CameraActivity#RESULT_OK} and contains the original image taken by the camera.
      * </p>
      * <p>
      *     <b>Note:</b> always retrieve this extra to force unparceling of the {@link Document} and removing of the reference to the JPEG byte array from the memory cache. Failing to do so will lead to memory leaks.
@@ -138,7 +138,7 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
     public static final String EXTRA_OUT_ORIGINAL_DOCUMENT = "GV_EXTRA_OUT_ORIGINAL_DOCUMENT";
     /**
      * <p>
-     *     Returned when the result code is {@link ScannerActivity#RESULT_OK} and contains the reviewed image taken by the camera.
+     *     Returned when the result code is {@link CameraActivity#RESULT_OK} and contains the reviewed image taken by the camera.
      * </p>
      * <p>
      *     <b>Note:</b> always retrieve this extra to force unparceling of the {@link Document} and removing of the reference to the JPEG byte array from the memory cache. Failing to do so will lead to memory leaks.
@@ -147,14 +147,14 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
     public static final String EXTRA_OUT_DOCUMENT = "GV_EXTRA_OUT_DOCUMENT";
     /**
      * <p>
-     *     Returned when the result code is {@link ScannerActivity#RESULT_ERROR} and contains a {@link GiniVisionError} objects detailing what went wrong.
+     *     Returned when the result code is {@link CameraActivity#RESULT_ERROR} and contains a {@link GiniVisionError} objects detailing what went wrong.
      * </p>
      */
     public static final String EXTRA_OUT_ERROR = "GV_EXTRA_OUT_ERROR";
 
     /**
      * <p>
-     *     Returned result code, if something went wrong. You should retrieve the {@link ScannerActivity#EXTRA_OUT_ERROR} extra to find out what went wrong.
+     *     Returned result code, if something went wrong. You should retrieve the {@link CameraActivity#EXTRA_OUT_ERROR} extra to find out what went wrong.
      * </p>
      */
     public static final int RESULT_ERROR = RESULT_FIRST_USER + 1;
@@ -171,10 +171,10 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
 
     /**
      * <p>
-     * Helper for setting the {@link ScannerActivity#EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY}.
+     * Helper for setting the {@link CameraActivity#EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY}.
      * </p>
      *
-     * @param target your explicit {@link Intent} used to start the {@link ScannerActivity}
+     * @param target your explicit {@link Intent} used to start the {@link CameraActivity}
      * @param context {@link Context} used to create the explicit {@link Intent} for your {@link ReviewDocumentActivity} subclass
      * @param reviewPhotoActivityClass class of your {@link ReviewDocumentActivity} subclass
      * @param <T> type of your {@link ReviewDocumentActivity} subclass
@@ -187,10 +187,10 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
 
     /**
      * <p>
-     * Helper for setting the {@link ScannerActivity#EXTRA_IN_ANALYSIS_ACTIVITY}.
+     * Helper for setting the {@link CameraActivity#EXTRA_IN_ANALYSIS_ACTIVITY}.
      * </p>
      *
-     * @param target your explicit {@link Intent} used to start the {@link ScannerActivity}
+     * @param target your explicit {@link Intent} used to start the {@link CameraActivity}
      * @param context {@link Context} used to create the explicit {@link Intent} for your {@link AnalysisActivity} subclass
      * @param reviewPhotoActivityClass class of your {@link AnalysisActivity} subclass
      * @param <T> type of your {@link AnalysisActivity} subclass
@@ -204,7 +204,7 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.gv_activity_scanner);
+        setContentView(R.layout.gv_activity_camera);
         readExtras();
         createGiniVisionCoordinator();
     }
@@ -234,10 +234,10 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
 
     private void checkRequiredExtras() {
         if (mReviewDocumentActivityIntent == null) {
-            throw new IllegalStateException("ScannerActivity requires a ReviewDocumentActivity class. Call setReviewDocumentActivityExtra() to set it.");
+            throw new IllegalStateException("CameraActivity requires a ReviewDocumentActivity class. Call setReviewDocumentActivityExtra() to set it.");
         }
         if (mAnalyzeDocumentActivityIntent == null) {
-            throw new IllegalStateException("ScannerActivity requires an AnalyzeDocumentActivity class. Call setAnalyzeDocumentActivityExtra() to set it.");
+            throw new IllegalStateException("CameraActivity requires an AnalyzeDocumentActivity class. Call setAnalyzeDocumentActivityExtra() to set it.");
         }
     }
 
@@ -260,7 +260,7 @@ public class ScannerActivity extends AppCompatActivity implements ScannerFragmen
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.gv_scanner, menu);
+        getMenuInflater().inflate(R.menu.gv_camera, menu);
         return true;
     }
 

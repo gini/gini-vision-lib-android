@@ -1,13 +1,13 @@
-package net.gini.android.vision.scanner;
+package net.gini.android.vision.camera;
 
 import net.gini.android.vision.GiniVisionError;
 
 /**
  * <p>
- * Interface used by {@link ScannerFragmentStandard} and {@link ScannerFragmentCompat} to dispatch events to the hosting Activity.
+ * Interface used by {@link CameraFragmentStandard} and {@link CameraFragmentCompat} to dispatch events to the hosting Activity.
  * </p>
  */
-public interface ScannerFragmentListener {
+public interface CameraFragmentListener {
     /**
      * <p>
      * Called when the user took an image with the camera.

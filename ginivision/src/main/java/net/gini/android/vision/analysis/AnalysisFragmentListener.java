@@ -1,7 +1,7 @@
 package net.gini.android.vision.analysis;
 
 import net.gini.android.vision.GiniVisionError;
-import net.gini.android.vision.scanner.Document;
+import net.gini.android.vision.camera.Document;
 
 /**
  * <p>

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gv_review_document_activity_background"
-    tools:context="net.gini.android.vision.scanner.ScannerActivity">
+    tools:context=".camera.CameraActivity">
 
     <FrameLayout
         android:id="@+id/gv_fragment_review_document"

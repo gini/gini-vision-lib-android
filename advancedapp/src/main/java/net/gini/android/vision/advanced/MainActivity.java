@@ -79,12 +79,12 @@ public class MainActivity extends Activity {
     }
 
     private void startScanner() {
-        Intent intent = new Intent(this, CustomScannerActivity.class);
+        Intent intent = new Intent(this, CustomCameraActivity.class);
         startActivity(intent);
     }
 
     private void startScannerCompat() {
-        Intent intent = new Intent(this, CustomScannerAppCompatActivity.class);
+        Intent intent = new Intent(this, CustomCameraAppCompatActivity.class);
         startActivity(intent);
     }
 
@@ -119,13 +119,13 @@ public class MainActivity extends Activity {
     }
 
     private void bindViews() {
-        mButtonStartScanner = (Button) findViewById(R.id.button_start_scanner);
-        mButtonStartScannerCompat = (Button) findViewById(R.id.button_start_scanner_compat);
+        mButtonStartScanner = (Button) findViewById(R.id.button_start_camera);
+        mButtonStartScannerCompat = (Button) findViewById(R.id.button_start_camera_compat);
         mButtonStartOnboarding = (Button) findViewById(R.id.button_start_onboarding);
         mButtonStartOnboardingCompat = (Button) findViewById(R.id.button_start_onboarding_compat);
         mButtonStartReviewDocument = (Button) findViewById(R.id.button_start_review_document);
         mButtonStartReviewDocumentCompat = (Button) findViewById(R.id.button_start_review_document_compat);
-        mButtonStartAnalyzeDocument = (Button) findViewById(R.id.button_start_analyze_document);
-        mButtonStartAnalyzeDocumentCompat = (Button) findViewById(R.id.button_start_analyze_document_compat);
+        mButtonStartAnalyzeDocument = (Button) findViewById(R.id.button_start_analysis);
+        mButtonStartAnalyzeDocumentCompat = (Button) findViewById(R.id.button_start_analysis_compat);
     }
 }

@@ -1,4 +1,4 @@
-package net.gini.android.vision.scanner.photo;
+package net.gini.android.vision.camera.photo;
 
 import android.os.Build;
 import android.support.annotation.NonNull;

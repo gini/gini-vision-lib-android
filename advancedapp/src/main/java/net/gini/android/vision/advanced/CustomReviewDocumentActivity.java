@@ -10,8 +10,8 @@ import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.reviewdocument.ReviewDocumentFragmentListener;
 import net.gini.android.vision.reviewdocument.ReviewDocumentFragmentStandard;
-import net.gini.android.vision.scanner.Document;
-import net.gini.android.vision.scanner.photo.Photo;
+import net.gini.android.vision.camera.Document;
+import net.gini.android.vision.camera.photo.Photo;
 import net.gini.android.visionadvtest.R;
 
 public class CustomReviewDocumentActivity extends Activity implements ReviewDocumentFragmentListener {

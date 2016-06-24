@@ -8,26 +8,27 @@ import android.support.v7.app.AppCompatActivity;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
-import net.gini.android.vision.scanner.Document;
+import net.gini.android.vision.camera.CameraActivity;
+import net.gini.android.vision.camera.Document;
 
 /**
  * <p>
  *     When using the Screen API {@code ReviewDocumentActivity} displays the photographed document and allows the user to review it by checking the sharpness, quality and orientation of the image. The user can correct the orientation by rotating the image.
  * </p>
  * <p>
- *     You must extend the {@code ReviewDocumentActivity} in your application and provide it to the {@link net.gini.android.vision.scanner.ScannerActivity} by using the {@link net.gini.android.vision.scanner.ScannerActivity#setReviewDocumentActivityExtra(Intent, Context, Class)} helper method.
+ *     You must extend the {@code ReviewDocumentActivity} in your application and provide it to the {@link CameraActivity} by using the {@link CameraActivity#setReviewDocumentActivityExtra(Intent, Context, Class)} helper method.
  * </p>
  * <p>
  *     <b>Note:</b> {@code ReviewDocumentActivity} extends {@link AppCompatActivity} and requires an AppCompat Theme.
  * </p>
  * <p>
- *     The {@code ReviewDocumentActivity} is started by the {@link net.gini.android.vision.scanner.ScannerActivity} after the user took an image of a document.
+ *     The {@code ReviewDocumentActivity} is started by the {@link CameraActivity} after the user took an image of a document.
  * </p>
  * <p>
  *     In your {@code ReviewDocumentActivity} subclass you have to implement the following methods:
  *     <ul>
  *         <li>{@link ReviewDocumentActivity#onShouldAnalyzeDocument(Document)} - you should start analysing the original document by sending it to the Gini API. We assume that in most cases the photo is good enough and this way we are able to provide analysis results quicker.<br/><b>Note:</b> Call {@link ReviewDocumentActivity#onDocumentAnalyzed()} when the analysis is done and the Activity wasn't stopped.</li>
- *         <li>{@link ReviewDocumentActivity#onAddDataToResult(Intent)} - you can add the results of the analysis to the Intent as extras and retrieve them when the {@link net.gini.android.vision.scanner.ScannerActivity} returned.<br/>This is called only, if you called {@link ReviewDocumentActivity#onDocumentAnalyzed()} and the image wasn't changed before the user tapped on the Next button.<br/>When this is called, your {@link AnalysisActivity} subclass is not launched, instead control is returned to your Activity which started the {@link net.gini.android.vision.scanner.ScannerActivity} and you can extract the results of the analysis.</li>
+ *         <li>{@link ReviewDocumentActivity#onAddDataToResult(Intent)} - you can add the results of the analysis to the Intent as extras and retrieve them when the {@link CameraActivity} returned.<br/>This is called only, if you called {@link ReviewDocumentActivity#onDocumentAnalyzed()} and the image wasn't changed before the user tapped on the Next button.<br/>When this is called, your {@link AnalysisActivity} subclass is not launched, instead control is returned to your Activity which started the {@link CameraActivity} and you can extract the results of the analysis.</li>
  *     </ul>
  * </p>
  *
@@ -171,7 +172,7 @@ public abstract class ReviewDocumentActivity extends AppCompatActivity implement
      *     Called when the document was analyzed and wasn't modified at the time the user tapped on the Next button.
      * </p>
      * <p>
-     *     You should add the results of the analysis as extras and retrieve them when the {@link net.gini.android.vision.scanner.ScannerActivity} returned.
+     *     You should add the results of the analysis as extras and retrieve them when the {@link CameraActivity} returned.
      * </p>
      * <p>
      *     <b>Note:</b> you should call {@link ReviewDocumentActivity#onDocumentAnalyzed()} after you received the analysis results from the Gini API, otherwise this method won't be invoked.

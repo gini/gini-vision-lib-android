@@ -12,7 +12,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start Scanner"
+        android:text="Gini Vision Library"
         android:id="@+id/button_start_scanner"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />

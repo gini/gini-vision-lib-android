@@ -3,7 +3,7 @@ package net.gini.android.vision.reviewdocument;
 import android.content.Context;
 import android.os.Bundle;
 
-import net.gini.android.vision.scanner.Document;
+import net.gini.android.vision.camera.Document;
 import net.gini.android.vision.ui.FragmentImplCallback;
 
 class ReviewDocumentFragmentHelper {

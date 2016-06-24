@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.widget.Toast;
 
-import net.gini.android.vision.scanner.Document;
+import net.gini.android.vision.camera.Document;
 
 public class ReviewDocumentActivity extends net.gini.android.vision.reviewdocument.ReviewDocumentActivity {
 

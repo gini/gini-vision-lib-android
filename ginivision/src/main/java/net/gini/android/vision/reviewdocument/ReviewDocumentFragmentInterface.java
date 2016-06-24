@@ -3,7 +3,7 @@ package net.gini.android.vision.reviewdocument;
 import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.analysis.AnalysisFragmentCompat;
 import net.gini.android.vision.analysis.AnalysisFragmentStandard;
-import net.gini.android.vision.scanner.Document;
+import net.gini.android.vision.camera.Document;
 
 /**
  * <p>

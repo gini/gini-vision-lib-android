@@ -7,20 +7,21 @@ import android.support.v7.app.AppCompatActivity;
 
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
-import net.gini.android.vision.scanner.Document;
+import net.gini.android.vision.camera.CameraActivity;
+import net.gini.android.vision.camera.Document;
 
 /**
  * <p>
  *     When using the Screen API {@code AnalysisActivity} displays the captured document and an activity indicator while the document is being analyzed by the Gini API.
  * </p>
  * <p>
- *     You must extend the {@code AnalysisActivity} in your application and provide it to the {@link net.gini.android.vision.scanner.ScannerActivity} by using the {@link net.gini.android.vision.scanner.ScannerActivity#setAnalysisActivityExtra(Intent, Context, Class)} helper method.
+ *     You must extend the {@code AnalysisActivity} in your application and provide it to the {@link CameraActivity} by using the {@link CameraActivity#setAnalysisActivityExtra(Intent, Context, Class)} helper method.
  * </p>
  * <p>
  *     <b>Note:</b> {@code AnalysisActivity} extends {@link AppCompatActivity} and requires an AppCompat Theme.
  * </p>
  * <p>
- *     The {@code AnalysisActivity} is started by the {@link net.gini.android.vision.scanner.ScannerActivity} after the user reviewed the document and either didn't change the document and it wasn't analyzed before tapping on the Next button or the user modified the document.
+ *     The {@code AnalysisActivity} is started by the {@link CameraActivity} after the user reviewed the document and either didn't change the document and it wasn't analyzed before tapping on the Next button or the user modified the document.
  * </p>
  * <p>
  *     In your {@code AnalysisActivity} subclass you have to implement the following methods:
@@ -28,7 +29,7 @@ import net.gini.android.vision.scanner.Document;
  *         <li>
  *          {@link AnalysisActivity#onAnalyzeDocument(Document)} - start analysing the document by sending it to the Gini API.<br/><b>Note:</b> Call {@link AnalysisActivity#onDocumentAnalyzed()} when the analysis is done and the Activity wasn't stopped.
  *         </li>
- *         <li>{@link AnalysisActivity#onAddDataToResult(Intent)} - you should add the results of the analysis to the Intent as extras and retrieve them when the {@link net.gini.android.vision.scanner.ScannerActivity} returned.<br/>This is called only, if you called {@link AnalysisActivity#onDocumentAnalyzed()} before.<br/>When this is called control is returned to your Activity which started the {@link net.gini.android.vision.scanner.ScannerActivity} and you can extract the results of the analysis.</li>
+ *         <li>{@link AnalysisActivity#onAddDataToResult(Intent)} - you should add the results of the analysis to the Intent as extras and retrieve them when the {@link CameraActivity} returned.<br/>This is called only, if you called {@link AnalysisActivity#onDocumentAnalyzed()} before.<br/>When this is called control is returned to your Activity which started the {@link CameraActivity} and you can extract the results of the analysis.</li>
  *     </ul>
  * </p>
  *
@@ -149,7 +150,7 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
      *     Called when the document was analyzed.
      * </p>
      * <p>
-     *     You should add the results of the analysis as extras and retrieve them when the {@link net.gini.android.vision.scanner.ScannerActivity} returned.
+     *     You should add the results of the analysis as extras and retrieve them when the {@link CameraActivity} returned.
      * </p>
      * <p>
      *     <b>Note:</b> you must call {@link AnalysisActivity#onDocumentAnalyzed()} after you received the analysis results from the Gini API, otherwise this method won't be invoked.

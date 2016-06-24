@@ -4,9 +4,9 @@
 
     <application>
         <activity
-            android:name=".scanner.ScannerActivity"
+            android:name=".camera.CameraActivity"
             android:exported="false"
-            android:label="@string/gv_title_scanner"
+            android:label="@string/gv_title_camera"
             android:screenOrientation="portrait"
             android:theme="@style/GiniVisionTheme" />
         <activity

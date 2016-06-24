@@ -8,8 +8,8 @@
     <color name="gv_action_bar_background">#009edc</color>
     <color name="gv_action_bar_title">#fff</color>
 
-    <color name="gv_scanner_activity_background">@android:color/transparent</color>
-    <color name="gv_scanner_fragment_background">@color/gv_background</color>
+    <color name="gv_camera_activity_background">@android:color/transparent</color>
+    <color name="gv_camera_fragment_background">@color/gv_background</color>
 
     <color name="gv_onboarding_activity_background">@android:color/transparent</color>
     <color name="gv_onboarding_fragment_background">@android:color/transparent</color>

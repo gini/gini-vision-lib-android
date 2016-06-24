@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gv_scanner_fragment_background"
-    tools:context="net.gini.android.vision.scanner.ScannerFragmentCompat">
+    android:background="@color/gv_camera_fragment_background"
+    tools:context=".camera.CameraFragmentCompat">
 
     <SurfaceView
         android:id="@+id/gv_camera_preview"

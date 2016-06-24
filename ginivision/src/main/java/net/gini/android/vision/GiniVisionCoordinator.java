@@ -3,6 +3,9 @@ package net.gini.android.vision;
 import android.app.Activity;
 import android.content.Context;
 
+import net.gini.android.vision.camera.CameraFragmentCompat;
+import net.gini.android.vision.camera.CameraFragmentStandard;
+
 /**
  * <p>
  *     The {@code GiniVisionCoordinator} facilitates the default behaviour for the Gini Vision Lib.
@@ -90,7 +93,7 @@ public class GiniVisionCoordinator {
 
     /**
      * <p>
-     *     Call this method when the {@link net.gini.android.vision.scanner.ScannerFragmentStandard} or {@link net.gini.android.vision.scanner.ScannerFragmentCompat} has started.
+     *     Call this method when the {@link CameraFragmentStandard} or {@link CameraFragmentCompat} has started.
      * </p>
      * <p>
      *     Can be called in your Acitivity's {@link Activity#onStart()} method, which hosts the Scanner Fragment.

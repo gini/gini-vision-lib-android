@@ -1,10 +1,10 @@
-package net.gini.android.vision.scanner;
+package net.gini.android.vision.camera;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import net.gini.android.vision.scanner.photo.ImageCache;
-import net.gini.android.vision.scanner.photo.Photo;
+import net.gini.android.vision.camera.photo.ImageCache;
+import net.gini.android.vision.camera.photo.Photo;
 
 /**
  * <p>

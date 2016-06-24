@@ -7,7 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import net.gini.android.vision.scanner.Document;
+import net.gini.android.vision.camera.CameraFragmentListener;
+import net.gini.android.vision.camera.Document;
 import net.gini.android.vision.ui.FragmentImplCallback;
 
 /**
@@ -41,7 +42,7 @@ public class ReviewDocumentFragmentStandard extends Fragment implements Fragment
      * <p>
      *     <b>Note:</b> Always use this method to create new instances. Document is required and an exception is thrown if it's missing.
      * </p>
-     * @param document must be the {@link Document} from {@link net.gini.android.vision.scanner.ScannerFragmentListener#onDocumentAvailable(Document)}
+     * @param document must be the {@link Document} from {@link CameraFragmentListener#onDocumentAvailable(Document)}
      * @return a new instance of the Fragment
      */
     public static ReviewDocumentFragmentStandard createInstance(Document document) {

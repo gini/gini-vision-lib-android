@@ -15,10 +15,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="net.gini.android.vision.advanced.CustomScannerActivity"
+            android:name="net.gini.android.vision.advanced.CustomCameraActivity"
             android:label="@string/title_scanner" />
         <activity
-            android:name="net.gini.android.vision.advanced.CustomScannerAppCompatActivity"
+            android:name="net.gini.android.vision.advanced.CustomCameraAppCompatActivity"
             android:label="@string/title_scanner"
             android:theme="@style/AppThemeCompat" />
         <activity

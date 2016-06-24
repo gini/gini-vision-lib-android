@@ -1,5 +1,5 @@
 <resources>
-    <string name="gv_title_scanner">Dokument fotografieren</string>
+    <string name="gv_title_camera">Dokument fotografieren</string>
     <string name="gv_title_onboarding">Anleitung</string>
     <string name="gv_title_review_document">Foto überprüfen</string>
     <string name="gv_title_analyze_document">Etwas Geduld, analysiere Daten</string>

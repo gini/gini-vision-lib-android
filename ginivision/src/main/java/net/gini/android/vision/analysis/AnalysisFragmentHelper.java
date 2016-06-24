@@ -3,7 +3,7 @@ package net.gini.android.vision.analysis;
 import android.content.Context;
 import android.os.Bundle;
 
-import net.gini.android.vision.scanner.Document;
+import net.gini.android.vision.camera.Document;
 import net.gini.android.vision.ui.FragmentImplCallback;
 
 class AnalysisFragmentHelper {
@@ -22,10 +22,10 @@ class AnalysisFragmentHelper {
             if (document != null) {
                 return new AnalysisFragmentImpl(fragment, document);
             } else {
-                throw new IllegalStateException("AnalyzeDocumentFragmentCompat and AnalyzeDocumentFragmentStandard require a Document. Use the createInstance() method of these classes for instantiating.");
+                throw new IllegalStateException("AnalysisFragmentCompat and AnalysisFragmentStandard require a Document. Use the createInstance() method of these classes for instantiating.");
             }
         } else {
-            throw new IllegalStateException("AnalyzeDocumentFragmentCompat and AnalyzeDocumentFragmentStandard require a Document. Use the createInstance() method of these classes for instantiating.");
+            throw new IllegalStateException("AnalysisFragmentCompat and AnalysisFragmentStandard require a Document. Use the createInstance() method of these classes for instantiating.");
         }
     }
 
@@ -33,7 +33,7 @@ class AnalysisFragmentHelper {
         if (context instanceof AnalysisFragmentListener) {
             fragmentImpl.setListener((AnalysisFragmentListener) context);
         } else {
-            throw new IllegalStateException("Hosting activity must implement AnalyzeDocumentFragmentListener.");
+            throw new IllegalStateException("Hosting activity must implement AnalysisFragmentListener.");
         }
     }
 }

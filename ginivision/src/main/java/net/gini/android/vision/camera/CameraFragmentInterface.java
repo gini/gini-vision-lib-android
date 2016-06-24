@@ -1,11 +1,11 @@
-package net.gini.android.vision.scanner;
+package net.gini.android.vision.camera;
 
 /**
  * <p>
  *     Methods which both Scanner Fragment's must implement.
  * </p>
  */
-public interface ScannerFragmentInterface {
+public interface CameraFragmentInterface {
     /**
      * <p>
      *     Call this method to show the document corner guides.
