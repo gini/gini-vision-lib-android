@@ -62,7 +62,7 @@ import java.util.ArrayList;
  *     <b>Note:</b> For returning the extractions from the Gini API you can add your own extras in {@link ReviewActivity#onAddDataToResult(Intent)} or {@link AnalysisActivity#onAddDataToResult(Intent)}.
  * </p>
  *
- * <h3>Customising the Scanner Screen</h3>
+ * <h3>Customising the Camera Screen</h3>
  *
  * <p>
  *   Customising the look of the Scanner Screen is done via app resources overriding.

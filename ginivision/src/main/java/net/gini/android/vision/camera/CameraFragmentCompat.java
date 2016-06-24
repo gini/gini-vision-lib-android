@@ -30,7 +30,7 @@ import android.view.ViewGroup;
  *     Your Activity is automatically set as the listener in {@link CameraFragmentCompat#onAttach(Context)}.
  * </p>
  *
- * <h3>Customising the Scanner Screen</h3>
+ * <h3>Customising the Camera Screen</h3>
  *
  * <p>
  *     See the {@link CameraActivity} for details.
