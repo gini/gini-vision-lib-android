@@ -12,6 +12,8 @@ import net.gini.android.vision.review.ReviewFragmentListener;
 import net.gini.android.vision.ui.FragmentImplCallback;
 
 /**
+ * <h3>Component API</h3>
+ *
  * <p>
  *     When using the Component API the {@code AnalyzeDocumentFragmentCompat} displays the captured document and an activity indicator while the document is being analyzed by the Gini API.
  * </p>

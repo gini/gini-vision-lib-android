@@ -19,6 +19,8 @@ import net.gini.android.vision.review.ReviewActivity;
 import java.util.ArrayList;
 
 /**
+ * <h3>Screen API</h3>
+ *
  * <p>
  * {@code CameraActivity} is the main entry point to the Gini Vision Lib when using the Screen API.
  * </p>

@@ -12,6 +12,8 @@ import net.gini.android.vision.camera.Document;
 import net.gini.android.vision.ui.FragmentImplCallback;
 
 /**
+ * <h3>Component API</h3>
+ *
  * <p>
  *     When using the Compontent API {@code ReviewFragmentStandard} displays the photographed document and allows the user to review it by checking the sharpness, quality and orientation of the image. The user can correct the orientation by rotating the image.
  * </p>

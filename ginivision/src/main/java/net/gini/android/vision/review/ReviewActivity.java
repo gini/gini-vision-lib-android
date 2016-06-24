@@ -12,6 +12,8 @@ import net.gini.android.vision.camera.CameraActivity;
 import net.gini.android.vision.camera.Document;
 
 /**
+ * <h3>Screen API</h3>
+ *
  * <p>
  *     When using the Screen API {@code ReviewActivity} displays the photographed document and allows the user to review it by checking the sharpness, quality and orientation of the image. The user can correct the orientation by rotating the image.
  * </p>

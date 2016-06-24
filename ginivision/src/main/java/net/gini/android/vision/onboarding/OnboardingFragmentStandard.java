@@ -12,6 +12,8 @@ import net.gini.android.vision.ui.FragmentImplCallback;
 import java.util.ArrayList;
 
 /**
+ * <h3>Component API</h3>
+ *
  * <p>
  *     When using the Component API the {@code OnboardingFragmentStandard} displays important advices for correctly photographing a document.
  * </p>

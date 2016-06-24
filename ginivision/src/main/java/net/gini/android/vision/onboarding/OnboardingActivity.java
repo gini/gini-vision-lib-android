@@ -10,6 +10,8 @@ import net.gini.android.vision.camera.CameraActivity;
 import java.util.ArrayList;
 
 /**
+ * <h3>Screen API</h3>
+ *
  * <p>
  *     When using the Screen API {@code OnboardingActivity} displays important advices for correctly photographing a document.
  * </p>

@@ -11,6 +11,8 @@ import net.gini.android.vision.camera.CameraActivity;
 import net.gini.android.vision.camera.Document;
 
 /**
+ * <h3>Screen API</h3>
+ *
  * <p>
  *     When using the Screen API {@code AnalysisActivity} displays the captured document and an activity indicator while the document is being analyzed by the Gini API.
  * </p>
