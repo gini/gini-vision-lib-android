@@ -5,14 +5,14 @@ import android.os.Parcelable;
 
 /**
  * <p>
- *     Provides details about the error which caused the Gini Vision Lib to fail.
+ *     Provides details about the error which caused the Gini Vision Library to fail.
  * </p>
  */
 public class GiniVisionError implements Parcelable {
 
     /**
      * <p>
-     *     Definition of Gini Vision Lib error codes.
+     *     Definition of Gini Vision Library error codes.
      * </p>
      */
     public enum ErrorCode {

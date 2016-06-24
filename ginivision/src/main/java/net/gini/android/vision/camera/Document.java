@@ -9,7 +9,7 @@ import net.gini.android.vision.camera.photo.Photo;
 /**
  * <p>
  * This class is the container for transferring the image of a document as a JPEG between the client application and the
- * Gini Vision Lib and between the Fragments of the Gini Vision Lib.
+ * Gini Vision Library and between the Fragments of the Gini Vision Lib.
  * </p>
  *
  * <p>

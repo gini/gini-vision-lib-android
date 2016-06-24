@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * <h3>Screen API</h3>
  *
  * <p>
- * {@code CameraActivity} is the main entry point to the Gini Vision Lib when using the Screen API.
+ * {@code CameraActivity} is the main entry point to the Gini Vision Library when using the Screen API.
  * </p>
  * <p>
  *     It shows a camera preview with tap-to-focus functionality and a trigger button. The camera preview also shows document corner guides to which the user should align the document.
@@ -40,7 +40,7 @@ import java.util.ArrayList;
  * <p>
  *     Optional extras are:
  *     <ul>
- *         <li>{@link CameraActivity#EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN} - if set and {@code true} the Onboarding Screen is shown the first time Gini Vision Lib is started</li>
+ *         <li>{@link CameraActivity#EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN} - if set and {@code true} the Onboarding Screen is shown the first time Gini Vision Library is started</li>
  *         <li>{@link CameraActivity#EXTRA_IN_ONBOARDING_PAGES} - custom pages for the Onboarding Screen as an {@link ArrayList} containing {@link OnboardingPage} objects</li>
  *     </ul>
  * </p>
@@ -116,7 +116,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     public static final String EXTRA_IN_ONBOARDING_PAGES = "GV_EXTRA_IN_ONBOARDING_PAGES";
     /**
      * <p>
-     *     Optional extra which must contain a boolean and shows the Onboarding Screen when the Gini Vision Lib is started for the first time, if it contains {@code true}.
+     *     Optional extra which must contain a boolean and shows the Onboarding Screen when the Gini Vision Library is started for the first time, if it contains {@code true}.
      * </p>
      * <p>
      *     Default value is {@code true}.

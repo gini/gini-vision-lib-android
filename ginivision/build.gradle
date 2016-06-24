@@ -45,8 +45,8 @@ android.libraryVariants.all { variant ->
         options.overview = 'src/main/java/net/gini/android/vision/overview.html'
         options.version = true
         options.author = true
-        options.windowTitle = "Gini Vision Lib for Android"
-        options.docTitle = "Gini Vision Lib for Android"
+        options.windowTitle = "Gini Vision Library for Android"
+        options.docTitle = "Gini Vision Library for Android"
     }
 }
 

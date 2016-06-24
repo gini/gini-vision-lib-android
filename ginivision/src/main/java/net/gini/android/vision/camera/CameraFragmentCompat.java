@@ -12,7 +12,7 @@ import android.view.ViewGroup;
  * <h3>Component API</h3>
  *
  * <p>
- *     {@code CameraFragmentCompat} is the main entry point to the Gini Vision Lib when using the Component API with the Android Support Library.
+ *     {@code CameraFragmentCompat} is the main entry point to the Gini Vision Library when using the Component API with the Android Support Library.
  * </p>
  * <p>
  *     It shows a camera preview with tap-to-focus functionality and a trigger button. The camera preview also shows document corner guides to which the user should align the document.

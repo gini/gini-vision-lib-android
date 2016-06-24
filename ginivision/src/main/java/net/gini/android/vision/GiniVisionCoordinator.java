@@ -14,7 +14,7 @@ import net.gini.android.vision.camera.CameraFragmentStandard;
  *     You can ignore this class when using the Screen API.
  * </p>
  * <p>
- *     In case you use the Component API we recommend relying on this class to provide the default behaviour of the Gini Vision Lib by calling the required methods at pre-defined points in your code and by implementing the {@link GiniVisionCoordinator.Listener}.
+ *     In case you use the Component API we recommend relying on this class to provide the default behaviour of the Gini Vision Library by calling the required methods at pre-defined points in your code and by implementing the {@link GiniVisionCoordinator.Listener}.
  * </p>
  */
 public class GiniVisionCoordinator {
