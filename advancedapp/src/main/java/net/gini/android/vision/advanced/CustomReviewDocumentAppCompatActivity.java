@@ -38,25 +38,25 @@ public class CustomReviewDocumentAppCompatActivity extends AppCompatActivity imp
     }
 
     @Override
-    public void onShouldAnalyzeDocument(Document document) {
+    public void onShouldAnalyseDocument(Document document) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mFragment.onDocumentAnalyzed();
+                mFragment.onDocumentAnalysed();
                 Toast.makeText(CustomReviewDocumentAppCompatActivity.this, "Photo was analyzed", Toast.LENGTH_SHORT).show();
             }
         }, 2000);
     }
 
     @Override
-    public void onProceedToAnalyzeScreen(Document document) {
+    public void onProceedToAnalyseScreen(Document document) {
         Intent intent = new Intent(this, CustomAnalyseDocumentAppCompatActivity.class);
         intent.putExtra(AnalyseDocumentActivity.EXTRA_IN_DOCUMENT, document);
         startActivity(intent);
     }
 
     @Override
-    public void onDocumentReviewedAndAnalyzed(Document document) {
+    public void onDocumentReviewedAndAnalysed(Document document) {
         Toast.makeText(this, "Photo extractions received", Toast.LENGTH_SHORT).show();
         finish();
     }

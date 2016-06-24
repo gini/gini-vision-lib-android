@@ -36,12 +36,12 @@ public class CustomAnalyseDocumentAppCompatActivity extends AppCompatActivity im
     }
 
     @Override
-    public void onAnalyzeDocument(Document document) {
+    public void onAnalyseDocument(Document document) {
         mFragment.startScanAnimation();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mFragment.onDocumentAnalyzed();
+                mFragment.onDocumentAnalysed();
                 mFragment.stopScanAnimation();
                 Toast.makeText(CustomAnalyseDocumentAppCompatActivity.this, "Photo was analyzed", Toast.LENGTH_SHORT).show();
             }

@@ -8,13 +8,13 @@ import net.gini.android.vision.scanner.Document;
 public class AnalyseDocumentActivity extends net.gini.android.vision.analyse.AnalyseDocumentActivity {
 
     @Override
-    public void onAnalyzeDocument(Document document) {
+    public void onAnalyseDocument(Document document) {
         startScanAnimation();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 stopScanAnimation();
-                onDocumentAnalyzed();
+                onDocumentAnalysed();
             }
         }, 1000);
     }
