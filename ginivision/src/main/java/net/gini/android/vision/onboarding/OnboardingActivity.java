@@ -14,7 +14,7 @@ import java.util.ArrayList;
  *     When using the Screen API {@code OnboardingActivity} displays important advices for correctly photographing a document.
  * </p>
  * <p>
- *     The {@code OnboardingActivity} is started by the {@link CameraActivity} when it is launched for the first time. You may disable this behaviour - we recommend keeping it - by setting the {@link CameraActivity#EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN} to {@code false} when starting the {@link CameraActivity}.
+ *     The {@code OnboardingActivity} is started by the {@link CameraActivity} when it is launched for the first time. You may disable this behaviour - we highly recommend keeping it - by setting the {@link CameraActivity#EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN} to {@code false} when starting the {@link CameraActivity}.
  * </p>
  * <p>
  *     You can change the number of displayed pages and their content (image and short text) by setting an {@link ArrayList} containing {@link OnboardingPage} objects for the {@link CameraActivity#EXTRA_IN_ONBOARDING_PAGES} when starting the {@link CameraActivity}.
