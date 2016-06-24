@@ -26,7 +26,7 @@ import java.util.ArrayList;
  *     It shows a camera preview with tap-to-focus functionality and a trigger button. The camera preview also shows document corner guides to which the user should align the document.
  * </p>
  * <p>
- *     Start the {@code CameraActivity} with {@link android.app.Activity#startActivityForResult(Intent, int)} to receive the original {@link Document} and the reviewed {@link Document} and also the {@link GiniVisionError}, if there was an error.
+ *     Start the {@code CameraActivity} with {@link android.app.Activity#startActivityForResult(Intent, int)} to receive the {@link GiniVisionError}, if there was an error.
  * </p>
  * <p>
  *     These extras are mandatory:
@@ -51,15 +51,10 @@ import java.util.ArrayList;
  *     </ul>
  * </p>
  * <p>
- *     Result extras returned by the {@code CameraActivity}:
+ *     Result extra returned by the {@code CameraActivity}:
  *     <ul>
- *         <li>{@link CameraActivity#EXTRA_OUT_ORIGINAL_DOCUMENT} - set when result is {@link CameraActivity#RESULT_OK}, contains the unaltered image taken by the camera</li>
- *         <li>{@link CameraActivity#EXTRA_OUT_DOCUMENT} - set when result is {@link CameraActivity#RESULT_OK}, contains the reviewed image taken by the camera which should have been also uploaded to the Gini API</li>
  *         <li>{@link CameraActivity#EXTRA_OUT_ERROR} - set when result is {@link CameraActivity#RESULT_ERROR}, contains a {@link GiniVisionError} object detailing what went wrong</li>
  *     </ul>
- * </p>
- * <p>
- *     <b>Note:</b> It is important to retrieve the {@link Document} extras ({@link CameraActivity#EXTRA_OUT_ORIGINAL_DOCUMENT} and {@link CameraActivity#EXTRA_OUT_DOCUMENT}) to force unparceling of the {@link Document}s and removing of the references to their JPEG byte arrays from the memory cache. Failing to do so will lead to memory leaks.
  * </p>
  * <p>
  *     <b>Note:</b> For returning the extractions from the Gini API you can add your own extras in {@link ReviewActivity#onAddDataToResult(Intent)} or {@link AnalysisActivity#onAddDataToResult(Intent)}.
@@ -127,24 +122,6 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      */
     public static final String EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN = "GV_EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN";
 
-    /**
-     * <p>
-     *     Returned when the result code is {@link CameraActivity#RESULT_OK} and contains the original image taken by the camera.
-     * </p>
-     * <p>
-     *     <b>Note:</b> always retrieve this extra to force unparceling of the {@link Document} and removing of the reference to the JPEG byte array from the memory cache. Failing to do so will lead to memory leaks.
-     * </p>
-     */
-    public static final String EXTRA_OUT_ORIGINAL_DOCUMENT = "GV_EXTRA_OUT_ORIGINAL_DOCUMENT";
-    /**
-     * <p>
-     *     Returned when the result code is {@link CameraActivity#RESULT_OK} and contains the reviewed image taken by the camera.
-     * </p>
-     * <p>
-     *     <b>Note:</b> always retrieve this extra to force unparceling of the {@link Document} and removing of the reference to the JPEG byte array from the memory cache. Failing to do so will lead to memory leaks.
-     * </p>
-     */
-    public static final String EXTRA_OUT_DOCUMENT = "GV_EXTRA_OUT_DOCUMENT";
     /**
      * <p>
      *     Returned when the result code is {@link CameraActivity#RESULT_ERROR} and contains a {@link GiniVisionError} objects detailing what went wrong.
@@ -314,12 +291,6 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
                     }
                     break;
                 case ReviewActivity.RESULT_PHOTO_WAS_REVIEWED_AND_ANALYZED:
-                    if (data == null) {
-                        data = new Intent();
-                    }
-                    if (mDocument != null) {
-                        data.putExtra(EXTRA_OUT_ORIGINAL_DOCUMENT, mDocument);
-                    }
                     setResult(RESULT_OK, data);
                     finish();
                     break;
@@ -331,12 +302,6 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         } else if (requestCode == ANALYSE_DOCUMENT_REQUEST) {
             switch (resultCode) {
                 case RESULT_OK:
-                    if (data == null) {
-                        data = new Intent();
-                    }
-                    if (mDocument != null) {
-                        data.putExtra(EXTRA_OUT_ORIGINAL_DOCUMENT, mDocument);
-                    }
                     setResult(RESULT_OK, data);
                     finish();
                     break;
