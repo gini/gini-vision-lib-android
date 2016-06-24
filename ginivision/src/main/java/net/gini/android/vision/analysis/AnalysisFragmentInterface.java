@@ -2,7 +2,7 @@ package net.gini.android.vision.analysis;
 
 /**
  * <p>
- *     Methods which both Analyze Document Fragment's must implement.
+ *     Methods which both Analyze Document Fragments must implement.
  * </p>
  */
 public interface AnalysisFragmentInterface {

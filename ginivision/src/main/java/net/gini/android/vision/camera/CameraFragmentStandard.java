@@ -16,7 +16,7 @@ import android.view.ViewGroup;
  *     It shows a camera preview with tap-to-focus functionality and a trigger button. The camera preview also shows document corner guides to which the user should align the document.
  * </p>
  * <p>
- *     Include the {@code CameraFragmentStandard} into your layout either directly with {@code <fragment>} in your Activitie's layout or using the {@link android.app.FragmentManager}.
+ *     Include the {@code CameraFragmentStandard} into your layout either directly with {@code <fragment>} in your Activity's layout or using the {@link android.app.FragmentManager}.
  * </p>
  * <p>
  *     Your Activity must implement the {@link CameraFragmentListener} interface to receive events from the Scanner Fragment. Failing to do so will throw an exception.

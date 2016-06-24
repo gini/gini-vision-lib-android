@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 /**
  * <p>
- *     When using the Screen API {@code OnboardingActivity} displays important advices for correctly photgraphing a document.
+ *     When using the Screen API {@code OnboardingActivity} displays important advices for correctly photographing a document.
  * </p>
  * <p>
  *     The {@code OnboardingActivity} is started by the {@link CameraActivity} when it is launched for the first time. You may disable this behaviour - we recommend keeping it - by setting the {@link CameraActivity#EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN} to {@code false} when starting the {@link CameraActivity}.

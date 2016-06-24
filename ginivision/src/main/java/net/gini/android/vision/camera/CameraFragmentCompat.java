@@ -19,7 +19,7 @@ import android.view.ViewGroup;
  *     <b>Note:</b> Your Activity hosting this Fragment must extend the {@link android.support.v7.app.AppCompatActivity} and use an AppCompat Theme.
  * </p>
  * <p>
- *     Include the {@code CameraFragmentCompat} into your layout either directly with {@code <fragment>} in your Activitie's layout or using the {@link android.support.v4.app.FragmentManager}.
+ *     Include the {@code CameraFragmentCompat} into your layout either directly with {@code <fragment>} in your Activity's layout or using the {@link android.support.v4.app.FragmentManager}.
  * </p>
  * <p>
  *     Your Activity must implement the {@link CameraFragmentListener} interface to receive events from the Scanner Fragment. Failing to do so will throw an exception.
