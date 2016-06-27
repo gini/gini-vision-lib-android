@@ -33,7 +33,7 @@ public class GiniVisionCoordinator {
          *     Called when the onboarding should be shown.
          * </p>
          * <p>
-         *     Is used to show the Onboarding Screen once per installation the first time the Scanner Screen is started.
+         *     Is used to show the Onboarding Screen once per installation the first time the Camera Screen is started.
          * </p>
          */
         void onShowOnboarding();
@@ -78,12 +78,12 @@ public class GiniVisionCoordinator {
 
     /**
      * <p>
-     *     Enable or disable showing the Onboarding Screen once per installation the first time the Scanner Screen is started.
+     *     Enable or disable showing the Onboarding Screen once per installation the first time the Camera Screen is started.
      * </p>
      * <p>
      *     Default value is {@code true}.
      * </p>
-     * @param showOnboardingAtFirstRun if {@code true} the Onboarding Screen is shown the first time the Scanner Screen is started
+     * @param showOnboardingAtFirstRun if {@code true} the Onboarding Screen is shown the first time the Camera Screen is started
      * @return the {@link GiniVisionCoordinator} instance for a fluid api
      */
     public GiniVisionCoordinator setShowOnboardingAtFirstRun(boolean showOnboardingAtFirstRun) {
@@ -96,10 +96,10 @@ public class GiniVisionCoordinator {
      *     Call this method when the {@link CameraFragmentStandard} or {@link CameraFragmentCompat} has started.
      * </p>
      * <p>
-     *     Can be called in your Acitivity's {@link Activity#onStart()} method, which hosts the Scanner Fragment.
+     *     Can be called in your Acitivity's {@link Activity#onStart()} method, which hosts the Camera Fragment.
      * </p>
      */
-    public void onScannerStarted() {
+    public void onCameraStarted() {
         if (mShowOnboardingAtFirstRun && !mOncePerInstallEventStore.containsEvent(OncePerInstallEvent.SHOW_ONBOARDING)) {
             mListener.onShowOnboarding();
             mOncePerInstallEventStore.saveEvent(OncePerInstallEvent.SHOW_ONBOARDING);

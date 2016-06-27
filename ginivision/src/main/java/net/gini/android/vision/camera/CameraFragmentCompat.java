@@ -24,7 +24,7 @@ import android.view.ViewGroup;
  *     Include the {@code CameraFragmentCompat} into your layout either directly with {@code <fragment>} in your Activity's layout or using the {@link android.support.v4.app.FragmentManager}.
  * </p>
  * <p>
- *     Your Activity must implement the {@link CameraFragmentListener} interface to receive events from the Scanner Fragment. Failing to do so will throw an exception.
+ *     Your Activity must implement the {@link CameraFragmentListener} interface to receive events from the Camera Fragment. Failing to do so will throw an exception.
  * </p>
  * <p>
  *     Your Activity is automatically set as the listener in {@link CameraFragmentCompat#onAttach(Context)}.

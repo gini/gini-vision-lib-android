@@ -24,7 +24,7 @@ public class CustomCameraAppCompatActivity extends AppCompatActivity implements 
     @Override
     protected void onStart() {
         super.onStart();
-        mGiniVisionCoordinator.onScannerStarted();
+        mGiniVisionCoordinator.onCameraStarted();
     }
 
     @Override

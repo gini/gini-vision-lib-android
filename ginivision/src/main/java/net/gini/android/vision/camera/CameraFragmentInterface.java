@@ -2,7 +2,7 @@ package net.gini.android.vision.camera;
 
 /**
  * <p>
- *     Methods which both Scanner Fragments must implement.
+ *     Methods which both Camera Fragments must implement.
  * </p>
  */
 public interface CameraFragmentInterface {

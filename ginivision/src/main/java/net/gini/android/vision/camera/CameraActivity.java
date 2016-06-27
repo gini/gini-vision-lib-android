@@ -66,7 +66,7 @@ import java.util.ArrayList;
  * <h3>Customizing the Camera Screen</h3>
  *
  * <p>
- *   Customizing the look of the Scanner Screen is done via app resources overriding.
+ *   Customizing the look of the Camera Screen is done via app resources overriding.
  * </p>
  * <p>
  *     The following items are customizable:
@@ -215,7 +215,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     @Override
     protected void onStart() {
         super.onStart();
-        mGiniVisionCoordinator.onScannerStarted();
+        mGiniVisionCoordinator.onCameraStarted();
     }
 
     @Override

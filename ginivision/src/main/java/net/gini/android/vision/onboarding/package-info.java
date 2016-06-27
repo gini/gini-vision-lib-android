@@ -21,7 +21,7 @@
  * </p>
  *
  * <p>
- *     The Onboarding Screen was designed as a semi-transparent overlay for the camera preview. Your Activity should be configured to be transparent and the Scanner Fragment should not stop the camera when the onboarding is shown.
+ *     The Onboarding Screen was designed as a semi-transparent overlay for the camera preview. Your Activity should be configured to be transparent and the Camera Fragment should not stop the camera when the onboarding is shown.
  * </p>
  */
 package net.gini.android.vision.onboarding;

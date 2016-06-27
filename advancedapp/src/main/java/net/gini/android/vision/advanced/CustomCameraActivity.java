@@ -24,7 +24,7 @@ public class CustomCameraActivity extends Activity implements CameraFragmentList
     @Override
     protected void onStart() {
         super.onStart();
-        mGiniVisionCoordinator.onScannerStarted();
+        mGiniVisionCoordinator.onCameraStarted();
     }
 
     private void createGiniVisionCoordinator() {
