@@ -12,7 +12,6 @@ import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.camera.CameraActivity;
 import net.gini.android.vision.onboarding.DefaultPages;
 import net.gini.android.vision.onboarding.OnboardingPage;
-import net.gini.android.vision.camera.Document;
 
 import java.util.ArrayList;
 
@@ -67,8 +66,6 @@ public class MainActivity extends AppCompatActivity {
             }
             switch (resultCode) {
                 case RESULT_OK:
-                    Document original = data.getParcelableExtra(CameraActivity.EXTRA_OUT_ORIGINAL_DOCUMENT);
-                    Document document = data.getParcelableExtra(CameraActivity.EXTRA_OUT_DOCUMENT);
                     String extractions = data.getStringExtra(EXTRA_OUT_EXTRACTIONS);
                     break;
                 case CameraActivity.RESULT_ERROR:
