@@ -23,7 +23,7 @@
  * To use the Component API you have to include the {@link net.gini.android.vision.review.ReviewFragmentStandard}
  * or
  * the {@link net.gini.android.vision.review.ReviewFragmentCompat} in an Activity in your app (a
- * dedicated activity is
+ * dedicated Activity is
  * recommended). To receive events from the Fragments your Activity must implement the {@link
  * net.gini.android.vision.review.ReviewFragmentListener} interface.
  * </p>

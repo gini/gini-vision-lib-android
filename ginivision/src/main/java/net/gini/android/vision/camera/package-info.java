@@ -7,8 +7,7 @@
  *
  * <p>
  * The {@link net.gini.android.vision.camera.CameraActivity} is the main entry point when using the Screen API. Start
- * {@link net.gini.android.vision.camera.CameraActivity} and as a result the original {@link
- * net.gini.android.vision.Document} and the reviewed {@link net.gini.android.vision.Document} or a
+ * {@link net.gini.android.vision.camera.CameraActivity} and as a result, if something went wrong, a
  * {@link net.gini.android.vision.GiniVisionError} is returned.
  * </p>
  *
@@ -16,7 +15,7 @@
  *
  * <p>
  * To use the Component API you have to include the {@link net.gini.android.vision.camera.CameraFragmentStandard} or
- * the {@link net.gini.android.vision.camera.CameraFragmentCompat} in an Activity in your app (a dedicated activity is
+ * the {@link net.gini.android.vision.camera.CameraFragmentCompat} in an Activity in your app (a dedicated Activity is
  * recommended). To receive events from the Fragments your Activity must implement the {@link
  * net.gini.android.vision.camera.CameraFragmentListener} interface.
  * </p>
