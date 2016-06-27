@@ -12,7 +12,7 @@ import net.gini.android.vision.Document;
 public interface ReviewFragmentListener {
     /**
      * <p>
-     * Called when the Review Document Fragment was started and you should start analyzing the original document by sending it to the Gini API.
+     * Called when the Review Fragment was started and you should start analyzing the original document by sending it to the Gini API.
      * </p>
      * <p>
      *     We assume that in most cases the photo is good enough and this way we are able to provide analysis results quicker.

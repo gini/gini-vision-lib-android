@@ -14,7 +14,7 @@ public interface CameraFragmentInterface {
      *     <b>Note:</b> the document corner guides are shown by default.
      * </p>
      */
-    void onShowDocumentCornerGuides();
+    void showDocumentCornerGuides();
 
     /**
      * <p>
@@ -24,7 +24,7 @@ public interface CameraFragmentInterface {
      *     <b>Note:</b> the document corner guides are shown by default.
      * </p>
      */
-    void onHideDocumentCornerGuides();
+    void hideDocumentCornerGuides();
 
     /**
      * <p>
@@ -34,7 +34,7 @@ public interface CameraFragmentInterface {
      *     <b>Note:</b> the camera trigger button is shown by default.
      * </p>
      */
-    void onShowCameraTriggerButton();
+    void showCameraTriggerButton();
 
     /**
      * <p>
@@ -44,5 +44,5 @@ public interface CameraFragmentInterface {
      *     <b>Note:</b> the camera trigger button is shown by default.
      * </p>
      */
-    void onHideCameraTriggerButton();
+    void hideCameraTriggerButton();
 }

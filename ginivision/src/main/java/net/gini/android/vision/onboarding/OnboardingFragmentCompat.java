@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * <h3>Component API</h3>
  *
  * <p>
- *     When using the Component API the {@code OnboardingFragmentCompat} displays important advices for correctly photographing a document.
+ *     When using the Component API with the Android Support Library the {@code OnboardingFragmentCompat} displays important advices for correctly photographing a document.
  * </p>
  * <p>
  *     <b>Note:</b> Your Activity hosting this Fragment must extend the {@link android.support.v7.app.AppCompatActivity} and use an AppCompat Theme.

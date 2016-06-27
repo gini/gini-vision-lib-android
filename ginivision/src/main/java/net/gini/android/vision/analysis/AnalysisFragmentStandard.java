@@ -15,7 +15,7 @@ import net.gini.android.vision.ui.FragmentImplCallback;
  * <h3>Component API</h3>
  *
  * <p>
- *     When using the Component API the {@code AnalyzeDocumentFragmentStandard} displays the captured document and an activity indicator while the document is being analyzed by the Gini API.
+ *     When using the Component API without the Android Support Library the {@code AnalyzeDocumentFragmentStandard} displays the captured document and an activity indicator while the document is being analyzed by the Gini API.
  * </p>
  * <p>
  *     Include the {@code AnalyzeDocumentFragmentStandard} into your layout by using the {@link AnalysisFragmentStandard#createInstance(Document)} factory method to create an instance and display it using the {@link android.app.FragmentManager}.

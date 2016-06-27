@@ -8,13 +8,13 @@ import net.gini.android.vision.camera.CameraFragmentStandard;
 
 /**
  * <p>
- *     The {@code GiniVisionCoordinator} facilitates the default behaviour for the Gini Vision Lib.
+ *     The {@code GiniVisionCoordinator} facilitates the default behaviour for the Gini Vision Library.
  * </p>
  * <p>
  *     You can ignore this class when using the Screen API.
  * </p>
  * <p>
- *     In case you use the Component API we recommend relying on this class to provide the default behaviour of the Gini Vision Library by calling the required methods at pre-defined points in your code and by implementing the {@link GiniVisionCoordinator.Listener}.
+ *     If you use the Component API we recommend relying on this class to provide the default behaviour of the Gini Vision Library by calling the required methods at pre-defined points in your code and by implementing the {@link GiniVisionCoordinator.Listener}.
  * </p>
  */
 public class GiniVisionCoordinator {
@@ -24,7 +24,7 @@ public class GiniVisionCoordinator {
      *     Interface for the {@link GiniVisionCoordinator} to dispatch events.
      * </p>
      * <p>
-     *     If you use the {@link GiniVisionCoordinator} you should implement this interface in your Activity to facilitate the default behaviour of the Gini Vision Lib.
+     *     If you use the {@link GiniVisionCoordinator} you should implement this interface in your Activity to facilitate the default behaviour of the Gini Vision Library.
      * </p>
      */
     public interface Listener {

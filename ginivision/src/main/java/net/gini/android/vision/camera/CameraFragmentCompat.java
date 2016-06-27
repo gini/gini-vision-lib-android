@@ -64,22 +64,22 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
     }
 
     @Override
-    public void onShowDocumentCornerGuides() {
-        mFragmentImpl.onShowDocumentCornerGuides();
+    public void showDocumentCornerGuides() {
+        mFragmentImpl.showDocumentCornerGuides();
     }
 
     @Override
-    public void onHideDocumentCornerGuides() {
-        mFragmentImpl.onHideDocumentCornerGuides();
+    public void hideDocumentCornerGuides() {
+        mFragmentImpl.hideDocumentCornerGuides();
     }
 
     @Override
-    public void onShowCameraTriggerButton() {
-        mFragmentImpl.onShowCameraTriggerButton();
+    public void showCameraTriggerButton() {
+        mFragmentImpl.showCameraTriggerButton();
     }
 
     @Override
-    public void onHideCameraTriggerButton() {
-        mFragmentImpl.onHideCameraTriggerButton();
+    public void hideCameraTriggerButton() {
+        mFragmentImpl.hideCameraTriggerButton();
     }
 }

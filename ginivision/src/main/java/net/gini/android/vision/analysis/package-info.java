@@ -8,7 +8,7 @@
  * <p>
  * The {@link net.gini.android.vision.analysis.AnalysisActivity} is an abstract Activity which you need to
  * extend in your application. By implementing the abstract methods you can handle events coming from the Gini Vision
- * Lib.
+ * Library.
  * </p>
  *
  * <p>

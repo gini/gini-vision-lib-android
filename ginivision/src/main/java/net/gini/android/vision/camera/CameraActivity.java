@@ -34,7 +34,7 @@ import java.util.ArrayList;
  * <p>
  *     These extras are mandatory:
  *     <ul>
- *         <li>{@link CameraActivity#EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY} - use the {@link CameraActivity#setReviewDocumentActivityExtra(Intent, Context, Class)} helper to set it. Must contain an explicit Intent to the {@link ReviewActivity} subclass from your application</li>
+ *         <li>{@link CameraActivity#EXTRA_IN_REVIEW_ACTIVITY} - use the {@link CameraActivity#setReviewActivityExtra(Intent, Context, Class)} helper to set it. Must contain an explicit Intent to the {@link ReviewActivity} subclass from your application</li>
  *         <li>{@link CameraActivity#EXTRA_IN_ANALYSIS_ACTIVITY} - use the {@link CameraActivity#setAnalysisActivityExtra(Intent, Context, Class)} helper to set it. Must contain an explicit Intent to the {@link AnalysisActivity} subclass from your application</li>
  *     </ul>
  * </p>
@@ -119,10 +119,10 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * Mandatory extra which must contain an explicit Intent to the {@link ReviewActivity} subclass from your application.
      * </p>
      * <p>
-     *     Use the {@link CameraActivity#setReviewDocumentActivityExtra(Intent, Context, Class)} helper to set it.
+     *     Use the {@link CameraActivity#setReviewActivityExtra(Intent, Context, Class)} helper to set it.
      * </p>
      */
-    public static final String EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY = "GV_EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY";
+    public static final String EXTRA_IN_REVIEW_ACTIVITY = "GV_EXTRA_IN_REVIEW_ACTIVITY";
     /**
      * <p>
      * Mandatory extra which must contain an explicit Intent to the {@link AnalysisActivity} subclass from your application.
@@ -150,7 +150,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
 
     /**
      * <p>
-     *     Returned when the result code is {@link CameraActivity#RESULT_ERROR} and contains a {@link GiniVisionError} objects detailing what went wrong.
+     *     Returned when the result code is {@link CameraActivity#RESULT_ERROR} and contains a {@link GiniVisionError} object detailing what went wrong.
      * </p>
      */
     public static final String EXTRA_OUT_ERROR = "GV_EXTRA_OUT_ERROR";
@@ -174,18 +174,18 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
 
     /**
      * <p>
-     * Helper for setting the {@link CameraActivity#EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY}.
+     * Helper for setting the {@link CameraActivity#EXTRA_IN_REVIEW_ACTIVITY}.
      * </p>
      *
      * @param target your explicit {@link Intent} used to start the {@link CameraActivity}
      * @param context {@link Context} used to create the explicit {@link Intent} for your {@link ReviewActivity} subclass
-     * @param reviewPhotoActivityClass class of your {@link ReviewActivity} subclass
+     * @param reviewActivityClass class of your {@link ReviewActivity} subclass
      * @param <T> type of your {@link ReviewActivity} subclass
      */
-    public static <T extends ReviewActivity> void setReviewDocumentActivityExtra(Intent target,
-                                                                                 Context context,
-                                                                                 Class<T> reviewPhotoActivityClass) {
-        ActivityHelpers.setActivityExtra(target, EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY, context, reviewPhotoActivityClass);
+    public static <T extends ReviewActivity> void setReviewActivityExtra(Intent target,
+                                                                         Context context,
+                                                                         Class<T> reviewActivityClass) {
+        ActivityHelpers.setActivityExtra(target, EXTRA_IN_REVIEW_ACTIVITY, context, reviewActivityClass);
     }
 
     /**
@@ -195,13 +195,13 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      *
      * @param target your explicit {@link Intent} used to start the {@link CameraActivity}
      * @param context {@link Context} used to create the explicit {@link Intent} for your {@link AnalysisActivity} subclass
-     * @param reviewPhotoActivityClass class of your {@link AnalysisActivity} subclass
+     * @param analysisActivityClass class of your {@link AnalysisActivity} subclass
      * @param <T> type of your {@link AnalysisActivity} subclass
      */
     public static <T extends AnalysisActivity> void setAnalysisActivityExtra(Intent target,
                                                                              Context context,
-                                                                             Class<T> reviewPhotoActivityClass) {
-        ActivityHelpers.setActivityExtra(target, EXTRA_IN_ANALYSIS_ACTIVITY, context, reviewPhotoActivityClass);
+                                                                             Class<T> analysisActivityClass) {
+        ActivityHelpers.setActivityExtra(target, EXTRA_IN_ANALYSIS_ACTIVITY, context, analysisActivityClass);
     }
 
     @Override
@@ -228,7 +228,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mOnboardingPages = extras.getParcelableArrayList(EXTRA_IN_ONBOARDING_PAGES);
-            mReviewDocumentActivityIntent = extras.getParcelable(EXTRA_IN_REVIEW_DOCUMENT_ACTIVITY);
+            mReviewDocumentActivityIntent = extras.getParcelable(EXTRA_IN_REVIEW_ACTIVITY);
             mAnalyzeDocumentActivityIntent = extras.getParcelable(EXTRA_IN_ANALYSIS_ACTIVITY);
             mShowOnboardingAtFirstRun = extras.getBoolean(EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN, true);
         }

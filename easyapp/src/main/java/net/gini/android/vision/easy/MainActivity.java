@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private void startScanner() {
         Intent intent = new Intent(this, CameraActivity.class);
         intent.putParcelableArrayListExtra(CameraActivity.EXTRA_IN_ONBOARDING_PAGES, getOnboardingPages());
-        CameraActivity.setReviewDocumentActivityExtra(intent, this, ReviewActivity.class);
+        CameraActivity.setReviewActivityExtra(intent, this, ReviewActivity.class);
         CameraActivity.setAnalysisActivityExtra(intent, this, AnalysisActivity.class);
         startActivityForResult(intent, REQUEST_SCAN);
     }

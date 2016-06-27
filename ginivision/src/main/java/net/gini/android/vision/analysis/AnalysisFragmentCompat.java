@@ -15,7 +15,7 @@ import net.gini.android.vision.ui.FragmentImplCallback;
  * <h3>Component API</h3>
  *
  * <p>
- *     When using the Component API the {@code AnalyzeDocumentFragmentCompat} displays the captured document and an activity indicator while the document is being analyzed by the Gini API.
+ *     When using the Component API with the Android Support Library the {@code AnalyzeDocumentFragmentCompat} displays the captured document and an activity indicator while the document is being analyzed by the Gini API.
  * </p>
  * <p>
  *     <b>Note:</b> Your Activity hosting this Fragment must extend the {@link android.support.v7.app.AppCompatActivity} and use an AppCompat Theme.

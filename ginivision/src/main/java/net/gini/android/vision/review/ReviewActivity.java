@@ -19,7 +19,7 @@ import net.gini.android.vision.onboarding.OnboardingActivity;
  *     When using the Screen API {@code ReviewActivity} displays the photographed document and allows the user to review it by checking the sharpness, quality and orientation of the image. The user can correct the orientation by rotating the image.
  * </p>
  * <p>
- *     You must extend the {@code ReviewActivity} in your application and provide it to the {@link CameraActivity} by using the {@link CameraActivity#setReviewDocumentActivityExtra(Intent, Context, Class)} helper method.
+ *     You must extend the {@code ReviewActivity} in your application and provide it to the {@link CameraActivity} by using the {@link CameraActivity#setReviewActivityExtra(Intent, Context, Class)} helper method.
  * </p>
  * <p>
  *     <b>Note:</b> {@code ReviewActivity} extends {@link AppCompatActivity} and requires an AppCompat Theme.

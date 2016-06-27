@@ -44,7 +44,7 @@ public class OnboardingPage implements Parcelable {
     }
 
     /**
-     * @return the string resource id of the text shown in the onboarding page.
+     * @return the string resource id of the text shown in the onboarding page
      */
     @StringRes
     public int getTextResId() {
@@ -52,7 +52,7 @@ public class OnboardingPage implements Parcelable {
     }
 
     /**
-     * @return the drawable resource id of the text shown in the onboarding page.
+     * @return the drawable resource id of the text shown in the onboarding page
      */
     @DrawableRes
     public int getImageResId() {

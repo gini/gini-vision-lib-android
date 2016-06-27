@@ -58,22 +58,22 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     @Override
-    public void onShowDocumentCornerGuides() {
+    public void showDocumentCornerGuides() {
 
     }
 
     @Override
-    public void onHideDocumentCornerGuides() {
+    public void hideDocumentCornerGuides() {
 
     }
 
     @Override
-    public void onShowCameraTriggerButton() {
+    public void showCameraTriggerButton() {
 
     }
 
     @Override
-    public void onHideCameraTriggerButton() {
+    public void hideCameraTriggerButton() {
 
     }
 }

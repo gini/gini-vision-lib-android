@@ -4,7 +4,7 @@ import android.view.View;
 
 /**
  * <p>
- *     Methods which both Analyze Document Fragments must implement.
+ *     Methods which both Analysis Fragments must implement.
  * </p>
  */
 public interface AnalysisFragmentInterface {
@@ -31,7 +31,7 @@ public interface AnalysisFragmentInterface {
 
     /**
      * <p>
-     *     Call this method when you need to show a message to the user in the Analysis Screen.
+     *     Call this method when you need to show an error message to the user in the Analysis Screen.
      * </p>
      * <p>
      *     If you wish to provide an invokable action to the user, you can set a button title and an {@link android.view.View.OnClickListener}.

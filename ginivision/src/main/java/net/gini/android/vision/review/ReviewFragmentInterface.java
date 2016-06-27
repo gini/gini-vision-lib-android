@@ -7,7 +7,7 @@ import net.gini.android.vision.Document;
 
 /**
  * <p>
- *     Methods which both Review Document Fragments must implement.
+ *     Methods which both Review Fragments must implement.
  * </p>
  */
 public interface ReviewFragmentInterface {
