@@ -47,19 +47,19 @@ import net.gini.android.vision.review.ReviewActivity;
  *     The following items are customizable:
  *     <ul>
  *         <li>
- *             <b>Activity indicator color:</b> with the color resource name {@code gv_analyze_activity_indicator}
+ *             <b>Activity indicator color:</b> with the color resource name {@code gv_analysis_activity_indicator}
  *         </li>
  *         <li>
  *             <b>Background color:</b> with the color resource named {@code gv_background}. <b>Note:</b> this color resource is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity})
  *         </li>
  *         <li>
- *             <b>Error message text color:</b> with the color resource named {@code gv_analyze_error_text}
+ *             <b>Error message text color:</b> with the color resource named {@code gv_analysis_error_text}
  *         </li>
  *         <li>
- *             <b>Error message button text color:</b> with the color resource named {@code gv_analyze_error_button_text}
+ *             <b>Error message button text color:</b> with the color resource named {@code gv_analysis_error_button_text}
  *         </li>
  *         <li>
- *             <b>Error message background color:</b> with the color resource named {@code gv_analyze_error_background}
+ *             <b>Error message background color:</b> with the color resource named {@code gv_analysis_error_background}
  *         </li>
  *     </ul>
  * </p>
