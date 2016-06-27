@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.widget.Toast;
 
-import net.gini.android.vision.camera.Document;
+import net.gini.android.vision.Document;
 
 public class ReviewActivity extends net.gini.android.vision.review.ReviewActivity {
 

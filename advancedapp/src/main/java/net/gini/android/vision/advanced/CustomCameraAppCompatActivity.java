@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.camera.CameraFragmentListener;
-import net.gini.android.vision.camera.Document;
+import net.gini.android.vision.Document;
 import net.gini.android.visionadvtest.R;
 
 public class CustomCameraAppCompatActivity extends AppCompatActivity implements CameraFragmentListener {

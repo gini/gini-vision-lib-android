@@ -10,7 +10,7 @@ import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.review.ReviewFragmentListener;
 import net.gini.android.vision.review.ReviewFragmentStandard;
-import net.gini.android.vision.camera.Document;
+import net.gini.android.vision.Document;
 import net.gini.android.vision.camera.photo.Photo;
 import net.gini.android.visionadvtest.R;
 

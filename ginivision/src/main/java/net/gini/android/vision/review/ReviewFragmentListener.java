@@ -2,7 +2,7 @@ package net.gini.android.vision.review;
 
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.analysis.AnalysisActivity;
-import net.gini.android.vision.camera.Document;
+import net.gini.android.vision.Document;
 
 /**
  * <p>

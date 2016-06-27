@@ -1,5 +1,6 @@
 package net.gini.android.vision.camera;
 
+import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 
 /**

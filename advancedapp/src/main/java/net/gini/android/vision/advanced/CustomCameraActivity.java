@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
-import net.gini.android.vision.camera.Document;
+import net.gini.android.vision.Document;
 import net.gini.android.vision.camera.CameraFragmentListener;
 import net.gini.android.visionadvtest.R;
 

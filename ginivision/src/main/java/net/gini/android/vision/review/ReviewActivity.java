@@ -9,7 +9,7 @@ import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.camera.CameraActivity;
-import net.gini.android.vision.camera.Document;
+import net.gini.android.vision.Document;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 
 /**

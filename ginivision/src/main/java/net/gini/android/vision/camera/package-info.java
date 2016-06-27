@@ -8,7 +8,7 @@
  * <p>
  * The {@link net.gini.android.vision.camera.CameraActivity} is the main entry point when using the Screen API. Start
  * {@link net.gini.android.vision.camera.CameraActivity} and as a result the original {@link
- * net.gini.android.vision.camera.Document} and the reviewed {@link net.gini.android.vision.camera.Document} or a
+ * net.gini.android.vision.Document} and the reviewed {@link net.gini.android.vision.Document} or a
  * {@link net.gini.android.vision.GiniVisionError} is returned.
  * </p>
  *

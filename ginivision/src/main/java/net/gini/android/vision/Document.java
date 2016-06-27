@@ -1,4 +1,4 @@
-package net.gini.android.vision.camera;
+package net.gini.android.vision;
 
 import android.os.Parcel;
 import android.os.Parcelable;

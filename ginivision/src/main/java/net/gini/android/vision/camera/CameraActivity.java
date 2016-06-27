@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import net.gini.android.vision.ActivityHelpers;
+import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
