@@ -5,7 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
+import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.camera.CameraActivity;
+import net.gini.android.vision.review.ReviewActivity;
 
 import java.util.ArrayList;
 
@@ -56,6 +58,26 @@ import java.util.ArrayList;
  *         </li>
  *         <li>
  *             <b>Third page text:</b> with the string resource named {@code gv_onboarding_align}
+ *         </li>
+ *     </ul>
+ * </p>
+ *
+ * <h3>Customizing the Action Bar</h3>
+ *
+ * <p>
+ *     Customizing the Action Bar is also done via app resources overriding and each one - except the title string resource - is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity}).
+ * </p>
+ * <p>
+ *     The following items are customizable:
+ *     <ul>
+ *         <li>
+ *             <b>Background color:</b> with the color resource named {@code gv_action_bar} (highly recommended for Android 5+: customize the status bar color with {@code gv_status_bar})
+ *         </li>
+ *         <li>
+ *             <b>Title:</b> with the string resource named {@code gv_title_onboarding}
+ *         </li>
+ *         <li>
+ *             <b>Title color:</b> with the color resource named {@code gv_action_bar_title}
  *         </li>
  *     </ul>
  * </p>

@@ -9,6 +9,8 @@ import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.camera.CameraActivity;
 import net.gini.android.vision.camera.Document;
+import net.gini.android.vision.onboarding.OnboardingActivity;
+import net.gini.android.vision.review.ReviewActivity;
 
 /**
  * <h3>Screen API</h3>
@@ -45,6 +47,26 @@ import net.gini.android.vision.camera.Document;
  *     <ul>
  *         <li>
  *             <b>Activity indicator color:</b> with the color resource name {@code gv_analyze_activity_indicator}
+ *         </li>
+ *     </ul>
+ * </p>
+ *
+ * <h3>Customizing the Action Bar</h3>
+ *
+ * <p>
+ *     Customizing the Action Bar is also done via app resources overriding and each one - except the title string resource - is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity}).
+ * </p>
+ * <p>
+ *     The following items are customizable:
+ *     <ul>
+ *         <li>
+ *             <b>Background color:</b> with the color resource named {@code gv_action_bar} (highly recommended for Android 5+: customize the status bar color with {@code gv_status_bar})
+ *         </li>
+ *         <li>
+ *             <b>Title:</b> with the string resource you set in your {@code AndroidManifest.xml} when declaring your Activity that extends {@link AnalysisActivity}
+ *         </li>
+ *         <li>
+ *             <b>Title color:</b> with the color resource named {@code gv_action_bar_title}
  *         </li>
  *     </ul>
  * </p>
