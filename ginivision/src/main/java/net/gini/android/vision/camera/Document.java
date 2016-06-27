@@ -18,7 +18,7 @@ import net.gini.android.vision.camera.photo.Photo;
  * </p>
  *
  * <p>
- * <b>Note:</b> Always retrieve the {@link Document} extras from a Bundle to force unparceling and removing of the reference to
+ * <b>Warning:</b> Always retrieve the {@link Document} extras from a Bundle to force unparceling and removing of the reference to
  * the JPEG byte array from the memory cache. Failing to do so will lead to memory leaks.
  * </p>
  */
