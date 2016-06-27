@@ -59,6 +59,9 @@ import java.util.ArrayList;
  *         <li>
  *             <b>Third page text:</b> with the string resource named {@code gv_onboarding_align}
  *         </li>
+ *         <li>
+ *             <b>Background color:</b> with the color resource named {@code gv_background}. <b>Note:</b> this color resource is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity})
+ *         </li>
  *     </ul>
  * </p>
  *

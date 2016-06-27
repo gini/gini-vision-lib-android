@@ -64,6 +64,9 @@ import net.gini.android.vision.onboarding.OnboardingActivity;
  *         <li>
  *             <b>Bottom panel background color:</b> with the color resource named {@code gv_review_bottom_panel_background}
  *         </li>
+ *         <li>
+ *             <b>Background color:</b> with the color resource named {@code gv_background}. <b>Note:</b> this color resource is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity})
+ *         </li>
  *     </ul>
  * </p>
  *
