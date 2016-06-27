@@ -65,4 +65,9 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     public void onDocumentAnalyzed() {
 
     }
+
+    @Override
+    public void showError(String message, String buttonTitle, View.OnClickListener onClickListener, int duration) {
+
+    }
 }

@@ -102,4 +102,9 @@ public class AnalysisFragmentStandard extends Fragment implements FragmentImplCa
     public void onDocumentAnalyzed() {
         mFragmentImpl.onDocumentAnalyzed();
     }
+
+    @Override
+    public void showError(String message, String buttonTitle, View.OnClickListener onClickListener, int duration) {
+        mFragmentImpl.showError(message, buttonTitle, onClickListener, duration);
+    }
 }

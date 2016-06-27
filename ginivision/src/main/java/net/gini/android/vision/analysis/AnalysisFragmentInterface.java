@@ -1,5 +1,7 @@
 package net.gini.android.vision.analysis;
 
+import android.view.View;
+
 /**
  * <p>
  *     Methods which both Analyze Document Fragments must implement.
@@ -26,4 +28,18 @@ public interface AnalysisFragmentInterface {
      * </p>
      */
     void onDocumentAnalyzed();
+
+    /**
+     * <p>
+     *     Call this method when you need to show a message to the user in the Analysis Screen.
+     * </p>
+     * <p>
+     *     If you wish to provide an invokable action to the user, you can set a button title and an {@link android.view.View.OnClickListener}.
+     * </p>
+     * @param message a short error message
+     * @param buttonTitle if not null and not empty, shows a button with the given title
+     * @param onClickListener listener for the button
+     * @param duration how long should the error message be shown in ms
+     */
+    void showError(String message, String buttonTitle, View.OnClickListener onClickListener, int duration);
 }

@@ -19,7 +19,7 @@ public class CustomAnalysisAppCompatActivity extends AppCompatActivity implement
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_custom_analyze_document_compat);
+        setContentView(R.layout.activity_custom_analysis_compat);
         createFragment();
         showFragment();
     }

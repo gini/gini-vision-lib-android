@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
@@ -50,6 +51,15 @@ import net.gini.android.vision.review.ReviewActivity;
  *         </li>
  *         <li>
  *             <b>Background color:</b> with the color resource named {@code gv_background}. <b>Note:</b> this color resource is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity})
+ *         </li>
+ *         <li>
+ *             <b>Error message text color:</b> with the color resource named {@code gv_analyze_error_text}
+ *         </li>
+ *         <li>
+ *             <b>Error message button text color:</b> with the color resource named {@code gv_analyze_error_button_text}
+ *         </li>
+ *         <li>
+ *             <b>Error message background color:</b> with the color resource named {@code gv_analyze_error_background}
  *         </li>
  *     </ul>
  * </p>
@@ -185,4 +195,9 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
      * @param result the {@link Intent} which will be returned as the result data.
      */
     public abstract void onAddDataToResult(Intent result);
+
+    @Override
+    public void showError(String message, String buttonTitle, View.OnClickListener onClickListener, int duration) {
+        mFragment.showError(message, buttonTitle, onClickListener, duration);
+    }
 }

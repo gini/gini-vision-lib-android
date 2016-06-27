@@ -17,4 +17,37 @@
         android:layout_margin="@dimen/gv_analysis_scanner_line_margin"
         android:src="@drawable/gv_analysis_scanner_line" />
 
+    <RelativeLayout
+        android:id="@+id/gv_layout_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/gv_analyze_error_background">
+
+        <TextView
+            android:id="@+id/gv_text_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/gv_button_error"
+            android:paddingBottom="14dp"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:paddingTop="14dp"
+            android:text="This is an error. Sorry ..."
+            android:textColor="@color/gv_analyze_error_text" />
+
+        <Button
+            android:id="@+id/gv_button_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:paddingBottom="14dp"
+            android:paddingTop="14dp"
+            android:text="FIX IT"
+            android:textColor="@color/gv_analyze_error_button_text" />
+    </RelativeLayout>
 </RelativeLayout>

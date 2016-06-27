@@ -12,7 +12,8 @@
     <FrameLayout
         android:id="@+id/fragment_review_document"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_above="@+id/text_info" />
 
     <TextView
         android:id="@+id/text_info"

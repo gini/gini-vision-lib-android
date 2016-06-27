@@ -34,5 +34,8 @@
     <color name="gv_analyze_fragment_background">@color/gv_background</color>
     <color name="gv_analyze_activity_indicator">#fa6912</color>
 
+    <color name="gv_analyze_error_text">#85000a</color>
+    <color name="gv_analyze_error_button_text">#fff</color>
+    <color name="gv_analyze_error_background">#ff1744</color>
 
 </resources>

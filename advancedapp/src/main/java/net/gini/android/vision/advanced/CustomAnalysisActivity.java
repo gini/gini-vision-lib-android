@@ -19,7 +19,7 @@ public class CustomAnalysisActivity extends Activity implements AnalysisFragment
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_custom_analyze_document);
+        setContentView(R.layout.activity_custom_analysis);
         createFragment();
         showFragment();
     }
