@@ -30,7 +30,7 @@ import net.gini.android.vision.onboarding.OnboardingActivity;
  * <p>
  *     In your {@code ReviewActivity} subclass you have to implement the following methods:
  *     <ul>
- *         <li>{@link ReviewActivity#onShouldAnalyzeDocument(Document)} - you should start analysing the original document by sending it to the Gini API. We assume that in most cases the photo is good enough and this way we are able to provide analysis results quicker.<br/><b>Note:</b> Call {@link ReviewActivity#onDocumentAnalyzed()} when the analysis is done and the Activity wasn't stopped.</li>
+ *         <li>{@link ReviewActivity#onShouldAnalyzeDocument(Document)} - you should start analyzing the original document by sending it to the Gini API. We assume that in most cases the photo is good enough and this way we are able to provide analysis results quicker.<br/><b>Note:</b> Call {@link ReviewActivity#onDocumentAnalyzed()} when the analysis is done and the Activity wasn't stopped.</li>
  *         <li>{@link ReviewActivity#onAddDataToResult(Intent)} - you can add the results of the analysis to the Intent as extras and retrieve them when the {@link CameraActivity} returned.<br/>This is called only, if you called {@link ReviewActivity#onDocumentAnalyzed()} and the image wasn't changed before the user tapped on the Next button.<br/>When this is called, your {@link AnalysisActivity} subclass is not launched, instead control is returned to your Activity which started the {@link CameraActivity} and you can extract the results of the analysis.</li>
  *     </ul>
  * </p>

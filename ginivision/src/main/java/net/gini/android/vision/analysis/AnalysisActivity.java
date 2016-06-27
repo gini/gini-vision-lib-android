@@ -32,7 +32,7 @@ import net.gini.android.vision.review.ReviewActivity;
  *     In your {@code AnalysisActivity} subclass you have to implement the following methods:
  *     <ul>
  *         <li>
- *          {@link AnalysisActivity#onAnalyzeDocument(Document)} - start analysing the document by sending it to the Gini API.<br/><b>Note:</b> Call {@link AnalysisActivity#onDocumentAnalyzed()} when the analysis is done and the Activity wasn't stopped.
+ *          {@link AnalysisActivity#onAnalyzeDocument(Document)} - start analyzing the document by sending it to the Gini API.<br/><b>Note:</b> Call {@link AnalysisActivity#onDocumentAnalyzed()} when the analysis is done and the Activity wasn't stopped.
  *         </li>
  *         <li>{@link AnalysisActivity#onAddDataToResult(Intent)} - you should add the results of the analysis to the Intent as extras and retrieve them when the {@link CameraActivity} returned.<br/>This is called only, if you called {@link AnalysisActivity#onDocumentAnalyzed()} before.<br/>When this is called control is returned to your Activity which started the {@link CameraActivity} and you can extract the results of the analysis.</li>
  *     </ul>
