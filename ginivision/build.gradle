@@ -23,7 +23,6 @@ dependencies {
     compile deps.supportv4
     compile deps.supportDesign
     compile deps.sanselan
-    compile 'com.github.jorgecastilloprz:fabprogresscircle:1.01@aar'
 }
 
 apply from: rootProject.file('gradle/codequality.gradle')
