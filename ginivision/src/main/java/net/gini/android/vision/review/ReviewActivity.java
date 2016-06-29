@@ -16,7 +16,7 @@ import net.gini.android.vision.onboarding.OnboardingActivity;
  * <h3>Screen API</h3>
  *
  * <p>
- *     When using the Screen API {@code ReviewActivity} displays the photographed document and allows the user to review it by checking the sharpness, quality and orientation of the image. The user can correct the orientation by rotating the image.
+ *     When you use the Screen API, the {@code ReviewActivity} displays the photographed document and allows the user to review it by checking the sharpness, quality and orientation of the image. The user can correct the orientation by rotating the image.
  * </p>
  * <p>
  *     You must extend the {@code ReviewActivity} in your application and provide it to the {@link CameraActivity} by using the {@link CameraActivity#setReviewActivityExtra(Intent, Context, Class)} helper method.
@@ -25,47 +25,47 @@ import net.gini.android.vision.onboarding.OnboardingActivity;
  *     <b>Note:</b> {@code ReviewActivity} extends {@link AppCompatActivity} and requires an AppCompat Theme.
  * </p>
  * <p>
- *     The {@code ReviewActivity} is started by the {@link CameraActivity} after the user took an image of a document.
+ *     The {@code ReviewActivity} is started by the {@link CameraActivity} after the user has taken a photo of a document.
  * </p>
  * <p>
  *     In your {@code ReviewActivity} subclass you have to implement the following methods:
  *     <ul>
  *         <li>{@link ReviewActivity#onShouldAnalyzeDocument(Document)} - you should start analyzing the original document by sending it to the Gini API. We assume that in most cases the photo is good enough and this way we are able to provide analysis results quicker.<br/><b>Note:</b> Call {@link ReviewActivity#onDocumentAnalyzed()} when the analysis is done and the Activity wasn't stopped.</li>
- *         <li>{@link ReviewActivity#onAddDataToResult(Intent)} - you can add the results of the analysis to the Intent as extras and retrieve them when the {@link CameraActivity} returned.<br/>This is called only, if you called {@link ReviewActivity#onDocumentAnalyzed()} and the image wasn't changed before the user tapped on the Next button.<br/>When this is called, your {@link AnalysisActivity} subclass is not launched, instead control is returned to your Activity which started the {@link CameraActivity} and you can extract the results of the analysis.</li>
+ *         <li>{@link ReviewActivity#onAddDataToResult(Intent)} - you can add the results of the analysis to the Intent as extras and retrieve them once the {@link CameraActivity} returns.<br/>This is called only if you called {@link ReviewActivity#onDocumentAnalyzed()} and the image wasn't changed before the user tapped on the Next button.<br/>When this is called, your {@link AnalysisActivity} subclass is not launched, instead control is returned to your Activity which started the {@link CameraActivity} and you can extract the results of the analysis.</li>
  *     </ul>
  * </p>
  *
  * <h3>Customizing the Review Screen</h3>
  *
  * <p>
- *   Customizing the look of the Review Screen is done via app resources overriding.
+ *   Customizing the look of the Review Screen is done via overriding of app resources.
  * </p>
  * <p>
  *     The following items are customizable:
  *     <ul>
  *         <li>
- *             <b>Rotate button icon:</b> with images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_review_button_rotate.png}
+ *             <b>Rotate button icon:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_review_button_rotate.png}
  *         </li>
  *         <li>
- *             <b>Rotate button color:</b>  with the color resources named {@code gv_review_fab_mini}  and {@code gv_review_fab_mini_pressed}
+ *             <b>Rotate button color:</b>  via the color resources named {@code gv_review_fab_mini}  and {@code gv_review_fab_mini_pressed}
  *         </li>
  *         <li>
- *             <b>Next button icon:</b> with images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_review_fab_next.png}
+ *             <b>Next button icon:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_review_fab_next.png}
  *         </li>
  *         <li>
- *             <b>Next button color:</b> with the color resources named {@code gv_review_fab} and {@code gv_review_fab_pressed}
+ *             <b>Next button color:</b> via the color resources named {@code gv_review_fab} and {@code gv_review_fab_pressed}
  *         </li>
  *         <li>
- *             <b>Bottom advice text:</b> with the string resource named {@code gv_review_bottom_panel_text}
+ *             <b>Bottom advice text:</b> via the string resource named {@code gv_review_bottom_panel_text}
  *         </li>
  *         <li>
- *             <b>Bottom text color:</b> with the color resource named {@code gv_review_bottom_panel_text}
+ *             <b>Bottom text color:</b> via the color resource named {@code gv_review_bottom_panel_text}
  *         </li>
  *         <li>
- *             <b>Bottom panel background color:</b> with the color resource named {@code gv_review_bottom_panel_background}
+ *             <b>Bottom panel background color:</b> via the color resource named {@code gv_review_bottom_panel_background}
  *         </li>
  *         <li>
- *             <b>Background color:</b> with the color resource named {@code gv_background}. <b>Note:</b> this color resource is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity})
+ *             <b>Background color:</b> via the color resource named {@code gv_background}. <b>Note:</b> this color resource is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity})
  *         </li>
  *     </ul>
  * </p>
@@ -73,19 +73,19 @@ import net.gini.android.vision.onboarding.OnboardingActivity;
  * <h3>Customizing the Action Bar</h3>
  *
  * <p>
- *     Customizing the Action Bar is also done via app resources overriding and each one - except the title string resource - is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity}).
+ *     Customizing the Action Bar is also done via overriding of app resources and each one - except the title string resource - is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity}).
  * </p>
  * <p>
  *     The following items are customizable:
  *     <ul>
  *         <li>
- *             <b>Background color:</b> with the color resource named {@code gv_action_bar} (highly recommended for Android 5+: customize the status bar color with {@code gv_status_bar})
+ *             <b>Background color:</b> via the color resource named {@code gv_action_bar} (highly recommended for Android 5+: customize the status bar color via {@code gv_status_bar})
  *         </li>
  *         <li>
- *             <b>Title:</b> with the string resource you set in your {@code AndroidManifest.xml} when declaring your Activity that extends {@link ReviewActivity}
+ *             <b>Title:</b> via the string resource you set in your {@code AndroidManifest.xml} when declaring your Activity that extends {@link ReviewActivity}
  *         </li>
  *         <li>
- *             <b>Title color:</b> with the color resource named {@code gv_action_bar_title}
+ *             <b>Title color:</b> via the color resource named {@code gv_action_bar_title}
  *         </li>
  *     </ul>
  * </p>
@@ -195,13 +195,13 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
      *     Callback for adding your own data to the Activity's result.
      * </p>
      * <p>
-     *     Called when the document was analyzed and wasn't modified at the time the user tapped on the Next button.
+     *     Called when the document has been analyzed and wasn't modified at the time the user tapped on the Next button.
      * </p>
      * <p>
-     *     You should add the results of the analysis as extras and retrieve them when the {@link CameraActivity} returned.
+     *     You should add the results of the analysis as extras and retrieve them when the {@link CameraActivity} returns.
      * </p>
      * <p>
-     *     <b>Note:</b> you should call {@link ReviewActivity#onDocumentAnalyzed()} after you received the analysis results from the Gini API, otherwise this method won't be invoked.
+     *     <b>Note:</b> you should call {@link ReviewActivity#onDocumentAnalyzed()} after you've received the analysis results from the Gini API, otherwise this method won't be invoked.
      * </p>
      * @param result the {@link Intent} which will be returned as the result data.
      */

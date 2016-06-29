@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * <h3>Component API</h3>
  *
  * <p>
- *     When using the Component API with the Android Support Library the {@code OnboardingFragmentCompat} displays important advices for correctly photographing a document.
+ *     When you use the Component API with the Android Support Library, the {@code OnboardingFragmentCompat} displays important advice for correctly photographing a document.
  * </p>
  * <p>
  *     <b>Note:</b> Your Activity hosting this Fragment must extend the {@link android.support.v7.app.AppCompatActivity} and use an AppCompat Theme.
@@ -24,7 +24,7 @@ import java.util.ArrayList;
  *     Include the {@code OnboardingFragmentCompat} into your layout either directly with {@code <fragment>} in your Activity's layout or using the {@link android.support.v4.app.FragmentManager}.
  * </p>
  * <p>
- *     If you would like to display a different number of pages, you can use the {@link OnboardingFragmentCompat#createInstance(ArrayList)} factory method and provide the list of {@link OnboardingPage} objects.
+ *     If you would like to display a different number of pages, you can use the {@link OnboardingFragmentCompat#createInstance(ArrayList)} factory method and provide a list of {@link OnboardingPage} objects.
  * </p>
  * <p>
  *     Your Activity must implement the {@link OnboardingFragmentListener} interface to receive events from the Onboarding Fragment. Failing to do so will throw an exception.

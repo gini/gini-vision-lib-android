@@ -15,13 +15,13 @@ import java.util.ArrayList;
  * <h3>Component API</h3>
  *
  * <p>
- *     When using the Component API withou the Android Support Library the {@code OnboardingFragmentStandard} displays important advices for correctly photographing a document.
+ *     When you use the Component API without the Android Support Library, the {@code OnboardingFragmentStandard} displays important advice for correctly photographing a document.
  * </p>
  * <p>
  *     Include the {@code OnboardingFragmentCompat} into your layout either directly with {@code <fragment>} in your Activity's layout or using the {@link android.app.FragmentManager}.
  * </p>
  * <p>
- *     If you would like to display a different number of pages, you can use the {@link OnboardingFragmentStandard#createInstance(ArrayList)} factory method and provide the list of {@link OnboardingPage} objects.
+ *     If you would like to display a different number of pages, you can use the {@link OnboardingFragmentStandard#createInstance(ArrayList)} factory method and provide a list of {@link OnboardingPage} objects.
  * </p>
  * <p>
  *     Your Activity must implement the {@link OnboardingFragmentListener} interface to receive events from the Onboarding Fragment. Failing to do so will throw an exception.

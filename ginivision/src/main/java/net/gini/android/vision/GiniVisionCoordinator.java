@@ -8,13 +8,13 @@ import net.gini.android.vision.camera.CameraFragmentStandard;
 
 /**
  * <p>
- *     The {@code GiniVisionCoordinator} facilitates the default behaviour for the Gini Vision Library.
+ *     The {@code GiniVisionCoordinator} facilitates the default behavior for the Gini Vision Library.
  * </p>
  * <p>
  *     You can ignore this class when using the Screen API.
  * </p>
  * <p>
- *     If you use the Component API we recommend relying on this class to provide the default behaviour of the Gini Vision Library by calling the required methods at pre-defined points in your code and by implementing the {@link GiniVisionCoordinator.Listener}.
+ *     If you use the Component API we recommend relying on this class to provide the default behavior of the Gini Vision Library. This can be achieved by calling the required methods at pre-defined points in your code and by implementing the {@link GiniVisionCoordinator.Listener}.
  * </p>
  */
 public class GiniVisionCoordinator {
@@ -24,13 +24,13 @@ public class GiniVisionCoordinator {
      *     Interface for the {@link GiniVisionCoordinator} to dispatch events.
      * </p>
      * <p>
-     *     If you use the {@link GiniVisionCoordinator} you should implement this interface in your Activity to facilitate the default behaviour of the Gini Vision Library.
+     *     If you use the {@link GiniVisionCoordinator} you should implement this interface in your Activity to facilitate the default behavior of the Gini Vision Library.
      * </p>
      */
     public interface Listener {
         /**
          * <p>
-         *     Called when the onboarding should be shown.
+         *     Called when onboarding should be shown.
          * </p>
          * <p>
          *     Is used to show the Onboarding Screen once per installation the first time the Camera Screen is started.
@@ -53,7 +53,7 @@ public class GiniVisionCoordinator {
      * <p>
      *     Factory method to create and configure a {@link GiniVisionCoordinator} instance.
      * </p>
-     * @param context a {@link Context} used by the new instance to provide the default behaviour
+     * @param context a {@link Context} used by the new instance to provide the default behavior
      * @return a new instance of {@link GiniVisionCoordinator}
      */
     public static GiniVisionCoordinator createInstance(Context context) {
@@ -66,7 +66,7 @@ public class GiniVisionCoordinator {
 
     /**
      * <p>
-     *     Listener for handling events from the {@link GiniVisionCoordinator} to provide the default behaviour.
+     *     Listener for handling events from the {@link GiniVisionCoordinator} to provide the default behavior.
      * </p>
      * @param listener your implementation of the {@link GiniVisionCoordinator.Listener}
      * @return the {@link GiniVisionCoordinator} instance for a fluid api

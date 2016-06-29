@@ -10,7 +10,7 @@ import net.gini.android.vision.GiniVisionError;
 public interface OnboardingFragmentListener {
     /**
      * <p>
-     *     Called when the user left the last page - either by swiping or tapping on the Next button - and you should
+     *     Called when the user has left the last page - either by swiping or tapping on the Next button - and you should
      *     close the Onboarding Fragment.
      * </p>
      */
