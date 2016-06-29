@@ -49,7 +49,7 @@ import java.util.ArrayList;
  *     The following result codes need to be handled:
  *     <ul>
  *         <li>{@link CameraActivity#RESULT_OK} - image of a document was taken, reviewed and analyzed</li>
- *         <li>{@link CameraActivity#RESULT_CANCELED} - image of document was not taken, user canceled the Gini Vision Lib</li>
+ *         <li>{@link CameraActivity#RESULT_CANCELED} - image of document was not taken, user canceled the Gini Vision Library</li>
  *         <li>{@link CameraActivity#RESULT_ERROR} - an error occured</li>
  *     </ul>
  * </p>
@@ -95,7 +95,7 @@ import java.util.ArrayList;
  * <h3>Customizing the Action Bar</h3>
  *
  * <p>
- *     Customizing the Action Bar is also done via overriding of resources and each one - except the title string resource - is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity}).
+ *     Customizing the Action Bar is also done via overriding of app resources and each one - except the title string resource - is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity}).
  * </p>
  * <p>
  *     The following items are customizable:
