@@ -17,14 +17,14 @@ public interface AnalysisFragmentInterface {
 
     /**
      * <p>
-     *     You should call this method when the document analysis finished.
+     *     You should call this method when the document analysis has finished.
      * </p>
      */
     void stopScanAnimation();
 
     /**
      * <p>
-     *     You should call this method after you received the analysis results from the Gini API.
+     *     You should call this method after you've received the analysis results from the Gini API.
      * </p>
      */
     void onDocumentAnalyzed();

@@ -26,7 +26,7 @@ public interface ReviewFragmentListener {
 
     /**
      * <p>
-     *     Called when you didn't call {@link ReviewFragmentStandard#onDocumentAnalyzed()} or {@link ReviewFragmentCompat#onDocumentAnalyzed()} or the image was changed and the user tapped on the Next button.
+     *     Called if you didn't call {@link ReviewFragmentStandard#onDocumentAnalyzed()} or {@link ReviewFragmentCompat#onDocumentAnalyzed()} or the image was changed and the user tapped on the Next button.
      * </p>
      * <p>
      *     You should start your Activity extending {@link AnalysisActivity} and set the document as the {@link AnalysisActivity#EXTRA_IN_DOCUMENT} extra.
@@ -38,7 +38,7 @@ public interface ReviewFragmentListener {
 
     /**
      * <p>
-     *     Called when you called {@link ReviewFragmentStandard#onDocumentAnalyzed()} or {@link ReviewFragmentCompat#onDocumentAnalyzed()} and the image wasn't changed and the user tapped on the Next button.
+     *     Called if you called {@link ReviewFragmentStandard#onDocumentAnalyzed()} or {@link ReviewFragmentCompat#onDocumentAnalyzed()} and the image wasn't changed and the user tapped on the Next button.
      * </p>
      * <p>
      *     You should finish your Activity and proceed to handling the results of the analysis.

@@ -29,7 +29,7 @@ import java.util.ArrayList;
  *     It shows a camera preview with tap-to-focus functionality and a trigger button. The camera preview also shows document corner guides to which the user should align the document.
  * </p>
  * <p>
- *     Start the {@code CameraActivity} with {@link android.app.Activity#startActivityForResult(Intent, int)} to receive the {@link GiniVisionError}, if there was an error.
+ *     Start the {@code CameraActivity} with {@link android.app.Activity#startActivityForResult(Intent, int)} to receive the {@link GiniVisionError} in case there was an error.
  * </p>
  * <p>
  *     These extras are mandatory:
@@ -49,7 +49,7 @@ import java.util.ArrayList;
  *     The following result codes need to be handled:
  *     <ul>
  *         <li>{@link CameraActivity#RESULT_OK} - image of a document was taken, reviewed and analyzed</li>
- *         <li>{@link CameraActivity#RESULT_CANCELED} - image of document was not taken, user cancelled the Gini Vision Lib</li>
+ *         <li>{@link CameraActivity#RESULT_CANCELED} - image of document was not taken, user canceled the Gini Vision Lib</li>
  *         <li>{@link CameraActivity#RESULT_ERROR} - an error occured</li>
  *     </ul>
  * </p>
@@ -66,28 +66,28 @@ import java.util.ArrayList;
  * <h3>Customizing the Camera Screen</h3>
  *
  * <p>
- *   Customizing the look of the Camera Screen is done via app resources overriding.
+ *   Customizing the look of the Camera Screen is done via overriding of app resources.
  * </p>
  * <p>
  *     The following items are customizable:
  *     <ul>
  *         <li>
- *             <b>Document corner guides:</b> with images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_camera_preview_corners.png}
+ *             <b>Document corner guides:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_camera_preview_corners.png}
  *         </li>
  *         <li>
- *             <b>Camera trigger button:</b> with images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_camera_trigger_default.png} and {@code gv_camera_trigger_pressed.png}
+ *             <b>Camera trigger button:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_camera_trigger_default.png} and {@code gv_camera_trigger_pressed.png}
  *         </li>
  *         <li>
- *             <b>Tap-to-focus indicator:</b> with images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_camera_focus_rect.png}
+ *             <b>Tap-to-focus indicator:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_camera_focus_rect.png}
  *         </li>
  *         <li>
- *             <b>Onboarding menu item icon:</b> with images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_icon_onboarding.png}
+ *             <b>Onboarding menu item icon:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_icon_onboarding.png}
  *         </li>
  *         <li>
- *             <b>Onboarding menu item title:</b> with the string resource named {@code gv_show_onboarding}
+ *             <b>Onboarding menu item title:</b> via the string resource named {@code gv_show_onboarding}
  *         </li>
  *         <li>
- *             <b>Background color:</b> with the color resource named {@code gv_background}. <b>Note:</b> this color resource is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity})
+ *             <b>Background color:</b> via the color resource named {@code gv_background}. <b>Note:</b> this color resource is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity})
  *         </li>
  *     </ul>
  * </p>
@@ -95,19 +95,19 @@ import java.util.ArrayList;
  * <h3>Customizing the Action Bar</h3>
  *
  * <p>
- *     Customizing the Action Bar is also done via app resources overriding and each one - except the title string resource - is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity}).
+ *     Customizing the Action Bar is also done via overriding of resources and each one - except the title string resource - is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity}).
  * </p>
  * <p>
  *     The following items are customizable:
  *     <ul>
  *         <li>
- *             <b>Background color:</b> with the color resource named {@code gv_action_bar} (highly recommended for Android 5+: customize the status bar color with {@code gv_status_bar})
+ *             <b>Background color:</b> via the color resource named {@code gv_action_bar} (highly recommended for Android 5+: customize the status bar color via {@code gv_status_bar})
  *         </li>
  *         <li>
- *             <b>Title:</b> with the string resource name {@code gv_title_camera}
+ *             <b>Title:</b> via the string resource name {@code gv_title_camera}
  *         </li>
  *         <li>
- *             <b>Title color:</b> with the color resource named {@code gv_action_bar_title}
+ *             <b>Title color:</b> via the color resource named {@code gv_action_bar_title}
  *         </li>
  *     </ul>
  * </p>
@@ -140,7 +140,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     public static final String EXTRA_IN_ONBOARDING_PAGES = "GV_EXTRA_IN_ONBOARDING_PAGES";
     /**
      * <p>
-     *     Optional extra which must contain a boolean and shows the Onboarding Screen when the Gini Vision Library is started for the first time, if it contains {@code true}.
+     *     Optional extra which must contain a boolean and indicates whether the Onboarding Screen should be shown when the Gini Vision Library is started for the first time.
      * </p>
      * <p>
      *     Default value is {@code true}.
@@ -157,7 +157,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
 
     /**
      * <p>
-     *     Returned result code, if something went wrong. You should retrieve the {@link CameraActivity#EXTRA_OUT_ERROR} extra to find out what went wrong.
+     *     Returned result code in case something went wrong. You should retrieve the {@link CameraActivity#EXTRA_OUT_ERROR} extra to find out what went wrong.
      * </p>
      */
     public static final int RESULT_ERROR = RESULT_FIRST_USER + 1;

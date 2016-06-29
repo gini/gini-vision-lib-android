@@ -13,13 +13,13 @@ import net.gini.android.vision.Document;
 public interface ReviewFragmentInterface {
     /**
      * <p>
-     *     You should call this method after you received the analysis results from the Gini API.
+     *     You should call this method after you've received the analysis results from the Gini API.
      * </p>
      * <p>
-     *     This is important for managing the behaviour of the Review Document Fragment when the Next button was clicked.
+     *     This is important for managing the behavior of the Review Document Fragment when the Next button was clicked.
      * </p>
      * <p>
-     *     If the document was already analyzed and the image wasn't changed when the user tapped the Next button, {@link ReviewFragmentListener#onDocumentReviewedAndAnalyzed(Document)} is called and there is no need to show an {@link AnalysisActivity} or {@link AnalysisFragmentStandard} or {@link AnalysisFragmentCompat}.
+     *     If the document has already been analyzed and the image wasn't changed when the user tapped the Next button, {@link ReviewFragmentListener#onDocumentReviewedAndAnalyzed(Document)} is called and there is no need to show an {@link AnalysisActivity} or {@link AnalysisFragmentStandard} or {@link AnalysisFragmentCompat}.
      * </p>
      * <p>
      *     If the document wasn't analyzed or the image was changed when the user tapped the Next button, {@link ReviewFragmentListener#onProceedToAnalyzeScreen(Document)} is called.

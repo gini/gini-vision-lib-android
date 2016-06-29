@@ -11,10 +11,10 @@ import java.util.ArrayList;
 
 /**
  * <p>
- *     The {@code OnboardingPage} is used by the Onboarding Fragment for displaying an image and a short text.
+ *     The {@code OnboardingPage} is used by the Onboarding Fragment to display an image and a short text.
  * </p>
  * <p>
- *     Use this class for showing a different number of pages in the Onboarding Screen. Customizing the default onboarding pages can be done via app resources overriding.
+ *     Use this class to show a different number of pages in the Onboarding Screen. Customizing the default onboarding pages can be done via overriding of app resources.
  * </p>
  * <p>
  *     When using the Screen API set an {@link java.util.ArrayList} containing {@code OnboardingPage} objects as the {@link CameraActivity#EXTRA_IN_ONBOARDING_PAGES} when starting the {@link CameraActivity}.
@@ -36,7 +36,7 @@ public class OnboardingPage implements Parcelable {
      *     <b>Note:</b> the string should be a short sentence.
      * </p>
      * @param textResId a string resource id which will be shown in the onboarding page
-     * @param imageResId an drawable resource id which will be shown in the onboarding page
+     * @param imageResId a drawable resource id which will be shown in the onboarding page
      */
     public OnboardingPage(@StringRes int textResId, @DrawableRes int imageResId) {
         mTextResId = textResId;
@@ -44,7 +44,7 @@ public class OnboardingPage implements Parcelable {
     }
 
     /**
-     * @return the string resource id of the text shown in the onboarding page
+     * @return the string resource id of the text shown on the onboarding page
      */
     @StringRes
     public int getTextResId() {
@@ -52,7 +52,7 @@ public class OnboardingPage implements Parcelable {
     }
 
     /**
-     * @return the drawable resource id of the text shown in the onboarding page
+     * @return the drawable resource id of the text shown on the onboarding page
      */
     @DrawableRes
     public int getImageResId() {

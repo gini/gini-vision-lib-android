@@ -11,7 +11,7 @@ import net.gini.android.vision.GiniVisionError;
 public interface CameraFragmentListener {
     /**
      * <p>
-     * Called when the user took an image with the camera.
+     * Called when the user has taken an image with the camera.
      * </p>
      *
      * @param document the image taken by the camera

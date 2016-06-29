@@ -11,7 +11,7 @@ import net.gini.android.vision.Document;
 public interface AnalysisFragmentListener {
     /**
      * <p>
-     *     Called when the Analyze Document Fragment started and the document can be analyzed.
+     *     Called when the Analyze Document Fragment is started and the document can be analyzed.
      * </p>
      * @param document contains the image taken by the camera (original or modified)
      */

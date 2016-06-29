@@ -17,7 +17,7 @@ import net.gini.android.vision.review.ReviewActivity;
  * <h3>Screen API</h3>
  *
  * <p>
- *     When using the Screen API {@code AnalysisActivity} displays the captured document and an activity indicator while the document is being analyzed by the Gini API.
+ *     When you use the Screen API, the {@code AnalysisActivity} displays the captured document and an activity indicator while the document is being analyzed by the Gini API.
  * </p>
  * <p>
  *     You must extend the {@code AnalysisActivity} in your application and provide it to the {@link CameraActivity} by using the {@link CameraActivity#setAnalysisActivityExtra(Intent, Context, Class)} helper method.
@@ -26,40 +26,40 @@ import net.gini.android.vision.review.ReviewActivity;
  *     <b>Note:</b> {@code AnalysisActivity} extends {@link AppCompatActivity} and requires an AppCompat Theme.
  * </p>
  * <p>
- *     The {@code AnalysisActivity} is started by the {@link CameraActivity} after the user reviewed the document and either didn't change the document and it wasn't analyzed before tapping on the Next button or the user modified the document.
+ *     The {@code AnalysisActivity} is started by the {@link CameraActivity} after the user has reviewed the document and either made no changes to the document and it hasn't been analyzed before tapping the Next button, or the user has modified the document, e.g. by rotating it. 
  * </p>
  * <p>
  *     In your {@code AnalysisActivity} subclass you have to implement the following methods:
  *     <ul>
  *         <li>
- *          {@link AnalysisActivity#onAnalyzeDocument(Document)} - start analyzing the document by sending it to the Gini API.<br/><b>Note:</b> Call {@link AnalysisActivity#onDocumentAnalyzed()} when the analysis is done and the Activity wasn't stopped.
+ *          {@link AnalysisActivity#onAnalyzeDocument(Document)} - start analyzing the document by sending it to the Gini API.<br/><b>Note:</b> Call {@link AnalysisActivity#onDocumentAnalyzed()} when the analysis is done and the Activity hasn't been stopped.
  *         </li>
- *         <li>{@link AnalysisActivity#onAddDataToResult(Intent)} - you should add the results of the analysis to the Intent as extras and retrieve them when the {@link CameraActivity} returned.<br/>This is called only, if you called {@link AnalysisActivity#onDocumentAnalyzed()} before.<br/>When this is called control is returned to your Activity which started the {@link CameraActivity} and you can extract the results of the analysis.</li>
+ *         <li>{@link AnalysisActivity#onAddDataToResult(Intent)} - you should add the results of the analysis to the Intent as extras and retrieve them once the {@link CameraActivity} returns.<br/>This is called only if you called {@link AnalysisActivity#onDocumentAnalyzed()} before.<br/>When this is called, control is returned to your Activity which started the {@link CameraActivity} and you can extract the results of the analysis.</li>
  *     </ul>
  * </p>
  *
  * <h3>Customizing the Analysis Screen</h3>
  *
  * <p>
- *   Customizing the look of the Analysis Screen is done via app resources overriding.
+ *   Customizing the look of the Analysis Screen is done via overriding of app resources.
  * </p>
  * <p>
  *     The following items are customizable:
  *     <ul>
  *         <li>
- *             <b>Activity indicator color:</b> with the color resource named {@code gv_analysis_activity_indicator}
+ *             <b>Activity indicator color:</b> via the color resource named {@code gv_analysis_activity_indicator}
  *         </li>
  *         <li>
- *             <b>Background color:</b> with the color resource named {@code gv_background}. <b>Note:</b> this color resource is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity})
+ *             <b>Background color:</b> via the color resource named {@code gv_background}. <b>Note:</b> this color resource is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity})
  *         </li>
  *         <li>
- *             <b>Error message text color:</b> with the color resource named {@code gv_analysis_error_text}
+ *             <b>Error message text color:</b> via the color resource named {@code gv_analysis_error_text}
  *         </li>
  *         <li>
- *             <b>Error message button text color:</b> with the color resource named {@code gv_analysis_error_button_text}
+ *             <b>Error message button text color:</b> via the color resource named {@code gv_analysis_error_button_text}
  *         </li>
  *         <li>
- *             <b>Error message background color:</b> with the color resource named {@code gv_analysis_error_background}
+ *             <b>Error message background color:</b> via the color resource named {@code gv_analysis_error_background}
  *         </li>
  *     </ul>
  * </p>
@@ -67,19 +67,19 @@ import net.gini.android.vision.review.ReviewActivity;
  * <h3>Customizing the Action Bar</h3>
  *
  * <p>
- *     Customizing the Action Bar is also done via app resources overriding and each one - except the title string resource - is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity}).
+ *     Customizing the Action Bar is also done via overriding of app resources and each one - except the title string resource - is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity}).
  * </p>
  * <p>
  *     The following items are customizable:
  *     <ul>
  *         <li>
- *             <b>Background color:</b> with the color resource named {@code gv_action_bar} (highly recommended for Android 5+: customize the status bar color with {@code gv_status_bar})
+ *             <b>Background color:</b> via the color resource named {@code gv_action_bar} (highly recommended for Android 5+: customize the status bar color via {@code gv_status_bar})
  *         </li>
  *         <li>
- *             <b>Title:</b> with the string resource you set in your {@code AndroidManifest.xml} when declaring your Activity that extends {@link AnalysisActivity}
+ *             <b>Title:</b> via the string resource you set in your {@code AndroidManifest.xml} when declaring your Activity that extends {@link AnalysisActivity}
  *         </li>
  *         <li>
- *             <b>Title color:</b> with the color resource named {@code gv_action_bar_title}
+ *             <b>Title color:</b> via the color resource named {@code gv_action_bar_title}
  *         </li>
  *     </ul>
  * </p>
