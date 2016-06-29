@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Screen API Example</string>
+
+    <string name="additional_onboarding_page">Dieser App ist nur ein Beispiel.</string>
+</resources>
