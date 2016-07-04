@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * @exclude
+ */
 public class OnboardingPageFragmentCompat extends Fragment {
 
     private OnboardingPageFragmentImpl mFragmentImpl;

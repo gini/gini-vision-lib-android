@@ -7,7 +7,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="@fraction/gv_onboarding_page_fragment_background_alpha"
+        android:alpha="@string/gv_onboarding_page_fragment_background_alpha"
         android:background="@color/gv_onboarding_page_fragment_background" />
 
     <ImageView

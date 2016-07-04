@@ -3,6 +3,9 @@ package net.gini.android.vision;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+/**
+ * @exclude
+ */
 public class OncePerInstallEventStore {
 
     private static final String ONCE_PER_INSTALL_EVENTS = "GV_ONCE_PER_INSTALL_EVENTS";

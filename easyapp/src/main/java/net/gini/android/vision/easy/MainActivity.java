@@ -9,10 +9,9 @@ import android.widget.Toast;
 
 import net.gini.android.ginivisiontest.R;
 import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.camera.CameraActivity;
 import net.gini.android.vision.onboarding.DefaultPages;
 import net.gini.android.vision.onboarding.OnboardingPage;
-import net.gini.android.vision.scanner.Document;
-import net.gini.android.vision.scanner.ScannerActivity;
 
 import java.util.ArrayList;
 
@@ -42,10 +41,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startScanner() {
-        Intent intent = new Intent(this, ScannerActivity.class);
-        intent.putParcelableArrayListExtra(ScannerActivity.EXTRA_IN_ONBOARDING_PAGES, getOnboardingPages());
-        ScannerActivity.setReviewDocumentActivityExtra(intent, this, ReviewDocumentActivity.class);
-        ScannerActivity.setAnalyseDocumentActivityExtra(intent, this, AnalyseDocumentActivity.class);
+        Intent intent = new Intent(this, CameraActivity.class);
+        intent.putParcelableArrayListExtra(CameraActivity.EXTRA_IN_ONBOARDING_PAGES, getOnboardingPages());
+        CameraActivity.setReviewActivityExtra(intent, this, ReviewActivity.class);
+        CameraActivity.setAnalysisActivityExtra(intent, this, AnalysisActivity.class);
         startActivityForResult(intent, REQUEST_SCAN);
     }
 
@@ -67,12 +66,10 @@ public class MainActivity extends AppCompatActivity {
             }
             switch (resultCode) {
                 case RESULT_OK:
-                    Document original = data.getParcelableExtra(ScannerActivity.EXTRA_OUT_ORIGINAL_DOCUMENT);
-                    Document document = data.getParcelableExtra(ScannerActivity.EXTRA_OUT_DOCUMENT);
                     String extractions = data.getStringExtra(EXTRA_OUT_EXTRACTIONS);
                     break;
-                case ScannerActivity.RESULT_ERROR:
-                    GiniVisionError error = data.getParcelableExtra(ScannerActivity.EXTRA_OUT_ERROR);
+                case CameraActivity.RESULT_ERROR:
+                    GiniVisionError error = data.getParcelableExtra(CameraActivity.EXTRA_OUT_ERROR);
                     if (error != null) {
                         Toast.makeText(this, "Error: " +
                                         error.getErrorCode() + " - " +

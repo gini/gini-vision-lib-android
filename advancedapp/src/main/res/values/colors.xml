@@ -9,9 +9,18 @@
     <color name="gv_onboarding_fab">#ea5e63</color>
     <color name="gv_onboarding_fab_selected">#c14d51</color>
 
-    <color name="gv_review_document_fab">#40af48</color>
-    <color name="gv_review_document_fab_selected">#35913c</color>
-    <color name="gv_review_document_fab_progress">#319dc4</color>
-    <color name="gv_review_document_fab_mini">#f28888</color>
-    <color name="gv_review_document_fab_mini_selected">#802d2d</color>
+    <color name="gv_review_fab">#40af48</color>
+    <color name="gv_review_fab_selected">#35913c</color>
+    <color name="gv_review_fab_progress">#319dc4</color>
+    <color name="gv_review_fab_mini">#f28888</color>
+    <color name="gv_review_fab_mini_selected">#802d2d</color>
+
+    <color name="gv_review_bottom_panel_background">#fff</color>
+    <color name="gv_review_bottom_panel_text">#000</color>
+
+    <color name="gv_analysis_activity_indicator">#00f</color>
+
+    <color name="gv_analysis_error_text">#ff1744</color>
+    <color name="gv_analysis_error_button_text">#ffd4dc</color>
+    <color name="gv_analysis_error_background">#85000a</color>
 </resources>

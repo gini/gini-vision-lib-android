@@ -16,8 +16,8 @@ public class MainActivity extends Activity {
     private Button mButtonStartOnboardingCompat;
     private Button mButtonStartReviewDocument;
     private Button mButtonStartReviewDocumentCompat;
-    private Button mButtonStartAnalyseDocument;
-    private Button mButtonStartAnalyseDocumentCompat;
+    private Button mButtonStartAnalyzeDocument;
+    private Button mButtonStartAnalyzeDocumentCompat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,27 +64,27 @@ public class MainActivity extends Activity {
                 startReviewDocumentCompat();
             }
         });
-        mButtonStartAnalyseDocument.setOnClickListener(new View.OnClickListener() {
+        mButtonStartAnalyzeDocument.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startAnalyseDocument();
+                startAnalyzeDocument();
             }
         });
-        mButtonStartAnalyseDocumentCompat.setOnClickListener(new View.OnClickListener() {
+        mButtonStartAnalyzeDocumentCompat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startAnalyseDocumentCompat();
+                startAnalyzeDocumentCompat();
             }
         });
     }
 
     private void startScanner() {
-        Intent intent = new Intent(this, CustomScannerActivity.class);
+        Intent intent = new Intent(this, CustomCameraActivity.class);
         startActivity(intent);
     }
 
     private void startScannerCompat() {
-        Intent intent = new Intent(this, CustomScannerAppCompatActivity.class);
+        Intent intent = new Intent(this, CustomCameraAppCompatActivity.class);
         startActivity(intent);
     }
 
@@ -99,33 +99,33 @@ public class MainActivity extends Activity {
     }
 
     private void startReviewDocument() {
-        Intent intent = new Intent(this, CustomReviewDocumentActivity.class);
+        Intent intent = new Intent(this, CustomReviewActivity.class);
         startActivity(intent);
     }
 
     private void startReviewDocumentCompat() {
-        Intent intent = new Intent(this, CustomReviewDocumentAppCompatActivity.class);
+        Intent intent = new Intent(this, CustomReviewAppCompatActivity.class);
         startActivity(intent);
     }
 
-    private void startAnalyseDocument() {
-        Intent intent = new Intent(this, CustomAnalyseDocumentActivity.class);
+    private void startAnalyzeDocument() {
+        Intent intent = new Intent(this, CustomAnalysisActivity.class);
         startActivity(intent);
     }
 
-    private void startAnalyseDocumentCompat() {
-        Intent intent = new Intent(this, CustomAnalyseDocumentAppCompatActivity.class);
+    private void startAnalyzeDocumentCompat() {
+        Intent intent = new Intent(this, CustomAnalysisAppCompatActivity.class);
         startActivity(intent);
     }
 
     private void bindViews() {
-        mButtonStartScanner = (Button) findViewById(R.id.button_start_scanner);
-        mButtonStartScannerCompat = (Button) findViewById(R.id.button_start_scanner_compat);
+        mButtonStartScanner = (Button) findViewById(R.id.button_start_camera);
+        mButtonStartScannerCompat = (Button) findViewById(R.id.button_start_camera_compat);
         mButtonStartOnboarding = (Button) findViewById(R.id.button_start_onboarding);
         mButtonStartOnboardingCompat = (Button) findViewById(R.id.button_start_onboarding_compat);
         mButtonStartReviewDocument = (Button) findViewById(R.id.button_start_review_document);
         mButtonStartReviewDocumentCompat = (Button) findViewById(R.id.button_start_review_document_compat);
-        mButtonStartAnalyseDocument = (Button) findViewById(R.id.button_start_analyse_document);
-        mButtonStartAnalyseDocumentCompat = (Button) findViewById(R.id.button_start_analyse_document_compat);
+        mButtonStartAnalyzeDocument = (Button) findViewById(R.id.button_start_analysis);
+        mButtonStartAnalyzeDocumentCompat = (Button) findViewById(R.id.button_start_analysis_compat);
     }
 }

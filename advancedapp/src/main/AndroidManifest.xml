@@ -15,10 +15,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="net.gini.android.vision.advanced.CustomScannerActivity"
+            android:name="net.gini.android.vision.advanced.CustomCameraActivity"
             android:label="@string/title_scanner" />
         <activity
-            android:name="net.gini.android.vision.advanced.CustomScannerAppCompatActivity"
+            android:name="net.gini.android.vision.advanced.CustomCameraAppCompatActivity"
             android:label="@string/title_scanner"
             android:theme="@style/AppThemeCompat" />
         <activity
@@ -29,18 +29,18 @@
             android:label="@string/title_onboarding"
             android:theme="@style/AppThemeCompat" />
         <activity
-            android:name="net.gini.android.vision.advanced.CustomReviewDocumentActivity"
-            android:label="@string/title_review_document" />
+            android:name="net.gini.android.vision.advanced.CustomReviewActivity"
+            android:label="@string/title_review" />
         <activity
-            android:name="net.gini.android.vision.advanced.CustomReviewDocumentAppCompatActivity"
-            android:label="@string/title_review_document"
+            android:name="net.gini.android.vision.advanced.CustomReviewAppCompatActivity"
+            android:label="@string/title_review"
             android:theme="@style/AppThemeCompat" />
         <activity
-            android:name="net.gini.android.vision.advanced.CustomAnalyseDocumentActivity"
-            android:label="@string/title_analyse_document" />
+            android:name="net.gini.android.vision.advanced.CustomAnalysisActivity"
+            android:label="@string/title_analysis" />
         <activity
-            android:name="net.gini.android.vision.advanced.CustomAnalyseDocumentAppCompatActivity"
-            android:label="@string/title_analyse_document"
+            android:name="net.gini.android.vision.advanced.CustomAnalysisAppCompatActivity"
+            android:label="@string/title_analysis"
             android:theme="@style/AppThemeCompat" />
     </application>
 

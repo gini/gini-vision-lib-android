@@ -1,10 +1,41 @@
 package net.gini.android.vision;
 
+import android.app.Activity;
 import android.content.Context;
 
+import net.gini.android.vision.camera.CameraFragmentCompat;
+import net.gini.android.vision.camera.CameraFragmentStandard;
+
+/**
+ * <p>
+ *     The {@code GiniVisionCoordinator} facilitates the default behavior for the Gini Vision Library.
+ * </p>
+ * <p>
+ *     You can ignore this class when using the Screen API.
+ * </p>
+ * <p>
+ *     If you use the Component API we recommend relying on this class to provide the default behavior of the Gini Vision Library. This can be achieved by calling the required methods at pre-defined points in your code and by implementing the {@link GiniVisionCoordinator.Listener}.
+ * </p>
+ */
 public class GiniVisionCoordinator {
 
+    /**
+     * <p>
+     *     Interface for the {@link GiniVisionCoordinator} to dispatch events.
+     * </p>
+     * <p>
+     *     If you use the {@link GiniVisionCoordinator} you should implement this interface in your Activity to facilitate the default behavior of the Gini Vision Library.
+     * </p>
+     */
     public interface Listener {
+        /**
+         * <p>
+         *     Called when onboarding should be shown.
+         * </p>
+         * <p>
+         *     Is used to show the Onboarding Screen once per installation the first time the Camera Screen is started.
+         * </p>
+         */
         void onShowOnboarding();
     }
 
@@ -18,6 +49,13 @@ public class GiniVisionCoordinator {
     private final OncePerInstallEventStore mOncePerInstallEventStore;
     private boolean mShowOnboardingAtFirstRun = true;
 
+    /**
+     * <p>
+     *     Factory method to create and configure a {@link GiniVisionCoordinator} instance.
+     * </p>
+     * @param context a {@link Context} used by the new instance to provide the default behavior
+     * @return a new instance of {@link GiniVisionCoordinator}
+     */
     public static GiniVisionCoordinator createInstance(Context context) {
         return new GiniVisionCoordinator(new OncePerInstallEventStore(context));
     }
@@ -26,17 +64,42 @@ public class GiniVisionCoordinator {
         mOncePerInstallEventStore = oncePerInstallEventStore;
     }
 
+    /**
+     * <p>
+     *     Listener for handling events from the {@link GiniVisionCoordinator} to provide the default behavior.
+     * </p>
+     * @param listener your implementation of the {@link GiniVisionCoordinator.Listener}
+     * @return the {@link GiniVisionCoordinator} instance for a fluid api
+     */
     public GiniVisionCoordinator setListener(Listener listener) {
         mListener = listener;
         return this;
     }
 
+    /**
+     * <p>
+     *     Enable or disable showing the Onboarding Screen once per installation the first time the Camera Screen is started.
+     * </p>
+     * <p>
+     *     Default value is {@code true}.
+     * </p>
+     * @param showOnboardingAtFirstRun if {@code true} the Onboarding Screen is shown the first time the Camera Screen is started
+     * @return the {@link GiniVisionCoordinator} instance for a fluid api
+     */
     public GiniVisionCoordinator setShowOnboardingAtFirstRun(boolean showOnboardingAtFirstRun) {
         mShowOnboardingAtFirstRun = showOnboardingAtFirstRun;
         return this;
     }
 
-    public void onScannerStarted() {
+    /**
+     * <p>
+     *     Call this method when the {@link CameraFragmentStandard} or {@link CameraFragmentCompat} has started.
+     * </p>
+     * <p>
+     *     Can be called in your Acitivity's {@link Activity#onStart()} method, which hosts the Camera Fragment.
+     * </p>
+     */
+    public void onCameraStarted() {
         if (mShowOnboardingAtFirstRun && !mOncePerInstallEventStore.containsEvent(OncePerInstallEvent.SHOW_ONBOARDING)) {
             mListener.onShowOnboarding();
             mOncePerInstallEventStore.saveEvent(OncePerInstallEvent.SHOW_ONBOARDING);
