@@ -31,7 +31,6 @@ public class CustomCameraAppCompatActivity extends AppCompatActivity implements 
     public void onDocumentAvailable(Document document) {
         Intent intent = new Intent(this, CustomReviewAppCompatActivity.class);
         startActivity(intent);
-        createGiniVisionCoordinator();
     }
 
     private void createGiniVisionCoordinator() {
