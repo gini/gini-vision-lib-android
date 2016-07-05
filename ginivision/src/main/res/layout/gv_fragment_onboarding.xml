@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gv_onboarding_fragment_background"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:background="#000">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/gv_viewpager"
@@ -13,21 +13,6 @@
         android:layout_height="match_parent">
 
     </android.support.v4.view.ViewPager>
-
-    <!-- Used only in poc. Remove when implementing functionality -->
-    <fragment
-        android:id="@+id/gv_onboarding_page_example"
-        android:name="net.gini.android.vision.onboarding.OnboardingPageFragmentStandard"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout="@layout/gv_fragment_onboarding_page"/>
-
-    <!-- For viewing given onboarding pages' text and image. ONLY FOR POC -->
-    <ListView
-        android:id="@+id/gv_list_onboarding_pages"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@android:layout/simple_list_item_2" />
 
     <LinearLayout
         android:id="@+id/gv_layout_page_indicators"
@@ -38,44 +23,17 @@
         android:layout_marginBottom="@dimen/gv_onboarding_indicators_vertical_margin"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/gv_page_indicator_1"
-            android:layout_width="@dimen/gv_onboarding_indicator_width"
-            android:layout_height="@dimen/gv_onboarding_indicator_height"
-            android:scaleType="center"
-            android:src="@drawable/gv_onboarding_indicator_active" />
-
-        <Space
-            android:layout_width="@dimen/gv_onboarding_indicator_width"
-            android:layout_height="@dimen/gv_onboarding_indicator_height" />
-
-        <ImageView
-            android:id="@+id/gv_page_indicator_2"
-            android:layout_width="@dimen/gv_onboarding_indicator_width"
-            android:layout_height="@dimen/gv_onboarding_indicator_height"
-            android:scaleType="center"
-            android:src="@drawable/gv_onboarding_indicator_inactive" />
-
-        <Space
-            android:layout_width="@dimen/gv_onboarding_indicator_width"
-            android:layout_height="@dimen/gv_onboarding_indicator_height" />
-
-        <ImageView
-            android:id="@+id/gv_page_indicator_3"
-            android:layout_width="@dimen/gv_onboarding_indicator_width"
-            android:layout_height="@dimen/gv_onboarding_indicator_height"
-            android:scaleType="center"
-            android:src="@drawable/gv_onboarding_indicator_inactive" />
-
-        <Space
-            android:layout_width="@dimen/gv_onboarding_indicator_width"
-            android:layout_height="@dimen/gv_onboarding_indicator_height" />
-
-        <ImageView
-            android:id="@+id/gv_page_indicator_4"
-            android:layout_width="@dimen/gv_onboarding_indicator_width"
-            android:layout_height="@dimen/gv_onboarding_indicator_height"
-            android:src="@drawable/gv_onboarding_camicon" />
+        <!-- These views are created during runtime. Kept here only for visualization during development. -->
+        <!--<ImageView-->
+            <!--android:id="@+id/gv_page_indicator_1"-->
+            <!--android:layout_width="@dimen/gv_onboarding_indicator_width"-->
+            <!--android:layout_height="@dimen/gv_onboarding_indicator_height"-->
+            <!--android:scaleType="center"-->
+            <!--android:src="@drawable/gv_onboarding_indicator_active" />-->
+        <!---->
+        <!--<Space-->
+            <!--android:layout_width="@dimen/gv_onboarding_indicator_width"-->
+            <!--android:layout_height="@dimen/gv_onboarding_indicator_height" />-->
     </LinearLayout>
 
     <ImageButton

@@ -1,15 +1,17 @@
 package net.gini.android.vision.onboarding;
 
+import android.annotation.TargetApi;
 import android.app.Fragment;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import net.gini.android.vision.ui.FragmentImplCallback;
-
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <h3>Component API</h3>
@@ -36,7 +38,7 @@ import java.util.ArrayList;
  *     See the {@link OnboardingActivity} for details.
  * </p>
  */
-public class OnboardingFragmentStandard extends Fragment implements FragmentImplCallback {
+public class OnboardingFragmentStandard extends Fragment implements OnboardingFragmentImplCallback {
 
     private OnboardingFragmentImpl mFragmentImpl;
 
@@ -78,5 +80,14 @@ public class OnboardingFragmentStandard extends Fragment implements FragmentImpl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return mFragmentImpl.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    @Override
+    public PagerAdapter getViewPagerAdapter(List<OnboardingPage> pages) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            throw new IllegalStateException("Component API requires API Level 17 or higher");
+        }
+        return new ViewPagerAdapterStandard(getChildFragmentManager(), pages);
     }
 }

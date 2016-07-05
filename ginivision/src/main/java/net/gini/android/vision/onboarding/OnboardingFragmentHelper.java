@@ -3,8 +3,6 @@ package net.gini.android.vision.onboarding;
 import android.content.Context;
 import android.os.Bundle;
 
-import net.gini.android.vision.ui.FragmentImplCallback;
-
 import java.util.ArrayList;
 
 class OnboardingFragmentHelper {
@@ -17,7 +15,7 @@ class OnboardingFragmentHelper {
         return arguments;
     }
 
-    static OnboardingFragmentImpl createFragmentImpl(FragmentImplCallback fragment, Bundle arguments) {
+    static OnboardingFragmentImpl createFragmentImpl(OnboardingFragmentImplCallback fragment, Bundle arguments) {
         if (arguments != null) {
             ArrayList<OnboardingPage> pages = arguments.getParcelableArrayList(ARGS_PAGES);
             if (pages != null) {

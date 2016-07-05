@@ -7,23 +7,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import net.gini.android.vision.ui.FragmentImplCallback;
+
 /**
  * @exclude
  */
-public class OnboardingPageFragmentCompat extends Fragment {
+public class OnboardingPageFragmentCompat extends Fragment implements FragmentImplCallback {
 
     private OnboardingPageFragmentImpl mFragmentImpl;
 
-    public static OnboardingPageFragmentCompat createInstance(OnboardingPage page) {
+    public static OnboardingPageFragmentCompat createInstance(OnboardingPage page, boolean noBackground) {
         OnboardingPageFragmentCompat fragment = new OnboardingPageFragmentCompat();
-        fragment.setArguments(OnboardingPageFragmentHelper.createArguments(page));
+        fragment.setArguments(OnboardingPageFragmentHelper.createArguments(page, noBackground));
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFragmentImpl = OnboardingPageFragmentHelper.createFragmentImpl(getArguments());
+        mFragmentImpl = OnboardingPageFragmentHelper.createFragmentImpl(this, getArguments());
     }
 
     @Nullable

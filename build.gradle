@@ -35,6 +35,7 @@ ext.deps = [
         // Android
         appCompatv7: 'com.android.support:appcompat-v7:23.4.0',
         supportv4: 'com.android.support:support-v4:23.4.0',
+        supportv13: 'com.android.support:support-v13:23.4.0',
         supportDesign: 'com.android.support:design:23.4.0',
         // Exif editing library
         sanselan: 'org.apache.sanselan:sanselan:0.97-incubator',

@@ -5,22 +5,23 @@
     android:layout_height="match_parent">
 
     <View
+        android:id="@+id/gv_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:alpha="@string/gv_onboarding_page_fragment_background_alpha"
         android:background="@color/gv_onboarding_page_fragment_background" />
 
     <ImageView
-        android:id="@+id/image_onboarding"
+        android:id="@+id/gv_image_onboarding"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/text_message"
+        android:layout_above="@+id/gv_text_message"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/gv_onboarding_illustration_vertical_margin"
         tools:src="@drawable/gv_onboarding_flat" />
 
     <TextView
-        android:id="@+id/text_message"
+        android:id="@+id/gv_text_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

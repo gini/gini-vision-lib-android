@@ -21,6 +21,7 @@ dependencies {
     testCompile deps.junit
     compile deps.appCompatv7
     compile deps.supportv4
+    compile deps.supportv13
     compile deps.supportDesign
     compile deps.sanselan
 }

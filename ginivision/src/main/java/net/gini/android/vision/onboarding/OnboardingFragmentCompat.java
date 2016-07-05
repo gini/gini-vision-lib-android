@@ -3,13 +3,13 @@ package net.gini.android.vision.onboarding;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import net.gini.android.vision.ui.FragmentImplCallback;
-
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <h3>Component API</h3>
@@ -39,7 +39,7 @@ import java.util.ArrayList;
  *     See the {@link OnboardingActivity} for details.
  * </p>
  */
-public class OnboardingFragmentCompat extends Fragment implements FragmentImplCallback {
+public class OnboardingFragmentCompat extends Fragment implements OnboardingFragmentImplCallback {
 
     private OnboardingFragmentImpl mFragmentImpl;
 
@@ -81,5 +81,10 @@ public class OnboardingFragmentCompat extends Fragment implements FragmentImplCa
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return mFragmentImpl.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public PagerAdapter getViewPagerAdapter(List<OnboardingPage> pages) {
+        return new ViewPagerAdapterCompat(getChildFragmentManager(), pages);
     }
 }
