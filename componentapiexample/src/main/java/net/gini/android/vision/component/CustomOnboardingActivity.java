@@ -17,7 +17,7 @@ public class CustomOnboardingActivity extends Activity implements OnboardingFrag
 
     @Override
     public void onCloseOnboarding() {
-
+        finish();
     }
 
     @Override

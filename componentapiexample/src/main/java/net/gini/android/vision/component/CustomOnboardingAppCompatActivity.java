@@ -17,7 +17,7 @@ public class CustomOnboardingAppCompatActivity extends AppCompatActivity impleme
 
     @Override
     public void onCloseOnboarding() {
-
+        finish();
     }
 
     @Override
