@@ -43,11 +43,16 @@ class OnboardingFragmentImpl {
     public OnboardingFragmentImpl(OnboardingFragmentImplCallback fragment) {
         mFragment = fragment;
         mPages = DefaultPages.asArrayList();
+        addTransparentPage();
     }
 
     public OnboardingFragmentImpl(OnboardingFragmentImplCallback fragment, ArrayList<OnboardingPage> pages) {
         mFragment = fragment;
         mPages = pages != null ? pages : DefaultPages.asArrayList();
+        addTransparentPage();
+    }
+
+    private void addTransparentPage() {
         mPages.add(new OnboardingPage(0, 0));
     }
 
