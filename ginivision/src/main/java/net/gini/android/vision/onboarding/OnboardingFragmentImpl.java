@@ -42,12 +42,12 @@ class OnboardingFragmentImpl {
 
     public OnboardingFragmentImpl(OnboardingFragmentImplCallback fragment) {
         mFragment = fragment;
-        mPages = DefaultPages.getPages();
+        mPages = DefaultPages.asArrayList();
     }
 
     public OnboardingFragmentImpl(OnboardingFragmentImplCallback fragment, ArrayList<OnboardingPage> pages) {
         mFragment = fragment;
-        mPages = pages != null ? pages : DefaultPages.getPages();
+        mPages = pages != null ? pages : DefaultPages.asArrayList();
         mPages.add(new OnboardingPage(0, 0));
     }
 
