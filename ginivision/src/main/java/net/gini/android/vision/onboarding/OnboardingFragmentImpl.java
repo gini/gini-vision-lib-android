@@ -1,5 +1,6 @@
 package net.gini.android.vision.onboarding;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.VisibleForTesting;
@@ -14,6 +15,7 @@ import android.widget.Space;
 
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
+import net.gini.android.vision.ui.AnimatorListenerNoOp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,13 +89,35 @@ class OnboardingFragmentImpl {
         mPageChangeListener = new PageChangeListener(pageIndicators, 0, mPages.size(), new PageChangeListener.Callback() {
             @Override
             public void onLastPage() {
-                mListener.onCloseOnboarding();
+                onLastPageReached();
             }
         });
         mPageChangeListener.init();
 
         mViewPager.addOnPageChangeListener(mPageChangeListener);
         mViewPager.setCurrentItem(0);
+    }
+
+    private void onLastPageReached() {
+        // If width is still 0  set it to a big value to make sure the view
+        // will slide out completely
+        int layoutPageIndicatorsWidth = mLayoutPageIndicators.getWidth();
+        layoutPageIndicatorsWidth = layoutPageIndicatorsWidth != 0 ? layoutPageIndicatorsWidth : 10000;
+        int buttonNextWidth = mButtonNext.getWidth();
+        buttonNextWidth = buttonNextWidth != 0 ? buttonNextWidth : 10000;
+
+        mLayoutPageIndicators.animate()
+                .setDuration(150)
+                .translationX(-10 * layoutPageIndicatorsWidth);
+        mButtonNext.animate()
+                .setDuration(150)
+                .translationX(2 * buttonNextWidth)
+                .setListener(new AnimatorListenerNoOp() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        mListener.onCloseOnboarding();
+                    }
+                });
     }
 
     private void setInputHandlers() {
@@ -190,7 +214,6 @@ class OnboardingFragmentImpl {
         private final int mPages;
         private final Callback mCallback;
         private int mCurrentPage;
-        private boolean mOnLastPage;
 
         PageChangeListener(PageIndicators pageIndicators, int currentPage, int pages, Callback callback) {
             mPageIndicators = pageIndicators;
@@ -216,14 +239,13 @@ class OnboardingFragmentImpl {
         public void onPageSelected(int position) {
             mPageIndicators.setActive(position);
             mCurrentPage = position;
-            mOnLastPage = position == mPages - 1;
+            if (position == mPages - 1) {
+                mCallback.onLastPage();
+            }
         }
 
         @Override
         public void onPageScrollStateChanged(int state) {
-            if (mOnLastPage && state == ViewPager.SCROLL_STATE_IDLE) {
-                mCallback.onLastPage();
-            }
         }
 
 
