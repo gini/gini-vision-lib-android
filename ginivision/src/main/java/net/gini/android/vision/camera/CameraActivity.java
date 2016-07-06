@@ -2,12 +2,17 @@ package net.gini.android.vision.camera;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.RelativeLayout;
 
 import net.gini.android.vision.ActivityHelpers;
+import net.gini.android.vision.BuildConfig;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
@@ -16,6 +21,7 @@ import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.review.ReviewActivity;
+import net.gini.android.vision.ui.SnackbarError;
 
 import java.util.ArrayList;
 
@@ -172,15 +178,18 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     private GiniVisionCoordinator mGiniVisionCoordinator;
     private Document mDocument;
 
+    private RelativeLayout mLayoutRoot;
+
     /**
      * <p>
      * Helper for setting the {@link CameraActivity#EXTRA_IN_REVIEW_ACTIVITY}.
      * </p>
      *
-     * @param target your explicit {@link Intent} used to start the {@link CameraActivity}
-     * @param context {@link Context} used to create the explicit {@link Intent} for your {@link ReviewActivity} subclass
+     * @param target              your explicit {@link Intent} used to start the {@link CameraActivity}
+     * @param context             {@link Context} used to create the explicit {@link Intent} for your {@link
+     *                            ReviewActivity} subclass
      * @param reviewActivityClass class of your {@link ReviewActivity} subclass
-     * @param <T> type of your {@link ReviewActivity} subclass
+     * @param <T>                 type of your {@link ReviewActivity} subclass
      */
     public static <T extends ReviewActivity> void setReviewActivityExtra(Intent target,
                                                                          Context context,
@@ -193,10 +202,11 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * Helper for setting the {@link CameraActivity#EXTRA_IN_ANALYSIS_ACTIVITY}.
      * </p>
      *
-     * @param target your explicit {@link Intent} used to start the {@link CameraActivity}
-     * @param context {@link Context} used to create the explicit {@link Intent} for your {@link AnalysisActivity} subclass
+     * @param target                your explicit {@link Intent} used to start the {@link CameraActivity}
+     * @param context               {@link Context} used to create the explicit {@link Intent} for your {@link
+     *                              AnalysisActivity} subclass
      * @param analysisActivityClass class of your {@link AnalysisActivity} subclass
-     * @param <T> type of your {@link AnalysisActivity} subclass
+     * @param <T>                   type of your {@link AnalysisActivity} subclass
      */
     public static <T extends AnalysisActivity> void setAnalysisActivityExtra(Intent target,
                                                                              Context context,
@@ -210,6 +220,11 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         setContentView(R.layout.gv_activity_camera);
         readExtras();
         createGiniVisionCoordinator();
+        bindViews();
+    }
+
+    private void bindViews() {
+        mLayoutRoot = (RelativeLayout) findViewById(R.id.gv_root);
     }
 
     @Override
@@ -258,8 +273,6 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
 
     /**
      * @exclude
-     * @param menu
-     * @return
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -269,8 +282,6 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
 
     /**
      * @exclude
-     * @param item
-     * @return
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -299,10 +310,15 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
 
     @Override
     public void onError(GiniVisionError error) {
-        Intent result = new Intent();
-        result.putExtra(EXTRA_OUT_ERROR, error);
-        setResult(RESULT_ERROR, result);
-        finish();
+        SnackbarError.make(this, mLayoutRoot, error.getMessage(), "DO SOMETHING!", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                Uri uri = Uri.fromParts("package", BuildConfig.APPLICATION_ID, null);
+                intent.setData(uri);
+                startActivity(intent);
+            }
+        }, SnackbarError.LENGTH_LONG).show();
     }
 
     @Override
