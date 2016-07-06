@@ -2,6 +2,7 @@ package net.gini.android.vision.component;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.onboarding.OnboardingFragmentListener;
@@ -21,7 +22,7 @@ public class CustomOnboardingActivity extends Activity implements OnboardingFrag
     }
 
     @Override
-    public void onError(GiniVisionError giniVisionError) {
+    public void onError(@NonNull GiniVisionError giniVisionError) {
 
     }
 }

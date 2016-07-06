@@ -1,5 +1,6 @@
 package net.gini.android.vision.onboarding;
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -10,11 +11,12 @@ public class ViewPagerAdapterCompat extends FragmentPagerAdapter {
 
     private final List<OnboardingPage> mPages;
 
-    public ViewPagerAdapterCompat(FragmentManager fm, List<OnboardingPage> pages) {
+    public ViewPagerAdapterCompat(@NonNull FragmentManager fm, @NonNull List<OnboardingPage> pages) {
         super(fm);
         mPages = pages;
     }
 
+    @NonNull
     protected List<OnboardingPage> getPages() {
         return mPages;
     }

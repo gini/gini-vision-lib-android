@@ -1,6 +1,7 @@
 package net.gini.android.vision.component;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
 import net.gini.android.vision.GiniVisionError;
@@ -21,7 +22,7 @@ public class CustomOnboardingAppCompatActivity extends AppCompatActivity impleme
     }
 
     @Override
-    public void onError(GiniVisionError giniVisionError) {
+    public void onError(@NonNull GiniVisionError giniVisionError) {
 
     }
 }

@@ -1,6 +1,7 @@
 package net.gini.android.vision.onboarding;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
@@ -53,7 +54,7 @@ public class OnboardingFragmentCompat extends Fragment implements OnboardingFrag
      * @param pages the pages to be shown
      * @return a new instance of the Fragment
      */
-    public static OnboardingFragmentCompat createInstance(ArrayList<OnboardingPage> pages) {
+    public static OnboardingFragmentCompat createInstance(@NonNull ArrayList<OnboardingPage> pages) {
         OnboardingFragmentCompat fragment = new OnboardingFragmentCompat();
         fragment.setArguments(OnboardingFragmentHelper.createArguments(pages));
         return fragment;
@@ -84,7 +85,7 @@ public class OnboardingFragmentCompat extends Fragment implements OnboardingFrag
     }
 
     @Override
-    public PagerAdapter getViewPagerAdapter(List<OnboardingPage> pages) {
+    public PagerAdapter getViewPagerAdapter(@NonNull List<OnboardingPage> pages) {
         return new ViewPagerAdapterCompat(getChildFragmentManager(), pages);
     }
 }

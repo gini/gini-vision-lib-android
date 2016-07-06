@@ -3,6 +3,7 @@ package net.gini.android.vision.onboarding;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 
 import net.gini.android.vision.camera.CameraActivity;
@@ -94,7 +95,7 @@ public class OnboardingPage implements Parcelable {
         }
     };
 
-    private OnboardingPage(Parcel in) {
+    private OnboardingPage(@NonNull Parcel in) {
         mTextResId = in.readInt();
         mImageResId = in.readInt();
     }

@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
@@ -52,7 +53,7 @@ public class OnboardingFragmentStandard extends Fragment implements OnboardingFr
      * @param pages the pages to be shown
      * @return a new instance of the Fragment
      */
-    public static OnboardingFragmentStandard createInstance(ArrayList<OnboardingPage> pages) {
+    public static OnboardingFragmentStandard createInstance(@NonNull ArrayList<OnboardingPage> pages) {
         OnboardingFragmentStandard fragment = new OnboardingFragmentStandard();
         fragment.setArguments(OnboardingFragmentHelper.createArguments(pages));
         return fragment;
@@ -84,7 +85,7 @@ public class OnboardingFragmentStandard extends Fragment implements OnboardingFr
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
-    public PagerAdapter getViewPagerAdapter(List<OnboardingPage> pages) {
+    public PagerAdapter getViewPagerAdapter(@NonNull List<OnboardingPage> pages) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
             throw new IllegalStateException("Component API requires API Level 17 or higher");
         }

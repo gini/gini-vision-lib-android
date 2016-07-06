@@ -18,14 +18,14 @@ public enum DefaultPages {
         mOnboardingPage = onboardingPage;
     }
 
-    private OnboardingPage getOnboardingPage() {
+    private OnboardingPage getPage() {
         return mOnboardingPage;
     }
 
     public static ArrayList<OnboardingPage> asArrayList() {
         ArrayList<OnboardingPage> arrayList = new ArrayList<>(3);
         for (DefaultPages pages : values()) {
-            arrayList.add(pages.getOnboardingPage());
+            arrayList.add(pages.getPage());
         }
         return arrayList;
     }

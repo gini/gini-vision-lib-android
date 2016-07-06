@@ -24,7 +24,7 @@ class OnboardingPageFragmentImpl {
     private ImageView mImageOnboarding;
     private TextView mTextMessage;
 
-    public OnboardingPageFragmentImpl(FragmentImplCallback fragment, @NonNull OnboardingPage page, boolean noBackground) {
+    public OnboardingPageFragmentImpl(@NonNull FragmentImplCallback fragment, @NonNull OnboardingPage page, boolean noBackground) {
         mFragment = fragment;
         mPage = page;
         mNoBackground = noBackground;
@@ -37,7 +37,7 @@ class OnboardingPageFragmentImpl {
         return view;
     }
 
-    private void bindViews(View view) {
+    private void bindViews(@NonNull View view) {
         mImageOnboarding = (ImageView) view.findViewById(R.id.gv_image_onboarding);
         mTextMessage = (TextView) view.findViewById(R.id.gv_text_message);
         mBackground = view.findViewById(R.id.gv_background);
