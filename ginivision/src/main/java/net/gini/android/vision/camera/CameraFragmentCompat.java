@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import net.gini.android.vision.ui.FragmentImplCallback;
+
 /**
  * <h3>Component API</h3>
  *
@@ -36,13 +38,12 @@ import android.view.ViewGroup;
  *     See the {@link CameraActivity} for details.
  * </p>
  */
-public class CameraFragmentCompat extends Fragment implements CameraFragmentInterface {
+public class CameraFragmentCompat extends Fragment implements CameraFragmentInterface, FragmentImplCallback {
 
-    private final CameraFragmentImpl mFragmentImpl = new CameraFragmentImpl();
+    private final CameraFragmentImpl mFragmentImpl = new CameraFragmentImpl(this);
 
     /**
      * @exclude
-     * @param context
      */
     @Override
     public void onAttach(Context context) {
@@ -52,10 +53,6 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
 
     /**
      * @exclude
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
      */
     @Nullable
     @Override

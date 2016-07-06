@@ -1,6 +1,7 @@
 package net.gini.android.vision.camera;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,12 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.camera.photo.Photo;
+import net.gini.android.vision.ui.FragmentImplCallback;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 class CameraFragmentImpl implements CameraFragmentInterface {
 
@@ -23,9 +30,14 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         }
     };
 
+    private final FragmentImplCallback mFragment;
     private CameraFragmentListener mListener = NO_OP_LISTENER;
 
     private ImageButton mButtonCameraTrigger;
+
+    CameraFragmentImpl(@NonNull FragmentImplCallback fragment) {
+        mFragment = fragment;
+    }
 
     public void setListener(CameraFragmentListener listener) {
         if (listener == null) {
@@ -51,8 +63,12 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mButtonCameraTrigger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: return real photo when ready
-                mListener.onDocumentAvailable(Document.fromPhoto(Photo.fromJpeg(new byte[1024 * 1024 * 10], 0)));
+                byte[] testDocument = loadTestDocument();
+                if (testDocument != null) {
+                    mListener.onDocumentAvailable(Document.fromPhoto(Photo.fromJpeg(testDocument, 0)));
+                } else {
+                    mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.CAMERA, "Could not load the test document jpeg."));
+                }
             }
         });
     }
@@ -75,5 +91,46 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     @Override
     public void hideCameraTriggerButton() {
 
+    }
+
+    private byte[] loadTestDocument() {
+        if (mFragment.getActivity() == null) {
+            return null;
+        }
+        InputStream inputStream = null;
+        ByteArrayOutputStream outputStream = null;
+        try {
+            inputStream = mFragment.getActivity().getAssets().open("gv_test_document.jpg");
+            outputStream = new ByteArrayOutputStream();
+            copyStream(inputStream, outputStream);
+        } catch (IOException e) {
+            // Ignore
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    // Ignore
+                }
+            }
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
+                } catch (IOException e) {
+                    // Ignore
+                }
+            }
+        }
+        return outputStream.toByteArray();
+    }
+
+    private OutputStream copyStream(InputStream is, OutputStream os) throws IOException {
+        int bufferLength = 8192;
+        byte[] buffer = new byte[bufferLength];
+        int bytesRead;
+        while ((bytesRead = is.read(buffer)) != -1) {
+            os.write(buffer, 0, bytesRead);
+        }
+        return os;
     }
 }
