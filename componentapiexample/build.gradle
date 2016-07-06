@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "net.gini.android.vision.componentapiexample"
-        minSdkVersion rootProject.ext.minSdkVersion
+        minSdkVersion 17
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
