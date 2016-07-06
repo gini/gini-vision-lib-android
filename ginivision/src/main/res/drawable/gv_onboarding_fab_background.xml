@@ -11,7 +11,7 @@
             <item android:gravity="center" android:top="5dp" android:bottom="5dp">
                 <shape android:shape="oval">
                     <size android:width="@dimen/gv_fab_width" android:height="@dimen/gv_fab_height" />
-                    <solid android:color="@color/gv_onboarding_fab_selected" />
+                    <solid android:color="@color/gv_onboarding_fab_pressed" />
                 </shape>
             </item>
         </layer-list>

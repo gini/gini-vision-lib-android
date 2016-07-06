@@ -36,7 +36,7 @@ import java.util.ArrayList;
  *             <b>Next button icon:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_onboarding_fab_next.png}
  *         </li>
  *         <li>
- *             <b>Next button color:</b> via the color resources named {@code gv_onboarding_fab} and {@code gv_onboarding_fab_selected}
+ *             <b>Next button color:</b> via the color resources named {@code gv_onboarding_fab} and {@code gv_onboarding_fab_pressed}
  *         </li>
  *         <li>
  *             <b>Page indicators:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_onboarding_indicator_active.png} and {@code gv_onboarding_indicator_inactive.png}
