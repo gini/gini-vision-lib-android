@@ -42,7 +42,7 @@ class OnboardingFragmentImpl {
     private LinearLayout mLayoutPageIndicators;
     private ImageButton mButtonNext;
 
-    PageChangeListener mPageChangeListener;
+    private PageChangeListener mPageChangeListener;
 
     public OnboardingFragmentImpl(OnboardingFragmentImplCallback fragment) {
         mFragment = fragment;
@@ -52,7 +52,7 @@ class OnboardingFragmentImpl {
 
     public OnboardingFragmentImpl(OnboardingFragmentImplCallback fragment, ArrayList<OnboardingPage> pages) {
         mFragment = fragment;
-        mPages = pages != null ? pages : DefaultPages.asArrayList();
+        mPages = pages != null ? new ArrayList<>(pages) : DefaultPages.asArrayList();
         addTransparentPage();
     }
 
