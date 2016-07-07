@@ -61,6 +61,9 @@ import java.util.ArrayList;
  *             <b>Third page text:</b> via the string resource named {@code gv_onboarding_align}
  *         </li>
  *         <li>
+ *             <b>Background transparency:</b> via the string resource named {@code gv_onboarding_page_fragment_background_alpha} which must contain a real number between [0,1].
+ *         </li>
+ *         <li>
  *             <b>Background color:</b> via the color resource named {@code gv_background}. <b>Note:</b> this color resource is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity})
  *         </li>
  *     </ul>
