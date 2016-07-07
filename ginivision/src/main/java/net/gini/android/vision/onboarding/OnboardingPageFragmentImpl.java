@@ -18,16 +18,14 @@ class OnboardingPageFragmentImpl {
 
     private final FragmentImplCallback mFragment;
     private final OnboardingPage mPage;
-    private final boolean mNoBackground;
 
     private View mBackground;
     private ImageView mImageOnboarding;
     private TextView mTextMessage;
 
-    public OnboardingPageFragmentImpl(@NonNull FragmentImplCallback fragment, @NonNull OnboardingPage page, boolean noBackground) {
+    public OnboardingPageFragmentImpl(@NonNull FragmentImplCallback fragment, @NonNull OnboardingPage page) {
         mFragment = fragment;
         mPage = page;
-        mNoBackground = noBackground;
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,7 +48,7 @@ class OnboardingPageFragmentImpl {
     }
 
     private void setUpBackground() {
-        if (mNoBackground) {
+        if (mPage.isTransparent()) {
             mBackground.setBackgroundColor(Color.TRANSPARENT);
         }
     }

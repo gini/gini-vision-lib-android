@@ -28,11 +28,6 @@ public class ViewPagerAdapterCompat extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        boolean noBackground = isLastItem(position);
-        return OnboardingPageFragmentCompat.createInstance(getPages().get(position), noBackground);
-    }
-
-    private boolean isLastItem(int position) {
-        return position == getCount() - 1;
+        return OnboardingPageFragmentCompat.createInstance(getPages().get(position));
     }
 }

@@ -28,11 +28,6 @@ public class ViewPagerAdapterStandard extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        boolean noBackground = isLastItem(position);
-        return OnboardingPageFragmentStandard.createInstance(getPages().get(position), noBackground);
-    }
-
-    private boolean isLastItem(int position) {
-        return position == getCount() - 1;
+        return OnboardingPageFragmentStandard.createInstance(getPages().get(position));
     }
 }

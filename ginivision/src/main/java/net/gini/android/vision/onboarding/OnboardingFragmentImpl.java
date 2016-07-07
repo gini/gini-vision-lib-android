@@ -37,6 +37,7 @@ class OnboardingFragmentImpl {
     private final OnboardingFragmentImplCallback mFragment;
     private OnboardingFragmentListener mListener = NO_OP_LISTENER;
     private final ArrayList<OnboardingPage> mPages;
+    private final boolean mShowEmptyLastPage;
 
     private ViewPager mViewPager;
     private LinearLayout mLayoutPageIndicators;
@@ -44,20 +45,26 @@ class OnboardingFragmentImpl {
 
     private PageChangeListener mPageChangeListener;
 
-    public OnboardingFragmentImpl(OnboardingFragmentImplCallback fragment) {
+    public OnboardingFragmentImpl(OnboardingFragmentImplCallback fragment, boolean showEmptyLastPage) {
         mFragment = fragment;
         mPages = DefaultPages.asArrayList();
-        addTransparentPage();
+        mShowEmptyLastPage = showEmptyLastPage;
+        if (mShowEmptyLastPage) {
+            addTransparentPage();
+        }
     }
 
-    public OnboardingFragmentImpl(OnboardingFragmentImplCallback fragment, ArrayList<OnboardingPage> pages) {
+    public OnboardingFragmentImpl(OnboardingFragmentImplCallback fragment, boolean showEmptyLastPage, ArrayList<OnboardingPage> pages) {
         mFragment = fragment;
         mPages = pages != null ? new ArrayList<>(pages) : DefaultPages.asArrayList();
-        addTransparentPage();
+        mShowEmptyLastPage = showEmptyLastPage;
+        if (mShowEmptyLastPage) {
+            addTransparentPage();
+        }
     }
 
     private void addTransparentPage() {
-        mPages.add(new OnboardingPage(0, 0));
+        mPages.add(new OnboardingPage(0, 0, true));
     }
 
     public void setListener(@Nullable OnboardingFragmentListener listener) {
@@ -85,13 +92,18 @@ class OnboardingFragmentImpl {
     private void setUpViewPager() {
         mViewPager.setAdapter(mFragment.getViewPagerAdapter(mPages));
 
-        PageIndicators pageIndicators = new PageIndicators(mFragment.getActivity(), mPages.size() - 1, mLayoutPageIndicators);
+        int nrOfPageIndicators = mShowEmptyLastPage ? mPages.size() - 1 : mPages.size();
+        PageIndicators pageIndicators = new PageIndicators(mFragment.getActivity(), nrOfPageIndicators, mLayoutPageIndicators);
         pageIndicators.create();
 
         mPageChangeListener = new PageChangeListener(pageIndicators, 0, mPages.size(), new PageChangeListener.Callback() {
             @Override
             public void onLastPage() {
-                onLastPageReached();
+                // Only when an empty last page is shown slide out the page indicator and next button and notify
+                // the listener that the onboarding should be closed
+                if (mShowEmptyLastPage) {
+                    slideOutViewsAndNotifyListener();
+                }
             }
         });
         mPageChangeListener.init();
@@ -100,7 +112,7 @@ class OnboardingFragmentImpl {
         mViewPager.setCurrentItem(0);
     }
 
-    private void onLastPageReached() {
+    private void slideOutViewsAndNotifyListener() {
         // If width is still 0  set it to a big value to make sure the view
         // will slide out completely
         int layoutPageIndicatorsWidth = mLayoutPageIndicators.getWidth();
@@ -126,9 +138,17 @@ class OnboardingFragmentImpl {
         mButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showNextPage();
+                if (isOnLastPage()) {
+                    mListener.onCloseOnboarding();
+                } else {
+                    showNextPage();
+                }
             }
         });
+    }
+
+    private boolean isOnLastPage() {
+        return mPageChangeListener.getCurrentPage() == mPages.size() - 1;
     }
 
     private void showNextPage() {

@@ -8,12 +8,10 @@ import net.gini.android.vision.ui.FragmentImplCallback;
 class OnboardingPageFragmentHelper {
 
     private static final String ARGS_PAGE = "GV_PAGE";
-    private static final String ARGS_NO_BACKGROUND = "GV_NO_BACKGROUND";
 
-    static Bundle createArguments(@NonNull OnboardingPage page, boolean noBackground) {
+    static Bundle createArguments(@NonNull OnboardingPage page) {
         Bundle arguments = new Bundle();
         arguments.putParcelable(ARGS_PAGE, page);
-        arguments.putBoolean(ARGS_NO_BACKGROUND, noBackground);
         return arguments;
     }
 
@@ -22,9 +20,6 @@ class OnboardingPageFragmentHelper {
         if (page == null) {
             throw new IllegalStateException("Missing OnboardingPage.");
         }
-
-        boolean noBackground = arguments.getBoolean(ARGS_NO_BACKGROUND, false);
-
-        return new OnboardingPageFragmentImpl(fragment, page, noBackground);
+        return new OnboardingPageFragmentImpl(fragment, page);
     }
 }

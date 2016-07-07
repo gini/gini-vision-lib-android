@@ -17,9 +17,9 @@ public class OnboardingPageFragmentStandard extends Fragment implements Fragment
 
     private OnboardingPageFragmentImpl mFragmentImpl;
 
-    public static OnboardingPageFragmentStandard createInstance(@NonNull OnboardingPage page, boolean noBackground) {
+    public static OnboardingPageFragmentStandard createInstance(@NonNull OnboardingPage page) {
         OnboardingPageFragmentStandard fragment = new OnboardingPageFragmentStandard();
-        fragment.setArguments(OnboardingPageFragmentHelper.createArguments(page, noBackground));
+        fragment.setArguments(OnboardingPageFragmentHelper.createArguments(page));
         return fragment;
     }
 
