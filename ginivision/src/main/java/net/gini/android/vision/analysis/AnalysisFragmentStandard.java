@@ -55,7 +55,6 @@ public class AnalysisFragmentStandard extends Fragment implements FragmentImplCa
 
     /**
      * @exclude
-     * @param savedInstanceState
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,10 +66,6 @@ public class AnalysisFragmentStandard extends Fragment implements FragmentImplCa
 
     /**
      * @exclude
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
      */
     @Nullable
     @Override

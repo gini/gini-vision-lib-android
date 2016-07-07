@@ -41,7 +41,6 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
 
     /**
      * @exclude
-     * @param context
      */
     @Override
     public void onAttach(Context context) {
@@ -51,7 +50,6 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
 
     /**
      * @exclude
-     * @param activity
      */
     @SuppressWarnings("deprecation")
     @Override
@@ -65,10 +63,6 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
 
     /**
      * @exclude
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
      */
     @Nullable
     @Override

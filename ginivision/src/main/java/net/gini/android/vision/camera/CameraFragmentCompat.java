@@ -42,7 +42,6 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
 
     /**
      * @exclude
-     * @param context
      */
     @Override
     public void onAttach(Context context) {
@@ -52,10 +51,6 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
 
     /**
      * @exclude
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
      */
     @Nullable
     @Override
