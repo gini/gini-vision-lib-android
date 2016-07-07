@@ -61,6 +61,18 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        mFragmentImpl.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mFragmentImpl.onStop();
+    }
+
+    @Override
     public void showDocumentCornerGuides() {
         mFragmentImpl.showDocumentCornerGuides();
     }

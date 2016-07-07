@@ -2,17 +2,13 @@ package net.gini.android.vision.camera;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.RelativeLayout;
 
 import net.gini.android.vision.ActivityHelpers;
-import net.gini.android.vision.BuildConfig;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
@@ -21,7 +17,6 @@ import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.review.ReviewActivity;
-import net.gini.android.vision.ui.SnackbarError;
 
 import java.util.ArrayList;
 
@@ -310,15 +305,10 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
 
     @Override
     public void onError(GiniVisionError error) {
-        SnackbarError.make(this, mLayoutRoot, error.getMessage(), "DO SOMETHING!", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                Uri uri = Uri.fromParts("package", BuildConfig.APPLICATION_ID, null);
-                intent.setData(uri);
-                startActivity(intent);
-            }
-        }, SnackbarError.LENGTH_LONG).show();
+        Intent result = new Intent();
+        result.putExtra(EXTRA_OUT_ERROR, error);
+        setResult(RESULT_ERROR, result);
+        finish();
     }
 
     @Override
