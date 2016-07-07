@@ -23,7 +23,7 @@ public enum DefaultPages {
     }
 
     public static ArrayList<OnboardingPage> asArrayList() {
-        ArrayList<OnboardingPage> arrayList = new ArrayList<>(3);
+        ArrayList<OnboardingPage> arrayList = new ArrayList<>(values().length);
         for (DefaultPages pages : values()) {
             arrayList.add(pages.getPage());
         }
