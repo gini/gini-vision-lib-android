@@ -13,7 +13,9 @@ public class MainActivity extends Activity {
     private Button mButtonStartScanner;
     private Button mButtonStartScannerCompat;
     private Button mButtonStartOnboarding;
+    private Button mButtonStartOnboardingWoLastPage;
     private Button mButtonStartOnboardingCompat;
+    private Button mButtonStartOnboardingWoLastPageCompat;
     private Button mButtonStartReviewDocument;
     private Button mButtonStartReviewDocumentCompat;
     private Button mButtonStartAnalyzeDocument;
@@ -46,10 +48,22 @@ public class MainActivity extends Activity {
                 startOnboarding();
             }
         });
+        mButtonStartOnboardingWoLastPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startOnboardingWoLastPage();
+            }
+        });
         mButtonStartOnboardingCompat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startOnboardingCompat();
+            }
+        });
+        mButtonStartOnboardingWoLastPageCompat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startOnboardingWoLastPageCompat();
             }
         });
         mButtonStartReviewDocument.setOnClickListener(new View.OnClickListener() {
@@ -93,8 +107,20 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
+    private void startOnboardingWoLastPage() {
+        Intent intent = new Intent(this, CustomOnboardingActivity.class);
+        intent.putExtra(CustomOnboardingActivity.EXTRA_WITHOUT_EMPTY_LAST_PAGE, true);
+        startActivity(intent);
+    }
+
     private void startOnboardingCompat() {
         Intent intent = new Intent(this, CustomOnboardingAppCompatActivity.class);
+        startActivity(intent);
+    }
+
+    private void startOnboardingWoLastPageCompat() {
+        Intent intent = new Intent(this, CustomOnboardingAppCompatActivity.class);
+        intent.putExtra(CustomOnboardingAppCompatActivity.EXTRA_WITHOUT_EMPTY_LAST_PAGE, true);
         startActivity(intent);
     }
 
@@ -122,7 +148,9 @@ public class MainActivity extends Activity {
         mButtonStartScanner = (Button) findViewById(R.id.button_start_camera);
         mButtonStartScannerCompat = (Button) findViewById(R.id.button_start_camera_compat);
         mButtonStartOnboarding = (Button) findViewById(R.id.button_start_onboarding);
+        mButtonStartOnboardingWoLastPage = (Button) findViewById(R.id.button_start_onboarding_wo_last_page);
         mButtonStartOnboardingCompat = (Button) findViewById(R.id.button_start_onboarding_compat);
+        mButtonStartOnboardingWoLastPageCompat = (Button) findViewById(R.id.button_start_onboarding_wo_last_page_compat);
         mButtonStartReviewDocument = (Button) findViewById(R.id.button_start_review_document);
         mButtonStartReviewDocumentCompat = (Button) findViewById(R.id.button_start_review_document_compat);
         mButtonStartAnalyzeDocument = (Button) findViewById(R.id.button_start_analysis);

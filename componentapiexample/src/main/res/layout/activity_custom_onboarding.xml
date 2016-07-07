@@ -9,13 +9,11 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="net.gini.android.vision.component.CustomOnboardingActivity">
 
-    <fragment
-        android:id="@+id/fragment_scanner"
-        android:name="net.gini.android.vision.onboarding.OnboardingFragmentStandard"
+    <FrameLayout
+        android:id="@+id/fragment_onboarding"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/text_info"
-        tools:layout="@layout/gv_fragment_onboarding" />
+        android:layout_above="@+id/text_info" />
 
     <TextView
         android:id="@+id/text_info"
