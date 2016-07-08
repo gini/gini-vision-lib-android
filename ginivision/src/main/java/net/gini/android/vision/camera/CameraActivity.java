@@ -63,6 +63,9 @@ import java.util.ArrayList;
  * <p>
  *     <b>Note:</b> For returning the extractions from the Gini API you can add your own extras in {@link ReviewActivity#onAddDataToResult(Intent)} or {@link AnalysisActivity#onAddDataToResult(Intent)}.
  * </p>
+ * <p>
+ *     If the camera could not be opened due to missing permissions, the content of the Camera Screen is replaced with a no-camera icon, a short message and an optional button. The button is shown only on Android 6.0+ and tapping the button leads the user to the Application Details page in the Settings. If these are shown on Android 5.0 and earlier means that the camera permission was not declared in your manifest.
+ * </p>
  *
  * <h3>Customizing the Camera Screen</h3>
  *
@@ -89,6 +92,21 @@ import java.util.ArrayList;
  *         </li>
  *         <li>
  *             <b>Background color:</b> via the color resource named {@code gv_background}. <b>Note:</b> this color resource is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity})
+ *         </li>
+ *         <li>
+ *             <b>No-camera icon:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_no_camera.png}
+ *         </li>
+ *         <li>
+ *             <b>No camera permission text:</b> via the string resource named {@code gv_camera_error_no_permission}
+ *         </li>
+ *         <li>
+ *             <b>No camera permission text color:</b> via the color resource named {@code gv_camera_error_no_permission}
+ *         </li>
+ *         <li>
+ *             <b>No camera permission button title:</b> via the string resource named {@code gv_camera_error_no_permission_button_title}
+ *         </li>
+ *         <li>
+ *             <b>No camera permission button title color:</b> via the color resources named {@code gv_camera_error_no_permission_button_title} and {@code gv_camera_error_no_permission_button_title_pressed}
  *         </li>
  *     </ul>
  * </p>
