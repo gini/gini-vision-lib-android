@@ -5,14 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:background="#000">
 
     <ImageView
         android:id="@+id/gv_image_camera_no_permission"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="16dp"
-        android:src="@drawable/no_camera" />
+        android:src="@drawable/gv_no_camera" />
 
     <TextView
         android:id="@+id/gv_text_camera_no_permission"
@@ -30,6 +31,6 @@
         android:background="@null"
         android:layout_marginTop="16dp"
         android:text="@string/gv_camera_error_no_permission_button_title"
-        android:textColor="@color/gv_camera_error_no_permission_button_title"
+        android:textColor="@drawable/gv_camera_error_no_permission_button_title_color"
         android:textSize="18sp" />
 </LinearLayout>

@@ -39,6 +39,7 @@ public class CameraController implements CameraInterface {
         // error view or give back the error in the result, if the error wasn't related to the missing camera permission
         try {
             Camera camera = Camera.open();
+            mListener.onCameraOpened();
             if (camera != null) {
                 camera.release();
             }

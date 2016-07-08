@@ -1,7 +1,10 @@
 package net.gini.android.vision.camera;
 
 import static net.gini.android.vision.camera.Util.cameraExceptionToGiniVisionError;
+import static net.gini.android.vision.util.AndroidHelper.isMarshmallowOrLater;
+import static net.gini.android.vision.util.ContextHelper.getClientApplicationId;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,6 +18,7 @@ import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
@@ -23,6 +27,7 @@ import net.gini.android.vision.camera.api.CameraController;
 import net.gini.android.vision.camera.api.CameraInterface;
 import net.gini.android.vision.camera.photo.Photo;
 import net.gini.android.vision.ui.FragmentImplCallback;
+import net.gini.android.vision.ui.ViewStubSafeInflater;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -50,7 +55,9 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     private ImageView mCameraPreview;
     private ImageView mImageCorners;
     private ImageButton mButtonCameraTrigger;
-    private ViewStub mStubNoPermission;
+    private LinearLayout mLayoutNoPermission;
+
+    private ViewStubSafeInflater mViewStubInflater;
 
     CameraFragmentImpl(@NonNull FragmentImplCallback fragment) {
         mFragment = fragment;
@@ -84,8 +91,16 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
     private void createCameraListener() {
         mCameraListener = new CameraListener(mListener, new CameraListener.Callback() {
+
             @Override
-            public void onCameraNoPermissionError() {
+            public void onHideNoPermissionView() {
+                hideNoPermissionView();
+                // TODO: this hack is only for the stub library
+                mCameraPreview.setImageResource(R.drawable.gv_test_document);
+            }
+
+            @Override
+            public void onShowNoPermissionView() {
                 showNoPermissionView();
             }
 
@@ -105,7 +120,8 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mCameraPreview = (ImageView) view.findViewById(R.id.gv_camera_preview);
         mImageCorners = (ImageView) view.findViewById(R.id.gv_image_corners);
         mButtonCameraTrigger = (ImageButton) view.findViewById(R.id.gv_button_camera_trigger);
-        mStubNoPermission = (ViewStub) view.findViewById(R.id.gv_stub_camera_no_permission);
+        ViewStub stubNoPermission = (ViewStub) view.findViewById(R.id.gv_stub_camera_no_permission);
+        mViewStubInflater = new ViewStubSafeInflater(stubNoPermission);
     }
 
     private void setInputHandlers() {
@@ -149,13 +165,44 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         hideCameraPreview();
         hideCameraTriggerButton();
         hideDocumentCornerGuides();
-        mStubNoPermission.inflate();
-        handleNoPermissionButtonClick();
+        inflateNoPermissionStub();
+        setUpNoPermissionButton();
+        if (mLayoutNoPermission != null) {
+            mLayoutNoPermission.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void inflateNoPermissionStub() {
+        if (mLayoutNoPermission == null) {
+            mLayoutNoPermission = (LinearLayout) mViewStubInflater.inflate();
+        }
+    }
+
+    public void hideNoPermissionView() {
+        showCameraPreview();
+        showCameraTriggerButton();
+        showDocumentCornerGuides();
+        if (mLayoutNoPermission != null) {
+            mLayoutNoPermission.setVisibility(View.GONE);
+        }
+    }
+
+    private void setUpNoPermissionButton() {
+        if (isMarshmallowOrLater()) {
+            handleNoPermissionButtonClick();
+        } else {
+            hideNoPermissionButton();
+        }
     }
 
     private void hideCameraPreview() {
         mCameraPreview.animate().alpha(0.0f);
         mCameraPreview.setEnabled(false);
+    }
+
+    private void showCameraPreview() {
+        mCameraPreview.animate().alpha(1.0f);
+        mCameraPreview.setEnabled(true);
     }
 
     private void handleNoPermissionButtonClick() {
@@ -167,13 +214,29 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: application id from apk manifest
-                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                Uri uri = Uri.fromParts("package", "TODO: application id from apk manifest", null);
-                intent.setData(uri);
-                mFragment.startActivity(intent);
+                startApplicationDetailsSettings();
             }
         });
+    }
+
+    private void hideNoPermissionButton() {
+        View view = mFragment.getView();
+        if (view == null) {
+            return;
+        }
+        Button button = (Button) view.findViewById(R.id.gv_button_camera_no_permission);
+        button.setVisibility(View.GONE);
+    }
+
+    private void startApplicationDetailsSettings() {
+        Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
+        }
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getClientApplicationId(activity), null);
+        intent.setData(uri);
+        mFragment.startActivity(intent);
     }
 
     private byte[] loadTestDocument() {
@@ -224,7 +287,10 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     static class CameraListener implements CameraInterface.Listener {
 
         public interface Callback {
-            void onCameraNoPermissionError();
+            void onHideNoPermissionView();
+
+            void onShowNoPermissionView();
+
             void onCameraError();
         }
 
@@ -242,6 +308,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
         @Override
         public void onCameraOpened() {
+            mCallback.onHideNoPermissionView();
         }
 
         @Override
@@ -268,7 +335,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         private void handleCameraException(RuntimeException e) {
             GiniVisionError error = cameraExceptionToGiniVisionError(e);
             if (error.getErrorCode() == GiniVisionError.ErrorCode.CAMERA_NO_ACCESS) {
-                mCallback.onCameraNoPermissionError();
+                mCallback.onShowNoPermissionView();
             } else {
                 mFragmentListener.onError(cameraExceptionToGiniVisionError(e));
             }

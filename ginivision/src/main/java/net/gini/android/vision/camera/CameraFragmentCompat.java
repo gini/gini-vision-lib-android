@@ -60,12 +60,18 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
         return mFragmentImpl.onCreateView(inflater, container, savedInstanceState);
     }
 
+    /**
+     * @exclude
+     */
     @Override
     public void onStart() {
         super.onStart();
         mFragmentImpl.onStart();
     }
 
+    /**
+     * @exclude
+     */
     @Override
     public void onStop() {
         super.onStop();

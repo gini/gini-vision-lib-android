@@ -41,7 +41,6 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
 
     /**
      * @exclude
-     * @param context
      */
     @Override
     public void onAttach(Context context) {
@@ -51,15 +50,29 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
 
     /**
      * @exclude
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
      */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return mFragmentImpl.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    /**
+     * @exclude
+     */
+    @Override
+    public void onStart() {
+        super.onStart();
+        mFragmentImpl.onStart();
+    }
+
+    /**
+     * @exclude
+     */
+    @Override
+    public void onStop() {
+        super.onStop();
+        mFragmentImpl.onStop();
     }
 
     @Override
