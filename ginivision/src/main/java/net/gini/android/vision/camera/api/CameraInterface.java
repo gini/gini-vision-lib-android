@@ -1,5 +1,7 @@
 package net.gini.android.vision.camera.api;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.SurfaceHolder;
 import android.view.View;
 
@@ -9,14 +11,16 @@ import net.gini.android.vision.camera.photo.Size;
 public interface CameraInterface {
     void open();
     void close();
-    void startPreview(SurfaceHolder surfaceHolder);
+    void startPreview(@NonNull SurfaceHolder surfaceHolder);
     void stopPreview();
-    void enableTapToFocus(View tapView);
-    void disableTapToFocus(View tapView);
+    void enableTapToFocus(@NonNull View tapView);
+    void disableTapToFocus(@NonNull View tapView);
     void focus();
     void takePicture();
-    void setListener(Listener listener);
+    void setListener(@Nullable Listener listener);
+    @NonNull
     Size getPreviewSize();
+    @NonNull
     Size getPictureSize();
 
     interface Listener {
@@ -26,8 +30,8 @@ public interface CameraInterface {
 
         void onCameraFocusFinished(boolean success);
 
-        void onPhotoTaken(Photo photo);
+        void onPhotoTaken(@NonNull Photo photo);
 
-        void onCameraError(RuntimeException e);
+        void onCameraError(@NonNull RuntimeException e);
     }
 }

@@ -3,6 +3,7 @@ package net.gini.android.vision.component;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionCoordinator;
@@ -40,13 +41,13 @@ public class CustomCameraActivity extends Activity implements CameraFragmentList
     }
 
     @Override
-    public void onDocumentAvailable(Document document) {
+    public void onDocumentAvailable(@NonNull Document document) {
         Intent intent = new Intent(this, CustomReviewActivity.class);
         startActivity(intent);
     }
 
     @Override
-    public void onError(GiniVisionError error) {
+    public void onError(@NonNull GiniVisionError error) {
 
     }
 }

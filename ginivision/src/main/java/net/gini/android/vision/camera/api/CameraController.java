@@ -1,6 +1,7 @@
 package net.gini.android.vision.camera.api;
 
 import android.hardware.Camera;
+import android.support.annotation.NonNull;
 import android.view.SurfaceHolder;
 import android.view.View;
 
@@ -23,11 +24,11 @@ public class CameraController implements CameraInterface {
         }
 
         @Override
-        public void onPhotoTaken(Photo photo) {
+        public void onPhotoTaken(@NonNull Photo photo) {
         }
 
         @Override
-        public void onCameraError(RuntimeException e) {
+        public void onCameraError(@NonNull RuntimeException e) {
         }
     };
 
@@ -54,7 +55,7 @@ public class CameraController implements CameraInterface {
     }
 
     @Override
-    public void startPreview(SurfaceHolder surfaceHolder) {
+    public void startPreview(@NonNull SurfaceHolder surfaceHolder) {
 
     }
 
@@ -64,12 +65,12 @@ public class CameraController implements CameraInterface {
     }
 
     @Override
-    public void enableTapToFocus(View tapView) {
+    public void enableTapToFocus(@NonNull View tapView) {
 
     }
 
     @Override
-    public void disableTapToFocus(View tapView) {
+    public void disableTapToFocus(@NonNull View tapView) {
 
     }
 
@@ -92,13 +93,15 @@ public class CameraController implements CameraInterface {
         }
     }
 
+    @NonNull
     @Override
     public Size getPreviewSize() {
-        return null;
+        return new Size(100, 100);
     }
 
+    @NonNull
     @Override
     public Size getPictureSize() {
-        return null;
+        return new Size(100, 100);
     }
 }

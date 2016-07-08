@@ -1,5 +1,7 @@
 package net.gini.android.vision.camera;
 
+import android.support.annotation.NonNull;
+
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 
@@ -16,7 +18,7 @@ public interface CameraFragmentListener {
      *
      * @param document the image taken by the camera
      */
-    void onDocumentAvailable(Document document);
+    void onDocumentAvailable(@NonNull Document document);
 
     /**
      * <p>
@@ -24,5 +26,5 @@ public interface CameraFragmentListener {
      * </p>
      * @param error details about what went wrong
      */
-    void onError(GiniVisionError error);
+    void onError(@NonNull GiniVisionError error);
 }

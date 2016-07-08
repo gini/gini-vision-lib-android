@@ -38,11 +38,11 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
     private static final CameraFragmentListener NO_OP_LISTENER = new CameraFragmentListener() {
         @Override
-        public void onDocumentAvailable(Document document) {
+        public void onDocumentAvailable(@NonNull Document document) {
         }
 
         @Override
-        public void onError(GiniVisionError error) {
+        public void onError(@NonNull GiniVisionError error) {
         }
     };
 
@@ -128,8 +128,8 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mButtonCameraTrigger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                byte[] testDocument = loadTestDocument();
                 // TODO: this is only for the stub library
+                byte[] testDocument = loadTestDocument();
                 if (testDocument != null) {
                     mListener.onDocumentAvailable(Document.fromPhoto(Photo.fromJpeg(testDocument, 0)));
                 } else {
@@ -239,6 +239,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mFragment.startActivity(intent);
     }
 
+    // TODO: used only for the stub library
     private byte[] loadTestDocument() {
         if (mFragment.getActivity() == null) {
             return null;
@@ -273,6 +274,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         return outputStream.toByteArray();
     }
 
+    // TODO: used only for the stub library
     private OutputStream copyStream(InputStream is, OutputStream os) throws IOException {
         int bufferLength = 8192;
         byte[] buffer = new byte[bufferLength];
@@ -297,12 +299,12 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         private CameraFragmentListener mFragmentListener;
         private final Callback mCallback;
 
-        CameraListener(CameraFragmentListener fragmentListener, Callback callback) {
+        CameraListener(@NonNull CameraFragmentListener fragmentListener, @NonNull Callback callback) {
             mFragmentListener = fragmentListener;
             mCallback = callback;
         }
 
-        public void setFragmentListener(CameraFragmentListener fragmentListener) {
+        public void setFragmentListener(@NonNull CameraFragmentListener fragmentListener) {
             mFragmentListener = fragmentListener;
         }
 
@@ -322,12 +324,12 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         }
 
         @Override
-        public void onPhotoTaken(Photo photo) {
+        public void onPhotoTaken(@NonNull Photo photo) {
 
         }
 
         @Override
-        public void onCameraError(RuntimeException e) {
+        public void onCameraError(@NonNull RuntimeException e) {
             handleCameraException(e);
             mCallback.onCameraError();
         }

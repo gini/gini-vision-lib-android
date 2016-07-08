@@ -6,6 +6,7 @@ import net.gini.android.vision.GiniVisionError;
 
 class Util {
 
+    @NonNull
     public static GiniVisionError cameraExceptionToGiniVisionError(@NonNull RuntimeException exception) {
         // String comparison is the only way to determine the cause of the camera exception with the old Camera API
         // Here are the possible error messages:
