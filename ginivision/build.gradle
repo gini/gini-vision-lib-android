@@ -7,6 +7,9 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+
+        // Use the test runner with JUnit4 support
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -18,12 +21,17 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile deps.junit
     compile deps.appCompatv7
     compile deps.supportv4
     compile deps.supportv13
     compile deps.supportDesign
     compile deps.sanselan
+
+    testCompile deps.junit
+    testCompile deps.truth
+
+    androidTestCompile deps.supportTestRunner
+    androidTestCompile deps.truth
 }
 
 apply from: rootProject.file('gradle/codequality.gradle')
