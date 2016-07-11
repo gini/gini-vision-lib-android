@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_vertical_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="net.gini.android.vision.advanced.CustomAnalysisActivity">
+    tools:context="net.gini.android.vision.component.CustomAnalysisActivity">
 
     <FrameLayout
         android:id="@+id/fragment_analyze_document"

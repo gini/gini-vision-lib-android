@@ -3,6 +3,7 @@ package net.gini.android.vision.onboarding;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 
 import net.gini.android.vision.camera.CameraActivity;
@@ -27,6 +28,7 @@ public class OnboardingPage implements Parcelable {
 
     private final int mTextResId;
     private final int mImageResId;
+    private final boolean mTransparent;
 
     /**
      * <p>
@@ -39,8 +41,16 @@ public class OnboardingPage implements Parcelable {
      * @param imageResId a drawable resource id which will be shown in the onboarding page
      */
     public OnboardingPage(@StringRes int textResId, @DrawableRes int imageResId) {
+        this(textResId, imageResId, false);
+    }
+
+    /**
+     * @exclude
+     */
+    OnboardingPage(@StringRes int textResId, @DrawableRes int imageResId, boolean transparent) {
         mTextResId = textResId;
         mImageResId = imageResId;
+        mTransparent = transparent;
     }
 
     /**
@@ -61,7 +71,13 @@ public class OnboardingPage implements Parcelable {
 
     /**
      * @exclude
-     * @return
+     */
+    public boolean isTransparent() {
+        return mTransparent;
+    }
+
+    /**
+     * @exclude
      */
     @Override
     public int describeContents() {
@@ -70,13 +86,12 @@ public class OnboardingPage implements Parcelable {
 
     /**
      * @exclude
-     * @param dest
-     * @param flags
      */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(mTextResId);
         dest.writeInt(mImageResId);
+        dest.writeInt(mTransparent ? 1 : 0);
     }
 
     /**
@@ -94,8 +109,9 @@ public class OnboardingPage implements Parcelable {
         }
     };
 
-    private OnboardingPage(Parcel in) {
+    private OnboardingPage(@NonNull Parcel in) {
         mTextResId = in.readInt();
         mImageResId = in.readInt();
+        mTransparent = in.readInt() == 1;
     }
 }

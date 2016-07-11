@@ -23,8 +23,6 @@ public class GiniVisionError implements Parcelable {
 
     /**
      * @exclude
-     * @param code
-     * @param message
      */
     public GiniVisionError(ErrorCode code, String message) {
         mErrorCode = code;
@@ -56,7 +54,6 @@ public class GiniVisionError implements Parcelable {
 
     /**
      * @exclude
-     * @return
      */
     @Override
     public int describeContents() {
@@ -65,8 +62,6 @@ public class GiniVisionError implements Parcelable {
 
     /**
      * @exclude
-     * @param dest
-     * @param flags
      */
     @Override
     public void writeToParcel(Parcel dest, int flags) {

@@ -58,7 +58,6 @@ public class ReviewFragmentCompat extends Fragment implements FragmentImplCallba
 
     /**
      * @exclude
-     * @param savedInstanceState
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,10 +69,6 @@ public class ReviewFragmentCompat extends Fragment implements FragmentImplCallba
 
     /**
      * @exclude
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
      */
     @Nullable
     @Override

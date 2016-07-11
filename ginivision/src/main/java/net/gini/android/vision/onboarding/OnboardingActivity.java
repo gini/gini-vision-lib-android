@@ -1,6 +1,7 @@
 package net.gini.android.vision.onboarding;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
 import net.gini.android.vision.GiniVisionError;
@@ -36,7 +37,7 @@ import java.util.ArrayList;
  *             <b>Next button icon:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_onboarding_fab_next.png}
  *         </li>
  *         <li>
- *             <b>Next button color:</b> via the color resources named {@code gv_onboarding_fab} and {@code gv_onboarding_fab_selected}
+ *             <b>Next button color:</b> via the color resources named {@code gv_onboarding_fab} and {@code gv_onboarding_fab_pressed}
  *         </li>
  *         <li>
  *             <b>Page indicators:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_onboarding_indicator_active.png} and {@code gv_onboarding_indicator_inactive.png}
@@ -58,6 +59,9 @@ import java.util.ArrayList;
  *         </li>
  *         <li>
  *             <b>Third page text:</b> via the string resource named {@code gv_onboarding_align}
+ *         </li>
+ *         <li>
+ *             <b>Background transparency:</b> via the string resource named {@code gv_onboarding_page_fragment_background_alpha} which must contain a real number between [0,1].
  *         </li>
  *         <li>
  *             <b>Background color:</b> via the color resource named {@code gv_background}. <b>Note:</b> this color resource is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity})
@@ -132,7 +136,7 @@ public class OnboardingActivity extends AppCompatActivity implements OnboardingF
     }
 
     @Override
-    public void onError(GiniVisionError giniVisionError) {
+    public void onError(@NonNull GiniVisionError giniVisionError) {
 
     }
 }

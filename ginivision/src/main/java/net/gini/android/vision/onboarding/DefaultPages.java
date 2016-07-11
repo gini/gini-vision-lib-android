@@ -7,21 +7,26 @@ import java.util.ArrayList;
 /**
  * @exclude
  */
-public final class DefaultPages {
+public enum DefaultPages {
+    FLAT(new OnboardingPage(R.string.gv_onboarding_flat, R.drawable.gv_onboarding_flat)),
+    PARALLEL(new OnboardingPage(R.string.gv_onboarding_parallel, R.drawable.gv_onboarding_parallel)),
+    ALIGN(new OnboardingPage(R.string.gv_onboarding_align, R.drawable.gv_onboarding_align));
 
-    private static final ArrayList<OnboardingPage> DEFAULT_PAGES = new ArrayList<>(3);
+    private final OnboardingPage mOnboardingPage;
 
-    static {
-        DEFAULT_PAGES.add(new OnboardingPage(R.string.gv_onboarding_flat, R.drawable.gv_onboarding_flat));
-        DEFAULT_PAGES.add(new OnboardingPage(R.string.gv_onboarding_parallel, R.drawable.gv_onboarding_parallel));
-        DEFAULT_PAGES.add(new OnboardingPage(R.string.gv_onboarding_align, R.drawable.gv_onboarding_align));
+    DefaultPages(OnboardingPage onboardingPage) {
+        mOnboardingPage = onboardingPage;
     }
 
-    public static ArrayList<OnboardingPage> getPages() {
-        return DEFAULT_PAGES;
+    private OnboardingPage getPage() {
+        return mOnboardingPage;
     }
 
-    private DefaultPages() {
-
+    public static ArrayList<OnboardingPage> asArrayList() {
+        ArrayList<OnboardingPage> arrayList = new ArrayList<>(values().length);
+        for (DefaultPages pages : values()) {
+            arrayList.add(pages.getPage());
+        }
+        return arrayList;
     }
 }

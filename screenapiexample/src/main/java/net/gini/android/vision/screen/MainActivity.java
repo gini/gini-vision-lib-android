@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private ArrayList<OnboardingPage> getOnboardingPages() {
-        ArrayList<OnboardingPage> pages = new ArrayList<>(DefaultPages.getPages());
+        ArrayList<OnboardingPage> pages = DefaultPages.asArrayList();
         pages.add(new OnboardingPage(R.string.additional_onboarding_page, R.drawable.additional_onboarding_illustration));
         return pages;
     }

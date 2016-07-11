@@ -258,8 +258,6 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
 
     /**
      * @exclude
-     * @param menu
-     * @return
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -269,8 +267,6 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
 
     /**
      * @exclude
-     * @param item
-     * @return
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
