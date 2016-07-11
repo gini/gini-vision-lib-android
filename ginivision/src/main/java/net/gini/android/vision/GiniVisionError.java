@@ -16,6 +16,7 @@ public class GiniVisionError implements Parcelable {
      * </p>
      */
     public enum ErrorCode {
+        REVIEW;
     }
 
     private final ErrorCode mErrorCode;

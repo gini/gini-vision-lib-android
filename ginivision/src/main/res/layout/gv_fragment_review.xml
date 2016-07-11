@@ -8,16 +8,16 @@
     android:background="@color/gv_review_fragment_background">
 
     <FrameLayout
-        android:id="@+id/gv_layout_photo_container"
+        android:id="@+id/gv_layout_document_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/gv_bottom_panel"
         android:clipChildren="false">
 
         <com.ortiz.touch.TouchImageView
-            android:id="@+id/gv_image_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/gv_image_document"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center" />
 
     </FrameLayout>

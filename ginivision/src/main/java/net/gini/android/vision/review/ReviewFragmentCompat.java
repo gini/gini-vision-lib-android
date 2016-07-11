@@ -80,6 +80,15 @@ public class ReviewFragmentCompat extends Fragment implements FragmentImplCallba
      * @exclude
      */
     @Override
+    public void onStart() {
+        super.onStart();
+        mFragmentImpl.onStart();
+    }
+
+    /**
+     * @exclude
+     */
+    @Override
     public void onDestroy() {
         super.onDestroy();
         mFragmentImpl.onDestroy();

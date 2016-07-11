@@ -34,7 +34,7 @@ public interface ReviewFragmentListener {
      *
      * @param document contains the reviewed image (can be the original one or a modified image)
      */
-    void onProceedToAnalyzeScreen(Document document);
+    void onProceedToAnalysisScreen(Document document);
 
     /**
      * <p>

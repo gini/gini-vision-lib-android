@@ -173,7 +173,7 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     public abstract void onShouldAnalyzeDocument(Document document);
 
     @Override
-    public void onProceedToAnalyzeScreen(Document document) {
+    public void onProceedToAnalysisScreen(Document document) {
         Intent result = new Intent();
         result.putExtra(EXTRA_OUT_DOCUMENT, document);
         onAddDataToResult(result);

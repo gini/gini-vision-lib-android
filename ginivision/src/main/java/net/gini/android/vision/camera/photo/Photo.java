@@ -7,6 +7,8 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
+import net.gini.android.vision.Document;
+
 import org.apache.sanselan.ImageReadException;
 import org.apache.sanselan.ImageWriteException;
 
@@ -35,6 +37,10 @@ public class Photo implements Parcelable {
         photo.setRequiredTags();
         photo.updateExif();
         return photo;
+    }
+
+    public static Photo fromDocument(@NonNull Document document) {
+        return Photo.fromJpeg(document.getJpeg(), document.getRotationForDisplay());
     }
 
     public static Bitmap createPreview(byte[] jpeg) {
