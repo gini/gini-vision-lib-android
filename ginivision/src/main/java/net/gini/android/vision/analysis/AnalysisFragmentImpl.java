@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
-import net.gini.android.vision.Document;
+import net.gini.android.vision.camera.photo.Photo;
 import net.gini.android.vision.ui.FragmentImplCallback;
 
 class AnalysisFragmentImpl implements AnalysisFragmentInterface {
@@ -22,13 +24,15 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         }
     };
     private final FragmentImplCallback mFragment;
-    private Document mDocument;
+    private Photo mPhoto;
 
     private AnalysisFragmentListener mListener = NO_OP_LISTENER;
 
+    private ImageView mImageDocument;
+
     public AnalysisFragmentImpl(FragmentImplCallback fragment, Document document) {
         mFragment = fragment;
-        mDocument = document;
+        mPhoto = Photo.fromDocument(document);
     }
 
     public void setListener(AnalysisFragmentListener listener) {
@@ -40,15 +44,29 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     public void onCreate(Bundle savedInstanceState) {
-        mListener.onAnalyzeDocument(mDocument);
+        mListener.onAnalyzeDocument(Document.fromPhoto(mPhoto));
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.gv_fragment_analysis, container, false);
+        View view = inflater.inflate(R.layout.gv_fragment_analysis, container, false);
+        bindViews(view);
+        return view;
+    }
+
+    private void bindViews(View view) {
+        mImageDocument = (ImageView) view.findViewById(R.id.gv_image_picture);
+    }
+
+    public void onStart() {
+        showDocument();
+    }
+
+    private void showDocument() {
+        mImageDocument.setImageBitmap(mPhoto.getBitmapPreview());
     }
 
     public void onDestroy() {
-        mDocument = null;
+        mPhoto = null;
     }
 
     @Override
