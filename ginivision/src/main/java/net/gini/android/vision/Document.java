@@ -8,7 +8,8 @@ import net.gini.android.vision.camera.photo.Photo;
 
 /**
  * <p>
- * This class is the container for transferring the image of a document as a JPEG between the client application and the
+ * This class is the container for transferring the image of a document as a JPEG between the client application and
+ * the
  * Gini Vision Library and between the Fragments of the Gini Vision Library.
  * </p>
  *
@@ -18,32 +19,49 @@ import net.gini.android.vision.camera.photo.Photo;
  * </p>
  *
  * <p>
- * <b>Warning:</b> Always retrieve the {@link Document} extras from a Bundle to force unparceling and removing of the reference to
+ * <b>Warning:</b> Always retrieve the {@link Document} extras from a Bundle to force unparceling and removing of the
+ * reference to
  * the JPEG byte array from the memory cache. Failing to do so will lead to memory leaks.
  * </p>
  */
 public class Document implements Parcelable {
 
     private final byte[] mJpeg;
+    private final int mRotationForDisplay;
 
     /**
      * @exclude
      */
     public static Document fromPhoto(Photo photo) {
-        return new Document(photo.getJpeg());
+        return new Document(photo.getJpeg(), photo.getRotationForDisplay());
     }
 
-    private Document(byte[] jpeg) {
+    private Document(byte[] jpeg, int rotationForDisplay) {
         mJpeg = jpeg;
+        mRotationForDisplay = rotationForDisplay;
     }
 
     /**
+     * <p>
      * The image of a document as a JPEG.
-     *
+     *</p>
      * @return a byte array containg a JPEG
      */
     public byte[] getJpeg() {
         return mJpeg;
+    }
+
+    /**
+     * <p>
+     * The amount of clockwise rotation needed to display the image in the correct orientation.
+     * </p>
+     * <p>
+     * Degrees are positive and multiples of 90.
+     * </p>
+     * @return degrees by which the image should be rotated clockwise before displaying
+     */
+    public int getRotationForDisplay() {
+        return mRotationForDisplay;
     }
 
     /**
@@ -55,6 +73,8 @@ public class Document implements Parcelable {
 
         ImageCache.Token token = cache.storeJpeg(mJpeg);
         dest.writeParcelable(token, flags);
+
+        dest.writeInt(mRotationForDisplay);
     }
 
     /**
@@ -86,5 +106,7 @@ public class Document implements Parcelable {
         ImageCache.Token token = in.readParcelable(ImageCache.Token.class.getClassLoader());
         mJpeg = cache.getJpeg(token);
         cache.removeJpeg(token);
+
+        mRotationForDisplay = in.readInt();
     }
 }
