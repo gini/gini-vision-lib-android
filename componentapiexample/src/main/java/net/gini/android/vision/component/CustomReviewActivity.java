@@ -1,5 +1,7 @@
 package net.gini.android.vision.component;
 
+import static net.gini.android.vision.component.Util.readAsset;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +10,6 @@ import android.widget.Toast;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
-import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.camera.photo.Photo;
 import net.gini.android.vision.review.ReviewFragmentListener;
 import net.gini.android.vision.review.ReviewFragmentStandard;
@@ -16,7 +17,9 @@ import net.gini.android.visionadvtest.R;
 
 public class CustomReviewActivity extends Activity implements ReviewFragmentListener {
 
-    ReviewFragmentStandard mFragment;
+    public static final String EXTRA_IN_DOCUMENT = "EXTRA_IN_DOCUMENT";
+
+    private ReviewFragmentStandard mFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +30,11 @@ public class CustomReviewActivity extends Activity implements ReviewFragmentList
     }
 
     private void createFragment() {
-        mFragment = ReviewFragmentStandard.createInstance(Document.fromPhoto(Photo.fromJpeg(new byte[]{}, 0)));
+        Document document = getIntent().getParcelableExtra(EXTRA_IN_DOCUMENT);
+        if (document == null) {
+            document = Document.fromPhoto(Photo.fromJpeg(readAsset(this, "test_document.jpg"), 0));
+        }
+        mFragment = ReviewFragmentStandard.createInstance(document);
     }
 
     private void showFragment() {
@@ -49,9 +56,9 @@ public class CustomReviewActivity extends Activity implements ReviewFragmentList
     }
 
     @Override
-    public void onProceedToAnalyzeScreen(Document document) {
+    public void onProceedToAnalysisScreen(Document document) {
         Intent intent = new Intent(this, CustomAnalysisActivity.class);
-        intent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, document);
+        intent.putExtra(CustomAnalysisActivity.EXTRA_IN_DOCUMENT, document);
         startActivity(intent);
     }
 

@@ -30,6 +30,7 @@ public class CustomCameraAppCompatActivity extends AppCompatActivity implements 
     @Override
     public void onDocumentAvailable(Document document) {
         Intent intent = new Intent(this, CustomReviewAppCompatActivity.class);
+        intent.putExtra(CustomReviewAppCompatActivity.EXTRA_IN_DOCUMENT, document);
         startActivity(intent);
     }
 
