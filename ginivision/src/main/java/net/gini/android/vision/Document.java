@@ -2,6 +2,7 @@ package net.gini.android.vision;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import net.gini.android.vision.camera.photo.ImageCache;
 import net.gini.android.vision.camera.photo.Photo;
@@ -32,11 +33,11 @@ public class Document implements Parcelable {
     /**
      * @exclude
      */
-    public static Document fromPhoto(Photo photo) {
+    public static Document fromPhoto(@NonNull Photo photo) {
         return new Document(photo.getJpeg(), photo.getRotationForDisplay());
     }
 
-    private Document(byte[] jpeg, int rotationForDisplay) {
+    private Document(@NonNull byte[] jpeg, int rotationForDisplay) {
         mJpeg = jpeg;
         mRotationForDisplay = rotationForDisplay;
     }
@@ -47,6 +48,7 @@ public class Document implements Parcelable {
      *</p>
      * @return a byte array containg a JPEG
      */
+    @NonNull
     public byte[] getJpeg() {
         return mJpeg;
     }

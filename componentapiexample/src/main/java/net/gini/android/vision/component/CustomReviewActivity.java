@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 import net.gini.android.vision.Document;
@@ -45,7 +46,7 @@ public class CustomReviewActivity extends Activity implements ReviewFragmentList
     }
 
     @Override
-    public void onShouldAnalyzeDocument(Document document) {
+    public void onShouldAnalyzeDocument(@NonNull Document document) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -56,20 +57,20 @@ public class CustomReviewActivity extends Activity implements ReviewFragmentList
     }
 
     @Override
-    public void onProceedToAnalysisScreen(Document document) {
+    public void onProceedToAnalysisScreen(@NonNull Document document) {
         Intent intent = new Intent(this, CustomAnalysisActivity.class);
         intent.putExtra(CustomAnalysisActivity.EXTRA_IN_DOCUMENT, document);
         startActivity(intent);
     }
 
     @Override
-    public void onDocumentReviewedAndAnalyzed(Document document) {
+    public void onDocumentReviewedAndAnalyzed(@NonNull Document document) {
         Toast.makeText(this, "Photo extractions received", Toast.LENGTH_SHORT).show();
         finish();
     }
 
     @Override
-    public void onError(GiniVisionError error) {
+    public void onError(@NonNull GiniVisionError error) {
 
     }
 }

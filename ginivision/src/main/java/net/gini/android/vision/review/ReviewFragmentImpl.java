@@ -25,22 +25,22 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
     private static final ReviewFragmentListener NO_OP_LISTENER = new ReviewFragmentListener() {
         @Override
-        public void onShouldAnalyzeDocument(Document document) {
+        public void onShouldAnalyzeDocument(@NonNull Document document) {
 
         }
 
         @Override
-        public void onProceedToAnalysisScreen(Document document) {
+        public void onProceedToAnalysisScreen(@NonNull Document document) {
 
         }
 
         @Override
-        public void onDocumentReviewedAndAnalyzed(Document document) {
+        public void onDocumentReviewedAndAnalyzed(@NonNull Document document) {
 
         }
 
         @Override
-        public void onError(GiniVisionError error) {
+        public void onError(@NonNull GiniVisionError error) {
         }
     };
 
@@ -56,12 +56,12 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     private boolean mPhotoWasModified = false;
     private int mCurrentRotation = 0;
 
-    public ReviewFragmentImpl(FragmentImplCallback fragment, Document document) {
+    public ReviewFragmentImpl(@NonNull FragmentImplCallback fragment, @NonNull Document document) {
         mFragment = fragment;
         mPhoto = Photo.fromDocument(document);
     }
 
-    public void setListener(ReviewFragmentListener listener) {
+    public void setListener(@Nullable ReviewFragmentListener listener) {
         if (listener == null) {
             mListener = NO_OP_LISTENER;
         } else {
@@ -98,7 +98,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         mPhoto = null;
     }
 
-    private void bindViews(View view) {
+    private void bindViews(@NonNull View view) {
         mLayoutDocumentContainer = (FrameLayout) view.findViewById(R.id.gv_layout_document_container);
         mImageDocument = (TouchImageView) view.findViewById(R.id.gv_image_document);
         mButtonRotate = (ImageButton) view.findViewById(R.id.gv_button_rotate);
@@ -120,7 +120,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         });
     }
 
-    private void observeViewTree(final View view) {
+    private void observeViewTree(@NonNull final View view) {
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -161,7 +161,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     private void proceedToAnalysisScreen() {
         applyRotationToJpeg(new PhotoEdit.PhotoEditCallback() {
             @Override
-            public void onDone(Photo photo) {
+            public void onDone(@NonNull Photo photo) {
                 mListener.onProceedToAnalysisScreen(Document.fromPhoto(photo));
             }
 

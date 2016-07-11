@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import net.gini.android.vision.Document;
@@ -52,14 +53,16 @@ public class Photo implements Parcelable {
     public Photo() {
     }
 
+    @Nullable
     public synchronized Bitmap getBitmapPreview() {
         return mBitmapPreview;
     }
 
-    public synchronized void setBitmapPreview(Bitmap bitmap) {
+    public synchronized void setBitmapPreview(@NonNull Bitmap bitmap) {
         mBitmapPreview = bitmap;
     }
 
+    @Nullable
     public synchronized byte[] getJpeg() {
         return mJpeg;
     }
