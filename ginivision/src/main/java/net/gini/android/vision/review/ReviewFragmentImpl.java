@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 
 import com.ortiz.touch.TouchImageView;
 
+import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
@@ -152,6 +153,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             } else {
                 // Photo was not modified and has been analyzed, client should show extraction results
                 mListener.onDocumentReviewedAndAnalyzed(Document.fromPhoto(mPhoto));
+                GiniVisionDebug.writePhotoToFile(mFragment.getActivity(), mPhoto, "_reviewed");
             }
         } else {
             proceedToAnalysisScreen();
@@ -163,6 +165,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             @Override
             public void onDone(@NonNull Photo photo) {
                 mListener.onProceedToAnalysisScreen(Document.fromPhoto(photo));
+                GiniVisionDebug.writePhotoToFile(mFragment.getActivity(), photo, "_reviewed");
             }
 
             @Override
