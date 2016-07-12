@@ -8,6 +8,9 @@ import android.view.View;
 import net.gini.android.vision.camera.photo.Photo;
 import net.gini.android.vision.camera.photo.Size;
 
+/**
+ * @exclude
+ */
 public class CameraController implements CameraInterface {
 
     private static final CameraInterface.Listener NO_OP_LISTENER = new CameraInterface.Listener() {

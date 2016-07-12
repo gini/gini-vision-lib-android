@@ -2,6 +2,9 @@ package net.gini.android.vision.camera.photo;
 
 import android.support.annotation.NonNull;
 
+/**
+ * @exclude
+ */
 public class Size implements Comparable<Size> {
     public final int width;
     public final int height;

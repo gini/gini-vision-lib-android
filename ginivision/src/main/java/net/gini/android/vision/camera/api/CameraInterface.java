@@ -8,6 +8,9 @@ import android.view.View;
 import net.gini.android.vision.camera.photo.Photo;
 import net.gini.android.vision.camera.photo.Size;
 
+/**
+ * @exclude
+ */
 public interface CameraInterface {
     void open();
     void close();

@@ -13,6 +13,9 @@ import net.gini.android.vision.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @exclude
+ */
 public class SnackbarError extends RelativeLayout {
 
     public static final int LENGTH_SHORT = 2000;
