@@ -252,6 +252,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
             copyStream(inputStream, outputStream);
         } catch (IOException e) {
             // Ignore
+            return null;
         } finally {
             if (inputStream != null) {
                 try {
@@ -267,9 +268,6 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                     // Ignore
                 }
             }
-        }
-        if (outputStream == null) {
-            return null;
         }
         return outputStream.toByteArray();
     }

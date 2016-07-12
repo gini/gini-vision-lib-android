@@ -3,8 +3,8 @@ package net.gini.android.vision.camera.photo;
 import android.support.annotation.NonNull;
 
 public class Size implements Comparable<Size> {
-    public int width;
-    public int height;
+    public final int width;
+    public final int height;
 
     public Size(int width, int height) {
         this.width = width;
@@ -16,5 +16,10 @@ public class Size implements Comparable<Size> {
         int area = width * height;
         int areaOther = other.width * other.height;
         return area - areaOther;
+    }
+
+    @Override
+    public String toString() {
+        return "Size{width=" + width + ", height=" + height + '}';
     }
 }
