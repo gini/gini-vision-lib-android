@@ -48,7 +48,7 @@ public class AnalysisFragmentStandard extends Fragment implements FragmentImplCa
      * @param document must be the {@link Document} from {@link ReviewFragmentListener#onProceedToAnalyzeScreen(Document)}
      * @return a new instance of the Fragment
      */
-    public static AnalysisFragmentStandard createInstance(Document document) {
+    public static AnalysisFragmentStandard createInstance(@NonNull Document document) {
         AnalysisFragmentStandard fragment = new AnalysisFragmentStandard();
         fragment.setArguments(AnalysisFragmentHelper.createArguments(document));
         return fragment;

@@ -2,6 +2,7 @@ package net.gini.android.vision.screen;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.view.View;
 
 import net.gini.android.vision.Document;
@@ -9,7 +10,7 @@ import net.gini.android.vision.Document;
 public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisActivity {
 
     @Override
-    public void onAnalyzeDocument(final Document document) {
+    public void onAnalyzeDocument(@NonNull final Document document) {
         startScanAnimation();
         new Handler().postDelayed(new Runnable() {
             @Override

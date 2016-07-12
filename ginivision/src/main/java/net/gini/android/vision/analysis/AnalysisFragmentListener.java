@@ -1,7 +1,9 @@
 package net.gini.android.vision.analysis;
 
-import net.gini.android.vision.GiniVisionError;
+import android.support.annotation.NonNull;
+
 import net.gini.android.vision.Document;
+import net.gini.android.vision.GiniVisionError;
 
 /**
  * <p>
@@ -15,7 +17,7 @@ public interface AnalysisFragmentListener {
      * </p>
      * @param document contains the image taken by the camera (original or modified)
      */
-    void onAnalyzeDocument(Document document);
+    void onAnalyzeDocument(@NonNull Document document);
 
     /**
      * <p>
@@ -23,5 +25,5 @@ public interface AnalysisFragmentListener {
      * </p>
      * @param error details about what went wrong
      */
-    void onError(GiniVisionError error);
+    void onError(@NonNull GiniVisionError error);
 }

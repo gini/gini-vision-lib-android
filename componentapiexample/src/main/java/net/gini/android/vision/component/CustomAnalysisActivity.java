@@ -3,6 +3,7 @@ package net.gini.android.vision.component;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 import net.gini.android.vision.GiniVisionError;
@@ -36,7 +37,7 @@ public class CustomAnalysisActivity extends Activity implements AnalysisFragment
     }
 
     @Override
-    public void onAnalyzeDocument(Document document) {
+    public void onAnalyzeDocument(@NonNull Document document) {
         mFragment.startScanAnimation();
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -49,7 +50,7 @@ public class CustomAnalysisActivity extends Activity implements AnalysisFragment
     }
 
     @Override
-    public void onError(GiniVisionError error) {
+    public void onError(@NonNull GiniVisionError error) {
 
     }
 }

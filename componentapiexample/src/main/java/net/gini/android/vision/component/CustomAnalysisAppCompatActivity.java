@@ -2,6 +2,7 @@ package net.gini.android.vision.component;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
@@ -36,7 +37,7 @@ public class CustomAnalysisAppCompatActivity extends AppCompatActivity implement
     }
 
     @Override
-    public void onAnalyzeDocument(Document document) {
+    public void onAnalyzeDocument(@NonNull Document document) {
         mFragment.startScanAnimation();
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -49,7 +50,7 @@ public class CustomAnalysisAppCompatActivity extends AppCompatActivity implement
     }
 
     @Override
-    public void onError(GiniVisionError error) {
+    public void onError(@NonNull GiniVisionError error) {
 
     }
 }

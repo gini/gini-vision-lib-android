@@ -151,10 +151,10 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
     }
 
     @Override
-    public abstract void onAnalyzeDocument(Document document);
+    public abstract void onAnalyzeDocument(@NonNull Document document);
 
     @Override
-    public void onError(GiniVisionError error) {
+    public void onError(@NonNull GiniVisionError error) {
         Intent result = new Intent();
         result.putExtra(EXTRA_OUT_ERROR, error);
         setResult(RESULT_ERROR, result);

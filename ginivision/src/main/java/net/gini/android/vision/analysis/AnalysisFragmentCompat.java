@@ -51,7 +51,7 @@ public class AnalysisFragmentCompat extends Fragment implements FragmentImplCall
      * @param document must be the {@link Document} from {@link ReviewFragmentListener#onProceedToAnalyzeScreen(Document)}
      * @return a new instance of the Fragment
      */
-    public static AnalysisFragmentCompat createInstance(Document document) {
+    public static AnalysisFragmentCompat createInstance(@NonNull Document document) {
         AnalysisFragmentCompat fragment = new AnalysisFragmentCompat();
         fragment.setArguments(AnalysisFragmentHelper.createArguments(document));
         return fragment;

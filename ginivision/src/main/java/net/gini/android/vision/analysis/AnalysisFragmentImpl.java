@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,11 +27,11 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
     private static final AnalysisFragmentListener NO_OP_LISTENER = new AnalysisFragmentListener() {
         @Override
-        public void onAnalyzeDocument(Document document) {
+        public void onAnalyzeDocument(@NonNull Document document) {
         }
 
         @Override
-        public void onError(GiniVisionError error) {
+        public void onError(@NonNull GiniVisionError error) {
         }
     };
 
@@ -54,7 +55,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         mPhoto = Photo.fromJpeg(document.getJpeg(), 0);
     }
 
-    public void setListener(AnalysisFragmentListener listener) {
+    public void setListener(@Nullable AnalysisFragmentListener listener) {
         if (listener == null) {
             mListener = NO_OP_LISTENER;
         } else {
@@ -82,7 +83,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         mStopped = true;
     }
 
-    private void bindViews(View view) {
+    private void bindViews(@NonNull View view) {
         mLayoutRoot = (RelativeLayout) view.findViewById(R.id.gv_layout_root);
         mImageDocument = (ImageView) view.findViewById(R.id.gv_image_picture);
         mImageScannerLine = (ImageView) view.findViewById(R.id.gv_image_scanner_line);
