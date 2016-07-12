@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/gv_analysis_fragment_background"
-    android:translationY="1dp"
     tools:context=".analysis.AnalysisFragmentCompat">
 
     <ImageView
