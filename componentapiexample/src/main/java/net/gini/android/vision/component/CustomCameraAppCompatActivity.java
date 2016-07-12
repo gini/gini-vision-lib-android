@@ -2,6 +2,7 @@ package net.gini.android.vision.component;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
 import net.gini.android.vision.Document;
@@ -28,7 +29,7 @@ public class CustomCameraAppCompatActivity extends AppCompatActivity implements 
     }
 
     @Override
-    public void onDocumentAvailable(Document document) {
+    public void onDocumentAvailable(@NonNull Document document) {
         Intent intent = new Intent(this, CustomReviewAppCompatActivity.class);
         startActivity(intent);
     }
@@ -46,7 +47,7 @@ public class CustomCameraAppCompatActivity extends AppCompatActivity implements 
     }
 
     @Override
-    public void onError(GiniVisionError error) {
+    public void onError(@NonNull GiniVisionError error) {
 
     }
 }

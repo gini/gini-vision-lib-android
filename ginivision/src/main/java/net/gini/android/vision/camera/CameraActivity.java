@@ -3,9 +3,11 @@ package net.gini.android.vision.camera;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.RelativeLayout;
 
 import net.gini.android.vision.ActivityHelpers;
 import net.gini.android.vision.Document;
@@ -62,6 +64,9 @@ import java.util.ArrayList;
  * <p>
  *     <b>Note:</b> For returning the extractions from the Gini API you can add your own extras in {@link ReviewActivity#onAddDataToResult(Intent)} or {@link AnalysisActivity#onAddDataToResult(Intent)}.
  * </p>
+ * <p>
+ *     If the camera could not be opened due to missing permissions, the content of the Camera Screen is replaced with a no-camera icon, a short message and an optional button. The button is shown only on Android 6.0+ and tapping the button leads the user to the Application Details page in the Settings. If these are shown on Android 5.0 and earlier means that the camera permission was not declared in your manifest.
+ * </p>
  *
  * <h3>Customizing the Camera Screen</h3>
  *
@@ -88,6 +93,21 @@ import java.util.ArrayList;
  *         </li>
  *         <li>
  *             <b>Background color:</b> via the color resource named {@code gv_background}. <b>Note:</b> this color resource is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity})
+ *         </li>
+ *         <li>
+ *             <b>No-camera icon:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_no_camera.png}
+ *         </li>
+ *         <li>
+ *             <b>No camera permission text:</b> via the string resource named {@code gv_camera_error_no_permission}
+ *         </li>
+ *         <li>
+ *             <b>No camera permission text color:</b> via the color resource named {@code gv_camera_error_no_permission}
+ *         </li>
+ *         <li>
+ *             <b>No camera permission button title:</b> via the string resource named {@code gv_camera_error_no_permission_button_title}
+ *         </li>
+ *         <li>
+ *             <b>No camera permission button title color:</b> via the color resources named {@code gv_camera_error_no_permission_button_title} and {@code gv_camera_error_no_permission_button_title_pressed}
  *         </li>
  *     </ul>
  * </p>
@@ -172,15 +192,18 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     private GiniVisionCoordinator mGiniVisionCoordinator;
     private Document mDocument;
 
+    private RelativeLayout mLayoutRoot;
+
     /**
      * <p>
      * Helper for setting the {@link CameraActivity#EXTRA_IN_REVIEW_ACTIVITY}.
      * </p>
      *
-     * @param target your explicit {@link Intent} used to start the {@link CameraActivity}
-     * @param context {@link Context} used to create the explicit {@link Intent} for your {@link ReviewActivity} subclass
+     * @param target              your explicit {@link Intent} used to start the {@link CameraActivity}
+     * @param context             {@link Context} used to create the explicit {@link Intent} for your {@link
+     *                            ReviewActivity} subclass
      * @param reviewActivityClass class of your {@link ReviewActivity} subclass
-     * @param <T> type of your {@link ReviewActivity} subclass
+     * @param <T>                 type of your {@link ReviewActivity} subclass
      */
     public static <T extends ReviewActivity> void setReviewActivityExtra(Intent target,
                                                                          Context context,
@@ -193,10 +216,11 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * Helper for setting the {@link CameraActivity#EXTRA_IN_ANALYSIS_ACTIVITY}.
      * </p>
      *
-     * @param target your explicit {@link Intent} used to start the {@link CameraActivity}
-     * @param context {@link Context} used to create the explicit {@link Intent} for your {@link AnalysisActivity} subclass
+     * @param target                your explicit {@link Intent} used to start the {@link CameraActivity}
+     * @param context               {@link Context} used to create the explicit {@link Intent} for your {@link
+     *                              AnalysisActivity} subclass
      * @param analysisActivityClass class of your {@link AnalysisActivity} subclass
-     * @param <T> type of your {@link AnalysisActivity} subclass
+     * @param <T>                   type of your {@link AnalysisActivity} subclass
      */
     public static <T extends AnalysisActivity> void setAnalysisActivityExtra(Intent target,
                                                                              Context context,
@@ -210,6 +234,11 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         setContentView(R.layout.gv_activity_camera);
         readExtras();
         createGiniVisionCoordinator();
+        bindViews();
+    }
+
+    private void bindViews() {
+        mLayoutRoot = (RelativeLayout) findViewById(R.id.gv_root);
     }
 
     @Override
@@ -286,7 +315,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     }
 
     @Override
-    public void onDocumentAvailable(Document document) {
+    public void onDocumentAvailable(@NonNull Document document) {
         mDocument = document;
         // Start ReviewActivity
         mReviewDocumentActivityIntent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, document);
@@ -294,7 +323,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     }
 
     @Override
-    public void onError(GiniVisionError error) {
+    public void onError(@NonNull GiniVisionError error) {
         Intent result = new Intent();
         result.putExtra(EXTRA_OUT_ERROR, error);
         setResult(RESULT_ERROR, result);

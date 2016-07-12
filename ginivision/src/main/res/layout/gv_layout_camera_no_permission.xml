@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gv_layout_camera_no_permission"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:background="#000">
+
+    <ImageView
+        android:id="@+id/gv_image_camera_no_permission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
+        android:src="@drawable/gv_no_camera" />
+
+    <TextView
+        android:id="@+id/gv_text_camera_no_permission"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/gv_camera_error_no_permission"
+        android:textColor="@color/gv_camera_error_no_permission"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/gv_button_camera_no_permission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:layout_marginTop="16dp"
+        android:text="@string/gv_camera_error_no_permission_button_title"
+        android:textColor="@drawable/gv_camera_error_no_permission_button_title_color"
+        android:textSize="18sp" />
+</LinearLayout>

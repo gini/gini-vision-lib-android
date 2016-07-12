@@ -5,14 +5,25 @@
     android:background="@color/gv_camera_fragment_background"
     tools:context=".camera.CameraFragmentCompat">
 
-    <SurfaceView
+    <!-- Replacing with an ImageView until the Camera will have been integrated -->
+    <!--<SurfaceView-->
+    <!--android:id="@+id/gv_camera_preview"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_centerInParent="true"-->
+    <!--android:layout_marginBottom="30dp"-->
+    <!--android:layout_marginTop="30dp"-->
+    <!--android:background="#999" />-->
+    <ImageView
         android:id="@+id/gv_camera_preview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:layout_marginBottom="30dp"
         android:layout_marginTop="30dp"
-        android:background="#999" />
+        android:background="#333"
+        android:scaleType="fitCenter"
+        android:src="@drawable/gv_test_document" />
 
     <ImageView
         android:id="@+id/gv_image_corners"
@@ -34,5 +45,11 @@
         android:layout_marginBottom="@dimen/gv_camera_button_vertical_margin"
         android:background="@null"
         android:src="@drawable/gv_camera_trigger" />
+
+    <ViewStub
+        android:id="@+id/gv_stub_camera_no_permission"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/gv_layout_camera_no_permission" />
 
 </RelativeLayout>
