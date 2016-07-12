@@ -184,6 +184,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
 
     private static final int REVIEW_DOCUMENT_REQUEST = 1;
     private static final int ANALYSE_DOCUMENT_REQUEST = 2;
+    private static final int ONBOARDING_REQUEST = 3;
 
     private ArrayList<OnboardingPage> mOnboardingPages;
     private Intent mReviewDocumentActivityIntent;
@@ -193,6 +194,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     private Document mDocument;
 
     private RelativeLayout mLayoutRoot;
+    private CameraFragmentCompat mFragment;
 
     /**
      * <p>
@@ -239,6 +241,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
 
     private void bindViews() {
         mLayoutRoot = (RelativeLayout) findViewById(R.id.gv_root);
+        mFragment = (CameraFragmentCompat) getSupportFragmentManager().findFragmentById(R.id.gv_fragment_camera);
     }
 
     @Override
@@ -311,7 +314,8 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         if (mOnboardingPages != null) {
             intent.putParcelableArrayListExtra(OnboardingActivity.EXTRA_ONBOARDING_PAGES, mOnboardingPages);
         }
-        startActivity(intent);
+        hideCornersAndTrigger();
+        startActivityForResult(intent, ONBOARDING_REQUEST);
     }
 
     @Override
@@ -361,8 +365,20 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
                     finish();
                     break;
             }
+        } else if (requestCode == ONBOARDING_REQUEST) {
+            showCornersAndTrigger();
         }
         clearMemory();
+    }
+
+    private void showCornersAndTrigger() {
+        mFragment.showDocumentCornerGuides();
+        mFragment.showCameraTriggerButton();
+    }
+
+    private void hideCornersAndTrigger() {
+        mFragment.hideDocumentCornerGuides();
+        mFragment.hideCameraTriggerButton();
     }
 
     private void clearMemory() {
