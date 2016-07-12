@@ -43,7 +43,8 @@ import java.util.ArrayList;
  * <p>
  *     Optional extras are:
  *     <ul>
- *         <li>{@link CameraActivity#EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN} - if set and {@code true} the Onboarding Screen is shown the first time Gini Vision Library is started</li>
+ *         <li>{@link CameraActivity#EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN} - the Onboarding Screen is shown by default the first time the Gini Vision Library is started. You may disable it by setting this extra to {@code false} - we highly recommend keeping the default behavior</li>
+ *         <li>{@link CameraActivity#EXTRA_IN_SHOW_ONBOARDING} - if set to {@code true} the Onboarding Screen is shown when the Gini Vision Library is started</li>
  *         <li>{@link CameraActivity#EXTRA_IN_ONBOARDING_PAGES} - custom pages for the Onboarding Screen as an {@link ArrayList} containing {@link OnboardingPage} objects</li>
  *     </ul>
  * </p>
@@ -167,6 +168,15 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * </p>
      */
     public static final String EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN = "GV_EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN";
+    /**
+     * <p>
+     *     Optional extra which must contain a boolean and indicates whether the Onboarding Screen should be shown when the Gini Vision Library is started.
+     * </p>
+     * <p>
+     *     Default value is {@code false}.
+     * </p>
+     */
+    public static final String EXTRA_IN_SHOW_ONBOARDING = "GV_EXTRA_IN_SHOW_ONBOARDING";
 
     /**
      * <p>
@@ -189,7 +199,9 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     private ArrayList<OnboardingPage> mOnboardingPages;
     private Intent mReviewDocumentActivityIntent;
     private Intent mAnalyzeDocumentActivityIntent;
+    private boolean mShowOnboarding = false;
     private boolean mShowOnboardingAtFirstRun = true;
+    private boolean mOnboardingShown = false;
     private GiniVisionCoordinator mGiniVisionCoordinator;
     private Document mDocument;
 
@@ -237,6 +249,13 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         readExtras();
         createGiniVisionCoordinator();
         bindViews();
+        showOnboardingIfRequested();
+    }
+
+    private void showOnboardingIfRequested() {
+        if (mShowOnboarding) {
+            startOnboardingActivity();
+        }
     }
 
     private void bindViews() {
@@ -262,6 +281,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
             mOnboardingPages = extras.getParcelableArrayList(EXTRA_IN_ONBOARDING_PAGES);
             mReviewDocumentActivityIntent = extras.getParcelable(EXTRA_IN_REVIEW_ACTIVITY);
             mAnalyzeDocumentActivityIntent = extras.getParcelable(EXTRA_IN_ANALYSIS_ACTIVITY);
+            mShowOnboarding = extras.getBoolean(EXTRA_IN_SHOW_ONBOARDING, false);
             mShowOnboardingAtFirstRun = extras.getBoolean(EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN, true);
         }
         checkRequiredExtras();
@@ -310,12 +330,16 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     }
 
     private void startOnboardingActivity() {
+        if (mOnboardingShown) {
+            return;
+        }
         Intent intent = new Intent(this, OnboardingActivity.class);
         if (mOnboardingPages != null) {
             intent.putParcelableArrayListExtra(OnboardingActivity.EXTRA_ONBOARDING_PAGES, mOnboardingPages);
         }
         hideCornersAndTrigger();
         startActivityForResult(intent, ONBOARDING_REQUEST);
+        mOnboardingShown = true;
     }
 
     @Override
@@ -366,6 +390,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
                     break;
             }
         } else if (requestCode == ONBOARDING_REQUEST) {
+            mOnboardingShown = false;
             showCornersAndTrigger();
         }
         clearMemory();
