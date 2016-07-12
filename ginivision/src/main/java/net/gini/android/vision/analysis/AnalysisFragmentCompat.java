@@ -1,6 +1,7 @@
 package net.gini.android.vision.analysis;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -102,7 +103,17 @@ public class AnalysisFragmentCompat extends Fragment implements FragmentImplCall
     }
 
     @Override
-    public void showError(String message, String buttonTitle, View.OnClickListener onClickListener, int duration) {
-        mFragmentImpl.showError(message, buttonTitle, onClickListener, duration);
+    public void showError(@NonNull String message, @NonNull String buttonTitle, @NonNull View.OnClickListener onClickListener) {
+        mFragmentImpl.showError(message, buttonTitle, onClickListener);
+    }
+
+    @Override
+    public void showError(@NonNull String message, int duration) {
+        mFragmentImpl.showError(message, duration);
+    }
+
+    @Override
+    public void hideError() {
+        mFragmentImpl.hideError();
     }
 }

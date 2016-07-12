@@ -1,14 +1,19 @@
 package net.gini.android.vision.analysis;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
+import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
-import net.gini.android.vision.Document;
+import net.gini.android.vision.camera.photo.Photo;
 import net.gini.android.vision.ui.FragmentImplCallback;
+import net.gini.android.vision.ui.SnackbarError;
 
 class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
@@ -21,14 +26,19 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         public void onError(GiniVisionError error) {
         }
     };
+
     private final FragmentImplCallback mFragment;
-    private Document mDocument;
+    private Photo mPhoto;
 
     private AnalysisFragmentListener mListener = NO_OP_LISTENER;
 
+    private RelativeLayout mLayoutRoot;
+    private ImageView mImageDocument;
+
     public AnalysisFragmentImpl(FragmentImplCallback fragment, Document document) {
         mFragment = fragment;
-        mDocument = document;
+        // TODO: use Photo.fromDocument() after merging with MSDK-50
+        mPhoto = Photo.fromJpeg(document.getJpeg(), 0);
     }
 
     public void setListener(AnalysisFragmentListener listener) {
@@ -40,15 +50,27 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     public void onCreate(Bundle savedInstanceState) {
-        mListener.onAnalyzeDocument(mDocument);
+        mListener.onAnalyzeDocument(Document.fromPhoto(mPhoto));
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.gv_fragment_analysis, container, false);
+        View view = inflater.inflate(R.layout.gv_fragment_analysis, container, false);
+        bindViews(view);
+        showDocument();
+        return view;
+    }
+
+    private void bindViews(View view) {
+        mLayoutRoot = (RelativeLayout) view.findViewById(R.id.gv_layout_root);
+        mImageDocument = (ImageView) view.findViewById(R.id.gv_image_picture);
+    }
+
+    private void showDocument() {
+        mImageDocument.setImageBitmap(mPhoto.getBitmapPreview());
     }
 
     public void onDestroy() {
-        mDocument = null;
+        mPhoto = null;
     }
 
     @Override
@@ -67,7 +89,26 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     @Override
-    public void showError(String message, String buttonTitle, View.OnClickListener onClickListener, int duration) {
+    public void showError(@NonNull String message, @NonNull String buttonTitle, @NonNull View.OnClickListener onClickListener) {
+        if (mFragment.getActivity() == null) {
+            return;
+        }
+        SnackbarError.make(mFragment.getActivity(), mLayoutRoot, message, buttonTitle, onClickListener, SnackbarError.LENGTH_INDEFINITE).show();
+    }
 
+    @Override
+    public void showError(@NonNull String message, int duration) {
+        if (mFragment.getActivity() == null || mLayoutRoot == null) {
+            return;
+        }
+        SnackbarError.make(mFragment.getActivity(), mLayoutRoot, message, null, null, duration).show();
+    }
+
+    @Override
+    public void hideError() {
+        if (mLayoutRoot == null) {
+            return;
+        }
+        SnackbarError.hideExisting(mLayoutRoot);
     }
 }
