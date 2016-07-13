@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Toast;
 
 import net.gini.android.vision.GiniVisionError;
@@ -42,11 +43,16 @@ public class CustomAnalysisAppCompatActivity extends AppCompatActivity implement
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mFragment.onDocumentAnalyzed();
                 mFragment.stopScanAnimation();
-                Toast.makeText(CustomAnalysisAppCompatActivity.this, "Photo was analyzed", Toast.LENGTH_SHORT).show();
+                mFragment.showError("Something went wrong", "Fix it", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mFragment.onDocumentAnalyzed();
+                        Toast.makeText(CustomAnalysisAppCompatActivity.this, "Photo was analyzed", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
-        }, 1000);
+        }, 2500);
     }
 
     @Override
