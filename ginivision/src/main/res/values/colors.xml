@@ -21,7 +21,7 @@
     
     <color name="gv_onboarding_fab">#009edc</color>
     <color name="gv_onboarding_fab_pressed">#0095cf</color>
-    <color name="gv_onboarding_message_text">#fff</color>
+    <color name="gv_onboarding_message">#fff</color>
 
     <color name="gv_review_activity_background">@android:color/transparent</color>
     <color name="gv_review_fragment_background">@color/gv_background</color>

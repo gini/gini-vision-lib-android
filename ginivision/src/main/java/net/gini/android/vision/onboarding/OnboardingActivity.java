@@ -43,6 +43,18 @@ import java.util.ArrayList;
  *             <b>Page indicators:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_onboarding_indicator_active.png} and {@code gv_onboarding_indicator_inactive.png}
  *         </li>
  *         <li>
+ *             <b>Onboarding message color:</b> via the color resource named {@code gv_onboarding_message}
+ *         </li>
+ *         <li>
+ *             <b>Onboarding message font:</b> via overriding the style name {@code GiniVisionTheme.Onboarding.Message.TextStyle} and setting an item named {@code font} with the path to the font file in your {@code assets} folder
+ *         </li>
+ *         <li>
+ *             <b>Onboarding message text style:</b> via overriding the style name {@code GiniVisionTheme.Onboarding.Message.TextStyle} and setting an item named {@code android:textStyle} to {@code normal}, {@code bold} or {@code italic}
+ *         </li>
+ *         <li>
+ *             <b>Onboarding message text size:</b> via overriding the style name {@code GiniVisionTheme.Onboarding.Message.TextStyle} and setting an item named {@code android:textSize} to the desired {@code sp} size
+ *         </li>
+ *         <li>
  *             <b>First page image:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_onboarding_flat.png}
  *         </li>
  *         <li>
@@ -67,6 +79,10 @@ import java.util.ArrayList;
  *             <b>Background color:</b> via the color resource named {@code gv_background}. <b>Note:</b> this color resource is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity})
  *         </li>
  *     </ul>
+ * </p>
+ *
+ * <p>
+ *     <b>Important:</b> All overriden styles must have their respective {@code Root.} prefixed style as their parent. Ex.: the parent of {@code GiniVisionTheme.Onboarding.Message.TextStyle} must be {@code Root.GiniVisionTheme.Onboarding.Message.TextStyle}.
  * </p>
  *
  * <h3>Customizing the Action Bar</h3>
