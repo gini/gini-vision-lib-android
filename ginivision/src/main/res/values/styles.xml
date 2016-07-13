@@ -21,4 +21,62 @@
         <item name="android:textColor">@color/gv_action_bar_title</item>
     </style>
 
+    <!-- Root Text Styles -->
+
+    <style name="Root.GiniVisionTheme.Camera.Error.NoPermission.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/gv_camera_error_no_permission_text</item>
+        <item name="font"/>
+    </style>
+
+    <style name="Root.GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@drawable/gv_camera_error_no_permission_button_title_color</item>
+        <item name="font"/>
+    </style>
+
+    <style name="Root.GiniVisionTheme.Review.BottomPanel.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gv_review_bottom_panel_text</item>
+        <item name="font"/>
+    </style>
+
+    <style name="Root.GiniVisionTheme.Onboarding.Message.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">33sp</item>
+        <item name="android:textColor">@color/gv_onboarding_message_text</item>
+        <item name="font">sans-serif-thin</item>
+    </style>
+
+    <style name="Root.GiniVisionTheme.Snackbar.Error.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gv_snackbar_error_text</item>
+        <item name="font"/>
+    </style>
+
+    <style name="Root.GiniVisionTheme.Snackbar.Error.Button.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@drawable/gv_snackbar_error_button_title_color</item>
+        <item name="font"/>
+    </style>
+
+    <!-- Overloadable Text Styles -->
+
+    <style name="GiniVisionTheme.Camera.Error.NoPermission.TextStyle" parent="Root.GiniVisionTheme.Camera.Error.NoPermission.TextStyle"/>
+
+    <style name="GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle" parent="Root.GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle"/>
+
+    <style name="GiniVisionTheme.Review.BottomPanel.TextStyle" parent="Root.GiniVisionTheme.Review.BottomPanel.TextStyle"/>
+
+    <style name="GiniVisionTheme.Onboarding.Message.TextStyle" parent="Root.GiniVisionTheme.Onboarding.Message.TextStyle"/>
+
+    <style name="GiniVisionTheme.Snackbar.Error.TextStyle" parent="Root.GiniVisionTheme.Snackbar.Error.TextStyle"/>
+
+    <style name="GiniVisionTheme.Snackbar.Error.Button.TextStyle" parent="Root.GiniVisionTheme.Snackbar.Error.Button.TextStyle"/>
+
 </resources>

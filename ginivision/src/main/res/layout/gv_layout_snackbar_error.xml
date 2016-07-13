@@ -5,11 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
-    android:background="@color/gv_analysis_error_background"
+    android:background="@color/gv_snackbar_error_background"
     tools:showIn="@layout/gv_fragment_analysis">
 
-    <TextView
+    <net.gini.android.vision.ui.CustomFontTextView
         android:id="@+id/gv_text_error"
+        style="@style/GiniVisionTheme.Snackbar.Error.TextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -19,17 +20,17 @@
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
         android:paddingTop="14dp"
-        android:text="This is an error. Sorry ..."
-        android:textColor="@color/gv_analysis_error_text" />
+        android:text="This is an error. Sorry ..." />
 
-    <Button
+    <net.gini.android.vision.ui.CustomFontButton
         android:id="@+id/gv_button_error"
+        style="@style/GiniVisionTheme.Snackbar.Error.Button.TextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:background="@null"
         android:padding="14dp"
-        android:text="FIX IT!"
-        android:textColor="@color/gv_analysis_error_button_text" />
+        android:text="FIX IT!" />
+
 </RelativeLayout>

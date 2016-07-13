@@ -19,5 +19,5 @@
         android:src="@drawable/gv_analysis_scanner_line" />
 
     <!-- TODO: remove when working on the Analysis Screen -->
-    <include layout="@layout/gv_snackbar_error" />
+    <include layout="@layout/gv_layout_snackbar_error" />
 </RelativeLayout>
