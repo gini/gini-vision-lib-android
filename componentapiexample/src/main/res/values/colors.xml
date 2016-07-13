@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#009EDC</color>
+    <color name="colorPrimaryDark">#008ac1</color>
+    <color name="colorAccent">#0E7C7B</color>
 
-    <color name="gv_background">#35070b</color>
+    <color name="gv_background">#0E7C7B</color>
 
-    <color name="gv_onboarding_fab">#ea5e63</color>
-    <color name="gv_onboarding_fab_selected">#c14d51</color>
+    <color name="gv_camera_error_no_permission">#4B1D3F</color>
+    <color name="gv_camera_error_no_permission_button_title">#4B1D3F</color>
+    <color name="gv_camera_error_no_permission_button_title_pressed">#38152f</color>
 
-    <color name="gv_review_fab">#40af48</color>
-    <color name="gv_review_fab_selected">#35913c</color>
-    <color name="gv_review_fab_progress">#319dc4</color>
-    <color name="gv_review_fab_mini">#f28888</color>
-    <color name="gv_review_fab_mini_selected">#802d2d</color>
+    <color name="gv_onboarding_fab">#4B1D3F</color>
+    <color name="gv_onboarding_fab_pressed">#391630</color>
 
-    <color name="gv_review_bottom_panel_background">#fff</color>
-    <color name="gv_review_bottom_panel_text">#000</color>
+    <color name="gv_review_fab">#4B1D3F</color>
+    <color name="gv_review_fab_pressed">#391630</color>
+    <color name="gv_review_fab_mini">#EAF6FF</color>
+    <color name="gv_review_fab_mini_pressed">#d0dce4</color>
 
-    <color name="gv_analysis_activity_indicator">#00f</color>
+    <color name="gv_review_bottom_panel_background">#D4F4DD</color>
+    <color name="gv_review_bottom_panel_text">#4B1D3F</color>
 
-    <color name="gv_analysis_error_text">#ff1744</color>
-    <color name="gv_analysis_error_button_text">#ffd4dc</color>
-    <color name="gv_analysis_error_background">#85000a</color>
+    <color name="gv_analysis_activity_indicator">#4B1D3F</color>
+
+    <color name="gv_analysis_error_text">#F7F4F3</color>
+    <color name="gv_analysis_error_button_text">#F7F4F3</color>
+    <color name="gv_analysis_error_background">#D62246</color>
 </resources>
