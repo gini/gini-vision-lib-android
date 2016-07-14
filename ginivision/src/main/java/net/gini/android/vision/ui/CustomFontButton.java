@@ -1,5 +1,7 @@
 package net.gini.android.vision.ui;
 
+import static net.gini.android.vision.ui.CustomFontHelper.parseAttributesAndSetFont;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.Button;
@@ -30,26 +32,21 @@ import android.widget.Button;
  */
 public class CustomFontButton extends Button {
 
-    private final CustomFontHelper mCustomFontHelper;
-
     public CustomFontButton(Context context) {
         super(context);
-        mCustomFontHelper = new CustomFontHelper(this);
     }
 
     public CustomFontButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mCustomFontHelper = new CustomFontHelper(this);
         configureFont(context, attrs, 0);
     }
 
     public CustomFontButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mCustomFontHelper = new CustomFontHelper(this);
         configureFont(context, attrs, defStyleAttr);
     }
 
     private void configureFont(Context context, AttributeSet attrs, int defStyleAttr) {
-        mCustomFontHelper.parseAttributesAndSetFont(getContext(), attrs, defStyleAttr);
+        parseAttributesAndSetFont(this, context, attrs, defStyleAttr);
     }
 }
