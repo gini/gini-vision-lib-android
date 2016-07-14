@@ -5,6 +5,8 @@ import static net.gini.android.vision.component.Util.readAsset;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.view.View;
 import android.widget.Toast;
 
 import net.gini.android.vision.Document;
@@ -44,20 +46,25 @@ public class CustomAnalysisActivity extends Activity implements AnalysisFragment
     }
 
     @Override
-    public void onAnalyzeDocument(Document document) {
+    public void onAnalyzeDocument(@NonNull Document document) {
         mFragment.startScanAnimation();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mFragment.onDocumentAnalyzed();
                 mFragment.stopScanAnimation();
-                Toast.makeText(CustomAnalysisActivity.this, "Photo was analyzed", Toast.LENGTH_SHORT).show();
+                mFragment.showError("Something went wrong", "Fix it", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mFragment.onDocumentAnalyzed();
+                        Toast.makeText(CustomAnalysisActivity.this, "Photo was analyzed", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
-        }, 1000);
+        }, 2500);
     }
 
     @Override
-    public void onError(GiniVisionError error) {
+    public void onError(@NonNull GiniVisionError error) {
 
     }
 }

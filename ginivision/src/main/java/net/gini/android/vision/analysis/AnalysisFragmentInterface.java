@@ -1,5 +1,6 @@
 package net.gini.android.vision.analysis;
 
+import android.support.annotation.NonNull;
 import android.view.View;
 
 /**
@@ -31,15 +32,27 @@ public interface AnalysisFragmentInterface {
 
     /**
      * <p>
-     *     Call this method when you need to show an error message to the user in the Analysis Screen.
-     * </p>
-     * <p>
-     *     If you wish to provide an invokable action to the user, you can set a button title and an {@link android.view.View.OnClickListener}.
+     *     Call this method when you need to show an error message with an invokable action to the user in the Analysis Screen.
      * </p>
      * @param message a short error message
      * @param buttonTitle if not null and not empty, shows a button with the given title
      * @param onClickListener listener for the button
+     */
+    void showError(@NonNull String message, @NonNull String buttonTitle, @NonNull View.OnClickListener onClickListener);
+
+    /**
+     * <p>
+     *     Call this method when you need to show an error message to the user in the Analysis Screen.
+     * </p>
+     * @param message a short error message
      * @param duration how long should the error message be shown in ms
      */
-    void showError(String message, String buttonTitle, View.OnClickListener onClickListener, int duration);
+    void showError(@NonNull String message, int duration);
+
+    /**
+     * <p>
+     *     Call this method to hide the error shown before with {@link AnalysisFragmentInterface#showError(String, String, View.OnClickListener)} or {@link AnalysisFragmentInterface#showError(String, int)}.
+     * </p>
+     */
+    void hideError();
 }

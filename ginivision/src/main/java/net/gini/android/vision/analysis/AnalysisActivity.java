@@ -3,6 +3,7 @@ package net.gini.android.vision.analysis;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
@@ -26,7 +27,7 @@ import net.gini.android.vision.review.ReviewActivity;
  *     <b>Note:</b> {@code AnalysisActivity} extends {@link AppCompatActivity} and requires an AppCompat Theme.
  * </p>
  * <p>
- *     The {@code AnalysisActivity} is started by the {@link CameraActivity} after the user has reviewed the document and either made no changes to the document and it hasn't been analyzed before tapping the Next button, or the user has modified the document, e.g. by rotating it. 
+ *     The {@code AnalysisActivity} is started by the {@link CameraActivity} after the user has reviewed the document and either made no changes to the document and it hasn't been analyzed before tapping the Next button, or the user has modified the document, e.g. by rotating it.
  * </p>
  * <p>
  *     In your {@code AnalysisActivity} subclass you have to implement the following methods:
@@ -150,10 +151,10 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
     }
 
     @Override
-    public abstract void onAnalyzeDocument(Document document);
+    public abstract void onAnalyzeDocument(@NonNull Document document);
 
     @Override
-    public void onError(GiniVisionError error) {
+    public void onError(@NonNull GiniVisionError error) {
         Intent result = new Intent();
         result.putExtra(EXTRA_OUT_ERROR, error);
         setResult(RESULT_ERROR, result);
@@ -197,7 +198,17 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
     public abstract void onAddDataToResult(Intent result);
 
     @Override
-    public void showError(String message, String buttonTitle, View.OnClickListener onClickListener, int duration) {
-        mFragment.showError(message, buttonTitle, onClickListener, duration);
+    public void showError(@NonNull String message, @NonNull String buttonTitle, @NonNull View.OnClickListener onClickListener) {
+        mFragment.showError(message, buttonTitle, onClickListener);
+    }
+
+    @Override
+    public void showError(@NonNull String message, int duration) {
+        mFragment.showError(message, duration);
+    }
+
+    @Override
+    public void hideError() {
+        mFragment.hideError();
     }
 }

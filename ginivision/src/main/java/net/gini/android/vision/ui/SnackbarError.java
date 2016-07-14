@@ -2,6 +2,9 @@ package net.gini.android.vision.ui;
 
 import android.animation.Animator;
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
@@ -46,11 +49,11 @@ public class SnackbarError extends RelativeLayout {
     private TextView mTextView;
     private Button mButton;
 
-    public static SnackbarError make(Context context,
-                                     RelativeLayout parentView,
-                                     String message,
-                                     String buttonTitle,
-                                     OnClickListener onClickListener,
+    public static SnackbarError make(@NonNull Context context,
+                                     @NonNull RelativeLayout parentView,
+                                     @NonNull String message,
+                                     @Nullable String buttonTitle,
+                                     @Nullable OnClickListener onClickListener,
                                      int duration) {
         SnackbarError snackbarError = new SnackbarError(context);
         snackbarError.setParentView(parentView);
@@ -59,6 +62,10 @@ public class SnackbarError extends RelativeLayout {
         snackbarError.setButtonOnClickListener(onClickListener);
         snackbarError.setShowDuration(duration);
         return snackbarError;
+    }
+
+    public static void hideExisting(@NonNull RelativeLayout parentView) {
+        removeExistingSnackbarsFromParentView(parentView);
     }
 
     public SnackbarError(Context context) {
@@ -99,15 +106,22 @@ public class SnackbarError extends RelativeLayout {
         mIsAttachedToWindow = false;
     }
 
-    private void setMessage(String text) {
+    private void setMessage(@NonNull String text) {
         mTextView.setText(text);
     }
 
-    private void setButtonTitle(String title) {
+    private void setButtonTitle(@Nullable String title) {
+        if (TextUtils.isEmpty(title)) {
+            return;
+        }
+        mButton.setVisibility(View.VISIBLE);
         mButton.setText(title);
     }
 
-    private void setButtonOnClickListener(final OnClickListener onClickListener) {
+    private void setButtonOnClickListener(@Nullable final OnClickListener onClickListener) {
+        if (onClickListener == null) {
+            return;
+        }
         mButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,14 +135,15 @@ public class SnackbarError extends RelativeLayout {
         mShowDuration = showDuration;
     }
 
-    private void setParentView(RelativeLayout relativeLayout) {
+    private void setParentView(@NonNull RelativeLayout parentView) {
         // Remove existing snackbars from the old parent, if present
-        removeExistingSnackbarFromParentView();
+        removeExistingSnackbarsFromParentView(parentView);
         // Remove from the old parent
         removeFromParentView();
-        mParentView = relativeLayout;
+        mParentView = parentView;
         // Remove existing snackbars from the new parent
-        removeExistingSnackbarFromParentView();
+        int removed = removeExistingSnackbarsFromParentView(parentView);
+        mWaitForExisting = removed > 0;
     }
 
     private void addToParentView() {
@@ -142,32 +157,27 @@ public class SnackbarError extends RelativeLayout {
         removeHandlerCallbacks(mHideRunnable);
     }
 
-    private void removeHandlerCallbacks(Runnable runnable) {
+    private void removeHandlerCallbacks(@NonNull Runnable runnable) {
         if (!mIsAttachedToWindow) {
             return;
         }
         getHandler().removeCallbacks(runnable);
     }
 
-    private void removeExistingSnackbarFromParentView() {
-        if (mParentView == null) {
-            return;
-        }
-        List<SnackbarError> existingSnackbars = getExistingSnackbarsFromParentView();
+    private static int removeExistingSnackbarsFromParentView(@NonNull RelativeLayout parentView) {
+        List<SnackbarError> existingSnackbars = getExistingSnackbarsFromParentView(parentView);
         for (SnackbarError existingSnackbar : existingSnackbars) {
             existingSnackbar.hide();
         }
-        mWaitForExisting = existingSnackbars.size() > 0;
+        return existingSnackbars.size();
     }
 
-    private List<SnackbarError> getExistingSnackbarsFromParentView() {
+    @NonNull
+    private static List<SnackbarError> getExistingSnackbarsFromParentView(@NonNull RelativeLayout parentView) {
         List<SnackbarError> existingSnackbars = new ArrayList<>();
-        if (mParentView == null) {
-            return existingSnackbars;
-        }
-        int childCount = mParentView.getChildCount();
+        int childCount = parentView.getChildCount();
         for (int i = 0; i < childCount; i++) {
-            View child = mParentView.getChildAt(i);
+            View child = parentView.getChildAt(i);
             Object tag = child.getTag();
             if (tag != null && tag.equals(TAG_SNACKBAR_ERROR) &&
                     child instanceof SnackbarError) {
@@ -192,31 +202,15 @@ public class SnackbarError extends RelativeLayout {
                 setTranslationY(getHeight());
                 setVisibility(View.VISIBLE);
 
-                // TODO: use AnimatorListenerNoOp after merging with MSDK-48
                 animate()
                         .setStartDelay(mWaitForExisting ? ANIM_DURATION : 0)
                         .setDuration(ANIM_DURATION)
                         .translationY(0)
-                        .setListener(new Animator.AnimatorListener() {
-                            @Override
-                            public void onAnimationStart(Animator animation) {
-
-                            }
-
+                        .setListener(new AnimatorListenerNoOp() {
                             @Override
                             public void onAnimationEnd(Animator animation) {
                                 mState = State.SHOWN;
                                 postHideRunnable();
-                            }
-
-                            @Override
-                            public void onAnimationCancel(Animator animation) {
-
-                            }
-
-                            @Override
-                            public void onAnimationRepeat(Animator animation) {
-
                             }
                         });
             }
@@ -231,7 +225,7 @@ public class SnackbarError extends RelativeLayout {
         postToHandlerDelayed(mHideRunnable, mShowDuration);
     }
 
-    private void postToHandlerDelayed(Runnable runnable, int duration) {
+    private void postToHandlerDelayed(@NonNull Runnable runnable, int duration) {
         if (!mIsAttachedToWindow) {
             return;
         }
@@ -246,30 +240,14 @@ public class SnackbarError extends RelativeLayout {
 
         removeHandlerCallbacks(mHideRunnable);
 
-        // TODO: use AnimatorListenerNoOp after merging with MSDK-48
         animate()
                 .setDuration(ANIM_DURATION)
                 .translationY(getHeight())
-                .setListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-
-                    }
-
+                .setListener(new AnimatorListenerNoOp() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         mState = State.HIDDEN;
                         removeFromParentView();
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animation) {
-
                     }
                 });
     }

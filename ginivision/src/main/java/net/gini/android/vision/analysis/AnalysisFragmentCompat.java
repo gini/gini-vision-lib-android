@@ -1,6 +1,7 @@
 package net.gini.android.vision.analysis;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -50,7 +51,7 @@ public class AnalysisFragmentCompat extends Fragment implements FragmentImplCall
      * @param document must be the {@link Document} from {@link ReviewFragmentListener#onProceedToAnalysisScreen(Document)}
      * @return a new instance of the Fragment
      */
-    public static AnalysisFragmentCompat createInstance(Document document) {
+    public static AnalysisFragmentCompat createInstance(@NonNull Document document) {
         AnalysisFragmentCompat fragment = new AnalysisFragmentCompat();
         fragment.setArguments(AnalysisFragmentHelper.createArguments(document));
         return fragment;
@@ -89,10 +90,27 @@ public class AnalysisFragmentCompat extends Fragment implements FragmentImplCall
      * @exclude
      */
     @Override
+    public void onStart() {
+        super.onStart();
+        mFragmentImpl.onStart();
+    }
+
+    /**
+     * @exclude
+     */
+    @Override
+    public void onStop() {
+        super.onStop();
+        mFragmentImpl.onStop();
+    }
+
+    /**
+     * @exclude
+     */
+    @Override
     public void onDestroy() {
         super.onDestroy();
         mFragmentImpl.onDestroy();
-        mFragmentImpl = null;
     }
 
     @Override
@@ -111,7 +129,17 @@ public class AnalysisFragmentCompat extends Fragment implements FragmentImplCall
     }
 
     @Override
-    public void showError(String message, String buttonTitle, View.OnClickListener onClickListener, int duration) {
-        mFragmentImpl.showError(message, buttonTitle, onClickListener, duration);
+    public void showError(@NonNull String message, @NonNull String buttonTitle, @NonNull View.OnClickListener onClickListener) {
+        mFragmentImpl.showError(message, buttonTitle, onClickListener);
+    }
+
+    @Override
+    public void showError(@NonNull String message, int duration) {
+        mFragmentImpl.showError(message, duration);
+    }
+
+    @Override
+    public void hideError() {
+        mFragmentImpl.hideError();
     }
 }
