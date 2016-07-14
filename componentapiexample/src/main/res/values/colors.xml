@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#009EDC</color>
+    <color name="colorPrimaryDark">#008ac1</color>
+    <color name="colorAccent">#0E7C7B</color>
+
+    <color name="gv_background">#0E7C7B</color>
+
+    <color name="gv_camera_error_no_permission">#4B1D3F</color>
+    <color name="gv_camera_error_no_permission_button_title">#4B1D3F</color>
+    <color name="gv_camera_error_no_permission_button_title_pressed">#38152f</color>
+
+    <color name="gv_onboarding_fab">#4B1D3F</color>
+    <color name="gv_onboarding_fab_pressed">#391630</color>
+
+    <color name="gv_review_fab">#4B1D3F</color>
+    <color name="gv_review_fab_pressed">#391630</color>
+    <color name="gv_review_fab_mini">#EAF6FF</color>
+    <color name="gv_review_fab_mini_pressed">#d0dce4</color>
+
+    <color name="gv_review_bottom_panel_background">#D4F4DD</color>
+    <color name="gv_review_bottom_panel_text">#4B1D3F</color>
+
+    <color name="gv_analysis_activity_indicator">#4B1D3F</color>
+
+    <color name="gv_analysis_error_text">#F7F4F3</color>
+    <color name="gv_analysis_error_button_text">#F7F4F3</color>
+    <color name="gv_analysis_error_background">#D62246</color>
+</resources>

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Component API Example</string>
+
+    <string name="title_scanner">Angepasstes Camera Screen</string>
+    <string name="title_onboarding">Angepasstes Onboarding Screen</string>
+    <string name="title_review">Angepasstes Review Screen</string>
+    <string name="title_analysis">Angepasstes Analysis Screen</string>
+</resources>

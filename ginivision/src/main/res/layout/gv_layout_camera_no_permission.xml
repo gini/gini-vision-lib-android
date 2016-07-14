@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gv_layout_camera_no_permission"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:background="#000">
+
+    <ImageView
+        android:id="@+id/gv_image_camera_no_permission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
+        android:src="@drawable/gv_no_camera" />
+
+    <!--suppress AndroidDomInspection -->
+    <net.gini.android.vision.ui.CustomFontTextView
+        android:id="@+id/gv_text_camera_no_permission"
+        style="@style/GiniVisionTheme.Camera.Error.NoPermission.TextStyle"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:text="@string/gv_camera_error_no_permission" />
+
+    <!--suppress AndroidDomInspection -->
+    <net.gini.android.vision.ui.CustomFontButton
+        android:id="@+id/gv_button_camera_no_permission"
+        style="@style/GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@null"
+        android:text="@string/gv_camera_error_no_permission_button_title" />
+</LinearLayout>

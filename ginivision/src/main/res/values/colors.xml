@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="gv_action_bar">#009edc</color>
+    <color name="gv_status_bar">#000</color>
+
+    <color name="gv_background">#000</color>
+
+    <color name="gv_action_bar_background">#009edc</color>
+    <color name="gv_action_bar_title">#fff</color>
+
+    <color name="gv_camera_activity_background">@android:color/transparent</color>
+    <color name="gv_camera_fragment_background">@color/gv_background</color>
+
+    <color name="gv_camera_error_no_permission_text">#fff</color>
+    <color name="gv_camera_error_no_permission_button_title">#fff</color>
+    <color name="gv_camera_error_no_permission_button_title_pressed">#ddd</color>
+
+    <color name="gv_onboarding_activity_background">@android:color/transparent</color>
+    <color name="gv_onboarding_fragment_background">@android:color/transparent</color>
+    <color name="gv_onboarding_page_fragment_background">@color/gv_background</color>
+    
+    <color name="gv_onboarding_fab">#009edc</color>
+    <color name="gv_onboarding_fab_pressed">#0095cf</color>
+    <color name="gv_onboarding_message">#fff</color>
+
+    <color name="gv_review_activity_background">@android:color/transparent</color>
+    <color name="gv_review_fragment_background">@color/gv_background</color>
+
+    <color name="gv_review_fab">#009edc</color>
+    <color name="gv_review_fab_pressed">#0095cf</color>
+
+    <color name="gv_review_fab_mini">#fff</color>
+    <color name="gv_review_fab_mini_pressed">#f2f2f2</color>
+
+    <color name="gv_review_bottom_panel_background">#262626</color>
+    <color name="gv_review_bottom_panel_text">#fff</color>
+
+    <color name="gv_analysis_activity_background">@android:color/transparent</color>
+    <color name="gv_analysis_fragment_background">@color/gv_background</color>
+    <color name="gv_analysis_activity_indicator">#fa6912</color>
+
+    <color name="gv_snackbar_error_text">#85000a</color>
+    <color name="gv_snackbar_error_button_title">#fff</color>
+    <color name="gv_snackbar_error_button_title_pressed">#f7f7f7</color>
+    <color name="gv_snackbar_error_background">#ff1744</color>
+
+</resources>

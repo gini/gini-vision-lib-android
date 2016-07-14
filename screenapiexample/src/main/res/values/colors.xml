@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#E12932</color>
+    <color name="colorPrimaryDark">#931c22</color>
+    <color name="colorAccent">#E5AB2A</color>
+
+    <color name="gv_action_bar">#E12932</color>
+    <color name="gv_status_bar">#931c22</color>
+
+    <color name="gv_action_bar_title">#fff</color>
+
+    <color name="gv_background">#380864</color>
+
+    <color name="gv_onboarding_fab">#E12932</color>
+    <color name="gv_onboarding_fab_pressed">#931c22</color>
+
+    <color name="gv_camera_error_no_permission_text">#E12932</color>
+    <color name="gv_camera_error_no_permission_button_title">#E12932</color>
+    <color name="gv_camera_error_no_permission_button_title_pressed">#931c22</color>
+
+    <color name="gv_review_fab">#E12932</color>
+    <color name="gv_review_fab_pressed">#931c22</color>
+    <color name="gv_review_fab_mini">#F2545C</color>
+    <color name="gv_review_fab_mini_pressed">#cf484f</color>
+
+    <color name="gv_analysis_activity_indicator">#E5AB2A</color>
+</resources>

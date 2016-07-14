@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/gv_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="@string/gv_onboarding_page_fragment_background_alpha"
+        android:background="@color/gv_onboarding_page_fragment_background" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/gv_onboarding_vertical_margin">
+
+        <ImageView
+            android:id="@+id/gv_image_onboarding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/gv_onboarding_illustration_vertical_margin"
+            tools:src="@drawable/gv_onboarding_flat" />
+
+        <!--suppress AndroidDomInspection -->
+        <net.gini.android.vision.ui.CustomFontTextView
+            android:id="@+id/gv_text_message"
+            style="@style/GiniVisionTheme.Onboarding.Message.TextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            tools:text="Dokument flach\nauf eine einfarbige\nFläche legen" />
+    </LinearLayout>
+
+</RelativeLayout>

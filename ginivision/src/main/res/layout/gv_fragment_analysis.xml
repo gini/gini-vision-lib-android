@@ -1,0 +1,21 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gv_layout_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/gv_analysis_fragment_background"
+    tools:context=".analysis.AnalysisFragmentCompat">
+
+    <ImageView
+        android:id="@+id/gv_image_picture"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:id="@+id/gv_image_scanner_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/gv_analysis_scanner_line_height"
+        android:layout_margin="@dimen/gv_analysis_scanner_line_margin"
+        android:src="@drawable/gv_analysis_scanner_line" />
+
+</RelativeLayout>

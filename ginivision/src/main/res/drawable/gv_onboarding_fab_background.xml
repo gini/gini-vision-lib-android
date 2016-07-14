@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" android:constantSize="true">
+    <item android:state_pressed="true">
+        <layer-list>
+            <item android:gravity="center" android:top="6dp" android:bottom="2dp">
+                <shape android:shape="oval">
+                    <size android:width="@dimen/gv_fab_shadow_width_selected" android:height="@dimen/gv_fab_shadow_height_selected" />
+                    <gradient android:endColor="#0000" android:gradientRadius="@dimen/gv_fab_width" android:startColor="#4000" android:type="radial" />
+                </shape>
+            </item>
+            <item android:gravity="center" android:top="5dp" android:bottom="5dp">
+                <shape android:shape="oval">
+                    <size android:width="@dimen/gv_fab_width" android:height="@dimen/gv_fab_height" />
+                    <solid android:color="@color/gv_onboarding_fab_pressed" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+    <item>
+        <layer-list>
+            <item android:gravity="center" android:top="5dp" android:bottom="2dp">
+                <shape android:shape="oval">
+                    <size android:width="@dimen/gv_fab_width" android:height="@dimen/gv_fab_height" />
+                    <gradient android:endColor="#0000" android:gradientRadius="@dimen/gv_fab_width" android:startColor="#4000" android:type="radial" />
+                </shape>
+            </item>
+            <item android:gravity="center" android:top="5dp" android:bottom="5dp">
+                <shape android:shape="oval">
+                    <size android:width="@dimen/gv_fab_width" android:height="@dimen/gv_fab_height" />
+                    <solid android:color="@color/gv_onboarding_fab" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+</selector>

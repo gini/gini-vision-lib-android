@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gv_review_fragment_background">
+
+    <FrameLayout
+        android:id="@+id/gv_layout_document_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/gv_bottom_panel"
+        android:clipChildren="false">
+
+        <com.ortiz.touch.TouchImageView
+            android:id="@+id/gv_image_document"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
+
+    <ImageButton
+        android:id="@+id/gv_button_rotate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/gv_button_next"
+        android:layout_alignRight="@+id/gv_button_next"
+        android:layout_marginBottom="@dimen/gv_review_button_rotate_vertical_margin"
+        android:layout_marginRight="@dimen/gv_review_button_rotate_horizontal_margin"
+        android:background="@drawable/gv_review_fab_mini_background"
+        android:src="@drawable/gv_review_button_rotate" />
+
+    <ImageButton
+        android:id="@+id/gv_button_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/gv_bottom_panel"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="@dimen/gv_fab_vertical_margin"
+        android:layout_marginRight="@dimen/gv_fab_horizontal_margin"
+        android:background="@drawable/gv_review_fab_background"
+        android:src="@drawable/gv_review_fab_next" />
+
+    <LinearLayout
+        android:id="@+id/gv_bottom_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@color/gv_review_bottom_panel_background"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/gv_review_bottom_panel_vertical_padding"
+        android:paddingLeft="@dimen/gv_review_bottom_panel_horizontal_padding"
+        android:paddingRight="@dimen/gv_review_bottom_panel_horizontal_padding"
+        android:paddingTop="@dimen/gv_review_bottom_panel_vertical_padding">
+
+        <!--suppress AndroidDomInspection -->
+        <net.gini.android.vision.ui.CustomFontTextView
+            android:id="@+id/gv_bottom_panel_text"
+            style="@style/GiniVisionTheme.Review.BottomPanel.TextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/gv_review_bottom_panel_text" />
+
+    </LinearLayout>
+
+</RelativeLayout>
