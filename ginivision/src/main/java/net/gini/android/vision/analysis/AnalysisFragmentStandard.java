@@ -87,15 +87,6 @@ public class AnalysisFragmentStandard extends Fragment implements FragmentImplCa
      * @exclude
      */
     @Override
-    public void onStart() {
-        super.onStart();
-        mFragmentImpl.onStart();
-    }
-
-    /**
-     * @exclude
-     */
-    @Override
     public void onStop() {
         super.onStop();
         mFragmentImpl.onStop();

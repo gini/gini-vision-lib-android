@@ -190,7 +190,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         SnackbarError.make(mFragment.getActivity(), mLayoutRoot, message, null, null, duration).show();
     }
 
-:§    @Override
+    @Override
     public void hideError() {
         if (mLayoutRoot == null) {
             return;
