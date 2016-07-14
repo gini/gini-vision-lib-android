@@ -132,6 +132,8 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
      */
     public static final int RESULT_ERROR = RESULT_FIRST_USER + 3;
 
+    private static final String REVIEW_FRAGMENT = "REVIEW_FRAGMENT";
+
     private ReviewFragmentCompat mFragment;
     private Document mDocument;
 
@@ -141,8 +143,7 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
         setContentView(R.layout.gv_activity_review);
         if (savedInstanceState == null) {
             readExtras();
-            createFragment();
-            showFragment();
+            initFragment();
         }
     }
 
@@ -170,6 +171,17 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
         }
     }
 
+    private void initFragment() {
+        if (!isFragmentShown()) {
+            createFragment();
+            showFragment();
+        }
+    }
+
+    private boolean isFragmentShown() {
+        return getSupportFragmentManager().findFragmentByTag(REVIEW_FRAGMENT) != null;
+    }
+
     private void createFragment() {
         mFragment = ReviewFragmentCompat.createInstance(mDocument);
     }
@@ -177,7 +189,7 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     private void showFragment() {
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.gv_fragment_review_document, mFragment)
+                .add(R.id.gv_fragment_review_document, mFragment, REVIEW_FRAGMENT)
                 .commit();
     }
 

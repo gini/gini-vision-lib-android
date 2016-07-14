@@ -123,6 +123,8 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
      */
     public static final int RESULT_ERROR = RESULT_FIRST_USER + 1;
 
+    private static final String ANALYSIS_FRAGMENT = "ANALYSIS_FRAGMENT";
+
     private AnalysisFragmentCompat mFragment;
     private Document mDocument;
 
@@ -132,8 +134,7 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
         setContentView(R.layout.gv_activity_analysis);
         if (savedInstanceState == null) {
             readExtras();
-            createFragment();
-            showFragment();
+            initFragment();
         }
     }
 
@@ -161,6 +162,17 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
         }
     }
 
+    private void initFragment() {
+        if (!isFragmentShown()) {
+            createFragment();
+            showFragment();
+        }
+    }
+
+    private boolean isFragmentShown() {
+        return getSupportFragmentManager().findFragmentByTag(ANALYSIS_FRAGMENT) != null;
+    }
+
     private void createFragment() {
         mFragment = AnalysisFragmentCompat.createInstance(mDocument);
     }
@@ -168,7 +180,7 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
     private void showFragment() {
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.gv_fragment_analyze_document, mFragment)
+                .add(R.id.gv_fragment_analyze_document, mFragment, ANALYSIS_FRAGMENT)
                 .commit();
     }
 

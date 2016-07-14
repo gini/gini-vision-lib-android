@@ -112,6 +112,8 @@ public class OnboardingActivity extends AppCompatActivity implements OnboardingF
      */
     public static final String EXTRA_ONBOARDING_PAGES = "GV_EXTRA_PAGES";
 
+    private static final String ONBOARDING_FRAGMENT = "ONBOARDING_FRAGMENT";
+
     private ArrayList<OnboardingPage> mPages;
     private OnboardingFragmentCompat mOnboardingFragment;
 
@@ -120,8 +122,7 @@ public class OnboardingActivity extends AppCompatActivity implements OnboardingF
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gv_activity_onboarding);
         readExtras();
-        createFragment();
-        showFragment();
+        initFragment();
     }
 
     private void readExtras() {
@@ -129,6 +130,17 @@ public class OnboardingActivity extends AppCompatActivity implements OnboardingF
         if (extras != null) {
             mPages = extras.getParcelableArrayList(EXTRA_ONBOARDING_PAGES);
         }
+    }
+
+    private void initFragment() {
+        if (!isFragmentShown()) {
+            createFragment();
+            showFragment();
+        }
+    }
+
+    private boolean isFragmentShown() {
+        return getSupportFragmentManager().findFragmentByTag(ONBOARDING_FRAGMENT) != null;
     }
 
     private void createFragment() {
@@ -142,7 +154,7 @@ public class OnboardingActivity extends AppCompatActivity implements OnboardingF
     private void showFragment() {
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.gv_fragment_onboarding, mOnboardingFragment)
+                .add(R.id.gv_fragment_onboarding, mOnboardingFragment, ONBOARDING_FRAGMENT)
                 .commit();
     }
 
