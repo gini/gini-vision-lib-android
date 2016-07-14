@@ -47,7 +47,7 @@ public class AnalysisFragmentCompat extends Fragment implements FragmentImplCall
      * <p>
      *     <b>Note:</b> Always use this method to create new instances. Document is required and an exception is thrown if it's missing.
      * </p>
-     * @param document must be the {@link Document} from {@link ReviewFragmentListener#onProceedToAnalyzeScreen(Document)}
+     * @param document must be the {@link Document} from {@link ReviewFragmentListener#onProceedToAnalysisScreen(Document)}
      * @return a new instance of the Fragment
      */
     public static AnalysisFragmentCompat createInstance(Document document) {
@@ -74,6 +74,15 @@ public class AnalysisFragmentCompat extends Fragment implements FragmentImplCall
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return mFragmentImpl.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    /**
+     * @exclude
+     */
+    @Override
+    public void onStart() {
+        super.onStart();
+        mFragmentImpl.onStart();
     }
 
     /**

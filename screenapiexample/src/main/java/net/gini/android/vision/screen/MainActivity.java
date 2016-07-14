@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import net.gini.android.ginivisiontest.BuildConfig;
 import net.gini.android.ginivisiontest.R;
+import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.camera.CameraActivity;
 import net.gini.android.vision.onboarding.DefaultPages;
@@ -29,6 +31,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         bindViews();
         addInputHandlers();
+        setGiniVisionLibDebugging();
+    }
+
+    private void setGiniVisionLibDebugging() {
+        if (BuildConfig.DEBUG) {
+            GiniVisionDebug.enable();
+        }
     }
 
     private void addInputHandlers() {

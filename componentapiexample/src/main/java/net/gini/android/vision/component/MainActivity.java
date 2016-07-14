@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import net.gini.android.vision.GiniVisionDebug;
+import net.gini.android.visionadvtest.BuildConfig;
 import net.gini.android.visionadvtest.R;
 
 public class MainActivity extends Activity {
@@ -27,6 +29,13 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         bindViews();
         addInputHandlers();
+        setGiniVisionLibDebugging();
+    }
+
+    private void setGiniVisionLibDebugging() {
+        if (BuildConfig.DEBUG) {
+            GiniVisionDebug.enable();
+        }
     }
 
     private void addInputHandlers() {

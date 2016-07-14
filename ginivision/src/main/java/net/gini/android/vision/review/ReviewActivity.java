@@ -3,6 +3,7 @@ package net.gini.android.vision.review;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
 import net.gini.android.vision.GiniVisionError;
@@ -170,10 +171,10 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     // callback for subclasses for uploading the photo before it was reviewed, if the photo is not changed
     // no new upload is required
     @Override
-    public abstract void onShouldAnalyzeDocument(Document document);
+    public abstract void onShouldAnalyzeDocument(@NonNull Document document);
 
     @Override
-    public void onProceedToAnalyzeScreen(Document document) {
+    public void onProceedToAnalysisScreen(@NonNull Document document) {
         Intent result = new Intent();
         result.putExtra(EXTRA_OUT_DOCUMENT, document);
         onAddDataToResult(result);
@@ -182,7 +183,7 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     }
 
     @Override
-    public void onDocumentReviewedAndAnalyzed(Document document) {
+    public void onDocumentReviewedAndAnalyzed(@NonNull Document document) {
         Intent result = new Intent();
         result.putExtra(EXTRA_OUT_DOCUMENT, document);
         onAddDataToResult(result);
@@ -205,7 +206,7 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
      * </p>
      * @param result the {@link Intent} which will be returned as the result data.
      */
-    public abstract void onAddDataToResult(Intent result);
+    public abstract void onAddDataToResult(@NonNull Intent result);
 
     // TODO: call this, if the photo was analyzed before the review was completed, it prevents the analyze activity to
     // be started, if the photo was already analyzed and the user didn't change it
@@ -215,7 +216,7 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     }
 
     @Override
-    public void onError(GiniVisionError error) {
+    public void onError(@NonNull GiniVisionError error) {
         Intent result = new Intent();
         result.putExtra(EXTRA_OUT_ERROR, error);
         setResult(RESULT_ERROR, result);

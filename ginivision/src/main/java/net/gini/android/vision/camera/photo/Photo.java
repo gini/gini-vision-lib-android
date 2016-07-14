@@ -5,7 +5,10 @@ import android.graphics.BitmapFactory;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
+
+import net.gini.android.vision.Document;
 
 import org.apache.sanselan.ImageReadException;
 import org.apache.sanselan.ImageWriteException;
@@ -37,6 +40,10 @@ public class Photo implements Parcelable {
         return photo;
     }
 
+    public static Photo fromDocument(@NonNull Document document) {
+        return Photo.fromJpeg(document.getJpeg(), document.getRotationForDisplay());
+    }
+
     public static Bitmap createPreview(byte[] jpeg) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 2;
@@ -46,14 +53,16 @@ public class Photo implements Parcelable {
     public Photo() {
     }
 
+    @Nullable
     public synchronized Bitmap getBitmapPreview() {
         return mBitmapPreview;
     }
 
-    public synchronized void setBitmapPreview(Bitmap bitmap) {
+    public synchronized void setBitmapPreview(@NonNull Bitmap bitmap) {
         mBitmapPreview = bitmap;
     }
 
+    @Nullable
     public synchronized byte[] getJpeg() {
         return mJpeg;
     }

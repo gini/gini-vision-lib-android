@@ -1,20 +1,24 @@
 package net.gini.android.vision.component;
 
+import static net.gini.android.vision.component.Util.readAsset;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import net.gini.android.vision.GiniVisionError;
-import net.gini.android.vision.analysis.AnalysisFragmentListener;
-import net.gini.android.vision.analysis.AnalysisFragmentStandard;
 import net.gini.android.vision.Document;
+import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.analysis.AnalysisFragmentCompat;
+import net.gini.android.vision.analysis.AnalysisFragmentListener;
 import net.gini.android.vision.camera.photo.Photo;
 import net.gini.android.visionadvtest.R;
 
 public class CustomAnalysisAppCompatActivity extends AppCompatActivity implements AnalysisFragmentListener {
 
-    AnalysisFragmentStandard mFragment;
+    public static final String EXTRA_IN_DOCUMENT = "EXTRA_IN_DOCUMENT";
+
+    private AnalysisFragmentCompat mFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,11 +29,15 @@ public class CustomAnalysisAppCompatActivity extends AppCompatActivity implement
     }
 
     private void createFragment() {
-        mFragment = AnalysisFragmentStandard.createInstance(Document.fromPhoto(Photo.fromJpeg(new byte[]{}, 0)));
+        Document document = getIntent().getParcelableExtra(EXTRA_IN_DOCUMENT);
+        if (document == null) {
+            document = Document.fromPhoto(Photo.fromJpeg(readAsset(this, "test_document.jpg"), 0));
+        }
+        mFragment = AnalysisFragmentCompat.createInstance(document);
     }
 
     private void showFragment() {
-        getFragmentManager()
+        getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.fragment_analyze_document, mFragment)
                 .commit();
