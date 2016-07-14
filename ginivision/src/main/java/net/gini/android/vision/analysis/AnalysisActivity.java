@@ -3,6 +3,7 @@ package net.gini.android.vision.analysis;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
@@ -26,7 +27,7 @@ import net.gini.android.vision.review.ReviewActivity;
  *     <b>Note:</b> {@code AnalysisActivity} extends {@link AppCompatActivity} and requires an AppCompat Theme.
  * </p>
  * <p>
- *     The {@code AnalysisActivity} is started by the {@link CameraActivity} after the user has reviewed the document and either made no changes to the document and it hasn't been analyzed before tapping the Next button, or the user has modified the document, e.g. by rotating it. 
+ *     The {@code AnalysisActivity} is started by the {@link CameraActivity} after the user has reviewed the document and either made no changes to the document and it hasn't been analyzed before tapping the Next button, or the user has modified the document, e.g. by rotating it.
  * </p>
  * <p>
  *     In your {@code AnalysisActivity} subclass you have to implement the following methods:
@@ -53,15 +54,37 @@ import net.gini.android.vision.review.ReviewActivity;
  *             <b>Background color:</b> via the color resource named {@code gv_background}. <b>Note:</b> this color resource is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity})
  *         </li>
  *         <li>
- *             <b>Error message text color:</b> via the color resource named {@code gv_analysis_error_text}
+ *             <b>Error message text color:</b> via the color resource named {@code gv_snackbar_error_text}
  *         </li>
  *         <li>
- *             <b>Error message button text color:</b> via the color resource named {@code gv_analysis_error_button_text}
+ *             <b>Error message font:</b> via overriding the style name {@code GiniVisionTheme.Snackbar.Error.TextStyle} and setting an item named {@code font} with the path to the font file in your {@code assets} folder
  *         </li>
  *         <li>
- *             <b>Error message background color:</b> via the color resource named {@code gv_analysis_error_background}
+ *             <b>Error message text style:</b> via overriding the style name {@code GiniVisionTheme.Snackbar.Error.TextStyle} and setting an item named {@code android:textStyle} to {@code normal}, {@code bold} or {@code italic}
+ *         </li>
+ *         <li>
+ *             <b>Error message text size:</b> via overriding the style name {@code GiniVisionTheme.Snackbar.Error.TextStyle} and setting an item named {@code android:textSize} to the desired {@code sp} size
+ *         </li>
+ *         <li>
+ *             <b>Error message button text color:</b> via the color resource named {@code gv_snackbar_error_button_title} and {@code gv_snackbar_error_button_title_pressed}
+ *         </li>
+ *         <li>
+ *             <b>Error message button font:</b> via overriding the style name {@code GiniVisionTheme.Snackbar.Error.Button.TextStyle} and setting an item named {@code font} with the path to the font file in your {@code assets} folder
+ *         </li>
+ *         <li>
+ *             <b>Error message button text style:</b> via overriding the style name {@code GiniVisionTheme.Snackbar.Error.Button.TextStyle} and setting an item named {@code android:textStyle} to {@code normal}, {@code bold} or {@code italic}
+ *         </li>
+ *         <li>
+ *             <b>Error message button text size:</b> via overriding the style name {@code GiniVisionTheme.Snackbar.Error.Button.TextStyle} and setting an item named {@code android:textSize} to the desired {@code sp} size
+ *         </li>
+ *         <li>
+ *             <b>Error message background color:</b> via the color resource named {@code gv_snackbar_error_background}
  *         </li>
  *     </ul>
+ * </p>
+ *
+ * <p>
+ *     <b>Important:</b> All overriden styles must have their respective {@code Root.} prefixed style as their parent. Ex.: the parent of {@code GiniVisionTheme.Snackbar.Error.TextStyle} must be {@code Root.GiniVisionTheme.Snackbar.Error.TextStyle}.
  * </p>
  *
  * <h3>Customizing the Action Bar</h3>
@@ -100,6 +123,8 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
      */
     public static final int RESULT_ERROR = RESULT_FIRST_USER + 1;
 
+    private static final String ANALYSIS_FRAGMENT = "ANALYSIS_FRAGMENT";
+
     private AnalysisFragmentCompat mFragment;
     private Document mDocument;
 
@@ -109,8 +134,7 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
         setContentView(R.layout.gv_activity_analysis);
         if (savedInstanceState == null) {
             readExtras();
-            createFragment();
-            showFragment();
+            initFragment();
         }
     }
 
@@ -138,6 +162,17 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
         }
     }
 
+    private void initFragment() {
+        if (!isFragmentShown()) {
+            createFragment();
+            showFragment();
+        }
+    }
+
+    private boolean isFragmentShown() {
+        return getSupportFragmentManager().findFragmentByTag(ANALYSIS_FRAGMENT) != null;
+    }
+
     private void createFragment() {
         mFragment = AnalysisFragmentCompat.createInstance(mDocument);
     }
@@ -145,15 +180,15 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
     private void showFragment() {
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.gv_fragment_analyze_document, mFragment)
+                .add(R.id.gv_fragment_analyze_document, mFragment, ANALYSIS_FRAGMENT)
                 .commit();
     }
 
     @Override
-    public abstract void onAnalyzeDocument(Document document);
+    public abstract void onAnalyzeDocument(@NonNull Document document);
 
     @Override
-    public void onError(GiniVisionError error) {
+    public void onError(@NonNull GiniVisionError error) {
         Intent result = new Intent();
         result.putExtra(EXTRA_OUT_ERROR, error);
         setResult(RESULT_ERROR, result);
@@ -197,7 +232,17 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
     public abstract void onAddDataToResult(Intent result);
 
     @Override
-    public void showError(String message, String buttonTitle, View.OnClickListener onClickListener, int duration) {
-        mFragment.showError(message, buttonTitle, onClickListener, duration);
+    public void showError(@NonNull String message, @NonNull String buttonTitle, @NonNull View.OnClickListener onClickListener) {
+        mFragment.showError(message, buttonTitle, onClickListener);
+    }
+
+    @Override
+    public void showError(@NonNull String message, int duration) {
+        mFragment.showError(message, duration);
+    }
+
+    @Override
+    public void hideError() {
+        mFragment.hideError();
     }
 }

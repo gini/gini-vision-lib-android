@@ -35,10 +35,12 @@ public class Exif {
         mTiffOutputSet = tiffOutputSet;
     }
 
+    @NonNull
     public static Builder builder() throws ImageWriteException {
         return new Builder();
     }
 
+    @NonNull
     public byte[] writeToJpeg(@NonNull byte[] jpeg) throws ImageWriteException, ImageReadException, IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
@@ -85,6 +87,7 @@ public class Exif {
             }
         }
 
+        @NonNull
         public Builder setRequiredTags(@NonNull RequiredTags requiredTags) throws ImageReadException, ImageWriteException {
             // Make
             if (requiredTags.make != null) {
@@ -142,11 +145,13 @@ public class Exif {
             return this;
         }
 
+        @NonNull
         public Builder setUserComment(boolean addMake, boolean addModel) {
             addUserCommentStringExif(mExifDirectory, createUserComment(addMake, addModel));
             return this;
         }
 
+        @NonNull
         public Builder setOrientationFromDegrees(int degrees) {
             byte[] bytes = new byte[1];
             bytes[0] = (byte) rotationToExifOrientation(degrees);
@@ -206,7 +211,7 @@ public class Exif {
             userCommentBuilder.append(String.valueOf(Build.VERSION.RELEASE));
             userCommentBuilder.append(",");
             // GiniVision Version
-            userCommentBuilder.append("GiniPay2Ver=");
+            userCommentBuilder.append("GiniVisionLib=");
             userCommentBuilder.append(BuildConfig.VERSION_NAME.replace(" ", ""));
 
             return userCommentBuilder.toString();

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gv_layout_error"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:background="@color/gv_snackbar_error_background">
+
+    <net.gini.android.vision.ui.CustomFontTextView
+        android:id="@+id/gv_text_error"
+        style="@style/GiniVisionTheme.Snackbar.Error.TextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/gv_button_error"
+        android:paddingBottom="@dimen/gv_snackbar_error_vertical_padding"
+        android:paddingLeft="@dimen/gv_snackbar_error_horizontal_padding"
+        android:paddingRight="@dimen/gv_snackbar_error_horizontal_padding"
+        android:paddingTop="@dimen/gv_snackbar_error_vertical_padding"
+        android:textColor="@color/gv_snackbar_error_text"
+        tools:text="This is an error. Sorry ... " />
+
+    <net.gini.android.vision.ui.CustomFontButton
+        android:id="@+id/gv_button_error"
+        style="@style/GiniVisionTheme.Snackbar.Error.Button.TextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:background="@null"
+        android:paddingBottom="@dimen/gv_snackbar_error_vertical_padding"
+        android:paddingLeft="@dimen/gv_snackbar_error_horizontal_padding"
+        android:paddingRight="@dimen/gv_snackbar_error_horizontal_padding"
+        android:paddingTop="@dimen/gv_snackbar_error_vertical_padding"
+        android:textColor="@drawable/gv_snackbar_error_button_title_color"
+        android:visibility="gone"
+        tools:text="FIX IT!"
+        tools:visibility="visible" />
+</RelativeLayout>

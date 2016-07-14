@@ -14,7 +14,7 @@
     <color name="gv_onboarding_fab">#E12932</color>
     <color name="gv_onboarding_fab_pressed">#931c22</color>
 
-    <color name="gv_camera_error_no_permission">#E12932</color>
+    <color name="gv_camera_error_no_permission_text">#E12932</color>
     <color name="gv_camera_error_no_permission_button_title">#E12932</color>
     <color name="gv_camera_error_no_permission_button_title_pressed">#931c22</color>
 

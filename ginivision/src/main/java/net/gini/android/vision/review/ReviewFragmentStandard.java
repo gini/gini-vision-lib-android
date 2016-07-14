@@ -77,6 +77,15 @@ public class ReviewFragmentStandard extends Fragment implements FragmentImplCall
      * @exclude
      */
     @Override
+    public void onStart() {
+        super.onStart();
+        mFragmentImpl.onStart();
+    }
+
+    /**
+     * @exclude
+     */
+    @Override
     public void onDestroy() {
         super.onDestroy();
         mFragmentImpl.onDestroy();

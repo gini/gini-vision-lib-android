@@ -1,5 +1,7 @@
 package net.gini.android.vision.review;
 
+import android.support.annotation.NonNull;
+
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.Document;
@@ -22,7 +24,7 @@ public interface ReviewFragmentListener {
      * </p>
      * @param document contains the original image taken by the camera
      */
-    void onShouldAnalyzeDocument(Document document);
+    void onShouldAnalyzeDocument(@NonNull Document document);
 
     /**
      * <p>
@@ -34,7 +36,7 @@ public interface ReviewFragmentListener {
      *
      * @param document contains the reviewed image (can be the original one or a modified image)
      */
-    void onProceedToAnalyzeScreen(Document document);
+    void onProceedToAnalysisScreen(@NonNull Document document);
 
     /**
      * <p>
@@ -45,7 +47,7 @@ public interface ReviewFragmentListener {
      * </p>
      * @param document contains the reviewed image (can be the original one or a modified image)
      */
-    void onDocumentReviewedAndAnalyzed(Document document);
+    void onDocumentReviewedAndAnalyzed(@NonNull Document document);
 
     /**
      * <p>
@@ -53,5 +55,5 @@ public interface ReviewFragmentListener {
      * </p>
      * @param error details about what went wrong
      */
-    void onError(GiniVisionError error);
+    void onError(@NonNull GiniVisionError error);
 }

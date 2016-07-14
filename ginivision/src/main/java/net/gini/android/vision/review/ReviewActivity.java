@@ -3,6 +3,7 @@ package net.gini.android.vision.review;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
 import net.gini.android.vision.GiniVisionError;
@@ -62,12 +63,25 @@ import net.gini.android.vision.onboarding.OnboardingActivity;
  *             <b>Bottom text color:</b> via the color resource named {@code gv_review_bottom_panel_text}
  *         </li>
  *         <li>
+ *             <b>Bottom text font:</b> via overriding the style name {@code GiniVisionTheme.Review.BottomPanel.TextStyle} and setting an item named {@code font} with the path to the font file in your {@code assets} folder
+ *         </li>
+ *         <li>
+ *             <b>Bottom text style:</b> via overriding the style name {@code GiniVisionTheme.Review.BottomPanel.TextStyle} and setting an item named {@code android:textStyle} to {@code normal}, {@code bold} or {@code italic}
+ *         </li>
+ *         <li>
+ *             <b>Bottom text size:</b> via overriding the style name {@code GiniVisionTheme.Review.BottomPanel.TextStyle} and setting an item named {@code android:textSize} to the desired {@code sp} size
+ *         </li>
+ *         <li>
  *             <b>Bottom panel background color:</b> via the color resource named {@code gv_review_bottom_panel_background}
  *         </li>
  *         <li>
  *             <b>Background color:</b> via the color resource named {@code gv_background}. <b>Note:</b> this color resource is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity})
  *         </li>
  *     </ul>
+ * </p>
+ *
+ * <p>
+ *     <b>Important:</b> All overriden styles must have their respective {@code Root.} prefixed style as their parent. Ex.: the parent of {@code GiniVisionTheme.Review.BottomPanel.TextStyle} must be {@code Root.GiniVisionTheme.Review.BottomPanel.TextStyle}.
  * </p>
  *
  * <h3>Customizing the Action Bar</h3>
@@ -118,6 +132,8 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
      */
     public static final int RESULT_ERROR = RESULT_FIRST_USER + 3;
 
+    private static final String REVIEW_FRAGMENT = "REVIEW_FRAGMENT";
+
     private ReviewFragmentCompat mFragment;
     private Document mDocument;
 
@@ -127,8 +143,7 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
         setContentView(R.layout.gv_activity_review);
         if (savedInstanceState == null) {
             readExtras();
-            createFragment();
-            showFragment();
+            initFragment();
         }
     }
 
@@ -156,6 +171,17 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
         }
     }
 
+    private void initFragment() {
+        if (!isFragmentShown()) {
+            createFragment();
+            showFragment();
+        }
+    }
+
+    private boolean isFragmentShown() {
+        return getSupportFragmentManager().findFragmentByTag(REVIEW_FRAGMENT) != null;
+    }
+
     private void createFragment() {
         mFragment = ReviewFragmentCompat.createInstance(mDocument);
     }
@@ -163,17 +189,17 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     private void showFragment() {
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.gv_fragment_review_document, mFragment)
+                .add(R.id.gv_fragment_review_document, mFragment, REVIEW_FRAGMENT)
                 .commit();
     }
 
     // callback for subclasses for uploading the photo before it was reviewed, if the photo is not changed
     // no new upload is required
     @Override
-    public abstract void onShouldAnalyzeDocument(Document document);
+    public abstract void onShouldAnalyzeDocument(@NonNull Document document);
 
     @Override
-    public void onProceedToAnalyzeScreen(Document document) {
+    public void onProceedToAnalysisScreen(@NonNull Document document) {
         Intent result = new Intent();
         result.putExtra(EXTRA_OUT_DOCUMENT, document);
         onAddDataToResult(result);
@@ -182,7 +208,7 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     }
 
     @Override
-    public void onDocumentReviewedAndAnalyzed(Document document) {
+    public void onDocumentReviewedAndAnalyzed(@NonNull Document document) {
         Intent result = new Intent();
         result.putExtra(EXTRA_OUT_DOCUMENT, document);
         onAddDataToResult(result);
@@ -205,7 +231,7 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
      * </p>
      * @param result the {@link Intent} which will be returned as the result data.
      */
-    public abstract void onAddDataToResult(Intent result);
+    public abstract void onAddDataToResult(@NonNull Intent result);
 
     // TODO: call this, if the photo was analyzed before the review was completed, it prevents the analyze activity to
     // be started, if the photo was already analyzed and the user didn't change it
@@ -215,7 +241,7 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     }
 
     @Override
-    public void onError(GiniVisionError error) {
+    public void onError(@NonNull GiniVisionError error) {
         Intent result = new Intent();
         result.putExtra(EXTRA_OUT_ERROR, error);
         setResult(RESULT_ERROR, result);

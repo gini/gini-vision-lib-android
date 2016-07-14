@@ -47,6 +47,7 @@ public enum ImageCache {
             this.token = token;
         }
 
+        @NonNull
         private static Token next() {
             return new Token(COUNTER.getAndIncrement());
         }
@@ -94,24 +95,25 @@ public enum ImageCache {
         return token;
     }
 
-    public void removeBitmap(final Token token) {
+    public void removeBitmap(@NonNull final Token token) {
         mBitmapCache.remove(token);
     }
 
-    public byte[] getJpeg(final Token token) {
+    public byte[] getJpeg(@NonNull final Token token) {
         return mJpegCache.get(token);
     }
 
-    public Token storeJpeg(final byte[] documentJpeg) {
+    public Token storeJpeg(@NonNull final byte[] documentJpeg) {
         final Token token = Token.next();
         mJpegCache.put(token, documentJpeg);
         return token;
     }
 
-    public void removeJpeg(final Token token) {
+    public void removeJpeg(@NonNull final Token token) {
         mJpegCache.remove(token);
     }
 
+    @NonNull
     public static ImageCache getInstance() {
         return INSTANCE;
     }

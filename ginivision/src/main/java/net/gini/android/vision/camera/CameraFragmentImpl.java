@@ -141,35 +141,68 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
     @Override
     public void showDocumentCornerGuides() {
+        if (isNoPermissionViewVisible()) {
+            return;
+        }
+        showDocumentCornerGuidesAnimated();
+    }
+
+    private void showDocumentCornerGuidesAnimated() {
         mImageCorners.animate().alpha(1.0f);
     }
 
     @Override
     public void hideDocumentCornerGuides() {
+        if (isNoPermissionViewVisible()) {
+            return;
+        }
+        hideDocumentCornerGuidesAnimated();
+    }
+
+    private void hideDocumentCornerGuidesAnimated() {
         mImageCorners.animate().alpha(0.0f);
     }
 
     @Override
     public void showCameraTriggerButton() {
+        if (isNoPermissionViewVisible()) {
+            return;
+        }
+        showCameraTriggerButtonAnimated();
+    }
+
+    private void showCameraTriggerButtonAnimated() {
         mButtonCameraTrigger.animate().alpha(1.0f);
         mButtonCameraTrigger.setEnabled(true);
     }
 
     @Override
     public void hideCameraTriggerButton() {
+        if (isNoPermissionViewVisible()) {
+            return;
+        }
+        hideCameraTriggerButtonAnimated();
+    }
+
+    private void hideCameraTriggerButtonAnimated() {
         mButtonCameraTrigger.animate().alpha(0.0f);
         mButtonCameraTrigger.setEnabled(false);
     }
 
     private void showNoPermissionView() {
-        hideCameraPreview();
-        hideCameraTriggerButton();
-        hideDocumentCornerGuides();
+        hideCameraPreviewAnimated();
+        hideCameraTriggerButtonAnimated();
+        hideDocumentCornerGuidesAnimated();
         inflateNoPermissionStub();
         setUpNoPermissionButton();
         if (mLayoutNoPermission != null) {
             mLayoutNoPermission.setVisibility(View.VISIBLE);
         }
+    }
+
+    private boolean isNoPermissionViewVisible() {
+        return mLayoutNoPermission != null &&
+                mLayoutNoPermission.getVisibility() == View.VISIBLE;
     }
 
     private void inflateNoPermissionStub() {
@@ -179,9 +212,9 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     public void hideNoPermissionView() {
-        showCameraPreview();
-        showCameraTriggerButton();
-        showDocumentCornerGuides();
+        showCameraPreviewAnimated();
+        showCameraTriggerButtonAnimated();
+        showDocumentCornerGuidesAnimated();
         if (mLayoutNoPermission != null) {
             mLayoutNoPermission.setVisibility(View.GONE);
         }
@@ -195,12 +228,12 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         }
     }
 
-    private void hideCameraPreview() {
+    private void hideCameraPreviewAnimated() {
         mCameraPreview.animate().alpha(0.0f);
         mCameraPreview.setEnabled(false);
     }
 
-    private void showCameraPreview() {
+    private void showCameraPreviewAnimated() {
         mCameraPreview.animate().alpha(1.0f);
         mCameraPreview.setEnabled(true);
     }

@@ -2,6 +2,7 @@ package net.gini.android.vision.analysis;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,10 +45,10 @@ public class AnalysisFragmentStandard extends Fragment implements FragmentImplCa
      * <p>
      *     <b>Note:</b> Always use this method to create new instances. Document is required and an exception is thrown if it's missing.
      * </p>
-     * @param document must be the {@link Document} from {@link ReviewFragmentListener#onProceedToAnalyzeScreen(Document)}
+     * @param document must be the {@link Document} from {@link ReviewFragmentListener#onProceedToAnalysisScreen(Document)}
      * @return a new instance of the Fragment
      */
-    public static AnalysisFragmentStandard createInstance(Document document) {
+    public static AnalysisFragmentStandard createInstance(@NonNull Document document) {
         AnalysisFragmentStandard fragment = new AnalysisFragmentStandard();
         fragment.setArguments(AnalysisFragmentHelper.createArguments(document));
         return fragment;
@@ -77,10 +78,27 @@ public class AnalysisFragmentStandard extends Fragment implements FragmentImplCa
      * @exclude
      */
     @Override
+    public void onStart() {
+        super.onStart();
+        mFragmentImpl.onStart();
+    }
+
+    /**
+     * @exclude
+     */
+    @Override
+    public void onStop() {
+        super.onStop();
+        mFragmentImpl.onStop();
+    }
+
+    /**
+     * @exclude
+     */
+    @Override
     public void onDestroy() {
         super.onDestroy();
         mFragmentImpl.onDestroy();
-        mFragmentImpl = null;
     }
 
     @Override
@@ -99,7 +117,17 @@ public class AnalysisFragmentStandard extends Fragment implements FragmentImplCa
     }
 
     @Override
-    public void showError(String message, String buttonTitle, View.OnClickListener onClickListener, int duration) {
-        mFragmentImpl.showError(message, buttonTitle, onClickListener, duration);
+    public void showError(@NonNull String message, @NonNull String buttonTitle, @NonNull View.OnClickListener onClickListener) {
+        mFragmentImpl.showError(message, buttonTitle, onClickListener);
+    }
+
+    @Override
+    public void showError(@NonNull String message, int duration) {
+        mFragmentImpl.showError(message, duration);
+    }
+
+    @Override
+    public void hideError() {
+        mFragmentImpl.hideError();
     }
 }

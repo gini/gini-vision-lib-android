@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.io.ByteArrayOutputStream;
 
@@ -23,12 +24,14 @@ public class PhotoEdit {
         mPhoto = photo;
     }
 
+    @NonNull
     public PhotoEdit rotate(int degrees) {
         degrees %= 360;
         mMatrix.postRotate(degrees);
         return this;
     }
 
+    @NonNull
     public PhotoEdit compress(int quality) {
         mQuality = quality;
         return this;
@@ -39,11 +42,11 @@ public class PhotoEdit {
         resetToDefaults();
     }
 
-    public void applyAsync(final PhotoEditCallback callback) {
+    public void applyAsync(@NonNull final PhotoEditCallback callback) {
         EditAsync async = new EditAsync(mPhoto, mMatrix, mQuality);
         async.setCallback(new PhotoEditCallback() {
             @Override
-            public void onDone(Photo photo) {
+            public void onDone(@NonNull Photo photo) {
                 callback.onDone(photo);
                 resetToDefaults();
             }
@@ -62,7 +65,11 @@ public class PhotoEdit {
         mQuality = DEF_QUALITY;
     }
 
-    private static void applyChanges(Photo photo, Matrix matrix, int quality) {
+    private static void applyChanges(@NonNull Photo photo, @NonNull Matrix matrix, int quality) {
+        if (photo.getJpeg() == null) {
+            return;
+        }
+
         Bitmap originalImage = BitmapFactory.decodeByteArray(photo.getJpeg(), 0, photo.getJpeg().length);
 
         Bitmap editedImage = originalImage;
@@ -85,7 +92,7 @@ public class PhotoEdit {
 
         private static final PhotoEditCallback NO_OP_CALLBACK = new PhotoEditCallback() {
             @Override
-            public void onDone(Photo photo) {
+            public void onDone(@NonNull Photo photo) {
             }
 
             @Override
@@ -98,13 +105,13 @@ public class PhotoEdit {
         private final int mQuality;
         private PhotoEditCallback mCallback = NO_OP_CALLBACK;
 
-        public EditAsync(Photo photo, Matrix matrix, int quality) {
+        public EditAsync(@NonNull Photo photo, @NonNull Matrix matrix, int quality) {
             mPhoto = photo;
             mMatrix = matrix;
             mQuality = quality;
         }
 
-        public void setCallback(PhotoEditCallback callback) {
+        public void setCallback(@Nullable PhotoEditCallback callback) {
             if (callback == null) {
                 mCallback = NO_OP_CALLBACK;
             } else {
@@ -129,7 +136,7 @@ public class PhotoEdit {
     }
 
     public interface PhotoEditCallback {
-        void onDone(Photo photo);
+        void onDone(@NonNull Photo photo);
 
         void onFailed();
     }

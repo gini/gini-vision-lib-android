@@ -11,7 +11,7 @@
     <color name="gv_camera_activity_background">@android:color/transparent</color>
     <color name="gv_camera_fragment_background">@color/gv_background</color>
 
-    <color name="gv_camera_error_no_permission">#fff</color>
+    <color name="gv_camera_error_no_permission_text">#fff</color>
     <color name="gv_camera_error_no_permission_button_title">#fff</color>
     <color name="gv_camera_error_no_permission_button_title_pressed">#ddd</color>
 
@@ -21,6 +21,7 @@
     
     <color name="gv_onboarding_fab">#009edc</color>
     <color name="gv_onboarding_fab_pressed">#0095cf</color>
+    <color name="gv_onboarding_message">#fff</color>
 
     <color name="gv_review_activity_background">@android:color/transparent</color>
     <color name="gv_review_fragment_background">@color/gv_background</color>
@@ -38,8 +39,9 @@
     <color name="gv_analysis_fragment_background">@color/gv_background</color>
     <color name="gv_analysis_activity_indicator">#fa6912</color>
 
-    <color name="gv_analysis_error_text">#85000a</color>
-    <color name="gv_analysis_error_button_text">#fff</color>
-    <color name="gv_analysis_error_background">#ff1744</color>
+    <color name="gv_snackbar_error_text">#85000a</color>
+    <color name="gv_snackbar_error_button_title">#fff</color>
+    <color name="gv_snackbar_error_button_title_pressed">#f7f7f7</color>
+    <color name="gv_snackbar_error_background">#ff1744</color>
 
 </resources>

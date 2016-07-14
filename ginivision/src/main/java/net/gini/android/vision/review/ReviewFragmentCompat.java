@@ -1,14 +1,15 @@
 package net.gini.android.vision.review;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import net.gini.android.vision.camera.CameraFragmentListener;
 import net.gini.android.vision.Document;
+import net.gini.android.vision.camera.CameraFragmentListener;
 import net.gini.android.vision.ui.FragmentImplCallback;
 
 /**
@@ -50,7 +51,7 @@ public class ReviewFragmentCompat extends Fragment implements FragmentImplCallba
      * @param document must be the {@link Document} from {@link CameraFragmentListener#onDocumentAvailable(Document)}
      * @return a new instance of the Fragment
      */
-    public static ReviewFragmentCompat createInstance(Document document) {
+    public static ReviewFragmentCompat createInstance(@NonNull Document document) {
         ReviewFragmentCompat fragment = new ReviewFragmentCompat();
         fragment.setArguments(ReviewFragmentHelper.createArguments(document));
         return fragment;
@@ -74,6 +75,15 @@ public class ReviewFragmentCompat extends Fragment implements FragmentImplCallba
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return mFragmentImpl.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    /**
+     * @exclude
+     */
+    @Override
+    public void onStart() {
+        super.onStart();
+        mFragmentImpl.onStart();
     }
 
     /**

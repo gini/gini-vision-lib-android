@@ -1,20 +1,26 @@
 package net.gini.android.vision.component;
 
+import static net.gini.android.vision.component.Util.readAsset;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.view.View;
 import android.widget.Toast;
 
+import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.analysis.AnalysisFragmentListener;
 import net.gini.android.vision.analysis.AnalysisFragmentStandard;
-import net.gini.android.vision.Document;
 import net.gini.android.vision.camera.photo.Photo;
 import net.gini.android.visionadvtest.R;
 
 public class CustomAnalysisActivity extends Activity implements AnalysisFragmentListener {
 
-    AnalysisFragmentStandard mFragment;
+    public static final String EXTRA_IN_DOCUMENT = "EXTRA_IN_DOCUMENT";
+
+    private AnalysisFragmentStandard mFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +31,11 @@ public class CustomAnalysisActivity extends Activity implements AnalysisFragment
     }
 
     private void createFragment() {
-        mFragment = AnalysisFragmentStandard.createInstance(Document.fromPhoto(Photo.fromJpeg(new byte[]{}, 0)));
+        Document document = getIntent().getParcelableExtra(EXTRA_IN_DOCUMENT);
+        if (document == null) {
+            document = Document.fromPhoto(Photo.fromJpeg(readAsset(this, "test_document.jpg"), 0));
+        }
+        mFragment = AnalysisFragmentStandard.createInstance(document);
     }
 
     private void showFragment() {
@@ -36,20 +46,25 @@ public class CustomAnalysisActivity extends Activity implements AnalysisFragment
     }
 
     @Override
-    public void onAnalyzeDocument(Document document) {
+    public void onAnalyzeDocument(@NonNull Document document) {
         mFragment.startScanAnimation();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mFragment.onDocumentAnalyzed();
                 mFragment.stopScanAnimation();
-                Toast.makeText(CustomAnalysisActivity.this, "Photo was analyzed", Toast.LENGTH_SHORT).show();
+                mFragment.showError("Something went wrong", "Fix it", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mFragment.onDocumentAnalyzed();
+                        Toast.makeText(CustomAnalysisActivity.this, "Photo was analyzed", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
-        }, 1000);
+        }, 2500);
     }
 
     @Override
-    public void onError(GiniVisionError error) {
+    public void onError(@NonNull GiniVisionError error) {
 
     }
 }
