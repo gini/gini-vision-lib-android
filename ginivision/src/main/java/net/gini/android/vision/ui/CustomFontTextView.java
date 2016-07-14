@@ -1,5 +1,7 @@
 package net.gini.android.vision.ui;
 
+import static net.gini.android.vision.ui.CustomFontHelper.parseAttributesAndSetFont;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.TextView;
@@ -30,26 +32,21 @@ import android.widget.TextView;
  */
 public class CustomFontTextView extends TextView {
 
-    private final CustomFontHelper mCustomFontHelper;
-
     public CustomFontTextView(Context context) {
         super(context);
-        mCustomFontHelper = new CustomFontHelper(this);
     }
 
     public CustomFontTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mCustomFontHelper = new CustomFontHelper(this);
         configureFont(context, attrs, 0);
     }
 
     public CustomFontTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        mCustomFontHelper = new CustomFontHelper(this);
         configureFont(context, attrs, defStyleAttr);
     }
 
     private void configureFont(Context context, AttributeSet attrs, int defStyleAttr) {
-        mCustomFontHelper.parseAttributesAndSetFont(getContext(), attrs, defStyleAttr);
+        parseAttributesAndSetFont(this, context, attrs, defStyleAttr);
     }
 }
