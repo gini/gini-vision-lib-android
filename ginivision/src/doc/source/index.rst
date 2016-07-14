@@ -20,6 +20,7 @@ Table of contents
 
    changelog
    license
+   Javadoc <http://developer.gini.net/gini-vision-lib-android/javadoc/index.html>
 
 
 .. todolist::
