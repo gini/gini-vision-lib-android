@@ -55,14 +55,15 @@ public final class GiniVisionDebug {
         if (!sEnabled) {
             return;
         }
-        File giniVisionDir = createGiniVisionDir(context.getExternalFilesDir(null));
+        File giniVisionDir = createGiniVisionDir(context);
         long time = new Date().getTime();
-        String jpegFilename = File.separator + time + suffix + ".jpeg";
+        String jpegFilename = time + suffix + ".jpeg";
         File jpegFile = new File(giniVisionDir, jpegFilename);
         photo.saveJpegToFile(jpegFile);
     }
 
-    private static File createGiniVisionDir(File externalFilesDir) {
+    private static File createGiniVisionDir(Context context) {
+        File externalFilesDir = context.getExternalFilesDir(null);
         File giniVisionDir = new File(externalFilesDir, "ginivisionlib");
         giniVisionDir.mkdir();
         return giniVisionDir;
