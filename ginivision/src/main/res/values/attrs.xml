@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- CustomFont* view attributes -->
+    <declare-styleable name="CustomFont">
+        <attr name="font" format="string" />
+    </declare-styleable>
+</resources>

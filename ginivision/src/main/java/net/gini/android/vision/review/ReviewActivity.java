@@ -63,12 +63,25 @@ import net.gini.android.vision.onboarding.OnboardingActivity;
  *             <b>Bottom text color:</b> via the color resource named {@code gv_review_bottom_panel_text}
  *         </li>
  *         <li>
+ *             <b>Bottom text font:</b> via overriding the style name {@code GiniVisionTheme.Review.BottomPanel.TextStyle} and setting an item named {@code font} with the path to the font file in your {@code assets} folder
+ *         </li>
+ *         <li>
+ *             <b>Bottom text style:</b> via overriding the style name {@code GiniVisionTheme.Review.BottomPanel.TextStyle} and setting an item named {@code android:textStyle} to {@code normal}, {@code bold} or {@code italic}
+ *         </li>
+ *         <li>
+ *             <b>Bottom text size:</b> via overriding the style name {@code GiniVisionTheme.Review.BottomPanel.TextStyle} and setting an item named {@code android:textSize} to the desired {@code sp} size
+ *         </li>
+ *         <li>
  *             <b>Bottom panel background color:</b> via the color resource named {@code gv_review_bottom_panel_background}
  *         </li>
  *         <li>
  *             <b>Background color:</b> via the color resource named {@code gv_background}. <b>Note:</b> this color resource is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity})
  *         </li>
  *     </ul>
+ * </p>
+ *
+ * <p>
+ *     <b>Important:</b> All overriden styles must have their respective {@code Root.} prefixed style as their parent. Ex.: the parent of {@code GiniVisionTheme.Review.BottomPanel.TextStyle} must be {@code Root.GiniVisionTheme.Review.BottomPanel.TextStyle}.
  * </p>
  *
  * <h3>Customizing the Action Bar</h3>

@@ -9,13 +9,11 @@
     <dimen name="gv_onboarding_indicator_height">10dp</dimen>
     <dimen name="gv_onboarding_illustration_vertical_margin">40dp</dimen>
     <dimen name="gv_onboarding_vertical_margin">100dp</dimen>
-    <dimen name="gv_onboarding_message_text_size">33sp</dimen>
 
     <dimen name="gv_review_button_rotate_vertical_margin">7dp</dimen>
     <dimen name="gv_review_button_rotate_horizontal_margin">8dp</dimen>
     <dimen name="gv_review_bottom_panel_horizontal_padding">16dp</dimen>
     <dimen name="gv_review_bottom_panel_vertical_padding">16dp</dimen>
-    <dimen name="gv_review_bottom_text_size">14sp</dimen>
 
     <dimen name="gv_fab_vertical_margin">16dp</dimen>
     <dimen name="gv_fab_horizontal_margin">16dp</dimen>

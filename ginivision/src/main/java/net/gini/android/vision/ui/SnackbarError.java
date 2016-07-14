@@ -84,7 +84,7 @@ public class SnackbarError extends RelativeLayout {
     }
 
     private void init() {
-        inflate(getContext(), R.layout.gv_snackbar_error, this);
+        inflate(getContext(), R.layout.gv_layout_snackbar_error, this);
         setTag(TAG_SNACKBAR_ERROR);
         bindViews();
     }

@@ -54,15 +54,37 @@ import net.gini.android.vision.review.ReviewActivity;
  *             <b>Background color:</b> via the color resource named {@code gv_background}. <b>Note:</b> this color resource is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity})
  *         </li>
  *         <li>
- *             <b>Error message text color:</b> via the color resource named {@code gv_analysis_error_text}
+ *             <b>Error message text color:</b> via the color resource named {@code gv_snackbar_error_text}
  *         </li>
  *         <li>
- *             <b>Error message button text color:</b> via the color resource named {@code gv_analysis_error_button_text}
+ *             <b>Error message font:</b> via overriding the style name {@code GiniVisionTheme.Snackbar.Error.TextStyle} and setting an item named {@code font} with the path to the font file in your {@code assets} folder
  *         </li>
  *         <li>
- *             <b>Error message background color:</b> via the color resource named {@code gv_analysis_error_background}
+ *             <b>Error message text style:</b> via overriding the style name {@code GiniVisionTheme.Snackbar.Error.TextStyle} and setting an item named {@code android:textStyle} to {@code normal}, {@code bold} or {@code italic}
+ *         </li>
+ *         <li>
+ *             <b>Error message text size:</b> via overriding the style name {@code GiniVisionTheme.Snackbar.Error.TextStyle} and setting an item named {@code android:textSize} to the desired {@code sp} size
+ *         </li>
+ *         <li>
+ *             <b>Error message button text color:</b> via the color resource named {@code gv_snackbar_error_button_title} and {@code gv_snackbar_error_button_title_pressed}
+ *         </li>
+ *         <li>
+ *             <b>Error message button font:</b> via overriding the style name {@code GiniVisionTheme.Snackbar.Error.Button.TextStyle} and setting an item named {@code font} with the path to the font file in your {@code assets} folder
+ *         </li>
+ *         <li>
+ *             <b>Error message button text style:</b> via overriding the style name {@code GiniVisionTheme.Snackbar.Error.Button.TextStyle} and setting an item named {@code android:textStyle} to {@code normal}, {@code bold} or {@code italic}
+ *         </li>
+ *         <li>
+ *             <b>Error message button text size:</b> via overriding the style name {@code GiniVisionTheme.Snackbar.Error.Button.TextStyle} and setting an item named {@code android:textSize} to the desired {@code sp} size
+ *         </li>
+ *         <li>
+ *             <b>Error message background color:</b> via the color resource named {@code gv_snackbar_error_background}
  *         </li>
  *     </ul>
+ * </p>
+ *
+ * <p>
+ *     <b>Important:</b> All overriden styles must have their respective {@code Root.} prefixed style as their parent. Ex.: the parent of {@code GiniVisionTheme.Snackbar.Error.TextStyle} must be {@code Root.GiniVisionTheme.Snackbar.Error.TextStyle}.
  * </p>
  *
  * <h3>Customizing the Action Bar</h3>
