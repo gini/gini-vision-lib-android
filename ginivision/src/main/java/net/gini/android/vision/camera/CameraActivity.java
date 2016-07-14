@@ -289,6 +289,9 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     protected void onStart() {
         super.onStart();
         mGiniVisionCoordinator.onCameraStarted();
+        if (mOnboardingShown) {
+            hideCornersAndTrigger();
+        }
     }
 
     @Override
