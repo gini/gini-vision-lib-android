@@ -29,6 +29,8 @@ import android.widget.TextView;
  *  <net.gini.android.vision.ui.CustomFontTextView
  *      gini:font="myFonts/Cave-Story.ttf" />
  * }</pre>
+ *
+ * @exclude
  */
 public class CustomFontTextView extends TextView {
 

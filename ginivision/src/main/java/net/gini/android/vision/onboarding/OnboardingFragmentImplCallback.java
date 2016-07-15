@@ -7,6 +7,9 @@ import net.gini.android.vision.ui.FragmentImplCallback;
 
 import java.util.List;
 
+/**
+ * @exclude 
+ */
 public interface OnboardingFragmentImplCallback extends FragmentImplCallback {
 
     PagerAdapter getViewPagerAdapter(@NonNull List<OnboardingPage> pages);

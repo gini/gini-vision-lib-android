@@ -29,6 +29,8 @@ import android.widget.Button;
  *  <net.gini.android.vision.ui.CustomFontButton
  *      gini:font="myFonts/Cave-Story.ttf" />
  * }</pre>
+ *
+ * @exclude
  */
 public class CustomFontButton extends Button {
 
