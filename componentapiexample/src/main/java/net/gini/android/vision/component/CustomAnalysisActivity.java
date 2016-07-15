@@ -26,6 +26,7 @@ public class CustomAnalysisActivity extends Activity implements AnalysisFragment
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_analysis);
+        // The AnalysisFragment cannot be directly added to a layout, because it requires a Document
         createFragment();
         showFragment();
     }
@@ -47,6 +48,10 @@ public class CustomAnalysisActivity extends Activity implements AnalysisFragment
 
     @Override
     public void onAnalyzeDocument(@NonNull Document document) {
+        // We can start analyzing the document by sending it to the Gini API
+        // Currently we only simulate analysis and show an error after 2500 ms to view the error customizations
+        // and when the user presses the button on the error snackbar, we tell the AnalysisFragment that the
+        // document was analyzed and we finish here
         mFragment.startScanAnimation();
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -57,6 +62,7 @@ public class CustomAnalysisActivity extends Activity implements AnalysisFragment
                     public void onClick(View v) {
                         mFragment.onDocumentAnalyzed();
                         Toast.makeText(CustomAnalysisActivity.this, "Photo was analyzed", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                 });
             }
