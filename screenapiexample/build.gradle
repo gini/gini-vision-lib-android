@@ -19,9 +19,21 @@ android {
     }
 }
 
+// For testing a released version
+repositories {
+    maven {
+        url 'https://repo.i.gini.net/nexus/content/repositories/releases'
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(path: ':ginivision')
     compile deps.appCompatv7
+
     testCompile deps.junit
+
+    // For testing the local version
+    compile project(path: ':ginivision')
+    // For testing a released version
+    //compile 'net.gini:gini-vision-lib:2.0.0-stub.1'
 }
