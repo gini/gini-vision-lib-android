@@ -33,7 +33,7 @@ dependencies {
     testCompile deps.junit
 
     // For testing the local version
-    //compile project(path: ':ginivision')
+    compile project(path: ':ginivision')
     // For testing a released version
-    compile 'net.gini:gini-vision-lib:2.0.0-stub.1'
+    //compile 'net.gini:gini-vision-lib:2.0.0-stub.1'
 }
