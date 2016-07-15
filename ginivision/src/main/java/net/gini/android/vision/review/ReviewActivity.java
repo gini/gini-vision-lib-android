@@ -23,7 +23,7 @@ import net.gini.android.vision.onboarding.OnboardingActivity;
  *     You must extend the {@code ReviewActivity} in your application and provide it to the {@link CameraActivity} by using the {@link CameraActivity#setReviewActivityExtra(Intent, Context, Class)} helper method.
  * </p>
  * <p>
- *     <b>Note:</b> {@code ReviewActivity} extends {@link AppCompatActivity} and requires an AppCompat Theme.
+ *     <b>Note:</b> When declaring your {@code ReviewActivity} subclass in the {@code AndroidManifest.xml} you should set the theme to the {@code GiniVisionTheme} and the title to the string resource named {@code gv_title_review}. If you would like to use your own theme please consider that {@code ReviewActivity} extends {@link AppCompatActivity} and requires an AppCompat Theme.
  * </p>
  * <p>
  *     The {@code ReviewActivity} is started by the {@link CameraActivity} after the user has taken a photo of a document.
@@ -96,7 +96,7 @@ import net.gini.android.vision.onboarding.OnboardingActivity;
  *             <b>Background color:</b> via the color resource named {@code gv_action_bar} (highly recommended for Android 5+: customize the status bar color via {@code gv_status_bar})
  *         </li>
  *         <li>
- *             <b>Title:</b> via the string resource you set in your {@code AndroidManifest.xml} when declaring your Activity that extends {@link ReviewActivity}
+ *             <b>Title:</b> via the string resource you set in your {@code AndroidManifest.xml} when declaring your Activity that extends {@link ReviewActivity}. The default title string resource is named {@code gv_title_review}
  *         </li>
  *         <li>
  *             <b>Title color:</b> via the color resource named {@code gv_action_bar_title}
