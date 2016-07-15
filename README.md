@@ -47,7 +47,7 @@ build.gradle:
 ```
 repositories {
     maven {
-        url 'https://repo.gini.net/nexus/content/repositories/releases'
+        url 'https://repo.gini.net/nexus/content/repositories/open'
     }
 }
 ```
