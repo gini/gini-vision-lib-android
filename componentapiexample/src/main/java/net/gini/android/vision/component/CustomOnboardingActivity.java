@@ -22,6 +22,7 @@ public class CustomOnboardingActivity extends Activity implements OnboardingFrag
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_onboarding);
         readExtras();
+        // Onboarding can be shown with or without an empyt last page
         createFragment();
         showFragment();
     }

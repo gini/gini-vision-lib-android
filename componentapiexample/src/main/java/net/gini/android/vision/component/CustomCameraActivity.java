@@ -18,7 +18,9 @@ public class CustomCameraActivity extends Activity implements CameraFragmentList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // The CameraFragment is included into the layout
         setContentView(R.layout.activity_custom_camera);
+        // The GiniVisionCoordinator helps in using the Gini Vision Library's default behaviour with the Component API
         createGiniVisionCoordinator();
     }
 
@@ -42,6 +44,7 @@ public class CustomCameraActivity extends Activity implements CameraFragmentList
 
     @Override
     public void onDocumentAvailable(@NonNull Document document) {
+        // A photo was taken and we can continue to the ReviewFragment
         Intent intent = new Intent(this, CustomReviewActivity.class);
         intent.putExtra(CustomReviewActivity.EXTRA_IN_DOCUMENT, document);
         startActivity(intent);

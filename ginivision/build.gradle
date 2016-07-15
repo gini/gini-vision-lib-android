@@ -55,6 +55,13 @@ android.libraryVariants.all { variant ->
         options.author = true
         options.windowTitle = "Gini Vision Library for Android"
         options.docTitle = "Gini Vision Library for Android"
+
+        doLast {
+            copy {
+                from "src/main/javadoc"
+                into "$buildDir/docs/javadoc"
+            }
+        }
     }
 }
 

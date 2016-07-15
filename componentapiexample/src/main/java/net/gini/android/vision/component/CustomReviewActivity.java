@@ -26,6 +26,7 @@ public class CustomReviewActivity extends Activity implements ReviewFragmentList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_review);
+        // The ReviewFragment cannot be directly added to a layout, because it requires a Document
         createFragment();
         showFragment();
     }
@@ -47,6 +48,10 @@ public class CustomReviewActivity extends Activity implements ReviewFragmentList
 
     @Override
     public void onShouldAnalyzeDocument(@NonNull Document document) {
+        // We should start analyzing the document by sending it to the Gini API
+        // If the user does not modify the image we can get the analysis results earlier
+        // Currently we only simulate analysis and we tell the ReviewFragment that the
+        // document was analyzed after 2000 ms
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -58,6 +63,8 @@ public class CustomReviewActivity extends Activity implements ReviewFragmentList
 
     @Override
     public void onProceedToAnalysisScreen(@NonNull Document document) {
+        // Analysis was not done or the document was modified when the user pressed the Next button
+        // Continue to the AnalysisFragment
         Intent intent = new Intent(this, CustomAnalysisActivity.class);
         intent.putExtra(CustomAnalysisActivity.EXTRA_IN_DOCUMENT, document);
         startActivity(intent);
@@ -65,6 +72,7 @@ public class CustomReviewActivity extends Activity implements ReviewFragmentList
 
     @Override
     public void onDocumentReviewedAndAnalyzed(@NonNull Document document) {
+        // Document was analyzed, we should have the extractions and can finish here (no need to continue to the AnalysisFragment)
         Toast.makeText(this, "Photo extractions received", Toast.LENGTH_SHORT).show();
         finish();
     }

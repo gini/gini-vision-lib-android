@@ -10,7 +10,7 @@
     tools:context="net.gini.android.vision.screen.MainActivity">
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Gini Vision Library"
         android:id="@+id/button_start_scanner"

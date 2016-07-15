@@ -51,9 +51,25 @@ public class MainActivity extends AppCompatActivity {
 
     private void startScanner() {
         Intent intent = new Intent(this, CameraActivity.class);
+
+        // Add an extra page to the Onboarding pages
         intent.putParcelableArrayListExtra(CameraActivity.EXTRA_IN_ONBOARDING_PAGES, getOnboardingPages());
+
+        // Set EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN to false to disable automatically showing the OnboardingActivity the
+        // first time the CameraActivity is launched - we highly recommend letting the Gini Vision Library show the
+        // OnboardingActivity at first run
+        //intent.putExtra(CameraActivity.EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN, false);
+
+        // Set EXTRA_IN_SHOW_ONBOARDING to true, to show the OnboardingActivity when the CameraActivity starts
+        //intent.putExtra(CameraActivity.EXTRA_IN_SHOW_ONBOARDING, true);
+
+        // Set your ReviewActivity subclass
         CameraActivity.setReviewActivityExtra(intent, this, ReviewActivity.class);
+
+        // Set your AnalysisActivity subclass
         CameraActivity.setAnalysisActivityExtra(intent, this, AnalysisActivity.class);
+
+        // Start for result in order to receive the error result, in case something went wrong
         startActivityForResult(intent, REQUEST_SCAN);
     }
 
@@ -62,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private ArrayList<OnboardingPage> getOnboardingPages() {
+        // Adding a custom page to the default pages
         ArrayList<OnboardingPage> pages = DefaultPages.asArrayList();
         pages.add(new OnboardingPage(R.string.additional_onboarding_page, R.drawable.additional_onboarding_illustration));
         return pages;
@@ -75,9 +92,12 @@ public class MainActivity extends AppCompatActivity {
             }
             switch (resultCode) {
                 case RESULT_OK:
+                    // Retrieve the extra we set in our ReviewActivity or AnalysisActivity subclasses
                     String extractions = data.getStringExtra(EXTRA_OUT_EXTRACTIONS);
+                    Toast.makeText(this, extractions, Toast.LENGTH_LONG).show();
                     break;
                 case CameraActivity.RESULT_ERROR:
+                    // Something went wrong, retrieve the error
                     GiniVisionError error = data.getParcelableExtra(CameraActivity.EXTRA_OUT_ERROR);
                     if (error != null) {
                         Toast.makeText(this, "Error: " +

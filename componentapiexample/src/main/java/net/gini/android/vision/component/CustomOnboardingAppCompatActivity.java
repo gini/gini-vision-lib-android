@@ -22,6 +22,7 @@ public class CustomOnboardingAppCompatActivity extends AppCompatActivity impleme
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_onboarding_compat);
         readExtras();
+        // Onboarding can be shown with or without an empyt last page
         createFragment();
         showFragment();
     }
