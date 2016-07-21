@@ -26,6 +26,7 @@ dependencies {
     compile deps.supportv13
     compile deps.supportDesign
     compile deps.sanselan
+    compile deps.slf4j
 
     testCompile deps.junit
     testCompile deps.truth

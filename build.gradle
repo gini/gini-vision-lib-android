@@ -39,6 +39,8 @@ ext.deps = [
         supportDesign: 'com.android.support:design:23.4.0',
         // Exif editing library
         sanselan: 'org.apache.sanselan:sanselan:0.97-incubator',
+        // Logging
+        slf4j: 'org.slf4j:slf4j-api:1.7.21',
         // Test dependencies
         junit    : 'junit:junit:4.12',
         supportTestRunner: 'com.android.support.test:runner:0.5',
