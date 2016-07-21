@@ -103,7 +103,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     private void onViewLayoutFinished() {
-        mStartAnimationDeferred.resolve();
+        mStartAnimationDeferred.resolve(null);
     }
 
     public void onDestroy() {
@@ -113,11 +113,12 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
     @Override
     public void startScanAnimation() {
-        mStartAnimationDeferred.promise().then(new SimplePromise.DoneCallback() {
+        mStartAnimationDeferred.promise().done(new SimplePromise.DoneCallback() {
             @Override
-            public void onDone() {
+            public SimplePromise onDone(Object result) {
                 initScanAnimation();
                 startScanAnimationInternal();
+                return null;
             }
         });
     }
