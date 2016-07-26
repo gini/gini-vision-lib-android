@@ -9,7 +9,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -324,13 +323,5 @@ public class SimpleDeferredTest {
         assertThat(resolutionThreadName[0]).isNotNull();
         assertThat(doneThreadName[0]).isNotNull();
         assertThat(doneThreadName[0]).isEqualTo(resolutionThreadName[0]);
-    }
-
-    private class CustomObject {
-        public final List<Integer> someList;
-
-        private CustomObject(List<Integer> someList) {
-            this.someList = someList;
-        }
     }
 }

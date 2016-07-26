@@ -61,4 +61,16 @@ public class SimpleDeferred {
     public void reject(@Nullable Object failure) {
         mPromise.triggerFail(failure);
     }
+
+    public static SimplePromise resolvedPromise(@Nullable Object result) {
+        SimpleDeferred deferred = new SimpleDeferred();
+        deferred.resolve(result);
+        return deferred.promise();
+    }
+
+    public static SimplePromise rejectedPromise(@Nullable Object failure) {
+        SimpleDeferred deferred = new SimpleDeferred();
+        deferred.reject(failure);
+        return deferred.promise();
+    }
 }
