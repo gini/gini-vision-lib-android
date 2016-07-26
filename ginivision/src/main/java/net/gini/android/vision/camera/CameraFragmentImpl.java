@@ -10,8 +10,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
@@ -24,17 +25,22 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.camera.api.CameraController;
-import net.gini.android.vision.camera.api.CameraInterface;
 import net.gini.android.vision.camera.photo.Photo;
+import net.gini.android.vision.camera.view.CameraPreviewSurface;
 import net.gini.android.vision.ui.FragmentImplCallback;
 import net.gini.android.vision.ui.ViewStubSafeInflater;
+import net.gini.android.vision.util.promise.Promises;
+import net.gini.android.vision.util.promise.SimpleDeferred;
+import net.gini.android.vision.util.promise.SimplePromise;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 class CameraFragmentImpl implements CameraFragmentInterface {
+
+    private static final Logger LOG = LoggerFactory.getLogger(CameraFragmentImpl.class);
 
     private static final CameraFragmentListener NO_OP_LISTENER = new CameraFragmentListener() {
         @Override
@@ -50,14 +56,15 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     private CameraFragmentListener mListener = NO_OP_LISTENER;
 
     private CameraController mCameraController;
-    private CameraListener mCameraListener;
 
-    private ImageView mCameraPreview;
+    private CameraPreviewSurface mCameraPreview;
     private ImageView mImageCorners;
     private ImageButton mButtonCameraTrigger;
     private LinearLayout mLayoutNoPermission;
 
     private ViewStubSafeInflater mViewStubInflater;
+
+    private SimpleDeferred mSurfaceCreatedDeferred = new SimpleDeferred();
 
     CameraFragmentImpl(@NonNull FragmentImplCallback fragment) {
         mFragment = fragment;
@@ -69,9 +76,6 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         } else {
             mListener = listener;
         }
-        if (mCameraListener != null) {
-            mCameraListener.setFragmentListener(mListener);
-        }
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,45 +83,101 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         View view = inflater.inflate(R.layout.gv_fragment_camera, container, false);
         bindViews(view);
         setInputHandlers();
+        setSurfaceViewCallback();
         return view;
     }
 
     public void onStart() {
-        mCameraController = new CameraController();
-        createCameraListener();
-        mCameraController.setListener(mCameraListener);
-        mCameraController.open();
+        if (mFragment.getActivity() == null) {
+            return;
+        }
+        initCameraController(mFragment.getActivity());
+        Promises.bundle(openCamera(), mSurfaceCreatedDeferred.promise())
+                .done(new SimplePromise.DoneCallback() {
+                    @Nullable
+                    @Override
+                    public SimplePromise onDone(@Nullable Object result) {
+                        List<Promises.Resolution> results = (List<Promises.Resolution>) result;
+                        if (results != null && results.get(0) != null && results.get(1) != null) {
+                            SurfaceHolder holder = (SurfaceHolder) results.get(1).getResult();
+                            if (holder != null) {
+                                mCameraPreview.setPreviewSize(mCameraController.getPreviewSize());
+                                mCameraController.startPreview(holder);
+                                mCameraController.enableTapToFocus(mCameraPreview);
+                            } else {
+                                LOG.error("Cannot start preview: no SurfaceHolder received for SurfaceView");
+                                mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.CAMERA_UNKNOWN, ""));
+                            }
+                        }
+                        return null;
+                    }
+                })
+                .fail(new SimplePromise.FailCallback() {
+                    @Nullable
+                    @Override
+                    public SimplePromise onFailed(@Nullable Object failure) {
+                        List<Promises.Failure> failures = (List<Promises.Failure>) failure;
+                        if (failures != null) {
+                            LOG.error("Cannot start preview");
+                            mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.CAMERA_UNKNOWN, ""));
+                        }
+                        return null;
+                    }
+                });
     }
 
-    private void createCameraListener() {
-        mCameraListener = new CameraListener(mListener, new CameraListener.Callback() {
+    private SimplePromise openCamera() {
+        LOG.info("Opening camera");
+        return mCameraController.open()
+                .done(new SimplePromise.DoneCallback() {
+                    @Nullable
+                    @Override
+                    public SimplePromise onDone(@Nullable Object result) {
+                        LOG.info("Camera opened");
+                        hideNoPermissionView();
+                        return null;
+                    }
+                })
+                .fail(new SimplePromise.FailCallback() {
+                    @Nullable
+                    @Override
+                    public SimplePromise onFailed(@Nullable Object failure) {
+                        RuntimeException exception = (RuntimeException) failure;
+                        if (exception != null) {
+                            handleCameraException(exception);
+                        } else {
+                            LOG.error("Failed to open camera");
+                            mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.CAMERA_UNKNOWN, ""));
+                        }
+                        return null;
+                    }
+                });
+    }
 
-            @Override
-            public void onHideNoPermissionView() {
-                hideNoPermissionView();
-                // TODO: this hack is only for the stub library
-                mCameraPreview.setImageResource(R.drawable.gv_test_document);
-            }
-
-            @Override
-            public void onShowNoPermissionView() {
-                showNoPermissionView();
-            }
-
-            @Override
-            public void onCameraError() {
-                // TODO: this hack is only for the stub library
-                mCameraPreview.setImageDrawable(null);
-            }
-        });
+    private void handleCameraException(@NonNull RuntimeException e) {
+        LOG.error("Failed to open camera", e);
+        GiniVisionError error = cameraExceptionToGiniVisionError(e);
+        if (error.getErrorCode() == GiniVisionError.ErrorCode.CAMERA_NO_ACCESS) {
+            showNoPermissionView();
+        } else {
+            mListener.onError(cameraExceptionToGiniVisionError(e));
+        }
     }
 
     public void onStop() {
+        closeCamera();
+    }
 
+    private void closeCamera() {
+        LOG.info("Closing camera");
+        mCameraController.disableTapToFocus(mCameraPreview);
+        mCameraController.stopPreview();
+        mCameraController.close();
+        LOG.info("Camera closed");
     }
 
     private void bindViews(View view) {
-        mCameraPreview = (ImageView) view.findViewById(R.id.gv_camera_preview);
+        mCameraPreview = (CameraPreviewSurface) view.findViewById(R.id.gv_camera_preview);
         mImageCorners = (ImageView) view.findViewById(R.id.gv_image_corners);
         mButtonCameraTrigger = (ImageButton) view.findViewById(R.id.gv_button_camera_trigger);
         ViewStub stubNoPermission = (ViewStub) view.findViewById(R.id.gv_stub_camera_no_permission);
@@ -126,15 +186,58 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
     private void setInputHandlers() {
         mButtonCameraTrigger.setOnClickListener(new View.OnClickListener() {
+            private boolean mTakingPicture = false;
+
             @Override
             public void onClick(View v) {
-                // TODO: this is only for the stub library
-                byte[] testDocument = loadTestDocument();
-                if (testDocument != null) {
-                    mListener.onDocumentAvailable(Document.fromPhoto(Photo.fromJpeg(testDocument, 0)));
-                } else {
-                    mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.CAMERA_UNKNOWN, "Could not load the test document jpeg."));
-                }
+                LOG.info("Taking picture");
+                mTakingPicture = true;
+                mCameraController.takePicture()
+                        .done(new SimplePromise.DoneCallback() {
+                            @Nullable
+                            @Override
+                            public SimplePromise onDone(@Nullable Object result) {
+                                Photo photo = (Photo) result;
+                                if (photo != null) {
+                                    LOG.info("Picture taken");
+                                    mListener.onDocumentAvailable(Document.fromPhoto(photo));
+                                } else {
+                                    LOG.error("Failed to take picture: no picture from the camera");
+                                    mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.CAMERA_UNKNOWN, "No picture received from the camera."));
+                                }
+                                return null;
+                            }
+                        })
+                        .fail(new SimplePromise.FailCallback() {
+                            @Nullable
+                            @Override
+                            public SimplePromise onFailed(@Nullable Object failure) {
+                                LOG.error("Failed to take picture");
+                                mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.CAMERA_UNKNOWN, "Could not take picture."));
+                                return null;
+                            }
+                        });
+            }
+        });
+    }
+
+    private void setSurfaceViewCallback() {
+        mCameraPreview.getHolder().addCallback(new SurfaceHolder.Callback() {
+            @Override
+            public void surfaceCreated(SurfaceHolder holder) {
+                LOG.debug("Surface created");
+                mSurfaceCreatedDeferred.resolve(holder);
+            }
+
+            @Override
+            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+                LOG.debug("Surface changed");
+            }
+
+            @Override
+            public void surfaceDestroyed(SurfaceHolder holder) {
+                LOG.debug("Surface destroyed");
+                mSurfaceCreatedDeferred = new SimpleDeferred();
             }
         });
     }
@@ -148,6 +251,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void showDocumentCornerGuidesAnimated() {
+        LOG.debug("Showing document corner guides");
         mImageCorners.animate().alpha(1.0f);
     }
 
@@ -160,6 +264,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void hideDocumentCornerGuidesAnimated() {
+        LOG.debug("Hiding document corner guides");
         mImageCorners.animate().alpha(0.0f);
     }
 
@@ -172,6 +277,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void showCameraTriggerButtonAnimated() {
+        LOG.debug("Showing camera trigger button");
         mButtonCameraTrigger.animate().alpha(1.0f);
         mButtonCameraTrigger.setEnabled(true);
     }
@@ -185,6 +291,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void hideCameraTriggerButtonAnimated() {
+        LOG.debug("Hiding camera trigger button");
         mButtonCameraTrigger.animate().alpha(0.0f);
         mButtonCameraTrigger.setEnabled(false);
     }
@@ -207,11 +314,13 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
     private void inflateNoPermissionStub() {
         if (mLayoutNoPermission == null) {
+            LOG.debug("Inflating no permission view");
             mLayoutNoPermission = (LinearLayout) mViewStubInflater.inflate();
         }
     }
 
     public void hideNoPermissionView() {
+        LOG.debug("Hiding no permission view");
         showCameraPreviewAnimated();
         showCameraTriggerButtonAnimated();
         showDocumentCornerGuidesAnimated();
@@ -229,11 +338,13 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void hideCameraPreviewAnimated() {
+        LOG.debug("Hiding camera preview");
         mCameraPreview.animate().alpha(0.0f);
         mCameraPreview.setEnabled(false);
     }
 
     private void showCameraPreviewAnimated() {
+        LOG.debug("Showing camera preview");
         mCameraPreview.animate().alpha(1.0f);
         mCameraPreview.setEnabled(true);
     }
@@ -257,6 +368,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         if (view == null) {
             return;
         }
+        LOG.debug("Hiding no permission button");
         Button button = (Button) view.findViewById(R.id.gv_button_camera_no_permission);
         button.setVisibility(View.GONE);
     }
@@ -266,112 +378,18 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         if (activity == null) {
             return;
         }
+        LOG.debug("Starting Application Details");
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         Uri uri = Uri.fromParts("package", getClientApplicationId(activity), null);
         intent.setData(uri);
         mFragment.startActivity(intent);
     }
 
-    // TODO: used only for the stub library
-    private byte[] loadTestDocument() {
-        if (mFragment.getActivity() == null) {
-            return null;
+    private CameraController initCameraController(Activity activity) {
+        if (mCameraController == null) {
+            LOG.debug("CameraController created");
+            mCameraController = new CameraController(activity);
         }
-        InputStream inputStream = null;
-        ByteArrayOutputStream outputStream = null;
-        try {
-            inputStream = mFragment.getActivity().getAssets().open("gv_test_document.jpg");
-            outputStream = new ByteArrayOutputStream();
-            copyStream(inputStream, outputStream);
-        } catch (IOException e) {
-            // Ignore
-            return null;
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    // Ignore
-                }
-            }
-            if (outputStream != null) {
-                try {
-                    outputStream.close();
-                } catch (IOException e) {
-                    // Ignore
-                }
-            }
-        }
-        return outputStream.toByteArray();
-    }
-
-    // TODO: used only for the stub library
-    private OutputStream copyStream(InputStream is, OutputStream os) throws IOException {
-        int bufferLength = 8192;
-        byte[] buffer = new byte[bufferLength];
-        int bytesRead;
-        while ((bytesRead = is.read(buffer)) != -1) {
-            os.write(buffer, 0, bytesRead);
-        }
-        return os;
-    }
-
-    @VisibleForTesting
-    static class CameraListener implements CameraInterface.Listener {
-
-        public interface Callback {
-            void onHideNoPermissionView();
-
-            void onShowNoPermissionView();
-
-            void onCameraError();
-        }
-
-        private CameraFragmentListener mFragmentListener;
-        private final Callback mCallback;
-
-        CameraListener(@NonNull CameraFragmentListener fragmentListener, @NonNull Callback callback) {
-            mFragmentListener = fragmentListener;
-            mCallback = callback;
-        }
-
-        public void setFragmentListener(@NonNull CameraFragmentListener fragmentListener) {
-            mFragmentListener = fragmentListener;
-        }
-
-        @Override
-        public void onCameraOpened() {
-            mCallback.onHideNoPermissionView();
-        }
-
-        @Override
-        public void onCameraClosed() {
-
-        }
-
-        @Override
-        public void onCameraFocusFinished(boolean success) {
-
-        }
-
-        @Override
-        public void onPhotoTaken(@NonNull Photo photo) {
-
-        }
-
-        @Override
-        public void onCameraError(@NonNull RuntimeException e) {
-            handleCameraException(e);
-            mCallback.onCameraError();
-        }
-
-        private void handleCameraException(RuntimeException e) {
-            GiniVisionError error = cameraExceptionToGiniVisionError(e);
-            if (error.getErrorCode() == GiniVisionError.ErrorCode.CAMERA_NO_ACCESS) {
-                mCallback.onShowNoPermissionView();
-            } else {
-                mFragmentListener.onError(cameraExceptionToGiniVisionError(e));
-            }
-        }
+        return mCameraController;
     }
 }

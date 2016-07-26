@@ -5,25 +5,11 @@
     android:background="@color/gv_camera_fragment_background"
     tools:context=".camera.CameraFragmentCompat">
 
-    <!-- Replacing with an ImageView until the Camera will have been integrated -->
-    <!--<SurfaceView-->
-    <!--android:id="@+id/gv_camera_preview"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_centerInParent="true"-->
-    <!--android:layout_marginBottom="30dp"-->
-    <!--android:layout_marginTop="30dp"-->
-    <!--android:background="#999" />-->
-    <ImageView
+    <net.gini.android.vision.camera.view.CameraPreviewSurface
         android:id="@+id/gv_camera_preview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="30dp"
-        android:layout_marginTop="30dp"
-        android:background="#333"
-        android:scaleType="fitCenter"
-        android:src="@drawable/gv_test_document" />
+        android:layout_centerInParent="true" />
 
     <ImageView
         android:id="@+id/gv_image_corners"
