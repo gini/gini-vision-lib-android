@@ -4,6 +4,7 @@ import static net.gini.android.vision.camera.api.Util.getLargestFourThreeRatioSi
 
 import android.app.Activity;
 import android.graphics.Matrix;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.hardware.Camera;
@@ -159,7 +160,7 @@ public class CameraController implements CameraInterface {
     }
 
     @Override
-    public void enableTapToFocus(@NonNull View tapView) {
+    public void enableTapToFocus(@NonNull View tapView, @Nullable final TapToFocusListener listener) {
         LOG.info("Tap to focus enabled");
         tapView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -196,6 +197,9 @@ public class CameraController implements CameraInterface {
 
                     try {
                         mFocusing.set(true);
+                        if (listener != null) {
+                            listener.onFocusing(new Point(Math.round(x), Math.round(y)));
+                        }
                         mCamera.setParameters(parameters);
                         LOG.info("Focusing started");
                         mCamera.autoFocus(new Camera.AutoFocusCallback() {
@@ -203,6 +207,9 @@ public class CameraController implements CameraInterface {
                             public void onAutoFocus(final boolean success, Camera camera) {
                                 LOG.info("Focusing finished with result: {}", success);
                                 mFocusing.set(false);
+                                if (listener != null) {
+                                    listener.onFocused(success);
+                                }
                                 mResetFocusHandler.removeCallbacks(mResetFocusMode);
                                 mResetFocusHandler.postDelayed(mResetFocusMode, 5000);
                             }

@@ -84,7 +84,7 @@ import java.util.ArrayList;
  *             <b>Camera trigger button:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_camera_trigger_default.png} and {@code gv_camera_trigger_pressed.png}
  *         </li>
  *         <li>
- *             <b>Tap-to-focus indicator:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_camera_focus_rect.png}
+ *             <b>Tap-to-focus indicator:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_camera_focus_indicator.png}
  *         </li>
  *         <li>
  *             <b>Onboarding menu item icon:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_icon_onboarding.png}

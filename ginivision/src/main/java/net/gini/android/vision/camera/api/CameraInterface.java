@@ -1,6 +1,8 @@
 package net.gini.android.vision.camera.api;
 
+import android.graphics.Point;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.SurfaceHolder;
 import android.view.View;
 
@@ -63,11 +65,11 @@ public interface CameraInterface {
      * </p>
      * @param tapView the view used to handle taps
      */
-    void enableTapToFocus(@NonNull View tapView);
+    void enableTapToFocus(@NonNull View tapView, @Nullable TapToFocusListener listener);
 
     /**
      * Disables tap-to-focus.
-     * @param tapView the view set with {@link CameraInterface#enableTapToFocus(View)} to handle taps
+     * @param tapView the view set with {@link CameraInterface#enableTapToFocus(View, TapToFocusListener)} to handle taps
      */
     void disableTapToFocus(@NonNull View tapView);
 
@@ -106,4 +108,9 @@ public interface CameraInterface {
      */
     @NonNull
     Size getPictureSize();
+
+    public interface TapToFocusListener {
+        void onFocusing(Point point);
+        void onFocused(boolean success);
+    }
 }

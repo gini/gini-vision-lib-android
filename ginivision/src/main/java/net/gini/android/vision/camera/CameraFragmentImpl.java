@@ -6,6 +6,7 @@ import static net.gini.android.vision.util.ContextHelper.getClientApplicationId;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -20,11 +21,13 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.camera.api.CameraController;
+import net.gini.android.vision.camera.api.CameraInterface;
 import net.gini.android.vision.camera.photo.Photo;
 import net.gini.android.vision.camera.view.CameraPreviewSurface;
 import net.gini.android.vision.ui.FragmentImplCallback;
@@ -57,7 +60,9 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
     private CameraController mCameraController;
 
+    private RelativeLayout mLayoutRoot;
     private CameraPreviewSurface mCameraPreview;
+    private ImageView mCameraFocusIndicator;
     private ImageView mImageCorners;
     private ImageButton mButtonCameraTrigger;
     private LinearLayout mLayoutNoPermission;
@@ -103,7 +108,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                             if (holder != null) {
                                 mCameraPreview.setPreviewSize(mCameraController.getPreviewSize());
                                 mCameraController.startPreview(holder);
-                                mCameraController.enableTapToFocus(mCameraPreview);
+                                enableTapToFocus();
                             } else {
                                 LOG.error("Cannot start preview: no SurfaceHolder received for SurfaceView");
                                 mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.CAMERA_UNKNOWN, ""));
@@ -124,6 +129,26 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                         return null;
                     }
                 });
+    }
+
+    private void enableTapToFocus() {
+        mCameraController.enableTapToFocus(mCameraPreview, new CameraInterface.TapToFocusListener() {
+            @Override
+            public void onFocusing(Point point) {
+                int top = Math.round((mLayoutRoot.getHeight() - mCameraPreview.getHeight()) / 2.0f);
+                int left = Math.round((mLayoutRoot.getWidth() - mCameraPreview.getWidth()) / 2.0f);
+                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) mCameraFocusIndicator.getLayoutParams();
+                layoutParams.leftMargin = (int) Math.round(left + point.x - (mCameraFocusIndicator.getWidth() / 2.0));
+                layoutParams.topMargin = (int) Math.round(top + point.y - (mCameraFocusIndicator.getHeight() / 2.0));
+                mCameraFocusIndicator.setLayoutParams(layoutParams);
+                mCameraFocusIndicator.animate().setDuration(200).alpha(1.0f);
+            }
+
+            @Override
+            public void onFocused(boolean success) {
+                mCameraFocusIndicator.animate().setDuration(200).alpha(0.0f);
+            }
+        });
     }
 
     private SimplePromise openCamera() {
@@ -177,7 +202,9 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void bindViews(View view) {
+        mLayoutRoot = (RelativeLayout) view.findViewById(R.id.gv_root);
         mCameraPreview = (CameraPreviewSurface) view.findViewById(R.id.gv_camera_preview);
+        mCameraFocusIndicator = (ImageView) view.findViewById(R.id.gv_camera_focus_indicator);
         mImageCorners = (ImageView) view.findViewById(R.id.gv_image_corners);
         mButtonCameraTrigger = (ImageButton) view.findViewById(R.id.gv_button_camera_trigger);
         ViewStub stubNoPermission = (ViewStub) view.findViewById(R.id.gv_stub_camera_no_permission);
@@ -186,12 +213,9 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
     private void setInputHandlers() {
         mButtonCameraTrigger.setOnClickListener(new View.OnClickListener() {
-            private boolean mTakingPicture = false;
-
             @Override
             public void onClick(View v) {
                 LOG.info("Taking picture");
-                mTakingPicture = true;
                 mCameraController.takePicture()
                         .done(new SimplePromise.DoneCallback() {
                             @Nullable
