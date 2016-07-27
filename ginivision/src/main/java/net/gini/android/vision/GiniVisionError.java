@@ -17,6 +17,9 @@ public class GiniVisionError implements Parcelable {
      */
     public enum ErrorCode {
         CAMERA_NO_ACCESS,
+        CAMERA_OPEN_FAILED,
+        CAMERA_NO_PREVIEW,
+        CAMERA_SHOT_FAILED,
         CAMERA_UNKNOWN,
         REVIEW;
     }

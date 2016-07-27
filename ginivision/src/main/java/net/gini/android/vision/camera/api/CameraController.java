@@ -69,12 +69,6 @@ public class CameraController implements CameraInterface {
         mUIExecutor = new UIExecutor();
     }
 
-    /**
-     * <p>
-     *     Opens first the back-facing camera.
-     * </p>
-     * @return a {@link SimplePromise}{@code [done: null, fail: String|RuntimeException]}
-     */
     @NonNull
     @Override
     public SimplePromise open() {
@@ -113,16 +107,6 @@ public class CameraController implements CameraInterface {
         LOG.info("Camera closed");
     }
 
-    /**
-     * <p>
-     *     Starts the preview using the given {@link SurfaceHolder}.
-     * </p>
-     * <p>
-     *     <b>Note</b>: the {@link android.view.SurfaceView} must have been created when starting the preview.
-     * </p>
-     * @param surfaceHolder the {@link SurfaceHolder} for the camera preview {@link android.view.SurfaceView}
-     * @return a {@link SimplePromise}{@code [done: null, fail: String|IOException]}
-     */
     @NonNull
     @Override
     public SimplePromise startPreview(@NonNull SurfaceHolder surfaceHolder) {
@@ -230,12 +214,6 @@ public class CameraController implements CameraInterface {
         tapView.setOnTouchListener(null);
     }
 
-    /**
-     * <p>
-     *     Start a focus run.
-     * </p>
-     * @return a {@link SimplePromise}{@code [done: boolean, fail: null]}
-     */
     @NonNull
     @Override
     public SimplePromise focus() {
@@ -272,12 +250,6 @@ public class CameraController implements CameraInterface {
         return deferred.promise();
     }
 
-    /**
-     * <p>
-     *     Take a picture with the camera.
-     * </p>
-     * @return a {@link SimplePromise}{@code [done: Photo, fail: String]}
-     */
     @NonNull
     @Override
     public SimplePromise takePicture() {

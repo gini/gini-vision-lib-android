@@ -24,7 +24,7 @@ public interface CameraInterface {
      * <p>
      *     Opens the first back-facing camera.
      * </p>
-     * @return a promise
+     * @return a {@link SimplePromise}{@code [done: null, fail: String|Exception]}
      */
     @NonNull
     SimplePromise open();
@@ -44,7 +44,7 @@ public interface CameraInterface {
      *     <b>Note</b>: the {@link android.view.SurfaceView} must have been created when starting the preview.
      * </p>
      * @param surfaceHolder the {@link SurfaceHolder} for the camera preview {@link android.view.SurfaceView}
-     * @return a promise
+     * @return a {@link SimplePromise}{@code [done: null, fail: String|Exception]}
      */
     @NonNull
     SimplePromise startPreview(@NonNull SurfaceHolder surfaceHolder);
@@ -75,9 +75,9 @@ public interface CameraInterface {
 
     /**
      * <p>
-     *     Starts a focus run.
+     *     Start a focus run.
      * </p>
-     * @return a promise
+     * @return a {@link SimplePromise}{@code [done: boolean, fail: null]}
      */
     @NonNull
     SimplePromise focus();
@@ -86,7 +86,7 @@ public interface CameraInterface {
      * <p>
      *     Take a picture with the camera.
      * </p>
-     * @return a promise
+     * @return a {@link SimplePromise}{@code [done: Photo, fail: String]}
      */
     @NonNull
     SimplePromise takePicture();
