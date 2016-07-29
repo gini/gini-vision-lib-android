@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -300,7 +301,8 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         clearMemory();
     }
 
-    private void readExtras() {
+    @VisibleForTesting
+    void readExtras() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mOnboardingPages = extras.getParcelableArrayList(EXTRA_IN_ONBOARDING_PAGES);
