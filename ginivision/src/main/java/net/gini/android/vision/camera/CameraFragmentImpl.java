@@ -102,7 +102,9 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                     @Nullable
                     @Override
                     public SimplePromise onDone(@Nullable Object result) {
+                        //noinspection unchecked
                         List<Promises.Resolution> results = (List<Promises.Resolution>) result;
+                        // Start the preview only after the camera has opened and the surface was created
                         if (results != null && results.get(0) != null && results.get(1) != null) {
                             SurfaceHolder holder = (SurfaceHolder) results.get(1).getResult();
                             if (holder != null) {
@@ -122,7 +124,9 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                     @Nullable
                     @Override
                     public SimplePromise onFailed(@Nullable Object failure) {
+                        //noinspection unchecked
                         List<Promises.Failure> failures = (List<Promises.Failure>) failure;
+                        // Check only the surface creation failure, camera failure was handled in openCamera()
                         if (failures != null && failures.get(1) != null) {
                             String message = "Cannot start preview: Could not create SurfaceView";
                             LOG.error(message);
@@ -161,20 +165,28 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mCameraController.enableTapToFocus(mCameraPreview, new CameraInterface.TapToFocusListener() {
             @Override
             public void onFocusing(Point point) {
-                int top = Math.round((mLayoutRoot.getHeight() - mCameraPreview.getHeight()) / 2.0f);
-                int left = Math.round((mLayoutRoot.getWidth() - mCameraPreview.getWidth()) / 2.0f);
-                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) mCameraFocusIndicator.getLayoutParams();
-                layoutParams.leftMargin = (int) Math.round(left + point.x - (mCameraFocusIndicator.getWidth() / 2.0));
-                layoutParams.topMargin = (int) Math.round(top + point.y - (mCameraFocusIndicator.getHeight() / 2.0));
-                mCameraFocusIndicator.setLayoutParams(layoutParams);
-                mCameraFocusIndicator.animate().setDuration(200).alpha(1.0f);
+                showFocusIndicator(point);
             }
 
             @Override
             public void onFocused(boolean success) {
-                mCameraFocusIndicator.animate().setDuration(200).alpha(0.0f);
+                hideFocusIndicator();
             }
         });
+    }
+
+    private void showFocusIndicator(Point point) {
+        int top = Math.round((mLayoutRoot.getHeight() - mCameraPreview.getHeight()) / 2.0f);
+        int left = Math.round((mLayoutRoot.getWidth() - mCameraPreview.getWidth()) / 2.0f);
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) mCameraFocusIndicator.getLayoutParams();
+        layoutParams.leftMargin = (int) Math.round(left + point.x - (mCameraFocusIndicator.getWidth() / 2.0));
+        layoutParams.topMargin = (int) Math.round(top + point.y - (mCameraFocusIndicator.getHeight() / 2.0));
+        mCameraFocusIndicator.setLayoutParams(layoutParams);
+        mCameraFocusIndicator.animate().setDuration(200).alpha(1.0f);
+    }
+
+    private void hideFocusIndicator() {
+        mCameraFocusIndicator.animate().setDuration(200).alpha(0.0f);
     }
 
     private SimplePromise openCamera() {
