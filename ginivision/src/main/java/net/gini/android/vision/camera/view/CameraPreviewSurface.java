@@ -6,6 +6,9 @@ import android.view.SurfaceView;
 
 import net.gini.android.vision.camera.photo.Size;
 
+/**
+ * @exclude
+ */
 public class CameraPreviewSurface extends SurfaceView {
 
     private Size mPreviewSize;

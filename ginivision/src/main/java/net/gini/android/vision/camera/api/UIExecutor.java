@@ -3,6 +3,9 @@ package net.gini.android.vision.camera.api;
 import android.os.Handler;
 import android.os.Looper;
 
+/**
+ * @exclude
+ */
 public class UIExecutor {
     private final Thread mUiThread;
     private final Handler mUiHandler;

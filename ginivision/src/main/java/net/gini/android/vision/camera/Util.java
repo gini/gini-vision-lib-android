@@ -4,6 +4,9 @@ import android.support.annotation.NonNull;
 
 import net.gini.android.vision.GiniVisionError;
 
+/**
+ * @exclude
+ */
 final class Util {
 
     private static final String CAMERA_EXCEPTION_MESSAGE_NO_ACCESS = "Fail to connect to camera service";
