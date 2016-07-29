@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -103,7 +104,23 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     private void onViewLayoutFinished() {
+        rotateDocumentImageView();
         mStartAnimationDeferred.resolve(null);
+    }
+
+    private void rotateDocumentImageView() {
+        int newWidth = mLayoutRoot.getWidth();
+        int newHeight = mLayoutRoot.getHeight();
+        if (mPhoto.getRotationForDisplay() == 90 || mPhoto.getRotationForDisplay() == 270) {
+            newWidth = mLayoutRoot.getHeight();
+            newHeight = mLayoutRoot.getWidth();
+        }
+
+        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mImageDocument.getLayoutParams();
+        layoutParams.width = newWidth;
+        layoutParams.height = newHeight;
+        mImageDocument.setLayoutParams(layoutParams);
+        mImageDocument.setRotation(mPhoto.getRotationForDisplay());
     }
 
     public void onDestroy() {
