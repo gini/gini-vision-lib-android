@@ -7,8 +7,32 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
+/**
+ * <p>
+ *     Various helpers for promises.
+ * </p>
+ */
 public class Promises {
 
+    /**
+     * <p>
+     *     Combine multiple {@link SimplePromise}s. This is useful, if some work needs to be delayed until multiple promises have been completed (resolved or rejected).
+     * </p>
+     * <p>
+     *     The returned promise is resolved after all the bundled promises completed and at least one was resolved. To find out which were resolved cast the result to a {@code List<Promises.Resolution>} and check which indexes are not {@code null}. Indexes correspond to the order the promises were listed in the arguments.
+     * </p>
+     * <p>
+     *     The returned promise is rejected after all the bundled promises completed and at least one was rejected. To find out which were rejected cast the result to a {@code List<Promises.Failure>} and check which indexes are not {@code null}. Indexes correspond to the order the promises were listed in the arguments.
+     * </p>
+     * <p>
+     *     Resolutions and rejections are not exclusive. If some promises were resolved and some rejected the returned promise is both resolved and rejected. Check the returned result after casting to the required class to find out which promises resolved and which failed.
+     * </p>
+     * <p>
+     *     The returned promise is resolved or rejected again only if all the promises were completed again.
+     * </p>
+     * @param promises {@link SimplePromise}s to observe
+     * @return a {@link SimplePromise}{@code [done: List<Promises.Resolution>, fail: List<Promises.Failure]}
+     */
     public static SimplePromise bundle(SimplePromise... promises) {
         final SimpleDeferred deferred = new SimpleDeferred();
 

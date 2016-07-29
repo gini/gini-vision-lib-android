@@ -129,50 +129,6 @@ public class PromisesTest {
     }
 
     @Test
-    public void should_triggerCallbacks_whenDeferred_isResolvedAgain() {
-        SimpleDeferred deferredResolved1 = new SimpleDeferred();
-        SimpleDeferred deferredResolved2 = new SimpleDeferred();
-        SimpleDeferred deferredFailed1 = new SimpleDeferred();
-
-        final AtomicInteger doneCallbackInvocations = new AtomicInteger();
-        final AtomicInteger failCallbackInvocations = new AtomicInteger();
-
-        Promises.bundle(deferredResolved1.promise(),
-                deferredResolved2.promise(),
-                deferredFailed1.promise())
-                .done(new SimplePromise.DoneCallback() {
-                    @Nullable
-                    @Override
-                    public SimplePromise onDone(@Nullable Object result) {
-                        doneCallbackInvocations.incrementAndGet();
-                        return null;
-                    }
-                })
-                .fail(new SimplePromise.FailCallback() {
-                    @Nullable
-                    @Override
-                    public SimplePromise onFailed(@Nullable Object failure) {
-                        failCallbackInvocations.incrementAndGet();
-                        return null;
-                    }
-                });
-
-        deferredResolved1.resolve(null);
-        deferredResolved2.resolve(null);
-        deferredFailed1.reject(null);
-
-        assertThat(doneCallbackInvocations.get()).isEqualTo(1);
-        assertThat(failCallbackInvocations.get()).isEqualTo(1);
-
-        deferredResolved1.resolve(null);
-        deferredResolved2.resolve(null);
-        deferredFailed1.reject(null);
-
-        assertThat(doneCallbackInvocations.get()).isEqualTo(2);
-        assertThat(failCallbackInvocations.get()).isEqualTo(2);
-    }
-
-    @Test
     public void should_notTriggerCallbacks_whenSomeDeferred_wereNotResolved() {
         SimpleDeferred deferredResolved1 = new SimpleDeferred();
         SimpleDeferred deferredResolved2 = new SimpleDeferred();
