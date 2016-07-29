@@ -21,6 +21,7 @@ public class PhotoEdit {
 
     public PhotoEdit(@NonNull Photo photo) {
         mPhoto = photo;
+        resetToDefaults();
     }
 
     @NonNull
@@ -60,7 +61,7 @@ public class PhotoEdit {
     }
 
     private void resetToDefaults() {
-        mRotationDegrees = 0;
+        mRotationDegrees = mPhoto.getRotationForDisplay();
         mQuality = DEF_QUALITY;
     }
 

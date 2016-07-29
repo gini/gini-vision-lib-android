@@ -74,7 +74,17 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     }
 
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        mListener.onShouldAnalyzeDocument(Document.fromPhoto(mPhoto));
+        applyCompressionToJpeg(new PhotoEdit.PhotoEditCallback() {
+            @Override
+            public void onDone(@NonNull Photo photo) {
+                mListener.onShouldAnalyzeDocument(Document.fromPhoto(mPhoto));
+            }
+
+            @Override
+            public void onFailed() {
+                mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW, "An error occurred while applying rotation to the jpeg."));
+            }
+        });
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -173,7 +183,15 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     }
 
     private void applyRotationToJpeg(@NonNull PhotoEdit.PhotoEditCallback callback) {
-        mPhoto.edit().rotate(mCurrentRotation).applyAsync(callback);
+        mPhoto.edit()
+                .rotate(mCurrentRotation)
+                .applyAsync(callback);
+    }
+
+    private void applyCompressionToJpeg(@NonNull PhotoEdit.PhotoEditCallback callback) {
+        mPhoto.edit()
+                .compress(50)
+                .applyAsync(callback);
     }
 
     private void rotateImageView(int degrees, boolean animated) {
