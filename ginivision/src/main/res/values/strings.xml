@@ -10,7 +10,7 @@
     <string name="gv_camera_error_no_permission">Um Dokumente zu fotografieren, erlaube Gini Pay den Zugriff auf die Kamera.</string>
     <string name="gv_camera_error_no_permission_button_title">Zugriff erlauben</string>
 
-    <string name="gv_onboarding_flat">Dokument flach\nauf eine einfarbige\nFläche legen</string>
+    <string name="gv_onboarding_flat">Dokument flach fotografieren\n</string>
     <string name="gv_onboarding_parallel">Handy parallel\nzum Dokument\nhalten</string>
     <string name="gv_onboarding_align">Dokument\nvollständig in\nRahmen einpassen</string>
 
