@@ -2,7 +2,6 @@ package net.gini.android.vision.camera.photo;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,17 +16,18 @@ public class PhotoEdit {
     private static final int DEF_QUALITY = 100;
 
     private final Photo mPhoto;
-    private Matrix mMatrix = new Matrix();
+    private int mRotationDegrees;
     private int mQuality = DEF_QUALITY;
 
     public PhotoEdit(@NonNull Photo photo) {
         mPhoto = photo;
+        resetToDefaults();
     }
 
     @NonNull
     public PhotoEdit rotate(int degrees) {
         degrees %= 360;
-        mMatrix.postRotate(degrees);
+        mRotationDegrees = degrees;
         return this;
     }
 
@@ -38,12 +38,12 @@ public class PhotoEdit {
     }
 
     public void apply() {
-        applyChanges(mPhoto, mMatrix, mQuality);
+        applyChanges(mPhoto, mRotationDegrees, mQuality);
         resetToDefaults();
     }
 
     public void applyAsync(@NonNull final PhotoEditCallback callback) {
-        EditAsync async = new EditAsync(mPhoto, mMatrix, mQuality);
+        EditAsync async = new EditAsync(mPhoto, mRotationDegrees, mQuality);
         async.setCallback(new PhotoEditCallback() {
             @Override
             public void onDone(@NonNull Photo photo) {
@@ -61,31 +61,28 @@ public class PhotoEdit {
     }
 
     private void resetToDefaults() {
-        mMatrix.reset();
+        mRotationDegrees = mPhoto.getRotationForDisplay();
         mQuality = DEF_QUALITY;
     }
 
-    private static void applyChanges(@NonNull Photo photo, @NonNull Matrix matrix, int quality) {
+    private static void applyChanges(@NonNull Photo photo, int rotationDegrees, int quality) {
         if (photo.getJpeg() == null) {
             return;
         }
 
-        Bitmap originalImage = BitmapFactory.decodeByteArray(photo.getJpeg(), 0, photo.getJpeg().length);
+        if (quality != DEF_QUALITY) {
+            Bitmap originalImage = BitmapFactory.decodeByteArray(photo.getJpeg(), 0, photo.getJpeg().length);
 
-        Bitmap editedImage = originalImage;
-        if (!matrix.isIdentity()) {
-            editedImage = Bitmap.createBitmap(originalImage, 0, 0,
-                    originalImage.getWidth(), originalImage.getHeight(), matrix, false);
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            originalImage.compress(Bitmap.CompressFormat.JPEG, quality, byteArrayOutputStream);
+
+            byte[] jpeg = byteArrayOutputStream.toByteArray();
+            photo.setJpeg(jpeg);
+            photo.setBitmapPreview(Photo.createPreview(jpeg));
         }
 
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        editedImage.compress(Bitmap.CompressFormat.JPEG, quality, byteArrayOutputStream);
-
-        byte[] jpeg = byteArrayOutputStream.toByteArray();
-
-        photo.setJpeg(jpeg);
+        photo.setRotationForDisplay(rotationDegrees);
         photo.updateExif();
-        photo.setBitmapPreview(Photo.createPreview(jpeg));
     }
 
     private static class EditAsync extends AsyncTask<Void, Void, Photo> {
@@ -101,13 +98,13 @@ public class PhotoEdit {
         };
 
         private final Photo mPhoto;
-        private final Matrix mMatrix;
+        private final int mRotationDegrees;
         private final int mQuality;
         private PhotoEditCallback mCallback = NO_OP_CALLBACK;
 
-        public EditAsync(@NonNull Photo photo, @NonNull Matrix matrix, int quality) {
+        public EditAsync(@NonNull Photo photo, int rotationDegrees, int quality) {
             mPhoto = photo;
-            mMatrix = matrix;
+            mRotationDegrees = rotationDegrees;
             mQuality = quality;
         }
 
@@ -121,7 +118,7 @@ public class PhotoEdit {
 
         @Override
         protected Photo doInBackground(Void... params) {
-            applyChanges(mPhoto, mMatrix, mQuality);
+            applyChanges(mPhoto, mRotationDegrees, mQuality);
             return mPhoto;
         }
 

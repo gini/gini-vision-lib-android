@@ -15,7 +15,14 @@ import net.gini.android.vision.camera.CameraActivity;
 import net.gini.android.vision.onboarding.DefaultPages;
 import net.gini.android.vision.onboarding.OnboardingPage;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
+
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.android.LogcatAppender;
+import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private void setGiniVisionLibDebugging() {
         if (BuildConfig.DEBUG) {
             GiniVisionDebug.enable();
+            configureLogging();
         }
     }
 
@@ -109,4 +117,23 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    private void configureLogging() {
+        final LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+        lc.reset();
+
+        final PatternLayoutEncoder layoutEncoder = new PatternLayoutEncoder();
+        layoutEncoder.setContext(lc);
+        layoutEncoder.setPattern("%-5level %file:%line [%thread] - %msg%n");
+        layoutEncoder.start();
+
+        final LogcatAppender logcatAppender = new LogcatAppender();
+        logcatAppender.setContext(lc);
+        logcatAppender.setEncoder(layoutEncoder);
+        logcatAppender.start();
+
+        final ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+        root.addAppender(logcatAppender);
+    }
 }
+

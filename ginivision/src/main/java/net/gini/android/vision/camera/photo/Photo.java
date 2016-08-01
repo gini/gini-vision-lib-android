@@ -113,8 +113,7 @@ public class Photo implements Parcelable {
             }
 
             exifBuilder.setUserComment(addMake, addModel);
-            // We rotate the image "physically" to the required orientation
-            exifBuilder.setOrientationFromDegrees(0);
+            exifBuilder.setOrientationFromDegrees(mRotationForDisplay);
 
             mJpeg = exifBuilder.build().writeToJpeg(mJpeg);
         } catch (ImageReadException | ImageWriteException | IOException e) {

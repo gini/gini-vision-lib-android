@@ -17,6 +17,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    // Fix for DuplicateFileException when using Espresso (https://code.google.com/p/android/issues/detail?id=195331)
+    packagingOptions {
+        exclude 'META-INF/maven/com.google.guava/guava/pom.properties'
+        exclude 'META-INF/maven/com.google.guava/guava/pom.xml'
+    }
 }
 
 dependencies {
@@ -26,12 +32,17 @@ dependencies {
     compile deps.supportv13
     compile deps.supportDesign
     compile deps.sanselan
+    compile deps.slf4j
 
     testCompile deps.junit
     testCompile deps.truth
 
     androidTestCompile deps.supportTestRunner
     androidTestCompile deps.truth
+    androidTestCompile deps.supportTestRules
+    androidTestCompile deps.supportTestEspressoCore
+    androidTestCompile deps.supportTestEspressoIntents
+    androidTestCompile deps.supportTestUiAutomator
 }
 
 apply from: rootProject.file('gradle/codequality.gradle')
