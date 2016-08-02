@@ -211,7 +211,7 @@ public class Exif {
             userCommentBuilder.append(String.valueOf(Build.VERSION.RELEASE));
             userCommentBuilder.append(",");
             // GiniVision Version
-            userCommentBuilder.append("GiniVisionLib=");
+            userCommentBuilder.append("GiniVisionVer=");
             userCommentBuilder.append(BuildConfig.VERSION_NAME.replace(" ", ""));
 
             return userCommentBuilder.toString();

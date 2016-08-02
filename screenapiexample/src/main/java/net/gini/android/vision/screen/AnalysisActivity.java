@@ -6,11 +6,14 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import net.gini.android.vision.Document;
+import net.gini.android.vision.GiniVisionDebug;
 
 public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisActivity {
 
     @Override
     public void onAnalyzeDocument(@NonNull final Document document) {
+        GiniVisionDebug.writeDocumentToFile(this,document,"_for_analysis");
+
         // We can start analyzing the document by sending it to the Gini API
         // Currently we only simulate analysis and show an error after 3000 ms to view the error customizations
         // and when the user presses the button on the error snackbar, we tell the AnalysisActivity that the
