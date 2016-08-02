@@ -21,7 +21,14 @@ import net.gini.android.vision.camera.photo.Photo;
 import net.gini.android.vision.camera.photo.PhotoEdit;
 import net.gini.android.vision.ui.FragmentImplCallback;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 class ReviewFragmentImpl implements ReviewFragmentInterface {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ReviewFragmentImpl.class);
+
+    private static final int JPEG_COMPRESSION_QUALITY_FOR_UPLOAD = 50;
 
     private static final ReviewFragmentListener NO_OP_LISTENER = new ReviewFragmentListener() {
         @Override
@@ -52,8 +59,8 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     private final FragmentImplCallback mFragment;
     private Photo mPhoto;
     private ReviewFragmentListener mListener = NO_OP_LISTENER;
-    private boolean mPhotoWasAnalyzed = false;
-    private boolean mPhotoWasModified = false;
+    private boolean mDocumentWasAnalyzed = false;
+    private boolean mDocumentWasModified = false;
     private int mCurrentRotation = 0;
 
     public ReviewFragmentImpl(@NonNull FragmentImplCallback fragment, @NonNull Document document) {
@@ -70,19 +77,22 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     }
 
     public void onDocumentAnalyzed() {
-        mPhotoWasAnalyzed = true;
+        LOG.info("Document was analyzed");
+        mDocumentWasAnalyzed = true;
     }
 
     public void onCreate(@Nullable Bundle savedInstanceState) {
         applyCompressionToJpeg(new PhotoEdit.PhotoEditCallback() {
             @Override
             public void onDone(@NonNull Photo photo) {
+                LOG.info("Should analyze document");
                 mListener.onShouldAnalyzeDocument(Document.fromPhoto(mPhoto));
             }
 
             @Override
             public void onFailed() {
-                mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW, "An error occurred while applying rotation to the jpeg."));
+                LOG.error("Failed to compress the jpeg");
+                mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW, "An error occurred while compressing the jpeg."));
             }
         });
     }
@@ -152,49 +162,59 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     private void onRotateClicked() {
         mCurrentRotation += 90;
         rotateImageView(mCurrentRotation, true);
-        mPhotoWasModified = true;
+        mDocumentWasModified = true;
     }
 
     private void onNextClicked() {
-        if (!mPhotoWasModified) {
-            if (!mPhotoWasAnalyzed) {
+        if (!mDocumentWasModified) {
+            LOG.debug("Document wasn't modified");
+            if (!mDocumentWasAnalyzed) {
+                LOG.debug("Document wasn't analyzed");
                 proceedToAnalysisScreen();
             } else {
+                LOG.debug("Document was analyzed");
+                LOG.info("Document reviewed and analyzed");
                 // Photo was not modified and has been analyzed, client should show extraction results
                 mListener.onDocumentReviewedAndAnalyzed(Document.fromPhoto(mPhoto));
             }
         } else {
-            proceedToAnalysisScreen();
+            LOG.debug("Document was modified");
+            applyRotationToJpeg(new PhotoEdit.PhotoEditCallback() {
+                @Override
+                public void onDone(@NonNull Photo photo) {
+                    proceedToAnalysisScreen();
+                }
+
+                @Override
+                public void onFailed() {
+                    LOG.error("Failed to rotate the jpeg");
+                    mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW, "An error occurred while applying rotation to the jpeg."));
+                }
+            });
         }
     }
 
     private void proceedToAnalysisScreen() {
-        applyRotationToJpeg(new PhotoEdit.PhotoEditCallback() {
-            @Override
-            public void onDone(@NonNull Photo photo) {
-                mListener.onProceedToAnalysisScreen(Document.fromPhoto(photo));
-            }
-
-            @Override
-            public void onFailed() {
-                mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW, "An error occurred while applying rotation to the jpeg."));
-            }
-        });
+        LOG.info("Proceed to Analysis Screen");
+        mListener.onProceedToAnalysisScreen(Document.fromPhoto(mPhoto));
     }
 
     private void applyRotationToJpeg(@NonNull PhotoEdit.PhotoEditCallback callback) {
+        LOG.info("Rotating the jpeg {} degrees", mCurrentRotation);
         mPhoto.edit()
                 .rotate(mCurrentRotation)
                 .applyAsync(callback);
     }
 
     private void applyCompressionToJpeg(@NonNull PhotoEdit.PhotoEditCallback callback) {
+        LOG.info("Compressing the jpeg to quality {}", JPEG_COMPRESSION_QUALITY_FOR_UPLOAD);
         mPhoto.edit()
-                .compress(50)
+                .compress(JPEG_COMPRESSION_QUALITY_FOR_UPLOAD)
                 .applyAsync(callback);
     }
 
     private void rotateImageView(int degrees, boolean animated) {
+        LOG.info("Rotate ImageView {} degrees animated {}", degrees, animated);
         if (degrees == 0) {
             return;
         }
@@ -205,9 +225,13 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         ValueAnimator heightAnimation;
         if (degrees % 360 == 90 ||
                 degrees % 360 == 270) {
+            LOG.debug("ImageView width needs to fit container height");
+            LOG.debug("ImageView height needs fit container width");
             widthAnimation = ValueAnimator.ofInt(mImageDocument.getWidth(), mLayoutDocumentContainer.getHeight());
             heightAnimation = ValueAnimator.ofInt(mImageDocument.getHeight(), mLayoutDocumentContainer.getWidth());
         } else {
+            LOG.debug("ImageView width needs to fit container width");
+            LOG.debug("ImageView height needs to fit container height");
             widthAnimation = ValueAnimator.ofInt(mImageDocument.getWidth(), mLayoutDocumentContainer.getWidth());
             heightAnimation = ValueAnimator.ofInt(mImageDocument.getHeight(), mLayoutDocumentContainer.getHeight());
         }
