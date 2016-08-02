@@ -202,7 +202,6 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     public void onProceedToAnalysisScreen(@NonNull Document document) {
         Intent result = new Intent();
         result.putExtra(EXTRA_OUT_DOCUMENT, document);
-        onAddDataToResult(result);
         setResult(RESULT_PHOTO_WAS_REVIEWED, result);
         finish();
     }
