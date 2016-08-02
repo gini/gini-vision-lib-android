@@ -157,7 +157,7 @@ public class CameraController implements CameraInterface {
                         LOG.error("Cannot focus on tap: camera not open");
                         return false;
                     }
-                    if (mFocusing.get()) {
+                    if (mFocusing.compareAndSet(true, true)) {
                         LOG.debug("Already focusing");
                         return false;
                     }
@@ -225,7 +225,7 @@ public class CameraController implements CameraInterface {
             deferred.resolve(false);
             return deferred.promise();
         }
-        if (mFocusing.get()) {
+        if (mFocusing.compareAndSet(true, true)) {
             LOG.info("Already focusing");
             return deferred.promise();
         }
@@ -261,7 +261,7 @@ public class CameraController implements CameraInterface {
             deferred.reject("Cannot take picture: camera not open");
             return deferred.promise();
         }
-        if (mTakingPicture.get()) {
+        if (mTakingPicture.compareAndSet(true, true)) {
             LOG.info("Already taking a picture");
             return deferred.promise();
         }
