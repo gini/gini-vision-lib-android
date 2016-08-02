@@ -7,7 +7,7 @@ import android.support.annotation.VisibleForTesting;
 /**
  * @exclude
  */
-public class OncePerInstallEventStore {
+class OncePerInstallEventStore {
 
     private static final String ONCE_PER_INSTALL_EVENTS = "GV_ONCE_PER_INSTALL_EVENTS";
 

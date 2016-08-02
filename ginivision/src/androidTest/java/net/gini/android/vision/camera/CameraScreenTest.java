@@ -1,8 +1,9 @@
 package net.gini.android.vision.camera;
 
+import static net.gini.android.vision.OncePerInstallEventStoreHelper.clearOnboardingWasShownPreference;
+import static net.gini.android.vision.OncePerInstallEventStoreHelper.setOnboardingWasShownPreference;
 import static net.gini.android.vision.test.Helpers.prepareLooper;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.test.InstrumentationRegistry;
@@ -20,13 +21,11 @@ import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiSelector;
 
-import net.gini.android.vision.OncePerInstallEvent;
-import net.gini.android.vision.OncePerInstallEventStore;
 import net.gini.android.vision.R;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
-import net.gini.android.vision.test.AnalysisActivitySubclass;
-import net.gini.android.vision.test.ReviewActivitySubclass;
+import net.gini.android.vision.test.NoOpAnalysisActivity;
+import net.gini.android.vision.test.NoOpReviewActivity;
 
 import org.hamcrest.Matchers;
 import org.junit.After;
@@ -56,7 +55,7 @@ public class CameraScreenTest {
 
     @After
     public void teardown() {
-        clearSharedPreferences();
+        clearOnboardingWasShownPreference();
     }
 
     @Test(expected = IllegalStateException.class)
@@ -64,7 +63,7 @@ public class CameraScreenTest {
         CameraActivity cameraActivity = new CameraActivity();
 
         Intent intent = new Intent(Intent.ACTION_MAIN);
-        CameraActivity.setAnalysisActivityExtra(intent, InstrumentationRegistry.getTargetContext(), AnalysisActivitySubclass.class);
+        CameraActivity.setAnalysisActivityExtra(intent, InstrumentationRegistry.getTargetContext(), NoOpAnalysisActivity.class);
         cameraActivity.setIntent(intent);
 
         cameraActivity.readExtras();
@@ -75,7 +74,7 @@ public class CameraScreenTest {
         CameraActivity cameraActivity = new CameraActivity();
 
         Intent intent = new Intent(Intent.ACTION_MAIN);
-        CameraActivity.setReviewActivityExtra(intent, InstrumentationRegistry.getTargetContext(), ReviewActivitySubclass.class);
+        CameraActivity.setReviewActivityExtra(intent, InstrumentationRegistry.getTargetContext(), NoOpReviewActivity.class);
         cameraActivity.setIntent(intent);
 
         cameraActivity.readExtras();
@@ -86,7 +85,7 @@ public class CameraScreenTest {
         Intent intent = getCameraActivityIntent();
         mIntentsTestRule.launchActivity(intent);
 
-        Espresso.onView(ViewMatchers.withId(R.id.gv_viewpager))
+        Espresso.onView(ViewMatchers.withId(R.id.gv_onboarding_viewpager))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
@@ -96,7 +95,7 @@ public class CameraScreenTest {
         intent.putExtra(CameraActivity.EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN, false);
         mIntentsTestRule.launchActivity(intent);
 
-        Espresso.onView(ViewMatchers.withId(R.id.gv_viewpager))
+        Espresso.onView(ViewMatchers.withId(R.id.gv_onboarding_viewpager))
                 .check(ViewAssertions.doesNotExist());
     }
 
@@ -108,7 +107,7 @@ public class CameraScreenTest {
         intent.putExtra(CameraActivity.EXTRA_IN_SHOW_ONBOARDING, true);
         mIntentsTestRule.launchActivity(intent);
 
-        Espresso.onView(ViewMatchers.withId(R.id.gv_viewpager))
+        Espresso.onView(ViewMatchers.withId(R.id.gv_onboarding_viewpager))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
@@ -126,9 +125,7 @@ public class CameraScreenTest {
         Espresso.onView(ViewMatchers.withId(R.id.gv_action_show_onboarding))
                 .perform(ViewActions.click());
 
-        Espresso.onView(ViewMatchers.withId(R.id.gv_viewpager))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-
+        Intents.intended(IntentMatchers.hasComponent(OnboardingActivity.class.getName()));
         Intents.intended(IntentMatchers.hasExtra(Matchers.equalTo(OnboardingActivity.EXTRA_ONBOARDING_PAGES), Matchers.any(ArrayList.class)));
     }
 
@@ -139,10 +136,7 @@ public class CameraScreenTest {
         Espresso.onView(ViewMatchers.withId(R.id.gv_action_show_onboarding))
                 .perform(ViewActions.click());
 
-        Espresso.onView(ViewMatchers.withId(R.id.gv_viewpager))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-
-        Intents.intended(IntentMatchers.hasComponent(ReviewActivitySubclass.class.getName()));
+        Intents.intended(IntentMatchers.hasComponent(OnboardingActivity.class.getName()));
     }
 
     @SdkSuppress(minSdkVersion = 23)
@@ -194,7 +188,7 @@ public class CameraScreenTest {
         Espresso.onView(ViewMatchers.withId(R.id.gv_button_camera_trigger))
                 .perform(ViewActions.click());
 
-        Intents.intended(IntentMatchers.hasComponent(ReviewActivitySubclass.class.getName()));
+        Intents.intended(IntentMatchers.hasComponent(NoOpReviewActivity.class.getName()));
     }
 
     @NonNull
@@ -213,21 +207,9 @@ public class CameraScreenTest {
     @NonNull
     private Intent getCameraActivityIntent() {
         Intent intent = new Intent(Intent.ACTION_MAIN);
-        CameraActivity.setReviewActivityExtra(intent, InstrumentationRegistry.getTargetContext(), ReviewActivitySubclass.class);
-        CameraActivity.setAnalysisActivityExtra(intent, InstrumentationRegistry.getTargetContext(), AnalysisActivitySubclass.class);
+        CameraActivity.setReviewActivityExtra(intent, InstrumentationRegistry.getTargetContext(), NoOpReviewActivity.class);
+        CameraActivity.setAnalysisActivityExtra(intent, InstrumentationRegistry.getTargetContext(), NoOpAnalysisActivity.class);
         return intent;
-    }
-
-    private void clearSharedPreferences() {
-        Context targetContext = InstrumentationRegistry.getTargetContext();
-        OncePerInstallEventStore store = new OncePerInstallEventStore(targetContext);
-        store.clearEvent(OncePerInstallEvent.SHOW_ONBOARDING);
-    }
-
-    private void setOnboardingWasShownPreference() {
-        Context targetContext = InstrumentationRegistry.getTargetContext();
-        OncePerInstallEventStore store = new OncePerInstallEventStore(targetContext);
-        store.saveEvent(OncePerInstallEvent.SHOW_ONBOARDING);
     }
 
 }
