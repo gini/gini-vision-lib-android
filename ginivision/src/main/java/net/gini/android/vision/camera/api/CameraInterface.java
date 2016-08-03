@@ -6,8 +6,10 @@ import android.support.annotation.Nullable;
 import android.view.SurfaceHolder;
 import android.view.View;
 
+import net.gini.android.vision.camera.photo.Photo;
 import net.gini.android.vision.camera.photo.Size;
-import net.gini.android.vision.util.promise.SimplePromise;
+
+import jersey.repackaged.jsr166e.CompletableFuture;
 
 /**
  * <p>
@@ -24,10 +26,10 @@ public interface CameraInterface {
      * <p>
      *     Opens the first back-facing camera.
      * </p>
-     * @return a {@link SimplePromise}{@code [done: null, fail: String|Exception]}
+     * @return a {@link CompletableFuture} that completes when the camera was opened
      */
     @NonNull
-    SimplePromise open();
+    CompletableFuture<Void> open();
 
     /**
      * <p>
@@ -44,10 +46,10 @@ public interface CameraInterface {
      *     <b>Note</b>: the {@link android.view.SurfaceView} must have been created when starting the preview.
      * </p>
      * @param surfaceHolder the {@link SurfaceHolder} for the camera preview {@link android.view.SurfaceView}
-     * @return a {@link SimplePromise}{@code [done: null, fail: String|Exception]}
+     * @return a {@link CompletableFuture} that completes when the preview was started
      */
     @NonNull
-    SimplePromise startPreview(@NonNull SurfaceHolder surfaceHolder);
+    CompletableFuture<Void> startPreview(@NonNull SurfaceHolder surfaceHolder);
 
     /**
      * Stops the camera preview.
@@ -77,19 +79,19 @@ public interface CameraInterface {
      * <p>
      *     Start a focus run.
      * </p>
-     * @return a {@link SimplePromise}{@code [done: boolean, fail: null]}
+     * @return a {@link CompletableFuture} that completes with the result of the focus operation
      */
     @NonNull
-    SimplePromise focus();
+    CompletableFuture<Boolean> focus();
 
     /**
      * <p>
      *     Take a picture with the camera.
      * </p>
-     * @return a {@link SimplePromise}{@code [done: Photo, fail: String]}
+     * @return a {@link CompletableFuture} that completes with the {@link Photo} object taken
      */
     @NonNull
-    SimplePromise takePicture();
+    CompletableFuture<Photo> takePicture();
 
     /**
      * <p>

@@ -1,9 +1,5 @@
 package net.gini.android.vision.camera;
 
-import static net.gini.android.vision.camera.Util.cameraExceptionToGiniVisionError;
-import static net.gini.android.vision.util.AndroidHelper.isMarshmallowOrLater;
-import static net.gini.android.vision.util.ContextHelper.getClientApplicationId;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Point;
@@ -11,7 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.annotation.UiThread;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.View;
@@ -27,19 +23,22 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.camera.api.CameraController;
+import net.gini.android.vision.camera.api.CameraException;
 import net.gini.android.vision.camera.api.CameraInterface;
+import net.gini.android.vision.camera.api.UIExecutor;
 import net.gini.android.vision.camera.photo.Photo;
 import net.gini.android.vision.camera.view.CameraPreviewSurface;
 import net.gini.android.vision.ui.FragmentImplCallback;
 import net.gini.android.vision.ui.ViewStubSafeInflater;
-import net.gini.android.vision.util.promise.Promises;
-import net.gini.android.vision.util.promise.SimpleDeferred;
-import net.gini.android.vision.util.promise.SimplePromise;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
+import jersey.repackaged.jsr166e.CompletableFuture;
+
+import static net.gini.android.vision.camera.Util.cameraExceptionToGiniVisionError;
+import static net.gini.android.vision.util.AndroidHelper.isMarshmallowOrLater;
+import static net.gini.android.vision.util.ContextHelper.getClientApplicationId;
 
 class CameraFragmentImpl implements CameraFragmentInterface {
 
@@ -57,7 +56,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
     private final FragmentImplCallback mFragment;
     private CameraFragmentListener mListener = NO_OP_LISTENER;
-
+    private final UIExecutor mUIExecutor = new UIExecutor();
     private CameraController mCameraController;
 
     private RelativeLayout mLayoutRoot;
@@ -69,7 +68,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
     private ViewStubSafeInflater mViewStubInflater;
 
-    private SimpleDeferred mSurfaceCreatedDeferred = new SimpleDeferred();
+    private CompletableFuture<SurfaceHolder> mSurfaceCreatedFuture = new CompletableFuture<>();
 
     CameraFragmentImpl(@NonNull FragmentImplCallback fragment) {
         mFragment = fragment;
@@ -97,64 +96,42 @@ class CameraFragmentImpl implements CameraFragmentInterface {
             return;
         }
         initCameraController(mFragment.getActivity());
-        Promises.bundle(openCamera(), mSurfaceCreatedDeferred.promise())
-                .done(new SimplePromise.DoneCallback() {
-                    @Nullable
-                    @Override
-                    public SimplePromise onDone(@Nullable Object result) {
-                        //noinspection unchecked
-                        List<Promises.Resolution> results = (List<Promises.Resolution>) result;
-                        // Start the preview only after the camera has opened and the surface was created
-                        if (results != null && results.get(0) != null && results.get(1) != null) {
-                            SurfaceHolder holder = (SurfaceHolder) results.get(1).getResult();
-                            if (holder != null) {
-                                mCameraPreview.setPreviewSize(mCameraController.getPreviewSize());
-                                startPreview(holder);
-                                enableTapToFocus();
-                            } else {
-                                String message = "Cannot start preview: no SurfaceHolder received for SurfaceView";
-                                LOG.error(message);
-                                mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW, message));
-                            }
-                        }
-                        return null;
-                    }
-                })
-                .fail(new SimplePromise.FailCallback() {
-                    @Nullable
-                    @Override
-                    public SimplePromise onFailed(@Nullable Object failure) {
-                        //noinspection unchecked
-                        List<Promises.Failure> failures = (List<Promises.Failure>) failure;
-                        // Check only the surface creation failure, camera failure was handled in openCamera()
-                        if (failures != null && failures.get(1) != null) {
-                            String message = "Cannot start preview: Could not create SurfaceView";
-                            LOG.error(message);
-                            mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW, message));
-                        }
-                        return null;
-                    }
-                });
+        openCamera().thenCombine(mSurfaceCreatedFuture, new CompletableFuture.BiFun<Void, SurfaceHolder, Void>() {
+            @Override
+            public Void apply(final Void aVoid, final SurfaceHolder surfaceHolder) {
+                if (surfaceHolder != null) {
+                    mCameraPreview.setPreviewSize(mCameraController.getPreviewSize());
+                    startPreview(surfaceHolder);
+                    enableTapToFocus();
+                } else {
+                    String message = "Cannot start preview: no SurfaceHolder received for SurfaceView";
+                    LOG.error(message);
+                    mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW, message));
+                }
+                return null;
+            }
+        }).handle(new CompletableFuture.BiFun<Void, Throwable, Void>() {
+            @Override
+            public Void apply(final Void aVoid, final Throwable throwable) {
+                if (throwable != null) {
+                    LOG.error(throwable.getMessage(), throwable);
+                    mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW,
+                                                          throwable.getMessage()));
+                }
+                return null;
+            }
+        });
     }
 
     private void startPreview(SurfaceHolder holder) {
         mCameraController.startPreview(holder)
-                .fail(new SimplePromise.FailCallback() {
-                    @Nullable
+                .handle(new CompletableFuture.BiFun<Void, Throwable, Void>() {
                     @Override
-                    public SimplePromise onFailed(@Nullable Object failure) {
-                        if (failure instanceof Exception) {
-                            Exception exception = (Exception) failure;
-                            LOG.error("Cannot start preview", exception);
-                            mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW, exception.getMessage()));
-                        } else if (failure instanceof String) {
-                            String message = (String) failure;
-                            LOG.error("Cannot start preview", message);
-                            mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW, message));
-                        } else {
-                            String message = "Cannot start preview";
-                            LOG.error(message);
-                            mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW, message));
+                    public Void apply(final Void aVoid, final Throwable throwable) {
+                        if (throwable != null) {
+                            LOG.error("Cannot start preview", throwable);
+                            mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW,
+                                                                  throwable.getMessage()));
                         }
                         return null;
                     }
@@ -189,33 +166,28 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mCameraFocusIndicator.animate().setDuration(200).alpha(0.0f);
     }
 
-    private SimplePromise openCamera() {
+    private CompletableFuture<Void> openCamera() {
         LOG.info("Opening camera");
         return mCameraController.open()
-                .done(new SimplePromise.DoneCallback() {
-                    @Nullable
+                .handle(new CompletableFuture.BiFun<Void, Throwable, Void>() {
                     @Override
-                    public SimplePromise onDone(@Nullable Object result) {
-                        LOG.info("Camera opened");
-                        hideNoPermissionView();
-                        return null;
-                    }
-                })
-                .fail(new SimplePromise.FailCallback() {
-                    @Nullable
-                    @Override
-                    public SimplePromise onFailed(@Nullable Object failure) {
-                        if (failure instanceof Exception) {
-                            Exception exception = (Exception) failure;
-                            handleCameraException(exception);
-                        } else if (failure instanceof String) {
-                            String message = (String) failure;
-                            LOG.error("Failed to open camera: {}", message);
-                            mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.CAMERA_OPEN_FAILED, message));
+                    public Void apply(final Void aVoid, final Throwable throwable) {
+                        if (throwable != null) {
+                            if (throwable instanceof CameraException) {
+                                LOG.error("Failed to open camera: {}", throwable.getMessage());
+                                mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.CAMERA_OPEN_FAILED,
+                                                                      throwable.getMessage()));
+                            } else if (throwable instanceof Exception) {
+                                handleCameraException((Exception) throwable);
+                            } else {
+                                String message = "Failed to open camera";
+                                LOG.error(message);
+                                mListener.onError(
+                                        new GiniVisionError(GiniVisionError.ErrorCode.CAMERA_OPEN_FAILED, message));
+                            }
                         } else {
-                            String message = "Failed to open camera";
-                            LOG.error(message);
-                            mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.CAMERA_OPEN_FAILED, message));
+                            LOG.info("Camera opened");
+                            hideNoPermissionView();
                         }
                         return null;
                     }
@@ -260,29 +232,15 @@ class CameraFragmentImpl implements CameraFragmentInterface {
             public void onClick(View v) {
                 LOG.info("Taking picture");
                 mCameraController.takePicture()
-                        .done(new SimplePromise.DoneCallback() {
-                            @Nullable
+                        .handle(new CompletableFuture.BiFun<Photo, Throwable, Void>() {
                             @Override
-                            public SimplePromise onDone(@Nullable Object result) {
-                                Photo photo = (Photo) result;
-                                if (photo != null) {
-                                    LOG.info("Picture taken");
-                                    mListener.onDocumentAvailable(Document.fromPhoto(photo));
-                                } else {
-                                    String message = "Failed to take picture: no picture from the camera";
-                                    LOG.error(message);
-                                    mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.CAMERA_SHOT_FAILED, message));
-                                }
-                                return null;
-                            }
-                        })
-                        .fail(new SimplePromise.FailCallback() {
-                            @Nullable
-                            @Override
-                            public SimplePromise onFailed(@Nullable Object failure) {
-                                String message = (String) failure;
-                                LOG.error("Failed to take picture: {}", message);
-                                mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.CAMERA_SHOT_FAILED, message));
+                            public Void apply(final Photo photo, final Throwable throwable) {
+                                mUIExecutor.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        callListener(photo, throwable);
+                                    }
+                                });
                                 return null;
                             }
                         });
@@ -290,12 +248,32 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         });
     }
 
+    @UiThread
+    private void callListener(final Photo photo, final Throwable throwable) {
+        if (throwable != null) {
+            LOG.error("Failed to take picture: {}", throwable.getMessage());
+            mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.CAMERA_SHOT_FAILED,
+                                                  throwable.getMessage()));
+        } else {
+            if (photo != null) {
+                LOG.info("Picture taken");
+                mListener.onDocumentAvailable(Document.fromPhoto(photo));
+            } else {
+                String message = "Failed to take picture: no picture from the camera";
+                LOG.error(message);
+                mListener.onError(
+                        new GiniVisionError(GiniVisionError.ErrorCode.CAMERA_SHOT_FAILED,
+                                            message));
+            }
+        }
+    }
+
     private void setSurfaceViewCallback() {
         mCameraPreview.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
                 LOG.debug("Surface created");
-                mSurfaceCreatedDeferred.resolve(holder);
+                mSurfaceCreatedFuture.complete(holder);
             }
 
             @Override
@@ -306,7 +284,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
             @Override
             public void surfaceDestroyed(SurfaceHolder holder) {
                 LOG.debug("Surface destroyed");
-                mSurfaceCreatedDeferred = new SimpleDeferred();
+                mSurfaceCreatedFuture = new CompletableFuture<>();
             }
         });
     }

@@ -1,7 +1,5 @@
 package net.gini.android.vision.camera.api;
 
-import static net.gini.android.vision.camera.api.Util.getLargestFourThreeRatioSize;
-
 import android.app.Activity;
 import android.graphics.Matrix;
 import android.graphics.Point;
@@ -18,8 +16,6 @@ import android.view.View;
 
 import net.gini.android.vision.camera.photo.Photo;
 import net.gini.android.vision.camera.photo.Size;
-import net.gini.android.vision.util.promise.SimpleDeferred;
-import net.gini.android.vision.util.promise.SimplePromise;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +23,11 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
+
+import jersey.repackaged.jsr166e.CompletableFuture;
+
+import static net.gini.android.vision.camera.api.Util.getLargestFourThreeRatioSize;
 
 /**
  * @exclude
@@ -39,8 +39,8 @@ public class CameraController implements CameraInterface {
     private Camera mCamera;
 
     private boolean mPreviewRunning = false;
-    private AtomicBoolean mFocusing = new AtomicBoolean();
-    private AtomicBoolean mTakingPicture = new AtomicBoolean();
+    private AtomicReference<CompletableFuture<Boolean>> mFocusingFuture = new AtomicReference<>();
+    private AtomicReference<CompletableFuture<Photo>> mTakingPictureFuture = new AtomicReference<>();
 
     private Size mPreviewSize = new Size(0,0);
     private Size mPictureSize = new Size(0,0);
@@ -71,26 +71,26 @@ public class CameraController implements CameraInterface {
 
     @NonNull
     @Override
-    public SimplePromise open() {
+    public CompletableFuture<Void> open() {
         LOG.info("Open camera");
         if (mCamera != null) {
             LOG.debug("Camera already open");
             LOG.info("Camera opened");
-            return SimpleDeferred.resolvedPromise(null);
+            return CompletableFuture.completedFuture(null);
         }
         try {
             mCamera = Camera.open();
             if (mCamera != null) {
                 configureCamera(mActivity);
                 LOG.info("Camera opened");
-                return SimpleDeferred.resolvedPromise(null);
+                return CompletableFuture.completedFuture(null);
             } else {
                 LOG.error("No back-facing camera");
-                return SimpleDeferred.rejectedPromise("No back-facing camera");
+                return failedFuture(new CameraException("No back-facing camera"));
             }
         } catch (RuntimeException e) {
             LOG.error("Cannot start camera", e);
-            return SimpleDeferred.rejectedPromise(e);
+            return failedFuture(e);
         }
     }
 
@@ -109,15 +109,15 @@ public class CameraController implements CameraInterface {
 
     @NonNull
     @Override
-    public SimplePromise startPreview(@NonNull SurfaceHolder surfaceHolder) {
+    public CompletableFuture<Void> startPreview(@NonNull SurfaceHolder surfaceHolder) {
         LOG.info("Start preview");
         if (mCamera == null) {
             LOG.error("Cannot start preview: camera not open");
-            return SimpleDeferred.rejectedPromise("Cannot start preview: camera not open");
+            return failedFuture(new CameraException("Cannot start preview: camera not open"));
         }
         if (mPreviewRunning) {
             LOG.info("Preview already running");
-            return SimpleDeferred.resolvedPromise(null);
+            return CompletableFuture.completedFuture(null);
         }
         try {
             mCamera.setPreviewDisplay(surfaceHolder);
@@ -126,9 +126,9 @@ public class CameraController implements CameraInterface {
             LOG.info("Preview started");
         } catch (IOException e) {
             LOG.error("Cannot start preview", e);
-            return SimpleDeferred.rejectedPromise(e);
+            return failedFuture(e);
         }
-        return SimpleDeferred.resolvedPromise(null);
+        return CompletableFuture.completedFuture(null);
     }
 
     @Override
@@ -157,10 +157,14 @@ public class CameraController implements CameraInterface {
                         LOG.error("Cannot focus on tap: camera not open");
                         return false;
                     }
-                    if (mFocusing.compareAndSet(true, true)) {
-                        LOG.debug("Already focusing");
-                        return false;
-                    }
+                    final CompletableFuture<Boolean> focused = new CompletableFuture<>();
+                    do {
+                        final CompletableFuture<Boolean> inProgress = mFocusingFuture.get();
+                        if (inProgress != null) {
+                            LOG.info("Already focusing");
+                            return false;
+                        }
+                    } while (!mFocusingFuture.compareAndSet(null, focused));
 
                     mCamera.cancelAutoFocus();
                     Rect focusRect = calculateTapArea(x, y, getBackFacingCameraOrientation(), view.getWidth(), view.getHeight());
@@ -180,7 +184,6 @@ public class CameraController implements CameraInterface {
                     }
 
                     try {
-                        mFocusing.set(true);
                         if (listener != null) {
                             listener.onFocusing(new Point(Math.round(x), Math.round(y)));
                         }
@@ -190,7 +193,8 @@ public class CameraController implements CameraInterface {
                             @Override
                             public void onAutoFocus(final boolean success, Camera camera) {
                                 LOG.info("Focusing finished with result: {}", success);
-                                mFocusing.set(false);
+                                mFocusingFuture.set(null);
+                                focused.complete(success);
                                 if (listener != null) {
                                     listener.onFocused(success);
                                 }
@@ -199,7 +203,7 @@ public class CameraController implements CameraInterface {
                             }
                         });
                     } catch (Exception e) {
-                        mFocusing.set(false);
+                        mFocusingFuture.set(null);
                         LOG.error("Could not focus", e);
                     }
                 }
@@ -216,61 +220,63 @@ public class CameraController implements CameraInterface {
 
     @NonNull
     @Override
-    public SimplePromise focus() {
+    public CompletableFuture<Boolean> focus() {
         LOG.info("Start focusing");
-        final SimpleDeferred deferred = new SimpleDeferred();
 
         if (mCamera == null) {
             LOG.error("Cannot focus: camera not open");
-            deferred.resolve(false);
-            return deferred.promise();
+            return CompletableFuture.completedFuture(false);
         }
-        if (mFocusing.compareAndSet(true, true)) {
-            LOG.info("Already focusing");
-            return deferred.promise();
-        }
+        final CompletableFuture<Boolean> completed = new CompletableFuture<>();
+        do {
+            final CompletableFuture<Boolean> inProgress = mFocusingFuture.get();
+            if (inProgress != null) {
+                LOG.info("Already focusing");
+                return inProgress;
+            }
+        } while (!mFocusingFuture.compareAndSet(null, completed));
 
-        mFocusing.set(true);
         mCamera.cancelAutoFocus();
         mCamera.autoFocus(new Camera.AutoFocusCallback() {
             @Override
             public void onAutoFocus(final boolean success, Camera camera) {
                 LOG.info("Focusing finished with result: {}", success);
-                mFocusing.set(false);
+                mFocusingFuture.set(null);
                 mUIExecutor.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        deferred.resolve(success);
+                        completed.complete(success);
                     }
                 });
 
             }
         });
 
-        return deferred.promise();
+        return completed;
     }
 
     @NonNull
     @Override
-    public SimplePromise takePicture() {
+    public CompletableFuture<Photo> takePicture() {
         LOG.info("Take picture");
-        final SimpleDeferred deferred = new SimpleDeferred();
 
         if (mCamera == null) {
             LOG.error("Cannot take picture: camera not open");
-            deferred.reject("Cannot take picture: camera not open");
-            return deferred.promise();
+            return failedFuture(new CameraException("Cannot take picture: camera not open"));
         }
-        if (mTakingPicture.compareAndSet(true, true)) {
-            LOG.info("Already taking a picture");
-            return deferred.promise();
-        }
+        final CompletableFuture<Photo> pictureTaken = new CompletableFuture<>();
+        do {
+            final CompletableFuture<Photo> inProgress = mTakingPictureFuture.get();
+            if (inProgress != null) {
+                LOG.info("Already taking a picture");
+                return inProgress;
+            }
+        } while (!mTakingPictureFuture.compareAndSet(null, pictureTaken));
 
-        mTakingPicture.set(true);
         mCamera.takePicture(null, null, new Camera.PictureCallback() {
             @Override
             public void onPictureTaken(final byte[] bytes, Camera camera) {
-                mTakingPicture.set(false);
+                mTakingPictureFuture.set(null);
 
                 LOG.info("Restarting preview");
                 if (mCamera == null) {
@@ -281,18 +287,11 @@ public class CameraController implements CameraInterface {
                 LOG.info("Preview started");
 
                 final Photo photo = Photo.fromJpeg(bytes, getBackFacingCameraOrientation());
-
-                mUIExecutor.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        LOG.info("Picture taken");
-                        deferred.resolve(photo);
-                    }
-                });
+                LOG.info("Picture taken");
+                pictureTaken.complete(photo);
             }
         });
-
-        return deferred.promise();
+        return pictureTaken;
     }
 
     @NonNull
@@ -515,5 +514,11 @@ public class CameraController implements CameraInterface {
         matrix.mapRect(rectF);
         rect.set((int) rectF.left, (int) rectF.top, (int) rectF.right, (int) rectF.bottom);
         return rect;
+    }
+
+    private static <T> CompletableFuture<T> failedFuture(final Throwable throwable) {
+        final CompletableFuture<T> future = new CompletableFuture<>();
+        future.completeExceptionally(throwable);
+        return future;
     }
 }
