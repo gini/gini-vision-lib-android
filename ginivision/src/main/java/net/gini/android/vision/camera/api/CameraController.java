@@ -1,5 +1,7 @@
 package net.gini.android.vision.camera.api;
 
+import static net.gini.android.vision.camera.api.Util.getLargestFourThreeRatioSize;
+
 import android.app.Activity;
 import android.graphics.Matrix;
 import android.graphics.Point;
@@ -27,8 +29,6 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import jersey.repackaged.jsr166e.CompletableFuture;
 
-import static net.gini.android.vision.camera.api.Util.getLargestFourThreeRatioSize;
-
 /**
  * @exclude
  */
@@ -42,12 +42,11 @@ public class CameraController implements CameraInterface {
     private AtomicReference<CompletableFuture<Boolean>> mFocusingFuture = new AtomicReference<>();
     private AtomicReference<CompletableFuture<Photo>> mTakingPictureFuture = new AtomicReference<>();
 
-    private Size mPreviewSize = new Size(0,0);
-    private Size mPictureSize = new Size(0,0);
+    private Size mPreviewSize = new Size(0, 0);
+    private Size mPictureSize = new Size(0, 0);
 
     private final Activity mActivity;
     private final Handler mResetFocusHandler;
-    private final UIExecutor mUIExecutor;
 
     private Runnable mResetFocusMode = new Runnable() {
         @Override
@@ -66,7 +65,6 @@ public class CameraController implements CameraInterface {
     public CameraController(@NonNull Activity activity) {
         mActivity = activity;
         mResetFocusHandler = new Handler();
-        mUIExecutor = new UIExecutor();
     }
 
     @NonNull
@@ -110,7 +108,7 @@ public class CameraController implements CameraInterface {
     @NonNull
     @Override
     public CompletableFuture<Void> startPreview(@NonNull SurfaceHolder surfaceHolder) {
-        LOG.info("Start preview");
+        LOG.info("Start preview for the given SurfaceHolder");
         if (mCamera == null) {
             LOG.error("Cannot start preview: camera not open");
             return failedFuture(new CameraException("Cannot start preview: camera not open"));
@@ -131,6 +129,24 @@ public class CameraController implements CameraInterface {
         return CompletableFuture.completedFuture(null);
     }
 
+    @NonNull
+    @Override
+    public CompletableFuture<Void> startPreview() {
+        LOG.info("Start preview");
+        if (mCamera == null) {
+            LOG.error("Cannot start preview: camera not open");
+            return failedFuture(new CameraException("Cannot start preview: camera not open"));
+        }
+        if (mPreviewRunning) {
+            LOG.info("Preview already running");
+            return CompletableFuture.completedFuture(null);
+        }
+        mCamera.startPreview();
+        mPreviewRunning = true;
+        LOG.info("Preview started");
+        return CompletableFuture.completedFuture(null);
+    }
+
     @Override
     public void stopPreview() {
         LOG.info("Stop preview");
@@ -141,6 +157,11 @@ public class CameraController implements CameraInterface {
         mCamera.stopPreview();
         mPreviewRunning = false;
         LOG.info("Preview stopped");
+    }
+
+    @Override
+    public boolean isPreviewRunning() {
+        return mPreviewRunning;
     }
 
     @Override
@@ -159,11 +180,14 @@ public class CameraController implements CameraInterface {
                     }
                     final CompletableFuture<Boolean> focused = new CompletableFuture<>();
                     do {
+                        // Checking whether a completable is already available in which case focusing is in progress
                         final CompletableFuture<Boolean> inProgress = mFocusingFuture.get();
                         if (inProgress != null) {
                             LOG.info("Already focusing");
                             return false;
                         }
+                        // We rerun the above in case a completable was set by another thread
+                        // Otherwise we set the new completable and exit the loop
                     } while (!mFocusingFuture.compareAndSet(null, focused));
 
                     mCamera.cancelAutoFocus();
@@ -227,13 +251,17 @@ public class CameraController implements CameraInterface {
             LOG.error("Cannot focus: camera not open");
             return CompletableFuture.completedFuture(false);
         }
+
         final CompletableFuture<Boolean> completed = new CompletableFuture<>();
         do {
+            // Checking whether a completable is already available in which case focusing is in progress
             final CompletableFuture<Boolean> inProgress = mFocusingFuture.get();
             if (inProgress != null) {
                 LOG.info("Already focusing");
                 return inProgress;
             }
+            // We rerun the above in case a completable was set by another thread
+            // Otherwise we set the new completable and exit the loop
         } while (!mFocusingFuture.compareAndSet(null, completed));
 
         mCamera.cancelAutoFocus();
@@ -242,13 +270,7 @@ public class CameraController implements CameraInterface {
             public void onAutoFocus(final boolean success, Camera camera) {
                 LOG.info("Focusing finished with result: {}", success);
                 mFocusingFuture.set(null);
-                mUIExecutor.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        completed.complete(success);
-                    }
-                });
-
+                completed.complete(success);
             }
         });
 
@@ -264,28 +286,27 @@ public class CameraController implements CameraInterface {
             LOG.error("Cannot take picture: camera not open");
             return failedFuture(new CameraException("Cannot take picture: camera not open"));
         }
+
         final CompletableFuture<Photo> pictureTaken = new CompletableFuture<>();
         do {
+            // Checking whether a completable is already available in which case taking the picture is in progress
             final CompletableFuture<Photo> inProgress = mTakingPictureFuture.get();
             if (inProgress != null) {
                 LOG.info("Already taking a picture");
                 return inProgress;
             }
+            // We rerun the above in case a completable was set by another thread
+            // Otherwise we set the new completable and exit the loop
         } while (!mTakingPictureFuture.compareAndSet(null, pictureTaken));
+
+        // Preview is stopped after the picture was taken, but for it's sufficient to declare preview
+        // as being stopped before it is really stopped
+        mPreviewRunning = false;
 
         mCamera.takePicture(null, null, new Camera.PictureCallback() {
             @Override
             public void onPictureTaken(final byte[] bytes, Camera camera) {
                 mTakingPictureFuture.set(null);
-
-                LOG.info("Restarting preview");
-                if (mCamera == null) {
-                    LOG.error("Cannot start preview: camera not open");
-                    return;
-                }
-                mCamera.startPreview();
-                LOG.info("Preview started");
-
                 final Photo photo = Photo.fromJpeg(bytes, getBackFacingCameraOrientation());
                 LOG.info("Picture taken");
                 pictureTaken.complete(photo);

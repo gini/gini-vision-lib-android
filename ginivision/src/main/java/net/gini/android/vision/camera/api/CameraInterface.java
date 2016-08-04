@@ -51,10 +51,32 @@ public interface CameraInterface {
     @NonNull
     CompletableFuture<Void> startPreview(@NonNull SurfaceHolder surfaceHolder);
 
+
     /**
-     * Stops the camera preview.
+     * <p>
+     *     Starts the preview using the {@link SurfaceHolder} provided by {@link CameraInterface#startPreview(SurfaceHolder)}.
+     * </p>
+     * <p>
+     *     This method has no effect, if no {@link android.view.SurfaceHolder} is available.
+     * </p>
+     */
+    @NonNull
+    CompletableFuture<Void> startPreview();
+
+    /**
+     * <p>
+     *     Stops the camera preview.
+     * </p>
      */
     void stopPreview();
+
+    /**
+     * <p>
+     *     Get the state of the preview.
+     * </p>
+     * @return {@code true}, if the preview is running
+     */
+    boolean isPreviewRunning();
 
     /**
      * <p>
@@ -113,6 +135,7 @@ public interface CameraInterface {
 
     public interface TapToFocusListener {
         void onFocusing(Point point);
+
         void onFocused(boolean success);
     }
 }

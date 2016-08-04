@@ -121,6 +121,8 @@ public class CameraScreenTest {
         intent.putExtra(CameraActivity.EXTRA_IN_ONBOARDING_PAGES, onboardingPages);
         mIntentsTestRule.launchActivity(intent);
 
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+
         // Starting by clicking the menu item, otherwise the intent is not recorded ...
         Espresso.onView(ViewMatchers.withId(R.id.gv_action_show_onboarding))
                 .perform(ViewActions.click());
