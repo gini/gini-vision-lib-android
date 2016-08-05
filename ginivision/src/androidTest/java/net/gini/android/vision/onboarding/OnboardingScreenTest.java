@@ -52,7 +52,7 @@ public class OnboardingScreenTest {
         Espresso.onView(ViewMatchers.withText(DefaultPages.values()[0].getPage().getTextResId()))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
-        Espresso.onView(ViewMatchers.withId(R.id.gv_viewpager))
+        Espresso.onView(ViewMatchers.withId(R.id.gv_onboarding_viewpager))
                 .perform(ViewActions.swipeLeft());
 
         // Check that we are on the second page
@@ -79,7 +79,7 @@ public class OnboardingScreenTest {
         OnboardingActivity activity = startOnboardingActivity();
 
         // Go to the last page by swiping
-        Espresso.onView(ViewMatchers.withId(R.id.gv_viewpager))
+        Espresso.onView(ViewMatchers.withId(R.id.gv_onboarding_viewpager))
                 .perform(ViewActions.swipeLeft())
                 .perform(ViewActions.swipeLeft())
                 // Swipe left on the last page
@@ -124,7 +124,7 @@ public class OnboardingScreenTest {
         startOnboardingActivity();
 
         // ViewPager should contain the default pages and an empty last page
-        Espresso.onView(ViewMatchers.withId(R.id.gv_viewpager))
+        Espresso.onView(ViewMatchers.withId(R.id.gv_onboarding_viewpager))
                 .check(ViewAssertions.matches(EspressoMatchers.hasPageCount(DefaultPages.values().length + 1)));
     }
 
@@ -135,7 +135,7 @@ public class OnboardingScreenTest {
         onboardingActivity.showFragment(onboardingFragment);
 
         // ViewPager should contain the default pages and an empty last page
-        Espresso.onView(ViewMatchers.withId(R.id.gv_viewpager))
+        Espresso.onView(ViewMatchers.withId(R.id.gv_onboarding_viewpager))
                 .check(ViewAssertions.matches(EspressoMatchers.hasPageCount(DefaultPages.values().length)));
     }
 
