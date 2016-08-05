@@ -26,7 +26,7 @@ import net.gini.android.vision.R;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.test.AnalysisActivitySubclass;
-import net.gini.android.vision.test.ReviewActivitySubclass;
+import net.gini.android.vision.review.ReviewActivitySubclass;
 
 import org.hamcrest.Matchers;
 import org.junit.After;

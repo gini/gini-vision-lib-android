@@ -5,6 +5,7 @@ import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,10 +63,16 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     private boolean mDocumentWasAnalyzed = false;
     private boolean mDocumentWasModified = false;
     private int mCurrentRotation = 0;
+    private boolean mDestroyed = false;
 
     public ReviewFragmentImpl(@NonNull FragmentImplCallback fragment, @NonNull Document document) {
         mFragment = fragment;
         mPhoto = Photo.fromDocument(document);
+    }
+
+    @VisibleForTesting
+    TouchImageView getImageDocument() {
+        return mImageDocument;
     }
 
     public void setListener(@Nullable ReviewFragmentListener listener) {
@@ -85,12 +92,18 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         applyCompressionToJpeg(new PhotoEdit.PhotoEditCallback() {
             @Override
             public void onDone(@NonNull Photo photo) {
+                if (mDestroyed) {
+                    return;
+                }
                 LOG.info("Should analyze document");
                 mListener.onShouldAnalyzeDocument(Document.fromPhoto(mPhoto));
             }
 
             @Override
             public void onFailed() {
+                if (mDestroyed) {
+                    return;
+                }
                 LOG.error("Failed to compress the jpeg");
                 mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW, "An error occurred while compressing the jpeg."));
             }
@@ -115,6 +128,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     }
 
     public void onDestroy() {
+        mDestroyed = true;
         mPhoto = null;
     }
 
@@ -182,11 +196,17 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             applyRotationToJpeg(new PhotoEdit.PhotoEditCallback() {
                 @Override
                 public void onDone(@NonNull Photo photo) {
+                    if (mDestroyed) {
+                        return;
+                    }
                     proceedToAnalysisScreen();
                 }
 
                 @Override
                 public void onFailed() {
+                    if (mDestroyed) {
+                        return;
+                    }
                     LOG.error("Failed to rotate the jpeg");
                     mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW, "An error occurred while applying rotation to the jpeg."));
                 }

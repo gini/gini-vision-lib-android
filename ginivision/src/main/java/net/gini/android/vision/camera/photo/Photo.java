@@ -47,6 +47,7 @@ public class Photo implements Parcelable {
     public static Bitmap createPreview(byte[] jpeg) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 2;
+
         return BitmapFactory.decodeByteArray(jpeg, 0, jpeg.length, options);
     }
 
