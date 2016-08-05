@@ -14,6 +14,9 @@ import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.camera.CameraActivity;
 import net.gini.android.vision.onboarding.DefaultPages;
 import net.gini.android.vision.onboarding.OnboardingPage;
+import net.gini.android.vision.requirements.GiniVisionRequirements;
+import net.gini.android.vision.requirements.RequirementReport;
+import net.gini.android.vision.requirements.RequirementsReport;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,6 +61,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startScanner() {
+        RequirementsReport report = GiniVisionRequirements.checkRequirements(this);
+        if (!report.isFulfilled()) {
+            String details = "";
+            for (RequirementReport requirementReport : report.getRequirementsReports()) {
+                if (!requirementReport.isFulfilled()) {
+                    details += "; " + requirementReport.getRequirementId();
+                    if (!requirementReport.getDetails().isEmpty()) {
+                        details += ": " + requirementReport.getDetails();
+                    }
+                }
+            }
+            Toast.makeText(this, "Requirements not fulfilled" + details, Toast.LENGTH_LONG).show();
+            return;
+        }
+
         Intent intent = new Intent(this, CameraActivity.class);
 
         // Add an extra page to the Onboarding pages
