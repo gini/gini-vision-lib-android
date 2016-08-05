@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
@@ -118,14 +119,11 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                                 startPreview(surfaceHolder);
                                 enableTapToFocus();
                             } else {
-                                String message = "Cannot start preview: no SurfaceHolder received for SurfaceView";
-                                LOG.error(message);
-                                mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW, message));
+                                handleError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW,
+                                        "Cannot start preview: no SurfaceHolder received for SurfaceView", null);
                             }
                         } catch (InterruptedException | ExecutionException e) {
-                            String message = "Cannot start preview: " + e.getMessage();
-                            LOG.error(message);
-                            mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW, message));
+                            handleError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW, "Cannot start preview", e);
                         }
                         return null;
                     }
@@ -138,9 +136,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                     @Override
                     public Void apply(final Void aVoid, final Throwable throwable) {
                         if (throwable != null) {
-                            LOG.error("Cannot start preview", throwable);
-                            mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW,
-                                    throwable.getMessage()));
+                            handleError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW, "Cannot start preview", throwable);
                         }
                         return null;
                     }
@@ -183,16 +179,11 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                     public Void apply(final Void aVoid, final Throwable throwable) {
                         if (throwable != null) {
                             if (throwable instanceof CameraException) {
-                                LOG.error("Failed to open camera: {}", throwable.getMessage());
-                                mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.CAMERA_OPEN_FAILED,
-                                        throwable.getMessage()));
+                                handleError(GiniVisionError.ErrorCode.CAMERA_OPEN_FAILED, "Failed to open camera", throwable);
                             } else if (throwable instanceof Exception) {
                                 handleCameraException((Exception) throwable);
                             } else {
-                                String message = "Failed to open camera";
-                                LOG.error(message);
-                                mListener.onError(
-                                        new GiniVisionError(GiniVisionError.ErrorCode.CAMERA_OPEN_FAILED, message));
+                                handleError(GiniVisionError.ErrorCode.CAMERA_OPEN_FAILED, "Failed to open camera", throwable);
                             }
                             throw new RuntimeException(throwable);
                         } else {
@@ -209,9 +200,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
             @Override
             public SurfaceHolder apply(SurfaceHolder surfaceHolder, Throwable throwable) {
                 if (throwable != null) {
-                    LOG.error("Cannot start preview", throwable);
-                    mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW,
-                            throwable.getMessage()));
+                    handleError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW, "Cannot start preview", throwable);
                     throw new RuntimeException(throwable);
                 }
                 return surfaceHolder;
@@ -286,20 +275,15 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     @UiThread
     private void callListener(final Photo photo, final Throwable throwable) {
         if (throwable != null) {
-            LOG.error("Failed to take picture: {}", throwable.getMessage());
-            mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.CAMERA_SHOT_FAILED,
-                    throwable.getMessage()));
+            handleError(GiniVisionError.ErrorCode.CAMERA_SHOT_FAILED, "Failed to take picture", throwable);
             mCameraController.startPreview();
         } else {
             if (photo != null) {
                 LOG.info("Picture taken");
                 mListener.onDocumentAvailable(Document.fromPhoto(photo));
             } else {
-                String message = "Failed to take picture: no picture from the camera";
-                LOG.error(message);
-                mListener.onError(
-                        new GiniVisionError(GiniVisionError.ErrorCode.CAMERA_SHOT_FAILED,
-                                message));
+                handleError(GiniVisionError.ErrorCode.CAMERA_SHOT_FAILED,
+                        "Failed to take picture: no picture from the camera", null);
                 mCameraController.startPreview();
             }
         }
@@ -475,5 +459,16 @@ class CameraFragmentImpl implements CameraFragmentInterface {
             mCameraController = new CameraController(activity);
         }
         return mCameraController;
+    }
+
+    private void handleError(GiniVisionError.ErrorCode errorCode, @NonNull String message, @Nullable Throwable throwable) {
+        if (throwable != null) {
+            LOG.error(message, throwable);
+            // Add error info to the message to help clients, if they don't have logging enabled
+            message += ": " + throwable.getMessage();
+        } else {
+            LOG.error(message);
+        }
+        mListener.onError(new GiniVisionError(errorCode, message));
     }
 }
