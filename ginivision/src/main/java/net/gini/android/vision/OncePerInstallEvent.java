@@ -3,6 +3,6 @@ package net.gini.android.vision;
 /**
  * @exclude
  */
-public enum OncePerInstallEvent {
+enum OncePerInstallEvent {
     SHOW_ONBOARDING;
 }

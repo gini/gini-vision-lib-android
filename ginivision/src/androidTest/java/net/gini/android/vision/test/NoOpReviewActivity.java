@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.review.ReviewActivity;
 
-public class ReviewActivitySubclass extends ReviewActivity {
+public class NoOpReviewActivity extends ReviewActivity {
     @Override
     public void onShouldAnalyzeDocument(@NonNull Document document) {
     }

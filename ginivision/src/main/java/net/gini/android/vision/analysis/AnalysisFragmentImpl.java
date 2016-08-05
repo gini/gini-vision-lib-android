@@ -21,8 +21,8 @@ import net.gini.android.vision.R;
 import net.gini.android.vision.camera.photo.Photo;
 import net.gini.android.vision.ui.FragmentImplCallback;
 import net.gini.android.vision.ui.SnackbarError;
-import net.gini.android.vision.util.promise.SimpleDeferred;
-import net.gini.android.vision.util.promise.SimplePromise;
+
+import jersey.repackaged.jsr166e.CompletableFuture;
 
 class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
@@ -41,7 +41,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     private final FragmentImplCallback mFragment;
     private Photo mPhoto;
     private AnalysisFragmentListener mListener = NO_OP_LISTENER;
-    private SimpleDeferred mStartAnimationDeferred = new SimpleDeferred();
+    private CompletableFuture<Void> mStartAnimationFuture = new CompletableFuture<>();
 
     private RelativeLayout mLayoutRoot;
     private ImageView mImageDocument;
@@ -105,7 +105,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
     private void onViewLayoutFinished() {
         rotateDocumentImageView();
-        mStartAnimationDeferred.resolve(null);
+        mStartAnimationFuture.complete(null);
     }
 
     private void rotateDocumentImageView() {
@@ -130,12 +130,11 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
     @Override
     public void startScanAnimation() {
-        mStartAnimationDeferred.promise().done(new SimplePromise.DoneCallback() {
+        mStartAnimationFuture.thenAccept(new CompletableFuture.Action<Void>() {
             @Override
-            public SimplePromise onDone(Object result) {
+            public void accept(final Void aVoid) {
                 initScanAnimation();
                 startScanAnimationInternal();
-                return null;
             }
         });
     }
