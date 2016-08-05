@@ -184,11 +184,27 @@ public class CameraScreenTest {
     }
 
     @Test
-    public void should_showReviewScreen_afterPictureWasTaken() {
+    public void should_showReviewScreen_afterPictureWasTaken() throws InterruptedException {
         startCameraActivityWithoutOnboarding();
 
         Espresso.onView(ViewMatchers.withId(R.id.gv_button_camera_trigger))
                 .perform(ViewActions.click());
+
+        // Give some time for the camera to take a picture
+        Thread.sleep(1000);
+
+        Intents.intended(IntentMatchers.hasComponent(NoOpReviewActivity.class.getName()));
+    }
+
+    @Test
+    public void should_takeOnlyOnePicture_ifTrigger_wasPressedMultipleTimes() throws InterruptedException {
+        startCameraActivityWithoutOnboarding();
+
+        Espresso.onView(ViewMatchers.withId(R.id.gv_button_camera_trigger))
+                .perform(ViewActions.doubleClick());
+
+        // Give some time for the camera to take a picture
+        Thread.sleep(2000);
 
         Intents.intended(IntentMatchers.hasComponent(NoOpReviewActivity.class.getName()));
     }
