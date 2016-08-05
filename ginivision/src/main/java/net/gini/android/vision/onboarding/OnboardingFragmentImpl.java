@@ -19,10 +19,15 @@ import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.ui.AnimatorListenerNoOp;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
 class OnboardingFragmentImpl {
+
+    private static final Logger LOG = LoggerFactory.getLogger(OnboardingFragmentImpl.class);
 
     private static final OnboardingFragmentListener NO_OP_LISTENER = new OnboardingFragmentListener() {
         @Override
@@ -64,6 +69,7 @@ class OnboardingFragmentImpl {
     }
 
     private void addTransparentPage() {
+        LOG.info("appended an empty transparent page");
         mPages.add(new OnboardingPage(0, 0, true));
     }
 
@@ -223,6 +229,16 @@ class OnboardingFragmentImpl {
             space.setLayoutParams(layoutParams);
             return space;
         }
+
+        @VisibleForTesting
+        LinearLayout getLayoutPageIndicators() {
+            return mLayoutPageIndicators;
+        }
+
+        @VisibleForTesting
+        List<ImageView> getPageIndicators() {
+            return mPageIndicators;
+        }
     }
 
     @VisibleForTesting
@@ -245,7 +261,7 @@ class OnboardingFragmentImpl {
         }
 
         public void init() {
-            mPageIndicators.setActive(0);
+            mPageIndicators.setActive(mCurrentPage);
         }
 
         public int getCurrentPage() {
@@ -259,9 +275,11 @@ class OnboardingFragmentImpl {
 
         @Override
         public void onPageSelected(int position) {
+            LOG.info("page selected: {}", position);
             mPageIndicators.setActive(position);
             mCurrentPage = position;
             if (position == mPages - 1) {
+                LOG.info("on last page: {}", position);
                 mCallback.onLastPage();
             }
         }
