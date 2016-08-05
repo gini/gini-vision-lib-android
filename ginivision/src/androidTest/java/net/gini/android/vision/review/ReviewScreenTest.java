@@ -35,7 +35,7 @@ public class ReviewScreenTest {
     private static final int PAUSE_DURATION_LONG = 2000;
 
     @Rule
-    public IntentsTestRule<ReviewActivitySubclass> mActivityTestRule = new IntentsTestRule<>(ReviewActivitySubclass.class, true, false);
+    public IntentsTestRule<ReviewActivityTestStub> mActivityTestRule = new IntentsTestRule<>(ReviewActivityTestStub.class, true, false);
 
     private static byte[] TEST_JPEG = null;
 
@@ -51,7 +51,7 @@ public class ReviewScreenTest {
 
     @Test
     public void should_rotatePreview_accordingToOrientation() throws IOException, InterruptedException {
-        ReviewActivitySubclass activity = startReviewActivity(TEST_JPEG, 180);
+        ReviewActivityTestStub activity = startReviewActivity(TEST_JPEG, 180);
 
         InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 
@@ -63,7 +63,7 @@ public class ReviewScreenTest {
 
     @Test
     public void should_rotatePreview_whenRotateButton_isClicked() throws IOException, InterruptedException {
-        ReviewActivitySubclass activity = startReviewActivity(TEST_JPEG, 90);
+        ReviewActivityTestStub activity = startReviewActivity(TEST_JPEG, 90);
 
         Espresso.onView(ViewMatchers.withId(R.id.gv_button_rotate))
                 .perform(ViewActions.click());
@@ -76,11 +76,11 @@ public class ReviewScreenTest {
 
     @Test
     public void should_invokeAnalyzeDocument_whenLaunched() throws IOException, InterruptedException {
-        ReviewActivitySubclass activity = startReviewActivity(TEST_JPEG, 90);
+        ReviewActivityTestStub activity = startReviewActivity(TEST_JPEG, 90);
 
         final AtomicBoolean analyzeDocumentInvoked = new AtomicBoolean();
 
-        activity.setListenerHook(new ReviewActivitySubclass.ListenerHook() {
+        activity.setListenerHook(new ReviewActivityTestStub.ListenerHook() {
             @Override
             public void onShouldAnalyzeDocument(@NonNull Document document) {
                 analyzeDocumentInvoked.set(true);
@@ -107,11 +107,11 @@ public class ReviewScreenTest {
 
     @Test
     public void should_compressJpeg_beforeAnalyzeDocument_isInvoked() throws IOException, InterruptedException {
-        ReviewActivitySubclass activity = startReviewActivity(TEST_JPEG, 90);
+        ReviewActivityTestStub activity = startReviewActivity(TEST_JPEG, 90);
 
         final AtomicReference<Document> documentToAnalyze = new AtomicReference<>();
 
-        activity.setListenerHook(new ReviewActivitySubclass.ListenerHook() {
+        activity.setListenerHook(new ReviewActivityTestStub.ListenerHook() {
             @Override
             public void onShouldAnalyzeDocument(@NonNull Document document) {
                 documentToAnalyze.set(document);
@@ -139,7 +139,7 @@ public class ReviewScreenTest {
 
     @Test
     public void should_onlyInvokeProceedToAnalysis_whenNextButton_wasClicked_ifDocument_wasModified_andNotAnalyzed() throws InterruptedException {
-        ReviewActivitySubclass activity = startReviewActivity(TEST_JPEG, 0);
+        ReviewActivityTestStub activity = startReviewActivity(TEST_JPEG, 0);
 
         // Modify the document
         Espresso.onView(ViewMatchers.withId(R.id.gv_button_rotate))
@@ -148,7 +148,7 @@ public class ReviewScreenTest {
         final AtomicBoolean proceedToAnalysisInvoked = new AtomicBoolean();
         final AtomicBoolean addDataToResultInvoked = new AtomicBoolean();
 
-        activity.setListenerHook(new ReviewActivitySubclass.ListenerHook() {
+        activity.setListenerHook(new ReviewActivityTestStub.ListenerHook() {
             @Override
             public void onShouldAnalyzeDocument(@NonNull Document document) {
             }
@@ -181,7 +181,7 @@ public class ReviewScreenTest {
 
     @Test
     public void should_onlyInvokeProceedToAnalysis_whenNextButton_wasClicked_ifDocument_wasModified_andAnalyzed() throws InterruptedException {
-        final ReviewActivitySubclass activity = startReviewActivity(TEST_JPEG, 0);
+        final ReviewActivityTestStub activity = startReviewActivity(TEST_JPEG, 0);
 
         // Modify the document
         Espresso.onView(ViewMatchers.withId(R.id.gv_button_rotate))
@@ -190,7 +190,7 @@ public class ReviewScreenTest {
         final AtomicBoolean proceedToAnalysisInvoked = new AtomicBoolean();
         final AtomicBoolean addDataToResultInvoked = new AtomicBoolean();
 
-        activity.setListenerHook(new ReviewActivitySubclass.ListenerHook() {
+        activity.setListenerHook(new ReviewActivityTestStub.ListenerHook() {
             @Override
             public void onShouldAnalyzeDocument(@NonNull Document document) {
                 // Notify that document was analyzed
@@ -225,12 +225,12 @@ public class ReviewScreenTest {
 
     @Test
     public void should_onlyInvokeProceedToAnalysis_whenNextButton_wasClicked_ifDocument_wasNotModified_andNotAnalyzed() throws InterruptedException {
-        ReviewActivitySubclass activity = startReviewActivity(TEST_JPEG, 0);
+        ReviewActivityTestStub activity = startReviewActivity(TEST_JPEG, 0);
 
         final AtomicBoolean proceedToAnalysisInvoked = new AtomicBoolean();
         final AtomicBoolean addDataToResultInvoked = new AtomicBoolean();
 
-        activity.setListenerHook(new ReviewActivitySubclass.ListenerHook() {
+        activity.setListenerHook(new ReviewActivityTestStub.ListenerHook() {
             @Override
             public void onShouldAnalyzeDocument(@NonNull Document document) {
             }
@@ -263,12 +263,12 @@ public class ReviewScreenTest {
 
     @Test
     public void should_invokeDocumentReviewed_andAddDataToResult_whenNextButton_wasClicked_ifDocument_wasNotModified_andWasAnalyzed() throws InterruptedException {
-        final ReviewActivitySubclass activity = startReviewActivity(TEST_JPEG, 0);
+        final ReviewActivityTestStub activity = startReviewActivity(TEST_JPEG, 0);
 
         final AtomicBoolean documentReviewedCalled = new AtomicBoolean();
         final AtomicBoolean addDataToResultInvoked = new AtomicBoolean();
 
-        activity.setListenerHook(new ReviewActivitySubclass.ListenerHook() {
+        activity.setListenerHook(new ReviewActivityTestStub.ListenerHook() {
             @Override
             public void onShouldAnalyzeDocument(@NonNull Document document) {
                 // Notify that document was analyzed
@@ -301,14 +301,14 @@ public class ReviewScreenTest {
         assertThat(addDataToResultInvoked.get()).isTrue();
     }
 
-    private ReviewActivitySubclass startReviewActivity(byte[] jpeg, int orientation) {
+    private ReviewActivityTestStub startReviewActivity(byte[] jpeg, int orientation) {
         Intent intent = getReviewActivityIntent();
         intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, Document.fromPhoto(Photo.fromJpeg(jpeg, orientation)));
         return mActivityTestRule.launchActivity(intent);
     }
 
     private Intent getReviewActivityIntent() {
-        return new Intent(InstrumentationRegistry.getTargetContext(), ReviewActivitySubclass.class);
+        return new Intent(InstrumentationRegistry.getTargetContext(), ReviewActivityTestStub.class);
     }
 
     private static byte[] getTestJpeg() throws IOException {

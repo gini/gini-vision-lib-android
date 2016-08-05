@@ -33,6 +33,7 @@ dependencies {
     compile deps.supportDesign
     compile deps.sanselan
     compile deps.slf4j
+    compile deps.completableFuture
 
     testCompile deps.junit
     testCompile deps.truth
