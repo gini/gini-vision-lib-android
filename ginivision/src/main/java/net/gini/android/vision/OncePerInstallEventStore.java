@@ -2,11 +2,12 @@ package net.gini.android.vision;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.VisibleForTesting;
 
 /**
  * @exclude
  */
-public class OncePerInstallEventStore {
+class OncePerInstallEventStore {
 
     private static final String ONCE_PER_INSTALL_EVENTS = "GV_ONCE_PER_INSTALL_EVENTS";
 
@@ -23,6 +24,13 @@ public class OncePerInstallEventStore {
     public void saveEvent(OncePerInstallEvent event) {
         mSharedPreferences.edit()
                 .putBoolean(event.name(), true)
+                .apply();
+    }
+
+    @VisibleForTesting
+    public void clearEvent(OncePerInstallEvent event) {
+        mSharedPreferences.edit()
+                .remove(event.name())
                 .apply();
     }
 }

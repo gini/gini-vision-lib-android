@@ -1,5 +1,6 @@
 package net.gini.android.vision.test;
 
+import android.os.Looper;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -10,5 +11,11 @@ public class Helpers {
         payload.writeToParcel(parcel, 0);
         parcel.setDataPosition(0);
         return creator.createFromParcel(parcel);
+    }
+
+    public static void prepareLooper() {
+        if (Looper.myLooper() == null) {
+            Looper.prepare();
+        }
     }
 }

@@ -84,7 +84,7 @@ class OnboardingFragmentImpl {
     }
 
     private void bindViews(View view) {
-        mViewPager = (ViewPager) view.findViewById(R.id.gv_viewpager);
+        mViewPager = (ViewPager) view.findViewById(R.id.gv_onboarding_viewpager);
         mLayoutPageIndicators = (LinearLayout) view.findViewById(R.id.gv_layout_page_indicators);
         mButtonNext = (ImageButton) view.findViewById(R.id.gv_button_next);
     }
