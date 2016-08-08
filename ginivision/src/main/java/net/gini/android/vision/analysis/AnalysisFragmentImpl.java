@@ -1,9 +1,5 @@
 package net.gini.android.vision.analysis;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import net.gini.android.vision.Document;
@@ -21,8 +18,6 @@ import net.gini.android.vision.R;
 import net.gini.android.vision.camera.photo.Photo;
 import net.gini.android.vision.ui.FragmentImplCallback;
 import net.gini.android.vision.ui.SnackbarError;
-
-import jersey.repackaged.jsr166e.CompletableFuture;
 
 class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
@@ -41,14 +36,10 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     private final FragmentImplCallback mFragment;
     private Photo mPhoto;
     private AnalysisFragmentListener mListener = NO_OP_LISTENER;
-    private CompletableFuture<Void> mStartAnimationFuture = new CompletableFuture<>();
 
     private RelativeLayout mLayoutRoot;
     private ImageView mImageDocument;
-    private ImageView mImageScannerLine;
-
-    private ValueAnimator mScanAnimation;
-    private boolean mStopped = true;
+    private ProgressBar mProgressActivity;
 
     public AnalysisFragmentImpl(FragmentImplCallback fragment, Document document) {
         mFragment = fragment;
@@ -64,7 +55,6 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     public void onCreate(Bundle savedInstanceState) {
-        mListener.onAnalyzeDocument(Document.fromPhoto(mPhoto));
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -75,18 +65,19 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         return view;
     }
 
+
+
     public void onStart() {
-        mStopped = false;
+        mListener.onAnalyzeDocument(Document.fromPhoto(mPhoto));
     }
 
     public void onStop() {
-        mStopped = true;
     }
 
     private void bindViews(@NonNull View view) {
         mLayoutRoot = (RelativeLayout) view.findViewById(R.id.gv_layout_root);
         mImageDocument = (ImageView) view.findViewById(R.id.gv_image_picture);
-        mImageScannerLine = (ImageView) view.findViewById(R.id.gv_image_scanner_line);
+        mProgressActivity = (ProgressBar) view.findViewById(R.id.gv_progress_activity);
     }
 
     private void showDocument() {
@@ -105,7 +96,6 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
     private void onViewLayoutFinished() {
         rotateDocumentImageView();
-        mStartAnimationFuture.complete(null);
     }
 
     private void rotateDocumentImageView() {
@@ -130,60 +120,12 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
     @Override
     public void startScanAnimation() {
-        mStartAnimationFuture.thenAccept(new CompletableFuture.Action<Void>() {
-            @Override
-            public void accept(final Void aVoid) {
-                initScanAnimation();
-                startScanAnimationInternal();
-            }
-        });
-    }
-
-    private void initScanAnimation() {
-        if (mScanAnimation != null) {
-            return;
-        }
-        mScanAnimation = ObjectAnimator.ofFloat(mImageScannerLine, "translationY", 0, mImageDocument.getHeight() - ((RelativeLayout.LayoutParams) mImageScannerLine.getLayoutParams()).bottomMargin * 2);
-        mScanAnimation.setDuration(SCAN_ANIM_DURATION);
-        mScanAnimation.setRepeatMode(ObjectAnimator.REVERSE);
-    }
-
-    private void startScanAnimationInternal() {
-        if (mScanAnimation == null) {
-            return;
-        }
-        mScanAnimation.setRepeatCount(ObjectAnimator.INFINITE);
-        if (!mScanAnimation.isRunning()) {
-            mScanAnimation.start();
-        }
+        mProgressActivity.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void stopScanAnimation() {
-        stopScanAnimationInternal();
-    }
-
-    private void stopScanAnimationInternal() {
-        if (mScanAnimation == null) {
-            return;
-        }
-        mScanAnimation.setRepeatCount(0);
-        mScanAnimation.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                mScanAnimation.removeListener(this);
-                if (mStopped) {
-                    return;
-                }
-                resetScannerLineWithAnimation();
-            }
-        });
-    }
-
-    private void resetScannerLineWithAnimation() {
-        ObjectAnimator resetAnimation = ObjectAnimator.ofFloat(mImageScannerLine, "translationY", 0);
-        resetAnimation.setDuration(SCAN_ANIM_DURATION);
-        resetAnimation.start();
+        mProgressActivity.setVisibility(View.GONE);
     }
 
     @Override

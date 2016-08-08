@@ -15,15 +15,20 @@
             android:id="@+id/gv_image_picture"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center" />
 
     </FrameLayout>
 
-    <ImageView
-        android:id="@+id/gv_image_scanner_line"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/gv_analysis_scanner_line_height"
-        android:layout_margin="@dimen/gv_analysis_scanner_line_margin"
-        android:src="@drawable/gv_analysis_scanner_line" />
+    <ProgressBar
+        android:id="@+id/gv_progress_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:indeterminateOnly="true"
+        android:indeterminateTint="@color/gv_analysis_activity_indicator"
+        android:indeterminateTintMode="src_in"
+        android:visibility="gone"
+        tools:targetApi="lollipop"
+        tools:visibility="visible" />
 
 </RelativeLayout>
