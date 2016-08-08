@@ -11,11 +11,6 @@ public enum RequirementId {
      *     Permission to access the camera is required.
      * </p>
      * <p>
-     *     <b>Note:</b> On Android 6.0 and later you may ignore the unfulfillment of the camera permission. The Camera Screen
-     *     handles the lack of the camera permission and allows the user to access the application settings to grant the
-     *     permission.
-     * </p>
-     * <p>
      *     On Android before version 6.0 the camera permission must be declared
      *     in the manifest.
      * </p>
@@ -24,8 +19,11 @@ public enum RequirementId {
      *     the user during run-time.
      * </p>
      * <p>
-     *     Although the Camera Screen handles the lack of the camera permission, we recommend asking the user for the
-     *     permission (and explaining why it's needed) before you start the Gini Vision Library.
+     *     On Android 6.0 and later you need to ask the user for the camera permission before you check the
+     *     requirements.
+     * </p>
+     * <p>
+     *     Camera permission is required for checking the other requirements.
      * </p>
      */
     CAMERA_PERMISSION,

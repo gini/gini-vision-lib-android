@@ -31,7 +31,6 @@ class DeviceMemoryRequirement implements Requirement {
         if (camera != null) {
             Camera.Parameters parameters = camera.getParameters();
 
-            // If we got no picture size, we consider the memory requirement to be fulfilled
             Size pictureSize = Util.getLargestFourThreeRatioSize(parameters.getSupportedPictureSizes());
             if (pictureSize == null) {
                 result = false;

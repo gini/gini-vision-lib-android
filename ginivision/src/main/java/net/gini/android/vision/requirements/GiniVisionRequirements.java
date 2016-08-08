@@ -17,6 +17,9 @@ import java.util.Arrays;
  * <p>
  *     Call {@link GiniVisionRequirements#checkRequirements(Context)} to get a report of the requirement checks.
  * </p>
+ * <p>
+ *     On Android 6.0 and later you need to ask the user for the camera permission before you check the requirements.
+ * </p>
  */
 public final class GiniVisionRequirements {
 
