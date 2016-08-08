@@ -5,18 +5,18 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
-class CameraAutoFocusRequirement implements Requirement {
+class CameraFocusRequirement implements Requirement {
 
     private final CameraHolder mCameraHolder;
 
-    CameraAutoFocusRequirement(CameraHolder cameraHolder) {
+    CameraFocusRequirement(CameraHolder cameraHolder) {
         mCameraHolder = cameraHolder;
     }
 
     @NonNull
     @Override
     public RequirementId getId() {
-        return RequirementId.CAMERA_AUTOFOCUS;
+        return RequirementId.CAMERA_FOCUS;
     }
 
     @NonNull
@@ -29,7 +29,8 @@ class CameraAutoFocusRequirement implements Requirement {
         if (camera != null) {
             Camera.Parameters parameters = camera.getParameters();
             List<String> supportedFocusModes = parameters.getSupportedFocusModes();
-            if (supportedFocusModes == null || !supportedFocusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
+            if (supportedFocusModes == null || !supportedFocusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)
+                    || !supportedFocusModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
                 fulfilled = false;
                 details = "Camera does not support auto-focus";
             }

@@ -5,6 +5,6 @@ public enum RequirementId {
     CAMERA,
     CAMERA_RESOLUTION,
     CAMERA_FLASH,
-    CAMERA_AUTOFOCUS,
+    CAMERA_FOCUS,
     DEVICE_MEMORY
 }
