@@ -3,7 +3,7 @@ package net.gini.android.vision.requirements;
 import android.hardware.Camera;
 import android.support.annotation.Nullable;
 
-final class CameraHolder {
+class CameraHolder {
 
     private Camera mCamera;
 

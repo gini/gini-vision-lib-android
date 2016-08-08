@@ -37,6 +37,7 @@ dependencies {
 
     testCompile deps.junit
     testCompile deps.truth
+    testCompile deps.mockito
 
     androidTestCompile deps.supportTestRunner
     androidTestCompile deps.truth

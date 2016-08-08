@@ -16,7 +16,7 @@ class CameraPermissionRequirement implements Requirement {
     @NonNull
     @Override
     public RequirementId getId() {
-        return RequirementId.MANIFEST_CAMERA_PERMISSION;
+        return RequirementId.CAMERA_PERMISSION;
     }
 
     @NonNull

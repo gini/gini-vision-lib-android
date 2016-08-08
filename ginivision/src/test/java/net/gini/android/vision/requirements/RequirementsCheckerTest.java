@@ -51,8 +51,8 @@ public class RequirementsCheckerTest {
                     assertThat(requirementReport.isFulfilled()).isTrue();
                     assertThat(requirementReport.getDetails()).isEqualTo("fulfilled");
                     break;
-                case MANIFEST_CAMERA_PERMISSION:
-                    assertThat(requirementReport.getRequirementId()).isEqualTo(RequirementId.MANIFEST_CAMERA_PERMISSION);
+                case CAMERA_PERMISSION:
+                    assertThat(requirementReport.getRequirementId()).isEqualTo(RequirementId.CAMERA_PERMISSION);
                     assertThat(requirementReport.isFulfilled()).isFalse();
                     assertThat(requirementReport.getDetails()).isEqualTo("unfulfilled");
                     break;
@@ -81,7 +81,7 @@ public class RequirementsCheckerTest {
         @Override
         public RequirementId getId() {
             // Irrelevant
-            return RequirementId.MANIFEST_CAMERA_PERMISSION;
+            return RequirementId.CAMERA_PERMISSION;
         }
 
         @NonNull

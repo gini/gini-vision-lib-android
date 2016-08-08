@@ -54,21 +54,22 @@ class DeviceMemoryRequirement implements Requirement {
      * @param photoSize       the size of photos that will be used for image processing
      * @return whether there is enough memory for the image processing to succeed
      */
-    private boolean sufficientMemoryAvailable(Size photoSize) {
+    @VisibleForTesting
+    boolean sufficientMemoryAvailable(Size photoSize) {
         Runtime runtime = Runtime.getRuntime();
         return sufficientMemoryAvailable(runtime, photoSize);
     }
 
     @VisibleForTesting
     boolean sufficientMemoryAvailable(Runtime runtime,
-                                             final Size photoSize) {
+                                      final Size photoSize) {
         final float memoryUsed = (runtime.totalMemory() - runtime.freeMemory()) / 1024 / 1024;
         final float memoryNeeded = calculateMemoryUsageForSize(photoSize) / 1024 / 1024;
         final float maxMemory = runtime.maxMemory() / 1024 / 1024;
         return memoryNeeded + memoryUsed < maxMemory;
     }
 
-    static float calculateMemoryUsageForSize(final Size photoSize) {
+    private float calculateMemoryUsageForSize(final Size photoSize) {
         // We have three channels of one byte each and we hold about three pictures in memory.
         return photoSize.width * photoSize.height * 3 * 3;
     }
