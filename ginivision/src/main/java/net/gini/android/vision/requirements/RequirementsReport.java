@@ -7,11 +7,11 @@ import java.util.List;
 public class RequirementsReport {
 
     private final boolean mFulfilled;
-    private final List<RequirementReport> mRequirementsReports;
+    private final List<RequirementReport> mRequirementReports;
 
-    public RequirementsReport(boolean fulfilled, @NonNull List<RequirementReport> requirementsReports) {
+    public RequirementsReport(boolean fulfilled, @NonNull List<RequirementReport> requirementReports) {
         mFulfilled = fulfilled;
-        mRequirementsReports = requirementsReports;
+        mRequirementReports = requirementReports;
     }
 
     public boolean isFulfilled() {
@@ -19,7 +19,16 @@ public class RequirementsReport {
     }
 
     @NonNull
-    public List<RequirementReport> getRequirementsReports() {
-        return mRequirementsReports;
+    public List<RequirementReport> getRequirementReports() {
+        return mRequirementReports;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("RequirementsReport{");
+        sb.append("mFulfilled=").append(mFulfilled);
+        sb.append(", mRequirementReports=").append(mRequirementReports);
+        sb.append('}');
+        return sb.toString();
     }
 }

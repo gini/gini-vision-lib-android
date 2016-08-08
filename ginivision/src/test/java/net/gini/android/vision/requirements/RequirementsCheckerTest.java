@@ -44,7 +44,7 @@ public class RequirementsCheckerTest {
 
         RequirementsReport report = checker.checkRequirements();
 
-        for (RequirementReport requirementReport : report.getRequirementsReports()) {
+        for (RequirementReport requirementReport : report.getRequirementReports()) {
             switch (requirementReport.getRequirementId()) {
                 case CAMERA:
                     assertThat(requirementReport.getRequirementId()).isEqualTo(RequirementId.CAMERA);

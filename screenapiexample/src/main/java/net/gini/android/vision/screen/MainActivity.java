@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         RequirementsReport report = GiniVisionRequirements.checkRequirements(this);
         if (!report.isFulfilled()) {
             String details = "";
-            for (RequirementReport requirementReport : report.getRequirementsReports()) {
+            for (RequirementReport requirementReport : report.getRequirementReports()) {
                 if (!requirementReport.isFulfilled()) {
                     details += "; " + requirementReport.getRequirementId();
                     if (!requirementReport.getDetails().isEmpty()) {

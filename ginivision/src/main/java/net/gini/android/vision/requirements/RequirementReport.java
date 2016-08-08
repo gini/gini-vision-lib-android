@@ -26,4 +26,14 @@ public class RequirementReport {
     public String getDetails() {
         return mDetails;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("RequirementReport{");
+        sb.append("mRequirementId=").append(mRequirementId);
+        sb.append(", mFulfilled=").append(mFulfilled);
+        sb.append(", mDetails='").append(mDetails).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }
