@@ -17,7 +17,7 @@ import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.camera.photo.Photo;
 import net.gini.android.vision.ui.FragmentImplCallback;
-import net.gini.android.vision.ui.SnackbarError;
+import net.gini.android.vision.ui.ErrorSnackbar;
 
 class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
@@ -138,7 +138,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         if (mFragment.getActivity() == null) {
             return;
         }
-        SnackbarError.make(mFragment.getActivity(), mLayoutRoot, message, buttonTitle, onClickListener, SnackbarError.LENGTH_INDEFINITE).show();
+        ErrorSnackbar.make(mFragment.getActivity(), mLayoutRoot, message, buttonTitle, onClickListener, ErrorSnackbar.LENGTH_INDEFINITE).show();
     }
 
     @Override
@@ -146,7 +146,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         if (mFragment.getActivity() == null || mLayoutRoot == null) {
             return;
         }
-        SnackbarError.make(mFragment.getActivity(), mLayoutRoot, message, null, null, duration).show();
+        ErrorSnackbar.make(mFragment.getActivity(), mLayoutRoot, message, null, null, duration).show();
     }
 
     @Override
@@ -154,6 +154,6 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         if (mLayoutRoot == null) {
             return;
         }
-        SnackbarError.hideExisting(mLayoutRoot);
+        ErrorSnackbar.hideExisting(mLayoutRoot);
     }
 }
