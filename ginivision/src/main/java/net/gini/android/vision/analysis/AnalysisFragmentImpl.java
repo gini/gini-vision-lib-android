@@ -3,6 +3,7 @@ package net.gini.android.vision.analysis;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +47,16 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         mPhoto = Photo.fromDocument(document);
     }
 
+    @VisibleForTesting
+    ImageView getImageDocument() {
+        return mImageDocument;
+    }
+
+    @VisibleForTesting
+    ProgressBar getProgressActivity() {
+        return mProgressActivity;
+    }
+
     public void setListener(@Nullable AnalysisFragmentListener listener) {
         if (listener == null) {
             mListener = NO_OP_LISTENER;
@@ -64,8 +75,6 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         observerViewTree(view);
         return view;
     }
-
-
 
     public void onStart() {
         mListener.onAnalyzeDocument(Document.fromPhoto(mPhoto));
