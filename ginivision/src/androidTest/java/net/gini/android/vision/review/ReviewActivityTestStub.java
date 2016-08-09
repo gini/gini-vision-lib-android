@@ -68,13 +68,17 @@ public class ReviewActivityTestStub extends ReviewActivity {
         }
     }
 
-    public interface ListenerHook {
-        void onShouldAnalyzeDocument(@NonNull Document document);
+    public static abstract class ListenerHook {
+        public void onShouldAnalyzeDocument(@NonNull Document document){
+        }
 
-        void onAddDataToResult(@NonNull Intent result);
+        public void onAddDataToResult(@NonNull Intent result){
+        }
 
-        void onProceedToAnalysisScreen(@NonNull Document document);
+        public void onProceedToAnalysisScreen(@NonNull Document document){
+        }
 
-        void onDocumentReviewedAndAnalyzed(@NonNull Document document);
+        public void onDocumentReviewedAndAnalyzed(@NonNull Document document){
+        }
     }
 }

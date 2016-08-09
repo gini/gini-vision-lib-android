@@ -32,7 +32,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class ReviewScreenTest {
 
     private static final int PAUSE_DURATION = 500;
-    private static final int PAUSE_DURATION_LONG = 2000;
+    private static final int PAUSE_DURATION_LONG = 2_000;
 
     @Rule
     public IntentsTestRule<ReviewActivityTestStub> mActivityTestRule = new IntentsTestRule<>(ReviewActivityTestStub.class, true, false);
@@ -85,18 +85,6 @@ public class ReviewScreenTest {
             public void onShouldAnalyzeDocument(@NonNull Document document) {
                 analyzeDocumentInvoked.set(true);
             }
-
-            @Override
-            public void onAddDataToResult(@NonNull Intent result) {
-            }
-
-            @Override
-            public void onProceedToAnalysisScreen(@NonNull Document document) {
-            }
-
-            @Override
-            public void onDocumentReviewedAndAnalyzed(@NonNull Document document) {
-            }
         });
 
         // Allow the activity to run a little for listeners to be invoked
@@ -115,18 +103,6 @@ public class ReviewScreenTest {
             @Override
             public void onShouldAnalyzeDocument(@NonNull Document document) {
                 documentToAnalyze.set(document);
-            }
-
-            @Override
-            public void onAddDataToResult(@NonNull Intent result) {
-            }
-
-            @Override
-            public void onProceedToAnalysisScreen(@NonNull Document document) {
-            }
-
-            @Override
-            public void onDocumentReviewedAndAnalyzed(@NonNull Document document) {
             }
         });
 
@@ -150,10 +126,6 @@ public class ReviewScreenTest {
 
         activity.setListenerHook(new ReviewActivityTestStub.ListenerHook() {
             @Override
-            public void onShouldAnalyzeDocument(@NonNull Document document) {
-            }
-
-            @Override
             public void onAddDataToResult(@NonNull Intent result) {
                 addDataToResultInvoked.set(true);
             }
@@ -161,10 +133,6 @@ public class ReviewScreenTest {
             @Override
             public void onProceedToAnalysisScreen(@NonNull Document document) {
                 proceedToAnalysisInvoked.set(true);
-            }
-
-            @Override
-            public void onDocumentReviewedAndAnalyzed(@NonNull Document document) {
             }
         });
 
@@ -206,10 +174,6 @@ public class ReviewScreenTest {
             public void onProceedToAnalysisScreen(@NonNull Document document) {
                 proceedToAnalysisInvoked.set(true);
             }
-
-            @Override
-            public void onDocumentReviewedAndAnalyzed(@NonNull Document document) {
-            }
         });
 
         // Allow the activity to run a little for listeners to be invoked
@@ -232,10 +196,6 @@ public class ReviewScreenTest {
 
         activity.setListenerHook(new ReviewActivityTestStub.ListenerHook() {
             @Override
-            public void onShouldAnalyzeDocument(@NonNull Document document) {
-            }
-
-            @Override
             public void onAddDataToResult(@NonNull Intent result) {
                 addDataToResultInvoked.set(true);
             }
@@ -243,10 +203,6 @@ public class ReviewScreenTest {
             @Override
             public void onProceedToAnalysisScreen(@NonNull Document document) {
                 proceedToAnalysisInvoked.set(true);
-            }
-
-            @Override
-            public void onDocumentReviewedAndAnalyzed(@NonNull Document document) {
             }
         });
 
@@ -278,10 +234,6 @@ public class ReviewScreenTest {
             @Override
             public void onAddDataToResult(@NonNull Intent result) {
                 addDataToResultInvoked.set(true);
-            }
-
-            @Override
-            public void onProceedToAnalysisScreen(@NonNull Document document) {
             }
 
             @Override
