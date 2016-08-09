@@ -7,7 +7,7 @@
 
     <uses-sdk tools:overrideLibrary="android.support.test.uiautomator.v18" />\
 
-    <application>
+    <application android:name="android.support.multidex.MultiDexApplication">
         <activity
             android:name=".NoOpReviewActivity"
             android:label="@string/gv_title_review"
