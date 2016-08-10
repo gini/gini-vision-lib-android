@@ -42,6 +42,8 @@ import java.util.ArrayList;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CameraScreenTest {
 
+    private static final long TEST_PAUSE_DURATION = 2000;
+
     @Rule
     public IntentsTestRule<CameraActivity> mIntentsTestRule = new IntentsTestRule<>(CameraActivity.class, true, false);
 
@@ -191,7 +193,7 @@ public class CameraScreenTest {
                 .perform(ViewActions.click());
 
         // Give some time for the camera to take a picture
-        Thread.sleep(1000);
+        Thread.sleep(TEST_PAUSE_DURATION);
 
         Intents.intended(IntentMatchers.hasComponent(ReviewActivityTestStub.class.getName()));
     }
@@ -204,7 +206,7 @@ public class CameraScreenTest {
                 .perform(ViewActions.doubleClick());
 
         // Give some time for the camera to take a picture
-        Thread.sleep(2000);
+        Thread.sleep(TEST_PAUSE_DURATION);
 
         Intents.intended(IntentMatchers.hasComponent(ReviewActivityTestStub.class.getName()));
     }
