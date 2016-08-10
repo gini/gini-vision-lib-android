@@ -42,12 +42,10 @@ public class CameraFlashRequirementTest {
         assertThat(requirement.check().isFulfilled()).isFalse();
     }
 
-    public CameraHolder getCameraHolder(boolean isFlashSupported) {
+    private CameraHolder getCameraHolder(boolean isFlashSupported) {
         CameraHolder cameraHolder = mock(CameraHolder.class);
-        Camera camera = mock(Camera.class);
         Camera.Parameters parameters = mock(Camera.Parameters.class);
-        when(cameraHolder.getCamera()).thenReturn(camera);
-        when(camera.getParameters()).thenReturn(parameters);
+        when(cameraHolder.getCameraParameters()).thenReturn(parameters);
         when(parameters.getSupportedFlashModes()).thenReturn(
                 isFlashSupported ?
                         Collections.singletonList(Camera.Parameters.FLASH_MODE_ON)

@@ -76,10 +76,8 @@ public class DeviceMemoryRequirementTest {
 
     private CameraHolder getCameraHolder(List<Camera.Size> pictureSizes) {
         CameraHolder cameraHolder = mock(CameraHolder.class);
-        Camera camera = mock(Camera.class);
         Camera.Parameters parameters = mock(Camera.Parameters.class);
-        when(cameraHolder.getCamera()).thenReturn(camera);
-        when(camera.getParameters()).thenReturn(parameters);
+        when(cameraHolder.getCameraParameters()).thenReturn(parameters);
         if (pictureSizes == null) {
             Camera.Size size4to3 = createSize(4128, 3096);
             Camera.Size sizeOther = createSize(4128, 2322);

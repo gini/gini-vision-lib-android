@@ -25,18 +25,22 @@ class CameraFocusRequirement implements Requirement {
         boolean fulfilled = true;
         String details = "";
 
-        Camera camera = mCameraHolder.getCamera();
-        if (camera != null) {
-            Camera.Parameters parameters = camera.getParameters();
-            List<String> supportedFocusModes = parameters.getSupportedFocusModes();
-            if (supportedFocusModes == null || !supportedFocusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)
-                    || !supportedFocusModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
+        try {
+            Camera.Parameters parameters = mCameraHolder.getCameraParameters();
+            if (parameters != null) {
+                List<String> supportedFocusModes = parameters.getSupportedFocusModes();
+                if (supportedFocusModes == null || !supportedFocusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)
+                        || !supportedFocusModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
+                    fulfilled = false;
+                    details = "Camera does not support auto-focus";
+                }
+            } else {
                 fulfilled = false;
-                details = "Camera does not support auto-focus";
+                details = "Camera not open";
             }
-        } else {
+        } catch (RuntimeException e) {
             fulfilled = false;
-            details = "Camera not open";
+            details = "Camera exception: " + e.getMessage();
         }
 
         return new RequirementReport(getId(), fulfilled, details);

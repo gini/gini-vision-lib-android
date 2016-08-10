@@ -68,10 +68,8 @@ public class CameraResolutionRequirementTest {
 
     private CameraHolder getCameraHolder(List<Camera.Size> previewSizes, List<Camera.Size> pictureSizes) {
         CameraHolder cameraHolder = mock(CameraHolder.class);
-        Camera camera = mock(Camera.class);
         Camera.Parameters parameters = mock(Camera.Parameters.class);
-        when(cameraHolder.getCamera()).thenReturn(camera);
-        when(camera.getParameters()).thenReturn(parameters);
+        when(cameraHolder.getCameraParameters()).thenReturn(parameters);
         if (previewSizes == null) {
             Camera.Size size4to3 = createSize(1440, 1080);
             Camera.Size sizeOther = createSize(1280, 720);

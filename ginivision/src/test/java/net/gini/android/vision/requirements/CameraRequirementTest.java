@@ -5,8 +5,6 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import android.hardware.Camera;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -17,7 +15,7 @@ public class CameraRequirementTest {
     @Test
     public void should_reportUnfulfilled_ifCamera_couldNotBeOpened() {
         CameraHolder cameraHolder = mock(CameraHolder.class);
-        doThrow(new RuntimeException()).when(cameraHolder).openCamera();
+        doThrow(new RuntimeException()).when(cameraHolder).hasCamera();
 
         CameraRequirement cameraRequirement = new CameraRequirement(cameraHolder);
 
@@ -27,7 +25,7 @@ public class CameraRequirementTest {
     @Test
     public void should_reportUnfulfilled_ifCamera_isNull() {
         CameraHolder cameraHolder = mock(CameraHolder.class);
-        when(cameraHolder.getCamera()).thenReturn(null);
+        when(cameraHolder.hasCamera()).thenReturn(false);
 
         CameraRequirement cameraRequirement = new CameraRequirement(cameraHolder);
 
@@ -37,7 +35,7 @@ public class CameraRequirementTest {
     @Test
     public void should_reportFulfilled_ifCamera_couldBeOpened_andIsNotNull() {
         CameraHolder cameraHolder = mock(CameraHolder.class);
-        when(cameraHolder.getCamera()).thenReturn(mock(Camera.class));
+        when(cameraHolder.hasCamera()).thenReturn(true);
 
         CameraRequirement cameraRequirement = new CameraRequirement(cameraHolder);
 

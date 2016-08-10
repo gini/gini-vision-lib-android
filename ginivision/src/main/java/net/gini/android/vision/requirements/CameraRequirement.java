@@ -22,9 +22,7 @@ class CameraRequirement implements Requirement {
         boolean result = true;
         String details = "";
         try {
-            // Camera must be closed by the creator of the camera holder
-            mCameraHolder.openCamera();
-            if (mCameraHolder.getCamera() == null) {
+            if (!mCameraHolder.hasCamera()) {
                 result = false;
                 details = "No back-facing camera found";
             }

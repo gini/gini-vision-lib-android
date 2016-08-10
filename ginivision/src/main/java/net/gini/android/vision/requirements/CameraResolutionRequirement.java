@@ -29,28 +29,31 @@ class CameraResolutionRequirement implements Requirement {
         boolean result = true;
         String details = "";
 
-        Camera camera = mCameraHolder.getCamera();
-        if (camera != null) {
-            Camera.Parameters parameters = camera.getParameters();
+        try {
+            Camera.Parameters parameters = mCameraHolder.getCameraParameters();
+            if (parameters != null) {
+                Size previewSize = Util.getLargestFourThreeRatioSize(parameters.getSupportedPreviewSizes());
+                if (previewSize == null) {
+                    result = false;
+                    details = "Camera has no preview resolution with a 4:3 aspect ratio";
+                    return new RequirementReport(getId(), result, details);
+                }
 
-            Size previewSize = Util.getLargestFourThreeRatioSize(parameters.getSupportedPreviewSizes());
-            if (previewSize == null) {
+                Size pictureSize = Util.getLargestFourThreeRatioSize(parameters.getSupportedPictureSizes());
+                if (pictureSize == null) {
+                    result = false;
+                    details = "Camera has no picture resolution with a 4:3 aspect ratio";
+                } else if (!isAround8MPOrHigher(pictureSize)) {
+                    result = false;
+                    details = "Camera picture resolution is lower than 8MP";
+                }
+            } else {
                 result = false;
-                details = "Camera has no preview resolution with a 4:3 aspect ratio.";
-                return new RequirementReport(getId(), result, details);
+                details = "Camera not open";
             }
-
-            Size pictureSize = Util.getLargestFourThreeRatioSize(parameters.getSupportedPictureSizes());
-            if (pictureSize == null) {
-                result = false;
-                details = "Camera has no picture resolution with a 4:3 aspect ratio";
-            } else if (!isAround8MPOrHigher(pictureSize)) {
-                result = false;
-                details = "Camera picture resolution is lower than 8MP.";
-            }
-        } else {
+        } catch (RuntimeException e) {
             result = false;
-            details = "Camera not open";
+            details = "Camera exception: " + e .getMessage();
         }
 
         return new RequirementReport(getId(), result, details);

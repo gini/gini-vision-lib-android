@@ -27,21 +27,24 @@ class DeviceMemoryRequirement implements Requirement {
         boolean result = true;
         String details = "";
 
-        Camera camera = mCameraHolder.getCamera();
-        if (camera != null) {
-            Camera.Parameters parameters = camera.getParameters();
-
-            Size pictureSize = Util.getLargestFourThreeRatioSize(parameters.getSupportedPictureSizes());
-            if (pictureSize == null) {
+        try {
+            Camera.Parameters parameters = mCameraHolder.getCameraParameters();
+            if (parameters != null) {
+                Size pictureSize = Util.getLargestFourThreeRatioSize(parameters.getSupportedPictureSizes());
+                if (pictureSize == null) {
+                    result = false;
+                    details = "Cannot determine memory requirement as the camera has no picture resolution with a 4:3 aspect ratio";
+                } else if (!sufficientMemoryAvailable(pictureSize)) {
+                    result = false;
+                    details = "Insufficient memory available";
+                }
+            } else {
                 result = false;
-                details = "Cannot determine memory requirement as the camera has no picture resolution with a 4:3 aspect ratio";
-            } else if (!sufficientMemoryAvailable(pictureSize)) {
-                result = false;
-                details = "Insufficient memory available";
+                details = "Camera not open";
             }
-        } else {
+        } catch (RuntimeException e) {
             result = false;
-            details = "Camera not open";
+            details = "Camera exception: " + e.getMessage();
         }
 
         return new RequirementReport(getId(), result, details);

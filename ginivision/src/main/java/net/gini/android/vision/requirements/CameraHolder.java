@@ -7,10 +7,6 @@ class CameraHolder {
 
     private Camera mCamera;
 
-    public void openCamera() throws RuntimeException {
-        mCamera = Camera.open();
-    }
-
     public void closeCamera() {
         if (mCamera != null) {
             mCamera.release();
@@ -18,8 +14,23 @@ class CameraHolder {
         }
     }
 
+    public boolean hasCamera() throws RuntimeException {
+        openCamera();
+        return mCamera != null;
+    }
+
     @Nullable
-    public Camera getCamera() {
-        return mCamera;
+    public Camera.Parameters getCameraParameters() throws RuntimeException {
+        openCamera();
+        if (mCamera != null) {
+            return mCamera.getParameters();
+        }
+        return null;
+    }
+
+    private void openCamera() throws RuntimeException {
+        if (mCamera == null) {
+            mCamera = Camera.open();
+        }
     }
 }

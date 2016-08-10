@@ -45,10 +45,8 @@ public class CameraFocusRequirementTest {
 
     public CameraHolder getCameraHolder(boolean isAutoFocusSupported) {
         CameraHolder cameraHolder = mock(CameraHolder.class);
-        Camera camera = mock(Camera.class);
         Camera.Parameters parameters = mock(Camera.Parameters.class);
-        when(cameraHolder.getCamera()).thenReturn(camera);
-        when(camera.getParameters()).thenReturn(parameters);
+        when(cameraHolder.getCameraParameters()).thenReturn(parameters);
         when(parameters.getSupportedFocusModes()).thenReturn(
                 isAutoFocusSupported ?
                         Arrays.asList(Camera.Parameters.FOCUS_MODE_AUTO, Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)
