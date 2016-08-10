@@ -2,6 +2,10 @@ package net.gini.android.vision.review;
 
 import static com.google.common.truth.Truth.assertThat;
 import static net.gini.android.vision.test.Helpers.getTestJpeg;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -11,6 +15,7 @@ import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.test.uiautomator.UiDevice;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.R;
@@ -249,6 +254,49 @@ public class ReviewScreenTest {
 
         assertThat(documentReviewedCalled.get()).isTrue();
         assertThat(addDataToResultInvoked.get()).isTrue();
+    }
+
+    @Test
+    public void should_notInvokeAnyListenerMethods_whenHomeButton_wasPressed() throws InterruptedException {
+        final ReviewActivityTestStub activity = startReviewActivity(TEST_JPEG, 0);
+
+        ReviewActivityTestStub.ListenerHook listenerHook = mock(ReviewActivityTestStub.ListenerHook.class);
+
+        activity.setListenerHook(listenerHook);
+
+        // Allow the activity to run a little for listeners to be invoked
+        Thread.sleep(PAUSE_DURATION);
+
+        // Click home (back)
+        Espresso.onView(ViewMatchers.withContentDescription("Navigate up"))
+                .perform(ViewActions.click());
+
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+
+        verify(listenerHook, never()).onDocumentReviewedAndAnalyzed(any(Document.class));
+        verify(listenerHook, never()).onAddDataToResult(any(Intent.class));
+        verify(listenerHook, never()).onProceedToAnalysisScreen(any(Document.class));
+    }
+
+    @Test
+    public void should_notInvokeAnyListenerMethods_whenBackButton_wasPressed() throws InterruptedException {
+        final ReviewActivityTestStub activity = startReviewActivity(TEST_JPEG, 0);
+
+        ReviewActivityTestStub.ListenerHook listenerHook = mock(ReviewActivityTestStub.ListenerHook.class);
+
+        activity.setListenerHook(listenerHook);
+
+        // Allow the activity to run a little for listeners to be invoked
+        Thread.sleep(PAUSE_DURATION);
+
+        // Click back
+        UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).pressBack();
+
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+
+        verify(listenerHook, never()).onDocumentReviewedAndAnalyzed(any(Document.class));
+        verify(listenerHook, never()).onAddDataToResult(any(Intent.class));
+        verify(listenerHook, never()).onProceedToAnalysisScreen(any(Document.class));
     }
 
     private ReviewActivityTestStub startReviewActivity(byte[] jpeg, int orientation) {

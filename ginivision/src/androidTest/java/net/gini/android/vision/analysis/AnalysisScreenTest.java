@@ -14,6 +14,7 @@ import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.test.uiautomator.UiDevice;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -224,6 +225,37 @@ public class AnalysisScreenTest {
 
         Espresso.onView(ViewMatchers.withText("Test message"))
                 .check(ViewAssertions.doesNotExist());
+    }
+
+    @Test
+    public void should_notInvokeAddDataToResult_whenHomeButton_wasPressed() throws InterruptedException {
+        final AnalysisActivityTestStub activity = startAnalysisActivity(TEST_JPEG, 0);
+
+        // Allow the activity to run a little for listeners to be invoked
+        Thread.sleep(TEST_PAUSE_DURATION);
+
+        // Click home (back)
+        Espresso.onView(ViewMatchers.withContentDescription("Navigate up"))
+                .perform(ViewActions.click());
+
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+
+        assertThat(activity.addDataToResultIntent).isNull();
+    }
+
+    @Test
+    public void should_notInvokeAddDataToResult_whenBackButton_wasPressed() throws InterruptedException {
+        final AnalysisActivityTestStub activity = startAnalysisActivity(TEST_JPEG, 0);
+
+        // Allow the activity to run a little for listeners to be invoked
+        Thread.sleep(TEST_PAUSE_DURATION);
+
+        // Click back
+        UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).pressBack();
+
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+
+        assertThat(activity.addDataToResultIntent).isNull();
     }
 
     private AnalysisActivityTestStub startAnalysisActivity(byte[] jpeg, int orientation) {

@@ -1,11 +1,15 @@
 package net.gini.android.vision.review;
 
+import static net.gini.android.vision.util.ActivityHelper.enableHomeAsUp;
+import static net.gini.android.vision.util.ActivityHelper.handleMenuItemPressedForHomeButton;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
@@ -102,6 +106,9 @@ import net.gini.android.vision.onboarding.OnboardingActivity;
  *         <li>
  *             <b>Title color:</b> via the color resource named {@code gv_action_bar_title}
  *         </li>
+ *         <li>
+ *             <b>Back button (only for {@link ReviewActivity} and {@link AnalysisActivity}):</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_action_bar_back}
+ *         </li>
  *     </ul>
  * </p>
  */
@@ -151,6 +158,12 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
             readExtras();
             initFragment();
         }
+        enableHomeAsUp(this);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return handleMenuItemPressedForHomeButton(this, item) || super.onOptionsItemSelected(item);
     }
 
     @Override
