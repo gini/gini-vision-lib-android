@@ -8,6 +8,9 @@ import net.gini.android.vision.camera.photo.Size;
 
 import java.util.List;
 
+/**
+ * @exclude 
+ */
 public final class Util {
 
     @Nullable
