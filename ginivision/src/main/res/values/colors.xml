@@ -3,10 +3,9 @@
     <color name="gv_action_bar">#009edc</color>
     <color name="gv_status_bar">#000</color>
 
-    <color name="gv_background">#000</color>
-
-    <color name="gv_action_bar_background">#009edc</color>
     <color name="gv_action_bar_title">#fff</color>
+
+    <color name="gv_background">#000</color>
 
     <color name="gv_camera_activity_background">@android:color/transparent</color>
     <color name="gv_camera_fragment_background">@color/gv_background</color>
