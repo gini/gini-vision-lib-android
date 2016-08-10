@@ -4,13 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 
+import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.camera.CameraActivity;
-import net.gini.android.vision.Document;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 
 /**
@@ -137,6 +138,11 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     private ReviewFragmentCompat mFragment;
     private Document mDocument;
 
+    @VisibleForTesting
+    ReviewFragmentCompat getFragment() {
+        return mFragment;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -202,7 +208,6 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     public void onProceedToAnalysisScreen(@NonNull Document document) {
         Intent result = new Intent();
         result.putExtra(EXTRA_OUT_DOCUMENT, document);
-        onAddDataToResult(result);
         setResult(RESULT_PHOTO_WAS_REVIEWED, result);
         finish();
     }

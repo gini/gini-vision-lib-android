@@ -7,9 +7,10 @@
 
     <uses-sdk tools:overrideLibrary="android.support.test.uiautomator.v18"/>\
 
-    <application>
+    <application
+        android:largeHeap="true">
         <activity
-            android:name=".NoOpReviewActivity"
+            android:name="net.gini.android.vision.review.ReviewActivityTestStub"
             android:theme="@style/GiniVisionTheme"
             android:label="@string/gv_title_review" />
         <activity
