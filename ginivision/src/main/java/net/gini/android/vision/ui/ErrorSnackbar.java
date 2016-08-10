@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -19,13 +20,14 @@ import java.util.List;
 /**
  * @exclude
  */
-public class SnackbarError extends RelativeLayout {
+public class ErrorSnackbar extends RelativeLayout {
 
     public static final int LENGTH_SHORT = 2000;
     public static final int LENGTH_LONG = 4000;
     public static final int LENGTH_INDEFINITE = Integer.MAX_VALUE;
 
-    private static final int ANIM_DURATION = 250;
+    @VisibleForTesting
+    static final int ANIM_DURATION = 250;
     private static final String TAG_SNACKBAR_ERROR = "GV_SNACKBAR_ERROR";
 
     private enum State {
@@ -49,36 +51,36 @@ public class SnackbarError extends RelativeLayout {
     private TextView mTextView;
     private Button mButton;
 
-    public static SnackbarError make(@NonNull Context context,
+    public static ErrorSnackbar make(@NonNull Context context,
                                      @NonNull RelativeLayout parentView,
                                      @NonNull String message,
                                      @Nullable String buttonTitle,
                                      @Nullable OnClickListener onClickListener,
                                      int duration) {
-        SnackbarError snackbarError = new SnackbarError(context);
-        snackbarError.setParentView(parentView);
-        snackbarError.setMessage(message);
-        snackbarError.setButtonTitle(buttonTitle);
-        snackbarError.setButtonOnClickListener(onClickListener);
-        snackbarError.setShowDuration(duration);
-        return snackbarError;
+        ErrorSnackbar errorSnackbar = new ErrorSnackbar(context);
+        errorSnackbar.setParentView(parentView);
+        errorSnackbar.setMessage(message);
+        errorSnackbar.setButtonTitle(buttonTitle);
+        errorSnackbar.setButtonOnClickListener(onClickListener);
+        errorSnackbar.setShowDuration(duration);
+        return errorSnackbar;
     }
 
     public static void hideExisting(@NonNull RelativeLayout parentView) {
         removeExistingSnackbarsFromParentView(parentView);
     }
 
-    public SnackbarError(Context context) {
+    public ErrorSnackbar(Context context) {
         super(context);
         init();
     }
 
-    public SnackbarError(Context context, AttributeSet attrs) {
+    public ErrorSnackbar(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public SnackbarError(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ErrorSnackbar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
@@ -136,14 +138,21 @@ public class SnackbarError extends RelativeLayout {
     }
 
     private void setParentView(@NonNull RelativeLayout parentView) {
-        // Remove existing snackbars from the old parent, if present
-        removeExistingSnackbarsFromParentView(parentView);
-        // Remove from the old parent
-        removeFromParentView();
+        // Parent view cannot be changed (acts as final)
+        if (mParentView != null) {
+            return;
+        }
         mParentView = parentView;
-        // Remove existing snackbars from the new parent
-        int removed = removeExistingSnackbarsFromParentView(parentView);
+        // Remove existing snackbars from the parent
+        int removed = removeExistingSnackbarsFromParentView(mParentView);
         mWaitForExisting = removed > 0;
+    }
+
+    private int removeExistingSnackbarsFromParentView() {
+        if (mParentView != null) {
+            return removeExistingSnackbarsFromParentView(mParentView);
+        }
+        return 0;
     }
 
     private void addToParentView() {
@@ -165,23 +174,23 @@ public class SnackbarError extends RelativeLayout {
     }
 
     private static int removeExistingSnackbarsFromParentView(@NonNull RelativeLayout parentView) {
-        List<SnackbarError> existingSnackbars = getExistingSnackbarsFromParentView(parentView);
-        for (SnackbarError existingSnackbar : existingSnackbars) {
+        List<ErrorSnackbar> existingSnackbars = getExistingSnackbarsFromParentView(parentView);
+        for (ErrorSnackbar existingSnackbar : existingSnackbars) {
             existingSnackbar.hide();
         }
         return existingSnackbars.size();
     }
 
     @NonNull
-    private static List<SnackbarError> getExistingSnackbarsFromParentView(@NonNull RelativeLayout parentView) {
-        List<SnackbarError> existingSnackbars = new ArrayList<>();
+    private static List<ErrorSnackbar> getExistingSnackbarsFromParentView(@NonNull RelativeLayout parentView) {
+        List<ErrorSnackbar> existingSnackbars = new ArrayList<>();
         int childCount = parentView.getChildCount();
         for (int i = 0; i < childCount; i++) {
             View child = parentView.getChildAt(i);
             Object tag = child.getTag();
             if (tag != null && tag.equals(TAG_SNACKBAR_ERROR) &&
-                    child instanceof SnackbarError) {
-                existingSnackbars.add((SnackbarError) child);
+                    child instanceof ErrorSnackbar) {
+                existingSnackbars.add((ErrorSnackbar) child);
             }
         }
         return existingSnackbars;

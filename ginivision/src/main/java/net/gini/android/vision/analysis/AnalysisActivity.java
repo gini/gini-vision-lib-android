@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
@@ -182,6 +183,11 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
                 .beginTransaction()
                 .add(R.id.gv_fragment_analyze_document, mFragment, ANALYSIS_FRAGMENT)
                 .commit();
+    }
+
+    @VisibleForTesting
+    AnalysisFragmentCompat getFragment() {
+        return mFragment;
     }
 
     @Override
