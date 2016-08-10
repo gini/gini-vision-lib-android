@@ -11,7 +11,7 @@
         android:name="android.support.multidex.MultiDexApplication"
         android:largeHeap="true">
         <activity
-            android:name=".NoOpReviewActivity"
+            android:name="net.gini.android.vision.review.ReviewActivityTestStub"
             android:label="@string/gv_title_review"
             android:theme="@style/GiniVisionTheme" />
         <activity

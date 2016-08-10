@@ -22,10 +22,10 @@ import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiSelector;
 
 import net.gini.android.vision.R;
+import net.gini.android.vision.analysis.AnalysisActivityTestStub;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
-import net.gini.android.vision.analysis.AnalysisActivityTestStub;
-import net.gini.android.vision.test.NoOpReviewActivity;
+import net.gini.android.vision.review.ReviewActivityTestStub;
 
 import org.hamcrest.Matchers;
 import org.junit.After;
@@ -74,7 +74,7 @@ public class CameraScreenTest {
         CameraActivity cameraActivity = new CameraActivity();
 
         Intent intent = new Intent(Intent.ACTION_MAIN);
-        CameraActivity.setReviewActivityExtra(intent, InstrumentationRegistry.getTargetContext(), NoOpReviewActivity.class);
+        CameraActivity.setReviewActivityExtra(intent, InstrumentationRegistry.getTargetContext(), ReviewActivityTestStub.class);
         cameraActivity.setIntent(intent);
 
         cameraActivity.readExtras();
@@ -193,7 +193,7 @@ public class CameraScreenTest {
         // Give some time for the camera to take a picture
         Thread.sleep(1000);
 
-        Intents.intended(IntentMatchers.hasComponent(NoOpReviewActivity.class.getName()));
+        Intents.intended(IntentMatchers.hasComponent(ReviewActivityTestStub.class.getName()));
     }
 
     @Test
@@ -206,7 +206,7 @@ public class CameraScreenTest {
         // Give some time for the camera to take a picture
         Thread.sleep(2000);
 
-        Intents.intended(IntentMatchers.hasComponent(NoOpReviewActivity.class.getName()));
+        Intents.intended(IntentMatchers.hasComponent(ReviewActivityTestStub.class.getName()));
     }
 
     @NonNull
@@ -225,7 +225,7 @@ public class CameraScreenTest {
     @NonNull
     private Intent getCameraActivityIntent() {
         Intent intent = new Intent(Intent.ACTION_MAIN);
-        CameraActivity.setReviewActivityExtra(intent, InstrumentationRegistry.getTargetContext(), NoOpReviewActivity.class);
+        CameraActivity.setReviewActivityExtra(intent, InstrumentationRegistry.getTargetContext(), ReviewActivityTestStub.class);
         CameraActivity.setAnalysisActivityExtra(intent, InstrumentationRegistry.getTargetContext(), AnalysisActivityTestStub.class);
         return intent;
     }
