@@ -22,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.android.LogcatAppender;
@@ -63,16 +64,7 @@ public class MainActivity extends AppCompatActivity {
     private void startScanner() {
         RequirementsReport report = GiniVisionRequirements.checkRequirements(this);
         if (!report.isFulfilled()) {
-            String details = "";
-            for (RequirementReport requirementReport : report.getRequirementReports()) {
-                if (!requirementReport.isFulfilled()) {
-                    details += "; " + requirementReport.getRequirementId();
-                    if (!requirementReport.getDetails().isEmpty()) {
-                        details += ": " + requirementReport.getDetails();
-                    }
-                }
-            }
-            Toast.makeText(this, "Requirements not fulfilled" + details, Toast.LENGTH_LONG).show();
+            showUnfulfilledRequirementsToast(report);
             return;
         }
 
@@ -97,6 +89,25 @@ public class MainActivity extends AppCompatActivity {
 
         // Start for result in order to receive the error result, in case something went wrong
         startActivityForResult(intent, REQUEST_SCAN);
+    }
+
+    private void showUnfulfilledRequirementsToast(RequirementsReport report) {
+        StringBuilder stringBuilder = new StringBuilder();
+        List<RequirementReport> requirementReports = report.getRequirementReports();
+        for (int i = 0; i < requirementReports.size(); i++) {
+            RequirementReport requirementReport = requirementReports.get(i);
+            if (!requirementReport.isFulfilled()) {
+                if (stringBuilder.length() > 0) {
+                    stringBuilder.append("\n");
+                }
+                stringBuilder.append(requirementReport.getRequirementId());
+                if (!requirementReport.getDetails().isEmpty()) {
+                    stringBuilder.append(": ");
+                    stringBuilder.append(requirementReport.getDetails());
+                }
+            }
+        }
+        Toast.makeText(this, "Requirements not fulfilled:\n" + stringBuilder, Toast.LENGTH_LONG).show();
     }
 
     private void bindViews() {
