@@ -392,7 +392,9 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
                 case ReviewActivity.RESULT_PHOTO_WAS_REVIEWED:
                     if (data != null) {
                         Document document = data.getParcelableExtra(ReviewActivity.EXTRA_OUT_DOCUMENT);
+                        String documentAnalysisErrorMessage = data.getStringExtra(ReviewActivity.EXTRA_OUT_DOCUMENT_ANALYSIS_ERROR_MESSAGE);
                         mAnalyzeDocumentActivityIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, document);
+                        mAnalyzeDocumentActivityIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE, documentAnalysisErrorMessage);
                         startActivityForResult(mAnalyzeDocumentActivityIntent, ANALYSE_DOCUMENT_REQUEST);
                     }
                     break;

@@ -127,8 +127,8 @@ public class ErrorSnackbar extends RelativeLayout {
         mButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClickListener.onClick(v);
                 hide();
+                onClickListener.onClick(v);
             }
         });
     }

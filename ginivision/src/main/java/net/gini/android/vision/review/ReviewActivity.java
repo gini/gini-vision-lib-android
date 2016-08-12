@@ -126,6 +126,10 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
      * @exclude
      */
     public static final String EXTRA_OUT_ERROR = "GV_EXTRA_OUT_ERROR";
+    /**
+     * @exclude
+     */
+    public static final String EXTRA_OUT_DOCUMENT_ANALYSIS_ERROR_MESSAGE = "GV_EXTRA_OUT_DOCUMENT_ANALYSIS_ERROR_MESSAGE";
 
     /**
      * @exclude
@@ -144,6 +148,7 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
 
     private ReviewFragmentCompat mFragment;
     private Document mDocument;
+    private String mDocumentAnalysisErrorMessage;
 
     @VisibleForTesting
     ReviewFragmentCompat getFragment() {
@@ -163,7 +168,11 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return handleMenuItemPressedForHomeButton(this, item) || super.onOptionsItemSelected(item);
+        boolean homeButtonPressed = handleMenuItemPressedForHomeButton(this, item);
+        if (homeButtonPressed) {
+            onBackPressed();
+        }
+        return homeButtonPressed || super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -212,8 +221,6 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
                 .commit();
     }
 
-    // callback for subclasses for uploading the photo before it was reviewed, if the photo is not changed
-    // no new upload is required
     @Override
     public abstract void onShouldAnalyzeDocument(@NonNull Document document);
 
@@ -221,6 +228,9 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     public void onProceedToAnalysisScreen(@NonNull Document document) {
         Intent result = new Intent();
         result.putExtra(EXTRA_OUT_DOCUMENT, document);
+        if (mDocumentAnalysisErrorMessage != null) {
+            result.putExtra(EXTRA_OUT_DOCUMENT_ANALYSIS_ERROR_MESSAGE, mDocumentAnalysisErrorMessage);
+        }
         setResult(RESULT_PHOTO_WAS_REVIEWED, result);
         finish();
     }
@@ -229,6 +239,9 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     public void onDocumentReviewedAndAnalyzed(@NonNull Document document) {
         Intent result = new Intent();
         result.putExtra(EXTRA_OUT_DOCUMENT, document);
+        if (mDocumentAnalysisErrorMessage != null) {
+            result.putExtra(EXTRA_OUT_DOCUMENT_ANALYSIS_ERROR_MESSAGE, mDocumentAnalysisErrorMessage);
+        }
         onAddDataToResult(result);
         setResult(RESULT_PHOTO_WAS_REVIEWED_AND_ANALYZED, result);
         finish();
@@ -251,8 +264,11 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
      */
     public abstract void onAddDataToResult(@NonNull Intent result);
 
-    // TODO: call this, if the photo was analyzed before the review was completed, it prevents the analyze activity to
-    // be started, if the photo was already analyzed and the user didn't change it
+    @Override
+    public void onDocumentWasRotated(@NonNull Document document, int oldRotation, int newRotation) {
+        clearDocumentAnalysisError();
+    }
+
     @Override
     public void onDocumentAnalyzed() {
         mFragment.onDocumentAnalyzed();
@@ -264,5 +280,20 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
         result.putExtra(EXTRA_OUT_ERROR, error);
         setResult(RESULT_ERROR, result);
         finish();
+    }
+
+    /**
+     * <p>
+     *     If the analysis started in {@link ReviewActivity#onShouldAnalyzeDocument(Document)} failed you can set
+     *     an error message here, which will be shown in the {@link AnalysisActivity} with a retry button.
+     * </p>
+     * @param message an error message to be shown to the user
+     */
+    protected void onDocumentAnalysisError(String message) {
+        mDocumentAnalysisErrorMessage = message;
+    }
+
+    private void clearDocumentAnalysisError() {
+        mDocumentAnalysisErrorMessage = null;
     }
 }

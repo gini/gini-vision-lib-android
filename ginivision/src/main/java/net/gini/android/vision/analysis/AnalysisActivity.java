@@ -124,6 +124,10 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
     /**
      * @exclude
      */
+    public static final String EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE = "GV_EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE";
+    /**
+     * @exclude
+     */
     public static final String EXTRA_OUT_ERROR = "GV_EXTRA_OUT_ERROR";
 
     /**
@@ -135,6 +139,7 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
 
     private AnalysisFragmentCompat mFragment;
     private Document mDocument;
+    private String mAnalysisErrorMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,6 +171,7 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mDocument = extras.getParcelable(EXTRA_IN_DOCUMENT);
+            mAnalysisErrorMessage = extras.getString(EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE);
         }
         checkRequiredExtras();
     }
@@ -188,7 +194,7 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
     }
 
     private void createFragment() {
-        mFragment = AnalysisFragmentCompat.createInstance(mDocument);
+        mFragment = AnalysisFragmentCompat.createInstance(mDocument, mAnalysisErrorMessage);
     }
 
     private void showFragment() {
