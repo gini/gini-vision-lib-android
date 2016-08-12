@@ -72,11 +72,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startScanner() {
-        RequirementsReport report = GiniVisionRequirements.checkRequirements(this);
-        if (!report.isFulfilled()) {
-            showUnfulfilledRequirementsToast(report);
-            return;
-        }
+        // Uncomment to enable requirements check.
+        // NOTE: on Android 6.0 and later the camera permission is required before checking the requirements
+//        RequirementsReport report = GiniVisionRequirements.checkRequirements(this);
+//        if (!report.isFulfilled()) {
+//            showUnfulfilledRequirementsToast(report);
+//            return;
+//        }
 
         Intent intent = new Intent(this, CameraActivity.class);
 
