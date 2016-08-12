@@ -258,6 +258,21 @@ public class AnalysisScreenTest {
         assertThat(activity.addDataToResultIntent).isNull();
     }
 
+    @Test
+    public void should_showErrorMessage_whenAnalysisErrorMessage_wasGiven() {
+        assertThat(false).isTrue();
+    }
+
+    @Test
+    public void should_notInvokeAnalyzeDocument_whenAnalysisErrorMessage_wasGiven() {
+        assertThat(false).isTrue();
+    }
+
+    @Test
+    public void should_invokeAnalyzeDocument_whenAnalysisErrorRetryButton_wasClicked() {
+        assertThat(false).isTrue();
+    }
+
     private AnalysisActivityTestStub startAnalysisActivity(byte[] jpeg, int orientation) {
         Intent intent = getAnalysisActivityIntent();
         intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, Document.fromPhoto(Photo.fromJpeg(jpeg, orientation)));

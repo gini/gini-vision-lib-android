@@ -1,5 +1,6 @@
 package net.gini.android.vision.camera;
 
+import static com.google.common.truth.Truth.assertThat;
 import static net.gini.android.vision.OncePerInstallEventStoreHelper.clearOnboardingWasShownPreference;
 import static net.gini.android.vision.OncePerInstallEventStoreHelper.setOnboardingWasShownPreference;
 import static net.gini.android.vision.test.Helpers.prepareLooper;
@@ -209,6 +210,11 @@ public class CameraScreenTest {
         Thread.sleep(TEST_PAUSE_DURATION);
 
         Intents.intended(IntentMatchers.hasComponent(ReviewActivityTestStub.class.getName()));
+    }
+
+    @Test
+    public void should_passAnalysisActivityIntent_toReviewActivity() {
+        assertThat(false).isTrue();
     }
 
     @NonNull

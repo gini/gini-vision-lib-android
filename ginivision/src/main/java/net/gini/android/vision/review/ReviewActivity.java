@@ -121,34 +121,30 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     /**
      * @exclude
      */
+    public static final String EXTRA_IN_ANALYSIS_ACTIVITY = "GV_EXTRA_IN_ANALYSIS_ACTIVITY";
+    /**
+     * @exclude
+     */
     public static final String EXTRA_OUT_DOCUMENT = "GV_EXTRA_OUT_DOCUMENT";
     /**
      * @exclude
      */
     public static final String EXTRA_OUT_ERROR = "GV_EXTRA_OUT_ERROR";
-    /**
-     * @exclude
-     */
-    public static final String EXTRA_OUT_DOCUMENT_ANALYSIS_ERROR_MESSAGE = "GV_EXTRA_OUT_DOCUMENT_ANALYSIS_ERROR_MESSAGE";
 
     /**
      * @exclude
      */
-    public static final int RESULT_PHOTO_WAS_REVIEWED = RESULT_FIRST_USER + 1;
-    /**
-     * @exclude
-     */
-    public static final int RESULT_PHOTO_WAS_REVIEWED_AND_ANALYZED = RESULT_FIRST_USER + 2;
-    /**
-     * @exclude
-     */
-    public static final int RESULT_ERROR = RESULT_FIRST_USER + 3;
+    public static final int RESULT_ERROR = RESULT_FIRST_USER + 1;
+
+    private static final int ANALYSE_DOCUMENT_REQUEST = 1;
 
     private static final String REVIEW_FRAGMENT = "REVIEW_FRAGMENT";
 
     private ReviewFragmentCompat mFragment;
     private Document mDocument;
     private String mDocumentAnalysisErrorMessage;
+
+    private Intent mAnalyzeDocumentActivityIntent;
 
     @VisibleForTesting
     ReviewFragmentCompat getFragment() {
@@ -185,10 +181,12 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
         mDocument = null;
     }
 
-    private void readExtras() {
+    @VisibleForTesting
+    void readExtras() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mDocument = extras.getParcelable(EXTRA_IN_DOCUMENT);
+            mAnalyzeDocumentActivityIntent = extras.getParcelable(EXTRA_IN_ANALYSIS_ACTIVITY);
         }
         checkRequiredExtras();
     }
@@ -196,6 +194,9 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     private void checkRequiredExtras() {
         if (mDocument == null) {
             throw new IllegalStateException("ReviewActivity requires a Document. Set it as an extra using the EXTRA_IN_DOCUMENT key.");
+        }
+        if (mAnalyzeDocumentActivityIntent == null) {
+            throw new IllegalStateException("ReviewActivity requires an AnalyzeDocumentActivity class. Call setAnalyzeDocumentActivityExtra() to set it.");
         }
     }
 
@@ -226,24 +227,19 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
 
     @Override
     public void onProceedToAnalysisScreen(@NonNull Document document) {
-        Intent result = new Intent();
-        result.putExtra(EXTRA_OUT_DOCUMENT, document);
+        mAnalyzeDocumentActivityIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, document);
         if (mDocumentAnalysisErrorMessage != null) {
-            result.putExtra(EXTRA_OUT_DOCUMENT_ANALYSIS_ERROR_MESSAGE, mDocumentAnalysisErrorMessage);
+            mAnalyzeDocumentActivityIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE, mDocumentAnalysisErrorMessage);
         }
-        setResult(RESULT_PHOTO_WAS_REVIEWED, result);
-        finish();
+        startActivityForResult(mAnalyzeDocumentActivityIntent, ANALYSE_DOCUMENT_REQUEST);
     }
 
     @Override
     public void onDocumentReviewedAndAnalyzed(@NonNull Document document) {
         Intent result = new Intent();
         result.putExtra(EXTRA_OUT_DOCUMENT, document);
-        if (mDocumentAnalysisErrorMessage != null) {
-            result.putExtra(EXTRA_OUT_DOCUMENT_ANALYSIS_ERROR_MESSAGE, mDocumentAnalysisErrorMessage);
-        }
         onAddDataToResult(result);
-        setResult(RESULT_PHOTO_WAS_REVIEWED_AND_ANALYZED, result);
+        setResult(RESULT_OK, result);
         finish();
     }
 
@@ -295,5 +291,14 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
 
     private void clearDocumentAnalysisError() {
         mDocumentAnalysisErrorMessage = null;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == ANALYSE_DOCUMENT_REQUEST) {
+            setResult(resultCode, data);
+            finish();
+        }
+        clearMemory();
     }
 }
