@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import net.gini.android.ginivisiontest.BuildConfig;
@@ -14,6 +15,7 @@ import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.camera.CameraActivity;
 import net.gini.android.vision.onboarding.DefaultPages;
 import net.gini.android.vision.onboarding.OnboardingPage;
+import net.gini.android.vision.requirements.GiniVisionRequirements;
 import net.gini.android.vision.requirements.RequirementReport;
 import net.gini.android.vision.requirements.RequirementsReport;
 
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_NO_EXTRACTIONS = 2;
 
     private Button mButtonStartScanner;
+    private TextView mTextGiniVisionLibVersion;
+    private TextView mTextAppVersion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,12 @@ public class MainActivity extends AppCompatActivity {
         bindViews();
         addInputHandlers();
         setGiniVisionLibDebugging();
+        showVersions();
+    }
+
+    private void showVersions() {
+        mTextGiniVisionLibVersion.setText("Gini Vision Library v" + net.gini.android.vision.BuildConfig.VERSION_NAME);
+        mTextAppVersion.setText("v" + BuildConfig.VERSION_NAME);
     }
 
     private void setGiniVisionLibDebugging() {
@@ -62,11 +72,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startScanner() {
-//        RequirementsReport report = GiniVisionRequirements.checkRequirements(this);
-//        if (!report.isFulfilled()) {
-//            showUnfulfilledRequirementsToast(report);
-//            return;
-//        }
+        RequirementsReport report = GiniVisionRequirements.checkRequirements(this);
+        if (!report.isFulfilled()) {
+            showUnfulfilledRequirementsToast(report);
+            return;
+        }
 
         Intent intent = new Intent(this, CameraActivity.class);
 
@@ -112,6 +122,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void bindViews() {
         mButtonStartScanner = (Button) findViewById(R.id.button_start_scanner);
+        mTextGiniVisionLibVersion = (TextView) findViewById(R.id.text_gini_vision_version);
+        mTextAppVersion = (TextView) findViewById(R.id.text_app_version);
     }
 
     private ArrayList<OnboardingPage> getOnboardingPages() {
