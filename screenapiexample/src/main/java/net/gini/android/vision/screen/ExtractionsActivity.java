@@ -127,14 +127,14 @@ public class ExtractionsActivity extends AppCompatActivity {
         SpecificExtraction amount = mExtractions.get("amountToPay");
         if (amount != null) {
             // Let's assume the amount was wrong and change it
-            amount.setValue("10.0:EUR");
-            Toast.makeText(this, "Amount changed to 10.0:EUR", Toast.LENGTH_SHORT).show();
+            amount.setValue("10.00:EUR");
+            Toast.makeText(this, "Amount changed to 10.00:EUR", Toast.LENGTH_SHORT).show();
         } else {
             // Amount was missing, let's add it
-            SpecificExtraction extraction = new SpecificExtraction("amountToPay", "10.0:EUR", "amount", null, Collections.<Extraction>emptyList());
+            SpecificExtraction extraction = new SpecificExtraction("amountToPay", "10.00:EUR", "amount", null, Collections.<Extraction>emptyList());
             mExtractions.put("amountToPay", extraction);
             mExtractionsAdapter.setExtractions(getSortedPay5Extractions());
-            Toast.makeText(this, "Added amount of 10.0:EUR", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Added amount of 10.00:EUR", Toast.LENGTH_SHORT).show();
         }
         mExtractionsAdapter.notifyDataSetChanged();
 
