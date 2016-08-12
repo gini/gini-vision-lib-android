@@ -11,18 +11,21 @@ android {
         versionCode buildNumber == 'DEBUG' ? 1 : buildNumber.toInteger()
         versionName "${version} (${buildNumber})"
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
+
     signingConfigs {
         release {
             storeFile file(releaseKeystoreFile)
             storePassword releaseKeystorePassword
             keyAlias releaseKeyAlias
             keyPassword releaseKeyPassword
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 }
