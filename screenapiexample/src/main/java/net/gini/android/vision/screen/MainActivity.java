@@ -14,7 +14,6 @@ import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.camera.CameraActivity;
 import net.gini.android.vision.onboarding.DefaultPages;
 import net.gini.android.vision.onboarding.OnboardingPage;
-import net.gini.android.vision.requirements.GiniVisionRequirements;
 import net.gini.android.vision.requirements.RequirementReport;
 import net.gini.android.vision.requirements.RequirementsReport;
 
@@ -33,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_OUT_EXTRACTIONS = "EXTRA_OUT_EXTRACTIONS";
 
     private static final int REQUEST_SCAN = 1;
+    private static final int REQUEST_NO_EXTRACTIONS = 2;
 
     private Button mButtonStartScanner;
 
@@ -62,11 +62,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startScanner() {
-        RequirementsReport report = GiniVisionRequirements.checkRequirements(this);
-        if (!report.isFulfilled()) {
-            showUnfulfilledRequirementsToast(report);
-            return;
-        }
+//        RequirementsReport report = GiniVisionRequirements.checkRequirements(this);
+//        if (!report.isFulfilled()) {
+//            showUnfulfilledRequirementsToast(report);
+//            return;
+//        }
 
         Intent intent = new Intent(this, CameraActivity.class);
 
@@ -130,8 +130,16 @@ public class MainActivity extends AppCompatActivity {
             switch (resultCode) {
                 case RESULT_OK:
                     // Retrieve the extra we set in our ReviewActivity or AnalysisActivity subclasses
-                    String extractions = data.getStringExtra(EXTRA_OUT_EXTRACTIONS);
-                    Toast.makeText(this, extractions, Toast.LENGTH_LONG).show();
+                    Bundle extractionsBundle = data.getBundleExtra(EXTRA_OUT_EXTRACTIONS);
+                    if (extractionsBundle != null) {
+                        if (pay5ExtractionsAvailable(extractionsBundle)) {
+                            startExtractionsActivity(extractionsBundle);
+                        } else {
+                            startNoExtractionsActivity();
+                        }
+                    } else {
+                        Toast.makeText(this, "No extractions received", Toast.LENGTH_LONG).show();
+                    }
                     break;
                 case CameraActivity.RESULT_ERROR:
                     // Something went wrong, retrieve the error
@@ -144,7 +152,35 @@ public class MainActivity extends AppCompatActivity {
                     }
                     break;
             }
+        } else if (requestCode == REQUEST_NO_EXTRACTIONS) {
+            if (resultCode == NoExtractionsActivity.RESULT_START_GINI_VISION) {
+                startScanner();
+            }
         }
+    }
+
+    private boolean pay5ExtractionsAvailable(Bundle extractionsBundle) {
+        for (String key : extractionsBundle.keySet()) {
+            if (key.equals("amountToPay") ||
+                    key.equals("bic") ||
+                    key.equals("iban") ||
+                    key.equals("paymentReference") ||
+                    key.equals("paymentRecipient")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void startNoExtractionsActivity() {
+        Intent intent = new Intent(this, NoExtractionsActivity.class);
+        startActivityForResult(intent, REQUEST_NO_EXTRACTIONS);
+    }
+
+    private void startExtractionsActivity(Bundle extractionsBundle) {
+        Intent intent = new Intent(this, ExtractionsActivity.class);
+        intent.putExtra(ExtractionsActivity.EXTRA_IN_EXTRACTIONS, extractionsBundle);
+        startActivity(intent);
     }
 
     private void configureLogging() {
