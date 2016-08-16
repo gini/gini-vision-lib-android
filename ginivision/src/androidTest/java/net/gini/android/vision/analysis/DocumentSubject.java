@@ -40,8 +40,10 @@ public class DocumentSubject extends Subject<DocumentSubject, Document> {
         //noinspection ConstantConditions - null check done above
         Bitmap otherBitmap = BitmapFactory.decodeByteArray(other.getJpeg(), 0, other.getJpeg().length);
 
-        if (!bitmap.sameAs(otherBitmap) || document.getRotationForDisplay() != other.getRotationForDisplay()) {
-            fail("is equal to Document " + other);
+        if (!bitmap.sameAs(otherBitmap)) {
+            fail("is equal to Document " + other + " - contain different bitmaps");
+        } else if (document.getRotationForDisplay() != other.getRotationForDisplay()) {
+            fail("is equal to Document " + other + " - have different rotation");
         }
     }
 }
