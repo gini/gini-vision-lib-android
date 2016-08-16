@@ -39,6 +39,12 @@ import net.gini.android.vision.onboarding.OnboardingActivity;
  *         <li>{@link ReviewActivity#onShouldAnalyzeDocument(Document)} - you should start analyzing the original document by sending it to the Gini API. We assume that in most cases the photo is good enough and this way we are able to provide analysis results quicker.<br/><b>Note:</b> Call {@link ReviewActivity#onDocumentAnalyzed()} when the analysis is done and the Activity wasn't stopped.</li>
  *         <li>{@link ReviewActivity#onAddDataToResult(Intent)} - you can add the results of the analysis to the Intent as extras and retrieve them once the {@link CameraActivity} returns.<br/>This is called only if you called {@link ReviewActivity#onDocumentAnalyzed()} and the image wasn't changed before the user tapped on the Next button.<br/>When this is called, your {@link AnalysisActivity} subclass is not launched, instead control is returned to your Activity which started the {@link CameraActivity} and you can extract the results of the analysis.</li>
  *     </ul>
+ *     You can also override the following methods:
+ *     <ul>
+ *         <li>{@link ReviewActivity#onDocumentWasRotated(Document, int, int)} - you should cancel the analysis started in {@link ReviewActivity#onShouldAnalyzeDocument(Document)} because the document was rotated and analysing the original is not necessary anymore. The Gini Vision Library will proceed to the Analysis Screen where the reviewed document can be analyzed.</li>
+ *         <li>{@link ReviewActivity#onProceedToAnalysisScreen(Document)} - called when the Gini Vision Library will continue to the Analysis Screen. For example you can unsubscribe your analysis listener, if you want to continue the analysis in your {@link AnalysisActivity} subclass in case the document wasn't modified.</li>
+ *         <li>{@link ReviewActivity#onBackPressed()} - called when the back or the up button was clicked. You should cancel the analysis started in {@link ReviewActivity#onShouldAnalyzeDocument(Document)}.</li>
+ *     </ul>
  * </p>
  *
  * <h3>Customizing the Review Screen</h3>
@@ -164,11 +170,11 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        boolean homeButtonPressed = handleMenuItemPressedForHomeButton(this, item);
-        if (homeButtonPressed) {
+        if (handleMenuItemPressedForHomeButton(this, item)) {
             onBackPressed();
+            return true;
         }
-        return homeButtonPressed || super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

@@ -38,9 +38,14 @@ import net.gini.android.vision.review.ReviewActivity;
  *     In your {@code AnalysisActivity} subclass you have to implement the following methods:
  *     <ul>
  *         <li>
- *          {@link AnalysisActivity#onAnalyzeDocument(Document)} - start analyzing the document by sending it to the Gini API.<br/><b>Note:</b> Call {@link AnalysisActivity#onDocumentAnalyzed()} when the analysis is done and the Activity hasn't been stopped.
+ *          {@link AnalysisActivity#onAnalyzeDocument(Document)} - start analyzing the document by sending it to the Gini API.<br/><b>Note:</b> Call {@link AnalysisActivity#onDocumentAnalyzed()} when the analysis is done and the Activity hasn't been stopped.<br/><b>Note:</b> If an analysis error message was set in the Review Screen with {@link ReviewActivity#onDocumentAnalysisError(String)} this method won't be called until the user clicks the
+ *     retry button next to the error message.
  *         </li>
  *         <li>{@link AnalysisActivity#onAddDataToResult(Intent)} - you should add the results of the analysis to the Intent as extras and retrieve them once the {@link CameraActivity} returns.<br/>This is called only if you called {@link AnalysisActivity#onDocumentAnalyzed()} before.<br/>When this is called, control is returned to your Activity which started the {@link CameraActivity} and you can extract the results of the analysis.</li>
+ *     </ul>
+ *     You can also override the following method:
+ *     <ul>
+ *         <li>{@link AnalysisActivity#onBackPressed()} - called when the back or the up button was clicked.</li>
  *     </ul>
  * </p>
  *
@@ -154,7 +159,11 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return handleMenuItemPressedForHomeButton(this, item) || super.onOptionsItemSelected(item);
+        if (handleMenuItemPressedForHomeButton(this, item)) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -209,6 +218,13 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
         return mFragment;
     }
 
+    /**
+     * <p>
+     *     <b>Screen API:</b> If an analysis error message was set in the Review Screen with {@link ReviewActivity#onDocumentAnalysisError(String)} this method won't be called until the user clicks the
+     *     retry button next to the error message.
+     * </p>
+     * @param document contains the image taken by the camera (original or modified)
+     */
     @Override
     public abstract void onAnalyzeDocument(@NonNull Document document);
 
