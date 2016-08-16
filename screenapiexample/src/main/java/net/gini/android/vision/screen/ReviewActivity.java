@@ -71,6 +71,7 @@ public class ReviewActivity extends net.gini.android.vision.review.ReviewActivit
     }
 
     private void analyzeDocument(Document document) {
+        mSingleDocumentAnalyzer.cancelAnalysis();
         mSingleDocumentAnalyzer.analyzeDocument(document, new SingleDocumentAnalyzer.DocumentAnalysisListener() {
             @Override
             public void onExtractionsReceived(Map<String, SpecificExtraction> extractions) {

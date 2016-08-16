@@ -169,7 +169,7 @@ public class SingleDocumentAnalyzer {
                             }
                             setGiniApiDocument(task.getResult());
                             LOG.debug("Polling document");
-                            return mDocumentTaskManager.pollDocument(mGiniApiDocument);
+                            return mDocumentTaskManager.pollDocument(getGiniApiDocument());
                         }
                     })
                     .onSuccessTask(new Continuation<net.gini.android.models.Document, Task<Map<String, SpecificExtraction>>>() {
