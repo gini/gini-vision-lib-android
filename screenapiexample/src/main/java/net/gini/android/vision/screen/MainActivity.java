@@ -81,8 +81,8 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(this, CameraActivity.class);
 
-        // Add an extra page to the Onboarding pages
-        intent.putParcelableArrayListExtra(CameraActivity.EXTRA_IN_ONBOARDING_PAGES, getOnboardingPages());
+        // Uncomment to add an extra page to the Onboarding pages
+//        intent.putParcelableArrayListExtra(CameraActivity.EXTRA_IN_ONBOARDING_PAGES, getOnboardingPages());
 
         // Set EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN to false to disable automatically showing the OnboardingActivity the
         // first time the CameraActivity is launched - we highly recommend letting the Gini Vision Library show the
