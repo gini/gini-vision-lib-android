@@ -15,7 +15,6 @@ import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.camera.CameraActivity;
 import net.gini.android.vision.onboarding.DefaultPages;
 import net.gini.android.vision.onboarding.OnboardingPage;
-import net.gini.android.vision.requirements.GiniVisionRequirements;
 import net.gini.android.vision.requirements.RequirementReport;
 import net.gini.android.vision.requirements.RequirementsReport;
 
@@ -100,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
         CameraActivity.setAnalysisActivityExtra(intent, this, AnalysisActivity.class);
 
         // Start for result in order to receive the error result, in case something went wrong
+        // To receive the extractions add it to the result Intent in ReviewActivity#onAddDataToResult(Intent) or
+        // AnalysisActivity#onAddDataToResult(Intent) and retrieve them here in onActivityResult()
         startActivityForResult(intent, REQUEST_SCAN);
     }
 
@@ -143,12 +144,18 @@ public class MainActivity extends AppCompatActivity {
             }
             switch (resultCode) {
                 case RESULT_OK:
-                    // Retrieve the extra we set in our ReviewActivity or AnalysisActivity subclasses
+                    // Retrieve the extra we set in our ReviewActivity or AnalysisActivity subclasses' onAddDataToResult()
+                    // method
+                    // The payload format is up to you. For the example we added all the extractions as key-value pairs to
+                    // a Bundle.
                     Bundle extractionsBundle = data.getBundleExtra(EXTRA_OUT_EXTRACTIONS);
                     if (extractionsBundle != null) {
+                        // We display only the Pay5 extractions: paymentRecipient, iban, bic, amount and paymentReference
                         if (pay5ExtractionsAvailable(extractionsBundle)) {
                             startExtractionsActivity(extractionsBundle);
                         } else {
+                            // Show a special screen, if no Pay5 extractions were found to give the user some hints and tips
+                            // for using the Gini Vision Library
                             startNoExtractionsActivity();
                         }
                     } else {
@@ -156,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     break;
                 case CameraActivity.RESULT_ERROR:
-                    // Something went wrong, retrieve the error
+                    // Something went wrong, retrieve and show the error
                     GiniVisionError error = data.getParcelableExtra(CameraActivity.EXTRA_OUT_ERROR);
                     if (error != null) {
                         Toast.makeText(this, "Error: " +
@@ -167,6 +174,8 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
         } else if (requestCode == REQUEST_NO_EXTRACTIONS) {
+            // The NoExtractionsActivity has a button for taking another picture which causes the activity to finish
+            // and return the result code seen below
             if (resultCode == NoExtractionsActivity.RESULT_START_GINI_VISION) {
                 startScanner();
             }

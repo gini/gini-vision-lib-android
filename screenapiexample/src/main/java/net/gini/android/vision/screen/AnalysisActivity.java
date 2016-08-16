@@ -39,6 +39,8 @@ public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisA
             @Override
             public void onExtractionsReceived(Map<String, SpecificExtraction> extractions) {
                 mExtractions = extractions;
+                // Calling onDocumentAnalyzed() is important to notify the AnalysisActivity base class that the
+                // analysis has completed successfully
                 onDocumentAnalyzed();
             }
 
@@ -63,8 +65,9 @@ public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisA
     @Override
     public void onAddDataToResult(@NonNull Intent result) {
         LOG.debug("Add data to result");
-        // We should add the extraction results here to the Intent
-        // We retrieve them when the CameraActivity has finished
+        // We add the extraction results here to the Intent. The payload format is up to you.
+        // For the example we add the extractions as key-value pairs to a Bundle
+        // We retrieve them when the CameraActivity has finished in MainActivity#onActivityResult()
         Bundle extractionsBundle = getExtractionsBundle();
         result.putExtra(MainActivity.EXTRA_OUT_EXTRACTIONS, extractionsBundle);
     }

@@ -7,6 +7,18 @@ import android.widget.Button;
 
 import net.gini.android.ginivisiontest.R;
 
+/**
+ * <p>
+ *     Shown when none of the Pay5 extractions were received.
+ * </p>
+ * <p>
+ *     Displays information about rotating the image to the correct orientation.
+ * </p>
+ * <p>
+ *     We recommend showing a similar screen in your app to aid the user in taking better pictures to improve the
+ *     quality of the extractions.
+ * </p>
+ */
 public class NoExtractionsActivity extends AppCompatActivity {
 
     public static final int RESULT_START_GINI_VISION = RESULT_FIRST_USER + 1;

@@ -14,6 +14,20 @@ import java.util.Map;
 import bolts.Continuation;
 import bolts.Task;
 
+/**
+ * <p>
+ *     Analyzes a single document. If another document has to be analyzed, the running analysis must be cancelled first.
+ * </p>
+ * <p>
+ *     Calling {@link SingleDocumentAnalyzer#analyzeDocument(Document, DocumentAnalysisListener)} will only change the listener, if the running analysis wasn't cancelled with {@link SingleDocumentAnalyzer#cancelAnalysis()}.
+ * </p>
+ * <p>
+ *     Used as an application wide instance (owned by the {@link ScreenApiApp}) in the {@link ReviewActivity} and {@link AnalysisActivity}.
+ * </p>
+ * <p>
+ *     If the document wasn't modified the analysis started in the {@link ReviewActivity} continues in the {@link AnalysisActivity}.
+ * </p>
+ */
 public class SingleDocumentAnalyzer {
 
     public static final Logger LOG = LoggerFactory.getLogger(SingleDocumentAnalyzer.class);
@@ -30,8 +44,6 @@ public class SingleDocumentAnalyzer {
      * <p>
      *     Analyzes a new document only, if there was no previous analysis or the previous one was cancelled.
      * </p>
-     * @param document
-     * @param listener
      */
     public void analyzeDocument(Document document, final DocumentAnalysisListener listener) {
         LOG.debug("Start analyzing document");
@@ -145,7 +157,7 @@ public class SingleDocumentAnalyzer {
             mDocumentTaskManager = documentTaskManager;
         }
 
-        public void analyze(Document document) {
+        public synchronized void analyze(Document document) {
             mDocumentTaskManager.createDocument(document.getJpeg(), null, null)
                     .onSuccessTask(new Continuation<net.gini.android.models.Document, Task<net.gini.android.models.Document>>() {
                         @Override
@@ -155,7 +167,7 @@ public class SingleDocumentAnalyzer {
                                 LOG.debug("Analysis cancelled");
                                 return Task.cancelled();
                             }
-                            mGiniApiDocument = task.getResult();
+                            setGiniApiDocument(task.getResult());
                             LOG.debug("Polling document");
                             return mDocumentTaskManager.pollDocument(mGiniApiDocument);
                         }
@@ -220,11 +232,15 @@ public class SingleDocumentAnalyzer {
             publishResult();
         }
 
-        public boolean isCompleted() {
+        public synchronized boolean isCompleted() {
             return mResultTask != null;
         }
 
-        public net.gini.android.models.Document getGiniApiDocument() {
+        private synchronized void setGiniApiDocument(net.gini.android.models.Document giniApiDocument) {
+            mGiniApiDocument = giniApiDocument;
+        }
+
+        public synchronized net.gini.android.models.Document getGiniApiDocument() {
             return mGiniApiDocument;
         }
 

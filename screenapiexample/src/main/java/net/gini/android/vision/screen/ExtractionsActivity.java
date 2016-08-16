@@ -33,6 +33,14 @@ import java.util.Map;
 import bolts.Continuation;
 import bolts.Task;
 
+/**
+ * <p>
+ *     Displays the Pay5 extractions: paymentRecipient, iban, bic, amount and paymentReference.
+ * </p>
+ * <p>
+ *     A menu item is added to send feedback. The amount is changed to 10.00:EUR or an amount of 10.00:EUR is added, if missing.
+ * </p>
+ */
 public class ExtractionsActivity extends AppCompatActivity {
 
     private static final Logger LOG = LoggerFactory.getLogger(ExtractionsActivity.class);
@@ -138,6 +146,7 @@ public class ExtractionsActivity extends AppCompatActivity {
         }
         mExtractionsAdapter.notifyDataSetChanged();
 
+        // We require the Gini API SDK's net.gini.android.models.Document for sending the feedback
         if (mDocumentAnalyzer.getGiniApiDocument() != null) {
             try {
                 showProgressIndicator();
