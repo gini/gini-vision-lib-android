@@ -11,6 +11,7 @@ android {
         // Use the test runner with JUnit4 support
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -45,6 +46,11 @@ dependencies {
     androidTestCompile deps.supportTestEspressoCore
     androidTestCompile deps.supportTestEspressoIntents
     androidTestCompile deps.supportTestUiAutomator
+    androidTestCompile deps.mockito
+    androidTestCompile deps.dexmaker
+    androidTestCompile deps.dexmakerDx
+    androidTestCompile deps.dexmakerMockito
+    androidTestCompile deps.supportMultidex
 }
 
 apply from: rootProject.file('gradle/codequality.gradle')
@@ -77,5 +83,10 @@ android.libraryVariants.all { variant ->
         }
     }
 }
+
+task enableMultiDexForAndroidTest {
+    android.defaultConfig.multiDexEnabled = true
+}
+assembleAndroidTest.dependsOn.add(enableMultiDexForAndroidTest)
 
 

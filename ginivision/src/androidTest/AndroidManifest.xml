@@ -5,18 +5,22 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
 
-    <uses-sdk tools:overrideLibrary="android.support.test.uiautomator.v18"/>\
+    <uses-sdk tools:overrideLibrary="android.support.test.uiautomator.v18" />\
 
     <application
+        android:name="android.support.multidex.MultiDexApplication"
         android:largeHeap="true">
         <activity
             android:name="net.gini.android.vision.review.ReviewActivityTestStub"
-            android:theme="@style/GiniVisionTheme"
-            android:label="@string/gv_title_review" />
+            android:label="@string/gv_title_review"
+            android:theme="@style/GiniVisionTheme" />
         <activity
-            android:name=".NoOpAnalysisActivity"
-            android:theme="@style/GiniVisionTheme"
-            android:label="@string/gv_title_analysis" />
+            android:name="net.gini.android.vision.analysis.AnalysisActivityTestStub"
+            android:label="@string/gv_title_analysis"
+            android:theme="@style/GiniVisionTheme" />
+        <activity
+            android:name="net.gini.android.vision.ui.ErrorSnackbarTestActivity"
+            android:theme="@style/GiniVisionTheme" />
     </application>
 
 </manifest>

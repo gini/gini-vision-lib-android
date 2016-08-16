@@ -22,10 +22,10 @@ import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiSelector;
 
 import net.gini.android.vision.R;
+import net.gini.android.vision.analysis.AnalysisActivityTestStub;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.review.ReviewActivityTestStub;
-import net.gini.android.vision.test.NoOpAnalysisActivity;
 
 import org.hamcrest.Matchers;
 import org.junit.After;
@@ -63,7 +63,7 @@ public class CameraScreenTest {
         CameraActivity cameraActivity = new CameraActivity();
 
         Intent intent = new Intent(Intent.ACTION_MAIN);
-        CameraActivity.setAnalysisActivityExtra(intent, InstrumentationRegistry.getTargetContext(), NoOpAnalysisActivity.class);
+        CameraActivity.setAnalysisActivityExtra(intent, InstrumentationRegistry.getTargetContext(), AnalysisActivityTestStub.class);
         cameraActivity.setIntent(intent);
 
         cameraActivity.readExtras();
@@ -226,7 +226,7 @@ public class CameraScreenTest {
     private Intent getCameraActivityIntent() {
         Intent intent = new Intent(Intent.ACTION_MAIN);
         CameraActivity.setReviewActivityExtra(intent, InstrumentationRegistry.getTargetContext(), ReviewActivityTestStub.class);
-        CameraActivity.setAnalysisActivityExtra(intent, InstrumentationRegistry.getTargetContext(), NoOpAnalysisActivity.class);
+        CameraActivity.setAnalysisActivityExtra(intent, InstrumentationRegistry.getTargetContext(), AnalysisActivityTestStub.class);
         return intent;
     }
 
