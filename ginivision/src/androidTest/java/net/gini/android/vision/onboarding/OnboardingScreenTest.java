@@ -76,7 +76,7 @@ public class OnboardingScreenTest {
     }
 
     @Test
-    public void should_finish_whenSwiped_onLastPage() {
+    public void should_finish_whenSwiped_onLastPage() throws InterruptedException {
         OnboardingActivity activity = startOnboardingActivity();
 
         // Go to the last page by swiping
@@ -86,7 +86,8 @@ public class OnboardingScreenTest {
                 // Swipe left on the last page
                 .perform(ViewActions.swipeLeft());
 
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+        // Wait a little for the animation to finish
+        Thread.sleep(TEST_PAUSE_DURATION);
 
         assertThat(activity.isFinishing()).isTrue();
     }
