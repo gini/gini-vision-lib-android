@@ -2,9 +2,9 @@ package net.gini.android.vision.review;
 
 import android.support.annotation.NonNull;
 
+import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.analysis.AnalysisActivity;
-import net.gini.android.vision.Document;
 
 /**
  * <p>
@@ -48,6 +48,21 @@ public interface ReviewFragmentListener {
      * @param document contains the reviewed image (can be the original one or a modified image)
      */
     void onDocumentReviewedAndAnalyzed(@NonNull Document document);
+
+    /**
+     * <p>
+     *      Called when the user rotated the image.
+     * </p>
+     * <p>
+     *     In case you started the document analysis in {@link ReviewFragmentListener#onShouldAnalyzeDocument(Document)}
+     *     you should cancel it here as the original image is not valid anymore.
+     * </p>
+     *
+     * @param document contains the modified image
+     * @param oldRotation the previous rotation in degrees
+     * @param newRotation the new rotation in degrees
+     */
+    void onDocumentWasRotated(@NonNull Document document, int oldRotation, int newRotation);
 
     /**
      * <p>
