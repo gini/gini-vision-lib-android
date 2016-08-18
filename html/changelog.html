@@ -82,8 +82,12 @@
         
             <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#stub-1-2016-07-15">2.0.0-stub.1 (2016-07-15)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#alpha-1-2016-08-18">2.0.0-alpha.1 (2016-08-18)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#features">Features</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#stub-1-2016-07-15">2.0.0-stub.1 (2016-07-15)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Features</a></li>
 </ul>
 </li>
 </ul>
@@ -131,10 +135,24 @@
             
   <div class="section" id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="stub-1-2016-07-15">
-<h2>2.0.0-stub.1 (2016-07-15)<a class="headerlink" href="#stub-1-2016-07-15" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="alpha-1-2016-08-18">
+<h2>2.0.0-alpha.1 (2016-08-18)<a class="headerlink" href="#alpha-1-2016-08-18" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="features">
 <h3>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Feature complete version.</li>
+<li>Using the Screen API a picture can be taken with the <cite>CameraActivity</cite>. It can be reviewed with the <cite>ReviewActvitiy</cite> with the possibility to start document analysis. If the document analysis didn&#8217;t complete or the document was rotated the document analysis can be continued or started again in the <cite>AnalysisActivity</cite>.</li>
+<li>Using the Component API a picture can be taken with one of the Camera Fragments. Showing the picture with one of the Review Fragments allows review and rotation of the picture. You could also start the document analysis when showing one of the Review Fragments. If the document analysis didn&#8217;t complete or the document was rotated you should show one of the Analysis Fragments and continue or restart the document analysis.</li>
+<li>Consult the example apps for details on how to use the Gini Vision Library.</li>
+<li>Logging with SLF4J.</li>
+<li>Checking if the device meets the Gini Vision Library requirements with GiniVisionRequirements.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="stub-1-2016-07-15">
+<h2>2.0.0-stub.1 (2016-07-15)<a class="headerlink" href="#stub-1-2016-07-15" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>Features<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Stub version of the completely rewritten Gini Vision Library.</li>
 <li>Provides two integration options: 1) A Screen API that can be easily implemented using Activities. 2) A more complex but at the same time more flexible Component API using Fragments.</li>

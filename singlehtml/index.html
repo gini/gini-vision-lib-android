@@ -80,8 +80,12 @@
         
             <ul>
 <li class="toctree-l1"><a class="reference internal" href="index.html#document-changelog">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="index.html#document-changelog#stub-1-2016-07-15">2.0.0-stub.1 (2016-07-15)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-changelog#alpha-1-2016-08-18">2.0.0-alpha.1 (2016-08-18)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="index.html#document-changelog#features">Features</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-changelog#stub-1-2016-07-15">2.0.0-stub.1 (2016-07-15)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="index.html#document-changelog#id1">Features</a></li>
 </ul>
 </li>
 </ul>
@@ -142,10 +146,24 @@ to provide the best results when used with the Gini API.</p>
 <div class="toctree-wrapper compound">
 <span id="document-changelog"></span><div class="section" id="changelog">
 <h3>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="stub-1-2016-07-15">
-<h4>2.0.0-stub.1 (2016-07-15)<a class="headerlink" href="#stub-1-2016-07-15" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="alpha-1-2016-08-18">
+<h4>2.0.0-alpha.1 (2016-08-18)<a class="headerlink" href="#alpha-1-2016-08-18" title="Permalink to this headline">¶</a></h4>
 <div class="section" id="features">
 <h5>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h5>
+<ul class="simple">
+<li>Feature complete version.</li>
+<li>Using the Screen API a picture can be taken with the <cite>CameraActivity</cite>. It can be reviewed with the <cite>ReviewActvitiy</cite> with the possibility to start document analysis. If the document analysis didn&#8217;t complete or the document was rotated the document analysis can be continued or started again in the <cite>AnalysisActivity</cite>.</li>
+<li>Using the Component API a picture can be taken with one of the Camera Fragments. Showing the picture with one of the Review Fragments allows review and rotation of the picture. You could also start the document analysis when showing one of the Review Fragments. If the document analysis didn&#8217;t complete or the document was rotated you should show one of the Analysis Fragments and continue or restart the document analysis.</li>
+<li>Consult the example apps for details on how to use the Gini Vision Library.</li>
+<li>Logging with SLF4J.</li>
+<li>Checking if the device meets the Gini Vision Library requirements with GiniVisionRequirements.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="stub-1-2016-07-15">
+<h4>2.0.0-stub.1 (2016-07-15)<a class="headerlink" href="#stub-1-2016-07-15" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id1">
+<h5>Features<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h5>
 <ul class="simple">
 <li>Stub version of the completely rewritten Gini Vision Library.</li>
 <li>Provides two integration options: 1) A Screen API that can be easily implemented using Activities. 2) A more complex but at the same time more flexible Component API using Fragments.</li>
@@ -160,7 +178,7 @@ to provide the best results when used with the Gini API.</p>
 <p>The Gini Android Vision Library is licensed under a Private License and also
 integrates several third party libraries. Always make sure to ship all license
 notices and permissions with your application:</p>
-<div class="highlight-python"><div class="highlight"><pre>Copyright (c) 2014-2015, Gini GmbH
+<div class="highlight-python"><div class="highlight"><pre>Copyright (c) 2014-2016, Gini GmbH
 All rights reserved.
 
 The Gini Vision Library is licensed through Gini GmbH (&quot;Gini&quot;) and may not be
