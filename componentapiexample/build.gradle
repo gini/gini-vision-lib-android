@@ -52,3 +52,6 @@ dependencies {
     // For testing a released version
 //    compile 'net.gini:gini-vision-lib:2.0.0-stub.1'
 }
+
+apply from: rootProject.file('gradle/codequality.gradle')
+apply from: rootProject.file('gradle/client_credentials.gradle')
