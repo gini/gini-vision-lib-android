@@ -8,13 +8,21 @@ android {
         applicationId "net.gini.android.vision.componentapiexample"
         minSdkVersion 17
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode rootProject.ext.versionCode
-        versionName rootProject.ext.versionName
+        versionCode buildNumber == 'DEBUG' ? 1 : buildNumber.toInteger()
+        versionName "${version} (${buildNumber})"
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    signingConfigs {
+        release {
+            storeFile file(releaseKeystoreFile)
+            storePassword releaseKeystorePassword
+            keyAlias releaseKeyAlias
+            keyPassword releaseKeyPassword
         }
     }
 }
