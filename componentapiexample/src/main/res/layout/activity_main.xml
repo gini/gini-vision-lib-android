@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,6 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:orientation="vertical"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -15,74 +16,28 @@
         android:paddingTop="@dimen/activity_vertical_margin">
 
         <Button
-            android:id="@+id/button_start_camera"
+            android:id="@+id/button_start_gini_vision_standard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Start Camera Standard" />
+            style="@android:style/Widget.Holo.Button.Borderless"
+            android:text="Start Gini Vision Lib Standard"
+            android:textColor="@color/colorPrimary"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="32dp"/>
 
         <Button
-            android:id="@+id/button_start_onboarding"
+            android:id="@+id/button_start_gini_vision_compat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Start Onboarding Standard" />
-
-        <Button
-            android:id="@+id/button_start_onboarding_without_last_page"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Start Onboarding Standard - w/o last page" />
-
-        <Button
-            android:id="@+id/button_start_review_document"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Start Review Document Standard" />
-
-        <Button
-            android:id="@+id/button_start_analysis"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Start Analysis Screen Standard" />
-
-        <Button
-            android:id="@+id/button_start_camera_compat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Start Camera Compat" />
-
-        <Button
-            android:id="@+id/button_start_onboarding_compat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Start Onboarding Compat" />
-
-        <Button
-            android:id="@+id/button_start_onboarding_without_last_page_compat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Start Onboarding Compat - w/o last page" />
-
-        <Button
-            android:id="@+id/button_start_review_document_compat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Start Review Document Compat" />
-
-        <Button
-            android:id="@+id/button_start_analysis_compat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Start Analysis Screen Compat" />
+            style="@android:style/Widget.Holo.Button.Borderless"
+            android:text="Start Gini Vision Lib Compat"
+            android:textColor="@color/colorPrimary"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+        />
 
     </LinearLayout>
-</ScrollView>
+</RelativeLayout>

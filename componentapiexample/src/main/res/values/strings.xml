@@ -1,8 +1,14 @@
 <resources>
     <string name="app_name">Component API Example</string>
 
-    <string name="title_scanner">Angepasstes Camera Screen</string>
-    <string name="title_onboarding">Angepasstes Onboarding Screen</string>
-    <string name="title_review">Angepasstes Review Screen</string>
-    <string name="title_analysis">Angepasstes Analysis Screen</string>
+    <string name="title_camera">Camera Screen</string>
+    <string name="title_onboarding">Onboarding Screen</string>
+    <string name="title_review">Review Screen</string>
+    <string name="title_analysis">Analysis Screen</string>
+    <string name="title_extractions">Extractions</string>
+    <string name="title_no_extractions">No Extractions</string>
+
+    <string name="menu_item_feedback">Send Feedback</string>
+
+    <string name="retry_analysis">Wiederholen</string>
 </resources>
