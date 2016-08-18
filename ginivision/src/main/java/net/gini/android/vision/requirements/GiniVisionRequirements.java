@@ -51,4 +51,6 @@ public final class GiniVisionRequirements {
         return requirementsReport;
     }
 
+    private GiniVisionRequirements() {
+    }
 }
