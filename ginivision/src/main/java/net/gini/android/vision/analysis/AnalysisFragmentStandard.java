@@ -19,7 +19,7 @@ import net.gini.android.vision.ui.FragmentImplCallback;
  *     When you use the Component API without the Android Support Library, the {@code AnalyzeDocumentFragmentStandard} displays the captured document and an activity indicator while the document is being analyzed by the Gini API.
  * </p>
  * <p>
- *     Include the {@code AnalyzeDocumentFragmentStandard} into your layout by using the {@link AnalysisFragmentStandard#createInstance(Document)} factory method to create an instance and display it using the {@link android.app.FragmentManager}.
+ *     Include the {@code AnalyzeDocumentFragmentStandard} into your layout by using the {@link AnalysisFragmentStandard#createInstance(Document, String)} factory method to create an instance and display it using the {@link android.app.FragmentManager}.
  * </p>
  * <p>
  *     Your Activity must implement the {@link AnalysisFragmentListener} interface to receive events from the Analyze Document Fragment. Failing to do so will throw an exception.
@@ -43,14 +43,19 @@ public class AnalysisFragmentStandard extends Fragment implements FragmentImplCa
      *     Factory method for creating a new instance of the Fragment using the provided document.
      * </p>
      * <p>
+     *     You may pass in an optional analysis error message. This error message is shown to the user with a retry
+     *     button.
+     * </p>
+     * <p>
      *     <b>Note:</b> Always use this method to create new instances. Document is required and an exception is thrown if it's missing.
      * </p>
      * @param document must be the {@link Document} from {@link ReviewFragmentListener#onProceedToAnalysisScreen(Document)}
+     * @param documentAnalysisErrorMessage an optional error message shown to the user
      * @return a new instance of the Fragment
      */
-    public static AnalysisFragmentStandard createInstance(@NonNull Document document) {
+    public static AnalysisFragmentStandard createInstance(@NonNull Document document, @Nullable String documentAnalysisErrorMessage) {
         AnalysisFragmentStandard fragment = new AnalysisFragmentStandard();
-        fragment.setArguments(AnalysisFragmentHelper.createArguments(document));
+        fragment.setArguments(AnalysisFragmentHelper.createArguments(document, documentAnalysisErrorMessage));
         return fragment;
     }
 
