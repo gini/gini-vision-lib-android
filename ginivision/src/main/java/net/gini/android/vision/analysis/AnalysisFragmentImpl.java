@@ -17,8 +17,8 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.camera.photo.Photo;
-import net.gini.android.vision.ui.FragmentImplCallback;
 import net.gini.android.vision.ui.ErrorSnackbar;
+import net.gini.android.vision.ui.FragmentImplCallback;
 
 class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
@@ -31,8 +31,6 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         public void onError(@NonNull GiniVisionError error) {
         }
     };
-
-    private static final long SCAN_ANIM_DURATION = 900;
 
     private final FragmentImplCallback mFragment;
     private Photo mPhoto;

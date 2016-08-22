@@ -4,10 +4,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.VisibleForTesting;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @exclude
  */
 class OncePerInstallEventStore {
+
+    private static final Logger LOG = LoggerFactory.getLogger(OncePerInstallEventStore.class);
 
     private static final String ONCE_PER_INSTALL_EVENTS = "GV_ONCE_PER_INSTALL_EVENTS";
 
@@ -25,12 +30,14 @@ class OncePerInstallEventStore {
         mSharedPreferences.edit()
                 .putBoolean(event.name(), true)
                 .apply();
+        LOG.debug("Saved event {}",event.name());
     }
 
     @VisibleForTesting
-    public void clearEvent(OncePerInstallEvent event) {
+    void clearEvent(OncePerInstallEvent event) {
         mSharedPreferences.edit()
                 .remove(event.name())
                 .apply();
+        LOG.debug("Cleared event {}",event.name());
     }
 }

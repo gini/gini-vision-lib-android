@@ -4,6 +4,9 @@ import android.content.Context;
 
 import net.gini.android.vision.camera.photo.Photo;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.util.Date;
 
@@ -27,6 +30,8 @@ import java.util.Date;
  * </p>
  */
 public final class GiniVisionDebug {
+
+    private static final Logger LOG = LoggerFactory.getLogger(GiniVisionDebug.class);
 
     private static boolean sEnabled = false;
 
@@ -68,6 +73,7 @@ public final class GiniVisionDebug {
         String jpegFilename = time + suffix + ".jpeg";
         File jpegFile = new File(giniVisionDir, jpegFilename);
         Photo.fromDocument(document).saveJpegToFile(jpegFile);
+        LOG.debug("Document written to {}", jpegFile.getAbsolutePath());
     }
 
     private static File createGiniVisionDir(Context context) {
