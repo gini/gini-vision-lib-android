@@ -34,17 +34,18 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     private static final ReviewFragmentListener NO_OP_LISTENER = new ReviewFragmentListener() {
         @Override
         public void onShouldAnalyzeDocument(@NonNull Document document) {
-
         }
 
         @Override
         public void onProceedToAnalysisScreen(@NonNull Document document) {
-
         }
 
         @Override
         public void onDocumentReviewedAndAnalyzed(@NonNull Document document) {
+        }
 
+        @Override
+        public void onDocumentWasRotated(@NonNull Document document, int oldRotation, int newRotation) {
         }
 
         @Override
@@ -63,7 +64,8 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     private boolean mDocumentWasAnalyzed = false;
     private boolean mDocumentWasModified = false;
     private int mCurrentRotation = 0;
-    private boolean mDestroyed = false;
+    private boolean mNextClicked = false;
+    private boolean mStopped = false;
 
     public ReviewFragmentImpl(@NonNull FragmentImplCallback fragment, @NonNull Document document) {
         mFragment = fragment;
@@ -92,7 +94,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         applyCompressionToJpeg(new PhotoEdit.PhotoEditCallback() {
             @Override
             public void onDone(@NonNull Photo photo) {
-                if (mDestroyed) {
+                if (mNextClicked || mDocumentWasModified || mStopped) {
                     return;
                 }
                 LOG.info("Should analyze document");
@@ -101,7 +103,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
             @Override
             public void onFailed() {
-                if (mDestroyed) {
+                if (mNextClicked || mStopped) {
                     return;
                 }
                 LOG.error("Failed to compress the jpeg");
@@ -121,14 +123,19 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
     public void onStart() {
         showDocument();
+        mNextClicked = false;
+        mStopped = false;
     }
 
     private void showDocument() {
         mImageDocument.setImageBitmap(mPhoto.getBitmapPreview());
     }
 
+    public void onStop() {
+        mStopped = true;
+    }
+
     public void onDestroy() {
-        mDestroyed = true;
         mPhoto = null;
     }
 
@@ -174,12 +181,15 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     }
 
     private void onRotateClicked() {
+        int oldRotation = mCurrentRotation;
         mCurrentRotation += 90;
         rotateImageView(mCurrentRotation, true);
         mDocumentWasModified = true;
+        mListener.onDocumentWasRotated(Document.fromPhoto(mPhoto), oldRotation, mCurrentRotation);
     }
 
     private void onNextClicked() {
+        mNextClicked = true;
         if (!mDocumentWasModified) {
             LOG.debug("Document wasn't modified");
             if (!mDocumentWasAnalyzed) {
@@ -196,7 +206,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             applyRotationToJpeg(new PhotoEdit.PhotoEditCallback() {
                 @Override
                 public void onDone(@NonNull Photo photo) {
-                    if (mDestroyed) {
+                    if (mStopped) {
                         return;
                     }
                     proceedToAnalysisScreen();
@@ -204,7 +214,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
                 @Override
                 public void onFailed() {
-                    if (mDestroyed) {
+                    if (mStopped) {
                         return;
                     }
                     LOG.error("Failed to rotate the jpeg");

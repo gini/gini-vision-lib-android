@@ -36,15 +36,18 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
     private final FragmentImplCallback mFragment;
     private Photo mPhoto;
+    private final String mDocumentAnalysisErrorMessage;
+
     private AnalysisFragmentListener mListener = NO_OP_LISTENER;
 
     private RelativeLayout mLayoutRoot;
     private ImageView mImageDocument;
     private ProgressBar mProgressActivity;
 
-    public AnalysisFragmentImpl(FragmentImplCallback fragment, Document document) {
+    public AnalysisFragmentImpl(FragmentImplCallback fragment, Document document, String documentAnalysisErrorMessage) {
         mFragment = fragment;
         mPhoto = Photo.fromDocument(document);
+        mDocumentAnalysisErrorMessage = documentAnalysisErrorMessage;
     }
 
     @VisibleForTesting
@@ -77,7 +80,23 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     public void onStart() {
-        mListener.onAnalyzeDocument(Document.fromPhoto(mPhoto));
+    }
+
+    private void analyzeDocument() {
+        if (mFragment.getActivity() == null) {
+            return;
+        }
+        if (mDocumentAnalysisErrorMessage != null) {
+            showError(mDocumentAnalysisErrorMessage, mFragment.getActivity().getString(R.string.gv_document_analysis_error_retry),
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mListener.onAnalyzeDocument(Document.fromPhoto(mPhoto));
+                        }
+                    });
+        } else {
+            mListener.onAnalyzeDocument(Document.fromPhoto(mPhoto));
+        }
     }
 
     public void onStop() {
@@ -105,6 +124,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
     private void onViewLayoutFinished() {
         rotateDocumentImageView();
+        analyzeDocument();
     }
 
     private void rotateDocumentImageView() {

@@ -83,6 +83,15 @@ public class ReviewFragmentStandard extends Fragment implements FragmentImplCall
     }
 
     /**
+     *
+     */
+    @Override
+    public void onStop() {
+        super.onStop();
+        mFragmentImpl.onStop();
+    }
+
+    /**
      * @exclude
      */
     @Override

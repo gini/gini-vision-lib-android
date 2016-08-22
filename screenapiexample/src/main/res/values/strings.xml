@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">Screen API Example</string>
 
-    <string name="additional_onboarding_page">Diese App ist nur ein Beispiel.</string>
+    <string name="additional_onboarding_page">This is a custom page example.</string>
+
+    <string name="title_extractions">Extractions</string>
+    <string name="title_no_extractions">No Extractions</string>
+
+    <string name="menu_item_feedback">Send Feedback</string>
 </resources>

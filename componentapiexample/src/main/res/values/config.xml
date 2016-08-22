@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="gv_onboarding_page_fragment_background_alpha">1.0</string>
+    <!-- Onboarding page background alpha customization example -->
+    <!--<string name="gv_onboarding_page_fragment_background_alpha">0.8</string>-->
 </resources>
