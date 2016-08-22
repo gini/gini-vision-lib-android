@@ -14,10 +14,12 @@ import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.test.uiautomator.UiDevice;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import net.gini.android.vision.Document;
+import net.gini.android.vision.R;
 import net.gini.android.vision.camera.photo.Photo;
 import net.gini.android.vision.review.ReviewActivity;
 import net.gini.android.vision.ui.ErrorSnackbar;
@@ -226,6 +228,79 @@ public class AnalysisScreenTest {
                 .check(ViewAssertions.doesNotExist());
     }
 
+    @Test
+    public void should_notInvokeAddDataToResult_whenHomeButton_wasPressed() throws InterruptedException {
+        final AnalysisActivityTestStub activity = startAnalysisActivity(TEST_JPEG, 0);
+
+        // Allow the activity to run a little for listeners to be invoked
+        Thread.sleep(TEST_PAUSE_DURATION);
+
+        // Click home (back)
+        Espresso.onView(ViewMatchers.withContentDescription("Navigate up"))
+                .perform(ViewActions.click());
+
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+
+        assertThat(activity.addDataToResultIntent).isNull();
+    }
+
+    @Test
+    public void should_notInvokeAddDataToResult_whenBackButton_wasPressed() throws InterruptedException {
+        final AnalysisActivityTestStub activity = startAnalysisActivity(TEST_JPEG, 0);
+
+        // Allow the activity to run a little for listeners to be invoked
+        Thread.sleep(TEST_PAUSE_DURATION);
+
+        // Click back
+        UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).pressBack();
+
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+
+        assertThat(activity.addDataToResultIntent).isNull();
+    }
+
+    @Test
+    public void should_showErrorMessage_whenAnalysisErrorMessage_wasGiven() throws InterruptedException {
+        Intent intent = getAnalysisActivityIntentWithDocument(TEST_JPEG, 0);
+        intent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE, "Something happened");
+        mActivityTestRule.launchActivity(intent);
+
+        // Allow the activity to run a little for the error message to be shown
+        Thread.sleep(TEST_PAUSE_DURATION);
+
+        Espresso.onView(ViewMatchers.withText("Something happened"))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
+    @Test
+    public void should_notInvokeAnalyzeDocument_whenAnalysisErrorMessage_wasGiven() throws InterruptedException {
+        Intent intent = getAnalysisActivityIntentWithDocument(TEST_JPEG, 0);
+        intent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE, "Something happened");
+        AnalysisActivityTestStub activity = mActivityTestRule.launchActivity(intent);
+
+        // Allow the activity to run a little for the error message to be shown
+        Thread.sleep(TEST_PAUSE_DURATION);
+
+        assertThat(activity.analyzeDocument).isNull();
+    }
+
+    @Test
+    public void should_invokeAnalyzeDocument_whenAnalysisErrorRetryButton_wasClicked() throws InterruptedException {
+        Intent intent = getAnalysisActivityIntentWithDocument(TEST_JPEG, 0);
+        intent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE, "Something happened");
+        AnalysisActivityTestStub activity = mActivityTestRule.launchActivity(intent);
+
+        // Allow the activity to run a little for the error message to be shown
+        Thread.sleep(TEST_PAUSE_DURATION);
+
+        Espresso.onView(ViewMatchers.withId(R.id.gv_button_error))
+                .perform(ViewActions.click());
+
+        assertThat(activity.analyzeDocument).isNotNull();
+
+        assertAbout(document()).that(activity.analyzeDocument).isEqualToDocument(Document.fromPhoto(Photo.fromJpeg(TEST_JPEG, 0)));
+    }
+
     private AnalysisActivityTestStub startAnalysisActivity(byte[] jpeg, int orientation) {
         Intent intent = getAnalysisActivityIntent();
         intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, Document.fromPhoto(Photo.fromJpeg(jpeg, orientation)));
@@ -234,5 +309,11 @@ public class AnalysisScreenTest {
 
     private Intent getAnalysisActivityIntent() {
         return new Intent(InstrumentationRegistry.getTargetContext(), AnalysisActivityTestStub.class);
+    }
+
+    private Intent getAnalysisActivityIntentWithDocument(byte[] jpeg, int orientation) {
+        Intent intent = new Intent(InstrumentationRegistry.getTargetContext(), AnalysisActivityTestStub.class);
+        intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, Document.fromPhoto(Photo.fromJpeg(jpeg, orientation)));
+        return intent;
     }
 }
