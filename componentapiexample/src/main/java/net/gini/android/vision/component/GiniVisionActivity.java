@@ -256,11 +256,12 @@ public class GiniVisionActivity extends Activity
         LOG.debug("Should analyze document in the Review Screen {}", document);
         GiniVisionDebug.writeDocumentToFile(this, document, "_for_review");
 
-        // We should start analyzing the document by sending it to the Gini API
-        // If the user did not modify the image we can get the analysis results earlier
-        // and the Gini Vision Library will not request you to proceed to the Analysis Screen
-        // If the user modified the image or the analysis failed the Gini Vision Library will request you
-        // to proceed to the Analysis Screen
+        // We should start analyzing the document by sending it to the Gini API.
+        // If the user did not modify the image we can get the analysis results earlier.
+        // The Gini Vision Library will not request you to proceed to the Analysis Screen, if the results were
+        // received in the Review Screen.
+        // If the user modified the image or the analysis didn't complete or it failed the Gini Vision Library
+        // will request you to proceed to the Analysis Screen.
         mSingleDocumentAnalyzer.analyzeDocument(document, new SingleDocumentAnalyzer.DocumentAnalysisListener() {
             @Override
             public void onExtractionsReceived(Map<String, SpecificExtraction> extractions) {
