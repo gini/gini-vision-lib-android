@@ -16,7 +16,7 @@
         android:layout_gravity="center"
         android:layout_centerInParent="true"
         style="@android:style/Widget.Holo.Button.Borderless"
-        android:text="Start Gini Vision Lib Compat"
+        android:text="Start Gini Vision Library"
         android:textColor="@color/colorPrimary"
         android:textSize="22sp"
         android:textStyle="bold"
