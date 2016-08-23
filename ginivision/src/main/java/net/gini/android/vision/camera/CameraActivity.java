@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
 
-import net.gini.android.vision.ActivityHelpers;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
@@ -19,6 +18,7 @@ import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.review.ReviewActivity;
+import net.gini.android.vision.util.ActivityHelper;
 
 import java.util.ArrayList;
 
@@ -216,8 +216,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     public static final int RESULT_ERROR = RESULT_FIRST_USER + 1;
 
     private static final int REVIEW_DOCUMENT_REQUEST = 1;
-    private static final int ANALYSE_DOCUMENT_REQUEST = 2;
-    private static final int ONBOARDING_REQUEST = 3;
+    private static final int ONBOARDING_REQUEST = 2;
 
     private ArrayList<OnboardingPage> mOnboardingPages;
     private Intent mReviewDocumentActivityIntent;
@@ -245,7 +244,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     public static <T extends ReviewActivity> void setReviewActivityExtra(Intent target,
                                                                          Context context,
                                                                          Class<T> reviewActivityClass) {
-        ActivityHelpers.setActivityExtra(target, EXTRA_IN_REVIEW_ACTIVITY, context, reviewActivityClass);
+        ActivityHelper.setActivityExtra(target, EXTRA_IN_REVIEW_ACTIVITY, context, reviewActivityClass);
     }
 
     /**
@@ -262,7 +261,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     public static <T extends AnalysisActivity> void setAnalysisActivityExtra(Intent target,
                                                                              Context context,
                                                                              Class<T> analysisActivityClass) {
-        ActivityHelpers.setActivityExtra(target, EXTRA_IN_ANALYSIS_ACTIVITY, context, analysisActivityClass);
+        ActivityHelper.setActivityExtra(target, EXTRA_IN_ANALYSIS_ACTIVITY, context, analysisActivityClass);
     }
 
     @Override
@@ -374,6 +373,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         mDocument = document;
         // Start ReviewActivity
         mReviewDocumentActivityIntent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, document);
+        mReviewDocumentActivityIntent.putExtra(EXTRA_IN_ANALYSIS_ACTIVITY, mAnalyzeDocumentActivityIntent);
         startActivityForResult(mReviewDocumentActivityIntent, REVIEW_DOCUMENT_REQUEST);
     }
 
@@ -388,34 +388,8 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REVIEW_DOCUMENT_REQUEST) {
-            switch (resultCode) {
-                case ReviewActivity.RESULT_PHOTO_WAS_REVIEWED:
-                    if (data != null) {
-                        Document document = data.getParcelableExtra(ReviewActivity.EXTRA_OUT_DOCUMENT);
-                        mAnalyzeDocumentActivityIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, document);
-                        startActivityForResult(mAnalyzeDocumentActivityIntent, ANALYSE_DOCUMENT_REQUEST);
-                    }
-                    break;
-                case ReviewActivity.RESULT_PHOTO_WAS_REVIEWED_AND_ANALYZED:
-                    setResult(RESULT_OK, data);
-                    finish();
-                    break;
-                case ReviewActivity.RESULT_ERROR:
-                    setResult(RESULT_ERROR, data);
-                    finish();
-                    break;
-            }
-        } else if (requestCode == ANALYSE_DOCUMENT_REQUEST) {
-            switch (resultCode) {
-                case RESULT_OK:
-                    setResult(RESULT_OK, data);
-                    finish();
-                    break;
-                case AnalysisActivity.RESULT_ERROR:
-                    setResult(RESULT_ERROR, data);
-                    finish();
-                    break;
-            }
+            setResult(resultCode, data);
+            finish();
         } else if (requestCode == ONBOARDING_REQUEST) {
             mOnboardingShown = false;
             showCornersAndTrigger();

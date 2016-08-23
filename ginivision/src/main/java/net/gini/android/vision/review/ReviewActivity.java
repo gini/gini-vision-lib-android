@@ -1,11 +1,15 @@
 package net.gini.android.vision.review;
 
+import static net.gini.android.vision.util.ActivityHelper.enableHomeAsUp;
+import static net.gini.android.vision.util.ActivityHelper.handleMenuItemPressedForHomeButton;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
@@ -34,6 +38,12 @@ import net.gini.android.vision.onboarding.OnboardingActivity;
  *     <ul>
  *         <li>{@link ReviewActivity#onShouldAnalyzeDocument(Document)} - you should start analyzing the original document by sending it to the Gini API. We assume that in most cases the photo is good enough and this way we are able to provide analysis results quicker.<br/><b>Note:</b> Call {@link ReviewActivity#onDocumentAnalyzed()} when the analysis is done and the Activity wasn't stopped.</li>
  *         <li>{@link ReviewActivity#onAddDataToResult(Intent)} - you can add the results of the analysis to the Intent as extras and retrieve them once the {@link CameraActivity} returns.<br/>This is called only if you called {@link ReviewActivity#onDocumentAnalyzed()} and the image wasn't changed before the user tapped on the Next button.<br/>When this is called, your {@link AnalysisActivity} subclass is not launched, instead control is returned to your Activity which started the {@link CameraActivity} and you can extract the results of the analysis.</li>
+ *     </ul>
+ *     You can also override the following methods:
+ *     <ul>
+ *         <li>{@link ReviewActivity#onDocumentWasRotated(Document, int, int)} - you should cancel the analysis started in {@link ReviewActivity#onShouldAnalyzeDocument(Document)} because the document was rotated and analysing the original is not necessary anymore. The Gini Vision Library will proceed to the Analysis Screen where the reviewed document can be analyzed.</li>
+ *         <li>{@link ReviewActivity#onProceedToAnalysisScreen(Document)} - called when the Gini Vision Library will continue to the Analysis Screen. For example you can unsubscribe your analysis listener, if you want to continue the analysis in your {@link AnalysisActivity} subclass in case the document wasn't modified.</li>
+ *         <li>{@link ReviewActivity#onBackPressed()} - called when the back or the up button was clicked. You should cancel the analysis started in {@link ReviewActivity#onShouldAnalyzeDocument(Document)}.</li>
  *     </ul>
  * </p>
  *
@@ -102,6 +112,9 @@ import net.gini.android.vision.onboarding.OnboardingActivity;
  *         <li>
  *             <b>Title color:</b> via the color resource named {@code gv_action_bar_title}
  *         </li>
+ *         <li>
+ *             <b>Back button (only for {@link ReviewActivity} and {@link AnalysisActivity}):</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_action_bar_back}
+ *         </li>
  *     </ul>
  * </p>
  */
@@ -114,6 +127,10 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     /**
      * @exclude
      */
+    public static final String EXTRA_IN_ANALYSIS_ACTIVITY = "GV_EXTRA_IN_ANALYSIS_ACTIVITY";
+    /**
+     * @exclude
+     */
     public static final String EXTRA_OUT_DOCUMENT = "GV_EXTRA_OUT_DOCUMENT";
     /**
      * @exclude
@@ -123,20 +140,17 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     /**
      * @exclude
      */
-    public static final int RESULT_PHOTO_WAS_REVIEWED = RESULT_FIRST_USER + 1;
-    /**
-     * @exclude
-     */
-    public static final int RESULT_PHOTO_WAS_REVIEWED_AND_ANALYZED = RESULT_FIRST_USER + 2;
-    /**
-     * @exclude
-     */
-    public static final int RESULT_ERROR = RESULT_FIRST_USER + 3;
+    public static final int RESULT_ERROR = RESULT_FIRST_USER + 1;
+
+    private static final int ANALYSE_DOCUMENT_REQUEST = 1;
 
     private static final String REVIEW_FRAGMENT = "REVIEW_FRAGMENT";
 
     private ReviewFragmentCompat mFragment;
     private Document mDocument;
+    private String mDocumentAnalysisErrorMessage;
+
+    private Intent mAnalyzeDocumentActivityIntent;
 
     @VisibleForTesting
     ReviewFragmentCompat getFragment() {
@@ -151,6 +165,16 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
             readExtras();
             initFragment();
         }
+        enableHomeAsUp(this);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (handleMenuItemPressedForHomeButton(this, item)) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -163,10 +187,12 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
         mDocument = null;
     }
 
-    private void readExtras() {
+    @VisibleForTesting
+    void readExtras() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mDocument = extras.getParcelable(EXTRA_IN_DOCUMENT);
+            mAnalyzeDocumentActivityIntent = extras.getParcelable(EXTRA_IN_ANALYSIS_ACTIVITY);
         }
         checkRequiredExtras();
     }
@@ -174,6 +200,9 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     private void checkRequiredExtras() {
         if (mDocument == null) {
             throw new IllegalStateException("ReviewActivity requires a Document. Set it as an extra using the EXTRA_IN_DOCUMENT key.");
+        }
+        if (mAnalyzeDocumentActivityIntent == null) {
+            throw new IllegalStateException("ReviewActivity requires an AnalyzeDocumentActivity class. Call setAnalyzeDocumentActivityExtra() to set it.");
         }
     }
 
@@ -199,17 +228,16 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
                 .commit();
     }
 
-    // callback for subclasses for uploading the photo before it was reviewed, if the photo is not changed
-    // no new upload is required
     @Override
     public abstract void onShouldAnalyzeDocument(@NonNull Document document);
 
     @Override
     public void onProceedToAnalysisScreen(@NonNull Document document) {
-        Intent result = new Intent();
-        result.putExtra(EXTRA_OUT_DOCUMENT, document);
-        setResult(RESULT_PHOTO_WAS_REVIEWED, result);
-        finish();
+        mAnalyzeDocumentActivityIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, document);
+        if (mDocumentAnalysisErrorMessage != null) {
+            mAnalyzeDocumentActivityIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE, mDocumentAnalysisErrorMessage);
+        }
+        startActivityForResult(mAnalyzeDocumentActivityIntent, ANALYSE_DOCUMENT_REQUEST);
     }
 
     @Override
@@ -217,7 +245,7 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
         Intent result = new Intent();
         result.putExtra(EXTRA_OUT_DOCUMENT, document);
         onAddDataToResult(result);
-        setResult(RESULT_PHOTO_WAS_REVIEWED_AND_ANALYZED, result);
+        setResult(RESULT_OK, result);
         finish();
     }
 
@@ -238,8 +266,11 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
      */
     public abstract void onAddDataToResult(@NonNull Intent result);
 
-    // TODO: call this, if the photo was analyzed before the review was completed, it prevents the analyze activity to
-    // be started, if the photo was already analyzed and the user didn't change it
+    @Override
+    public void onDocumentWasRotated(@NonNull Document document, int oldRotation, int newRotation) {
+        clearDocumentAnalysisError();
+    }
+
     @Override
     public void onDocumentAnalyzed() {
         mFragment.onDocumentAnalyzed();
@@ -251,5 +282,29 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
         result.putExtra(EXTRA_OUT_ERROR, error);
         setResult(RESULT_ERROR, result);
         finish();
+    }
+
+    /**
+     * <p>
+     *     If the analysis started in {@link ReviewActivity#onShouldAnalyzeDocument(Document)} failed you can set
+     *     an error message here, which will be shown in the {@link AnalysisActivity} with a retry button.
+     * </p>
+     * @param message an error message to be shown to the user
+     */
+    protected void onDocumentAnalysisError(String message) {
+        mDocumentAnalysisErrorMessage = message;
+    }
+
+    private void clearDocumentAnalysisError() {
+        mDocumentAnalysisErrorMessage = null;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == ANALYSE_DOCUMENT_REQUEST) {
+            setResult(resultCode, data);
+            finish();
+        }
+        clearMemory();
     }
 }

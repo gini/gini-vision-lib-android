@@ -2,6 +2,7 @@ package net.gini.android.vision.camera;
 
 import static net.gini.android.vision.OncePerInstallEventStoreHelper.clearOnboardingWasShownPreference;
 import static net.gini.android.vision.OncePerInstallEventStoreHelper.setOnboardingWasShownPreference;
+import static net.gini.android.vision.test.EspressoMatchers.hasComponent;
 import static net.gini.android.vision.test.Helpers.prepareLooper;
 
 import android.content.Intent;
@@ -25,6 +26,7 @@ import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivityTestStub;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
+import net.gini.android.vision.review.ReviewActivity;
 import net.gini.android.vision.review.ReviewActivityTestStub;
 
 import org.hamcrest.Matchers;
@@ -42,6 +44,9 @@ import java.util.ArrayList;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CameraScreenTest {
 
+    private static final long CLOSE_CAMERA_PAUSE_DURATION = 1000;
+    private static final long TAKE_PICTURE_PAUSE_DURATION = 4000;
+
     @Rule
     public IntentsTestRule<CameraActivity> mIntentsTestRule = new IntentsTestRule<>(CameraActivity.class, true, false);
 
@@ -54,8 +59,10 @@ public class CameraScreenTest {
     }
 
     @After
-    public void teardown() {
+    public void teardown() throws InterruptedException {
         clearOnboardingWasShownPreference();
+        // Wait a little for the camera to close
+        Thread.sleep(CLOSE_CAMERA_PAUSE_DURATION);
     }
 
     @Test(expected = IllegalStateException.class)
@@ -91,9 +98,7 @@ public class CameraScreenTest {
 
     @Test
     public void should_notShowOnboarding_onFirstLaunch_ifDisabled() {
-        Intent intent = getCameraActivityIntent();
-        intent.putExtra(CameraActivity.EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN, false);
-        mIntentsTestRule.launchActivity(intent);
+        startCameraActivityWithoutOnboarding();
 
         Espresso.onView(ViewMatchers.withId(R.id.gv_onboarding_viewpager))
                 .check(ViewAssertions.doesNotExist());
@@ -191,7 +196,7 @@ public class CameraScreenTest {
                 .perform(ViewActions.click());
 
         // Give some time for the camera to take a picture
-        Thread.sleep(1000);
+        Thread.sleep(TAKE_PICTURE_PAUSE_DURATION);
 
         Intents.intended(IntentMatchers.hasComponent(ReviewActivityTestStub.class.getName()));
     }
@@ -204,9 +209,24 @@ public class CameraScreenTest {
                 .perform(ViewActions.doubleClick());
 
         // Give some time for the camera to take a picture
-        Thread.sleep(2000);
+        Thread.sleep(TAKE_PICTURE_PAUSE_DURATION);
 
         Intents.intended(IntentMatchers.hasComponent(ReviewActivityTestStub.class.getName()));
+    }
+
+    @Test
+    public void should_passAnalysisActivityIntent_toReviewActivity() throws InterruptedException {
+        startCameraActivityWithoutOnboarding();
+
+        Espresso.onView(ViewMatchers.withId(R.id.gv_button_camera_trigger))
+                .perform(ViewActions.click());
+
+        // Give some time for the camera to take a picture
+        Thread.sleep(TAKE_PICTURE_PAUSE_DURATION);
+
+        Intents.intended(IntentMatchers.hasComponent(ReviewActivityTestStub.class.getName()));
+        Intents.intended(IntentMatchers.hasExtra(Matchers.equalTo(ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY), hasComponent(AnalysisActivityTestStub.class.getName())));
+
     }
 
     @NonNull

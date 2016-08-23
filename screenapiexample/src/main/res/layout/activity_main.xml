@@ -10,10 +10,31 @@
     tools:context="net.gini.android.vision.screen.MainActivity">
 
     <Button
+        android:id="@+id/button_start_scanner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Gini Vision Library"
-        android:id="@+id/button_start_scanner"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        style="@android:style/Widget.Holo.Button.Borderless"
+        android:text="Start Gini Vision Lib Compat"
+        android:textColor="@color/colorPrimary"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/text_gini_vision_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/button_start_scanner"
+        android:layout_below="@+id/button_start_scanner"
+        tools:text="Gini Vision Library v2.0.0-stub1" />
+
+    <TextView
+        android:id="@+id/text_app_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        tools:text="v1.0.0" />
 </RelativeLayout>

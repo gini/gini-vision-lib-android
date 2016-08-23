@@ -23,7 +23,7 @@ import net.gini.android.vision.ui.FragmentImplCallback;
  *     <b>Note:</b> Your Activity hosting this Fragment must extend the {@link android.support.v7.app.AppCompatActivity} and use an AppCompat Theme.
  * </p>
  * <p>
- *     Include the {@code AnalyzeDocumentFragmentCompat} into your layout by using the {@link AnalysisFragmentCompat#createInstance(Document)} factory method to create an instance and display it using the {@link android.support.v4.app.FragmentManager}.
+ *     Include the {@code AnalyzeDocumentFragmentCompat} into your layout by using the {@link AnalysisFragmentCompat#createInstance(Document, String)} factory method to create an instance and display it using the {@link android.support.v4.app.FragmentManager}.
  * </p>
  * <p>
  *     Your Activity must implement the {@link AnalysisFragmentListener} interface to receive events from the Analyze Document Fragment. Failing to do so will throw an exception.
@@ -47,14 +47,19 @@ public class AnalysisFragmentCompat extends Fragment implements FragmentImplCall
      *     Factory method for creating a new instance of the Fragment using the provided document.
      * </p>
      * <p>
+     *     You may pass in an optional analysis error message. This error message is shown to the user with a retry
+     *     button.
+     * </p>
+     * <p>
      *     <b>Note:</b> Always use this method to create new instances. Document is required and an exception is thrown if it's missing.
      * </p>
      * @param document must be the {@link Document} from {@link ReviewFragmentListener#onProceedToAnalysisScreen(Document)}
+     * @param documentAnalysisErrorMessage an optional error message shown to the user
      * @return a new instance of the Fragment
      */
-    public static AnalysisFragmentCompat createInstance(@NonNull Document document) {
+    public static AnalysisFragmentCompat createInstance(@NonNull Document document, @Nullable String documentAnalysisErrorMessage) {
         AnalysisFragmentCompat fragment = new AnalysisFragmentCompat();
-        fragment.setArguments(AnalysisFragmentHelper.createArguments(document));
+        fragment.setArguments(AnalysisFragmentHelper.createArguments(document, documentAnalysisErrorMessage));
         return fragment;
     }
 

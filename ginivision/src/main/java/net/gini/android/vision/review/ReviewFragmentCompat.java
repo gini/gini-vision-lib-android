@@ -93,6 +93,15 @@ public class ReviewFragmentCompat extends Fragment implements FragmentImplCallba
     }
 
     /**
+     *
+     */
+    @Override
+    public void onStop() {
+        super.onStop();
+        mFragmentImpl.onStop();
+    }
+
+    /**
      * @exclude
      */
     @Override
