@@ -14,8 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.gini.android.DocumentTaskManager;
-import net.gini.android.Gini;
-import net.gini.android.SdkBuilder;
 import net.gini.android.ginivisiontest.R;
 import net.gini.android.models.Document;
 import net.gini.android.models.Extraction;
@@ -50,7 +48,6 @@ public class ExtractionsActivity extends AppCompatActivity {
     public static final String EXTRA_IN_EXTRACTIONS = "EXTRA_IN_EXTRACTIONS";
 
     private Map<String, SpecificExtraction> mExtractions = new HashMap<>();
-    private Gini mGiniApi;
 
     private RecyclerView mRecyclerView;
     private LinearLayout mLayoutProgress;
@@ -65,15 +62,6 @@ public class ExtractionsActivity extends AppCompatActivity {
         readExtras();
         bindViews();
         setUpRecyclerView();
-        createGiniApi();
-    }
-
-    private void createGiniApi() {
-        SdkBuilder builder = new SdkBuilder(this,
-                this.getString(R.string.gini_api_client_id),
-                this.getString(R.string.gini_api_client_secret),
-                "example.com");
-        mGiniApi = builder.build();
     }
 
     private void bindViews() {
@@ -147,7 +135,7 @@ public class ExtractionsActivity extends AppCompatActivity {
     }
 
     private void sendFeedback() {
-        DocumentTaskManager documentTaskManager = mGiniApi.getDocumentTaskManager();
+        DocumentTaskManager documentTaskManager = ((ScreenApiApp) getApplication()).getGiniApi().getDocumentTaskManager();
 
         // An example for sending feedback where we change the amount or add one if it is missing
         // Feedback should be sent only for the user visible fields. Non-visible fields should be filtered out.

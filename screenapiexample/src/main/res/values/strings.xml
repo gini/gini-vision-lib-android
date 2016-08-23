@@ -7,4 +7,25 @@
     <string name="title_no_extractions">No Extractions</string>
 
     <string name="menu_item_feedback">Send Feedback</string>
+
+    <!-- String customization examples -->
+
+    <!--<string name="gv_title_camera">Dokument fotografieren</string>-->
+    <!--<string name="gv_title_onboarding">Anleitung</string>-->
+    <!--<string name="gv_title_review">Foto überprüfen</string>-->
+    <!--<string name="gv_title_analysis">Etwas Geduld, analysiere Foto</string>-->
+
+    <!--<string name="gv_show_onboarding">Hilfe</string>-->
+    <!--<string name="gv_select_from_camera_roll">Eigenes Bild auswählen</string>-->
+
+    <!--<string name="gv_camera_error_no_permission">Um Dokumente zu fotografieren, erlaube Gini Pay den Zugriff auf die Kamera.</string>-->
+    <!--<string name="gv_camera_error_no_permission_button_title">Zugriff erlauben</string>-->
+
+    <!--<string name="gv_onboarding_flat">Dokument flach fotografieren\n</string>-->
+    <!--<string name="gv_onboarding_parallel">Handy parallel\nzum Dokument\nhalten</string>-->
+    <!--<string name="gv_onboarding_align">Dokument\nvollständig in\nRahmen einpassen</string>-->
+
+    <!--<string name="gv_review_bottom_panel_text">Dokument vollständig, scharf und in Leserichtung?\n\nDoppeltippen um Schärfe zu prüfen.</string>-->
+
+    <!--<string name="gv_document_analysis_error_retry">Wiederholen</string>-->
 </resources>
