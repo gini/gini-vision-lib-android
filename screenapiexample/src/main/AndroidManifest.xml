@@ -2,9 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.gini.android.ginivisiontest">
 
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature
@@ -18,26 +16,37 @@
         android:required="true" />
 
     <application
+        android:name="net.gini.android.vision.screen.ScreenApiApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:supportsRtl="true"
         android:largeHeap="true"
         android:theme="@style/AppTheme">
         <activity android:name="net.gini.android.vision.screen.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name="net.gini.android.vision.screen.ReviewActivity"
-            android:theme="@style/GiniVisionTheme"
-            android:label="@string/gv_title_review" />
+            android:label="@string/gv_title_review"
+            android:screenOrientation="portrait"
+            android:theme="@style/GiniVisionTheme" />
         <activity
             android:name="net.gini.android.vision.screen.AnalysisActivity"
-            android:theme="@style/GiniVisionTheme"
-            android:label="@string/gv_title_analysis" />
+            android:label="@string/gv_title_analysis"
+            android:screenOrientation="portrait"
+            android:theme="@style/GiniVisionTheme" />
+        <activity
+            android:name="net.gini.android.vision.screen.ExtractionsActivity"
+            android:label="@string/title_extractions"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="net.gini.android.vision.screen.NoExtractionsActivity"
+            android:label="@string/title_no_extractions"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

@@ -15,4 +15,6 @@
     <string name="gv_onboarding_align">Dokument\nvollständig in\nRahmen einpassen</string>
 
     <string name="gv_review_bottom_panel_text">Dokument vollständig, scharf und in Leserichtung?\n\nDoppeltippen um Schärfe zu prüfen.</string>
+
+    <string name="gv_document_analysis_error_retry">Wiederholen</string>
 </resources>

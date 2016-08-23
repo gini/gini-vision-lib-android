@@ -1,17 +1,21 @@
 package net.gini.android.vision.analysis;
 
+import static net.gini.android.vision.util.ActivityHelper.enableHomeAsUp;
+import static net.gini.android.vision.util.ActivityHelper.handleMenuItemPressedForHomeButton;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 
+import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.camera.CameraActivity;
-import net.gini.android.vision.Document;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.review.ReviewActivity;
 
@@ -34,9 +38,14 @@ import net.gini.android.vision.review.ReviewActivity;
  *     In your {@code AnalysisActivity} subclass you have to implement the following methods:
  *     <ul>
  *         <li>
- *          {@link AnalysisActivity#onAnalyzeDocument(Document)} - start analyzing the document by sending it to the Gini API.<br/><b>Note:</b> Call {@link AnalysisActivity#onDocumentAnalyzed()} when the analysis is done and the Activity hasn't been stopped.
+ *          {@link AnalysisActivity#onAnalyzeDocument(Document)} - start analyzing the document by sending it to the Gini API.<br/><b>Note:</b> Call {@link AnalysisActivity#onDocumentAnalyzed()} when the analysis is done and the Activity hasn't been stopped.<br/><b>Note:</b> If an analysis error message was set in the Review Screen with {@link ReviewActivity#onDocumentAnalysisError(String)} this method won't be called until the user clicks the
+ *     retry button next to the error message.
  *         </li>
  *         <li>{@link AnalysisActivity#onAddDataToResult(Intent)} - you should add the results of the analysis to the Intent as extras and retrieve them once the {@link CameraActivity} returns.<br/>This is called only if you called {@link AnalysisActivity#onDocumentAnalyzed()} before.<br/>When this is called, control is returned to your Activity which started the {@link CameraActivity} and you can extract the results of the analysis.</li>
+ *     </ul>
+ *     You can also override the following method:
+ *     <ul>
+ *         <li>{@link AnalysisActivity#onBackPressed()} - called when the back or the up button was clicked.</li>
  *     </ul>
  * </p>
  *
@@ -81,6 +90,9 @@ import net.gini.android.vision.review.ReviewActivity;
  *         <li>
  *             <b>Error message background color:</b> via the color resource named {@code gv_snackbar_error_background}
  *         </li>
+ *         <li>
+ *             <b>Document analysis error message retry button text:</b> via the string resource named {@code gv_document_analysis_error_retry}
+ *         </li>
  *     </ul>
  * </p>
  *
@@ -105,6 +117,9 @@ import net.gini.android.vision.review.ReviewActivity;
  *         <li>
  *             <b>Title color:</b> via the color resource named {@code gv_action_bar_title}
  *         </li>
+ *         <li>
+ *             <b>Back button (only for {@link ReviewActivity} and {@link AnalysisActivity}):</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_action_bar_back}
+ *         </li>
  *     </ul>
  * </p>
  */
@@ -114,6 +129,10 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
      * @exclude
      */
     public static final String EXTRA_IN_DOCUMENT = "GV_EXTRA_IN_DOCUMENT";
+    /**
+     * @exclude
+     */
+    public static final String EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE = "GV_EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE";
     /**
      * @exclude
      */
@@ -128,6 +147,7 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
 
     private AnalysisFragmentCompat mFragment;
     private Document mDocument;
+    private String mAnalysisErrorMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,6 +157,16 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
             readExtras();
             initFragment();
         }
+        enableHomeAsUp(this);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (handleMenuItemPressedForHomeButton(this, item)) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -153,6 +183,7 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mDocument = extras.getParcelable(EXTRA_IN_DOCUMENT);
+            mAnalysisErrorMessage = extras.getString(EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE);
         }
         checkRequiredExtras();
     }
@@ -175,7 +206,7 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
     }
 
     private void createFragment() {
-        mFragment = AnalysisFragmentCompat.createInstance(mDocument);
+        mFragment = AnalysisFragmentCompat.createInstance(mDocument, mAnalysisErrorMessage);
     }
 
     private void showFragment() {
@@ -190,6 +221,13 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
         return mFragment;
     }
 
+    /**
+     * <p>
+     *     <b>Screen API:</b> If an analysis error message was set in the Review Screen with {@link ReviewActivity#onDocumentAnalysisError(String)} this method won't be called until the user clicks the
+     *     retry button next to the error message.
+     * </p>
+     * @param document contains the image taken by the camera (original or modified)
+     */
     @Override
     public abstract void onAnalyzeDocument(@NonNull Document document);
 
