@@ -181,11 +181,28 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     }
 
     private void onRotateClicked() {
-        int oldRotation = mCurrentRotation;
+        final int oldRotation = mCurrentRotation;
         mCurrentRotation += 90;
         rotateImageView(mCurrentRotation, true);
         mDocumentWasModified = true;
-        mListener.onDocumentWasRotated(Document.fromPhoto(mPhoto), oldRotation, mCurrentRotation);
+        applyRotationToJpeg(new PhotoEdit.PhotoEditCallback() {
+            @Override
+            public void onDone(@NonNull Photo photo) {
+                if (mStopped) {
+                    return;
+                }
+                mListener.onDocumentWasRotated(Document.fromPhoto(photo), oldRotation, mCurrentRotation);
+            }
+
+            @Override
+            public void onFailed() {
+                if (mStopped) {
+                    return;
+                }
+                LOG.error("Failed to rotate the jpeg");
+                mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW, "An error occurred while applying rotation to the jpeg."));
+            }
+        });
     }
 
     private void onNextClicked() {
