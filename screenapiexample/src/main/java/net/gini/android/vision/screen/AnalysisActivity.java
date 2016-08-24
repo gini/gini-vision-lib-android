@@ -39,8 +39,8 @@ public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisA
             @Override
             public void onExtractionsReceived(Map<String, SpecificExtraction> extractions) {
                 mExtractions = extractions;
-                // Calling onDocumentAnalyzed() is important to notify the AnalysisActivity base class that the
-                // analysis has completed successfully
+                    // Calling onDocumentAnalyzed() is important to notify the AnalysisActivity base class that the
+                    // analysis has completed successfully
                 onDocumentAnalyzed();
             }
 
@@ -55,6 +55,8 @@ public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisA
                 showError(message, getString(R.string.gv_document_analysis_error_retry), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        startScanAnimation();
+                        mSingleDocumentAnalyzer.cancelAnalysis();
                         mSingleDocumentAnalyzer.analyzeDocument(document, listener);
                     }
                 });
