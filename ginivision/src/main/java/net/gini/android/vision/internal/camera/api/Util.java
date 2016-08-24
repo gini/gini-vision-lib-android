@@ -1,10 +1,10 @@
-package net.gini.android.vision.camera.api;
+package net.gini.android.vision.internal.camera.api;
 
 import android.hardware.Camera;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import net.gini.android.vision.camera.photo.Size;
+import net.gini.android.vision.internal.camera.photo.Size;
 
 import java.util.List;
 

@@ -4,8 +4,8 @@ import android.hardware.Camera;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
-import net.gini.android.vision.camera.api.Util;
-import net.gini.android.vision.camera.photo.Size;
+import net.gini.android.vision.internal.camera.api.Util;
+import net.gini.android.vision.internal.camera.photo.Size;
 
 class DeviceMemoryRequirement implements Requirement {
 

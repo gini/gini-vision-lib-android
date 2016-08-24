@@ -1,4 +1,4 @@
-package net.gini.android.vision.camera.api;
+package net.gini.android.vision.internal.camera.api;
 
 /**
  * Exception that is thrown when there is some issue with the camera (i.e. no connection possible or device doesn't

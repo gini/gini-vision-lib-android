@@ -3,8 +3,8 @@ package net.gini.android.vision.requirements;
 import android.hardware.Camera;
 import android.support.annotation.NonNull;
 
-import net.gini.android.vision.camera.api.Util;
-import net.gini.android.vision.camera.photo.Size;
+import net.gini.android.vision.internal.camera.api.Util;
+import net.gini.android.vision.internal.camera.photo.Size;
 
 class CameraResolutionRequirement implements Requirement {
 

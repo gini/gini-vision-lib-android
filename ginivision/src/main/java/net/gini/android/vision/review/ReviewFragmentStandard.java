@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import net.gini.android.vision.camera.CameraFragmentListener;
 import net.gini.android.vision.Document;
-import net.gini.android.vision.ui.FragmentImplCallback;
+import net.gini.android.vision.internal.ui.FragmentImplCallback;
 
 /**
  * <h3>Component API</h3>

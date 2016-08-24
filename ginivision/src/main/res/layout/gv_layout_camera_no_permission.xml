@@ -16,7 +16,7 @@
         android:src="@drawable/gv_no_camera" />
 
     <!--suppress AndroidDomInspection -->
-    <net.gini.android.vision.ui.CustomFontTextView
+    <net.gini.android.vision.internal.ui.CustomFontTextView
         android:id="@+id/gv_text_camera_no_permission"
         style="@style/GiniVisionTheme.Camera.Error.NoPermission.TextStyle"
         android:layout_width="200dp"
@@ -26,7 +26,7 @@
         android:text="@string/gv_camera_error_no_permission" />
 
     <!--suppress AndroidDomInspection -->
-    <net.gini.android.vision.ui.CustomFontButton
+    <net.gini.android.vision.internal.ui.CustomFontButton
         android:id="@+id/gv_button_camera_no_permission"
         style="@style/GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle"
         android:layout_width="wrap_content"

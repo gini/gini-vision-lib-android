@@ -4,7 +4,7 @@ import net.gini.android.DocumentTaskManager;
 import net.gini.android.Gini;
 import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
-import net.gini.android.vision.camera.api.UIExecutor;
+import net.gini.android.vision.internal.camera.api.UIExecutor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

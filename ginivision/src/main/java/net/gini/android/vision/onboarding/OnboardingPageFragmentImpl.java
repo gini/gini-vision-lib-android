@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.gini.android.vision.R;
-import net.gini.android.vision.ui.FragmentImplCallback;
+import net.gini.android.vision.internal.ui.FragmentImplCallback;
 
 class OnboardingPageFragmentImpl {
 

@@ -1,4 +1,4 @@
-package net.gini.android.vision.camera.api;
+package net.gini.android.vision.internal.camera.api;
 
 import android.os.Handler;
 import android.os.Looper;

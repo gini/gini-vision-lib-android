@@ -10,7 +10,7 @@ import static org.mockito.Mockito.when;
 
 import android.hardware.Camera;
 
-import net.gini.android.vision.camera.photo.Size;
+import net.gini.android.vision.internal.camera.photo.Size;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
