@@ -9,6 +9,8 @@ The Gini API SDK is used for analyzing documents and sending feedback.
 
 Before analyzing documents with the Component API example app, you need to set your Gini API Client Id and Secret in the `src/main/res/values/gini_api_credentials.xml`.
 
+Please note, that large heap is enabled for the example app. Your application using the Gini Vision Library should also enable large heap to make sure, that there is enough memory for image handling.
+
 Overview
 ========
 
