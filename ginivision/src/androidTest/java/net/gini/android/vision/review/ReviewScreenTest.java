@@ -22,7 +22,7 @@ import android.support.test.uiautomator.UiDevice;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivityTestStub;
-import net.gini.android.vision.camera.photo.Photo;
+import net.gini.android.vision.internal.camera.photo.Photo;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;

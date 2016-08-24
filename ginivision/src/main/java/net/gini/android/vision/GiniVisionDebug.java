@@ -2,7 +2,7 @@ package net.gini.android.vision;
 
 import android.content.Context;
 
-import net.gini.android.vision.camera.photo.Photo;
+import net.gini.android.vision.internal.camera.photo.Photo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,7 +1,7 @@
 package net.gini.android.vision.analysis;
 
-import static net.gini.android.vision.util.ActivityHelper.enableHomeAsUp;
-import static net.gini.android.vision.util.ActivityHelper.handleMenuItemPressedForHomeButton;
+import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
+import static net.gini.android.vision.internal.util.ActivityHelper.handleMenuItemPressedForHomeButton;
 
 import android.content.Context;
 import android.content.Intent;

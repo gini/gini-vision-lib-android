@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.review.ReviewFragmentListener;
-import net.gini.android.vision.ui.FragmentImplCallback;
+import net.gini.android.vision.internal.ui.FragmentImplCallback;
 
 /**
  * <h3>Component API</h3>

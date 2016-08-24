@@ -1,4 +1,4 @@
-package net.gini.android.vision.ui;
+package net.gini.android.vision.internal.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

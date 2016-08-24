@@ -18,7 +18,7 @@ import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.review.ReviewActivity;
-import net.gini.android.vision.util.ActivityHelper;
+import net.gini.android.vision.internal.util.ActivityHelper;
 
 import java.util.ArrayList;
 

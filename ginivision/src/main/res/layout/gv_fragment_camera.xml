@@ -6,7 +6,7 @@
     android:background="@color/gv_camera_fragment_background"
     tools:context=".camera.CameraFragmentCompat">
 
-    <net.gini.android.vision.camera.view.CameraPreviewSurface
+    <net.gini.android.vision.internal.camera.view.CameraPreviewSurface
         android:id="@+id/gv_camera_preview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

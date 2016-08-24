@@ -1,6 +1,6 @@
-package net.gini.android.vision.camera.api;
+package net.gini.android.vision.internal.camera.api;
 
-import static net.gini.android.vision.camera.api.Util.getLargestFourThreeRatioSize;
+import static net.gini.android.vision.internal.camera.api.Util.getLargestFourThreeRatioSize;
 
 import android.app.Activity;
 import android.graphics.Matrix;
@@ -16,8 +16,8 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.View;
 
-import net.gini.android.vision.camera.photo.Photo;
-import net.gini.android.vision.camera.photo.Size;
+import net.gini.android.vision.internal.camera.photo.Photo;
+import net.gini.android.vision.internal.camera.photo.Size;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

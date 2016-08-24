@@ -1,13 +1,13 @@
-package net.gini.android.vision.ui;
+package net.gini.android.vision.internal.ui;
 
-import static net.gini.android.vision.ui.CustomFontHelper.parseAttributesAndSetFont;
+import static net.gini.android.vision.internal.ui.CustomFontHelper.parseAttributesAndSetFont;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.Button;
+import android.widget.TextView;
 
 /**
- * Custom Button with an additional 'font' attribute. System font names or font file paths (full path in the assets folder)
+ * Custom TextView with an additional 'font' attribute. System font names or font file paths (full path in the assets folder)
  * can be used.
  *
  * <pre> {@code
@@ -17,7 +17,7 @@ import android.widget.Button;
  *       android:layout_height="match_parent"
  *       android:orientation="vertical">
  *
- *       <net.gini.android.vision.ui.CustomFontButton
+ *       <net.gini.android.vision.ui.CustomFontTextView
  *           android:id="@+id/giniTextView"
  *           android:layout_width="wrap_content"
  *           android:layout_height="wrap_content"
@@ -26,24 +26,24 @@ import android.widget.Button;
  * }</pre>
  *
  * <pre> {@code
- *  <net.gini.android.vision.ui.CustomFontButton
+ *  <net.gini.android.vision.ui.CustomFontTextView
  *      gini:font="myFonts/Cave-Story.ttf" />
  * }</pre>
  *
  * @exclude
  */
-public class CustomFontButton extends Button {
+public class CustomFontTextView extends TextView {
 
-    public CustomFontButton(Context context) {
+    public CustomFontTextView(Context context) {
         super(context);
     }
 
-    public CustomFontButton(Context context, AttributeSet attrs) {
+    public CustomFontTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         configureFont(context, attrs, 0);
     }
 
-    public CustomFontButton(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CustomFontTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         configureFont(context, attrs, defStyleAttr);
     }

@@ -4,8 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
-import net.gini.android.vision.camera.photo.ImageCache;
-import net.gini.android.vision.camera.photo.Photo;
+import net.gini.android.vision.internal.camera.photo.ImageCache;
+import net.gini.android.vision.internal.camera.photo.Photo;
+
 
 /**
  * <p>

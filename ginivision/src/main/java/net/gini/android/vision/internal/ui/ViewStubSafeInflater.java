@@ -1,4 +1,4 @@
-package net.gini.android.vision.ui;
+package net.gini.android.vision.internal.ui;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

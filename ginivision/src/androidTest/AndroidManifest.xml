@@ -19,7 +19,7 @@
             android:label="@string/gv_title_analysis"
             android:theme="@style/GiniVisionTheme" />
         <activity
-            android:name="net.gini.android.vision.ui.ErrorSnackbarTestActivity"
+            android:name="net.gini.android.vision.internal.ui.ErrorSnackbarTestActivity"
             android:theme="@style/GiniVisionTheme" />
     </application>
 

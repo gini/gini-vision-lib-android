@@ -27,7 +27,7 @@
             tools:src="@drawable/gv_onboarding_flat" />
 
         <!--suppress AndroidDomInspection -->
-        <net.gini.android.vision.ui.CustomFontTextView
+        <net.gini.android.vision.internal.ui.CustomFontTextView
             android:id="@+id/gv_text_message"
             style="@style/GiniVisionTheme.Onboarding.Message.TextStyle"
             android:layout_width="wrap_content"

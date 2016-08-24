@@ -1,8 +1,8 @@
 package net.gini.android.vision.camera;
 
 import static net.gini.android.vision.camera.Util.cameraExceptionToGiniVisionError;
-import static net.gini.android.vision.util.AndroidHelper.isMarshmallowOrLater;
-import static net.gini.android.vision.util.ContextHelper.getClientApplicationId;
+import static net.gini.android.vision.internal.util.AndroidHelper.isMarshmallowOrLater;
+import static net.gini.android.vision.internal.util.ContextHelper.getClientApplicationId;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -27,14 +27,14 @@ import android.widget.RelativeLayout;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
-import net.gini.android.vision.camera.api.CameraController;
-import net.gini.android.vision.camera.api.CameraException;
-import net.gini.android.vision.camera.api.CameraInterface;
-import net.gini.android.vision.camera.api.UIExecutor;
-import net.gini.android.vision.camera.photo.Photo;
-import net.gini.android.vision.camera.view.CameraPreviewSurface;
-import net.gini.android.vision.ui.FragmentImplCallback;
-import net.gini.android.vision.ui.ViewStubSafeInflater;
+import net.gini.android.vision.internal.camera.api.CameraController;
+import net.gini.android.vision.internal.camera.api.CameraException;
+import net.gini.android.vision.internal.camera.api.CameraInterface;
+import net.gini.android.vision.internal.camera.api.UIExecutor;
+import net.gini.android.vision.internal.camera.photo.Photo;
+import net.gini.android.vision.internal.camera.view.CameraPreviewSurface;
+import net.gini.android.vision.internal.ui.FragmentImplCallback;
+import net.gini.android.vision.internal.ui.ViewStubSafeInflater;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

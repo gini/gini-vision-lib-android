@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import net.gini.android.vision.Document;
-import net.gini.android.vision.ui.FragmentImplCallback;
+import net.gini.android.vision.internal.ui.FragmentImplCallback;
 
 class AnalysisFragmentHelper {
 

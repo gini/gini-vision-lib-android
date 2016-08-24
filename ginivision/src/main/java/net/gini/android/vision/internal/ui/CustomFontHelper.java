@@ -1,4 +1,4 @@
-package net.gini.android.vision.ui;
+package net.gini.android.vision.internal.ui;
 
 import android.content.Context;
 import android.content.res.TypedArray;

@@ -1,4 +1,4 @@
-package net.gini.android.vision.ui;
+package net.gini.android.vision.internal.ui;
 
 import static com.google.common.truth.Truth.assertThat;
 
