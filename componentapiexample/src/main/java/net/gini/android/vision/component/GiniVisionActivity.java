@@ -287,7 +287,7 @@ public class GiniVisionActivity extends Activity
                 // Don't show the error message here, but forward it to the Analysis Fragment, where it will be
                 // shown in a Snackbar
                 mDocumentAnalysisErrorMessage = "Analysis failed: " + message;
-                LOG.error("Analysis failed in the Review Screen: " + message, exception);
+                LOG.error("Analysis failed in the Review Screen", exception);
             }
         });
     }
@@ -385,7 +385,7 @@ public class GiniVisionActivity extends Activity
                         }
                     });
                 }
-                LOG.error("Analysis failed in the Analysis Screen: " + message, exception);
+                LOG.error("Analysis failed in the Analysis Screen", exception);
             }
         });
     }

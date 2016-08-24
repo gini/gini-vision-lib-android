@@ -290,7 +290,7 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
                 // Don't show the error message here, but forward it to the Analysis Fragment, where it will be
                 // shown in a Snackbar
                 mDocumentAnalysisErrorMessage = "Analysis failed: " + message;
-                LOG.error("Analysis failed in the Review Screen: " + message, exception);
+                LOG.error("Analysis failed in the Review Screen", exception);
             }
         });
     }
@@ -388,7 +388,7 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
                         }
                     });
                 }
-                LOG.error("Analysis failed in the Analysis Screen: {}" + message, exception);
+                LOG.error("Analysis failed in the Analysis Screen", exception);
             }
         });
     }
