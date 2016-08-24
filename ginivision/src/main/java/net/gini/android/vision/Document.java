@@ -111,4 +111,13 @@ public class Document implements Parcelable {
 
         mRotationForDisplay = in.readInt();
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Document{");
+        sb.append("mJpeg=[bytes]");
+        sb.append(", mRotationForDisplay=").append(mRotationForDisplay);
+        sb.append('}');
+        return sb.toString();
+    }
 }
