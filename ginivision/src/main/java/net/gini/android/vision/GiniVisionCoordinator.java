@@ -6,6 +6,9 @@ import android.content.Context;
 import net.gini.android.vision.camera.CameraFragmentCompat;
 import net.gini.android.vision.camera.CameraFragmentStandard;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * <p>
  *     The {@code GiniVisionCoordinator} facilitates the default behavior for the Gini Vision Library.
@@ -18,6 +21,8 @@ import net.gini.android.vision.camera.CameraFragmentStandard;
  * </p>
  */
 public class GiniVisionCoordinator {
+
+    private static final Logger LOG = LoggerFactory.getLogger(GiniVisionCoordinator.class);
 
     /**
      * <p>
@@ -101,8 +106,19 @@ public class GiniVisionCoordinator {
      */
     public void onCameraStarted() {
         if (mShowOnboardingAtFirstRun && !mOncePerInstallEventStore.containsEvent(OncePerInstallEvent.SHOW_ONBOARDING)) {
+            LOG.debug("Show onboarding at first run");
             mListener.onShowOnboarding();
             mOncePerInstallEventStore.saveEvent(OncePerInstallEvent.SHOW_ONBOARDING);
+        } else {
+            logNotShowingOnboarding();
+        }
+    }
+
+    private void logNotShowingOnboarding() {
+        if (!mShowOnboardingAtFirstRun) {
+            LOG.debug("Show onboarding at first run was disabled");
+        } else if (mOncePerInstallEventStore.containsEvent(OncePerInstallEvent.SHOW_ONBOARDING)) {
+            LOG.debug("Already shown onboarding at first run");
         }
     }
 }

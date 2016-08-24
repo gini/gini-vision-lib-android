@@ -11,10 +11,12 @@ import android.widget.TextView;
 
 import net.gini.android.vision.R;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 final class CustomFontHelper {
 
-    // TODO: logging comes in a later phase
-//    private static final Logger LOG = LoggerFactory.getLogger(CustomFontTextView.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CustomFontTextView.class);
 
     /**
      * Extracts the custom font attribute, the android typeface attribute and sets the font.
@@ -83,8 +85,7 @@ final class CustomFontHelper {
             textView.setTypeface(styledTypeface);
             success = true;
         } catch (Exception e) {
-            // TODO: logging comes in a later phase
-//            LOG.error("Typeface couldn't be created. Font file '{}' not usable.", fontFamily, e);
+            LOG.error("Typeface couldn't be created. Font file '{}' not usable.", fontPath, e);
         }
         return success;
     }
@@ -102,8 +103,7 @@ final class CustomFontHelper {
             textView.setTypeface(typeface);
             success = true;
         } catch (Exception e) {
-            // TODO: logging comes in a later phase
-//            LOG.error("Typeface couldn't be created. Font family '{}' not found.", fontFamily, e);
+            LOG.error("Typeface couldn't be created. Font family '{}' not found.", fontFamily, e);
         }
         return success;
     }

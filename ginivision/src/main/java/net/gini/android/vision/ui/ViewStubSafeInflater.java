@@ -5,10 +5,15 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewStub;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * @exclude
  */
 public class ViewStubSafeInflater {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ViewStubSafeInflater.class);
 
     private final ViewStub mViewStub;
     private boolean mInflated = false;
@@ -17,16 +22,15 @@ public class ViewStubSafeInflater {
         mViewStub = viewStub;
     }
 
-    public boolean isInflated() {
-        return mInflated;
-    }
-
     @Nullable
     public View inflate() {
         if (mInflated) {
+            LOG.debug("Already inflated");
             return null;
         }
         mInflated = true;
-        return mViewStub.inflate();
+        View view = mViewStub.inflate();
+        LOG.debug("Inflated {} to {}", mViewStub, view);
+        return view;
     }
 }

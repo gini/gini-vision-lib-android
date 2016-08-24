@@ -49,6 +49,8 @@ import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 public class GiniVisionActivity extends Activity
         implements CameraFragmentListener, OnboardingFragmentListener, ReviewFragmentListener, AnalysisFragmentListener {
 
+    private static final Logger LOG = LoggerFactory.getLogger(GiniVisionActivity.class);
+
     private Fragment mCurrentFragment;
 
     private GiniVisionCoordinator mGiniVisionCoordinator;
@@ -75,6 +77,7 @@ public class GiniVisionActivity extends Activity
     @Override
     protected void onStart() {
         super.onStart();
+        LOG.debug("Start: mShowCameraOnStart={}", mShowCameraOnStart);
         if (mShowCameraOnStart) {
             removeOnboarding();
             showCamera();
@@ -83,6 +86,7 @@ public class GiniVisionActivity extends Activity
     }
 
     private void createGiniApi() {
+        LOG.debug("Instantiating the Gini API with Client ID {}");
         SdkBuilder builder = new SdkBuilder(this,
                 this.getString(R.string.gini_api_client_id),
                 this.getString(R.string.gini_api_client_secret),
@@ -105,6 +109,7 @@ public class GiniVisionActivity extends Activity
     }
 
     private void showCamera() {
+        LOG.debug("Show the Camera Screen");
         showFragment(getCameraFragment(), R.string.title_camera);
         // Delay notifying the coordinator to allow the camera fragment view to be created
         new Handler().post(new Runnable() {
@@ -178,6 +183,7 @@ public class GiniVisionActivity extends Activity
     }
 
     public void showFragment(Fragment fragment, @StringRes int titleRes) {
+        LOG.debug("Showing fragment {} with title '{}'", fragment.getClass().getSimpleName(), getString(titleRes));
         mCurrentFragment = fragment;
         getFragmentManager().beginTransaction()
                 .setCustomAnimations(R.animator.fade_in, R.animator.fade_out)
@@ -187,6 +193,7 @@ public class GiniVisionActivity extends Activity
     }
 
     public void showOnboarding() {
+        LOG.debug("Show the Onboarding Screen");
         hideCameraOverlays();
         getFragmentManager().beginTransaction()
                 .setCustomAnimations(R.animator.fade_in, R.animator.fade_out)
@@ -197,6 +204,7 @@ public class GiniVisionActivity extends Activity
     }
 
     private void hideCameraOverlays() {
+        LOG.debug("Hide camera overlays");
         if (mCurrentFragment == null || !(mCurrentFragment instanceof CameraFragmentStandard)) {
             return;
         }
@@ -206,6 +214,7 @@ public class GiniVisionActivity extends Activity
     }
 
     public void removeOnboarding() {
+        LOG.debug("Remove the Onboarding Screen");
         showCameraOverlays();
         Fragment fragment = getFragmentManager().findFragmentById(R.id.fragment_container_onboarding);
         if (fragment != null) {
@@ -219,6 +228,7 @@ public class GiniVisionActivity extends Activity
     }
 
     private void showCameraOverlays() {
+        LOG.debug("Show camera overlays");
         if (mCurrentFragment == null || !(mCurrentFragment instanceof CameraFragmentStandard)) {
             return;
         }
@@ -229,6 +239,7 @@ public class GiniVisionActivity extends Activity
 
     @Override
     public void onDocumentAvailable(@NonNull Document document) {
+        LOG.debug("Document available {}", document);
         // Cancel analysis to make sure, that the document analysis will start in onShouldAnalyzeDocument()
         mSingleDocumentAnalyzer.cancelAnalysis();
         showFragment(getReviewFragment(document), R.string.title_review);
@@ -236,11 +247,13 @@ public class GiniVisionActivity extends Activity
 
     @Override
     public void onCloseOnboarding() {
+        LOG.debug("Close onboarding");
         removeOnboarding();
     }
 
     @Override
     public void onShouldAnalyzeDocument(@NonNull Document document) {
+        LOG.debug("Should analyze document in the Review Screen {}", document);
         GiniVisionDebug.writeDocumentToFile(this, document, "_for_review");
 
         // We should start analyzing the document by sending it to the Gini API
@@ -252,6 +265,7 @@ public class GiniVisionActivity extends Activity
             @Override
             public void onExtractionsReceived(Map<String, SpecificExtraction> extractions) {
                 if (mCurrentFragment != null && mCurrentFragment instanceof ReviewFragmentStandard) {
+                    LOG.debug("Document analyzed in the Review Screen");
                     ReviewFragmentStandard reviewFragment = (ReviewFragmentStandard) mCurrentFragment;
                     // Calling onDocumentAnalyzed() is important to notify the Review Fragment that the
                     // analysis has completed successfully
@@ -259,6 +273,8 @@ public class GiniVisionActivity extends Activity
                     // Cache the extractions until the user clicks the next button and onDocumentReviewedAndAnalyzed()
                     // will have been called
                     mExtractionsFromReviewScreen = extractions;
+                } else {
+                    LOG.debug("Document analyzed in the Review Screen, but not in the Review Screen anymore.");
                 }
             }
 
@@ -271,12 +287,14 @@ public class GiniVisionActivity extends Activity
                 // Don't show the error message here, but forward it to the Analysis Fragment, where it will be
                 // shown in a Snackbar
                 mDocumentAnalysisErrorMessage = "Analysis failed: " + message;
+                LOG.error("Analysis failed in the Review Screen", exception);
             }
         });
     }
 
     @Override
     public void onProceedToAnalysisScreen(@NonNull Document document) {
+        LOG.debug("Proceed to Analysis Screen with document {}", document);
         // As the library requests us to go to the Analysis Screen we should only remove the listener.
         // We should not cancel the analysis here as we don't know, if we proceed because the analysis didn't complete or
         // the user rotated the image
@@ -286,6 +304,7 @@ public class GiniVisionActivity extends Activity
 
     @Override
     public void onDocumentReviewedAndAnalyzed(@NonNull Document document) {
+        LOG.debug("Reviewed and analyzed document {}", document);
         // If we have received the extractions while in the Review Screen we don't need to go to the Analysis Screen,
         // we can show the extractions
         if (mExtractionsFromReviewScreen != null) {
@@ -296,6 +315,7 @@ public class GiniVisionActivity extends Activity
 
     @Override
     public void onDocumentWasRotated(@NonNull Document document, int oldRotation, int newRotation) {
+        LOG.debug("Document was rotated: oldRotation={}, newRotation={}, document={}", oldRotation, newRotation, document);
         // We need to cancel the analysis here, we will have to upload the rotated document in onAnalyzeDocument() while
         // the Analysis Fragment is shown
         mSingleDocumentAnalyzer.cancelAnalysis();
@@ -305,6 +325,7 @@ public class GiniVisionActivity extends Activity
 
     @Override
     public void onError(@NonNull GiniVisionError error) {
+        LOG.error("Gini Vision Lib error: {} - {}", error.getErrorCode(), error.getMessage());
         if (mCurrentFragment != null && mCurrentFragment instanceof AnalysisFragmentStandard) {
             // We can show errors in a Snackbar in the Analysis Fragment
             AnalysisFragmentStandard analysisFragment = (AnalysisFragmentStandard) mCurrentFragment;
@@ -322,6 +343,7 @@ public class GiniVisionActivity extends Activity
 
     @Override
     public void onAnalyzeDocument(@NonNull final Document document) {
+        LOG.debug("Analyze document {}", document);
         GiniVisionDebug.writeDocumentToFile(this, document, "_for_analysis");
 
         startScanAnimation();
@@ -330,13 +352,16 @@ public class GiniVisionActivity extends Activity
             @Override
             public void onExtractionsReceived(Map<String, SpecificExtraction> extractions) {
                 if (mCurrentFragment != null && mCurrentFragment instanceof AnalysisFragmentStandard) {
+                    LOG.debug("Document analyzed in the Analysis Screen");
                     AnalysisFragmentStandard analysisFragment = (AnalysisFragmentStandard) mCurrentFragment;
                     // Calling onDocumentAnalyzed() is important to notify the Analysis Fragment that the
                     // analysis has completed successfully
                     analysisFragment.onDocumentAnalyzed();
                     stopScanAnimation();
+                    showExtractions(mSingleDocumentAnalyzer.getGiniApiDocument(), extractions);
+                } else {
+                    LOG.debug("Document analyzed in the Analysis Screen, but not in the Analysis Screen anymore.");
                 }
-                showExtractions(mSingleDocumentAnalyzer.getGiniApiDocument(), extractions);
             }
 
             @Override
@@ -360,11 +385,13 @@ public class GiniVisionActivity extends Activity
                         }
                     });
                 }
+                LOG.error("Analysis failed in the Analysis Screen", exception);
             }
         });
     }
 
     private void showExtractions(net.gini.android.models.Document giniApiDocument, Map<String, SpecificExtraction> extractions) {
+        LOG.debug("Show extractions");
         // We display only the Pay5 extractions: paymentRecipient, iban, bic, amount and paymentReference
         if (pay5ExtractionsAvailable(extractions)) {
             Intent intent = new Intent(this, ExtractionsActivity.class);
@@ -402,6 +429,7 @@ public class GiniVisionActivity extends Activity
     }
 
     private void startScanAnimation() {
+        LOG.debug("Start scan animation");
         if (mCurrentFragment == null || !(mCurrentFragment instanceof AnalysisFragmentStandard)) {
             return;
         }
@@ -410,6 +438,7 @@ public class GiniVisionActivity extends Activity
     }
 
     private void stopScanAnimation() {
+        LOG.debug("Stop scan animation");
         if (mCurrentFragment == null || !(mCurrentFragment instanceof AnalysisFragmentStandard)) {
             return;
         }
