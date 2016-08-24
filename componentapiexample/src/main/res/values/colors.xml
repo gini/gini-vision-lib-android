@@ -1,29 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#009EDC</color>
-    <color name="colorPrimaryDark">#008ac1</color>
-    <color name="colorAccent">#0E7C7B</color>
+    <color name="colorPrimary">#009edc</color>
+    <color name="colorPrimaryDark">#017dae</color>
+    <color name="colorAccent">#009edc</color>
 
-    <color name="gv_background">#0E7C7B</color>
+    <!-- Color customization examples -->
 
-    <color name="gv_camera_error_no_permission">#4B1D3F</color>
-    <color name="gv_camera_error_no_permission_button_title">#4B1D3F</color>
-    <color name="gv_camera_error_no_permission_button_title_pressed">#38152f</color>
+    <!--<color name="gv_action_bar">#E12932</color>-->
+    <!--<color name="gv_status_bar">#931c22</color>-->
 
-    <color name="gv_onboarding_fab">#4B1D3F</color>
-    <color name="gv_onboarding_fab_pressed">#391630</color>
+    <!--<color name="gv_action_bar_title">#E5AB2A</color>-->
 
-    <color name="gv_review_fab">#4B1D3F</color>
-    <color name="gv_review_fab_pressed">#391630</color>
-    <color name="gv_review_fab_mini">#EAF6FF</color>
-    <color name="gv_review_fab_mini_pressed">#d0dce4</color>
+    <!--<color name="gv_background">#380864</color>-->
 
-    <color name="gv_review_bottom_panel_background">#D4F4DD</color>
-    <color name="gv_review_bottom_panel_text">#4B1D3F</color>
+    <!--<color name="gv_onboarding_message">#E5AB2A</color>-->
+    <!--<color name="gv_onboarding_fab">#E12932</color>-->
+    <!--<color name="gv_onboarding_fab_pressed">#931c22</color>-->
 
-    <color name="gv_analysis_activity_indicator">#4B1D3F</color>
+    <!--<color name="gv_camera_error_no_permission_text">#E12932</color>-->
+    <!--<color name="gv_camera_error_no_permission_button_title">#E12932</color>-->
+    <!--<color name="gv_camera_error_no_permission_button_title_pressed">#931c22</color>-->
 
-    <color name="gv_analysis_error_text">#F7F4F3</color>
-    <color name="gv_analysis_error_button_text">#F7F4F3</color>
-    <color name="gv_analysis_error_background">#D62246</color>
+    <!--<color name="gv_review_fab">#E12932</color>-->
+    <!--<color name="gv_review_fab_pressed">#931c22</color>-->
+    <!--<color name="gv_review_fab_mini">#F2545C</color>-->
+    <!--<color name="gv_review_fab_mini_pressed">#cf484f</color>-->
+    <!--<color name="gv_review_bottom_panel_background">#262626</color>-->
+    <!--<color name="gv_review_bottom_panel_text">#E5AB2A</color>-->
+
+    <!--<color name="gv_analysis_activity_indicator">#E5AB2A</color>-->
+
+    <!--<color name="gv_action_bar_background">#009edc</color>-->
+
+    <!--<color name="gv_snackbar_error_text">#85000a</color>-->
+    <!--<color name="gv_snackbar_error_button_title">#fff</color>-->
+    <!--<color name="gv_snackbar_error_button_title_pressed">#f7f7f7</color>-->
+    <!--<color name="gv_snackbar_error_background">#ff1744</color>-->
 </resources>

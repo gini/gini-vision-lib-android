@@ -13,9 +13,14 @@
         android:id="@+id/button_start_scanner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="Gini Vision Library" />
+        android:layout_gravity="center"
+        android:layout_centerInParent="true"
+        style="@android:style/Widget.Holo.Button.Borderless"
+        android:text="Start Gini Vision Lib Compat"
+        android:textColor="@color/colorPrimary"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
 
     <TextView
         android:id="@+id/text_gini_vision_version"

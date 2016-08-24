@@ -90,6 +90,9 @@ import net.gini.android.vision.review.ReviewActivity;
  *         <li>
  *             <b>Error message background color:</b> via the color resource named {@code gv_snackbar_error_background}
  *         </li>
+ *         <li>
+ *             <b>Document analysis error message retry button text:</b> via the string resource named {@code gv_document_analysis_error_retry}
+ *         </li>
  *     </ul>
  * </p>
  *

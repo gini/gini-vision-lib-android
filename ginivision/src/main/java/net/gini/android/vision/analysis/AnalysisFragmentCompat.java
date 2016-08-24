@@ -23,7 +23,7 @@ import net.gini.android.vision.ui.FragmentImplCallback;
  *     <b>Note:</b> Your Activity hosting this Fragment must extend the {@link android.support.v7.app.AppCompatActivity} and use an AppCompat Theme.
  * </p>
  * <p>
- *     Include the {@code AnalyzeDocumentFragmentCompat} into your layout by using the {@link AnalysisFragmentCompat#createInstance(Document)} factory method to create an instance and display it using the {@link android.support.v4.app.FragmentManager}.
+ *     Include the {@code AnalyzeDocumentFragmentCompat} into your layout by using the {@link AnalysisFragmentCompat#createInstance(Document, String)} factory method to create an instance and display it using the {@link android.support.v4.app.FragmentManager}.
  * </p>
  * <p>
  *     Your Activity must implement the {@link AnalysisFragmentListener} interface to receive events from the Analyze Document Fragment. Failing to do so will throw an exception.
