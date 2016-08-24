@@ -2,6 +2,12 @@ package net.gini.android.vision.review;
 
 import static com.google.common.truth.Truth.assertThat;
 import static net.gini.android.vision.test.Helpers.getTestJpeg;
+import static net.gini.android.vision.test.Helpers.prepareLooper;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -11,9 +17,11 @@ import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.test.uiautomator.UiDevice;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.R;
+import net.gini.android.vision.analysis.AnalysisActivityTestStub;
 import net.gini.android.vision.camera.photo.Photo;
 
 import org.junit.AfterClass;
@@ -45,6 +53,17 @@ public class ReviewScreenTest {
     @AfterClass
     public static void teardownClass() throws IOException {
         TEST_JPEG = null;
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void should_throwException_whenAnalysisActivityClass_wasNotGiven() {
+        prepareLooper();
+        ReviewActivityTestStub reviewActivity = new ReviewActivityTestStub();
+
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        reviewActivity.setIntent(intent);
+
+        reviewActivity.readExtras();
     }
 
     @Test
@@ -251,9 +270,69 @@ public class ReviewScreenTest {
         assertThat(addDataToResultInvoked.get()).isTrue();
     }
 
+    @Test
+    public void should_notInvokeAnyListenerMethods_whenHomeButton_wasClicked() throws InterruptedException {
+        final ReviewActivityTestStub activity = startReviewActivity(TEST_JPEG, 0);
+
+        ReviewActivityTestStub.ListenerHook listenerHook = mock(ReviewActivityTestStub.ListenerHook.class);
+
+        activity.setListenerHook(listenerHook);
+
+        // Allow the activity to run a little for listeners to be invoked
+        Thread.sleep(PAUSE_DURATION);
+
+        // Click home (back)
+        Espresso.onView(ViewMatchers.withContentDescription("Navigate up"))
+                .perform(ViewActions.click());
+
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+
+        verify(listenerHook, never()).onDocumentReviewedAndAnalyzed(any(Document.class));
+        verify(listenerHook, never()).onAddDataToResult(any(Intent.class));
+        verify(listenerHook, never()).onProceedToAnalysisScreen(any(Document.class));
+    }
+
+    @Test
+    public void should_notInvokeAnyListenerMethods_whenBackButton_wasClicked() throws InterruptedException {
+        final ReviewActivityTestStub activity = startReviewActivity(TEST_JPEG, 0);
+
+        ReviewActivityTestStub.ListenerHook listenerHook = mock(ReviewActivityTestStub.ListenerHook.class);
+
+        activity.setListenerHook(listenerHook);
+
+        // Allow the activity to run a little for listeners to be invoked
+        Thread.sleep(PAUSE_DURATION);
+
+        // Click back
+        UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()).pressBack();
+
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+
+        verify(listenerHook, never()).onDocumentReviewedAndAnalyzed(any(Document.class));
+        verify(listenerHook, never()).onAddDataToResult(any(Intent.class));
+        verify(listenerHook, never()).onProceedToAnalysisScreen(any(Document.class));
+    }
+
+    @Test
+    public void should_invokeDocumentWasRotated_whenRotateButton_wasClicked() throws InterruptedException {
+        final ReviewActivityTestStub activity = startReviewActivity(TEST_JPEG, 0);
+
+        ReviewActivityTestStub.ListenerHook listenerHook = mock(ReviewActivityTestStub.ListenerHook.class);
+
+        activity.setListenerHook(listenerHook);
+
+        Espresso.onView(ViewMatchers.withId(R.id.gv_button_rotate))
+                .perform(ViewActions.click());
+
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+
+        verify(listenerHook).onDocumentWasRotated(any(Document.class), eq(0), eq(90));
+    }
+
     private ReviewActivityTestStub startReviewActivity(byte[] jpeg, int orientation) {
         Intent intent = getReviewActivityIntent();
         intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, Document.fromPhoto(Photo.fromJpeg(jpeg, orientation)));
+        intent.putExtra(ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY, new Intent(InstrumentationRegistry.getTargetContext(), AnalysisActivityTestStub.class));
         return mActivityTestRule.launchActivity(intent);
     }
 

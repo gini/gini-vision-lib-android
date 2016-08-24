@@ -25,6 +25,7 @@ import java.util.ArrayList;
 @RunWith(AndroidJUnit4.class)
 public class OnboardingScreenTest {
 
+    private static final long TEST_PAUSE_DURATION = 500;
     @Rule
     public IntentsTestRule<OnboardingActivity> mIntentsTestRule = new IntentsTestRule<>(OnboardingActivity.class, true, false);
 
@@ -75,7 +76,7 @@ public class OnboardingScreenTest {
     }
 
     @Test
-    public void should_finish_whenSwiped_onLastPage() {
+    public void should_finish_whenSwiped_onLastPage() throws InterruptedException {
         OnboardingActivity activity = startOnboardingActivity();
 
         // Go to the last page by swiping
@@ -85,13 +86,14 @@ public class OnboardingScreenTest {
                 // Swipe left on the last page
                 .perform(ViewActions.swipeLeft());
 
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+        // Wait a little for the animation to finish
+        Thread.sleep(TEST_PAUSE_DURATION);
 
         assertThat(activity.isFinishing()).isTrue();
     }
 
     @Test
-    public void should_showCustomPages_whenSet() {
+    public void should_showCustomPages_whenSet() throws InterruptedException {
         ArrayList<OnboardingPage> customPages = new ArrayList<>(1);
         customPages.add(new OnboardingPage(R.string.gv_title_camera,R.drawable.gv_camera_trigger));
         customPages.add(new OnboardingPage(R.string.gv_title_review,R.drawable.gv_review_button_rotate));
@@ -100,6 +102,9 @@ public class OnboardingScreenTest {
         intent.putExtra(OnboardingActivity.EXTRA_ONBOARDING_PAGES, customPages);
         OnboardingActivity activity = startOnboardingActivity(intent);
 
+        // Give some time for the activity to start
+        Thread.sleep(TEST_PAUSE_DURATION);
+
         // Verify the first page
         Espresso.onView(ViewMatchers.withText(R.string.gv_title_camera))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
@@ -107,6 +112,9 @@ public class OnboardingScreenTest {
         // Go to the second page
         Espresso.onView(ViewMatchers.withId(R.id.gv_button_next))
                 .perform(ViewActions.click());
+
+        // Give some time for paging animation to finish
+        Thread.sleep(TEST_PAUSE_DURATION);
 
         // Verify the second page
         Espresso.onView(ViewMatchers.withText(R.string.gv_title_review))

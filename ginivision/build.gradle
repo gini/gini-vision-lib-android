@@ -7,6 +7,8 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
 
         // Use the test runner with JUnit4 support
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
