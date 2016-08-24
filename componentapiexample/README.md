@@ -1,7 +1,7 @@
 Component API Example App
 =========================
 
-The Component API example app provides you with a sample usage of the Gini Vision Library's Component API fragments.
+This example app provides you with a sample usage of the Gini Vision Library's Component API.
 
 The Gini API SDK is used for analyzing documents and sending feedback.
 

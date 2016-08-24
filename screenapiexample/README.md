@@ -1,7 +1,7 @@
 Screen API Example App
 =========================
 
-The Screen API example app provides you with a sample usage of the Gini Vision Library's Screen API activities.
+This example app provides you with a sample usage of the Gini Vision Library's Screen API.
 
 The Gini API SDK is used for analyzing documents and sending feedback.
 
