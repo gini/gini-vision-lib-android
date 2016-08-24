@@ -44,7 +44,6 @@ public class ExtractionsActivity extends AppCompatActivity {
 
     private static final Logger LOG = LoggerFactory.getLogger(ExtractionsActivity.class);
 
-    public static final String EXTRA_IN_DOCUMENT = "EXTRA_IN_DOCUMENT";
     public static final String EXTRA_IN_EXTRACTIONS = "EXTRA_IN_EXTRACTIONS";
 
     private Map<String, SpecificExtraction> mExtractions = new HashMap<>();
@@ -53,7 +52,6 @@ public class ExtractionsActivity extends AppCompatActivity {
     private LinearLayout mLayoutProgress;
 
     private ExtractionsAdapter mExtractionsAdapter;
-    private Document mDocument;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +95,6 @@ public class ExtractionsActivity extends AppCompatActivity {
                     }
                 }
             }
-            mDocument = extras.getParcelable(EXTRA_IN_DOCUMENT);
         }
     }
 
@@ -155,11 +152,13 @@ public class ExtractionsActivity extends AppCompatActivity {
         }
         mExtractionsAdapter.notifyDataSetChanged();
 
+        Document document = ((ScreenApiApp) getApplication()).getSingleDocumentAnalyzer().getGiniApiDocument();
+
         // We require the Gini API SDK's net.gini.android.models.Document for sending the feedback
-        if (mDocument != null) {
+        if (document != null) {
             try {
                 showProgressIndicator();
-                documentTaskManager.sendFeedbackForExtractions(mDocument, mExtractions)
+                documentTaskManager.sendFeedbackForExtractions(document, mExtractions)
                         .continueWith(new Continuation<Document, Object>() {
                             @Override
                             public Object then(final Task<Document> task) throws Exception {
