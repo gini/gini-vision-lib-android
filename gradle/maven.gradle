@@ -4,14 +4,29 @@ apply plugin: 'maven'
 //
 // repoUser=<your user name>
 // repoPassword=<your password>
-// externalRepoUser=<your user name>
-// externalRepoPassword=<your password>
+// mavenSnapshotsRepoUrl=<url for snapshots>
+// mavenReleasesRepoUrl=<url for releases>
+// mavenOpenRepoUrl=<url for open releases>
 uploadArchives {
     repositories {
         mavenDeployer {
             pom.groupId = groupId
             pom.artifactId = artifactId
             pom.version = version
+
+            pom.project {
+                licenses {
+                    license {
+                        name 'Private License'
+                        url 'https://raw.githubusercontent.com/gini/gini-vision-lib-android/master/LICENSE.txt'
+                        distribution 'repo'
+                    }
+                }
+                organization {
+                    name 'Gini GmbH'
+                    url 'https://www.gini.net/'
+                }
+            }
 
             if (project.hasProperty('mavenSnapshotsRepoUrl')) {
                 snapshotRepository(url: mavenSnapshotsRepoUrl) {
