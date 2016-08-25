@@ -14,6 +14,20 @@ uploadArchives {
             pom.artifactId = artifactId
             pom.version = version
 
+            pom.project {
+                licenses {
+                    license {
+                        name 'Private License'
+                        url 'https://raw.githubusercontent.com/gini/gini-vision-lib-android/master/LICENSE.txt'
+                        distribution 'repo'
+                    }
+                }
+                organization {
+                    name 'Gini GmbH'
+                    url 'https://www.gini.net/'
+                }
+            }
+
             if (project.hasProperty('mavenSnapshotsRepoUrl')) {
                 snapshotRepository(url: mavenSnapshotsRepoUrl) {
                     authentication(
