@@ -91,7 +91,7 @@ Analysis can be started in `GiniVisionActivity#onShouldAnalyzeDocument()` and re
 Gini API SDK
 ============
 
-The Gini API SDK is created in each Activity it is used. The `SingleDocumentAnalyzer` helps with managing document analysis.
+The Gini API SDK is created in and accessed using the `ComponentApiApp`. The `SingleDocumentAnalyzer` helps with managing document analysis.
 
 Customization
 =============
