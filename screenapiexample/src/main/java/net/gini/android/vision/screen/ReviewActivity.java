@@ -55,10 +55,11 @@ public class ReviewActivity extends net.gini.android.vision.review.ReviewActivit
         LOG.debug("Should analyze document");
         GiniVisionDebug.writeDocumentToFile(this, document, "_for_review");
 
-        // We should start analyzing the document by sending it to the Gini API
-        // If the user did not modify the image we can get the analysis results earlier
-        // and the Gini Vision Library does not go to the Analysis Screen
-        // If the user modified the image or the analysis failed the Gini Vision Library goes to the Analysis Screen
+        // We should start analyzing the document by sending it to the Gini API.
+        // If the user did not modify the image we can get the analysis results earlier.
+        // The Gini Vision Library does not go to the Analysis Screen, if the results were received in the Review Screen.
+        // If the user modified the image or the analysis didn't complete or it failed the Gini Vision Library
+        // goes to the Analysis Screen.
         analyzeDocument(document);
     }
 

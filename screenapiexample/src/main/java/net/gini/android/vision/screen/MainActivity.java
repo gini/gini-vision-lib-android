@@ -65,12 +65,12 @@ public class MainActivity extends AppCompatActivity {
         mButtonStartScanner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startScanner();
+                startGiniVisionLibrary();
             }
         });
     }
 
-    private void startScanner() {
+    private void startGiniVisionLibrary() {
         // Uncomment to enable requirements check.
         // NOTE: on Android 6.0 and later the camera permission is required before checking the requirements
 //        RequirementsReport report = GiniVisionRequirements.checkRequirements(this);
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         // Set your AnalysisActivity subclass
         CameraActivity.setAnalysisActivityExtra(intent, this, AnalysisActivity.class);
 
-        // Start for result in order to receive the error result, in case something went wrong
+        // Start for result in order to receive the error result, in case something went wrong, or the extractions
         // To receive the extractions add it to the result Intent in ReviewActivity#onAddDataToResult(Intent) or
         // AnalysisActivity#onAddDataToResult(Intent) and retrieve them here in onActivityResult()
         startActivityForResult(intent, REQUEST_SCAN);
@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
             // The NoExtractionsActivity has a button for taking another picture which causes the activity to finish
             // and return the result code seen below
             if (resultCode == NoExtractionsActivity.RESULT_START_GINI_VISION) {
-                startScanner();
+                startGiniVisionLibrary();
             }
         }
     }

@@ -14,8 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.gini.android.DocumentTaskManager;
-import net.gini.android.Gini;
-import net.gini.android.SdkBuilder;
 import net.gini.android.models.Document;
 import net.gini.android.models.Extraction;
 import net.gini.android.models.SpecificExtraction;
@@ -50,7 +48,6 @@ public class ExtractionsActivity extends AppCompatActivity {
     public static final String EXTRA_IN_EXTRACTIONS = "EXTRA_IN_EXTRACTIONS";
 
     private Map<String, SpecificExtraction> mExtractions = new HashMap<>();
-    private Gini mGiniApi;
 
     private RecyclerView mRecyclerView;
     private LinearLayout mLayoutProgress;
@@ -65,15 +62,6 @@ public class ExtractionsActivity extends AppCompatActivity {
         readExtras();
         bindViews();
         setUpRecyclerView();
-        createGiniApi();
-    }
-
-    private void createGiniApi() {
-        SdkBuilder builder = new SdkBuilder(this,
-                this.getString(R.string.gini_api_client_id),
-                this.getString(R.string.gini_api_client_secret),
-                "example.com");
-        mGiniApi = builder.build();
     }
 
     private void bindViews() {
@@ -103,7 +91,10 @@ public class ExtractionsActivity extends AppCompatActivity {
             Bundle extractionsBundle = extras.getParcelable(EXTRA_IN_EXTRACTIONS);
             if (extractionsBundle != null) {
                 for (String key : extractionsBundle.keySet()) {
-                    mExtractions.put(key, (SpecificExtraction) extractionsBundle.getParcelable(key));
+                    // We only show Pay5 extractions: paymentRecipient, iban, bic, amount and paymentReference
+                    if (isPay5Extraction(key)) {
+                        mExtractions.put(key, (SpecificExtraction) extractionsBundle.getParcelable(key));
+                    }
                 }
             }
             mDocument = extras.getParcelable(EXTRA_IN_DOCUMENT);
@@ -117,30 +108,38 @@ public class ExtractionsActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
 
-        // Show only the "Pay5" extractions: recipient, iban, bic, reference, amount
-        mExtractionsAdapter = new ExtractionsAdapter(getSortedPay5Extractions());
+        mExtractionsAdapter = new ExtractionsAdapter(getSortedExtractions());
         mRecyclerView.setAdapter(mExtractionsAdapter);
     }
 
-    private List<SpecificExtraction> getSortedPay5Extractions() {
+    /**
+     * Returns true, if the extraction name is one of the Pay5 extractions: paymentRecipient, iban, bic, amount and paymentReference
+     */
+    private boolean isPay5Extraction(String extractionName) {
+        return extractionName.equals("amountToPay") ||
+                extractionName.equals("bic") ||
+                extractionName.equals("iban") ||
+                extractionName.equals("paymentReference") ||
+                extractionName.equals("paymentRecipient");
+    }
+
+    private List<SpecificExtraction> getSortedExtractions() {
         ArrayList<SpecificExtraction> sortedExtractions = new ArrayList<>();
         ArrayList<String> keys = new ArrayList<>(mExtractions.keySet());
         // Ascending order
         Collections.sort(keys);
         for (String key : keys) {
-            if (key.equals("amountToPay") ||
-                    key.equals("bic") ||
-                    key.equals("iban") ||
-                    key.equals("paymentReference") ||
-                    key.equals("paymentRecipient")) {
-                sortedExtractions.add(mExtractions.get(key));
-            }
+            sortedExtractions.add(mExtractions.get(key));
         }
         return sortedExtractions;
     }
 
     private void sendFeedback() {
-        DocumentTaskManager documentTaskManager = mGiniApi.getDocumentTaskManager();
+        DocumentTaskManager documentTaskManager = ((ComponentApiApp) getApplication()).getGiniApi().getDocumentTaskManager();
+
+        // An example for sending feedback where we change the amount or add one if it is missing
+        // Feedback should be sent only for the user visible fields. Non-visible fields should be filtered out.
+        // In a real application the user input should be used as the new value.
 
         SpecificExtraction amount = mExtractions.get("amountToPay");
         if (amount != null) {
@@ -151,7 +150,7 @@ public class ExtractionsActivity extends AppCompatActivity {
             // Amount was missing, let's add it
             SpecificExtraction extraction = new SpecificExtraction("amountToPay", "10.00:EUR", "amount", null, Collections.<Extraction>emptyList());
             mExtractions.put("amountToPay", extraction);
-            mExtractionsAdapter.setExtractions(getSortedPay5Extractions());
+            mExtractionsAdapter.setExtractions(getSortedExtractions());
             Toast.makeText(this, "Added amount of 10.00:EUR", Toast.LENGTH_SHORT).show();
         }
         mExtractionsAdapter.notifyDataSetChanged();
