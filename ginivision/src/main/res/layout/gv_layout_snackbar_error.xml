@@ -7,7 +7,7 @@
     android:layout_alignParentBottom="true"
     android:background="@color/gv_snackbar_error_background">
 
-    <net.gini.android.vision.ui.CustomFontTextView
+    <net.gini.android.vision.internal.ui.CustomFontTextView
         android:id="@+id/gv_text_error"
         style="@style/GiniVisionTheme.Snackbar.Error.TextStyle"
         android:layout_width="wrap_content"
@@ -22,7 +22,7 @@
         android:textColor="@color/gv_snackbar_error_text"
         tools:text="This is an error. Sorry ... " />
 
-    <net.gini.android.vision.ui.CustomFontButton
+    <net.gini.android.vision.internal.ui.CustomFontButton
         android:id="@+id/gv_button_error"
         style="@style/GiniVisionTheme.Snackbar.Error.Button.TextStyle"
         android:layout_width="wrap_content"

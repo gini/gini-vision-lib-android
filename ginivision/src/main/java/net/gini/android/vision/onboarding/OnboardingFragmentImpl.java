@@ -17,7 +17,7 @@ import android.widget.Space;
 
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
-import net.gini.android.vision.ui.AnimatorListenerNoOp;
+import net.gini.android.vision.internal.ui.AnimatorListenerNoOp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

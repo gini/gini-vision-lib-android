@@ -20,9 +20,9 @@ import android.widget.ProgressBar;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.R;
-import net.gini.android.vision.camera.photo.Photo;
+import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.review.ReviewActivity;
-import net.gini.android.vision.ui.ErrorSnackbar;
+import net.gini.android.vision.internal.ui.ErrorSnackbar;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;

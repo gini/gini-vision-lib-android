@@ -18,9 +18,9 @@ import com.ortiz.touch.TouchImageView;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
-import net.gini.android.vision.camera.photo.Photo;
-import net.gini.android.vision.camera.photo.PhotoEdit;
-import net.gini.android.vision.ui.FragmentImplCallback;
+import net.gini.android.vision.internal.camera.photo.Photo;
+import net.gini.android.vision.internal.camera.photo.PhotoEdit;
+import net.gini.android.vision.internal.ui.FragmentImplCallback;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

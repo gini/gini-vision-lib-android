@@ -56,7 +56,7 @@
         android:paddingTop="@dimen/gv_review_bottom_panel_vertical_padding">
 
         <!--suppress AndroidDomInspection -->
-        <net.gini.android.vision.ui.CustomFontTextView
+        <net.gini.android.vision.internal.ui.CustomFontTextView
             android:id="@+id/gv_bottom_panel_text"
             style="@style/GiniVisionTheme.Review.BottomPanel.TextStyle"
             android:layout_width="wrap_content"
