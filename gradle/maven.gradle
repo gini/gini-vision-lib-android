@@ -4,8 +4,9 @@ apply plugin: 'maven'
 //
 // repoUser=<your user name>
 // repoPassword=<your password>
-// externalRepoUser=<your user name>
-// externalRepoPassword=<your password>
+// mavenSnapshotsRepoUrl=<url for snapshots>
+// mavenReleasesRepoUrl=<url for releases>
+// mavenOpenRepoUrl=<url for open releases>
 uploadArchives {
     repositories {
         mavenDeployer {
