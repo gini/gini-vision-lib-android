@@ -2,6 +2,13 @@
 Changelog
 =========
 
+2.0.0 (2016-08-25)
+==================
+
+- Finalized documentation and example apps.
+- Reorganized internal (non-public API) packages and classes.
+- Finalized release process.
+
 2.0.0-alpha.1 (2016-08-18)
 ==========================
 
