@@ -7,7 +7,7 @@ import android.support.v13.app.FragmentPagerAdapter;
 
 import java.util.List;
 
-public class ViewPagerAdapterStandard extends FragmentPagerAdapter {
+class ViewPagerAdapterStandard extends FragmentPagerAdapter {
 
     private final List<OnboardingPage> mPages;
 

@@ -7,15 +7,24 @@ android {
     defaultConfig {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
 
         // Use the test runner with JUnit4 support
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    // Fix for DuplicateFileException when using Espresso (https://code.google.com/p/android/issues/detail?id=195331)
+    packagingOptions {
+        exclude 'META-INF/maven/com.google.guava/guava/pom.properties'
+        exclude 'META-INF/maven/com.google.guava/guava/pom.xml'
     }
 }
 
@@ -26,43 +35,71 @@ dependencies {
     compile deps.supportv13
     compile deps.supportDesign
     compile deps.sanselan
+    compile deps.slf4j
+    compile deps.completableFuture
 
     testCompile deps.junit
     testCompile deps.truth
+    testCompile deps.mockito
 
     androidTestCompile deps.supportTestRunner
     androidTestCompile deps.truth
+    androidTestCompile deps.supportTestRules
+    androidTestCompile deps.supportTestEspressoCore
+    androidTestCompile deps.supportTestEspressoIntents
+    androidTestCompile deps.supportTestUiAutomator
+    androidTestCompile deps.mockito
+    androidTestCompile deps.dexmaker
+    androidTestCompile deps.dexmakerDx
+    androidTestCompile deps.dexmakerMockito
+    androidTestCompile deps.supportMultidex
 }
 
 apply from: rootProject.file('gradle/codequality.gradle')
 
 apply from: rootProject.file('gradle/maven.gradle')
 
-android.libraryVariants.all { variant ->
-    task("generate${variant.name.capitalize()}Javadoc", type: Javadoc) {
-        source = variant.javaCompile.source
-        exclude '**/BuildConfig.java'
-        exclude '**/R.java'
-        exclude '**/TouchImageView.java'
-        failOnError = false
-        options.showFromPublic()
-        List pathList = new ArrayList();
-        pathList.add(file("${project.rootDir}/tools/excludedoclet/doclet.jar"));
-        options.docletpath = pathList
-        options.doclet = "ExcludeDoclet"
-        options.overview = 'src/main/java/net/gini/android/vision/overview.html'
-        options.version = true
-        options.author = true
-        options.windowTitle = "Gini Vision Library for Android"
-        options.docTitle = "Gini Vision Library for Android"
+task generateReleaseJavadoc(type: Javadoc) {
+    source = fileTree("src/main/java/").files.grep { it.name.endsWith('.java') }
+    exclude '**/BuildConfig.java'
+    exclude '**/R.java'
+    exclude '**/TouchImageView.java'
+    failOnError = false
+    options.showFromPublic()
+    List pathList = new ArrayList();
+    pathList.add(file("${project.rootDir}/tools/excludedoclet/doclet.jar"));
+    options.docletpath = pathList
+    options.doclet = "ExcludeDoclet"
+    options.overview = 'src/main/java/net/gini/android/vision/overview.html'
+    options.version = true
+    options.author = true
+    options.windowTitle = "Gini Vision Library for Android"
+    options.docTitle = "Gini Vision Library for Android"
 
-        doLast {
-            copy {
-                from "src/main/javadoc"
-                into "$buildDir/docs/javadoc"
-            }
+    doLast {
+        copy {
+            from "src/main/javadoc"
+            into "$buildDir/docs/javadoc"
         }
     }
 }
 
+task sourcesJar(type: Jar, dependsOn: assembleRelease) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
 
+task javadocJar(type: Jar, dependsOn: generateReleaseJavadoc) {
+    classifier = 'javadoc'
+    from generateReleaseJavadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+task enableMultiDexForAndroidTest {
+    android.defaultConfig.multiDexEnabled = true
+}
+assembleAndroidTest.dependsOn.add(enableMultiDexForAndroidTest)

@@ -16,8 +16,44 @@ public class GiniVisionError implements Parcelable {
      * </p>
      */
     public enum ErrorCode {
+        /**
+         * <p>
+         *     Couldn't get access to the camera. Most likely cause is either not declaring the camera permission in
+         *     the manifest and on Android 6+ not requesting the camera permission from the user. Check the message for details.
+         * </p>
+         */
         CAMERA_NO_ACCESS,
+        /**
+         * <p>
+         *     Camera couldn't be opened due to an unexpected error. Check the message for details.
+         * </p>
+         */
+        CAMERA_OPEN_FAILED,
+        /**
+         * <p>
+         *     Camera preview could not be started. Likely causes are that the camera was closed before preview could start
+         *     or the View used to show the preview images couldn't initialize. Check the message for details.
+         * </p>
+         */
+        CAMERA_NO_PREVIEW,
+        /**
+         * <p>
+         *     Camera couldn't take a picture. Likely causes are that the camera was closed between requesting a picture and
+         *     taking the picture or the camera didn't return an image. Check the message for details.
+         * </p>
+         */
+        CAMERA_SHOT_FAILED,
+        /**
+         * <p>
+         *     An unexpected camera error occurred. Check the message for details.
+         * </p>
+         */
         CAMERA_UNKNOWN,
+        /**
+         * <p>
+         *     An error occurred in the Review Screen. Check the message for details.
+         * </p>
+         */
         REVIEW;
     }
 

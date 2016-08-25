@@ -1,27 +1,24 @@
 package net.gini.android.vision.analysis;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
-import net.gini.android.vision.camera.photo.Photo;
-import net.gini.android.vision.ui.FragmentImplCallback;
-import net.gini.android.vision.ui.SnackbarError;
-import net.gini.android.vision.util.promise.SimpleDeferred;
-import net.gini.android.vision.util.promise.SimplePromise;
+import net.gini.android.vision.internal.camera.photo.Photo;
+import net.gini.android.vision.internal.ui.ErrorSnackbar;
+import net.gini.android.vision.internal.ui.FragmentImplCallback;
 
 class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
@@ -35,23 +32,30 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         }
     };
 
-    private static final long SCAN_ANIM_DURATION = 900;
-
     private final FragmentImplCallback mFragment;
     private Photo mPhoto;
+    private final String mDocumentAnalysisErrorMessage;
+
     private AnalysisFragmentListener mListener = NO_OP_LISTENER;
-    private SimpleDeferred mStartAnimationDeferred = new SimpleDeferred();
 
     private RelativeLayout mLayoutRoot;
     private ImageView mImageDocument;
-    private ImageView mImageScannerLine;
+    private ProgressBar mProgressActivity;
 
-    private ValueAnimator mScanAnimation;
-    private boolean mStopped = true;
-
-    public AnalysisFragmentImpl(FragmentImplCallback fragment, Document document) {
+    public AnalysisFragmentImpl(FragmentImplCallback fragment, Document document, String documentAnalysisErrorMessage) {
         mFragment = fragment;
         mPhoto = Photo.fromDocument(document);
+        mDocumentAnalysisErrorMessage = documentAnalysisErrorMessage;
+    }
+
+    @VisibleForTesting
+    ImageView getImageDocument() {
+        return mImageDocument;
+    }
+
+    @VisibleForTesting
+    ProgressBar getProgressActivity() {
+        return mProgressActivity;
     }
 
     public void setListener(@Nullable AnalysisFragmentListener listener) {
@@ -63,7 +67,6 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     public void onCreate(Bundle savedInstanceState) {
-        mListener.onAnalyzeDocument(Document.fromPhoto(mPhoto));
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -75,17 +78,32 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     public void onStart() {
-        mStopped = false;
+    }
+
+    private void analyzeDocument() {
+        if (mFragment.getActivity() == null) {
+            return;
+        }
+        if (mDocumentAnalysisErrorMessage != null) {
+            showError(mDocumentAnalysisErrorMessage, mFragment.getActivity().getString(R.string.gv_document_analysis_error_retry),
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mListener.onAnalyzeDocument(Document.fromPhoto(mPhoto));
+                        }
+                    });
+        } else {
+            mListener.onAnalyzeDocument(Document.fromPhoto(mPhoto));
+        }
     }
 
     public void onStop() {
-        mStopped = true;
     }
 
     private void bindViews(@NonNull View view) {
         mLayoutRoot = (RelativeLayout) view.findViewById(R.id.gv_layout_root);
         mImageDocument = (ImageView) view.findViewById(R.id.gv_image_picture);
-        mImageScannerLine = (ImageView) view.findViewById(R.id.gv_image_scanner_line);
+        mProgressActivity = (ProgressBar) view.findViewById(R.id.gv_progress_activity);
     }
 
     private void showDocument() {
@@ -103,7 +121,23 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     private void onViewLayoutFinished() {
-        mStartAnimationDeferred.resolve();
+        rotateDocumentImageView();
+        analyzeDocument();
+    }
+
+    private void rotateDocumentImageView() {
+        int newWidth = mLayoutRoot.getWidth();
+        int newHeight = mLayoutRoot.getHeight();
+        if (mPhoto.getRotationForDisplay() == 90 || mPhoto.getRotationForDisplay() == 270) {
+            newWidth = mLayoutRoot.getHeight();
+            newHeight = mLayoutRoot.getWidth();
+        }
+
+        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mImageDocument.getLayoutParams();
+        layoutParams.width = newWidth;
+        layoutParams.height = newHeight;
+        mImageDocument.setLayoutParams(layoutParams);
+        mImageDocument.setRotation(mPhoto.getRotationForDisplay());
     }
 
     public void onDestroy() {
@@ -113,60 +147,12 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
     @Override
     public void startScanAnimation() {
-        mStartAnimationDeferred.promise().then(new SimplePromise.DoneCallback() {
-            @Override
-            public void onDone() {
-                initScanAnimation();
-                startScanAnimationInternal();
-            }
-        });
-    }
-
-    private void initScanAnimation() {
-        if (mScanAnimation != null) {
-            return;
-        }
-        mScanAnimation = ObjectAnimator.ofFloat(mImageScannerLine, "translationY", 0, mImageDocument.getHeight() - ((RelativeLayout.LayoutParams) mImageScannerLine.getLayoutParams()).bottomMargin * 2);
-        mScanAnimation.setDuration(SCAN_ANIM_DURATION);
-        mScanAnimation.setRepeatMode(ObjectAnimator.REVERSE);
-    }
-
-    private void startScanAnimationInternal() {
-        if (mScanAnimation == null) {
-            return;
-        }
-        mScanAnimation.setRepeatCount(ObjectAnimator.INFINITE);
-        if (!mScanAnimation.isRunning()) {
-            mScanAnimation.start();
-        }
+        mProgressActivity.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void stopScanAnimation() {
-        stopScanAnimationInternal();
-    }
-
-    private void stopScanAnimationInternal() {
-        if (mScanAnimation == null) {
-            return;
-        }
-        mScanAnimation.setRepeatCount(0);
-        mScanAnimation.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                mScanAnimation.removeListener(this);
-                if (mStopped) {
-                    return;
-                }
-                resetScannerLineWithAnimation();
-            }
-        });
-    }
-
-    private void resetScannerLineWithAnimation() {
-        ObjectAnimator resetAnimation = ObjectAnimator.ofFloat(mImageScannerLine, "translationY", 0);
-        resetAnimation.setDuration(SCAN_ANIM_DURATION);
-        resetAnimation.start();
+        mProgressActivity.setVisibility(View.GONE);
     }
 
     @Override
@@ -179,7 +165,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         if (mFragment.getActivity() == null) {
             return;
         }
-        SnackbarError.make(mFragment.getActivity(), mLayoutRoot, message, buttonTitle, onClickListener, SnackbarError.LENGTH_INDEFINITE).show();
+        ErrorSnackbar.make(mFragment.getActivity(), mLayoutRoot, message, buttonTitle, onClickListener, ErrorSnackbar.LENGTH_INDEFINITE).show();
     }
 
     @Override
@@ -187,7 +173,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         if (mFragment.getActivity() == null || mLayoutRoot == null) {
             return;
         }
-        SnackbarError.make(mFragment.getActivity(), mLayoutRoot, message, null, null, duration).show();
+        ErrorSnackbar.make(mFragment.getActivity(), mLayoutRoot, message, null, null, duration).show();
     }
 
     @Override
@@ -195,6 +181,6 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         if (mLayoutRoot == null) {
             return;
         }
-        SnackbarError.hideExisting(mLayoutRoot);
+        ErrorSnackbar.hideExisting(mLayoutRoot);
     }
 }

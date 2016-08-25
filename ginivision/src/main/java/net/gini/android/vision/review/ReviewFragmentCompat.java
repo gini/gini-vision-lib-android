@@ -3,6 +3,7 @@ package net.gini.android.vision.review;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,7 @@ import android.view.ViewGroup;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.camera.CameraFragmentListener;
-import net.gini.android.vision.ui.FragmentImplCallback;
+import net.gini.android.vision.internal.ui.FragmentImplCallback;
 
 /**
  * <h3>Component API</h3>
@@ -57,6 +58,11 @@ public class ReviewFragmentCompat extends Fragment implements FragmentImplCallba
         return fragment;
     }
 
+    @VisibleForTesting
+    ReviewFragmentImpl getFragmentImpl() {
+        return mFragmentImpl;
+    }
+
     /**
      * @exclude
      */
@@ -84,6 +90,15 @@ public class ReviewFragmentCompat extends Fragment implements FragmentImplCallba
     public void onStart() {
         super.onStart();
         mFragmentImpl.onStart();
+    }
+
+    /**
+     *
+     */
+    @Override
+    public void onStop() {
+        super.onStop();
+        mFragmentImpl.onStop();
     }
 
     /**

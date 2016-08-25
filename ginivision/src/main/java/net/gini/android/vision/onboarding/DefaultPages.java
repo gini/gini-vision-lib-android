@@ -1,5 +1,7 @@
 package net.gini.android.vision.onboarding;
 
+import android.support.annotation.VisibleForTesting;
+
 import net.gini.android.vision.R;
 
 import java.util.ArrayList;
@@ -18,7 +20,8 @@ public enum DefaultPages {
         mOnboardingPage = onboardingPage;
     }
 
-    private OnboardingPage getPage() {
+    @VisibleForTesting
+    OnboardingPage getPage() {
         return mOnboardingPage;
     }
 

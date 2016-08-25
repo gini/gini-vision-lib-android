@@ -56,6 +56,6 @@ app/build.gradle:
 
 ```
 dependencies {
-    compile 'net.gini:gini-vision-lib:2.0.0-stub.1'
+    compile 'net.gini:gini-vision-lib:2.0.0-alpha.1'
 }
 ```

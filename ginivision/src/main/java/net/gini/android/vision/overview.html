@@ -20,6 +20,12 @@
 <p>
     Customization of the Views is provided mostly via overriding of app resources: dimensions, strings, colors, texts, etc. Onboarding can also be customized to show your own pages, each consisting of an image and a short text.
 </p>
+<p>
+    The Gini Vision Library has been designed for portrait orientation. We recommend limiting your concrete Activities which extend the Screen API's abstract Activities to portrait orientation. In case you use the Component API, you should limit the Activities hosting the Component API's Fragments to portrait orientation.
+</p>
+<p>
+    Due to in-memory image handling applications using the Gini Vision Library must enable large heap.
+</p>
 
 <h3>Requirements</h3>
 
