@@ -12,8 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import net.gini.android.Gini;
-import net.gini.android.SdkBuilder;
 import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionCoordinator;
@@ -55,7 +53,6 @@ public class GiniVisionActivity extends Activity
 
     private GiniVisionCoordinator mGiniVisionCoordinator;
 
-    private Gini mGiniApi;
     private SingleDocumentAnalyzer mSingleDocumentAnalyzer;
 
     private String mDocumentAnalysisErrorMessage;
@@ -70,8 +67,7 @@ public class GiniVisionActivity extends Activity
         configureLogging();
         setupGiniVisionCoordinator();
         showCamera();
-        createGiniApi();
-        createSingleDocumentAnalyzer();
+        mSingleDocumentAnalyzer = ((ComponentApiApp)getApplication()).getSingleDocumentAnalyzer();
     }
 
     @Override
@@ -83,19 +79,6 @@ public class GiniVisionActivity extends Activity
             showCamera();
             mShowCameraOnStart = false;
         }
-    }
-
-    private void createGiniApi() {
-        LOG.debug("Instantiating the Gini API with Client ID {}");
-        SdkBuilder builder = new SdkBuilder(this,
-                this.getString(R.string.gini_api_client_id),
-                this.getString(R.string.gini_api_client_secret),
-                "example.com");
-        mGiniApi = builder.build();
-    }
-
-    public void createSingleDocumentAnalyzer() {
-        mSingleDocumentAnalyzer = new SingleDocumentAnalyzer(mGiniApi);
     }
 
     private void setupGiniVisionCoordinator() {
