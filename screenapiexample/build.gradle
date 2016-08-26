@@ -33,7 +33,7 @@ android {
 // For testing a released version
 repositories {
     maven {
-        url 'https://repo.i.gini.net/nexus/content/repositories/releases'
+        url 'https://repo.gini.net/nexus/content/repositories/open'
     }
 }
 
