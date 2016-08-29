@@ -107,3 +107,18 @@ Text styles and fonts can be customized by uncommenting and altering the styles 
 To customize the colors you can uncomment and modify the color resources in the `componentapiexample/src/main/res/values/colors.xml`.
 
 Customizing the opacity of the onboarding pages' background you can uncomment and modify the string resource in the `componentapiexample/src/main/res/values/config.xml`.
+
+ProGuard
+========
+
+A sample ProGuard configuration file is included in the Component API example app's directory called `proguard-rules.pro`.
+
+The release build is configured to run ProGuard. You need a keystore with a key to sign it. Create a keystore with a key and provide them in the `gradle.properties` or as arguments for the build command:
+```
+$ ./gradlew componentapiexample::assembleRelease \
+    -PreleaseKeystoreFile=<path to keystore> \
+    -PreleaseKeystorePassword=<keystore password> \
+    -PreleaseKeyAlias=<key alias> \
+    -PreleaseKeyPassword=<key password>
+```
+
