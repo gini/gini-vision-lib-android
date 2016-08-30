@@ -96,5 +96,17 @@ To customize the colors you can uncomment and modify the color resources in the 
 
 Customizing the opacity of the onboarding pages' background you can uncomment and modify the string resource in the `screenapiexample/src/main/res/values/config.xml`.
 
-
-
+ProGuard 
+======== 
+ 
+A sample ProGuard configuration file is included in the Screen API example app's directory called `proguard-rules.pro`. 
+ 
+The release build is configured to run ProGuard. You need a keystore with a key to sign it. Create a keystore with a key and provide them in the `gradle.properties` or as arguments for the build command: 
+``` 
+$ ./gradlew screenapiexample::assembleRelease \ 
+    -PreleaseKeystoreFile=<path to keystore> \ 
+    -PreleaseKeystorePassword=<keystore password> \ 
+    -PreleaseKeyAlias=<key alias> \ 
+    -PreleaseKeyPassword=<key password> 
+``` 
+ 
