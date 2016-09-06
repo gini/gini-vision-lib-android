@@ -109,15 +109,11 @@ task enableMultiDexForAndroidTest {
 }
 assembleAndroidTest.dependsOn.add(enableMultiDexForAndroidTest)
 
-task tasksInfo {
-    tasks.all { task ->
-        println "${task} - ${task.class}"
-        if (task instanceof org.gradle.api.tasks.testing.Test_Decorated) {
-            println "Gradle Test Type JaCoCo ${task.jacoco}"
+// Adds the connected tests coverage to JacocoReport tasks
+task unifyTestCoverage {
+    doLast {
+        tasks.withType(JacocoReport) { task ->
+            task.executionData = task.executionData.plus(files(["${buildDir}/outputs/code-coverage/connected/coverage.ec"]))
         }
-        if (task instanceof com.android.build.gradle.internal.coverage.JacocoReportTask_Decorated) {
-            println "Android JaCoCoReportTask Type ${task}"
-        }
-        println()
     }
 }
