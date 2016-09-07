@@ -1,15 +1,12 @@
-=======
 License
 =======
 
 The Gini Android Vision Library is licensed under a Private License and also
 integrates several third party libraries. 
 
-.. IMPORTANT::
-   Always make sure to ship all license notices and permissions with your application.
+*Important: Always make sure to ship all license notices and permissions with your application.*
 
-::
-
+```
    Copyright (c) 2014-2016, Gini GmbH
    All rights reserved.
    
@@ -22,17 +19,16 @@ integrates several third party libraries.
 
    For license related inquiries contact Gini via the email address 
    technical-support@gini.net.
+```
 
 Licenses and Acknowledgements for Incorporated Software
-=======================================================
+-------------------------------------------------------
 
 This library makes use of the following third party libraries:
 
-Apache Commons Sanselan
------------------------
+### Apache Commons Sanselan
 
-::
-
+```
                                  Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
@@ -288,13 +284,11 @@ Apache Commons Sanselan
        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
        FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
        DEALINGS IN THE SOFTWARE.
+```
 
+### TouchImageView
 
-TouchImageView
---------------
-
-::
-
+```
    Copyright (c) 2012 Michael Ortiz
 
    Permission is hereby granted, free of charge, to any person obtaining a
@@ -314,4 +308,5 @@ TouchImageView
    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
    DEALINGS IN THE SOFTWARE
+```
 
