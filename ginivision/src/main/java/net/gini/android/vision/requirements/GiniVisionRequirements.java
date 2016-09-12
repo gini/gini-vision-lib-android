@@ -42,6 +42,7 @@ public final class GiniVisionRequirements {
                 new CameraResolutionRequirement(cameraHolder),
                 new CameraFlashRequirement(cameraHolder),
                 new CameraFocusRequirement(cameraHolder),
+                new LargeHeapRequirement(context),
                 new DeviceMemoryRequirement(cameraHolder)
         )).checkRequirements();
 

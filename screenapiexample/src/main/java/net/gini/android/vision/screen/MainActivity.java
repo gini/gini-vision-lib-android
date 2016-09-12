@@ -73,16 +73,16 @@ public class MainActivity extends AppCompatActivity {
     private void startGiniVisionLibrary() {
         // Uncomment to enable requirements check.
         // NOTE: on Android 6.0 and later the camera permission is required before checking the requirements
-//        RequirementsReport report = GiniVisionRequirements.checkRequirements(this);
-//        if (!report.isFulfilled()) {
-//            showUnfulfilledRequirementsToast(report);
-//            return;
-//        }
+        // RequirementsReport report = GiniVisionRequirements.checkRequirements(this);
+        // if (!report.isFulfilled()) {
+        //     showUnfulfilledRequirementsToast(report);
+        //     return;
+        // }
 
         Intent intent = new Intent(this, CameraActivity.class);
 
         // Uncomment to add an extra page to the Onboarding pages
-//        intent.putParcelableArrayListExtra(CameraActivity.EXTRA_IN_ONBOARDING_PAGES, getOnboardingPages());
+        // intent.putParcelableArrayListExtra(CameraActivity.EXTRA_IN_ONBOARDING_PAGES, getOnboardingPages());
 
         // Set EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN to false to disable automatically showing the OnboardingActivity the
         // first time the CameraActivity is launched - we highly recommend letting the Gini Vision Library show the

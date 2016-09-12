@@ -57,5 +57,11 @@ public enum RequirementId {
      *     The device must have sufficient memory for in-memory bitmap handling, compression and jpeg decompression.
      * </p>
      */
-    DEVICE_MEMORY
+    DEVICE_MEMORY,
+    /**
+     * <p>
+     *     Due to in-memory image handling applications using the Gini Vision Library must enable large heap.
+     * </p>
+     */
+    LARGE_HEAP;
 }
