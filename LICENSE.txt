@@ -1,0 +1,1 @@
+Moved to https://raw.githubusercontent.com/gini/gini-vision-lib-android/master/LICENSE.md
