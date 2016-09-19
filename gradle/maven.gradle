@@ -18,7 +18,7 @@ uploadArchives {
                 licenses {
                     license {
                         name 'Private License'
-                        url 'https://raw.githubusercontent.com/gini/gini-vision-lib-android/master/LICENSE.txt'
+                        url 'https://raw.githubusercontent.com/gini/gini-vision-lib-android/master/LICENSE.md'
                         distribution 'repo'
                     }
                 }
