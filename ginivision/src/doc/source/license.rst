@@ -2,7 +2,7 @@
 License
 =======
 
-The Gini Android Vision Library is licensed under a Private License and also
+The Gini Vision Library is licensed under a Private License and also
 integrates several third party libraries. 
 
 .. IMPORTANT::
