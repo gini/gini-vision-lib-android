@@ -1,6 +1,7 @@
 package net.gini.android.vision.review;
 
 import static com.google.common.truth.Truth.assertThat;
+import static net.gini.android.vision.test.Helpers.createDocument;
 import static net.gini.android.vision.test.Helpers.getTestJpeg;
 import static net.gini.android.vision.test.Helpers.prepareLooper;
 import static org.mockito.Matchers.any;
@@ -22,7 +23,6 @@ import android.support.test.uiautomator.UiDevice;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivityTestStub;
-import net.gini.android.vision.internal.camera.photo.Photo;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -331,7 +331,7 @@ public class ReviewScreenTest {
 
     private ReviewActivityTestStub startReviewActivity(byte[] jpeg, int orientation) {
         Intent intent = getReviewActivityIntent();
-        intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, Document.fromPhoto(Photo.fromJpeg(jpeg, orientation)));
+        intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, createDocument(jpeg, orientation));
         intent.putExtra(ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY, new Intent(InstrumentationRegistry.getTargetContext(), AnalysisActivityTestStub.class));
         return mActivityTestRule.launchActivity(intent);
     }

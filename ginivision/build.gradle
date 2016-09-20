@@ -17,7 +17,6 @@ android {
 
     buildTypes {
         debug {
-            // Enable Jacoco: $ gradle connectedAndroidTest -> /project/module/build/outputs/reports/coverage
             testCoverageEnabled = true
         }
         release {
