@@ -1,0 +1,19 @@
+task cleanJavadocCoverage(type: Delete) {
+    description = "Deletes the folder containing the generated javadoc coverage."
+    delete "${buildDir}/reports/javadoc-coverage"
+}
+
+task createJavadocCoverageDestDir(type: Exec) {
+    description = "Recreates the folder which will contain the generated javadoc coverage."
+    dependsOn cleanJavadocCoverage
+    commandLine "mkdir", "-p", "${buildDir}/reports/javadoc-coverage"
+}
+
+task generateJavadocCoverage(type: Exec) {
+    description = "Generates javadoc coverage using Sun's DocChecker doclet."
+    group = "Reporting"
+    dependsOn createJavadocCoverageDestDir
+    commandLine "${project.rootDir}/scripts/generate-javadoc-coverage",
+            "${project.rootDir}",
+            "${buildDir}/reports/javadoc-coverage"
+}

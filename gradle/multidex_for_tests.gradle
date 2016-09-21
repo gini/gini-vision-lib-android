@@ -1,0 +1,5 @@
+task enableMultiDexForAndroidTest {
+    description = "Enables multi-dex for the default config."
+    android.defaultConfig.multiDexEnabled = true
+}
+assembleAndroidTest.dependsOn.add(enableMultiDexForAndroidTest)

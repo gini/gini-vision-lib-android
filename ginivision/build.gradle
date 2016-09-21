@@ -42,6 +42,8 @@ dependencies {
     compile deps.slf4j
     compile deps.completableFuture
 
+    compile fileTree(dir: '${project.rootDir}/tools/doccheck-doclet', include: ['*.jar'])
+
     testCompile deps.junit
     testCompile deps.truth
     testCompile deps.mockito
@@ -60,10 +62,12 @@ dependencies {
 }
 
 apply from: rootProject.file('gradle/codequality.gradle')
-
 apply from: rootProject.file('gradle/maven.gradle')
+apply from: rootProject.file('gradle/javadoc_coverage.gradle')
+apply from: rootProject.file('gradle/multidex_for_tests.gradle')
 
-task generateReleaseJavadoc(type: Javadoc) {
+task generateJavadoc(type: Javadoc) {
+    description = "Generates javadoc for the Gini Vision Library."
     source = fileTree("src/main/java/").files.grep { it.name.endsWith('.java') }
     exclude '**/BuildConfig.java'
     exclude '**/R.java'
@@ -93,9 +97,9 @@ task sourcesJar(type: Jar, dependsOn: assembleRelease) {
     from android.sourceSets.main.java.srcDirs
 }
 
-task javadocJar(type: Jar, dependsOn: generateReleaseJavadoc) {
+task javadocJar(type: Jar, dependsOn: generateJavadoc) {
     classifier = 'javadoc'
-    from generateReleaseJavadoc.destinationDir
+    from generateJavadoc.destinationDir
 }
 
 artifacts {
@@ -103,13 +107,8 @@ artifacts {
     archives javadocJar
 }
 
-task enableMultiDexForAndroidTest {
-    android.defaultConfig.multiDexEnabled = true
-}
-assembleAndroidTest.dependsOn.add(enableMultiDexForAndroidTest)
-
-// Adds the connected tests coverage to JacocoReport tasks
 task unifyTestCoverage {
+    description = "Adds the connected tests' coverage to the JacocoReport tasks."
     doLast {
         tasks.withType(JacocoReport) { task ->
             task.executionData = task.executionData.plus(files(["${buildDir}/outputs/code-coverage/connected/coverage.ec"]))
