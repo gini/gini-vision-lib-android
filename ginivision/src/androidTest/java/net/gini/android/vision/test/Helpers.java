@@ -6,6 +6,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.test.InstrumentationRegistry;
 
+import net.gini.android.vision.Document;
+import net.gini.android.vision.internal.camera.photo.Photo;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,5 +56,12 @@ public class Helpers {
             outputStream.close();
         }
         return bytes;
+    }
+
+    public static Document createDocument(byte[] jpeg, int orientation) {
+        Photo photo = new Photo();
+        photo.setJpeg(jpeg);
+        photo.setRotationForDisplay(orientation);
+        return Document.fromPhoto(photo);
     }
 }
