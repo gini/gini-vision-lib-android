@@ -38,7 +38,7 @@ dependencies {
     compile deps.supportv4
     compile deps.supportv13
     compile deps.supportDesign
-    compile deps.sanselan
+    compile deps.commonsImaging
     compile deps.slf4j
     compile deps.completableFuture
 
