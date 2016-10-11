@@ -111,7 +111,11 @@ task unifyTestCoverage {
     description = "Adds the connected tests' coverage to the JacocoReport tasks."
     doLast {
         tasks.withType(JacocoReport) { task ->
-            task.executionData = task.executionData.plus(files(["${buildDir}/outputs/code-coverage/connected/coverage.ec"]))
+            File execDataDir = file("${buildDir}/outputs/code-coverage/connected")
+            if (execDataDir.exists() && execDataDir.isDirectory() && execDataDir.listFiles().length > 0) {
+                File[] execDataDirContents = execDataDir.listFiles();
+                task.executionData = task.executionData.plus(files { execDataDirContents })
+            }
         }
     }
 }
