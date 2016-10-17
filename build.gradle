@@ -18,7 +18,7 @@ allprojects {
         jcenter()
         maven {
             // For Commons Imaging
-            url 'https://repository.apache.org/content/repositories/snapshots/'
+            url 'https://repo.gini.net/nexus/content/repositories/open'
         }
     }
 }
@@ -43,7 +43,7 @@ ext.deps = [
         supportv13: 'com.android.support:support-v13:23.4.0',
         supportDesign: 'com.android.support:design:23.4.0',
         // Exif editing library
-        commonsImaging: 'org.apache.commons:commons-imaging:1.0-SNAPSHOT',
+        commonsImaging: 'org.apache.commons:commons-imaging:1.0.0gini',
         // Logging
         slf4j: 'org.slf4j:slf4j-api:1.7.21',
         // Backport/standalone version of CompletableFuture
