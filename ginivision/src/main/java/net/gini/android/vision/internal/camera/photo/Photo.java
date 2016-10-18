@@ -10,8 +10,8 @@ import android.support.annotation.VisibleForTesting;
 
 import net.gini.android.vision.Document;
 
-import org.apache.sanselan.ImageReadException;
-import org.apache.sanselan.ImageWriteException;
+import org.apache.commons.imaging.ImageReadException;
+import org.apache.commons.imaging.ImageWriteException;
 
 import java.io.File;
 import java.io.FileNotFoundException;

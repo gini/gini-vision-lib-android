@@ -19,7 +19,7 @@ apply plugin: 'pmd'
  */
 
 // Add checkstyle, findbugs, pmd and lint to the check task.
-check.dependsOn 'checkstyle', 'findbugs', 'pmd', 'lint'
+check.dependsOn.addAll 'checkstyle', 'findbugs', 'pmd', 'lint'
 
 task checkstyle(type: Checkstyle) {
     ignoreFailures = true
@@ -32,7 +32,7 @@ task checkstyle(type: Checkstyle) {
     classpath = files()
 }
 
-task findbugs(type: FindBugs, dependsOn: assembleDebug) {
+task findbugs(type: FindBugs, dependsOn: 'assembleDebug') {
     ignoreFailures = true
     effort = "max"
     excludeFilter = new File("${project.rootDir}/config/findbugs/findbugs-filter.xml")

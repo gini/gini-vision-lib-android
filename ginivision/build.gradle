@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'jacoco-android'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -15,6 +16,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            testCoverageEnabled = true
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -34,9 +38,11 @@ dependencies {
     compile deps.supportv4
     compile deps.supportv13
     compile deps.supportDesign
-    compile deps.sanselan
+    compile deps.commonsImaging
     compile deps.slf4j
     compile deps.completableFuture
+
+    compile fileTree(dir: '${project.rootDir}/tools/doccheck-doclet', include: ['*.jar'])
 
     testCompile deps.junit
     testCompile deps.truth
@@ -56,10 +62,12 @@ dependencies {
 }
 
 apply from: rootProject.file('gradle/codequality.gradle')
-
 apply from: rootProject.file('gradle/maven.gradle')
+apply from: rootProject.file('gradle/javadoc_coverage.gradle')
+apply from: rootProject.file('gradle/multidex_for_tests.gradle')
 
-task generateReleaseJavadoc(type: Javadoc) {
+task generateJavadoc(type: Javadoc) {
+    description = "Generates javadoc for the Gini Vision Library."
     source = fileTree("src/main/java/").files.grep { it.name.endsWith('.java') }
     exclude '**/BuildConfig.java'
     exclude '**/R.java'
@@ -84,14 +92,14 @@ task generateReleaseJavadoc(type: Javadoc) {
     }
 }
 
-task sourcesJar(type: Jar, dependsOn: assembleRelease) {
+task sourcesJar(type: Jar, dependsOn: 'assembleRelease') {
     classifier = 'sources'
     from android.sourceSets.main.java.srcDirs
 }
 
-task javadocJar(type: Jar, dependsOn: generateReleaseJavadoc) {
+task javadocJar(type: Jar, dependsOn: generateJavadoc) {
     classifier = 'javadoc'
-    from generateReleaseJavadoc.destinationDir
+    from generateJavadoc.destinationDir
 }
 
 artifacts {
@@ -99,7 +107,15 @@ artifacts {
     archives javadocJar
 }
 
-task enableMultiDexForAndroidTest {
-    android.defaultConfig.multiDexEnabled = true
+task unifyTestCoverage {
+    description = "Adds the connected tests' coverage to the JacocoReport tasks."
+    doLast {
+        tasks.withType(JacocoReport) { task ->
+            File execDataDir = file("${buildDir}/outputs/code-coverage/connected")
+            if (execDataDir.exists() && execDataDir.isDirectory() && execDataDir.listFiles().length > 0) {
+                File[] execDataDirContents = execDataDir.listFiles();
+                task.executionData = task.executionData.plus(files { execDataDirContents })
+            }
+        }
+    }
 }
-assembleAndroidTest.dependsOn.add(enableMultiDexForAndroidTest)

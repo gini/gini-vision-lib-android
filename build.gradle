@@ -5,7 +5,8 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.2'
+        classpath 'com.android.tools.build:gradle:2.2.0'
+        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.1'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -15,6 +16,10 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        maven {
+            // For Commons Imaging
+            url 'https://repo.gini.net/nexus/content/repositories/open'
+        }
     }
 }
 
@@ -38,7 +43,7 @@ ext.deps = [
         supportv13: 'com.android.support:support-v13:23.4.0',
         supportDesign: 'com.android.support:design:23.4.0',
         // Exif editing library
-        sanselan: 'org.apache.sanselan:sanselan:0.97-incubator',
+        commonsImaging: 'org.apache.commons:commons-imaging:1.0.0gini',
         // Logging
         slf4j: 'org.slf4j:slf4j-api:1.7.21',
         // Backport/standalone version of CompletableFuture

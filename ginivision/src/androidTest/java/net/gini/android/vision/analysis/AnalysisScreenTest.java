@@ -3,6 +3,7 @@ package net.gini.android.vision.analysis;
 import static com.google.common.truth.Truth.assertAbout;
 import static com.google.common.truth.Truth.assertThat;
 import static net.gini.android.vision.analysis.DocumentSubject.document;
+import static net.gini.android.vision.test.Helpers.createDocument;
 import static net.gini.android.vision.test.Helpers.getTestJpeg;
 
 import android.app.Instrumentation;
@@ -313,7 +314,7 @@ public class AnalysisScreenTest {
 
     private Intent getAnalysisActivityIntentWithDocument(byte[] jpeg, int orientation) {
         Intent intent = new Intent(InstrumentationRegistry.getTargetContext(), AnalysisActivityTestStub.class);
-        intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, Document.fromPhoto(Photo.fromJpeg(jpeg, orientation)));
+        intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, createDocument(jpeg, orientation));
         return intent;
     }
 }
