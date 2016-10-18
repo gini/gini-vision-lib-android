@@ -5,20 +5,20 @@ import android.support.annotation.NonNull;
 
 import net.gini.android.vision.BuildConfig;
 
-import org.apache.sanselan.ImageReadException;
-import org.apache.sanselan.ImageWriteException;
-import org.apache.sanselan.Sanselan;
-import org.apache.sanselan.formats.jpeg.JpegImageMetadata;
-import org.apache.sanselan.formats.jpeg.exifRewrite.ExifRewriter;
-import org.apache.sanselan.formats.tiff.TiffField;
-import org.apache.sanselan.formats.tiff.constants.ExifTagConstants;
-import org.apache.sanselan.formats.tiff.constants.TagInfo;
-import org.apache.sanselan.formats.tiff.constants.TiffDirectoryConstants;
-import org.apache.sanselan.formats.tiff.constants.TiffFieldTypeConstants;
-import org.apache.sanselan.formats.tiff.constants.TiffTagConstants;
-import org.apache.sanselan.formats.tiff.write.TiffOutputDirectory;
-import org.apache.sanselan.formats.tiff.write.TiffOutputField;
-import org.apache.sanselan.formats.tiff.write.TiffOutputSet;
+import org.apache.commons.imaging.ImageReadException;
+import org.apache.commons.imaging.ImageWriteException;
+import org.apache.commons.imaging.Imaging;
+import org.apache.commons.imaging.formats.jpeg.JpegImageMetadata;
+import org.apache.commons.imaging.formats.jpeg.exif.ExifRewriter;
+import org.apache.commons.imaging.formats.tiff.TiffField;
+import org.apache.commons.imaging.formats.tiff.constants.ExifTagConstants;
+import org.apache.commons.imaging.formats.tiff.constants.TiffDirectoryType;
+import org.apache.commons.imaging.formats.tiff.constants.TiffTagConstants;
+import org.apache.commons.imaging.formats.tiff.fieldtypes.FieldType;
+import org.apache.commons.imaging.formats.tiff.taginfos.TagInfo;
+import org.apache.commons.imaging.formats.tiff.write.TiffOutputDirectory;
+import org.apache.commons.imaging.formats.tiff.write.TiffOutputField;
+import org.apache.commons.imaging.formats.tiff.write.TiffOutputSet;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -54,11 +54,11 @@ public class Exif {
     public static RequiredTags readRequiredTags(@NonNull byte[] jpeg) throws IOException, ImageReadException {
         RequiredTags requiredTags = new RequiredTags();
 
-        JpegImageMetadata jpegMetadata = (JpegImageMetadata) Sanselan.getMetadata(jpeg);
+        JpegImageMetadata jpegMetadata = (JpegImageMetadata) Imaging.getMetadata(jpeg);
 
         if (jpegMetadata != null) {
-            requiredTags.make = jpegMetadata.findEXIFValue(ExifTagConstants.EXIF_TAG_MAKE);
-            requiredTags.model = jpegMetadata.findEXIFValue(ExifTagConstants.EXIF_TAG_MODEL);
+            requiredTags.make = jpegMetadata.findEXIFValue(TiffTagConstants.TIFF_TAG_MAKE);
+            requiredTags.model = jpegMetadata.findEXIFValue(TiffTagConstants.TIFF_TAG_MODEL);
             requiredTags.iso = jpegMetadata.findEXIFValue(ExifTagConstants.EXIF_TAG_ISO);
             requiredTags.exposure = jpegMetadata.findEXIFValue(ExifTagConstants.EXIF_TAG_EXPOSURE_TIME);
             requiredTags.aperture = jpegMetadata.findEXIFValue(ExifTagConstants.EXIF_TAG_APERTURE_VALUE);
@@ -80,9 +80,9 @@ public class Exif {
             mTiffOutputSet = new TiffOutputSet();
 
             mExifDirectory = mTiffOutputSet.getOrCreateExifDirectory();
-            mIfd0Directory = mTiffOutputSet.findDirectory(TiffDirectoryConstants.EXIF_DIRECTORY_IFD0.directoryType);
+            mIfd0Directory = mTiffOutputSet.findDirectory(TiffDirectoryType.TIFF_DIRECTORY_IFD0.directoryType);
             if (mIfd0Directory == null) {
-                mIfd0Directory = new TiffOutputDirectory(TiffDirectoryConstants.EXIF_DIRECTORY_IFD0.directoryType);
+                mIfd0Directory = new TiffOutputDirectory(TiffDirectoryType.TIFF_DIRECTORY_IFD0.directoryType, mTiffOutputSet.byteOrder);
                 mTiffOutputSet.addDirectory(mIfd0Directory);
             }
         }
@@ -100,8 +100,8 @@ public class Exif {
             // ISO
             if (requiredTags.iso != null) {
                 try {
-                    mExifDirectory.add(TiffOutputField.create(requiredTags.iso.tagInfo,
-                            requiredTags.iso.byteOrder, requiredTags.iso.getIntValue()));
+                    TiffOutputField isoField = createTiffOutputField(requiredTags.iso);
+                    mExifDirectory.add(isoField);
                 } catch (Exception e) {
                     // Ignore, ClassCastException was thrown on a Galaxy Nexus w. Android 4.3
                 }
@@ -109,8 +109,8 @@ public class Exif {
             // Exposure
             if (requiredTags.exposure != null) {
                 try {
-                    mExifDirectory.add(TiffOutputField.create(requiredTags.exposure.tagInfo,
-                            requiredTags.exposure.byteOrder, requiredTags.exposure.getDoubleValue()));
+                    TiffOutputField exposureField = createTiffOutputField(requiredTags.exposure);
+                    mExifDirectory.add(exposureField);
                 } catch (Exception e) {
                     // Shouldn't happen, but ignore it, if it does
                 }
@@ -118,8 +118,8 @@ public class Exif {
             // Aperture
             if (requiredTags.aperture != null) {
                 try {
-                    mExifDirectory.add(TiffOutputField.create(requiredTags.aperture.tagInfo,
-                            requiredTags.aperture.byteOrder, requiredTags.aperture.getDoubleValue()));
+                    TiffOutputField apertureField = createTiffOutputField(requiredTags.aperture);
+                    mExifDirectory.add(apertureField);
                 } catch (Exception e) {
                     // Shouldn't happen, but ignore it, if it does
                 }
@@ -127,8 +127,8 @@ public class Exif {
             // Flash
             if (requiredTags.flash != null) {
                 try {
-                    mExifDirectory.add(TiffOutputField.create(requiredTags.flash.tagInfo,
-                            requiredTags.flash.byteOrder, requiredTags.flash.getIntValue()));
+                    TiffOutputField flashField = createTiffOutputField(requiredTags.flash);
+                    mExifDirectory.add(flashField);
                 } catch (Exception e) {
                     // Shouldn't happen, but ignore it, if it does
                 }
@@ -136,13 +136,21 @@ public class Exif {
             // Compressed bits per pixel
             if (requiredTags.compressedBitsPerPixel != null) {
                 try {
-                    mExifDirectory.add(TiffOutputField.create(requiredTags.compressedBitsPerPixel.tagInfo,
-                            requiredTags.compressedBitsPerPixel.byteOrder, requiredTags.compressedBitsPerPixel.getDoubleValue()));
+                    TiffOutputField compressedBitsPerPixelField = createTiffOutputField(requiredTags.compressedBitsPerPixel);
+                    mExifDirectory.add(compressedBitsPerPixelField);
                 } catch (Exception e) {
                     // Shouldn't happen, but ignore it, if it does
                 }
             }
             return this;
+        }
+
+        @NonNull
+        private TiffOutputField createTiffOutputField(@NonNull TiffField tiffField) {
+            return new TiffOutputField(tiffField.getTagInfo(),
+                    tiffField.getFieldType(),
+                    (int) tiffField.getCount(),
+                    tiffField.getByteArrayValue());
         }
 
         @NonNull
@@ -155,7 +163,7 @@ public class Exif {
         public Builder setOrientationFromDegrees(int degrees) {
             byte[] bytes = new byte[1];
             bytes[0] = (byte) rotationToExifOrientation(degrees);
-            TiffOutputField orientationOutputField = new TiffOutputField(TiffTagConstants.TIFF_TAG_ORIENTATION, TiffFieldTypeConstants.FIELD_TYPE_SHORT, 1, bytes);
+            TiffOutputField orientationOutputField = new TiffOutputField(TiffTagConstants.TIFF_TAG_ORIENTATION, FieldType.SHORT, 1, bytes);
             mIfd0Directory.add(orientationOutputField);
             return this;
         }
@@ -165,12 +173,12 @@ public class Exif {
             return new Exif(mTiffOutputSet);
         }
 
-        private void addStringExif(@NonNull TiffOutputDirectory exifDirectory, @NonNull TiffField field) throws ImageReadException {
+        private void addStringExif(@NonNull TiffOutputDirectory outputDirectory, @NonNull TiffField field) throws ImageReadException {
             byte bytes[] = field.getStringValue().getBytes(Charset.forName("US-ASCII"));
-            addStringExif(exifDirectory, field.tagInfo, bytes);
+            addStringExif(outputDirectory, field.getTagInfo(), bytes);
         }
 
-        private void addUserCommentStringExif(@NonNull TiffOutputDirectory exifDirectory, @NonNull String value) {
+        private void addUserCommentStringExif(@NonNull TiffOutputDirectory outputDirectory, @NonNull String value) {
             // ASCII character code
             byte characterCode[] = new byte[]{0x41, 0x53, 0x43, 0x49, 0x49, 0x00, 0x00, 0x00};
 
@@ -180,12 +188,12 @@ public class Exif {
             System.arraycopy(characterCode, 0, userComment, 0, characterCode.length);
             System.arraycopy(comment, 0, userComment, characterCode.length, comment.length);
 
-            addStringExif(exifDirectory, ExifTagConstants.EXIF_TAG_USER_COMMENT, userComment);
+            addStringExif(outputDirectory, ExifTagConstants.EXIF_TAG_USER_COMMENT, userComment);
         }
 
-        private void addStringExif(TiffOutputDirectory exifDirectory, TagInfo tagInfo, byte[] bytes) {
-            TiffOutputField outputField = new TiffOutputField(tagInfo, TiffFieldTypeConstants.FIELD_TYPE_ASCII, bytes.length, bytes);
-            exifDirectory.add(outputField);
+        private void addStringExif(TiffOutputDirectory outputDirectory, TagInfo tagInfo, byte[] bytes) {
+            TiffOutputField outputField = new TiffOutputField(tagInfo, FieldType.ASCII, bytes.length, bytes);
+            outputDirectory.add(outputField);
         }
 
         @NonNull

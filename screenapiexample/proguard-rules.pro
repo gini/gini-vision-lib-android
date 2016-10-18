@@ -27,5 +27,9 @@
 # Don't obfuscate the jsr166e backport
 -keepnames class jersey.repackaged.jsr166e.** { *; }
 
-# Ignore warnings for Sanselan (it is safe to ignore the missing java.awt.* warnings)
--dontwarn org.apache.sanselan.**
+# Ignore warnings for Commons Imaging (it is safe to ignore the missing java.awt.* warnings)
+-dontwarn org.apache.commons.imaging.**
+
+# Required to prevent the "Ignoring InnerClasses attribute for an anonymous inner class (net.foo.bar)
+# that doesn't come with an associated EnclosingMethod attribute." warning
+-keepattributes EnclosingMethod
