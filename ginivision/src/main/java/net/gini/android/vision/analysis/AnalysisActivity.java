@@ -1,7 +1,11 @@
 package net.gini.android.vision.analysis;
 
-import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
-import static net.gini.android.vision.internal.util.ActivityHelper.handleMenuItemPressedForHomeButton;
+import net.gini.android.vision.Document;
+import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.R;
+import net.gini.android.vision.camera.CameraActivity;
+import net.gini.android.vision.onboarding.OnboardingActivity;
+import net.gini.android.vision.review.ReviewActivity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,12 +16,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 
-import net.gini.android.vision.Document;
-import net.gini.android.vision.GiniVisionError;
-import net.gini.android.vision.R;
-import net.gini.android.vision.camera.CameraActivity;
-import net.gini.android.vision.onboarding.OnboardingActivity;
-import net.gini.android.vision.review.ReviewActivity;
+import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
+import static net.gini.android.vision.internal.util.ActivityHelper.handleMenuItemPressedForHomeButton;
 
 /**
  * <h3>Screen API</h3>
@@ -153,9 +153,11 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gv_activity_analysis);
+        readExtras();
         if (savedInstanceState == null) {
-            readExtras();
             initFragment();
+        } else {
+            retainFragment();
         }
         enableHomeAsUp(this);
     }
@@ -207,6 +209,10 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
 
     private void createFragment() {
         mFragment = AnalysisFragmentCompat.createInstance(mDocument, mAnalysisErrorMessage);
+    }
+
+    private void retainFragment() {
+        mFragment = (AnalysisFragmentCompat) getSupportFragmentManager().findFragmentByTag(ANALYSIS_FRAGMENT);
     }
 
     private void showFragment() {
