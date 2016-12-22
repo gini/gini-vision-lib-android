@@ -1,7 +1,11 @@
 package net.gini.android.vision.review;
 
-import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
-import static net.gini.android.vision.internal.util.ActivityHelper.handleMenuItemPressedForHomeButton;
+import net.gini.android.vision.Document;
+import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.R;
+import net.gini.android.vision.analysis.AnalysisActivity;
+import net.gini.android.vision.camera.CameraActivity;
+import net.gini.android.vision.onboarding.OnboardingActivity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,12 +15,8 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import net.gini.android.vision.Document;
-import net.gini.android.vision.GiniVisionError;
-import net.gini.android.vision.R;
-import net.gini.android.vision.analysis.AnalysisActivity;
-import net.gini.android.vision.camera.CameraActivity;
-import net.gini.android.vision.onboarding.OnboardingActivity;
+import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
+import static net.gini.android.vision.internal.util.ActivityHelper.handleMenuItemPressedForHomeButton;
 
 /**
  * <h3>Screen API</h3>
@@ -161,9 +161,11 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gv_activity_review);
+        readExtras();
         if (savedInstanceState == null) {
-            readExtras();
             initFragment();
+        } else {
+            retainFragment();
         }
         enableHomeAsUp(this);
     }
@@ -219,6 +221,10 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
 
     private void createFragment() {
         mFragment = ReviewFragmentCompat.createInstance(mDocument);
+    }
+
+    private void retainFragment() {
+        mFragment = (ReviewFragmentCompat) getSupportFragmentManager().findFragmentByTag(REVIEW_FRAGMENT);
     }
 
     private void showFragment() {
