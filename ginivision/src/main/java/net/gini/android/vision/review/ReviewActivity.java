@@ -161,8 +161,8 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gv_activity_review);
+        readExtras();
         if (savedInstanceState == null) {
-            readExtras();
             initFragment();
         } else {
             retainFragment();
@@ -208,10 +208,6 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
         }
     }
 
-    private void retainFragment() {
-        mFragment = (ReviewFragmentCompat) getSupportFragmentManager().findFragmentByTag(REVIEW_FRAGMENT);
-    }
-
     private void initFragment() {
         if (!isFragmentShown()) {
             createFragment();
@@ -225,6 +221,10 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
 
     private void createFragment() {
         mFragment = ReviewFragmentCompat.createInstance(mDocument);
+    }
+
+    private void retainFragment() {
+        mFragment = (ReviewFragmentCompat) getSupportFragmentManager().findFragmentByTag(REVIEW_FRAGMENT);
     }
 
     private void showFragment() {
