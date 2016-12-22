@@ -49,6 +49,8 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
 
     private static final Logger LOG = LoggerFactory.getLogger(GiniVisionActivity.class);
 
+    private static final String STATE_SHOW_CAMERA_ON_START = "STATE_SHOW_CAMERA_ON_START";
+
     private Fragment mCurrentFragment;
 
     private GiniVisionCoordinator mGiniVisionCoordinator;
@@ -67,8 +69,17 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
         configureLogging();
         bindViews();
         setupGiniVisionCoordinator();
-        showCamera();
+        if (savedInstanceState == null) {
+            showCamera();
+        } else {
+            initState(savedInstanceState);
+            retainFragment();
+        }
         mSingleDocumentAnalyzer = ((ComponentApiApp)getApplication()).getSingleDocumentAnalyzer();
+    }
+
+    private void initState(final Bundle savedInstanceState) {
+        mShowCameraOnStart = savedInstanceState.getBoolean(STATE_SHOW_CAMERA_ON_START, mShowCameraOnStart);
     }
 
     @Override
@@ -177,6 +188,10 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
                 .replace(R.id.fragment_container, fragment)
                 .commit();
         setTitle(titleRes);
+    }
+
+    private void retainFragment() {
+        mCurrentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
     }
 
     public void showOnboarding() {

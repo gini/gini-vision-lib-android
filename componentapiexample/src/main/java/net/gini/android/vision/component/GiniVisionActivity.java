@@ -49,6 +49,8 @@ public class GiniVisionActivity extends Activity
 
     private static final Logger LOG = LoggerFactory.getLogger(GiniVisionActivity.class);
 
+    private static final String STATE_SHOW_CAMERA_ON_START = "STATE_SHOW_CAMERA_ON_START";
+
     private Fragment mCurrentFragment;
 
     private GiniVisionCoordinator mGiniVisionCoordinator;
@@ -66,8 +68,17 @@ public class GiniVisionActivity extends Activity
         setContentView(R.layout.activity_gini_vision);
         configureLogging();
         setupGiniVisionCoordinator();
-        showCamera();
+        if (savedInstanceState == null) {
+            showCamera();
+        } else {
+            initState(savedInstanceState);
+            retainFragment();
+        }
         mSingleDocumentAnalyzer = ((ComponentApiApp)getApplication()).getSingleDocumentAnalyzer();
+    }
+
+    private void initState(final Bundle savedInstanceState) {
+        mShowCameraOnStart = savedInstanceState.getBoolean(STATE_SHOW_CAMERA_ON_START, mShowCameraOnStart);
     }
 
     @Override
@@ -79,6 +90,12 @@ public class GiniVisionActivity extends Activity
             showCamera();
             mShowCameraOnStart = false;
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(final Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(STATE_SHOW_CAMERA_ON_START, mShowCameraOnStart);
     }
 
     private void setupGiniVisionCoordinator() {
@@ -173,6 +190,10 @@ public class GiniVisionActivity extends Activity
                 .replace(R.id.fragment_container, fragment)
                 .commit();
         setTitle(titleRes);
+    }
+
+    private void retainFragment() {
+        mCurrentFragment = getFragmentManager().findFragmentById(R.id.fragment_container);
     }
 
     public void showOnboarding() {
