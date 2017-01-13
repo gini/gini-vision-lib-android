@@ -1,5 +1,6 @@
 package net.gini.android.vision.internal.camera.api;
 
+import static net.gini.android.vision.internal.camera.api.Util.getLargestSameAspectRatioSize;
 import static net.gini.android.vision.internal.camera.api.Util.getLargestSize;
 
 import android.app.Activity;
@@ -336,16 +337,6 @@ public class CameraController implements CameraInterface {
 
         Camera.Parameters params = mCamera.getParameters();
 
-        List<Camera.Size> previewSizes = params.getSupportedPreviewSizes();
-        Size previewSize = getLargestSize(previewSizes);
-        if (previewSize != null) {
-            mPreviewSize = previewSize;
-            params.setPreviewSize(mPreviewSize.width, mPreviewSize.height);
-            LOG.debug("Preview size ({}, {})", mPreviewSize.width, mPreviewSize.height);
-        } else {
-            LOG.warn("No suitable preview size found");
-        }
-
         List<Camera.Size> pictureSizes = params.getSupportedPictureSizes();
         Size pictureSize = getLargestSize(pictureSizes);
         if (pictureSize != null) {
@@ -354,6 +345,16 @@ public class CameraController implements CameraInterface {
             LOG.debug("Picture size ({}, {})", mPictureSize.width, mPictureSize.height);
         } else {
             LOG.warn("No suitable picture size found");
+        }
+
+        List<Camera.Size> previewSizes = params.getSupportedPreviewSizes();
+        Size previewSize = getLargestSameAspectRatioSize(previewSizes, mPictureSize);
+        if (previewSize != null) {
+            mPreviewSize = previewSize;
+            params.setPreviewSize(mPreviewSize.width, mPreviewSize.height);
+            LOG.debug("Preview size ({}, {})", mPreviewSize.width, mPreviewSize.height);
+        } else {
+            LOG.warn("No suitable preview size found");
         }
 
         if (params.getSupportedFocusModes().contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
