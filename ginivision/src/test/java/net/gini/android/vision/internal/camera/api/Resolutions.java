@@ -94,11 +94,8 @@ final class Resolutions {
         return sizes;
     }
 
-    static Camera.Size toCameraSize(int[] resolution) {
-        final Camera.Size size = mock(Camera.Size.class);
-        size.width = resolution[0];
-        size.height = resolution[1];
-        return size;
+    static Size toSize(int[] resolution) {
+        return new Size(resolution[0], resolution[1]);
     }
 
     static void assertSizeEqualsToExpectedResolution(final Size largestSize, int[] expectedResolution) {
