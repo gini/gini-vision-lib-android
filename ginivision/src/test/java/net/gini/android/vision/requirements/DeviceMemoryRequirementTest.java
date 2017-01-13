@@ -33,15 +33,6 @@ public class DeviceMemoryRequirementTest {
     }
 
     @Test
-    public void should_reportUnfulfilled_ifNoPictureSize_with4to3AspectRatio() {
-        CameraHolder cameraHolder = getCameraHolder(Collections.singletonList(createSize(600, 400)));
-
-        DeviceMemoryRequirement requirement = new DeviceMemoryRequirement(cameraHolder);
-
-        assertThat(requirement.check().isFulfilled()).isFalse();
-    }
-
-    @Test
     public void should_reportUnfulfilled_ifEnoughMemory_isNotAvailable() {
         CameraHolder cameraHolder = getCameraHolder(null);
 
