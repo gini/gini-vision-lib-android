@@ -1,6 +1,6 @@
 package net.gini.android.vision.internal.camera.api;
 
-import static net.gini.android.vision.internal.camera.api.Util.getLargestFourThreeRatioSize;
+import static net.gini.android.vision.internal.camera.api.Util.getLargestSize;
 
 import android.app.Activity;
 import android.graphics.Matrix;
@@ -337,23 +337,23 @@ public class CameraController implements CameraInterface {
         Camera.Parameters params = mCamera.getParameters();
 
         List<Camera.Size> previewSizes = params.getSupportedPreviewSizes();
-        Size previewSize = getLargestFourThreeRatioSize(previewSizes);
+        Size previewSize = getLargestSize(previewSizes);
         if (previewSize != null) {
             mPreviewSize = previewSize;
             params.setPreviewSize(mPreviewSize.width, mPreviewSize.height);
             LOG.debug("Preview size ({}, {})", mPreviewSize.width, mPreviewSize.height);
         } else {
-            LOG.warn("No 4:3 preview size found");
+            LOG.warn("No suitable preview size found");
         }
 
         List<Camera.Size> pictureSizes = params.getSupportedPictureSizes();
-        Size pictureSize = getLargestFourThreeRatioSize(pictureSizes);
+        Size pictureSize = getLargestSize(pictureSizes);
         if (pictureSize != null) {
             mPictureSize = pictureSize;
             params.setPictureSize(mPictureSize.width, mPictureSize.height);
             LOG.debug("Picture size ({}, {})", mPictureSize.width, mPictureSize.height);
         } else {
-            LOG.warn("No 4:3 picture size found");
+            LOG.warn("No suitable picture size found");
         }
 
         if (params.getSupportedFocusModes().contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {

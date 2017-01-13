@@ -14,15 +14,18 @@ import java.util.List;
 public final class Util {
 
     @Nullable
-    public static Size getLargestFourThreeRatioSize(@NonNull List<Camera.Size> sizes) {
-        Camera.Size bestFit = null;
+    public static Size getLargestSize(@NonNull List<Camera.Size> sizes) {
+        Camera.Size largest = null;
         for (Camera.Size size : sizes) {
-            if (Math.abs((float) size.width / (float) size.height - 4.f / 3.f) < 0.001 &&
-                    (bestFit == null || bestFit.width * bestFit.height < size.width * size.height)) {
-                bestFit = size;
+            if (largest == null || getArea(largest) < getArea(size)) {
+                largest = size;
             }
         }
-        return bestFit != null ? new Size(bestFit.width, bestFit.height) : null;
+        return largest != null ? new Size(largest.width, largest.height) : null;
+    }
+
+    private static long getArea(final Camera.Size size) {
+        return size.width * size.height;
     }
 
     private Util() {

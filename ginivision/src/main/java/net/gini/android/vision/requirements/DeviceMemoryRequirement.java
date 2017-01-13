@@ -30,7 +30,7 @@ class DeviceMemoryRequirement implements Requirement {
         try {
             Camera.Parameters parameters = mCameraHolder.getCameraParameters();
             if (parameters != null) {
-                Size pictureSize = Util.getLargestFourThreeRatioSize(parameters.getSupportedPictureSizes());
+                Size pictureSize = Util.getLargestSize(parameters.getSupportedPictureSizes());
                 if (pictureSize == null) {
                     result = false;
                     details = "Cannot determine memory requirement as the camera has no picture resolution with a 4:3 aspect ratio";

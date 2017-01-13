@@ -32,20 +32,20 @@ class CameraResolutionRequirement implements Requirement {
         try {
             Camera.Parameters parameters = mCameraHolder.getCameraParameters();
             if (parameters != null) {
-                Size previewSize = Util.getLargestFourThreeRatioSize(parameters.getSupportedPreviewSizes());
+                Size previewSize = Util.getLargestSize(parameters.getSupportedPreviewSizes());
                 if (previewSize == null) {
                     result = false;
-                    details = "Camera has no preview resolution with a 4:3 aspect ratio";
+                    details = "Camera has no preview resolutions";
                     return new RequirementReport(getId(), result, details);
                 }
 
-                Size pictureSize = Util.getLargestFourThreeRatioSize(parameters.getSupportedPictureSizes());
+                Size pictureSize = Util.getLargestSize(parameters.getSupportedPictureSizes());
                 if (pictureSize == null) {
                     result = false;
-                    details = "Camera has no picture resolution with a 4:3 aspect ratio";
+                    details = "Camera has no picture resolutions";
                 } else if (!isAround8MPOrHigher(pictureSize)) {
                     result = false;
-                    details = "Camera picture resolution is lower than 8MP";
+                    details = "Largest camera picture resolution is lower than 8MP";
                 }
             } else {
                 result = false;
