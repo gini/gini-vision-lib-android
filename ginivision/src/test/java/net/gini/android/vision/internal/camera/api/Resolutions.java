@@ -29,7 +29,7 @@ final class Resolutions {
     //1024	×	768     786,432     4:3     (1,33)
     //800	×	600     480,000     4:3     (1,33)
 
-    public static final int[][] DECREASING_RESOLUTIONS = {
+    static final int[][] DECREASING_RESOLUTIONS = {
             {4096, 3072},
             {4096, 2304},
             {3840, 2160},
@@ -47,7 +47,7 @@ final class Resolutions {
             {800, 600}
     };
 
-    public static final int[][] INCREASING_RESOLUTIONS = {
+    static final int[][] INCREASING_RESOLUTIONS = {
             {800, 600},
             {1024, 768},
             {1280, 720},
@@ -65,7 +65,7 @@ final class Resolutions {
             {4096, 3072}
     };
 
-    public static final int[][] UNSORTED_RESOLUTIONS = {
+    static final int[][] UNSORTED_RESOLUTIONS = {
             {3200, 2400},
             {3840, 2160},
             {4096, 3072},
