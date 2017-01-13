@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import net.gini.android.vision.internal.camera.api.Util;
 import net.gini.android.vision.internal.camera.photo.Size;
 
+import java.util.Locale;
+
 class CameraResolutionRequirement implements Requirement {
 
     // We require ~8MP or higher picture resolutions
@@ -32,20 +34,26 @@ class CameraResolutionRequirement implements Requirement {
         try {
             Camera.Parameters parameters = mCameraHolder.getCameraParameters();
             if (parameters != null) {
-                Size previewSize = Util.getLargestSize(parameters.getSupportedPreviewSizes());
-                if (previewSize == null) {
-                    result = false;
-                    details = "Camera has no preview resolutions";
-                    return new RequirementReport(getId(), result, details);
-                }
-
                 Size pictureSize = Util.getLargestSize(parameters.getSupportedPictureSizes());
                 if (pictureSize == null) {
                     result = false;
                     details = "Camera has no picture resolutions";
+                    return new RequirementReport(getId(), result, details);
                 } else if (!isAround8MPOrHigher(pictureSize)) {
                     result = false;
                     details = "Largest camera picture resolution is lower than 8MP";
+                    return new RequirementReport(getId(), result, details);
+                }
+
+                Size previewSize = Util.getLargestSameAspectRatioSize(
+                        parameters.getSupportedPreviewSizes(), pictureSize);
+                if (previewSize == null) {
+                    result = false;
+                    details = String.format(Locale.US,
+                            "Camera has no preview resolutions matching the picture resolution "
+                                    + "%dx%d",
+                            pictureSize.width, pictureSize.height);
+                    return new RequirementReport(getId(), result, details);
                 }
             } else {
                 result = false;
@@ -53,7 +61,7 @@ class CameraResolutionRequirement implements Requirement {
             }
         } catch (RuntimeException e) {
             result = false;
-            details = "Camera exception: " + e .getMessage();
+            details = "Camera exception: " + e.getMessage();
         }
 
         return new RequirementReport(getId(), result, details);
