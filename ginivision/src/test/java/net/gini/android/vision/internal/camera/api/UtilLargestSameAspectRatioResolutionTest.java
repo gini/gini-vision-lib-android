@@ -3,7 +3,7 @@ package net.gini.android.vision.internal.camera.api;
 import static net.gini.android.vision.internal.camera.api.Resolutions.DECREASING_RESOLUTIONS;
 import static net.gini.android.vision.internal.camera.api.Resolutions.INCREASING_RESOLUTIONS;
 import static net.gini.android.vision.internal.camera.api.Resolutions.UNSORTED_RESOLUTIONS;
-import static net.gini.android.vision.internal.camera.api.Resolutions.assertSizeEqualsToExpectedResolution;
+import static net.gini.android.vision.internal.camera.api.Resolutions.assertSizeEqualsResolution;
 import static net.gini.android.vision.internal.camera.api.Resolutions.toSize;
 import static net.gini.android.vision.internal.camera.api.Resolutions.toSizesList;
 
@@ -68,6 +68,6 @@ public class UtilLargestSameAspectRatioResolutionTest {
         List<Camera.Size> sizes = toSizesList(resolutions);
         Size largestSize = Util.getLargestSameAspectRatioSize(sizes,
                 toSize(referenceResolution));
-        assertSizeEqualsToExpectedResolution(largestSize, expectedResolution);
+        assertSizeEqualsResolution(largestSize, expectedResolution);
     }
 }

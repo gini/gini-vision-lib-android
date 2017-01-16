@@ -98,7 +98,7 @@ final class Resolutions {
         return new Size(resolution[0], resolution[1]);
     }
 
-    static void assertSizeEqualsToExpectedResolution(final Size largestSize, int[] expectedResolution) {
+    static void assertSizeEqualsResolution(final Size largestSize, int[] expectedResolution) {
         assertThat(largestSize).isNotNull();
         assertThat(largestSize.width).isEqualTo(expectedResolution[0]);
         assertThat(largestSize.height).isEqualTo(expectedResolution[1]);
