@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.List;
 
 @RunWith(Parameterized.class)
-public class UtilLargestSameAspectRatioResolutionTest {
+public class SizeSelectionHelper_GetLargestSizeWithSameAspectRatioTest {
 
     @Parameterized.Parameters(name = "{0}")
     public static Collection<Object[]> parameters() {
@@ -54,7 +54,7 @@ public class UtilLargestSameAspectRatioResolutionTest {
     private final int[] referenceResolution;
     private final int[] expectedResolution;
 
-    public UtilLargestSameAspectRatioResolutionTest(final String description,
+    public SizeSelectionHelper_GetLargestSizeWithSameAspectRatioTest(final String description,
             final int[][] resolutions,
             final int[] referenceResolution, final int[] expectedResolution) {
         this.description = description;
@@ -66,7 +66,7 @@ public class UtilLargestSameAspectRatioResolutionTest {
     @Test
     public void should_returnLargestSameAspectRatioSize() {
         List<Camera.Size> sizes = toSizesList(resolutions);
-        Size largestSize = Util.getLargestSizeWithSameAspectRatio(sizes,
+        Size largestSize = SizeSelectionHelper.getLargestSizeWithSameAspectRatio(sizes,
                 toSize(referenceResolution));
         assertSizeEqualsResolution(largestSize, expectedResolution);
     }

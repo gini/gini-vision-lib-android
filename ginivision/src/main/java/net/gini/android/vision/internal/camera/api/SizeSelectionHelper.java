@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * @exclude 
  */
-public final class Util {
+public final class SizeSelectionHelper {
 
     @Nullable
     public static Size getLargestSize(@NonNull List<Camera.Size> sizes) {
@@ -56,6 +56,6 @@ public final class Util {
         return size.width * size.height;
     }
 
-    private Util() {
+    private SizeSelectionHelper() {
     }
 }

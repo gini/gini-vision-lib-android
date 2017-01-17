@@ -3,7 +3,7 @@ package net.gini.android.vision.requirements;
 import android.hardware.Camera;
 import android.support.annotation.NonNull;
 
-import net.gini.android.vision.internal.camera.api.Util;
+import net.gini.android.vision.internal.camera.api.SizeSelectionHelper;
 import net.gini.android.vision.internal.camera.photo.Size;
 
 import java.util.Locale;
@@ -34,7 +34,7 @@ class CameraResolutionRequirement implements Requirement {
         try {
             Camera.Parameters parameters = mCameraHolder.getCameraParameters();
             if (parameters != null) {
-                Size pictureSize = Util.getLargestSize(parameters.getSupportedPictureSizes());
+                Size pictureSize = SizeSelectionHelper.getLargestSize(parameters.getSupportedPictureSizes());
                 if (pictureSize == null) {
                     result = false;
                     details = "Camera has no picture resolutions";
@@ -45,7 +45,7 @@ class CameraResolutionRequirement implements Requirement {
                     return new RequirementReport(getId(), result, details);
                 }
 
-                Size previewSize = Util.getLargestSizeWithSameAspectRatio(
+                Size previewSize = SizeSelectionHelper.getLargestSizeWithSameAspectRatio(
                         parameters.getSupportedPreviewSizes(), pictureSize);
                 if (previewSize == null) {
                     result = false;

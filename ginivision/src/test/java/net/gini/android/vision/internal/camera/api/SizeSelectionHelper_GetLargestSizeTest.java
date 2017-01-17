@@ -19,7 +19,7 @@ import java.util.Collection;
 import java.util.List;
 
 @RunWith(Parameterized.class)
-public class UtilLargestResolutionTest {
+public class SizeSelectionHelper_GetLargestSizeTest {
 
     @Parameterized.Parameters(name = "{0}")
     public static Collection<Object[]> parameters() {
@@ -34,7 +34,7 @@ public class UtilLargestResolutionTest {
     private final int[][] resolutions;
     private final int[] expectedResolution;
 
-    public UtilLargestResolutionTest(final String description, final int[][] resolutions,
+    public SizeSelectionHelper_GetLargestSizeTest(final String description, final int[][] resolutions,
             final int[] expectedResolution) {
         this.description = description;
         this.resolutions = resolutions;
@@ -44,7 +44,7 @@ public class UtilLargestResolutionTest {
     @Test
     public void should_returnLargestSize() {
         List<Camera.Size> sizes = toSizesList(resolutions);
-        Size largestSize = Util.getLargestSize(sizes);
+        Size largestSize = SizeSelectionHelper.getLargestSize(sizes);
         assertSizeEqualsResolution(largestSize, expectedResolution);
     }
 }

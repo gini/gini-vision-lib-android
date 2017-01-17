@@ -1,7 +1,7 @@
 package net.gini.android.vision.internal.camera.api;
 
-import static net.gini.android.vision.internal.camera.api.Util.getLargestSizeWithSameAspectRatio;
-import static net.gini.android.vision.internal.camera.api.Util.getLargestSize;
+import static net.gini.android.vision.internal.camera.api.SizeSelectionHelper.getLargestSizeWithSameAspectRatio;
+import static net.gini.android.vision.internal.camera.api.SizeSelectionHelper.getLargestSize;
 
 import android.app.Activity;
 import android.graphics.Matrix;
