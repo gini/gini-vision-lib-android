@@ -26,7 +26,7 @@ public final class Util {
     }
 
     @Nullable
-    public static Size getLargestSameAspectRatioSize(
+    public static Size getLargestSizeWithSameAspectRatio(
             @NonNull final List<Camera.Size> sizes, @NonNull final Size referenceSize) {
         List<Camera.Size> sameAspectSizes = getSameAspectRatioSizes(sizes, referenceSize);
         return getLargestSize(sameAspectSizes);

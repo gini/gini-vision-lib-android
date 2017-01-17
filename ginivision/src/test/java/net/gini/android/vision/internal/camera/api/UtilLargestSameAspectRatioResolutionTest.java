@@ -66,7 +66,7 @@ public class UtilLargestSameAspectRatioResolutionTest {
     @Test
     public void should_returnLargestSameAspectRatioSize() {
         List<Camera.Size> sizes = toSizesList(resolutions);
-        Size largestSize = Util.getLargestSameAspectRatioSize(sizes,
+        Size largestSize = Util.getLargestSizeWithSameAspectRatio(sizes,
                 toSize(referenceResolution));
         assertSizeEqualsResolution(largestSize, expectedResolution);
     }
