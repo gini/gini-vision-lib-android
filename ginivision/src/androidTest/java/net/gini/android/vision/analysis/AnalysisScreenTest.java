@@ -27,6 +27,7 @@ import net.gini.android.vision.internal.ui.ErrorSnackbar;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,6 +35,7 @@ import org.junit.runner.RunWith;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+@Ignore
 @RunWith(AndroidJUnit4.class)
 public class AnalysisScreenTest {
 

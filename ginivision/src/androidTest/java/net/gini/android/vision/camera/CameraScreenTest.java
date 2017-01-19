@@ -4,6 +4,9 @@ import static net.gini.android.vision.OncePerInstallEventStoreHelper.clearOnboar
 import static net.gini.android.vision.OncePerInstallEventStoreHelper.setOnboardingWasShownPreference;
 import static net.gini.android.vision.test.EspressoMatchers.hasComponent;
 import static net.gini.android.vision.test.Helpers.prepareLooper;
+import static net.gini.android.vision.test.Helpers.takeScreenshotForBitBar;
+import static net.gini.android.vision.test.PermissionsHelper.grantCameraPermission;
+import static net.gini.android.vision.test.PermissionsHelper.grantExternalStoragePermission;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -33,12 +36,15 @@ import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 @RunWith(AndroidJUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -49,7 +55,8 @@ public class CameraScreenTest {
     private static final long TAKE_SCREENSHOT_PAUSE_DURATION = 1000;
 
     @Rule
-    public IntentsTestRule<CameraActivity> mIntentsTestRule = new IntentsTestRule<>(CameraActivity.class, true, false);
+    public IntentsTestRule<CameraActivity> mIntentsTestRule = new IntentsTestRule<>(
+            CameraActivity.class, true, false);
 
     private UiDevice mUiDevice;
 
@@ -66,28 +73,33 @@ public class CameraScreenTest {
         Thread.sleep(CLOSE_CAMERA_PAUSE_DURATION);
     }
 
+    @Ignore
     @Test(expected = IllegalStateException.class)
     public void should_throwException_whenReviewActivityClass_wasNotGiven() {
         CameraActivity cameraActivity = new CameraActivity();
 
         Intent intent = new Intent(Intent.ACTION_MAIN);
-        CameraActivity.setAnalysisActivityExtra(intent, InstrumentationRegistry.getTargetContext(), AnalysisActivityTestStub.class);
+        CameraActivity.setAnalysisActivityExtra(intent, InstrumentationRegistry.getTargetContext(),
+                AnalysisActivityTestStub.class);
         cameraActivity.setIntent(intent);
 
         cameraActivity.readExtras();
     }
 
+    @Ignore
     @Test(expected = IllegalStateException.class)
     public void should_throwException_whenAnalysisActivityClass_wasNotGiven() {
         CameraActivity cameraActivity = new CameraActivity();
 
         Intent intent = new Intent(Intent.ACTION_MAIN);
-        CameraActivity.setReviewActivityExtra(intent, InstrumentationRegistry.getTargetContext(), ReviewActivityTestStub.class);
+        CameraActivity.setReviewActivityExtra(intent, InstrumentationRegistry.getTargetContext(),
+                ReviewActivityTestStub.class);
         cameraActivity.setIntent(intent);
 
         cameraActivity.readExtras();
     }
 
+    @Ignore
     @Test
     public void should_showOnboarding_onFirstLaunch_ifNotDisabled() {
         Intent intent = getCameraActivityIntent();
@@ -97,6 +109,7 @@ public class CameraScreenTest {
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
+    @Ignore
     @Test
     public void should_notShowOnboarding_onFirstLaunch_ifDisabled() {
         startCameraActivityWithoutOnboarding();
@@ -105,6 +118,7 @@ public class CameraScreenTest {
                 .check(ViewAssertions.doesNotExist());
     }
 
+    @Ignore
     @Test
     public void should_showOnboarding_ifRequested_andWasAlreadyShownOnFirstLaunch() {
         setOnboardingWasShownPreference();
@@ -117,10 +131,12 @@ public class CameraScreenTest {
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
+    @Ignore
     @Test
     public void should_passCustomOnboardingPages_toOnboardingActivity() {
         ArrayList<OnboardingPage> onboardingPages = new ArrayList<>(1);
-        onboardingPages.add(new OnboardingPage(R.string.gv_onboarding_align, R.drawable.gv_onboarding_align));
+        onboardingPages.add(
+                new OnboardingPage(R.string.gv_onboarding_align, R.drawable.gv_onboarding_align));
 
         Intent intent = getCameraActivityIntent();
         intent.putExtra(CameraActivity.EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN, false);
@@ -134,9 +150,12 @@ public class CameraScreenTest {
                 .perform(ViewActions.click());
 
         Intents.intended(IntentMatchers.hasComponent(OnboardingActivity.class.getName()));
-        Intents.intended(IntentMatchers.hasExtra(Matchers.equalTo(OnboardingActivity.EXTRA_ONBOARDING_PAGES), Matchers.any(ArrayList.class)));
+        Intents.intended(
+                IntentMatchers.hasExtra(Matchers.equalTo(OnboardingActivity.EXTRA_ONBOARDING_PAGES),
+                        Matchers.any(ArrayList.class)));
     }
 
+    @Ignore
     @Test
     public void should_showOnboarding_whenOnboardingMenuItem_wasTapped() {
         startCameraActivityWithoutOnboarding();
@@ -147,19 +166,23 @@ public class CameraScreenTest {
         Intents.intended(IntentMatchers.hasComponent(OnboardingActivity.class.getName()));
     }
 
+    @Ignore
     @SdkSuppress(minSdkVersion = 23)
     @Test
     public void a_should_showNoPermissionView_ifNoCameraPermission() {
-        // Gini Vision Library does not handle runtime permissions and the no permission view is shown by default
+        // Gini Vision Library does not handle runtime permissions and the no permission view is
+        // shown by default
         startCameraActivityWithoutOnboarding();
 
         Espresso.onView(ViewMatchers.withId(R.id.gv_layout_camera_no_permission))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
+    @Ignore
     @SdkSuppress(minSdkVersion = 23)
     @Test
-    public void b_should_showCameraPreview_afterCameraPermission_wasGranted() throws UiObjectNotFoundException {
+    public void b_should_showCameraPreview_afterCameraPermission_wasGranted()
+            throws UiObjectNotFoundException {
         startCameraActivityWithoutOnboarding();
 
         // Open the Application Details in the Settings
@@ -182,13 +205,15 @@ public class CameraScreenTest {
 
         // Verifiy that the no permission view was removed
         Espresso.onView(ViewMatchers.withId(R.id.gv_layout_camera_no_permission))
-                .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
+                .check(ViewAssertions.matches(
+                        ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
 
         // Verify that the camera preview is visible
         Espresso.onView(ViewMatchers.withId(R.id.gv_camera_preview))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
+    @Ignore
     @Test
     public void should_showReviewScreen_afterPictureWasTaken() throws InterruptedException {
         startCameraActivityWithoutOnboarding();
@@ -202,8 +227,10 @@ public class CameraScreenTest {
         Intents.intended(IntentMatchers.hasComponent(ReviewActivityTestStub.class.getName()));
     }
 
+    @Ignore
     @Test
-    public void should_takeOnlyOnePicture_ifTrigger_wasPressedMultipleTimes() throws InterruptedException {
+    public void should_takeOnlyOnePicture_ifTrigger_wasPressedMultipleTimes()
+            throws InterruptedException {
         startCameraActivityWithoutOnboarding();
 
         Espresso.onView(ViewMatchers.withId(R.id.gv_button_camera_trigger))
@@ -215,6 +242,7 @@ public class CameraScreenTest {
         Intents.intended(IntentMatchers.hasComponent(ReviewActivityTestStub.class.getName()));
     }
 
+    @Ignore
     @Test
     public void should_passAnalysisActivityIntent_toReviewActivity() throws InterruptedException {
         startCameraActivityWithoutOnboarding();
@@ -226,16 +254,20 @@ public class CameraScreenTest {
         Thread.sleep(TAKE_PICTURE_PAUSE_DURATION);
 
         Intents.intended(IntentMatchers.hasComponent(ReviewActivityTestStub.class.getName()));
-        Intents.intended(IntentMatchers.hasExtra(Matchers.equalTo(ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY), hasComponent(AnalysisActivityTestStub.class.getName())));
+        Intents.intended(
+                IntentMatchers.hasExtra(Matchers.equalTo(ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY),
+                        hasComponent(AnalysisActivityTestStub.class.getName())));
 
     }
 
+    @Ignore
     @NonNull
     private CameraActivity startCameraActivity() {
         Intent intent = getCameraActivityIntent();
         return mIntentsTestRule.launchActivity(intent);
     }
 
+    @Ignore
     @NonNull
     private CameraActivity startCameraActivityWithoutOnboarding() {
         Intent intent = getCameraActivityIntent();
@@ -243,11 +275,14 @@ public class CameraScreenTest {
         return mIntentsTestRule.launchActivity(intent);
     }
 
+    @Ignore
     @NonNull
     private Intent getCameraActivityIntent() {
         Intent intent = new Intent(Intent.ACTION_MAIN);
-        CameraActivity.setReviewActivityExtra(intent, InstrumentationRegistry.getTargetContext(), ReviewActivityTestStub.class);
-        CameraActivity.setAnalysisActivityExtra(intent, InstrumentationRegistry.getTargetContext(), AnalysisActivityTestStub.class);
+        CameraActivity.setReviewActivityExtra(intent, InstrumentationRegistry.getTargetContext(),
+                ReviewActivityTestStub.class);
+        CameraActivity.setAnalysisActivityExtra(intent, InstrumentationRegistry.getTargetContext(),
+                AnalysisActivityTestStub.class);
         return intent;
     }
 

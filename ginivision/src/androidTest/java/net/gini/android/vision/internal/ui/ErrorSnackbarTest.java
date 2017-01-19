@@ -14,6 +14,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +22,7 @@ import org.junit.runner.RunWith;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
+@Ignore
 @RunWith(AndroidJUnit4.class)
 public class ErrorSnackbarTest {
 
