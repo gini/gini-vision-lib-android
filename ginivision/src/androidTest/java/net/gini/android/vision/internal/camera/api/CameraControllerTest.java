@@ -1,20 +1,20 @@
 package net.gini.android.vision.internal.camera.api;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.InstrumentationRegistry.getTargetContext;
 
 import static com.google.common.truth.Truth.assertThat;
 
 import static net.gini.android.vision.test.Helpers.prepareLooper;
+import static net.gini.android.vision.test.PermissionsHelper.grantCameraPermission;
 
 import android.content.Intent;
 import android.hardware.Camera;
-import android.os.Build;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import net.gini.android.vision.internal.camera.photo.Size;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,24 +27,31 @@ public class CameraControllerTest {
 
     private CameraController mCameraController;
 
+    private Camera mCamera;
+
     @Before
-    public void setUp() {
+    public void setUp() throws InterruptedException {
         prepareLooper();
         grantCameraPermission();
         createCameraController();
+        mCamera = getCamera();
     }
 
-    public void grantCameraPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getInstrumentation().getUiAutomation().executeShellCommand(
-                    "pm grant " + getTargetContext().getPackageName()
-                            + " android.permission.CAMERA");
-        }
+    @After
+    public void tearDown() throws Exception {
+        mCameraController.close();
     }
 
     private void createCameraController() {
         final NoOpActivity activity = launchNoOpActivity();
         mCameraController = new CameraController(activity);
+    }
+
+    private Camera getCamera() throws InterruptedException {
+        mCameraController.open().join();
+        Camera camera = mCameraController.getCamera();
+        assertThat(camera).isNotNull();
+        return camera;
     }
 
     private NoOpActivity launchNoOpActivity() {
@@ -55,8 +62,7 @@ public class CameraControllerTest {
 
     @Test
     public void should_useLargestPictureResolution() {
-        Camera camera = getCamera();
-        final Camera.Parameters parameters = camera.getParameters();
+        final Camera.Parameters parameters = mCamera.getParameters();
         final Size largestSize = SizeSelectionHelper.getLargestSize(parameters.getSupportedPictureSizes());
         assertThat(largestSize).isNotNull();
         final Camera.Size usedSize = parameters.getPictureSize();
@@ -64,17 +70,9 @@ public class CameraControllerTest {
         assertThat(usedSize.height).isEqualTo(largestSize.height);
     }
 
-    private Camera getCamera() {
-        mCameraController.open().join();
-        Camera camera = mCameraController.getCamera();
-        assertThat(camera).isNotNull();
-        return camera;
-    }
-
     @Test
     public void should_useLargestPreviewResolution_withSameAspectRatio_asPictureSize() {
-        Camera camera = getCamera();
-        final Camera.Parameters parameters = camera.getParameters();
+        final Camera.Parameters parameters = mCamera.getParameters();
         final Size pictureSize = new Size(parameters.getPictureSize().width, parameters.getPictureSize().height);
         final Size largestSize = SizeSelectionHelper.getLargestSizeWithSameAspectRatio(parameters.getSupportedPreviewSizes(), pictureSize);
         assertThat(largestSize).isNotNull();
