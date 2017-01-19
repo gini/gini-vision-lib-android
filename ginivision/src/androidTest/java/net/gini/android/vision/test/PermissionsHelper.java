@@ -7,6 +7,8 @@ import android.os.Build;
 
 public class PermissionsHelper {
 
+    private static final long GRANT_CAMERA_PERMISSION_PAUSE_DURATION = 500;
+
     public static void grantExternalStoragePermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getInstrumentation().getUiAutomation().executeShellCommand(
@@ -18,11 +20,13 @@ public class PermissionsHelper {
         }
     }
 
-    public static void grantCameraPermission() {
+    public static void grantCameraPermission() throws InterruptedException {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getInstrumentation().getUiAutomation().executeShellCommand(
                     "pm grant " + getTargetContext().getPackageName()
                             + " android.permission.CAMERA");
         }
+        // A delay is needed for the camera permission
+        Thread.sleep(GRANT_CAMERA_PERMISSION_PAUSE_DURATION);
     }
 }

@@ -52,7 +52,6 @@ public class CameraScreenTest {
 
     private static final long CLOSE_CAMERA_PAUSE_DURATION = 1000;
     private static final long TAKE_PICTURE_PAUSE_DURATION = 4000;
-    private static final long TAKE_SCREENSHOT_PAUSE_DURATION = 1000;
 
     @Rule
     public IntentsTestRule<CameraActivity> mIntentsTestRule = new IntentsTestRule<>(
@@ -291,8 +290,6 @@ public class CameraScreenTest {
         setOnboardingWasShownPreference();
         grantCameraPermission();
         grantExternalStoragePermission();
-        // A delay is needed for the camera permission
-        Thread.sleep(TAKE_SCREENSHOT_PAUSE_DURATION);
         CameraActivity activity = startCameraActivityWithoutOnboarding();
         String name = "CameraActivity_" + new Date().getTime();
         takeScreenshotForBitBar(name, activity);
