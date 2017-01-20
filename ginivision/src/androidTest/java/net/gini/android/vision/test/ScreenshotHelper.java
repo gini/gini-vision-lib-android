@@ -1,5 +1,7 @@
 package net.gini.android.vision.test;
 
+import static net.gini.android.vision.test.PermissionsHelper.grantExternalStoragePermission;
+
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Environment;
@@ -14,12 +16,14 @@ import java.io.OutputStream;
 public class ScreenshotHelper {
 
     public static void takeEspressoScreenshot(File destination, Activity activity)
-            throws IOException {
+            throws IOException, InterruptedException {
         Bitmap bitmap = takeScreenshotFromActivity(activity);
         writeBitmapToFile(bitmap, destination);
     }
 
-    private static Bitmap takeScreenshotFromActivity(final Activity activity) {
+    private static Bitmap takeScreenshotFromActivity(final Activity activity)
+            throws InterruptedException {
+        grantExternalStoragePermission();
         View scrView = activity.getWindow().getDecorView().getRootView();
         scrView.setDrawingCacheEnabled(true);
         Bitmap bitmap = Bitmap.createBitmap(scrView.getDrawingCache());
@@ -44,7 +48,9 @@ public class ScreenshotHelper {
         }
     }
 
-    public static void takeUIAutomatorScreenshot(File destination, UiDevice device) {
+    public static void takeUIAutomatorScreenshot(File destination, UiDevice device)
+            throws InterruptedException {
+        grantExternalStoragePermission();
         device.takeScreenshot(destination);
     }
 
