@@ -4,9 +4,10 @@ import static net.gini.android.vision.OncePerInstallEventStoreHelper.clearOnboar
 import static net.gini.android.vision.OncePerInstallEventStoreHelper.setOnboardingWasShownPreference;
 import static net.gini.android.vision.test.EspressoMatchers.hasComponent;
 import static net.gini.android.vision.test.Helpers.prepareLooper;
-import static net.gini.android.vision.test.Helpers.takeScreenshotForBitBar;
 import static net.gini.android.vision.test.PermissionsHelper.grantCameraPermission;
 import static net.gini.android.vision.test.PermissionsHelper.grantExternalStoragePermission;
+import static net.gini.android.vision.test.ScreenshotHelper.screenshotFileForBitBar;
+import static net.gini.android.vision.test.ScreenshotHelper.takeEspressoScreenshot;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -42,6 +43,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -292,6 +294,7 @@ public class CameraScreenTest {
         grantExternalStoragePermission();
         CameraActivity activity = startCameraActivityWithoutOnboarding();
         String name = "CameraActivity_" + new Date().getTime();
-        takeScreenshotForBitBar(name, activity);
+        File screenshotFile = screenshotFileForBitBar(name);
+        takeEspressoScreenshot(screenshotFile, activity);
     }
 }
