@@ -4,10 +4,6 @@ import static net.gini.android.vision.OncePerInstallEventStoreHelper.clearOnboar
 import static net.gini.android.vision.OncePerInstallEventStoreHelper.setOnboardingWasShownPreference;
 import static net.gini.android.vision.test.EspressoMatchers.hasComponent;
 import static net.gini.android.vision.test.Helpers.prepareLooper;
-import static net.gini.android.vision.test.PermissionsHelper.grantCameraPermission;
-import static net.gini.android.vision.test.PermissionsHelper.grantExternalStoragePermission;
-import static net.gini.android.vision.test.ScreenshotHelper.screenshotFileForBitBar;
-import static net.gini.android.vision.test.ScreenshotHelper.takeEspressoScreenshot;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -43,10 +39,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 
 @RunWith(AndroidJUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -285,16 +278,5 @@ public class CameraScreenTest {
         CameraActivity.setAnalysisActivityExtra(intent, InstrumentationRegistry.getTargetContext(),
                 AnalysisActivityTestStub.class);
         return intent;
-    }
-
-    @Test
-    public void z_takeScreenshot() throws IOException, InterruptedException {
-        setOnboardingWasShownPreference();
-        grantCameraPermission();
-        grantExternalStoragePermission();
-        CameraActivity activity = startCameraActivityWithoutOnboarding();
-        String name = "CameraActivity_" + new Date().getTime();
-        File screenshotFile = screenshotFileForBitBar(name);
-        takeEspressoScreenshot(screenshotFile, activity);
     }
 }
