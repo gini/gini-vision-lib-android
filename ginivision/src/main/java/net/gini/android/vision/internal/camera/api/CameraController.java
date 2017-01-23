@@ -56,8 +56,12 @@ public class CameraController implements CameraInterface {
                 return;
             }
             Camera.Parameters parameters = mCamera.getParameters();
-            if (!parameters.getFocusMode().equals(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
-                parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+            if (!parameters.getFocusMode().equals(
+                    Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
+                if (parameters.getSupportedFocusModes().contains(
+                        Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
+                    parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+                }
             }
             mCamera.setParameters(parameters);
         }
@@ -197,7 +201,10 @@ public class CameraController implements CameraInterface {
 
                     Camera.Parameters parameters = mCamera.getParameters();
                     if (!parameters.getFocusMode().equals(Camera.Parameters.FOCUS_MODE_AUTO)) {
-                        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+                        if (parameters.getSupportedFocusModes().contains(
+                                Camera.Parameters.FOCUS_MODE_AUTO)) {
+                            parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+                        }
                     }
                     if (parameters.getMaxNumFocusAreas() > 0) {
                         List<Camera.Area> mylist = new ArrayList<Camera.Area>();
