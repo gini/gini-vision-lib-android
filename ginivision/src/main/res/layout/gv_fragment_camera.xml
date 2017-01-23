@@ -35,7 +35,7 @@
         android:id="@+id/gv_button_camera_trigger"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_alignBottom="@+id/gv_camera_preview"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/gv_camera_button_vertical_margin"
         android:background="@null"
