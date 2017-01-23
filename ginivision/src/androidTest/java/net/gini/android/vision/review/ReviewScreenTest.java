@@ -1,9 +1,11 @@
 package net.gini.android.vision.review;
 
 import static com.google.common.truth.Truth.assertThat;
+
 import static net.gini.android.vision.test.Helpers.createDocument;
 import static net.gini.android.vision.test.Helpers.getTestJpeg;
 import static net.gini.android.vision.test.Helpers.prepareLooper;
+
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -26,7 +28,6 @@ import net.gini.android.vision.analysis.AnalysisActivityTestStub;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,7 +36,6 @@ import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-@Ignore
 @RunWith(AndroidJUnit4.class)
 public class ReviewScreenTest {
 

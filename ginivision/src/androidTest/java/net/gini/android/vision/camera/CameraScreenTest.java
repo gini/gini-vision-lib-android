@@ -33,7 +33,6 @@ import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -67,7 +66,6 @@ public class CameraScreenTest {
         Thread.sleep(CLOSE_CAMERA_PAUSE_DURATION);
     }
 
-    @Ignore
     @Test(expected = IllegalStateException.class)
     public void should_throwException_whenReviewActivityClass_wasNotGiven() {
         CameraActivity cameraActivity = new CameraActivity();
@@ -80,7 +78,6 @@ public class CameraScreenTest {
         cameraActivity.readExtras();
     }
 
-    @Ignore
     @Test(expected = IllegalStateException.class)
     public void should_throwException_whenAnalysisActivityClass_wasNotGiven() {
         CameraActivity cameraActivity = new CameraActivity();
@@ -93,7 +90,6 @@ public class CameraScreenTest {
         cameraActivity.readExtras();
     }
 
-    @Ignore
     @Test
     public void should_showOnboarding_onFirstLaunch_ifNotDisabled() {
         Intent intent = getCameraActivityIntent();
@@ -102,8 +98,7 @@ public class CameraScreenTest {
         Espresso.onView(ViewMatchers.withId(R.id.gv_onboarding_viewpager))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
-
-    @Ignore
+    
     @Test
     public void should_notShowOnboarding_onFirstLaunch_ifDisabled() {
         startCameraActivityWithoutOnboarding();
@@ -112,7 +107,6 @@ public class CameraScreenTest {
                 .check(ViewAssertions.doesNotExist());
     }
 
-    @Ignore
     @Test
     public void should_showOnboarding_ifRequested_andWasAlreadyShownOnFirstLaunch() {
         setOnboardingWasShownPreference();
@@ -125,7 +119,6 @@ public class CameraScreenTest {
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
-    @Ignore
     @Test
     public void should_passCustomOnboardingPages_toOnboardingActivity() {
         ArrayList<OnboardingPage> onboardingPages = new ArrayList<>(1);
@@ -149,7 +142,6 @@ public class CameraScreenTest {
                         Matchers.any(ArrayList.class)));
     }
 
-    @Ignore
     @Test
     public void should_showOnboarding_whenOnboardingMenuItem_wasTapped() {
         startCameraActivityWithoutOnboarding();
@@ -160,7 +152,6 @@ public class CameraScreenTest {
         Intents.intended(IntentMatchers.hasComponent(OnboardingActivity.class.getName()));
     }
 
-    @Ignore
     @SdkSuppress(minSdkVersion = 23)
     @Test
     public void a_should_showNoPermissionView_ifNoCameraPermission() {
@@ -172,7 +163,6 @@ public class CameraScreenTest {
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
-    @Ignore
     @SdkSuppress(minSdkVersion = 23)
     @Test
     public void b_should_showCameraPreview_afterCameraPermission_wasGranted()
@@ -207,7 +197,6 @@ public class CameraScreenTest {
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
-    @Ignore
     @Test
     public void should_showReviewScreen_afterPictureWasTaken() throws InterruptedException {
         startCameraActivityWithoutOnboarding();
@@ -221,7 +210,6 @@ public class CameraScreenTest {
         Intents.intended(IntentMatchers.hasComponent(ReviewActivityTestStub.class.getName()));
     }
 
-    @Ignore
     @Test
     public void should_takeOnlyOnePicture_ifTrigger_wasPressedMultipleTimes()
             throws InterruptedException {
@@ -236,7 +224,6 @@ public class CameraScreenTest {
         Intents.intended(IntentMatchers.hasComponent(ReviewActivityTestStub.class.getName()));
     }
 
-    @Ignore
     @Test
     public void should_passAnalysisActivityIntent_toReviewActivity() throws InterruptedException {
         startCameraActivityWithoutOnboarding();
@@ -254,14 +241,12 @@ public class CameraScreenTest {
 
     }
 
-    @Ignore
     @NonNull
     private CameraActivity startCameraActivity() {
         Intent intent = getCameraActivityIntent();
         return mIntentsTestRule.launchActivity(intent);
     }
 
-    @Ignore
     @NonNull
     private CameraActivity startCameraActivityWithoutOnboarding() {
         Intent intent = getCameraActivityIntent();
@@ -269,7 +254,6 @@ public class CameraScreenTest {
         return mIntentsTestRule.launchActivity(intent);
     }
 
-    @Ignore
     @NonNull
     private Intent getCameraActivityIntent() {
         Intent intent = new Intent(Intent.ACTION_MAIN);

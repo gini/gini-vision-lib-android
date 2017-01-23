@@ -16,14 +16,12 @@ import android.support.test.runner.AndroidJUnit4;
 import net.gini.android.vision.R;
 import net.gini.android.vision.test.EspressoMatchers;
 
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 
-@Ignore
 @RunWith(AndroidJUnit4.class)
 public class OnboardingScreenTest {
 

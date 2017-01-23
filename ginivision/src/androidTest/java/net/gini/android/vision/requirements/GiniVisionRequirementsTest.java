@@ -15,7 +15,6 @@ import org.junit.runner.RunWith;
 import java.util.List;
 import java.util.Locale;
 
-@Ignore
 @RunWith(AndroidJUnit4.class)
 public class GiniVisionRequirementsTest {
 
@@ -23,7 +22,7 @@ public class GiniVisionRequirementsTest {
 
     // Intended to gather requirement reports from devices.
     // This test should be ignored normally.
-    // @Ignore
+    @Ignore
     @Test
     public void should_fulfillRequirements() throws InterruptedException {
         grantCameraPermission();
