@@ -26,7 +26,7 @@ public final class SizeSelectionHelper {
     }
 
     @Nullable
-    public static Size getLargestSizeWithSameAspectRatio(
+    public static Size getLargestSizeWithSimilarAspectRatio(
             @NonNull final List<Camera.Size> sizes, @NonNull final Size referenceSize) {
         List<Camera.Size> sameAspectSizes = getSameAspectRatioSizes(sizes, referenceSize);
         return getLargestSize(sameAspectSizes);
@@ -40,16 +40,16 @@ public final class SizeSelectionHelper {
         List<Camera.Size> sameAspectSizes = new ArrayList<>();
         for (final Camera.Size size : sizes) {
             final float aspectRatio = (float) size.width / (float) size.height;
-            if (isSameAspectRatio(aspectRatio, referenceAspectRatio)) {
+            if (isSimilarAspectRatio(aspectRatio, referenceAspectRatio)) {
                 sameAspectSizes.add(size);
             }
         }
         return sameAspectSizes;
     }
 
-    private static boolean isSameAspectRatio(final float aspectRatio,
+    private static boolean isSimilarAspectRatio(final float aspectRatio,
             final float referenceAspectRatio) {
-        return Math.abs(aspectRatio - referenceAspectRatio) < 0.01f;
+        return Math.abs(aspectRatio - referenceAspectRatio) < 0.1f;
     }
 
     private static long getArea(final Camera.Size size) {
