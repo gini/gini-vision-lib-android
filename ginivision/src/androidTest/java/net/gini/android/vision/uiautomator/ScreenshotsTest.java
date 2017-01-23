@@ -15,12 +15,22 @@ import net.gini.android.vision.uiautomator.screens.screenapi.MainScreen;
 import net.gini.android.vision.uiautomator.screens.screenapi.ReviewScreen;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.util.Date;
 
+/**
+ * <p>
+ * Used for taking screenshots of the different screens.
+ * </p>
+ * <p>
+ * Enable it only when you need screenshots. It should be disabled most of the time.
+ * </p>
+ */
+@Ignore
 @RunWith(AndroidJUnit4.class)
 public class ScreenshotsTest {
 
