@@ -321,15 +321,31 @@ public class CameraController implements CameraInterface {
         // as being stopped before it is really stopped
         mPreviewRunning = false;
 
-        mCamera.takePicture(null, null, new Camera.PictureCallback() {
+        CompletableFuture<Boolean> focusFuture = new CompletableFuture<>();
+        if (isUsingFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE, mCamera)) {
+            // When continuous focus mode is used no auto-focus run is needed
+            focusFuture.complete(true);
+        } else {
+            // Continuous focus mode is not used and we need to do an auto-focus run
+            focusFuture = focus();
+        }
+
+        focusFuture.handle(new CompletableFuture.BiFun<Boolean, Throwable, Void>() {
             @Override
-            public void onPictureTaken(final byte[] bytes, Camera camera) {
-                mTakingPictureFuture.set(null);
-                final Photo photo = Photo.fromJpeg(bytes, getBackFacingCameraOrientation());
-                LOG.info("Picture taken");
-                pictureTaken.complete(photo);
+            public Void apply(final Boolean aBoolean, final Throwable throwable) {
+                mCamera.takePicture(null, null, new Camera.PictureCallback() {
+                    @Override
+                    public void onPictureTaken(final byte[] bytes, Camera camera) {
+                        mTakingPictureFuture.set(null);
+                        final Photo photo = Photo.fromJpeg(bytes, getBackFacingCameraOrientation());
+                        LOG.info("Picture taken");
+                        pictureTaken.complete(photo);
+                    }
+                });
+                return null;
             }
         });
+
         return pictureTaken;
     }
 
