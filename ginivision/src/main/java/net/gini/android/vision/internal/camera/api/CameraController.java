@@ -1,5 +1,10 @@
 package net.gini.android.vision.internal.camera.api;
 
+import static net.gini.android.vision.internal.camera.api.CameraParametersHelper
+        .isFlashModeSupported;
+import static net.gini.android.vision.internal.camera.api.CameraParametersHelper
+        .isFocusModeSupported;
+import static net.gini.android.vision.internal.camera.api.CameraParametersHelper.isUsingFocusMode;
 import static net.gini.android.vision.internal.camera.api.SizeSelectionHelper
         .getLargestSizeWithSameAspectRatio;
 import static net.gini.android.vision.internal.camera.api.SizeSelectionHelper.getLargestSize;
@@ -58,12 +63,10 @@ public class CameraController implements CameraInterface {
                 return;
             }
             Camera.Parameters parameters = mCamera.getParameters();
-            if (!parameters.getFocusMode().equals(
-                    Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
-                if (parameters.getSupportedFocusModes().contains(
-                        Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
-                    parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
-                }
+            if (!isUsingFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE, mCamera)
+                    && isFocusModeSupported(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE,
+                    mCamera)) {
+                parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
             }
             mCamera.setParameters(parameters);
         }
@@ -206,11 +209,9 @@ public class CameraController implements CameraInterface {
                             focusRect.top, focusRect.right, focusRect.bottom);
 
                     Camera.Parameters parameters = mCamera.getParameters();
-                    if (!parameters.getFocusMode().equals(Camera.Parameters.FOCUS_MODE_AUTO)) {
-                        if (parameters.getSupportedFocusModes().contains(
-                                Camera.Parameters.FOCUS_MODE_AUTO)) {
-                            parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
-                        }
+                    if (!isUsingFocusMode(Camera.Parameters.FOCUS_MODE_AUTO, mCamera)
+                            && isFocusModeSupported(Camera.Parameters.FOCUS_MODE_AUTO, mCamera)) {
+                        parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
                     }
                     if (parameters.getMaxNumFocusAreas() > 0) {
                         List<Camera.Area> mylist = new ArrayList<Camera.Area>();
@@ -386,8 +387,7 @@ public class CameraController implements CameraInterface {
     }
 
     private void selectFocusMode(final Camera.Parameters params) {
-        if (params.getSupportedFocusModes().contains(
-                Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
+        if (isFocusModeSupported(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE, mCamera)) {
             params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
             LOG.debug("Focus mode continuous picture");
         } else {
@@ -396,9 +396,7 @@ public class CameraController implements CameraInterface {
     }
 
     private void selectFlashMode(final Camera.Parameters params) {
-        List<String> supportedFlashModes = params.getSupportedFlashModes();
-        if (supportedFlashModes != null && supportedFlashModes.contains(
-                Camera.Parameters.FLASH_MODE_ON)) {
+        if (isFlashModeSupported(Camera.Parameters.FLASH_MODE_ON, mCamera)) {
             params.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
             LOG.debug("Flash on");
         } else {
