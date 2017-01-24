@@ -1,12 +1,11 @@
 package net.gini.android.vision.uiautomator.screens.screenapi;
 
-import static com.google.common.truth.Truth.assertThat;
+import static net.gini.android.vision.uiautomator.Helper.isObjectAvailable;
 
-import static net.gini.android.vision.uiautomator.Helper.waitForObject;
-
-import android.support.test.uiautomator.By;
 import android.support.test.uiautomator.UiDevice;
-import android.support.test.uiautomator.UiObject2;
+import android.support.test.uiautomator.UiObject;
+import android.support.test.uiautomator.UiObjectNotFoundException;
+import android.support.test.uiautomator.UiSelector;
 
 import net.gini.android.vision.uiautomator.screens.Screen;
 
@@ -22,14 +21,14 @@ public class MainScreen implements Screen {
     }
 
     @Override
-    public boolean isVisible() throws InterruptedException {
-        UiObject2 button = waitForObject(By.res(START_SCANNER_BUTTON_RES_ID), mUiDevice);
-        return button != null;
+    public boolean isVisible() {
+        return isObjectAvailable(new UiSelector().resourceId(START_SCANNER_BUTTON_RES_ID),
+                mUiDevice);
     }
 
-    public void startGiniVisionLibrary() throws InterruptedException {
-        UiObject2 scannerButton = waitForObject(By.res(START_SCANNER_BUTTON_RES_ID), mUiDevice);
-        assertThat(scannerButton).isNotNull();
-        scannerButton.click();
+    public void startGiniVisionLibrary() throws UiObjectNotFoundException {
+        UiObject scannerButton = mUiDevice.findObject(
+                new UiSelector().resourceId(START_SCANNER_BUTTON_RES_ID));
+        scannerButton.clickAndWaitForNewWindow();
     }
 }

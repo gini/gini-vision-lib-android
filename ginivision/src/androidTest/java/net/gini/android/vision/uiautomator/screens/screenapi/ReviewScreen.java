@@ -1,10 +1,9 @@
 package net.gini.android.vision.uiautomator.screens.screenapi;
 
-import static net.gini.android.vision.uiautomator.Helper.waitForObject;
+import static net.gini.android.vision.uiautomator.Helper.isObjectAvailable;
 
-import android.support.test.uiautomator.By;
 import android.support.test.uiautomator.UiDevice;
-import android.support.test.uiautomator.UiObject2;
+import android.support.test.uiautomator.UiSelector;
 
 import net.gini.android.vision.uiautomator.screens.Screen;
 
@@ -19,8 +18,7 @@ public class ReviewScreen implements Screen {
     }
 
     @Override
-    public boolean isVisible() throws InterruptedException {
-        UiObject2 rotateButton = waitForObject(By.res(ROTATE_BUTTON_RES_ID), mUiDevice);
-        return rotateButton != null;
+    public boolean isVisible() {
+        return isObjectAvailable(new UiSelector().resourceId(ROTATE_BUTTON_RES_ID), mUiDevice);
     }
 }

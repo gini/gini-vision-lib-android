@@ -8,6 +8,7 @@ import static net.gini.android.vision.uiautomator.Helper.openApp;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.test.uiautomator.UiDevice;
+import android.support.test.uiautomator.UiObjectNotFoundException;
 
 import net.gini.android.vision.test.ScreenshotHelper;
 import net.gini.android.vision.uiautomator.screens.screenapi.CameraScreen;
@@ -48,9 +49,9 @@ public class ScreenshotsTest {
 
     @Test
     public void screenApiExample_takeScreenshot_fromCameraScreen_andReviewScreen()
-            throws InterruptedException {
+            throws InterruptedException, UiObjectNotFoundException {
         grantCameraPermission(SCREEN_API_EXAMPLE_APP);
-        openApp(SCREEN_API_EXAMPLE_APP);
+        openApp(SCREEN_API_EXAMPLE_APP, mDevice);
 
         MainScreen mainScreen = new MainScreen(mDevice);
         CameraScreen cameraScreen = new CameraScreen(mDevice);

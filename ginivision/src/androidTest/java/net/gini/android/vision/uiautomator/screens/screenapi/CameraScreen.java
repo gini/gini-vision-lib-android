@@ -2,12 +2,12 @@ package net.gini.android.vision.uiautomator.screens.screenapi;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import static net.gini.android.vision.uiautomator.Helper.waitForObject;
+import static net.gini.android.vision.uiautomator.Helper.isObjectAvailable;
 
-import android.os.Build;
-import android.support.test.uiautomator.By;
 import android.support.test.uiautomator.UiDevice;
-import android.support.test.uiautomator.UiObject2;
+import android.support.test.uiautomator.UiObject;
+import android.support.test.uiautomator.UiObjectNotFoundException;
+import android.support.test.uiautomator.UiSelector;
 
 import net.gini.android.vision.uiautomator.screens.Screen;
 
@@ -17,8 +17,6 @@ public class CameraScreen implements Screen {
             "net.gini.android.vision.screenapiexample:id/gv_button_next";
     private static final String TRIGGER_BUTTON_RES_ID =
             "net.gini.android.vision.screenapiexample:id/gv_button_camera_trigger";
-    private static final String OPEN_APP_SETTINGS_BUTTON_RES_ID =
-            "net.gini.android.vision.screenapiexample:id/gv_button_camera_no_permission";
 
     private final UiDevice mUiDevice;
 
@@ -27,26 +25,25 @@ public class CameraScreen implements Screen {
     }
 
     @Override
-    public boolean isVisible() throws InterruptedException {
-        UiObject2 nextButton = waitForObject(By.res(NEXT_BUTTON_RES_ID), mUiDevice);
-        UiObject2 triggerButton = waitForObject(By.res(TRIGGER_BUTTON_RES_ID), mUiDevice);
-        return nextButton != null ||
-                triggerButton != null;
+    public boolean isVisible() {
+        boolean isNextButtonAvailable = isObjectAvailable(
+                new UiSelector().resourceId(NEXT_BUTTON_RES_ID), mUiDevice);
+        boolean isTriggerButtonAvailable = isObjectAvailable(
+                new UiSelector().resourceId(TRIGGER_BUTTON_RES_ID), mUiDevice);
+        return isNextButtonAvailable || isTriggerButtonAvailable;
     }
 
-    public void triggerCamera() throws InterruptedException {
-        UiObject2 triggerButton = waitForObject(By.res(TRIGGER_BUTTON_RES_ID), mUiDevice);
-        assertThat(triggerButton).isNotNull();
-        triggerButton.click();
+    public void triggerCamera() throws UiObjectNotFoundException {
+        UiObject triggerButton = mUiDevice.findObject(new UiSelector().resourceId(TRIGGER_BUTTON_RES_ID));
+        triggerButton.clickAndWaitForNewWindow();
     }
 
     public void dismissOnboarding() throws InterruptedException {
         mUiDevice.pressBack();
-        assertThat(isOnboardingVisible()).isFalse();
+        assertThat(isOnboardingVisible()).named("Onboarding is visible").isFalse();
     }
 
     public boolean isOnboardingVisible() throws InterruptedException {
-        UiObject2 nextButton = waitForObject(By.res(NEXT_BUTTON_RES_ID), mUiDevice);
-        return nextButton != null;
+        return isObjectAvailable(new UiSelector().resourceId(NEXT_BUTTON_RES_ID), mUiDevice);
     }
 }

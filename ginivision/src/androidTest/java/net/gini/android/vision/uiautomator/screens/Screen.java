@@ -10,5 +10,5 @@ package net.gini.android.vision.uiautomator.screens;
  * </p>
  */
 public interface Screen {
-    boolean isVisible() throws InterruptedException;
+    boolean isVisible();
 }
