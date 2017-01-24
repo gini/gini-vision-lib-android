@@ -57,11 +57,11 @@ public class ScreenshotsTest {
         ReviewScreen reviewScreen = new ReviewScreen(mDevice);
 
         // Main Screen
-        assertThat(mainScreen.isVisible()).isTrue();
+        assertThat(mainScreen.isVisible()).named("Main Screen is displayed").isTrue();
         mainScreen.startGiniVisionLibrary();
 
         // Camera Screen
-        assertThat(cameraScreen.isVisible()).isTrue();
+        assertThat(cameraScreen.isVisible()).named("Camera Screen is displayed").isTrue();
         // Onboarding
         if (cameraScreen.isOnboardingVisible()) {
             cameraScreen.dismissOnboarding();
@@ -70,7 +70,7 @@ public class ScreenshotsTest {
         cameraScreen.triggerCamera();
 
         // Review Screen
-        assertThat(reviewScreen.isVisible()).isTrue();
+        assertThat(reviewScreen.isVisible()).named("Review Screen is displayed").isTrue();
         takeScreenshot("ReviewScreen");
     }
 
