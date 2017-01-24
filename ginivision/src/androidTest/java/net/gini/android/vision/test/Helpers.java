@@ -15,7 +15,8 @@ import java.io.InputStream;
 
 public class Helpers {
 
-    public static <T extends Parcelable, C extends Parcelable.Creator<T>> T doParcelingRoundTrip(T payload, C creator) {
+    public static <T extends Parcelable, C extends Parcelable.Creator<T>> T doParcelingRoundTrip(
+            T payload, C creator) {
         Parcel parcel = Parcel.obtain();
         payload.writeToParcel(parcel, 0);
         parcel.setDataPosition(0);
@@ -64,4 +65,5 @@ public class Helpers {
         photo.setRotationForDisplay(orientation);
         return Document.fromPhoto(photo);
     }
+
 }

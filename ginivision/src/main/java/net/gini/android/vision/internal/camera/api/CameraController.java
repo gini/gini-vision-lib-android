@@ -12,6 +12,7 @@ import android.hardware.Camera;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -66,6 +67,12 @@ public class CameraController implements CameraInterface {
     public CameraController(@NonNull Activity activity) {
         mActivity = activity;
         mResetFocusHandler = new Handler();
+    }
+
+    @Nullable
+    @VisibleForTesting
+    Camera getCamera() {
+        return mCamera;
     }
 
     @NonNull

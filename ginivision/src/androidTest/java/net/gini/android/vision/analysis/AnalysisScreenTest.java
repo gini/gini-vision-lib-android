@@ -2,6 +2,7 @@ package net.gini.android.vision.analysis;
 
 import static com.google.common.truth.Truth.assertAbout;
 import static com.google.common.truth.Truth.assertThat;
+
 import static net.gini.android.vision.analysis.DocumentSubject.document;
 import static net.gini.android.vision.test.Helpers.createDocument;
 import static net.gini.android.vision.test.Helpers.getTestJpeg;
@@ -22,8 +23,8 @@ import android.widget.ProgressBar;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.R;
 import net.gini.android.vision.internal.camera.photo.Photo;
-import net.gini.android.vision.review.ReviewActivity;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
+import net.gini.android.vision.review.ReviewActivity;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
