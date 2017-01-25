@@ -1,6 +1,6 @@
 package net.gini.android.vision.internal.camera.api;
 
-import static net.gini.android.vision.internal.camera.api.SizeSelectionHelper.getLargestSizeWithSameAspectRatio;
+import static net.gini.android.vision.internal.camera.api.SizeSelectionHelper.getLargestSizeWithSimilarAspectRatio;
 import static net.gini.android.vision.internal.camera.api.SizeSelectionHelper.getLargestSize;
 
 import android.app.Activity;
@@ -366,7 +366,7 @@ public class CameraController implements CameraInterface {
 
     private void selectPreviewSize(final Camera.Parameters params) {
         List<Camera.Size> previewSizes = params.getSupportedPreviewSizes();
-        Size previewSize = getLargestSizeWithSameAspectRatio(previewSizes, mPictureSize);
+        Size previewSize = getLargestSizeWithSimilarAspectRatio(previewSizes, mPictureSize);
         if (previewSize != null) {
             mPreviewSize = previewSize;
             params.setPreviewSize(mPreviewSize.width, mPreviewSize.height);
