@@ -71,10 +71,10 @@ public class CameraControllerTest {
     }
 
     @Test
-    public void should_useLargestPreviewResolution_withSameAspectRatio_asPictureSize() {
+    public void should_useLargestPreviewResolution_withSimilarAspectRatio_asPictureSize() {
         final Camera.Parameters parameters = mCamera.getParameters();
         final Size pictureSize = new Size(parameters.getPictureSize().width, parameters.getPictureSize().height);
-        final Size largestSize = SizeSelectionHelper.getLargestSizeWithSameAspectRatio(parameters.getSupportedPreviewSizes(), pictureSize);
+        final Size largestSize = SizeSelectionHelper.getLargestSizeWithSimilarAspectRatio(parameters.getSupportedPreviewSizes(), pictureSize);
         assertThat(largestSize).isNotNull();
         final Camera.Size usedSize = parameters.getPreviewSize();
         assertThat(usedSize.width).isEqualTo(largestSize.width);
