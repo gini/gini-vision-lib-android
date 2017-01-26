@@ -1,6 +1,7 @@
 package net.gini.android.vision.internal.camera.api;
 
 import android.hardware.Camera;
+import android.support.annotation.NonNull;
 
 import java.util.List;
 
@@ -12,15 +13,15 @@ final class CameraParametersHelper {
     private CameraParametersHelper() {
     }
 
-    static boolean isFocusModeSupported(String focusMode, Camera camera) {
+    static boolean isFocusModeSupported(@NonNull String focusMode, @NonNull Camera camera) {
         return camera.getParameters().getSupportedFocusModes().contains(focusMode);
     }
 
-    static boolean isUsingFocusMode(String focusMode, Camera camera) {
+    static boolean isUsingFocusMode(@NonNull String focusMode, @NonNull Camera camera) {
         return camera.getParameters().getFocusMode().equals(focusMode);
     }
 
-    static boolean isFlashModeSupported(String flashMode, Camera camera) {
+    static boolean isFlashModeSupported(@NonNull String flashMode, @NonNull Camera camera) {
         List<String> supportedFlashModes = camera.getParameters().getSupportedFlashModes();
         return supportedFlashModes != null && supportedFlashModes.contains(flashMode);
     }
