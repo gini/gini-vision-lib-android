@@ -48,6 +48,7 @@ import java.util.ArrayList;
  *         <li>{@link CameraActivity#EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN} - the Onboarding Screen is shown by default the first time the Gini Vision Library is started. You may disable it by setting this extra to {@code false} - we highly recommend keeping the default behavior</li>
  *         <li>{@link CameraActivity#EXTRA_IN_SHOW_ONBOARDING} - if set to {@code true} the Onboarding Screen is shown when the Gini Vision Library is started</li>
  *         <li>{@link CameraActivity#EXTRA_IN_ONBOARDING_PAGES} - custom pages for the Onboarding Screen as an {@link ArrayList} containing {@link OnboardingPage} objects</li>
+ *         <li>{@link CameraActivity#EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY} - if set to {@code true} the back button closes the Gini Vision Library from any of its activities with result code {@link CameraActivity#RESULT_CANCELED}</li>
  *     </ul>
  * </p>
  * <p>
