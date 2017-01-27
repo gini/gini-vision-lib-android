@@ -80,6 +80,17 @@ public class ReviewScreenTest {
         assertThat(activity.getFragment().getFragmentImpl().getImageDocument().getRotation()).isWithin(0.0f).of(180);
     }
 
+    private ReviewActivityTestStub startReviewActivity(byte[] jpeg, int orientation) {
+        Intent intent = getReviewActivityIntent();
+        intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, createDocument(jpeg, orientation));
+        intent.putExtra(ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY, new Intent(InstrumentationRegistry.getTargetContext(), AnalysisActivityTestStub.class));
+        return mActivityTestRule.launchActivity(intent);
+    }
+
+    private Intent getReviewActivityIntent() {
+        return new Intent(InstrumentationRegistry.getTargetContext(), ReviewActivityTestStub.class);
+    }
+
     @Test
     public void should_rotatePreview_whenRotateButton_isClicked() throws IOException, InterruptedException {
         ReviewActivityTestStub activity = startReviewActivity(TEST_JPEG, 90);
@@ -329,16 +340,5 @@ public class ReviewScreenTest {
         InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 
         verify(listenerHook).onDocumentWasRotated(any(Document.class), eq(0), eq(90));
-    }
-
-    private ReviewActivityTestStub startReviewActivity(byte[] jpeg, int orientation) {
-        Intent intent = getReviewActivityIntent();
-        intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, createDocument(jpeg, orientation));
-        intent.putExtra(ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY, new Intent(InstrumentationRegistry.getTargetContext(), AnalysisActivityTestStub.class));
-        return mActivityTestRule.launchActivity(intent);
-    }
-
-    private Intent getReviewActivityIntent() {
-        return new Intent(InstrumentationRegistry.getTargetContext(), ReviewActivityTestStub.class);
     }
 }
