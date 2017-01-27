@@ -147,7 +147,8 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
      */
     public static final int RESULT_ERROR = RESULT_FIRST_USER + 1;
 
-    private static final int ANALYSE_DOCUMENT_REQUEST = 1;
+    @VisibleForTesting
+    static final int ANALYSE_DOCUMENT_REQUEST = 1;
 
     private static final String REVIEW_FRAGMENT = "REVIEW_FRAGMENT";
 
