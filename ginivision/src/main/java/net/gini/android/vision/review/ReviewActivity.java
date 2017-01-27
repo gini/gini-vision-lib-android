@@ -132,6 +132,10 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     /**
      * @exclude
      */
+    public static final String EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY = "GV_EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY";
+    /**
+     * @exclude
+     */
     public static final String EXTRA_OUT_DOCUMENT = "GV_EXTRA_OUT_DOCUMENT";
     /**
      * @exclude
@@ -150,6 +154,7 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     private ReviewFragmentCompat mFragment;
     private Document mDocument;
     private String mDocumentAnalysisErrorMessage;
+    private boolean mBackButtonShouldCloseLibrary = false;
 
     private Intent mAnalyzeDocumentActivityIntent;
 
@@ -196,6 +201,7 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
         if (extras != null) {
             mDocument = extras.getParcelable(EXTRA_IN_DOCUMENT);
             mAnalyzeDocumentActivityIntent = extras.getParcelable(EXTRA_IN_ANALYSIS_ACTIVITY);
+            mBackButtonShouldCloseLibrary = extras.getBoolean(EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY, false);
         }
         checkRequiredExtras();
     }
@@ -309,13 +315,12 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ANALYSE_DOCUMENT_REQUEST) {
-            if (resultCode == Activity.RESULT_CANCELED) {
-                // Do nothing, since the analysis was cancelled (closed with the back button)
-                return;
+            if (mBackButtonShouldCloseLibrary
+                    || resultCode != Activity.RESULT_CANCELED) {
+                setResult(resultCode, data);
+                finish();
+                clearMemory();
             }
-            setResult(resultCode, data);
-            finish();
         }
-        clearMemory();
     }
 }

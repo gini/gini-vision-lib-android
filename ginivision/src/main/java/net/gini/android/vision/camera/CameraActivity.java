@@ -204,6 +204,16 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
 
     /**
      * <p>
+     *     Optional extra wich must contain a boolean and indicates whether the back button should close the Gini Vision Library.
+     * </p>
+     * <p>
+     *     Default value is {@code false}.
+     * </p>
+     */
+    public static final String EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY = "GV_EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY";
+
+    /**
+     * <p>
      *     Returned when the result code is {@link CameraActivity#RESULT_ERROR} and contains a {@link GiniVisionError} object detailing what went wrong.
      * </p>
      */
@@ -225,6 +235,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     private boolean mShowOnboarding = false;
     private boolean mShowOnboardingAtFirstRun = true;
     private boolean mOnboardingShown = false;
+    private boolean mBackButtonShouldCloseLibrary = false;
     private GiniVisionCoordinator mGiniVisionCoordinator;
     private Document mDocument;
 
@@ -310,6 +321,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
             mAnalyzeDocumentActivityIntent = extras.getParcelable(EXTRA_IN_ANALYSIS_ACTIVITY);
             mShowOnboarding = extras.getBoolean(EXTRA_IN_SHOW_ONBOARDING, false);
             mShowOnboardingAtFirstRun = extras.getBoolean(EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN, true);
+            mBackButtonShouldCloseLibrary = extras.getBoolean(EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY, false);
         }
         checkRequiredExtras();
     }
@@ -375,6 +387,8 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         // Start ReviewActivity
         mReviewDocumentActivityIntent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, document);
         mReviewDocumentActivityIntent.putExtra(EXTRA_IN_ANALYSIS_ACTIVITY, mAnalyzeDocumentActivityIntent);
+        mReviewDocumentActivityIntent.putExtra(ReviewActivity.EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY,
+                mBackButtonShouldCloseLibrary);
         startActivityForResult(mReviewDocumentActivityIntent, REVIEW_DOCUMENT_REQUEST);
     }
 
@@ -389,17 +403,16 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REVIEW_DOCUMENT_REQUEST) {
-            if (resultCode == Activity.RESULT_CANCELED) {
-                // Do nothing, since the review was cancelled (closed with the back button)
-                return;
+            if (mBackButtonShouldCloseLibrary
+                    || resultCode != Activity.RESULT_CANCELED) {
+                setResult(resultCode, data);
+                finish();
+                clearMemory();
             }
-            setResult(resultCode, data);
-            finish();
         } else if (requestCode == ONBOARDING_REQUEST) {
             mOnboardingShown = false;
             showCornersAndTrigger();
         }
-        clearMemory();
     }
 
     private void showCornersAndTrigger() {
