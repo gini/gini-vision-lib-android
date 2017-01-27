@@ -6,6 +6,10 @@ import static net.gini.android.vision.OncePerInstallEventStoreHelper.setOnboardi
 import static net.gini.android.vision.test.EspressoMatchers.hasComponent;
 import static net.gini.android.vision.test.Helpers.prepareLooper;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.argThat;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
@@ -27,13 +31,16 @@ import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiSelector;
 
+import net.gini.android.vision.Document;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivityTestStub;
+import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.review.ReviewActivity;
 import net.gini.android.vision.review.ReviewActivityTestStub;
 
+import org.hamcrest.Description;
 import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
@@ -42,6 +49,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+import org.mockito.ArgumentMatcher;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
@@ -289,5 +297,39 @@ public class CameraScreenTest {
                 Activity.RESULT_CANCELED, new Intent());
 
         verify(cameraActivitySpy).finish();
+    }
+
+    @Test
+    public void should_passBackButtonClosesLibraryExtra_toReviewActivity()
+            throws InterruptedException {
+        final Intent intentAllowBackButtonToClose = getCameraActivityIntent();
+        intentAllowBackButtonToClose.putExtra(
+                CameraActivity.EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY, true);
+
+        CameraActivity cameraActivity = new CameraActivity();
+        cameraActivity.setIntent(intentAllowBackButtonToClose);
+        cameraActivity.readExtras();
+
+        final CameraActivity cameraActivitySpy = Mockito.spy(cameraActivity);
+
+        doNothing().when(cameraActivitySpy).startActivityForResult(any(Intent.class), anyInt());
+
+        cameraActivitySpy.onDocumentAvailable(Document.fromPhoto(Photo.fromJpeg(new byte[]{}, 0)));
+
+        verify(cameraActivitySpy).startActivityForResult(argThat(new ArgumentMatcher<Intent>() {
+            @Override
+            public boolean matches(final Object argument) {
+                Intent intent = (Intent) argument;
+                //noinspection UnnecessaryLocalVariable
+                boolean shouldCloseLibrary = intent.getBooleanExtra(
+                        ReviewActivity.EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY, false);
+                return shouldCloseLibrary;
+            }
+
+            @Override
+            public void describeTo(final Description description) {
+                description.appendText("Intent { EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY=true }");
+            }
+        }), anyInt());
     }
 }
