@@ -227,7 +227,8 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      */
     public static final int RESULT_ERROR = RESULT_FIRST_USER + 1;
 
-    private static final int REVIEW_DOCUMENT_REQUEST = 1;
+    @VisibleForTesting
+    static final int REVIEW_DOCUMENT_REQUEST = 1;
     private static final int ONBOARDING_REQUEST = 2;
 
     private ArrayList<OnboardingPage> mOnboardingPages;

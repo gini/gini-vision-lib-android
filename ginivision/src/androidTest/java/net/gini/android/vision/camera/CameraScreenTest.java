@@ -2,9 +2,14 @@ package net.gini.android.vision.camera;
 
 import static net.gini.android.vision.OncePerInstallEventStoreHelper.clearOnboardingWasShownPreference;
 import static net.gini.android.vision.OncePerInstallEventStoreHelper.setOnboardingWasShownPreference;
+
 import static net.gini.android.vision.test.EspressoMatchers.hasComponent;
 import static net.gini.android.vision.test.Helpers.prepareLooper;
 
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+
+import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.test.InstrumentationRegistry;
@@ -37,6 +42,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
+import org.mockito.Mockito;
 
 import java.util.ArrayList;
 
@@ -108,7 +114,7 @@ public class CameraScreenTest {
                 AnalysisActivityTestStub.class);
         return intent;
     }
-    
+
     @Test
     public void should_notShowOnboarding_onFirstLaunch_ifDisabled() {
         startCameraActivityWithoutOnboarding();
@@ -255,5 +261,33 @@ public class CameraScreenTest {
         Intents.intended(
                 IntentMatchers.hasExtra(Matchers.equalTo(ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY),
                         hasComponent(AnalysisActivityTestStub.class.getName())));
+    }
+
+    @Test
+    public void should_notFinish_whenReceivingActivityResult_withResultCodeCancelled_fromReviewActivity() {
+        CameraActivity cameraActivitySpy = Mockito.spy(new CameraActivity());
+
+        cameraActivitySpy.onActivityResult(CameraActivity.REVIEW_DOCUMENT_REQUEST,
+                Activity.RESULT_CANCELED, new Intent());
+
+        verify(cameraActivitySpy, never()).finish();
+    }
+
+    @Test
+    public void should_finishIfRequestedByClient_whenReceivingActivityResult_withResultCodeCancelled_fromReviewActivity() {
+        final Intent intentAllowBackButtonToClose = getCameraActivityIntent();
+        intentAllowBackButtonToClose.putExtra(
+                CameraActivity.EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY, true);
+
+        CameraActivity cameraActivity = new CameraActivity();
+        cameraActivity.setIntent(intentAllowBackButtonToClose);
+        cameraActivity.readExtras();
+
+        CameraActivity cameraActivitySpy = Mockito.spy(cameraActivity);
+
+        cameraActivitySpy.onActivityResult(CameraActivity.REVIEW_DOCUMENT_REQUEST,
+                Activity.RESULT_CANCELED, new Intent());
+
+        verify(cameraActivitySpy).finish();
     }
 }
