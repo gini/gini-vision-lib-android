@@ -1,5 +1,6 @@
 package net.gini.android.vision.camera;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -388,6 +389,10 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REVIEW_DOCUMENT_REQUEST) {
+            if (resultCode == Activity.RESULT_CANCELED) {
+                // Do nothing, since the review was cancelled (closed with the back button)
+                return;
+            }
             setResult(resultCode, data);
             finish();
         } else if (requestCode == ONBOARDING_REQUEST) {

@@ -1,12 +1,9 @@
 package net.gini.android.vision.review;
 
-import net.gini.android.vision.Document;
-import net.gini.android.vision.GiniVisionError;
-import net.gini.android.vision.R;
-import net.gini.android.vision.analysis.AnalysisActivity;
-import net.gini.android.vision.camera.CameraActivity;
-import net.gini.android.vision.onboarding.OnboardingActivity;
+import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
+import static net.gini.android.vision.internal.util.ActivityHelper.handleMenuItemPressedForHomeButton;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,8 +12,12 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
-import static net.gini.android.vision.internal.util.ActivityHelper.handleMenuItemPressedForHomeButton;
+import net.gini.android.vision.Document;
+import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.R;
+import net.gini.android.vision.analysis.AnalysisActivity;
+import net.gini.android.vision.camera.CameraActivity;
+import net.gini.android.vision.onboarding.OnboardingActivity;
 
 /**
  * <h3>Screen API</h3>
@@ -308,6 +309,10 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ANALYSE_DOCUMENT_REQUEST) {
+            if (resultCode == Activity.RESULT_CANCELED) {
+                // Do nothing, since the analysis was cancelled (closed with the back button)
+                return;
+            }
             setResult(resultCode, data);
             finish();
         }
