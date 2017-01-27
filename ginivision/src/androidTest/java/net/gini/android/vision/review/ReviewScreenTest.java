@@ -349,7 +349,7 @@ public class ReviewScreenTest {
     public void should_notFinish_whenReceivingActivityResult_withResultCodeCancelled_fromAnalysisActivity() {
         prepareLooper();
 
-        ReviewActivity reviewActivitySpy = Mockito.spy(new ReviewActivityTestStub());
+        final ReviewActivity reviewActivitySpy = Mockito.spy(new ReviewActivityTestStub());
 
         reviewActivitySpy.onActivityResult(ReviewActivity.ANALYSE_DOCUMENT_REQUEST,
                 Activity.RESULT_CANCELED, new Intent());
@@ -365,11 +365,11 @@ public class ReviewScreenTest {
         intentAllowBackButtonToClose.putExtra(
                 ReviewActivity.EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY, true);
 
-        ReviewActivity reviewActivity = new ReviewActivityTestStub();
+        final ReviewActivity reviewActivity = new ReviewActivityTestStub();
         reviewActivity.setIntent(intentAllowBackButtonToClose);
         reviewActivity.readExtras();
 
-        ReviewActivity reviewActivitySpy = Mockito.spy(reviewActivity);
+        final ReviewActivity reviewActivitySpy = Mockito.spy(reviewActivity);
 
         reviewActivitySpy.onActivityResult(ReviewActivity.ANALYSE_DOCUMENT_REQUEST,
                 Activity.RESULT_CANCELED, new Intent());

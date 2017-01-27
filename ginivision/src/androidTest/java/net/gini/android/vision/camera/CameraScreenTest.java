@@ -265,7 +265,7 @@ public class CameraScreenTest {
 
     @Test
     public void should_notFinish_whenReceivingActivityResult_withResultCodeCancelled_fromReviewActivity() {
-        CameraActivity cameraActivitySpy = Mockito.spy(new CameraActivity());
+        final CameraActivity cameraActivitySpy = Mockito.spy(new CameraActivity());
 
         cameraActivitySpy.onActivityResult(CameraActivity.REVIEW_DOCUMENT_REQUEST,
                 Activity.RESULT_CANCELED, new Intent());
@@ -279,11 +279,11 @@ public class CameraScreenTest {
         intentAllowBackButtonToClose.putExtra(
                 CameraActivity.EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY, true);
 
-        CameraActivity cameraActivity = new CameraActivity();
+        final CameraActivity cameraActivity = new CameraActivity();
         cameraActivity.setIntent(intentAllowBackButtonToClose);
         cameraActivity.readExtras();
 
-        CameraActivity cameraActivitySpy = Mockito.spy(cameraActivity);
+        final CameraActivity cameraActivitySpy = Mockito.spy(cameraActivity);
 
         cameraActivitySpy.onActivityResult(CameraActivity.REVIEW_DOCUMENT_REQUEST,
                 Activity.RESULT_CANCELED, new Intent());
