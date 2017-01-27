@@ -358,7 +358,7 @@ public class ReviewScreenTest {
     }
 
     @Test
-    public void should_finishIfRequiredByClient_whenReceivingActivityResult_withResultCodeCancelled_fromAnalysisActivity() {
+    public void should_finishIfEnabledByClient_whenReceivingActivityResult_withResultCodeCancelled_fromAnalysisActivity() {
         prepareLooper();
 
         final Intent intentAllowBackButtonToClose = getReviewActivityIntent(TEST_JPEG, 0);

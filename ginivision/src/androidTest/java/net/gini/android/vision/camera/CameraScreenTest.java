@@ -274,7 +274,7 @@ public class CameraScreenTest {
     }
 
     @Test
-    public void should_finishIfRequestedByClient_whenReceivingActivityResult_withResultCodeCancelled_fromReviewActivity() {
+    public void should_finishIfEnabledByClient_whenReceivingActivityResult_withResultCodeCancelled_fromReviewActivity() {
         final Intent intentAllowBackButtonToClose = getCameraActivityIntent();
         intentAllowBackButtonToClose.putExtra(
                 CameraActivity.EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY, true);
