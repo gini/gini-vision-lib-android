@@ -98,6 +98,16 @@ public class CameraScreenTest {
         Espresso.onView(ViewMatchers.withId(R.id.gv_onboarding_viewpager))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
+
+    @NonNull
+    private Intent getCameraActivityIntent() {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        CameraActivity.setReviewActivityExtra(intent, InstrumentationRegistry.getTargetContext(),
+                ReviewActivityTestStub.class);
+        CameraActivity.setAnalysisActivityExtra(intent, InstrumentationRegistry.getTargetContext(),
+                AnalysisActivityTestStub.class);
+        return intent;
+    }
     
     @Test
     public void should_notShowOnboarding_onFirstLaunch_ifDisabled() {
@@ -105,6 +115,13 @@ public class CameraScreenTest {
 
         Espresso.onView(ViewMatchers.withId(R.id.gv_onboarding_viewpager))
                 .check(ViewAssertions.doesNotExist());
+    }
+
+    @NonNull
+    private CameraActivity startCameraActivityWithoutOnboarding() {
+        Intent intent = getCameraActivityIntent();
+        intent.putExtra(CameraActivity.EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN, false);
+        return mIntentsTestRule.launchActivity(intent);
     }
 
     @Test
@@ -238,29 +255,5 @@ public class CameraScreenTest {
         Intents.intended(
                 IntentMatchers.hasExtra(Matchers.equalTo(ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY),
                         hasComponent(AnalysisActivityTestStub.class.getName())));
-
-    }
-
-    @NonNull
-    private CameraActivity startCameraActivity() {
-        Intent intent = getCameraActivityIntent();
-        return mIntentsTestRule.launchActivity(intent);
-    }
-
-    @NonNull
-    private CameraActivity startCameraActivityWithoutOnboarding() {
-        Intent intent = getCameraActivityIntent();
-        intent.putExtra(CameraActivity.EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN, false);
-        return mIntentsTestRule.launchActivity(intent);
-    }
-
-    @NonNull
-    private Intent getCameraActivityIntent() {
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        CameraActivity.setReviewActivityExtra(intent, InstrumentationRegistry.getTargetContext(),
-                ReviewActivityTestStub.class);
-        CameraActivity.setAnalysisActivityExtra(intent, InstrumentationRegistry.getTargetContext(),
-                AnalysisActivityTestStub.class);
-        return intent;
     }
 }
