@@ -47,7 +47,7 @@ public enum RequirementId {
     CAMERA_FLASH,
     /**
      * <p>
-     *     The camera must support continuous picture focus and auto focus modes.
+     *     The camera must support auto focus mode.
      * </p>
      */
     CAMERA_FOCUS,
