@@ -302,6 +302,21 @@ public class CameraScreenTest {
     @Test
     public void should_passBackButtonClosesLibraryExtra_toReviewActivity()
             throws InterruptedException {
+        final CameraActivity cameraActivity = startCameraActivityWithBackButtonShouldCloseLibrary();
+
+        final CameraActivity cameraActivitySpy = Mockito.spy(cameraActivity);
+        // Prevent really starting the ReviewActivity
+        doNothing().when(cameraActivitySpy).startActivityForResult(any(Intent.class), anyInt());
+        // Fake taking of a picture, which will cause the ReviewActivity to be launched
+        cameraActivitySpy.onDocumentAvailable(Document.fromPhoto(Photo.fromJpeg(new byte[]{}, 0)));
+
+        // Check that the extra was passed on to the ReviewActivity
+        verify(cameraActivitySpy).startActivityForResult(argThat(
+                intentWithExtraBackButtonShouldCloseLibrary()), anyInt());
+    }
+
+    @NonNull
+    private CameraActivity startCameraActivityWithBackButtonShouldCloseLibrary() {
         final Intent intentAllowBackButtonToClose = getCameraActivityIntent();
         intentAllowBackButtonToClose.putExtra(
                 CameraActivity.EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY, true);
@@ -309,19 +324,17 @@ public class CameraScreenTest {
         CameraActivity cameraActivity = new CameraActivity();
         cameraActivity.setIntent(intentAllowBackButtonToClose);
         cameraActivity.readExtras();
+        return cameraActivity;
+    }
 
-        final CameraActivity cameraActivitySpy = Mockito.spy(cameraActivity);
-
-        doNothing().when(cameraActivitySpy).startActivityForResult(any(Intent.class), anyInt());
-
-        cameraActivitySpy.onDocumentAvailable(Document.fromPhoto(Photo.fromJpeg(new byte[]{}, 0)));
-
-        verify(cameraActivitySpy).startActivityForResult(argThat(new ArgumentMatcher<Intent>() {
+    @NonNull
+    private ArgumentMatcher<Intent> intentWithExtraBackButtonShouldCloseLibrary() {
+        return new ArgumentMatcher<Intent>() {
             @Override
             public boolean matches(final Object argument) {
-                Intent intent = (Intent) argument;
+                final Intent intent = (Intent) argument;
                 //noinspection UnnecessaryLocalVariable
-                boolean shouldCloseLibrary = intent.getBooleanExtra(
+                final boolean shouldCloseLibrary = intent.getBooleanExtra(
                         ReviewActivity.EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY, false);
                 return shouldCloseLibrary;
             }
@@ -330,6 +343,7 @@ public class CameraScreenTest {
             public void describeTo(final Description description) {
                 description.appendText("Intent { EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY=true }");
             }
-        }), anyInt());
+        };
     }
+
 }
