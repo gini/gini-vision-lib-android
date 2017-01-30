@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "net.gini.android.vision.componentapiexample"
-        minSdkVersion 17
+        minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode buildNumber == 'DEBUG' ? 1 : buildNumber.toInteger()
         versionName "${version} (${buildNumber})"
