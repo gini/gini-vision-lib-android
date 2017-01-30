@@ -1,13 +1,10 @@
 package net.gini.android.vision.internal.camera.api;
 
-import static net.gini.android.vision.internal.camera.api.CameraParametersHelper
-        .isFlashModeSupported;
-import static net.gini.android.vision.internal.camera.api.CameraParametersHelper
-        .isFocusModeSupported;
+import static net.gini.android.vision.internal.camera.api.CameraParametersHelper.isFlashModeSupported;
+import static net.gini.android.vision.internal.camera.api.CameraParametersHelper.isFocusModeSupported;
 import static net.gini.android.vision.internal.camera.api.CameraParametersHelper.isUsingFocusMode;
 import static net.gini.android.vision.internal.camera.api.SizeSelectionHelper.getLargestSize;
-import static net.gini.android.vision.internal.camera.api.SizeSelectionHelper
-        .getLargestSizeWithSimilarAspectRatio;
+import static net.gini.android.vision.internal.camera.api.SizeSelectionHelper.getLargestSizeWithSimilarAspectRatio;
 
 import android.app.Activity;
 import android.graphics.Matrix;
@@ -94,7 +91,7 @@ public class CameraController implements CameraInterface {
             return CompletableFuture.completedFuture(null);
         }
         try {
-            mCamera = Camera.open();
+            mCamera = openCamera();
             if (mCamera != null) {
                 configureCamera(mActivity);
                 LOG.info("Camera opened");
@@ -107,6 +104,12 @@ public class CameraController implements CameraInterface {
             LOG.error("Cannot start camera", e);
             return failedFuture(e);
         }
+    }
+
+    @VisibleForTesting
+    @Nullable
+    protected Camera openCamera() {
+        return Camera.open();
     }
 
     @Override
@@ -340,7 +343,7 @@ public class CameraController implements CameraInterface {
         focusFuture.handle(new CompletableFuture.BiFun<Boolean, Throwable, Void>() {
             @Override
             public Void apply(final Boolean aBoolean, final Throwable throwable) {
-                mCamera.takePicture(null, null, new Camera.PictureCallback() {
+                takePicture(new Camera.PictureCallback() {
                     @Override
                     public void onPictureTaken(final byte[] bytes, Camera camera) {
                         mTakingPictureFuture.set(null);
@@ -354,6 +357,14 @@ public class CameraController implements CameraInterface {
         });
 
         return pictureTaken;
+    }
+
+    @VisibleForTesting
+    protected void takePicture(Camera.PictureCallback callback) {
+        if (mCamera == null) {
+            return;
+        }
+        mCamera.takePicture(null, null, callback);
     }
 
     @NonNull
