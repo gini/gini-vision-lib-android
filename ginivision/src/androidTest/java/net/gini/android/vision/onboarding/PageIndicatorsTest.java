@@ -1,6 +1,7 @@
 package net.gini.android.vision.onboarding;
 
 import static com.google.common.truth.Truth.assertThat;
+
 import static net.gini.android.vision.onboarding.PageIndicatorsHelper.isPageActive;
 import static net.gini.android.vision.onboarding.PageIndicatorsHelper.isPageInactive;
 

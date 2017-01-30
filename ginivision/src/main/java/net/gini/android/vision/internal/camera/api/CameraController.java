@@ -5,9 +5,9 @@ import static net.gini.android.vision.internal.camera.api.CameraParametersHelper
 import static net.gini.android.vision.internal.camera.api.CameraParametersHelper
         .isFocusModeSupported;
 import static net.gini.android.vision.internal.camera.api.CameraParametersHelper.isUsingFocusMode;
-import static net.gini.android.vision.internal.camera.api.SizeSelectionHelper
-        .getLargestSizeWithSameAspectRatio;
 import static net.gini.android.vision.internal.camera.api.SizeSelectionHelper.getLargestSize;
+import static net.gini.android.vision.internal.camera.api.SizeSelectionHelper
+        .getLargestSizeWithSimilarAspectRatio;
 
 import android.app.Activity;
 import android.graphics.Matrix;
@@ -18,6 +18,7 @@ import android.hardware.Camera;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -75,6 +76,12 @@ public class CameraController implements CameraInterface {
     public CameraController(@NonNull Activity activity) {
         mActivity = activity;
         mResetFocusHandler = new Handler();
+    }
+
+    @Nullable
+    @VisibleForTesting
+    Camera getCamera() {
+        return mCamera;
     }
 
     @NonNull
@@ -392,7 +399,7 @@ public class CameraController implements CameraInterface {
 
     private void selectPreviewSize(final Camera.Parameters params) {
         List<Camera.Size> previewSizes = params.getSupportedPreviewSizes();
-        Size previewSize = getLargestSizeWithSameAspectRatio(previewSizes, mPictureSize);
+        Size previewSize = getLargestSizeWithSimilarAspectRatio(previewSizes, mPictureSize);
         if (previewSize != null) {
             mPreviewSize = previewSize;
             params.setPreviewSize(mPreviewSize.width, mPreviewSize.height);

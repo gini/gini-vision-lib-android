@@ -1,9 +1,11 @@
 package net.gini.android.vision.review;
 
 import static com.google.common.truth.Truth.assertThat;
+
 import static net.gini.android.vision.test.Helpers.createDocument;
 import static net.gini.android.vision.test.Helpers.getTestJpeg;
 import static net.gini.android.vision.test.Helpers.prepareLooper;
+
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;

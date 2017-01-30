@@ -45,7 +45,7 @@ class CameraResolutionRequirement implements Requirement {
                     return new RequirementReport(getId(), result, details);
                 }
 
-                Size previewSize = SizeSelectionHelper.getLargestSizeWithSameAspectRatio(
+                Size previewSize = SizeSelectionHelper.getLargestSizeWithSimilarAspectRatio(
                         parameters.getSupportedPreviewSizes(), pictureSize);
                 if (previewSize == null) {
                     result = false;
