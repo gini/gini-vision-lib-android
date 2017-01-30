@@ -1,5 +1,6 @@
 package net.gini.android.vision.camera;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -47,6 +48,7 @@ import java.util.ArrayList;
  *         <li>{@link CameraActivity#EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN} - the Onboarding Screen is shown by default the first time the Gini Vision Library is started. You may disable it by setting this extra to {@code false} - we highly recommend keeping the default behavior</li>
  *         <li>{@link CameraActivity#EXTRA_IN_SHOW_ONBOARDING} - if set to {@code true} the Onboarding Screen is shown when the Gini Vision Library is started</li>
  *         <li>{@link CameraActivity#EXTRA_IN_ONBOARDING_PAGES} - custom pages for the Onboarding Screen as an {@link ArrayList} containing {@link OnboardingPage} objects</li>
+ *         <li>{@link CameraActivity#EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY} - if set to {@code true} the back button closes the Gini Vision Library from any of its activities with result code {@link CameraActivity#RESULT_CANCELED}</li>
  *     </ul>
  * </p>
  * <p>
@@ -203,6 +205,16 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
 
     /**
      * <p>
+     *     Optional extra wich must contain a boolean and indicates whether the back button should close the Gini Vision Library.
+     * </p>
+     * <p>
+     *     Default value is {@code false}.
+     * </p>
+     */
+    public static final String EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY = "GV_EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY";
+
+    /**
+     * <p>
      *     Returned when the result code is {@link CameraActivity#RESULT_ERROR} and contains a {@link GiniVisionError} object detailing what went wrong.
      * </p>
      */
@@ -215,7 +227,8 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      */
     public static final int RESULT_ERROR = RESULT_FIRST_USER + 1;
 
-    private static final int REVIEW_DOCUMENT_REQUEST = 1;
+    @VisibleForTesting
+    static final int REVIEW_DOCUMENT_REQUEST = 1;
     private static final int ONBOARDING_REQUEST = 2;
 
     private ArrayList<OnboardingPage> mOnboardingPages;
@@ -224,6 +237,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     private boolean mShowOnboarding = false;
     private boolean mShowOnboardingAtFirstRun = true;
     private boolean mOnboardingShown = false;
+    private boolean mBackButtonShouldCloseLibrary = false;
     private GiniVisionCoordinator mGiniVisionCoordinator;
     private Document mDocument;
 
@@ -309,6 +323,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
             mAnalyzeDocumentActivityIntent = extras.getParcelable(EXTRA_IN_ANALYSIS_ACTIVITY);
             mShowOnboarding = extras.getBoolean(EXTRA_IN_SHOW_ONBOARDING, false);
             mShowOnboardingAtFirstRun = extras.getBoolean(EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN, true);
+            mBackButtonShouldCloseLibrary = extras.getBoolean(EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY, false);
         }
         checkRequiredExtras();
     }
@@ -374,6 +389,8 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         // Start ReviewActivity
         mReviewDocumentActivityIntent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, document);
         mReviewDocumentActivityIntent.putExtra(EXTRA_IN_ANALYSIS_ACTIVITY, mAnalyzeDocumentActivityIntent);
+        mReviewDocumentActivityIntent.putExtra(ReviewActivity.EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY,
+                mBackButtonShouldCloseLibrary);
         startActivityForResult(mReviewDocumentActivityIntent, REVIEW_DOCUMENT_REQUEST);
     }
 
@@ -388,13 +405,16 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REVIEW_DOCUMENT_REQUEST) {
-            setResult(resultCode, data);
-            finish();
+            if (mBackButtonShouldCloseLibrary
+                    || resultCode != Activity.RESULT_CANCELED) {
+                setResult(resultCode, data);
+                finish();
+                clearMemory();
+            }
         } else if (requestCode == ONBOARDING_REQUEST) {
             mOnboardingShown = false;
             showCornersAndTrigger();
         }
-        clearMemory();
     }
 
     private void showCornersAndTrigger() {

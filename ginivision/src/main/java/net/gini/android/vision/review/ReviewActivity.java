@@ -1,12 +1,9 @@
 package net.gini.android.vision.review;
 
-import net.gini.android.vision.Document;
-import net.gini.android.vision.GiniVisionError;
-import net.gini.android.vision.R;
-import net.gini.android.vision.analysis.AnalysisActivity;
-import net.gini.android.vision.camera.CameraActivity;
-import net.gini.android.vision.onboarding.OnboardingActivity;
+import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
+import static net.gini.android.vision.internal.util.ActivityHelper.handleMenuItemPressedForHomeButton;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,8 +12,12 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
-import static net.gini.android.vision.internal.util.ActivityHelper.handleMenuItemPressedForHomeButton;
+import net.gini.android.vision.Document;
+import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.R;
+import net.gini.android.vision.analysis.AnalysisActivity;
+import net.gini.android.vision.camera.CameraActivity;
+import net.gini.android.vision.onboarding.OnboardingActivity;
 
 /**
  * <h3>Screen API</h3>
@@ -131,6 +132,10 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     /**
      * @exclude
      */
+    public static final String EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY = "GV_EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY";
+    /**
+     * @exclude
+     */
     public static final String EXTRA_OUT_DOCUMENT = "GV_EXTRA_OUT_DOCUMENT";
     /**
      * @exclude
@@ -142,13 +147,15 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
      */
     public static final int RESULT_ERROR = RESULT_FIRST_USER + 1;
 
-    private static final int ANALYSE_DOCUMENT_REQUEST = 1;
+    @VisibleForTesting
+    static final int ANALYSE_DOCUMENT_REQUEST = 1;
 
     private static final String REVIEW_FRAGMENT = "REVIEW_FRAGMENT";
 
     private ReviewFragmentCompat mFragment;
     private Document mDocument;
     private String mDocumentAnalysisErrorMessage;
+    private boolean mBackButtonShouldCloseLibrary = false;
 
     private Intent mAnalyzeDocumentActivityIntent;
 
@@ -195,6 +202,7 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
         if (extras != null) {
             mDocument = extras.getParcelable(EXTRA_IN_DOCUMENT);
             mAnalyzeDocumentActivityIntent = extras.getParcelable(EXTRA_IN_ANALYSIS_ACTIVITY);
+            mBackButtonShouldCloseLibrary = extras.getBoolean(EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY, false);
         }
         checkRequiredExtras();
     }
@@ -308,9 +316,12 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ANALYSE_DOCUMENT_REQUEST) {
-            setResult(resultCode, data);
-            finish();
+            if (mBackButtonShouldCloseLibrary
+                    || resultCode != Activity.RESULT_CANCELED) {
+                setResult(resultCode, data);
+                finish();
+                clearMemory();
+            }
         }
-        clearMemory();
     }
 }

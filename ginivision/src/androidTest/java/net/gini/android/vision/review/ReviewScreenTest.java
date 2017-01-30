@@ -12,6 +12,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.test.InstrumentationRegistry;
@@ -31,6 +32,7 @@ import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -78,6 +80,18 @@ public class ReviewScreenTest {
         Thread.sleep(PAUSE_DURATION);
 
         assertThat(activity.getFragment().getFragmentImpl().getImageDocument().getRotation()).isWithin(0.0f).of(180);
+    }
+
+    private ReviewActivityTestStub startReviewActivity(byte[] jpeg, int orientation) {
+        Intent intent = getReviewActivityIntent(jpeg, orientation);
+        return mActivityTestRule.launchActivity(intent);
+    }
+
+    private Intent getReviewActivityIntent(byte[] jpeg, int orientation) {
+        Intent intent = new Intent(InstrumentationRegistry.getTargetContext(), ReviewActivityTestStub.class);
+        intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, createDocument(jpeg, orientation));
+        intent.putExtra(ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY, new Intent(InstrumentationRegistry.getTargetContext(), AnalysisActivityTestStub.class));
+        return intent;
     }
 
     @Test
@@ -331,14 +345,35 @@ public class ReviewScreenTest {
         verify(listenerHook).onDocumentWasRotated(any(Document.class), eq(0), eq(90));
     }
 
-    private ReviewActivityTestStub startReviewActivity(byte[] jpeg, int orientation) {
-        Intent intent = getReviewActivityIntent();
-        intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, createDocument(jpeg, orientation));
-        intent.putExtra(ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY, new Intent(InstrumentationRegistry.getTargetContext(), AnalysisActivityTestStub.class));
-        return mActivityTestRule.launchActivity(intent);
+    @Test
+    public void should_notFinish_whenReceivingActivityResult_withResultCodeCancelled_fromAnalysisActivity() {
+        prepareLooper();
+
+        final ReviewActivity reviewActivitySpy = Mockito.spy(new ReviewActivityTestStub());
+
+        reviewActivitySpy.onActivityResult(ReviewActivity.ANALYSE_DOCUMENT_REQUEST,
+                Activity.RESULT_CANCELED, new Intent());
+
+        verify(reviewActivitySpy, never()).finish();
     }
 
-    private Intent getReviewActivityIntent() {
-        return new Intent(InstrumentationRegistry.getTargetContext(), ReviewActivityTestStub.class);
+    @Test
+    public void should_finishIfEnabledByClient_whenReceivingActivityResult_withResultCodeCancelled_fromAnalysisActivity() {
+        prepareLooper();
+
+        final Intent intentAllowBackButtonToClose = getReviewActivityIntent(TEST_JPEG, 0);
+        intentAllowBackButtonToClose.putExtra(
+                ReviewActivity.EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY, true);
+
+        final ReviewActivity reviewActivity = new ReviewActivityTestStub();
+        reviewActivity.setIntent(intentAllowBackButtonToClose);
+        reviewActivity.readExtras();
+
+        final ReviewActivity reviewActivitySpy = Mockito.spy(reviewActivity);
+
+        reviewActivitySpy.onActivityResult(ReviewActivity.ANALYSE_DOCUMENT_REQUEST,
+                Activity.RESULT_CANCELED, new Intent());
+
+        verify(reviewActivitySpy).finish();
     }
 }

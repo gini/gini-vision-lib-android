@@ -92,6 +92,10 @@ public class MainActivity extends AppCompatActivity {
         // Set EXTRA_IN_SHOW_ONBOARDING to true, to show the OnboardingActivity when the CameraActivity starts
         //intent.putExtra(CameraActivity.EXTRA_IN_SHOW_ONBOARDING, true);
 
+        // Set EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY to true, to close library on pressing the back
+        // button from any Activity in the library
+        //intent.putExtra(CameraActivity.EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY, true);
+
         // Set your ReviewActivity subclass
         CameraActivity.setReviewActivityExtra(intent, this, ReviewActivity.class);
 
