@@ -2,6 +2,15 @@
 Changelog
 =========
 
+2.1.0 (2017-01-30)
+==================
+
+- Removed the 4:3 aspect ratio camera resolution requirement. Only a minimum of 8MP is required.
+- Removed the continuous-focus mode requirement. Only auto-focus is required.
+- If no continuous-focus mode is available the camera is requested to do an auto-focus run before taking a picture.
+- Trigger button is aligned to the preview's bottom.
+- The back button in the ReviewActivity and AnalysisActivity (in the navigation bar and in the ActionBar) leads back to the previous Activity instead of closing the library. The previous behavior can be requested by setting the `CameraActivity#EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY` to `true`.
+
 2.0.1 (2016-10-18)
 ==================
 
