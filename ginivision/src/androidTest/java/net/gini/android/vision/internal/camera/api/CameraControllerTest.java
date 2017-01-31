@@ -129,6 +129,7 @@ public class CameraControllerTest {
 
     @Test
     public void should_useAutoFocusMode_ifContinuousFocusMode_isNotAvailable() {
+        assumeTrue("Camera supports auto focus mode", hasCameraAutoFocusMode());
         mCameraController =
                 new CameraControllerWithMockableCamera(createNoOpActivity());
         Camera cameraSpy = openCameraAndGetCameraSpyWithSupportedFocusModes(
@@ -137,6 +138,14 @@ public class CameraControllerTest {
 
         Camera.Parameters usedParameters = cameraSpy.getParameters();
         assertThat(usedParameters.getFocusMode()).isEqualTo(Camera.Parameters.FOCUS_MODE_AUTO);
+    }
+
+    private boolean hasCameraAutoFocusMode() {
+        Camera camera = Camera.open();
+        boolean autoFocusMode = camera.getParameters().getSupportedFocusModes().contains(
+                Camera.Parameters.FOCUS_MODE_AUTO);
+        camera.release();
+        return autoFocusMode;
     }
 
     @Test
@@ -153,7 +162,7 @@ public class CameraControllerTest {
     }
 
     @Test
-    public void should_notDoAutoFocusRun_beforeTakingPicture_ifContinuousFocusMode() {
+    public void should_notDoAutoFocusRun_beforeTakingPicture_ifUsingContinuousFocusMode() {
         assumeTrue("Camera supports continuous focus mode", hasCameraContinuousFocusMode());
         mCameraController =
                 spy(new CameraControllerWithMockedFocusingAndPictureTaking(createNoOpActivity()));
