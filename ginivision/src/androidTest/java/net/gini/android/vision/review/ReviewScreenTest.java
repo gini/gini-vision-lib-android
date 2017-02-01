@@ -20,6 +20,7 @@ import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.espresso.matcher.ViewMatchers;
+import android.support.test.filters.RequiresDevice;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.test.uiautomator.UiDevice;
 
@@ -94,6 +95,7 @@ public class ReviewScreenTest {
         return intent;
     }
 
+    @RequiresDevice
     @Test
     public void should_rotatePreview_whenRotateButton_isClicked() throws IOException, InterruptedException {
         ReviewActivityTestStub activity = startReviewActivity(TEST_JPEG, 90);
@@ -146,6 +148,7 @@ public class ReviewScreenTest {
         assertThat(documentToAnalyze.get().getJpeg().length).isLessThan(TEST_JPEG.length);
     }
 
+    @RequiresDevice
     @Test
     public void should_onlyInvokeProceedToAnalysis_whenNextButton_wasClicked_ifDocument_wasModified_andNotAnalyzed() throws InterruptedException {
         ReviewActivityTestStub activity = startReviewActivity(TEST_JPEG, 0);
@@ -180,6 +183,7 @@ public class ReviewScreenTest {
         assertThat(addDataToResultInvoked.get()).isFalse();
     }
 
+    @RequiresDevice
     @Test
     public void should_onlyInvokeProceedToAnalysis_whenNextButton_wasClicked_ifDocument_wasModified_andAnalyzed() throws InterruptedException {
         final ReviewActivityTestStub activity = startReviewActivity(TEST_JPEG, 0);
@@ -329,6 +333,7 @@ public class ReviewScreenTest {
         verify(listenerHook, never()).onProceedToAnalysisScreen(any(Document.class));
     }
 
+    @RequiresDevice
     @Test
     public void should_invokeDocumentWasRotated_whenRotateButton_wasClicked() throws InterruptedException {
         final ReviewActivityTestStub activity = startReviewActivity(TEST_JPEG, 0);
