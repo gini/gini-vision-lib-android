@@ -40,6 +40,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 @RunWith(AndroidJUnit4.class)
+@RequiresDevice
 public class ReviewScreenTest {
 
     private static final int PAUSE_DURATION = 500;
@@ -95,7 +96,6 @@ public class ReviewScreenTest {
         return intent;
     }
 
-    @RequiresDevice
     @Test
     public void should_rotatePreview_whenRotateButton_isClicked() throws IOException, InterruptedException {
         ReviewActivityTestStub activity = startReviewActivity(TEST_JPEG, 90);
@@ -148,7 +148,6 @@ public class ReviewScreenTest {
         assertThat(documentToAnalyze.get().getJpeg().length).isLessThan(TEST_JPEG.length);
     }
 
-    @RequiresDevice
     @Test
     public void should_onlyInvokeProceedToAnalysis_whenNextButton_wasClicked_ifDocument_wasModified_andNotAnalyzed() throws InterruptedException {
         ReviewActivityTestStub activity = startReviewActivity(TEST_JPEG, 0);
@@ -183,7 +182,6 @@ public class ReviewScreenTest {
         assertThat(addDataToResultInvoked.get()).isFalse();
     }
 
-    @RequiresDevice
     @Test
     public void should_onlyInvokeProceedToAnalysis_whenNextButton_wasClicked_ifDocument_wasModified_andAnalyzed() throws InterruptedException {
         final ReviewActivityTestStub activity = startReviewActivity(TEST_JPEG, 0);
@@ -333,7 +331,6 @@ public class ReviewScreenTest {
         verify(listenerHook, never()).onProceedToAnalysisScreen(any(Document.class));
     }
 
-    @RequiresDevice
     @Test
     public void should_invokeDocumentWasRotated_whenRotateButton_wasClicked() throws InterruptedException {
         final ReviewActivityTestStub activity = startReviewActivity(TEST_JPEG, 0);
