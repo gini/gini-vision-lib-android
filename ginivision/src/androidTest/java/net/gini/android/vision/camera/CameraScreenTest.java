@@ -2,7 +2,6 @@ package net.gini.android.vision.camera;
 
 import static net.gini.android.vision.OncePerInstallEventStoreHelper.clearOnboardingWasShownPreference;
 import static net.gini.android.vision.OncePerInstallEventStoreHelper.setOnboardingWasShownPreference;
-
 import static net.gini.android.vision.test.EspressoMatchers.hasComponent;
 import static net.gini.android.vision.test.Helpers.prepareLooper;
 
@@ -24,6 +23,7 @@ import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.intent.matcher.IntentMatchers;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.espresso.matcher.ViewMatchers;
+import android.support.test.filters.RequiresDevice;
 import android.support.test.filters.SdkSuppress;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.test.uiautomator.UiDevice;
@@ -183,6 +183,7 @@ public class CameraScreenTest {
         Intents.intended(IntentMatchers.hasComponent(OnboardingActivity.class.getName()));
     }
 
+    @RequiresDevice
     @SdkSuppress(minSdkVersion = 23)
     @Test
     public void a_should_showNoPermissionView_ifNoCameraPermission() {
@@ -194,6 +195,7 @@ public class CameraScreenTest {
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
+    @RequiresDevice
     @SdkSuppress(minSdkVersion = 23)
     @Test
     public void b_should_showCameraPreview_afterCameraPermission_wasGranted()
@@ -228,6 +230,7 @@ public class CameraScreenTest {
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
+    @RequiresDevice
     @Test
     public void should_showReviewScreen_afterPictureWasTaken() throws InterruptedException {
         startCameraActivityWithoutOnboarding();
@@ -241,6 +244,7 @@ public class CameraScreenTest {
         Intents.intended(IntentMatchers.hasComponent(ReviewActivityTestStub.class.getName()));
     }
 
+    @RequiresDevice
     @Test
     public void should_takeOnlyOnePicture_ifTrigger_wasPressedMultipleTimes()
             throws InterruptedException {
@@ -255,6 +259,7 @@ public class CameraScreenTest {
         Intents.intended(IntentMatchers.hasComponent(ReviewActivityTestStub.class.getName()));
     }
 
+    @RequiresDevice
     @Test
     public void should_passAnalysisActivityIntent_toReviewActivity() throws InterruptedException {
         startCameraActivityWithoutOnboarding();
