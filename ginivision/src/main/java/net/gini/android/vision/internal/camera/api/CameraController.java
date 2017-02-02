@@ -1,6 +1,10 @@
 package net.gini.android.vision.internal.camera.api;
 
-import static net.gini.android.vision.internal.camera.api.Util.getLargestFourThreeRatioSize;
+import static net.gini.android.vision.internal.camera.api.CameraParametersHelper.isFlashModeSupported;
+import static net.gini.android.vision.internal.camera.api.CameraParametersHelper.isFocusModeSupported;
+import static net.gini.android.vision.internal.camera.api.CameraParametersHelper.isUsingFocusMode;
+import static net.gini.android.vision.internal.camera.api.SizeSelectionHelper.getLargestSize;
+import static net.gini.android.vision.internal.camera.api.SizeSelectionHelper.getLargestSizeWithSimilarAspectRatio;
 
 import android.app.Activity;
 import android.graphics.Matrix;
@@ -11,6 +15,7 @@ import android.hardware.Camera;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
@@ -40,7 +45,8 @@ public class CameraController implements CameraInterface {
 
     private boolean mPreviewRunning = false;
     private AtomicReference<CompletableFuture<Boolean>> mFocusingFuture = new AtomicReference<>();
-    private AtomicReference<CompletableFuture<Photo>> mTakingPictureFuture = new AtomicReference<>();
+    private AtomicReference<CompletableFuture<Photo>> mTakingPictureFuture =
+            new AtomicReference<>();
 
     private Size mPreviewSize = new Size(0, 0);
     private Size mPictureSize = new Size(0, 0);
@@ -55,7 +61,9 @@ public class CameraController implements CameraInterface {
                 return;
             }
             Camera.Parameters parameters = mCamera.getParameters();
-            if (!parameters.getFocusMode().equals(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
+            if (!isUsingFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE, mCamera)
+                    && isFocusModeSupported(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE,
+                    mCamera)) {
                 parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
             }
             mCamera.setParameters(parameters);
@@ -65,6 +73,12 @@ public class CameraController implements CameraInterface {
     public CameraController(@NonNull Activity activity) {
         mActivity = activity;
         mResetFocusHandler = new Handler();
+    }
+
+    @Nullable
+    @VisibleForTesting
+    Camera getCamera() {
+        return mCamera;
     }
 
     @NonNull
@@ -77,7 +91,7 @@ public class CameraController implements CameraInterface {
             return CompletableFuture.completedFuture(null);
         }
         try {
-            mCamera = Camera.open();
+            mCamera = openCamera();
             if (mCamera != null) {
                 configureCamera(mActivity);
                 LOG.info("Camera opened");
@@ -90,6 +104,12 @@ public class CameraController implements CameraInterface {
             LOG.error("Cannot start camera", e);
             return failedFuture(e);
         }
+    }
+
+    @VisibleForTesting
+    @Nullable
+    protected Camera openCamera() {
+        return Camera.open();
     }
 
     @Override
@@ -165,7 +185,8 @@ public class CameraController implements CameraInterface {
     }
 
     @Override
-    public void enableTapToFocus(@NonNull View tapView, @Nullable final TapToFocusListener listener) {
+    public void enableTapToFocus(@NonNull View tapView,
+            @Nullable final TapToFocusListener listener) {
         LOG.info("Tap to focus enabled");
         tapView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -180,7 +201,8 @@ public class CameraController implements CameraInterface {
                     }
                     final CompletableFuture<Boolean> focused = new CompletableFuture<>();
                     do {
-                        // Checking whether a completable is already available in which case focusing is in progress
+                        // Checking whether a completable is already available in which case
+                        // focusing is in progress
                         final CompletableFuture<Boolean> inProgress = mFocusingFuture.get();
                         if (inProgress != null) {
                             LOG.info("Already focusing");
@@ -191,11 +213,14 @@ public class CameraController implements CameraInterface {
                     } while (!mFocusingFuture.compareAndSet(null, focused));
 
                     mCamera.cancelAutoFocus();
-                    Rect focusRect = calculateTapArea(x, y, getBackFacingCameraOrientation(), view.getWidth(), view.getHeight());
-                    LOG.debug("Focus rect calculated (l:{}, t:{}, r:{}, b:{})", focusRect.left, focusRect.top, focusRect.right, focusRect.bottom);
+                    Rect focusRect = calculateTapArea(x, y, getBackFacingCameraOrientation(),
+                            view.getWidth(), view.getHeight());
+                    LOG.debug("Focus rect calculated (l:{}, t:{}, r:{}, b:{})", focusRect.left,
+                            focusRect.top, focusRect.right, focusRect.bottom);
 
                     Camera.Parameters parameters = mCamera.getParameters();
-                    if (!parameters.getFocusMode().equals(Camera.Parameters.FOCUS_MODE_AUTO)) {
+                    if (!isUsingFocusMode(Camera.Parameters.FOCUS_MODE_AUTO, mCamera)
+                            && isFocusModeSupported(Camera.Parameters.FOCUS_MODE_AUTO, mCamera)) {
                         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
                     }
                     if (parameters.getMaxNumFocusAreas() > 0) {
@@ -252,9 +277,15 @@ public class CameraController implements CameraInterface {
             return CompletableFuture.completedFuture(false);
         }
 
+        if (!CameraParametersHelper.isFocusModeSupported(Camera.Parameters.FOCUS_MODE_AUTO, mCamera)) {
+            LOG.error("Cannot focus: auto-focus mode not supported");
+            return CompletableFuture.completedFuture(false);
+        }
+
         final CompletableFuture<Boolean> completed = new CompletableFuture<>();
         do {
-            // Checking whether a completable is already available in which case focusing is in progress
+            // Checking whether a completable is already available in which case focusing is in
+            // progress
             final CompletableFuture<Boolean> inProgress = mFocusingFuture.get();
             if (inProgress != null) {
                 LOG.info("Already focusing");
@@ -289,7 +320,8 @@ public class CameraController implements CameraInterface {
 
         final CompletableFuture<Photo> pictureTaken = new CompletableFuture<>();
         do {
-            // Checking whether a completable is already available in which case taking the picture is in progress
+            // Checking whether a completable is already available in which case taking the
+            // picture is in progress
             final CompletableFuture<Photo> inProgress = mTakingPictureFuture.get();
             if (inProgress != null) {
                 LOG.info("Already taking a picture");
@@ -299,20 +331,45 @@ public class CameraController implements CameraInterface {
             // Otherwise we set the new completable and exit the loop
         } while (!mTakingPictureFuture.compareAndSet(null, pictureTaken));
 
-        // Preview is stopped after the picture was taken, but for it's sufficient to declare preview
+        // Preview is stopped after the picture was taken, but for it's sufficient to declare
+        // preview
         // as being stopped before it is really stopped
         mPreviewRunning = false;
 
-        mCamera.takePicture(null, null, new Camera.PictureCallback() {
+        CompletableFuture<Boolean> focusFuture = new CompletableFuture<>();
+        if (isUsingFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE, mCamera)) {
+            // When continuous focus mode is used no auto-focus run is needed
+            focusFuture.complete(true);
+        } else {
+            // Continuous focus mode is not used and we need to do an auto-focus run
+            focusFuture = focus();
+        }
+
+        focusFuture.handle(new CompletableFuture.BiFun<Boolean, Throwable, Void>() {
             @Override
-            public void onPictureTaken(final byte[] bytes, Camera camera) {
-                mTakingPictureFuture.set(null);
-                final Photo photo = Photo.fromJpeg(bytes, getBackFacingCameraOrientation());
-                LOG.info("Picture taken");
-                pictureTaken.complete(photo);
+            public Void apply(final Boolean aBoolean, final Throwable throwable) {
+                takePicture(new Camera.PictureCallback() {
+                    @Override
+                    public void onPictureTaken(final byte[] bytes, Camera camera) {
+                        mTakingPictureFuture.set(null);
+                        final Photo photo = Photo.fromJpeg(bytes, getBackFacingCameraOrientation());
+                        LOG.info("Picture taken");
+                        pictureTaken.complete(photo);
+                    }
+                });
+                return null;
             }
         });
+
         return pictureTaken;
+    }
+
+    @VisibleForTesting
+    protected void takePicture(Camera.PictureCallback callback) {
+        if (mCamera == null) {
+            return;
+        }
+        mCamera.takePicture(null, null, callback);
     }
 
     @NonNull
@@ -335,45 +392,55 @@ public class CameraController implements CameraInterface {
         }
 
         Camera.Parameters params = mCamera.getParameters();
+        selectPictureSize(params);
+        selectPreviewSize(params);
+        selectFocusMode(params);
+        selectFlashMode(params);
+        mCamera.setParameters(params);
 
-        List<Camera.Size> previewSizes = params.getSupportedPreviewSizes();
-        Size previewSize = getLargestFourThreeRatioSize(previewSizes);
-        if (previewSize != null) {
-            mPreviewSize = previewSize;
-            params.setPreviewSize(mPreviewSize.width, mPreviewSize.height);
-            LOG.debug("Preview size ({}, {})", mPreviewSize.width, mPreviewSize.height);
-        } else {
-            LOG.warn("No 4:3 preview size found");
-        }
+        setCameraDisplayOrientation(activity, mCamera);
+    }
 
+    private void selectPictureSize(final Camera.Parameters params) {
         List<Camera.Size> pictureSizes = params.getSupportedPictureSizes();
-        Size pictureSize = getLargestFourThreeRatioSize(pictureSizes);
+        Size pictureSize = getLargestSize(pictureSizes);
         if (pictureSize != null) {
             mPictureSize = pictureSize;
             params.setPictureSize(mPictureSize.width, mPictureSize.height);
             LOG.debug("Picture size ({}, {})", mPictureSize.width, mPictureSize.height);
         } else {
-            LOG.warn("No 4:3 picture size found");
+            LOG.warn("No suitable picture size found");
         }
+    }
 
-        if (params.getSupportedFocusModes().contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
+    private void selectPreviewSize(final Camera.Parameters params) {
+        List<Camera.Size> previewSizes = params.getSupportedPreviewSizes();
+        Size previewSize = getLargestSizeWithSimilarAspectRatio(previewSizes, mPictureSize);
+        if (previewSize != null) {
+            mPreviewSize = previewSize;
+            params.setPreviewSize(mPreviewSize.width, mPreviewSize.height);
+            LOG.debug("Preview size ({}, {})", mPreviewSize.width, mPreviewSize.height);
+        } else {
+            LOG.warn("No suitable preview size found");
+        }
+    }
+
+    private void selectFocusMode(final Camera.Parameters params) {
+        if (isFocusModeSupported(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE, mCamera)) {
             params.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
             LOG.debug("Focus mode continuous picture");
         } else {
             LOG.warn("Focus mode continuous picture not supported");
         }
+    }
 
-        List<String> supportedFlashModes = params.getSupportedFlashModes();
-        if (supportedFlashModes != null && supportedFlashModes.contains(Camera.Parameters.FLASH_MODE_ON)) {
+    private void selectFlashMode(final Camera.Parameters params) {
+        if (isFlashModeSupported(Camera.Parameters.FLASH_MODE_ON, mCamera)) {
             params.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
             LOG.debug("Flash on");
         } else {
             LOG.warn("Flash not supported");
         }
-
-        mCamera.setParameters(params);
-
-        setCameraDisplayOrientation(activity, mCamera);
     }
 
     private void setCameraDisplayOrientation(Activity activity, android.hardware.Camera camera) {
@@ -455,9 +522,9 @@ public class CameraController implements CameraInterface {
      * |                 |                |
      * (-1000,1000)------|------(1000,1000)
      * </pre>
-     * The sensor's coordinates are not adapted to the display orientation, that means that in our case where
-     * we always show the camera preview in portrait, the coordinates are simply turned 90 degrees clockwise
-     * (for most devices, for others the calculated rect is rotated):
+     * The sensor's coordinates are not adapted to the display orientation, that means that in our
+     * case where we always show the camera preview in portrait, the coordinates are simply turned
+     * 90 degrees clockwise (for most devices, for others the calculated rect is rotated):
      * <pre>
      * (-1000,1000)---|---(-1000,-1000)
      * |              |               |
@@ -483,14 +550,13 @@ public class CameraController implements CameraInterface {
      * </pre>
      * </p>
      * <p>
-     * For easier conversion, we divided the view area into four parts (A, B, C, D) and do the conversion for each one
-     * separately.
+     * For easier conversion, we divided the view area into four parts (A, B, C, D) and do the
+     * conversion for each one separately.
      * </p>
      * <p>
-     * Calculations are made with the assumption of a 90 degree
-     * camera orientation. The real camera's orientation is normalized by subtracting 90 degrees and then the
-     * calculated
-     * rect is rotated by the normalized degrees.
+     * Calculations are made with the assumption of a 90 degree camera orientation. The real
+     * camera's orientation is normalized by subtracting 90 degrees and then the calculated rect is
+     * rotated by the normalized degrees.
      * </p>
      *
      * @param x             tap's X position in the view
@@ -499,7 +565,8 @@ public class CameraController implements CameraInterface {
      * @param tapViewWidth  the width of the tappable view
      * @param tapViewHeight the height of the tappable view
      */
-    private Rect calculateTapArea(float x, float y, int orientation, int tapViewWidth, int tapViewHeight) {
+    private Rect calculateTapArea(float x, float y, int orientation, int tapViewWidth,
+            int tapViewHeight) {
         Rect rect = new Rect(0, 0, 0, 0);
         if (x < tapViewWidth / 2.f && y < tapViewHeight / 2.f) {
             // A: x: -1000 .. 0; y: 1000 .. 0

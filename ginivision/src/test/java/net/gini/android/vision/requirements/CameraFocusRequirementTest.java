@@ -1,6 +1,7 @@
 package net.gini.android.vision.requirements;
 
 import static com.google.common.truth.Truth.assertThat;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -10,7 +11,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 @RunWith(JUnit4.class)
@@ -49,7 +49,7 @@ public class CameraFocusRequirementTest {
         when(cameraHolder.getCameraParameters()).thenReturn(parameters);
         when(parameters.getSupportedFocusModes()).thenReturn(
                 isAutoFocusSupported ?
-                        Arrays.asList(Camera.Parameters.FOCUS_MODE_AUTO, Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)
+                        Collections.singletonList(Camera.Parameters.FOCUS_MODE_AUTO)
                         : Collections.singletonList(Camera.Parameters.FOCUS_MODE_FIXED));
 
         return cameraHolder;

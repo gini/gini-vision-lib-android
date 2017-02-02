@@ -35,8 +35,7 @@ public enum RequirementId {
     CAMERA,
     /**
      * <p>
-     *    The camera must support a preview resolution with a 4:3 aspect ratio and a picture resolution higher than 8MP
-     *    with an aspect ratio of 4:3.
+     *    The camera must support a preview resolution and a picture resolution higher than 8MP.
      * </p>
      */
     CAMERA_RESOLUTION,
@@ -48,7 +47,7 @@ public enum RequirementId {
     CAMERA_FLASH,
     /**
      * <p>
-     *     The camera must support continuous picture focus and auto focus modes.
+     *     The camera must support auto focus mode.
      * </p>
      */
     CAMERA_FOCUS,
