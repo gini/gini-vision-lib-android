@@ -277,6 +277,11 @@ public class CameraController implements CameraInterface {
             return CompletableFuture.completedFuture(false);
         }
 
+        if (!CameraParametersHelper.isFocusModeSupported(Camera.Parameters.FOCUS_MODE_AUTO, mCamera)) {
+            LOG.error("Cannot focus: auto-focus mode not supported");
+            return CompletableFuture.completedFuture(false);
+        }
+
         final CompletableFuture<Boolean> completed = new CompletableFuture<>();
         do {
             // Checking whether a completable is already available in which case focusing is in
