@@ -2,6 +2,16 @@
 Changelog
 =========
 
+2.1.0 (2017-01-30)
+==================
+
+- Removed the 4:3 aspect ratio requirement for photos. The default camera aspect ratio will be used from now on. An 8MP minimum resolution is still required.
+- Removed the continuous-focus mode requirement. Only auto-focus is required.
+- If no continuous-focus mode is available then an auto-focus run is triggered when the user activates the capture button.
+- Trigger button is aligned to the bottom of the preview area.
+- The back button in the ReviewActivity and AnalysisActivity (in the navigation bar and in the ActionBar) leads back to the previous Activity instead of closing the library. The previous behavior can be requested by setting the `CameraActivity#EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY` to `true`.
+- Fixed an issue regarding ReviewActivity and AnalysisActivity restart in the Screen API after the app had been killed while in the background.
+
 2.0.1 (2016-10-18)
 ==================
 
