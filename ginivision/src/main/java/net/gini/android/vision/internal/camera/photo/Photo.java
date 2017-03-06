@@ -18,6 +18,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.UUID;
 
 /**
  * @exclude
@@ -55,7 +56,7 @@ public class Photo implements Parcelable {
     }
 
     public Photo() {
-        mUUID = java.util.UUID.randomUUID().toString();
+        mUUID = UUID.randomUUID().toString();
     }
 
     @Nullable
@@ -90,6 +91,11 @@ public class Photo implements Parcelable {
         mRotationDelta = ((degrees % 360) + 360) % 360;
     }
 
+    @VisibleForTesting
+    String getUUID() {
+        return mUUID;
+    }
+
     private synchronized void readRequiredTags() {
         if (mJpeg == null) {
             return;
@@ -117,9 +123,14 @@ public class Photo implements Parcelable {
                 addModel = mRequiredTags.model == null;
             }
 
-            exifBuilder.setUserComment(addMake, addModel);
+            String userComment = Exif.userCommentBuilder()
+                    .setAddMake(addMake)
+                    .setAddModel(addModel)
+                    .setUUID(mUUID)
+                    .build();
+
+            exifBuilder.setUserComment(userComment);
             exifBuilder.setOrientationFromDegrees(mRotationForDisplay);
-            exifBuilder.setUUID(mUUID);
             exifBuilder.setRotationDelta(mRotationDelta);
 
             mJpeg = exifBuilder.build().writeToJpeg(mJpeg);
@@ -150,7 +161,8 @@ public class Photo implements Parcelable {
                 try {
                     fileOutputStream.close();
                 } catch (IOException e) {
-                    // TODO log: mLogger.error("Closing FileOutputStream failed for file {}", file.getAbsolutePath(), e);
+                    // TODO log: mLogger.error("Closing FileOutputStream failed for file {}",
+                    // file.getAbsolutePath(), e);
                 }
             }
         }
@@ -163,13 +175,15 @@ public class Photo implements Parcelable {
             outputStream = new FileOutputStream(file);
             mBitmapPreview.compress(Bitmap.CompressFormat.JPEG, 90, outputStream);
         } catch (FileNotFoundException e) {
-            // TODO log: mLogger.error("Saving preview failed to file {}", file.getAbsolutePath(), e);
+            // TODO log: mLogger.error("Saving preview failed to file {}", file.getAbsolutePath()
+            // , e);
         } finally {
             if (outputStream != null) {
                 try {
                     outputStream.close();
                 } catch (IOException e) {
-                    // TODO log: mLogger.error("Closing FileOutputStream failed for file {}", file.getAbsolutePath(), e);
+                    // TODO log: mLogger.error("Closing FileOutputStream failed for file {}",
+                    // file.getAbsolutePath(), e);
                 }
             }
         }

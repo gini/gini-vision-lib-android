@@ -47,6 +47,10 @@ public class Exif {
         return new Builder(jpeg);
     }
 
+    public static UserCommentBuilder userCommentBuilder() {
+        return new UserCommentBuilder();
+    }
+
     @NonNull
     public byte[] writeToJpeg(@NonNull byte[] jpeg)
             throws ImageWriteException, ImageReadException, IOException {
@@ -188,8 +192,8 @@ public class Exif {
         }
 
         @NonNull
-        public Builder setUserComment(boolean addMake, boolean addModel) {
-            addUserCommentStringExif(mExifDirectory, createUserComment(addMake, addModel));
+        public Builder setUserComment(String userComment) {
+            addUserCommentStringExif(mExifDirectory, userComment);
             return this;
         }
 
@@ -200,11 +204,6 @@ public class Exif {
             TiffOutputField orientationOutputField = new TiffOutputField(
                     TiffTagConstants.TIFF_TAG_ORIENTATION, FieldType.SHORT, 1, bytes);
             mIfd0Directory.add(orientationOutputField);
-            return this;
-        }
-
-        @NonNull
-        public Builder setUUID(String uuid) {
             return this;
         }
 
@@ -244,35 +243,6 @@ public class Exif {
             TiffOutputField outputField = new TiffOutputField(tagInfo, FieldType.ASCII,
                     bytes.length, bytes);
             outputDirectory.add(outputField);
-        }
-
-        @NonNull
-        private String createUserComment(boolean addMake, boolean addModel) {
-            StringBuilder userCommentBuilder = new StringBuilder();
-            // Make
-            if (addMake) {
-                userCommentBuilder.append("Make=");
-                userCommentBuilder.append(Build.BRAND);
-                userCommentBuilder.append(",");
-            }
-            // Model
-            if (addModel) {
-                userCommentBuilder.append("Model=");
-                userCommentBuilder.append(Build.MODEL);
-                userCommentBuilder.append(",");
-            }
-            // Platform
-            userCommentBuilder.append("Platform=Android");
-            userCommentBuilder.append(",");
-            // OS Version
-            userCommentBuilder.append("OSVer=");
-            userCommentBuilder.append(String.valueOf(Build.VERSION.RELEASE));
-            userCommentBuilder.append(",");
-            // GiniVision Version
-            userCommentBuilder.append("GiniVisionVer=");
-            userCommentBuilder.append(BuildConfig.VERSION_NAME.replace(" ", ""));
-
-            return userCommentBuilder.toString();
         }
 
         private static int rotationToExifOrientation(int degrees) {
@@ -348,6 +318,78 @@ public class Exif {
             result = 31 * result + (compressedBitsPerPixel != null
                     ? compressedBitsPerPixel.hashCode() : 0);
             return result;
+        }
+    }
+
+    public static class UserCommentBuilder {
+        private boolean mAddMake;
+        private boolean mAddModel;
+        private String mUUID;
+        private int mRotationDelta;
+
+        private UserCommentBuilder() {
+
+        }
+
+        public UserCommentBuilder setAddMake(final boolean addMake) {
+            mAddMake = addMake;
+            return this;
+        }
+
+        public UserCommentBuilder setAddModel(final boolean addModel) {
+            mAddModel = addModel;
+            return this;
+        }
+
+        public UserCommentBuilder setUUID(final String UUID) {
+            mUUID = UUID;
+            return this;
+        }
+
+        public UserCommentBuilder setRotationDelta(final int rotationDelta) {
+            mRotationDelta = rotationDelta;
+            return this;
+        }
+
+        @NonNull
+        public String build() {
+            if (mUUID == null) {
+                throw new IllegalStateException("UUID is required for the User Comment");
+            }
+            return createUserComment();
+        }
+
+        @NonNull
+        private String createUserComment() {
+            final StringBuilder userCommentBuilder = new StringBuilder();
+            // Make
+            if (mAddMake) {
+                userCommentBuilder.append("Make=");
+                userCommentBuilder.append(Build.BRAND);
+                userCommentBuilder.append(",");
+            }
+            // Model
+            if (mAddModel) {
+                userCommentBuilder.append("Model=");
+                userCommentBuilder.append(Build.MODEL);
+                userCommentBuilder.append(",");
+            }
+            // Platform
+            userCommentBuilder.append("Platform=Android");
+            userCommentBuilder.append(",");
+            // OS Version
+            userCommentBuilder.append("OSVer=");
+            userCommentBuilder.append(String.valueOf(Build.VERSION.RELEASE));
+            userCommentBuilder.append(",");
+            // GiniVision Version
+            userCommentBuilder.append("GiniVisionVer=");
+            userCommentBuilder.append(BuildConfig.VERSION_NAME.replace(" ", ""));
+            userCommentBuilder.append(",");
+            // UUID
+            userCommentBuilder.append("UUID=");
+            userCommentBuilder.append(mUUID);
+
+            return userCommentBuilder.toString();
         }
     }
 }
