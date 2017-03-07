@@ -3,7 +3,7 @@ package net.gini.android.vision.internal.camera.photo;
 import static com.google.common.truth.Truth.assertAbout;
 import static com.google.common.truth.Truth.assertThat;
 
-import static net.gini.android.vision.internal.camera.photo.PhotoSubject.photo;
+import static net.gini.android.vision.test.PhotoSubject.photo;
 import static net.gini.android.vision.test.Helpers.doParcelingRoundTrip;
 import static net.gini.android.vision.test.Helpers.getTestJpeg;
 
@@ -56,5 +56,27 @@ public class PhotoTest {
         Photo photo = Photo.fromJpeg(TEST_JPEG, 0);
         // Then
         assertAbout(photo()).that(photo).hasUUIDinUserComment(photo.getUUID());
+    }
+
+    @Test
+    public void should_keepUUID_afterRotation() {
+        // Given
+        Photo photo = Photo.fromJpeg(TEST_JPEG, 0);
+        String uuid = photo.getUUID();
+        // When
+        photo.edit().rotate(90).apply();
+        // Then
+        assertAbout(photo()).that(photo).hasUUIDinUserComment(uuid);
+    }
+
+    @Test
+    public void should_keepUUID_afterCompression() {
+        // Given
+        Photo photo = Photo.fromJpeg(TEST_JPEG, 0);
+        String uuid = photo.getUUID();
+        // When
+        photo.edit().compress(10).apply();
+        // Then
+        assertAbout(photo()).that(photo).hasUUIDinUserComment(uuid);
     }
 }
