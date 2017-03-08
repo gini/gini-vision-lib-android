@@ -109,12 +109,31 @@ class JpegByteArraySubject extends Subject<JpegByteArraySubject, byte[]> {
             return;
         }
         if (otherUuid == null) {
-            triggerFailureWithRawMessage(verb, null, "Target had no UUID in User Comment.");
+            triggerFailureWithRawMessage(verb, null, "Target had no UUID in User Comment");
             return;
         }
 
         if (!subjectUuid.equals(otherUuid)) {
             failWithBadResults(verb, subjectUuid, "was", otherUuid);
+        }
+    }
+
+    void hasRotationDeltaInUserComment(final int rotationDelta) {
+        isNotNull();
+        String verb = "has in User Comment rotation delta";
+
+        final String userComment = readExifUserComment(getSubject());
+        final String subjectRotDeltaDegString = getValueForKeyfromUserComment("RotDeltaDeg", userComment);
+
+        if (subjectRotDeltaDegString == null) {
+            triggerFailureWithRawMessage(verb, String.valueOf(rotationDelta),
+                    "Target had no rotation delta in User Comment");
+            return;
+        }
+
+        int subjectRotDeltaDeg = Integer.parseInt(subjectRotDeltaDegString);
+        if (subjectRotDeltaDeg != rotationDelta) {
+            failWithBadResults(verb, rotationDelta, "was", subjectRotDeltaDeg);
         }
     }
 }

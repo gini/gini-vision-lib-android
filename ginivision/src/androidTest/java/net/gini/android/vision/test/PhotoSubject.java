@@ -30,7 +30,7 @@ public class PhotoSubject extends Subject<PhotoSubject, Photo> {
         mJpegByteArraySubject = new JpegByteArraySubject(failureStrategy, subject.getJpeg());
     }
 
-    public void hasUUIDinUserComment(String uuid) {
+    public void hasUUIDinUserComment(final String uuid) {
         isNotNull();
         String verb = "has in User Comment UUID";
 
@@ -40,5 +40,10 @@ public class PhotoSubject extends Subject<PhotoSubject, Photo> {
         }
 
         mJpegByteArraySubject.hasUUIDinUserComment(uuid);
+    }
+
+    public void hasRotationDeltaInUserComment(final int rotationDelta) {
+        isNotNull();
+        mJpegByteArraySubject.hasRotationDeltaInUserComment(rotationDelta);
     }
 }

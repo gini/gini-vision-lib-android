@@ -82,6 +82,7 @@ public class PhotoEdit {
         }
 
         photo.setRotationForDisplay(rotationDegrees);
+        photo.updateRotationDeltaBy(rotationDegrees);
         photo.updateExif();
     }
 

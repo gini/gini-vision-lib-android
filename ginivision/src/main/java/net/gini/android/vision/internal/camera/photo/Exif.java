@@ -208,12 +208,6 @@ public class Exif {
         }
 
         @NonNull
-        public Builder setRotationDelta(int rotationDelta) {
-            return this;
-        }
-
-
-        @NonNull
         public Exif build() {
             return new Exif(mTiffOutputSet);
         }
@@ -388,6 +382,10 @@ public class Exif {
             // UUID
             userCommentBuilder.append("UUID=");
             userCommentBuilder.append(mUUID);
+            userCommentBuilder.append(",");
+            // Rotation Delta
+            userCommentBuilder.append("RotDeltaDeg=");
+            userCommentBuilder.append(mRotationDelta);
 
             return userCommentBuilder.toString();
         }

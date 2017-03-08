@@ -48,7 +48,7 @@ public class Photo implements Parcelable {
         return Photo.fromJpeg(document.getJpeg(), document.getRotationForDisplay());
     }
 
-    public static Bitmap createPreview(byte[] jpeg) {
+    static Bitmap createPreview(byte[] jpeg) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 2;
 
@@ -64,7 +64,7 @@ public class Photo implements Parcelable {
         return mBitmapPreview;
     }
 
-    public synchronized void setBitmapPreview(@NonNull Bitmap bitmap) {
+    synchronized void setBitmapPreview(@NonNull Bitmap bitmap) {
         mBitmapPreview = bitmap;
     }
 
@@ -81,14 +81,19 @@ public class Photo implements Parcelable {
         return mRotationForDisplay;
     }
 
-    public synchronized void setRotationForDisplay(int degrees) {
-        // Converts input degrees to degrees between [0,360]
+    synchronized void setRotationForDisplay(int degrees) {
+        // Converts input degrees to degrees between [0,360)
         mRotationForDisplay = ((degrees % 360) + 360) % 360;
     }
 
-    public synchronized void setRotationDelta(int degrees) {
-        // Converts input degrees to degrees between [0,360]
-        mRotationDelta = ((degrees % 360) + 360) % 360;
+    synchronized void updateRotationDeltaBy(int degrees) {
+        // Converts input degrees to degrees between [0,360)
+        mRotationDelta = ((mRotationDelta + degrees % 360) + 360) % 360;
+    }
+
+    @VisibleForTesting
+    int getRotationDelta() {
+        return mRotationDelta;
     }
 
     @VisibleForTesting
@@ -127,11 +132,11 @@ public class Photo implements Parcelable {
                     .setAddMake(addMake)
                     .setAddModel(addModel)
                     .setUUID(mUUID)
+                    .setRotationDelta(mRotationDelta)
                     .build();
 
             exifBuilder.setUserComment(userComment);
             exifBuilder.setOrientationFromDegrees(mRotationForDisplay);
-            exifBuilder.setRotationDelta(mRotationDelta);
 
             mJpeg = exifBuilder.build().writeToJpeg(mJpeg);
         } catch (ImageReadException | ImageWriteException | IOException e) {

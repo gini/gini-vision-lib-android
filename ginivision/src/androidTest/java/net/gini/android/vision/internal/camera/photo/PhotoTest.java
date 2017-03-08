@@ -88,4 +88,72 @@ public class PhotoTest {
         // Then
         assertAbout(photo()).that(photo).hasUUIDinUserComment(uuid);
     }
+
+    @Test
+    public void should_initRotationDelta_whenCreated() {
+        // When
+        Photo photo = Photo.fromJpeg(TEST_JPEG, 0);
+        // Then
+        assertThat(photo.getRotationDelta()).isEqualTo(0);
+    }
+
+    @Test
+    public void should_addRotationDelta_toExifUserComment() {
+        // Given
+        Photo photo = Photo.fromJpeg(TEST_JPEG, 0);
+        // Then
+        assertAbout(photo()).that(photo).hasRotationDeltaInUserComment(0);
+    }
+
+    @Test
+    public void should_updateRotationDelta_afterCWRotation() {
+        // Given
+        Photo photo = Photo.fromJpeg(TEST_JPEG, 0);
+        // When
+        photo.edit().rotate(90).apply();
+        // Then
+        assertAbout(photo()).that(photo).hasRotationDeltaInUserComment(90);
+    }
+
+    @Test
+    public void should_updateRotationDelta_afterCCWRotation() {
+        // Given
+        Photo photo = Photo.fromJpeg(TEST_JPEG, 0);
+        // When
+        photo.edit().rotate(-90).apply();
+        // Then
+        assertAbout(photo()).that(photo).hasRotationDeltaInUserComment(270);
+    }
+
+    @Test
+    public void should_cumulateRotationDelta_afterMultipleRotations() {
+        // Given
+        Photo photo = Photo.fromJpeg(TEST_JPEG, 0);
+        // When
+        photo.edit().rotate(90).apply();
+        photo.edit().rotate(90).apply();
+        photo.edit().rotate(-90).apply();
+        // Then
+        assertAbout(photo()).that(photo).hasRotationDeltaInUserComment(90);
+    }
+
+    @Test
+    public void should_normalizeRotationDelta_forCWRotation() {
+        // Given
+        Photo photo = Photo.fromJpeg(TEST_JPEG, 0);
+        // When
+        photo.edit().rotate(450).apply();
+        // Then
+        assertAbout(photo()).that(photo).hasRotationDeltaInUserComment(90);
+    }
+
+    @Test
+    public void should_normalizeRotationDelta_forCCWRotation() {
+        // Given
+        Photo photo = Photo.fromJpeg(TEST_JPEG, 0);
+        // When
+        photo.edit().rotate(-270).apply();
+        // Then
+        assertAbout(photo()).that(photo).hasRotationDeltaInUserComment(90);
+    }
 }
