@@ -3,9 +3,9 @@ package net.gini.android.vision.internal.camera.photo;
 import static com.google.common.truth.Truth.assertAbout;
 import static com.google.common.truth.Truth.assertThat;
 
-import static net.gini.android.vision.test.PhotoSubject.photo;
 import static net.gini.android.vision.test.Helpers.doParcelingRoundTrip;
 import static net.gini.android.vision.test.Helpers.getTestJpeg;
+import static net.gini.android.vision.test.PhotoSubject.photo;
 
 import android.support.test.runner.AndroidJUnit4;
 
@@ -48,6 +48,15 @@ public class PhotoTest {
         Photo photo = Photo.fromJpeg(TEST_JPEG, 0);
         // Then
         assertThat(UUID.fromString(photo.getUUID())).isNotNull();
+    }
+
+    @Test
+    public void should_generate_uniqueUUIDs_forEachInstance() {
+        // Given
+        Photo photo1 = Photo.fromJpeg(TEST_JPEG, 0);
+        Photo photo2 = Photo.fromJpeg(TEST_JPEG, 0);
+        // Then
+        assertThat(photo1.getUUID()).isNotEqualTo(photo2.getUUID());
     }
 
     @Test
