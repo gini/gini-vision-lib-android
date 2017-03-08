@@ -1,7 +1,9 @@
 package net.gini.android.vision.review;
 
+import static com.google.common.truth.Truth.assertAbout;
 import static com.google.common.truth.Truth.assertThat;
 
+import static net.gini.android.vision.test.DocumentSubject.document;
 import static net.gini.android.vision.test.Helpers.createDocument;
 import static net.gini.android.vision.test.Helpers.getTestJpeg;
 import static net.gini.android.vision.test.Helpers.prepareLooper;
@@ -377,5 +379,41 @@ public class ReviewScreenTest {
                 Activity.RESULT_CANCELED, new Intent());
 
         verify(reviewActivitySpy).finish();
+    }
+
+    @Test
+    public void
+    should_returnDocuments_withSameUUID_inAnalyzeDocument_andProceedToAnalysis()
+            throws InterruptedException {
+        final ReviewActivityTestStub activity = startReviewActivity(TEST_JPEG, 90);
+
+        final AtomicReference<Document> documentToAnalyze = new AtomicReference<>();
+        final AtomicReference<Document> documentToProceedWith = new AtomicReference<>();
+
+        activity.setListenerHook(new ReviewActivityTestStub.ListenerHook() {
+            @Override
+            public void onShouldAnalyzeDocument(@NonNull Document document) {
+                documentToAnalyze.set(document);
+            }
+
+            @Override
+            public void onProceedToAnalysisScreen(@NonNull final Document document) {
+                documentToProceedWith.set(document);
+            }
+        });
+
+        // Modify the document
+        Espresso.onView(ViewMatchers.withId(R.id.gv_button_rotate))
+                .perform(ViewActions.click());
+
+        // Click next
+        Espresso.onView(ViewMatchers.withId(R.id.gv_button_next))
+                .perform(ViewActions.click());
+
+        // Allow the activity to run a little for listeners to be invoked
+        Thread.sleep(PAUSE_DURATION);
+
+        assertAbout(document()).that(documentToAnalyze.get()).hasSameUUIDinUserCommentAs(
+                documentToProceedWith.get());
     }
 }

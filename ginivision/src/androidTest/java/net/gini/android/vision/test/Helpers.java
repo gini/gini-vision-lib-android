@@ -60,10 +60,7 @@ public class Helpers {
     }
 
     public static Document createDocument(byte[] jpeg, int orientation) {
-        Photo photo = new Photo();
-        photo.setJpeg(jpeg);
-        photo.setRotationForDisplay(orientation);
-        return Document.fromPhoto(photo);
+        return Document.fromPhoto(Photo.fromJpeg(jpeg, orientation));
     }
 
 }

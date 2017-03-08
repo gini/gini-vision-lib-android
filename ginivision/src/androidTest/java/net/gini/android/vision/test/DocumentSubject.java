@@ -1,29 +1,35 @@
-package net.gini.android.vision.analysis;
+package net.gini.android.vision.test;
+
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.support.annotation.Nullable;
 
 import com.google.common.truth.FailureStrategy;
 import com.google.common.truth.Subject;
 import com.google.common.truth.SubjectFactory;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-
 import net.gini.android.vision.Document;
-
-import javax.annotation.Nullable;
 
 public class DocumentSubject extends Subject<DocumentSubject, Document> {
 
+    private final JpegByteArraySubject mJpegByteArraySubject;
+
     public static SubjectFactory<DocumentSubject, Document> document() {
         return new SubjectFactory<DocumentSubject, Document>() {
+
             @Override
-            public DocumentSubject getSubject(FailureStrategy fs, Document that) {
+            public DocumentSubject getSubject(final FailureStrategy fs, final Document that) {
                 return new DocumentSubject(fs, that);
             }
         };
     }
 
-    public DocumentSubject(FailureStrategy failureStrategy, @Nullable Document subject) {
+    private DocumentSubject(final FailureStrategy failureStrategy,
+            @Nullable final Document subject) {
         super(failureStrategy, subject);
+        isNotNull();
+        //noinspection ConstantConditions
+        mJpegByteArraySubject = new JpegByteArraySubject(failureStrategy, subject.getJpeg());
     }
 
     public void isEqualToDocument(Document other) {
@@ -45,5 +51,17 @@ public class DocumentSubject extends Subject<DocumentSubject, Document> {
         } else if (document.getRotationForDisplay() != other.getRotationForDisplay()) {
             fail("is equal to Document " + other + " - have different rotation");
         }
+    }
+
+    public void hasSameUUIDinUserCommentAs(Document other) {
+        isNotNull();
+        String verb = "has same User Comment UUID";
+
+        if (other == null) {
+            fail(verb, (Object) null);
+            return;
+        }
+
+        mJpegByteArraySubject.hasSameUUIDinUserCommentAs(other.getJpeg());
     }
 }
