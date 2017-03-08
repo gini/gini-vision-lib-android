@@ -37,7 +37,7 @@ public class PhotoTest {
         // Given
         Photo photo = Photo.fromJpeg(TEST_JPEG, 0);
         // When
-        Photo photoFromParcel = doParcelingRoundTrip(photo,Photo.CREATOR);
+        Photo photoFromParcel = doParcelingRoundTrip(photo, Photo.CREATOR);
         // Then
         assertThat(photoFromParcel).isEqualTo(photo);
     }

@@ -30,7 +30,7 @@ class JpegByteArraySubject extends Subject<JpegByteArraySubject, byte[]> {
         super(failureStrategy, subject);
     }
 
-    void hasUUIDinUserComment(@Nullable  String uuid) {
+    void hasUUIDinUserComment(@Nullable String uuid) {
         isNotNull();
         String verb = "has in User Comment UUID";
 
@@ -43,8 +43,7 @@ class JpegByteArraySubject extends Subject<JpegByteArraySubject, byte[]> {
         final String uuidInUserComment = getValueForKeyfromUserComment("UUID", userComment);
 
         if (uuidInUserComment == null) {
-            failWithRawMessage(RAW_MESSAGE_TEMPLATE, getSubject(), verb, uuid,
-                    "It had no UUID in User Comment");
+            triggerFailureWithRawMessage(verb, uuid, "It had no UUID in User Comment");
             return;
         }
 
@@ -53,14 +52,17 @@ class JpegByteArraySubject extends Subject<JpegByteArraySubject, byte[]> {
         }
     }
 
+    private void triggerFailureWithRawMessage(String verb, String expected, String failureMessage) {
+        failWithRawMessage(RAW_MESSAGE_TEMPLATE, getSubject(), verb, expected, failureMessage);
+    }
+
     @NonNull
     private String readExifUserComment(@NonNull final String verb, @NonNull final String expected, @NonNull final byte[] jpeg) {
         try {
             ExifReader reader = new ExifReader(jpeg);
             return reader.getUserComment();
         } catch (ExifReaderException e) {
-            failWithRawMessage(RAW_MESSAGE_TEMPLATE, getSubject(), verb, expected,
-                    "An error occurred: " + e.getMessage());
+            triggerFailureWithRawMessage(verb, expected, "An error occurred: " + e.getMessage());
         }
         return "";
     }
@@ -103,13 +105,11 @@ class JpegByteArraySubject extends Subject<JpegByteArraySubject, byte[]> {
         final String otherUuid = getValueForKeyfromUserComment("UUID", expectedUserComment);
 
         if (subjectUuid == null && otherUuid != null) {
-            failWithRawMessage(RAW_MESSAGE_TEMPLATE, getSubject(), verb, otherUuid,
-                    "It had no UUID in User Comment");
+            triggerFailureWithRawMessage(verb, otherUuid, "It had no UUID in User Comment");
             return;
         }
         if (otherUuid == null) {
-            failWithRawMessage(RAW_MESSAGE_TEMPLATE, getSubject(), verb, null,
-                    "Target had no UUID in User Comment.");
+            triggerFailureWithRawMessage(verb, null, "Target had no UUID in User Comment.");
             return;
         }
 
