@@ -9,6 +9,8 @@ import static net.gini.android.vision.test.PhotoSubject.photo;
 
 import android.support.test.runner.AndroidJUnit4;
 
+import net.gini.android.vision.Document;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -40,6 +42,37 @@ public class PhotoTest {
         Photo photoFromParcel = doParcelingRoundTrip(photo, Photo.CREATOR);
         // Then
         assertThat(photoFromParcel).isEqualTo(photo);
+    }
+
+    @Test
+    public void should_keepUserComment_whenCreating_fromDocument() {
+        // Given
+        Photo photo = Photo.fromJpeg(TEST_JPEG, 0);
+        // When
+        Photo fromDocument = Photo.fromDocument(Document.fromPhoto(photo));
+        // Then
+        assertAbout(photo()).that(photo).hasSameUserCommentAs(fromDocument);
+    }
+
+    @Test
+    public void should_setUUIDfromUserComment_whenCreating_fromDocument() {
+        // Given
+        Photo photo = Photo.fromJpeg(TEST_JPEG, 0);
+        // When
+        Photo fromDocument = Photo.fromDocument(Document.fromPhoto(photo));
+        // Then
+        assertThat(photo.getUUID()).isEqualTo(fromDocument.getUUID());
+    }
+
+    @Test
+    public void should_setRotationDeltafromUserComment_whenCreating_fromDocument() {
+        // Given
+        Photo photo = Photo.fromJpeg(TEST_JPEG, 0);
+        // When
+        photo.edit().rotateTo(90).apply();
+        Photo fromDocument = Photo.fromDocument(Document.fromPhoto(photo));
+        // Then
+        assertThat(photo.getRotationDelta()).isEqualTo(fromDocument.getRotationDelta());
     }
 
     @Test

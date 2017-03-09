@@ -29,7 +29,7 @@ public class Photo implements Parcelable {
     private byte[] mJpeg;
     private Exif.RequiredTags mRequiredTags;
     private int mRotationForDisplay = 0;
-    private final String mUUID;
+    private String mUUID = "";
     private int mRotationDelta = 0;
 
     private PhotoEdit mEditor;
@@ -45,7 +45,28 @@ public class Photo implements Parcelable {
     }
 
     public static Photo fromDocument(@NonNull Document document) {
-        return Photo.fromJpeg(document.getJpeg(), document.getRotationForDisplay());
+        Photo photo = new Photo(document.getJpeg(), document.getRotationForDisplay());
+        photo.setBitmapPreview(createPreview(document.getJpeg()));
+        photo.initFieldsFromExif();
+        return photo;
+    }
+
+    private void initFieldsFromExif() {
+        if (mJpeg == null) {
+            return;
+        }
+
+        readRequiredTags();
+
+        try {
+            ExifReader exifReader = new ExifReader(mJpeg);
+            String userComment = exifReader.getUserComment();
+            mUUID = exifReader.getValueForKeyfromUserComment("UUID", userComment);
+            mRotationDelta = Integer.parseInt(
+                    exifReader.getValueForKeyfromUserComment("RotDeltaDeg", userComment));
+        } catch (ExifReaderException | NumberFormatException e) {
+            // TODO log
+        }
     }
 
     static Bitmap createPreview(byte[] jpeg) {
@@ -55,8 +76,13 @@ public class Photo implements Parcelable {
         return BitmapFactory.decodeByteArray(jpeg, 0, jpeg.length, options);
     }
 
-    public Photo() {
+    private Photo() {
         mUUID = UUID.randomUUID().toString();
+    }
+
+    private Photo(@NonNull final byte[] jpeg, final int rotationForDisplay) {
+        mJpeg = jpeg;
+        mRotationForDisplay = rotationForDisplay;
     }
 
     @Nullable
@@ -97,6 +123,7 @@ public class Photo implements Parcelable {
     }
 
     @VisibleForTesting
+    @NonNull
     String getUUID() {
         return mUUID;
     }
@@ -153,7 +180,6 @@ public class Photo implements Parcelable {
         return mEditor;
     }
 
-    @VisibleForTesting
     public synchronized void saveJpegToFile(File file) {
         FileOutputStream fileOutputStream = null;
         try {

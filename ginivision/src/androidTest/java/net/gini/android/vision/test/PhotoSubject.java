@@ -46,4 +46,9 @@ public class PhotoSubject extends Subject<PhotoSubject, Photo> {
         isNotNull();
         mJpegByteArraySubject.hasRotationDeltaInUserComment(rotationDelta);
     }
+
+    public void hasSameUserCommentAs(@Nullable final Photo photo) {
+        isNotNull();
+        mJpegByteArraySubject.hasSameUserCommentAs(photo.getJpeg());
+    }
 }

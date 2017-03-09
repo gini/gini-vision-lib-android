@@ -136,4 +136,21 @@ class JpegByteArraySubject extends Subject<JpegByteArraySubject, byte[]> {
             failWithBadResults(verb, rotationDelta, "was", subjectRotDeltaDeg);
         }
     }
+
+    void hasSameUserCommentAs(@Nullable final byte[] other) {
+        isNotNull();
+        String verb = "has User Comment";
+
+        if (other == null) {
+            fail(verb, (Object) null);
+            return;
+        }
+
+        final String subjectUserComment = readExifUserComment(getSubject());
+        final String otherUserComment = readExifUserComment(other);
+
+        if (!otherUserComment.equals(subjectUserComment)) {
+            failWithBadResults(verb, otherUserComment, "was", subjectUserComment);
+        }
+    }
 }
