@@ -64,4 +64,9 @@ public class DocumentSubject extends Subject<DocumentSubject, Document> {
 
         mJpegByteArraySubject.hasSameUUIDinUserCommentAs(other.getJpeg());
     }
+
+    public void hasRotationDeltaInUserComment(final int rotationDelta) {
+        isNotNull();
+        mJpegByteArraySubject.hasRotationDeltaInUserComment(rotationDelta);
+    }
 }

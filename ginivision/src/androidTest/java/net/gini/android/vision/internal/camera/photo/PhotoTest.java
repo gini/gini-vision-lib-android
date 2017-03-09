@@ -73,7 +73,7 @@ public class PhotoTest {
         Photo photo = Photo.fromJpeg(TEST_JPEG, 0);
         String uuid = photo.getUUID();
         // When
-        photo.edit().rotate(90).apply();
+        photo.edit().rotateTo(90).apply();
         // Then
         assertAbout(photo()).that(photo).hasUUIDinUserComment(uuid);
     }
@@ -84,7 +84,7 @@ public class PhotoTest {
         Photo photo = Photo.fromJpeg(TEST_JPEG, 0);
         String uuid = photo.getUUID();
         // When
-        photo.edit().compress(10).apply();
+        photo.edit().compressBy(10).apply();
         // Then
         assertAbout(photo()).that(photo).hasUUIDinUserComment(uuid);
     }
@@ -93,6 +93,14 @@ public class PhotoTest {
     public void should_initRotationDelta_whenCreated() {
         // When
         Photo photo = Photo.fromJpeg(TEST_JPEG, 0);
+        // Then
+        assertThat(photo.getRotationDelta()).isEqualTo(0);
+    }
+
+    @Test
+    public void should_initRotationDelta_whenCreated_withNonZeroOrientation() {
+        // When
+        Photo photo = Photo.fromJpeg(TEST_JPEG, 90);
         // Then
         assertThat(photo.getRotationDelta()).isEqualTo(0);
     }
@@ -110,7 +118,7 @@ public class PhotoTest {
         // Given
         Photo photo = Photo.fromJpeg(TEST_JPEG, 0);
         // When
-        photo.edit().rotate(90).apply();
+        photo.edit().rotateTo(90).apply();
         // Then
         assertAbout(photo()).that(photo).hasRotationDeltaInUserComment(90);
     }
@@ -120,21 +128,9 @@ public class PhotoTest {
         // Given
         Photo photo = Photo.fromJpeg(TEST_JPEG, 0);
         // When
-        photo.edit().rotate(-90).apply();
+        photo.edit().rotateTo(-90).apply();
         // Then
         assertAbout(photo()).that(photo).hasRotationDeltaInUserComment(270);
-    }
-
-    @Test
-    public void should_cumulateRotationDelta_afterMultipleRotations() {
-        // Given
-        Photo photo = Photo.fromJpeg(TEST_JPEG, 0);
-        // When
-        photo.edit().rotate(90).apply();
-        photo.edit().rotate(90).apply();
-        photo.edit().rotate(-90).apply();
-        // Then
-        assertAbout(photo()).that(photo).hasRotationDeltaInUserComment(90);
     }
 
     @Test
@@ -142,7 +138,7 @@ public class PhotoTest {
         // Given
         Photo photo = Photo.fromJpeg(TEST_JPEG, 0);
         // When
-        photo.edit().rotate(450).apply();
+        photo.edit().rotateTo(450).apply();
         // Then
         assertAbout(photo()).that(photo).hasRotationDeltaInUserComment(90);
     }
@@ -152,8 +148,18 @@ public class PhotoTest {
         // Given
         Photo photo = Photo.fromJpeg(TEST_JPEG, 0);
         // When
-        photo.edit().rotate(-270).apply();
+        photo.edit().rotateTo(-270).apply();
         // Then
         assertAbout(photo()).that(photo).hasRotationDeltaInUserComment(90);
+    }
+
+    @Test
+    public void should_keepRotationDelta_afterCompression() {
+        // Given
+        Photo photo = Photo.fromJpeg(TEST_JPEG, 90);
+        // When
+        photo.edit().compressBy(50).apply();
+        // Then
+        assertAbout(photo()).that(photo).hasRotationDeltaInUserComment(0);
     }
 }
