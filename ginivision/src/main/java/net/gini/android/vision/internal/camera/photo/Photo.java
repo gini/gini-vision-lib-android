@@ -34,21 +34,32 @@ public class Photo implements Parcelable {
 
     private PhotoEdit mEditor;
 
-    public static Photo fromJpeg(@NonNull byte[] jpeg, int orientation) {
-        Photo photo = new Photo();
-        photo.setJpeg(jpeg);
-        photo.setBitmapPreview(createPreview(jpeg));
-        photo.setRotationForDisplay(orientation);
-        photo.readRequiredTags();
-        photo.updateExif();
-        return photo;
+    public static Photo fromJpeg(@NonNull final byte[] jpeg, final int orientation) {
+        return new Photo(jpeg, orientation);
     }
 
-    public static Photo fromDocument(@NonNull Document document) {
-        Photo photo = new Photo(document.getJpeg(), document.getRotationForDisplay());
-        photo.setBitmapPreview(createPreview(document.getJpeg()));
-        photo.initFieldsFromExif();
-        return photo;
+    public static Photo fromDocument(@NonNull final Document document) {
+        return new Photo(document);
+    }
+
+    private Photo(@NonNull byte[] jpeg, int orientation) {
+        mJpeg = jpeg;
+        mRotationForDisplay = orientation;
+        mBitmapPreview = createPreview();
+        mUUID = generateUUID();
+        readRequiredTags();
+        updateExif();
+    }
+
+    private Photo(@NonNull final Document document) {
+        mJpeg = document.getJpeg();
+        mRotationForDisplay = document.getRotationForDisplay();
+        mBitmapPreview = createPreview();
+        initFieldsFromExif();
+    }
+
+    private String generateUUID() {
+        return UUID.randomUUID().toString();
     }
 
     private void initFieldsFromExif() {
@@ -69,20 +80,16 @@ public class Photo implements Parcelable {
         }
     }
 
-    static Bitmap createPreview(byte[] jpeg) {
+    @Nullable
+    private Bitmap createPreview() {
+        if (mJpeg == null) {
+            return null;
+        }
+
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 2;
 
-        return BitmapFactory.decodeByteArray(jpeg, 0, jpeg.length, options);
-    }
-
-    private Photo() {
-        mUUID = UUID.randomUUID().toString();
-    }
-
-    private Photo(@NonNull final byte[] jpeg, final int rotationForDisplay) {
-        mJpeg = jpeg;
-        mRotationForDisplay = rotationForDisplay;
+        return BitmapFactory.decodeByteArray(mJpeg, 0, mJpeg.length, options);
     }
 
     @Nullable
@@ -90,8 +97,8 @@ public class Photo implements Parcelable {
         return mBitmapPreview;
     }
 
-    synchronized void setBitmapPreview(@NonNull Bitmap bitmap) {
-        mBitmapPreview = bitmap;
+    synchronized void updateBitmapPreview() {
+        mBitmapPreview = createPreview();
     }
 
     @Nullable

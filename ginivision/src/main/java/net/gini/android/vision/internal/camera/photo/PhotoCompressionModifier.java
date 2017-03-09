@@ -32,7 +32,7 @@ class PhotoCompressionModifier implements PhotoModifier {
 
         final byte[] jpeg = byteArrayOutputStream.toByteArray();
         mPhoto.setJpeg(jpeg);
-        mPhoto.setBitmapPreview(Photo.createPreview(jpeg));
+        mPhoto.updateBitmapPreview();
 
         mPhoto.updateExif();
     }
