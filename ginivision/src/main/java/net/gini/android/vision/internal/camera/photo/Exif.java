@@ -33,15 +33,15 @@ import java.nio.charset.Charset;
 /**
  * @exclude
  */
-public class Exif {
+class Exif {
 
-    public static final String USER_COMMENT_MAKE = "Make";
-    public static final String USER_COMMENT_MODEL = "Model";
-    public static final String USER_COMMENT_PLATFORM = "Platform";
-    public static final String USER_COMMENT_OS_VERSION = "OSVer";
-    public static final String USER_COMMENT_GINI_VISION_VERSION = "GiniVisionVer";
-    public static final String USER_COMMENT_UUID = "UUID";
-    public static final String USER_COMMENT_ROTATION_DELTA = "RotDeltaDeg";
+    static final String USER_COMMENT_MAKE = "Make";
+    static final String USER_COMMENT_MODEL = "Model";
+    static final String USER_COMMENT_PLATFORM = "Platform";
+    static final String USER_COMMENT_OS_VERSION = "OSVer";
+    static final String USER_COMMENT_GINI_VISION_VERSION = "GiniVisionVer";
+    static final String USER_COMMENT_UUID = "UUID";
+    static final String USER_COMMENT_ROTATION_DELTA = "RotDeltaDeg";
 
     private final TiffOutputSet mTiffOutputSet;
 
@@ -55,7 +55,7 @@ public class Exif {
         return new Builder(jpeg);
     }
 
-    public static UserCommentBuilder userCommentBuilder() {
+    static UserCommentBuilder userCommentBuilder() {
         return new UserCommentBuilder();
     }
 
@@ -93,7 +93,7 @@ public class Exif {
         return requiredTags;
     }
 
-    public static class Builder {
+    static class Builder {
 
         private TiffOutputSet mTiffOutputSet;
         private TiffOutputDirectory mIfd0Directory;
@@ -271,7 +271,7 @@ public class Exif {
         }
     }
 
-    public static class RequiredTags {
+    static class RequiredTags {
         public TiffField make;
         public TiffField model;
         public TiffField iso;
@@ -323,7 +323,7 @@ public class Exif {
         }
     }
 
-    public static class UserCommentBuilder {
+    static class UserCommentBuilder {
 
         private boolean mAddMake;
         private boolean mAddModel;
@@ -334,22 +334,22 @@ public class Exif {
 
         }
 
-        public UserCommentBuilder setAddMake(final boolean addMake) {
+        UserCommentBuilder setAddMake(final boolean addMake) {
             mAddMake = addMake;
             return this;
         }
 
-        public UserCommentBuilder setAddModel(final boolean addModel) {
+        UserCommentBuilder setAddModel(final boolean addModel) {
             mAddModel = addModel;
             return this;
         }
 
-        public UserCommentBuilder setUUID(final String UUID) {
+        UserCommentBuilder setUUID(final String UUID) {
             mUUID = UUID;
             return this;
         }
 
-        public UserCommentBuilder setRotationDelta(final int rotationDelta) {
+        UserCommentBuilder setRotationDelta(final int rotationDelta) {
             mRotationDelta = rotationDelta;
             return this;
         }
