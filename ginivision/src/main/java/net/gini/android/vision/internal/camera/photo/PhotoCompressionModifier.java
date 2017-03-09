@@ -25,12 +25,12 @@ class PhotoCompressionModifier implements PhotoModifier {
             return;
         }
 
-        Bitmap originalImage = BitmapFactory.decodeByteArray(mPhoto.getJpeg(), 0, mPhoto.getJpeg().length);
+        final Bitmap originalImage = BitmapFactory.decodeByteArray(mPhoto.getJpeg(), 0, mPhoto.getJpeg().length);
 
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         originalImage.compress(Bitmap.CompressFormat.JPEG, mQuality, byteArrayOutputStream);
 
-        byte[] jpeg = byteArrayOutputStream.toByteArray();
+        final byte[] jpeg = byteArrayOutputStream.toByteArray();
         mPhoto.setJpeg(jpeg);
         mPhoto.setBitmapPreview(Photo.createPreview(jpeg));
 

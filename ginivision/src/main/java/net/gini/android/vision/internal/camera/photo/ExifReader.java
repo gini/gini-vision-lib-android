@@ -20,7 +20,7 @@ class ExifReader {
 
     private final byte[] jpeg;
 
-    public ExifReader(@NonNull final byte[] jpeg) {
+    ExifReader(@NonNull final byte[] jpeg) {
         this.jpeg = jpeg;
     }
 
@@ -50,10 +50,10 @@ class ExifReader {
     }
 
     @Nullable
-    public String getValueForKeyfromUserComment(@NonNull final String key, @NonNull final String userComment) {
-        String[] keyValuePairs = userComment.split(",");
+    String getValueForKeyfromUserComment(@NonNull final String key, @NonNull final String userComment) {
+        final String[] keyValuePairs = userComment.split(",");
         for (final String keyValuePair : keyValuePairs) {
-            String[] keyAndValue = keyValuePair.split("=");
+            final String[] keyAndValue = keyValuePair.split("=");
             if (keyAndValue[0].equals(key)) {
                 return keyAndValue[1];
             }

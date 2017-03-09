@@ -22,14 +22,14 @@ public class PhotoEdit {
 
     @NonNull
     public PhotoEdit rotateTo(int degrees) {
-        PhotoRotationModifier rotationModifier = new PhotoRotationModifier(degrees, mPhoto);
+        final PhotoRotationModifier rotationModifier = new PhotoRotationModifier(degrees, mPhoto);
         mPhotoModifiers.add(rotationModifier);
         return this;
     }
 
     @NonNull
     public PhotoEdit compressBy(int quality) {
-        PhotoCompressionModifier compressionModifier = new PhotoCompressionModifier(quality, mPhoto);
+        final PhotoCompressionModifier compressionModifier = new PhotoCompressionModifier(quality, mPhoto);
         mPhotoModifiers.add(compressionModifier);
         return this;
     }
@@ -40,7 +40,7 @@ public class PhotoEdit {
     }
 
     public void applyAsync(@NonNull final PhotoEditCallback callback) {
-        EditAsync async = new EditAsync(mPhoto, mPhotoModifiers);
+        final EditAsync async = new EditAsync(mPhoto, mPhotoModifiers);
         async.setCallback(new PhotoEditCallback() {
             @Override
             public void onDone(@NonNull Photo photo) {
