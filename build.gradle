@@ -42,7 +42,7 @@ ext.deps = [
         supportv4: 'com.android.support:support-v4:23.4.0',
         supportv13: 'com.android.support:support-v13:23.4.0',
         supportDesign: 'com.android.support:design:23.4.0',
-        // Exif editing library
+        // Exif editing library. IMPORTANT: notify backend when the version is changed
         commonsImaging: 'org.apache.commons:commons-imaging:1.0.0gini',
         // Logging
         slf4j: 'org.slf4j:slf4j-api:1.7.21',
