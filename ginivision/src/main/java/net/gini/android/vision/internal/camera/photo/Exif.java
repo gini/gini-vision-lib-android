@@ -35,6 +35,14 @@ import java.nio.charset.Charset;
  */
 public class Exif {
 
+    public static final String USER_COMMENT_MAKE = "Make";
+    public static final String USER_COMMENT_MODEL = "Model";
+    public static final String USER_COMMENT_PLATFORM = "Platform";
+    public static final String USER_COMMENT_OS_VERSION = "OSVer";
+    public static final String USER_COMMENT_GINI_VISION_VERSION = "GiniVisionVer";
+    public static final String USER_COMMENT_UUID = "UUID";
+    public static final String USER_COMMENT_ROTATION_DELTA = "RotDeltaDeg";
+
     private final TiffOutputSet mTiffOutputSet;
 
     private Exif(@NonNull TiffOutputSet tiffOutputSet) {
@@ -316,6 +324,7 @@ public class Exif {
     }
 
     public static class UserCommentBuilder {
+
         private boolean mAddMake;
         private boolean mAddModel;
         private String mUUID;
@@ -358,33 +367,33 @@ public class Exif {
             final StringBuilder userCommentBuilder = new StringBuilder();
             // Make
             if (mAddMake) {
-                userCommentBuilder.append("Make=");
+                userCommentBuilder.append(USER_COMMENT_MAKE).append("=");
                 userCommentBuilder.append(Build.BRAND);
                 userCommentBuilder.append(",");
             }
             // Model
             if (mAddModel) {
-                userCommentBuilder.append("Model=");
+                userCommentBuilder.append(USER_COMMENT_MODEL).append("=");
                 userCommentBuilder.append(Build.MODEL);
                 userCommentBuilder.append(",");
             }
             // Platform
-            userCommentBuilder.append("Platform=Android");
+            userCommentBuilder.append(USER_COMMENT_PLATFORM).append("=").append("Android");
             userCommentBuilder.append(",");
             // OS Version
-            userCommentBuilder.append("OSVer=");
+            userCommentBuilder.append(USER_COMMENT_OS_VERSION).append("=");
             userCommentBuilder.append(String.valueOf(Build.VERSION.RELEASE));
             userCommentBuilder.append(",");
             // GiniVision Version
-            userCommentBuilder.append("GiniVisionVer=");
+            userCommentBuilder.append(USER_COMMENT_GINI_VISION_VERSION).append("=");
             userCommentBuilder.append(BuildConfig.VERSION_NAME.replace(" ", ""));
             userCommentBuilder.append(",");
             // UUID
-            userCommentBuilder.append("UUID=");
+            userCommentBuilder.append(USER_COMMENT_UUID).append("=");
             userCommentBuilder.append(mUUID);
             userCommentBuilder.append(",");
             // Rotation Delta
-            userCommentBuilder.append("RotDeltaDeg=");
+            userCommentBuilder.append(USER_COMMENT_ROTATION_DELTA).append("=");
             userCommentBuilder.append(mRotationDelta);
 
             return userCommentBuilder.toString();
