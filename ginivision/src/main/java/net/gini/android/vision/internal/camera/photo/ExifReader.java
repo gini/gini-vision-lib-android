@@ -13,7 +13,10 @@ import org.apache.commons.imaging.formats.tiff.constants.ExifTagConstants;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class ExifReader {
+/**
+ * @exclude
+ */
+class ExifReader {
 
     private final byte[] jpeg;
 
