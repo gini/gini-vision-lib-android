@@ -1,89 +1,70 @@
 package net.gini.android.vision.internal.camera.photo;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @exclude
  */
 public class PhotoEdit {
 
-    private static final int DEF_QUALITY = 100;
-
     private final Photo mPhoto;
-    private int mRotationDegrees;
-    private int mQuality = DEF_QUALITY;
+    private final List<PhotoModifier> mPhotoModifiers;
 
-    public PhotoEdit(@NonNull Photo photo) {
+    PhotoEdit(@NonNull Photo photo) {
         mPhoto = photo;
-        resetToDefaults();
+        mPhotoModifiers = new ArrayList<>();
     }
 
     @NonNull
-    public PhotoEdit rotate(int degrees) {
-        degrees %= 360;
-        mRotationDegrees = degrees;
+    public PhotoEdit rotateTo(int degrees) {
+        PhotoRotationModifier rotationModifier = new PhotoRotationModifier(degrees, mPhoto);
+        mPhotoModifiers.add(rotationModifier);
         return this;
     }
 
     @NonNull
-    public PhotoEdit compress(int quality) {
-        mQuality = quality;
+    public PhotoEdit compressBy(int quality) {
+        PhotoCompressionModifier compressionModifier = new PhotoCompressionModifier(quality, mPhoto);
+        mPhotoModifiers.add(compressionModifier);
         return this;
     }
 
     public void apply() {
-        applyChanges(mPhoto, mRotationDegrees, mQuality);
-        resetToDefaults();
+        applyChanges(mPhotoModifiers);
+        clearModifiers();
     }
 
     public void applyAsync(@NonNull final PhotoEditCallback callback) {
-        EditAsync async = new EditAsync(mPhoto, mRotationDegrees, mQuality);
+        EditAsync async = new EditAsync(mPhoto, mPhotoModifiers);
         async.setCallback(new PhotoEditCallback() {
             @Override
             public void onDone(@NonNull Photo photo) {
                 callback.onDone(photo);
-                resetToDefaults();
+                clearModifiers();
             }
 
             @Override
             public void onFailed() {
                 callback.onFailed();
-                resetToDefaults();
+                clearModifiers();
             }
         });
         async.execute((Void[]) null);
     }
 
-    private void resetToDefaults() {
-        mRotationDegrees = mPhoto.getRotationForDisplay();
-        mQuality = DEF_QUALITY;
+    private void clearModifiers() {
+        mPhotoModifiers.clear();
     }
 
-    private static void applyChanges(@NonNull Photo photo, int rotationDegrees, int quality) {
-        if (photo.getJpeg() == null) {
-            return;
+    private static void applyChanges(@NonNull final List<PhotoModifier> modifiers) {
+        for (final PhotoModifier modifier : modifiers) {
+            modifier.modify();
         }
-
-        if (quality != DEF_QUALITY) {
-            Bitmap originalImage = BitmapFactory.decodeByteArray(photo.getJpeg(), 0, photo.getJpeg().length);
-
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            originalImage.compress(Bitmap.CompressFormat.JPEG, quality, byteArrayOutputStream);
-
-            byte[] jpeg = byteArrayOutputStream.toByteArray();
-            photo.setJpeg(jpeg);
-            photo.setBitmapPreview(Photo.createPreview(jpeg));
-        }
-
-        photo.setRotationForDisplay(rotationDegrees);
-        photo.updateRotationDeltaBy(rotationDegrees);
-        photo.updateExif();
     }
 
     private static class EditAsync extends AsyncTask<Void, Void, Photo> {
@@ -99,14 +80,12 @@ public class PhotoEdit {
         };
 
         private final Photo mPhoto;
-        private final int mRotationDegrees;
-        private final int mQuality;
+        private final List<PhotoModifier> mPhotoModifiers;
         private PhotoEditCallback mCallback = NO_OP_CALLBACK;
 
-        public EditAsync(@NonNull Photo photo, int rotationDegrees, int quality) {
+        EditAsync(@NonNull final Photo photo, @NonNull final List<PhotoModifier> photoModifiers) {
             mPhoto = photo;
-            mRotationDegrees = rotationDegrees;
-            mQuality = quality;
+            mPhotoModifiers = photoModifiers;
         }
 
         public void setCallback(@Nullable PhotoEditCallback callback) {
@@ -119,7 +98,7 @@ public class PhotoEdit {
 
         @Override
         protected Photo doInBackground(Void... params) {
-            applyChanges(mPhoto, mRotationDegrees, mQuality);
+            applyChanges(mPhotoModifiers);
             return mPhoto;
         }
 
