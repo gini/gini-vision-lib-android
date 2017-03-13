@@ -29,6 +29,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteOrder;
 import java.nio.charset.Charset;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @exclude
@@ -364,39 +366,50 @@ class Exif {
 
         @NonNull
         private String createUserComment() {
-            final StringBuilder userCommentBuilder = new StringBuilder();
+            final Map<String, String> keyValueMap = createKeyValueMap();
+            return convertMapToCSV(keyValueMap);
+        }
+
+        @NonNull
+        private Map<String, String> createKeyValueMap() {
+            final Map<String, String> map = new LinkedHashMap<>();
             // Make
             if (mAddMake) {
-                userCommentBuilder.append(USER_COMMENT_MAKE).append("=");
-                userCommentBuilder.append(Build.BRAND);
-                userCommentBuilder.append(",");
+                map.put(USER_COMMENT_MAKE, Build.BRAND);
             }
             // Model
             if (mAddModel) {
-                userCommentBuilder.append(USER_COMMENT_MODEL).append("=");
-                userCommentBuilder.append(Build.MODEL);
-                userCommentBuilder.append(",");
+                map.put(USER_COMMENT_MODEL, Build.MODEL);
             }
             // Platform
-            userCommentBuilder.append(USER_COMMENT_PLATFORM).append("=").append("Android");
-            userCommentBuilder.append(",");
+            map.put(USER_COMMENT_PLATFORM, "Android");
             // OS Version
-            userCommentBuilder.append(USER_COMMENT_OS_VERSION).append("=");
-            userCommentBuilder.append(String.valueOf(Build.VERSION.RELEASE));
-            userCommentBuilder.append(",");
+            map.put(USER_COMMENT_OS_VERSION, String.valueOf(Build.VERSION.RELEASE));
             // GiniVision Version
-            userCommentBuilder.append(USER_COMMENT_GINI_VISION_VERSION).append("=");
-            userCommentBuilder.append(BuildConfig.VERSION_NAME.replace(" ", ""));
-            userCommentBuilder.append(",");
+            map.put(USER_COMMENT_GINI_VISION_VERSION, BuildConfig.VERSION_NAME.replace(" ", ""));
             // UUID
-            userCommentBuilder.append(USER_COMMENT_UUID).append("=");
-            userCommentBuilder.append(mUUID);
-            userCommentBuilder.append(",");
+            map.put(USER_COMMENT_UUID, mUUID);
             // Rotation Delta
-            userCommentBuilder.append(USER_COMMENT_ROTATION_DELTA).append("=");
-            userCommentBuilder.append(mRotationDelta);
-
-            return userCommentBuilder.toString();
+            map.put(USER_COMMENT_ROTATION_DELTA, String.valueOf(mRotationDelta));
+            return map;
         }
+
+        @NonNull
+        private String convertMapToCSV(@NonNull final Map<String, String> keyValueMap) {
+            final StringBuilder csvBuilder = new StringBuilder();
+            boolean isFirst = true;
+            for (final Map.Entry<String, String> keyValueEntry : keyValueMap.entrySet()) {
+                if (!isFirst) {
+                    csvBuilder.append(",");
+                }
+                isFirst = false;
+
+                csvBuilder.append(keyValueEntry.getKey())
+                        .append("=")
+                        .append(keyValueEntry.getValue());
+            }
+            return csvBuilder.toString();
+        }
+
     }
 }
