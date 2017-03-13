@@ -54,7 +54,7 @@ class ExifReader {
         final String[] keyValuePairs = userComment.split(",");
         for (final String keyValuePair : keyValuePairs) {
             final String[] keyAndValue = keyValuePair.split("=");
-            if (keyAndValue.length > 0 && keyAndValue[0].equals(key)) {
+            if (keyAndValue.length > 1 && keyAndValue[0].equals(key)) {
                 return keyAndValue[1];
             }
         }
