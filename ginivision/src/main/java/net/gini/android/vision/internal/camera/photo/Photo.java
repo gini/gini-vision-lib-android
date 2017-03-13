@@ -72,9 +72,9 @@ public class Photo implements Parcelable {
         try {
             ExifReader exifReader = new ExifReader(mJpeg);
             String userComment = exifReader.getUserComment();
-            mUUID = exifReader.getValueForKeyfromUserComment(Exif.USER_COMMENT_UUID, userComment);
+            mUUID = exifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_UUID, userComment);
             mRotationDelta = Integer.parseInt(
-                    exifReader.getValueForKeyfromUserComment(Exif.USER_COMMENT_ROTATION_DELTA,
+                    exifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_ROTATION_DELTA,
                             userComment));
         } catch (ExifReaderException | NumberFormatException e) {
             // TODO log

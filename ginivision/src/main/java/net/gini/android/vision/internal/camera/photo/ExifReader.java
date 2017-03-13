@@ -50,11 +50,11 @@ class ExifReader {
     }
 
     @Nullable
-    String getValueForKeyfromUserComment(@NonNull final String key, @NonNull final String userComment) {
+    String getValueForKeyFromUserComment(@NonNull final String key, @NonNull final String userComment) {
         final String[] keyValuePairs = userComment.split(",");
         for (final String keyValuePair : keyValuePairs) {
             final String[] keyAndValue = keyValuePair.split("=");
-            if (keyAndValue[0].equals(key)) {
+            if (keyAndValue.length > 0 && keyAndValue[0].equals(key)) {
                 return keyAndValue[1];
             }
         }
