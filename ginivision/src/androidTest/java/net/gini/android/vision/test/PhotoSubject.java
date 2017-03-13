@@ -30,15 +30,25 @@ public class PhotoSubject extends Subject<PhotoSubject, Photo> {
         mJpegByteArraySubject = new JpegByteArraySubject(failureStrategy, subject.getJpeg());
     }
 
-    public void hasUUIDinUserComment(String uuid) {
+    public void hasContentIdInUserComment(final String contentId) {
         isNotNull();
-        String verb = "has in User Comment UUID";
+        String verb = "has in User Comment ContentId";
 
-        if (uuid == null) {
+        if (contentId == null) {
             fail(verb, (Object) null);
             return;
         }
 
-        mJpegByteArraySubject.hasUUIDinUserComment(uuid);
+        mJpegByteArraySubject.hasContentIdInUserComment(contentId);
+    }
+
+    public void hasRotationDeltaInUserComment(final int rotationDelta) {
+        isNotNull();
+        mJpegByteArraySubject.hasRotationDeltaInUserComment(rotationDelta);
+    }
+
+    public void hasSameUserCommentAs(@Nullable final Photo photo) {
+        isNotNull();
+        mJpegByteArraySubject.hasSameUserCommentAs(photo.getJpeg());
     }
 }

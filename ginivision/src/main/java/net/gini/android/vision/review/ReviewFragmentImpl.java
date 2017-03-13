@@ -249,14 +249,14 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     private void applyRotationToJpeg(@NonNull PhotoEdit.PhotoEditCallback callback) {
         LOG.info("Rotating the jpeg {} degrees", mCurrentRotation);
         mPhoto.edit()
-                .rotate(mCurrentRotation)
+                .rotateTo(mCurrentRotation)
                 .applyAsync(callback);
     }
 
     private void applyCompressionToJpeg(@NonNull PhotoEdit.PhotoEditCallback callback) {
         LOG.info("Compressing the jpeg to quality {}", JPEG_COMPRESSION_QUALITY_FOR_UPLOAD);
         mPhoto.edit()
-                .compress(JPEG_COMPRESSION_QUALITY_FOR_UPLOAD)
+                .compressBy(JPEG_COMPRESSION_QUALITY_FOR_UPLOAD)
                 .applyAsync(callback);
     }
 

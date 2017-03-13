@@ -53,15 +53,20 @@ public class DocumentSubject extends Subject<DocumentSubject, Document> {
         }
     }
 
-    public void hasSameUUIDinUserCommentAs(Document other) {
+    public void hasSameContentIdInUserCommentAs(Document other) {
         isNotNull();
-        String verb = "has same User Comment UUID";
+        String verb = "has same User Comment ContentId";
 
         if (other == null) {
             fail(verb, (Object) null);
             return;
         }
 
-        mJpegByteArraySubject.hasSameUUIDinUserCommentAs(other.getJpeg());
+        mJpegByteArraySubject.hasSameContentIdInUserCommentAs(other.getJpeg());
+    }
+
+    public void hasRotationDeltaInUserComment(final int rotationDelta) {
+        isNotNull();
+        mJpegByteArraySubject.hasRotationDeltaInUserComment(rotationDelta);
     }
 }

@@ -29,34 +29,68 @@ public class Photo implements Parcelable {
     private byte[] mJpeg;
     private Exif.RequiredTags mRequiredTags;
     private int mRotationForDisplay = 0;
-    private final String mUUID;
+    private String mContentId = "";
     private int mRotationDelta = 0;
 
     private PhotoEdit mEditor;
 
-    public static Photo fromJpeg(@NonNull byte[] jpeg, int orientation) {
-        Photo photo = new Photo();
-        photo.setJpeg(jpeg);
-        photo.setBitmapPreview(createPreview(jpeg));
-        photo.setRotationForDisplay(orientation);
-        photo.readRequiredTags();
-        photo.updateExif();
-        return photo;
+    public static Photo fromJpeg(@NonNull final byte[] jpeg, final int orientation) {
+        return new Photo(jpeg, orientation);
     }
 
-    public static Photo fromDocument(@NonNull Document document) {
-        return Photo.fromJpeg(document.getJpeg(), document.getRotationForDisplay());
+    public static Photo fromDocument(@NonNull final Document document) {
+        return new Photo(document);
     }
 
-    public static Bitmap createPreview(byte[] jpeg) {
+    private Photo(@NonNull byte[] jpeg, int orientation) {
+        mJpeg = jpeg;
+        mRotationForDisplay = orientation;
+        mBitmapPreview = createPreview();
+        mContentId = generateUUID();
+        readRequiredTags();
+        updateExif();
+    }
+
+    private Photo(@NonNull final Document document) {
+        mJpeg = document.getJpeg();
+        mRotationForDisplay = document.getRotationForDisplay();
+        mBitmapPreview = createPreview();
+        initFieldsFromExif();
+    }
+
+    private String generateUUID() {
+        return UUID.randomUUID().toString();
+    }
+
+    private void initFieldsFromExif() {
+        if (mJpeg == null) {
+            return;
+        }
+
+        readRequiredTags();
+
+        try {
+            ExifReader exifReader = new ExifReader(mJpeg);
+            String userComment = exifReader.getUserComment();
+            mContentId = exifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_CONTENT_ID, userComment);
+            mRotationDelta = Integer.parseInt(
+                    exifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_ROTATION_DELTA,
+                            userComment));
+        } catch (ExifReaderException | NumberFormatException e) {
+            // TODO log
+        }
+    }
+
+    @Nullable
+    private Bitmap createPreview() {
+        if (mJpeg == null) {
+            return null;
+        }
+
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 2;
 
-        return BitmapFactory.decodeByteArray(jpeg, 0, jpeg.length, options);
-    }
-
-    public Photo() {
-        mUUID = UUID.randomUUID().toString();
+        return BitmapFactory.decodeByteArray(mJpeg, 0, mJpeg.length, options);
     }
 
     @Nullable
@@ -64,8 +98,8 @@ public class Photo implements Parcelable {
         return mBitmapPreview;
     }
 
-    public synchronized void setBitmapPreview(@NonNull Bitmap bitmap) {
-        mBitmapPreview = bitmap;
+    synchronized void updateBitmapPreview() {
+        mBitmapPreview = createPreview();
     }
 
     @Nullable
@@ -81,19 +115,25 @@ public class Photo implements Parcelable {
         return mRotationForDisplay;
     }
 
-    public synchronized void setRotationForDisplay(int degrees) {
-        // Converts input degrees to degrees between [0,360]
+    synchronized void setRotationForDisplay(int degrees) {
+        // Converts input degrees to degrees between [0,360)
         mRotationForDisplay = ((degrees % 360) + 360) % 360;
     }
 
-    public synchronized void setRotationDelta(int degrees) {
-        // Converts input degrees to degrees between [0,360]
-        mRotationDelta = ((degrees % 360) + 360) % 360;
+    synchronized void updateRotationDeltaBy(int degrees) {
+        // Converts input degrees to degrees between [0,360)
+        mRotationDelta = ((mRotationDelta + degrees % 360) + 360) % 360;
     }
 
     @VisibleForTesting
-    String getUUID() {
-        return mUUID;
+    int getRotationDelta() {
+        return mRotationDelta;
+    }
+
+    @VisibleForTesting
+    @NonNull
+    String getContentId() {
+        return mContentId;
     }
 
     private synchronized void readRequiredTags() {
@@ -126,12 +166,12 @@ public class Photo implements Parcelable {
             String userComment = Exif.userCommentBuilder()
                     .setAddMake(addMake)
                     .setAddModel(addModel)
-                    .setUUID(mUUID)
+                    .setContentId(mContentId)
+                    .setRotationDelta(mRotationDelta)
                     .build();
 
             exifBuilder.setUserComment(userComment);
             exifBuilder.setOrientationFromDegrees(mRotationForDisplay);
-            exifBuilder.setRotationDelta(mRotationDelta);
 
             mJpeg = exifBuilder.build().writeToJpeg(mJpeg);
         } catch (ImageReadException | ImageWriteException | IOException e) {
@@ -148,7 +188,6 @@ public class Photo implements Parcelable {
         return mEditor;
     }
 
-    @VisibleForTesting
     public synchronized void saveJpegToFile(File file) {
         FileOutputStream fileOutputStream = null;
         try {
@@ -205,7 +244,7 @@ public class Photo implements Parcelable {
         dest.writeParcelable(token, flags);
 
         dest.writeInt(mRotationForDisplay);
-        dest.writeString(mUUID);
+        dest.writeString(mContentId);
         dest.writeInt(mRotationDelta);
     }
 
@@ -233,7 +272,7 @@ public class Photo implements Parcelable {
         cache.removeJpeg(token);
 
         mRotationForDisplay = in.readInt();
-        mUUID = in.readString();
+        mContentId = in.readString();
         mRotationDelta = in.readInt();
         readRequiredTags();
     }
@@ -256,7 +295,7 @@ public class Photo implements Parcelable {
                 : photo.mRequiredTags != null) {
             return false;
         }
-        if (mUUID != null ? !mUUID.equals(photo.mUUID) : photo.mUUID != null) return false;
+        if (mContentId != null ? !mContentId.equals(photo.mContentId) : photo.mContentId != null) return false;
         return mEditor != null ? mEditor.equals(photo.mEditor) : photo.mEditor == null;
 
     }
@@ -267,7 +306,7 @@ public class Photo implements Parcelable {
         result = 31 * result + Arrays.hashCode(mJpeg);
         result = 31 * result + (mRequiredTags != null ? mRequiredTags.hashCode() : 0);
         result = 31 * result + mRotationForDisplay;
-        result = 31 * result + (mUUID != null ? mUUID.hashCode() : 0);
+        result = 31 * result + (mContentId != null ? mContentId.hashCode() : 0);
         result = 31 * result + mRotationDelta;
         result = 31 * result + (mEditor != null ? mEditor.hashCode() : 0);
         return result;

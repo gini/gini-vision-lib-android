@@ -29,11 +29,21 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteOrder;
 import java.nio.charset.Charset;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * @exclude
  */
-public class Exif {
+class Exif {
+
+    static final String USER_COMMENT_MAKE = "Make";
+    static final String USER_COMMENT_MODEL = "Model";
+    static final String USER_COMMENT_PLATFORM = "Platform";
+    static final String USER_COMMENT_OS_VERSION = "OSVer";
+    static final String USER_COMMENT_GINI_VISION_VERSION = "GiniVisionVer";
+    static final String USER_COMMENT_CONTENT_ID = "ContentId";
+    static final String USER_COMMENT_ROTATION_DELTA = "RotDeltaDeg";
 
     private final TiffOutputSet mTiffOutputSet;
 
@@ -47,7 +57,7 @@ public class Exif {
         return new Builder(jpeg);
     }
 
-    public static UserCommentBuilder userCommentBuilder() {
+    static UserCommentBuilder userCommentBuilder() {
         return new UserCommentBuilder();
     }
 
@@ -85,7 +95,7 @@ public class Exif {
         return requiredTags;
     }
 
-    public static class Builder {
+    static class Builder {
 
         private TiffOutputSet mTiffOutputSet;
         private TiffOutputDirectory mIfd0Directory;
@@ -208,12 +218,6 @@ public class Exif {
         }
 
         @NonNull
-        public Builder setRotationDelta(int rotationDelta) {
-            return this;
-        }
-
-
-        @NonNull
         public Exif build() {
             return new Exif(mTiffOutputSet);
         }
@@ -269,7 +273,7 @@ public class Exif {
         }
     }
 
-    public static class RequiredTags {
+    static class RequiredTags {
         public TiffField make;
         public TiffField model;
         public TiffField iso;
@@ -321,75 +325,91 @@ public class Exif {
         }
     }
 
-    public static class UserCommentBuilder {
+    static class UserCommentBuilder {
+
         private boolean mAddMake;
         private boolean mAddModel;
-        private String mUUID;
+        private String mContentId;
         private int mRotationDelta;
 
         private UserCommentBuilder() {
 
         }
 
-        public UserCommentBuilder setAddMake(final boolean addMake) {
+        UserCommentBuilder setAddMake(final boolean addMake) {
             mAddMake = addMake;
             return this;
         }
 
-        public UserCommentBuilder setAddModel(final boolean addModel) {
+        UserCommentBuilder setAddModel(final boolean addModel) {
             mAddModel = addModel;
             return this;
         }
 
-        public UserCommentBuilder setUUID(final String UUID) {
-            mUUID = UUID;
+        UserCommentBuilder setContentId(final String contentId) {
+            mContentId = contentId;
             return this;
         }
 
-        public UserCommentBuilder setRotationDelta(final int rotationDelta) {
+        UserCommentBuilder setRotationDelta(final int rotationDelta) {
             mRotationDelta = rotationDelta;
             return this;
         }
 
         @NonNull
         public String build() {
-            if (mUUID == null) {
-                throw new IllegalStateException("UUID is required for the User Comment");
+            if (mContentId == null) {
+                throw new IllegalStateException("ContentId is required for the User Comment");
             }
             return createUserComment();
         }
 
         @NonNull
         private String createUserComment() {
-            final StringBuilder userCommentBuilder = new StringBuilder();
+            final Map<String, String> keyValueMap = createKeyValueMap();
+            return convertMapToCSV(keyValueMap);
+        }
+
+        @NonNull
+        private Map<String, String> createKeyValueMap() {
+            final Map<String, String> map = new LinkedHashMap<>();
             // Make
             if (mAddMake) {
-                userCommentBuilder.append("Make=");
-                userCommentBuilder.append(Build.BRAND);
-                userCommentBuilder.append(",");
+                map.put(USER_COMMENT_MAKE, Build.BRAND);
             }
             // Model
             if (mAddModel) {
-                userCommentBuilder.append("Model=");
-                userCommentBuilder.append(Build.MODEL);
-                userCommentBuilder.append(",");
+                map.put(USER_COMMENT_MODEL, Build.MODEL);
             }
             // Platform
-            userCommentBuilder.append("Platform=Android");
-            userCommentBuilder.append(",");
+            map.put(USER_COMMENT_PLATFORM, "Android");
             // OS Version
-            userCommentBuilder.append("OSVer=");
-            userCommentBuilder.append(String.valueOf(Build.VERSION.RELEASE));
-            userCommentBuilder.append(",");
+            map.put(USER_COMMENT_OS_VERSION, String.valueOf(Build.VERSION.RELEASE));
             // GiniVision Version
-            userCommentBuilder.append("GiniVisionVer=");
-            userCommentBuilder.append(BuildConfig.VERSION_NAME.replace(" ", ""));
-            userCommentBuilder.append(",");
-            // UUID
-            userCommentBuilder.append("UUID=");
-            userCommentBuilder.append(mUUID);
-
-            return userCommentBuilder.toString();
+            map.put(USER_COMMENT_GINI_VISION_VERSION, BuildConfig.VERSION_NAME.replace(" ", ""));
+            // Content ID
+            map.put(USER_COMMENT_CONTENT_ID, mContentId);
+            // Rotation Delta
+            map.put(USER_COMMENT_ROTATION_DELTA, String.valueOf(mRotationDelta));
+            return map;
         }
+
+        @NonNull
+        private String convertMapToCSV(@NonNull final Map<String, String> keyValueMap) {
+            final StringBuilder csvBuilder = new StringBuilder();
+            boolean isFirst = true;
+            for (final Map.Entry<String, String> keyValueEntry : keyValueMap.entrySet()) {
+                if (!isFirst) {
+                    csvBuilder.append(",");
+                }
+                isFirst = false;
+
+                csvBuilder.append(keyValueEntry.getKey())
+                        .append("=")
+                        .append(keyValueEntry.getValue());
+            }
+            return csvBuilder.toString();
+        }
+
     }
 }
