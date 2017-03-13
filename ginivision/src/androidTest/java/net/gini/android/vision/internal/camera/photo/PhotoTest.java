@@ -55,13 +55,13 @@ public class PhotoTest {
     }
 
     @Test
-    public void should_setUUIDfromUserComment_whenCreating_fromDocument() {
+    public void should_setContentIdFromUserComment_whenCreating_fromDocument() {
         // Given
         Photo photo = Photo.fromJpeg(TEST_JPEG, 0);
         // When
         Photo fromDocument = Photo.fromDocument(Document.fromPhoto(photo));
         // Then
-        assertThat(photo.getUUID()).isEqualTo(fromDocument.getUUID());
+        assertThat(photo.getContentId()).isEqualTo(fromDocument.getContentId());
     }
 
     @Test
@@ -76,50 +76,50 @@ public class PhotoTest {
     }
 
     @Test
-    public void should_generateUUID_whenCreated() {
+    public void should_generateUUID_forContentId_whenCreated() {
         // When
         Photo photo = Photo.fromJpeg(TEST_JPEG, 0);
         // Then
-        assertThat(UUID.fromString(photo.getUUID())).isNotNull();
+        assertThat(UUID.fromString(photo.getContentId())).isNotNull();
     }
 
     @Test
-    public void should_generate_uniqueUUIDs_forEachInstance() {
+    public void should_generate_uniqueContentIds_forEachInstance() {
         // Given
         Photo photo1 = Photo.fromJpeg(TEST_JPEG, 0);
         Photo photo2 = Photo.fromJpeg(TEST_JPEG, 0);
         // Then
-        assertThat(photo1.getUUID()).isNotEqualTo(photo2.getUUID());
+        assertThat(photo1.getContentId()).isNotEqualTo(photo2.getContentId());
     }
 
     @Test
-    public void should_addUUID_toExifUserComment() {
+    public void should_addContentId_toExifUserComment() {
         // Given
         Photo photo = Photo.fromJpeg(TEST_JPEG, 0);
         // Then
-        assertAbout(photo()).that(photo).hasUUIDinUserComment(photo.getUUID());
+        assertAbout(photo()).that(photo).hasContentIdInUserComment(photo.getContentId());
     }
 
     @Test
-    public void should_keepUUID_afterRotation() {
+    public void should_keepContentId_afterRotation() {
         // Given
         Photo photo = Photo.fromJpeg(TEST_JPEG, 0);
-        String uuid = photo.getUUID();
+        String contentId = photo.getContentId();
         // When
         photo.edit().rotateTo(90).apply();
         // Then
-        assertAbout(photo()).that(photo).hasUUIDinUserComment(uuid);
+        assertAbout(photo()).that(photo).hasContentIdInUserComment(contentId);
     }
 
     @Test
-    public void should_keepUUID_afterCompression() {
+    public void should_keepContentId_afterCompression() {
         // Given
         Photo photo = Photo.fromJpeg(TEST_JPEG, 0);
-        String uuid = photo.getUUID();
+        String contentId = photo.getContentId();
         // When
         photo.edit().compressBy(10).apply();
         // Then
-        assertAbout(photo()).that(photo).hasUUIDinUserComment(uuid);
+        assertAbout(photo()).that(photo).hasContentIdInUserComment(contentId);
     }
 
     @Test

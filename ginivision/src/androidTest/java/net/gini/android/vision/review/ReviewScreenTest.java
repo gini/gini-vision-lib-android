@@ -382,7 +382,7 @@ public class ReviewScreenTest {
     }
 
     @Test
-    public void should_returnDocuments_withSameUUID_inAnalyzeDocument_andProceedToAnalysis()
+    public void should_returnDocuments_withSameContentId_inAnalyzeDocument_andProceedToAnalysis()
             throws InterruptedException {
         final ReviewActivityTestStub activity = startReviewActivity(TEST_JPEG, 90);
 
@@ -412,7 +412,7 @@ public class ReviewScreenTest {
         // Allow the activity to run a little for listeners to be invoked
         Thread.sleep(PAUSE_DURATION);
 
-        assertAbout(document()).that(documentToAnalyze.get()).hasSameUUIDinUserCommentAs(
+        assertAbout(document()).that(documentToAnalyze.get()).hasSameContentIdInUserCommentAs(
                 documentToProceedWith.get());
     }
 

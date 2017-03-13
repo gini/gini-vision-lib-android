@@ -36,4 +36,6 @@ public class ExifReaderTest {
         // Then
         assertThat(value).isNull();
     }
+
+
 }

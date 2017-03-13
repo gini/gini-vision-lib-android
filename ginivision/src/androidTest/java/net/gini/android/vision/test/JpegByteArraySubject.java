@@ -30,25 +30,25 @@ class JpegByteArraySubject extends Subject<JpegByteArraySubject, byte[]> {
         super(failureStrategy, subject);
     }
 
-    void hasUUIDinUserComment(@Nullable String uuid) {
+    void hasContentIdInUserComment(@Nullable String contentId) {
         isNotNull();
-        String verb = "has in User Comment UUID";
+        String verb = "has in User Comment ContentId";
 
-        if (uuid == null) {
+        if (contentId == null) {
             fail(verb, (Object) null);
             return;
         }
 
-        final String userComment = readExifUserComment(verb, uuid, getSubject());
-        final String uuidInUserComment = getValueForKeyfromUserComment("UUID", userComment);
+        final String userComment = readExifUserComment(verb, contentId, getSubject());
+        final String contentIdInUserComment = getValueForKeyfromUserComment("ContentId", userComment);
 
-        if (uuidInUserComment == null) {
-            triggerFailureWithRawMessage(verb, uuid, "It had no UUID in User Comment");
+        if (contentIdInUserComment == null) {
+            triggerFailureWithRawMessage(verb, contentId, "It had no ContentId in User Comment");
             return;
         }
 
-        if (!uuid.equals(uuidInUserComment)) {
-            failWithBadResults(verb, uuid, "was", uuidInUserComment);
+        if (!contentId.equals(contentIdInUserComment)) {
+            failWithBadResults(verb, contentId, "was", contentIdInUserComment);
         }
     }
 
@@ -90,9 +90,9 @@ class JpegByteArraySubject extends Subject<JpegByteArraySubject, byte[]> {
         return null;
     }
 
-    void hasSameUUIDinUserCommentAs(@Nullable byte[] jpeg) {
+    void hasSameContentIdInUserCommentAs(@Nullable byte[] jpeg) {
         isNotNull();
-        String verb = "has in User Comment same UUID";
+        String verb = "has in User Comment same ContentId";
 
         if (jpeg == null) {
             fail(verb, (Object) null);
@@ -101,15 +101,15 @@ class JpegByteArraySubject extends Subject<JpegByteArraySubject, byte[]> {
 
         final String userComment = readExifUserComment(getSubject());
         final String expectedUserComment = readExifUserComment(jpeg);
-        final String subjectUuid = getValueForKeyfromUserComment("UUID", userComment);
-        final String otherUuid = getValueForKeyfromUserComment("UUID", expectedUserComment);
+        final String subjectUuid = getValueForKeyfromUserComment("ContentId", userComment);
+        final String otherUuid = getValueForKeyfromUserComment("ContentId", expectedUserComment);
 
         if (subjectUuid == null && otherUuid != null) {
-            triggerFailureWithRawMessage(verb, otherUuid, "It had no UUID in User Comment");
+            triggerFailureWithRawMessage(verb, otherUuid, "It had no ContentId in User Comment");
             return;
         }
         if (otherUuid == null) {
-            triggerFailureWithRawMessage(verb, null, "Target had no UUID in User Comment");
+            triggerFailureWithRawMessage(verb, null, "Target had no ContentId in User Comment");
             return;
         }
 

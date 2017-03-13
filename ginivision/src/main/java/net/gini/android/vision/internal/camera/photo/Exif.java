@@ -42,7 +42,7 @@ class Exif {
     static final String USER_COMMENT_PLATFORM = "Platform";
     static final String USER_COMMENT_OS_VERSION = "OSVer";
     static final String USER_COMMENT_GINI_VISION_VERSION = "GiniVisionVer";
-    static final String USER_COMMENT_UUID = "UUID";
+    static final String USER_COMMENT_CONTENT_ID = "ContentId";
     static final String USER_COMMENT_ROTATION_DELTA = "RotDeltaDeg";
 
     private final TiffOutputSet mTiffOutputSet;
@@ -329,7 +329,7 @@ class Exif {
 
         private boolean mAddMake;
         private boolean mAddModel;
-        private String mUUID;
+        private String mContentId;
         private int mRotationDelta;
 
         private UserCommentBuilder() {
@@ -346,8 +346,8 @@ class Exif {
             return this;
         }
 
-        UserCommentBuilder setUUID(final String UUID) {
-            mUUID = UUID;
+        UserCommentBuilder setContentId(final String contentId) {
+            mContentId = contentId;
             return this;
         }
 
@@ -358,8 +358,8 @@ class Exif {
 
         @NonNull
         public String build() {
-            if (mUUID == null) {
-                throw new IllegalStateException("UUID is required for the User Comment");
+            if (mContentId == null) {
+                throw new IllegalStateException("ContentId is required for the User Comment");
             }
             return createUserComment();
         }
@@ -387,8 +387,8 @@ class Exif {
             map.put(USER_COMMENT_OS_VERSION, String.valueOf(Build.VERSION.RELEASE));
             // GiniVision Version
             map.put(USER_COMMENT_GINI_VISION_VERSION, BuildConfig.VERSION_NAME.replace(" ", ""));
-            // UUID
-            map.put(USER_COMMENT_UUID, mUUID);
+            // Content ID
+            map.put(USER_COMMENT_CONTENT_ID, mContentId);
             // Rotation Delta
             map.put(USER_COMMENT_ROTATION_DELTA, String.valueOf(mRotationDelta));
             return map;

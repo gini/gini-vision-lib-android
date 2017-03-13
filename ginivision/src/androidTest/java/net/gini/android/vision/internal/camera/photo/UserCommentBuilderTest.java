@@ -24,7 +24,7 @@ public class UserCommentBuilderTest {
         Exif.UserCommentBuilder builder = Exif.userCommentBuilder();
         // When
         builder.setRotationDelta(90)
-                .setUUID("asdasd-assd-ssdsa-sdsdss")
+                .setContentId("asdasd-assd-ssdsa-sdsdss")
                 .setAddMake(true)
                 .setAddModel(true);
         String userComment = builder.build();
@@ -32,7 +32,7 @@ public class UserCommentBuilderTest {
         List<String> keys = getListOfKeys(userComment);
         assertThat(keys).containsExactly(Exif.USER_COMMENT_MAKE, Exif.USER_COMMENT_MODEL,
                 Exif.USER_COMMENT_PLATFORM, Exif.USER_COMMENT_OS_VERSION,
-                Exif.USER_COMMENT_GINI_VISION_VERSION, Exif.USER_COMMENT_UUID,
+                Exif.USER_COMMENT_GINI_VISION_VERSION, Exif.USER_COMMENT_CONTENT_ID,
                 Exif.USER_COMMENT_ROTATION_DELTA).inOrder();
     }
 
