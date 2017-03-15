@@ -38,10 +38,10 @@ ext {
 
 ext.deps = [
         // Android
-        appCompatv7: 'com.android.support:appcompat-v7:23.4.0',
-        supportv4: 'com.android.support:support-v4:23.4.0',
-        supportv13: 'com.android.support:support-v13:23.4.0',
-        supportDesign: 'com.android.support:design:23.4.0',
+        appCompatv7: 'com.android.support:appcompat-v7:25.3.0',
+        supportv4: 'com.android.support:support-v4:25.3.0',
+        supportv13: 'com.android.support:support-v13:25.3.0',
+        supportDesign: 'com.android.support:design:25.3.0',
         // Exif editing library. IMPORTANT: notify backend when the version is changed
         commonsImaging: 'org.apache.commons:commons-imaging:1.0.0gini',
         // Logging
@@ -57,7 +57,6 @@ ext.deps = [
         supportTestEspressoCore: 'com.android.support.test.espresso:espresso-core:2.2.2',
         supportTestEspressoIntents: 'com.android.support.test.espresso:espresso-intents:2.2.2',
         supportTestUiAutomator: 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2',
-        mockito: 'org.mockito:mockito-core:1.10.19',
         dexmaker: 'com.crittercism.dexmaker:dexmaker:1.4',
         dexmakerDx: 'com.crittercism.dexmaker:dexmaker-dx:1.4',
         dexmakerMockito: 'com.crittercism.dexmaker:dexmaker-mockito:1.4',
