@@ -47,7 +47,7 @@ public class SingleDocumentAnalyzer {
      */
     public void analyzeDocument(Document document, final DocumentAnalysisListener listener) {
         LOG.debug("Start analyzing document");
-        if (mAnalyzer != null) {;
+        if (mAnalyzer != null) {
             if (!mAnalyzer.isCancelled()) {
                 LOG.debug("Analysis in progress, only changing the listener");
                 setListener(listener);
@@ -162,25 +162,27 @@ public class SingleDocumentAnalyzer {
                     .onSuccessTask(new Continuation<net.gini.android.models.Document, Task<net.gini.android.models.Document>>() {
                         @Override
                         public Task<net.gini.android.models.Document> then(Task<net.gini.android.models.Document> task) throws Exception {
-                            LOG.debug("Document created");
+                            net.gini.android.models.Document giniDocument = task.getResult();
+                            LOG.debug("Document created: {}", giniDocument.getId());
                             if (isCancelled()) {
-                                LOG.debug("Analysis cancelled");
+                                LOG.debug("Analysis cancelled for document: {}", giniDocument.getId());
                                 return Task.cancelled();
                             }
-                            setGiniApiDocument(task.getResult());
-                            LOG.debug("Polling document");
+                            setGiniApiDocument(giniDocument);
+                            LOG.debug("Polling document: {}", giniDocument.getId());
                             return mDocumentTaskManager.pollDocument(getGiniApiDocument());
                         }
                     })
                     .onSuccessTask(new Continuation<net.gini.android.models.Document, Task<Map<String, SpecificExtraction>>>() {
                         @Override
                         public Task<Map<String, SpecificExtraction>> then(Task<net.gini.android.models.Document> task) throws Exception {
-                            LOG.debug("Document polling done");
+                            net.gini.android.models.Document giniDocument = task.getResult();
+                            LOG.debug("Document polling done: {}", giniDocument.getId());
                             if (isCancelled()) {
-                                LOG.debug("Analysis cancelled");
+                                LOG.debug("Analysis cancelled for document: {}", giniDocument.getId());
                                 return Task.cancelled();
                             }
-                            LOG.debug("Getting extractions");
+                            LOG.debug("Getting extractions for document: {}", giniDocument.getId());
                             return mDocumentTaskManager.getExtractions(task.getResult());
                         }
                     })
@@ -188,10 +190,10 @@ public class SingleDocumentAnalyzer {
                         @Override
                         public Map<String, SpecificExtraction> then(final Task<Map<String, SpecificExtraction>> task) throws Exception {
                             if (isCancelled()) {
-                                LOG.debug("Analysis completed with cancellation");
+                                LOG.debug("Analysis completed with cancellation for document: {}", getGiniApiDocument().getId());
                                 return null;
                             }
-                            LOG.debug("Analysis completed with {}", task.isFaulted() ? "fault" : "success");
+                            LOG.debug("Analysis completed with {} for document: {}", task.isFaulted() ? "fault" : "success", getGiniApiDocument().getId());
                             setResultTask(task);
                             publishResult();
                             return null;
