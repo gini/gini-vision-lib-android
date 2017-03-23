@@ -2,6 +2,12 @@
 Changelog
 =========
 
+2.2.0 (2017-03-22)
+==================
+
+- Added meta information to images to be able to differentiate between Review Screen uploads and Analysis Screen uploads.
+- Updated to Android Support Library version 25.3.0.
+
 2.1.0 (2017-01-30)
 ==================
 
