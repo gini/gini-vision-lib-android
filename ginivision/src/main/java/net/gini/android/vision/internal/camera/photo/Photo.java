@@ -17,6 +17,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.UUID;
 
 /**
  * @exclude
@@ -27,31 +29,68 @@ public class Photo implements Parcelable {
     private byte[] mJpeg;
     private Exif.RequiredTags mRequiredTags;
     private int mRotationForDisplay = 0;
+    private String mContentId = "";
+    private int mRotationDelta = 0;
 
     private PhotoEdit mEditor;
 
-    public static Photo fromJpeg(@NonNull byte[] jpeg, int orientation) {
-        Photo photo = new Photo();
-        photo.setJpeg(jpeg);
-        photo.setBitmapPreview(createPreview(jpeg));
-        photo.setRotationForDisplay(orientation);
-        photo.setRequiredTags();
-        photo.updateExif();
-        return photo;
+    public static Photo fromJpeg(@NonNull final byte[] jpeg, final int orientation) {
+        return new Photo(jpeg, orientation);
     }
 
-    public static Photo fromDocument(@NonNull Document document) {
-        return Photo.fromJpeg(document.getJpeg(), document.getRotationForDisplay());
+    public static Photo fromDocument(@NonNull final Document document) {
+        return new Photo(document);
     }
 
-    public static Bitmap createPreview(byte[] jpeg) {
+    private Photo(@NonNull byte[] jpeg, int orientation) {
+        mJpeg = jpeg;
+        mRotationForDisplay = orientation;
+        mBitmapPreview = createPreview();
+        mContentId = generateUUID();
+        readRequiredTags();
+        updateExif();
+    }
+
+    private Photo(@NonNull final Document document) {
+        mJpeg = document.getJpeg();
+        mRotationForDisplay = document.getRotationForDisplay();
+        mBitmapPreview = createPreview();
+        initFieldsFromExif();
+    }
+
+    private String generateUUID() {
+        return UUID.randomUUID().toString();
+    }
+
+    private void initFieldsFromExif() {
+        if (mJpeg == null) {
+            return;
+        }
+
+        readRequiredTags();
+
+        try {
+            ExifReader exifReader = new ExifReader(mJpeg);
+            String userComment = exifReader.getUserComment();
+            mContentId = exifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_CONTENT_ID, userComment);
+            mRotationDelta = Integer.parseInt(
+                    exifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_ROTATION_DELTA,
+                            userComment));
+        } catch (ExifReaderException | NumberFormatException e) {
+            // TODO log
+        }
+    }
+
+    @Nullable
+    private Bitmap createPreview() {
+        if (mJpeg == null) {
+            return null;
+        }
+
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 2;
 
-        return BitmapFactory.decodeByteArray(jpeg, 0, jpeg.length, options);
-    }
-
-    public Photo() {
+        return BitmapFactory.decodeByteArray(mJpeg, 0, mJpeg.length, options);
     }
 
     @Nullable
@@ -59,8 +98,8 @@ public class Photo implements Parcelable {
         return mBitmapPreview;
     }
 
-    public synchronized void setBitmapPreview(@NonNull Bitmap bitmap) {
-        mBitmapPreview = bitmap;
+    synchronized void updateBitmapPreview() {
+        mBitmapPreview = createPreview();
     }
 
     @Nullable
@@ -68,7 +107,7 @@ public class Photo implements Parcelable {
         return mJpeg;
     }
 
-    public synchronized void setJpeg(@NonNull byte[] jpeg) {
+    synchronized void setJpeg(@NonNull byte[] jpeg) {
         mJpeg = jpeg;
     }
 
@@ -76,17 +115,28 @@ public class Photo implements Parcelable {
         return mRotationForDisplay;
     }
 
-    public synchronized void setRotationForDisplay(int degrees) {
-        // Converts input degrees to degrees between [0,360]
+    synchronized void setRotationForDisplay(int degrees) {
+        // Converts input degrees to degrees between [0,360)
         mRotationForDisplay = ((degrees % 360) + 360) % 360;
     }
 
-    public synchronized void addRotationForDisplay(int degrees) {
-        // Converts input degrees to degrees between [0,360]
-        mRotationForDisplay = ((mRotationForDisplay + degrees % 360) + 360) % 360;
+    synchronized void updateRotationDeltaBy(int degrees) {
+        // Converts input degrees to degrees between [0,360)
+        mRotationDelta = ((mRotationDelta + degrees % 360) + 360) % 360;
     }
 
-    private synchronized void setRequiredTags() {
+    @VisibleForTesting
+    int getRotationDelta() {
+        return mRotationDelta;
+    }
+
+    @VisibleForTesting
+    @NonNull
+    String getContentId() {
+        return mContentId;
+    }
+
+    private synchronized void readRequiredTags() {
         if (mJpeg == null) {
             return;
         }
@@ -105,7 +155,7 @@ public class Photo implements Parcelable {
             boolean addMake = false;
             boolean addModel = false;
 
-            Exif.Builder exifBuilder = Exif.builder();
+            Exif.Builder exifBuilder = Exif.builder(mJpeg);
 
             if (mRequiredTags != null) {
                 exifBuilder.setRequiredTags(mRequiredTags);
@@ -113,7 +163,14 @@ public class Photo implements Parcelable {
                 addModel = mRequiredTags.model == null;
             }
 
-            exifBuilder.setUserComment(addMake, addModel);
+            String userComment = Exif.userCommentBuilder()
+                    .setAddMake(addMake)
+                    .setAddModel(addModel)
+                    .setContentId(mContentId)
+                    .setRotationDelta(mRotationDelta)
+                    .build();
+
+            exifBuilder.setUserComment(userComment);
             exifBuilder.setOrientationFromDegrees(mRotationForDisplay);
 
             mJpeg = exifBuilder.build().writeToJpeg(mJpeg);
@@ -131,7 +188,6 @@ public class Photo implements Parcelable {
         return mEditor;
     }
 
-    @VisibleForTesting
     public synchronized void saveJpegToFile(File file) {
         FileOutputStream fileOutputStream = null;
         try {
@@ -144,7 +200,8 @@ public class Photo implements Parcelable {
                 try {
                     fileOutputStream.close();
                 } catch (IOException e) {
-                    // TODO log: mLogger.error("Closing FileOutputStream failed for file {}", file.getAbsolutePath(), e);
+                    // TODO log: mLogger.error("Closing FileOutputStream failed for file {}",
+                    // file.getAbsolutePath(), e);
                 }
             }
         }
@@ -157,13 +214,15 @@ public class Photo implements Parcelable {
             outputStream = new FileOutputStream(file);
             mBitmapPreview.compress(Bitmap.CompressFormat.JPEG, 90, outputStream);
         } catch (FileNotFoundException e) {
-            // TODO log: mLogger.error("Saving preview failed to file {}", file.getAbsolutePath(), e);
+            // TODO log: mLogger.error("Saving preview failed to file {}", file.getAbsolutePath()
+            // , e);
         } finally {
             if (outputStream != null) {
                 try {
                     outputStream.close();
                 } catch (IOException e) {
-                    // TODO log: mLogger.error("Closing FileOutputStream failed for file {}", file.getAbsolutePath(), e);
+                    // TODO log: mLogger.error("Closing FileOutputStream failed for file {}",
+                    // file.getAbsolutePath(), e);
                 }
             }
         }
@@ -185,6 +244,8 @@ public class Photo implements Parcelable {
         dest.writeParcelable(token, flags);
 
         dest.writeInt(mRotationForDisplay);
+        dest.writeString(mContentId);
+        dest.writeInt(mRotationDelta);
     }
 
     public static final Parcelable.Creator<Photo> CREATOR = new Parcelable.Creator<Photo>() {
@@ -211,5 +272,43 @@ public class Photo implements Parcelable {
         cache.removeJpeg(token);
 
         mRotationForDisplay = in.readInt();
+        mContentId = in.readString();
+        mRotationDelta = in.readInt();
+        readRequiredTags();
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        final Photo photo = (Photo) o;
+
+        if (mRotationForDisplay != photo.mRotationForDisplay) return false;
+        if (mRotationDelta != photo.mRotationDelta) return false;
+        if (mBitmapPreview != null ? !mBitmapPreview.equals(photo.mBitmapPreview)
+                : photo.mBitmapPreview != null) {
+            return false;
+        }
+        if (!Arrays.equals(mJpeg, photo.mJpeg)) return false;
+        if (mRequiredTags != null ? !mRequiredTags.equals(photo.mRequiredTags)
+                : photo.mRequiredTags != null) {
+            return false;
+        }
+        if (mContentId != null ? !mContentId.equals(photo.mContentId) : photo.mContentId != null) return false;
+        return mEditor != null ? mEditor.equals(photo.mEditor) : photo.mEditor == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mBitmapPreview != null ? mBitmapPreview.hashCode() : 0;
+        result = 31 * result + Arrays.hashCode(mJpeg);
+        result = 31 * result + (mRequiredTags != null ? mRequiredTags.hashCode() : 0);
+        result = 31 * result + mRotationForDisplay;
+        result = 31 * result + (mContentId != null ? mContentId.hashCode() : 0);
+        result = 31 * result + mRotationDelta;
+        result = 31 * result + (mEditor != null ? mEditor.hashCode() : 0);
+        return result;
     }
 }
