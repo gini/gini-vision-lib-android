@@ -1,5 +1,7 @@
 ![Gini Vision Library for Android](https://www.gini.net/assets/GiniVision_Logo.png)
 
+Changed this file to trigger a build.
+
 Gini Vision Library for Android
 ===============================
 
