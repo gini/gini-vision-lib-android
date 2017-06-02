@@ -30,14 +30,14 @@ pipeline {
         sh 'echo "Analysing code"'
       }
     }
-    stage('Teardown') {
-      steps {
-        sh 'echo "Tearing down"'
-      }
-    }
     stage('Publish to Hockeyapp') {
       steps {
         sh 'echo "Publishing to Hockeyapp"'
+      }
+    }
+    stage('Teardown') {
+      steps {
+        sh 'echo "Tearing down"'
       }
     }
   }
