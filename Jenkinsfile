@@ -3,7 +3,41 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh './gradlew ginivision:clean ginivision:assembleRelease'
+        parallel(
+          "Build": {
+            sh './gradlew ginivision:clean ginivision:assembleRelease'
+            
+          },
+          "Launch Emulator": {
+            sh 'echo "Launching emulator"'
+            
+          }
+        )
+      }
+    }
+    stage('Unit Test') {
+      steps {
+        sh 'echo "Running unit tests"'
+      }
+    }
+    stage('Instrumentation Test') {
+      steps {
+        sh 'echo "Running instr tests"'
+      }
+    }
+    stage('Code Analysis') {
+      steps {
+        sh 'echo "Analysing code"'
+      }
+    }
+    stage('Teardown') {
+      steps {
+        sh 'echo "Tearing down"'
+      }
+    }
+    stage('Publish to Hockeyapp') {
+      steps {
+        sh 'echo "Publishing to Hockeyapp"'
       }
     }
   }
