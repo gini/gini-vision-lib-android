@@ -9,6 +9,7 @@ import com.google.common.truth.Subject;
 import com.google.common.truth.SubjectFactory;
 
 import net.gini.android.vision.Document;
+import net.gini.android.vision.internal.camera.photo.JpegByteArraySubject;
 
 public class DocumentSubject extends Subject<DocumentSubject, Document> {
 

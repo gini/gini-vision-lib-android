@@ -6,6 +6,7 @@ import com.google.common.truth.FailureStrategy;
 import com.google.common.truth.Subject;
 import com.google.common.truth.SubjectFactory;
 
+import net.gini.android.vision.internal.camera.photo.JpegByteArraySubject;
 import net.gini.android.vision.internal.camera.photo.Photo;
 
 public class PhotoSubject extends Subject<PhotoSubject, Photo> {
