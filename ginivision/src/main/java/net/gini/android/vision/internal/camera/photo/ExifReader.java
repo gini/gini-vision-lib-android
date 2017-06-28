@@ -25,7 +25,7 @@ class ExifReader {
     }
 
     @NonNull
-    public String getUserComment() {
+    String getUserComment() {
         try {
             final JpegImageMetadata jpegMetadata = (JpegImageMetadata) getMetadata(jpeg);
             if (jpegMetadata == null) {
@@ -34,15 +34,19 @@ class ExifReader {
 
             final TiffField userCommentField = jpegMetadata.findEXIFValue(
                     ExifTagConstants.EXIF_TAG_USER_COMMENT);
+            if (userCommentField == null) {
+                throw new ExifReaderException("No User Comment found");
+            }
 
-            try {
-                final byte[] rawUserComment = userCommentField.getByteArrayValue();
-                if (rawUserComment == null) {
-                    throw new ExifReaderException("No User Comment found");
-                }
+            final byte[] rawUserComment = userCommentField.getByteArrayValue();
+            if (rawUserComment == null) {
+                throw new ExifReaderException("No User Comment found");
+            }
+
+            if (rawUserComment.length >= 8) {
                 return new String(Arrays.copyOfRange(rawUserComment, 8, rawUserComment.length));
-            } catch (ClassCastException e) {
-                throw new ExifReaderException("Unexpected type in User Comment: " + e.getMessage(), e);
+            } else {
+                return new String(rawUserComment);
             }
         } catch (IOException | ImageReadException e) {
             throw new ExifReaderException("Could not read jpeg metadata: " + e.getMessage(), e);
@@ -50,7 +54,8 @@ class ExifReader {
     }
 
     @Nullable
-    String getValueForKeyFromUserComment(@NonNull final String key, @NonNull final String userComment) {
+    String getValueForKeyFromUserComment(@NonNull final String key,
+            @NonNull final String userComment) {
         final String[] keyValuePairs = userComment.split(",");
         for (final String keyValuePair : keyValuePairs) {
             final String[] keyAndValue = keyValuePair.split("=");
