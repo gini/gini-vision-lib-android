@@ -30,10 +30,14 @@ public class Helpers {
     }
 
     public static byte[] getTestJpeg() throws IOException {
+        return getTestJpeg("invoice.jpg");
+    }
+
+    public static byte[] getTestJpeg(String filename) throws IOException {
         AssetManager assetManager = InstrumentationRegistry.getTargetContext().getAssets();
         InputStream inputStream = null;
         try {
-            inputStream = assetManager.open("invoice.jpg");
+            inputStream = assetManager.open(filename);
             return inputStreamToByteArray(inputStream);
         } finally {
             if (inputStream != null) {
