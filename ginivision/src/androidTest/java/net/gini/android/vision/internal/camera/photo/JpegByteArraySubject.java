@@ -56,7 +56,7 @@ public class JpegByteArraySubject extends Subject<JpegByteArraySubject, byte[]> 
     @NonNull
     private String readExifUserComment(@NonNull final String verb, @NonNull final String expected, @NonNull final byte[] jpeg) {
         try {
-            ExifReader reader = new ExifReader(jpeg);
+            ExifReader reader = ExifReader.forJpeg(jpeg);
             return reader.getUserComment();
         } catch (ExifReaderException e) {
             triggerFailureWithRawMessage(verb, expected, "An error occurred: " + e.getMessage());
@@ -67,7 +67,7 @@ public class JpegByteArraySubject extends Subject<JpegByteArraySubject, byte[]> 
     @NonNull
     private String readExifUserComment(@NonNull final byte[] jpeg) {
         try {
-            ExifReader reader = new ExifReader(jpeg);
+            ExifReader reader = ExifReader.forJpeg(jpeg);
             return reader.getUserComment();
         } catch (ExifReaderException e) {
             failWithRawMessage("Could not read User Comment from <%s> due to error: %s", jpeg, e.getMessage());
