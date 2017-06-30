@@ -70,7 +70,7 @@ public class Photo implements Parcelable {
         readRequiredTags();
 
         try {
-            ExifReader exifReader = new ExifReader(mJpeg);
+            ExifReader exifReader = ExifReader.forJpeg(mJpeg);
             String userComment = exifReader.getUserComment();
             mContentId = exifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_CONTENT_ID, userComment);
             mRotationDelta = Integer.parseInt(
