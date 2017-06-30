@@ -126,13 +126,13 @@ public class Photo implements Parcelable {
     }
 
     @VisibleForTesting
-    int getRotationDelta() {
+    synchronized int getRotationDelta() {
         return mRotationDelta;
     }
 
     @VisibleForTesting
     @NonNull
-    String getContentId() {
+    synchronized String getContentId() {
         return mContentId;
     }
 
@@ -147,7 +147,7 @@ public class Photo implements Parcelable {
         }
     }
 
-    public boolean updateExif() {
+    synchronized boolean updateExif() {
         if (mJpeg == null) {
             return false;
         }
