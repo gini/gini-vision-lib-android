@@ -2,6 +2,11 @@
 Changelog
 =========
 
+2.2.1 (2017-06-30)
+==================
+
+- Fixed image meta information handling bug impacting Android 4.4 and later.
+
 2.2.0 (2017-03-22)
 ==================
 
