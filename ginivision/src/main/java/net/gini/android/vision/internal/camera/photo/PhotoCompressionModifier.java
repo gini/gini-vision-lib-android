@@ -3,6 +3,7 @@ package net.gini.android.vision.internal.camera.photo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import java.io.ByteArrayOutputStream;
 
@@ -17,6 +18,11 @@ class PhotoCompressionModifier implements PhotoModifier {
     PhotoCompressionModifier(final int quality, @NonNull final Photo photo) {
         mQuality = quality;
         mPhoto = photo;
+    }
+
+    @VisibleForTesting
+    int getQuality() {
+        return mQuality;
     }
 
     @Override

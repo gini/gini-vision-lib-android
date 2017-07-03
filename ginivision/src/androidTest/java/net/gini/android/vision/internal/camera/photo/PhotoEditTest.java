@@ -1,6 +1,7 @@
 package net.gini.android.vision.internal.camera.photo;
 
 import static com.google.common.truth.Truth.assertAbout;
+import static com.google.common.truth.Truth.assertThat;
 
 import static net.gini.android.vision.test.Helpers.getTestJpeg;
 import static net.gini.android.vision.test.PhotoSubject.photo;
@@ -63,6 +64,22 @@ public class PhotoEditTest {
     private Photo getPhoto() throws IOException {
         final byte[] jpeg = getTestJpeg();
         return Photo.fromJpeg(jpeg, 0);
+    }
+
+    @Test
+    public void should_allowOnlyOne_compressionModifier() throws Exception {
+        // Given
+        final Photo photo = getPhoto();
+        final PhotoEdit photoEdit = new PhotoEdit(photo);
+        // When
+        photoEdit.compressBy(30)
+                .compressBy(50)
+                .compressBy(100);
+        // Then
+        assertThat(photoEdit.mPhotoModifiers).hasSize(1);
+        assertThat(((PhotoCompressionModifier) photoEdit.mPhotoModifiers.get(0))
+                .getQuality()).isEqualTo(100);
+
     }
 
 }

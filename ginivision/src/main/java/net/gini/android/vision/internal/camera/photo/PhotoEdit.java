@@ -3,6 +3,7 @@ package net.gini.android.vision.internal.camera.photo;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,8 @@ import java.util.List;
 public class PhotoEdit {
 
     private final Photo mPhoto;
-    private List<PhotoModifier> mPhotoModifiers;
+    @VisibleForTesting
+    List<PhotoModifier> mPhotoModifiers;
 
     PhotoEdit(@NonNull Photo photo) {
         mPhoto = photo;
@@ -35,9 +37,20 @@ public class PhotoEdit {
 
     @NonNull
     public PhotoEdit compressBy(int quality) {
+        removeCompressionModifier();
         final PhotoCompressionModifier compressionModifier = new PhotoCompressionModifier(quality, mPhoto);
         getPhotoModifiers().add(compressionModifier);
         return this;
+    }
+
+    private void removeCompressionModifier() {
+        final List<PhotoModifier> photoModifiers = getPhotoModifiers();
+        for (final PhotoModifier photoModifier : photoModifiers) {
+            if (photoModifier.getClass() == PhotoCompressionModifier.class) {
+                photoModifiers.remove(photoModifier);
+                return;
+            }
+        }
     }
 
     public void apply() {
@@ -51,7 +64,6 @@ public class PhotoEdit {
         async.setCallback(callback);
         async.execute((Void[]) null);
     }
-
 
     private static void applyChanges(@Nullable final List<PhotoModifier> modifiers) {
         if (modifiers == null) {
