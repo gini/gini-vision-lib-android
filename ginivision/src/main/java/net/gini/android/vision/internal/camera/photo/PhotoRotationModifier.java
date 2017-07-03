@@ -20,10 +20,11 @@ class PhotoRotationModifier implements PhotoModifier {
         if (mPhoto.getJpeg() == null) {
             return;
         }
+        synchronized (mPhoto) {
+            mPhoto.updateRotationDeltaBy(mRotationDegrees - mPhoto.getRotationForDisplay());
+            mPhoto.setRotationForDisplay(mRotationDegrees);
 
-        mPhoto.updateRotationDeltaBy(mRotationDegrees - mPhoto.getRotationForDisplay());
-        mPhoto.setRotationForDisplay(mRotationDegrees);
-
-        mPhoto.updateExif();
+            mPhoto.updateExif();
+        }
     }
 }
