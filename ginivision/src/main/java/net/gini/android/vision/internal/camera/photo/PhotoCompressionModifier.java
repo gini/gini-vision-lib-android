@@ -3,6 +3,7 @@ package net.gini.android.vision.internal.camera.photo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import java.io.ByteArrayOutputStream;
 
@@ -19,21 +20,28 @@ class PhotoCompressionModifier implements PhotoModifier {
         mPhoto = photo;
     }
 
+    @VisibleForTesting
+    int getQuality() {
+        return mQuality;
+    }
+
     @Override
     public void modify() {
         if (mPhoto.getJpeg() == null) {
             return;
         }
+        synchronized (mPhoto) {
+            final Bitmap originalImage = BitmapFactory.decodeByteArray(mPhoto.getJpeg(), 0,
+                    mPhoto.getJpeg().length);
 
-        final Bitmap originalImage = BitmapFactory.decodeByteArray(mPhoto.getJpeg(), 0, mPhoto.getJpeg().length);
+            final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            originalImage.compress(Bitmap.CompressFormat.JPEG, mQuality, byteArrayOutputStream);
 
-        final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        originalImage.compress(Bitmap.CompressFormat.JPEG, mQuality, byteArrayOutputStream);
+            final byte[] jpeg = byteArrayOutputStream.toByteArray();
+            mPhoto.setJpeg(jpeg);
+            mPhoto.updateBitmapPreview();
 
-        final byte[] jpeg = byteArrayOutputStream.toByteArray();
-        mPhoto.setJpeg(jpeg);
-        mPhoto.updateBitmapPreview();
-
-        mPhoto.updateExif();
+            mPhoto.updateExif();
+        }
     }
 }

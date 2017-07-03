@@ -3,6 +3,7 @@ package net.gini.android.vision.internal.camera.photo;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,55 +14,61 @@ import java.util.List;
 public class PhotoEdit {
 
     private final Photo mPhoto;
-    private final List<PhotoModifier> mPhotoModifiers;
+    @VisibleForTesting
+    List<PhotoModifier> mPhotoModifiers;
 
     PhotoEdit(@NonNull Photo photo) {
         mPhoto = photo;
-        mPhotoModifiers = new ArrayList<>();
+    }
+
+    private List<PhotoModifier> getPhotoModifiers() {
+        if (mPhotoModifiers == null) {
+            mPhotoModifiers = new ArrayList<>();
+        }
+        return mPhotoModifiers;
     }
 
     @NonNull
     public PhotoEdit rotateTo(int degrees) {
         final PhotoRotationModifier rotationModifier = new PhotoRotationModifier(degrees, mPhoto);
-        mPhotoModifiers.add(rotationModifier);
+        getPhotoModifiers().add(rotationModifier);
         return this;
     }
 
     @NonNull
     public PhotoEdit compressBy(int quality) {
+        removeCompressionModifier();
         final PhotoCompressionModifier compressionModifier = new PhotoCompressionModifier(quality, mPhoto);
-        mPhotoModifiers.add(compressionModifier);
+        getPhotoModifiers().add(compressionModifier);
         return this;
+    }
+
+    private void removeCompressionModifier() {
+        final List<PhotoModifier> photoModifiers = getPhotoModifiers();
+        for (final PhotoModifier photoModifier : photoModifiers) {
+            if (photoModifier.getClass() == PhotoCompressionModifier.class) {
+                photoModifiers.remove(photoModifier);
+                return;
+            }
+        }
     }
 
     public void apply() {
         applyChanges(mPhotoModifiers);
-        clearModifiers();
+        mPhotoModifiers = null;
     }
 
     public void applyAsync(@NonNull final PhotoEditCallback callback) {
         final EditAsync async = new EditAsync(mPhoto, mPhotoModifiers);
-        async.setCallback(new PhotoEditCallback() {
-            @Override
-            public void onDone(@NonNull Photo photo) {
-                callback.onDone(photo);
-                clearModifiers();
-            }
-
-            @Override
-            public void onFailed() {
-                callback.onFailed();
-                clearModifiers();
-            }
-        });
+        mPhotoModifiers = null;
+        async.setCallback(callback);
         async.execute((Void[]) null);
     }
 
-    private void clearModifiers() {
-        mPhotoModifiers.clear();
-    }
-
-    private static void applyChanges(@NonNull final List<PhotoModifier> modifiers) {
+    private static void applyChanges(@Nullable final List<PhotoModifier> modifiers) {
+        if (modifiers == null) {
+            return;
+        }
         for (final PhotoModifier modifier : modifiers) {
             modifier.modify();
         }
@@ -83,7 +90,7 @@ public class PhotoEdit {
         private final List<PhotoModifier> mPhotoModifiers;
         private PhotoEditCallback mCallback = NO_OP_CALLBACK;
 
-        EditAsync(@NonNull final Photo photo, @NonNull final List<PhotoModifier> photoModifiers) {
+        EditAsync(@NonNull final Photo photo, @Nullable final List<PhotoModifier> photoModifiers) {
             mPhoto = photo;
             mPhotoModifiers = photoModifiers;
         }

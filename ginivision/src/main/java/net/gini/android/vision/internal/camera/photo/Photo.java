@@ -32,8 +32,6 @@ public class Photo implements Parcelable {
     private String mContentId = "";
     private int mRotationDelta = 0;
 
-    private PhotoEdit mEditor;
-
     public static Photo fromJpeg(@NonNull final byte[] jpeg, final int orientation) {
         return new Photo(jpeg, orientation);
     }
@@ -126,13 +124,13 @@ public class Photo implements Parcelable {
     }
 
     @VisibleForTesting
-    int getRotationDelta() {
+    synchronized int getRotationDelta() {
         return mRotationDelta;
     }
 
     @VisibleForTesting
     @NonNull
-    String getContentId() {
+    synchronized String getContentId() {
         return mContentId;
     }
 
@@ -147,7 +145,7 @@ public class Photo implements Parcelable {
         }
     }
 
-    public boolean updateExif() {
+    synchronized boolean updateExif() {
         if (mJpeg == null) {
             return false;
         }
@@ -182,10 +180,7 @@ public class Photo implements Parcelable {
     }
 
     public synchronized PhotoEdit edit() {
-        if (mEditor == null) {
-            mEditor = new PhotoEdit(this);
-        }
-        return mEditor;
+        return new PhotoEdit(this);
     }
 
     public synchronized void saveJpegToFile(File file) {
@@ -295,9 +290,7 @@ public class Photo implements Parcelable {
                 : photo.mRequiredTags != null) {
             return false;
         }
-        if (mContentId != null ? !mContentId.equals(photo.mContentId) : photo.mContentId != null) return false;
-        return mEditor != null ? mEditor.equals(photo.mEditor) : photo.mEditor == null;
-
+        return mContentId != null ? mContentId.equals(photo.mContentId) : photo.mContentId == null;
     }
 
     @Override
@@ -308,7 +301,6 @@ public class Photo implements Parcelable {
         result = 31 * result + mRotationForDisplay;
         result = 31 * result + (mContentId != null ? mContentId.hashCode() : 0);
         result = 31 * result + mRotationDelta;
-        result = 31 * result + (mEditor != null ? mEditor.hashCode() : 0);
         return result;
     }
 }
