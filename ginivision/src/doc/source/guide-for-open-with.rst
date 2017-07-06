@@ -45,7 +45,7 @@ Since the introduction of `Run Time Permissions <https://developer.android.com/t
  
 We recommend checking for the permission whenever your app receives a PDF or an image and before accessing it. If an explanation is requested by the system to be shown to the user we highly recommend providing one.
  
-Handling the case where permission is not granted is required.  We recommend showing an explanation and providing a link to your app’s *App info* page in the *Settings* app with a short guide on how to grant the permission there. 
+It is required to handle the case where the user did not grant permissions. We recommend showing an explanation and providing a link to your app’s *App info* page in the *Settings* app with a short guide on how to grant the permission there. 
  
 The Intent for opening the *App info* page can be created as follows:
 
@@ -114,7 +114,7 @@ Getting the MIME type from the Intent:
         }
     }
 
-Having the ``Uri`` the contents of the PDF or image files can be read using the ``ContentResolver``.
+Having the ``Uri``, the contents of the PDF or image files can be read using the ``ContentResolver``.
  
 Reading the PDF or image into a byte array:
 
