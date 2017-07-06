@@ -79,6 +79,27 @@
         
         
             <ul>
+<li class="toctree-l1"><a class="reference external" href="http://developer.gini.net/gini-vision-lib-android/javadoc/index.html">Javadoc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-guide-for-open-with">How to Upload PDFs and Images</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-guide-for-open-with#general-considerations">General considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-guide-for-open-with#registering-pdf-and-image-file-types">Registering PDF and image file types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="index.html#document-guide-for-open-with#documentation">Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-guide-for-open-with#reading-files-from-external-storage">Reading files from external storage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="index.html#document-guide-for-open-with#id1">Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-guide-for-open-with#handling-incoming-pdfs-and-images">Handling incoming PDFs and images</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="index.html#document-guide-for-open-with#id4">Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-guide-for-open-with#showing-a-preview-of-the-pdfs-first-page">Showing a preview of the PDF’s first page</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="index.html#document-guide-for-open-with#id5">Documentation</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="index.html#document-changelog">Changelog</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="index.html#document-changelog#id1">2.2.2 (2017-07-03)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#document-changelog#id2">2.2.1 (2017-06-30)</a></li>
@@ -104,7 +125,6 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference external" href="http://developer.gini.net/gini-vision-lib-android/javadoc/index.html">Javadoc</a></li>
 </ul>
 
         
@@ -150,6 +170,165 @@ to provide the best results when used with the Gini API.</p>
 <div class="section" id="table-of-contents">
 <h2>Table of contents<a class="headerlink" href="#table-of-contents" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
+<span id="document-guide-for-open-with"></span><div class="section" id="how-to-upload-pdfs-and-images">
+<h3>How to Upload PDFs and Images<a class="headerlink" href="#how-to-upload-pdfs-and-images" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="general-considerations">
+<h4>General considerations<a class="headerlink" href="#general-considerations" title="Permalink to this headline">¶</a></h4>
+<p>Enabling your app to open PDFs and images allows your users to open any kind of files which are identified by the OS as PDFs or images. Make sure to check the MIME type and that the file size is below an acceptable threshold (5MB for example). It is also advisable to check the first bytes of the incoming files to determine their type and allow only PDFs and known image types.</p>
+</div>
+<div class="section" id="registering-pdf-and-image-file-types">
+<h4>Registering PDF and image file types<a class="headerlink" href="#registering-pdf-and-image-file-types" title="Permalink to this headline">¶</a></h4>
+<p>Add the following intent filter to the <em>Activity</em> in your <em>AndroidManifest.xml</em> you wish to receive incoming PDFs and images:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;activity</span> <span class="na">android:name=</span><span class="s">&quot;.ui.MyActivity&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;intent-filter</span> <span class="na">android:label=</span><span class="s">&quot;@string/app_name&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">&quot;android.intent.action.VIEW&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">&quot;android.intent.action.SEND&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;category</span> <span class="na">android:name=</span><span class="s">&quot;android.intent.category.DEFAULT&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;data</span> <span class="na">android:mimeType=</span><span class="s">&quot;image/*&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;data</span> <span class="na">android:mimeType=</span><span class="s">&quot;application/pdf&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/intent-filter&gt;</span>
+<span class="nt">&lt;/activity&gt;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">We recommend adding <a class="reference external" href="https://developer.android.com/reference/android/content/Intent.html#ACTION_VIEW">ACTION_VIEW</a> to the intent filter to also allow users to send PDFs and images to your app from apps which don’t implement sharing with <a class="reference external" href="https://developer.android.com/reference/android/content/Intent.html#ACTION_SEND">ACTION_SEND</a> but enable viewing the PDF or file with other apps.</p>
+</div>
+<div class="section" id="documentation">
+<h5>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h5>
+<ul class="simple">
+<li><a class="reference external" href="https://developer.android.com/training/basics/intents/filters.html">https://developer.android.com/training/basics/intents/filters.html</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="reading-files-from-external-storage">
+<h4>Reading files from external storage<a class="headerlink" href="#reading-files-from-external-storage" title="Permalink to this headline">¶</a></h4>
+<p>Since Android 4.4 (API Level 19) the <a class="reference external" href="https://developer.android.com/reference/android/Manifest.permission.html#READ_EXTERNAL_STORAGE">READ_EXTERNAL_STORAGE</a> permission has to be declared to access files outside of the app-specific directories. Declare this permission in your <em>AndroidManifest.xml</em>:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.READ_EXTERNAL_STORAGE&quot;</span> <span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<p>Since the introduction of <a class="reference external" href="https://developer.android.com/training/permissions/requesting.html">Run Time Permissions</a> with Android 6.0 (API Level 23) your app also has to request permission from the user before accessing a PDF or an image file outside of the app-specific directories.</p>
+<p>We recommend checking for the permission whenever your app receives a PDF or an image and before accessing it. If an explanation is requested by the system to be shown to the user we highly recommend providing one.</p>
+<p>It is required to handle the case where the user did not grant permissions. We recommend showing an explanation and providing a link to your app’s <em>App info</em> page in the <em>Settings</em> app with a short guide on how to grant the permission there.</p>
+<p>The Intent for opening the <em>App info</em> page can be created as follows:</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="n">Settings</span><span class="o">.</span><span class="na">ACTION_APPLICATION_DETAILS_SETTINGS</span><span class="o">);</span>
+<span class="n">Uri</span> <span class="n">uri</span> <span class="o">=</span> <span class="n">Uri</span><span class="o">.</span><span class="na">fromParts</span><span class="o">(</span><span class="n">Uri</span><span class="o">.</span><span class="s">&quot;package&quot;</span><span class="o">,</span> <span class="n">BuildConfig</span><span class="o">.</span><span class="na">APPLICATION_ID</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+<span class="n">intent</span><span class="o">.</span><span class="na">setData</span><span class="o">(</span><span class="n">uri</span><span class="o">);</span>
+<span class="n">startActivity</span><span class="o">(</span><span class="n">intent</span><span class="o">);</span>
+</pre></div>
+</div>
+<div class="section" id="id1">
+<h5>Documentation<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h5>
+<ul class="simple">
+<li><a class="reference external" href="https://developer.android.com/training/permissions/index.html">https://developer.android.com/training/permissions/index.html</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="handling-incoming-pdfs-and-images">
+<h4>Handling incoming PDFs and images<a class="headerlink" href="#handling-incoming-pdfs-and-images" title="Permalink to this headline">¶</a></h4>
+<p>When your app is requested to handle a PDF or an image your <em>Activity</em> (declaring the intent filter we mentioned previously) is launched or resumed with an Intent having <tt class="docutils literal"><span class="pre">ACTION_VIEW</span></tt> or <tt class="docutils literal"><span class="pre">ACTION_SEND</span></tt>.</p>
+<p>Checking whether the Intent has the required action:</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">String</span> <span class="n">action</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="na">getAction</span><span class="o">();</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">Intent</span><span class="o">.</span><span class="na">ACTION_VIEW</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">action</span><span class="o">)</span> <span class="o">||</span> <span class="n">Intent</span><span class="o">.</span><span class="na">ACTION_SEND</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">action</span><span class="o">))</span> <span class="o">{</span>
+    <span class="o">...</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>The Intent will contain an <tt class="docutils literal"><span class="pre">Uri</span></tt> pointing to the PDF or image. The <tt class="docutils literal"><span class="pre">Uri</span></tt> can be in the <tt class="docutils literal"><span class="pre">data</span></tt> field or since Android 4.1 (API Level 16) it can also be in the <tt class="docutils literal"><span class="pre">clipData</span></tt> field.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">To also support <a class="reference external" href="https://developer.android.com/reference/android/content/Intent.html#ACTION_VIEW">ACTION_VIEW</a> we recommend using <tt class="docutils literal"><span class="pre">data</span></tt> and <tt class="docutils literal"><span class="pre">clipData</span></tt>. The <a class="reference external" href="https://developer.android.com/training/sharing/receive.html">Androd example</a> uses <tt class="docutils literal"><span class="pre">intent.getParcelableExtra(Intent.EXTRA_STREAM)</span></tt> to extract the <tt class="docutils literal"><span class="pre">Uri</span></tt>, but this works only with <a class="reference external" href="https://developer.android.com/reference/android/content/Intent.html#ACTION_SEND">ACTION_SEND</a>.</p>
+</div>
+<p>Getting the <tt class="docutils literal"><span class="pre">Uri</span></tt> from the Intent:</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">Uri</span> <span class="n">uri</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="na">getData</span><span class="o">();</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">uri</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">Build</span><span class="o">.</span><span class="na">VERSION</span><span class="o">.</span><span class="na">SDK_INT</span> <span class="o">&gt;=</span> <span class="n">Build</span><span class="o">.</span><span class="na">VERSION_CODES</span><span class="o">.</span><span class="na">JELLY_BEAN</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">ClipData</span> <span class="n">clipData</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="na">getClipData</span><span class="o">();</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">clipData</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">clipData</span><span class="o">.</span><span class="na">getItemCount</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">uri</span> <span class="o">=</span> <span class="n">clipData</span><span class="o">.</span><span class="na">getItemAt</span><span class="o">(</span><span class="mi">0</span><span class="o">).</span><span class="na">getUri</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>We recommend checking the MIME type of Intent. The MIME type can be in the <tt class="docutils literal"><span class="pre">type</span></tt> field or since Android 4.1 (API Level 16) it can also be in the <tt class="docutils literal"><span class="pre">clipData</span></tt> field.</p>
+<p>Getting the MIME type from the Intent:</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">mimeTypes</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+<span class="n">String</span> <span class="n">type</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="na">getType</span><span class="o">();</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">mimeType</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">mimeTypes</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">type</span><span class="o">);</span>
+<span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">Build</span><span class="o">.</span><span class="na">VERSION</span><span class="o">.</span><span class="na">SDK_INT</span> <span class="o">&gt;=</span> <span class="n">Build</span><span class="o">.</span><span class="na">VERSION_CODES</span><span class="o">.</span><span class="na">JELLY_BEAN</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">ClipData</span> <span class="n">clipData</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="na">getClipData</span><span class="o">();</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">clipData</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">ClipDescription</span> <span class="n">description</span> <span class="o">=</span> <span class="n">clipData</span><span class="o">.</span><span class="na">getDescription</span><span class="o">();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">description</span><span class="o">.</span><span class="na">getMimeTypeCount</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">type</span> <span class="o">=</span> <span class="n">description</span><span class="o">.</span><span class="na">getMimeType</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+            <span class="n">mimeTypes</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">type</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Having the <tt class="docutils literal"><span class="pre">Uri</span></tt>, the contents of the PDF or image files can be read using the <tt class="docutils literal"><span class="pre">ContentResolver</span></tt>.</p>
+<p>Reading the PDF or image into a byte array:</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="kt">byte</span><span class="o">[]</span> <span class="n">bytes</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+<span class="n">ContentResolver</span> <span class="n">contentResolver</span> <span class="o">=</span> <span class="n">activity</span><span class="o">.</span><span class="na">getContentResolver</span><span class="o">()</span>
+<span class="n">InputStream</span> <span class="n">inputStream</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+<span class="k">try</span> <span class="o">{</span>
+    <span class="n">inputStream</span> <span class="o">=</span> <span class="n">contentResolver</span><span class="o">.</span><span class="na">openInputStream</span><span class="o">(</span><span class="n">uri</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">inputStream</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// ByteStreams is a utility class from Google’s Guava library</span>
+        <span class="n">bytes</span> <span class="o">=</span> <span class="n">ByteStreams</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">(</span><span class="n">inputStream</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">inputStream</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">inputStream</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>The byte array from the example above can be directly uploaded to the Gini API for information extraction.</p>
+<div class="section" id="id4">
+<h5>Documentation<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h5>
+<ul class="simple">
+<li>Android: <a class="reference external" href="https://developer.android.com/training/sharing/receive.html">https://developer.android.com/training/sharing/receive.html</a></li>
+<li>Gini API: <a class="reference external" href="http://developer.gini.net/gini-api/html/documents.html#submitting-files">http://developer.gini.net/gini-api/html/documents.html#submitting-files</a></li>
+<li>Gini API SDK: <a class="reference external" href="http://developer.gini.net/gini-sdk-android/guides/common-tasks.html#upload-a-document">http://developer.gini.net/gini-sdk-android/guides/common-tasks.html#upload-a-document</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="showing-a-preview-of-the-pdfs-first-page">
+<h4>Showing a preview of the PDF’s first page<a class="headerlink" href="#showing-a-preview-of-the-pdfs-first-page" title="Permalink to this headline">¶</a></h4>
+<p>We recommend showing a preview of the PDF’s first page or of the image while the document is being analyzed. Rendering PDFs is possible since Android 5.0 (API Level 21). On older versions we recommend showing a placeholder image.</p>
+<p>The following code shows how to generate a preview of the PDF’s first page on Android 5.0 and newer versions:</p>
+<div class="highlight-java"><div class="highlight"><pre>Bitmap bitmap = null;
+ContentResolver contentResolver = activity.getContentResolver();
+ParcelFileDescriptor fileDescriptor = contentResolver.openFileDescriptor(uri, &quot;r&quot;);
+if (fileDescriptor != null) {
+    PdfRenderer pdfRenderer = new PdfRenderer(fileDescriptor);
+    if (pdfRenderer != null) {
+        if (pdfRenderer.getPageCount() &gt; 0) {
+            PdfRenderer.Page page = pdfRenderer.openPage(0);
+            // Set the width and height based on the desired preview size
+            // and the aspect ratio of the pdf page
+            int bitmapWidth = …;
+            int bitmapHeight =  …;
+            // Create a white bitmap to make sure that PDFs without
+            // a background color are rendered on a white background
+            int[] colors = createWhiteColorArray(bitmapWidth, bitmapHeight);
+            bitmap = Bitmap.createBitmap(colors, bitmapWidth, bitmapHeight, Bitmap.Config.ARGB_8888);
+            page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
+            page.close();
+        }
+}
+</pre></div>
+</div>
+<div class="section" id="id5">
+<h5>Documentation<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h5>
+<ul class="simple">
+<li><a class="reference external" href="https://developer.android.com/reference/android/graphics/pdf/PdfRenderer.html">https://developer.android.com/reference/android/graphics/pdf/PdfRenderer.html</a></li>
+</ul>
+</div>
+</div>
+</div>
 <span id="document-changelog"></span><div class="section" id="changelog">
 <h3>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="id1">
