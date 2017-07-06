@@ -18,9 +18,10 @@ Table of contents
 .. toctree::
    :maxdepth: 2
 
+   Javadoc <http://developer.gini.net/gini-vision-lib-android/javadoc/index.html>
+   guide-for-open-with
    changelog
    license
-   Javadoc <http://developer.gini.net/gini-vision-lib-android/javadoc/index.html>
 
 
 .. todolist::
