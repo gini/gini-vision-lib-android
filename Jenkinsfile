@@ -15,10 +15,11 @@ pipeline {
       steps {
         sh '$ANDROID_HOME/emulator/emulator -ports 5554,5555 -prop persist.sys.language=en -prop persist.sys.country=US -avd mobilecd_android-19_google_apis-x86_512M -no-snapshot-load -no-snapshot-save -camera-back emulated &'
         sh 'scripts/wait-for-emulator-to-boot emulator-5554'
-        sh './gradlew ginivision:uninstallDebugAndroidTest ginivision:connectedDebugAndroidTest ginivision:uninstallDebugAndroidTest'
+        sh './gradlew ginivision:uninstallDebugAndroidTest ginivision:connectedDebugAndroidTest'
       }
       post {
         always {
+          sh './gradlew ginivision:uninstallDebugAndroidTest'
           sh 'adb -s emulator-5554 emu kill || true'
         }
       }
