@@ -18,7 +18,7 @@ pipeline {
     }
     stage('Unit Tests') {
       steps {
-        sh './gradlew ginivision:check'
+        sh './gradlew ginivision:test'
       }
     }
     stage('Instrumentation Tests') {
