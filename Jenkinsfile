@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh './gradlew ginivision:clean ginivision:assembleRelease'
+        sh './gradlew ginivision:clean ginivision:assembleDebug'
       }
     }
     stage("Launch Emulator") {
