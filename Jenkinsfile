@@ -16,12 +16,12 @@ pipeline {
         )
       }
     }
-    stage('Unit Test') {
+    stage('Unit Tests') {
       steps {
-        sh 'echo "Running unit tests"'
+        sh './gradlew ginivision:check'
       }
     }
-    stage('Instrumentation Test') {
+    stage('Instrumentation Tests') {
       steps {
         sh 'echo "Running instr tests"'
       }
