@@ -33,7 +33,7 @@ pipeline {
     }
     stage('Teardown') {
       steps {
-        sh 'adb -s emulator-5554 emu kill'
+        sh 'adb -s emulator-5554 emu kill || true'
       }
     }
   }
