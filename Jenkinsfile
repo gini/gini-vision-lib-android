@@ -19,7 +19,7 @@ pipeline {
     }
     stage('Instrumentation Tests') {
       steps {
-        sh 'echo "Running instr tests"'
+        sh './gradlew ginivision:connectedDebugAndroidTest'
       }
     }
     stage('Code Analysis') {
