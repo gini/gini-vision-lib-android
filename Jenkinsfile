@@ -50,5 +50,12 @@ pipeline {
         pmd canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'ginivision/build/reports/pmd/pmd.xml', unHealthy: ''
       }
     }
+    stage('Archive Artifacts') {
+      steps {
+         sh 'cd ginivision/build/reports/jacoco/jacocoTestDebugUnitTestReport && zip -r testCoverage.zip html && cd -'
+         sh 'cd ginivision/build/reports && zip -r javadocCoverage.zip javadoc-coverage && cd -'
+         archiveArtifacts 'ginivision/build/outputs/aar/*.aar,ginivision/build/reports/jacoco/jacocoTestDebugUnitTestReport/testCoverage.zip,ginivision/build/reports/javadocCoverage.zip'
+      }
+    }
   }
 }
