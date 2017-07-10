@@ -10,6 +10,11 @@ pipeline {
       steps {
         sh './gradlew ginivision:test'
       }
+      post {
+        always {
+          publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'Unit Test Results', reportTitles: ''])
+        }
+      }
     }
     stage('Instrumentation Tests') {
       steps {
