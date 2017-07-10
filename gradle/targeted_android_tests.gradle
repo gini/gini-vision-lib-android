@@ -8,7 +8,7 @@ Required parameters:
     testTarget - id of the device or emulator to run the tests on
     packageName - package name of the library
 """
-        dependsOn assembleAndroidTest
+        dependsOn "assemble${variant.name.capitalize()}AndroidTest"
         doLast {
             if (!project.hasProperty("packageName")) {
                 throw new IllegalStateException("Missing property packageName")

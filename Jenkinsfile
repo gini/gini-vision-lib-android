@@ -24,7 +24,7 @@ pipeline {
       }
       post {
         always {
-          junit allowEmptyResults: true, testResults: 'ginivision/build/reports/androidTests/targeted/ginivisiondebugTestResults.xml'
+          junit allowEmptyResults: true, testResults: 'ginivision/build/outputs/androidTest-results/targeted/*.xml'
           sh 'adb -s emulator-5554 emu kill || true'
         }
       }
