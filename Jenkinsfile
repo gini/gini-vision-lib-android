@@ -29,9 +29,10 @@ pipeline {
         }
       }
     }
-    stage('Code Analysis') {
+    stage('Code Coverage') {
       steps {
-        sh 'echo "Analysing code"'
+        sh './gradlew ginivision:unifyTargetedTestCoverage ginivision:jacocoTestDebugUnitTestReport'
+        publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision/build/reports/jacoco/jacocoTestDebugUnitTestReport/html', reportFiles: 'index.html', reportName: 'Code Coverage Report', reportTitles: ''])
       }
     }
   }
