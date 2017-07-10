@@ -19,7 +19,7 @@ pipeline {
       }
       post {
         always {
-          sh './gradlew ginivision:uninstallDebugAndroidTest'
+          junit allowEmptyResults: true, testResults: 'ginivision/build/reports/androidTests/targeted/ginivisiondebugTestResults.xml'
           sh 'adb -s emulator-5554 emu kill || true'
         }
       }
