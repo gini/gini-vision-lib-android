@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -e
-# set -x
+set -x
 
 module=$1
 variant=$2
