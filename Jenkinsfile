@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh './gradlew ginivision:clean ginivision:assembleDebug'
+        sh './gradlew ginivision:clean ginivision:assembleDebug ginivision:assembleRelease'
       }
     }
     stage('Unit Tests') {
