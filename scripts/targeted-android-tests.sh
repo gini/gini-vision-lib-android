@@ -27,7 +27,7 @@ mkdir -p ${results_dir}
 adb -s ${target} shell am instrument -w -r -e package ${package} -e debug false -e coverage true -e coverageFile ${on_device_coverage_file} ${package}.test/android.support.test.runner.AndroidJUnitRunner > ${test_results}
 
 mkdir -p ${coverage_dir}
-adb -s emulator-5556 pull ${on_device_coverage_file} ${coverage_results}
+adb -s ${target} pull ${on_device_coverage_file} ${coverage_results}
 
 adb -s ${target} shell pm uninstall ${package}.test || true
 
