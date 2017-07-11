@@ -51,6 +51,18 @@ pipeline {
         pmd canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'ginivision/build/reports/pmd/pmd.xml', unHealthy: ''
       }
     }
+    stage('Build Documentation') {
+      steps {
+        sh 'scripts/build-sphinx-doc.sh'
+        publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision/src/doc/build/html', reportFiles: 'index.html', reportName: 'Documentation', reportTitles: ''])
+      }
+    }
+    stage('Build Javadoc') {
+      steps {
+        sh './gradlew ginivision:generateJavadoc'
+        publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision/build/docs/javadoc', reportFiles: 'index.html', reportName: 'Javadoc', reportTitles: ''])
+      }
+    }
     stage('Archive Artifacts') {
       steps {
          sh 'cd ginivision/build/reports/jacoco/jacocoTestDebugUnitTestReport && zip -r testCoverage.zip html && cd -'
