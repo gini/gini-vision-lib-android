@@ -7,7 +7,7 @@ avd_name=$1
 used_ports=$(adb devices | tail -n +2 | cut -sf 1 | grep emulator | sed s/emulator-//)
 
 for used_port in $used_ports; do
-    running_avd_name=$(./emulator-avd-name.sh "$used_port")
+    running_avd_name=$(scripts/emulator-avd-name.sh "$used_port")
     if [ "$running_avd_name" = "$avd_name" ]; then
         echo "$used_port"
         exit 0
