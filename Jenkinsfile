@@ -13,9 +13,6 @@ pipeline {
                     echo "${env.CHANGE_TARGET}"
                     echo "${env.BUILD_NUMBER}"
                     echo "${env.BUILD_TAG}"
-                    echo "${env.JOB_NAME}"
-                    echo "${env.JOB_BASE_NAME}"
-                    echo "${env.BUILD_DISPLAY_NAME}"
                 }
             }
         }
