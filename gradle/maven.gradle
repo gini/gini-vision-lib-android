@@ -29,7 +29,7 @@ uploadArchives {
             }
 
             if (project.hasProperty('mavenSnapshotsRepoUrl')) {
-                snapshotRepository(url: mavenSnapshotsRepoUrl) {
+                repository(url: mavenSnapshotsRepoUrl) {
                     authentication(
                             userName: project.hasProperty('repoUser') ? repoUser : "invalidUserName",
                             password: project.hasProperty('repoPassword') ? repoPassword : "invalidPassword"
