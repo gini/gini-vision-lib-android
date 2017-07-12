@@ -50,8 +50,8 @@ uploadArchives {
             if (project.hasProperty('mavenOpenRepoUrl')) {
                 repository(url: mavenOpenRepoUrl) {
                     authentication(
-                            userName: project.hasProperty('externalRepoUser') ? externalRepoUser : 'invalidUserName',
-                            password: project.hasProperty('externalRepoPassword') ? externalRepoPassword : 'invalidPassword'
+                            userName: project.hasProperty('repoUser') ? externalRepoUser : 'invalidUserName',
+                            password: project.hasProperty('repoPassword') ? externalRepoPassword : 'invalidPassword'
                     )
                 }
             }
