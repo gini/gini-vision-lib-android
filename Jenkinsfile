@@ -118,7 +118,7 @@ pipeline {
             steps {
                 // sh './gradlew ginivision:uploadArchives -PbuildNumber=$BUILD_NUMBER -PmavenOpenRepoUrl=https://repo.gini.net/nexus/content/repositories/open -PexternalRepoUser=MAVEN_NEXUS_USR -PexternalRepoPassword=MAVEN_NEXUS_PSW'
                 // Will be removed
-                sh './gradlew ginivision:uploadArchives -PbuildNumber=$BUILD_NUMBER -PmavenSnapshotsRepoUrl=https://repo.gini.net/nexus/content/repositories/snapshots -PrepoUser=$MAVEN_NEXUS_USR -PrepoPassword=$MAVEN_NEXUS_PSW --stacktrace'
+                sh './gradlew ginivision:uploadArchives -PbuildNumber=$BUILD_NUMBER -PmavenSnapshotsRepoUrl=https://repo.gini.net/nexus/content/repositories/snapshots -PrepoUser=$NEXUS_MAVEN_USR -PrepoPassword=$NEXUS_MAVEN_PSW --stacktrace'
                 sh 'scripts/release-javadoc.sh'
                 sh 'scripts/release-doc.sh'
             }
