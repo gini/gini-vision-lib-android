@@ -11,10 +11,6 @@ pipeline {
             }
         }
         stage('Unit Tests') {
-            // Disabling until release stage is done
-            when {
-                environment name: 'FOO', value: 'bar'
-            }
             steps {
                 sh './gradlew ginivision:test'
             }
@@ -25,10 +21,6 @@ pipeline {
             }
         }
         stage('Instrumentation Tests') {
-            // Disabling until release stage is done
-            when {
-                environment name: 'FOO', value: 'bar'
-            }
             steps {
                 sh 'scripts/start-emulator.sh mobilecd_android-25_google_apis-x86_512M -prop persist.sys.language=en -prop persist.sys.country=US -no-snapshot-load -no-snapshot-save -camera-back emulated > emulator_port'
                 sh 'emulator_port=$(cat emulator_port) && scripts/wait-for-emulator-to-boot.sh emulator-$emulator_port 20'
@@ -43,30 +35,18 @@ pipeline {
             }
         }
         stage('Code Coverage') {
-            // Disabling until release stage is done
-            when {
-                environment name: 'FOO', value: 'bar'
-            }
             steps {
                 sh './gradlew ginivision:unifyTargetedTestCoverage ginivision:jacocoTestDebugUnitTestReport'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision/build/reports/jacoco/jacocoTestDebugUnitTestReport/html', reportFiles: 'index.html', reportName: 'Code Coverage Report', reportTitles: ''])
             }
         }
         stage('Javadoc Coverage') {
-            // Disabling until release stage is done
-            when {
-                environment name: 'FOO', value: 'bar'
-            }
             steps {
                 sh './gradlew ginivision:generateJavadocCoverage'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision/build/reports/javadoc-coverage', reportFiles: 'index.html', reportName: 'Javadoc Coverage Report', reportTitles: ''])
             }
         }
         stage('Code Analysis') {
-            // Disabling until release stage is done
-            when {
-                environment name: 'FOO', value: 'bar'
-            }
             steps {
                 sh './gradlew ginivision:lint ginivision:checkstyle ginivision:findbugs ginivision:pmd'
                 androidLint canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'ginivision/build/reports/lint-results.xml', unHealthy: ''
@@ -88,10 +68,6 @@ pipeline {
             }
         }
         stage('Archive Artifacts') {
-            // Disabling until release stage is done
-            when {
-                environment name: 'FOO', value: 'bar'
-            }
             steps {
                 sh 'cd ginivision/build/reports/jacoco/jacocoTestDebugUnitTestReport && zip -r testCoverage.zip html && cd -'
                 sh 'cd ginivision/build/reports && zip -r javadocCoverage.zip javadoc-coverage && cd -'
@@ -100,8 +76,7 @@ pipeline {
         }
         stage('Release') {
             when {
-                // Will be changed to 'master'
-                branch 'release-pipeline'
+                branch 'master'
                 expression {
                     boolean publish = false
                     try {
@@ -116,7 +91,7 @@ pipeline {
                 }
             }
             steps {
-                //sh './gradlew ginivision:uploadArchives -PbuildNumber=$BUILD_NUMBER -PmavenOpenRepoUrl=https://repo.gini.net/nexus/content/repositories/open -PrepoUser=$NEXUS_MAVEN_USR -PrepoPassword=$NEXUS_MAVEN_PSW'
+                sh './gradlew ginivision:uploadArchives -PbuildNumber=$BUILD_NUMBER -PmavenOpenRepoUrl=https://repo.gini.net/nexus/content/repositories/open -PrepoUser=$NEXUS_MAVEN_USR -PrepoPassword=$NEXUS_MAVEN_PSW'
                 sh 'scripts/release-javadoc.sh $GIT_USR $GIT_PSW'
                 sh 'scripts/release-doc.sh $GIT_USR $GIT_PSW'
             }
