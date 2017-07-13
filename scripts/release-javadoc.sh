@@ -7,8 +7,11 @@
 set -e
 #set -x
 
+git_user=$1
+git_password=$2
+
 rm -rf gh-pages
-git clone -b gh-pages git@github.com:gini/gini-vision-lib-android.git gh-pages
+git clone -b gh-pages https://"$git_user":"$git_password"@github.com/gini/gini-vision-lib-android.git gh-pages
 
 rm -rf gh-pages/javadoc
 cp -a ginivision/build/docs/javadoc gh-pages/
