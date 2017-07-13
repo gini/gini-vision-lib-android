@@ -117,7 +117,6 @@ pipeline {
             }
             steps {
                 //sh './gradlew ginivision:uploadArchives -PbuildNumber=$BUILD_NUMBER -PmavenOpenRepoUrl=https://repo.gini.net/nexus/content/repositories/open -PrepoUser=$NEXUS_MAVEN_USR -PrepoPassword=$NEXUS_MAVEN_PSW'
-                git branch: 'gh-pages', changelog: false, credentialsId: 'github', poll: false, url: 'https://github.com/gini/gini-vision-lib-android.git'
                 sh 'scripts/release-javadoc.sh $GIT_USR $GIT_PSW'
                 sh 'scripts/release-doc.sh $GIT_USR $GIT_PSW'
             }
