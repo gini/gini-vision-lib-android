@@ -27,7 +27,7 @@ uploadArchives {
                     url 'https://www.gini.net/'
                 }
             }
-            
+
             if (project.hasProperty('mavenSnapshotsRepoUrl')) {
                 repository(url: mavenSnapshotsRepoUrl) {
                     authentication(
