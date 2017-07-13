@@ -1,8 +1,7 @@
 pipeline {
     agent any
     environment {
-        // Will be changed to 'external-nexus-maven-repo-credentials'
-        NEXUS_MAVEN = credentials('internal-nexus-maven-repo-credentials')
+        NEXUS_MAVEN = credentials('external-nexus-maven-repo-credentials')
     }
     stages {
         stage('Build') {
@@ -116,9 +115,7 @@ pipeline {
                 }
             }
             steps {
-                // sh './gradlew ginivision:uploadArchives -PbuildNumber=$BUILD_NUMBER -PmavenOpenRepoUrl=https://repo.gini.net/nexus/content/repositories/open -PexternalRepoUser=MAVEN_NEXUS_USR -PexternalRepoPassword=MAVEN_NEXUS_PSW'
-                // Will be removed
-                sh './gradlew ginivision:uploadArchives -PbuildNumber=$BUILD_NUMBER -PmavenOpenRepoUrl=https://repo.i.gini.net/nexus/content/repositories/releases -PrepoUser=$NEXUS_MAVEN_USR -PrepoPassword=$NEXUS_MAVEN_PSW --stacktrace'
+                sh './gradlew ginivision:uploadArchives -PbuildNumber=$BUILD_NUMBER -PmavenOpenRepoUrl=https://repo.gini.net/nexus/content/repositories/open -PexternalRepoUser=MAVEN_NEXUS_USR -PexternalRepoPassword=MAVEN_NEXUS_PSW'
                 sh 'scripts/release-javadoc.sh'
                 sh 'scripts/release-doc.sh'
             }
