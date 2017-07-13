@@ -28,6 +28,10 @@ uploadArchives {
                 }
             }
 
+            println "Repo user credentials:"
+            println "   user: " + project.hasProperty('repoUser') ? repoUser : 'invalidUserName'
+            println "   password: " + project.hasProperty('repoPassword') ? repoPassword : 'invalidPassword'
+
             if (project.hasProperty('mavenSnapshotsRepoUrl')) {
                 repository(url: mavenSnapshotsRepoUrl) {
                     authentication(
