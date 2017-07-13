@@ -115,7 +115,7 @@ pipeline {
                 }
             }
             steps {
-                sh './gradlew ginivision:uploadArchives -PbuildNumber=$BUILD_NUMBER -PmavenOpenRepoUrl=https://repo.gini.net/nexus/content/repositories/open -PrepoUser=$NEXUS_MAVEN_USR -PrepoPassword=$NEXUS_MAVEN_PSW || true'
+                //sh './gradlew ginivision:uploadArchives -PbuildNumber=$BUILD_NUMBER -PmavenOpenRepoUrl=https://repo.gini.net/nexus/content/repositories/open -PrepoUser=$NEXUS_MAVEN_USR -PrepoPassword=$NEXUS_MAVEN_PSW'
                 sh 'scripts/release-javadoc.sh'
                 sh 'scripts/release-doc.sh'
             }
