@@ -142,13 +142,17 @@ pipeline {
             }
         }
         stage('Build Example Apps') {
-            sh './gradlew screenapiexample::clean screenapiexample::insertClientCredentials screenapiexample::assembleRelease -PbuildNumber=$BUILD_NUMBER -PreleaseKeystoreFile=screen_api_example.jks -PreleaseKeystorePassword="$SCREEN_API_EXAMPLE_APP_KEYSTORE_PSW" -PreleaseKeyAlias=screen_api_example -PreleaseKeyPassword="$SCREEN_API_EXAMPLE_APP_KEY_PSW" -PclientId=$CLIENT_ID -PclientSecret=$CLIENT_SECRET'
-            sh './gradlew componentapiexample::clean componentapiexample::insertClientCredentials componentapiexample::assembleRelease -PbuildNumber=$BUILD_NUMBER -PreleaseKeystoreFile=component_api_example.jks -PreleaseKeystorePassword="$COMPONENT_API_EXAMPLE_APP_KEYSTORE_PSW" -PreleaseKeyAlias=component_api_example -PreleaseKeyPassword="$COMPONENT_API_EXAMPLE_APP_KEY_PSW" -PclientId=$CLIENT_ID -PclientSecret=$CLIENT_SECRET'
-            archiveArtifacts 'screenapiexample/build/outputs/apk/screenapiexample-release.apk,componentapiexample/build/outputs/apk/componentapiexample-release.apk,screenapiexample/build/outputs/mapping/release/mapping.txt,componentapiexample/build/outputs/mapping/release/mapping.txt'
+            steps {
+                sh './gradlew screenapiexample::clean screenapiexample::insertClientCredentials screenapiexample::assembleRelease -PbuildNumber=$BUILD_NUMBER -PreleaseKeystoreFile=screen_api_example.jks -PreleaseKeystorePassword="$SCREEN_API_EXAMPLE_APP_KEYSTORE_PSW" -PreleaseKeyAlias=screen_api_example -PreleaseKeyPassword="$SCREEN_API_EXAMPLE_APP_KEY_PSW" -PclientId=$CLIENT_ID -PclientSecret=$CLIENT_SECRET'
+                sh './gradlew componentapiexample::clean componentapiexample::insertClientCredentials componentapiexample::assembleRelease -PbuildNumber=$BUILD_NUMBER -PreleaseKeystoreFile=component_api_example.jks -PreleaseKeystorePassword="$COMPONENT_API_EXAMPLE_APP_KEYSTORE_PSW" -PreleaseKeyAlias=component_api_example -PreleaseKeyPassword="$COMPONENT_API_EXAMPLE_APP_KEY_PSW" -PclientId=$CLIENT_ID -PclientSecret=$CLIENT_SECRET'
+                archiveArtifacts 'screenapiexample/build/outputs/apk/screenapiexample-release.apk,componentapiexample/build/outputs/apk/componentapiexample-release.apk,screenapiexample/build/outputs/mapping/release/mapping.txt,componentapiexample/build/outputs/mapping/release/mapping.txt'
+            }
         }
         stage('Upload Example Apps to Hockeyapp') {
-            step([$class: 'HockeyappRecorder', applications: [[apiToken: SCREEN_API_EXAMPLE_APP_HOCKEYAPP_API_TOKEN, downloadAllowed: true, dsymPath: 'screenapiexample/build/outputs/mapping/release/mapping.txt', filePath: 'screenapiexample/build/outputs/apk/screenapiexample-release.apk', mandatory: false, notifyTeam: false, releaseNotesMethod: [$class: 'ChangelogReleaseNotes'], uploadMethod: [$class: 'AppCreation', publicPage: false]]], debugMode: false, failGracefully: false])
-            step([$class: 'HockeyappRecorder', applications: [[apiToken: COMPONENT_API_EXAMPLE_APP_HOCKEYAPP_API_TOKEN, downloadAllowed: true, dsymPath: 'componentapiexample/build/outputs/mapping/release/mapping.txt', filePath: 'componentapiexample/build/outputs/apk/componentapiexample-release.apk', mandatory: false, notifyTeam: false, releaseNotesMethod: [$class: 'ChangelogReleaseNotes'], uploadMethod: [$class: 'AppCreation', publicPage: false]]], debugMode: false, failGracefully: false])
+            steps {
+                step([$class: 'HockeyappRecorder', applications: [[apiToken: SCREEN_API_EXAMPLE_APP_HOCKEYAPP_API_TOKEN, downloadAllowed: true, dsymPath: 'screenapiexample/build/outputs/mapping/release/mapping.txt', filePath: 'screenapiexample/build/outputs/apk/screenapiexample-release.apk', mandatory: false, notifyTeam: false, releaseNotesMethod: [$class: 'ChangelogReleaseNotes'], uploadMethod: [$class: 'AppCreation', publicPage: false]]], debugMode: false, failGracefully: false])
+                step([$class: 'HockeyappRecorder', applications: [[apiToken: COMPONENT_API_EXAMPLE_APP_HOCKEYAPP_API_TOKEN, downloadAllowed: true, dsymPath: 'componentapiexample/build/outputs/mapping/release/mapping.txt', filePath: 'componentapiexample/build/outputs/apk/componentapiexample-release.apk', mandatory: false, notifyTeam: false, releaseNotesMethod: [$class: 'ChangelogReleaseNotes'], uploadMethod: [$class: 'AppCreation', publicPage: false]]], debugMode: false, failGracefully: false])
+            }
         }
     }
 }
