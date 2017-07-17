@@ -1,5 +1,9 @@
 pipeline {
     agent any
+    environment {
+        NEXUS_MAVEN = credentials('external-nexus-maven-repo-credentials')
+        GIT = credentials('github')
+    }
     stages {
         stage('Build') {
             steps {
@@ -68,6 +72,28 @@ pipeline {
                 sh 'cd ginivision/build/reports/jacoco/jacocoTestDebugUnitTestReport && zip -r testCoverage.zip html && cd -'
                 sh 'cd ginivision/build/reports && zip -r javadocCoverage.zip javadoc-coverage && cd -'
                 archiveArtifacts 'ginivision/build/outputs/aar/*.aar,ginivision/build/reports/jacoco/jacocoTestDebugUnitTestReport/testCoverage.zip,ginivision/build/reports/javadocCoverage.zip'
+            }
+        }
+        stage('Release') {
+            when {
+                branch 'master'
+                expression {
+                    boolean publish = false
+                    try {
+                        def version = sh(returnStdout: true, script: 'cat gradle.properties | grep version= | sed s/version=//').trim()
+                        def sha = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
+                        input "Release ${version} (${env.BUILD_NUMBER}) from branch ${env.BRANCH_NAME} commit ${sha}?"
+                        publish = true
+                    } catch (final ignore) {
+                        publish = false
+                    }
+                    return publish
+                }
+            }
+            steps {
+                sh './gradlew ginivision:uploadArchives -PbuildNumber=$BUILD_NUMBER -PmavenOpenRepoUrl=https://repo.gini.net/nexus/content/repositories/open -PrepoUser=$NEXUS_MAVEN_USR -PrepoPassword=$NEXUS_MAVEN_PSW'
+                sh 'scripts/release-javadoc.sh $GIT_USR $GIT_PSW'
+                sh 'scripts/release-doc.sh $GIT_USR $GIT_PSW'
             }
         }
     }
