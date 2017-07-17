@@ -1,0 +1,14 @@
+configurations {
+    automatorLogConverter
+}
+
+dependencies {
+    automatorLogConverter 'de.jodamob.android:automator-log-converter:1.5.0'
+}
+
+task getAutomatorLogConverter(type: Copy) {
+    group "other"
+    description "Copies the jar of the automator log converter to the module's build/tmp/automatorLogConverter folder."
+    from configurations.automatorLogConverter
+    into 'build/tmp/automatorLogConverter/'
+}

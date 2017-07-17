@@ -1,0 +1,25 @@
+apply from: rootProject.file('gradle/automator_log_converter.gradle')
+
+android.libraryVariants.all { variant ->
+    task("targeted${variant.name.capitalize()}AndroidTest") {
+        group "verification"
+        description """Runs library connected tests on a targeted device or emulator for the ${variant.name} build.
+Required parameters:
+    testTarget - id of the device or emulator to run the tests on
+    packageName - package name of the library
+"""
+        dependsOn "assemble${variant.name.capitalize()}AndroidTest"
+        doLast {
+            if (!project.hasProperty("packageName")) {
+                throw new IllegalStateException("Missing property packageName")
+            }
+            if (!project.hasProperty("testTarget")) {
+                throw new IllegalStateException("Missing property testTarget")
+            }
+            exec {
+                workingDir "${rootProject.projectDir}"
+                commandLine "scripts/targeted-android-tests.sh", "${module.name}", "${variant.name}", "${packageName}", "${testTarget}"
+            }
+        }
+    }
+}
