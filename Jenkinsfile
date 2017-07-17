@@ -1,6 +1,7 @@
 pipeline {
     agent any
     environment {
+        PATH = "$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:/usr/local/bin/:$PATH"
         NEXUS_MAVEN = credentials('external-nexus-maven-repo-credentials')
         GIT = credentials('github')
         COMPONENT_API_EXAMPLE_APP_KEYSTORE_PSW = credentials('component-api-example-app-release-keystore-password')
