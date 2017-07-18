@@ -1,0 +1,60 @@
+ext.gitBranch = { ->
+    try {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'describe', '--all', '--exact-match', 'HEAD'
+            standardOutput = stdout
+        }
+        return stdout.toString().trim()
+                .replace("heads/","")
+                .replace("remotes/","")
+                .replace("tags/","")
+                .replace("origin/","")
+    }
+    catch (ignored) {
+        return null;
+    }
+}
+
+ext.gitHash = { ->
+    try {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'rev-parse', '--short', 'HEAD'
+            standardOutput = stdout
+        }
+        return stdout.toString().trim()
+    }
+    catch (ignored) {
+        return null;
+    }
+}
+
+ext.gitCommitsCount = { ->
+    try {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'rev-list', '--exclude=refs/remotes/origin/pr/*',
+                    '--first-parent', '--count', '--all'
+            standardOutput = stdout
+        }
+        return Integer.parseInt(stdout.toString().trim())
+    }
+    catch (ignored) {
+        return -1;
+    }
+}
+
+ext.gitDescribe = { ->
+    try {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'describe'
+            standardOutput = stdout
+        }
+        return stdout.toString().trim()
+    }
+    catch (ignored) {
+        return null;
+    }
+}
