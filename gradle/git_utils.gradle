@@ -34,7 +34,8 @@ ext.gitCommitsCount = { ->
     try {
         def stdout = new ByteArrayOutputStream()
         exec {
-            commandLine 'git', 'rev-list', '--first-parent', '--count', '--all'
+            commandLine 'git', 'rev-list', '--exclude=refs/remotes/origin/pr/*',
+                    '--first-parent', '--count', '--all'
             standardOutput = stdout
         }
         return Integer.parseInt(stdout.toString().trim())
