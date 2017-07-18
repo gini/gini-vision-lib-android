@@ -92,11 +92,14 @@ pipeline {
             when {
                 branch 'master'
                 expression {
+                    def tag = sh(returnStdout: true, script: 'git tag --contains $(git rev-parse HEAD)').trim()
+                    return !tag.isEmpty()
+                }
+                expression {
                     boolean publish = false
                     try {
-                        def version = sh(returnStdout: true, script: 'cat gradle.properties | grep version= | sed s/version=//').trim()
-                        def sha = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
-                        input "Release ${version} (${env.BUILD_NUMBER}) from branch ${env.BRANCH_NAME} commit ${sha}?"
+                        def version = sh(returnStdout: true, script: './gradlew -q printLibraryVersion').trim()
+                        input "Release ${version} from branch ${env.BRANCH_NAME} commit ${sha}?"
                         publish = true
                     } catch (final ignore) {
                         publish = false

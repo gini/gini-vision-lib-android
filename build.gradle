@@ -29,13 +29,20 @@ task clean(type: Delete) {
 
 apply from: rootProject.file('gradle/git_utils.gradle')
 
+def libVersionCode = gitCommitsCount()
+def libVersionName = "${gitDescribe()} (${libVersionCode})"
+
+task printLibraryVersion {
+    println "${libVersionName}"
+}
+
 ext {
     compileSdkVersion = 25
     buildToolsVersion = "25.0.2"
     minSdkVersion = 14
     targetSdkVersion = 25
-    versionCode = gitCommitsCount()
-    versionName = "${gitDescribe()} (${gitCommitsCount()})"
+    versionCode = libVersionCode
+    versionName = libVersionName
 }
 
 ext.deps = [
