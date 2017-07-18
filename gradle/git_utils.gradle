@@ -2,10 +2,10 @@ ext.gitBranch = { ->
     try {
         def stdout = new ByteArrayOutputStream()
         exec {
-            commandLine 'git', 'rev-parse', '--abbrev-ref', 'HEAD'
+            commandLine 'git', 'describe', '--all', '--exact-match', 'HEAD'
             standardOutput = stdout
         }
-        return stdout.toString().trim()
+        return stdout.toString().trim().replace("heads/","")
     }
     catch (ignored) {
         return null;
