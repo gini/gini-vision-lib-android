@@ -35,7 +35,7 @@ ext {
     minSdkVersion = 14
     targetSdkVersion = 25
     versionCode = gitCommitsCount()
-    versionName = "${version} (${gitCommitsCount()})"
+    versionName = "${gitDescribe()} (${gitCommitsCount()})"
 }
 
 ext.deps = [

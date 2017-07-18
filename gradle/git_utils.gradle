@@ -44,3 +44,17 @@ ext.gitCommitsCount = { ->
         return -1;
     }
 }
+
+ext.gitDescribe = { ->
+    try {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'describe', '--dirty'
+            standardOutput = stdout
+        }
+        return stdout.toString().trim()
+    }
+    catch (ignored) {
+        return null;
+    }
+}
