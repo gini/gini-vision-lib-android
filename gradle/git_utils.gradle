@@ -5,7 +5,11 @@ ext.gitBranch = { ->
             commandLine 'git', 'describe', '--all', '--exact-match', 'HEAD'
             standardOutput = stdout
         }
-        return stdout.toString().trim().replace("heads/","")
+        return stdout.toString().trim()
+                .replace("heads/","")
+                .replace("remotes/","")
+                .replace("tags/","")
+                .replace("origin/","")
     }
     catch (ignored) {
         return null;
