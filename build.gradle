@@ -27,13 +27,15 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
+apply from: rootProject.file('gradle/git_utils.gradle')
+
 ext {
     compileSdkVersion = 25
     buildToolsVersion = "25.0.2"
     minSdkVersion = 14
     targetSdkVersion = 25
-    versionCode = buildNumber == 'SNAPSHOT' ? 1 : buildNumber.toInteger()
-    versionName = "${version} (${buildNumber})"
+    versionCode = gitCommitsCount()
+    versionName = "${version} (${gitCommitsCount()})"
 }
 
 ext.deps = [
