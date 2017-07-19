@@ -26,6 +26,7 @@ import java.util.ArrayList;
 public class OnboardingScreenTest {
 
     private static final long TEST_PAUSE_DURATION = 500;
+
     @Rule
     public IntentsTestRule<OnboardingActivity> mIntentsTestRule = new IntentsTestRule<>(OnboardingActivity.class, true, false);
 
@@ -62,7 +63,7 @@ public class OnboardingScreenTest {
     }
 
     @Test
-    public void should_finish_whenNextButton_isClicked_onLastPage() {
+    public void should_finish_whenNextButton_isClicked_onLastPage() throws InterruptedException {
         OnboardingActivity activity = startOnboardingActivity();
 
         // Go to the last page
@@ -71,6 +72,9 @@ public class OnboardingScreenTest {
                 .perform(ViewActions.click())
         // Click the next button on the last page
                 .perform(ViewActions.click());
+
+        // Give some time for paging animation to finish
+        Thread.sleep(TEST_PAUSE_DURATION);
 
         assertThat(activity.isFinishing()).isTrue();
     }
@@ -123,6 +127,9 @@ public class OnboardingScreenTest {
         // Click the next button again to finish
         Espresso.onView(ViewMatchers.withId(R.id.gv_button_next))
                 .perform(ViewActions.click());
+
+        // Give some time for paging animation to finish
+        Thread.sleep(TEST_PAUSE_DURATION);
 
         assertThat(activity.isFinishing()).isTrue();
     }
