@@ -1,3 +1,14 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.ajoberstar:grgit:1.5.0'
+    }
+}
+
+import org.ajoberstar.grgit.Grgit
+
 ext.gitBranch = { ->
     try {
         def stdout = new ByteArrayOutputStream()
@@ -30,19 +41,9 @@ ext.gitHash = { ->
     }
 }
 
-ext.gitCommitsCount = { ->
-    try {
-        def stdout = new ByteArrayOutputStream()
-        exec {
-            commandLine 'git', 'rev-list', '--exclude=refs/remotes/origin/pr/*',
-                    '--first-parent', '--count', '--all'
-            standardOutput = stdout
-        }
-        return Integer.parseInt(stdout.toString().trim())
-    }
-    catch (ignored) {
-        return -1;
-    }
+ext.gitTagCount = { ->
+    def git = Grgit.open(currentDir: rootDir)
+    return git.tag.list().size()
 }
 
 ext.gitDescribe = { ->
@@ -53,6 +54,20 @@ ext.gitDescribe = { ->
             standardOutput = stdout
         }
         return stdout.toString().trim()
+    }
+    catch (ignored) {
+        return null;
+    }
+}
+
+ext.gitCommitUnixTime = { ->
+    try {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'show', '-s', '--format=%ct', 'HEAD'
+            standardOutput = stdout
+        }
+        return Integer.parseInt(stdout.toString().trim())
     }
     catch (ignored) {
         return null;
