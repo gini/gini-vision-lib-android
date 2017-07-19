@@ -12,6 +12,7 @@
 #   2. variant name (for ex. debug)
 #   3. package name (for ex. net.gini.android.vision)
 #   4. device/emulator id (for ex. emulator-5554) - from the 'adb devices' list
+#   5. (optional) additional arguments for 'am instrument'
 #
 # Test results xml will be written to:
 #   {module name}/build/outputs/androidTest-results/targeted/{device/emulator id}-${module name}-${variant name}.txt
@@ -22,7 +23,7 @@
 set -e
 #set -x
 
-if [ $# -ne 4 ]; then
+if [ $# -lt 4 ]; then
     echo "Pass in the module name, variant name, package name and target device/emulator id"
     exit 0
 fi
@@ -31,6 +32,12 @@ module=$1
 variant=$2
 package=$3
 target=$4
+if [ $# -eq 4 ]; then
+    instrument_args="-e package ${package}"
+else
+    instrument_args="${*:5}"
+fi
+
 
 results_dir=${module}/build/outputs/androidTest-results/targeted
 results_file=${target}-${module}-${variant}.txt
@@ -52,7 +59,9 @@ adb -s ${target} shell pm install -r "/data/local/tmp/${package}.test"
 
 # Run the instrumented tests with code coverage reporting
 mkdir -p ${results_dir}
-adb -s ${target} shell am instrument -w -r --no-window-animation -e package ${package} -e debug false -e coverage true -e coverageFile ${on_device_coverage_file} ${package}.test/android.support.test.runner.AndroidJUnitRunner > ${test_results}
+adb -s ${target} shell am instrument -w -r --no-window-animation -e debug false -e coverage true -e coverageFile ${on_device_coverage_file} ${instrument_args} ${package}.test/android.support.test.runner.AndroidJUnitRunner > ${test_results}
+
+cat ${test_results}
 
 # Copy the coverage report to an unrestricted location
 on_device_temp_coverage_file=/data/local/tmp/${package}.test.coverage.ec
