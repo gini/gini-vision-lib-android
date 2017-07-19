@@ -1,0 +1,75 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.ajoberstar:grgit:1.5.0'
+    }
+}
+
+import org.ajoberstar.grgit.Grgit
+
+ext.gitBranch = { ->
+    try {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'describe', '--all', '--exact-match', 'HEAD'
+            standardOutput = stdout
+        }
+        return stdout.toString().trim()
+                .replace("heads/","")
+                .replace("remotes/","")
+                .replace("tags/","")
+                .replace("origin/","")
+    }
+    catch (ignored) {
+        return null;
+    }
+}
+
+ext.gitHash = { ->
+    try {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'rev-parse', '--short', 'HEAD'
+            standardOutput = stdout
+        }
+        return stdout.toString().trim()
+    }
+    catch (ignored) {
+        return null;
+    }
+}
+
+ext.gitTagCount = { ->
+    def git = Grgit.open(currentDir: rootDir)
+    return git.tag.list().size()
+}
+
+ext.gitDescribe = { ->
+    try {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'describe'
+            standardOutput = stdout
+        }
+        return stdout.toString().trim()
+    }
+    catch (ignored) {
+        return null;
+    }
+}
+
+ext.gitCommitUnixTime = { ->
+    try {
+        def stdout = new ByteArrayOutputStream()
+        exec {
+            commandLine 'git', 'show', '-s', '--format=%ct', 'HEAD'
+            standardOutput = stdout
+        }
+        return Integer.parseInt(stdout.toString().trim())
+    }
+    catch (ignored) {
+        return null;
+    }
+}

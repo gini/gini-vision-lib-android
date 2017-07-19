@@ -18,9 +18,6 @@ apply plugin: 'pmd'
  * limitations under the License.
  */
 
-// Add checkstyle, findbugs, pmd and lint to the check task.
-check.dependsOn.addAll 'checkstyle', 'findbugs', 'pmd', 'lint'
-
 task checkstyle(type: Checkstyle) {
     ignoreFailures = true
     showViolations = false

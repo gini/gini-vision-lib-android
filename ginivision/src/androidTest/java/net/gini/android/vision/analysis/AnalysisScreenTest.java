@@ -130,10 +130,10 @@ public class AnalysisScreenTest {
     public void should_invokeAddDataToResult_andFinish_whenDocumentAnalyzed_hasBeenCalled() throws InterruptedException {
         AnalysisActivityTestStub activity = startAnalysisActivity(TEST_JPEG, 0);
 
-        activity.onDocumentAnalyzed();
-
         // Allow the activity to run a little for listeners to be invoked
         Thread.sleep(TEST_PAUSE_DURATION);
+
+        activity.onDocumentAnalyzed();
 
         assertThat(activity.addDataToResultIntent).isNotNull();
         assertThat(activity.finishWasCalled).isTrue();
@@ -145,10 +145,10 @@ public class AnalysisScreenTest {
 
         InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 
-        activity.finish();
-
         // Allow the activity to run a little for listeners to be invoked
         Thread.sleep(TEST_PAUSE_DURATION);
+
+        activity.finish();
 
         assertThat(activity.addDataToResultIntent).isNull();
         assertThat(activity.finishWasCalled).isTrue();

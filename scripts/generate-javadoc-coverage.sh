@@ -1,7 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 # Usage: generate-javadoc-coverage ABS_PATH_TO_PROJECT_ROOT DESTINATION
 #
+set -e
+#set -x
 
 export CLASSPATH=$CLASSPATH:$1/tools/doccheck-doclet/tools.jar
 

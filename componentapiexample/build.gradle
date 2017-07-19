@@ -1,4 +1,14 @@
 apply plugin: 'com.android.application'
+apply from: rootProject.file('gradle/git_utils.gradle')
+
+def appVersionCode = gitCommitUnixTime()
+def appVersionName = "${version}-${gitBranch()}-${gitHash()} (${appVersionCode})"
+
+task printVersion {
+    doLast {
+        println "${appVersionName}"
+    }
+}
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -8,8 +18,8 @@ android {
         applicationId "net.gini.android.vision.componentapiexample"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode buildNumber == 'DEBUG' ? 1 : buildNumber.toInteger()
-        versionName "${version} (${buildNumber})"
+        versionCode appVersionCode
+        versionName appVersionName
     }
 
     signingConfigs {

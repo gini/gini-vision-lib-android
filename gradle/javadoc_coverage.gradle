@@ -13,7 +13,7 @@ task generateJavadocCoverage(type: Exec) {
     description = "Generates javadoc coverage using Sun's DocChecker doclet."
     group = "Reporting"
     dependsOn createJavadocCoverageDestDir
-    commandLine "${project.rootDir}/scripts/generate-javadoc-coverage",
+    commandLine "${project.rootDir}/scripts/generate-javadoc-coverage.sh",
             "${project.rootDir}",
             "${buildDir}/reports/javadoc-coverage"
 }

@@ -24,7 +24,7 @@ import java.util.concurrent.atomic.AtomicReference;
 @RunWith(AndroidJUnit4.class)
 public class ErrorSnackbarTest {
 
-    private static final int TEST_PAUSE_DURATION = 300;
+    private static final int TEST_PAUSE_DURATION = 400;
     @Rule
     public ActivityTestRule<ErrorSnackbarTestActivity> mActivityTestRule = new ActivityTestRule<>(ErrorSnackbarTestActivity.class);
 
