@@ -29,21 +29,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="net.gini.android.vision.component.GiniVisionActivity"
-            android:screenOrientation="portrait" />
+            android:name="net.gini.android.vision.component.GiniVisionActivity"/>
         <activity
             android:name="net.gini.android.vision.component.GiniVisionAppCompatActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppThemeCompat" />
         <activity
             android:name="net.gini.android.vision.component.ExtractionsActivity"
             android:label="@string/title_extractions"
-            android:screenOrientation="portrait"
             android:theme="@style/AppThemeCompat" />
         <activity
             android:name="net.gini.android.vision.component.NoExtractionsActivity"
             android:label="@string/title_no_extractions"
-            android:screenOrientation="portrait"
             android:theme="@style/AppThemeCompat" />
     </application>
 
