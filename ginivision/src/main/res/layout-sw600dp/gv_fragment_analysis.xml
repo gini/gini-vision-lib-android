@@ -1,0 +1,34 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gv_layout_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/gv_analysis_fragment_background"
+    tools:context=".analysis.AnalysisFragmentCompat">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false">
+
+        <ImageView
+            android:id="@+id/gv_image_picture"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
+
+    <ProgressBar
+        android:id="@+id/gv_progress_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:indeterminateOnly="true"
+        android:indeterminateTint="@color/gv_analysis_activity_indicator"
+        android:indeterminateTintMode="src_in"
+        android:visibility="gone"
+        tools:targetApi="lollipop"
+        tools:visibility="visible" />
+
+</RelativeLayout>
