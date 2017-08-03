@@ -32,6 +32,7 @@ import net.gini.android.vision.internal.camera.api.CameraException;
 import net.gini.android.vision.internal.camera.api.CameraInterface;
 import net.gini.android.vision.internal.camera.api.UIExecutor;
 import net.gini.android.vision.internal.camera.photo.Photo;
+import net.gini.android.vision.internal.camera.photo.Size;
 import net.gini.android.vision.internal.camera.view.CameraPreviewSurface;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 import net.gini.android.vision.internal.ui.ViewStubSafeInflater;
@@ -115,7 +116,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                         try {
                             SurfaceHolder surfaceHolder = surfaceCreationCompletable.get();
                             if (surfaceHolder != null) {
-                                mCameraPreview.setPreviewSize(mCameraController.getPreviewSize());
+                                mCameraPreview.setPreviewSize(adaptForCurrentOrientation(mCameraController.getPreviewSize()));
                                 startPreview(surfaceHolder);
                                 enableTapToFocus();
                             } else {
@@ -128,6 +129,19 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                         return null;
                     }
                 });
+    }
+
+    private Size adaptForCurrentOrientation(@NonNull final Size size) {
+        Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return size;
+        }
+        if (activity.getResources().getBoolean(R.bool.is_landscape)) {
+            return size;
+        } else {
+            //noinspection SuspiciousNameCombination
+            return new Size(size.height, size.width);
+        }
     }
 
     private void startPreview(SurfaceHolder holder) {
