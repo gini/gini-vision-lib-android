@@ -71,13 +71,9 @@ public class CameraScreenTest {
     public IntentsTestRule<CameraActivity> mIntentsTestRule = new IntentsTestRule<>(
             CameraActivity.class, true, false);
 
-    private UiDevice mUiDevice;
-
     @Before
     public void setup() throws Exception {
         prepareLooper();
-        mUiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
-        mUiDevice.setOrientationNatural();
     }
 
     @After
@@ -209,23 +205,25 @@ public class CameraScreenTest {
             throws UiObjectNotFoundException {
         startCameraActivityWithoutOnboarding();
 
+        UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+
         // Open the Application Details in the Settings
         Espresso.onView(ViewMatchers.withId(R.id.gv_button_camera_no_permission))
                 .perform(ViewActions.click());
 
         // Open the Permissions settings
-        UiObject permissionsItem = mUiDevice.findObject(new UiSelector().text("Permissions"));
+        UiObject permissionsItem = uiDevice.findObject(new UiSelector().text("Permissions"));
         permissionsItem.clickAndWaitForNewWindow();
 
         // Grant Camera permission
-        UiObject cameraItem = mUiDevice.findObject(new UiSelector().text("Camera"));
+        UiObject cameraItem = uiDevice.findObject(new UiSelector().text("Camera"));
         if (!cameraItem.isChecked()) {
             cameraItem.click();
         }
 
         // Go back to our test app
-        mUiDevice.pressBack();
-        mUiDevice.pressBack();
+        uiDevice.pressBack();
+        uiDevice.pressBack();
 
         // Verifiy that the no permission view was removed
         Espresso.onView(ViewMatchers.withId(R.id.gv_layout_camera_no_permission))
@@ -330,9 +328,13 @@ public class CameraScreenTest {
     }
 
     @Test
+    @SdkSuppress(minSdkVersion = 18)
     public void should_adaptCameraPreviewSize_toLandscapeOrientation_onTablets() throws Exception {
         // Given
         assumeTrue(isTablet());
+
+        UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        uiDevice.setOrientationNatural();
 
         final CameraActivity cameraActivity = startCameraActivityWithoutOnboarding();
         View cameraPreview = cameraActivity.findViewById(R.id.gv_camera_preview);
@@ -340,7 +342,7 @@ public class CameraScreenTest {
         final int initialHeight = cameraPreview.getHeight();
 
         // When
-        mUiDevice.setOrientationRight();
+        uiDevice.setOrientationRight();
 
         // Then
         // Preview should have the reverse aspect ratio

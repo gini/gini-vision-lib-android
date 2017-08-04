@@ -23,6 +23,7 @@ import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.filters.RequiresDevice;
+import android.support.test.filters.SdkSuppress;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.test.uiautomator.UiDevice;
 
@@ -313,6 +314,7 @@ public class ReviewScreenTest {
     }
 
     @Test
+    @SdkSuppress(minSdkVersion = 18)
     public void should_notInvokeAnyListenerMethods_whenBackButton_wasClicked() throws InterruptedException {
         final ReviewActivityTestStub activity = startReviewActivity(TEST_JPEG, 0);
 
