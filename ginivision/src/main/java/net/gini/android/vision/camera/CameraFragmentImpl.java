@@ -136,7 +136,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         if (activity == null) {
             return size;
         }
-        if (activity.getResources().getBoolean(R.bool.is_landscape)) {
+        if (activity.getResources().getBoolean(R.bool.gv_is_landscape)) {
             return size;
         } else {
             //noinspection SuspiciousNameCombination

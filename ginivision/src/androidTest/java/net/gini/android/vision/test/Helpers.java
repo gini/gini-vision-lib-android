@@ -1,6 +1,8 @@
 package net.gini.android.vision.test;
 
+import android.app.Instrumentation;
 import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.os.Looper;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -65,6 +67,12 @@ public class Helpers {
 
     public static Document createDocument(byte[] jpeg, int orientation) {
         return Document.fromPhoto(Photo.fromJpeg(jpeg, orientation));
+    }
+
+    public static boolean isTablet() {
+        final Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
+        final Resources resources = instrumentation.getTargetContext().getResources();
+        return resources.getBoolean(R.bool.gv_is_tablet);
     }
 
 }
