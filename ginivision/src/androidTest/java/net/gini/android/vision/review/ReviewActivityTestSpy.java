@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 
 import net.gini.android.vision.Document;
 
-public class ReviewActivityTestStub extends ReviewActivity {
+public class ReviewActivityTestSpy extends ReviewActivity {
 
     private ListenerHook mListenerHook;
 

@@ -38,7 +38,7 @@ import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.review.ReviewActivity;
-import net.gini.android.vision.review.ReviewActivityTestStub;
+import net.gini.android.vision.review.ReviewActivityTestSpy;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matchers;
@@ -98,7 +98,7 @@ public class CameraScreenTest {
 
         Intent intent = new Intent(Intent.ACTION_MAIN);
         CameraActivity.setReviewActivityExtra(intent, InstrumentationRegistry.getTargetContext(),
-                ReviewActivityTestStub.class);
+                ReviewActivityTestSpy.class);
         cameraActivity.setIntent(intent);
 
         cameraActivity.readExtras();
@@ -117,7 +117,7 @@ public class CameraScreenTest {
     private Intent getCameraActivityIntent() {
         Intent intent = new Intent(Intent.ACTION_MAIN);
         CameraActivity.setReviewActivityExtra(intent, InstrumentationRegistry.getTargetContext(),
-                ReviewActivityTestStub.class);
+                ReviewActivityTestSpy.class);
         CameraActivity.setAnalysisActivityExtra(intent, InstrumentationRegistry.getTargetContext(),
                 AnalysisActivityTestStub.class);
         return intent;
@@ -241,7 +241,7 @@ public class CameraScreenTest {
         // Give some time for the camera to take a picture
         Thread.sleep(TAKE_PICTURE_PAUSE_DURATION);
 
-        Intents.intended(IntentMatchers.hasComponent(ReviewActivityTestStub.class.getName()));
+        Intents.intended(IntentMatchers.hasComponent(ReviewActivityTestSpy.class.getName()));
     }
 
     @RequiresDevice
@@ -256,7 +256,7 @@ public class CameraScreenTest {
         // Give some time for the camera to take a picture
         Thread.sleep(TAKE_PICTURE_PAUSE_DURATION);
 
-        Intents.intended(IntentMatchers.hasComponent(ReviewActivityTestStub.class.getName()));
+        Intents.intended(IntentMatchers.hasComponent(ReviewActivityTestSpy.class.getName()));
     }
 
     @RequiresDevice
@@ -270,7 +270,7 @@ public class CameraScreenTest {
         // Give some time for the camera to take a picture
         Thread.sleep(TAKE_PICTURE_PAUSE_DURATION);
 
-        Intents.intended(IntentMatchers.hasComponent(ReviewActivityTestStub.class.getName()));
+        Intents.intended(IntentMatchers.hasComponent(ReviewActivityTestSpy.class.getName()));
         Intents.intended(
                 IntentMatchers.hasExtra(Matchers.equalTo(ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY),
                         hasComponent(AnalysisActivityTestStub.class.getName())));
