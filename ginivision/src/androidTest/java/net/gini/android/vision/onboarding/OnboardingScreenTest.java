@@ -33,6 +33,7 @@ import java.util.ArrayList;
 public class OnboardingScreenTest {
 
     private static final long TEST_PAUSE_DURATION = 500;
+    private static final long ORIENTATION_CHANGE_PAUSE_DURATION = 1500;
 
     @Rule
     public ActivityTestRule<OnboardingActivity> mActivityTestRule = new ActivityTestRule<>(OnboardingActivity.class, true, false);
@@ -172,11 +173,17 @@ public class OnboardingScreenTest {
 
         final OnboardingActivity onboardingActivity = startOnboardingActivity();
 
+        // Give a little time for the orientation change and activity launch to finish
+        Thread.sleep(ORIENTATION_CHANGE_PAUSE_DURATION);
+
         // Then
-        assertThat(onboardingActivity.getWindowManager().getDefaultDisplay().getRotation())
-                .isEqualTo(Surface.ROTATION_0);
+        int rotation = onboardingActivity.getWindowManager().getDefaultDisplay().getRotation();
 
         uiDevice.setOrientationNatural();
+        uiDevice.unfreezeRotation();
+
+        assertThat(rotation)
+                .isEqualTo(Surface.ROTATION_0);
     }
 
     private OnboardingActivity startOnboardingActivity() {

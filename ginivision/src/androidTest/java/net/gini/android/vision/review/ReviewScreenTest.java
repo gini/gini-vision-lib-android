@@ -51,6 +51,7 @@ public class ReviewScreenTest {
 
     private static final int PAUSE_DURATION = 500;
     private static final int PAUSE_DURATION_LONG = 2_000;
+    private static final int ORIENTATION_CHANGE_PAUSE_DURATION = 1500;
 
     @Rule
     public CurrentActivityTestRule<ReviewActivityTestSpy> mActivityTestRule =
@@ -570,6 +571,7 @@ public class ReviewScreenTest {
         assertThat(activity.getFragment().getFragmentImpl().getImageDocument().getRotation()).isWithin(0.0f).of(270);
 
         uiDevice.setOrientationNatural();
+        uiDevice.unfreezeRotation();
     }
 
     @Test
@@ -583,10 +585,16 @@ public class ReviewScreenTest {
 
         final ReviewActivity reviewActivity = startReviewActivity(TEST_JPEG, 90);
 
+        // Give a little time for the orientation change and activity launch to finish
+        Thread.sleep(ORIENTATION_CHANGE_PAUSE_DURATION);
+
         // Then
-        assertThat(reviewActivity.getWindowManager().getDefaultDisplay().getRotation())
-                .isEqualTo(Surface.ROTATION_0);
+        int rotation = reviewActivity.getWindowManager().getDefaultDisplay().getRotation();
 
         uiDevice.setOrientationNatural();
+        uiDevice.unfreezeRotation();
+
+        assertThat(rotation)
+                .isEqualTo(Surface.ROTATION_0);
     }
 }

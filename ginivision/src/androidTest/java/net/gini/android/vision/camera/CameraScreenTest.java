@@ -65,8 +65,10 @@ import java.util.ArrayList;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CameraScreenTest {
 
+    private static final long PAUSE_DURATION = 1000;
     private static final long CLOSE_CAMERA_PAUSE_DURATION = 1000;
     private static final long TAKE_PICTURE_PAUSE_DURATION = 4000;
+    private static final int ORIENTATION_CHANGE_PAUSE_DURATION = 1500;
 
     @Rule
     public IntentsTestRule<CameraActivity> mIntentsTestRule = new IntentsTestRule<>(
@@ -352,6 +354,7 @@ public class CameraScreenTest {
                 EspressoAssertions.hasSizeRatio((float) initialHeight / initialWidth));
 
         uiDevice.setOrientationNatural();
+        uiDevice.unfreezeRotation();
     }
 
     @Test
@@ -365,11 +368,17 @@ public class CameraScreenTest {
 
         final CameraActivity cameraActivity = startCameraActivityWithoutOnboarding();
 
+        // Give a little time for the orientation change and activity launch to finish
+        Thread.sleep(ORIENTATION_CHANGE_PAUSE_DURATION);
+
         // Then
-        assertThat(cameraActivity.getWindowManager().getDefaultDisplay().getRotation())
-                .isEqualTo(Surface.ROTATION_0);
+        int rotation = cameraActivity.getWindowManager().getDefaultDisplay().getRotation();
 
         uiDevice.setOrientationNatural();
+        uiDevice.unfreezeRotation();
+
+        assertThat(rotation)
+                .isEqualTo(Surface.ROTATION_0);
     }
 
     @NonNull

@@ -44,6 +44,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class AnalysisScreenTest {
 
     private static final long TEST_PAUSE_DURATION = 500;
+    private static final long ORIENTATION_CHANGE_PAUSE_DURATION = 1500;
 
     private static byte[] TEST_JPEG = null;
 
@@ -320,11 +321,16 @@ public class AnalysisScreenTest {
 
         final AnalysisActivity analysisActivity = startAnalysisActivity(TEST_JPEG, 90);
 
+        // Give a little time for the orientation change and activity launch to finish
+        Thread.sleep(ORIENTATION_CHANGE_PAUSE_DURATION);
+
         // Then
-        assertThat(analysisActivity.getWindowManager().getDefaultDisplay().getRotation())
-                .isEqualTo(Surface.ROTATION_0);
+        int rotation = analysisActivity.getWindowManager().getDefaultDisplay().getRotation();
 
         uiDevice.setOrientationNatural();
+        uiDevice.unfreezeRotation();
+
+        assertThat(rotation).isEqualTo(Surface.ROTATION_0);
     }
 
     private AnalysisActivityTestSpy startAnalysisActivity(byte[] jpeg, int orientation) {
