@@ -115,6 +115,7 @@ public class OnboardingFragmentCompat extends Fragment implements OnboardingFrag
         super.onCreate(savedInstanceState);
         mFragmentImpl = OnboardingFragmentHelper.createFragmentImpl(this, getArguments());
         OnboardingFragmentHelper.setListener(mFragmentImpl, getActivity());
+        mFragmentImpl.onCreate(savedInstanceState);
     }
 
     /**

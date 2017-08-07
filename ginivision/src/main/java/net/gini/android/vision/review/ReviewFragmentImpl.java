@@ -1,5 +1,7 @@
 package net.gini.android.vision.review;
 
+import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
+
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.os.Bundle;
@@ -93,6 +95,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     }
 
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        forcePortraitOrientationOnPhones(mFragment.getActivity());
         if (savedInstanceState != null) {
             restoreSavedState(savedInstanceState);
             LOG.info("Should analyze document");

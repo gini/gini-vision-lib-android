@@ -1,6 +1,7 @@
 package net.gini.android.vision.camera;
 
 import static net.gini.android.vision.camera.Util.cameraExceptionToGiniVisionError;
+import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 import static net.gini.android.vision.internal.util.AndroidHelper.isMarshmallowOrLater;
 import static net.gini.android.vision.internal.util.ContextHelper.getClientApplicationId;
 
@@ -85,6 +86,10 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         } else {
             mListener = listener;
         }
+    }
+
+    public void onCreate(Bundle savedInstanceState) {
+        forcePortraitOrientationOnPhones(mFragment.getActivity());
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
