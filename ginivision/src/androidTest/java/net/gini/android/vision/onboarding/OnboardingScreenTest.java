@@ -175,6 +175,8 @@ public class OnboardingScreenTest {
         // Then
         assertThat(onboardingActivity.getWindowManager().getDefaultDisplay().getRotation())
                 .isEqualTo(Surface.ROTATION_0);
+
+        uiDevice.setOrientationNatural();
     }
 
     private OnboardingActivity startOnboardingActivity() {

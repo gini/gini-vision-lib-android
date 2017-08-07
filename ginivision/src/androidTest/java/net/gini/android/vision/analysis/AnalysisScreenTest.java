@@ -323,6 +323,8 @@ public class AnalysisScreenTest {
         // Then
         assertThat(analysisActivity.getWindowManager().getDefaultDisplay().getRotation())
                 .isEqualTo(Surface.ROTATION_0);
+
+        uiDevice.setOrientationNatural();
     }
 
     private AnalysisActivityTestSpy startAnalysisActivity(byte[] jpeg, int orientation) {

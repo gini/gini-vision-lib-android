@@ -568,6 +568,8 @@ public class ReviewScreenTest {
         assertAbout(document()).that(documentToAnalyzeAfterOrientationChange.get()).hasRotationDeltaInUserComment(180);
         assertThat(documentToAnalyzeAfterOrientationChange.get().getRotationForDisplay()).isEqualTo(270);
         assertThat(activity.getFragment().getFragmentImpl().getImageDocument().getRotation()).isWithin(0.0f).of(270);
+
+        uiDevice.setOrientationNatural();
     }
 
     @Test
@@ -584,5 +586,7 @@ public class ReviewScreenTest {
         // Then
         assertThat(reviewActivity.getWindowManager().getDefaultDisplay().getRotation())
                 .isEqualTo(Surface.ROTATION_0);
+
+        uiDevice.setOrientationNatural();
     }
 }

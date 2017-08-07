@@ -350,6 +350,8 @@ public class CameraScreenTest {
         Espresso.onView(
                 ViewMatchers.withId(R.id.gv_camera_preview)).check(
                 EspressoAssertions.hasSizeRatio((float) initialHeight / initialWidth));
+
+        uiDevice.setOrientationNatural();
     }
 
     @Test
@@ -366,6 +368,8 @@ public class CameraScreenTest {
         // Then
         assertThat(cameraActivity.getWindowManager().getDefaultDisplay().getRotation())
                 .isEqualTo(Surface.ROTATION_0);
+
+        uiDevice.setOrientationNatural();
     }
 
     @NonNull
