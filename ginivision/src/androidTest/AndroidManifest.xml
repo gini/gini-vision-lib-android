@@ -17,7 +17,7 @@
             android:label="@string/gv_title_review"
             android:theme="@style/GiniVisionTheme" />
         <activity
-            android:name="net.gini.android.vision.analysis.AnalysisActivityTestStub"
+            android:name="net.gini.android.vision.analysis.AnalysisActivityTestSpy"
             android:label="@string/gv_title_analysis"
             android:theme="@style/GiniVisionTheme" />
         <activity

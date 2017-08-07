@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 
 import net.gini.android.vision.Document;
 
-public class AnalysisActivityTestStub extends AnalysisActivity {
+public class AnalysisActivityTestSpy extends AnalysisActivity {
 
     public Intent addDataToResultIntent = null;
     public Document analyzeDocument = null;

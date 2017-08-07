@@ -31,7 +31,7 @@ import android.view.Surface;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.R;
-import net.gini.android.vision.analysis.AnalysisActivityTestStub;
+import net.gini.android.vision.analysis.AnalysisActivityTestSpy;
 import net.gini.android.vision.test.CurrentActivityTestRule;
 
 import org.junit.AfterClass;
@@ -99,7 +99,7 @@ public class ReviewScreenTest {
     private Intent getReviewActivityIntent(byte[] jpeg, int orientation) {
         Intent intent = new Intent(InstrumentationRegistry.getTargetContext(), ReviewActivityTestSpy.class);
         intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, createDocument(jpeg, orientation));
-        intent.putExtra(ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY, new Intent(InstrumentationRegistry.getTargetContext(), AnalysisActivityTestStub.class));
+        intent.putExtra(ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY, new Intent(InstrumentationRegistry.getTargetContext(), AnalysisActivityTestSpy.class));
         return intent;
     }
 

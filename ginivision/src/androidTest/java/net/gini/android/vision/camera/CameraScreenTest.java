@@ -39,7 +39,7 @@ import android.view.View;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.R;
-import net.gini.android.vision.analysis.AnalysisActivityTestStub;
+import net.gini.android.vision.analysis.AnalysisActivityTestSpy;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
@@ -90,7 +90,7 @@ public class CameraScreenTest {
 
         Intent intent = new Intent(Intent.ACTION_MAIN);
         CameraActivity.setAnalysisActivityExtra(intent, InstrumentationRegistry.getTargetContext(),
-                AnalysisActivityTestStub.class);
+                AnalysisActivityTestSpy.class);
         cameraActivity.setIntent(intent);
 
         cameraActivity.readExtras();
@@ -123,7 +123,7 @@ public class CameraScreenTest {
         CameraActivity.setReviewActivityExtra(intent, InstrumentationRegistry.getTargetContext(),
                 ReviewActivityTestSpy.class);
         CameraActivity.setAnalysisActivityExtra(intent, InstrumentationRegistry.getTargetContext(),
-                AnalysisActivityTestStub.class);
+                AnalysisActivityTestSpy.class);
         return intent;
     }
 
@@ -279,7 +279,7 @@ public class CameraScreenTest {
         Intents.intended(IntentMatchers.hasComponent(ReviewActivityTestSpy.class.getName()));
         Intents.intended(
                 IntentMatchers.hasExtra(Matchers.equalTo(ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY),
-                        hasComponent(AnalysisActivityTestStub.class.getName())));
+                        hasComponent(AnalysisActivityTestSpy.class.getName())));
     }
 
     @Test
