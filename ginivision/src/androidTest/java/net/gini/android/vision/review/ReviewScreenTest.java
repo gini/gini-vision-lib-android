@@ -6,8 +6,10 @@ import static com.google.common.truth.Truth.assertThat;
 import static net.gini.android.vision.test.DocumentSubject.document;
 import static net.gini.android.vision.test.Helpers.createDocument;
 import static net.gini.android.vision.test.Helpers.getTestJpeg;
+import static net.gini.android.vision.test.Helpers.isTablet;
 import static net.gini.android.vision.test.Helpers.prepareLooper;
 
+import static org.junit.Assume.assumeTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
@@ -315,6 +317,7 @@ public class ReviewScreenTest {
     }
 
     @Test
+    @SdkSuppress(minSdkVersion = 18)
     public void should_notInvokeAnyListenerMethods_whenBackButton_wasClicked() throws InterruptedException {
         final ReviewActivityTestSpy activity = startReviewActivity(TEST_JPEG, 0);
 
@@ -531,10 +534,10 @@ public class ReviewScreenTest {
     @SdkSuppress(minSdkVersion = 18)
     public void should_keepAppliedRotation_betweenOrientationChange() throws Exception {
         // Given
-        // TODO: add is tablet check
+        assumeTrue(isTablet());
+
         UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         uiDevice.setOrientationNatural();
-        uiDevice.unfreezeRotation();
 
         startReviewActivity(TEST_JPEG, 90);
 
@@ -547,8 +550,7 @@ public class ReviewScreenTest {
         Thread.sleep(PAUSE_DURATION);
 
         // When
-        uiDevice.setOrientationLeft();
-        uiDevice.unfreezeRotation();
+        uiDevice.setOrientationRight();
 
         // Then
         final AtomicReference<Document> documentToAnalyzeAfterOrientationChange = new AtomicReference<>();

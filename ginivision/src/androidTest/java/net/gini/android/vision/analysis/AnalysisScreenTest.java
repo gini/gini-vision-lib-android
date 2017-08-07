@@ -14,6 +14,7 @@ import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.matcher.ViewMatchers;
+import android.support.test.filters.SdkSuppress;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.test.uiautomator.UiDevice;
@@ -247,6 +248,7 @@ public class AnalysisScreenTest {
     }
 
     @Test
+    @SdkSuppress(minSdkVersion = 18)
     public void should_notInvokeAddDataToResult_whenBackButton_wasPressed() throws InterruptedException {
         final AnalysisActivityTestStub activity = startAnalysisActivity(TEST_JPEG, 0);
 

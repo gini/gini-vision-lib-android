@@ -6,6 +6,7 @@ import static net.gini.android.vision.test.PermissionsHelper.grantCameraPermissi
 import static net.gini.android.vision.uiautomator.Helper.openApp;
 
 import android.support.test.InstrumentationRegistry;
+import android.support.test.filters.SdkSuppress;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObjectNotFoundException;
@@ -32,6 +33,7 @@ import java.util.Date;
  * </p>
  */
 @Ignore
+@SdkSuppress(minSdkVersion = 18)
 @RunWith(AndroidJUnit4.class)
 public class ScreenshotsTest {
 

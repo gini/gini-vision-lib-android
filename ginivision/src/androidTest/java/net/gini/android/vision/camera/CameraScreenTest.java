@@ -1,10 +1,14 @@
 package net.gini.android.vision.camera;
 
-import static net.gini.android.vision.OncePerInstallEventStoreHelper.clearOnboardingWasShownPreference;
-import static net.gini.android.vision.OncePerInstallEventStoreHelper.setOnboardingWasShownPreference;
+import static net.gini.android.vision.OncePerInstallEventStoreHelper
+        .clearOnboardingWasShownPreference;
+import static net.gini.android.vision.OncePerInstallEventStoreHelper
+        .setOnboardingWasShownPreference;
 import static net.gini.android.vision.test.EspressoMatchers.hasComponent;
+import static net.gini.android.vision.test.Helpers.isTablet;
 import static net.gini.android.vision.test.Helpers.prepareLooper;
 
+import static org.junit.Assume.assumeTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.argThat;
@@ -30,6 +34,7 @@ import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiSelector;
+import android.view.View;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.R;
@@ -39,6 +44,7 @@ import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.review.ReviewActivity;
 import net.gini.android.vision.review.ReviewActivityTestSpy;
+import net.gini.android.vision.test.EspressoAssertions;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matchers;
@@ -65,12 +71,9 @@ public class CameraScreenTest {
     public IntentsTestRule<CameraActivity> mIntentsTestRule = new IntentsTestRule<>(
             CameraActivity.class, true, false);
 
-    private UiDevice mUiDevice;
-
     @Before
-    public void setup() {
+    public void setup() throws Exception {
         prepareLooper();
-        mUiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
     }
 
     @After
@@ -202,23 +205,25 @@ public class CameraScreenTest {
             throws UiObjectNotFoundException {
         startCameraActivityWithoutOnboarding();
 
+        UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+
         // Open the Application Details in the Settings
         Espresso.onView(ViewMatchers.withId(R.id.gv_button_camera_no_permission))
                 .perform(ViewActions.click());
 
         // Open the Permissions settings
-        UiObject permissionsItem = mUiDevice.findObject(new UiSelector().text("Permissions"));
+        UiObject permissionsItem = uiDevice.findObject(new UiSelector().text("Permissions"));
         permissionsItem.clickAndWaitForNewWindow();
 
         // Grant Camera permission
-        UiObject cameraItem = mUiDevice.findObject(new UiSelector().text("Camera"));
+        UiObject cameraItem = uiDevice.findObject(new UiSelector().text("Camera"));
         if (!cameraItem.isChecked()) {
             cameraItem.click();
         }
 
         // Go back to our test app
-        mUiDevice.pressBack();
-        mUiDevice.pressBack();
+        uiDevice.pressBack();
+        uiDevice.pressBack();
 
         // Verifiy that the no permission view was removed
         Espresso.onView(ViewMatchers.withId(R.id.gv_layout_camera_no_permission))
@@ -277,7 +282,8 @@ public class CameraScreenTest {
     }
 
     @Test
-    public void should_notFinish_whenReceivingActivityResult_withResultCodeCancelled_fromReviewActivity() {
+    public void
+    should_notFinish_whenReceivingActivityResult_withResultCodeCancelled_fromReviewActivity() {
         final CameraActivity cameraActivitySpy = Mockito.spy(new CameraActivity());
 
         cameraActivitySpy.onActivityResult(CameraActivity.REVIEW_DOCUMENT_REQUEST,
@@ -287,7 +293,8 @@ public class CameraScreenTest {
     }
 
     @Test
-    public void should_finishIfEnabledByClient_whenReceivingActivityResult_withResultCodeCancelled_fromReviewActivity() {
+    public void
+    should_finishIfEnabledByClient_whenReceivingActivityResult_withResultCodeCancelled_fromReviewActivity() {
         final Intent intentAllowBackButtonToClose = getCameraActivityIntent();
         intentAllowBackButtonToClose.putExtra(
                 CameraActivity.EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY, true);
@@ -318,6 +325,30 @@ public class CameraScreenTest {
         // Check that the extra was passed on to the ReviewActivity
         verify(cameraActivitySpy).startActivityForResult(argThat(
                 intentWithExtraBackButtonShouldCloseLibrary()), anyInt());
+    }
+
+    @Test
+    @SdkSuppress(minSdkVersion = 18)
+    public void should_adaptCameraPreviewSize_toLandscapeOrientation_onTablets() throws Exception {
+        // Given
+        assumeTrue(isTablet());
+
+        UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        uiDevice.setOrientationNatural();
+
+        final CameraActivity cameraActivity = startCameraActivityWithoutOnboarding();
+        View cameraPreview = cameraActivity.findViewById(R.id.gv_camera_preview);
+        final int initialWidth = cameraPreview.getWidth();
+        final int initialHeight = cameraPreview.getHeight();
+
+        // When
+        uiDevice.setOrientationRight();
+
+        // Then
+        // Preview should have the reverse aspect ratio
+        Espresso.onView(
+                ViewMatchers.withId(R.id.gv_camera_preview)).check(
+                EspressoAssertions.hasSizeRatio((float) initialHeight / initialWidth));
     }
 
     @NonNull
