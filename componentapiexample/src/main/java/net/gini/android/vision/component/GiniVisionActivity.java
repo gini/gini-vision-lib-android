@@ -62,6 +62,13 @@ public class GiniVisionActivity extends Activity
     private boolean mShowCameraOnStart = false;
     private String mTitleBeforeOnboarding;
 
+    private SingleDocumentAnalyzer getSingleDocumentAnalyzer() {
+        if (mSingleDocumentAnalyzer == null) {
+            mSingleDocumentAnalyzer = ((ComponentApiApp) getApplication()).getSingleDocumentAnalyzer();
+        }
+        return mSingleDocumentAnalyzer;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +81,6 @@ public class GiniVisionActivity extends Activity
             initState(savedInstanceState);
             retainFragment();
         }
-        mSingleDocumentAnalyzer = ((ComponentApiApp)getApplication()).getSingleDocumentAnalyzer();
     }
 
     private void initState(final Bundle savedInstanceState) {
@@ -148,7 +154,7 @@ public class GiniVisionActivity extends Activity
         } else {
             showCamera();
         }
-        mSingleDocumentAnalyzer.cancelAnalysis();
+        getSingleDocumentAnalyzer().cancelAnalysis();
         mDocumentAnalysisErrorMessage = null;
         mExtractionsFromReviewScreen = null;
     }
@@ -156,7 +162,7 @@ public class GiniVisionActivity extends Activity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mSingleDocumentAnalyzer.cancelAnalysis();
+        getSingleDocumentAnalyzer().cancelAnalysis();
     }
 
     public boolean isShowingCamera() {
@@ -245,7 +251,7 @@ public class GiniVisionActivity extends Activity
     public void onDocumentAvailable(@NonNull Document document) {
         LOG.debug("Document available {}", document);
         // Cancel analysis to make sure, that the document analysis will start in onShouldAnalyzeDocument()
-        mSingleDocumentAnalyzer.cancelAnalysis();
+        getSingleDocumentAnalyzer().cancelAnalysis();
         showFragment(getReviewFragment(document), R.string.title_review);
     }
 
@@ -266,7 +272,7 @@ public class GiniVisionActivity extends Activity
         // received in the Review Screen.
         // If the user modified the image or the analysis didn't complete or it failed the Gini Vision Library
         // will request you to proceed to the Analysis Screen.
-        mSingleDocumentAnalyzer.analyzeDocument(document, new SingleDocumentAnalyzer.DocumentAnalysisListener() {
+        getSingleDocumentAnalyzer().analyzeDocument(document, new SingleDocumentAnalyzer.DocumentAnalysisListener() {
             @Override
             public void onExtractionsReceived(Map<String, SpecificExtraction> extractions) {
                 if (mCurrentFragment != null && mCurrentFragment instanceof ReviewFragmentStandard) {
@@ -303,7 +309,7 @@ public class GiniVisionActivity extends Activity
         // As the library requests us to go to the Analysis Screen we should only remove the listener.
         // We should not cancel the analysis here as we don't know, if we proceed because the analysis didn't complete or
         // the user rotated the image
-        mSingleDocumentAnalyzer.removeListener();
+        getSingleDocumentAnalyzer().removeListener();
         showFragment(getAnalysisFragment(document), R.string.title_analysis);
     }
 
@@ -313,7 +319,7 @@ public class GiniVisionActivity extends Activity
         // If we have received the extractions while in the Review Screen we don't need to go to the Analysis Screen,
         // we can show the extractions
         if (mExtractionsFromReviewScreen != null) {
-            showExtractions(mSingleDocumentAnalyzer.getGiniApiDocument(), mExtractionsFromReviewScreen);
+            showExtractions(getSingleDocumentAnalyzer().getGiniApiDocument(), mExtractionsFromReviewScreen);
             mExtractionsFromReviewScreen = null;
         }
     }
@@ -323,7 +329,7 @@ public class GiniVisionActivity extends Activity
         LOG.debug("Document was rotated: oldRotation={}, newRotation={}, document={}", oldRotation, newRotation, document);
         // We need to cancel the analysis here, we will have to upload the rotated document in onAnalyzeDocument() while
         // the Analysis Fragment is shown
-        mSingleDocumentAnalyzer.cancelAnalysis();
+        getSingleDocumentAnalyzer().cancelAnalysis();
         mDocumentAnalysisErrorMessage = null;
         mExtractionsFromReviewScreen = null;
     }
@@ -353,7 +359,7 @@ public class GiniVisionActivity extends Activity
 
         startScanAnimation();
         // We can start analyzing the document by sending it to the Gini API
-        mSingleDocumentAnalyzer.analyzeDocument(document, new SingleDocumentAnalyzer.DocumentAnalysisListener() {
+        getSingleDocumentAnalyzer().analyzeDocument(document, new SingleDocumentAnalyzer.DocumentAnalysisListener() {
             @Override
             public void onExtractionsReceived(Map<String, SpecificExtraction> extractions) {
                 if (mCurrentFragment != null && mCurrentFragment instanceof AnalysisFragmentStandard) {
@@ -363,7 +369,7 @@ public class GiniVisionActivity extends Activity
                     // analysis has completed successfully
                     analysisFragment.onDocumentAnalyzed();
                     stopScanAnimation();
-                    showExtractions(mSingleDocumentAnalyzer.getGiniApiDocument(), extractions);
+                    showExtractions(getSingleDocumentAnalyzer().getGiniApiDocument(), extractions);
                 } else {
                     LOG.debug("Document analyzed in the Analysis Screen, but not in the Analysis Screen anymore.");
                 }
@@ -385,8 +391,8 @@ public class GiniVisionActivity extends Activity
                         @Override
                         public void onClick(View v) {
                             startScanAnimation();
-                            mSingleDocumentAnalyzer.cancelAnalysis();
-                            mSingleDocumentAnalyzer.analyzeDocument(document, listener);
+                            getSingleDocumentAnalyzer().cancelAnalysis();
+                            getSingleDocumentAnalyzer().analyzeDocument(document, listener);
                         }
                     });
                 }
