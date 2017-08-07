@@ -6,6 +6,9 @@ import static com.google.common.truth.Truth.assertThat;
 import static net.gini.android.vision.test.DocumentSubject.document;
 import static net.gini.android.vision.test.Helpers.createDocument;
 import static net.gini.android.vision.test.Helpers.getTestJpeg;
+import static net.gini.android.vision.test.Helpers.isTablet;
+
+import static org.junit.Assume.assumeTrue;
 
 import android.app.Instrumentation;
 import android.content.Intent;
@@ -18,6 +21,7 @@ import android.support.test.filters.SdkSuppress;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.test.uiautomator.UiDevice;
+import android.view.Surface;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -303,6 +307,22 @@ public class AnalysisScreenTest {
         assertThat(activity.analyzeDocument).isNotNull();
 
         assertAbout(document()).that(activity.analyzeDocument).isEqualToDocument(Document.fromPhoto(Photo.fromJpeg(TEST_JPEG, 0)));
+    }
+
+    @Test
+    @SdkSuppress(minSdkVersion = 18)
+    public void should_forcePortraitOrientation_onPhones() throws Exception {
+        // Given
+        assumeTrue(!isTablet());
+
+        UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        uiDevice.setOrientationLeft();
+
+        final AnalysisActivity analysisActivity = startAnalysisActivity(TEST_JPEG, 90);
+
+        // Then
+        assertThat(analysisActivity.getWindowManager().getDefaultDisplay().getRotation())
+                .isEqualTo(Surface.ROTATION_0);
     }
 
     private AnalysisActivityTestStub startAnalysisActivity(byte[] jpeg, int orientation) {

@@ -27,6 +27,7 @@ import android.support.test.filters.RequiresDevice;
 import android.support.test.filters.SdkSuppress;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.test.uiautomator.UiDevice;
+import android.view.Surface;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.R;
@@ -567,5 +568,21 @@ public class ReviewScreenTest {
         assertAbout(document()).that(documentToAnalyzeAfterOrientationChange.get()).hasRotationDeltaInUserComment(180);
         assertThat(documentToAnalyzeAfterOrientationChange.get().getRotationForDisplay()).isEqualTo(270);
         assertThat(activity.getFragment().getFragmentImpl().getImageDocument().getRotation()).isWithin(0.0f).of(270);
+    }
+
+    @Test
+    @SdkSuppress(minSdkVersion = 18)
+    public void should_forcePortraitOrientation_onPhones() throws Exception {
+        // Given
+        assumeTrue(!isTablet());
+
+        UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        uiDevice.setOrientationLeft();
+
+        final ReviewActivity reviewActivity = startReviewActivity(TEST_JPEG, 90);
+
+        // Then
+        assertThat(reviewActivity.getWindowManager().getDefaultDisplay().getRotation())
+                .isEqualTo(Surface.ROTATION_0);
     }
 }

@@ -1,9 +1,9 @@
 package net.gini.android.vision.camera;
 
-import static net.gini.android.vision.OncePerInstallEventStoreHelper
-        .clearOnboardingWasShownPreference;
-import static net.gini.android.vision.OncePerInstallEventStoreHelper
-        .setOnboardingWasShownPreference;
+import static com.google.common.truth.Truth.assertThat;
+
+import static net.gini.android.vision.OncePerInstallEventStoreHelper.clearOnboardingWasShownPreference;
+import static net.gini.android.vision.OncePerInstallEventStoreHelper.setOnboardingWasShownPreference;
 import static net.gini.android.vision.test.EspressoMatchers.hasComponent;
 import static net.gini.android.vision.test.Helpers.isTablet;
 import static net.gini.android.vision.test.Helpers.prepareLooper;
@@ -34,6 +34,7 @@ import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiSelector;
+import android.view.Surface;
 import android.view.View;
 
 import net.gini.android.vision.Document;
@@ -349,6 +350,22 @@ public class CameraScreenTest {
         Espresso.onView(
                 ViewMatchers.withId(R.id.gv_camera_preview)).check(
                 EspressoAssertions.hasSizeRatio((float) initialHeight / initialWidth));
+    }
+
+    @Test
+    @SdkSuppress(minSdkVersion = 18)
+    public void should_forcePortraitOrientation_onPhones() throws Exception {
+        // Given
+        assumeTrue(!isTablet());
+
+        UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        uiDevice.setOrientationLeft();
+
+        final CameraActivity cameraActivity = startCameraActivityWithoutOnboarding();
+
+        // Then
+        assertThat(cameraActivity.getWindowManager().getDefaultDisplay().getRotation())
+                .isEqualTo(Surface.ROTATION_0);
     }
 
     @NonNull
