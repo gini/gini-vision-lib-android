@@ -3,10 +3,13 @@ package net.gini.android.vision.test;
 import android.app.Instrumentation;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Looper;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.os.RemoteException;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.uiautomator.UiDevice;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.internal.camera.photo.Photo;
@@ -73,6 +76,14 @@ public class Helpers {
         final Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
         final Resources resources = instrumentation.getTargetContext().getResources();
         return resources.getBoolean(R.bool.gv_is_tablet);
+    }
+
+    public static void resetDeviceOrientation() throws RemoteException {
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            final UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+            uiDevice.setOrientationNatural();
+            uiDevice.unfreezeRotation();
+        }
     }
 
 }

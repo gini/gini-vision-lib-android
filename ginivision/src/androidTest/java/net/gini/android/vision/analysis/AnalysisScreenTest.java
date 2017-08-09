@@ -7,6 +7,7 @@ import static net.gini.android.vision.test.DocumentSubject.document;
 import static net.gini.android.vision.test.Helpers.createDocument;
 import static net.gini.android.vision.test.Helpers.getTestJpeg;
 import static net.gini.android.vision.test.Helpers.isTablet;
+import static net.gini.android.vision.test.Helpers.resetDeviceOrientation;
 
 import static org.junit.Assume.assumeTrue;
 
@@ -31,6 +32,7 @@ import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.review.ReviewActivity;
 
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -59,6 +61,11 @@ public class AnalysisScreenTest {
     @AfterClass
     public static void teardownClass() throws IOException {
         TEST_JPEG = null;
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        resetDeviceOrientation();
     }
 
     @Test
@@ -326,10 +333,6 @@ public class AnalysisScreenTest {
 
         // Then
         int rotation = analysisActivity.getWindowManager().getDefaultDisplay().getRotation();
-
-        uiDevice.setOrientationNatural();
-        uiDevice.unfreezeRotation();
-
         assertThat(rotation).isEqualTo(Surface.ROTATION_0);
     }
 

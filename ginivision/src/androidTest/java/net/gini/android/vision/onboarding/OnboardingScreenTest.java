@@ -3,6 +3,7 @@ package net.gini.android.vision.onboarding;
 import static com.google.common.truth.Truth.assertThat;
 
 import static net.gini.android.vision.test.Helpers.isTablet;
+import static net.gini.android.vision.test.Helpers.resetDeviceOrientation;
 
 import static org.junit.Assume.assumeTrue;
 
@@ -23,6 +24,7 @@ import android.view.Surface;
 import net.gini.android.vision.R;
 import net.gini.android.vision.test.EspressoMatchers;
 
+import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,6 +39,12 @@ public class OnboardingScreenTest {
 
     @Rule
     public ActivityTestRule<OnboardingActivity> mActivityTestRule = new ActivityTestRule<>(OnboardingActivity.class, true, false);
+
+
+    @After
+    public void tearDown() throws Exception {
+        resetDeviceOrientation();
+    }
 
     @Test
     public void should_goToNextPage_whenNextButton_isClicked() {
@@ -178,10 +186,6 @@ public class OnboardingScreenTest {
 
         // Then
         int rotation = onboardingActivity.getWindowManager().getDefaultDisplay().getRotation();
-
-        uiDevice.setOrientationNatural();
-        uiDevice.unfreezeRotation();
-
         assertThat(rotation)
                 .isEqualTo(Surface.ROTATION_0);
     }

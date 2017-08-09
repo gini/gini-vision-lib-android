@@ -7,6 +7,7 @@ import static net.gini.android.vision.OncePerInstallEventStoreHelper.setOnboardi
 import static net.gini.android.vision.test.EspressoMatchers.hasComponent;
 import static net.gini.android.vision.test.Helpers.isTablet;
 import static net.gini.android.vision.test.Helpers.prepareLooper;
+import static net.gini.android.vision.test.Helpers.resetDeviceOrientation;
 
 import static org.junit.Assume.assumeTrue;
 import static org.mockito.Matchers.any;
@@ -80,10 +81,11 @@ public class CameraScreenTest {
     }
 
     @After
-    public void teardown() throws InterruptedException {
+    public void teardown() throws Exception {
         clearOnboardingWasShownPreference();
         // Wait a little for the camera to close
         Thread.sleep(CLOSE_CAMERA_PAUSE_DURATION);
+        resetDeviceOrientation();
     }
 
     @Test(expected = IllegalStateException.class)
@@ -352,9 +354,6 @@ public class CameraScreenTest {
         Espresso.onView(
                 ViewMatchers.withId(R.id.gv_camera_preview)).check(
                 EspressoAssertions.hasSizeRatio((float) initialHeight / initialWidth));
-
-        uiDevice.setOrientationNatural();
-        uiDevice.unfreezeRotation();
     }
 
     @Test
@@ -373,10 +372,6 @@ public class CameraScreenTest {
 
         // Then
         int rotation = cameraActivity.getWindowManager().getDefaultDisplay().getRotation();
-
-        uiDevice.setOrientationNatural();
-        uiDevice.unfreezeRotation();
-
         assertThat(rotation)
                 .isEqualTo(Surface.ROTATION_0);
     }

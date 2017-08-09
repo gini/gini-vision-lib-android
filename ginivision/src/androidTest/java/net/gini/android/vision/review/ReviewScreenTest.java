@@ -8,6 +8,7 @@ import static net.gini.android.vision.test.Helpers.createDocument;
 import static net.gini.android.vision.test.Helpers.getTestJpeg;
 import static net.gini.android.vision.test.Helpers.isTablet;
 import static net.gini.android.vision.test.Helpers.prepareLooper;
+import static net.gini.android.vision.test.Helpers.resetDeviceOrientation;
 
 import static org.junit.Assume.assumeTrue;
 import static org.mockito.Matchers.any;
@@ -34,6 +35,7 @@ import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivityTestSpy;
 import net.gini.android.vision.test.CurrentActivityTestRule;
 
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -67,6 +69,11 @@ public class ReviewScreenTest {
     @AfterClass
     public static void teardownClass() throws IOException {
         TEST_JPEG = null;
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        resetDeviceOrientation();
     }
 
     @Test(expected = IllegalStateException.class)
@@ -569,9 +576,6 @@ public class ReviewScreenTest {
         assertAbout(document()).that(documentToAnalyzeAfterOrientationChange.get()).hasRotationDeltaInUserComment(180);
         assertThat(documentToAnalyzeAfterOrientationChange.get().getRotationForDisplay()).isEqualTo(270);
         assertThat(activity.getFragment().getFragmentImpl().getImageDocument().getRotation()).isWithin(0.0f).of(270);
-
-        uiDevice.setOrientationNatural();
-        uiDevice.unfreezeRotation();
     }
 
     @Test
@@ -590,10 +594,6 @@ public class ReviewScreenTest {
 
         // Then
         int rotation = reviewActivity.getWindowManager().getDefaultDisplay().getRotation();
-
-        uiDevice.setOrientationNatural();
-        uiDevice.unfreezeRotation();
-
         assertThat(rotation)
                 .isEqualTo(Surface.ROTATION_0);
     }
