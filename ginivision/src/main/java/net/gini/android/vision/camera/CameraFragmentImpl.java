@@ -4,6 +4,7 @@ import static net.gini.android.vision.camera.Util.cameraExceptionToGiniVisionErr
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 import static net.gini.android.vision.internal.util.AndroidHelper.isMarshmallowOrLater;
 import static net.gini.android.vision.internal.util.ContextHelper.getClientApplicationId;
+import static net.gini.android.vision.internal.util.ContextHelper.isLandscape;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -141,7 +142,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         if (activity == null) {
             return size;
         }
-        if (activity.getResources().getBoolean(R.bool.gv_is_landscape)) {
+        if (isLandscape(activity)) {
             return size;
         } else {
             //noinspection SuspiciousNameCombination

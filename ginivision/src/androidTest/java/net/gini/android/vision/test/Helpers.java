@@ -2,7 +2,6 @@ package net.gini.android.vision.test;
 
 import android.app.Instrumentation;
 import android.content.res.AssetManager;
-import android.content.res.Resources;
 import android.os.Build;
 import android.os.Looper;
 import android.os.Parcel;
@@ -13,6 +12,7 @@ import android.support.test.uiautomator.UiDevice;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.internal.camera.photo.Photo;
+import net.gini.android.vision.internal.util.ContextHelper;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -74,8 +74,7 @@ public class Helpers {
 
     public static boolean isTablet() {
         final Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
-        final Resources resources = instrumentation.getTargetContext().getResources();
-        return resources.getBoolean(R.bool.gv_is_tablet);
+        return ContextHelper.isTablet(instrumentation.getTargetContext());
     }
 
     public static void resetDeviceOrientation() throws RemoteException {

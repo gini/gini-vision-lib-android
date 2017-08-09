@@ -13,15 +13,22 @@ public final class ContextHelper {
     /**
      * @exclude
      */
-    public static String getClientApplicationId(@NonNull Context context) {
+    public static String getClientApplicationId(@NonNull final Context context) {
         return context.getPackageName();
     }
 
     /**
      * @exclude
      */
-    public static boolean isTablet(@NonNull Context context) {
+    public static boolean isTablet(@NonNull final Context context) {
         return context.getResources().getBoolean(R.bool.gv_is_tablet);
+    }
+
+    /**
+     * @exclude
+     */
+    public static boolean isLandscape(@NonNull final Context context) {
+        return context.getResources().getBoolean(R.bool.gv_is_landscape);
     }
 
     private ContextHelper() {
