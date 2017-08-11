@@ -125,6 +125,16 @@ public interface CameraInterface {
     Size getPreviewSize();
 
     /**
+     * <p>
+     *     The selected preview size for the camera rotated to match the camera orientation.
+     *     It is the largest preview size which has an aspect ratio of 4:3.
+     * </p>
+     * @return preview size
+     */
+    @NonNull
+    Size getPreviewSizeForDisplay();
+
+    /**
      *<p>
      *     The selected picture size for the camera. It is the largest picture size which has an aspect ratio of 4:3.
      *</p>

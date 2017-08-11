@@ -4,7 +4,6 @@ import static net.gini.android.vision.camera.Util.cameraExceptionToGiniVisionErr
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 import static net.gini.android.vision.internal.util.AndroidHelper.isMarshmallowOrLater;
 import static net.gini.android.vision.internal.util.ContextHelper.getClientApplicationId;
-import static net.gini.android.vision.internal.util.ContextHelper.isLandscape;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -34,7 +33,6 @@ import net.gini.android.vision.internal.camera.api.CameraException;
 import net.gini.android.vision.internal.camera.api.CameraInterface;
 import net.gini.android.vision.internal.camera.api.UIExecutor;
 import net.gini.android.vision.internal.camera.photo.Photo;
-import net.gini.android.vision.internal.camera.photo.Size;
 import net.gini.android.vision.internal.camera.view.CameraPreviewSurface;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 import net.gini.android.vision.internal.ui.ViewStubSafeInflater;
@@ -122,7 +120,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                         try {
                             SurfaceHolder surfaceHolder = surfaceCreationCompletable.get();
                             if (surfaceHolder != null) {
-                                mCameraPreview.setPreviewSize(adaptForCurrentOrientation(mCameraController.getPreviewSize()));
+                                mCameraPreview.setPreviewSize(mCameraController.getPreviewSizeForDisplay());
                                 startPreview(surfaceHolder);
                                 enableTapToFocus();
                             } else {
@@ -135,19 +133,6 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                         return null;
                     }
                 });
-    }
-
-    private Size adaptForCurrentOrientation(@NonNull final Size size) {
-        Activity activity = mFragment.getActivity();
-        if (activity == null) {
-            return size;
-        }
-        if (isLandscape(activity)) {
-            return size;
-        } else {
-            //noinspection SuspiciousNameCombination
-            return new Size(size.height, size.width);
-        }
     }
 
     private void startPreview(SurfaceHolder holder) {

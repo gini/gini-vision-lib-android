@@ -380,6 +380,17 @@ public class CameraController implements CameraInterface {
 
     @NonNull
     @Override
+    public Size getPreviewSizeForDisplay() {
+        final int rotation = getDisplayOrientationForCamera(mActivity);
+        if (rotation == 90 || rotation == 270) {
+            //noinspection SuspiciousNameCombination
+            return new Size(mPreviewSize.height, mPreviewSize.width);
+        }
+        return mPreviewSize;
+    }
+
+    @NonNull
+    @Override
     public Size getPictureSize() {
         return mPictureSize;
     }

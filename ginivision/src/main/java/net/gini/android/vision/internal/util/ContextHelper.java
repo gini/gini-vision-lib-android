@@ -24,13 +24,6 @@ public final class ContextHelper {
         return context.getResources().getBoolean(R.bool.gv_is_tablet);
     }
 
-    /**
-     * @exclude
-     */
-    public static boolean isLandscape(@NonNull final Context context) {
-        return context.getResources().getBoolean(R.bool.gv_is_landscape);
-    }
-
     private ContextHelper() {
     }
 }
