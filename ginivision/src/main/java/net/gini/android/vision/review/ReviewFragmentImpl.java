@@ -1,5 +1,7 @@
 package net.gini.android.vision.review;
 
+import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
+
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.os.Bundle;
@@ -27,6 +29,7 @@ import org.slf4j.LoggerFactory;
 
 class ReviewFragmentImpl implements ReviewFragmentInterface {
 
+    private static final String PHOTO_KEY = "PHOTO_KEY";
     private static final Logger LOG = LoggerFactory.getLogger(ReviewFragmentImpl.class);
 
     private static final int JPEG_COMPRESSION_QUALITY_FOR_UPLOAD = 50;
@@ -70,6 +73,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     public ReviewFragmentImpl(@NonNull FragmentImplCallback fragment, @NonNull Document document) {
         mFragment = fragment;
         mPhoto = Photo.fromDocument(document);
+        mCurrentRotation = mPhoto.getRotationForDisplay();
     }
 
     @VisibleForTesting
@@ -91,25 +95,33 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     }
 
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        applyCompressionToJpeg(new PhotoEdit.PhotoEditCallback() {
-            @Override
-            public void onDone(@NonNull Photo photo) {
-                if (mNextClicked || mDocumentWasModified || mStopped) {
-                    return;
+        forcePortraitOrientationOnPhones(mFragment.getActivity());
+        if (savedInstanceState != null) {
+            restoreSavedState(savedInstanceState);
+            LOG.info("Should analyze document");
+            mListener.onShouldAnalyzeDocument(Document.fromPhoto(mPhoto));
+        } else {
+            applyCompressionToJpeg(new PhotoEdit.PhotoEditCallback() {
+                @Override
+                public void onDone(@NonNull Photo photo) {
+                    if (mNextClicked || mDocumentWasModified || mStopped) {
+                        return;
+                    }
+                    LOG.info("Should analyze document");
+                    mListener.onShouldAnalyzeDocument(Document.fromPhoto(mPhoto));
                 }
-                LOG.info("Should analyze document");
-                mListener.onShouldAnalyzeDocument(Document.fromPhoto(mPhoto));
-            }
 
-            @Override
-            public void onFailed() {
-                if (mNextClicked || mStopped) {
-                    return;
+                @Override
+                public void onFailed() {
+                    if (mNextClicked || mStopped) {
+                        return;
+                    }
+                    LOG.error("Failed to compress the jpeg");
+                    mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW,
+                            "An error occurred while compressing the jpeg."));
                 }
-                LOG.error("Failed to compress the jpeg");
-                mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW, "An error occurred while compressing the jpeg."));
-            }
-        });
+            });
+        }
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -135,6 +147,10 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         mStopped = true;
     }
 
+    public void onSaveInstanceState(final Bundle outState) {
+        outState.putParcelable(PHOTO_KEY, mPhoto);
+    }
+
     public void onDestroy() {
         mPhoto = null;
     }
@@ -144,6 +160,17 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         mImageDocument = (TouchImageView) view.findViewById(R.id.gv_image_document);
         mButtonRotate = (ImageButton) view.findViewById(R.id.gv_button_rotate);
         mButtonNext = (ImageButton) view.findViewById(R.id.gv_button_next);
+    }
+
+    private void restoreSavedState(@Nullable Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            return;
+        }
+        mPhoto = savedInstanceState.getParcelable(PHOTO_KEY);
+        if (mPhoto == null) {
+            throw new IllegalStateException("Photo instance required for restoring saved instance state.");
+        }
+        mCurrentRotation = mPhoto.getRotationForDisplay();
     }
 
     private void setInputHandlers() {
@@ -176,7 +203,6 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     }
 
     private void rotateDocumentForDisplay() {
-        mCurrentRotation = mPhoto.getRotationForDisplay();
         rotateImageView(mPhoto.getRotationForDisplay(), false);
     }
 

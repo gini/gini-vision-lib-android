@@ -352,7 +352,7 @@ public class CameraController implements CameraInterface {
                     @Override
                     public void onPictureTaken(final byte[] bytes, Camera camera) {
                         mTakingPictureFuture.set(null);
-                        final Photo photo = Photo.fromJpeg(bytes, getBackFacingCameraOrientation());
+                        final Photo photo = Photo.fromJpeg(bytes, getDisplayOrientationForCamera(mActivity));
                         LOG.info("Picture taken");
                         pictureTaken.complete(photo);
                     }
@@ -375,6 +375,17 @@ public class CameraController implements CameraInterface {
     @NonNull
     @Override
     public Size getPreviewSize() {
+        return mPreviewSize;
+    }
+
+    @NonNull
+    @Override
+    public Size getPreviewSizeForDisplay() {
+        final int rotation = getDisplayOrientationForCamera(mActivity);
+        if (rotation == 90 || rotation == 270) {
+            //noinspection SuspiciousNameCombination
+            return new Size(mPreviewSize.height, mPreviewSize.width);
+        }
         return mPreviewSize;
     }
 
@@ -445,9 +456,16 @@ public class CameraController implements CameraInterface {
 
     private void setCameraDisplayOrientation(Activity activity, android.hardware.Camera camera) {
         LOG.debug("Setting camera display orientation");
+        final int displayOrientation = getDisplayOrientationForCamera(activity);
+        camera.setDisplayOrientation(displayOrientation);
+        LOG.debug("Camera display orientation set to {}", displayOrientation);
+    }
+
+    private int getDisplayOrientationForCamera(Activity activity) {
         Camera.CameraInfo info = getBackFacingCameraInfo();
         if (info == null) {
-            return;
+            LOG.error("Could not get back facing camera info");
+            return 0;
         }
         int rotation = activity.getWindowManager().getDefaultDisplay()
                 .getRotation();
@@ -466,7 +484,7 @@ public class CameraController implements CameraInterface {
                 degrees = 270;
                 break;
         }
-        LOG.debug("Default display rotation {}", degrees);
+        LOG.debug("Default display rotation is {}", degrees);
 
         int result;
         if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
@@ -475,8 +493,8 @@ public class CameraController implements CameraInterface {
         } else {  // back-facing
             result = (info.orientation - degrees + 360) % 360;
         }
-        camera.setDisplayOrientation(result);
-        LOG.debug("Camera display orientation set to {}", result);
+
+        return result;
     }
 
     @Nullable

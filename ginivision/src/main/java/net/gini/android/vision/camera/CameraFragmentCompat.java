@@ -54,6 +54,15 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
     /**
      * @exclude
      */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mFragmentImpl.onCreate(savedInstanceState);
+    }
+
+    /**
+     * @exclude
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

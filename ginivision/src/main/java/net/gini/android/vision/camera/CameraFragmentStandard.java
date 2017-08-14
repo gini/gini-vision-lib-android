@@ -66,6 +66,15 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
     /**
      * @exclude
      */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mFragmentImpl.onCreate(savedInstanceState);
+    }
+
+    /**
+     * @exclude
+     */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

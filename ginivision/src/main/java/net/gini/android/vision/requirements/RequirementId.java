@@ -41,7 +41,7 @@ public enum RequirementId {
     CAMERA_RESOLUTION,
     /**
      * <p>
-     *     The camera must support always-on flash mode.
+     *     The camera on phones must support always-on flash mode. Not required for tablets.
      * </p>
      */
     CAMERA_FLASH,

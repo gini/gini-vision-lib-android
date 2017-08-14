@@ -6,6 +6,10 @@ import static com.google.common.truth.Truth.assertThat;
 import static net.gini.android.vision.test.DocumentSubject.document;
 import static net.gini.android.vision.test.Helpers.createDocument;
 import static net.gini.android.vision.test.Helpers.getTestJpeg;
+import static net.gini.android.vision.test.Helpers.isTablet;
+import static net.gini.android.vision.test.Helpers.resetDeviceOrientation;
+
+import static org.junit.Assume.assumeTrue;
 
 import android.app.Instrumentation;
 import android.content.Intent;
@@ -14,9 +18,11 @@ import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.matcher.ViewMatchers;
+import android.support.test.filters.SdkSuppress;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.test.uiautomator.UiDevice;
+import android.view.Surface;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -26,6 +32,7 @@ import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.review.ReviewActivity;
 
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -39,11 +46,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class AnalysisScreenTest {
 
     private static final long TEST_PAUSE_DURATION = 500;
+    private static final long ORIENTATION_CHANGE_PAUSE_DURATION = 1500;
 
     private static byte[] TEST_JPEG = null;
 
     @Rule
-    public ActivityTestRule<AnalysisActivityTestStub> mActivityTestRule = new ActivityTestRule<>(AnalysisActivityTestStub.class, true, false);
+    public ActivityTestRule<AnalysisActivityTestSpy> mActivityTestRule = new ActivityTestRule<>(AnalysisActivityTestSpy.class, true, false);
 
     @BeforeClass
     public static void setupClass() throws IOException {
@@ -55,9 +63,14 @@ public class AnalysisScreenTest {
         TEST_JPEG = null;
     }
 
+    @After
+    public void tearDown() throws Exception {
+        resetDeviceOrientation();
+    }
+
     @Test
     public void should_invokeAnalyzeDocument_whenLaunched() throws InterruptedException {
-        AnalysisActivityTestStub activity = startAnalysisActivity(TEST_JPEG, 0);
+        AnalysisActivityTestSpy activity = startAnalysisActivity(TEST_JPEG, 0);
 
         // Allow the activity to run a little for listeners to be invoked
         Thread.sleep(TEST_PAUSE_DURATION);
@@ -69,7 +82,7 @@ public class AnalysisScreenTest {
 
     @Test
     public void should_rotatePreview_accordingToOrientation() throws InterruptedException {
-        AnalysisActivityTestStub activity = startAnalysisActivity(TEST_JPEG, 180);
+        AnalysisActivityTestSpy activity = startAnalysisActivity(TEST_JPEG, 180);
 
         // Allow the activity to run a little for listeners to be invoked
         Thread.sleep(TEST_PAUSE_DURATION);
@@ -79,7 +92,7 @@ public class AnalysisScreenTest {
 
     @Test
     public void should_startIndeterminateProgressAnimation_ifRequested() throws InterruptedException {
-        final AnalysisActivityTestStub activity = startAnalysisActivity(TEST_JPEG, 0);
+        final AnalysisActivityTestSpy activity = startAnalysisActivity(TEST_JPEG, 0);
 
         Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
 
@@ -100,7 +113,7 @@ public class AnalysisScreenTest {
 
     @Test
     public void should_stopIndeterminateProgressAnimation_ifRequested() throws InterruptedException {
-        final AnalysisActivityTestStub activity = startAnalysisActivity(TEST_JPEG, 0);
+        final AnalysisActivityTestSpy activity = startAnalysisActivity(TEST_JPEG, 0);
 
         Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
 
@@ -128,7 +141,7 @@ public class AnalysisScreenTest {
 
     @Test
     public void should_invokeAddDataToResult_andFinish_whenDocumentAnalyzed_hasBeenCalled() throws InterruptedException {
-        AnalysisActivityTestStub activity = startAnalysisActivity(TEST_JPEG, 0);
+        AnalysisActivityTestSpy activity = startAnalysisActivity(TEST_JPEG, 0);
 
         // Allow the activity to run a little for listeners to be invoked
         Thread.sleep(TEST_PAUSE_DURATION);
@@ -141,7 +154,7 @@ public class AnalysisScreenTest {
 
     @Test
     public void should_notInvokeAddDataToResult_whenFinished_withoutDocumentAnalyzed_beingCalled() throws InterruptedException {
-        AnalysisActivityTestStub activity = startAnalysisActivity(TEST_JPEG, 0);
+        AnalysisActivityTestSpy activity = startAnalysisActivity(TEST_JPEG, 0);
 
         InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 
@@ -156,7 +169,7 @@ public class AnalysisScreenTest {
 
     @Test
     public void should_showErrorSnackbar_withButton_andClickListener_whenRequested() throws InterruptedException {
-        final AnalysisActivityTestStub activity = startAnalysisActivity(TEST_JPEG, 0);
+        final AnalysisActivityTestSpy activity = startAnalysisActivity(TEST_JPEG, 0);
 
         final AtomicBoolean buttonClicked = new AtomicBoolean();
 
@@ -186,7 +199,7 @@ public class AnalysisScreenTest {
 
     @Test
     public void should_showErrorSnackbar_withoutButton_whenRequested() throws InterruptedException {
-        final AnalysisActivityTestStub activity = startAnalysisActivity(TEST_JPEG, 0);
+        final AnalysisActivityTestSpy activity = startAnalysisActivity(TEST_JPEG, 0);
 
         InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
             @Override
@@ -204,7 +217,7 @@ public class AnalysisScreenTest {
 
     @Test
     public void should_hideErrorSnackbar_whenRequested() throws InterruptedException {
-        final AnalysisActivityTestStub activity = startAnalysisActivity(TEST_JPEG, 0);
+        final AnalysisActivityTestSpy activity = startAnalysisActivity(TEST_JPEG, 0);
 
         InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
             @Override
@@ -232,7 +245,7 @@ public class AnalysisScreenTest {
 
     @Test
     public void should_notInvokeAddDataToResult_whenHomeButton_wasPressed() throws InterruptedException {
-        final AnalysisActivityTestStub activity = startAnalysisActivity(TEST_JPEG, 0);
+        final AnalysisActivityTestSpy activity = startAnalysisActivity(TEST_JPEG, 0);
 
         // Allow the activity to run a little for listeners to be invoked
         Thread.sleep(TEST_PAUSE_DURATION);
@@ -247,8 +260,9 @@ public class AnalysisScreenTest {
     }
 
     @Test
+    @SdkSuppress(minSdkVersion = 18)
     public void should_notInvokeAddDataToResult_whenBackButton_wasPressed() throws InterruptedException {
-        final AnalysisActivityTestStub activity = startAnalysisActivity(TEST_JPEG, 0);
+        final AnalysisActivityTestSpy activity = startAnalysisActivity(TEST_JPEG, 0);
 
         // Allow the activity to run a little for listeners to be invoked
         Thread.sleep(TEST_PAUSE_DURATION);
@@ -278,7 +292,7 @@ public class AnalysisScreenTest {
     public void should_notInvokeAnalyzeDocument_whenAnalysisErrorMessage_wasGiven() throws InterruptedException {
         Intent intent = getAnalysisActivityIntentWithDocument(TEST_JPEG, 0);
         intent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE, "Something happened");
-        AnalysisActivityTestStub activity = mActivityTestRule.launchActivity(intent);
+        AnalysisActivityTestSpy activity = mActivityTestRule.launchActivity(intent);
 
         // Allow the activity to run a little for the error message to be shown
         Thread.sleep(TEST_PAUSE_DURATION);
@@ -290,7 +304,7 @@ public class AnalysisScreenTest {
     public void should_invokeAnalyzeDocument_whenAnalysisErrorRetryButton_wasClicked() throws InterruptedException {
         Intent intent = getAnalysisActivityIntentWithDocument(TEST_JPEG, 0);
         intent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE, "Something happened");
-        AnalysisActivityTestStub activity = mActivityTestRule.launchActivity(intent);
+        AnalysisActivityTestSpy activity = mActivityTestRule.launchActivity(intent);
 
         // Allow the activity to run a little for the error message to be shown
         Thread.sleep(TEST_PAUSE_DURATION);
@@ -303,18 +317,37 @@ public class AnalysisScreenTest {
         assertAbout(document()).that(activity.analyzeDocument).isEqualToDocument(Document.fromPhoto(Photo.fromJpeg(TEST_JPEG, 0)));
     }
 
-    private AnalysisActivityTestStub startAnalysisActivity(byte[] jpeg, int orientation) {
+    @Test
+    @SdkSuppress(minSdkVersion = 18)
+    public void should_forcePortraitOrientation_onPhones() throws Exception {
+        // Given
+        assumeTrue(!isTablet());
+
+        UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        uiDevice.setOrientationLeft();
+
+        final AnalysisActivity analysisActivity = startAnalysisActivity(TEST_JPEG, 90);
+
+        // Give a little time for the orientation change and activity launch to finish
+        Thread.sleep(ORIENTATION_CHANGE_PAUSE_DURATION);
+
+        // Then
+        int rotation = analysisActivity.getWindowManager().getDefaultDisplay().getRotation();
+        assertThat(rotation).isEqualTo(Surface.ROTATION_0);
+    }
+
+    private AnalysisActivityTestSpy startAnalysisActivity(byte[] jpeg, int orientation) {
         Intent intent = getAnalysisActivityIntent();
         intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, Document.fromPhoto(Photo.fromJpeg(jpeg, orientation)));
         return mActivityTestRule.launchActivity(intent);
     }
 
     private Intent getAnalysisActivityIntent() {
-        return new Intent(InstrumentationRegistry.getTargetContext(), AnalysisActivityTestStub.class);
+        return new Intent(InstrumentationRegistry.getTargetContext(), AnalysisActivityTestSpy.class);
     }
 
     private Intent getAnalysisActivityIntentWithDocument(byte[] jpeg, int orientation) {
-        Intent intent = new Intent(InstrumentationRegistry.getTargetContext(), AnalysisActivityTestStub.class);
+        Intent intent = new Intent(InstrumentationRegistry.getTargetContext(), AnalysisActivityTestSpy.class);
         intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, createDocument(jpeg, orientation));
         return intent;
     }

@@ -7,13 +7,11 @@
             android:name=".camera.CameraActivity"
             android:exported="false"
             android:label="@string/gv_title_camera"
-            android:screenOrientation="portrait"
             android:theme="@style/GiniVisionTheme" />
         <activity
             android:name=".onboarding.OnboardingActivity"
             android:exported="false"
             android:label="@string/gv_title_onboarding"
-            android:screenOrientation="portrait"
             android:theme="@style/GiniVisionTheme.Transparent" />
     </application>
 

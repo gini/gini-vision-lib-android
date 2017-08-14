@@ -2,6 +2,11 @@ package net.gini.android.vision.onboarding;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import static net.gini.android.vision.test.Helpers.isTablet;
+import static net.gini.android.vision.test.Helpers.resetDeviceOrientation;
+
+import static org.junit.Assume.assumeTrue;
+
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,13 +14,17 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.assertion.ViewAssertions;
-import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.espresso.matcher.ViewMatchers;
+import android.support.test.filters.SdkSuppress;
+import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.support.test.uiautomator.UiDevice;
+import android.view.Surface;
 
 import net.gini.android.vision.R;
 import net.gini.android.vision.test.EspressoMatchers;
 
+import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,9 +35,16 @@ import java.util.ArrayList;
 public class OnboardingScreenTest {
 
     private static final long TEST_PAUSE_DURATION = 500;
+    private static final long ORIENTATION_CHANGE_PAUSE_DURATION = 1500;
 
     @Rule
-    public IntentsTestRule<OnboardingActivity> mIntentsTestRule = new IntentsTestRule<>(OnboardingActivity.class, true, false);
+    public ActivityTestRule<OnboardingActivity> mActivityTestRule = new ActivityTestRule<>(OnboardingActivity.class, true, false);
+
+
+    @After
+    public void tearDown() throws Exception {
+        resetDeviceOrientation();
+    }
 
     @Test
     public void should_goToNextPage_whenNextButton_isClicked() {
@@ -154,6 +170,26 @@ public class OnboardingScreenTest {
                 .check(ViewAssertions.matches(EspressoMatchers.hasPageCount(DefaultPages.values().length)));
     }
 
+    @Test
+    @SdkSuppress(minSdkVersion = 18)
+    public void should_forcePortraitOrientation_onPhones() throws Exception {
+        // Given
+        assumeTrue(!isTablet());
+
+        UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        uiDevice.setOrientationLeft();
+
+        final OnboardingActivity onboardingActivity = startOnboardingActivity();
+
+        // Give a little time for the orientation change and activity launch to finish
+        Thread.sleep(ORIENTATION_CHANGE_PAUSE_DURATION);
+
+        // Then
+        int rotation = onboardingActivity.getWindowManager().getDefaultDisplay().getRotation();
+        assertThat(rotation)
+                .isEqualTo(Surface.ROTATION_0);
+    }
+
     private OnboardingActivity startOnboardingActivity() {
         return startOnboardingActivity(null);
     }
@@ -162,7 +198,7 @@ public class OnboardingScreenTest {
         if (intent == null) {
             intent = getOnboardingActivityIntent();
         }
-        return mIntentsTestRule.launchActivity(intent);
+        return mActivityTestRule.launchActivity(intent);
     }
 
     @NonNull

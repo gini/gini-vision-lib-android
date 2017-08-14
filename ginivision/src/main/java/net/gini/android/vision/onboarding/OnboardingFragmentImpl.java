@@ -1,5 +1,7 @@
 package net.gini.android.vision.onboarding;
 
+import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
+
 import android.animation.Animator;
 import android.content.Context;
 import android.os.Bundle;
@@ -79,6 +81,10 @@ class OnboardingFragmentImpl {
         } else {
             mListener = listener;
         }
+    }
+
+    public void onCreate(Bundle savedInstanceState) {
+        forcePortraitOrientationOnPhones(mFragment.getActivity());
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

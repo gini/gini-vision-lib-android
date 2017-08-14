@@ -51,8 +51,7 @@ public class CameraPreviewSurface extends SurfaceView {
         if (width > 0 && height > 0 &&
                 mPreviewSize != null) {
             float aspectRatioSurface = (float) width / (float) height;
-            // Preview size is in landscape, we need it in portrait, switching height and width
-            float aspectRatioPreview = (float) mPreviewSize.height / (float) mPreviewSize.width;
+            float aspectRatioPreview = (float) mPreviewSize.width / (float) mPreviewSize.height;
 
             int adjustedWidth = width;
             int adjustedHeight = height;

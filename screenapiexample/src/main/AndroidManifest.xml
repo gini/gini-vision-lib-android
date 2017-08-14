@@ -32,21 +32,17 @@
         <activity
             android:name="net.gini.android.vision.screen.ReviewActivity"
             android:label="@string/gv_title_review"
-            android:screenOrientation="portrait"
             android:theme="@style/GiniVisionTheme" />
         <activity
             android:name="net.gini.android.vision.screen.AnalysisActivity"
             android:label="@string/gv_title_analysis"
-            android:screenOrientation="portrait"
             android:theme="@style/GiniVisionTheme" />
         <activity
             android:name="net.gini.android.vision.screen.ExtractionsActivity"
-            android:label="@string/title_extractions"
-            android:screenOrientation="portrait" />
+            android:label="@string/title_extractions" />
         <activity
             android:name="net.gini.android.vision.screen.NoExtractionsActivity"
-            android:label="@string/title_no_extractions"
-            android:screenOrientation="portrait"/>
+            android:label="@string/title_no_extractions"/>
     </application>
 
 </manifest>

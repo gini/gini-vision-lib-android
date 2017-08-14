@@ -1,5 +1,7 @@
 package net.gini.android.vision.analysis;
 
+import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -67,6 +69,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     public void onCreate(Bundle savedInstanceState) {
+        forcePortraitOrientationOnPhones(mFragment.getActivity());
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
