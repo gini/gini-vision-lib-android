@@ -8,6 +8,7 @@ import static net.gini.android.vision.internal.util.ContextHelper.getClientAppli
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -33,6 +34,7 @@ import net.gini.android.vision.internal.camera.api.CameraException;
 import net.gini.android.vision.internal.camera.api.CameraInterface;
 import net.gini.android.vision.internal.camera.api.UIExecutor;
 import net.gini.android.vision.internal.camera.photo.Photo;
+import net.gini.android.vision.internal.camera.photo.Size;
 import net.gini.android.vision.internal.camera.view.CameraPreviewSurface;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 import net.gini.android.vision.internal.ui.ViewStubSafeInflater;
@@ -120,7 +122,10 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                         try {
                             SurfaceHolder surfaceHolder = surfaceCreationCompletable.get();
                             if (surfaceHolder != null) {
-                                mCameraPreview.setPreviewSize(mCameraController.getPreviewSizeForDisplay());
+                                final Size previewSize =
+                                        mCameraController.getPreviewSizeForDisplay();
+                                mCameraPreview.setPreviewSize(previewSize);
+                                setPreviewCornersImage(previewSize.width, previewSize.height);
                                 startPreview(surfaceHolder);
                                 enableTapToFocus();
                             } else {
@@ -133,6 +138,21 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                         return null;
                     }
                 });
+    }
+
+    private void setPreviewCornersImage(final int width, final int height) {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null){
+            return;
+        }
+        final Drawable corners;
+        if (width <= height) {
+            corners = activity.getResources().getDrawable(R.drawable.gv_camera_preview_corners);
+        } else {
+            corners = activity.getResources().getDrawable(
+                    R.drawable.gv_camera_preview_corners_land);
+        }
+        mImageCorners.setImageDrawable(corners);
     }
 
     private void startPreview(SurfaceHolder holder) {
@@ -305,6 +325,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
             @Override
             public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
                 LOG.debug("Surface changed");
+                setPreviewCornersImage(width, height);
             }
 
             @Override
