@@ -11,7 +11,7 @@
 #   3. (optional) avdmanager parameters
 # 
 set -e
-set -x
+#set -x
 
 if [ $# -lt 1 ]; then
     echo "Pass in an avd name prefix, the system image package path and (optional) parameters"
