@@ -59,6 +59,24 @@ pipeline {
                 }
             }
         }
+        stage('Instrumentation Tests - Tablet') {
+            steps {
+                withEnv(["PATH+TOOLS=$ANDROID_HOME/tools", "PATH+TOOLS_BIN=$ANDROID_HOME/tools/bin", "PATH+PLATFORM_TOOLS=$ANDROID_HOME/platform-tools"]) {
+                    sh 'scripts/start-emulator-with-skin.sh "api-25-nexus-9"_$(scripts/get-avd-name.sh) nexus_9 -prop persist.sys.language=en -prop persist.sys.country=US -no-snapshot-load -no-snapshot-save -gpu on -camera-back emulated > emulator_port'
+                    sh 'emulator_port=$(cat emulator_port) && scripts/wait-for-emulator-to-boot.sh emulator-$emulator_port 20'
+                    sh 'emulator_port=$(cat emulator_port) && ./gradlew ginivision:targetedDebugAndroidTest -PpackageName=net.gini.android.vision -PtestTarget=emulator-$emulator_port'
+                }
+            }
+            post {
+                always {
+                    junit allowEmptyResults: true, testResults: 'ginivision/build/outputs/androidTest-results/targeted/*.xml'
+                    withEnv(["PATH+PLATFORM_TOOLS=$ANDROID_HOME/platform-tools"]) {
+                        sh 'emulator_port=$(cat emulator_port) && adb -s emulator-$emulator_port emu kill || true'
+                    }
+                    sh 'rm emulator_port || true'
+                }
+            }
+        }
         stage('Code Coverage') {
             // Skip it
             when {
