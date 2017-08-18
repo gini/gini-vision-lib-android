@@ -14,6 +14,10 @@ pipeline {
     }
     stages {
         stage('Build') {
+            // Skip it
+            when {
+                expression { false }
+            }
             steps {
                 sh './gradlew ginivision:clean ginivision:assembleDebug ginivision:assembleRelease'
             }
