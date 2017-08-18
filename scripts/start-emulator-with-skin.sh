@@ -13,7 +13,7 @@
 #   3. (optional) emulator parameters
 # 
 set -e
-set -x
+#set -x
 
 if [ $# -lt 2 ]; then
     echo "Pass in the avd name, skin folder name and (optional) emulator parameters"
