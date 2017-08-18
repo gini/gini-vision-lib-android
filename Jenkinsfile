@@ -19,6 +19,10 @@ pipeline {
             }
         }
         stage('Unit Tests') {
+            // Skip it
+            when {
+                expression { false }
+            }
             steps {
                 sh './gradlew ginivision:test'
             }
@@ -28,10 +32,19 @@ pipeline {
                 }
             }
         }
-        stage('Instrumentation Tests') {
+        stage('Create AVDs') {
             steps {
                 withEnv(["PATH+TOOLS=$ANDROID_HOME/tools", "PATH+TOOLS_BIN=$ANDROID_HOME/tools/bin", "PATH+PLATFORM_TOOLS=$ANDROID_HOME/platform-tools"]) {
-                    sh 'scripts/start-emulator.sh mobilecd_android-25_google_apis-x86_512M -prop persist.sys.language=en -prop persist.sys.country=US -no-snapshot-load -no-snapshot-save -gpu on -camera-back emulated > emulator_port'
+                    sh 'scripts/delete-corrupt-avds.sh'
+                    sh 'scripts/create-avd-for-device.sh api-25-nexus-5x "system-images;android-25;google_apis;x86" "Nexus 5X" || true'
+                    sh 'scripts/create-avd-for-device.sh api-25-nexus-9 "system-images;android-25;google_apis;x86" "Nexus 9" || true'
+                }
+            }
+        }
+        stage('Instrumentation Tests - Phone') {
+            steps {
+                withEnv(["PATH+TOOLS=$ANDROID_HOME/tools", "PATH+TOOLS_BIN=$ANDROID_HOME/tools/bin", "PATH+PLATFORM_TOOLS=$ANDROID_HOME/platform-tools"]) {
+                    sh 'scripts/start-emulator-with-skin.sh "api-25-nexus-5x"_$(scripts/get-avd-name.sh) nexus_5x -prop persist.sys.language=en -prop persist.sys.country=US -no-snapshot-load -no-snapshot-save -gpu on -camera-back emulated > emulator_port'
                     sh 'emulator_port=$(cat emulator_port) && scripts/wait-for-emulator-to-boot.sh emulator-$emulator_port 20'
                     sh 'emulator_port=$(cat emulator_port) && ./gradlew ginivision:targetedDebugAndroidTest -PpackageName=net.gini.android.vision -PtestTarget=emulator-$emulator_port'
                 }
@@ -47,18 +60,30 @@ pipeline {
             }
         }
         stage('Code Coverage') {
+            // Skip it
+            when {
+                expression { false }
+            }
             steps {
                 sh './gradlew ginivision:unifyTargetedTestCoverage ginivision:jacocoTestDebugUnitTestReport'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision/build/reports/jacoco/jacocoTestDebugUnitTestReport/html', reportFiles: 'index.html', reportName: 'Code Coverage Report', reportTitles: ''])
             }
         }
         stage('Javadoc Coverage') {
+            // Skip it
+            when {
+                expression { false }
+            }
             steps {
                 sh './gradlew ginivision:generateJavadocCoverage'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision/build/reports/javadoc-coverage', reportFiles: 'index.html', reportName: 'Javadoc Coverage Report', reportTitles: ''])
             }
         }
         stage('Code Analysis') {
+            // Skip it
+            when {
+                expression { false }
+            }
             steps {
                 sh './gradlew ginivision:lint ginivision:checkstyle ginivision:findbugs ginivision:pmd'
                 androidLint canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'ginivision/build/reports/lint-results.xml', unHealthy: ''
@@ -68,6 +93,10 @@ pipeline {
             }
         }
         stage('Build Documentation') {
+            // Skip it
+            when {
+                expression { false }
+            }
             steps {
                 withEnv(["PATH+=/usr/local/bin"]) {
                     sh 'scripts/build-sphinx-doc.sh'
@@ -76,12 +105,20 @@ pipeline {
             }
         }
         stage('Generate Javadoc') {
+            // Skip it
+            when {
+                expression { false }
+            }
             steps {
                 sh './gradlew ginivision:generateJavadoc'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision/build/docs/javadoc', reportFiles: 'index.html', reportName: 'Javadoc', reportTitles: ''])
             }
         }
         stage('Archive Artifacts') {
+            // Skip it
+            when {
+                expression { false }
+            }
             steps {
                 sh 'cd ginivision/build/reports/jacoco/jacocoTestDebugUnitTestReport && zip -r testCoverage.zip html && cd -'
                 sh 'cd ginivision/build/reports && zip -r javadocCoverage.zip javadoc-coverage && cd -'
@@ -89,6 +126,10 @@ pipeline {
             }
         }
         stage('Build Example Apps') {
+            // Skip it
+            when {
+                expression { false }
+            }
             steps {
                 sh './gradlew screenapiexample::clean screenapiexample::insertClientCredentials screenapiexample::assembleRelease -PreleaseKeystoreFile=screen_api_example.jks -PreleaseKeystorePassword="$SCREEN_API_EXAMPLE_APP_KEYSTORE_PSW" -PreleaseKeyAlias=screen_api_example -PreleaseKeyPassword="$SCREEN_API_EXAMPLE_APP_KEY_PSW" -PclientId=$EXAMPLE_APP_CLIENT_CREDENTIALS_USR -PclientSecret=$EXAMPLE_APP_CLIENT_CREDENTIALS_PSW'
                 sh './gradlew componentapiexample::clean componentapiexample::insertClientCredentials componentapiexample::assembleRelease -PreleaseKeystoreFile=component_api_example.jks -PreleaseKeystorePassword="$COMPONENT_API_EXAMPLE_APP_KEYSTORE_PSW" -PreleaseKeyAlias=component_api_example -PreleaseKeyPassword="$COMPONENT_API_EXAMPLE_APP_KEY_PSW" -PclientId=$EXAMPLE_APP_CLIENT_CREDENTIALS_USR -PclientSecret=$EXAMPLE_APP_CLIENT_CREDENTIALS_PSW'
@@ -96,6 +137,10 @@ pipeline {
             }
         }
         stage('Upload Example Apps to Hockeyapp') {
+            // Skip it
+            when {
+                expression { false }
+            }
             steps {
                 step([$class: 'HockeyappRecorder', applications: [[apiToken: SCREEN_API_EXAMPLE_APP_HOCKEYAPP_API_TOKEN, downloadAllowed: true, dsymPath: 'screenapiexample/build/outputs/mapping/release/mapping.txt', filePath: 'screenapiexample/build/outputs/apk/screenapiexample-release.apk', mandatory: false, notifyTeam: false, releaseNotesMethod: [$class: 'ChangelogReleaseNotes'], uploadMethod: [$class: 'AppCreation', publicPage: false]]], debugMode: false, failGracefully: false])
                 step([$class: 'HockeyappRecorder', applications: [[apiToken: COMPONENT_API_EXAMPLE_APP_HOCKEYAPP_API_TOKEN, downloadAllowed: true, dsymPath: 'componentapiexample/build/outputs/mapping/release/mapping.txt', filePath: 'componentapiexample/build/outputs/apk/componentapiexample-release.apk', mandatory: false, notifyTeam: false, releaseNotesMethod: [$class: 'ChangelogReleaseNotes'], uploadMethod: [$class: 'AppCreation', publicPage: false]]], debugMode: false, failGracefully: false])
