@@ -14,19 +14,11 @@ pipeline {
     }
     stages {
         stage('Build') {
-            // Skip it
-            when {
-                expression { false }
-            }
             steps {
                 sh './gradlew ginivision:clean ginivision:assembleDebug ginivision:assembleRelease'
             }
         }
         stage('Unit Tests') {
-            // Skip it
-            when {
-                expression { false }
-            }
             steps {
                 sh './gradlew ginivision:test'
             }
@@ -82,30 +74,18 @@ pipeline {
             }
         }
         stage('Code Coverage') {
-            // Skip it
-            when {
-                expression { false }
-            }
             steps {
                 sh './gradlew ginivision:unifyTargetedTestCoverage ginivision:jacocoTestDebugUnitTestReport'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision/build/reports/jacoco/jacocoTestDebugUnitTestReport/html', reportFiles: 'index.html', reportName: 'Code Coverage Report', reportTitles: ''])
             }
         }
         stage('Javadoc Coverage') {
-            // Skip it
-            when {
-                expression { false }
-            }
             steps {
                 sh './gradlew ginivision:generateJavadocCoverage'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision/build/reports/javadoc-coverage', reportFiles: 'index.html', reportName: 'Javadoc Coverage Report', reportTitles: ''])
             }
         }
         stage('Code Analysis') {
-            // Skip it
-            when {
-                expression { false }
-            }
             steps {
                 sh './gradlew ginivision:lint ginivision:checkstyle ginivision:findbugs ginivision:pmd'
                 androidLint canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'ginivision/build/reports/lint-results.xml', unHealthy: ''
@@ -115,10 +95,6 @@ pipeline {
             }
         }
         stage('Build Documentation') {
-            // Skip it
-            when {
-                expression { false }
-            }
             steps {
                 withEnv(["PATH+=/usr/local/bin"]) {
                     sh 'scripts/build-sphinx-doc.sh'
@@ -127,20 +103,12 @@ pipeline {
             }
         }
         stage('Generate Javadoc') {
-            // Skip it
-            when {
-                expression { false }
-            }
             steps {
                 sh './gradlew ginivision:generateJavadoc'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision/build/docs/javadoc', reportFiles: 'index.html', reportName: 'Javadoc', reportTitles: ''])
             }
         }
         stage('Archive Artifacts') {
-            // Skip it
-            when {
-                expression { false }
-            }
             steps {
                 sh 'cd ginivision/build/reports/jacoco/jacocoTestDebugUnitTestReport && zip -r testCoverage.zip html && cd -'
                 sh 'cd ginivision/build/reports && zip -r javadocCoverage.zip javadoc-coverage && cd -'
@@ -148,10 +116,6 @@ pipeline {
             }
         }
         stage('Build Example Apps') {
-            // Skip it
-            when {
-                expression { false }
-            }
             steps {
                 sh './gradlew screenapiexample::clean screenapiexample::insertClientCredentials screenapiexample::assembleRelease -PreleaseKeystoreFile=screen_api_example.jks -PreleaseKeystorePassword="$SCREEN_API_EXAMPLE_APP_KEYSTORE_PSW" -PreleaseKeyAlias=screen_api_example -PreleaseKeyPassword="$SCREEN_API_EXAMPLE_APP_KEY_PSW" -PclientId=$EXAMPLE_APP_CLIENT_CREDENTIALS_USR -PclientSecret=$EXAMPLE_APP_CLIENT_CREDENTIALS_PSW'
                 sh './gradlew componentapiexample::clean componentapiexample::insertClientCredentials componentapiexample::assembleRelease -PreleaseKeystoreFile=component_api_example.jks -PreleaseKeystorePassword="$COMPONENT_API_EXAMPLE_APP_KEYSTORE_PSW" -PreleaseKeyAlias=component_api_example -PreleaseKeyPassword="$COMPONENT_API_EXAMPLE_APP_KEY_PSW" -PclientId=$EXAMPLE_APP_CLIENT_CREDENTIALS_USR -PclientSecret=$EXAMPLE_APP_CLIENT_CREDENTIALS_PSW'
@@ -159,10 +123,6 @@ pipeline {
             }
         }
         stage('Upload Example Apps to Hockeyapp') {
-            // Skip it
-            when {
-                expression { false }
-            }
             steps {
                 step([$class: 'HockeyappRecorder', applications: [[apiToken: SCREEN_API_EXAMPLE_APP_HOCKEYAPP_API_TOKEN, downloadAllowed: true, dsymPath: 'screenapiexample/build/outputs/mapping/release/mapping.txt', filePath: 'screenapiexample/build/outputs/apk/screenapiexample-release.apk', mandatory: false, notifyTeam: false, releaseNotesMethod: [$class: 'ChangelogReleaseNotes'], uploadMethod: [$class: 'AppCreation', publicPage: false]]], debugMode: false, failGracefully: false])
                 step([$class: 'HockeyappRecorder', applications: [[apiToken: COMPONENT_API_EXAMPLE_APP_HOCKEYAPP_API_TOKEN, downloadAllowed: true, dsymPath: 'componentapiexample/build/outputs/mapping/release/mapping.txt', filePath: 'componentapiexample/build/outputs/apk/componentapiexample-release.apk', mandatory: false, notifyTeam: false, releaseNotesMethod: [$class: 'ChangelogReleaseNotes'], uploadMethod: [$class: 'AppCreation', publicPage: false]]], debugMode: false, failGracefully: false])
