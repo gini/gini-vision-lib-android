@@ -561,6 +561,9 @@ public class ReviewScreenTest {
         // When
         uiDevice.setOrientationRight();
 
+        // Give a little time for the orientation change and activity launch to finish
+        Thread.sleep(ORIENTATION_CHANGE_PAUSE_DURATION);
+
         // Then
         final AtomicReference<Document> documentToAnalyzeAfterOrientationChange = new AtomicReference<>();
 
