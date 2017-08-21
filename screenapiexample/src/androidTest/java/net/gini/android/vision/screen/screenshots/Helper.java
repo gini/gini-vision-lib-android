@@ -1,4 +1,4 @@
-package net.gini.android.vision.uiautomator;
+package net.gini.android.vision.screen.screenshots;
 
 import static android.support.test.InstrumentationRegistry.getInstrumentation;
 

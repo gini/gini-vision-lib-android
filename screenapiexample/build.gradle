@@ -20,6 +20,9 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode appVersionCode
         versionName appVersionName
+
+        // Use the test runner with JUnit4 support
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     signingConfigs {
@@ -58,13 +61,34 @@ dependencies {
         transitive = true
     }
 
-    testCompile deps.junit
-
     // For testing the local version
     compile project(path: ':ginivision')
     // For testing a released version
     //compile 'net.gini:gini-vision-lib:2.0.0-alpha.1'
+
+    testCompile deps.junit
+
+    androidTestCompile(deps.supportTestRunner, {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    androidTestCompile deps.truth
+    androidTestCompile(deps.supportTestRules, {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    androidTestCompile(deps.supportTestEspressoCore, {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    androidTestCompile(deps.supportTestEspressoIntents, {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    androidTestCompile deps.supportTestUiAutomator
+    androidTestCompile deps.mockito
+    androidTestCompile deps.dexmaker
+    androidTestCompile deps.dexmakerDx
+    androidTestCompile deps.dexmakerMockito
+    androidTestCompile deps.supportMultidex
 }
 
 apply from: rootProject.file('gradle/codequality.gradle')
 apply from: rootProject.file('gradle/client_credentials.gradle')
+apply from: rootProject.file('gradle/multidex_for_tests.gradle')
