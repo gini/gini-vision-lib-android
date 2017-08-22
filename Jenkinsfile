@@ -50,6 +50,7 @@ pipeline {
                     junit allowEmptyResults: true, testResults: 'ginivision/build/outputs/androidTest-results/targeted/*.xml'
                     withEnv(["PATH+PLATFORM_TOOLS=$ANDROID_HOME/platform-tools"]) {
                         sh 'emulator_port=$(cat emulator_port) && adb -s emulator-$emulator_port emu kill || true'
+                        sh 'emulator_port=$(cat emulator_port) && scripts/wait-for-emulator-to-stop.sh emulator-$emulator_port 20'
                     }
                     sh 'rm emulator_port || true'
                 }
@@ -68,6 +69,7 @@ pipeline {
                     junit allowEmptyResults: true, testResults: 'ginivision/build/outputs/androidTest-results/targeted/*.xml'
                     withEnv(["PATH+PLATFORM_TOOLS=$ANDROID_HOME/platform-tools"]) {
                         sh 'emulator_port=$(cat emulator_port) && adb -s emulator-$emulator_port emu kill || true'
+                        sh 'emulator_port=$(cat emulator_port) && scripts/wait-for-emulator-to-stop.sh emulator-$emulator_port 20'
                     }
                     sh 'rm emulator_port || true'
                 }
