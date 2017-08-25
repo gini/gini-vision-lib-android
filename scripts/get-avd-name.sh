@@ -9,7 +9,7 @@
 set -e
 #set -x
 
-branch_name=$(git describe --all --exact-match HEAD | sed -E "s:(heads\/|remotes\/|tags\/|origin\/)::g")
+branch_name=$(git describe --all --exact-match HEAD | sed -E "s:(heads\/|remotes\/|tags\/|origin\/)::g" | tr "/" "-")
 dir_name=$(basename "$(pwd)")
 avd_name="$dir_name"_"$branch_name"
 
