@@ -106,7 +106,7 @@ public class ReviewScreenTest {
 
     private Intent getReviewActivityIntent(byte[] jpeg, int orientation) {
         Intent intent = new Intent(InstrumentationRegistry.getTargetContext(), ReviewActivityTestSpy.class);
-        intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, createDocument(jpeg, orientation));
+        intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, createDocument(jpeg, orientation, "portrait", "phone"));
         intent.putExtra(ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY, new Intent(InstrumentationRegistry.getTargetContext(), AnalysisActivityTestSpy.class));
         return intent;
     }

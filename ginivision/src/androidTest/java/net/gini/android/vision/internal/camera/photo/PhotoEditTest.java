@@ -63,7 +63,7 @@ public class PhotoEditTest {
 
     private Photo getPhoto() throws IOException {
         final byte[] jpeg = getTestJpeg();
-        return Photo.fromJpeg(jpeg, 0);
+        return Photo.fromJpeg(jpeg, 0, "portrait", "phone");
     }
 
     @Test

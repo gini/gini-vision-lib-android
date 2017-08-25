@@ -23,6 +23,7 @@ import android.view.View;
 
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.Size;
+import net.gini.android.vision.internal.util.ContextHelper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -352,7 +353,10 @@ public class CameraController implements CameraInterface {
                     @Override
                     public void onPictureTaken(final byte[] bytes, Camera camera) {
                         mTakingPictureFuture.set(null);
-                        final Photo photo = Photo.fromJpeg(bytes, getDisplayOrientationForCamera(mActivity));
+                        final Photo photo = Photo.fromJpeg(bytes,
+                                getDisplayOrientationForCamera(mActivity),
+                                getDeviceOrientation(mActivity),
+                                getDeviceType(mActivity));
                         LOG.info("Picture taken");
                         pictureTaken.complete(photo);
                     }
@@ -495,6 +499,14 @@ public class CameraController implements CameraInterface {
         }
 
         return result;
+    }
+
+    private String getDeviceOrientation(Activity activity) {
+        return ContextHelper.isPortraitOrientation(activity) ? "portrait" : "landscape";
+    }
+
+    private String getDeviceType(Activity activity) {
+        return ContextHelper.isTablet(activity) ? "tablet" : "phone";
     }
 
     @Nullable
