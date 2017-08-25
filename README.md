@@ -1,4 +1,4 @@
-![Gini Vision Library for Android](https://www.gini.net/assets/GiniVision_Logo.png)
+![Gini Vision Library for Android](GiniVision_Logo.png)
 
 Gini Vision Library for Android
 ===============================
@@ -13,9 +13,18 @@ The Gini Vision Library can be integrated in two ways, either by using the *Scre
 
 Customization of the Views is provided mostly via overriding of app resources: dimensions, strings, colors, texts, etc. Onboarding can also be customized to show your own pages, each consisting of an image and a short text.
 
-The Gini Vision Library has been designed for portrait orientation. We recommend limiting your concrete Activities which extend the Screen API's abstract Activities to portrait orientation. In case you use the Component API, you should limit the Activities hosting the Component API's Fragments to portrait orientation.
+The Gini Vision Library can be used on smartphones and tablets, too. On smartphones it has been designed for portrait orientation only and will always switch to portrait orientation in both Screen API and Component API usage. On tablets both portrait and landscape orientations are supported.
+
+It is not required to limit your Activities extending the Screen API's abstract Activities or your Activities hosting the Component API's Fragments to portrait orientation. The Gini Vision Library takes care of limiting to portrait on smartphones.
 
 Due to in-memory image handling applications using the Gini Vision Library must enable large heap.
+
+Tablet Support
+--------------
+
+We have adapted some UI elements to offer a better experience to tablet users and removed the camera flash requirement for tablets since flash is not present on all tablets. For more information please consult our guide [Supporting Tablets](http://developer.gini.net/gini-vision-lib-android/html/supporting-tablets.html).
+
+> **Note:** Due to the lower resolution cameras and lack of LED flash on some tablets the extraction quality might be lower compared to smartphones.
 
 Documentation
 -------------
@@ -58,9 +67,15 @@ Requirements
 Screen API: Android 4.0+ (API Level 14+)  
 Component API: Android 4.2+ (API Level 17+)
 
-### Hardware
+### Phone Hardware
 
 * Back-facing camera with auto-focus and flash.
+* Minimum 8MP camera resolution.
+* Minimum 512MB RAM.
+
+### Tablet Hardware
+
+* Back-facing camera with auto-focus.
 * Minimum 8MP camera resolution.
 * Minimum 512MB RAM.
 

@@ -59,16 +59,25 @@ import java.util.ArrayList;
  *             <b>First page image:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_onboarding_flat.png}
  *         </li>
  *         <li>
+ *             <b>First page image for tablets:</b> via images for sw600dp-mdpi, sw600dp-hdpi, sw600dp-xhdpi, sw600dp-xxhdpi, sw600dp-xxxhdpi named {@code gv_onboarding_flat.png}
+ *         </li>
+ *         <li>
  *             <b>First page text:</b> via the string resource named {@code gv_onboarding_flat}
  *         </li>
  *         <li>
  *             <b>Second page image:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_onboarding_parallel.png}
  *         </li>
  *         <li>
+ *             <b>Second page image for tablets:</b> via images for sw600dp-mdpi, sw600dp-hdpi, sw600dp-xhdpi, sw600dp-xxhdpi, sw600dp-xxxhdpi named {@code gv_onboarding_parallel.png}
+ *         </li>
+ *         <li>
  *             <b>Second page text:</b> via the string resource named {@code gv_onboarding_parallel}
  *         </li>
  *         <li>
  *             <b>Third page image:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_onboarding_align.png}
+ *         </li>
+ *         <li>
+ *             <b>Third page image for tablets:</b> via images for sw600dp-mdpi, sw600dp-hdpi, sw600dp-xhdpi, sw600dp-xxhdpi, sw600dp-xxxhdpi named {@code gv_onboarding_align.png}
  *         </li>
  *         <li>
  *             <b>Third page text:</b> via the string resource named {@code gv_onboarding_align}
