@@ -2,6 +2,11 @@
 Changelog
 =========
 
+2.3.0 (TBD)
+===========
+
+- Added support for tablets. For details you may consult our `Supporting Tablets <http://developer.gini.net/gini-vision-lib-android/html/supporting-tablets.html>`_ guide. Please note due to the lower resolution cameras and lack of LED flash on some tablets the extraction quality might be lower compared to smartphones.
+
 2.2.2 (2017-07-03)
 ==================
 
