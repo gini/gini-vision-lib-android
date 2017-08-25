@@ -25,7 +25,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.File;
-import java.util.Date;
 
 @SdkSuppress(minSdkVersion = 18)
 @RunWith(AndroidJUnit4.class)
@@ -121,8 +120,7 @@ public class ScreenshotsTest {
     }
 
     private void takeScreenshot(final String name) throws InterruptedException {
-        String nameWithTimestamp = name + "_" + new Date().getTime();
-        File screenshotFile = screenshotFileForBitBar(nameWithTimestamp);
+        File screenshotFile = screenshotFileForBitBar(name);
         takeUIAutomatorScreenshot(screenshotFile, mDevice);
     }
 
