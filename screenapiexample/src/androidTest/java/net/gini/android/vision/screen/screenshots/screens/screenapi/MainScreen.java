@@ -1,13 +1,13 @@
-package net.gini.android.vision.uiautomator.screens.screenapi;
+package net.gini.android.vision.screen.screenshots.screens.screenapi;
 
-import static net.gini.android.vision.uiautomator.Helper.isObjectAvailable;
+import static net.gini.android.vision.screen.screenshots.Helper.isObjectAvailable;
 
 import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiSelector;
 
-import net.gini.android.vision.uiautomator.screens.Screen;
+import net.gini.android.vision.screen.screenshots.screens.Screen;
 
 public class MainScreen implements Screen {
 

@@ -71,5 +71,5 @@ ext.deps = [
         dexmaker: 'com.crittercism.dexmaker:dexmaker:1.4',
         dexmakerDx: 'com.crittercism.dexmaker:dexmaker-dx:1.4',
         dexmakerMockito: 'com.crittercism.dexmaker:dexmaker-mockito:1.4',
-        supportMultidex: 'com.android.support:multidex:1.0.0',
+        supportMultidex: 'com.android.support:multidex:1.0.1',
 ]

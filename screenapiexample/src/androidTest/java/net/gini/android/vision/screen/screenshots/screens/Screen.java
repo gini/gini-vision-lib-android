@@ -1,4 +1,4 @@
-package net.gini.android.vision.uiautomator.screens;
+package net.gini.android.vision.screen.screenshots.screens;
 
 /**
  * <p>
