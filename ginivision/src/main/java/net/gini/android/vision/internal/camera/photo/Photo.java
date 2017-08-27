@@ -12,6 +12,8 @@ import net.gini.android.vision.Document;
 
 import org.apache.commons.imaging.ImageReadException;
 import org.apache.commons.imaging.ImageWriteException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -24,6 +26,8 @@ import java.util.UUID;
  * @exclude
  */
 public class Photo implements Parcelable {
+
+    private static final Logger LOG = LoggerFactory.getLogger(Photo.class);
 
     private Bitmap mBitmapPreview;
     private byte[] mJpeg;
@@ -75,7 +79,7 @@ public class Photo implements Parcelable {
                     exifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_ROTATION_DELTA,
                             userComment));
         } catch (ExifReaderException | NumberFormatException e) {
-            // TODO log
+            LOG.error("Could not read exif User Comment", e);
         }
     }
 
@@ -141,7 +145,7 @@ public class Photo implements Parcelable {
         try {
             mRequiredTags = Exif.readRequiredTags(mJpeg);
         } catch (IOException | ImageReadException e) {
-            // TODO log: mLogger.error("Could not read required exif tags", e);
+            LOG.error("Could not read exif tags", e);
         }
     }
 
@@ -173,7 +177,7 @@ public class Photo implements Parcelable {
 
             mJpeg = exifBuilder.build().writeToJpeg(mJpeg);
         } catch (ImageReadException | ImageWriteException | IOException e) {
-            // TODO log: mLogger.error("Could not add required exif tags", e);
+            LOG.error("Could not add required exif tags", e);
             return false;
         }
         return true;
@@ -189,14 +193,13 @@ public class Photo implements Parcelable {
             fileOutputStream = new FileOutputStream(file);
             fileOutputStream.write(mJpeg, 0, mJpeg.length);
         } catch (IOException e) {
-            // TODO log: mLogger.error("Saving jpeg failed to file {}", file.getAbsolutePath(), e);
+            LOG.error("Failed to save jpeg to {}", file.getAbsolutePath(), e);
         } finally {
             if (fileOutputStream != null) {
                 try {
                     fileOutputStream.close();
                 } catch (IOException e) {
-                    // TODO log: mLogger.error("Closing FileOutputStream failed for file {}",
-                    // file.getAbsolutePath(), e);
+                    LOG.error("Closing FileOutputStream failed for {}", file.getAbsolutePath(), e);
                 }
             }
         }
@@ -209,15 +212,13 @@ public class Photo implements Parcelable {
             outputStream = new FileOutputStream(file);
             mBitmapPreview.compress(Bitmap.CompressFormat.JPEG, 90, outputStream);
         } catch (FileNotFoundException e) {
-            // TODO log: mLogger.error("Saving preview failed to file {}", file.getAbsolutePath()
-            // , e);
+            LOG.error("Failed to save preview to {}", file.getAbsolutePath(), e);
         } finally {
             if (outputStream != null) {
                 try {
                     outputStream.close();
                 } catch (IOException e) {
-                    // TODO log: mLogger.error("Closing FileOutputStream failed for file {}",
-                    // file.getAbsolutePath(), e);
+                    LOG.error("Closing FileOutputStream failed for {}", file.getAbsolutePath(), e);
                 }
             }
         }
