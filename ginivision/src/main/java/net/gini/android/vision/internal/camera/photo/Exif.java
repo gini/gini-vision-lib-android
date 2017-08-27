@@ -224,8 +224,44 @@ class Exif {
 
         private void addStringExif(@NonNull TiffOutputDirectory outputDirectory,
                 @NonNull TiffField field) throws ImageReadException {
-            byte bytes[] = field.getStringValue().getBytes(Charset.forName("US-ASCII"));
+            byte bytes[] = getStringFieldValue(field).getBytes(Charset.forName("US-ASCII"));
             addStringExif(outputDirectory, field.getTagInfo(), bytes);
+        }
+
+        @NonNull
+        private String getStringFieldValue(@NonNull final TiffField field) throws ImageReadException {
+            final Object value = field.getValue();
+            if (value == null) {
+                return "";
+            }
+            if (value instanceof String) {
+                return (String) value;
+            }
+            if (value instanceof String[]) {
+                return concatNonEmpty((String[]) value, " ");
+            }
+            return "";
+        }
+
+        @NonNull
+        private String concatNonEmpty(@NonNull final String[] array,
+                @NonNull final String separator) {
+            final StringBuilder builder = new StringBuilder();
+            if (array.length == 0) {
+                return "";
+            }
+            boolean first = true;
+            for (String string : array) {
+                if (string.isEmpty()) {
+                    continue;
+                }
+                if (!first) {
+                    builder.append(separator);
+                }
+                first = false;
+                builder.append(string);
+            }
+            return builder.toString();
         }
 
         private void addUserCommentStringExif(@NonNull TiffOutputDirectory outputDirectory,
