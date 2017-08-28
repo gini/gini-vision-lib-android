@@ -33,6 +33,9 @@ import java.util.ArrayList;
  *     It shows a camera preview with tap-to-focus functionality and a trigger button. The camera preview also shows document corner guides to which the user should align the document.
  * </p>
  * <p>
+ *     On tablets in landscape orientation the camera trigger button is shown on the right side of the screen for easier access.
+ * </p>
+ * <p>
  *     Start the {@code CameraActivity} with {@link android.app.Activity#startActivityForResult(Intent, int)} to receive the {@link GiniVisionError} in case there was an error.
  * </p>
  * <p>
@@ -82,6 +85,12 @@ import java.util.ArrayList;
  *     <ul>
  *         <li>
  *             <b>Document corner guides:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_camera_preview_corners.png}
+ *         </li>
+ *         <li>
+ *             <b>Document corner guides for tablets:</b> via images for sw600dp-mdpi, sw600dp-hdpi, sw600dp-xhdpi, sw600dp-xxhdpi, sw600dp-xxxhdpi named {@code gv_camera_preview_corners.png}
+ *         </li>
+ *         <li>
+ *             <b>Document corner guides for tablets in landscape:</b> via images for sw600dp-mdpi, sw600dp-hdpi, sw600dp-xhdpi, sw600dp-xxhdpi, sw600dp-xxxhdpi named {@code gv_camera_preview_corners_land.png}
  *         </li>
  *         <li>
  *             <b>Camera trigger button:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_camera_trigger_default.png} and {@code gv_camera_trigger_pressed.png}

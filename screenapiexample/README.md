@@ -45,7 +45,7 @@ The `ReviewActivity` finishes itself after data was added to the result.
 AnalysisActivity
 ----------------
 
-The `AnalysisActivity` handles the Analysis Screen's events. As it is a subclass of the Gini Vision Library's `AnalysisActivity` you have to declare it in your `AndroidManifest.xml`. We recommend setting the title to `gv_title_analysis`, limit the orientation to portrait and use the `GiniVisionTheme`.
+The `AnalysisActivity` handles the Analysis Screen's events. As it is a subclass of the Gini Vision Library's `AnalysisActivity` you have to declare it in your `AndroidManifest.xml`. We recommend setting the title to `gv_title_analysis` and use the `GiniVisionTheme`.
 
 The analysis is started or resumed in `AnalysisActivity#onAnalyzeDocument()` (if an error message was given, this method is called only when the user clicks the retry button). Notifying the base class about successful completion of the analysis is done similarly as in the `ReviewActivity` with `AnalysisActivity#onDocumentAnalyzed()`. 
 
