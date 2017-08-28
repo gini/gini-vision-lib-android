@@ -138,11 +138,21 @@ class Exif {
                 throws ImageReadException, ImageWriteException {
             // Make
             if (requiredTags.make != null) {
-                addStringExif(mIfd0Directory, requiredTags.make);
+                try {
+                    TiffOutputField makeField = createTiffOutputField(requiredTags.make);
+                    mIfd0Directory.add(makeField);
+                } catch (Exception e) {
+                    // Shouldn't happen, but ignore it, if it does
+                }
             }
             // Model
             if (requiredTags.model != null) {
-                addStringExif(mIfd0Directory, requiredTags.model);
+                try {
+                    TiffOutputField modelField = createTiffOutputField(requiredTags.model);
+                    mIfd0Directory.add(modelField);
+                } catch (Exception e) {
+                    // Shouldn't happen, but ignore it, if it does
+                }
             }
             // ISO
             if (requiredTags.iso != null) {
@@ -220,12 +230,6 @@ class Exif {
         @NonNull
         public Exif build() {
             return new Exif(mTiffOutputSet);
-        }
-
-        private void addStringExif(@NonNull TiffOutputDirectory outputDirectory,
-                @NonNull TiffField field) throws ImageReadException {
-            byte bytes[] = field.getStringValue().getBytes(Charset.forName("US-ASCII"));
-            addStringExif(outputDirectory, field.getTagInfo(), bytes);
         }
 
         private void addUserCommentStringExif(@NonNull TiffOutputDirectory outputDirectory,
