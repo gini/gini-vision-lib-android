@@ -67,6 +67,8 @@ import java.util.ArrayList;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CameraScreenTest {
 
+    private static final int PAUSE_DURATION = 500;
+
     private static final long CLOSE_CAMERA_PAUSE_DURATION = 1000;
     private static final long TAKE_PICTURE_PAUSE_DURATION = 4000;
 
@@ -158,7 +160,8 @@ public class CameraScreenTest {
     }
 
     @Test
-    public void should_passCustomOnboardingPages_toOnboardingActivity() {
+    public void should_passCustomOnboardingPages_toOnboardingActivity()
+            throws Exception {
         ArrayList<OnboardingPage> onboardingPages = new ArrayList<>(1);
         onboardingPages.add(
                 new OnboardingPage(R.string.gv_onboarding_align, R.drawable.gv_onboarding_align));
@@ -168,7 +171,7 @@ public class CameraScreenTest {
         intent.putExtra(CameraActivity.EXTRA_IN_ONBOARDING_PAGES, onboardingPages);
         mIntentsTestRule.launchActivity(intent);
 
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+        Thread.sleep(PAUSE_DURATION);
 
         // Starting by clicking the menu item, otherwise the intent is not recorded ...
         Espresso.onView(ViewMatchers.withId(R.id.gv_action_show_onboarding))
