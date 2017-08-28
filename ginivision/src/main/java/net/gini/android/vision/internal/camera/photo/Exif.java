@@ -44,6 +44,8 @@ class Exif {
     static final String USER_COMMENT_GINI_VISION_VERSION = "GiniVisionVer";
     static final String USER_COMMENT_CONTENT_ID = "ContentId";
     static final String USER_COMMENT_ROTATION_DELTA = "RotDeltaDeg";
+    static final String USER_COMMENT_DEVICE_ORIENTATION = "DeviceOrientation";
+    static final String USER_COMMENT_DEVICE_TYPE = "DeviceType";
 
     private final TiffOutputSet mTiffOutputSet;
 
@@ -335,6 +337,8 @@ class Exif {
         private boolean mAddModel;
         private String mContentId;
         private int mRotationDelta;
+        private String mDeviceOrientation;
+        private String mDeviceType;
 
         private UserCommentBuilder() {
 
@@ -357,6 +361,16 @@ class Exif {
 
         UserCommentBuilder setRotationDelta(final int rotationDelta) {
             mRotationDelta = rotationDelta;
+            return this;
+        }
+
+        UserCommentBuilder setDeviceOrientation(final String orientation) {
+            mDeviceOrientation = orientation;
+            return this;
+        }
+
+        UserCommentBuilder setDeviceType(final String type) {
+            mDeviceType = type;
             return this;
         }
 
@@ -395,6 +409,10 @@ class Exif {
             map.put(USER_COMMENT_CONTENT_ID, mContentId);
             // Rotation Delta
             map.put(USER_COMMENT_ROTATION_DELTA, String.valueOf(mRotationDelta));
+            // Device Orientation
+            map.put(USER_COMMENT_DEVICE_ORIENTATION, mDeviceOrientation);
+            // Device Type
+            map.put(USER_COMMENT_DEVICE_TYPE, mDeviceType);
             return map;
         }
 

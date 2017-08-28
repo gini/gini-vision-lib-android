@@ -1,5 +1,7 @@
 package net.gini.android.vision.internal.camera.photo;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import android.support.annotation.NonNull;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -8,8 +10,6 @@ import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.google.common.truth.Truth.assertThat;
 
 /**
  * Created by aszotyori on 13/03/2017.
@@ -26,14 +26,17 @@ public class UserCommentBuilderTest {
         builder.setRotationDelta(90)
                 .setContentId("asdasd-assd-ssdsa-sdsdss")
                 .setAddMake(true)
-                .setAddModel(true);
+                .setAddModel(true)
+                .setDeviceOrientation("landscape")
+                .setDeviceType("tablet");
         String userComment = builder.build();
         // Then
         List<String> keys = getListOfKeys(userComment);
         assertThat(keys).containsExactly(Exif.USER_COMMENT_MAKE, Exif.USER_COMMENT_MODEL,
                 Exif.USER_COMMENT_PLATFORM, Exif.USER_COMMENT_OS_VERSION,
                 Exif.USER_COMMENT_GINI_VISION_VERSION, Exif.USER_COMMENT_CONTENT_ID,
-                Exif.USER_COMMENT_ROTATION_DELTA).inOrder();
+                Exif.USER_COMMENT_ROTATION_DELTA, Exif.USER_COMMENT_DEVICE_ORIENTATION,
+                Exif.USER_COMMENT_DEVICE_TYPE).inOrder();
     }
 
     @NonNull

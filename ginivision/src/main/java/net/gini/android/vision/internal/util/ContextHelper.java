@@ -24,6 +24,13 @@ public final class ContextHelper {
         return context.getResources().getBoolean(R.bool.gv_is_tablet);
     }
 
+    /**
+     * @exclude
+     */
+    public static boolean isPortraitOrientation(@NonNull final Context context) {
+        return context.getResources().getBoolean(R.bool.gv_is_portrait);
+    }
+
     private ContextHelper() {
     }
 }

@@ -35,20 +35,26 @@ public class Photo implements Parcelable {
     private int mRotationForDisplay = 0;
     private String mContentId = "";
     private int mRotationDelta = 0;
+    private String mDeviceOrientation;
+    private String mDeviceType;
 
-    public static Photo fromJpeg(@NonNull final byte[] jpeg, final int orientation) {
-        return new Photo(jpeg, orientation);
+    public static Photo fromJpeg(@NonNull final byte[] jpeg, final int orientation,
+            final String deviceOrientation, final String deviceType) {
+        return new Photo(jpeg, orientation, deviceOrientation, deviceType);
     }
 
     public static Photo fromDocument(@NonNull final Document document) {
         return new Photo(document);
     }
 
-    private Photo(@NonNull byte[] jpeg, int orientation) {
+    private Photo(@NonNull byte[] jpeg, int orientation,
+            final String deviceOrientation, final String deviceType) {
         mJpeg = jpeg;
         mRotationForDisplay = orientation;
         mBitmapPreview = createPreview();
         mContentId = generateUUID();
+        mDeviceOrientation = deviceOrientation;
+        mDeviceType = deviceType;
         readRequiredTags();
         updateExif();
     }
@@ -78,6 +84,12 @@ public class Photo implements Parcelable {
             mRotationDelta = Integer.parseInt(
                     exifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_ROTATION_DELTA,
                             userComment));
+            mDeviceOrientation =
+                    exifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_DEVICE_ORIENTATION,
+                            userComment);
+            mDeviceType =
+                    exifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_DEVICE_TYPE,
+                            userComment);
         } catch (ExifReaderException | NumberFormatException e) {
             LOG.error("Could not read exif User Comment", e);
         }
@@ -170,6 +182,8 @@ public class Photo implements Parcelable {
                     .setAddModel(addModel)
                     .setContentId(mContentId)
                     .setRotationDelta(mRotationDelta)
+                    .setDeviceType(mDeviceType)
+                    .setDeviceOrientation(mDeviceOrientation)
                     .build();
 
             exifBuilder.setUserComment(userComment);
@@ -242,6 +256,8 @@ public class Photo implements Parcelable {
         dest.writeInt(mRotationForDisplay);
         dest.writeString(mContentId);
         dest.writeInt(mRotationDelta);
+        dest.writeString(mDeviceOrientation);
+        dest.writeString(mDeviceType);
     }
 
     public static final Parcelable.Creator<Photo> CREATOR = new Parcelable.Creator<Photo>() {
@@ -270,6 +286,9 @@ public class Photo implements Parcelable {
         mRotationForDisplay = in.readInt();
         mContentId = in.readString();
         mRotationDelta = in.readInt();
+        mDeviceOrientation = in.readString();
+        mDeviceType = in.readString();
+
         readRequiredTags();
     }
 
@@ -291,7 +310,16 @@ public class Photo implements Parcelable {
                 : photo.mRequiredTags != null) {
             return false;
         }
-        return mContentId != null ? mContentId.equals(photo.mContentId) : photo.mContentId == null;
+        if (mContentId != null ? !mContentId.equals(photo.mContentId) : photo.mContentId != null) {
+            return false;
+        }
+        if (mDeviceOrientation != null ? !mDeviceOrientation.equals(photo.mDeviceOrientation)
+                : photo.mDeviceOrientation != null) {
+            return false;
+        }
+        return mDeviceType != null ? mDeviceType.equals(photo.mDeviceType)
+                : photo.mDeviceType == null;
+
     }
 
     @Override
@@ -302,6 +330,8 @@ public class Photo implements Parcelable {
         result = 31 * result + mRotationForDisplay;
         result = 31 * result + (mContentId != null ? mContentId.hashCode() : 0);
         result = 31 * result + mRotationDelta;
+        result = 31 * result + (mDeviceOrientation != null ? mDeviceOrientation.hashCode() : 0);
+        result = 31 * result + (mDeviceType != null ? mDeviceType.hashCode() : 0);
         return result;
     }
 }
