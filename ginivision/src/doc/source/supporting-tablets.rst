@@ -33,7 +33,7 @@ The Gini Vision Library Screen API Activities and Component API Fragments keep t
 UI Considerations
 ^^^^^^^^^^^^^^^^^
 
-On tablets in landscape the Camera Screen's UI displays the camera trigger button on the right side of the screen. Users can reach the camera trigger easier this way. The camera preview along with the document corner guides are shown in landscape to match the device's orientation.
+On tablets in landscape the Camera Screen's UI displays the camera trigger button on the right side of the screen. Users can reach the camera trigger more easily this way. The camera preview along with the document corner guides are shown in landscape to match the device's orientation.
 
 Other UI elements on all the screens maintain their relative position and the screen layouts are scaled automatically to fit the current orientation.
 
