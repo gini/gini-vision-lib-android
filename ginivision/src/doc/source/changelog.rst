@@ -5,7 +5,7 @@ Changelog
 2.3.0 (TBD)
 ===========
 
-- Added support for tablets. For details you may consult our `Supporting Tablets <http://developer.gini.net/gini-vision-lib-android/html/supporting-tablets.html>`_ guide. Please note due to the lower resolution cameras and lack of LED flash on some tablets the extraction quality might be lower compared to smartphones.
+- Added support for tablets. For details you may consult our `Supporting Tablets <supporting-tablets.html>`_ guide. Please note that allowing tablets that do not meet our minimum hardware recommendations to use the GVL could lead to lower extraction quality. We recommend implementing hardware checks to avoid this. Many tablets with at least 8MP cameras don't have an LED flash (like the popular Samsung Galaxy Tab S2) therefore we don't require flash for tablets. For this reason the extraction quality on those tablets might be lower compared to smartphones.
 
 2.2.2 (2017-07-03)
 ==================

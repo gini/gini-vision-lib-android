@@ -8,7 +8,9 @@ You may skip to the `Quick Checklist`_ to get an overview of the steps required 
 Extraction Quality Considerations
 ---------------------------------
 
-Tablets have generally lower camera resolutions and some (even popular ones) lack an LED flash. Please note that you may experience worse extraction quality on tablets compared to phones.
+We recommend implementing checks on tablet hardware to ensure that devices meet the Gini Vision Libraries minimum recommended hardware specifications.
+
+Many tablets with at least 8MP cameras don't have an LED flash (like the popular Samsung Galaxy Tab S2) therefore we don't require flash for tablets. For this reason the extraction quality on those tablets might be lower compared to smartphones.
 
 Hardware Requirements
 ---------------------
