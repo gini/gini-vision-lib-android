@@ -26,7 +26,8 @@ public class ExifTest {
         final byte[] outJpeg = exif.writeToJpeg(testJpeg);
         final Exif.RequiredTags outRequiredTags = Exif.readRequiredTags(outJpeg);
 
-        assertThat(outRequiredTags.make.getStringValue()).isEqualTo("Lenovo");
-        assertThat(outRequiredTags.model.getStringValue()).isEqualTo("Lenovo TAB 2 A10-70F");
+        assertThat((String[]) outRequiredTags.make.getValue()).asList().contains("Lenovo");
+        assertThat((String[]) outRequiredTags.model.getValue()).asList().contains(
+                "Lenovo TAB 2 A10-70F");
     }
 }

@@ -138,11 +138,21 @@ class Exif {
                 throws ImageReadException, ImageWriteException {
             // Make
             if (requiredTags.make != null) {
-                addStringExif(mIfd0Directory, requiredTags.make);
+                try {
+                    TiffOutputField makeField = createTiffOutputField(requiredTags.make);
+                    mIfd0Directory.add(makeField);
+                } catch (Exception e) {
+                    // Shouldn't happen, but ignore it, if it does
+                }
             }
             // Model
             if (requiredTags.model != null) {
-                addStringExif(mIfd0Directory, requiredTags.model);
+                try {
+                    TiffOutputField modelField = createTiffOutputField(requiredTags.model);
+                    mIfd0Directory.add(modelField);
+                } catch (Exception e) {
+                    // Shouldn't happen, but ignore it, if it does
+                }
             }
             // ISO
             if (requiredTags.iso != null) {
@@ -220,48 +230,6 @@ class Exif {
         @NonNull
         public Exif build() {
             return new Exif(mTiffOutputSet);
-        }
-
-        private void addStringExif(@NonNull TiffOutputDirectory outputDirectory,
-                @NonNull TiffField field) throws ImageReadException {
-            byte bytes[] = getStringFieldValue(field).getBytes(Charset.forName("US-ASCII"));
-            addStringExif(outputDirectory, field.getTagInfo(), bytes);
-        }
-
-        @NonNull
-        private String getStringFieldValue(@NonNull final TiffField field) throws ImageReadException {
-            final Object value = field.getValue();
-            if (value == null) {
-                return "";
-            }
-            if (value instanceof String) {
-                return (String) value;
-            }
-            if (value instanceof String[]) {
-                return concatNonEmpty((String[]) value, " ");
-            }
-            return "";
-        }
-
-        @NonNull
-        private String concatNonEmpty(@NonNull final String[] array,
-                @NonNull final String separator) {
-            final StringBuilder builder = new StringBuilder();
-            if (array.length == 0) {
-                return "";
-            }
-            boolean first = true;
-            for (String string : array) {
-                if (string.isEmpty()) {
-                    continue;
-                }
-                if (!first) {
-                    builder.append(separator);
-                }
-                first = false;
-                builder.append(string);
-            }
-            return builder.toString();
         }
 
         private void addUserCommentStringExif(@NonNull TiffOutputDirectory outputDirectory,
