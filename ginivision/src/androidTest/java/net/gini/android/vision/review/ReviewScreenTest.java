@@ -9,6 +9,7 @@ import static net.gini.android.vision.test.Helpers.getTestJpeg;
 import static net.gini.android.vision.test.Helpers.isTablet;
 import static net.gini.android.vision.test.Helpers.prepareLooper;
 import static net.gini.android.vision.test.Helpers.resetDeviceOrientation;
+import static net.gini.android.vision.test.Helpers.waitForWindowUpdate;
 
 import static org.junit.Assume.assumeTrue;
 import static org.mockito.Matchers.any;
@@ -53,7 +54,6 @@ public class ReviewScreenTest {
 
     private static final int PAUSE_DURATION = 500;
     private static final int PAUSE_DURATION_LONG = 2_000;
-    private static final int ORIENTATION_CHANGE_PAUSE_DURATION = 1500;
 
     @Rule
     public CurrentActivityTestRule<ReviewActivityTestSpy> mActivityTestRule =
@@ -547,6 +547,7 @@ public class ReviewScreenTest {
 
         UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         uiDevice.setOrientationNatural();
+        waitForWindowUpdate(uiDevice);
 
         startReviewActivity(TEST_JPEG, 90);
 
@@ -560,9 +561,8 @@ public class ReviewScreenTest {
 
         // When
         uiDevice.setOrientationRight();
+        waitForWindowUpdate(uiDevice);
 
-        // Give a little time for the orientation change and activity launch to finish
-        Thread.sleep(ORIENTATION_CHANGE_PAUSE_DURATION);
 
         // Then
         final AtomicReference<Document> documentToAnalyzeAfterOrientationChange = new AtomicReference<>();
@@ -589,11 +589,10 @@ public class ReviewScreenTest {
 
         UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         uiDevice.setOrientationLeft();
+        waitForWindowUpdate(uiDevice);
 
         final ReviewActivity reviewActivity = startReviewActivity(TEST_JPEG, 90);
-
-        // Give a little time for the orientation change and activity launch to finish
-        Thread.sleep(ORIENTATION_CHANGE_PAUSE_DURATION);
+        waitForWindowUpdate(uiDevice);
 
         // Then
         int rotation = reviewActivity.getWindowManager().getDefaultDisplay().getRotation();

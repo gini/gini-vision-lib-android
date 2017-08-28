@@ -8,6 +8,7 @@ import static net.gini.android.vision.test.EspressoMatchers.hasComponent;
 import static net.gini.android.vision.test.Helpers.isTablet;
 import static net.gini.android.vision.test.Helpers.prepareLooper;
 import static net.gini.android.vision.test.Helpers.resetDeviceOrientation;
+import static net.gini.android.vision.test.Helpers.waitForWindowUpdate;
 
 import static org.junit.Assume.assumeTrue;
 import static org.mockito.Matchers.any;
@@ -66,10 +67,10 @@ import java.util.ArrayList;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CameraScreenTest {
 
-    private static final long PAUSE_DURATION = 1000;
+    private static final int PAUSE_DURATION = 500;
+
     private static final long CLOSE_CAMERA_PAUSE_DURATION = 1000;
     private static final long TAKE_PICTURE_PAUSE_DURATION = 4000;
-    private static final int ORIENTATION_CHANGE_PAUSE_DURATION = 1500;
 
     @Rule
     public IntentsTestRule<CameraActivity> mIntentsTestRule = new IntentsTestRule<>(
@@ -159,7 +160,8 @@ public class CameraScreenTest {
     }
 
     @Test
-    public void should_passCustomOnboardingPages_toOnboardingActivity() {
+    public void should_passCustomOnboardingPages_toOnboardingActivity()
+            throws Exception {
         ArrayList<OnboardingPage> onboardingPages = new ArrayList<>(1);
         onboardingPages.add(
                 new OnboardingPage(R.string.gv_onboarding_align, R.drawable.gv_onboarding_align));
@@ -169,7 +171,7 @@ public class CameraScreenTest {
         intent.putExtra(CameraActivity.EXTRA_IN_ONBOARDING_PAGES, onboardingPages);
         mIntentsTestRule.launchActivity(intent);
 
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+        Thread.sleep(PAUSE_DURATION);
 
         // Starting by clicking the menu item, otherwise the intent is not recorded ...
         Espresso.onView(ViewMatchers.withId(R.id.gv_action_show_onboarding))
@@ -340,6 +342,7 @@ public class CameraScreenTest {
 
         UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         uiDevice.setOrientationNatural();
+        waitForWindowUpdate(uiDevice);
 
         final CameraActivity cameraActivity = startCameraActivityWithoutOnboarding();
         View cameraPreview = cameraActivity.findViewById(R.id.gv_camera_preview);
@@ -348,6 +351,7 @@ public class CameraScreenTest {
 
         // When
         uiDevice.setOrientationRight();
+        waitForWindowUpdate(uiDevice);
 
         // Then
         // Preview should have the reverse aspect ratio
@@ -364,11 +368,10 @@ public class CameraScreenTest {
 
         UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         uiDevice.setOrientationLeft();
+        waitForWindowUpdate(uiDevice);
 
         final CameraActivity cameraActivity = startCameraActivityWithoutOnboarding();
-
-        // Give a little time for the orientation change and activity launch to finish
-        Thread.sleep(ORIENTATION_CHANGE_PAUSE_DURATION);
+        waitForWindowUpdate(uiDevice);
 
         // Then
         int rotation = cameraActivity.getWindowManager().getDefaultDisplay().getRotation();
