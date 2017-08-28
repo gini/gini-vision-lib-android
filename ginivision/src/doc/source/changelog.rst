@@ -2,10 +2,11 @@
 Changelog
 =========
 
-2.3.0 (TBD)
+2.3.0 (2017-08-28)
 ===========
 
 - Added support for tablets. For details you may consult our `Supporting Tablets <supporting-tablets.html>`_ guide. Please note that allowing tablets that do not meet our minimum hardware recommendations to use the GVL could lead to lower extraction quality. We recommend implementing hardware checks to avoid this. Many tablets with at least 8MP cameras don't have an LED flash (like the popular Samsung Galaxy Tab S2) therefore we don't require flash for tablets. For this reason the extraction quality on those tablets might be lower compared to smartphones.
+- Fixed image meta information handling bug related to ascii tags containing values with null bytes.
 
 2.2.2 (2017-07-03)
 ==================
