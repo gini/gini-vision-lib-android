@@ -8,6 +8,7 @@ import static net.gini.android.vision.test.EspressoMatchers.hasComponent;
 import static net.gini.android.vision.test.Helpers.isTablet;
 import static net.gini.android.vision.test.Helpers.prepareLooper;
 import static net.gini.android.vision.test.Helpers.resetDeviceOrientation;
+import static net.gini.android.vision.test.Helpers.waitForWindowUpdate;
 
 import static org.junit.Assume.assumeTrue;
 import static org.mockito.Matchers.any;
@@ -66,10 +67,8 @@ import java.util.ArrayList;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CameraScreenTest {
 
-    private static final long PAUSE_DURATION = 1000;
     private static final long CLOSE_CAMERA_PAUSE_DURATION = 1000;
     private static final long TAKE_PICTURE_PAUSE_DURATION = 4000;
-    private static final int ORIENTATION_CHANGE_PAUSE_DURATION = 1500;
 
     @Rule
     public IntentsTestRule<CameraActivity> mIntentsTestRule = new IntentsTestRule<>(
@@ -340,6 +339,7 @@ public class CameraScreenTest {
 
         UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         uiDevice.setOrientationNatural();
+        waitForWindowUpdate(uiDevice);
 
         final CameraActivity cameraActivity = startCameraActivityWithoutOnboarding();
         View cameraPreview = cameraActivity.findViewById(R.id.gv_camera_preview);
@@ -348,6 +348,7 @@ public class CameraScreenTest {
 
         // When
         uiDevice.setOrientationRight();
+        waitForWindowUpdate(uiDevice);
 
         // Then
         // Preview should have the reverse aspect ratio
@@ -364,11 +365,10 @@ public class CameraScreenTest {
 
         UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         uiDevice.setOrientationLeft();
+        waitForWindowUpdate(uiDevice);
 
         final CameraActivity cameraActivity = startCameraActivityWithoutOnboarding();
-
-        // Give a little time for the orientation change and activity launch to finish
-        Thread.sleep(ORIENTATION_CHANGE_PAUSE_DURATION);
+        waitForWindowUpdate(uiDevice);
 
         // Then
         int rotation = cameraActivity.getWindowManager().getDefaultDisplay().getRotation();

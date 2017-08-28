@@ -4,6 +4,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import static net.gini.android.vision.test.Helpers.isTablet;
 import static net.gini.android.vision.test.Helpers.resetDeviceOrientation;
+import static net.gini.android.vision.test.Helpers.waitForWindowUpdate;
 
 import static org.junit.Assume.assumeTrue;
 
@@ -35,7 +36,6 @@ import java.util.ArrayList;
 public class OnboardingScreenTest {
 
     private static final long TEST_PAUSE_DURATION = 500;
-    private static final long ORIENTATION_CHANGE_PAUSE_DURATION = 1500;
 
     @Rule
     public ActivityTestRule<OnboardingActivity> mActivityTestRule = new ActivityTestRule<>(OnboardingActivity.class, true, false);
@@ -178,11 +178,10 @@ public class OnboardingScreenTest {
 
         UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         uiDevice.setOrientationLeft();
+        waitForWindowUpdate(uiDevice);
 
         final OnboardingActivity onboardingActivity = startOnboardingActivity();
-
-        // Give a little time for the orientation change and activity launch to finish
-        Thread.sleep(ORIENTATION_CHANGE_PAUSE_DURATION);
+        waitForWindowUpdate(uiDevice);
 
         // Then
         int rotation = onboardingActivity.getWindowManager().getDefaultDisplay().getRotation();

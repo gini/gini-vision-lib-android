@@ -8,6 +8,7 @@ import static net.gini.android.vision.test.Helpers.createDocument;
 import static net.gini.android.vision.test.Helpers.getTestJpeg;
 import static net.gini.android.vision.test.Helpers.isTablet;
 import static net.gini.android.vision.test.Helpers.resetDeviceOrientation;
+import static net.gini.android.vision.test.Helpers.waitForWindowUpdate;
 
 import static org.junit.Assume.assumeTrue;
 
@@ -46,7 +47,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class AnalysisScreenTest {
 
     private static final long TEST_PAUSE_DURATION = 500;
-    private static final long ORIENTATION_CHANGE_PAUSE_DURATION = 1500;
 
     private static byte[] TEST_JPEG = null;
 
@@ -325,11 +325,10 @@ public class AnalysisScreenTest {
 
         UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         uiDevice.setOrientationLeft();
+        waitForWindowUpdate(uiDevice);
 
         final AnalysisActivity analysisActivity = startAnalysisActivity(TEST_JPEG, 90);
-
-        // Give a little time for the orientation change and activity launch to finish
-        Thread.sleep(ORIENTATION_CHANGE_PAUSE_DURATION);
+        waitForWindowUpdate(uiDevice);
 
         // Then
         int rotation = analysisActivity.getWindowManager().getDefaultDisplay().getRotation();

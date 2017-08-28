@@ -7,6 +7,7 @@ import android.os.Looper;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.RemoteException;
+import android.support.annotation.NonNull;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.uiautomator.UiDevice;
 
@@ -81,8 +82,13 @@ public class Helpers {
         if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             final UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
             uiDevice.setOrientationNatural();
+            waitForWindowUpdate(uiDevice);
             uiDevice.unfreezeRotation();
         }
+    }
+
+    public static void waitForWindowUpdate(@NonNull final UiDevice uiDevice) {
+        uiDevice.waitForWindowUpdate(BuildConfig.APPLICATION_ID, 5000);
     }
 
 }
