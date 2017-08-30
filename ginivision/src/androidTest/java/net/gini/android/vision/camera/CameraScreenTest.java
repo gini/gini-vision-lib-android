@@ -333,6 +333,7 @@ public class CameraScreenTest {
                 intentWithExtraBackButtonShouldCloseLibrary()), anyInt());
     }
 
+    @RequiresDevice
     @Test
     @SdkSuppress(minSdkVersion = 18)
     public void should_adaptCameraPreviewSize_toLandscapeOrientation_onTablets() throws Exception {
