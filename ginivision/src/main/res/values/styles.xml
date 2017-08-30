@@ -28,42 +28,42 @@
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/gv_camera_error_no_permission_text</item>
-        <item name="font"/>
+        <item name="customFont"/>
     </style>
 
     <style name="Root.GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@drawable/gv_camera_error_no_permission_button_title_color</item>
-        <item name="font"/>
+        <item name="customFont"/>
     </style>
 
     <style name="Root.GiniVisionTheme.Review.BottomPanel.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/gv_review_bottom_panel_text</item>
-        <item name="font"/>
+        <item name="customFont"/>
     </style>
 
     <style name="Root.GiniVisionTheme.Onboarding.Message.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">33sp</item>
         <item name="android:textColor">@color/gv_onboarding_message</item>
-        <item name="font">sans-serif-thin</item>
+        <item name="customFont">sans-serif-thin</item>
     </style>
 
     <style name="Root.GiniVisionTheme.Snackbar.Error.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/gv_snackbar_error_text</item>
-        <item name="font"/>
+        <item name="customFont"/>
     </style>
 
     <style name="Root.GiniVisionTheme.Snackbar.Error.Button.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@drawable/gv_snackbar_error_button_title_color</item>
-        <item name="font"/>
+        <item name="customFont"/>
     </style>
 
     <!-- Text styles used in the layouts which are overridable for customization -->

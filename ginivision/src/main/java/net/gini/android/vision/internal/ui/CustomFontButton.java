@@ -7,7 +7,7 @@ import android.util.AttributeSet;
 import android.widget.Button;
 
 /**
- * Custom Button with an additional 'font' attribute. System font names or font file paths (full path in the assets folder)
+ * Custom Button with an additional 'customFont' attribute. System font names or font file paths (full path in the assets folder)
  * can be used.
  *
  * <pre> {@code
@@ -21,13 +21,13 @@ import android.widget.Button;
  *           android:id="@+id/giniTextView"
  *           android:layout_width="wrap_content"
  *           android:layout_height="wrap_content"
- *           gini:font="sans-serif-light" />
+ *           gini:customFont="sans-serif-light" />
  *   </LinearLayout>
  * }</pre>
  *
  * <pre> {@code
  *  <net.gini.android.vision.ui.CustomFontButton
- *      gini:font="myFonts/Cave-Story.ttf" />
+ *      gini:customFont="myFonts/Cave-Story.ttf" />
  * }</pre>
  *
  * @exclude
