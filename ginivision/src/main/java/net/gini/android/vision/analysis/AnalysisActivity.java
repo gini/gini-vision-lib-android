@@ -1,11 +1,8 @@
 package net.gini.android.vision.analysis;
 
-import net.gini.android.vision.Document;
-import net.gini.android.vision.GiniVisionError;
-import net.gini.android.vision.R;
-import net.gini.android.vision.camera.CameraActivity;
-import net.gini.android.vision.onboarding.OnboardingActivity;
-import net.gini.android.vision.review.ReviewActivity;
+import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
+import static net.gini.android.vision.internal.util.ActivityHelper
+        .handleMenuItemPressedForHomeButton;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,8 +13,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 
-import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
-import static net.gini.android.vision.internal.util.ActivityHelper.handleMenuItemPressedForHomeButton;
+import net.gini.android.vision.Document;
+import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.R;
+import net.gini.android.vision.camera.CameraActivity;
+import net.gini.android.vision.noresults.NoResultsActivity;
+import net.gini.android.vision.onboarding.OnboardingActivity;
+import net.gini.android.vision.review.ReviewActivity;
 
 /**
  * <h3>Screen API</h3>
@@ -144,10 +146,33 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
     public static final int RESULT_ERROR = RESULT_FIRST_USER + 1;
 
     private static final String ANALYSIS_FRAGMENT = "ANALYSIS_FRAGMENT";
-
-    private AnalysisFragmentCompat mFragment;
-    private Document mDocument;
     private String mAnalysisErrorMessage;
+    private Document mDocument;
+    private AnalysisFragmentCompat mFragment;
+
+    @Override
+    public void hideError() {
+        mFragment.hideError();
+    }
+
+    @Override
+    public void noExtractionsFound() {
+        final Intent noResultsActivity = new Intent(this, NoResultsActivity.class);
+        startActivity(noResultsActivity);
+    }
+
+    /**
+     * <p>
+     * <b>Screen API:</b> If an analysis error message was set in the Review Screen with {@link
+     * ReviewActivity#onDocumentAnalysisError(String)} this method won't be called until the user
+     * clicks the
+     * retry button next to the error message.
+     * </p>
+     *
+     * @param document contains the image taken by the camera (original or modified)
+     */
+    @Override
+    public abstract void onAnalyzeDocument(@NonNull Document document);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,79 +188,19 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (handleMenuItemPressedForHomeButton(this, item)) {
-            onBackPressed();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         clearMemory();
     }
 
-    private void clearMemory() {
-        mDocument = null;
-    }
-
-    private void readExtras() {
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            mDocument = extras.getParcelable(EXTRA_IN_DOCUMENT);
-            mAnalysisErrorMessage = extras.getString(EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE);
-        }
-        checkRequiredExtras();
-    }
-
-    private void checkRequiredExtras() {
-        if (mDocument == null) {
-            throw new IllegalStateException("AnalysisActivity requires a Document. Set it as an extra using the EXTRA_IN_DOCUMENT key.");
-        }
-    }
-
-    private void initFragment() {
-        if (!isFragmentShown()) {
-            createFragment();
-            showFragment();
-        }
-    }
-
-    private boolean isFragmentShown() {
-        return getSupportFragmentManager().findFragmentByTag(ANALYSIS_FRAGMENT) != null;
-    }
-
-    private void createFragment() {
-        mFragment = AnalysisFragmentCompat.createInstance(mDocument, mAnalysisErrorMessage);
-    }
-
-    private void retainFragment() {
-        mFragment = (AnalysisFragmentCompat) getSupportFragmentManager().findFragmentByTag(ANALYSIS_FRAGMENT);
-    }
-
-    private void showFragment() {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.gv_fragment_analyze_document, mFragment, ANALYSIS_FRAGMENT)
-                .commit();
-    }
-
-    @VisibleForTesting
-    AnalysisFragmentCompat getFragment() {
-        return mFragment;
-    }
-
-    /**
-     * <p>
-     *     <b>Screen API:</b> If an analysis error message was set in the Review Screen with {@link ReviewActivity#onDocumentAnalysisError(String)} this method won't be called until the user clicks the
-     *     retry button next to the error message.
-     * </p>
-     * @param document contains the image taken by the camera (original or modified)
-     */
     @Override
-    public abstract void onAnalyzeDocument(@NonNull Document document);
+    public void onDocumentAnalyzed() {
+        mFragment.onDocumentAnalyzed();
+        Intent result = new Intent();
+        onAddDataToResult(result);
+        setResult(RESULT_OK, result);
+        finish();
+    }
 
     @Override
     public void onError(@NonNull GiniVisionError error) {
@@ -246,6 +211,26 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (handleMenuItemPressedForHomeButton(this, item)) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void showError(@NonNull String message, @NonNull String buttonTitle,
+            @NonNull View.OnClickListener onClickListener) {
+        mFragment.showError(message, buttonTitle, onClickListener);
+    }
+
+    @Override
+    public void showError(@NonNull String message, int duration) {
+        mFragment.showError(message, duration);
+    }
+
+    @Override
     public void startScanAnimation() {
         mFragment.startScanAnimation();
     }
@@ -253,15 +238,6 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
     @Override
     public void stopScanAnimation() {
         mFragment.stopScanAnimation();
-    }
-
-    @Override
-    public void onDocumentAnalyzed() {
-        mFragment.onDocumentAnalyzed();
-        Intent result = new Intent();
-        onAddDataToResult(result);
-        setResult(RESULT_OK, result);
-        finish();
     }
 
     /**
@@ -281,18 +257,56 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
      */
     public abstract void onAddDataToResult(Intent result);
 
-    @Override
-    public void showError(@NonNull String message, @NonNull String buttonTitle, @NonNull View.OnClickListener onClickListener) {
-        mFragment.showError(message, buttonTitle, onClickListener);
+    @VisibleForTesting
+    AnalysisFragmentCompat getFragment() {
+        return mFragment;
     }
 
-    @Override
-    public void showError(@NonNull String message, int duration) {
-        mFragment.showError(message, duration);
+    private void checkRequiredExtras() {
+        if (mDocument == null) {
+            throw new IllegalStateException(
+                    "AnalysisActivity requires a Document. Set it as an extra using the "
+                            + "EXTRA_IN_DOCUMENT key.");
+        }
     }
 
-    @Override
-    public void hideError() {
-        mFragment.hideError();
+    private void clearMemory() {
+        mDocument = null;
+    }
+
+    private void createFragment() {
+        mFragment = AnalysisFragmentCompat.createInstance(mDocument, mAnalysisErrorMessage);
+    }
+
+    private void initFragment() {
+        if (!isFragmentShown()) {
+            createFragment();
+            showFragment();
+        }
+    }
+
+    private boolean isFragmentShown() {
+        return getSupportFragmentManager().findFragmentByTag(ANALYSIS_FRAGMENT) != null;
+    }
+
+    private void readExtras() {
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            mDocument = extras.getParcelable(EXTRA_IN_DOCUMENT);
+            mAnalysisErrorMessage = extras.getString(EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE);
+        }
+        checkRequiredExtras();
+    }
+
+    private void retainFragment() {
+        mFragment = (AnalysisFragmentCompat) getSupportFragmentManager().findFragmentByTag(
+                ANALYSIS_FRAGMENT);
+    }
+
+    private void showFragment() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.gv_fragment_analyze_document, mFragment, ANALYSIS_FRAGMENT)
+                .commit();
     }
 }

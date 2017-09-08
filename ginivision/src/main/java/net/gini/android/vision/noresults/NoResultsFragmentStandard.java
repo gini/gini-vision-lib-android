@@ -15,6 +15,10 @@ public class NoResultsFragmentStandard extends Fragment implements FragmentImplC
 
     private NoResultsFragmentImpl mFragmentImpl;
 
+    public NoResultsFragmentStandard() {
+        mFragmentImpl = new NoResultsFragmentImpl(this);
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -24,7 +28,6 @@ public class NoResultsFragmentStandard extends Fragment implements FragmentImplC
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFragmentImpl = new NoResultsFragmentImpl(this);
         mFragmentImpl.onCreate(savedInstanceState);
     }
 

@@ -23,9 +23,13 @@ public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisA
     private SingleDocumentAnalyzer mSingleDocumentAnalyzer;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mSingleDocumentAnalyzer = ((ScreenApiApp) getApplication()).getSingleDocumentAnalyzer();
+    public void onAddDataToResult(@NonNull Intent result) {
+        LOG.debug("Add data to result");
+        // We add the extraction results here to the Intent. The payload format is up to you.
+        // For the example we add the extractions as key-value pairs to a Bundle
+        // We retrieve them when the CameraActivity has finished in MainActivity#onActivityResult()
+        Bundle extractionsBundle = getExtractionsBundle();
+        result.putExtra(MainActivity.EXTRA_OUT_EXTRACTIONS, extractionsBundle);
     }
 
     @Override
@@ -36,14 +40,6 @@ public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisA
         startScanAnimation();
         // We can start analyzing the document by sending it to the Gini API
         mSingleDocumentAnalyzer.analyzeDocument(document, new SingleDocumentAnalyzer.DocumentAnalysisListener() {
-            @Override
-            public void onExtractionsReceived(Map<String, SpecificExtraction> extractions) {
-                mExtractions = extractions;
-                    // Calling onDocumentAnalyzed() is important to notify the AnalysisActivity base class that the
-                    // analysis has completed successfully
-                onDocumentAnalyzed();
-            }
-
             @Override
             public void onException(Exception exception) {
                 stopScanAnimation();
@@ -61,17 +57,26 @@ public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisA
                     }
                 });
             }
+
+            @Override
+            public void onExtractionsReceived(Map<String, SpecificExtraction> extractions) {
+                mExtractions = extractions;
+                if (mExtractions == null || mExtractions.isEmpty()) {
+                    noExtractionsFound();
+                } else {
+                    // Calling onDocumentAnalyzed() is important to notify the AnalysisActivity
+                    // base class that the
+                    // analysis has completed successfully
+                    onDocumentAnalyzed();
+                }
+            }
         });
     }
 
     @Override
-    public void onAddDataToResult(@NonNull Intent result) {
-        LOG.debug("Add data to result");
-        // We add the extraction results here to the Intent. The payload format is up to you.
-        // For the example we add the extractions as key-value pairs to a Bundle
-        // We retrieve them when the CameraActivity has finished in MainActivity#onActivityResult()
-        Bundle extractionsBundle = getExtractionsBundle();
-        result.putExtra(MainActivity.EXTRA_OUT_EXTRACTIONS, extractionsBundle);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mSingleDocumentAnalyzer = ((ScreenApiApp) getApplication()).getSingleDocumentAnalyzer();
     }
 
     @Override

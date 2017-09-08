@@ -11,17 +11,20 @@ import android.view.View;
 public interface AnalysisFragmentInterface {
     /**
      * <p>
-     *     You should call this method when you start the document analysis using the Gini API.
+     *     Call this method to hide the error shown before with
+     *     {@link AnalysisFragmentInterface#showError(String, String, View.OnClickListener)} or
+     *     {@link AnalysisFragmentInterface#showError(String, int)}.
      * </p>
      */
-    void startScanAnimation();
+    void hideError();
 
     /**
      * <p>
-     *     You should call this method when the document analysis has finished.
+     *     You should call this method after you've received the analysis results from the Gini
+     *     API and there have been no extractions found.
      * </p>
      */
-    void stopScanAnimation();
+    void noExtractionsFound();
 
     /**
      * <p>
@@ -29,6 +32,16 @@ public interface AnalysisFragmentInterface {
      * </p>
      */
     void onDocumentAnalyzed();
+
+    /**
+     * <p>
+     *     Call this method when you need to show an error message to the user in the Analysis
+     *     Screen.
+     * </p>
+     * @param message a short error message
+     * @param duration how long should the error message be shown in ms
+     */
+    void showError(@NonNull String message, int duration);
 
     /**
      * <p>
@@ -42,17 +55,15 @@ public interface AnalysisFragmentInterface {
 
     /**
      * <p>
-     *     Call this method when you need to show an error message to the user in the Analysis Screen.
+     *     You should call this method when you start the document analysis using the Gini API.
      * </p>
-     * @param message a short error message
-     * @param duration how long should the error message be shown in ms
      */
-    void showError(@NonNull String message, int duration);
+    void startScanAnimation();
 
     /**
      * <p>
-     *     Call this method to hide the error shown before with {@link AnalysisFragmentInterface#showError(String, String, View.OnClickListener)} or {@link AnalysisFragmentInterface#showError(String, int)}.
+     *     You should call this method when the document analysis has finished.
      * </p>
      */
-    void hideError();
+    void stopScanAnimation();
 }

@@ -15,6 +15,10 @@ public class NoResultsFragmentCompat extends Fragment implements FragmentImplCal
 
     private NoResultsFragmentImpl mFragmentImpl;
 
+    public NoResultsFragmentCompat() {
+        mFragmentImpl = new NoResultsFragmentImpl(this);
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -24,7 +28,6 @@ public class NoResultsFragmentCompat extends Fragment implements FragmentImplCal
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFragmentImpl = new NoResultsFragmentImpl(this);
         mFragmentImpl.onCreate(savedInstanceState);
     }
 
