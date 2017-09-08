@@ -17,4 +17,11 @@
     <string name="gv_review_bottom_panel_text">Dokument vollständig, scharf und in Leserichtung?\n\nDoppeltippen um Schärfe zu prüfen.</string>
 
     <string name="gv_document_analysis_error_retry">Wiederholen</string>
+
+    <string name="gv_noresults_hints">Zur Erkennung aller Daten bitte folgende Tipps beim Abfotografieren beachten:</string>
+    <string name="gv_noresults_align">Seite vollständig in den angezeigten Rahmen einpassen</string>
+    <string name="gv_noresults_lighting">Auf gute Beleuchtung achten</string>
+    <string name="gv_noresults_parallel">Gerät parallel über die Seite halten</string>
+    <string name="gv_noresults_flat">Seite glatt streichen</string>
+    <string name="gv_noresults_back_button">Zurück zur Kamera</string>
 </resources>

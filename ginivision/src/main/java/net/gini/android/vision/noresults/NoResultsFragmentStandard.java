@@ -24,7 +24,7 @@ public class NoResultsFragmentStandard extends Fragment implements FragmentImplC
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFragmentImpl = new NoResultsFragmentImpl();
+        mFragmentImpl = new NoResultsFragmentImpl(this);
         mFragmentImpl.onCreate(savedInstanceState);
     }
 

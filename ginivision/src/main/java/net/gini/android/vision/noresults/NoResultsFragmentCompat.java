@@ -9,7 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class NoResultsFragmentCompat extends Fragment {
+import net.gini.android.vision.internal.ui.FragmentImplCallback;
+
+public class NoResultsFragmentCompat extends Fragment implements FragmentImplCallback {
 
     private NoResultsFragmentImpl mFragmentImpl;
 
@@ -22,7 +24,7 @@ public class NoResultsFragmentCompat extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFragmentImpl = new NoResultsFragmentImpl();
+        mFragmentImpl = new NoResultsFragmentImpl(this);
         mFragmentImpl.onCreate(savedInstanceState);
     }
 

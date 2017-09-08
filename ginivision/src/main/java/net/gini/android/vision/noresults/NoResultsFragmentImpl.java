@@ -1,6 +1,8 @@
 package net.gini.android.vision.noresults;
 
 
+import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,13 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import net.gini.android.vision.R;
+import net.gini.android.vision.internal.ui.FragmentImplCallback;
 
 class NoResultsFragmentImpl {
 
+    private final FragmentImplCallback mFragment;
     private NoResultsFragmentListener mListener;
 
-    public void onCreate(final Bundle savedInstanceState) {
+    NoResultsFragmentImpl(final FragmentImplCallback fragment) {
+        mFragment = fragment;
+    }
 
+    public void onCreate(final Bundle savedInstanceState) {
+        forcePortraitOrientationOnPhones(mFragment.getActivity());
     }
 
     void onAttach(Context context) {
