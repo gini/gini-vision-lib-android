@@ -13,9 +13,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.transition.AutoTransition;
+import android.support.transition.Transition;
+import android.support.transition.TransitionManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.RelativeLayout;
 
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
@@ -32,6 +36,7 @@ public class FileChooserActivity extends AppCompatActivity {
 
     static final int GRID_SPAN_COUNT = 4;
 
+    private RelativeLayout mLayoutRoot;
     private RecyclerView mFileProvidersView;
 
     public static Intent createIntent(final Context context) {
@@ -48,6 +53,7 @@ public class FileChooserActivity extends AppCompatActivity {
     }
 
     private void bindViews() {
+        mLayoutRoot = (RelativeLayout) findViewById(R.id.gv_layout_root);
         mFileProvidersView = (RecyclerView) findViewById(R.id.gv_file_providers);
     }
 
@@ -58,13 +64,69 @@ public class FileChooserActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        populateFileProviders();
         showFileProviders();
+    }
+
+    private void showFileProviders() {
+        mLayoutRoot.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                AutoTransition transition = new AutoTransition();
+                transition.setDuration(200);
+                TransitionManager.beginDelayedTransition(mLayoutRoot, transition);
+                RelativeLayout.LayoutParams layoutParams =
+                        (RelativeLayout.LayoutParams) mFileProvidersView.getLayoutParams();
+                layoutParams.addRule(RelativeLayout.BELOW);
+                layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                mFileProvidersView.setLayoutParams(layoutParams);
+            }
+        }, 300);
     }
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         overridePendingTransition(0, 0);
+        hideFileProviders(new Transition.TransitionListener() {
+            @Override
+            public void onTransitionStart(@NonNull final Transition transition) {
+
+            }
+
+            @Override
+            public void onTransitionEnd(@NonNull final Transition transition) {
+                FileChooserActivity.super.onBackPressed();
+            }
+
+            @Override
+            public void onTransitionCancel(@NonNull final Transition transition) {
+
+            }
+
+            @Override
+            public void onTransitionPause(@NonNull final Transition transition) {
+
+            }
+
+            @Override
+            public void onTransitionResume(@NonNull final Transition transition) {
+
+            }
+        });
+
+    }
+
+    private void hideFileProviders(
+            @NonNull final Transition.TransitionListener transitionListener) {
+        AutoTransition transition = new AutoTransition();
+        transition.setDuration(200);
+        transition.addListener(transitionListener);
+        TransitionManager.beginDelayedTransition(mLayoutRoot, transition);
+        RelativeLayout.LayoutParams layoutParams =
+                (RelativeLayout.LayoutParams) mFileProvidersView.getLayoutParams();
+        layoutParams.addRule(RelativeLayout.BELOW, R.id.gv_space);
+        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        mFileProvidersView.setLayoutParams(layoutParams);
     }
 
     @Override
@@ -82,7 +144,7 @@ public class FileChooserActivity extends AppCompatActivity {
         finish();
     }
 
-    private void showFileProviders() {
+    private void populateFileProviders() {
         final List<ResolveInfo> imagePickerResolveInfos = queryImagePickers();
         final List<ResolveInfo> imageProviderResolveInfos = queryImageProviders();
         final List<ResolveInfo> pdfProviderResolveInfos = queryPdfProviders();
