@@ -159,6 +159,7 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
     public void noExtractionsFound() {
         final Intent noResultsActivity = new Intent(this, NoResultsActivity.class);
         startActivity(noResultsActivity);
+        finish();
     }
 
     /**

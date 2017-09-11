@@ -22,6 +22,7 @@ import net.gini.android.vision.analysis.AnalysisFragmentListener;
 import net.gini.android.vision.camera.CameraFragmentCompat;
 import net.gini.android.vision.camera.CameraFragmentListener;
 import net.gini.android.vision.noresults.NoResultsFragmentCompat;
+import net.gini.android.vision.noresults.NoResultsFragmentListener;
 import net.gini.android.vision.onboarding.OnboardingFragmentCompat;
 import net.gini.android.vision.onboarding.OnboardingFragmentListener;
 import net.gini.android.vision.review.ReviewFragmentCompat;
@@ -46,7 +47,9 @@ import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
  * </p>
  */
 public class GiniVisionAppCompatActivity extends AppCompatActivity
-        implements CameraFragmentListener, OnboardingFragmentListener, ReviewFragmentListener, AnalysisFragmentListener {
+        implements CameraFragmentListener, OnboardingFragmentListener, ReviewFragmentListener,
+        AnalysisFragmentListener,
+        NoResultsFragmentListener {
 
     private static final Logger LOG = LoggerFactory.getLogger(GiniVisionActivity.class);
 
@@ -137,6 +140,11 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
         getSingleDocumentAnalyzer().cancelAnalysis();
         mDocumentAnalysisErrorMessage = null;
         mExtractionsFromReviewScreen = null;
+    }
+
+    @Override
+    public void onBackToCameraPressed() {
+        showCamera();
     }
 
     @Override
