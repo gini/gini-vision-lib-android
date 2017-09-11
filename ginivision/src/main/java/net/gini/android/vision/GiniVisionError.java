@@ -54,7 +54,11 @@ public class GiniVisionError implements Parcelable {
          *     An error occurred in the Review Screen. Check the message for details.
          * </p>
          */
-        REVIEW;
+        REVIEW,
+        /**
+         * TODO: javadoc
+         */
+        DOCUMENT_IMPORT
     }
 
     private final ErrorCode mErrorCode;

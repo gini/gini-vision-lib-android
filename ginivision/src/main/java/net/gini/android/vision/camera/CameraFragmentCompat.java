@@ -1,6 +1,7 @@
 package net.gini.android.vision.camera;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -85,6 +86,14 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
     public void onStop() {
         super.onStop();
         mFragmentImpl.onStop();
+    }
+
+    @Override
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        boolean consumed = mFragmentImpl.onActivityResult(requestCode, resultCode, data);
+        if (!consumed) {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     @Override

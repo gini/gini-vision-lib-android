@@ -25,6 +25,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
@@ -36,6 +37,7 @@ import net.gini.android.vision.internal.camera.api.UIExecutor;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.Size;
 import net.gini.android.vision.internal.camera.view.CameraPreviewSurface;
+import net.gini.android.vision.internal.fileimport.FileChooserActivity;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 import net.gini.android.vision.internal.ui.ViewStubSafeInflater;
 
@@ -60,6 +62,8 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         }
     };
 
+    private static final int REQ_CODE_CHOOSE_FILE = 1;
+
     private final FragmentImplCallback mFragment;
     private CameraFragmentListener mListener = NO_OP_LISTENER;
     private final UIExecutor mUIExecutor = new UIExecutor();
@@ -71,6 +75,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     private ImageView mImageCorners;
     private ImageButton mButtonCameraTrigger;
     private LinearLayout mLayoutNoPermission;
+    private ImageButton mButtonImportDocument;
 
     private ViewStubSafeInflater mViewStubInflater;
 
@@ -263,6 +268,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mButtonCameraTrigger = (ImageButton) view.findViewById(R.id.gv_button_camera_trigger);
         ViewStub stubNoPermission = (ViewStub) view.findViewById(R.id.gv_stub_camera_no_permission);
         mViewStubInflater = new ViewStubSafeInflater(stubNoPermission);
+        mButtonImportDocument = view.findViewById(R.id.gv_button_import_document);
     }
 
     private void setInputHandlers() {
@@ -295,6 +301,23 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                         });
             }
         });
+        mButtonImportDocument.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                LOG.info("Importing document");
+                Intent fileChooserIntent = FileChooserActivity.createIntent(mFragment.getActivity());
+                mFragment.startActivityForResult(fileChooserIntent, REQ_CODE_CHOOSE_FILE);
+            }
+        });
+    }
+
+    public boolean onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        if (requestCode == REQ_CODE_CHOOSE_FILE) {
+            LOG.info("Document file received");
+            Toast.makeText(mFragment.getActivity(), "File received", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        return false;
     }
 
     @UiThread
