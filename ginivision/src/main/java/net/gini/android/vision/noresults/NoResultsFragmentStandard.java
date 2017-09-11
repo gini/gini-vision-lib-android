@@ -38,7 +38,7 @@ public class NoResultsFragmentStandard extends Fragment implements FragmentImplC
         return mFragmentImpl.onCreateView(inflater, container, savedInstanceState);
     }
 
-    public static NoResultsFragmentStandard newInstance() {
+    public static NoResultsFragmentStandard createInstance() {
         NoResultsFragmentStandard fragment = new NoResultsFragmentStandard();
         return fragment;
     }

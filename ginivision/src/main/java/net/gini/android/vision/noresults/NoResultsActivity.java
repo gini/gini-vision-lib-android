@@ -28,7 +28,7 @@ public class NoResultsActivity extends AppCompatActivity implements NoResultsFra
         }
 
         if (savedInstanceState == null) {
-            NoResultsFragmentCompat noResultsFragment = NoResultsFragmentCompat.newInstance();
+            NoResultsFragmentCompat noResultsFragment = NoResultsFragmentCompat.createInstance();
             noResultsFragment.setArguments(getIntent().getExtras());
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.gv_fragment_noresults, noResultsFragment)

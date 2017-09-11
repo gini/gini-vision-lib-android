@@ -38,7 +38,7 @@ public class NoResultsFragmentCompat extends Fragment implements FragmentImplCal
         return mFragmentImpl.onCreateView(inflater, container, savedInstanceState);
     }
 
-    public static NoResultsFragmentCompat newInstance() {
+    public static NoResultsFragmentCompat createInstance() {
         NoResultsFragmentCompat fragment = new NoResultsFragmentCompat();
         return fragment;
     }
