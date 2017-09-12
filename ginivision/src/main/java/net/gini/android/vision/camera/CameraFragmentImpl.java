@@ -104,7 +104,6 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.gv_fragment_camera, container, false);
         bindViews(view);
-        initViews();
         setInputHandlers();
         setSurfaceViewCallback();
         return view;
@@ -114,6 +113,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         if (mFragment.getActivity() == null) {
             return;
         }
+        initViews();
         initCameraController(mFragment.getActivity());
 
         final CompletableFuture<Void> openCameraCompletable = openCamera();
