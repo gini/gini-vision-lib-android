@@ -16,7 +16,7 @@ class ProvidersAppItemViewHolder extends ProvidersItemViewHolder {
 
     ProvidersAppItemViewHolder(@NonNull final View itemView) {
         super(itemView, ProvidersItem.FileProviderItemType.APP);
-        icon = itemView.findViewById(R.id.imageView);
-        label = itemView.findViewById(R.id.textView);
+        icon = itemView.findViewById(R.id.gv_app_icon);
+        label = itemView.findViewById(R.id.gv_app_label);
     }
 }

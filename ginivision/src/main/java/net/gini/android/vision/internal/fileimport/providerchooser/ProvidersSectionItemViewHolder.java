@@ -13,6 +13,6 @@ class ProvidersSectionItemViewHolder extends ProvidersItemViewHolder {
 
     ProvidersSectionItemViewHolder(final View itemView) {
         super(itemView, ProvidersItem.FileProviderItemType.SECTION);
-        sectionTitle = itemView.findViewById(R.id.sectionTitle);
+        sectionTitle = itemView.findViewById(R.id.gv_section_title);
     }
 }

@@ -8,7 +8,7 @@
     android:padding="8dp">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/gv_app_icon"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="center_horizontal"
@@ -16,7 +16,7 @@
         tools:src="@drawable/gv_review_fab_background" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/gv_app_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
