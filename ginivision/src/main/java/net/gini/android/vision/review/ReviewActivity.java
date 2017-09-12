@@ -321,6 +321,8 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
                 setResult(resultCode, data);
                 finish();
                 clearMemory();
+            } else {
+                finish();
             }
         }
     }

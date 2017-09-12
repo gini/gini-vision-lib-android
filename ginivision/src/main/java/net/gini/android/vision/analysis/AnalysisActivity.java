@@ -4,6 +4,7 @@ import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsU
 import static net.gini.android.vision.internal.util.ActivityHelper
         .handleMenuItemPressedForHomeButton;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -159,6 +160,7 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
     public void noExtractionsFound() {
         final Intent noResultsActivity = new Intent(this, NoResultsActivity.class);
         startActivity(noResultsActivity);
+        setResult(Activity.RESULT_CANCELED);
         finish();
     }
 
