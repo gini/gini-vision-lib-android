@@ -117,7 +117,7 @@ import java.util.ArrayList;
  *             <b>No camera permission text color:</b> via the color resource named {@code gv_camera_error_no_permission}
  *         </li>
  *         <li>
- *             <b>No camera permission font:</b> via overriding the style named {@code GiniVisionTheme.Camera.Error.NoPermission.TextStyle} and setting an item named {@code font} with the path to the font file in your {@code assets} folder
+ *             <b>No camera permission font:</b> via overriding the style named {@code GiniVisionTheme.Camera.Error.NoPermission.TextStyle} and setting an item named {@code gvCustomFont} with the path to the font file in your {@code assets} folder
  *         </li>
  *         <li>
  *             <b>No camera permission text style:</b> via overriding the style named {@code GiniVisionTheme.Camera.Error.NoPermission.TextStyle} and setting an item named {@code android:textStyle} to {@code normal}, {@code bold} or {@code italic}
@@ -132,7 +132,7 @@ import java.util.ArrayList;
  *             <b>No camera permission button title color:</b> via the color resources named {@code gv_camera_error_no_permission_button_title} and {@code gv_camera_error_no_permission_button_title_pressed}
  *         </li>
  *         <li>
- *             <b>No camera permission button font:</b> via overriding the style named {@code GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle} and setting an item named {@code font} with the path to the font file in your {@code assets} folder
+ *             <b>No camera permission button font:</b> via overriding the style named {@code GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle} and setting an item named {@code gvCustomFont} with the path to the font file in your {@code assets} folder
  *         </li>
  *         <li>
  *             <b>No camera permission button text style:</b> via overriding the style named {@code GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle} and setting an item named {@code android:textStyle} to {@code normal}, {@code bold} or {@code italic}

@@ -49,7 +49,6 @@ import net.gini.android.vision.review.ReviewActivity;
 import net.gini.android.vision.review.ReviewActivityTestSpy;
 import net.gini.android.vision.test.EspressoAssertions;
 
-import org.hamcrest.Description;
 import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
@@ -334,6 +333,7 @@ public class CameraScreenTest {
                 intentWithExtraBackButtonShouldCloseLibrary()), anyInt());
     }
 
+    @RequiresDevice
     @Test
     @SdkSuppress(minSdkVersion = 18)
     public void should_adaptCameraPreviewSize_toLandscapeOrientation_onTablets() throws Exception {
@@ -395,8 +395,7 @@ public class CameraScreenTest {
     private ArgumentMatcher<Intent> intentWithExtraBackButtonShouldCloseLibrary() {
         return new ArgumentMatcher<Intent>() {
             @Override
-            public boolean matches(final Object argument) {
-                final Intent intent = (Intent) argument;
+            public boolean matches(final Intent intent) {
                 //noinspection UnnecessaryLocalVariable
                 final boolean shouldCloseLibrary = intent.getBooleanExtra(
                         ReviewActivity.EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY, false);
@@ -404,8 +403,8 @@ public class CameraScreenTest {
             }
 
             @Override
-            public void describeTo(final Description description) {
-                description.appendText("Intent { EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY=true }");
+            public String toString() {
+                return "Intent { EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY=true }";
             }
         };
     }
