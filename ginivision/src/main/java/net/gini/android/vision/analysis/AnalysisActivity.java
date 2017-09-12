@@ -1,10 +1,8 @@
 package net.gini.android.vision.analysis;
 
 import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
-import static net.gini.android.vision.internal.util.ActivityHelper
-        .handleMenuItemPressedForHomeButton;
+import static net.gini.android.vision.internal.util.ActivityHelper.handleMenuItemPressedForHomeButton;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -146,6 +144,8 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
      */
     public static final int RESULT_ERROR = RESULT_FIRST_USER + 1;
 
+    public static final int RESULT_NO_EXTRACTIONS = RESULT_FIRST_USER + 2;
+
     private static final String ANALYSIS_FRAGMENT = "ANALYSIS_FRAGMENT";
     private String mAnalysisErrorMessage;
     private Document mDocument;
@@ -160,7 +160,7 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
     public void noExtractionsFound() {
         final Intent noResultsActivity = new Intent(this, NoResultsActivity.class);
         startActivity(noResultsActivity);
-        setResult(Activity.RESULT_CANCELED);
+        setResult(RESULT_NO_EXTRACTIONS);
         finish();
     }
 
