@@ -1,25 +1,25 @@
-package net.gini.android.vision.internal.fileimport;
+package net.gini.android.vision.internal.fileimport.providerchooser;
 
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.support.annotation.NonNull;
 
-class FileProvidersAppItem extends FileProvidersItem {
+public class ProvidersAppItem extends ProvidersItem {
 
     private final Intent mIntent;
     private final ResolveInfo mResolveInfo;
 
-    FileProvidersAppItem(@NonNull final Intent intent, @NonNull final ResolveInfo resolveInfo) {
+    public ProvidersAppItem(@NonNull final Intent intent, @NonNull final ResolveInfo resolveInfo) {
         super(FileProviderItemType.APP);
         mIntent = intent;
         mResolveInfo = resolveInfo;
     }
 
-    Intent getIntent() {
+    public Intent getIntent() {
         return mIntent;
     }
 
-    ResolveInfo getResolveInfo() {
+    public ResolveInfo getResolveInfo() {
         return mResolveInfo;
     }
 

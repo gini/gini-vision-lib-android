@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.transition.AutoTransition;
 import android.support.transition.Transition;
+import android.support.transition.TransitionListenerAdapter;
 import android.support.transition.TransitionManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -23,6 +24,12 @@ import android.widget.RelativeLayout;
 
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
+import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersAdapter;
+import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersAppItem;
+import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersAppItemSelectedListener;
+import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersItem;
+import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersSectionItem;
+import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersSpanSizeLookup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +41,7 @@ public class FileChooserActivity extends AppCompatActivity {
     public static final int RESULT_ERROR = RESULT_FIRST_USER + 1;
     public static final String EXTRA_OUT_ERROR = "GV_EXTRA_OUT_ERROR";
 
-    static final int GRID_SPAN_COUNT = 4;
+    public static final int GRID_SPAN_COUNT = 4;
 
     private RelativeLayout mLayoutRoot;
     private RecyclerView mFileProvidersView;
@@ -53,8 +60,8 @@ public class FileChooserActivity extends AppCompatActivity {
     }
 
     private void bindViews() {
-        mLayoutRoot = (RelativeLayout) findViewById(R.id.gv_layout_root);
-        mFileProvidersView = (RecyclerView) findViewById(R.id.gv_file_providers);
+        mLayoutRoot = findViewById(R.id.gv_layout_root);
+        mFileProvidersView = findViewById(R.id.gv_file_providers);
     }
 
     private void setupFileProvidersView() {
@@ -87,30 +94,10 @@ public class FileChooserActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         overridePendingTransition(0, 0);
-        hideFileProviders(new Transition.TransitionListener() {
-            @Override
-            public void onTransitionStart(@NonNull final Transition transition) {
-
-            }
-
+        hideFileProviders(new TransitionListenerAdapter() {
             @Override
             public void onTransitionEnd(@NonNull final Transition transition) {
                 FileChooserActivity.super.onBackPressed();
-            }
-
-            @Override
-            public void onTransitionCancel(@NonNull final Transition transition) {
-
-            }
-
-            @Override
-            public void onTransitionPause(@NonNull final Transition transition) {
-
-            }
-
-            @Override
-            public void onTransitionResume(@NonNull final Transition transition) {
-
             }
         });
 
@@ -149,33 +136,33 @@ public class FileChooserActivity extends AppCompatActivity {
         final List<ResolveInfo> imageProviderResolveInfos = queryImageProviders();
         final List<ResolveInfo> pdfProviderResolveInfos = queryPdfProviders();
 
-        final List<FileProvidersItem> providerItems = new ArrayList<>();
+        final List<ProvidersItem> providerItems = new ArrayList<>();
 
-        providerItems.add(new FileProvidersSectionItem("Photos"));
+        providerItems.add(new ProvidersSectionItem("Photos"));
         final Intent imagePickerIntent = createImagePickerIntent();
         for (final ResolveInfo imagePickerResolveInfo : imagePickerResolveInfos) {
-            providerItems.add(new FileProvidersAppItem(imagePickerIntent, imagePickerResolveInfo));
+            providerItems.add(new ProvidersAppItem(imagePickerIntent, imagePickerResolveInfo));
         }
         final Intent getImageDocumentIntent = createGetImageDocumentIntent();
         for (final ResolveInfo imageProviderResolveInfo : imageProviderResolveInfos) {
             providerItems.add(
-                    new FileProvidersAppItem(getImageDocumentIntent, imageProviderResolveInfo));
+                    new ProvidersAppItem(getImageDocumentIntent, imageProviderResolveInfo));
         }
 
-        providerItems.add(new FileProvidersSectionItem("PDFs"));
+        providerItems.add(new ProvidersSectionItem("PDFs"));
         final Intent getPdfDocumentIntent = createGetPdfDocumentIntent();
         for (final ResolveInfo pdfProviderResolveInfo : pdfProviderResolveInfos) {
             providerItems.add(
-                    new FileProvidersAppItem(getPdfDocumentIntent, pdfProviderResolveInfo));
+                    new ProvidersAppItem(getPdfDocumentIntent, pdfProviderResolveInfo));
         }
 
         ((GridLayoutManager) mFileProvidersView.getLayoutManager()).setSpanSizeLookup(
-                new FileProvidersSpanSizeLookup(providerItems));
+                new ProvidersSpanSizeLookup(providerItems));
 
-        mFileProvidersView.setAdapter(new FileProvidersAdapter(this, providerItems,
-                new FileProvidersAppItemSelectedListener() {
+        mFileProvidersView.setAdapter(new ProvidersAdapter(this, providerItems,
+                new ProvidersAppItemSelectedListener() {
                     @Override
-                    public void onItemSelected(@NonNull final FileProvidersAppItem item) {
+                    public void onItemSelected(@NonNull final ProvidersAppItem item) {
                         Intent intent = item.getIntent();
                         intent.setClassName(
                                 item.getResolveInfo().activityInfo.packageName,

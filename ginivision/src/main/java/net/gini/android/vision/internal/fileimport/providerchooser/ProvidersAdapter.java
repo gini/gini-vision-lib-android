@@ -1,4 +1,4 @@
-package net.gini.android.vision.internal.fileimport;
+package net.gini.android.vision.internal.fileimport.providerchooser;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -11,15 +11,15 @@ import net.gini.android.vision.R;
 
 import java.util.List;
 
-class FileProvidersAdapter extends RecyclerView.Adapter<FileProvidersItemViewHolder> {
+public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersItemViewHolder> {
 
     private final Context mContext;
-    private final List<FileProvidersItem> mItems;
-    private final FileProvidersAppItemSelectedListener mItemSelectedListener;
+    private final List<ProvidersItem> mItems;
+    private final ProvidersAppItemSelectedListener mItemSelectedListener;
 
-    FileProvidersAdapter(@NonNull final Context context,
-            @NonNull final List<FileProvidersItem> items,
-            @NonNull final FileProvidersAppItemSelectedListener itemSelectedListener) {
+    public ProvidersAdapter(@NonNull final Context context,
+            @NonNull final List<ProvidersItem> items,
+            @NonNull final ProvidersAppItemSelectedListener itemSelectedListener) {
         mContext = context;
         mItems = items;
         mItemSelectedListener = itemSelectedListener;
@@ -31,9 +31,9 @@ class FileProvidersAdapter extends RecyclerView.Adapter<FileProvidersItemViewHol
     }
 
     @Override
-    public FileProvidersItemViewHolder onCreateViewHolder(final ViewGroup parent,
+    public ProvidersItemViewHolder onCreateViewHolder(final ViewGroup parent,
             final int viewType) {
-        switch (FileProvidersItem.FileProviderItemType.fromOrdinal(viewType)) {
+        switch (ProvidersItem.FileProviderItemType.fromOrdinal(viewType)) {
             case SECTION:
                 return createSectionItemViewHolder(parent);
             case APP:
@@ -44,48 +44,48 @@ class FileProvidersAdapter extends RecyclerView.Adapter<FileProvidersItemViewHol
     }
 
     @NonNull
-    private FileProvidersItemViewHolder createSectionItemViewHolder(
+    private ProvidersItemViewHolder createSectionItemViewHolder(
             @NonNull final ViewGroup parent) {
         final View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.gv_item_file_provider_section, parent, false);
-        return new FileProvidersSectionItemViewHolder(itemView);
+        return new ProvidersSectionItemViewHolder(itemView);
     }
 
     @NonNull
-    private FileProvidersItemViewHolder createAppItemViewHolder(@NonNull final ViewGroup parent) {
+    private ProvidersItemViewHolder createAppItemViewHolder(@NonNull final ViewGroup parent) {
         final View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.gv_item_file_provider_app, parent, false);
-        return new FileProvidersAppItemViewHolder(itemView);
+        return new ProvidersAppItemViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(final FileProvidersItemViewHolder holder, final int position) {
+    public void onBindViewHolder(final ProvidersItemViewHolder holder, final int position) {
         switch (holder.type) {
             case SECTION:
-                bindSectionItemViewHolder((FileProvidersSectionItemViewHolder) holder, position);
+                bindSectionItemViewHolder((ProvidersSectionItemViewHolder) holder, position);
                 break;
             case APP:
-                bindAppItemViewHolder((FileProvidersAppItemViewHolder) holder, position);
+                bindAppItemViewHolder((ProvidersAppItemViewHolder) holder, position);
                 break;
         }
     }
 
-    private void bindSectionItemViewHolder(@NonNull final FileProvidersSectionItemViewHolder holder,
+    private void bindSectionItemViewHolder(@NonNull final ProvidersSectionItemViewHolder holder,
             final int position) {
-        FileProvidersSectionItem item = (FileProvidersSectionItem) mItems.get(position);
+        ProvidersSectionItem item = (ProvidersSectionItem) mItems.get(position);
         holder.sectionTitle.setText(item.getSectionTitle());
     }
 
-    private void bindAppItemViewHolder(@NonNull final FileProvidersAppItemViewHolder holder,
+    private void bindAppItemViewHolder(@NonNull final ProvidersAppItemViewHolder holder,
             final int position) {
-        FileProvidersAppItem item = (FileProvidersAppItem) mItems.get(position);
+        ProvidersAppItem item = (ProvidersAppItem) mItems.get(position);
         holder.icon.setImageDrawable(item.getResolveInfo().loadIcon(mContext.getPackageManager()));
         holder.label.setText(item.getResolveInfo().loadLabel(mContext.getPackageManager()));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                FileProvidersAppItem item =
-                        (FileProvidersAppItem) mItems.get(holder.getAdapterPosition());
+                ProvidersAppItem item =
+                        (ProvidersAppItem) mItems.get(holder.getAdapterPosition());
                 mItemSelectedListener.onItemSelected(item);
             }
         });

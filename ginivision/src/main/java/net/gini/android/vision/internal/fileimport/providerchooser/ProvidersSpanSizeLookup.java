@@ -1,4 +1,4 @@
-package net.gini.android.vision.internal.fileimport;
+package net.gini.android.vision.internal.fileimport.providerchooser;
 
 import static net.gini.android.vision.internal.fileimport.FileChooserActivity.GRID_SPAN_COUNT;
 
@@ -7,11 +7,11 @@ import android.support.v7.widget.GridLayoutManager.SpanSizeLookup;
 
 import java.util.List;
 
-class FileProvidersSpanSizeLookup extends SpanSizeLookup {
+public class ProvidersSpanSizeLookup extends SpanSizeLookup {
 
-    private final List<FileProvidersItem> mItems;
+    private final List<ProvidersItem> mItems;
 
-    FileProvidersSpanSizeLookup(@NonNull final List<FileProvidersItem> items) {
+    public ProvidersSpanSizeLookup(@NonNull final List<ProvidersItem> items) {
         mItems = items;
     }
 

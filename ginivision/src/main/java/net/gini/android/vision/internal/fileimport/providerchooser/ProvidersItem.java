@@ -1,8 +1,8 @@
-package net.gini.android.vision.internal.fileimport;
+package net.gini.android.vision.internal.fileimport.providerchooser;
 
 import android.support.annotation.NonNull;
 
-abstract class FileProvidersItem {
+public abstract class ProvidersItem {
 
     enum FileProviderItemType {
         SECTION,
@@ -20,7 +20,7 @@ abstract class FileProvidersItem {
 
     private final FileProviderItemType mType;
 
-    FileProvidersItem(@NonNull final FileProviderItemType type) {
+    ProvidersItem(@NonNull final FileProviderItemType type) {
         mType = type;
     }
 

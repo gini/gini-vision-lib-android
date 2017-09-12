@@ -1,12 +1,12 @@
-package net.gini.android.vision.internal.fileimport;
+package net.gini.android.vision.internal.fileimport.providerchooser;
 
 import android.support.annotation.NonNull;
 
-class FileProvidersSectionItem extends FileProvidersItem {
+public class ProvidersSectionItem extends ProvidersItem {
 
     private final String mSectionTitle;
 
-    FileProvidersSectionItem(@NonNull final String sectionTitle) {
+    public ProvidersSectionItem(@NonNull final String sectionTitle) {
         super(FileProviderItemType.SECTION);
         mSectionTitle = sectionTitle;
     }
