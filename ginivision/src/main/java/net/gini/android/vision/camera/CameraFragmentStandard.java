@@ -127,4 +127,14 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
     public void hideCameraTriggerButton() {
         mFragmentImpl.hideCameraTriggerButton();
     }
+
+    @Override
+    public void showInterface() {
+        mFragmentImpl.showInterface();
+    }
+
+    @Override
+    public void hideInterface() {
+        mFragmentImpl.hideInterface();
+    }
 }

@@ -313,7 +313,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         super.onStart();
         mGiniVisionCoordinator.onCameraStarted();
         if (mOnboardingShown) {
-            hideCornersAndTrigger();
+            hideInterface();
         }
     }
 
@@ -387,7 +387,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         if (mOnboardingPages != null) {
             intent.putParcelableArrayListExtra(OnboardingActivity.EXTRA_ONBOARDING_PAGES, mOnboardingPages);
         }
-        hideCornersAndTrigger();
+        hideInterface();
         startActivityForResult(intent, ONBOARDING_REQUEST);
         mOnboardingShown = true;
     }
@@ -424,21 +424,19 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
                 break;
             case ONBOARDING_REQUEST:
                 mOnboardingShown = false;
-                showCornersAndTrigger();
+                showInterface();
                 break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
-    private void showCornersAndTrigger() {
-        mFragment.showDocumentCornerGuides();
-        mFragment.showCameraTriggerButton();
+    private void showInterface() {
+        mFragment.showInterface();
     }
 
-    private void hideCornersAndTrigger() {
-        mFragment.hideDocumentCornerGuides();
-        mFragment.hideCameraTriggerButton();
+    private void hideInterface() {
+        mFragment.hideInterface();
     }
 
     private void clearMemory() {

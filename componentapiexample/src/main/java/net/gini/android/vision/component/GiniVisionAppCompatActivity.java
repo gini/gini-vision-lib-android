@@ -217,8 +217,7 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
             return;
         }
         CameraFragmentCompat cameraFragment = (CameraFragmentCompat) mCurrentFragment;
-        cameraFragment.hideDocumentCornerGuides();
-        cameraFragment.hideCameraTriggerButton();
+        cameraFragment.hideInterface();
     }
 
     public void removeOnboarding() {
@@ -241,8 +240,7 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
             return;
         }
         CameraFragmentCompat cameraFragment = (CameraFragmentCompat) mCurrentFragment;
-        cameraFragment.showDocumentCornerGuides();
-        cameraFragment.showCameraTriggerButton();
+        cameraFragment.showInterface();
     }
 
     @Override

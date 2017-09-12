@@ -413,10 +413,49 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mButtonCameraTrigger.setEnabled(false);
     }
 
-    private void showNoPermissionView() {
-        hideCameraPreviewAnimated();
+    @Override
+    public void showInterface() {
+        if (isNoPermissionViewVisible()) {
+            return;
+        }
+        showInterfaceAnimated();
+    }
+
+    private void showInterfaceAnimated() {
+        showCameraTriggerButtonAnimated();
+        showDocumentCornerGuidesAnimated();
+        showImportDocumentButtonAnimated();
+    }
+
+    private void showImportDocumentButtonAnimated() {
+        LOG.debug("Showing document import button");
+        mButtonImportDocument.animate().alpha(1.0f);
+        mButtonImportDocument.setEnabled(true);
+    }
+
+    @Override
+    public void hideInterface() {
+        if (isNoPermissionViewVisible()) {
+            return;
+        }
+        hideInterfaceAnimated();
+    }
+
+    private void hideInterfaceAnimated() {
         hideCameraTriggerButtonAnimated();
         hideDocumentCornerGuidesAnimated();
+        hideImportDocumentButtonAnimated();
+    }
+
+    private void hideImportDocumentButtonAnimated() {
+        LOG.debug("Hiding document import button");
+        mButtonImportDocument.animate().alpha(0.0f);
+        mButtonImportDocument.setEnabled(false);
+    }
+
+    private void showNoPermissionView() {
+        hideCameraPreviewAnimated();
+        hideInterfaceAnimated();
         inflateNoPermissionStub();
         setUpNoPermissionButton();
         if (mLayoutNoPermission != null) {

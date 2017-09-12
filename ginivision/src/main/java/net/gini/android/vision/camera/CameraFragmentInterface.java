@@ -13,7 +13,10 @@ public interface CameraFragmentInterface {
      * <p>
      *     <b>Note:</b> the document corner guides are shown by default.
      * </p>
+     *
+     * @deprecated Use {@link CameraFragmentInterface#showInterface()} instead.
      */
+    @Deprecated
     void showDocumentCornerGuides();
 
     /**
@@ -23,7 +26,10 @@ public interface CameraFragmentInterface {
      * <p>
      *     <b>Note:</b> the document corner guides are shown by default.
      * </p>
+     *
+     * @deprecated Use {@link CameraFragmentInterface#hideInterface()} instead.
      */
+    @Deprecated
     void hideDocumentCornerGuides();
 
     /**
@@ -33,7 +39,10 @@ public interface CameraFragmentInterface {
      * <p>
      *     <b>Note:</b> the camera trigger button is shown by default.
      * </p>
+     *
+     * @deprecated Use {@link CameraFragmentInterface#showInterface()} instead.
      */
+    @Deprecated
     void showCameraTriggerButton();
 
     /**
@@ -43,6 +52,31 @@ public interface CameraFragmentInterface {
      * <p>
      *     <b>Note:</b> the camera trigger button is shown by default.
      * </p>
+     *
+     * @deprecated Use {@link CameraFragmentInterface#hideInterface()} instead.
      */
+    @Deprecated
     void hideCameraTriggerButton();
+
+    /**
+     * <p>
+     *     Call this method to show the interface elements. The camera preview is always visible.
+     * </p>
+     * <p>
+     *     <b>Note:</b> the interface elements are shown by default.
+     * </p>
+     *
+     */
+    void showInterface();
+
+    /**
+     * <p>
+     *     Call this method to hide the interface elements. The camera preview remains visible.
+     * </p>
+     * <p>
+     *     <b>Note:</b> the interface elements are shown by default.
+     * </p>
+     *
+     */
+    void hideInterface();
 }
