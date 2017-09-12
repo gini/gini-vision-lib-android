@@ -138,22 +138,27 @@ public class FileChooserActivity extends AppCompatActivity {
 
         final List<ProvidersItem> providerItems = new ArrayList<>();
 
-        providerItems.add(new ProvidersSectionItem("Photos"));
-        final Intent imagePickerIntent = createImagePickerIntent();
-        for (final ResolveInfo imagePickerResolveInfo : imagePickerResolveInfos) {
-            providerItems.add(new ProvidersAppItem(imagePickerIntent, imagePickerResolveInfo));
-        }
-        final Intent getImageDocumentIntent = createGetImageDocumentIntent();
-        for (final ResolveInfo imageProviderResolveInfo : imageProviderResolveInfos) {
-            providerItems.add(
-                    new ProvidersAppItem(getImageDocumentIntent, imageProviderResolveInfo));
+        if (imagePickerResolveInfos.size() > 0
+                || imageProviderResolveInfos.size() > 0) {
+            providerItems.add(new ProvidersSectionItem("Photos"));
+            final Intent imagePickerIntent = createImagePickerIntent();
+            for (final ResolveInfo imagePickerResolveInfo : imagePickerResolveInfos) {
+                providerItems.add(new ProvidersAppItem(imagePickerIntent, imagePickerResolveInfo));
+            }
+            final Intent getImageDocumentIntent = createGetImageDocumentIntent();
+            for (final ResolveInfo imageProviderResolveInfo : imageProviderResolveInfos) {
+                providerItems.add(
+                        new ProvidersAppItem(getImageDocumentIntent, imageProviderResolveInfo));
+            }
         }
 
-        providerItems.add(new ProvidersSectionItem("PDFs"));
-        final Intent getPdfDocumentIntent = createGetPdfDocumentIntent();
-        for (final ResolveInfo pdfProviderResolveInfo : pdfProviderResolveInfos) {
-            providerItems.add(
-                    new ProvidersAppItem(getPdfDocumentIntent, pdfProviderResolveInfo));
+        if (pdfProviderResolveInfos.size() > 0) {
+            providerItems.add(new ProvidersSectionItem("PDFs"));
+            final Intent getPdfDocumentIntent = createGetPdfDocumentIntent();
+            for (final ResolveInfo pdfProviderResolveInfo : pdfProviderResolveInfos) {
+                providerItems.add(
+                        new ProvidersAppItem(getPdfDocumentIntent, pdfProviderResolveInfo));
+            }
         }
 
         ((GridLayoutManager) mFileProvidersView.getLayoutManager()).setSpanSizeLookup(
