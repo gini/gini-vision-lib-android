@@ -75,7 +75,7 @@ import net.gini.android.vision.onboarding.OnboardingActivity;
  *             <b>Bottom text color:</b> via the color resource named {@code gv_review_bottom_panel_text}
  *         </li>
  *         <li>
- *             <b>Bottom text font:</b> via overriding the style named {@code GiniVisionTheme.Review.BottomPanel.TextStyle} and setting an item named {@code font} with the path to the font file in your {@code assets} folder
+ *             <b>Bottom text font:</b> via overriding the style named {@code GiniVisionTheme.Review.BottomPanel.TextStyle} and setting an item named {@code gvCustomFont} with the path to the font file in your {@code assets} folder
  *         </li>
  *         <li>
  *             <b>Bottom text style:</b> via overriding the style named {@code GiniVisionTheme.Review.BottomPanel.TextStyle} and setting an item named {@code android:textStyle} to {@code normal}, {@code bold} or {@code italic}
@@ -316,7 +316,10 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ANALYSE_DOCUMENT_REQUEST) {
-            if (mBackButtonShouldCloseLibrary
+            if (resultCode == AnalysisActivity.RESULT_NO_EXTRACTIONS) {
+                finish();
+                clearMemory();
+            } else if (mBackButtonShouldCloseLibrary
                     || resultCode != Activity.RESULT_CANCELED) {
                 setResult(resultCode, data);
                 finish();
