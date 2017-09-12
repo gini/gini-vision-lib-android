@@ -45,4 +45,7 @@
     <color name="gv_snackbar_error_button_title_pressed">#f7f7f7</color>
     <color name="gv_snackbar_error_background">#ff1744</color>
 
+    <color name="gv_noresults_activity_background">@android:color/transparent</color>
+    <color name="gv_noresults_fragment_background">#ffffff</color>
+
 </resources>

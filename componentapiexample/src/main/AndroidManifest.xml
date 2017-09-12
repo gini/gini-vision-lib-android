@@ -37,10 +37,6 @@
             android:name="net.gini.android.vision.component.ExtractionsActivity"
             android:label="@string/title_extractions"
             android:theme="@style/AppThemeCompat" />
-        <activity
-            android:name="net.gini.android.vision.component.NoExtractionsActivity"
-            android:label="@string/title_no_extractions"
-            android:theme="@style/AppThemeCompat" />
     </application>
 
 </manifest>
