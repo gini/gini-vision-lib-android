@@ -17,8 +17,6 @@ import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.camera.CameraActivity;
 import net.gini.android.vision.noresults.NoResultsActivity;
-import net.gini.android.vision.onboarding.OnboardingActivity;
-import net.gini.android.vision.review.ReviewActivity;
 
 /**
  * <h3>Screen API</h3>
@@ -68,7 +66,7 @@ import net.gini.android.vision.review.ReviewActivity;
  *             <b>Error message text color:</b> via the color resource named {@code gv_snackbar_error_text}
  *         </li>
  *         <li>
- *             <b>Error message font:</b> via overriding the style named {@code GiniVisionTheme.Snackbar.Error.TextStyle} and setting an item named {@code font} with the path to the font file in your {@code assets} folder
+ *             <b>Error message font:</b> via overriding the style named {@code GiniVisionTheme.Snackbar.Error.TextStyle} and setting an item named {@code gvCustomFont} with the path to the font file in your {@code assets} folder
  *         </li>
  *         <li>
  *             <b>Error message text style:</b> via overriding the style named {@code GiniVisionTheme.Snackbar.Error.TextStyle} and setting an item named {@code android:textStyle} to {@code normal}, {@code bold} or {@code italic}
@@ -80,7 +78,7 @@ import net.gini.android.vision.review.ReviewActivity;
  *             <b>Error message button text color:</b> via the color resource named {@code gv_snackbar_error_button_title} and {@code gv_snackbar_error_button_title_pressed}
  *         </li>
  *         <li>
- *             <b>Error message button font:</b> via overriding the style named {@code GiniVisionTheme.Snackbar.Error.Button.TextStyle} and setting an item named {@code font} with the path to the font file in your {@code assets} folder
+ *             <b>Error message button font:</b> via overriding the style named {@code GiniVisionTheme.Snackbar.Error.Button.TextStyle} and setting an item named {@code gvCustomFont} with the path to the font file in your {@code assets} folder
  *         </li>
  *         <li>
  *             <b>Error message button text style:</b> via overriding the style named {@code GiniVisionTheme.Snackbar.Error.Button.TextStyle} and setting an item named {@code android:textStyle} to {@code normal}, {@code bold} or {@code italic}

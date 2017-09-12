@@ -83,9 +83,7 @@ dependencies {
     })
     androidTestCompile deps.supportTestUiAutomator
     androidTestCompile deps.mockito
-    androidTestCompile deps.dexmaker
-    androidTestCompile deps.dexmakerDx
-    androidTestCompile deps.dexmakerMockito
+    androidTestCompile deps.mockitoAndroid
     androidTestCompile deps.supportMultidex
 }
 
