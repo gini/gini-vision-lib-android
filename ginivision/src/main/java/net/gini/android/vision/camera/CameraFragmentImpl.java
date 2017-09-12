@@ -82,6 +82,8 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     private CompletableFuture<SurfaceHolder> mSurfaceCreatedFuture = new CompletableFuture<>();
     private boolean mIsTakingPicture = false;
 
+    private boolean mImportDocumentButtonEnabled = false;
+
     CameraFragmentImpl(@NonNull FragmentImplCallback fragment) {
         mFragment = fragment;
     }
@@ -102,6 +104,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.gv_fragment_camera, container, false);
         bindViews(view);
+        initViews();
         setInputHandlers();
         setSurfaceViewCallback();
         return view;
@@ -271,6 +274,18 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mButtonImportDocument = view.findViewById(R.id.gv_button_import_document);
     }
 
+    private void initViews() {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
+        }
+        if (FileChooserActivity.canChooseFiles(activity)) {
+            mImportDocumentButtonEnabled = true;
+            mButtonImportDocument.setVisibility(View.VISIBLE);
+            showImportDocumentButtonAnimated();
+        }
+    }
+
     private void setInputHandlers() {
         mButtonCameraTrigger.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -424,7 +439,9 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     private void showInterfaceAnimated() {
         showCameraTriggerButtonAnimated();
         showDocumentCornerGuidesAnimated();
-        showImportDocumentButtonAnimated();
+        if (mImportDocumentButtonEnabled) {
+            showImportDocumentButtonAnimated();
+        }
     }
 
     private void showImportDocumentButtonAnimated() {
@@ -444,7 +461,9 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     private void hideInterfaceAnimated() {
         hideCameraTriggerButtonAnimated();
         hideDocumentCornerGuidesAnimated();
-        hideImportDocumentButtonAnimated();
+        if (mImportDocumentButtonEnabled) {
+            hideImportDocumentButtonAnimated();
+        }
     }
 
     private void hideImportDocumentButtonAnimated() {

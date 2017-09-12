@@ -46,6 +46,16 @@ public class FileChooserActivity extends AppCompatActivity {
     private RelativeLayout mLayoutRoot;
     private RecyclerView mFileProvidersView;
 
+    public static boolean canChooseFiles(@NonNull final Context context) {
+        final List<ResolveInfo> imagePickerResolveInfos = queryImagePickers(context);
+        final List<ResolveInfo> imageProviderResolveInfos = queryImageProviders(context);
+        final List<ResolveInfo> pdfProviderResolveInfos = queryPdfProviders(context);
+
+        return imagePickerResolveInfos.size() > 0
+                || imageProviderResolveInfos.size() > 0
+                || pdfProviderResolveInfos.size() > 0;
+    }
+
     public static Intent createIntent(final Context context) {
         return new Intent(context, FileChooserActivity.class);
     }
@@ -132,9 +142,9 @@ public class FileChooserActivity extends AppCompatActivity {
     }
 
     private void populateFileProviders() {
-        final List<ResolveInfo> imagePickerResolveInfos = queryImagePickers();
-        final List<ResolveInfo> imageProviderResolveInfos = queryImageProviders();
-        final List<ResolveInfo> pdfProviderResolveInfos = queryPdfProviders();
+        final List<ResolveInfo> imagePickerResolveInfos = queryImagePickers(this);
+        final List<ResolveInfo> imageProviderResolveInfos = queryImageProviders(this);
+        final List<ResolveInfo> pdfProviderResolveInfos = queryPdfProviders(this);
 
         final List<ProvidersItem> providerItems = new ArrayList<>();
 
@@ -178,28 +188,28 @@ public class FileChooserActivity extends AppCompatActivity {
     }
 
     @NonNull
-    private List<ResolveInfo> queryImagePickers() {
+    private static List<ResolveInfo> queryImagePickers(@NonNull final Context context) {
         Intent intent = createImagePickerIntent();
 
-        return getPackageManager().queryIntentActivities(intent, 0);
+        return context.getPackageManager().queryIntentActivities(intent, 0);
     }
 
     @NonNull
-    private Intent createImagePickerIntent() {
+    private static Intent createImagePickerIntent() {
         Intent intent = new Intent(ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/*");
         return intent;
     }
 
     @NonNull
-    private List<ResolveInfo> queryImageProviders() {
+    private static List<ResolveInfo> queryImageProviders(@NonNull final Context context) {
         Intent intent = createGetImageDocumentIntent();
 
-        return getPackageManager().queryIntentActivities(intent, 0);
+        return context.getPackageManager().queryIntentActivities(intent, 0);
     }
 
     @NonNull
-    private Intent createGetImageDocumentIntent() {
+    private static Intent createGetImageDocumentIntent() {
         Intent intent;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             intent = new Intent(ACTION_OPEN_DOCUMENT);
@@ -212,14 +222,14 @@ public class FileChooserActivity extends AppCompatActivity {
     }
 
     @NonNull
-    private List<ResolveInfo> queryPdfProviders() {
+    private static List<ResolveInfo> queryPdfProviders(@NonNull final Context context) {
         Intent intent = createGetPdfDocumentIntent();
 
-        return getPackageManager().queryIntentActivities(intent, 0);
+        return context.getPackageManager().queryIntentActivities(intent, 0);
     }
 
     @NonNull
-    private Intent createGetPdfDocumentIntent() {
+    private static Intent createGetPdfDocumentIntent() {
         Intent intent;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             intent = new Intent(ACTION_OPEN_DOCUMENT);

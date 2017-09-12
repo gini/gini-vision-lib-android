@@ -45,13 +45,14 @@
         android:id="@+id/gv_button_import_document"
         android:layout_width="48dp"
         android:layout_height="wrap_content"
-        android:scaleType="centerInside"
         android:layout_alignBottom="@+id/gv_button_camera_trigger"
         android:layout_alignTop="@id/gv_button_camera_trigger"
-        android:layout_toLeftOf="@id/gv_button_camera_trigger"
         android:layout_marginRight="36dp"
+        android:layout_toLeftOf="@id/gv_button_camera_trigger"
         android:background="@null"
-        android:src="@android:drawable/stat_sys_upload" />
+        android:scaleType="centerInside"
+        android:src="@android:drawable/stat_sys_upload"
+        android:visibility="gone" />
 
     <ViewStub
         android:id="@+id/gv_stub_camera_no_permission"
