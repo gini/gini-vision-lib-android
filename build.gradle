@@ -43,19 +43,24 @@ task printLibraryVersion {
 
 ext {
     compileSdkVersion = 26
-    buildToolsVersion = "26.0.1"
+    buildToolsVersion = '26.0.1'
     minSdkVersion = 14
     targetSdkVersion = 26
     versionCode = libVersionCode
     versionName = libVersionName
 }
 
+def supportLibVersion = '26.0.1'
+def mockitoVersion = '2.6.3'
+def testSupportLibVersion = '1.0.1'
+def espressoVersion = '3.0.1'
+
 ext.deps = [
         // Android
-        appCompatv7: 'com.android.support:appcompat-v7:26.0.1',
-        supportv4: 'com.android.support:support-v4:26.0.1',
-        supportv13: 'com.android.support:support-v13:26.0.1',
-        supportDesign: 'com.android.support:design:26.0.1',
+        appCompatv7: "com.android.support:appcompat-v7:$supportLibVersion",
+        supportv4: "com.android.support:support-v4:$supportLibVersion",
+        supportv13: "com.android.support:support-v13:$supportLibVersion",
+        supportDesign: "com.android.support:design:$supportLibVersion",
         // Exif editing library. IMPORTANT: notify backend when the version is changed
         commonsImaging: 'org.apache.commons:commons-imaging:1.0.0gini',
         // Logging
@@ -65,12 +70,12 @@ ext.deps = [
         // Test dependencies
         junit: 'junit:junit:4.12',
         truth: 'com.google.truth:truth:0.28',
-        mockito: 'org.mockito:mockito-core:2.6.3',
-        mockitoAndroid: 'org.mockito:mockito-android:2.6.3',
-        supportTestRunner: 'com.android.support.test:runner:1.0.1',
-        supportTestRules: 'com.android.support.test:rules:1.0.1',
-        supportTestEspressoCore: 'com.android.support.test.espresso:espresso-core:3.0.1',
-        supportTestEspressoIntents: 'com.android.support.test.espresso:espresso-intents:3.0.1',
+        mockito: "org.mockito:mockito-core:$mockitoVersion",
+        mockitoAndroid: "org.mockito:mockito-android:$mockitoVersion",
+        supportTestRunner: "com.android.support.test:runner:$testSupportLibVersion",
+        supportTestRules: "com.android.support.test:rules:$testSupportLibVersion",
+        supportTestEspressoCore: "com.android.support.test.espresso:espresso-core:$espressoVersion",
+        supportTestEspressoIntents: "com.android.support.test.espresso:espresso-intents:$espressoVersion",
         supportTestUiAutomator: 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2',
         supportMultidex: 'com.android.support:multidex:1.0.1',
 ]
