@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
@@ -33,12 +34,15 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         public void onError(@NonNull GiniVisionError error) {
         }
     };
-    private final String mDocumentAnalysisErrorMessage;
+
     private final FragmentImplCallback mFragment;
+    private ImageView mHintImageView;
+    private TextView mHintTextView;
+    private Photo mPhoto;
+    private final String mDocumentAnalysisErrorMessage;
     private ImageView mImageDocument;
     private RelativeLayout mLayoutRoot;
     private AnalysisFragmentListener mListener = NO_OP_LISTENER;
-    private Photo mPhoto;
     private ProgressBar mProgressActivity;
 
     public AnalysisFragmentImpl(FragmentImplCallback fragment, Document document, String documentAnalysisErrorMessage) {
@@ -156,6 +160,8 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         mLayoutRoot = (RelativeLayout) view.findViewById(R.id.gv_layout_root);
         mImageDocument = (ImageView) view.findViewById(R.id.gv_image_picture);
         mProgressActivity = (ProgressBar) view.findViewById(R.id.gv_progress_activity);
+        mHintImageView = view.findViewById(R.id.gv_analyse_hint_image);
+        mHintTextView = view.findViewById(R.id.gv_analyse_hint_text);
     }
 
     private void observerViewTree(@NonNull final View view) {
