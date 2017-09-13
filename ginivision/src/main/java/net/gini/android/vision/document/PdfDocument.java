@@ -2,12 +2,11 @@ package net.gini.android.vision.document;
 
 
 import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import net.gini.android.vision.GiniVisionDocument;
 
-public class PdfDocument extends GiniVisionDocument implements Parcelable {
+public class PdfDocument extends GiniVisionDocument {
 
     protected PdfDocument(@NonNull final byte[] data) {
         super(Type.PDF, data);

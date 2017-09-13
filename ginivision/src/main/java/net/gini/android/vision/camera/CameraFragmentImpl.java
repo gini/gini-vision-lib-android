@@ -31,6 +31,7 @@ import android.widget.RelativeLayout;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
+import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.internal.camera.api.CameraController;
 import net.gini.android.vision.internal.camera.api.CameraException;
 import net.gini.android.vision.internal.camera.api.CameraInterface;
@@ -348,7 +349,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                         out.flush();
                         final byte[] bytes = out.toByteArray();
                         Photo photo = Photo.fromJpeg(bytes, 0, "portrait", "phone");
-                        mListener.onDocumentAvailable(Document.fromPhoto(photo));
+                        mListener.onDocumentAvailable(ImageDocument.fromPhoto(photo));
                     }
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -379,7 +380,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         } else {
             if (photo != null) {
                 LOG.info("Picture taken");
-                mListener.onDocumentAvailable(Document.fromPhoto(photo));
+                mListener.onDocumentAvailable(ImageDocument.fromPhoto(photo));
             } else {
                 handleError(GiniVisionError.ErrorCode.CAMERA_SHOT_FAILED,
                         "Failed to take picture: no picture from the camera", null);

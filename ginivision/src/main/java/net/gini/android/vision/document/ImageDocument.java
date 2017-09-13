@@ -1,14 +1,19 @@
 package net.gini.android.vision.document;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import net.gini.android.vision.GiniVisionDocument;
+import net.gini.android.vision.internal.camera.photo.Photo;
 
-public class ImageDocument extends GiniVisionDocument implements Parcelable {
+public class ImageDocument extends GiniVisionDocument {
 
     private final int mRotationForDisplay;
+
+    @NonNull
+    public static ImageDocument fromPhoto(@NonNull final Photo photo) {
+        return new ImageDocument(photo.getJpeg(), photo.getRotationForDisplay());
+    }
 
     public ImageDocument(@NonNull final byte[] data, int rotationForDisplay) {
         super(Type.IMAGE, data);

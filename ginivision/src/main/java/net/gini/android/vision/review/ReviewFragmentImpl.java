@@ -20,6 +20,7 @@ import com.ortiz.touch.TouchImageView;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
+import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.PhotoEdit;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
@@ -99,7 +100,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         if (savedInstanceState != null) {
             restoreSavedState(savedInstanceState);
             LOG.info("Should analyze document");
-            mListener.onShouldAnalyzeDocument(Document.fromPhoto(mPhoto));
+            mListener.onShouldAnalyzeDocument(ImageDocument.fromPhoto(mPhoto));
         } else {
             applyCompressionToJpeg(new PhotoEdit.PhotoEditCallback() {
                 @Override
@@ -108,7 +109,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                         return;
                     }
                     LOG.info("Should analyze document");
-                    mListener.onShouldAnalyzeDocument(Document.fromPhoto(mPhoto));
+                    mListener.onShouldAnalyzeDocument(ImageDocument.fromPhoto(mPhoto));
                 }
 
                 @Override
@@ -217,7 +218,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                 if (mStopped) {
                     return;
                 }
-                mListener.onDocumentWasRotated(Document.fromPhoto(photo), oldRotation, mCurrentRotation);
+                mListener.onDocumentWasRotated(ImageDocument.fromPhoto(photo), oldRotation, mCurrentRotation);
             }
 
             @Override
@@ -242,7 +243,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                 LOG.debug("Document was analyzed");
                 LOG.info("Document reviewed and analyzed");
                 // Photo was not modified and has been analyzed, client should show extraction results
-                mListener.onDocumentReviewedAndAnalyzed(Document.fromPhoto(mPhoto));
+                mListener.onDocumentReviewedAndAnalyzed(ImageDocument.fromPhoto(mPhoto));
             }
         } else {
             LOG.debug("Document was modified");
@@ -269,7 +270,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
     private void proceedToAnalysisScreen() {
         LOG.info("Proceed to Analysis Screen");
-        mListener.onProceedToAnalysisScreen(Document.fromPhoto(mPhoto));
+        mListener.onProceedToAnalysisScreen(ImageDocument.fromPhoto(mPhoto));
     }
 
     private void applyRotationToJpeg(@NonNull PhotoEdit.PhotoEditCallback callback) {

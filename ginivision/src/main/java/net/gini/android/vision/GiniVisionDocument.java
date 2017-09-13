@@ -1,17 +1,11 @@
 package net.gini.android.vision;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import net.gini.android.vision.internal.camera.photo.ImageCache;
 
-public class GiniVisionDocument implements Parcelable {
-
-    public enum Type {
-        IMAGE,
-        PDF
-    }
+public class GiniVisionDocument implements Document {
 
     private final Type mType;
     private final byte[] mData;
@@ -22,10 +16,13 @@ public class GiniVisionDocument implements Parcelable {
         mData = jpeg;
     }
 
+    @Override
     public Type getType() {
         return mType;
     }
 
+    @NonNull
+    @Override
     public byte[] getData() {
         return mData;
     }
@@ -78,5 +75,16 @@ public class GiniVisionDocument implements Parcelable {
     public String toString() {
         // TODO: to string
         return super.toString();
+    }
+
+    @NonNull
+    @Override
+    public byte[] getJpeg() {
+        return getData();
+    }
+
+    @Override
+    public int getRotationForDisplay() {
+        return 0;
     }
 }

@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
+import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
@@ -92,11 +93,11 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            mListener.onAnalyzeDocument(Document.fromPhoto(mPhoto));
+                            mListener.onAnalyzeDocument(ImageDocument.fromPhoto(mPhoto));
                         }
                     });
         } else {
-            mListener.onAnalyzeDocument(Document.fromPhoto(mPhoto));
+            mListener.onAnalyzeDocument(ImageDocument.fromPhoto(mPhoto));
         }
     }
 
