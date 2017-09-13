@@ -1,5 +1,7 @@
 package net.gini.android.vision.camera;
 
+import static android.app.Activity.RESULT_OK;
+
 import static net.gini.android.vision.camera.Util.cameraExceptionToGiniVisionError;
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 import static net.gini.android.vision.internal.util.AndroidHelper.isMarshmallowOrLater;
@@ -25,7 +27,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
@@ -44,6 +45,10 @@ import net.gini.android.vision.internal.ui.ViewStubSafeInflater;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.concurrent.ExecutionException;
 
 import jersey.repackaged.jsr166e.CompletableFuture;
@@ -328,8 +333,39 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
     public boolean onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         if (requestCode == REQ_CODE_CHOOSE_FILE) {
-            LOG.info("Document file received");
-            Toast.makeText(mFragment.getActivity(), "File received", Toast.LENGTH_LONG).show();
+            if (resultCode == RESULT_OK) {
+                // TODO: make this nice
+                InputStream inputStream = null;
+                try {
+                    inputStream = mFragment.getActivity().getContentResolver().openInputStream(data.getData());
+                    if (inputStream != null) {
+                        ByteArrayOutputStream out = new ByteArrayOutputStream();
+                        byte[] buffer = new byte[65536];
+                        int nrRead;
+                        while((nrRead = inputStream.read(buffer)) > 0) {
+                            out.write(buffer, 0, nrRead);
+                        }
+                        out.flush();
+                        final byte[] bytes = out.toByteArray();
+                        Photo photo = Photo.fromJpeg(bytes, 0, "portrait", "phone");
+                        mListener.onDocumentAvailable(Document.fromPhoto(photo));
+                    }
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    // TODO: error handling
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    // TODO: error handling
+                } finally {
+                    if (inputStream != null) {
+                        try {
+                            inputStream.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
             return true;
         }
         return false;

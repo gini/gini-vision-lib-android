@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
-import net.gini.android.vision.internal.camera.photo.ImageCache;
+import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.internal.camera.photo.Photo;
 
 
@@ -28,19 +28,19 @@ import net.gini.android.vision.internal.camera.photo.Photo;
  */
 public class Document implements Parcelable {
 
-    private final byte[] mJpeg;
-    private final int mRotationForDisplay;
+    private final ImageDocument mImageDocument;
 
     /**
      * @exclude
      */
     public static Document fromPhoto(@NonNull Photo photo) {
-        return new Document(photo.getJpeg(), photo.getRotationForDisplay());
+        final ImageDocument imageDocument =
+                new ImageDocument(photo.getJpeg(), photo.getRotationForDisplay());
+        return new Document(imageDocument);
     }
 
-    private Document(@NonNull byte[] jpeg, int rotationForDisplay) {
-        mJpeg = jpeg;
-        mRotationForDisplay = rotationForDisplay;
+    protected Document(@NonNull ImageDocument imageDocument) {
+        mImageDocument = imageDocument;
     }
 
     /**
@@ -51,7 +51,7 @@ public class Document implements Parcelable {
      */
     @NonNull
     public byte[] getJpeg() {
-        return mJpeg;
+        return mImageDocument.getData();
     }
 
     /**
@@ -64,7 +64,7 @@ public class Document implements Parcelable {
      * @return degrees by which the image should be rotated clockwise before displaying
      */
     public int getRotationForDisplay() {
-        return mRotationForDisplay;
+        return mImageDocument.getRotationForDisplay();
     }
 
     /**
@@ -72,12 +72,7 @@ public class Document implements Parcelable {
      */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        ImageCache cache = ImageCache.getInstance();
-
-        ImageCache.Token token = cache.storeJpeg(mJpeg);
-        dest.writeParcelable(token, flags);
-
-        dest.writeInt(mRotationForDisplay);
+        dest.writeParcelable(mImageDocument, flags);
     }
 
     /**
@@ -103,21 +98,15 @@ public class Document implements Parcelable {
         }
     };
 
-    private Document(Parcel in) {
-        ImageCache cache = ImageCache.getInstance();
-
-        ImageCache.Token token = in.readParcelable(ImageCache.Token.class.getClassLoader());
-        mJpeg = cache.getJpeg(token);
-        cache.removeJpeg(token);
-
-        mRotationForDisplay = in.readInt();
+    protected Document(Parcel in) {
+        mImageDocument = in.readParcelable(ImageDocument.class.getClassLoader());
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Document{");
         sb.append("mJpeg=[bytes]");
-        sb.append(", mRotationForDisplay=").append(mRotationForDisplay);
+        sb.append(", mRotationForDisplay=").append(mImageDocument.getRotationForDisplay());
         sb.append('}');
         return sb.toString();
     }
