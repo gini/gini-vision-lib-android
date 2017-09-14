@@ -153,8 +153,8 @@ public class FileChooserActivity extends AppCompatActivity {
         final List<ProvidersItem> imageProviderItems = getImageProviderItems(
                 imagePickerResolveInfos, imageProviderResolveInfos);
         final List<ProvidersItem> pdfProviderItems = getPdfProviderItems(pdfProviderResolveInfos);
-        providerItems.addAll(pdfProviderItems);
         providerItems.addAll(imageProviderItems);
+        providerItems.addAll(pdfProviderItems);
 
         ((GridLayoutManager) mFileProvidersView.getLayoutManager()).setSpanSizeLookup(
                 new ProvidersSpanSizeLookup(providerItems));
