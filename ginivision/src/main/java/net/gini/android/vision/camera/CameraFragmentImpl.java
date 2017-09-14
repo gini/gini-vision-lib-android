@@ -88,7 +88,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mFragment = fragment;
     }
 
-    public void setListener(CameraFragmentListener listener) {
+    void setListener(CameraFragmentListener listener) {
         if (listener == null) {
             mListener = NO_OP_LISTENER;
         } else {
@@ -96,11 +96,11 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         }
     }
 
-    public void onCreate(Bundle savedInstanceState) {
+    void onCreate(Bundle savedInstanceState) {
         forcePortraitOrientationOnPhones(mFragment.getActivity());
     }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.gv_fragment_camera, container, false);
         bindViews(view);
@@ -109,7 +109,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         return view;
     }
 
-    public void onStart() {
+    void onStart() {
         if (mFragment.getActivity() == null) {
             return;
         }
@@ -251,7 +251,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         }
     }
 
-    public void onStop() {
+    void onStop() {
         closeCamera();
     }
 
@@ -326,7 +326,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         });
     }
 
-    public boolean onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+    boolean onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         if (requestCode == REQ_CODE_CHOOSE_FILE) {
             LOG.info("Document file received");
             Toast.makeText(mFragment.getActivity(), "File received", Toast.LENGTH_LONG).show();
@@ -494,7 +494,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         }
     }
 
-    public void hideNoPermissionView() {
+    private void hideNoPermissionView() {
         LOG.debug("Hiding no permission view");
         showCameraPreviewAnimated();
         showCameraTriggerButtonAnimated();
