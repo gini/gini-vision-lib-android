@@ -100,7 +100,11 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     public void onCreate(Bundle savedInstanceState) {
-        forcePortraitOrientationOnPhones(mFragment.getActivity());
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
+        }
+        forcePortraitOrientationOnPhones(activity);
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -114,10 +118,11 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     public void onStart() {
-        if (mFragment.getActivity() == null) {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
             return;
         }
-        initCameraController(mFragment.getActivity());
+        initCameraController(activity);
 
         final CompletableFuture<Void> openCameraCompletable = openCamera();
         final CompletableFuture<SurfaceHolder> surfaceCreationCompletable = handleSurfaceCreation();
@@ -323,7 +328,11 @@ class CameraFragmentImpl implements CameraFragmentInterface {
             @Override
             public void onClick(final View view) {
                 LOG.info("Importing document");
-                Intent fileChooserIntent = FileChooserActivity.createIntent(mFragment.getActivity());
+                final Activity activity = mFragment.getActivity();
+                if (activity == null) {
+                    return;
+                }
+                Intent fileChooserIntent = FileChooserActivity.createIntent(activity);
                 mFragment.startActivityForResult(fileChooserIntent, REQ_CODE_CHOOSE_FILE);
             }
         });
@@ -333,8 +342,12 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         if (requestCode == REQ_CODE_CHOOSE_FILE) {
             if (resultCode == RESULT_OK) {
                 try {
-                    ImageDocument document = ImageDocument.fromIntent(data, mFragment
-                            .getActivity());
+                    final Activity activity = mFragment
+                            .getActivity();
+                    if (activity == null) {
+                        return true;
+                    }
+                    ImageDocument document = ImageDocument.fromIntent(data, activity);
                     mListener.onDocumentAvailable(document);
                 } catch (IOException e) {
                     handleError(GiniVisionError.ErrorCode.DOCUMENT_IMPORT,
