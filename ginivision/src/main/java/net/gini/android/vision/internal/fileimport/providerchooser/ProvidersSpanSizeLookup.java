@@ -1,6 +1,8 @@
 package net.gini.android.vision.internal.fileimport.providerchooser;
 
 import static net.gini.android.vision.internal.fileimport.FileChooserActivity.GRID_SPAN_COUNT;
+import static net.gini.android.vision.internal.fileimport.providerchooser.ProvidersItem
+        .FileProviderItemType.SECTION;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager.SpanSizeLookup;
@@ -17,11 +19,9 @@ public class ProvidersSpanSizeLookup extends SpanSizeLookup {
 
     @Override
     public int getSpanSize(final int position) {
-        switch (mItems.get(position).getType()) {
-            case SECTION:
-                return GRID_SPAN_COUNT;
-            default:
-                return 1;
+        if (mItems.get(position).getType() == SECTION) {
+            return GRID_SPAN_COUNT;
         }
+        return 1;
     }
 }
