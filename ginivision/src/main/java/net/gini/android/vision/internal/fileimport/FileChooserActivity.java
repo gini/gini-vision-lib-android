@@ -150,29 +150,11 @@ public class FileChooserActivity extends AppCompatActivity {
         final List<ResolveInfo> pdfProviderResolveInfos = queryPdfProviders(this);
 
         final List<ProvidersItem> providerItems = new ArrayList<>();
-
-        if (imagePickerResolveInfos.size() > 0
-                || imageProviderResolveInfos.size() > 0) {
-            providerItems.add(new ProvidersSectionItem("Photos"));
-            final Intent imagePickerIntent = createImagePickerIntent();
-            for (final ResolveInfo imagePickerResolveInfo : imagePickerResolveInfos) {
-                providerItems.add(new ProvidersAppItem(imagePickerIntent, imagePickerResolveInfo));
-            }
-            final Intent getImageDocumentIntent = createGetImageDocumentIntent();
-            for (final ResolveInfo imageProviderResolveInfo : imageProviderResolveInfos) {
-                providerItems.add(
-                        new ProvidersAppItem(getImageDocumentIntent, imageProviderResolveInfo));
-            }
-        }
-
-        if (pdfProviderResolveInfos.size() > 0) {
-            providerItems.add(new ProvidersSectionItem("PDFs"));
-            final Intent getPdfDocumentIntent = createGetPdfDocumentIntent();
-            for (final ResolveInfo pdfProviderResolveInfo : pdfProviderResolveInfos) {
-                providerItems.add(
-                        new ProvidersAppItem(getPdfDocumentIntent, pdfProviderResolveInfo));
-            }
-        }
+        final List<ProvidersItem> imageProviderItems = getImageProviderItems(
+                imagePickerResolveInfos, imageProviderResolveInfos);
+        final List<ProvidersItem> pdfProviderItems = getPdfProviderItems(pdfProviderResolveInfos);
+        providerItems.addAll(pdfProviderItems);
+        providerItems.addAll(imageProviderItems);
 
         ((GridLayoutManager) mFileProvidersView.getLayoutManager()).setSpanSizeLookup(
                 new ProvidersSpanSizeLookup(providerItems));
@@ -188,6 +170,40 @@ public class FileChooserActivity extends AppCompatActivity {
                         startActivityForResult(intent, REQ_CODE_CHOOSE_FILE);
                     }
                 }));
+    }
+
+    private List<ProvidersItem> getImageProviderItems(
+            final List<ResolveInfo> imagePickerResolveInfos,
+            final List<ResolveInfo> imageProviderResolveInfos) {
+        final List<ProvidersItem> providerItems = new ArrayList<>();
+        if (imagePickerResolveInfos.size() > 0
+                || imageProviderResolveInfos.size() > 0) {
+            providerItems.add(new ProvidersSectionItem("Photos"));
+            final Intent imagePickerIntent = createImagePickerIntent();
+            for (final ResolveInfo imagePickerResolveInfo : imagePickerResolveInfos) {
+                providerItems.add(new ProvidersAppItem(imagePickerIntent, imagePickerResolveInfo));
+            }
+            final Intent getImageDocumentIntent = createGetImageDocumentIntent();
+            for (final ResolveInfo imageProviderResolveInfo : imageProviderResolveInfos) {
+                providerItems.add(
+                        new ProvidersAppItem(getImageDocumentIntent, imageProviderResolveInfo));
+            }
+        }
+        return providerItems;
+    }
+
+    private List<ProvidersItem> getPdfProviderItems(
+            final List<ResolveInfo> pdfProviderResolveInfos) {
+        final List<ProvidersItem> providerItems = new ArrayList<>();
+        if (pdfProviderResolveInfos.size() > 0) {
+            providerItems.add(new ProvidersSectionItem("PDFs"));
+            final Intent getPdfDocumentIntent = createGetPdfDocumentIntent();
+            for (final ResolveInfo pdfProviderResolveInfo : pdfProviderResolveInfos) {
+                providerItems.add(
+                        new ProvidersAppItem(getPdfDocumentIntent, pdfProviderResolveInfo));
+            }
+        }
+        return providerItems;
     }
 
     @NonNull
