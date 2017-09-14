@@ -42,30 +42,14 @@ public class AnalysisFragmentCompat extends Fragment implements FragmentImplCall
 
     private AnalysisFragmentImpl mFragmentImpl;
 
-    /**
-     * <p>
-     *     Factory method for creating a new instance of the Fragment using the provided document.
-     * </p>
-     * <p>
-     *     You may pass in an optional analysis error message. This error message is shown to the user with a retry
-     *     button.
-     * </p>
-     * <p>
-     *     <b>Note:</b> Always use this method to create new instances. Document is required and an exception is thrown if it's missing.
-     * </p>
-     * @param document must be the {@link Document} from {@link ReviewFragmentListener#onProceedToAnalysisScreen(Document)}
-     * @param documentAnalysisErrorMessage an optional error message shown to the user
-     * @return a new instance of the Fragment
-     */
-    public static AnalysisFragmentCompat createInstance(@NonNull Document document, @Nullable String documentAnalysisErrorMessage) {
-        AnalysisFragmentCompat fragment = new AnalysisFragmentCompat();
-        fragment.setArguments(AnalysisFragmentHelper.createArguments(document, documentAnalysisErrorMessage));
-        return fragment;
+    @Override
+    public void hideError() {
+        mFragmentImpl.hideError();
     }
 
-    @VisibleForTesting
-    AnalysisFragmentImpl getFragmentImpl() {
-        return mFragmentImpl;
+    @Override
+    public void noExtractionsFound() {
+
     }
 
     /**
@@ -92,6 +76,20 @@ public class AnalysisFragmentCompat extends Fragment implements FragmentImplCall
      * @exclude
      */
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mFragmentImpl.onDestroy();
+    }
+
+    @Override
+    public void onDocumentAnalyzed() {
+        mFragmentImpl.onDocumentAnalyzed();
+    }
+
+    /**
+     * @exclude
+     */
+    @Override
     public void onStart() {
         super.onStart();
         mFragmentImpl.onStart();
@@ -106,13 +104,15 @@ public class AnalysisFragmentCompat extends Fragment implements FragmentImplCall
         mFragmentImpl.onStop();
     }
 
-    /**
-     * @exclude
-     */
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mFragmentImpl.onDestroy();
+    public void showError(@NonNull String message, @NonNull String buttonTitle,
+            @NonNull View.OnClickListener onClickListener) {
+        mFragmentImpl.showError(message, buttonTitle, onClickListener);
+    }
+
+    @Override
+    public void showError(@NonNull String message, int duration) {
+        mFragmentImpl.showError(message, duration);
     }
 
     @Override
@@ -125,23 +125,36 @@ public class AnalysisFragmentCompat extends Fragment implements FragmentImplCall
         mFragmentImpl.stopScanAnimation();
     }
 
-    @Override
-    public void onDocumentAnalyzed() {
-        mFragmentImpl.onDocumentAnalyzed();
+    /**
+     * <p>
+     * Factory method for creating a new instance of the Fragment using the provided document.
+     * </p>
+     * <p>
+     * You may pass in an optional analysis error message. This error message is shown to the user
+     * with a retry
+     * button.
+     * </p>
+     * <p>
+     * <b>Note:</b> Always use this method to create new instances. Document is required and an
+     * exception is thrown if it's missing.
+     * </p>
+     *
+     * @param document                     must be the {@link Document} from {@link
+     *                                     ReviewFragmentListener#onProceedToAnalysisScreen
+     *                                     (Document)}
+     * @param documentAnalysisErrorMessage an optional error message shown to the user
+     * @return a new instance of the Fragment
+     */
+    public static AnalysisFragmentCompat createInstance(@NonNull Document document,
+            @Nullable String documentAnalysisErrorMessage) {
+        AnalysisFragmentCompat fragment = new AnalysisFragmentCompat();
+        fragment.setArguments(
+                AnalysisFragmentHelper.createArguments(document, documentAnalysisErrorMessage));
+        return fragment;
     }
 
-    @Override
-    public void showError(@NonNull String message, @NonNull String buttonTitle, @NonNull View.OnClickListener onClickListener) {
-        mFragmentImpl.showError(message, buttonTitle, onClickListener);
-    }
-
-    @Override
-    public void showError(@NonNull String message, int duration) {
-        mFragmentImpl.showError(message, duration);
-    }
-
-    @Override
-    public void hideError() {
-        mFragmentImpl.hideError();
+    @VisibleForTesting
+    AnalysisFragmentImpl getFragmentImpl() {
+        return mFragmentImpl;
     }
 }
