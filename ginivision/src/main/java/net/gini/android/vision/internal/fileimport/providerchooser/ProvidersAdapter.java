@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import net.gini.android.vision.R;
 
@@ -94,5 +96,30 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersItemViewHold
     @Override
     public int getItemCount() {
         return mItems.size();
+    }
+
+    private class ProvidersAppItemViewHolder extends ProvidersItemViewHolder {
+
+        @NonNull
+        final ImageView icon;
+        @NonNull
+        final TextView label;
+
+        ProvidersAppItemViewHolder(@NonNull final View itemView) {
+            super(itemView, ProvidersItem.FileProviderItemType.APP);
+            icon = itemView.findViewById(R.id.gv_app_icon);
+            label = itemView.findViewById(R.id.gv_app_label);
+        }
+    }
+
+    private class ProvidersSectionItemViewHolder extends ProvidersItemViewHolder {
+
+        @NonNull
+        final TextView sectionTitle;
+
+        ProvidersSectionItemViewHolder(final View itemView) {
+            super(itemView, ProvidersItem.FileProviderItemType.SECTION);
+            sectionTitle = itemView.findViewById(R.id.gv_section_title);
+        }
     }
 }
