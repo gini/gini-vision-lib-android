@@ -2,7 +2,9 @@ package net.gini.android.vision.analysis;
 
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -10,6 +12,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPropertyAnimatorCompat;
+import android.support.v4.view.ViewPropertyAnimatorListener;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +39,8 @@ import java.util.Random;
 
 class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
+    public static final int HINT_START_DELAY = 5000;
+    public static final int HINT_CYCLE_INTERVAL = 4000;
     private static final AnalysisFragmentListener NO_OP_LISTENER = new AnalysisFragmentListener() {
         @Override
         public void onAnalyzeDocument(@NonNull Document document) {
@@ -44,6 +52,8 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     };
 
     private final FragmentImplCallback mFragment;
+    private ViewPropertyAnimatorCompat mHintAnimation;
+    private View mHintContainer;
     private ImageView mHintImageView;
     private TextView mHintTextView;
     private List<AnalysisHint> mHints;
@@ -54,6 +64,9 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     private AnalysisFragmentListener mListener = NO_OP_LISTENER;
     private ProgressBar mProgressActivity;
     private Runnable mRunnable;
+
+    private static final int HINT_ANIMATION_DURATION = 500;
+
 
     public AnalysisFragmentImpl(FragmentImplCallback fragment, Document document, String documentAnalysisErrorMessage) {
         mFragment = fragment;
@@ -128,22 +141,81 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     public void onStart() {
+        showHints();
+    }
+
+    private void showHints() {
+
+        final int containerHeight = getContainerHeight();
         mHints = generateRandomHintsList();
+
         mRunnable = new Runnable() {
             @Override
             public void run() {
-                AnalysisHint nextHint= getNextHint();
-                final Context context = mFragment.getActivity();
-                mHintImageView.setImageDrawable(ContextCompat.getDrawable(context, nextHint.getDrawableResource()));
-                mHintTextView.setText(nextHint.getTextResource());
-
-                mHintImageView.setVisibility(View.VISIBLE);
-                mHintTextView.setVisibility(View.VISIBLE);
-
-                mHandler.postDelayed(mRunnable, 4000);
+                mHintAnimation = getSlideDownAnimation(containerHeight);
+                mHintAnimation.start();
             }
         };
-        mHandler.postDelayed(mRunnable, 5000);
+        mHandler.postDelayed(mRunnable, HINT_START_DELAY);
+    }
+
+    @NonNull
+    private ViewPropertyAnimatorCompat getSlideDownAnimation(final int containerHeight) {
+        return ViewCompat.animate(mHintContainer)
+                .translationY(containerHeight)
+                .setDuration(HINT_ANIMATION_DURATION)
+                .setListener(new ViewPropertyAnimatorListener() {
+                    @Override
+                    public void onAnimationStart(final View view) {
+                    }
+
+                    @Override
+                    public void onAnimationEnd(final View view) {
+                        setNextHint();
+                        mHintAnimation = getSlideUpAnimation();
+                        mHintAnimation.start();
+                    }
+
+                    @Override
+                    public void onAnimationCancel(final View view) {
+                    }
+                });
+    }
+
+    @NonNull
+    private ViewPropertyAnimatorCompat getSlideUpAnimation() {
+        return ViewCompat.animate(mHintContainer)
+                .translationY(0)
+                .setDuration(HINT_ANIMATION_DURATION)
+                .setListener(new ViewPropertyAnimatorListener() {
+                    @Override
+                    public void onAnimationStart(final View view) {
+                    }
+
+                    @Override
+                    public void onAnimationEnd(final View view) {
+                        mHandler.postDelayed(mRunnable, HINT_CYCLE_INTERVAL);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(final View view) {
+                    }
+                });
+    }
+
+    private int getContainerHeight() {
+        final Activity activity = mFragment.getActivity();
+        final Display display = activity.getWindowManager().getDefaultDisplay();
+        final Point size = new Point();
+        display.getSize(size);
+        return size.y;
+    }
+
+    private void setNextHint() {
+        final AnalysisHint nextHint= getNextHint();
+        final Context context = mFragment.getActivity();
+        mHintImageView.setImageDrawable(ContextCompat.getDrawable(context, nextHint.getDrawableResource()));
+        mHintTextView.setText(nextHint.getTextResource());
     }
 
     private AnalysisHint getNextHint() {
@@ -159,8 +231,13 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         return list;
     }
 
-    public void onStop() {
+    void onStop() {
         mHandler.removeCallbacks(mRunnable);
+        if (mHintAnimation != null) {
+            mHintAnimation.cancel();
+            mHintContainer.clearAnimation();
+            mHintAnimation.setListener(null);
+        }
     }
 
     public void setListener(@Nullable AnalysisFragmentListener listener) {
@@ -204,6 +281,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         mProgressActivity = view.findViewById(R.id.gv_progress_activity);
         mHintImageView = view.findViewById(R.id.gv_analyse_hint_image);
         mHintTextView = view.findViewById(R.id.gv_analyse_hint_text);
+        mHintContainer = view.findViewById(R.id.gv_analyse_hint_container);
     }
 
     private void observerViewTree(@NonNull final View view) {
