@@ -43,6 +43,9 @@ public class FileChooserActivity extends AppCompatActivity {
 
     public static final int GRID_SPAN_COUNT = 4;
 
+    private static final int ANIM_DURATION = 200;
+    private static final int SHOW_ANIM_DELAY = 300;
+
     private RelativeLayout mLayoutRoot;
     private RecyclerView mFileProvidersView;
 
@@ -90,7 +93,7 @@ public class FileChooserActivity extends AppCompatActivity {
             @Override
             public void run() {
                 AutoTransition transition = new AutoTransition();
-                transition.setDuration(200);
+                transition.setDuration(ANIM_DURATION);
                 TransitionManager.beginDelayedTransition(mLayoutRoot, transition);
                 RelativeLayout.LayoutParams layoutParams =
                         (RelativeLayout.LayoutParams) mFileProvidersView.getLayoutParams();
@@ -98,7 +101,7 @@ public class FileChooserActivity extends AppCompatActivity {
                 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
                 mFileProvidersView.setLayoutParams(layoutParams);
             }
-        }, 300);
+        }, SHOW_ANIM_DELAY);
     }
 
     @Override
@@ -116,7 +119,7 @@ public class FileChooserActivity extends AppCompatActivity {
     private void hideFileProviders(
             @NonNull final Transition.TransitionListener transitionListener) {
         AutoTransition transition = new AutoTransition();
-        transition.setDuration(200);
+        transition.setDuration(ANIM_DURATION);
         transition.addListener(transitionListener);
         TransitionManager.beginDelayedTransition(mLayoutRoot, transition);
         RelativeLayout.LayoutParams layoutParams =
