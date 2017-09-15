@@ -143,6 +143,7 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
     public static final int RESULT_ERROR = RESULT_FIRST_USER + 1;
 
     public static final int RESULT_NO_EXTRACTIONS = RESULT_FIRST_USER + 2;
+    public static final int RESULT_PDF_CANCELED = RESULT_FIRST_USER + 3;
 
     private static final String ANALYSIS_FRAGMENT = "ANALYSIS_FRAGMENT";
     private String mAnalysisErrorMessage;
@@ -218,6 +219,14 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mDocument.getType() == Document.Type.PDF) {
+            setResult(RESULT_PDF_CANCELED);
+        }
+        super.onBackPressed();
     }
 
     @Override

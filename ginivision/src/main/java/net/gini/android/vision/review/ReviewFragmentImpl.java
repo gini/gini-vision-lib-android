@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 class ReviewFragmentImpl implements ReviewFragmentInterface {
 
     private static final String PHOTO_KEY = "PHOTO_KEY";
+    private static final String DOCUMENT_KEY = "DOCUMENT_KEY";
     private static final Logger LOG = LoggerFactory.getLogger(ReviewFragmentImpl.class);
 
     private static final int JPEG_COMPRESSION_QUALITY_FOR_UPLOAD = 50;
@@ -64,6 +65,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
     private final FragmentImplCallback mFragment;
     private Photo mPhoto;
+    private Document mDocument;
     private ReviewFragmentListener mListener = NO_OP_LISTENER;
     private boolean mDocumentWasAnalyzed = false;
     private boolean mDocumentWasModified = false;
@@ -73,8 +75,11 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
     public ReviewFragmentImpl(@NonNull FragmentImplCallback fragment, @NonNull Document document) {
         mFragment = fragment;
-        mPhoto = Photo.fromDocument(document);
-        mCurrentRotation = mPhoto.getRotationForDisplay();
+        mDocument = document;
+        if (mDocument.getType() == Document.Type.IMAGE) {
+            mPhoto = Photo.fromDocument(document);
+            mCurrentRotation = mPhoto.getRotationForDisplay();
+        }
     }
 
     @VisibleForTesting
@@ -97,31 +102,43 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
     public void onCreate(@Nullable Bundle savedInstanceState) {
         forcePortraitOrientationOnPhones(mFragment.getActivity());
+        if (mDocument.getType() == Document.Type.PDF) {
+            mListener.onProceedToAnalysisScreen(mDocument);
+            return;
+        }
         if (savedInstanceState != null) {
             restoreSavedState(savedInstanceState);
             LOG.info("Should analyze document");
-            mListener.onShouldAnalyzeDocument(ImageDocument.fromPhoto(mPhoto));
+            if (mPhoto != null) {
+                mListener.onShouldAnalyzeDocument(ImageDocument.fromPhoto(mPhoto));
+            } else {
+                mListener.onShouldAnalyzeDocument(mDocument);
+            }
         } else {
-            applyCompressionToJpeg(new PhotoEdit.PhotoEditCallback() {
-                @Override
-                public void onDone(@NonNull Photo photo) {
-                    if (mNextClicked || mDocumentWasModified || mStopped) {
-                        return;
+            if (mPhoto != null) {
+                applyCompressionToJpeg(new PhotoEdit.PhotoEditCallback() {
+                    @Override
+                    public void onDone(@NonNull Photo photo) {
+                        if (mNextClicked || mDocumentWasModified || mStopped) {
+                            return;
+                        }
+                        LOG.info("Should analyze document");
+                        mListener.onShouldAnalyzeDocument(ImageDocument.fromPhoto(photo));
                     }
-                    LOG.info("Should analyze document");
-                    mListener.onShouldAnalyzeDocument(ImageDocument.fromPhoto(mPhoto));
-                }
 
-                @Override
-                public void onFailed() {
-                    if (mNextClicked || mStopped) {
-                        return;
+                    @Override
+                    public void onFailed() {
+                        if (mNextClicked || mStopped) {
+                            return;
+                        }
+                        LOG.error("Failed to compress the jpeg");
+                        mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW,
+                                "An error occurred while compressing the jpeg."));
                     }
-                    LOG.error("Failed to compress the jpeg");
-                    mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW,
-                            "An error occurred while compressing the jpeg."));
-                }
-            });
+                });
+            } else {
+                mListener.onShouldAnalyzeDocument(mDocument);
+            }
         }
     }
 
@@ -141,7 +158,9 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     }
 
     private void showDocument() {
-        mImageDocument.setImageBitmap(mPhoto.getBitmapPreview());
+        if (mPhoto != null) {
+            mImageDocument.setImageBitmap(mPhoto.getBitmapPreview());
+        }
     }
 
     public void onStop() {
@@ -150,6 +169,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
     public void onSaveInstanceState(final Bundle outState) {
         outState.putParcelable(PHOTO_KEY, mPhoto);
+        outState.putParcelable(DOCUMENT_KEY, mDocument);
     }
 
     public void onDestroy() {
@@ -168,10 +188,14 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             return;
         }
         mPhoto = savedInstanceState.getParcelable(PHOTO_KEY);
-        if (mPhoto == null) {
-            throw new IllegalStateException("Photo instance required for restoring saved instance state.");
+        if (mPhoto != null) {
+            mCurrentRotation = mPhoto.getRotationForDisplay();
         }
-        mCurrentRotation = mPhoto.getRotationForDisplay();
+        mDocument = savedInstanceState.getParcelable(DOCUMENT_KEY);
+        if (mPhoto == null || mDocument == null) {
+            throw new IllegalStateException("Missing required instances for restoring saved instance state.");
+        }
+
     }
 
     private void setInputHandlers() {
@@ -204,7 +228,9 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     }
 
     private void rotateDocumentForDisplay() {
-        rotateImageView(mPhoto.getRotationForDisplay(), false);
+        if (mPhoto != null) {
+            rotateImageView(mPhoto.getRotationForDisplay(), false);
+        }
     }
 
     private void onRotateClicked() {

@@ -350,9 +350,9 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                     }
                     mListener.onDocumentAvailable(
                             DocumentFactory.documentFromIntent(data, activity));
-                } catch (IOException | IllegalArgumentException e) {
+                } catch (IOException | IllegalArgumentException | IllegalStateException e) {
                     handleError(GiniVisionError.ErrorCode.DOCUMENT_IMPORT,
-                            "Faild to import selected document", e);
+                            "Failed to import selected document", e);
                 }
             }
             return true;

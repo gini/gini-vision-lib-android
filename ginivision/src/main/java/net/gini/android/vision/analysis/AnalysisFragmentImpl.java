@@ -2,6 +2,7 @@ package net.gini.android.vision.analysis;
 
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,10 +20,12 @@ import android.widget.TextView;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
-import net.gini.android.vision.document.ImageDocument;
+import net.gini.android.vision.document.PdfDocument;
 import net.gini.android.vision.internal.camera.photo.Photo;
+import net.gini.android.vision.internal.pdf.Pdf;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
+import net.gini.android.vision.internal.util.Size;
 
 class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
@@ -40,6 +43,8 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     private ImageView mHintImageView;
     private TextView mHintTextView;
     private Photo mPhoto;
+    private Pdf mPdf;
+    private final Document mDocument;
     private final String mDocumentAnalysisErrorMessage;
     private ImageView mImageDocument;
     private RelativeLayout mLayoutRoot;
@@ -48,8 +53,22 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
     public AnalysisFragmentImpl(FragmentImplCallback fragment, Document document, String documentAnalysisErrorMessage) {
         mFragment = fragment;
-        mPhoto = Photo.fromDocument(document);
+        mDocument = document;
+        initDocumentHandler(document);
         mDocumentAnalysisErrorMessage = documentAnalysisErrorMessage;
+    }
+
+    // TODO: rename
+    private void initDocumentHandler(final Document document) {
+        switch (document.getType()) {
+            case IMAGE:
+                mPhoto = Photo.fromDocument(document);
+                break;
+            case PDF:
+                mPdf = Pdf.fromDocument((PdfDocument) document);
+                break;
+        }
+
     }
 
     @Override
@@ -149,11 +168,11 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            mListener.onAnalyzeDocument(ImageDocument.fromPhoto(mPhoto));
+                            mListener.onAnalyzeDocument(mDocument);
                         }
                     });
         } else {
-            mListener.onAnalyzeDocument(ImageDocument.fromPhoto(mPhoto));
+            mListener.onAnalyzeDocument(mDocument);
         }
     }
 
@@ -181,6 +200,9 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     private void rotateDocumentImageView() {
+        if (mPhoto == null) {
+            return;
+        }
         int newWidth = mLayoutRoot.getWidth();
         int newHeight = mLayoutRoot.getHeight();
         if (mPhoto.getRotationForDisplay() == 90 || mPhoto.getRotationForDisplay() == 270) {
@@ -196,6 +218,15 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     private void showDocument() {
-        mImageDocument.setImageBitmap(mPhoto.getBitmapPreview());
+        if (mPhoto != null) {
+            mImageDocument.setImageBitmap(mPhoto.getBitmapPreview());
+        } else if (mPdf != null) {
+            final Activity activity = mFragment.getActivity();
+            if (activity == null) {
+                return;
+            }
+            final Size previewSize = new Size(mImageDocument.getWidth(), mImageDocument.getHeight());
+            mImageDocument.setImageBitmap(mPdf.toBitmap(previewSize, activity));
+        }
     }
 }

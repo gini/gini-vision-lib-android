@@ -44,6 +44,7 @@ public class Photo implements Parcelable {
     }
 
     public static Photo fromDocument(@NonNull final Document document) {
+        // TODO cast to ImageDocument
         return new Photo(document);
     }
 

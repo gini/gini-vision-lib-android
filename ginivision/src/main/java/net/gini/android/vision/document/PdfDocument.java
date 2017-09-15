@@ -3,6 +3,7 @@ package net.gini.android.vision.document;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Parcel;
 import android.support.annotation.NonNull;
 
@@ -12,6 +13,8 @@ import net.gini.android.vision.internal.util.IntentHelper;
 import java.io.IOException;
 
 public class PdfDocument extends GiniVisionDocument {
+
+    private final Uri mUri;
 
     /**
      * Creates an instance using the resource pointed to by the Intent's Uri.
@@ -27,11 +30,16 @@ public class PdfDocument extends GiniVisionDocument {
     @NonNull
     public static PdfDocument fromIntent(final Intent intent, final Context context) throws IOException {
         final byte[] fileData = IntentHelper.getBytesFromIntentUri(intent, context);
-        return new PdfDocument(fileData);
+        return new PdfDocument(fileData, intent.getData());
     }
 
-    protected PdfDocument(@NonNull final byte[] data) {
+    private PdfDocument(@NonNull final byte[] data, @NonNull final Uri uri) {
         super(Type.PDF, data);
+        mUri = uri;
+    }
+
+    public Uri getUri() {
+        return mUri;
     }
 
     @Override
@@ -42,6 +50,7 @@ public class PdfDocument extends GiniVisionDocument {
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {
         super.writeToParcel(dest, flags);
+        dest.writeParcelable(mUri, flags);
     }
 
     public static final Creator<PdfDocument> CREATOR = new Creator<PdfDocument>() {
@@ -58,5 +67,6 @@ public class PdfDocument extends GiniVisionDocument {
 
     private PdfDocument(Parcel in) {
         super(in);
+        mUri = in.readParcelable(Uri.class.getClassLoader());
     }
 }
