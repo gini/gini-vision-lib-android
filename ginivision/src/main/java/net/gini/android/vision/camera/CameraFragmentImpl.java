@@ -38,7 +38,7 @@ import net.gini.android.vision.internal.camera.api.CameraException;
 import net.gini.android.vision.internal.camera.api.CameraInterface;
 import net.gini.android.vision.internal.camera.api.UIExecutor;
 import net.gini.android.vision.internal.camera.photo.Photo;
-import net.gini.android.vision.internal.camera.photo.Size;
+import net.gini.android.vision.internal.util.Size;
 import net.gini.android.vision.internal.camera.view.CameraPreviewSurface;
 import net.gini.android.vision.internal.fileimport.FileChooserActivity;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
@@ -522,8 +522,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     public void hideNoPermissionView() {
         LOG.debug("Hiding no permission view");
         showCameraPreviewAnimated();
-        showCameraTriggerButtonAnimated();
-        showDocumentCornerGuidesAnimated();
+        showInterfaceAnimated();
         if (mLayoutNoPermission != null) {
             mLayoutNoPermission.setVisibility(View.GONE);
         }
