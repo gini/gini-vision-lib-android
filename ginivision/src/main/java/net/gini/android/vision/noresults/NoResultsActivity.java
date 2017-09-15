@@ -16,7 +16,7 @@ import net.gini.android.vision.review.ReviewActivity;
  * <h3>Screen API</h3>
  *
  * <p>
- * When you use the Screen API, the {@code NoResultsFragmentCompat} displays hits that show how to
+ * When you use the Screen API, the {@code NoResultsFragmentCompat} displays hints that show how to
  * best take a picture of a document.
  * </p>
  * <h3>Customizing the Action Bar</h3>

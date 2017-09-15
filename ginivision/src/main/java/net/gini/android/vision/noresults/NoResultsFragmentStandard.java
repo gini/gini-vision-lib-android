@@ -18,7 +18,7 @@ import net.gini.android.vision.internal.ui.FragmentImplCallback;
  *
  * <p>
  * When you use the Component API without the Android Support Library, the {@code
- * NoResultsFragmentCompat} displays hits that show how to best take a picture of a document.
+ * NoResultsFragmentCompat} displays hints that show how to best take a picture of a document.
  * </p>
  * <p>
  * Include the {@code AnalyzeDocumentFragmentStandard} into your layout by using the {@link

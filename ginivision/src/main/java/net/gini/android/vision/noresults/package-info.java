@@ -9,9 +9,10 @@
  * <h3>Screen API</h3>
  *
  * <p>
- * The {@link net.gini.android.vision.noresults.NoResultsActivity} should be shown when there are
- * no
- * extractions available.
+ * The {@link net.gini.android.vision.noresults.NoResultsActivity} is launched directly by the
+ * {@link net.gini.android.vision.analysis.AnalysisActivity} when {@link
+ * net.gini.android.vision.analysis.AnalysisFragmentInterface#noExtractionsFound()} has been
+ * called.
  * </p>
  *
  * <h3>Component API</h3>
