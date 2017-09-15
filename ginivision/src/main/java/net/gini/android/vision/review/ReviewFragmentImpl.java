@@ -50,7 +50,8 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         }
 
         @Override
-        public void onDocumentWasRotated(@NonNull Document document, int oldRotation, int newRotation) {
+        public void onDocumentWasRotated(@NonNull Document document, int oldRotation,
+                int newRotation) {
         }
 
         @Override
@@ -79,6 +80,12 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         if (mDocument.getType() == Document.Type.IMAGE) {
             mPhoto = Photo.fromDocument(document);
             mCurrentRotation = mPhoto.getRotationForDisplay();
+        } else {
+            throw new IllegalArgumentException(
+                    "Non reviewable documents must be passed directly to the Analysis Screen. You"
+                            + " can use Document#isReviewable() to check whether you can use it "
+                            + "with the Review Screen or have to pass it directly to the Analysis"
+                            + " Screen.");
         }
     }
 
@@ -109,41 +116,33 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         if (savedInstanceState != null) {
             restoreSavedState(savedInstanceState);
             LOG.info("Should analyze document");
-            if (mPhoto != null) {
-                mListener.onShouldAnalyzeDocument(ImageDocument.fromPhoto(mPhoto));
-            } else {
-                mListener.onShouldAnalyzeDocument(mDocument);
-            }
+            mListener.onShouldAnalyzeDocument(ImageDocument.fromPhoto(mPhoto));
         } else {
-            if (mPhoto != null) {
-                applyCompressionToJpeg(new PhotoEdit.PhotoEditCallback() {
-                    @Override
-                    public void onDone(@NonNull Photo photo) {
-                        if (mNextClicked || mDocumentWasModified || mStopped) {
-                            return;
-                        }
-                        LOG.info("Should analyze document");
-                        mListener.onShouldAnalyzeDocument(ImageDocument.fromPhoto(photo));
+            applyCompressionToJpeg(new PhotoEdit.PhotoEditCallback() {
+                @Override
+                public void onDone(@NonNull Photo photo) {
+                    if (mNextClicked || mDocumentWasModified || mStopped) {
+                        return;
                     }
+                    LOG.info("Should analyze document");
+                    mListener.onShouldAnalyzeDocument(ImageDocument.fromPhoto(photo));
+                }
 
-                    @Override
-                    public void onFailed() {
-                        if (mNextClicked || mStopped) {
-                            return;
-                        }
-                        LOG.error("Failed to compress the jpeg");
-                        mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW,
-                                "An error occurred while compressing the jpeg."));
+                @Override
+                public void onFailed() {
+                    if (mNextClicked || mStopped) {
+                        return;
                     }
-                });
-            } else {
-                mListener.onShouldAnalyzeDocument(mDocument);
-            }
+                    LOG.error("Failed to compress the jpeg");
+                    mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW,
+                            "An error occurred while compressing the jpeg."));
+                }
+            });
         }
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.gv_fragment_review, container, false);
         bindViews(view);
         setInputHandlers();
@@ -158,9 +157,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     }
 
     private void showDocument() {
-        if (mPhoto != null) {
-            mImageDocument.setImageBitmap(mPhoto.getBitmapPreview());
-        }
+        mImageDocument.setImageBitmap(mPhoto.getBitmapPreview());
     }
 
     public void onStop() {
@@ -174,10 +171,12 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
     public void onDestroy() {
         mPhoto = null;
+        mDocument = null;
     }
 
     private void bindViews(@NonNull View view) {
-        mLayoutDocumentContainer = (FrameLayout) view.findViewById(R.id.gv_layout_document_container);
+        mLayoutDocumentContainer = (FrameLayout) view.findViewById(
+                R.id.gv_layout_document_container);
         mImageDocument = (TouchImageView) view.findViewById(R.id.gv_image_document);
         mButtonRotate = (ImageButton) view.findViewById(R.id.gv_button_rotate);
         mButtonNext = (ImageButton) view.findViewById(R.id.gv_button_next);
@@ -188,14 +187,12 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             return;
         }
         mPhoto = savedInstanceState.getParcelable(PHOTO_KEY);
-        if (mPhoto != null) {
-            mCurrentRotation = mPhoto.getRotationForDisplay();
-        }
         mDocument = savedInstanceState.getParcelable(DOCUMENT_KEY);
         if (mPhoto == null || mDocument == null) {
-            throw new IllegalStateException("Missing required instances for restoring saved instance state.");
+            throw new IllegalStateException(
+                    "Missing required instances for restoring saved instance state.");
         }
-
+        mCurrentRotation = mPhoto.getRotationForDisplay();
     }
 
     private void setInputHandlers() {
@@ -214,13 +211,14 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     }
 
     private void observeViewTree(@NonNull final View view) {
-        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                onViewLayoutFinished();
-                view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-            }
-        });
+        view.getViewTreeObserver().addOnGlobalLayoutListener(
+                new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        onViewLayoutFinished();
+                        view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                    }
+                });
     }
 
     private void onViewLayoutFinished() {
@@ -228,9 +226,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     }
 
     private void rotateDocumentForDisplay() {
-        if (mPhoto != null) {
-            rotateImageView(mPhoto.getRotationForDisplay(), false);
-        }
+        rotateImageView(mPhoto.getRotationForDisplay(), false);
     }
 
     private void onRotateClicked() {
@@ -244,7 +240,8 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                 if (mStopped) {
                     return;
                 }
-                mListener.onDocumentWasRotated(ImageDocument.fromPhoto(photo), oldRotation, mCurrentRotation);
+                mListener.onDocumentWasRotated(ImageDocument.fromPhoto(photo), oldRotation,
+                        mCurrentRotation);
             }
 
             @Override
@@ -253,7 +250,8 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                     return;
                 }
                 LOG.error("Failed to rotate the jpeg");
-                mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW, "An error occurred while applying rotation to the jpeg."));
+                mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW,
+                        "An error occurred while applying rotation to the jpeg."));
             }
         });
     }
@@ -268,7 +266,8 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             } else {
                 LOG.debug("Document was analyzed");
                 LOG.info("Document reviewed and analyzed");
-                // Photo was not modified and has been analyzed, client should show extraction results
+                // Photo was not modified and has been analyzed, client should show extraction
+                // results
                 mListener.onDocumentReviewedAndAnalyzed(ImageDocument.fromPhoto(mPhoto));
             }
         } else {
@@ -288,7 +287,8 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                         return;
                     }
                     LOG.error("Failed to rotate the jpeg");
-                    mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW, "An error occurred while applying rotation to the jpeg."));
+                    mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW,
+                            "An error occurred while applying rotation to the jpeg."));
                 }
             });
         }
@@ -327,20 +327,25 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                 degrees % 360 == 270) {
             LOG.debug("ImageView width needs to fit container height");
             LOG.debug("ImageView height needs fit container width");
-            widthAnimation = ValueAnimator.ofInt(mImageDocument.getWidth(), mLayoutDocumentContainer.getHeight());
-            heightAnimation = ValueAnimator.ofInt(mImageDocument.getHeight(), mLayoutDocumentContainer.getWidth());
+            widthAnimation = ValueAnimator.ofInt(mImageDocument.getWidth(),
+                    mLayoutDocumentContainer.getHeight());
+            heightAnimation = ValueAnimator.ofInt(mImageDocument.getHeight(),
+                    mLayoutDocumentContainer.getWidth());
         } else {
             LOG.debug("ImageView width needs to fit container width");
             LOG.debug("ImageView height needs to fit container height");
-            widthAnimation = ValueAnimator.ofInt(mImageDocument.getWidth(), mLayoutDocumentContainer.getWidth());
-            heightAnimation = ValueAnimator.ofInt(mImageDocument.getHeight(), mLayoutDocumentContainer.getHeight());
+            widthAnimation = ValueAnimator.ofInt(mImageDocument.getWidth(),
+                    mLayoutDocumentContainer.getWidth());
+            heightAnimation = ValueAnimator.ofInt(mImageDocument.getHeight(),
+                    mLayoutDocumentContainer.getHeight());
         }
 
         widthAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 int width = (int) valueAnimator.getAnimatedValue();
-                FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mImageDocument.getLayoutParams();
+                FrameLayout.LayoutParams layoutParams =
+                        (FrameLayout.LayoutParams) mImageDocument.getLayoutParams();
                 layoutParams.width = width;
                 mImageDocument.requestLayout();
             }
@@ -349,13 +354,15 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 int height = (int) valueAnimator.getAnimatedValue();
-                FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mImageDocument.getLayoutParams();
+                FrameLayout.LayoutParams layoutParams =
+                        (FrameLayout.LayoutParams) mImageDocument.getLayoutParams();
                 layoutParams.height = height;
                 mImageDocument.requestLayout();
             }
         });
 
-        ObjectAnimator rotateAnimation = ObjectAnimator.ofFloat(mImageDocument, "rotation", degrees);
+        ObjectAnimator rotateAnimation = ObjectAnimator.ofFloat(mImageDocument, "rotation",
+                degrees);
 
         if (!animated) {
             widthAnimation.setDuration(0);

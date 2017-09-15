@@ -34,7 +34,7 @@ public class PdfDocument extends GiniVisionDocument {
     }
 
     private PdfDocument(@NonNull final byte[] data, @NonNull final Uri uri) {
-        super(Type.PDF, data);
+        super(Type.PDF, data, false);
         mUri = uri;
     }
 

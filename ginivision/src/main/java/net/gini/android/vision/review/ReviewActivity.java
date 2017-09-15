@@ -316,8 +316,7 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ANALYSE_DOCUMENT_REQUEST) {
-            if (resultCode == AnalysisActivity.RESULT_NO_EXTRACTIONS
-                    || resultCode == AnalysisActivity.RESULT_PDF_CANCELED) {
+            if (resultCode == AnalysisActivity.RESULT_NO_EXTRACTIONS) {
                 finish();
                 clearMemory();
             } else if (mBackButtonShouldCloseLibrary

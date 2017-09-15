@@ -72,6 +72,18 @@ public interface Document extends Parcelable {
     @NonNull
     byte[] getData();
 
+    /**
+     * <p>
+     * Documents like PDFs are not reviewable and can be passed directly to the Analysis Screen.
+     * Reviewable documents have to be shown in the Review Screen first before passing it on to the
+     * Analysis Screen.
+     * </p>
+     *
+     * @return {@code true} if the document can be reviewed in the Review Screen otherwise the
+     * document has to be passed directly to the Analysis Screen
+     */
+    boolean isReviewable();
+
     enum Type {
         IMAGE,
         PDF

@@ -1,7 +1,8 @@
 package net.gini.android.vision.analysis;
 
 import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
-import static net.gini.android.vision.internal.util.ActivityHelper.handleMenuItemPressedForHomeButton;
+import static net.gini.android.vision.internal.util.ActivityHelper
+        .handleMenuItemPressedForHomeButton;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +18,8 @@ import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.camera.CameraActivity;
 import net.gini.android.vision.noresults.NoResultsActivity;
+import net.gini.android.vision.onboarding.OnboardingActivity;
+import net.gini.android.vision.review.ReviewActivity;
 
 /**
  * <h3>Screen API</h3>
@@ -143,7 +146,6 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
     public static final int RESULT_ERROR = RESULT_FIRST_USER + 1;
 
     public static final int RESULT_NO_EXTRACTIONS = RESULT_FIRST_USER + 2;
-    public static final int RESULT_PDF_CANCELED = RESULT_FIRST_USER + 3;
 
     private static final String ANALYSIS_FRAGMENT = "ANALYSIS_FRAGMENT";
     private String mAnalysisErrorMessage;
@@ -219,14 +221,6 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (mDocument.getType() == Document.Type.PDF) {
-            setResult(RESULT_PDF_CANCELED);
-        }
-        super.onBackPressed();
     }
 
     @Override

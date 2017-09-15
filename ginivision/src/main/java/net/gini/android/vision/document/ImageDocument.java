@@ -41,7 +41,7 @@ public class ImageDocument extends GiniVisionDocument {
     }
 
     public ImageDocument(@NonNull final byte[] data, int rotationForDisplay) {
-        super(Type.IMAGE, data);
+        super(Type.IMAGE, data, true);
         mRotationForDisplay = rotationForDisplay;
     }
 

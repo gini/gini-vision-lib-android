@@ -9,11 +9,14 @@ public class GiniVisionDocument implements Document {
 
     private final Type mType;
     private final byte[] mData;
+    private final boolean mIsReviewable;
 
-
-    protected GiniVisionDocument(@NonNull final Type type, @NonNull byte[] jpeg) {
+    protected GiniVisionDocument(@NonNull final Type type,
+            @NonNull byte[] data,
+            boolean isReviewable) {
         mType = type;
-        mData = jpeg;
+        mData = data;
+        mIsReviewable = isReviewable;
     }
 
     @Override
@@ -27,6 +30,11 @@ public class GiniVisionDocument implements Document {
         return mData;
     }
 
+    @Override
+    public boolean isReviewable() {
+        return mIsReviewable;
+    }
+
     /**
      * @exclude
      */
@@ -37,6 +45,7 @@ public class GiniVisionDocument implements Document {
         dest.writeParcelable(token, flags);
 
         dest.writeSerializable(mType);
+        dest.writeInt(mIsReviewable ? 1 : 0);
     }
 
     /**
@@ -69,6 +78,7 @@ public class GiniVisionDocument implements Document {
         cache.removeJpeg(token);
 
         mType = (Type) in.readSerializable();
+        mIsReviewable = in.readInt() == 1;
     }
 
     @Override
