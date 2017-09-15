@@ -56,28 +56,29 @@
             android:layout_height="0dp"
             android:layout_weight="1"/>
 
-        <LinearLayout
-            android:layout_marginBottom="16dp"
-            android:id="@+id/gv_analyse_hint_container"
-            android:padding="16dp"
+    </LinearLayout>
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="16dp"
+        android:id="@+id/gv_analyse_hint_container"
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/gv_analyse_hint_image"
+            tools:src="@drawable/gv_icon_onboarding"
+            android:layout_width="32dp"
+            android:layout_height="32dp" />
+
+        <TextView
+            android:id="@+id/gv_analyse_hint_text"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:textColor="@color/gv_analysis_message"
+            android:layout_gravity="center"
+            tools:text="Gute Lichtverhältnisse beim Aufnehmen des Fotos beschleunigen die Analyse."
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/gv_analyse_hint_image"
-                tools:src="@drawable/gv_icon_onboarding"
-                android:layout_width="32dp"
-                android:layout_height="32dp" />
-
-            <TextView
-                android:id="@+id/gv_analyse_hint_text"
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp"
-                android:textColor="@color/gv_analysis_message"
-                android:layout_gravity="center"
-                tools:text="Gute Lichtverhältnisse beim Aufnehmen des Fotos beschleunigen die Analyse."
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </RelativeLayout>
