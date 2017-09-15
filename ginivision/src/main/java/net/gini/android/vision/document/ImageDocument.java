@@ -1,17 +1,16 @@
 package net.gini.android.vision.document;
 
-import static net.gini.android.vision.internal.util.StreamHelper.inputStreamToByteArray;
-
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Parcel;
 import android.support.annotation.NonNull;
 
 import net.gini.android.vision.GiniVisionDocument;
 import net.gini.android.vision.internal.camera.photo.Photo;
+import net.gini.android.vision.internal.util.IntentHelper;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 public class ImageDocument extends GiniVisionDocument {
 
@@ -22,29 +21,23 @@ public class ImageDocument extends GiniVisionDocument {
         return new ImageDocument(photo.getJpeg(), photo.getRotationForDisplay());
     }
 
+    /**
+     * Creates an instance using the resource pointed to by the Intent's Uri.
+     *
+     * @param intent an {@link Intent} containing an image {@link Uri}
+     * @param context Android context
+     * @return new instance with the contents of the Intent's Uri
+     * @throws IOException              if there is an issue with the input stream from the Uri
+     * @throws IllegalArgumentException if the Intent's data is null
+     * @throws IllegalStateException    if null input stream was returned by the Context's Content
+     *                                  Resolver
+     */
     @NonNull
     public static ImageDocument fromIntent(@NonNull final Intent intent, @NonNull Context context)
             throws IOException {
-        if (intent.getData() == null) {
-            throw new IllegalArgumentException("Intent data must contain a Uri");
-        }
-        InputStream inputStream = null;
-        try {
-            inputStream = context.getContentResolver().openInputStream(intent.getData());
-            if (inputStream == null) {
-                throw new IllegalStateException("Couldn't open input stream from intent data");
-            }
-            final byte[] fileData = inputStreamToByteArray(inputStream);
-            return new ImageDocument(fileData, 0);
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        final byte[] fileData = IntentHelper.getBytesFromIntentUri(intent, context);
+        return new ImageDocument(fileData, 0);
+
     }
 
     public ImageDocument(@NonNull final byte[] data, int rotationForDisplay) {

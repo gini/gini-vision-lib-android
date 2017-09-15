@@ -10,17 +10,26 @@ import java.io.InputStream;
 /**
  * @exclude
  */
-public class StreamHelper {
+class StreamHelper {
 
-    public static byte[] inputStreamToByteArray(@NonNull InputStream inputStream)
+    /**
+     * Reads the input stream to a byte array.
+     *
+     * @param inputStream an open {@link InputStream} to read from, caller is responsible for
+     *                    closing
+     * @return byte array with input streams content
+     * @throws IOException if the first byte cannot be read for any reason other than the end of the
+     *                     file, if the input stream has been closed, or if some other I/O error
+     *                     occurs.
+     */
+    static byte[] inputStreamToByteArray(@NonNull InputStream inputStream)
             throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        byte[] buffer = new byte[65536];
+        byte[] buffer = new byte[8192];
         int nrRead;
-        while((nrRead = inputStream.read(buffer)) > 0) {
+        while ((nrRead = inputStream.read(buffer)) > 0) {
             out.write(buffer, 0, nrRead);
         }
-        out.flush();
         return out.toByteArray();
     }
 }

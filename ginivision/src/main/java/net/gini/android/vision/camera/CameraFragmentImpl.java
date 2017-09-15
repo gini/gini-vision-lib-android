@@ -31,6 +31,7 @@ import android.widget.RelativeLayout;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
+import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.internal.camera.api.CameraController;
 import net.gini.android.vision.internal.camera.api.CameraException;
@@ -347,9 +348,9 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                     if (activity == null) {
                         return true;
                     }
-                    ImageDocument document = ImageDocument.fromIntent(data, activity);
-                    mListener.onDocumentAvailable(document);
-                } catch (IOException e) {
+                    mListener.onDocumentAvailable(
+                            DocumentFactory.documentFromIntent(data, activity));
+                } catch (IOException | IllegalArgumentException e) {
                     handleError(GiniVisionError.ErrorCode.DOCUMENT_IMPORT,
                             "Faild to import selected document", e);
                 }
