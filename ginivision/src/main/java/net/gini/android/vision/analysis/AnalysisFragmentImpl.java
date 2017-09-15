@@ -39,8 +39,6 @@ import java.util.Random;
 
 class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
-    public static final int HINT_START_DELAY = 5000;
-    public static final int HINT_CYCLE_INTERVAL = 4000;
     private static final AnalysisFragmentListener NO_OP_LISTENER = new AnalysisFragmentListener() {
         @Override
         public void onAnalyzeDocument(@NonNull Document document) {
@@ -66,6 +64,8 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     private Runnable mRunnable;
 
     private static final int HINT_ANIMATION_DURATION = 500;
+    private static final int HINT_START_DELAY = 5000;
+    private static final int HINT_CYCLE_INTERVAL = 4000;
 
 
     public AnalysisFragmentImpl(FragmentImplCallback fragment, Document document, String documentAnalysisErrorMessage) {
