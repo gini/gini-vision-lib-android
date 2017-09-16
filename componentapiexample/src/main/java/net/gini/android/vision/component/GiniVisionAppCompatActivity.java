@@ -184,7 +184,11 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
     public void onDocumentAvailable(@NonNull Document document) {
         LOG.debug("Document available {}", document);
         getSingleDocumentAnalyzer().cancelAnalysis();
-        showFragment(getReviewFragment(document), R.string.title_review);
+        if (document.isReviewable()) {
+            showFragment(getReviewFragment(document), R.string.title_review);
+        } else {
+            showFragment(getAnalysisFragment(document), R.string.title_analysis);
+        }
     }
 
     @Override

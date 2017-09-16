@@ -184,7 +184,11 @@ public class GiniVisionActivity extends Activity
         // Cancel analysis to make sure, that the document analysis will start in
         // onShouldAnalyzeDocument()
         getSingleDocumentAnalyzer().cancelAnalysis();
-        showFragment(getReviewFragment(document), R.string.title_review);
+        if (document.isReviewable()) {
+            showFragment(getReviewFragment(document), R.string.title_review);
+        } else {
+            showFragment(getAnalysisFragment(document), R.string.title_analysis);
+        }
     }
 
     @Override
