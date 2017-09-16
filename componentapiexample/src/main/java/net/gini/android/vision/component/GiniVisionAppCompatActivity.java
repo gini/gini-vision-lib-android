@@ -54,6 +54,7 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
     private static final Logger LOG = LoggerFactory.getLogger(GiniVisionActivity.class);
 
     private static final String STATE_SHOW_CAMERA_ON_START = "STATE_SHOW_CAMERA_ON_START";
+    private static final int SHOW_ERROR_DURATION = 4000;
 
     private Fragment mCurrentFragment;
     private String mDocumentAnalysisErrorMessage;
@@ -219,19 +220,31 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
     @Override
     public void onError(@NonNull GiniVisionError error) {
         LOG.error("Gini Vision Lib error: {} - {}", error.getErrorCode(), error.getMessage());
-        if (mCurrentFragment != null && mCurrentFragment instanceof AnalysisFragmentCompat) {
-            // We can show errors in a Snackbar in the Analysis Fragment
-            AnalysisFragmentCompat analysisFragment = (AnalysisFragmentCompat) mCurrentFragment;
-            analysisFragment.showError("Error: " +
-                            error.getErrorCode() + " - " +
-                            error.getMessage(),
-                    Toast.LENGTH_LONG);
-        } else {
-            Toast.makeText(this, "Error: " +
-                            error.getErrorCode() + " - " +
-                            error.getMessage(),
-                    Toast.LENGTH_LONG).show();
+        if (mCurrentFragment != null) {
+            if (mCurrentFragment instanceof CameraFragmentCompat) {
+                // For document importing we should show errors in a Snackbar in the Camera Fragment
+                if (error.getErrorCode() == GiniVisionError.ErrorCode.DOCUMENT_IMPORT) {
+                    CameraFragmentCompat cameraFragment =
+                            (CameraFragmentCompat) mCurrentFragment;
+                    cameraFragment.showError(getString(R.string.gv_document_import_error),
+                            SHOW_ERROR_DURATION);
+                    return;
+                }
+            } else if (mCurrentFragment instanceof AnalysisFragmentCompat) {
+                // We can show errors in a Snackbar in the Analysis Fragment
+                AnalysisFragmentCompat analysisFragment =
+                        (AnalysisFragmentCompat) mCurrentFragment;
+                analysisFragment.showError("Error: " +
+                                error.getErrorCode() + " - " +
+                                error.getMessage(),
+                        SHOW_ERROR_DURATION);
+                return;
+            }
         }
+        Toast.makeText(this, "Error: " +
+                        error.getErrorCode() + " - " +
+                        error.getMessage(),
+                Toast.LENGTH_LONG).show();
     }
 
     @Override

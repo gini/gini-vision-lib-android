@@ -38,11 +38,12 @@ import net.gini.android.vision.internal.camera.api.CameraException;
 import net.gini.android.vision.internal.camera.api.CameraInterface;
 import net.gini.android.vision.internal.camera.api.UIExecutor;
 import net.gini.android.vision.internal.camera.photo.Photo;
-import net.gini.android.vision.internal.util.Size;
 import net.gini.android.vision.internal.camera.view.CameraPreviewSurface;
 import net.gini.android.vision.internal.fileimport.FileChooserActivity;
+import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 import net.gini.android.vision.internal.ui.ViewStubSafeInflater;
+import net.gini.android.vision.internal.util.Size;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -328,7 +329,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mButtonImportDocument.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                LOG.info("Importing document");
+                LOG.debug("Importing document");
                 final Activity activity = mFragment.getActivity();
                 if (activity == null) {
                     return;
@@ -348,8 +349,9 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                     if (activity == null) {
                         return true;
                     }
-                    mListener.onDocumentAvailable(
-                            DocumentFactory.documentFromIntent(data, activity));
+                    Document document = DocumentFactory.documentFromIntent(data, activity);
+                    LOG.debug("Document imported: {}", document);
+                    mListener.onDocumentAvailable(document);
                 } catch (IOException | IllegalArgumentException | IllegalStateException e) {
                     handleError(GiniVisionError.ErrorCode.DOCUMENT_IMPORT,
                             "Failed to import selected document", e);
@@ -481,6 +483,25 @@ class CameraFragmentImpl implements CameraFragmentInterface {
             return;
         }
         hideInterfaceAnimated();
+    }
+
+    @Override
+    public void showError(@NonNull String message, int duration) {
+        if (mFragment.getActivity() == null || mLayoutRoot == null) {
+            return;
+        }
+        ErrorSnackbar.make(mFragment.getActivity(), mLayoutRoot, message, null, null,
+                duration).show();
+    }
+
+    @Override
+    public void showError(@NonNull String message, @NonNull String buttonTitle,
+            @NonNull View.OnClickListener onClickListener) {
+        if (mFragment.getActivity() == null) {
+            return;
+        }
+        ErrorSnackbar.make(mFragment.getActivity(), mLayoutRoot, message, buttonTitle,
+                onClickListener, ErrorSnackbar.LENGTH_INDEFINITE).show();
     }
 
     private void hideInterfaceAnimated() {

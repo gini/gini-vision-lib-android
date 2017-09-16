@@ -3,6 +3,7 @@ package net.gini.android.vision.camera;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -132,5 +133,16 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
     @Override
     public void hideInterface() {
         mFragmentImpl.hideInterface();
+    }
+
+    @Override
+    public void showError(@NonNull final String message, final int duration) {
+        mFragmentImpl.showError(message, duration);
+    }
+
+    @Override
+    public void showError(@NonNull final String message, @NonNull final String buttonTitle,
+            @NonNull final View.OnClickListener onClickListener) {
+        mFragmentImpl.showError(message, buttonTitle, onClickListener);
     }
 }

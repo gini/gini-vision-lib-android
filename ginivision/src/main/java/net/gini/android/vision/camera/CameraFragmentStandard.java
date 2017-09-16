@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -136,5 +137,16 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
     @Override
     public void hideInterface() {
         mFragmentImpl.hideInterface();
+    }
+
+    @Override
+    public void showError(@NonNull final String message, final int duration) {
+        mFragmentImpl.showError(message, duration);
+    }
+
+    @Override
+    public void showError(@NonNull final String message, @NonNull final String buttonTitle,
+            @NonNull final View.OnClickListener onClickListener) {
+        mFragmentImpl.showError(message, buttonTitle, onClickListener);
     }
 }
