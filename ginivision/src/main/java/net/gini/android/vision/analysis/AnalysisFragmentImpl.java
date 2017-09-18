@@ -203,7 +203,10 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     private void setNextHint() {
         final AnalysisHint nextHint= getNextHint();
         final Context context = mFragment.getActivity();
-        mHintImageView.setImageDrawable(ContextCompat.getDrawable(context, nextHint.getDrawableResource()));
+        if(context != null) {
+            mHintImageView.setImageDrawable(
+                    ContextCompat.getDrawable(context, nextHint.getDrawableResource()));
+        }
         mHintTextView.setText(nextHint.getTextResource());
     }
 
