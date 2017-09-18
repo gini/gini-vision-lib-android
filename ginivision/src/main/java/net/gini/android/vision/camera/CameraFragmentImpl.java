@@ -1,7 +1,9 @@
 package net.gini.android.vision.camera;
 
+import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
+import static net.gini.android.vision.GiniVisionError.ErrorCode.DOCUMENT_IMPORT;
 import static net.gini.android.vision.camera.Util.cameraExceptionToGiniVisionError;
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 import static net.gini.android.vision.internal.util.AndroidHelper.isMarshmallowOrLater;
@@ -353,9 +355,20 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                     LOG.debug("Document imported: {}", document);
                     mListener.onDocumentAvailable(document);
                 } catch (IOException | IllegalArgumentException | IllegalStateException e) {
-                    handleError(GiniVisionError.ErrorCode.DOCUMENT_IMPORT,
+                    handleError(DOCUMENT_IMPORT,
                             "Failed to import selected document", e);
                 }
+            } else if (resultCode != RESULT_CANCELED){
+                final GiniVisionError error;
+                if (resultCode == FileChooserActivity.RESULT_ERROR) {
+                    error = data.getParcelableExtra(
+                            FileChooserActivity.EXTRA_OUT_ERROR);
+                } else {
+                    error = new GiniVisionError(DOCUMENT_IMPORT,
+                            "Document import finished with unknown result code: "
+                                            + resultCode);
+                }
+                handleError(error);
             }
             return true;
         }
@@ -621,6 +634,14 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         } else {
             LOG.error(message);
         }
+        handleError(errorCode, message);
+    }
+
+    private void handleError(GiniVisionError.ErrorCode errorCode, @NonNull String message) {
         mListener.onError(new GiniVisionError(errorCode, message));
+    }
+
+    private void handleError(@NonNull final GiniVisionError error) {
+        mListener.onError(error);
     }
 }
