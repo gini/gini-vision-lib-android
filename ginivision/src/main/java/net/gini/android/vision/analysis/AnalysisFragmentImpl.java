@@ -2,9 +2,7 @@ package net.gini.android.vision.analysis;
 
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -15,7 +13,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorCompat;
 import android.support.v4.view.ViewPropertyAnimatorListener;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +47,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     };
 
     private final FragmentImplCallback mFragment;
+    private int mFragmentHeight;
     private ViewPropertyAnimatorCompat mHintAnimation;
     private View mHintContainer;
     private ImageView mHintImageView;
@@ -61,7 +59,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     private RelativeLayout mLayoutRoot;
     private AnalysisFragmentListener mListener = NO_OP_LISTENER;
     private ProgressBar mProgressActivity;
-    private Runnable mRunnable;
+    private Runnable mHintCycleRunnable;
 
     private static final int HINT_ANIMATION_DURATION = 500;
     private static final int HINT_START_DELAY = 5000;
@@ -146,23 +144,22 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
     private void showHints() {
 
-        final int containerHeight = getContainerHeight();
         mHints = generateRandomHintsList();
 
-        mRunnable = new Runnable() {
+        mHintCycleRunnable = new Runnable() {
             @Override
             public void run() {
-                mHintAnimation = getSlideDownAnimation(containerHeight);
+                mHintAnimation = getSlideDownAnimation();
                 mHintAnimation.start();
             }
         };
-        mHandler.postDelayed(mRunnable, HINT_START_DELAY);
+        mHandler.postDelayed(mHintCycleRunnable, HINT_START_DELAY);
     }
 
     @NonNull
-    private ViewPropertyAnimatorCompat getSlideDownAnimation(final int containerHeight) {
+    private ViewPropertyAnimatorCompat getSlideDownAnimation() {
         return ViewCompat.animate(mHintContainer)
-                .translationY(containerHeight)
+                .translationY(mFragmentHeight)
                 .setDuration(HINT_ANIMATION_DURATION)
                 .setListener(new ViewPropertyAnimatorListener() {
                     @Override
@@ -194,21 +191,13 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
                     @Override
                     public void onAnimationEnd(final View view) {
-                        mHandler.postDelayed(mRunnable, HINT_CYCLE_INTERVAL);
+                        mHandler.postDelayed(mHintCycleRunnable, HINT_CYCLE_INTERVAL);
                     }
 
                     @Override
                     public void onAnimationCancel(final View view) {
                     }
                 });
-    }
-
-    private int getContainerHeight() {
-        final Activity activity = mFragment.getActivity();
-        final Display display = activity.getWindowManager().getDefaultDisplay();
-        final Point size = new Point();
-        display.getSize(size);
-        return size.y;
     }
 
     private void setNextHint() {
@@ -219,10 +208,9 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     private AnalysisHint getNextHint() {
-        if(mHints.isEmpty()) {
-            mHints = generateRandomHintsList();
-        }
-        return mHints.remove(0);
+        final AnalysisHint analysisHint = mHints.remove(0);
+        mHints.add(analysisHint);
+        return analysisHint;
     }
 
     private List<AnalysisHint> generateRandomHintsList() {
@@ -232,7 +220,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     void onStop() {
-        mHandler.removeCallbacks(mRunnable);
+        mHandler.removeCallbacks(mHintCycleRunnable);
         if (mHintAnimation != null) {
             mHintAnimation.cancel();
             mHintContainer.clearAnimation();
@@ -289,6 +277,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
             @Override
             public void onGlobalLayout() {
                 onViewLayoutFinished();
+                mFragmentHeight = view.getHeight();
                 view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
             }
         });
