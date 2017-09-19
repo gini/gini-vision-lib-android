@@ -2,6 +2,7 @@ package net.gini.android.vision;
 
 import android.content.Context;
 
+import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.internal.camera.photo.Photo;
 
 import org.slf4j.Logger;
@@ -63,8 +64,30 @@ public final class GiniVisionDebug {
      * <p>
      *     Destination directory is {@code ginivisionlib} inside your apps external files directory: {@code /sdcard/Android/data/your.app.id/files/ginivisionlib/}
      * </p>
+     *
+     * @deprecated Use {@link GiniVisionDebug#writeImageDocumentToFile(Context, ImageDocument, String)} instead
      */
+    @Deprecated
     public static void writeDocumentToFile(Context context, Document document, String suffix) {
+        if (document.getType() == Document.Type.IMAGE) {
+            writeImageDocumentToFile(context, (ImageDocument) document, suffix);
+        } else {
+            throw new IllegalArgumentException("Document must be of type ImageDocument");
+        }
+    }
+
+    /**
+     * <p>
+     *     Helper for writing a document to file. Has no effect if debugging is disabled.
+     * </p>
+     * <p>
+     *     The filename consists of a timestamp concatenated with the suffix. Ex.: if suffix is "_original" then {@code 1469541253_original.jpeg}
+     * </p>
+     * <p>
+     *     Destination directory is {@code ginivisionlib} inside your apps external files directory: {@code /sdcard/Android/data/your.app.id/files/ginivisionlib/}
+     * </p>
+     */
+    public static void writeImageDocumentToFile(Context context, ImageDocument document, String suffix) {
         if (!sEnabled) {
             return;
         }

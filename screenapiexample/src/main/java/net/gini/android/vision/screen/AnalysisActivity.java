@@ -9,6 +9,7 @@ import net.gini.android.ginivisiontest.R;
 import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionDebug;
+import net.gini.android.vision.document.ImageDocument;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +37,9 @@ public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisA
     @Override
     public void onAnalyzeDocument(@NonNull final Document document) {
         LOG.debug("Analyze document");
-        GiniVisionDebug.writeDocumentToFile(this, document, "_for_analysis");
+        if (document.getType() == Document.Type.IMAGE) {
+            GiniVisionDebug.writeImageDocumentToFile(this, (ImageDocument) document, "_for_analysis");
+        }
 
         startScanAnimation();
         // We can start analyzing the document by sending it to the Gini API

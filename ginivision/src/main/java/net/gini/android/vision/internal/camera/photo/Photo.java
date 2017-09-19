@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import net.gini.android.vision.Document;
+import net.gini.android.vision.document.ImageDocument;
 
 import org.apache.commons.imaging.ImageReadException;
 import org.apache.commons.imaging.ImageWriteException;
@@ -43,8 +44,7 @@ public class Photo implements Parcelable {
         return new Photo(jpeg, orientation, deviceOrientation, deviceType);
     }
 
-    public static Photo fromDocument(@NonNull final Document document) {
-        // TODO cast to ImageDocument
+    public static Photo fromDocument(@NonNull final ImageDocument document) {
         return new Photo(document);
     }
 
