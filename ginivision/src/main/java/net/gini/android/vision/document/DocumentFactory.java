@@ -1,5 +1,9 @@
 package net.gini.android.vision.document;
 
+import static net.gini.android.vision.internal.util.IntentHelper.getUri;
+import static net.gini.android.vision.internal.util.IntentHelper.hasMimeType;
+import static net.gini.android.vision.internal.util.IntentHelper.hasMimeTypeWithPrefix;
+
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -26,18 +30,13 @@ public final class DocumentFactory {
     @NonNull
     public static Document documentFromIntent(@NonNull final Intent intent,
             @NonNull final Context context) throws IOException {
-        final Uri data = intent.getData();
+        final Uri data = getUri(intent);
         if (data == null) {
             throw new IllegalArgumentException("Intent data must contain a Uri");
         }
-        final String mimeType = context.getContentResolver().getType(data);
-        if (mimeType == null) {
-            throw new IllegalStateException("Could not get the mime type of the Intent's Uri");
-        }
-        if (mimeType.equals("application/pdf")) {
+        if (hasMimeType(intent, context, "application/pdf")) {
             return PdfDocument.fromIntent(intent, context);
-        }
-        if (mimeType.startsWith("image/")) {
+        } else if (hasMimeTypeWithPrefix(intent, context, "image/")) {
             return ImageDocument.fromIntent(intent, context);
         }
         throw new IllegalArgumentException("Unknown Intent Uri mime type.");

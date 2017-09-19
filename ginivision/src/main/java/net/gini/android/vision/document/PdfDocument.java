@@ -1,6 +1,8 @@
 package net.gini.android.vision.document;
 
 
+import static net.gini.android.vision.internal.util.IntentHelper.getBytesFromIntentUri;
+
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -28,9 +30,14 @@ public class PdfDocument extends GiniVisionDocument {
      *                                  Resolver
      */
     @NonNull
-    public static PdfDocument fromIntent(final Intent intent, final Context context) throws IOException {
-        final byte[] fileData = IntentHelper.getBytesFromIntentUri(intent, context);
-        return new PdfDocument(fileData, intent.getData());
+    public static PdfDocument fromIntent(final Intent intent, final Context context)
+            throws IOException {
+        final Uri uri = IntentHelper.getUri(intent);
+        if (uri == null) {
+            throw new IllegalArgumentException("Intent data must contain a Uri");
+        }
+        final byte[] fileData = getBytesFromIntentUri(intent, context);
+        return new PdfDocument(fileData, uri);
     }
 
     private PdfDocument(@NonNull final byte[] data, @NonNull final Uri uri) {
