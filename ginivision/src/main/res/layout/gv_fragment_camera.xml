@@ -52,7 +52,8 @@
         android:background="@null"
         android:scaleType="centerInside"
         android:src="@android:drawable/stat_sys_upload"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:visibility="visible"/>
 
     <ViewStub
         android:id="@+id/gv_stub_camera_no_permission"

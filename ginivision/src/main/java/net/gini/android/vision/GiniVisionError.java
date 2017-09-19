@@ -56,7 +56,10 @@ public class GiniVisionError implements Parcelable {
          */
         REVIEW,
         /**
-         * TODO: javadoc
+         * <p>
+         *     An error occurred while a document was imported from the device. Check the messages
+         *     for details.
+         * </p>
          */
         DOCUMENT_IMPORT
     }

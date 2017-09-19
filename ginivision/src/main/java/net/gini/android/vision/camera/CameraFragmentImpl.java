@@ -95,7 +95,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mFragment = fragment;
     }
 
-    public void setListener(CameraFragmentListener listener) {
+    void setListener(CameraFragmentListener listener) {
         if (listener == null) {
             mListener = NO_OP_LISTENER;
         } else {
@@ -111,11 +111,10 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         forcePortraitOrientationOnPhones(activity);
     }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.gv_fragment_camera, container, false);
         bindViews(view);
-        initViews();
         setInputHandlers();
         setSurfaceViewCallback();
         return view;
@@ -126,6 +125,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         if (activity == null) {
             return;
         }
+        initViews();
         initCameraController(activity);
 
         final CompletableFuture<Void> openCameraCompletable = openCamera();
@@ -263,7 +263,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         }
     }
 
-    public void onStop() {
+    void onStop() {
         closeCamera();
     }
 
@@ -342,7 +342,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         });
     }
 
-    public boolean onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+    boolean onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         if (requestCode == REQ_CODE_CHOOSE_FILE) {
             if (resultCode == RESULT_OK) {
                 try {
@@ -423,7 +423,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void showDocumentCornerGuidesAnimated() {
-        LOG.debug("Showing document corner guides");
+        LOG.info("Showing document corner guides");
         mImageCorners.animate().alpha(1.0f);
     }
 
@@ -436,7 +436,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void hideDocumentCornerGuidesAnimated() {
-        LOG.debug("Hiding document corner guides");
+        LOG.info("Hiding document corner guides");
         mImageCorners.animate().alpha(0.0f);
     }
 
@@ -449,7 +449,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void showCameraTriggerButtonAnimated() {
-        LOG.debug("Showing camera trigger button");
+        LOG.info("Showing camera trigger button");
         mButtonCameraTrigger.animate().alpha(1.0f);
         mButtonCameraTrigger.setEnabled(true);
     }
@@ -463,7 +463,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void hideCameraTriggerButtonAnimated() {
-        LOG.debug("Hiding camera trigger button");
+        LOG.info("Hiding camera trigger button");
         mButtonCameraTrigger.animate().alpha(0.0f);
         mButtonCameraTrigger.setEnabled(false);
     }
@@ -485,7 +485,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void showImportDocumentButtonAnimated() {
-        LOG.debug("Showing document import button");
+        LOG.info("Showing document import button");
         mButtonImportDocument.animate().alpha(1.0f);
         mButtonImportDocument.setEnabled(true);
     }
@@ -526,7 +526,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void hideImportDocumentButtonAnimated() {
-        LOG.debug("Hiding document import button");
+        LOG.info("Hiding document import button");
         mButtonImportDocument.animate().alpha(0.0f);
         mButtonImportDocument.setEnabled(false);
     }
@@ -553,8 +553,8 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         }
     }
 
-    public void hideNoPermissionView() {
-        LOG.debug("Hiding no permission view");
+    private void hideNoPermissionView() {
+        LOG.info("Hiding no permission view");
         showCameraPreviewAnimated();
         showInterfaceAnimated();
         if (mLayoutNoPermission != null) {
@@ -571,13 +571,13 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void hideCameraPreviewAnimated() {
-        LOG.debug("Hiding camera preview");
+        LOG.info("Hiding camera preview");
         mCameraPreview.animate().alpha(0.0f);
         mCameraPreview.setEnabled(false);
     }
 
     private void showCameraPreviewAnimated() {
-        LOG.debug("Showing camera preview");
+        LOG.info("Showing camera preview");
         mCameraPreview.animate().alpha(1.0f);
         mCameraPreview.setEnabled(true);
     }
@@ -601,7 +601,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         if (view == null) {
             return;
         }
-        LOG.debug("Hiding no permission button");
+        LOG.info("Hiding no permission button");
         Button button = (Button) view.findViewById(R.id.gv_button_camera_no_permission);
         button.setVisibility(View.GONE);
     }
