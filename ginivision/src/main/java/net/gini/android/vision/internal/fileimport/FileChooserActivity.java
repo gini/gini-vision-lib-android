@@ -9,8 +9,10 @@ import static net.gini.android.vision.GiniVisionError.ErrorCode.DOCUMENT_IMPORT;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
+import android.graphics.pdf.PdfRenderer;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.transition.AutoTransition;
@@ -31,6 +33,7 @@ import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersItem
 import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersSectionItem;
 import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersSpanSizeLookup;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -132,8 +135,16 @@ public class FileChooserActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode,
             final Intent data) {
-        if (requestCode == REQ_CODE_CHOOSE_FILE) {
-            setResult(resultCode, data);
+        if (requestCode == REQ_CODE_CHOOSE_FILE && resultCode == RESULT_OK) {
+            if(fileMatchesCriteria(data)) {
+                setResult(resultCode, data);
+            } else {
+                final GiniVisionError error = new GiniVisionError(DOCUMENT_IMPORT,
+                        "File doesn't match the upload criteria.");
+                final Intent result = new Intent();
+                result.putExtra(EXTRA_OUT_ERROR, error);
+                setResult(RESULT_ERROR, result);
+            }
         } else {
             final GiniVisionError error = new GiniVisionError(DOCUMENT_IMPORT,
                     "Unexpected request code for activity result.");
@@ -142,6 +153,57 @@ public class FileChooserActivity extends AppCompatActivity {
             setResult(RESULT_ERROR, result);
         }
         finish();
+    }
+
+    private boolean fileMatchesCriteria(final Intent data) {
+        final String type = getContentResolver().getType(data.getData());
+        if(isSupportedFileType(type)) {
+            try {
+                ParcelFileDescriptor parcelFileDescriptor = getContentResolver().openFileDescriptor(
+                        data.getData(), "r");
+                if (parcelFileDescriptor != null && matchesSizeCriteria(parcelFileDescriptor.getStatSize())) {
+                    if (isPdf(type)) {
+                        return matchesPdfCriteria(parcelFileDescriptor);
+                    } else {
+                        return true;
+                    }
+                }
+            } catch (IOException e) {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    private boolean matchesPdfCriteria(final ParcelFileDescriptor parcelFileDescriptor)
+            throws IOException {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            PdfRenderer pdfRenderer = new PdfRenderer(parcelFileDescriptor);
+            final int pageCount = pdfRenderer.getPageCount();
+            if (pageCount <= 10) {
+                return true;
+            }
+        } else {
+            //not sure if we should just ignore this case
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isPdf(final String fileType) {
+        return "application/pdf".equals(fileType);
+    }
+
+    private boolean matchesSizeCriteria(final long statSize) {
+        return statSize < 10485760;
+    }
+
+    private boolean isSupportedFileType(final String type) {
+        return "image/jpeg".equals(type)
+                || "image/png".equals(type)
+                || "image/tiff".equals(type)
+                || "image/gif".equals(type)
+                || isPdf(type);
     }
 
     private void populateFileProviders() {
