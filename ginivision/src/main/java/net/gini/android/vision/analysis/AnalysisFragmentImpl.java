@@ -27,9 +27,8 @@ import android.widget.TextView;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
-import net.gini.android.vision.document.PdfDocument;
-import net.gini.android.vision.internal.camera.photo.Photo;
-import net.gini.android.vision.internal.pdf.Pdf;
+import net.gini.android.vision.internal.document.DocumentRenderer;
+import net.gini.android.vision.internal.document.DocumentRendererFactory;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 import net.gini.android.vision.internal.util.Size;
@@ -57,8 +56,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     private ImageView mHintImageView;
     private TextView mHintTextView;
     private List<AnalysisHint> mHints;
-    private Photo mPhoto;
-    private Pdf mPdf;
+    private DocumentRenderer mDocumentRenderer;
     private final Document mDocument;
     private final String mDocumentAnalysisErrorMessage;
     private ImageView mImageDocument;
@@ -75,21 +73,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     public AnalysisFragmentImpl(FragmentImplCallback fragment, Document document, String documentAnalysisErrorMessage) {
         mFragment = fragment;
         mDocument = document;
-        initDocumentHandler(document);
         mDocumentAnalysisErrorMessage = documentAnalysisErrorMessage;
-    }
-
-    // TODO: rename
-    private void initDocumentHandler(final Document document) {
-        switch (document.getType()) {
-            case IMAGE:
-                mPhoto = Photo.fromDocument(document);
-                break;
-            case PDF:
-                mPdf = Pdf.fromDocument((PdfDocument) document);
-                break;
-        }
-
     }
 
     @Override
@@ -140,7 +124,12 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     public void onCreate(Bundle savedInstanceState) {
-        forcePortraitOrientationOnPhones(mFragment.getActivity());
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
+        }
+        forcePortraitOrientationOnPhones(activity);
+        mDocumentRenderer = DocumentRendererFactory.fromDocument(mDocument, activity);
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -154,7 +143,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
     public void onDestroy() {
-        mPhoto = null;
+        mImageDocument = null;
         stopScanAnimation();
     }
 
@@ -163,7 +152,6 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     private void showHints() {
-
         mHints = generateRandomHintsList();
 
         mHintCycleRunnable = new Runnable() {
@@ -312,33 +300,23 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     private void rotateDocumentImageView() {
-        if (mPhoto == null) {
-            return;
-        }
+        final int rotationForDisplay = mDocumentRenderer.getRotationForDisplay();
         int newWidth = mLayoutRoot.getWidth();
         int newHeight = mLayoutRoot.getHeight();
-        if (mPhoto.getRotationForDisplay() == 90 || mPhoto.getRotationForDisplay() == 270) {
+        if (rotationForDisplay == 90 || rotationForDisplay == 270) {
             newWidth = mLayoutRoot.getHeight();
             newHeight = mLayoutRoot.getWidth();
         }
 
-        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mImageDocument.getLayoutParams();
+        final FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mImageDocument.getLayoutParams();
         layoutParams.width = newWidth;
         layoutParams.height = newHeight;
         mImageDocument.setLayoutParams(layoutParams);
-        mImageDocument.setRotation(mPhoto.getRotationForDisplay());
+        mImageDocument.setRotation(rotationForDisplay);
     }
 
     private void showDocument() {
-        if (mPhoto != null) {
-            mImageDocument.setImageBitmap(mPhoto.getBitmapPreview());
-        } else if (mPdf != null) {
-            final Activity activity = mFragment.getActivity();
-            if (activity == null) {
-                return;
-            }
-            final Size previewSize = new Size(mImageDocument.getWidth(), mImageDocument.getHeight());
-            mImageDocument.setImageBitmap(mPdf.toBitmap(previewSize, activity));
-        }
+        final Size previewSize = new Size(mImageDocument.getWidth(), mImageDocument.getHeight());
+        mImageDocument.setImageBitmap(mDocumentRenderer.toBitmap(previewSize));
     }
 }
