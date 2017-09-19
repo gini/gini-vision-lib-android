@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:minWidth="72dp"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/gv_app_icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center_horizontal"
+        android:scaleType="centerInside"
+        tools:src="@drawable/gv_review_fab_background" />
+
+    <TextView
+        android:id="@+id/gv_app_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="4dp"
+        android:fontFamily="sans-serif-condensed"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:textSize="12sp"
+        tools:text="TextView" />
+
+</LinearLayout>

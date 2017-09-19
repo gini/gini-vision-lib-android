@@ -16,10 +16,10 @@ import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
+import net.gini.android.vision.internal.util.ActivityHelper;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.review.ReviewActivity;
-import net.gini.android.vision.internal.util.ActivityHelper;
 
 import java.util.ArrayList;
 
@@ -313,7 +313,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         super.onStart();
         mGiniVisionCoordinator.onCameraStarted();
         if (mOnboardingShown) {
-            hideCornersAndTrigger();
+            hideInterface();
         }
     }
 
@@ -387,7 +387,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         if (mOnboardingPages != null) {
             intent.putParcelableArrayListExtra(OnboardingActivity.EXTRA_ONBOARDING_PAGES, mOnboardingPages);
         }
-        hideCornersAndTrigger();
+        hideInterface();
         startActivityForResult(intent, ONBOARDING_REQUEST);
         mOnboardingShown = true;
     }
@@ -413,27 +413,30 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REVIEW_DOCUMENT_REQUEST) {
-            if (mBackButtonShouldCloseLibrary
-                    || resultCode != Activity.RESULT_CANCELED) {
-                setResult(resultCode, data);
-                finish();
-                clearMemory();
-            }
-        } else if (requestCode == ONBOARDING_REQUEST) {
-            mOnboardingShown = false;
-            showCornersAndTrigger();
+        switch (requestCode) {
+            case REVIEW_DOCUMENT_REQUEST:
+                if (mBackButtonShouldCloseLibrary
+                        || resultCode != Activity.RESULT_CANCELED) {
+                    setResult(resultCode, data);
+                    finish();
+                    clearMemory();
+                }
+                break;
+            case ONBOARDING_REQUEST:
+                mOnboardingShown = false;
+                showInterface();
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
-    private void showCornersAndTrigger() {
-        mFragment.showDocumentCornerGuides();
-        mFragment.showCameraTriggerButton();
+    private void showInterface() {
+        mFragment.showInterface();
     }
 
-    private void hideCornersAndTrigger() {
-        mFragment.hideDocumentCornerGuides();
-        mFragment.hideCameraTriggerButton();
+    private void hideInterface() {
+        mFragment.hideInterface();
     }
 
     private void clearMemory() {

@@ -3,6 +3,7 @@ package net.gini.android.vision.camera;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -100,6 +101,14 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
     }
 
     @Override
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        boolean consumed = mFragmentImpl.onActivityResult(requestCode, resultCode, data);
+        if (!consumed) {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
     public void showDocumentCornerGuides() {
         mFragmentImpl.showDocumentCornerGuides();
     }
@@ -117,5 +126,15 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
     @Override
     public void hideCameraTriggerButton() {
         mFragmentImpl.hideCameraTriggerButton();
+    }
+
+    @Override
+    public void showInterface() {
+        mFragmentImpl.showInterface();
+    }
+
+    @Override
+    public void hideInterface() {
+        mFragmentImpl.hideInterface();
     }
 }

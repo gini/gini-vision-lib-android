@@ -25,6 +25,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
@@ -36,6 +37,7 @@ import net.gini.android.vision.internal.camera.api.UIExecutor;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.Size;
 import net.gini.android.vision.internal.camera.view.CameraPreviewSurface;
+import net.gini.android.vision.internal.fileimport.FileChooserActivity;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 import net.gini.android.vision.internal.ui.ViewStubSafeInflater;
 
@@ -60,6 +62,8 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         }
     };
 
+    private static final int REQ_CODE_CHOOSE_FILE = 1;
+
     private final FragmentImplCallback mFragment;
     private CameraFragmentListener mListener = NO_OP_LISTENER;
     private final UIExecutor mUIExecutor = new UIExecutor();
@@ -71,17 +75,20 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     private ImageView mImageCorners;
     private ImageButton mButtonCameraTrigger;
     private LinearLayout mLayoutNoPermission;
+    private ImageButton mButtonImportDocument;
 
     private ViewStubSafeInflater mViewStubInflater;
 
     private CompletableFuture<SurfaceHolder> mSurfaceCreatedFuture = new CompletableFuture<>();
     private boolean mIsTakingPicture = false;
 
+    private boolean mImportDocumentButtonEnabled = false;
+
     CameraFragmentImpl(@NonNull FragmentImplCallback fragment) {
         mFragment = fragment;
     }
 
-    public void setListener(CameraFragmentListener listener) {
+    void setListener(CameraFragmentListener listener) {
         if (listener == null) {
             mListener = NO_OP_LISTENER;
         } else {
@@ -89,11 +96,11 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         }
     }
 
-    public void onCreate(Bundle savedInstanceState) {
+    void onCreate(Bundle savedInstanceState) {
         forcePortraitOrientationOnPhones(mFragment.getActivity());
     }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.gv_fragment_camera, container, false);
         bindViews(view);
@@ -102,10 +109,11 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         return view;
     }
 
-    public void onStart() {
+    void onStart() {
         if (mFragment.getActivity() == null) {
             return;
         }
+        initViews();
         initCameraController(mFragment.getActivity());
 
         final CompletableFuture<Void> openCameraCompletable = openCamera();
@@ -243,7 +251,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         }
     }
 
-    public void onStop() {
+    void onStop() {
         closeCamera();
     }
 
@@ -263,6 +271,19 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mButtonCameraTrigger = (ImageButton) view.findViewById(R.id.gv_button_camera_trigger);
         ViewStub stubNoPermission = (ViewStub) view.findViewById(R.id.gv_stub_camera_no_permission);
         mViewStubInflater = new ViewStubSafeInflater(stubNoPermission);
+        mButtonImportDocument = view.findViewById(R.id.gv_button_import_document);
+    }
+
+    private void initViews() {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
+        }
+        if (FileChooserActivity.canChooseFiles(activity)) {
+            mImportDocumentButtonEnabled = true;
+            mButtonImportDocument.setVisibility(View.VISIBLE);
+            showImportDocumentButtonAnimated();
+        }
     }
 
     private void setInputHandlers() {
@@ -295,6 +316,23 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                         });
             }
         });
+        mButtonImportDocument.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                LOG.info("Importing document");
+                Intent fileChooserIntent = FileChooserActivity.createIntent(mFragment.getActivity());
+                mFragment.startActivityForResult(fileChooserIntent, REQ_CODE_CHOOSE_FILE);
+            }
+        });
+    }
+
+    boolean onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        if (requestCode == REQ_CODE_CHOOSE_FILE) {
+            LOG.info("Document file received");
+            Toast.makeText(mFragment.getActivity(), "File received", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        return false;
     }
 
     @UiThread
@@ -345,7 +383,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void showDocumentCornerGuidesAnimated() {
-        LOG.debug("Showing document corner guides");
+        LOG.info("Showing document corner guides");
         mImageCorners.animate().alpha(1.0f);
     }
 
@@ -358,7 +396,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void hideDocumentCornerGuidesAnimated() {
-        LOG.debug("Hiding document corner guides");
+        LOG.info("Hiding document corner guides");
         mImageCorners.animate().alpha(0.0f);
     }
 
@@ -371,7 +409,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void showCameraTriggerButtonAnimated() {
-        LOG.debug("Showing camera trigger button");
+        LOG.info("Showing camera trigger button");
         mButtonCameraTrigger.animate().alpha(1.0f);
         mButtonCameraTrigger.setEnabled(true);
     }
@@ -385,15 +423,58 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void hideCameraTriggerButtonAnimated() {
-        LOG.debug("Hiding camera trigger button");
+        LOG.info("Hiding camera trigger button");
         mButtonCameraTrigger.animate().alpha(0.0f);
         mButtonCameraTrigger.setEnabled(false);
     }
 
-    private void showNoPermissionView() {
-        hideCameraPreviewAnimated();
+    @Override
+    public void showInterface() {
+        if (isNoPermissionViewVisible()) {
+            return;
+        }
+        showInterfaceAnimated();
+    }
+
+    private void showInterfaceAnimated() {
+        showCameraTriggerButtonAnimated();
+        showDocumentCornerGuidesAnimated();
+        if (mImportDocumentButtonEnabled) {
+            showImportDocumentButtonAnimated();
+        }
+    }
+
+    private void showImportDocumentButtonAnimated() {
+        LOG.info("Showing document import button");
+        mButtonImportDocument.animate().alpha(1.0f);
+        mButtonImportDocument.setEnabled(true);
+    }
+
+    @Override
+    public void hideInterface() {
+        if (isNoPermissionViewVisible()) {
+            return;
+        }
+        hideInterfaceAnimated();
+    }
+
+    private void hideInterfaceAnimated() {
         hideCameraTriggerButtonAnimated();
         hideDocumentCornerGuidesAnimated();
+        if (mImportDocumentButtonEnabled) {
+            hideImportDocumentButtonAnimated();
+        }
+    }
+
+    private void hideImportDocumentButtonAnimated() {
+        LOG.info("Hiding document import button");
+        mButtonImportDocument.animate().alpha(0.0f);
+        mButtonImportDocument.setEnabled(false);
+    }
+
+    private void showNoPermissionView() {
+        hideCameraPreviewAnimated();
+        hideInterfaceAnimated();
         inflateNoPermissionStub();
         setUpNoPermissionButton();
         if (mLayoutNoPermission != null) {
@@ -413,8 +494,8 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         }
     }
 
-    public void hideNoPermissionView() {
-        LOG.debug("Hiding no permission view");
+    private void hideNoPermissionView() {
+        LOG.info("Hiding no permission view");
         showCameraPreviewAnimated();
         showCameraTriggerButtonAnimated();
         showDocumentCornerGuidesAnimated();
@@ -432,13 +513,13 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void hideCameraPreviewAnimated() {
-        LOG.debug("Hiding camera preview");
+        LOG.info("Hiding camera preview");
         mCameraPreview.animate().alpha(0.0f);
         mCameraPreview.setEnabled(false);
     }
 
     private void showCameraPreviewAnimated() {
-        LOG.debug("Showing camera preview");
+        LOG.info("Showing camera preview");
         mCameraPreview.animate().alpha(1.0f);
         mCameraPreview.setEnabled(true);
     }
@@ -462,7 +543,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         if (view == null) {
             return;
         }
-        LOG.debug("Hiding no permission button");
+        LOG.info("Hiding no permission button");
         Button button = (Button) view.findViewById(R.id.gv_button_camera_no_permission);
         button.setVisibility(View.GONE);
     }

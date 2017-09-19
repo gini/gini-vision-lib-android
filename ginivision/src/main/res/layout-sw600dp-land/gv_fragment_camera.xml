@@ -41,6 +41,20 @@
         android:background="@null"
         android:src="@drawable/gv_camera_trigger" />
 
+    <ImageButton
+        android:id="@+id/gv_button_import_document"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/gv_button_camera_trigger"
+        android:layout_alignRight="@id/gv_button_camera_trigger"
+        android:layout_marginTop="72dp"
+        android:layout_below="@id/gv_button_camera_trigger"
+        android:background="@null"
+        android:scaleType="centerInside"
+        android:src="@android:drawable/stat_sys_upload"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
     <ViewStub
         android:id="@+id/gv_stub_camera_no_permission"
         android:layout_width="match_parent"

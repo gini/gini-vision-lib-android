@@ -17,4 +17,6 @@ public interface FragmentImplCallback {
     View getView();
 
     void startActivity(Intent intent);
+
+    void startActivityForResult(Intent intent, int requestCode);
 }
