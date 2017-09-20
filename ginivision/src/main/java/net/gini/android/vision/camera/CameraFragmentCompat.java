@@ -1,16 +1,21 @@
 package net.gini.android.vision.camera;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import net.gini.android.vision.internal.ui.FragmentImplCallback;
+import net.gini.android.vision.internal.permission.PermissionRequestListener;
+import net.gini.android.vision.internal.permission.RuntimePermissions;
 
 /**
  * <h3>Component API</h3>
@@ -47,9 +52,10 @@ import net.gini.android.vision.internal.ui.FragmentImplCallback;
  * </p>
  */
 public class CameraFragmentCompat extends Fragment implements CameraFragmentInterface,
-        FragmentImplCallback {
+        CameraFragmentImplCallback {
 
     private final CameraFragmentImpl mFragmentImpl = new CameraFragmentImpl(this);
+    private final RuntimePermissions mRuntimePermissions = new RuntimePermissions();
 
     /**
      * @exclude
@@ -106,6 +112,16 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
     }
 
     @Override
+    public void onRequestPermissionsResult(final int requestCode,
+            @NonNull final String[] permissions, @NonNull final int[] grantResults) {
+        boolean consumed = mRuntimePermissions.onRequestPermissionsResult(requestCode, permissions,
+                grantResults);
+        if (!consumed) {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    @Override
     public void showDocumentCornerGuides() {
         mFragmentImpl.showDocumentCornerGuides();
     }
@@ -144,5 +160,41 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
     public void showError(@NonNull final String message, @NonNull final String buttonTitle,
             @NonNull final View.OnClickListener onClickListener) {
         mFragmentImpl.showError(message, buttonTitle, onClickListener);
+    }
+
+    @Override
+    public void requestPermission(@NonNull final String permission,
+            @NonNull final PermissionRequestListener listener) {
+        mRuntimePermissions.requestPermission(this, permission, listener);
+    }
+
+    @Override
+    public void showAlertDialog(@StringRes final int message,
+            @StringRes final int positiveButtonTitle,
+            @NonNull final DialogInterface.OnClickListener positiveButtonClickListener) {
+        final Activity activity = getActivity();
+        if (activity == null) {
+            return;
+        }
+        new AlertDialog.Builder(activity)
+                .setMessage(message)
+                .setPositiveButton(positiveButtonTitle, positiveButtonClickListener)
+                .show();
+    }
+
+    @Override
+    public void showAlertDialog(@StringRes final int message,
+            @StringRes final int positiveButtonTitle,
+            @NonNull final DialogInterface.OnClickListener positiveButtonClickListener,
+            @StringRes final int negativeButtonTitle) {
+        final Activity activity = getActivity();
+        if (activity == null) {
+            return;
+        }
+        new AlertDialog.Builder(activity)
+                .setMessage(message)
+                .setPositiveButton(positiveButtonTitle, positiveButtonClickListener)
+                .setNegativeButton(negativeButtonTitle, null)
+                .show();
     }
 }

@@ -9,11 +9,14 @@ import static net.gini.android.vision.internal.util.ActivityHelper.forcePortrait
 import static net.gini.android.vision.internal.util.AndroidHelper.isMarshmallowOrLater;
 import static net.gini.android.vision.internal.util.ContextHelper.getClientApplicationId;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -42,8 +45,8 @@ import net.gini.android.vision.internal.camera.api.UIExecutor;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.view.CameraPreviewSurface;
 import net.gini.android.vision.internal.fileimport.FileChooserActivity;
+import net.gini.android.vision.internal.permission.PermissionRequestListener;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
-import net.gini.android.vision.internal.ui.FragmentImplCallback;
 import net.gini.android.vision.internal.ui.ViewStubSafeInflater;
 import net.gini.android.vision.internal.util.Size;
 
@@ -71,7 +74,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
     private static final int REQ_CODE_CHOOSE_FILE = 1;
 
-    private final FragmentImplCallback mFragment;
+    private final CameraFragmentImplCallback mFragment;
     private CameraFragmentListener mListener = NO_OP_LISTENER;
     private final UIExecutor mUIExecutor = new UIExecutor();
     private CameraController mCameraController;
@@ -91,7 +94,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
     private boolean mImportDocumentButtonEnabled = false;
 
-    CameraFragmentImpl(@NonNull FragmentImplCallback fragment) {
+    CameraFragmentImpl(@NonNull CameraFragmentImplCallback fragment) {
         mFragment = fragment;
     }
 
@@ -331,15 +334,88 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mButtonImportDocument.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                LOG.debug("Importing document");
-                final Activity activity = mFragment.getActivity();
-                if (activity == null) {
-                    return;
-                }
-                Intent fileChooserIntent = FileChooserActivity.createIntent(activity);
-                mFragment.startActivityForResult(fileChooserIntent, REQ_CODE_CHOOSE_FILE);
+                LOG.info("Requesting read storage permission");
+                requestStoragePermission(new PermissionRequestListener() {
+                    @Override
+                    public void permissionGranted() {
+                        LOG.info("Read storage permission granted");
+                        showFileChooser();
+                    }
+
+                    @Override
+                    public void permissionDenied() {
+                        LOG.info("Read storage permission denied");
+                        showStoragePermissionDeniedDialog();
+                    }
+
+                    @Override
+                    public void shouldShowRequestPermissionRationale(
+                            @NonNull final RationaleResponse response) {
+                        LOG.info("Show read storage permission rationale");
+                        showStoragePermissionRationale(response);
+                    }
+                });
             }
         });
+    }
+
+    private void showStoragePermissionRationale(
+            @NonNull final PermissionRequestListener.RationaleResponse response) {
+        mFragment.showAlertDialog(R.string.gv_storage_permission_rationale,
+                R.string.gv_storage_permission_rationale_positive_button,
+                new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(final DialogInterface dialogInterface,
+                    final int i) {
+                LOG.info("Requesting storage permission from rationale");
+                response.requestPermission();
+            }
+        });
+    }
+
+    private void showStoragePermissionDeniedDialog() {
+        mFragment.showAlertDialog(R.string.gv_storage_permission_denied,
+                R.string.gv_storage_permission_denied_positive_button,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(
+                            final DialogInterface dialogInterface,
+                            final int i) {
+                        LOG.info("Open app details in Settings app");
+                        showAppDetailsSettingsScreen();
+                    }
+                }, R.string.gv_storage_permission_denied_negative_button);
+    }
+
+    private void showFileChooser() {
+        LOG.debug("Importing document");
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
+        }
+        Intent fileChooserIntent = FileChooserActivity.createIntent(activity);
+        mFragment.startActivityForResult(fileChooserIntent, REQ_CODE_CHOOSE_FILE);
+    }
+
+    private void showAppDetailsSettingsScreen() {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
+        }
+        final Intent intent = new Intent(
+                Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        final Uri uri = Uri.fromParts("package",
+                activity.getPackageName(), null);
+        intent.setData(uri);
+        activity.startActivity(intent);
+    }
+
+    private void requestStoragePermission(@NonNull final PermissionRequestListener listener) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            mFragment.requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, listener);
+        } else {
+            listener.permissionGranted();
+        }
     }
 
     boolean onActivityResult(final int requestCode, final int resultCode, final Intent data) {
