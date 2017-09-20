@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 
 import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.internal.camera.photo.Photo;
+import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 import net.gini.android.vision.internal.util.Size;
 
 /**
@@ -17,7 +18,7 @@ public class ImageDocumentRenderer implements DocumentRenderer {
     private final Photo mPhoto;
 
     public ImageDocumentRenderer(@NonNull final ImageDocument document) {
-        mPhoto = Photo.fromDocument(document);
+        mPhoto = PhotoFactory.fromDocument(document);
     }
 
     @Nullable

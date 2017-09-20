@@ -22,8 +22,9 @@ import android.view.SurfaceHolder;
 import android.view.View;
 
 import net.gini.android.vision.internal.camera.photo.Photo;
-import net.gini.android.vision.internal.util.Size;
+import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 import net.gini.android.vision.internal.util.ContextHelper;
+import net.gini.android.vision.internal.util.Size;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -353,7 +354,7 @@ public class CameraController implements CameraInterface {
                     @Override
                     public void onPictureTaken(final byte[] bytes, Camera camera) {
                         mTakingPictureFuture.set(null);
-                        final Photo photo = Photo.fromJpeg(bytes,
+                        final Photo photo = PhotoFactory.fromJpeg(bytes,
                                 getDisplayOrientationForCamera(mActivity),
                                 getDeviceOrientation(mActivity),
                                 getDeviceType(mActivity));

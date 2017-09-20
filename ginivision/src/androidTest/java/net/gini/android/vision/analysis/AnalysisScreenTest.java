@@ -27,9 +27,9 @@ import android.view.Surface;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import net.gini.android.vision.Document;
 import net.gini.android.vision.R;
-import net.gini.android.vision.internal.camera.photo.Photo;
+import net.gini.android.vision.document.ImageDocument;
+import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.review.ReviewActivity;
 
@@ -77,7 +77,8 @@ public class AnalysisScreenTest {
 
         assertThat(activity.analyzeDocument).isNotNull();
 
-        assertAbout(document()).that(activity.analyzeDocument).isEqualToDocument(Document.fromPhoto(Photo.fromJpeg(TEST_JPEG, 0, "portrait", "phone")));
+        assertAbout(document()).that(activity.analyzeDocument).isEqualToDocument(ImageDocument.fromPhoto(
+                PhotoFactory.fromJpeg(TEST_JPEG, 0, "portrait", "phone")));
     }
 
     @Test
@@ -315,7 +316,8 @@ public class AnalysisScreenTest {
         assertThat(activity.analyzeDocument).isNotNull();
 
         assertAbout(document()).that(activity.analyzeDocument)
-                .isEqualToDocument(Document.fromPhoto(Photo.fromJpeg(TEST_JPEG, 0, "portrait", "phone")));
+                .isEqualToDocument(ImageDocument.fromPhoto(
+                        PhotoFactory.fromJpeg(TEST_JPEG, 0, "portrait", "phone")));
     }
 
     @Test
@@ -338,7 +340,8 @@ public class AnalysisScreenTest {
 
     private AnalysisActivityTestSpy startAnalysisActivity(byte[] jpeg, int orientation) {
         Intent intent = getAnalysisActivityIntent();
-        intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, Document.fromPhoto(Photo.fromJpeg(jpeg, orientation, "portrait", "phone")));
+        intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, ImageDocument.fromPhoto(
+                PhotoFactory.fromJpeg(jpeg, orientation, "portrait", "phone")));
         return mActivityTestRule.launchActivity(intent);
     }
 

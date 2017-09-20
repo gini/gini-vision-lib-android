@@ -28,7 +28,7 @@ public class PhotoSubject extends Subject<PhotoSubject, Photo> {
         super(failureStrategy, subject);
         isNotNull();
         //noinspection ConstantConditions
-        mJpegByteArraySubject = new JpegByteArraySubject(failureStrategy, subject.getJpeg());
+        mJpegByteArraySubject = new JpegByteArraySubject(failureStrategy, subject.getData());
     }
 
     public void hasContentIdInUserComment(final String contentId) {
@@ -50,6 +50,6 @@ public class PhotoSubject extends Subject<PhotoSubject, Photo> {
 
     public void hasSameUserCommentAs(@Nullable final Photo photo) {
         isNotNull();
-        mJpegByteArraySubject.hasSameUserCommentAs(photo.getJpeg());
+        mJpegByteArraySubject.hasSameUserCommentAs(photo.getData());
     }
 }

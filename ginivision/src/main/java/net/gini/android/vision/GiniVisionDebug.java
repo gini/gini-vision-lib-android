@@ -3,7 +3,7 @@ package net.gini.android.vision;
 import android.content.Context;
 
 import net.gini.android.vision.document.ImageDocument;
-import net.gini.android.vision.internal.camera.photo.Photo;
+import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -95,7 +95,7 @@ public final class GiniVisionDebug {
         long time = new Date().getTime();
         String jpegFilename = time + suffix + ".jpeg";
         File jpegFile = new File(giniVisionDir, jpegFilename);
-        Photo.fromDocument(document).saveJpegToFile(jpegFile);
+        PhotoFactory.fromDocument(document).saveToFile(jpegFile);
         LOG.debug("Document written to {}", jpegFile.getAbsolutePath());
     }
 

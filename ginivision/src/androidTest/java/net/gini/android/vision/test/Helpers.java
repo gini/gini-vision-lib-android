@@ -12,7 +12,8 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.uiautomator.UiDevice;
 
 import net.gini.android.vision.Document;
-import net.gini.android.vision.internal.camera.photo.Photo;
+import net.gini.android.vision.document.ImageDocument;
+import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 import net.gini.android.vision.internal.util.ContextHelper;
 
 import java.io.ByteArrayOutputStream;
@@ -71,7 +72,8 @@ public class Helpers {
 
     public static Document createDocument(byte[] jpeg, int orientation, String deviceOrientation,
             String deviceType) {
-        return Document.fromPhoto(Photo.fromJpeg(jpeg, orientation, deviceOrientation, deviceType));
+        return ImageDocument.fromPhoto(
+                PhotoFactory.fromJpeg(jpeg, orientation, deviceOrientation, deviceType));
     }
 
     public static boolean isTablet() {

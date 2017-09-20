@@ -23,6 +23,7 @@ import net.gini.android.vision.R;
 import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.PhotoEdit;
+import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 
 import org.slf4j.Logger;
@@ -78,7 +79,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         mFragment = fragment;
         mDocument = document;
         if (mDocument.getType() == Document.Type.IMAGE) {
-            mPhoto = Photo.fromDocument((ImageDocument) document);
+            mPhoto = PhotoFactory.fromDocument((ImageDocument) document);
             mCurrentRotation = mPhoto.getRotationForDisplay();
         } else {
             throw new IllegalArgumentException(

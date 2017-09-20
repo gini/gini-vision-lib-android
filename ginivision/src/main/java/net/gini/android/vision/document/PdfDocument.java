@@ -1,13 +1,14 @@
 package net.gini.android.vision.document;
 
 
-import static net.gini.android.vision.internal.util.IntentHelper.getBytesFromIntentUri;
+import static net.gini.android.vision.internal.util.IntentHelper.getUri;
 
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Parcel;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import net.gini.android.vision.GiniVisionDocument;
 import net.gini.android.vision.internal.util.IntentHelper;
@@ -30,21 +31,24 @@ public class PdfDocument extends GiniVisionDocument {
      *                                  Resolver
      */
     @NonNull
-    public static PdfDocument fromIntent(final Intent intent, final Context context)
-            throws IOException {
-        final Uri uri = IntentHelper.getUri(intent);
-        if (uri == null) {
+    public static PdfDocument fromIntent(final Intent intent) {
+        return new PdfDocument(intent);
+    }
+
+    /**
+     *
+     * @param intent
+     * @throws IllegalArgumentException if the Intent's data is null
+     */
+    private PdfDocument(@NonNull final Intent intent) {
+        super(Type.PDF, null, intent, false);
+        mUri = IntentHelper.getUri(intent);
+        if (mUri == null) {
             throw new IllegalArgumentException("Intent data must contain a Uri");
         }
-        final byte[] fileData = getBytesFromIntentUri(intent, context);
-        return new PdfDocument(fileData, uri);
     }
 
-    private PdfDocument(@NonNull final byte[] data, @NonNull final Uri uri) {
-        super(Type.PDF, data, false);
-        mUri = uri;
-    }
-
+    @NonNull
     public Uri getUri() {
         return mUri;
     }

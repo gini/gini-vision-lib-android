@@ -39,10 +39,10 @@ import android.support.test.uiautomator.UiSelector;
 import android.view.Surface;
 import android.view.View;
 
-import net.gini.android.vision.Document;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivityTestSpy;
-import net.gini.android.vision.internal.camera.photo.Photo;
+import net.gini.android.vision.document.ImageDocument;
+import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.review.ReviewActivity;
@@ -326,7 +326,8 @@ public class CameraScreenTest {
         // Prevent really starting the ReviewActivity
         doNothing().when(cameraActivitySpy).startActivityForResult(any(Intent.class), anyInt());
         // Fake taking of a picture, which will cause the ReviewActivity to be launched
-        cameraActivitySpy.onDocumentAvailable(Document.fromPhoto(Photo.fromJpeg(new byte[]{}, 0, "portrait", "phone")));
+        cameraActivitySpy.onDocumentAvailable(ImageDocument.fromPhoto(
+                PhotoFactory.fromJpeg(new byte[]{}, 0, "portrait", "phone")));
 
         // Check that the extra was passed on to the ReviewActivity
         verify(cameraActivitySpy).startActivityForResult(argThat(
