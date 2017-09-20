@@ -53,7 +53,6 @@ import net.gini.android.vision.internal.util.Size;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 import jersey.repackaged.jsr166e.CompletableFuture;
@@ -430,7 +429,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                     Document document = DocumentFactory.documentFromIntent(data, activity);
                     LOG.debug("Document imported: {}", document);
                     mListener.onDocumentAvailable(document);
-                } catch (IOException | IllegalArgumentException | IllegalStateException e) {
+                } catch (IllegalArgumentException e) {
                     handleError(DOCUMENT_IMPORT,
                             "Failed to import selected document", e);
                 }

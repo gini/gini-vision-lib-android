@@ -24,14 +24,10 @@ public class Pdf implements Parcelable {
     private final Uri mUri;
 
     public static Pdf fromDocument(@NonNull PdfDocument document) {
-        return new Pdf(document);
+        return new Pdf(document.getUri());
     }
 
-    public Pdf(@NonNull final PdfDocument document) {
-        mUri = document.getUri();
-    }
-
-    public Pdf(final Uri uri) {
+    private Pdf(@NonNull final Uri uri) {
         mUri = uri;
     }
 

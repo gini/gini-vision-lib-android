@@ -21,28 +21,20 @@ public class ImageDocument extends GiniVisionDocument {
         return new ImageDocument(photo.getJpeg(), photo.getRotationForDisplay());
     }
 
-    /**
-     * Creates an instance using the resource pointed to by the Intent's Uri.
-     *
-     * @param intent an {@link Intent} containing an image {@link Uri}
-     * @param context Android context
-     * @return new instance with the contents of the Intent's Uri
-     * @throws IOException              if there is an issue with the input stream from the Uri
-     * @throws IllegalArgumentException if the Intent's data is null
-     * @throws IllegalStateException    if null input stream was returned by the Context's Content
-     *                                  Resolver
-     */
     @NonNull
-    public static ImageDocument fromIntent(@NonNull final Intent intent, @NonNull Context context)
-            throws IOException {
-        final byte[] fileData = IntentHelper.getBytesFromIntentUri(intent, context);
-        return new ImageDocument(fileData, 0);
+    public static ImageDocument fromIntent(@NonNull final Intent intent) {
+        return new ImageDocument(intent);
 
     }
 
-    public ImageDocument(@NonNull final byte[] data, int rotationForDisplay) {
-        super(Type.IMAGE, data, true);
+    public ImageDocument(@Nullable final byte[] data, int rotationForDisplay) {
+        super(Type.IMAGE, data, null, true);
         mRotationForDisplay = rotationForDisplay;
+    }
+
+    public ImageDocument(@Nullable final Intent intent) {
+        super(Type.IMAGE, null, intent, true);
+        mRotationForDisplay = 0;
     }
 
     /**

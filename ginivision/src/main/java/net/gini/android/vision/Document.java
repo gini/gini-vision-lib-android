@@ -1,7 +1,9 @@
 package net.gini.android.vision;
 
+import android.content.Intent;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 
 /**
@@ -69,8 +71,18 @@ public interface Document extends Parcelable {
      *
      * @return a byte array containing one of the supported document types
      */
-    @NonNull
+    @Nullable
     byte[] getData();
+
+    /**
+     * <p>
+     * The {@link Intent} with which the imported document was received.
+     * </p>
+     *
+     * @return the {@link Intent} of the imported document
+     */
+    @Nullable
+    Intent getIntent();
 
     /**
      * <p>
