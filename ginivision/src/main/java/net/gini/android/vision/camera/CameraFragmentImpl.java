@@ -72,7 +72,6 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     private RelativeLayout mLayoutRoot;
     private CameraPreviewSurface mCameraPreview;
     private ImageView mCameraFocusIndicator;
-    private ImageView mImageCorners;
     private ImageButton mButtonCameraTrigger;
     private LinearLayout mLayoutNoPermission;
     private ImageButton mButtonImportDocument;
@@ -160,7 +159,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
             corners = activity.getResources().getDrawable(
                     R.drawable.gv_camera_preview_corners_land);
         }
-        mImageCorners.setImageDrawable(corners);
+//        mImageCorners.setImageDrawable(corners);
     }
 
     private void startPreview(SurfaceHolder holder) {
@@ -264,12 +263,11 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void bindViews(View view) {
-        mLayoutRoot = (RelativeLayout) view.findViewById(R.id.gv_root);
-        mCameraPreview = (CameraPreviewSurface) view.findViewById(R.id.gv_camera_preview);
-        mCameraFocusIndicator = (ImageView) view.findViewById(R.id.gv_camera_focus_indicator);
-        mImageCorners = (ImageView) view.findViewById(R.id.gv_image_corners);
-        mButtonCameraTrigger = (ImageButton) view.findViewById(R.id.gv_button_camera_trigger);
-        ViewStub stubNoPermission = (ViewStub) view.findViewById(R.id.gv_stub_camera_no_permission);
+        mLayoutRoot = view.findViewById(R.id.gv_root);
+        mCameraPreview = view.findViewById(R.id.gv_camera_preview);
+        mCameraFocusIndicator = view.findViewById(R.id.gv_camera_focus_indicator);
+        mButtonCameraTrigger = view.findViewById(R.id.gv_button_camera_trigger);
+        ViewStub stubNoPermission = view.findViewById(R.id.gv_stub_camera_no_permission);
         mViewStubInflater = new ViewStubSafeInflater(stubNoPermission);
         mButtonImportDocument = view.findViewById(R.id.gv_button_import_document);
     }
@@ -384,7 +382,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
     private void showDocumentCornerGuidesAnimated() {
         LOG.info("Showing document corner guides");
-        mImageCorners.animate().alpha(1.0f);
+//        mImageCorners.animate().alpha(1.0f);
     }
 
     @Override
@@ -397,7 +395,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
     private void hideDocumentCornerGuidesAnimated() {
         LOG.info("Hiding document corner guides");
-        mImageCorners.animate().alpha(0.0f);
+//        mImageCorners.animate().alpha(0.0f);
     }
 
     @Override
@@ -529,7 +527,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         if (view == null) {
             return;
         }
-        Button button = (Button) view.findViewById(R.id.gv_button_camera_no_permission);
+        Button button = view.findViewById(R.id.gv_button_camera_no_permission);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -544,7 +542,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
             return;
         }
         LOG.info("Hiding no permission button");
-        Button button = (Button) view.findViewById(R.id.gv_button_camera_no_permission);
+        Button button = view.findViewById(R.id.gv_button_camera_no_permission);
         button.setVisibility(View.GONE);
     }
 
