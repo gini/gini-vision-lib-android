@@ -8,22 +8,26 @@ import android.support.annotation.Nullable;
 
 import net.gini.android.vision.internal.camera.photo.ImageCache;
 
+import java.util.Arrays;
+
 public class GiniVisionDocument implements Document {
 
     private final Type mType;
     private byte[] mData;
     private final boolean mIsReviewable;
+    private final boolean mIsImported;
     private final Intent mIntent;
 
-    // TODO: add isImported()
     protected GiniVisionDocument(@NonNull final Type type,
             @Nullable final byte[] data,
             @Nullable final Intent intent,
-            final boolean isReviewable) {
+            final boolean isReviewable,
+            final boolean isImported) {
         mType = type;
         mData = data;
         mIntent = intent;
         mIsReviewable = isReviewable;
+        mIsImported = isImported;
     }
 
     @Override
@@ -48,6 +52,11 @@ public class GiniVisionDocument implements Document {
     }
 
     @Override
+    public boolean isImported() {
+        return mIsImported;
+    }
+
+    @Override
     public boolean isReviewable() {
         return mIsReviewable;
     }
@@ -68,6 +77,7 @@ public class GiniVisionDocument implements Document {
         dest.writeSerializable(mType);
         dest.writeParcelable(mIntent, flags);
         dest.writeInt(mIsReviewable ? 1 : 0);
+        dest.writeInt(mIsImported ? 1 : 0);
     }
 
     /**
@@ -106,12 +116,18 @@ public class GiniVisionDocument implements Document {
         mType = (Type) in.readSerializable();
         mIntent = in.readParcelable(Uri.class.getClassLoader());
         mIsReviewable = in.readInt() == 1;
+        mIsImported = in.readInt() == 1;
     }
 
     @Override
     public String toString() {
-        // TODO: to string
-        return super.toString();
+        return "GiniVisionDocument{" +
+                "mType=" + mType +
+                ", mData=" + Arrays.toString(mData) +
+                ", mIsReviewable=" + mIsReviewable +
+                ", mIsImported=" + mIsImported +
+                ", mIntent=" + mIntent +
+                '}';
     }
 
     @NonNull

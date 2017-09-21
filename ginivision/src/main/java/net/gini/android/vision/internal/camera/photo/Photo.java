@@ -12,6 +12,8 @@ import java.io.File;
  */
 public interface Photo extends Parcelable {
 
+    boolean isImported();
+
     byte[] getData();
 
     void setData(byte[] data);

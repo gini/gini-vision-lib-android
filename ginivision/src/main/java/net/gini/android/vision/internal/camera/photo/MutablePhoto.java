@@ -31,8 +31,8 @@ public class MutablePhoto extends ImmutablePhoto implements Parcelable {
     MutablePhoto(@NonNull byte[] data, int orientation,
             @NonNull final String deviceOrientation,
             @NonNull final String deviceType,
-            @NonNull ImageDocument.ImageFormat format) {
-        super(data, orientation, format);
+            @NonNull ImageDocument.ImageFormat format, final boolean isImported) {
+        super(data, orientation, format, isImported);
         mContentId = generateUUID();
         mDeviceOrientation = deviceOrientation;
         mDeviceType = deviceType;

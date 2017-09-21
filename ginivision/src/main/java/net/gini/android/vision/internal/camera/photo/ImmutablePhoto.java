@@ -30,12 +30,14 @@ public class ImmutablePhoto implements Photo {
     protected byte[] mData;
     protected int mRotationForDisplay = 0;
     private final ImageDocument.ImageFormat mImageFormat;
+    private final boolean mIsImported;
 
     ImmutablePhoto(@NonNull byte[] data, int orientation,
-            @NonNull final ImageDocument.ImageFormat imageFormat) {
+            @NonNull final ImageDocument.ImageFormat imageFormat, final boolean isImported) {
         mData = data;
         mRotationForDisplay = orientation;
         mImageFormat = imageFormat;
+        mIsImported = isImported;
         mBitmapPreview = createPreview();
     }
 
@@ -43,6 +45,7 @@ public class ImmutablePhoto implements Photo {
         mData = imageDocument.getData();
         mRotationForDisplay = imageDocument.getRotationForDisplay();
         mImageFormat = imageDocument.getFormat();
+        mIsImported = imageDocument.isImported();
         mBitmapPreview = createPreview();
     }
 
@@ -86,6 +89,11 @@ public class ImmutablePhoto implements Photo {
     @Override
     public void updateRotationDeltaBy(final int i) {
 
+    }
+
+    @Override
+    public boolean isImported() {
+        return mIsImported;
     }
 
     @Nullable
@@ -161,6 +169,7 @@ public class ImmutablePhoto implements Photo {
         dest.writeParcelable(token, flags);
 
         dest.writeSerializable(mImageFormat);
+        dest.writeInt(mIsImported ? 1 : 0);
     }
 
     public static final Parcelable.Creator<ImmutablePhoto> CREATOR =
@@ -188,6 +197,7 @@ public class ImmutablePhoto implements Photo {
         cache.removeJpeg(token);
 
         mImageFormat = (ImageDocument.ImageFormat) in.readSerializable();
+        mIsImported = in.readInt() == 1;
     }
 
     @Override

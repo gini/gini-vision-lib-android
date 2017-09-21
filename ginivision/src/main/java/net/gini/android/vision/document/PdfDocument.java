@@ -41,7 +41,7 @@ public class PdfDocument extends GiniVisionDocument {
      * @throws IllegalArgumentException if the Intent's data is null
      */
     private PdfDocument(@NonNull final Intent intent) {
-        super(Type.PDF, null, intent, false);
+        super(Type.PDF, null, intent, false, true);
         mUri = IntentHelper.getUri(intent);
         if (mUri == null) {
             throw new IllegalArgumentException("Intent data must contain a Uri");

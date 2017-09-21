@@ -10,7 +10,7 @@ public final class PhotoFactory {
     public static Photo fromJpeg(final byte[] bytes, final int orientation,
             final String deviceOrientation, final String deviceType) {
         return new MutablePhoto(bytes, orientation, deviceOrientation, deviceType,
-                ImageDocument.ImageFormat.JPEG);
+                ImageDocument.ImageFormat.JPEG, false);
     }
 
     public static Photo fromDocument(final ImageDocument document) {

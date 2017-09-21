@@ -43,8 +43,7 @@ public class ImageDocument extends GiniVisionDocument {
 
     @NonNull
     public static ImageDocument fromPhoto(@NonNull final Photo photo) {
-        return new ImageDocument(photo.getData(), photo.getRotationForDisplay(),
-                photo.getImageFormat());
+        return new ImageDocument(photo);
     }
 
     @NonNull
@@ -58,15 +57,14 @@ public class ImageDocument extends GiniVisionDocument {
         return new ImageDocument(intent, ImageFormat.fromMimeType(mimeType));
     }
 
-    public ImageDocument(@Nullable final byte[] data, int rotationForDisplay,
-            @NonNull final ImageFormat format) {
-        super(Type.IMAGE, data, null, true);
-        mRotationForDisplay = rotationForDisplay;
-        mFormat = format;
+    public ImageDocument(@NonNull final Photo photo) {
+        super(Type.IMAGE, photo.getData(), null, true, photo.isImported());
+        mRotationForDisplay = photo.getRotationForDisplay();
+        mFormat = photo.getImageFormat();
     }
 
     public ImageDocument(@Nullable final Intent intent, @NonNull final ImageFormat format) {
-        super(Type.IMAGE, null, intent, true);
+        super(Type.IMAGE, null, intent, true, true);
         mRotationForDisplay = 0;
         mFormat = format;
     }

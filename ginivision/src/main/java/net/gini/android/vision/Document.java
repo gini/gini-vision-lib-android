@@ -86,6 +86,16 @@ public interface Document extends Parcelable {
 
     /**
      * <p>
+     * Document is imported if it was picked from another app from the Camera Screen or if the file
+     * was passed to the Gini Vision Library through the client application from another app.
+     * </p>
+     *
+     * @return {@code true} if the document was imported
+     */
+    boolean isImported();
+
+    /**
+     * <p>
      * Documents like PDFs are not reviewable and can be passed directly to the Analysis Screen.
      * Reviewable documents have to be shown in the Review Screen first before passing it on to the
      * Analysis Screen.
