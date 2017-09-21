@@ -22,6 +22,7 @@
 
 
     <net.gini.android.vision.camera.FrameView
+        android:id="@+id/gv_image_corners"
         android:layout_alignBottom="@+id/gv_camera_preview"
         android:layout_alignLeft="@id/gv_camera_preview"
         android:layout_alignRight="@id/gv_camera_preview"

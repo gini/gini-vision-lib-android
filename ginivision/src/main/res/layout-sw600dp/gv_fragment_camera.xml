@@ -29,8 +29,7 @@
         android:layout_alignRight="@id/gv_camera_preview"
         android:layout_alignStart="@id/gv_camera_preview"
         android:layout_alignEnd="@id/gv_camera_preview"
-        android:layout_alignTop="@+id/gv_camera_preview"
-        android:src="@drawable/gv_camera_preview_corners" />
+        android:layout_alignTop="@+id/gv_camera_preview" />
 
     <ImageButton
         android:id="@+id/gv_button_camera_trigger"
