@@ -11,16 +11,16 @@ import android.view.View;
 
 public class FrameView extends View {
 
-    public static final int LINE_LENGTH = 56;
-    public static final int LINE_WIDTH = 1;
-    public static final int WALL_OFFSET = 24;
+    private static final int LINE_LENGTH = 70;
+    private static final int LINE_WIDTH = 1;
 
     private int mHeight;
     private float mLineLength;
     private Paint mPaintLine;
-    private Paint mPaintRectangle;
-    private int mWallOffset;
+    private int mWallOffsetSide;
+    private int mWallOffsetTop;
     private int mWidth;
+    private boolean mPortrait;
 
     public FrameView(final Context context) {
         this(context, null);
@@ -28,19 +28,13 @@ public class FrameView extends View {
 
     public FrameView(final Context context, @Nullable final AttributeSet attrs) {
         super(context, attrs);
+
         mPaintLine = new Paint();
         mPaintLine.setColor(Color.WHITE);
         mPaintLine.setStyle(Paint.Style.STROKE);
 
-
-        mPaintRectangle = new Paint();
-        mPaintRectangle.setStyle(Paint.Style.FILL);
-        mPaintRectangle.setColor(Color.BLACK);
-        mPaintRectangle.setAlpha(100);
-
         setLineWidth(LINE_WIDTH);
         setLineLength(LINE_LENGTH);
-        setWallOffset(WALL_OFFSET);
     }
 
     @Override
@@ -51,12 +45,32 @@ public class FrameView extends View {
         drawLowerLeftLines(canvas);
         drawUpperRightLines(canvas);
         drawLowerRightLines(canvas);
+        drawBackgroundForButtons(canvas);
+    }
+
+    private void drawBackgroundForButtons(final Canvas canvas) {
+        if(mPortrait) {
+            final Paint paintRectangle = new Paint();
+            paintRectangle.setStyle(Paint.Style.FILL);
+            paintRectangle.setColor(Color.BLACK);
+            paintRectangle.setAlpha(75);
+
+            canvas.drawRect(mWallOffsetSide, mHeight-mWallOffsetTop -mLineLength, mWidth - mWallOffsetSide, mHeight - mWallOffsetTop, paintRectangle);
+        }
     }
 
     @Override
     protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
         mWidth = MeasureSpec.getSize(widthMeasureSpec);
         mHeight = MeasureSpec.getSize(heightMeasureSpec);
+
+        mPortrait = mWidth < mHeight;
+
+        mWallOffsetTop = dpToPx(20);
+        int documentHeight = mHeight - mWallOffsetTop;
+        int documentWidth = (int) (documentHeight / Math.sqrt(2)); //din a4
+        mWallOffsetSide = (mWidth - documentWidth) / 2;
+
         setMeasuredDimension(widthMeasureSpec, heightMeasureSpec);
     }
 
@@ -66,11 +80,6 @@ public class FrameView extends View {
         invalidate();
     }
 
-    public void setWallOffset(final int dp) {
-        mWallOffset = dpToPx(dp);
-        requestLayout();
-        invalidate();
-    }
 
     private int dpToPx(final int dp) {
         final float scale = getContext().getResources().getDisplayMetrics().density;
@@ -78,43 +87,50 @@ public class FrameView extends View {
     }
 
     private void drawLowerLeftLines(final Canvas canvas) {
-        canvas.drawLine(mWallOffset, mHeight - mLineLength - mWallOffset, mWallOffset,
-                mHeight - mWallOffset, mPaintLine); // |
-        canvas.drawLine(mWallOffset, mHeight - mWallOffset, mWallOffset + mLineLength,
-                mHeight - mWallOffset, mPaintLine); // -
+        canvas.drawLine(mWallOffsetSide, mHeight - mLineLength - mWallOffsetTop, mWallOffsetSide,
+                mHeight - mWallOffsetTop, mPaintLine); // |
+        canvas.drawLine(mWallOffsetSide, mHeight - mWallOffsetTop, mWallOffsetSide + mLineLength,
+                mHeight - mWallOffsetTop, mPaintLine); // -
     }
 
     private void drawLowerRightLines(final Canvas canvas) {
-        canvas.drawLine(mWidth - mWallOffset, mHeight - mLineLength - mWallOffset,
-                mWidth - mWallOffset, mHeight - mWallOffset, mPaintLine); // |
-        canvas.drawLine(mWidth - mLineLength - mWallOffset, mHeight - mWallOffset,
-                mWidth - mWallOffset, mHeight - mWallOffset, mPaintLine); // -
+        canvas.drawLine(mWidth - mWallOffsetSide, mHeight - mLineLength - mWallOffsetTop,
+                mWidth - mWallOffsetSide, mHeight - mWallOffsetTop, mPaintLine); // |
+        canvas.drawLine(mWidth - mLineLength - mWallOffsetSide, mHeight - mWallOffsetTop,
+                mWidth - mWallOffsetSide, mHeight - mWallOffsetTop, mPaintLine); // -
     }
 
     private void drawShadowRectangles(final Canvas canvas) {
+        Paint paintRectangle;
+        paintRectangle = new Paint();
+        paintRectangle.setStyle(Paint.Style.FILL);
+        paintRectangle.setColor(Color.BLACK);
+        paintRectangle.setAlpha(175);
+
         //left
-        canvas.drawRect(0, 0, mWallOffset, mHeight, mPaintRectangle);
+        canvas.drawRect(0, 0, mWallOffsetSide, mHeight, paintRectangle);
         //right
-        canvas.drawRect(mWidth - mWallOffset, 0, mWidth, mHeight, mPaintRectangle);
+        canvas.drawRect(mWidth - mWallOffsetSide, 0, mWidth, mHeight, paintRectangle);
         //upper
-        canvas.drawRect(mWallOffset, 0, mWidth - mWallOffset, mWallOffset, mPaintRectangle);
+        canvas.drawRect(mWallOffsetSide, 0, mWidth - mWallOffsetSide, mWallOffsetTop,
+                paintRectangle);
         //lower
-        canvas.drawRect(mWallOffset, mHeight - mWallOffset, mWidth - mWallOffset, mHeight,
-                mPaintRectangle);
+        canvas.drawRect(mWallOffsetSide, mHeight - mWallOffsetTop, mWidth - mWallOffsetSide,
+                mHeight, paintRectangle);
     }
 
     private void drawUpperLeftLines(final Canvas canvas) {
-        canvas.drawLine(mWallOffset, mWallOffset, mWallOffset, mWallOffset + mLineLength,
-                mPaintLine); // |
-        canvas.drawLine(mWallOffset, mWallOffset, mWallOffset + mLineLength, mWallOffset,
-                mPaintLine); // -
+        canvas.drawLine(mWallOffsetSide, mWallOffsetTop, mWallOffsetSide,
+                mWallOffsetTop + mLineLength, mPaintLine); // |
+        canvas.drawLine(mWallOffsetSide, mWallOffsetTop, mWallOffsetSide + mLineLength,
+                mWallOffsetTop, mPaintLine); // -
     }
 
     private void drawUpperRightLines(final Canvas canvas) {
-        canvas.drawLine(mWidth - mWallOffset, mWallOffset, mWidth - mWallOffset,
-                mWallOffset + mLineLength, mPaintLine); // |
-        canvas.drawLine(mWidth - mLineLength - mWallOffset, mWallOffset, mWidth - mWallOffset,
-                mWallOffset, mPaintLine); // -
+        canvas.drawLine(mWidth - mWallOffsetSide, mWallOffsetTop, mWidth - mWallOffsetSide,
+                mWallOffsetTop + mLineLength, mPaintLine); // |
+        canvas.drawLine(mWidth - mLineLength - mWallOffsetSide, mWallOffsetTop,
+                mWidth - mWallOffsetSide, mWallOffsetTop, mPaintLine); // -
     }
 
     private void setLineWidth(final int dp) {
