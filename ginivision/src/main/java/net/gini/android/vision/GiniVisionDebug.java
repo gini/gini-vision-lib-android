@@ -95,7 +95,7 @@ public final class GiniVisionDebug {
         long time = new Date().getTime();
         String jpegFilename = time + suffix + ".jpeg";
         File jpegFile = new File(giniVisionDir, jpegFilename);
-        PhotoFactory.fromDocument(document).saveToFile(jpegFile);
+        PhotoFactory.newPhotoFromDocument(document).saveToFile(jpegFile);
         LOG.debug("Document written to {}", jpegFile.getAbsolutePath());
     }
 

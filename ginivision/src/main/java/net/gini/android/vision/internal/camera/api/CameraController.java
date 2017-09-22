@@ -354,7 +354,7 @@ public class CameraController implements CameraInterface {
                     @Override
                     public void onPictureTaken(final byte[] bytes, Camera camera) {
                         mTakingPictureFuture.set(null);
-                        final Photo photo = PhotoFactory.fromJpeg(bytes,
+                        final Photo photo = PhotoFactory.newPhotoFromJpeg(bytes,
                                 getDisplayOrientationForCamera(mActivity),
                                 getDeviceOrientation(mActivity),
                                 getDeviceType(mActivity));

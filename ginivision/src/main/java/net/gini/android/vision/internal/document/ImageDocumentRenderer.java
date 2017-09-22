@@ -18,7 +18,7 @@ public class ImageDocumentRenderer implements DocumentRenderer {
     private final Photo mPhoto;
 
     public ImageDocumentRenderer(@NonNull final ImageDocument document) {
-        mPhoto = PhotoFactory.fromDocument(document);
+        mPhoto = PhotoFactory.newPhotoFromDocument(document);
     }
 
     @Nullable

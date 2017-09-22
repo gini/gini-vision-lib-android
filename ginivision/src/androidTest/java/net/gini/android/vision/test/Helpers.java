@@ -73,7 +73,7 @@ public class Helpers {
     public static Document createDocument(byte[] jpeg, int orientation, String deviceOrientation,
             String deviceType) {
         return ImageDocument.fromPhoto(
-                PhotoFactory.fromJpeg(jpeg, orientation, deviceOrientation, deviceType));
+                PhotoFactory.newPhotoFromJpeg(jpeg, orientation, deviceOrientation, deviceType));
     }
 
     public static boolean isTablet() {

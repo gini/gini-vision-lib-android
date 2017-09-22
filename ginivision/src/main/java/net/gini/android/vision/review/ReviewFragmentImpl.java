@@ -79,7 +79,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         mFragment = fragment;
         mDocument = document;
         if (mDocument.getType() == Document.Type.IMAGE) {
-            mPhoto = PhotoFactory.fromDocument((ImageDocument) document);
+            mPhoto = PhotoFactory.newPhotoFromDocument((ImageDocument) document);
             mCurrentRotation = mPhoto.getRotationForDisplay();
         } else {
             throw new IllegalArgumentException(
