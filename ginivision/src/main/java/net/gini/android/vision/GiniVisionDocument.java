@@ -1,5 +1,6 @@
 package net.gini.android.vision;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Parcel;
@@ -7,6 +8,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import net.gini.android.vision.internal.camera.photo.ImageCache;
+import net.gini.android.vision.internal.util.UriReaderAsyncTask;
+import net.gini.android.vision.internal.util.IntentHelper;
 
 import java.util.Arrays;
 
@@ -41,10 +44,6 @@ public class GiniVisionDocument implements Document {
         return mData;
     }
 
-    protected void setData(final byte[] data) {
-        mData = data;
-    }
-
     @Nullable
     @Override
     public Intent getIntent() {
@@ -59,6 +58,36 @@ public class GiniVisionDocument implements Document {
     @Override
     public boolean isReviewable() {
         return mIsReviewable;
+    }
+
+    public void loadData(@NonNull final Context context, @NonNull final LoadDataCallback callback) {
+        if (mData != null) {
+            callback.onDataLoaded();
+            return;
+        }
+        if (mIntent == null) {
+            callback.onError(new IllegalStateException("No Intent to load the data from"));
+            return;
+        }
+        final Uri uri = IntentHelper.getUri(mIntent);
+        if (uri == null) {
+            callback.onError(new IllegalStateException("Intent's data must contain a Uri"));
+            return;
+        }
+        final UriReaderAsyncTask asyncTask = new UriReaderAsyncTask(context,
+                new UriReaderAsyncTask.Listener() {
+                    @Override
+                    public void onBytesRead(@Nullable final byte[] bytes) {
+                        mData = bytes;
+                        callback.onDataLoaded();
+                    }
+
+                    @Override
+                    public void onError(@NonNull final Exception exception) {
+                        callback.onError(exception);
+                    }
+                });
+        asyncTask.execute(uri);
     }
 
     /**
@@ -140,5 +169,11 @@ public class GiniVisionDocument implements Document {
     @Override
     public int getRotationForDisplay() {
         return 0;
+    }
+
+    public interface LoadDataCallback {
+        void onDataLoaded();
+
+        void onError(@NonNull final Exception exception);
     }
 }

@@ -4,6 +4,7 @@ import static net.gini.android.vision.internal.util.ActivityHelper.forcePortrait
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,6 +20,7 @@ import android.widget.ProgressBar;
 import com.ortiz.touch.TouchImageView;
 
 import net.gini.android.vision.Document;
+import net.gini.android.vision.GiniVisionDocument;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.ImageDocument;
@@ -133,7 +135,23 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         mNextClicked = false;
         mStopped = false;
         if (mPhoto == null) {
-            createAndCompressPhoto();
+            final Activity activity = mFragment.getActivity();
+            if (activity == null) {
+                return;
+            }
+            showActivityIndicator();
+            mDocument.loadData(activity, new GiniVisionDocument.LoadDataCallback() {
+                @Override
+                public void onDataLoaded() {
+                    createAndCompressPhoto();
+                }
+
+                @Override
+                public void onError(@NonNull final Exception exception) {
+                    hideActivityIndicator();
+                    // TODO: error handling
+                }
+            });
         } else {
             observeViewTree();
             LOG.info("Should analyze document");
@@ -142,7 +160,6 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     }
 
     private void createAndCompressPhoto() {
-        showActivityIndicator();
         PhotoFactoryDocumentAsyncTask asyncTask = new PhotoFactoryDocumentAsyncTask(
                 new PhotoFactoryDocumentAsyncTask.Listener() {
                     @Override

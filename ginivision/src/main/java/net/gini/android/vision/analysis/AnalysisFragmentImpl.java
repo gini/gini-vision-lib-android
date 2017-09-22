@@ -26,6 +26,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import net.gini.android.vision.Document;
+import net.gini.android.vision.GiniVisionDocument;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.internal.document.DocumentRenderer;
@@ -58,7 +59,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     private TextView mHintTextView;
     private List<AnalysisHint> mHints;
     private DocumentRenderer mDocumentRenderer;
-    private final Document mDocument;
+    private final GiniVisionDocument mDocument;
     private final String mDocumentAnalysisErrorMessage;
     private ImageView mImageDocument;
     private RelativeLayout mLayoutRoot;
@@ -71,9 +72,9 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     private static final int HINT_CYCLE_INTERVAL = 4000;
 
 
-    public AnalysisFragmentImpl(FragmentImplCallback fragment, Document document, String documentAnalysisErrorMessage) {
+    AnalysisFragmentImpl(FragmentImplCallback fragment, Document document, String documentAnalysisErrorMessage) {
         mFragment = fragment;
-        mDocument = document;
+        mDocument = (GiniVisionDocument) document;
         mDocumentAnalysisErrorMessage = documentAnalysisErrorMessage;
     }
 
@@ -147,7 +148,21 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     public void onStart() {
-        observeViewTree();
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
+        }
+        mDocument.loadData(activity, new GiniVisionDocument.LoadDataCallback() {
+            @Override
+            public void onDataLoaded() {
+                observeViewTree();
+            }
+
+            @Override
+            public void onError(@NonNull final Exception exception) {
+                //TODO: error handling
+            }
+        });
         showHints();
     }
 
