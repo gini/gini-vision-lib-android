@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 
 import com.ortiz.touch.TouchImageView;
 
@@ -64,6 +65,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     private TouchImageView mImageDocument;
     private ImageButton mButtonRotate;
     private ImageButton mButtonNext;
+    private ProgressBar mActivityIndicator;
 
     private final FragmentImplCallback mFragment;
     private Photo mPhoto;
@@ -116,40 +118,6 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         }
         if (savedInstanceState != null) {
             restoreSavedState(savedInstanceState);
-            LOG.info("Should analyze document");
-            mListener.onShouldAnalyzeDocument(ImageDocument.fromPhoto(mPhoto));
-        } else {
-            PhotoFactoryDocumentAsyncTask asyncTask = new PhotoFactoryDocumentAsyncTask(
-                    new PhotoFactoryDocumentAsyncTask.Listener() {
-                        @Override
-                        public void onPhotoCreated(@NonNull final Photo photo) {
-                            mPhoto = photo;
-                            mCurrentRotation = mPhoto.getRotationForDisplay();
-                            applyCompressionToJpeg(new PhotoEdit.PhotoEditCallback() {
-                                @Override
-                                public void onDone(@NonNull Photo photo) {
-                                    if (mNextClicked || mDocumentWasModified || mStopped) {
-                                        return;
-                                    }
-                                    LOG.info("Should analyze document");
-                                    mListener.onShouldAnalyzeDocument(ImageDocument.fromPhoto(photo));
-                                    showDocument();
-                                    observeViewTree();
-                                }
-
-                                @Override
-                                public void onFailed() {
-                                    if (mNextClicked || mStopped) {
-                                        return;
-                                    }
-                                    LOG.error("Failed to compress the jpeg");
-                                    mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW,
-                                            "An error occurred while compressing the jpeg."));
-                                }
-                            });
-                        }
-                    });
-            asyncTask.execute(mDocument);
         }
     }
 
@@ -164,6 +132,103 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     public void onStart() {
         mNextClicked = false;
         mStopped = false;
+        if (mPhoto == null) {
+            createAndCompressPhoto();
+        } else {
+            showDocument();
+            observeViewTree();
+            LOG.info("Should analyze document");
+            mListener.onShouldAnalyzeDocument(ImageDocument.fromPhoto(mPhoto));
+        }
+    }
+
+    private void createAndCompressPhoto() {
+        showActivityIndicator();
+        PhotoFactoryDocumentAsyncTask asyncTask = new PhotoFactoryDocumentAsyncTask(
+                new PhotoFactoryDocumentAsyncTask.Listener() {
+                    @Override
+                    public void onPhotoCreated(@NonNull final Photo photo) {
+                        if (mNextClicked || mStopped) {
+                            return;
+                        }
+                        mPhoto = photo;
+                        mCurrentRotation = mPhoto.getRotationForDisplay();
+                        applyCompressionToJpeg(new PhotoEdit.PhotoEditCallback() {
+                            @Override
+                            public void onDone(@NonNull Photo photo) {
+                                if (mNextClicked || mStopped) {
+                                    return;
+                                }
+                                hideActivityIndicator();
+                                showDocument();
+                                observeViewTree();
+                                LOG.info("Should analyze document");
+                                mListener.onShouldAnalyzeDocument(ImageDocument.fromPhoto(photo));
+                            }
+
+                            @Override
+                            public void onFailed() {
+                                if (mNextClicked || mStopped) {
+                                    return;
+                                }
+                                LOG.error("Failed to compress the jpeg");
+                                mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW,
+                                        "An error occurred while compressing the jpeg."));
+                            }
+                        });
+                    }
+                });
+        asyncTask.execute(mDocument);
+    }
+
+    private void showActivityIndicator() {
+        if (mActivityIndicator == null) {
+            return;
+        }
+        mActivityIndicator.setVisibility(View.VISIBLE);
+        disableNextButton();
+        disableRotateButton();
+    }
+
+    private void hideActivityIndicator() {
+        if (mActivityIndicator == null) {
+            return;
+        }
+        mActivityIndicator.setVisibility(View.GONE);
+        enableNextButton();
+        enableRotateButton();
+    }
+
+    private void disableNextButton() {
+        if (mButtonNext == null) {
+            return;
+        }
+        mButtonNext.setEnabled(false);
+        mButtonNext.setAlpha(0.5f);
+    }
+
+    private void enableNextButton() {
+        if (mButtonNext == null) {
+            return;
+        }
+        mButtonNext.setEnabled(true);
+        mButtonNext.setAlpha(1f);
+    }
+
+    private void disableRotateButton() {
+        if (mButtonRotate == null) {
+            return;
+        }
+        mButtonRotate.setEnabled(false);
+        mButtonRotate.setAlpha(0.5f);
+    }
+
+    private void enableRotateButton() {
+        if (mButtonRotate == null) {
+            return;
+        }
+        mButtonRotate.setEnabled(true);
+        mButtonRotate.setAlpha(1f);
     }
 
     private void showDocument() {
@@ -188,11 +253,12 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     }
 
     private void bindViews(@NonNull View view) {
-        mLayoutDocumentContainer = (FrameLayout) view.findViewById(
+        mLayoutDocumentContainer = view.findViewById(
                 R.id.gv_layout_document_container);
-        mImageDocument = (TouchImageView) view.findViewById(R.id.gv_image_document);
-        mButtonRotate = (ImageButton) view.findViewById(R.id.gv_button_rotate);
-        mButtonNext = (ImageButton) view.findViewById(R.id.gv_button_next);
+        mImageDocument = view.findViewById(R.id.gv_image_document);
+        mButtonRotate = view.findViewById(R.id.gv_button_rotate);
+        mButtonNext = view.findViewById(R.id.gv_button_next);
+        mActivityIndicator = view.findViewById(R.id.gv_activity_indicator);
     }
 
     private void restoreSavedState(@Nullable Bundle savedInstanceState) {
@@ -201,11 +267,13 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         }
         mPhoto = savedInstanceState.getParcelable(PHOTO_KEY);
         mDocument = savedInstanceState.getParcelable(DOCUMENT_KEY);
-        if (mPhoto == null || mDocument == null) {
+        if (mDocument == null) {
             throw new IllegalStateException(
                     "Missing required instances for restoring saved instance state.");
         }
-        mCurrentRotation = mPhoto.getRotationForDisplay();
+        if (mPhoto != null) {
+            mCurrentRotation = mPhoto.getRotationForDisplay();
+        }
     }
 
     private void setInputHandlers() {
