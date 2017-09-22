@@ -53,6 +53,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
     private final FragmentImplCallback mFragment;
     private int mFragmentHeight;
+    private TextView mAnalysisMessageTextView;
     private ViewPropertyAnimatorCompat mHintAnimation;
     private View mHintContainer;
     private ImageView mHintImageView;
@@ -118,11 +119,13 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     @Override
     public void startScanAnimation() {
         mProgressActivity.setVisibility(View.VISIBLE);
+        mAnalysisMessageTextView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void stopScanAnimation() {
         mProgressActivity.setVisibility(View.GONE);
+        mAnalysisMessageTextView.setVisibility(View.GONE);
     }
 
     public void onCreate(Bundle savedInstanceState) {
@@ -296,6 +299,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         mHintImageView = view.findViewById(R.id.gv_analyse_hint_image);
         mHintTextView = view.findViewById(R.id.gv_analyse_hint_text);
         mHintContainer = view.findViewById(R.id.gv_analyse_hint_container);
+        mAnalysisMessageTextView = view.findViewById(R.id.gv_analysis_message);
     }
 
     private void observeViewTree() {
