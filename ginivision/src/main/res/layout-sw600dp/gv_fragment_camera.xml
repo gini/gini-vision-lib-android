@@ -78,13 +78,16 @@
             android:text="@string/gv_upload_hint_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
             android:layout_toLeftOf="@+id/gv_upload_hint_button"
             android:layout_toStartOf="@+id/gv_upload_hint_button" />
 
         <ImageView
-            android:src="@android:drawable/ic_lock_lock"
+            android:src="@drawable/gv_hint_close"
             android:layout_width="36dp"
             android:layout_height="36dp"
+            android:padding="8dp"
             android:id="@+id/gv_upload_hint_button"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
