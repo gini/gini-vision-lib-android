@@ -149,7 +149,9 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                 @Override
                 public void onError(@NonNull final Exception exception) {
                     hideActivityIndicator();
-                    // TODO: error handling
+                    LOG.error("Failed to load document data");
+                    mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW,
+                            "An error occurred while loading the document."));
                 }
             });
         } else {

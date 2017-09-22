@@ -35,11 +35,16 @@ import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 import net.gini.android.vision.internal.util.Size;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 class AnalysisFragmentImpl implements AnalysisFragmentInterface {
+
+    private static final Logger LOG = LoggerFactory.getLogger(AnalysisFragmentImpl.class);
 
     private static final AnalysisFragmentListener NO_OP_LISTENER = new AnalysisFragmentListener() {
         @Override
@@ -169,7 +174,9 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
             @Override
             public void onError(@NonNull final Exception exception) {
-                //TODO: error handling
+                LOG.error("Failed to load document data");
+                mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.ANALYSIS,
+                        "An error occurred while loading the document."));
             }
         });
         showHints();
