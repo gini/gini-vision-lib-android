@@ -157,6 +157,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         if (activity == null) {
             return;
         }
+        startScanAnimation();
         mDocument.loadData(activity, new GiniVisionDocument.LoadDataCallback() {
             @Override
             public void onDataLoaded() {
