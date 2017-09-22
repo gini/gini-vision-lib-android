@@ -18,7 +18,7 @@ import java.util.UUID;
 /**
  * @exclude
  */
-public class MutablePhoto extends ImmutablePhoto implements Parcelable {
+class MutablePhoto extends ImmutablePhoto implements Parcelable {
 
     private static final Logger LOG = LoggerFactory.getLogger(MutablePhoto.class);
 
@@ -78,18 +78,18 @@ public class MutablePhoto extends ImmutablePhoto implements Parcelable {
 
     @Override
     public synchronized void updateBitmapPreview() {
-        mBitmapPreview = createPreview();
+        super.mBitmapPreview = createPreview();
     }
 
     @Override
     public synchronized int getRotationForDisplay() {
-        return mRotationForDisplay;
+        return super.mRotationForDisplay;
     }
 
     @Override
     public synchronized void setRotationForDisplay(int degrees) {
         // Converts input degrees to degrees between [0,360)
-        mRotationForDisplay = ((degrees % 360) + 360) % 360;
+        super.mRotationForDisplay = ((degrees % 360) + 360) % 360;
     }
 
     @Override
@@ -100,7 +100,7 @@ public class MutablePhoto extends ImmutablePhoto implements Parcelable {
 
     @Override
     public void setData(final byte[] data) {
-        mData = data;
+        super.mData = data;
     }
 
     @VisibleForTesting
@@ -154,7 +154,7 @@ public class MutablePhoto extends ImmutablePhoto implements Parcelable {
                     .build();
 
             exifBuilder.setUserComment(userComment);
-            exifBuilder.setOrientationFromDegrees(mRotationForDisplay);
+            exifBuilder.setOrientationFromDegrees(super.mRotationForDisplay);
 
             byte[] jpeg = exifBuilder.build().writeToJpeg(data);
             setData(jpeg);

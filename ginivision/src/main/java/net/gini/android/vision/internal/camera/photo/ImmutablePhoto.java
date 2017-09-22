@@ -22,7 +22,7 @@ import java.util.Arrays;
 /**
  * @exclude
  */
-public class ImmutablePhoto implements Photo {
+class ImmutablePhoto implements Photo {
 
     private static final Logger LOG = LoggerFactory.getLogger(ImmutablePhoto.class);
 
