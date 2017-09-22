@@ -42,6 +42,8 @@
         android:src="@drawable/gv_camera_trigger" />
 
     <View
+        android:alpha="0"
+        tools:alpha="1"
         android:id="@+id/gv_upload_hint_container2"
         android:layout_marginBottom="16dp"
         android:rotation="45"
@@ -56,6 +58,8 @@
 
 
     <RelativeLayout
+        android:alpha="0"
+        tools:alpha="1"
         android:layout_marginLeft="136dp"
         android:layout_marginRight="136dp"
         android:layout_marginBottom="24dp"
@@ -74,14 +78,14 @@
             android:text="@string/gv_upload_hint_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/imageView"
-            android:layout_toStartOf="@+id/imageView" />
+            android:layout_toLeftOf="@+id/gv_upload_hint_button"
+            android:layout_toStartOf="@+id/gv_upload_hint_button" />
 
         <ImageView
             android:src="@android:drawable/ic_lock_lock"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:id="@+id/imageView"
+            android:id="@+id/gv_upload_hint_button"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
