@@ -67,7 +67,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
     private final FragmentImplCallback mFragment;
     private Photo mPhoto;
-    private Document mDocument;
+    private ImageDocument mDocument;
     private ReviewFragmentListener mListener = NO_OP_LISTENER;
     private boolean mDocumentWasAnalyzed = false;
     private boolean mDocumentWasModified = false;
@@ -77,17 +77,17 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
     public ReviewFragmentImpl(@NonNull FragmentImplCallback fragment, @NonNull Document document) {
         mFragment = fragment;
-        mDocument = document;
-        if (mDocument.getType() == Document.Type.IMAGE) {
-            mPhoto = PhotoFactory.newPhotoFromDocument((ImageDocument) document);
-            mCurrentRotation = mPhoto.getRotationForDisplay();
-        } else {
+        if (!document.isReviewable()) {
             throw new IllegalArgumentException(
                     "Non reviewable documents must be passed directly to the Analysis Screen. You"
                             + " can use Document#isReviewable() to check whether you can use it "
                             + "with the Review Screen or have to pass it directly to the Analysis"
                             + " Screen.");
         }
+        if (document.getType() != Document.Type.IMAGE) {
+            throw new IllegalArgumentException("Only Documents with type IMAGE allowed");
+        }
+        mDocument = (ImageDocument) document;
     }
 
     @VisibleForTesting
