@@ -159,10 +159,12 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
 
     @Override
     public void noExtractionsFound() {
-        final Intent noResultsActivity = new Intent(this, NoResultsActivity.class);
-        startActivity(noResultsActivity);
-        setResult(RESULT_NO_EXTRACTIONS);
-        finish();
+        if (!mDocument.isImported()) {
+            final Intent noResultsActivity = new Intent(this, NoResultsActivity.class);
+            startActivity(noResultsActivity);
+            setResult(RESULT_NO_EXTRACTIONS);
+            finish();
+        }
     }
 
     /**
