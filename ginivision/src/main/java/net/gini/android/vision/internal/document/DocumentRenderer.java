@@ -10,8 +10,10 @@ import net.gini.android.vision.internal.util.Size;
  * @exclude
  */
 public interface DocumentRenderer {
-    @Nullable
-    Bitmap toBitmap(@NonNull final Size targetSize);
 
-    int getRotationForDisplay();
+    void toBitmap(@NonNull final Size targetSize, @NonNull final Callback callback);
+
+    interface Callback {
+        void onBitmapReady(@Nullable final Bitmap bitmap, final int rotationForDisplay);
+    }
 }

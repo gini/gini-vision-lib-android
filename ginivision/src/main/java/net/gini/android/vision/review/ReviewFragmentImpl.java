@@ -77,7 +77,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     private boolean mNextClicked = false;
     private boolean mStopped = false;
 
-    public ReviewFragmentImpl(@NonNull FragmentImplCallback fragment, @NonNull Document document) {
+    ReviewFragmentImpl(@NonNull FragmentImplCallback fragment, @NonNull Document document) {
         mFragment = fragment;
         if (!document.isReviewable()) {
             throw new IllegalArgumentException(
@@ -135,7 +135,6 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         if (mPhoto == null) {
             createAndCompressPhoto();
         } else {
-            showDocument();
             observeViewTree();
             LOG.info("Should analyze document");
             mListener.onShouldAnalyzeDocument(ImageDocument.fromPhoto(mPhoto));
@@ -160,7 +159,6 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                                     return;
                                 }
                                 hideActivityIndicator();
-                                showDocument();
                                 observeViewTree();
                                 LOG.info("Should analyze document");
                                 mListener.onShouldAnalyzeDocument(ImageDocument.fromPhoto(photo));
@@ -238,11 +236,11 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         mImageDocument.setImageBitmap(mPhoto.getBitmapPreview());
     }
 
-    public void onStop() {
+    void onStop() {
         mStopped = true;
     }
 
-    public void onSaveInstanceState(final Bundle outState) {
+    void onSaveInstanceState(final Bundle outState) {
         outState.putParcelable(PHOTO_KEY, mPhoto);
         outState.putParcelable(DOCUMENT_KEY, mDocument);
     }
@@ -308,6 +306,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
     private void onViewLayoutFinished() {
         rotateDocumentForDisplay();
+        showDocument();
     }
 
     private void rotateDocumentForDisplay() {

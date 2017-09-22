@@ -4,6 +4,7 @@ import static net.gini.android.vision.internal.util.ActivityHelper.forcePortrait
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -135,8 +136,6 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.gv_fragment_analysis, container, false);
         bindViews(view);
-        showDocument();
-        observerViewTree(view);
         return view;
     }
 
@@ -148,6 +147,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     public void onStart() {
+        observeViewTree();
         showHints();
     }
 
@@ -283,7 +283,11 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         mHintContainer = view.findViewById(R.id.gv_analyse_hint_container);
     }
 
-    private void observerViewTree(@NonNull final View view) {
+    private void observeViewTree() {
+        final View view = mFragment.getView();
+        if (view == null) {
+            return;
+        }
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -295,12 +299,11 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     private void onViewLayoutFinished() {
-        rotateDocumentImageView();
+        showDocument();
         analyzeDocument();
     }
 
-    private void rotateDocumentImageView() {
-        final int rotationForDisplay = mDocumentRenderer.getRotationForDisplay();
+    private void rotateDocumentImageView(final int rotationForDisplay) {
         int newWidth = mLayoutRoot.getWidth();
         int newHeight = mLayoutRoot.getHeight();
         if (rotationForDisplay == 90 || rotationForDisplay == 270) {
@@ -317,6 +320,12 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
     private void showDocument() {
         final Size previewSize = new Size(mImageDocument.getWidth(), mImageDocument.getHeight());
-        mImageDocument.setImageBitmap(mDocumentRenderer.toBitmap(previewSize));
+        mDocumentRenderer.toBitmap(previewSize, new DocumentRenderer.Callback() {
+            @Override
+            public void onBitmapReady(@Nullable final Bitmap bitmap, final int rotationForDisplay) {
+                rotateDocumentImageView(rotationForDisplay);
+                mImageDocument.setImageBitmap(bitmap);
+            }
+        });
     }
 }
