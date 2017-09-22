@@ -1,13 +1,11 @@
 package net.gini.android.vision.internal.pdf;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import net.gini.android.vision.document.PdfDocument;
 import net.gini.android.vision.internal.util.Size;
@@ -31,10 +29,10 @@ public class Pdf implements Parcelable {
         mUri = uri;
     }
 
-    @Nullable
-    public Bitmap toBitmap(@NonNull Size targetSize, @NonNull final Context context) {
+    public void toBitmap(@NonNull Size targetSize, @NonNull final Context context,
+            @NonNull final Renderer.Callback callback) {
         final Renderer renderer = getRenderer(context);
-        return renderer.toBitmap(targetSize);
+        renderer.toBitmap(targetSize, callback);
     }
 
     private Renderer getRenderer(@NonNull final Context context) {

@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.pdf.PdfRenderer;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.support.annotation.NonNull;
@@ -40,8 +41,7 @@ class RendererLollipop implements Renderer {
     }
 
     @Nullable
-    @Override
-    public Bitmap toBitmap(@NonNull final Size targetSize) {
+    Bitmap toBitmap(@NonNull final Size targetSize) {
         Bitmap bitmap = null;
         final ContentResolver contentResolver = mContext.getContentResolver();
         ParcelFileDescriptor fileDescriptor = null;
@@ -70,6 +70,24 @@ class RendererLollipop implements Renderer {
             page.close();
         }
         return bitmap;
+    }
+
+    @Override
+    public void toBitmap(@NonNull final Size targetSize,
+            @NonNull final Callback callback) {
+        final AsyncTask<RendererLollipop, Void, Bitmap> asyncTask =
+                new AsyncTask<RendererLollipop, Void, Bitmap>() {
+                    @Override
+                    protected Bitmap doInBackground(final RendererLollipop... renderers) {
+                        return renderers[0].toBitmap(targetSize);
+                    }
+
+                    @Override
+                    protected void onPostExecute(final Bitmap bitmap) {
+                        callback.onBitmapReady(bitmap);
+                    }
+                };
+        asyncTask.execute(this);
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)

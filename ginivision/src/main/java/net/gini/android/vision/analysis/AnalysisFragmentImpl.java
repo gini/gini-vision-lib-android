@@ -71,6 +71,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     private static final int HINT_ANIMATION_DURATION = 500;
     private static final int HINT_START_DELAY = 5000;
     private static final int HINT_CYCLE_INTERVAL = 4000;
+    private boolean mStopped;
 
 
     AnalysisFragmentImpl(FragmentImplCallback fragment, Document document, String documentAnalysisErrorMessage) {
@@ -151,6 +152,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     public void onStart() {
+        mStopped = false;
         final Activity activity = mFragment.getActivity();
         if (activity == null) {
             return;
@@ -158,6 +160,9 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         mDocument.loadData(activity, new GiniVisionDocument.LoadDataCallback() {
             @Override
             public void onDataLoaded() {
+                if (mStopped) {
+                    return;
+                }
                 observeViewTree();
             }
 
@@ -249,6 +254,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     void onStop() {
+        mStopped = true;
         mHandler.removeCallbacks(mHintCycleRunnable);
         if (mHintAnimation != null) {
             mHintAnimation.cancel();
@@ -342,6 +348,9 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         mDocumentRenderer.toBitmap(previewSize, new DocumentRenderer.Callback() {
             @Override
             public void onBitmapReady(@Nullable final Bitmap bitmap, final int rotationForDisplay) {
+                if (mStopped) {
+                    return;
+                }
                 rotateDocumentImageView(rotationForDisplay);
                 mImageDocument.setImageBitmap(bitmap);
             }

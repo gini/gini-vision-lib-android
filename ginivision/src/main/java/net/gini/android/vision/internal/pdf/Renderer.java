@@ -9,7 +9,10 @@ import net.gini.android.vision.internal.util.Size;
 /**
  * @exclude
  */
-interface Renderer {
-    @Nullable
-    Bitmap toBitmap(@NonNull final Size targetSize);
+public interface Renderer {
+    void toBitmap(@NonNull final Size targetSize, @NonNull final Callback callback);
+
+    interface Callback {
+        void onBitmapReady(@Nullable final Bitmap bitmap);
+    }
 }
