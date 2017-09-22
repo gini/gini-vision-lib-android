@@ -479,17 +479,19 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         mDocument = document;
         if (mDocument.isReviewable()) {
             // Start ReviewActivity
-            mReviewDocumentActivityIntent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, document);
-            mReviewDocumentActivityIntent.putExtra(EXTRA_IN_ANALYSIS_ACTIVITY,
+            final Intent reviewIntent = new Intent(mReviewDocumentActivityIntent);
+            reviewIntent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, document);
+            reviewIntent.putExtra(EXTRA_IN_ANALYSIS_ACTIVITY,
                     mAnalyzeDocumentActivityIntent);
-            mReviewDocumentActivityIntent.putExtra(
+            reviewIntent.putExtra(
                     ReviewActivity.EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY,
                     mBackButtonShouldCloseLibrary);
-            startActivityForResult(mReviewDocumentActivityIntent, REVIEW_DOCUMENT_REQUEST);
+            startActivityForResult(reviewIntent, REVIEW_DOCUMENT_REQUEST);
         } else {
             // Start AnalysisActivity
-            mAnalyzeDocumentActivityIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, document);
-            startActivityForResult(mAnalyzeDocumentActivityIntent, ANALYSE_DOCUMENT_REQUEST);
+            final Intent analysisIntent = new Intent(mAnalyzeDocumentActivityIntent);
+            analysisIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, document);
+            startActivityForResult(analysisIntent, ANALYSE_DOCUMENT_REQUEST);
         }
     }
 
