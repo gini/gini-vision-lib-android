@@ -9,6 +9,7 @@ import static net.gini.android.vision.test.PhotoSubject.photo;
 
 import android.support.test.runner.AndroidJUnit4;
 
+import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.ImageDocument;
 
 import org.junit.AfterClass;
@@ -52,7 +53,8 @@ public class PhotoTest {
                 (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo");
         // When
         MutablePhoto fromDocument =
-                (MutablePhoto) PhotoFactory.newPhotoFromDocument(ImageDocument.fromPhoto(photo));
+                (MutablePhoto) PhotoFactory.newPhotoFromDocument(
+                        (ImageDocument) DocumentFactory.newDocumentFromPhoto(photo));
         // Then
         assertAbout(photo()).that(photo).hasSameUserCommentAs(fromDocument);
     }
@@ -63,7 +65,8 @@ public class PhotoTest {
         MutablePhoto photo = (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo");
         // When
         MutablePhoto fromDocument =
-                (MutablePhoto) PhotoFactory.newPhotoFromDocument(ImageDocument.fromPhoto(photo));
+                (MutablePhoto) PhotoFactory.newPhotoFromDocument(
+                        (ImageDocument) DocumentFactory.newDocumentFromPhoto(photo));
         // Then
         assertThat(photo.getContentId()).isEqualTo(fromDocument.getContentId());
     }
@@ -76,7 +79,8 @@ public class PhotoTest {
         // When
         photo.edit().rotateTo(90).apply();
         MutablePhoto fromDocument =
-                (MutablePhoto) PhotoFactory.newPhotoFromDocument(ImageDocument.fromPhoto(photo));
+                (MutablePhoto) PhotoFactory.newPhotoFromDocument(
+                        (ImageDocument) DocumentFactory.newDocumentFromPhoto(photo));
         // Then
         assertThat(photo.getRotationDelta()).isEqualTo(fromDocument.getRotationDelta());
     }

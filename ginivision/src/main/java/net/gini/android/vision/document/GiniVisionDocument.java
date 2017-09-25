@@ -1,4 +1,4 @@
-package net.gini.android.vision;
+package net.gini.android.vision.document;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +7,7 @@ import android.os.Parcel;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import net.gini.android.vision.Document;
 import net.gini.android.vision.internal.camera.photo.ImageCache;
 import net.gini.android.vision.internal.util.UriReaderAsyncTask;
 import net.gini.android.vision.internal.util.IntentHelper;
@@ -21,7 +22,7 @@ public class GiniVisionDocument implements Document {
     private final boolean mIsImported;
     private final Intent mIntent;
 
-    protected GiniVisionDocument(@NonNull final Type type,
+    GiniVisionDocument(@NonNull final Type type,
             @Nullable final byte[] data,
             @Nullable final Intent intent,
             final boolean isReviewable,
@@ -132,7 +133,7 @@ public class GiniVisionDocument implements Document {
         }
     };
 
-    protected GiniVisionDocument(Parcel in) {
+    GiniVisionDocument(Parcel in) {
         ImageCache cache = ImageCache.getInstance();
         ImageCache.Token token = in.readParcelable(ImageCache.Token.class.getClassLoader());
         if (token != null) {
@@ -171,9 +172,4 @@ public class GiniVisionDocument implements Document {
         return 0;
     }
 
-    public interface LoadDataCallback {
-        void onDataLoaded();
-
-        void onError(@NonNull final Exception exception);
-    }
 }

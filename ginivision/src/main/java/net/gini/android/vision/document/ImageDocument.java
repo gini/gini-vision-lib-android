@@ -9,7 +9,6 @@ import android.os.Parcel;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import net.gini.android.vision.GiniVisionDocument;
 import net.gini.android.vision.internal.camera.photo.Photo;
 
 import java.util.List;
@@ -42,12 +41,12 @@ public class ImageDocument extends GiniVisionDocument {
     private final ImageFormat mFormat;
 
     @NonNull
-    public static ImageDocument fromPhoto(@NonNull final Photo photo) {
+    static ImageDocument fromPhoto(@NonNull final Photo photo) {
         return new ImageDocument(photo);
     }
 
     @NonNull
-    public static ImageDocument fromIntent(@NonNull final Intent intent,
+    static ImageDocument fromIntent(@NonNull final Intent intent,
             @NonNull final Context context,
             @NonNull final String deviceOrientation,
             @NonNull final String deviceType) {
@@ -60,7 +59,7 @@ public class ImageDocument extends GiniVisionDocument {
                 deviceType);
     }
 
-    public ImageDocument(@NonNull final Photo photo) {
+    private ImageDocument(@NonNull final Photo photo) {
         super(Type.IMAGE, photo.getData(), null, true, photo.isImported());
         mRotationForDisplay = photo.getRotationForDisplay();
         mFormat = photo.getImageFormat();
@@ -68,7 +67,7 @@ public class ImageDocument extends GiniVisionDocument {
         mDeviceType = photo.getDeviceType();
     }
 
-    public ImageDocument(@Nullable final Intent intent, @NonNull final ImageFormat format,
+    private ImageDocument(@Nullable final Intent intent, @NonNull final ImageFormat format,
             @NonNull final String deviceOrientation,
             @NonNull final String deviceType) {
         super(Type.IMAGE, null, intent, true, true);

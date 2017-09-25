@@ -37,7 +37,6 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.DocumentFactory;
-import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.internal.camera.api.CameraController;
 import net.gini.android.vision.internal.camera.api.CameraException;
 import net.gini.android.vision.internal.camera.api.CameraInterface;
@@ -427,7 +426,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                     if (activity == null) {
                         return true;
                     }
-                    Document document = DocumentFactory.documentFromIntent(data, activity,
+                    Document document = DocumentFactory.newDocumentFromIntent(data, activity,
                             DeviceHelper.getDeviceOrientation(activity),
                             DeviceHelper.getDeviceType(activity));
                     LOG.debug("Document imported: {}", document);
@@ -461,7 +460,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         } else {
             if (photo != null) {
                 LOG.info("Picture taken");
-                mListener.onDocumentAvailable(ImageDocument.fromPhoto(photo));
+                mListener.onDocumentAvailable(DocumentFactory.newDocumentFromPhoto(photo));
             } else {
                 handleError(GiniVisionError.ErrorCode.CAMERA_SHOT_FAILED,
                         "Failed to take picture: no picture from the camera", null);

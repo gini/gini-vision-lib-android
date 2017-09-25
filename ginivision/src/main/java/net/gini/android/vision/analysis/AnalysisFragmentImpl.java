@@ -26,9 +26,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import net.gini.android.vision.Document;
-import net.gini.android.vision.GiniVisionDocument;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
+import net.gini.android.vision.document.GiniVisionDocument;
+import net.gini.android.vision.document.LoadDataCallback;
 import net.gini.android.vision.internal.document.DocumentRenderer;
 import net.gini.android.vision.internal.document.DocumentRendererFactory;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
@@ -163,7 +164,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
             return;
         }
         startScanAnimation();
-        mDocument.loadData(activity, new GiniVisionDocument.LoadDataCallback() {
+        mDocument.loadData(activity, new LoadDataCallback() {
             @Override
             public void onDataLoaded() {
                 if (mStopped) {

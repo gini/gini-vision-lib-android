@@ -20,10 +20,11 @@ import android.widget.ProgressBar;
 import com.ortiz.touch.TouchImageView;
 
 import net.gini.android.vision.Document;
-import net.gini.android.vision.GiniVisionDocument;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
+import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.ImageDocument;
+import net.gini.android.vision.document.LoadDataCallback;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.PhotoEdit;
 import net.gini.android.vision.internal.camera.photo.PhotoFactoryDocumentAsyncTask;
@@ -140,7 +141,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                 return;
             }
             showActivityIndicator();
-            mDocument.loadData(activity, new GiniVisionDocument.LoadDataCallback() {
+            mDocument.loadData(activity, new LoadDataCallback() {
                 @Override
                 public void onDataLoaded() {
                     createAndCompressPhoto();
@@ -157,7 +158,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         } else {
             observeViewTree();
             LOG.info("Should analyze document");
-            mListener.onShouldAnalyzeDocument(ImageDocument.fromPhoto(mPhoto));
+            mListener.onShouldAnalyzeDocument(DocumentFactory.newDocumentFromPhoto(mPhoto));
         }
     }
 
@@ -180,7 +181,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                                 hideActivityIndicator();
                                 observeViewTree();
                                 LOG.info("Should analyze document");
-                                mListener.onShouldAnalyzeDocument(ImageDocument.fromPhoto(photo));
+                                mListener.onShouldAnalyzeDocument(DocumentFactory.newDocumentFromPhoto(mPhoto));
                             }
 
                             @Override
@@ -346,7 +347,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                 if (mStopped) {
                     return;
                 }
-                mListener.onDocumentWasRotated(ImageDocument.fromPhoto(photo), oldRotation,
+                mListener.onDocumentWasRotated(DocumentFactory.newDocumentFromPhoto(photo), oldRotation,
                         mCurrentRotation);
             }
 
@@ -374,7 +375,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                 LOG.info("Document reviewed and analyzed");
                 // Photo was not modified and has been analyzed, client should show extraction
                 // results
-                mListener.onDocumentReviewedAndAnalyzed(ImageDocument.fromPhoto(mPhoto));
+                mListener.onDocumentReviewedAndAnalyzed(DocumentFactory.newDocumentFromPhoto(mPhoto));
             }
         } else {
             LOG.debug("Document was modified");
@@ -402,7 +403,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
     private void proceedToAnalysisScreen() {
         LOG.info("Proceed to Analysis Screen");
-        mListener.onProceedToAnalysisScreen(ImageDocument.fromPhoto(mPhoto));
+        mListener.onProceedToAnalysisScreen(DocumentFactory.newDocumentFromPhoto(mPhoto));
     }
 
     private void applyRotationToJpeg(@NonNull PhotoEdit.PhotoEditCallback callback) {

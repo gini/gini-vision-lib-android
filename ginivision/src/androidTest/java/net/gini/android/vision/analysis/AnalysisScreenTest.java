@@ -28,7 +28,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import net.gini.android.vision.R;
-import net.gini.android.vision.document.ImageDocument;
+import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.review.ReviewActivity;
@@ -77,7 +77,7 @@ public class AnalysisScreenTest {
 
         assertThat(activity.analyzeDocument).isNotNull();
 
-        assertAbout(document()).that(activity.analyzeDocument).isEqualToDocument(ImageDocument.fromPhoto(
+        assertAbout(document()).that(activity.analyzeDocument).isEqualToDocument(DocumentFactory.newDocumentFromPhoto(
                 PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "phone")));
     }
 
@@ -316,7 +316,7 @@ public class AnalysisScreenTest {
         assertThat(activity.analyzeDocument).isNotNull();
 
         assertAbout(document()).that(activity.analyzeDocument)
-                .isEqualToDocument(ImageDocument.fromPhoto(
+                .isEqualToDocument(DocumentFactory.newDocumentFromPhoto(
                         PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "phone")));
     }
 
@@ -340,7 +340,7 @@ public class AnalysisScreenTest {
 
     private AnalysisActivityTestSpy startAnalysisActivity(byte[] jpeg, int orientation) {
         Intent intent = getAnalysisActivityIntent();
-        intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, ImageDocument.fromPhoto(
+        intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, DocumentFactory.newDocumentFromPhoto(
                 PhotoFactory.newPhotoFromJpeg(jpeg, orientation, "portrait", "phone")));
         return mActivityTestRule.launchActivity(intent);
     }
