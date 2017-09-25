@@ -3,10 +3,9 @@ package net.gini.android.vision.internal.camera.photo;
 import android.support.annotation.NonNull;
 
 /**
- * Created by aszotyori on 21.09.17.
+ * @exclude
  */
-
-public class NoOpPhotoEdit extends PhotoEdit {
+class NoOpPhotoEdit extends PhotoEdit {
 
     NoOpPhotoEdit(@NonNull final Photo photo) {
         super(photo);
@@ -15,6 +14,7 @@ public class NoOpPhotoEdit extends PhotoEdit {
     @NonNull
     @Override
     public PhotoEdit rotateTo(final int degrees) {
+        getPhoto().setRotationForDisplay(degrees);
         return this;
     }
 

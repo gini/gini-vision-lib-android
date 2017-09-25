@@ -108,12 +108,12 @@ class ImmutablePhoto implements Photo {
 
     @Override
     public int getRotationForDisplay() {
-        return 0;
+        return mRotationForDisplay;
     }
 
     @Override
     public void setRotationForDisplay(final int rotationDegrees) {
-
+        mRotationForDisplay = rotationDegrees;
     }
 
     @Override
@@ -178,6 +178,7 @@ class ImmutablePhoto implements Photo {
         token = cache.storeJpeg(mData);
         dest.writeParcelable(token, flags);
 
+        dest.writeInt(mRotationForDisplay);
         dest.writeSerializable(mImageFormat);
         dest.writeInt(mIsImported ? 1 : 0);
     }
@@ -206,6 +207,7 @@ class ImmutablePhoto implements Photo {
         mData = cache.getJpeg(token);
         cache.removeJpeg(token);
 
+        mRotationForDisplay = in.readInt();
         mImageFormat = (ImageDocument.ImageFormat) in.readSerializable();
         mIsImported = in.readInt() == 1;
     }
