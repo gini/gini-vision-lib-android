@@ -51,7 +51,7 @@
         android:layout_toLeftOf="@id/gv_button_camera_trigger"
         android:background="@null"
         android:scaleType="centerInside"
-        android:src="@android:drawable/stat_sys_upload"
+        android:src="@drawable/gv_upload_icon"
         android:visibility="gone"
         tools:visibility="visible"/>
 
