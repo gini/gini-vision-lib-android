@@ -85,7 +85,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     private ImageButton mButtonImportDocument;
     private View mUploadHintCloseButton;
     private View mUploadHintContainer;
-    private View mUploadHintContainer2;
+    private View mUploadHintContainerArrow;
 
     private ViewStubSafeInflater mViewStubInflater;
 
@@ -165,7 +165,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                     .alpha(1)
                     .setDuration(DEFAULT_ANIMATION_DURATION)
                     .start();
-            ViewCompat.animate(mUploadHintContainer2)
+            ViewCompat.animate(mUploadHintContainerArrow)
                     .alpha(1)
                     .setDuration(DEFAULT_ANIMATION_DURATION)
                     .start();
@@ -306,7 +306,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mViewStubInflater = new ViewStubSafeInflater(stubNoPermission);
         mButtonImportDocument = view.findViewById(R.id.gv_button_import_document);
         mUploadHintContainer = view.findViewById(R.id.gv_upload_hint_container);
-        mUploadHintContainer2 = view.findViewById(R.id.gv_upload_hint_container2);
+        mUploadHintContainerArrow = view.findViewById(R.id.gv_upload_hint_container2);
         mUploadHintCloseButton = view.findViewById(R.id.gv_upload_hint_button);
     }
 
@@ -369,11 +369,9 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void closeUploadHintPopUp() {
+        mUploadHintContainerArrow.setVisibility(View.GONE);
+
         ViewCompat.animate(mUploadHintContainer)
-                .alpha(0)
-                .setDuration(DEFAULT_ANIMATION_DURATION)
-                .start();
-        ViewCompat.animate(mUploadHintContainer2)
                 .alpha(0)
                 .setDuration(DEFAULT_ANIMATION_DURATION)
                 .setListener(new ViewPropertyAnimatorListener() {
@@ -384,7 +382,6 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                     @Override
                     public void onAnimationEnd(final View view) {
                         mUploadHintContainer.setVisibility(View.GONE);
-                        mUploadHintContainer2.setVisibility(View.GONE);
                         Context context = view.getContext();
                         savePopUpShown(context);
                     }
