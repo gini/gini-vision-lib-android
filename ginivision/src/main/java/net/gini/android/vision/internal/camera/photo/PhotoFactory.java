@@ -16,7 +16,6 @@ public final class PhotoFactory {
     public static Photo newPhotoFromDocument(final ImageDocument document) {
         switch (document.getFormat()) {
             case JPEG:
-            case TIFF:
                 return new MutablePhoto(document);
             default:
                 return new ImmutablePhoto(document);

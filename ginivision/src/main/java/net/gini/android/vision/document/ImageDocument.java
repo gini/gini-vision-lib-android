@@ -21,7 +21,6 @@ public class ImageDocument extends GiniVisionDocument {
 
     public enum ImageFormat {
         JPEG,
-        TIFF,
         PNG,
         GIF;
 
@@ -29,8 +28,6 @@ public class ImageDocument extends GiniVisionDocument {
             switch (mimeType) {
                 case "image/jpeg":
                     return JPEG;
-                case "image/tiff":
-                    return TIFF;
                 case "image/png":
                     return PNG;
                 case "image/gif":
