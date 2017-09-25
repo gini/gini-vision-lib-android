@@ -1,6 +1,8 @@
 package net.gini.android.vision.camera;
 
 import static net.gini.android.vision.camera.Util.cameraExceptionToGiniVisionError;
+import static net.gini.android.vision.internal.fileimport.FileChooserActivity.EXTRA_OUT_ERROR;
+import static net.gini.android.vision.internal.fileimport.FileChooserActivity.RESULT_ERROR;
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 import static net.gini.android.vision.internal.util.AndroidHelper.isMarshmallowOrLater;
 import static net.gini.android.vision.internal.util.ContextHelper.getClientApplicationId;
@@ -328,8 +330,14 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
     boolean onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         if (requestCode == REQ_CODE_CHOOSE_FILE) {
-            LOG.info("Document file received");
-            Toast.makeText(mFragment.getActivity(), "File received", Toast.LENGTH_LONG).show();
+            if(resultCode != RESULT_ERROR) {
+                LOG.info("Document file received");
+                Toast.makeText(mFragment.getActivity(), "File received", Toast.LENGTH_LONG).show();
+            } else {
+                LOG.info("Document file opening gone wrong");
+                GiniVisionError error = data.getParcelableExtra(EXTRA_OUT_ERROR);
+                Toast.makeText(mFragment.getActivity(), error.getMessage(), Toast.LENGTH_LONG).show();
+            }
             return true;
         }
         return false;
