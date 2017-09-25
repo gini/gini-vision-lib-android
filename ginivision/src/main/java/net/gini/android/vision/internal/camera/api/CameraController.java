@@ -5,6 +5,8 @@ import static net.gini.android.vision.internal.camera.api.CameraParametersHelper
 import static net.gini.android.vision.internal.camera.api.CameraParametersHelper.isUsingFocusMode;
 import static net.gini.android.vision.internal.camera.api.SizeSelectionHelper.getLargestSize;
 import static net.gini.android.vision.internal.camera.api.SizeSelectionHelper.getLargestSizeWithSimilarAspectRatio;
+import static net.gini.android.vision.internal.util.DeviceHelper.getDeviceOrientation;
+import static net.gini.android.vision.internal.util.DeviceHelper.getDeviceType;
 
 import android.app.Activity;
 import android.graphics.Matrix;
@@ -23,7 +25,6 @@ import android.view.View;
 
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.PhotoFactory;
-import net.gini.android.vision.internal.util.ContextHelper;
 import net.gini.android.vision.internal.util.Size;
 
 import org.slf4j.Logger;
@@ -500,14 +501,6 @@ public class CameraController implements CameraInterface {
         }
 
         return result;
-    }
-
-    private String getDeviceOrientation(Activity activity) {
-        return ContextHelper.isPortraitOrientation(activity) ? "portrait" : "landscape";
-    }
-
-    private String getDeviceType(Activity activity) {
-        return ContextHelper.isTablet(activity) ? "tablet" : "phone";
     }
 
     @Nullable

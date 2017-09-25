@@ -9,6 +9,7 @@ import org.apache.commons.imaging.ImageReadException;
 import org.apache.commons.imaging.formats.jpeg.JpegImageMetadata;
 import org.apache.commons.imaging.formats.tiff.TiffField;
 import org.apache.commons.imaging.formats.tiff.constants.ExifTagConstants;
+import org.apache.commons.imaging.formats.tiff.constants.TiffTagConstants;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -67,5 +68,40 @@ class ExifReader {
             }
         }
         return null;
+    }
+
+    int getOrientationAsDegrees() {
+        final TiffField orientation = mJpegMetadata.findEXIFValue(TiffTagConstants.TIFF_TAG_ORIENTATION);
+        if (orientation != null) {
+            try {
+                return exifOrientationToRotation(orientation.getIntValue());
+            } catch (ImageReadException e) {
+                return 0;
+            }
+        }
+        return 0;
+    }
+
+    private int exifOrientationToRotation(int exifOrientation) {
+        int degrees;
+        switch (exifOrientation) {
+            case 1:
+                degrees = 0; // 0CW
+                break;
+            case 6:
+                degrees = 90; // 270CW
+                break;
+            case 3:
+                degrees = 180; // 180CW
+                break;
+            case 8:
+                degrees = 270; // 90CW
+                break;
+            default:
+                degrees = 0; // 0CW
+                break;
+        }
+
+        return degrees;
     }
 }

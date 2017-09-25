@@ -22,6 +22,10 @@ public interface Photo extends Parcelable {
 
     void setRotationForDisplay(int rotationDegrees);
 
+    String getDeviceOrientation();
+
+    String getDeviceType();
+
     Bitmap getBitmapPreview();
 
     ImageDocument.ImageFormat getImageFormat();

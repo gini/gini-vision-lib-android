@@ -27,6 +27,7 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
     private int mRotationDelta = 0;
     private String mDeviceOrientation;
     private String mDeviceType;
+    private ImageDocument mImageDocument;
 
     MutablePhoto(@NonNull byte[] data, int orientation,
             @NonNull final String deviceOrientation,
@@ -42,6 +43,7 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
 
     MutablePhoto(@NonNull final ImageDocument document) {
         super(document);
+        mImageDocument = document;
         initFieldsFromExif();
     }
 
@@ -62,15 +64,28 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
             String userComment = exifReader.getUserComment();
             mContentId = exifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_CONTENT_ID,
                     userComment);
-            mRotationDelta = Integer.parseInt(
-                    exifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_ROTATION_DELTA,
-                            userComment));
+            if (mContentId == null) {
+                mContentId = generateUUID();
+            }
+            String rotationDelta = exifReader.getValueForKeyFromUserComment(
+                    Exif.USER_COMMENT_ROTATION_DELTA,
+                    userComment);
+            if (rotationDelta != null) {
+                mRotationDelta = Integer.parseInt(rotationDelta);
+            }
             mDeviceOrientation =
                     exifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_DEVICE_ORIENTATION,
                             userComment);
+            if (mDeviceOrientation == null && mImageDocument != null) {
+                mDeviceOrientation = mImageDocument.getDeviceOrientation();
+            }
             mDeviceType =
                     exifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_DEVICE_TYPE,
                             userComment);
+            if (mDeviceType == null) {
+                mDeviceType = mImageDocument.getDeviceType();
+            }
+            mRotationForDisplay = exifReader.getOrientationAsDegrees();
         } catch (ExifReaderException | NumberFormatException e) {
             LOG.error("Could not read exif User Comment", e);
         }
@@ -106,6 +121,16 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
     @VisibleForTesting
     synchronized int getRotationDelta() {
         return mRotationDelta;
+    }
+
+    @Override
+    public String getDeviceOrientation() {
+        return mDeviceOrientation;
+    }
+
+    @Override
+    public String getDeviceType() {
+        return mDeviceType;
     }
 
     @VisibleForTesting

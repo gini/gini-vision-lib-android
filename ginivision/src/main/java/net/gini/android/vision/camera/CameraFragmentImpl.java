@@ -48,6 +48,7 @@ import net.gini.android.vision.internal.fileimport.FileChooserActivity;
 import net.gini.android.vision.internal.permission.PermissionRequestListener;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.internal.ui.ViewStubSafeInflater;
+import net.gini.android.vision.internal.util.DeviceHelper;
 import net.gini.android.vision.internal.util.Size;
 
 import org.slf4j.Logger;
@@ -426,7 +427,9 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                     if (activity == null) {
                         return true;
                     }
-                    Document document = DocumentFactory.documentFromIntent(data, activity);
+                    Document document = DocumentFactory.documentFromIntent(data, activity,
+                            DeviceHelper.getDeviceOrientation(activity),
+                            DeviceHelper.getDeviceType(activity));
                     LOG.debug("Document imported: {}", document);
                     mListener.onDocumentAvailable(document);
                 } catch (IllegalArgumentException e) {

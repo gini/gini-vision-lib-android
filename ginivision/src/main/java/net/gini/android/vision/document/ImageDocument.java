@@ -16,6 +16,9 @@ import java.util.List;
 
 public class ImageDocument extends GiniVisionDocument {
 
+    private final String mDeviceOrientation;
+    private final String mDeviceType;
+
     public enum ImageFormat {
         JPEG,
         TIFF,
@@ -48,25 +51,34 @@ public class ImageDocument extends GiniVisionDocument {
 
     @NonNull
     public static ImageDocument fromIntent(@NonNull final Intent intent,
-            @NonNull final Context context) {
+            @NonNull final Context context,
+            @NonNull final String deviceOrientation,
+            @NonNull final String deviceType) {
         final List<String> mimeTypes = getMimeTypes(intent, context);
         if (mimeTypes.size() == 0 || !hasMimeTypeWithPrefix(intent, context, "image/")) {
             throw new IllegalArgumentException("Intent must have a mime type of image/*");
         }
         final String mimeType = mimeTypes.get(0);
-        return new ImageDocument(intent, ImageFormat.fromMimeType(mimeType));
+        return new ImageDocument(intent, ImageFormat.fromMimeType(mimeType), deviceOrientation,
+                deviceType);
     }
 
     public ImageDocument(@NonNull final Photo photo) {
         super(Type.IMAGE, photo.getData(), null, true, photo.isImported());
         mRotationForDisplay = photo.getRotationForDisplay();
         mFormat = photo.getImageFormat();
+        mDeviceOrientation = photo.getDeviceOrientation();
+        mDeviceType = photo.getDeviceType();
     }
 
-    public ImageDocument(@Nullable final Intent intent, @NonNull final ImageFormat format) {
+    public ImageDocument(@Nullable final Intent intent, @NonNull final ImageFormat format,
+            @NonNull final String deviceOrientation,
+            @NonNull final String deviceType) {
         super(Type.IMAGE, null, intent, true, true);
         mRotationForDisplay = 0;
         mFormat = format;
+        mDeviceOrientation = deviceOrientation;
+        mDeviceType = deviceType;
     }
 
     @NonNull
@@ -88,6 +100,14 @@ public class ImageDocument extends GiniVisionDocument {
         return mRotationForDisplay;
     }
 
+    public String getDeviceOrientation() {
+        return mDeviceOrientation;
+    }
+
+    public String getDeviceType() {
+        return mDeviceType;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -98,6 +118,8 @@ public class ImageDocument extends GiniVisionDocument {
         super.writeToParcel(dest, flags);
         dest.writeInt(mRotationForDisplay);
         dest.writeSerializable(mFormat);
+        dest.writeString(mDeviceOrientation);
+        dest.writeString(mDeviceType);
     }
 
     public static final Creator<ImageDocument> CREATOR = new Creator<ImageDocument>() {
@@ -116,5 +138,7 @@ public class ImageDocument extends GiniVisionDocument {
         super(in);
         mRotationForDisplay = in.readInt();
         mFormat = (ImageFormat) in.readSerializable();
+        mDeviceOrientation = in.readString();
+        mDeviceType = in.readString();
     }
 }

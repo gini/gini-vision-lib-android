@@ -116,6 +116,16 @@ class ImmutablePhoto implements Photo {
 
     }
 
+    @Override
+    public String getDeviceOrientation() {
+        return null;
+    }
+
+    @Override
+    public String getDeviceType() {
+        return null;
+    }
+
     public synchronized void saveToFile(File file) {
         FileOutputStream fileOutputStream = null;
         try {
