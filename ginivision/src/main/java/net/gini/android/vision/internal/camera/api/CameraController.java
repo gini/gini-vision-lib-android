@@ -358,7 +358,8 @@ public class CameraController implements CameraInterface {
                         final Photo photo = PhotoFactory.newPhotoFromJpeg(bytes,
                                 getDisplayOrientationForCamera(mActivity),
                                 getDeviceOrientation(mActivity),
-                                getDeviceType(mActivity));
+                                getDeviceType(mActivity),
+                                "camera");
                         LOG.info("Picture taken");
                         pictureTaken.complete(photo);
                     }

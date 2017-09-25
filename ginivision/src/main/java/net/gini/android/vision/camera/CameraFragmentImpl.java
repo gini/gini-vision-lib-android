@@ -428,7 +428,8 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                     }
                     Document document = DocumentFactory.newDocumentFromIntent(data, activity,
                             DeviceHelper.getDeviceOrientation(activity),
-                            DeviceHelper.getDeviceType(activity));
+                            DeviceHelper.getDeviceType(activity),
+                            "picker");
                     LOG.debug("Document imported: {}", document);
                     mListener.onDocumentAvailable(document);
                 } catch (IllegalArgumentException e) {

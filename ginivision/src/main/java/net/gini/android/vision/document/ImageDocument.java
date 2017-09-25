@@ -1,6 +1,7 @@
 package net.gini.android.vision.document;
 
 import static net.gini.android.vision.internal.util.IntentHelper.getMimeTypes;
+import static net.gini.android.vision.internal.util.IntentHelper.getSourceAppName;
 import static net.gini.android.vision.internal.util.IntentHelper.hasMimeTypeWithPrefix;
 
 import android.content.Context;
@@ -17,6 +18,8 @@ public class ImageDocument extends GiniVisionDocument {
 
     private final String mDeviceOrientation;
     private final String mDeviceType;
+    private final String mSource;
+    private final String mImportMethod;
 
     public enum ImageFormat {
         JPEG,
@@ -49,14 +52,22 @@ public class ImageDocument extends GiniVisionDocument {
     static ImageDocument fromIntent(@NonNull final Intent intent,
             @NonNull final Context context,
             @NonNull final String deviceOrientation,
-            @NonNull final String deviceType) {
+            @NonNull final String deviceType,
+            @NonNull final String importMethod) {
         final List<String> mimeTypes = getMimeTypes(intent, context);
         if (mimeTypes.size() == 0 || !hasMimeTypeWithPrefix(intent, context, "image/")) {
             throw new IllegalArgumentException("Intent must have a mime type of image/*");
         }
         final String mimeType = mimeTypes.get(0);
+        final String source = getDocumentSource(intent, context);
         return new ImageDocument(intent, ImageFormat.fromMimeType(mimeType), deviceOrientation,
-                deviceType);
+                deviceType, source, importMethod);
+    }
+
+    private static String getDocumentSource(@NonNull final Intent data,
+            @NonNull final Context context) {
+        String appName = getSourceAppName(data, context);
+        return appName != null ? appName : "external";
     }
 
     private ImageDocument(@NonNull final Photo photo) {
@@ -65,16 +76,22 @@ public class ImageDocument extends GiniVisionDocument {
         mFormat = photo.getImageFormat();
         mDeviceOrientation = photo.getDeviceOrientation();
         mDeviceType = photo.getDeviceType();
+        mSource = photo.getSource();
+        mImportMethod = photo.getImportMethod();
     }
 
     private ImageDocument(@Nullable final Intent intent, @NonNull final ImageFormat format,
             @NonNull final String deviceOrientation,
-            @NonNull final String deviceType) {
+            @NonNull final String deviceType,
+            @NonNull final String source,
+            @NonNull final String importMethod) {
         super(Type.IMAGE, null, intent, true, true);
         mRotationForDisplay = 0;
         mFormat = format;
         mDeviceOrientation = deviceOrientation;
         mDeviceType = deviceType;
+        mSource = source;
+        mImportMethod = importMethod;
     }
 
     @NonNull
@@ -104,6 +121,14 @@ public class ImageDocument extends GiniVisionDocument {
         return mDeviceType;
     }
 
+    public String getSource() {
+        return mSource;
+    }
+
+    public String getImportMethod() {
+        return mImportMethod;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -116,6 +141,8 @@ public class ImageDocument extends GiniVisionDocument {
         dest.writeSerializable(mFormat);
         dest.writeString(mDeviceOrientation);
         dest.writeString(mDeviceType);
+        dest.writeString(mSource);
+        dest.writeString(mImportMethod);
     }
 
     public static final Creator<ImageDocument> CREATOR = new Creator<ImageDocument>() {
@@ -136,5 +163,7 @@ public class ImageDocument extends GiniVisionDocument {
         mFormat = (ImageFormat) in.readSerializable();
         mDeviceOrientation = in.readString();
         mDeviceType = in.readString();
+        mSource = in.readString();
+        mImportMethod = in.readString();
     }
 }
