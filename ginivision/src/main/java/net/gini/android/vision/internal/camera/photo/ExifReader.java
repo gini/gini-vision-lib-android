@@ -28,7 +28,7 @@ class ExifReader {
                 throw new ExifReaderException("No jpeg metadata found");
             }
             return new ExifReader(jpegMetadata);
-        } catch (IOException | ImageReadException e) {
+        } catch (IOException | ImageReadException | ClassCastException e) {
             throw new ExifReaderException("Could not read jpeg metadata: " + e.getMessage(), e);
         }
     }
