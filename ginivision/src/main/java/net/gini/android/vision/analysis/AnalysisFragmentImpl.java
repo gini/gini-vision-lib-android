@@ -180,7 +180,9 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
                         "An error occurred while loading the document."));
             }
         });
-        showHints();
+        if (!mDocument.isImported()) {
+            showHints();
+        }
     }
 
     private void showHints() {
