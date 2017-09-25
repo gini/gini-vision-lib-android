@@ -82,10 +82,12 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
             mDeviceType =
                     exifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_DEVICE_TYPE,
                             userComment);
-            if (mDeviceType == null) {
+            if (mDeviceType == null && mImageDocument != null) {
                 mDeviceType = mImageDocument.getDeviceType();
             }
-            mRotationForDisplay = exifReader.getOrientationAsDegrees();
+            if (mImageDocument != null && mImageDocument.isImported()) {
+                mRotationForDisplay = exifReader.getOrientationAsDegrees();
+            }
         } catch (ExifReaderException | NumberFormatException e) {
             LOG.error("Could not read exif User Comment", e);
         }
