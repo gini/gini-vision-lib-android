@@ -115,10 +115,6 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
     public void onCreate(@Nullable Bundle savedInstanceState) {
         forcePortraitOrientationOnPhones(mFragment.getActivity());
-        if (mDocument.getType() == Document.Type.PDF) {
-            mListener.onProceedToAnalysisScreen(mDocument);
-            return;
-        }
         if (savedInstanceState != null) {
             restoreSavedState(savedInstanceState);
         }
