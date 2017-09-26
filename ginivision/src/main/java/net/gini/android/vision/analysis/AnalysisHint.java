@@ -12,11 +12,9 @@ import java.util.List;
 
 enum AnalysisHint {
 
-    //TODO use actual assets and strings
-    FLAT(R.drawable.gv_onboarding_flat, R.string.gv_noresults_flat),
-    ALIGN(R.drawable.gv_onboarding_align, R.string.gv_noresults_align),
-    PARALLEL(R.drawable.gv_onboarding_parallel, R.string.gv_noresults_parallel),
-    LIGHT(R.drawable.gv_action_bar_back, R.string.gv_camera_error_no_permission);
+    FLAT(R.drawable.gv_hint_icon, R.string.gv_noresults_flat),
+    ALIGN(R.drawable.gv_hint_icon, R.string.gv_noresults_align),
+    PARALLEL(R.drawable.gv_hint_icon, R.string.gv_noresults_parallel);
 
     public int getDrawableResource() {
         return mDrawableResource;
