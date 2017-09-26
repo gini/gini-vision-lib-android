@@ -229,7 +229,7 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
                 if (error.getErrorCode() == GiniVisionError.ErrorCode.DOCUMENT_IMPORT) {
                     CameraFragmentCompat cameraFragment =
                             (CameraFragmentCompat) mCurrentFragment;
-                    cameraFragment.showError(getString(R.string.gv_document_import_error),
+                    cameraFragment.showErrorSnackbar(getString(R.string.gv_document_import_error),
                             SHOW_ERROR_DURATION);
                     return;
                 }

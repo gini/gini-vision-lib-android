@@ -304,7 +304,6 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
 
     @VisibleForTesting
     static final int REVIEW_DOCUMENT_REQUEST = 1;
-    private static final int SHOW_ERROR_DURATION = 4000;
     private static final int ONBOARDING_REQUEST = 2;
     private static final int ANALYSE_DOCUMENT_REQUEST = 3;
 
@@ -497,14 +496,10 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
 
     @Override
     public void onError(@NonNull GiniVisionError error) {
-        if (error.getErrorCode() == GiniVisionError.ErrorCode.DOCUMENT_IMPORT) {
-            mFragment.showError(getString(R.string.gv_document_import_error), SHOW_ERROR_DURATION);
-        } else {
-            Intent result = new Intent();
-            result.putExtra(EXTRA_OUT_ERROR, error);
-            setResult(RESULT_ERROR, result);
-            finish();
-        }
+        Intent result = new Intent();
+        result.putExtra(EXTRA_OUT_ERROR, error);
+        setResult(RESULT_ERROR, result);
+        finish();
     }
 
     @Override

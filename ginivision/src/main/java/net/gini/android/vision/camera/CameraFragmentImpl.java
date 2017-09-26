@@ -72,6 +72,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     };
 
     private static final int REQ_CODE_CHOOSE_FILE = 1;
+    private static final int SHOW_ERROR_DURATION = 4000;
 
     private final CameraFragmentImplCallback mFragment;
     private CameraFragmentListener mListener = NO_OP_LISTENER;
@@ -576,7 +577,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     @Override
-    public void showError(@NonNull String message, int duration) {
+    public void showErrorSnackbar(@NonNull String message, int duration) {
         if (mFragment.getActivity() == null || mLayoutRoot == null) {
             return;
         }
@@ -585,7 +586,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     @Override
-    public void showError(@NonNull String message, @NonNull String buttonTitle,
+    public void showErrorSnackbar(@NonNull String message, @NonNull String buttonTitle,
             @NonNull View.OnClickListener onClickListener) {
         if (mFragment.getActivity() == null) {
             return;
@@ -715,10 +716,18 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void handleError(GiniVisionError.ErrorCode errorCode, @NonNull String message) {
-        mListener.onError(new GiniVisionError(errorCode, message));
+        handleError(new GiniVisionError(errorCode, message));
     }
 
     private void handleError(@NonNull final GiniVisionError error) {
-        mListener.onError(error);
+        if (error.getErrorCode() == DOCUMENT_IMPORT) {
+            final Activity activity = mFragment.getActivity();
+            if (activity == null) {
+                return;
+            }
+            showErrorSnackbar(activity.getString(R.string.gv_document_import_error), SHOW_ERROR_DURATION);
+        } else {
+            mListener.onError(error);
+        }
     }
 }

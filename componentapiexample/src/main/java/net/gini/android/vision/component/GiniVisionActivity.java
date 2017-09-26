@@ -232,7 +232,7 @@ public class GiniVisionActivity extends Activity
                 if (error.getErrorCode() == GiniVisionError.ErrorCode.DOCUMENT_IMPORT) {
                     CameraFragmentStandard cameraFragment =
                             (CameraFragmentStandard) mCurrentFragment;
-                    cameraFragment.showError(getString(R.string.gv_document_import_error),
+                    cameraFragment.showErrorSnackbar(getString(R.string.gv_document_import_error),
                             SHOW_ERROR_DURATION);
                     return;
                 }

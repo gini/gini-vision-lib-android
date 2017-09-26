@@ -155,14 +155,14 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
     }
 
     @Override
-    public void showError(@NonNull final String message, final int duration) {
-        mFragmentImpl.showError(message, duration);
+    public void showErrorSnackbar(@NonNull final String message, final int duration) {
+        mFragmentImpl.showErrorSnackbar(message, duration);
     }
 
     @Override
-    public void showError(@NonNull final String message, @NonNull final String buttonTitle,
+    public void showErrorSnackbar(@NonNull final String message, @NonNull final String buttonTitle,
             @NonNull final View.OnClickListener onClickListener) {
-        mFragmentImpl.showError(message, buttonTitle, onClickListener);
+        mFragmentImpl.showErrorSnackbar(message, buttonTitle, onClickListener);
     }
 
     @Override
