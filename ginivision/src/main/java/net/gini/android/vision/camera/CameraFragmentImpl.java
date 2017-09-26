@@ -577,7 +577,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     @Override
-    public void showErrorSnackbar(@NonNull String message, int duration) {
+    public void showErrorInSnackbar(@NonNull String message, int duration) {
         if (mFragment.getActivity() == null || mLayoutRoot == null) {
             return;
         }
@@ -586,7 +586,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     @Override
-    public void showErrorSnackbar(@NonNull String message, @NonNull String buttonTitle,
+    public void showErrorInSnackbar(@NonNull String message, @NonNull String buttonTitle,
             @NonNull View.OnClickListener onClickListener) {
         if (mFragment.getActivity() == null) {
             return;
@@ -725,7 +725,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
             if (activity == null) {
                 return;
             }
-            showErrorSnackbar(activity.getString(R.string.gv_document_import_error), SHOW_ERROR_DURATION);
+            showErrorInSnackbar(activity.getString(R.string.gv_document_import_error), SHOW_ERROR_DURATION);
         } else {
             mListener.onError(error);
         }

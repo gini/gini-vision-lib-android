@@ -152,14 +152,14 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
     }
 
     @Override
-    public void showErrorSnackbar(@NonNull final String message, final int duration) {
-        mFragmentImpl.showErrorSnackbar(message, duration);
+    public void showErrorInSnackbar(@NonNull final String message, final int duration) {
+        mFragmentImpl.showErrorInSnackbar(message, duration);
     }
 
     @Override
-    public void showErrorSnackbar(@NonNull final String message, @NonNull final String buttonTitle,
+    public void showErrorInSnackbar(@NonNull final String message, @NonNull final String buttonTitle,
             @NonNull final View.OnClickListener onClickListener) {
-        mFragmentImpl.showErrorSnackbar(message, buttonTitle, onClickListener);
+        mFragmentImpl.showErrorInSnackbar(message, buttonTitle, onClickListener);
     }
 
     @Override

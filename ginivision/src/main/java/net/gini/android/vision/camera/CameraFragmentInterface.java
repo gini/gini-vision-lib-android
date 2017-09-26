@@ -92,7 +92,7 @@ public interface CameraFragmentInterface {
      * @param message  a short error message
      * @param duration how long should the error message be shown in ms
      */
-    void showErrorSnackbar(@NonNull String message, int duration);
+    void showErrorInSnackbar(@NonNull String message, int duration);
 
     /**
      * <p>
@@ -104,6 +104,6 @@ public interface CameraFragmentInterface {
      * @param buttonTitle     if not null and not empty, shows a button with the given title
      * @param onClickListener listener for the button
      */
-    void showErrorSnackbar(@NonNull String message, @NonNull String buttonTitle,
+    void showErrorInSnackbar(@NonNull String message, @NonNull String buttonTitle,
             @NonNull View.OnClickListener onClickListener);
 }

@@ -223,31 +223,19 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
     @Override
     public void onError(@NonNull GiniVisionError error) {
         LOG.error("Gini Vision Lib error: {} - {}", error.getErrorCode(), error.getMessage());
-        if (mCurrentFragment != null) {
-            if (mCurrentFragment instanceof CameraFragmentCompat) {
-                // For document importing we should show errors in a Snackbar in the Camera Fragment
-                if (error.getErrorCode() == GiniVisionError.ErrorCode.DOCUMENT_IMPORT) {
-                    CameraFragmentCompat cameraFragment =
-                            (CameraFragmentCompat) mCurrentFragment;
-                    cameraFragment.showErrorSnackbar(getString(R.string.gv_document_import_error),
-                            SHOW_ERROR_DURATION);
-                    return;
-                }
-            } else if (mCurrentFragment instanceof AnalysisFragmentCompat) {
-                // We can show errors in a Snackbar in the Analysis Fragment
-                AnalysisFragmentCompat analysisFragment =
-                        (AnalysisFragmentCompat) mCurrentFragment;
-                analysisFragment.showError("Error: " +
-                                error.getErrorCode() + " - " +
-                                error.getMessage(),
-                        SHOW_ERROR_DURATION);
-                return;
-            }
+        if (mCurrentFragment != null && mCurrentFragment instanceof AnalysisFragmentCompat) {
+            // We can show errors in a Snackbar in the Analysis Fragment
+            AnalysisFragmentCompat analysisFragment = (AnalysisFragmentCompat) mCurrentFragment;
+            analysisFragment.showError("Error: " +
+                            error.getErrorCode() + " - " +
+                            error.getMessage(),
+                    Toast.LENGTH_LONG);
+        } else {
+            Toast.makeText(this, "Error: " +
+                            error.getErrorCode() + " - " +
+                            error.getMessage(),
+                    Toast.LENGTH_LONG).show();
         }
-        Toast.makeText(this, "Error: " +
-                        error.getErrorCode() + " - " +
-                        error.getMessage(),
-                Toast.LENGTH_LONG).show();
     }
 
     @Override

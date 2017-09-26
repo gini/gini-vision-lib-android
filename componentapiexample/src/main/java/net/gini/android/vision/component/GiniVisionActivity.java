@@ -224,16 +224,7 @@ public class GiniVisionActivity extends Activity
     public void onError(@NonNull GiniVisionError error) {
         LOG.error("Gini Vision Lib error: {} - {}", error.getErrorCode(), error.getMessage());
         if (mCurrentFragment != null) {
-            if (mCurrentFragment instanceof CameraFragmentStandard) {
-                // For document importing we should show errors in a Snackbar in the Camera Fragment
-                if (error.getErrorCode() == GiniVisionError.ErrorCode.DOCUMENT_IMPORT) {
-                    CameraFragmentStandard cameraFragment =
-                            (CameraFragmentStandard) mCurrentFragment;
-                    cameraFragment.showErrorSnackbar(getString(R.string.gv_document_import_error),
-                            SHOW_ERROR_DURATION);
-                    return;
-                }
-            } else if (mCurrentFragment instanceof AnalysisFragmentStandard) {
+             if (mCurrentFragment instanceof AnalysisFragmentStandard) {
                 // We can show errors in a Snackbar in the Analysis Fragment
                 AnalysisFragmentStandard analysisFragment =
                         (AnalysisFragmentStandard) mCurrentFragment;
