@@ -29,7 +29,7 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.GiniVisionDocument;
-import net.gini.android.vision.document.LoadDataCallback;
+import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.document.DocumentRenderer;
 import net.gini.android.vision.internal.document.DocumentRendererFactory;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
@@ -164,22 +164,26 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
             return;
         }
         startScanAnimation();
-        mDocument.loadData(activity, new LoadDataCallback() {
-            @Override
-            public void onDataLoaded() {
-                if (mStopped) {
-                    return;
-                }
-                observeViewTree();
-            }
+        mDocument.loadData(activity,
+                new AsyncCallback<byte[]>() {
+                    @Override
+                    public void onSuccess(final byte[] result) {
+                        if (mStopped) {
+                            return;
+                        }
+                        observeViewTree();
+                    }
 
-            @Override
-            public void onError(@NonNull final Exception exception) {
-                LOG.error("Failed to load document data");
-                mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.ANALYSIS,
-                        "An error occurred while loading the document."));
-            }
-        });
+                    @Override
+                    public void onError(final Exception exception) {
+                        if (mStopped) {
+                            return;
+                        }
+                        LOG.error("Failed to load document data");
+                        mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.ANALYSIS,
+                                "An error occurred while loading the document."));
+                    }
+                });
         if (!mDocument.isImported()) {
             showHints();
         }

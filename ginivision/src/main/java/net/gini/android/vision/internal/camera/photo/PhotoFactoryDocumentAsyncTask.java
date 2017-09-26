@@ -4,29 +4,37 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
 import net.gini.android.vision.document.ImageDocument;
+import net.gini.android.vision.internal.AsyncCallback;
 
 /**
  * @exclude
  */
 public class PhotoFactoryDocumentAsyncTask extends AsyncTask<ImageDocument, Void, Photo> {
 
-    private final Listener mListener;
+    private final AsyncCallback<Photo> mListener;
+    private Exception mException;
 
-    public PhotoFactoryDocumentAsyncTask(@NonNull final Listener listener) {
+    public PhotoFactoryDocumentAsyncTask(@NonNull final AsyncCallback<Photo> listener) {
         mListener = listener;
     }
 
     @Override
     protected Photo doInBackground(final ImageDocument... imageDocuments) {
-        return PhotoFactory.newPhotoFromDocument(imageDocuments[0]);
+        try {
+            return PhotoFactory.newPhotoFromDocument(imageDocuments[0]);
+        } catch (Exception e) {
+            mException = e;
+            return null;
+        }
     }
 
     @Override
     protected void onPostExecute(final Photo photo) {
-        mListener.onPhotoCreated(photo);
+        if (mException != null) {
+            mListener.onError(mException);
+            return;
+        }
+        mListener.onSuccess(photo);
     }
 
-    public interface Listener {
-        void onPhotoCreated(@NonNull final Photo photo);
-    }
 }

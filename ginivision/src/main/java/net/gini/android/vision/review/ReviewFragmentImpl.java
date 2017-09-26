@@ -24,7 +24,7 @@ import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.ImageDocument;
-import net.gini.android.vision.document.LoadDataCallback;
+import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.PhotoEdit;
 import net.gini.android.vision.internal.camera.photo.PhotoFactoryDocumentAsyncTask;
@@ -137,20 +137,27 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                 return;
             }
             showActivityIndicatorAndDisableButtons();
-            mDocument.loadData(activity, new LoadDataCallback() {
-                @Override
-                public void onDataLoaded() {
-                    createAndCompressPhoto();
-                }
+            mDocument.loadData(activity,
+                    new AsyncCallback<byte[]>() {
+                        @Override
+                        public void onSuccess(final byte[] result) {
+                            if (mNextClicked || mStopped) {
+                                return;
+                            }
+                            createAndCompressPhoto();
+                        }
 
-                @Override
-                public void onError(@NonNull final Exception exception) {
-                    hideActivityIndicatorAndEnableButtons();
-                    LOG.error("Failed to load document data");
-                    mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW,
-                            "An error occurred while loading the document."));
-                }
-            });
+                        @Override
+                        public void onError(final Exception exception) {
+                            if (mNextClicked || mStopped) {
+                                return;
+                            }
+                            hideActivityIndicatorAndEnableButtons();
+                            LOG.error("Failed to load document data");
+                            mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW,
+                                    "An error occurred while loading the document."));
+                        }
+                    });
         } else {
             observeViewTree();
             LOG.info("Should analyze document");
@@ -160,13 +167,13 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
     private void createAndCompressPhoto() {
         PhotoFactoryDocumentAsyncTask asyncTask = new PhotoFactoryDocumentAsyncTask(
-                new PhotoFactoryDocumentAsyncTask.Listener() {
+                new AsyncCallback<Photo>() {
                     @Override
-                    public void onPhotoCreated(@NonNull final Photo photo) {
+                    public void onSuccess(final Photo result) {
                         if (mNextClicked || mStopped) {
                             return;
                         }
-                        mPhoto = photo;
+                        mPhoto = result;
                         mCurrentRotation = mPhoto.getRotationForDisplay();
                         applyCompressionToJpeg(new PhotoEdit.PhotoEditCallback() {
                             @Override
@@ -190,6 +197,16 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                                         "An error occurred while compressing the jpeg."));
                             }
                         });
+                    }
+
+                    @Override
+                    public void onError(final Exception exception) {
+                        if (mNextClicked || mStopped) {
+                            return;
+                        }
+                        LOG.error("Failed to instantiate a Photo from the ImageDocument");
+                        mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW,
+                                "An error occurred while instantiating a Photo from the ImageDocument."));
                     }
                 });
         asyncTask.execute(mDocument);

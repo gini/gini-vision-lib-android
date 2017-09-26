@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import net.gini.android.vision.Document;
+import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.camera.photo.ImageCache;
 import net.gini.android.vision.internal.util.UriReaderAsyncTask;
 import net.gini.android.vision.internal.util.IntentHelper;
@@ -61,9 +62,9 @@ public class GiniVisionDocument implements Document {
         return mIsReviewable;
     }
 
-    public void loadData(@NonNull final Context context, @NonNull final LoadDataCallback callback) {
+    public void loadData(@NonNull final Context context, @NonNull final AsyncCallback<byte[]> callback) {
         if (mData != null) {
-            callback.onDataLoaded();
+            callback.onSuccess(mData);
             return;
         }
         if (mIntent == null) {
@@ -76,15 +77,15 @@ public class GiniVisionDocument implements Document {
             return;
         }
         final UriReaderAsyncTask asyncTask = new UriReaderAsyncTask(context,
-                new UriReaderAsyncTask.Listener() {
+                new AsyncCallback<byte[]>() {
                     @Override
-                    public void onBytesRead(@Nullable final byte[] bytes) {
-                        mData = bytes;
-                        callback.onDataLoaded();
+                    public void onSuccess(final byte[] result) {
+                        mData = result;
+                        callback.onSuccess(mData);
                     }
 
                     @Override
-                    public void onError(@NonNull final Exception exception) {
+                    public void onError(final Exception exception) {
                         callback.onError(exception);
                     }
                 });
