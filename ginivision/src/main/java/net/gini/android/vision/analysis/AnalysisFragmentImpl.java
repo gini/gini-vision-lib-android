@@ -164,10 +164,12 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
             return;
         }
         startScanAnimation();
+        LOG.debug("Loading document data");
         mDocument.loadData(activity,
                 new AsyncCallback<byte[]>() {
                     @Override
                     public void onSuccess(final byte[] result) {
+                        LOG.debug("Document data loaded");
                         if (mStopped) {
                             return;
                         }
@@ -176,10 +178,10 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
                     @Override
                     public void onError(final Exception exception) {
+                        LOG.error("Failed to load document data", exception);
                         if (mStopped) {
                             return;
                         }
-                        LOG.error("Failed to load document data");
                         mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.ANALYSIS,
                                 "An error occurred while loading the document."));
                     }
@@ -328,6 +330,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         if (view == null) {
             return;
         }
+        LOG.debug("Observing the view layout");
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -339,6 +342,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     private void onViewLayoutFinished() {
+        LOG.debug("View layout finished");
         showDocument();
         analyzeDocument();
     }
@@ -359,10 +363,12 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     private void showDocument() {
+        LOG.debug("Rendering the document");
         final Size previewSize = new Size(mImageDocument.getWidth(), mImageDocument.getHeight());
         mDocumentRenderer.toBitmap(previewSize, new DocumentRenderer.Callback() {
             @Override
             public void onBitmapReady(@Nullable final Bitmap bitmap, final int rotationForDisplay) {
+                LOG.debug("Document rendered");
                 if (mStopped) {
                     return;
                 }
