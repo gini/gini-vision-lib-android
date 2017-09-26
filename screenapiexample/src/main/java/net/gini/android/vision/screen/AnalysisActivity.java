@@ -9,7 +9,6 @@ import net.gini.android.ginivisiontest.R;
 import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionDebug;
-import net.gini.android.vision.document.ImageDocument;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,44 +36,45 @@ public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisA
     @Override
     public void onAnalyzeDocument(@NonNull final Document document) {
         LOG.debug("Analyze document");
-        if (document.getType() == Document.Type.IMAGE) {
-            GiniVisionDebug.writeImageDocumentToFile(this, (ImageDocument) document, "_for_analysis");
-        }
+        GiniVisionDebug.writeImageDocumentToFile(this, document, "_for_analysis");
 
         startScanAnimation();
         // We can start analyzing the document by sending it to the Gini API
-        mSingleDocumentAnalyzer.analyzeDocument(document, new SingleDocumentAnalyzer.DocumentAnalysisListener() {
-            @Override
-            public void onException(Exception exception) {
-                stopScanAnimation();
-                String message = "Analysis failed: ";
-                if (exception != null) {
-                   message += exception.getMessage();
-                }
-                final SingleDocumentAnalyzer.DocumentAnalysisListener listener = this;
-                showError(message, getString(R.string.gv_document_analysis_error_retry), new View.OnClickListener() {
+        mSingleDocumentAnalyzer.analyzeDocument(document,
+                new SingleDocumentAnalyzer.DocumentAnalysisListener() {
                     @Override
-                    public void onClick(View v) {
-                        startScanAnimation();
-                        mSingleDocumentAnalyzer.cancelAnalysis();
-                        mSingleDocumentAnalyzer.analyzeDocument(document, listener);
+                    public void onException(Exception exception) {
+                        stopScanAnimation();
+                        String message = "Analysis failed: ";
+                        if (exception != null) {
+                            message += exception.getMessage();
+                        }
+                        final SingleDocumentAnalyzer.DocumentAnalysisListener listener = this;
+                        showError(message, getString(R.string.gv_document_analysis_error_retry),
+                                new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        startScanAnimation();
+                                        mSingleDocumentAnalyzer.cancelAnalysis();
+                                        mSingleDocumentAnalyzer.analyzeDocument(document, listener);
+                                    }
+                                });
+                    }
+
+                    @Override
+                    public void onExtractionsReceived(Map<String, SpecificExtraction> extractions) {
+                        mExtractions = extractions;
+                        if (mExtractions == null || hasNoPay5Extractions(mExtractions.keySet())) {
+                            noExtractionsFound();
+                        } else {
+                            // Calling onDocumentAnalyzed() is important to notify the
+                            // AnalysisActivity
+                            // base class that the
+                            // analysis has completed successfully
+                            onDocumentAnalyzed();
+                        }
                     }
                 });
-            }
-
-            @Override
-            public void onExtractionsReceived(Map<String, SpecificExtraction> extractions) {
-                mExtractions = extractions;
-                if (mExtractions == null || hasNoPay5Extractions(mExtractions.keySet())) {
-                    noExtractionsFound();
-                } else {
-                    // Calling onDocumentAnalyzed() is important to notify the AnalysisActivity
-                    // base class that the
-                    // analysis has completed successfully
-                    onDocumentAnalyzed();
-                }
-            }
-        });
     }
 
     @Override

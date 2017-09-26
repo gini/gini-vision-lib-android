@@ -21,7 +21,6 @@ import net.gini.android.vision.analysis.AnalysisFragmentListener;
 import net.gini.android.vision.analysis.AnalysisFragmentStandard;
 import net.gini.android.vision.camera.CameraFragmentListener;
 import net.gini.android.vision.camera.CameraFragmentStandard;
-import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.noresults.NoResultsFragmentListener;
 import net.gini.android.vision.noresults.NoResultsFragmentStandard;
 import net.gini.android.vision.onboarding.OnboardingFragmentListener;
@@ -70,9 +69,7 @@ public class GiniVisionActivity extends Activity
     @Override
     public void onAnalyzeDocument(@NonNull final Document document) {
         LOG.debug("Analyze document {}", document);
-        if (document.getType() == Document.Type.IMAGE) {
-            GiniVisionDebug.writeImageDocumentToFile(this, (ImageDocument) document, "_for_analysis");
-        }
+        GiniVisionDebug.writeImageDocumentToFile(this, document, "_for_analysis");
 
         startScanAnimation();
         // We can start analyzing the document by sending it to the Gini API
@@ -283,9 +280,7 @@ public class GiniVisionActivity extends Activity
     @Override
     public void onShouldAnalyzeDocument(@NonNull Document document) {
         LOG.debug("Should analyze document in the Review Screen {}", document);
-        if (document.getType() == Document.Type.IMAGE) {
-            GiniVisionDebug.writeImageDocumentToFile(this, (ImageDocument) document, "_for_review");
-        }
+        GiniVisionDebug.writeImageDocumentToFile(this, document, "_for_review");
 
         // We should start analyzing the document by sending it to the Gini API.
         // If the user did not modify the image we can get the analysis results earlier.

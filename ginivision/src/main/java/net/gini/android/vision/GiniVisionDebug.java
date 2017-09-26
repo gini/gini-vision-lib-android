@@ -65,15 +65,14 @@ public final class GiniVisionDebug {
      *     Destination directory is {@code ginivisionlib} inside your apps external files directory: {@code /sdcard/Android/data/your.app.id/files/ginivisionlib/}
      * </p>
      *
-     * @deprecated Use {@link GiniVisionDebug#writeImageDocumentToFile(Context, ImageDocument, String)} instead
+     * @deprecated Use {@link GiniVisionDebug#writeImageDocumentToFile(Context, Document, String)} instead
      */
     @Deprecated
     public static void writeDocumentToFile(Context context, Document document, String suffix) {
-        if (document.getType() == Document.Type.IMAGE) {
-            writeImageDocumentToFile(context, (ImageDocument) document, suffix);
-        } else {
-            throw new IllegalArgumentException("Document must be of type ImageDocument");
+        if (!sEnabled) {
+            return;
         }
+        writeImageDocumentToFile(context, document, suffix);
     }
 
     /**
@@ -87,15 +86,19 @@ public final class GiniVisionDebug {
      *     Destination directory is {@code ginivisionlib} inside your apps external files directory: {@code /sdcard/Android/data/your.app.id/files/ginivisionlib/}
      * </p>
      */
-    public static void writeImageDocumentToFile(Context context, ImageDocument document, String suffix) {
+    public static void writeImageDocumentToFile(Context context, Document document, String suffix) {
         if (!sEnabled) {
+            return;
+        }
+        if (document.getType() != Document.Type.IMAGE
+                || !(document instanceof ImageDocument)) {
             return;
         }
         File giniVisionDir = createGiniVisionDir(context);
         long time = new Date().getTime();
         String jpegFilename = time + suffix + ".jpeg";
         File jpegFile = new File(giniVisionDir, jpegFilename);
-        PhotoFactory.newPhotoFromDocument(document).saveToFile(jpegFile);
+        PhotoFactory.newPhotoFromDocument((ImageDocument) document).saveToFile(jpegFile);
         LOG.debug("Document written to {}", jpegFile.getAbsolutePath());
     }
 
