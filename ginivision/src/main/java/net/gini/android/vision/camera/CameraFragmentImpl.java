@@ -369,8 +369,10 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void closeUploadHintPopUp() {
-        mUploadHintContainerArrow.setVisibility(View.GONE);
-
+        ViewCompat.animate(mUploadHintContainerArrow)
+                .alpha(0)
+                .setDuration(DEFAULT_ANIMATION_DURATION)
+                .start();
         ViewCompat.animate(mUploadHintContainer)
                 .alpha(0)
                 .setDuration(DEFAULT_ANIMATION_DURATION)
@@ -381,6 +383,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
                     @Override
                     public void onAnimationEnd(final View view) {
+                        mUploadHintContainerArrow.setVisibility(View.GONE);
                         mUploadHintContainer.setVisibility(View.GONE);
                         Context context = view.getContext();
                         savePopUpShown(context);

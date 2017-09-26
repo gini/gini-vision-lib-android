@@ -41,34 +41,32 @@
         android:background="@null"
         android:src="@drawable/gv_camera_trigger" />
 
-    <View
+    <ImageView
         android:alpha="0"
         tools:alpha="1"
         android:id="@+id/gv_upload_hint_container2"
-        android:layout_marginBottom="16dp"
-        android:rotation="45"
-        android:background="@color/gv_upload_hint_background"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:layout_marginBottom="-24dp"
         android:layout_above="@+id/gv_button_import_document"
         android:layout_alignRight="@+id/gv_button_import_document"
         android:layout_alignEnd="@+id/gv_button_import_document"
         android:layout_alignLeft="@+id/gv_button_import_document"
-        android:layout_alignStart="@+id/gv_button_import_document"/>
-
+        android:layout_alignStart="@+id/gv_button_import_document"
+        android:scaleType="center"
+        android:src="@drawable/gv_hint_arrow_down"/>
 
     <RelativeLayout
         android:alpha="0"
         tools:alpha="1"
         android:layout_marginLeft="136dp"
         android:layout_marginRight="136dp"
-        android:layout_marginBottom="24dp"
         android:id="@+id/gv_upload_hint_container"
         android:padding="16dp"
         android:background="@color/gv_upload_hint_background"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/gv_button_import_document">
+        android:layout_above="@+id/gv_upload_hint_container2">
 
         <TextView
             android:layout_alignParentLeft="true"
