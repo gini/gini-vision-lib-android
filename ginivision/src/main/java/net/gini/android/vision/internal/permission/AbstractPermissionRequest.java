@@ -36,6 +36,7 @@ abstract class AbstractPermissionRequest<T> implements PermissionRequest<T> {
     public void requestPermission(@NonNull final T context) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             mListener.permissionGranted();
+            return;
         }
         if (checkSelfPermission(context)) {
             mListener.permissionGranted();

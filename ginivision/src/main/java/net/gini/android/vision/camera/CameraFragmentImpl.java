@@ -411,7 +411,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void requestStoragePermission(@NonNull final PermissionRequestListener listener) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mFragment.requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, listener);
         } else {
             listener.permissionGranted();
