@@ -36,7 +36,7 @@ public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisA
     @Override
     public void onAnalyzeDocument(@NonNull final Document document) {
         LOG.debug("Analyze document");
-        GiniVisionDebug.writeImageDocumentToFile(this, document, "_for_analysis");
+        GiniVisionDebug.writeDocumentToFile(this, document, "_for_analysis");
 
         startScanAnimation();
         // We can start analyzing the document by sending it to the Gini API

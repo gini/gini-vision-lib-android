@@ -69,7 +69,7 @@ public class GiniVisionActivity extends Activity
     @Override
     public void onAnalyzeDocument(@NonNull final Document document) {
         LOG.debug("Analyze document {}", document);
-        GiniVisionDebug.writeImageDocumentToFile(this, document, "_for_analysis");
+        GiniVisionDebug.writeDocumentToFile(this, document, "_for_analysis");
 
         startScanAnimation();
         // We can start analyzing the document by sending it to the Gini API
@@ -280,7 +280,7 @@ public class GiniVisionActivity extends Activity
     @Override
     public void onShouldAnalyzeDocument(@NonNull Document document) {
         LOG.debug("Should analyze document in the Review Screen {}", document);
-        GiniVisionDebug.writeImageDocumentToFile(this, document, "_for_review");
+        GiniVisionDebug.writeDocumentToFile(this, document, "_for_review");
 
         // We should start analyzing the document by sending it to the Gini API.
         // If the user did not modify the image we can get the analysis results earlier.

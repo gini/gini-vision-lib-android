@@ -59,7 +59,7 @@ public class ReviewActivity extends net.gini.android.vision.review.ReviewActivit
     @Override
     public void onShouldAnalyzeDocument(@NonNull Document document) {
         LOG.debug("Should analyze document");
-        GiniVisionDebug.writeImageDocumentToFile(this, document, "_for_review");
+        GiniVisionDebug.writeDocumentToFile(this, document, "_for_review");
 
         // We should start analyzing the document by sending it to the Gini API.
         // If the user did not modify the image we can get the analysis results earlier.

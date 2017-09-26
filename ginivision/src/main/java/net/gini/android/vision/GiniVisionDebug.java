@@ -64,15 +64,14 @@ public final class GiniVisionDebug {
      * <p>
      *     Destination directory is {@code ginivisionlib} inside your apps external files directory: {@code /sdcard/Android/data/your.app.id/files/ginivisionlib/}
      * </p>
-     *
-     * @deprecated Use {@link GiniVisionDebug#writeImageDocumentToFile(Context, Document, String)} instead
      */
-    @Deprecated
     public static void writeDocumentToFile(Context context, Document document, String suffix) {
         if (!sEnabled) {
             return;
         }
-        writeImageDocumentToFile(context, document, suffix);
+        if (document instanceof ImageDocument) {
+            writeImageDocumentToFile(context, (ImageDocument) document, suffix);
+        }
     }
 
     /**
@@ -86,12 +85,8 @@ public final class GiniVisionDebug {
      *     Destination directory is {@code ginivisionlib} inside your apps external files directory: {@code /sdcard/Android/data/your.app.id/files/ginivisionlib/}
      * </p>
      */
-    public static void writeImageDocumentToFile(Context context, Document document, String suffix) {
+    private static void writeImageDocumentToFile(Context context, ImageDocument document, String suffix) {
         if (!sEnabled) {
-            return;
-        }
-        if (document.getType() != Document.Type.IMAGE
-                || !(document instanceof ImageDocument)) {
             return;
         }
         File giniVisionDir = createGiniVisionDir(context);
