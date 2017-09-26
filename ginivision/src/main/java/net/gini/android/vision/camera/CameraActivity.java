@@ -477,21 +477,27 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     public void onDocumentAvailable(@NonNull Document document) {
         mDocument = document;
         if (mDocument.isReviewable()) {
-            // Start ReviewActivity
-            final Intent reviewIntent = new Intent(mReviewDocumentActivityIntent);
-            reviewIntent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, document);
-            reviewIntent.putExtra(EXTRA_IN_ANALYSIS_ACTIVITY,
-                    mAnalyzeDocumentActivityIntent);
-            reviewIntent.putExtra(
-                    ReviewActivity.EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY,
-                    mBackButtonShouldCloseLibrary);
-            startActivityForResult(reviewIntent, REVIEW_DOCUMENT_REQUEST);
+            startReviewActivity(document);
         } else {
-            // Start AnalysisActivity
-            final Intent analysisIntent = new Intent(mAnalyzeDocumentActivityIntent);
-            analysisIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, document);
-            startActivityForResult(analysisIntent, ANALYSE_DOCUMENT_REQUEST);
+            startAnalysisActivity(document);
         }
+    }
+
+    private void startReviewActivity(@NonNull final Document document) {
+        final Intent reviewIntent = new Intent(mReviewDocumentActivityIntent);
+        reviewIntent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, document);
+        reviewIntent.putExtra(EXTRA_IN_ANALYSIS_ACTIVITY,
+                mAnalyzeDocumentActivityIntent);
+        reviewIntent.putExtra(
+                ReviewActivity.EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY,
+                mBackButtonShouldCloseLibrary);
+        startActivityForResult(reviewIntent, REVIEW_DOCUMENT_REQUEST);
+    }
+
+    private void startAnalysisActivity(@NonNull final Document document) {
+        final Intent analysisIntent = new Intent(mAnalyzeDocumentActivityIntent);
+        analysisIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, document);
+        startActivityForResult(analysisIntent, ANALYSE_DOCUMENT_REQUEST);
     }
 
     @Override

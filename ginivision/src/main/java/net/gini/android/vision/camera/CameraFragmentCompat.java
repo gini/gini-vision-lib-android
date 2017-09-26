@@ -105,8 +105,8 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
 
     @Override
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        boolean consumed = mFragmentImpl.onActivityResult(requestCode, resultCode, data);
-        if (!consumed) {
+        boolean handled = mFragmentImpl.onActivityResult(requestCode, resultCode, data);
+        if (!handled) {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
@@ -114,9 +114,9 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
     @Override
     public void onRequestPermissionsResult(final int requestCode,
             @NonNull final String[] permissions, @NonNull final int[] grantResults) {
-        boolean consumed = mRuntimePermissions.onRequestPermissionsResult(requestCode, permissions,
+        boolean handled = mRuntimePermissions.onRequestPermissionsResult(requestCode, permissions,
                 grantResults);
-        if (!consumed) {
+        if (!handled) {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
