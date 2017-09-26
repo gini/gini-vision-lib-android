@@ -59,37 +59,62 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
 
         readRequiredTags();
 
+        ExifReader exifReader = ExifReader.forJpeg(data);
+        String userComment = "";
         try {
-            ExifReader exifReader = ExifReader.forJpeg(data);
-            String userComment = exifReader.getUserComment();
-            mContentId = exifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_CONTENT_ID,
-                    userComment);
-            if (mContentId == null) {
-                mContentId = generateUUID();
-            }
-            String rotationDelta = exifReader.getValueForKeyFromUserComment(
-                    Exif.USER_COMMENT_ROTATION_DELTA,
-                    userComment);
-            if (rotationDelta != null) {
+            userComment = exifReader.getUserComment();
+        } catch (ExifReaderException e) {
+            LOG.warn("Could not read exif User Comment", e);
+        }
+        initContentId(exifReader, userComment);
+        initRotationDelta(exifReader, userComment);
+        initDeviceOrientation(exifReader, userComment);
+        initDeviceType(exifReader, userComment);
+        initRotationForDisplay(exifReader);
+    }
+
+    private void initContentId(final ExifReader exifReader, final String userComment) {
+        mContentId = exifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_CONTENT_ID,
+                userComment);
+        if (mContentId == null) {
+            mContentId = generateUUID();
+        }
+    }
+
+    private void initRotationDelta(final ExifReader exifReader, final String userComment) {
+        String rotationDelta = exifReader.getValueForKeyFromUserComment(
+                Exif.USER_COMMENT_ROTATION_DELTA,
+                userComment);
+        if (rotationDelta != null) {
+            try {
                 mRotationDelta = Integer.parseInt(rotationDelta);
+            } catch (NumberFormatException e) {
+                LOG.error("Could not set rotation delta from exif User Comment", e);
             }
-            mDeviceOrientation =
-                    exifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_DEVICE_ORIENTATION,
-                            userComment);
-            if (mDeviceOrientation == null && mImageDocument != null) {
-                mDeviceOrientation = mImageDocument.getDeviceOrientation();
-            }
-            mDeviceType =
-                    exifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_DEVICE_TYPE,
-                            userComment);
-            if (mDeviceType == null && mImageDocument != null) {
-                mDeviceType = mImageDocument.getDeviceType();
-            }
-            if (mImageDocument != null && mImageDocument.isImported()) {
-                mRotationForDisplay = exifReader.getOrientationAsDegrees();
-            }
-        } catch (ExifReaderException | NumberFormatException e) {
-            LOG.error("Could not read exif User Comment", e);
+        }
+    }
+
+    private void initDeviceOrientation(final ExifReader exifReader, final String userComment) {
+        mDeviceOrientation =
+                exifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_DEVICE_ORIENTATION,
+                        userComment);
+        if (mDeviceOrientation == null && mImageDocument != null) {
+            mDeviceOrientation = mImageDocument.getDeviceOrientation();
+        }
+    }
+
+    private void initDeviceType(final ExifReader exifReader, final String userComment) {
+        mDeviceType =
+                exifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_DEVICE_TYPE,
+                        userComment);
+        if (mDeviceType == null && mImageDocument != null) {
+            mDeviceType = mImageDocument.getDeviceType();
+        }
+    }
+
+    private void initRotationForDisplay(final ExifReader exifReader) {
+        if (mImageDocument != null && mImageDocument.isImported()) {
+            mRotationForDisplay = exifReader.getOrientationAsDegrees();
         }
     }
 
