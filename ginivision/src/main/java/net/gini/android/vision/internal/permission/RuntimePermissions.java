@@ -10,8 +10,8 @@ import android.util.SparseArray;
  */
 public class RuntimePermissions {
 
-    private final RequestCodeGenerator mRequestCodeGenerator = new RequestCodeGenerator();
     private final SparseArray<PermissionRequest> mPermissionRequests = new SparseArray<>();
+    private int mPrevRequestCode = 0;
 
     public RuntimePermissions() {
     }
@@ -19,7 +19,7 @@ public class RuntimePermissions {
     public void requestPermission(@NonNull final android.app.Fragment fragment,
             @NonNull final String permission, @NonNull final PermissionRequestListener listener) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            final int requestCode = mRequestCodeGenerator.next();
+            final int requestCode = getNextRequestCode();
             final PermissionRequestFragmentStandard request = new PermissionRequestFragmentStandard(
                     permission, requestCode,
                     listener);
@@ -33,7 +33,7 @@ public class RuntimePermissions {
     public void requestPermission(@NonNull final Fragment fragment, @NonNull final String permission,
             @NonNull final PermissionRequestListener listener) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            final int requestCode = mRequestCodeGenerator.next();
+            final int requestCode = getNextRequestCode();
             final PermissionRequestFragmentCompat request = new PermissionRequestFragmentCompat(
                     permission, requestCode,
                     listener);
@@ -56,11 +56,7 @@ public class RuntimePermissions {
         return false;
     }
 
-    private class RequestCodeGenerator {
-        private int mPrevRequestCode = 0;
-
-        int next() {
-            return ++mPrevRequestCode;
-        }
+    private int getNextRequestCode() {
+        return ++mPrevRequestCode;
     }
 }

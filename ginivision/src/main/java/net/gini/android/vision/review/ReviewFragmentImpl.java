@@ -136,7 +136,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             if (activity == null) {
                 return;
             }
-            showActivityIndicator();
+            showActivityIndicatorAndDisableButtons();
             mDocument.loadData(activity, new LoadDataCallback() {
                 @Override
                 public void onDataLoaded() {
@@ -145,7 +145,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
                 @Override
                 public void onError(@NonNull final Exception exception) {
-                    hideActivityIndicator();
+                    hideActivityIndicatorAndEnableButtons();
                     LOG.error("Failed to load document data");
                     mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW,
                             "An error occurred while loading the document."));
@@ -174,7 +174,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                                 if (mNextClicked || mStopped) {
                                     return;
                                 }
-                                hideActivityIndicator();
+                                hideActivityIndicatorAndEnableButtons();
                                 observeViewTree();
                                 LOG.info("Should analyze document");
                                 mListener.onShouldAnalyzeDocument(DocumentFactory.newDocumentFromPhoto(mPhoto));
@@ -195,7 +195,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         asyncTask.execute(mDocument);
     }
 
-    private void showActivityIndicator() {
+    private void showActivityIndicatorAndDisableButtons() {
         if (mActivityIndicator == null) {
             return;
         }
@@ -204,7 +204,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         disableRotateButton();
     }
 
-    private void hideActivityIndicator() {
+    private void hideActivityIndicatorAndEnableButtons() {
         if (mActivityIndicator == null) {
             return;
         }
