@@ -27,4 +27,5 @@
     <string name="gv_noresults_parallel">Gerät parallel über die Seite halten</string>
     <string name="gv_noresults_flat">Seite glatt streichen</string>
     <string name="gv_noresults_back_button">Zurück zur Kamera</string>
+    <string name="gv_upload_hint_text">Du kannst jetzt auch ganz einfach Dateien hochladen.</string>
 </resources>

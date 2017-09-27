@@ -31,6 +31,74 @@
         android:layout_alignEnd="@id/gv_camera_preview"
         android:layout_alignTop="@+id/gv_camera_preview" />
 
+    <ImageView
+        android:alpha="0"
+        tools:alpha="1"
+        android:id="@+id/gv_upload_hint_container2"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="-24dp"
+        android:scaleType="centerInside"
+        android:layout_below="@+id/gv_button_import_document"
+        android:layout_alignRight="@+id/gv_button_import_document"
+        android:layout_alignEnd="@+id/gv_button_import_document"
+        android:layout_alignLeft="@+id/gv_button_import_document"
+        android:layout_alignStart="@+id/gv_button_import_document"
+        android:src="@drawable/gv_hint_arrow_up"/>
+
+    <RelativeLayout
+        android:alpha="0"
+        tools:alpha="1"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:id="@+id/gv_upload_hint_container"
+        android:layout_marginBottom="32dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        android:padding="16dp"
+        android:background="@color/gv_upload_hint_background"
+        android:layout_width="348dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/gv_upload_hint_container2">
+
+        <TextView
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textSize="14sp"
+            android:textColor="@color/gv_upload_hint_text"
+            android:text="@string/gv_upload_hint_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/gv_upload_hint_button"
+            android:layout_toStartOf="@+id/gv_upload_hint_button" />
+
+        <ImageView
+            android:src="@drawable/gv_hint_close"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:padding="8dp"
+            android:id="@+id/gv_upload_hint_button"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+    <ImageButton
+        android:id="@+id/gv_button_import_document"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignLeft="@+id/gv_button_camera_trigger"
+        android:layout_alignRight="@id/gv_button_camera_trigger"
+        android:layout_marginTop="72dp"
+        android:layout_below="@id/gv_button_camera_trigger"
+        android:background="@null"
+        android:scaleType="centerInside"
+        android:src="@drawable/gv_upload_icon"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
     <ImageButton
         android:id="@+id/gv_button_camera_trigger"
         android:layout_width="wrap_content"
@@ -41,19 +109,6 @@
         android:background="@null"
         android:src="@drawable/gv_camera_trigger" />
 
-    <ImageButton
-        android:id="@+id/gv_button_import_document"
-        android:layout_width="48dp"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/gv_button_camera_trigger"
-        android:layout_alignRight="@id/gv_button_camera_trigger"
-        android:layout_marginTop="72dp"
-        android:layout_below="@id/gv_button_camera_trigger"
-        android:background="@null"
-        android:scaleType="centerInside"
-        android:src="@drawable/gv_upload_icon"
-        android:visibility="gone"
-        tools:visibility="visible"/>
 
     <ViewStub
         android:id="@+id/gv_stub_camera_no_permission"
