@@ -11,6 +11,7 @@ import android.view.View;
 
 public class FrameView extends View {
 
+    private static final int INITIAL_OFFSET = 20;
     private static final int LINE_LENGTH = 70;
     private static final int LINE_WIDTH = 1;
 
@@ -66,10 +67,17 @@ public class FrameView extends View {
 
         mPortrait = mWidth < mHeight;
 
-        mWallOffsetTop = dpToPx(20);
-        int documentHeight = mHeight - mWallOffsetTop;
-        int documentWidth = (int) (documentHeight / Math.sqrt(2)); //din a4
-        mWallOffsetSide = (mWidth - documentWidth) / 2;
+        if(mPortrait) {
+            mWallOffsetTop = dpToPx(INITIAL_OFFSET);
+            int documentHeight = mHeight - mWallOffsetTop;
+            int documentWidth = (int) (documentHeight / Math.sqrt(2)); //din a4
+            mWallOffsetSide = (mWidth - documentWidth) / 2;
+        } else {
+            mWallOffsetSide = dpToPx(INITIAL_OFFSET);
+            int documentWidth = mWidth - mWallOffsetSide;
+            int documentHeight = (int) (documentWidth / Math.sqrt(2)); //din a4
+            mWallOffsetTop = (mHeight - documentHeight) / 2;
+        }
 
         setMeasuredDimension(widthMeasureSpec, heightMeasureSpec);
     }
