@@ -27,7 +27,8 @@ public final class DocumentFactory {
     public static Document newDocumentFromIntent(@NonNull final Intent intent,
             @NonNull final Context context,
             @NonNull final String deviceOrientation,
-            @NonNull final String deviceType) {
+            @NonNull final String deviceType,
+            @NonNull final String importMethod) {
         final Uri data = getUri(intent);
         if (data == null) {
             throw new IllegalArgumentException("Intent data must contain a Uri");
@@ -35,7 +36,8 @@ public final class DocumentFactory {
         if (hasMimeType(intent, context, "application/pdf")) {
             return PdfDocument.fromIntent(intent);
         } else if (hasMimeTypeWithPrefix(intent, context, "image/")) {
-            return ImageDocument.fromIntent(intent, context, deviceOrientation, deviceType);
+            return ImageDocument.fromIntent(intent, context, deviceOrientation, deviceType,
+                    importMethod);
         }
         throw new IllegalArgumentException("Unknown Intent Uri mime type.");
     }

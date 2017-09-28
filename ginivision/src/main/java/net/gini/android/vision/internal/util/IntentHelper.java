@@ -2,8 +2,11 @@ package net.gini.android.vision.internal.util;
 
 import android.content.ClipData;
 import android.content.ClipDescription;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -91,5 +94,22 @@ public final class IntentHelper {
             }
         }
         return false;
+    }
+
+    @Nullable
+    public static String getSourceAppName(@NonNull final Intent intent,
+            @NonNull final Context context) {
+        try {
+            final ComponentName component = intent.getComponent();
+            if (component == null) {
+                return null;
+            }
+            final ApplicationInfo appInfo = context.getPackageManager()
+                    .getApplicationInfo(component.getPackageName(), 0);
+            return (String) context.getPackageManager().getApplicationLabel(appInfo);
+        } catch (PackageManager.NameNotFoundException e) {
+            // Ignore
+        }
+        return null;
     }
 }

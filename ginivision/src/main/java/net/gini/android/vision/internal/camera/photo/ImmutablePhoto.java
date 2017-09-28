@@ -126,6 +126,16 @@ class ImmutablePhoto implements Photo {
         return null;
     }
 
+    @Override
+    public String getSource() {
+        return null;
+    }
+
+    @Override
+    public String getImportMethod() {
+        return null;
+    }
+
     public synchronized void saveToFile(File file) {
         FileOutputStream fileOutputStream = null;
         try {

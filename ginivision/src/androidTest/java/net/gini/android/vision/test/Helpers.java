@@ -71,9 +71,9 @@ public class Helpers {
     }
 
     public static Document createDocument(byte[] jpeg, int orientation, String deviceOrientation,
-            String deviceType) {
+            String deviceType, String source) {
         return DocumentFactory.newDocumentFromPhoto(
-                PhotoFactory.newPhotoFromJpeg(jpeg, orientation, deviceOrientation, deviceType));
+                PhotoFactory.newPhotoFromJpeg(jpeg, orientation, deviceOrientation, deviceType, source));
     }
 
     public static boolean isTablet() {

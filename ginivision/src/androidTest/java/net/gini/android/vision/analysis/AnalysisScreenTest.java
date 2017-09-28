@@ -78,7 +78,7 @@ public class AnalysisScreenTest {
         assertThat(activity.analyzeDocument).isNotNull();
 
         assertAbout(document()).that(activity.analyzeDocument).isEqualToDocument(DocumentFactory.newDocumentFromPhoto(
-                PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "phone")));
+                PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "phone", "camera")));
     }
 
     @Test
@@ -317,7 +317,7 @@ public class AnalysisScreenTest {
 
         assertAbout(document()).that(activity.analyzeDocument)
                 .isEqualToDocument(DocumentFactory.newDocumentFromPhoto(
-                        PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "phone")));
+                        PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "phone", "camera")));
     }
 
     @Test
@@ -341,7 +341,7 @@ public class AnalysisScreenTest {
     private AnalysisActivityTestSpy startAnalysisActivity(byte[] jpeg, int orientation) {
         Intent intent = getAnalysisActivityIntent();
         intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, DocumentFactory.newDocumentFromPhoto(
-                PhotoFactory.newPhotoFromJpeg(jpeg, orientation, "portrait", "phone")));
+                PhotoFactory.newPhotoFromJpeg(jpeg, orientation, "portrait", "phone", "camera")));
         return mActivityTestRule.launchActivity(intent);
     }
 
@@ -351,7 +351,7 @@ public class AnalysisScreenTest {
 
     private Intent getAnalysisActivityIntentWithDocument(byte[] jpeg, int orientation) {
         Intent intent = new Intent(InstrumentationRegistry.getTargetContext(), AnalysisActivityTestSpy.class);
-        intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, createDocument(jpeg, orientation, "portrait", "phone"));
+        intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, createDocument(jpeg, orientation, "portrait", "phone", "camera"));
         return intent;
     }
 }

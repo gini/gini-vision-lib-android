@@ -39,6 +39,8 @@
     <color name="gv_analysis_activity_indicator">#0095cf</color>
     <color name="gv_analysis_overlay">#88000000</color>
     <color name="gv_analysis_message">#ffffff</color>
+    <color name="gv_analysis_pdf_info_background">#007C99</color>
+    <color name="gv_analysis_pdf_info_text">#ffffff</color>
 
     <color name="gv_snackbar_error_text">#85000a</color>
     <color name="gv_snackbar_error_button_title">#fff</color>
@@ -47,8 +49,7 @@
 
     <color name="gv_noresults_activity_background">@android:color/transparent</color>
     <color name="gv_noresults_fragment_background">#ffffff</color>
-    <color name="gv_analysis_pdf_info_background">#007C99</color>
-
-    <color name="gv_analysis_pdf_info_text">#ffffff</color>
+    <color name="gv_upload_hint_text">#000000</color>
+    <color name="gv_upload_hint_background">#ffffff</color>
 
 </resources>
