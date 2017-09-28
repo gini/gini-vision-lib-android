@@ -17,7 +17,7 @@ class PhotoRotationModifier implements PhotoModifier {
 
     @Override
     public void modify() {
-        if (mPhoto.getJpeg() == null) {
+        if (mPhoto.getData() == null) {
             return;
         }
         synchronized (mPhoto) {

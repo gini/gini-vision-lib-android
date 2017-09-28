@@ -27,9 +27,9 @@ import android.view.Surface;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import net.gini.android.vision.Document;
 import net.gini.android.vision.R;
-import net.gini.android.vision.internal.camera.photo.Photo;
+import net.gini.android.vision.document.DocumentFactory;
+import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.review.ReviewActivity;
 
@@ -77,7 +77,8 @@ public class AnalysisScreenTest {
 
         assertThat(activity.analyzeDocument).isNotNull();
 
-        assertAbout(document()).that(activity.analyzeDocument).isEqualToDocument(Document.fromPhoto(Photo.fromJpeg(TEST_JPEG, 0, "portrait", "phone")));
+        assertAbout(document()).that(activity.analyzeDocument).isEqualToDocument(DocumentFactory.newDocumentFromPhoto(
+                PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "phone", "camera")));
     }
 
     @Test
@@ -315,7 +316,8 @@ public class AnalysisScreenTest {
         assertThat(activity.analyzeDocument).isNotNull();
 
         assertAbout(document()).that(activity.analyzeDocument)
-                .isEqualToDocument(Document.fromPhoto(Photo.fromJpeg(TEST_JPEG, 0, "portrait", "phone")));
+                .isEqualToDocument(DocumentFactory.newDocumentFromPhoto(
+                        PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "phone", "camera")));
     }
 
     @Test
@@ -338,7 +340,8 @@ public class AnalysisScreenTest {
 
     private AnalysisActivityTestSpy startAnalysisActivity(byte[] jpeg, int orientation) {
         Intent intent = getAnalysisActivityIntent();
-        intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, Document.fromPhoto(Photo.fromJpeg(jpeg, orientation, "portrait", "phone")));
+        intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, DocumentFactory.newDocumentFromPhoto(
+                PhotoFactory.newPhotoFromJpeg(jpeg, orientation, "portrait", "phone", "camera")));
         return mActivityTestRule.launchActivity(intent);
     }
 
@@ -348,7 +351,7 @@ public class AnalysisScreenTest {
 
     private Intent getAnalysisActivityIntentWithDocument(byte[] jpeg, int orientation) {
         Intent intent = new Intent(InstrumentationRegistry.getTargetContext(), AnalysisActivityTestSpy.class);
-        intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, createDocument(jpeg, orientation, "portrait", "phone"));
+        intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, createDocument(jpeg, orientation, "portrait", "phone", "camera"));
         return intent;
     }
 }

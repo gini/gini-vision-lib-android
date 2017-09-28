@@ -1,7 +1,8 @@
 package net.gini.android.vision.analysis;
 
 import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
-import static net.gini.android.vision.internal.util.ActivityHelper.handleMenuItemPressedForHomeButton;
+import static net.gini.android.vision.internal.util.ActivityHelper
+        .handleMenuItemPressedForHomeButton;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +18,8 @@ import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.camera.CameraActivity;
 import net.gini.android.vision.noresults.NoResultsActivity;
+import net.gini.android.vision.onboarding.OnboardingActivity;
+import net.gini.android.vision.review.ReviewActivity;
 
 /**
  * <h3>Screen API</h3>
@@ -156,10 +159,12 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
 
     @Override
     public void noExtractionsFound() {
-        final Intent noResultsActivity = new Intent(this, NoResultsActivity.class);
-        startActivity(noResultsActivity);
-        setResult(RESULT_NO_EXTRACTIONS);
-        finish();
+        if (!mDocument.isImported()) {
+            final Intent noResultsActivity = new Intent(this, NoResultsActivity.class);
+            startActivity(noResultsActivity);
+            setResult(RESULT_NO_EXTRACTIONS);
+            finish();
+        }
     }
 
     /**

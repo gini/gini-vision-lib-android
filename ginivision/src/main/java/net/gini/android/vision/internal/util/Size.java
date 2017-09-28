@@ -1,4 +1,4 @@
-package net.gini.android.vision.internal.camera.photo;
+package net.gini.android.vision.internal.util;
 
 import android.support.annotation.NonNull;
 

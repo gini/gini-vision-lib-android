@@ -61,7 +61,13 @@ public class GiniVisionError implements Parcelable {
          *     for details.
          * </p>
          */
-        DOCUMENT_IMPORT
+        DOCUMENT_IMPORT,
+        /**
+         * <p>
+         *     An error occurred in the Analysis Screen. Check the message for details.
+         * </p>
+         */
+        ANALYSIS
     }
 
     private final ErrorCode mErrorCode;

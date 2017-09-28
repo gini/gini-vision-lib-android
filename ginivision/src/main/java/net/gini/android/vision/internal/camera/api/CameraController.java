@@ -5,6 +5,8 @@ import static net.gini.android.vision.internal.camera.api.CameraParametersHelper
 import static net.gini.android.vision.internal.camera.api.CameraParametersHelper.isUsingFocusMode;
 import static net.gini.android.vision.internal.camera.api.SizeSelectionHelper.getLargestSize;
 import static net.gini.android.vision.internal.camera.api.SizeSelectionHelper.getLargestSizeWithSimilarAspectRatio;
+import static net.gini.android.vision.internal.util.DeviceHelper.getDeviceOrientation;
+import static net.gini.android.vision.internal.util.DeviceHelper.getDeviceType;
 
 import android.app.Activity;
 import android.graphics.Matrix;
@@ -22,8 +24,8 @@ import android.view.SurfaceHolder;
 import android.view.View;
 
 import net.gini.android.vision.internal.camera.photo.Photo;
-import net.gini.android.vision.internal.camera.photo.Size;
-import net.gini.android.vision.internal.util.ContextHelper;
+import net.gini.android.vision.internal.camera.photo.PhotoFactory;
+import net.gini.android.vision.internal.util.Size;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -353,10 +355,11 @@ public class CameraController implements CameraInterface {
                     @Override
                     public void onPictureTaken(final byte[] bytes, Camera camera) {
                         mTakingPictureFuture.set(null);
-                        final Photo photo = Photo.fromJpeg(bytes,
+                        final Photo photo = PhotoFactory.newPhotoFromJpeg(bytes,
                                 getDisplayOrientationForCamera(mActivity),
                                 getDeviceOrientation(mActivity),
-                                getDeviceType(mActivity));
+                                getDeviceType(mActivity),
+                                "camera");
                         LOG.info("Picture taken");
                         pictureTaken.complete(photo);
                     }
@@ -499,14 +502,6 @@ public class CameraController implements CameraInterface {
         }
 
         return result;
-    }
-
-    private String getDeviceOrientation(Activity activity) {
-        return ContextHelper.isPortraitOrientation(activity) ? "portrait" : "landscape";
-    }
-
-    private String getDeviceType(Activity activity) {
-        return ContextHelper.isTablet(activity) ? "tablet" : "phone";
     }
 
     @Nullable

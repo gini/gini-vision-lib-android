@@ -40,10 +40,12 @@ import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 
 /**
  * <p>
- *     An example activity which uses the Android support library Gini Vision Library fragments from its Component API.
+ * An example activity which uses the Android support library Gini Vision Library fragments from its
+ * Component API.
  * </p>
  * <p>
- *     This is a multi-fragment activity, which handles fragment changes, Gini Vision Library fragment listener callbacks, document analysis with the Gini API SDK and related logic.
+ * This is a multi-fragment activity, which handles fragment changes, Gini Vision Library fragment
+ * listener callbacks, document analysis with the Gini API SDK and related logic.
  * </p>
  */
 public class GiniVisionAppCompatActivity extends AppCompatActivity
@@ -54,6 +56,7 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
     private static final Logger LOG = LoggerFactory.getLogger(GiniVisionActivity.class);
 
     private static final String STATE_SHOW_CAMERA_ON_START = "STATE_SHOW_CAMERA_ON_START";
+    private static final int SHOW_ERROR_DURATION = 4000;
 
     private Fragment mCurrentFragment;
     private String mDocumentAnalysisErrorMessage;
@@ -130,7 +133,8 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
             removeOnboarding();
             return;
         }
-        // We recommend returning to the Camera Screen, skipping the Review Screen, if back was pressed while in the
+        // We recommend returning to the Camera Screen, skipping the Review Screen, if back was
+        // pressed while in the
         // Analysis Screen
         if (isShowingCamera()) {
             finish();
@@ -184,7 +188,11 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
     public void onDocumentAvailable(@NonNull Document document) {
         LOG.debug("Document available {}", document);
         getSingleDocumentAnalyzer().cancelAnalysis();
-        showFragment(getReviewFragment(document), R.string.title_review);
+        if (document.isReviewable()) {
+            showFragment(getReviewFragment(document), R.string.title_review);
+        } else {
+            showFragment(getAnalysisFragment(document), R.string.title_analysis);
+        }
     }
 
     @Override
@@ -296,7 +304,8 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
                             mExtractionsFromReviewScreen = extractions;
                         } else {
                             LOG.debug(
-                                    "Document analyzed in the Review Screen, but not in the Review Screen anymore.");
+                                    "Document analyzed in the Review Screen, but not in the "
+                                            + "Review Screen anymore.");
                         }
                     }
                 });
@@ -477,16 +486,20 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
         cameraFragment.showCameraTriggerButton();
     }
 
-    private void showExtractions(net.gini.android.models.Document giniApiDocument, Map<String, SpecificExtraction> extractions) {
+    private void showExtractions(net.gini.android.models.Document giniApiDocument,
+            Map<String, SpecificExtraction> extractions) {
         LOG.debug("Show extractions");
-        // We display only the Pay5 extractions: paymentRecipient, iban, bic, amount and paymentReference
+        // We display only the Pay5 extractions: paymentRecipient, iban, bic, amount and
+        // paymentReference
         if (pay5ExtractionsAvailable(extractions)) {
             Intent intent = new Intent(this, ExtractionsActivity.class);
             intent.putExtra(ExtractionsActivity.EXTRA_IN_DOCUMENT, giniApiDocument);
-            intent.putExtra(ExtractionsActivity.EXTRA_IN_EXTRACTIONS, getExtractionsBundle(extractions));
+            intent.putExtra(ExtractionsActivity.EXTRA_IN_EXTRACTIONS,
+                    getExtractionsBundle(extractions));
             startActivity(intent);
         } else {
-            // Show a special screen, if no Pay5 extractions were found to give the user some hints and tips
+            // Show a special screen, if no Pay5 extractions were found to give the user some
+            // hints and tips
             // for using the Gini Vision Library
             showFragment(NoResultsFragmentCompat.createInstance(), R.string.gv_title_noresults);
         }

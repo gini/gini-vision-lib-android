@@ -46,6 +46,8 @@ class Exif {
     static final String USER_COMMENT_ROTATION_DELTA = "RotDeltaDeg";
     static final String USER_COMMENT_DEVICE_ORIENTATION = "DeviceOrientation";
     static final String USER_COMMENT_DEVICE_TYPE = "DeviceType";
+    static final String USER_COMMENT_SOURCE = "Source";
+    static final String USER_COMMENT_IMPORT_METHOD = "ImportMethod";
 
     private final TiffOutputSet mTiffOutputSet;
 
@@ -79,7 +81,12 @@ class Exif {
             throws IOException, ImageReadException {
         RequiredTags requiredTags = new RequiredTags();
 
-        JpegImageMetadata jpegMetadata = (JpegImageMetadata) getMetadata(jpeg);
+        JpegImageMetadata jpegMetadata = null;
+        try {
+            jpegMetadata = (JpegImageMetadata) getMetadata(jpeg);
+        } catch (ClassCastException e) {
+            // Ignore
+        }
 
         if (jpegMetadata != null) {
             requiredTags.make = jpegMetadata.findEXIFValue(TiffTagConstants.TIFF_TAG_MAKE);
@@ -124,7 +131,14 @@ class Exif {
                 throws IOException, ImageReadException, ImageWriteException {
             ByteOrder byteOrder = defaultByteOrder;
 
-            JpegImageMetadata jpegMetadata = (JpegImageMetadata) getMetadata(jpeg);
+            JpegImageMetadata jpegMetadata;
+            try {
+                jpegMetadata = (JpegImageMetadata) getMetadata(jpeg);
+            } catch (ClassCastException e) {
+                throw new ImageReadException(
+                        "Wrong metadata type, only JpegImageMetadata supported", e);
+            }
+
             if (jpegMetadata != null) {
                 TiffImageMetadata exif = jpegMetadata.getExif();
                 if (exif != null) {
@@ -339,6 +353,8 @@ class Exif {
         private int mRotationDelta;
         private String mDeviceOrientation;
         private String mDeviceType;
+        private String mSource;
+        private String mImportMethod;
 
         private UserCommentBuilder() {
 
@@ -371,6 +387,16 @@ class Exif {
 
         UserCommentBuilder setDeviceType(final String type) {
             mDeviceType = type;
+            return this;
+        }
+
+        UserCommentBuilder setSource(final String source) {
+            mSource = source;
+            return this;
+        }
+
+        UserCommentBuilder setImportMethod(final String importMethod) {
+            mImportMethod = importMethod;
             return this;
         }
 
@@ -413,6 +439,12 @@ class Exif {
             map.put(USER_COMMENT_DEVICE_ORIENTATION, mDeviceOrientation);
             // Device Type
             map.put(USER_COMMENT_DEVICE_TYPE, mDeviceType);
+            // Source
+            map.put(USER_COMMENT_SOURCE, mSource);
+            // Import Method
+            if (mImportMethod != null) {
+                map.put(USER_COMMENT_IMPORT_METHOD, mImportMethod);
+            }
             return map;
         }
 

@@ -7,7 +7,7 @@ import android.view.SurfaceHolder;
 import android.view.View;
 
 import net.gini.android.vision.internal.camera.photo.Photo;
-import net.gini.android.vision.internal.camera.photo.Size;
+import net.gini.android.vision.internal.util.Size;
 
 import jersey.repackaged.jsr166e.CompletableFuture;
 
