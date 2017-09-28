@@ -28,7 +28,8 @@ public class UserCommentBuilderTest {
                 .setAddMake(true)
                 .setAddModel(true)
                 .setDeviceOrientation("landscape")
-                .setDeviceType("tablet");
+                .setDeviceType("tablet")
+                .setSource("picker");
         String userComment = builder.build();
         // Then
         List<String> keys = getListOfKeys(userComment);
@@ -36,7 +37,31 @@ public class UserCommentBuilderTest {
                 Exif.USER_COMMENT_PLATFORM, Exif.USER_COMMENT_OS_VERSION,
                 Exif.USER_COMMENT_GINI_VISION_VERSION, Exif.USER_COMMENT_CONTENT_ID,
                 Exif.USER_COMMENT_ROTATION_DELTA, Exif.USER_COMMENT_DEVICE_ORIENTATION,
-                Exif.USER_COMMENT_DEVICE_TYPE).inOrder();
+                Exif.USER_COMMENT_DEVICE_TYPE, Exif.USER_COMMENT_SOURCE).inOrder();
+    }
+
+    @Test
+    public void should_addImportMethod_ifSet() throws Exception {
+        // Given
+        Exif.UserCommentBuilder builder = Exif.userCommentBuilder();
+        // When
+        builder.setRotationDelta(90)
+                .setContentId("asdasd-assd-ssdsa-sdsdss")
+                .setAddMake(true)
+                .setAddModel(true)
+                .setDeviceOrientation("landscape")
+                .setDeviceType("tablet")
+                .setSource("external")
+                .setImportMethod("picker");
+        String userComment = builder.build();
+        // Then
+        List<String> keys = getListOfKeys(userComment);
+        assertThat(keys).containsExactly(Exif.USER_COMMENT_MAKE, Exif.USER_COMMENT_MODEL,
+                Exif.USER_COMMENT_PLATFORM, Exif.USER_COMMENT_OS_VERSION,
+                Exif.USER_COMMENT_GINI_VISION_VERSION, Exif.USER_COMMENT_CONTENT_ID,
+                Exif.USER_COMMENT_ROTATION_DELTA, Exif.USER_COMMENT_DEVICE_ORIENTATION,
+                Exif.USER_COMMENT_DEVICE_TYPE, Exif.USER_COMMENT_SOURCE,
+                Exif.USER_COMMENT_IMPORT_METHOD).inOrder();
     }
 
     @NonNull
