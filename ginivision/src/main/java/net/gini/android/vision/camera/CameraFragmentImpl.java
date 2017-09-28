@@ -16,7 +16,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -83,6 +82,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     public static final String SHOW_HINT_POP_UP = "SHOW_HINT_POP_UP";
 
     private final CameraFragmentImplCallback mFragment;
+    private View mImageCorners;
     private CameraFragmentListener mListener = NO_OP_LISTENER;
     private final UIExecutor mUIExecutor = new UIExecutor();
     private CameraController mCameraController;
@@ -90,7 +90,6 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     private RelativeLayout mLayoutRoot;
     private CameraPreviewSurface mCameraPreview;
     private ImageView mCameraFocusIndicator;
-    private ImageView mImageCorners;
     private ImageButton mButtonCameraTrigger;
     private LinearLayout mLayoutNoPermission;
     private ImageButton mButtonImportDocument;
@@ -159,7 +158,6 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                                 final Size previewSize =
                                         mCameraController.getPreviewSizeForDisplay();
                                 mCameraPreview.setPreviewSize(previewSize);
-                                setPreviewCornersImage(previewSize.width, previewSize.height);
                                 startPreview(surfaceHolder);
                                 enableTapToFocus();
                                 showUploadHintPopUpOnFirstExecution();
@@ -195,21 +193,6 @@ class CameraFragmentImpl implements CameraFragmentInterface {
             return gvSharedPrefs.getBoolean(SHOW_HINT_POP_UP, true);
         }
         return false;
-    }
-
-    private void setPreviewCornersImage(final int width, final int height) {
-        final Activity activity = mFragment.getActivity();
-        if (activity == null){
-            return;
-        }
-        final Drawable corners;
-        if (width <= height) {
-            corners = activity.getResources().getDrawable(R.drawable.gv_camera_preview_corners);
-        } else {
-            corners = activity.getResources().getDrawable(
-                    R.drawable.gv_camera_preview_corners_land);
-        }
-        mImageCorners.setImageDrawable(corners);
     }
 
     private void startPreview(SurfaceHolder holder) {
@@ -313,12 +296,12 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void bindViews(View view) {
-        mLayoutRoot = (RelativeLayout) view.findViewById(R.id.gv_root);
-        mCameraPreview = (CameraPreviewSurface) view.findViewById(R.id.gv_camera_preview);
-        mCameraFocusIndicator = (ImageView) view.findViewById(R.id.gv_camera_focus_indicator);
-        mImageCorners = (ImageView) view.findViewById(R.id.gv_image_corners);
-        mButtonCameraTrigger = (ImageButton) view.findViewById(R.id.gv_button_camera_trigger);
-        ViewStub stubNoPermission = (ViewStub) view.findViewById(R.id.gv_stub_camera_no_permission);
+        mLayoutRoot = view.findViewById(R.id.gv_root);
+        mCameraPreview = view.findViewById(R.id.gv_camera_preview);
+        mImageCorners = view.findViewById(R.id.gv_image_corners);
+        mCameraFocusIndicator = view.findViewById(R.id.gv_camera_focus_indicator);
+        mButtonCameraTrigger = view.findViewById(R.id.gv_button_camera_trigger);
+        ViewStub stubNoPermission = view.findViewById(R.id.gv_stub_camera_no_permission);
         mViewStubInflater = new ViewStubSafeInflater(stubNoPermission);
         mButtonImportDocument = view.findViewById(R.id.gv_button_import_document);
         mUploadHintContainer = view.findViewById(R.id.gv_upload_hint_container);
@@ -588,7 +571,6 @@ class CameraFragmentImpl implements CameraFragmentInterface {
             @Override
             public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
                 LOG.debug("Surface changed");
-                setPreviewCornersImage(width, height);
             }
 
             @Override
@@ -763,7 +745,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         if (view == null) {
             return;
         }
-        Button button = (Button) view.findViewById(R.id.gv_button_camera_no_permission);
+        Button button = view.findViewById(R.id.gv_button_camera_no_permission);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
