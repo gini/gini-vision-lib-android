@@ -29,9 +29,8 @@
     <dimen name="gv_snackbar_error_vertical_padding">14dp</dimen>
     <dimen name="gv_snackbar_error_horizontal_padding">24dp</dimen>
 
+    <dimen name="gv_analysis_pdf_info_padding">16dp</dimen>
     <dimen name="gv_analysis_pdf_filename_height">24dp</dimen>
-    <dimen name="gv_analysis_pdf_info_horizontal_margin">16dp</dimen>
-    <dimen name="gv_analysis_pdf_info_vertical_margin">16dp</dimen>
     <dimen name="gv_analysis_pdf_page_count_top_margin">4dp</dimen>
 
 </resources>
