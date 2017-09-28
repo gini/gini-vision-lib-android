@@ -329,7 +329,7 @@ public class CameraScreenTest {
         doNothing().when(cameraActivitySpy).startActivityForResult(any(Intent.class), anyInt());
         // Fake taking of a picture, which will cause the ReviewActivity to be launched
         cameraActivitySpy.onDocumentAvailable(DocumentFactory.newDocumentFromPhoto(
-                PhotoFactory.newPhotoFromJpeg(new byte[]{}, 0, "portrait", "phone")));
+                PhotoFactory.newPhotoFromJpeg(new byte[]{}, 0, "portrait", "phone", "camera")));
 
         // Check that the extra was passed on to the ReviewActivity
         verify(cameraActivitySpy).startActivityForResult(argThat(

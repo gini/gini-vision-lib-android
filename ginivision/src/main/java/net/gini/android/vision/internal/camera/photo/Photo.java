@@ -26,6 +26,10 @@ public interface Photo extends Parcelable {
 
     String getDeviceType();
 
+    String getSource();
+
+    String getImportMethod();
+
     Bitmap getBitmapPreview();
 
     ImageDocument.ImageFormat getImageFormat();

@@ -39,7 +39,7 @@ public class PhotoTest {
     public void should_supportParceling() {
         // Given
         MutablePhoto photo =
-                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo");
+                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo", "camera");
         // When
         MutablePhoto photoFromParcel = doParcelingRoundTrip(photo, MutablePhoto.CREATOR);
         // Then
@@ -50,7 +50,7 @@ public class PhotoTest {
     public void should_keepUserComment_whenCreating_fromDocument() {
         // Given
         MutablePhoto photo =
-                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo");
+                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo", "camera");
         // When
         MutablePhoto fromDocument =
                 (MutablePhoto) PhotoFactory.newPhotoFromDocument(
@@ -62,7 +62,7 @@ public class PhotoTest {
     @Test
     public void should_setContentIdFromUserComment_whenCreating_fromDocument() {
         // Given
-        MutablePhoto photo = (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo");
+        MutablePhoto photo = (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo", "camera");
         // When
         MutablePhoto fromDocument =
                 (MutablePhoto) PhotoFactory.newPhotoFromDocument(
@@ -75,7 +75,7 @@ public class PhotoTest {
     public void should_setRotationDeltafromUserComment_whenCreating_fromDocument() {
         // Given
         MutablePhoto photo =
-                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo");
+                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo", "camera");
         // When
         photo.edit().rotateTo(90).apply();
         MutablePhoto fromDocument =
@@ -89,7 +89,7 @@ public class PhotoTest {
     public void should_generateUUID_forContentId_whenCreated() {
         // When
         MutablePhoto photo =
-                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo");
+                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo", "camera");
         // Then
         assertThat(UUID.fromString(photo.getContentId())).isNotNull();
     }
@@ -98,9 +98,9 @@ public class PhotoTest {
     public void should_generate_uniqueContentIds_forEachInstance() {
         // Given
         MutablePhoto photo1 =
-                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo");
+                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo", "camera");
         MutablePhoto photo2 =
-                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo");
+                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo", "camera");
         // Then
         assertThat(photo1.getContentId()).isNotEqualTo(photo2.getContentId());
     }
@@ -109,7 +109,7 @@ public class PhotoTest {
     public void should_addContentId_toExifUserComment() {
         // Given
         MutablePhoto photo =
-                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo");
+                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo", "camera");
         // Then
         assertAbout(photo()).that(photo).hasContentIdInUserComment(photo.getContentId());
     }
@@ -118,7 +118,7 @@ public class PhotoTest {
     public void should_keepContentId_afterRotation() {
         // Given
         MutablePhoto photo =
-                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo");
+                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo", "camera");
         String contentId = photo.getContentId();
         // When
         photo.edit().rotateTo(90).apply();
@@ -130,7 +130,7 @@ public class PhotoTest {
     public void should_keepContentId_afterCompression() {
         // Given
         MutablePhoto photo =
-                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo");
+                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo", "camera");
         String contentId = photo.getContentId();
         // When
         photo.edit().compressBy(10).apply();
@@ -142,7 +142,7 @@ public class PhotoTest {
     public void should_initRotationDelta_whenCreated() {
         // When
         MutablePhoto photo =
-                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo");
+                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo", "camera");
         // Then
         assertThat(photo.getRotationDelta()).isEqualTo(0);
     }
@@ -151,7 +151,7 @@ public class PhotoTest {
     public void should_initRotationDelta_whenCreated_withNonZeroOrientation() {
         // When
         MutablePhoto photo =
-                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 90, "portrait", "photo");
+                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 90, "portrait", "photo", "camera");
         // Then
         assertThat(photo.getRotationDelta()).isEqualTo(0);
     }
@@ -160,7 +160,7 @@ public class PhotoTest {
     public void should_addRotationDelta_toExifUserComment() {
         // Given
         MutablePhoto photo =
-                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo");
+                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo", "camera");
         // Then
         assertAbout(photo()).that(photo).hasRotationDeltaInUserComment(0);
     }
@@ -169,7 +169,7 @@ public class PhotoTest {
     public void should_updateRotationDelta_afterCWRotation() {
         // Given
         MutablePhoto photo =
-                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo");
+                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo", "camera");
         // When
         photo.edit().rotateTo(90).apply();
         // Then
@@ -180,7 +180,7 @@ public class PhotoTest {
     public void should_updateRotationDelta_afterCCWRotation() {
         // Given
         MutablePhoto photo =
-                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo");
+                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo", "camera");
         // When
         photo.edit().rotateTo(-90).apply();
         // Then
@@ -191,7 +191,7 @@ public class PhotoTest {
     public void should_normalizeRotationDelta_forCWRotation() {
         // Given
         MutablePhoto photo =
-                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo");
+                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo", "camera");
         // When
         photo.edit().rotateTo(450).apply();
         // Then
@@ -202,7 +202,7 @@ public class PhotoTest {
     public void should_normalizeRotationDelta_forCCWRotation() {
         // Given
         MutablePhoto photo =
-                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo");
+                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "photo", "camera");
         // When
         photo.edit().rotateTo(-270).apply();
         // Then
@@ -213,7 +213,7 @@ public class PhotoTest {
     public void should_keepRotationDelta_afterCompression() {
         // Given
         MutablePhoto photo =
-                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 90, "portrait", "photo");
+                (MutablePhoto) PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 90, "portrait", "photo", "camera");
         // When
         photo.edit().compressBy(50).apply();
         // Then
