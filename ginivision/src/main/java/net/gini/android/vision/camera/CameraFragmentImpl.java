@@ -52,6 +52,7 @@ import net.gini.android.vision.internal.permission.PermissionRequestListener;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.internal.ui.ViewStubSafeInflater;
 import net.gini.android.vision.internal.util.DeviceHelper;
+import net.gini.android.vision.internal.util.FileImportValidator;
 import net.gini.android.vision.internal.util.Size;
 
 import org.slf4j.Logger;
@@ -496,23 +497,35 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     boolean onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         if (requestCode == REQ_CODE_CHOOSE_FILE) {
             if (resultCode == RESULT_OK) {
-                try {
-                    final Activity activity = mFragment
-                            .getActivity();
-                    if (activity == null) {
-                        return true;
-                    }
-                    Document document = DocumentFactory.newDocumentFromIntent(data, activity,
-                            DeviceHelper.getDeviceOrientation(activity),
-                            DeviceHelper.getDeviceType(activity),
-                            "picker");
-                    LOG.info("Document imported: {}", document);
-                    mListener.onDocumentAvailable(document);
-                } catch (IllegalArgumentException e) {
-                    handleError(DOCUMENT_IMPORT,
-                            "Failed to import selected document", e);
+                final Activity activity = mFragment
+                        .getActivity();
+                if (activity == null) {
+                    return true;
                 }
-            } else if (resultCode != RESULT_CANCELED){
+                final Uri uri = data.getData();
+                if (uri != null) {
+                    final FileImportValidator fileImportValidator = new FileImportValidator(
+                            activity);
+                    if (fileImportValidator.matchesCriteria(uri)) {
+                        try {
+                            Document document = DocumentFactory.newDocumentFromIntent(data,
+                                    activity,
+                                    DeviceHelper.getDeviceOrientation(activity),
+                                    DeviceHelper.getDeviceType(activity),
+                                    "picker");
+                            LOG.info("Document imported: {}", document);
+                            mListener.onDocumentAvailable(document);
+                        } catch (IllegalArgumentException e) {
+                            handleError(DOCUMENT_IMPORT,
+                                    "Failed to import selected document", e);
+                        }
+                    } else {
+                        showInvalidFileError(fileImportValidator.getError());
+                    }
+                } else {
+                    handleError(DOCUMENT_IMPORT, "Failed to import selected document");
+                }
+            } else if (resultCode != RESULT_CANCELED) {
                 final GiniVisionError error;
                 if (resultCode == FileChooserActivity.RESULT_ERROR) {
                     error = data.getParcelableExtra(
@@ -520,13 +533,31 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                 } else {
                     error = new GiniVisionError(DOCUMENT_IMPORT,
                             "Document import finished with unknown result code: "
-                                            + resultCode);
+                                    + resultCode);
                 }
                 handleError(error);
             }
             return true;
         }
         return false;
+    }
+
+    private void showInvalidFileError(@Nullable final FileImportValidator.Error error) {
+        LOG.error("Invalid document {}", error != null ? error.toString() : "");
+        int messageRes = R.string.gv_document_import_invalid_document;
+        if (error != null) {
+            messageRes = error.getTextResource();
+        }
+        mFragment.showAlertDialog(messageRes,
+                R.string.gv_document_import_pick_another_document,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(
+                            final DialogInterface dialogInterface,
+                            final int i) {
+                        showFileChooser();
+                    }
+                }, R.string.gv_document_import_close_error);
     }
 
     @UiThread

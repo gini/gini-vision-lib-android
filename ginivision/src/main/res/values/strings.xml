@@ -36,4 +36,12 @@
     <string name="gv_storage_permission_denied_negative_button">Abbrechen</string>
     <string name="gv_storage_permission_rationale">Um Ihre Dateien analysieren zu können wird Zugriff auf den Speicher ihres Gerätes benötigt.</string>
     <string name="gv_storage_permission_rationale_positive_button">Zugriff erteilen</string>
+
+    <string name="gv_document_import_invalid_document">Invalid document</string>
+    <string name="gv_document_import_error_type_not_supported">type not supported</string>
+    <string name="gv_document_import_error_size_too_large">error size too large</string>
+    <string name="gv_document_import_error_too_many_pdf_pages">pdf too many pages</string>
+
+    <string name="gv_document_import_pick_another_document">Andere Datei auswählen</string>
+    <string name="gv_document_import_close_error">Abbrechen</string>
 </resources>
