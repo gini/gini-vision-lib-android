@@ -11,8 +11,10 @@ import static net.gini.android.vision.internal.util.ContextHelper.getClientAppli
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -22,6 +24,8 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.View;
@@ -59,6 +63,8 @@ import jersey.repackaged.jsr166e.CompletableFuture;
 
 class CameraFragmentImpl implements CameraFragmentInterface {
 
+    public static final String GV_SHARED_PREFS = "GV_SHARED_PREFS";
+    public static final int DEFAULT_ANIMATION_DURATION = 200;
     private static final Logger LOG = LoggerFactory.getLogger(CameraFragmentImpl.class);
 
     private static final CameraFragmentListener NO_OP_LISTENER = new CameraFragmentListener() {
@@ -72,6 +78,8 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     };
 
     private static final int REQ_CODE_CHOOSE_FILE = 1;
+    private static final int SHOW_ERROR_DURATION = 4000;
+    public static final String SHOW_HINT_POP_UP = "SHOW_HINT_POP_UP";
 
     private final CameraFragmentImplCallback mFragment;
     private CameraFragmentListener mListener = NO_OP_LISTENER;
@@ -85,6 +93,9 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     private ImageButton mButtonCameraTrigger;
     private LinearLayout mLayoutNoPermission;
     private ImageButton mButtonImportDocument;
+    private View mUploadHintCloseButton;
+    private View mUploadHintContainer;
+    private View mUploadHintContainerArrow;
 
     private ViewStubSafeInflater mViewStubInflater;
 
@@ -150,6 +161,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                                 setPreviewCornersImage(previewSize.width, previewSize.height);
                                 startPreview(surfaceHolder);
                                 enableTapToFocus();
+                                showUploadHintPopUpOnFirstExecution();
                             } else {
                                 handleError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW,
                                         "Cannot start preview: no SurfaceHolder received for SurfaceView", null);
@@ -160,6 +172,28 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                         return null;
                     }
                 });
+    }
+
+    private void showUploadHintPopUpOnFirstExecution() {
+        if(shouldShowHintPopUp()) {
+            ViewCompat.animate(mUploadHintContainer)
+                    .alpha(1)
+                    .setDuration(DEFAULT_ANIMATION_DURATION)
+                    .start();
+            ViewCompat.animate(mUploadHintContainerArrow)
+                    .alpha(1)
+                    .setDuration(DEFAULT_ANIMATION_DURATION)
+                    .start();
+        }
+    }
+
+    private boolean shouldShowHintPopUp() {
+        Context context = mFragment.getActivity();
+        if(context != null) {
+            SharedPreferences gvSharedPrefs = context.getSharedPreferences(GV_SHARED_PREFS, Context.MODE_PRIVATE);
+            return gvSharedPrefs.getBoolean(SHOW_HINT_POP_UP, true);
+        }
+        return false;
     }
 
     private void setPreviewCornersImage(final int width, final int height) {
@@ -211,11 +245,11 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         layoutParams.leftMargin = (int) Math.round(left + point.x - (mCameraFocusIndicator.getWidth() / 2.0));
         layoutParams.topMargin = (int) Math.round(top + point.y - (mCameraFocusIndicator.getHeight() / 2.0));
         mCameraFocusIndicator.setLayoutParams(layoutParams);
-        mCameraFocusIndicator.animate().setDuration(200).alpha(1.0f);
+        mCameraFocusIndicator.animate().setDuration(DEFAULT_ANIMATION_DURATION).alpha(1.0f);
     }
 
     private void hideFocusIndicator() {
-        mCameraFocusIndicator.animate().setDuration(200).alpha(0.0f);
+        mCameraFocusIndicator.animate().setDuration(DEFAULT_ANIMATION_DURATION).alpha(0.0f);
     }
 
     private CompletableFuture<Void> openCamera() {
@@ -286,6 +320,9 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         ViewStub stubNoPermission = (ViewStub) view.findViewById(R.id.gv_stub_camera_no_permission);
         mViewStubInflater = new ViewStubSafeInflater(stubNoPermission);
         mButtonImportDocument = view.findViewById(R.id.gv_button_import_document);
+        mUploadHintContainer = view.findViewById(R.id.gv_upload_hint_container);
+        mUploadHintContainerArrow = view.findViewById(R.id.gv_upload_hint_container2);
+        mUploadHintCloseButton = view.findViewById(R.id.gv_upload_hint_button);
     }
 
     private void initViews() {
@@ -356,6 +393,45 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                 });
             }
         });
+        mUploadHintCloseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                closeUploadHintPopUp();
+            }
+        });
+    }
+
+    private void closeUploadHintPopUp() {
+        ViewCompat.animate(mUploadHintContainerArrow)
+                .alpha(0)
+                .setDuration(DEFAULT_ANIMATION_DURATION)
+                .start();
+        ViewCompat.animate(mUploadHintContainer)
+                .alpha(0)
+                .setDuration(DEFAULT_ANIMATION_DURATION)
+                .setListener(new ViewPropertyAnimatorListener() {
+                    @Override
+                    public void onAnimationStart(final View view) {
+                    }
+
+                    @Override
+                    public void onAnimationEnd(final View view) {
+                        mUploadHintContainerArrow.setVisibility(View.GONE);
+                        mUploadHintContainer.setVisibility(View.GONE);
+                        Context context = view.getContext();
+                        savePopUpShown(context);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(final View view) {
+                    }
+                })
+                .start();
+    }
+
+    private void savePopUpShown(final Context context) {
+        SharedPreferences gvSharedPrefs = context.getSharedPreferences(GV_SHARED_PREFS, Context.MODE_PRIVATE);
+        gvSharedPrefs.edit().putBoolean(SHOW_HINT_POP_UP, false).apply();
     }
 
     private void showStoragePermissionRationale(
@@ -387,7 +463,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void showFileChooser() {
-        LOG.debug("Importing document");
+        LOG.info("Importing document");
         final Activity activity = mFragment.getActivity();
         if (activity == null) {
             return;
@@ -410,7 +486,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void requestStoragePermission(@NonNull final PermissionRequestListener listener) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mFragment.requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, listener);
         } else {
             listener.permissionGranted();
@@ -430,7 +506,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                             DeviceHelper.getDeviceOrientation(activity),
                             DeviceHelper.getDeviceType(activity),
                             "picker");
-                    LOG.debug("Document imported: {}", document);
+                    LOG.info("Document imported: {}", document);
                     mListener.onDocumentAvailable(document);
                 } catch (IllegalArgumentException e) {
                     handleError(DOCUMENT_IMPORT,
@@ -501,7 +577,6 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void showDocumentCornerGuidesAnimated() {
-        LOG.info("Showing document corner guides");
         mImageCorners.animate().alpha(1.0f);
     }
 
@@ -514,7 +589,6 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void hideDocumentCornerGuidesAnimated() {
-        LOG.info("Hiding document corner guides");
         mImageCorners.animate().alpha(0.0f);
     }
 
@@ -527,7 +601,6 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void showCameraTriggerButtonAnimated() {
-        LOG.info("Showing camera trigger button");
         mButtonCameraTrigger.animate().alpha(1.0f);
         mButtonCameraTrigger.setEnabled(true);
     }
@@ -541,7 +614,6 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void hideCameraTriggerButtonAnimated() {
-        LOG.info("Hiding camera trigger button");
         mButtonCameraTrigger.animate().alpha(0.0f);
         mButtonCameraTrigger.setEnabled(false);
     }
@@ -563,7 +635,6 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void showImportDocumentButtonAnimated() {
-        LOG.info("Showing document import button");
         mButtonImportDocument.animate().alpha(1.0f);
         mButtonImportDocument.setEnabled(true);
     }
@@ -577,7 +648,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     @Override
-    public void showError(@NonNull String message, int duration) {
+    public void showErrorInSnackbar(@NonNull String message, int duration) {
         if (mFragment.getActivity() == null || mLayoutRoot == null) {
             return;
         }
@@ -586,9 +657,9 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     @Override
-    public void showError(@NonNull String message, @NonNull String buttonTitle,
+    public void showErrorInSnackbar(@NonNull String message, @NonNull String buttonTitle,
             @NonNull View.OnClickListener onClickListener) {
-        if (mFragment.getActivity() == null) {
+        if (mFragment.getActivity() == null || mLayoutRoot == null) {
             return;
         }
         ErrorSnackbar.make(mFragment.getActivity(), mLayoutRoot, message, buttonTitle,
@@ -604,7 +675,6 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void hideImportDocumentButtonAnimated() {
-        LOG.info("Hiding document import button");
         mButtonImportDocument.animate().alpha(0.0f);
         mButtonImportDocument.setEnabled(false);
     }
@@ -632,7 +702,6 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void hideNoPermissionView() {
-        LOG.info("Hiding no permission view");
         showCameraPreviewAnimated();
         showInterfaceAnimated();
         if (mLayoutNoPermission != null) {
@@ -649,13 +718,11 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void hideCameraPreviewAnimated() {
-        LOG.info("Hiding camera preview");
         mCameraPreview.animate().alpha(0.0f);
         mCameraPreview.setEnabled(false);
     }
 
     private void showCameraPreviewAnimated() {
-        LOG.info("Showing camera preview");
         mCameraPreview.animate().alpha(1.0f);
         mCameraPreview.setEnabled(true);
     }
@@ -679,7 +746,6 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         if (view == null) {
             return;
         }
-        LOG.info("Hiding no permission button");
         Button button = (Button) view.findViewById(R.id.gv_button_camera_no_permission);
         button.setVisibility(View.GONE);
     }
@@ -709,17 +775,24 @@ class CameraFragmentImpl implements CameraFragmentInterface {
             LOG.error(message, throwable);
             // Add error info to the message to help clients, if they don't have logging enabled
             message += ": " + throwable.getMessage();
-        } else {
-            LOG.error(message);
         }
         handleError(errorCode, message);
     }
 
     private void handleError(GiniVisionError.ErrorCode errorCode, @NonNull String message) {
-        mListener.onError(new GiniVisionError(errorCode, message));
+        handleError(new GiniVisionError(errorCode, message));
     }
 
     private void handleError(@NonNull final GiniVisionError error) {
-        mListener.onError(error);
+        LOG.error(error.getMessage());
+        if (error.getErrorCode() == DOCUMENT_IMPORT) {
+            final Activity activity = mFragment.getActivity();
+            if (activity == null) {
+                return;
+            }
+            showErrorInSnackbar(activity.getString(R.string.gv_document_import_error), SHOW_ERROR_DURATION);
+        } else {
+            mListener.onError(error);
+        }
     }
 }

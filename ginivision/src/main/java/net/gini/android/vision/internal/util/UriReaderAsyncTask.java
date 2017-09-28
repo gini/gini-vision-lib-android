@@ -4,7 +4,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
+import net.gini.android.vision.internal.AsyncCallback;
 
 import java.io.IOException;
 
@@ -14,11 +15,11 @@ import java.io.IOException;
 public class UriReaderAsyncTask extends AsyncTask<Uri, Void, byte[]> {
 
     private final Context mContext;
-    private final Listener mListener;
+    private final AsyncCallback<byte[]> mListener;
     private Exception mException;
 
     public UriReaderAsyncTask(@NonNull final Context context,
-            @NonNull final Listener listener) {
+            @NonNull final AsyncCallback<byte[]> listener) {
         mContext = context;
         mListener = listener;
     }
@@ -39,11 +40,6 @@ public class UriReaderAsyncTask extends AsyncTask<Uri, Void, byte[]> {
             mListener.onError(mException);
             return;
         }
-        mListener.onBytesRead(bytes);
-    }
-
-    public interface Listener {
-        void onBytesRead(@Nullable final byte[] bytes);
-        void onError(@NonNull final Exception exception);
+        mListener.onSuccess(bytes);
     }
 }

@@ -304,7 +304,6 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
 
     @VisibleForTesting
     static final int REVIEW_DOCUMENT_REQUEST = 1;
-    private static final int SHOW_ERROR_DURATION = 4000;
     private static final int ONBOARDING_REQUEST = 2;
     private static final int ANALYSE_DOCUMENT_REQUEST = 3;
 
@@ -478,33 +477,35 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     public void onDocumentAvailable(@NonNull Document document) {
         mDocument = document;
         if (mDocument.isReviewable()) {
-            // Start ReviewActivity
-            final Intent reviewIntent = new Intent(mReviewDocumentActivityIntent);
-            reviewIntent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, document);
-            reviewIntent.putExtra(EXTRA_IN_ANALYSIS_ACTIVITY,
-                    mAnalyzeDocumentActivityIntent);
-            reviewIntent.putExtra(
-                    ReviewActivity.EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY,
-                    mBackButtonShouldCloseLibrary);
-            startActivityForResult(reviewIntent, REVIEW_DOCUMENT_REQUEST);
+            startReviewActivity(document);
         } else {
-            // Start AnalysisActivity
-            final Intent analysisIntent = new Intent(mAnalyzeDocumentActivityIntent);
-            analysisIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, document);
-            startActivityForResult(analysisIntent, ANALYSE_DOCUMENT_REQUEST);
+            startAnalysisActivity(document);
         }
+    }
+
+    private void startReviewActivity(@NonNull final Document document) {
+        final Intent reviewIntent = new Intent(mReviewDocumentActivityIntent);
+        reviewIntent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, document);
+        reviewIntent.putExtra(EXTRA_IN_ANALYSIS_ACTIVITY,
+                mAnalyzeDocumentActivityIntent);
+        reviewIntent.putExtra(
+                ReviewActivity.EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY,
+                mBackButtonShouldCloseLibrary);
+        startActivityForResult(reviewIntent, REVIEW_DOCUMENT_REQUEST);
+    }
+
+    private void startAnalysisActivity(@NonNull final Document document) {
+        final Intent analysisIntent = new Intent(mAnalyzeDocumentActivityIntent);
+        analysisIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, document);
+        startActivityForResult(analysisIntent, ANALYSE_DOCUMENT_REQUEST);
     }
 
     @Override
     public void onError(@NonNull GiniVisionError error) {
-        if (error.getErrorCode() == GiniVisionError.ErrorCode.DOCUMENT_IMPORT) {
-            mFragment.showError(getString(R.string.gv_document_import_error), SHOW_ERROR_DURATION);
-        } else {
-            Intent result = new Intent();
-            result.putExtra(EXTRA_OUT_ERROR, error);
-            setResult(RESULT_ERROR, result);
-            finish();
-        }
+        Intent result = new Intent();
+        result.putExtra(EXTRA_OUT_ERROR, error);
+        setResult(RESULT_ERROR, result);
+        finish();
     }
 
     @Override

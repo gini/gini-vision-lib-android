@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionDebug;
-import net.gini.android.vision.document.ImageDocument;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,9 +59,7 @@ public class ReviewActivity extends net.gini.android.vision.review.ReviewActivit
     @Override
     public void onShouldAnalyzeDocument(@NonNull Document document) {
         LOG.debug("Should analyze document");
-        if (document.getType() == Document.Type.IMAGE) {
-            GiniVisionDebug.writeImageDocumentToFile(this, (ImageDocument) document, "_for_review");
-        }
+        GiniVisionDebug.writeDocumentToFile(this, document, "_for_review");
 
         // We should start analyzing the document by sending it to the Gini API.
         // If the user did not modify the image we can get the analysis results earlier.

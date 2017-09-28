@@ -29,7 +29,7 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.GiniVisionDocument;
-import net.gini.android.vision.document.LoadDataCallback;
+import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.document.DocumentRenderer;
 import net.gini.android.vision.internal.document.DocumentRendererFactory;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
@@ -164,22 +164,28 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
             return;
         }
         startScanAnimation();
-        mDocument.loadData(activity, new LoadDataCallback() {
-            @Override
-            public void onDataLoaded() {
-                if (mStopped) {
-                    return;
-                }
-                observeViewTree();
-            }
+        LOG.debug("Loading document data");
+        mDocument.loadData(activity,
+                new AsyncCallback<byte[]>() {
+                    @Override
+                    public void onSuccess(final byte[] result) {
+                        LOG.debug("Document data loaded");
+                        if (mStopped) {
+                            return;
+                        }
+                        observeViewTree();
+                    }
 
-            @Override
-            public void onError(@NonNull final Exception exception) {
-                LOG.error("Failed to load document data");
-                mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.ANALYSIS,
-                        "An error occurred while loading the document."));
-            }
-        });
+                    @Override
+                    public void onError(final Exception exception) {
+                        LOG.error("Failed to load document data", exception);
+                        if (mStopped) {
+                            return;
+                        }
+                        mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.ANALYSIS,
+                                "An error occurred while loading the document."));
+                    }
+                });
         if (!mDocument.isImported()) {
             showHints();
         }
@@ -324,6 +330,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         if (view == null) {
             return;
         }
+        LOG.debug("Observing the view layout");
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -335,6 +342,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     private void onViewLayoutFinished() {
+        LOG.debug("View layout finished");
         showDocument();
         analyzeDocument();
     }
@@ -355,10 +363,12 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     private void showDocument() {
+        LOG.debug("Rendering the document");
         final Size previewSize = new Size(mImageDocument.getWidth(), mImageDocument.getHeight());
         mDocumentRenderer.toBitmap(previewSize, new DocumentRenderer.Callback() {
             @Override
             public void onBitmapReady(@Nullable final Bitmap bitmap, final int rotationForDisplay) {
+                LOG.debug("Document rendered");
                 if (mStopped) {
                     return;
                 }

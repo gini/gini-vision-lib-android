@@ -108,8 +108,8 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
 
     @Override
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        boolean consumed = mFragmentImpl.onActivityResult(requestCode, resultCode, data);
-        if (!consumed) {
+        boolean handled = mFragmentImpl.onActivityResult(requestCode, resultCode, data);
+        if (!handled) {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
@@ -117,9 +117,9 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
     @Override
     public void onRequestPermissionsResult(final int requestCode,
             @NonNull final String[] permissions, @NonNull final int[] grantResults) {
-        boolean consumed = mRuntimePermissions.onRequestPermissionsResult(requestCode, permissions,
+        boolean handled = mRuntimePermissions.onRequestPermissionsResult(requestCode, permissions,
                 grantResults);
-        if (!consumed) {
+        if (!handled) {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
@@ -155,14 +155,14 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
     }
 
     @Override
-    public void showError(@NonNull final String message, final int duration) {
-        mFragmentImpl.showError(message, duration);
+    public void showErrorInSnackbar(@NonNull final String message, final int duration) {
+        mFragmentImpl.showErrorInSnackbar(message, duration);
     }
 
     @Override
-    public void showError(@NonNull final String message, @NonNull final String buttonTitle,
+    public void showErrorInSnackbar(@NonNull final String message, @NonNull final String buttonTitle,
             @NonNull final View.OnClickListener onClickListener) {
-        mFragmentImpl.showError(message, buttonTitle, onClickListener);
+        mFragmentImpl.showErrorInSnackbar(message, buttonTitle, onClickListener);
     }
 
     @Override

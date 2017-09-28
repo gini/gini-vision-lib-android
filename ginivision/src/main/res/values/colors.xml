@@ -47,5 +47,7 @@
 
     <color name="gv_noresults_activity_background">@android:color/transparent</color>
     <color name="gv_noresults_fragment_background">#ffffff</color>
+    <color name="gv_upload_hint_text">#000000</color>
+    <color name="gv_upload_hint_background">#ffffff</color>
 
 </resources>

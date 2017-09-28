@@ -24,7 +24,7 @@ import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.ImageDocument;
-import net.gini.android.vision.document.LoadDataCallback;
+import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.PhotoEdit;
 import net.gini.android.vision.internal.camera.photo.PhotoFactoryDocumentAsyncTask;
@@ -136,21 +136,30 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             if (activity == null) {
                 return;
             }
-            showActivityIndicator();
-            mDocument.loadData(activity, new LoadDataCallback() {
-                @Override
-                public void onDataLoaded() {
-                    createAndCompressPhoto();
-                }
+            showActivityIndicatorAndDisableButtons();
+            LOG.debug("Loading document data");
+            mDocument.loadData(activity,
+                    new AsyncCallback<byte[]>() {
+                        @Override
+                        public void onSuccess(final byte[] result) {
+                            LOG.debug("Document data loaded");
+                            if (mNextClicked || mStopped) {
+                                return;
+                            }
+                            createAndCompressPhoto();
+                        }
 
-                @Override
-                public void onError(@NonNull final Exception exception) {
-                    hideActivityIndicator();
-                    LOG.error("Failed to load document data");
-                    mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW,
-                            "An error occurred while loading the document."));
-                }
-            });
+                        @Override
+                        public void onError(final Exception exception) {
+                            LOG.error("Failed to load document data", exception);
+                            if (mNextClicked || mStopped) {
+                                return;
+                            }
+                            hideActivityIndicatorAndEnableButtons();
+                            mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW,
+                                    "An error occurred while loading the document."));
+                        }
+                    });
         } else {
             observeViewTree();
             LOG.info("Should analyze document");
@@ -159,22 +168,25 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     }
 
     private void createAndCompressPhoto() {
+        LOG.debug("Instantiating a Photo from the Document");
         PhotoFactoryDocumentAsyncTask asyncTask = new PhotoFactoryDocumentAsyncTask(
-                new PhotoFactoryDocumentAsyncTask.Listener() {
+                new AsyncCallback<Photo>() {
                     @Override
-                    public void onPhotoCreated(@NonNull final Photo photo) {
+                    public void onSuccess(final Photo result) {
+                        LOG.debug("Photo instantiated");
                         if (mNextClicked || mStopped) {
                             return;
                         }
-                        mPhoto = photo;
+                        mPhoto = result;
                         mCurrentRotation = mPhoto.getRotationForDisplay();
-                        applyCompressionToJpeg(new PhotoEdit.PhotoEditCallback() {
+                        applyCompressionToPhoto(new PhotoEdit.PhotoEditCallback() {
                             @Override
                             public void onDone(@NonNull Photo photo) {
+                                LOG.debug("Photo compressed");
                                 if (mNextClicked || mStopped) {
                                     return;
                                 }
-                                hideActivityIndicator();
+                                hideActivityIndicatorAndEnableButtons();
                                 observeViewTree();
                                 LOG.info("Should analyze document");
                                 mListener.onShouldAnalyzeDocument(DocumentFactory.newDocumentFromPhoto(mPhoto));
@@ -182,20 +194,30 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
                             @Override
                             public void onFailed() {
+                                LOG.error("Failed to compress the Photo");
                                 if (mNextClicked || mStopped) {
                                     return;
                                 }
-                                LOG.error("Failed to compress the jpeg");
                                 mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW,
                                         "An error occurred while compressing the jpeg."));
                             }
                         });
                     }
+
+                    @Override
+                    public void onError(final Exception exception) {
+                        LOG.error("Failed to instantiate a Photo from the ImageDocument");
+                        if (mNextClicked || mStopped) {
+                            return;
+                        }
+                        mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW,
+                                "An error occurred while instantiating a Photo from the ImageDocument."));
+                    }
                 });
         asyncTask.execute(mDocument);
     }
 
-    private void showActivityIndicator() {
+    private void showActivityIndicatorAndDisableButtons() {
         if (mActivityIndicator == null) {
             return;
         }
@@ -204,7 +226,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         disableRotateButton();
     }
 
-    private void hideActivityIndicator() {
+    private void hideActivityIndicatorAndEnableButtons() {
         if (mActivityIndicator == null) {
             return;
         }
@@ -279,6 +301,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         if (savedInstanceState == null) {
             return;
         }
+        LOG.debug("Restoring saved state");
         mPhoto = savedInstanceState.getParcelable(PHOTO_KEY);
         mDocument = savedInstanceState.getParcelable(DOCUMENT_KEY);
         if (mDocument == null) {
@@ -310,6 +333,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         if (view == null) {
             return;
         }
+        LOG.debug("Observing the view layout");
         view.getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
@@ -321,6 +345,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     }
 
     private void onViewLayoutFinished() {
+        LOG.debug("View layout finished");
         rotateDocumentForDisplay();
         showDocument();
     }
@@ -337,7 +362,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         mCurrentRotation += 90;
         rotateImageView(mCurrentRotation, true);
         mDocumentWasModified = true;
-        applyRotationToJpeg(new PhotoEdit.PhotoEditCallback() {
+        applyRotationToPhoto(new PhotoEdit.PhotoEditCallback() {
             @Override
             public void onDone(@NonNull Photo photo) {
                 if (mStopped) {
@@ -375,7 +400,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             }
         } else {
             LOG.debug("Document was modified");
-            applyRotationToJpeg(new PhotoEdit.PhotoEditCallback() {
+            applyRotationToPhoto(new PhotoEdit.PhotoEditCallback() {
                 @Override
                 public void onDone(@NonNull Photo photo) {
                     if (mStopped) {
@@ -402,21 +427,21 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         mListener.onProceedToAnalysisScreen(DocumentFactory.newDocumentFromPhoto(mPhoto));
     }
 
-    private void applyRotationToJpeg(@NonNull PhotoEdit.PhotoEditCallback callback) {
+    private void applyRotationToPhoto(@NonNull PhotoEdit.PhotoEditCallback callback) {
         if (mPhoto == null) {
             return;
         }
-        LOG.info("Rotating the jpeg {} degrees", mCurrentRotation);
+        LOG.debug("Rotating the Photo {} degrees", mCurrentRotation);
         mPhoto.edit()
                 .rotateTo(mCurrentRotation)
                 .applyAsync(callback);
     }
 
-    private void applyCompressionToJpeg(@NonNull PhotoEdit.PhotoEditCallback callback) {
+    private void applyCompressionToPhoto(@NonNull PhotoEdit.PhotoEditCallback callback) {
         if (mPhoto == null) {
             return;
         }
-        LOG.info("Compressing the jpeg to quality {}", JPEG_COMPRESSION_QUALITY_FOR_UPLOAD);
+        LOG.debug("Compressing the Photo to quality {}", JPEG_COMPRESSION_QUALITY_FOR_UPLOAD);
         mPhoto.edit()
                 .compressBy(JPEG_COMPRESSION_QUALITY_FOR_UPLOAD)
                 .applyAsync(callback);
