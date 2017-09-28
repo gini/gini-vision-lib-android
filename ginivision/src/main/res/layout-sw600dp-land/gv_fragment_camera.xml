@@ -36,6 +36,8 @@
         android:layout_marginBottom="12dp" />
 
     <ImageView
+        android:alpha="0"
+        tools:alpha="1"
         android:id="@+id/gv_upload_hint_container2"
         android:layout_width="48dp"
         android:layout_height="48dp"
