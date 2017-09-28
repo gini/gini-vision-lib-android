@@ -40,38 +40,41 @@ public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisA
 
         startScanAnimation();
         // We can start analyzing the document by sending it to the Gini API
-        mSingleDocumentAnalyzer.analyzeDocument(document, new SingleDocumentAnalyzer.DocumentAnalysisListener() {
-            @Override
-            public void onException(Exception exception) {
-                stopScanAnimation();
-                String message = "Analysis failed: ";
-                if (exception != null) {
-                   message += exception.getMessage();
-                }
-                final SingleDocumentAnalyzer.DocumentAnalysisListener listener = this;
-                showError(message, getString(R.string.gv_document_analysis_error_retry), new View.OnClickListener() {
+        mSingleDocumentAnalyzer.analyzeDocument(document,
+                new SingleDocumentAnalyzer.DocumentAnalysisListener() {
                     @Override
-                    public void onClick(View v) {
-                        startScanAnimation();
-                        mSingleDocumentAnalyzer.cancelAnalysis();
-                        mSingleDocumentAnalyzer.analyzeDocument(document, listener);
+                    public void onException(Exception exception) {
+                        stopScanAnimation();
+                        String message = "Analysis failed: ";
+                        if (exception != null) {
+                            message += exception.getMessage();
+                        }
+                        final SingleDocumentAnalyzer.DocumentAnalysisListener listener = this;
+                        showError(message, getString(R.string.gv_document_analysis_error_retry),
+                                new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        startScanAnimation();
+                                        mSingleDocumentAnalyzer.cancelAnalysis();
+                                        mSingleDocumentAnalyzer.analyzeDocument(document, listener);
+                                    }
+                                });
+                    }
+
+                    @Override
+                    public void onExtractionsReceived(Map<String, SpecificExtraction> extractions) {
+                        mExtractions = extractions;
+                        if (mExtractions == null || hasNoPay5Extractions(mExtractions.keySet())) {
+                            noExtractionsFound();
+                        } else {
+                            // Calling onDocumentAnalyzed() is important to notify the
+                            // AnalysisActivity
+                            // base class that the
+                            // analysis has completed successfully
+                            onDocumentAnalyzed();
+                        }
                     }
                 });
-            }
-
-            @Override
-            public void onExtractionsReceived(Map<String, SpecificExtraction> extractions) {
-                mExtractions = extractions;
-                if (mExtractions == null || hasNoPay5Extractions(mExtractions.keySet())) {
-                    noExtractionsFound();
-                } else {
-                    // Calling onDocumentAnalyzed() is important to notify the AnalysisActivity
-                    // base class that the
-                    // analysis has completed successfully
-                    onDocumentAnalyzed();
-                }
-            }
-        });
     }
 
     @Override

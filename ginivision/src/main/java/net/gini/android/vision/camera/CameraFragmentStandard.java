@@ -1,17 +1,22 @@
 package net.gini.android.vision.camera;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import net.gini.android.vision.internal.ui.FragmentImplCallback;
+import net.gini.android.vision.internal.permission.PermissionRequestListener;
+import net.gini.android.vision.internal.permission.RuntimePermissions;
 
 /**
  * <h3>Component API</h3>
@@ -38,9 +43,10 @@ import net.gini.android.vision.internal.ui.FragmentImplCallback;
  *     See the {@link CameraActivity} for details.
  * </p>
  */
-public class CameraFragmentStandard extends Fragment implements CameraFragmentInterface, FragmentImplCallback {
+public class CameraFragmentStandard extends Fragment implements CameraFragmentInterface, CameraFragmentImplCallback {
 
     private final CameraFragmentImpl mFragmentImpl = new CameraFragmentImpl(this);
+    private final RuntimePermissions mRuntimePermissions = new RuntimePermissions();
 
     /**
      * @exclude
@@ -102,9 +108,19 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
 
     @Override
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        boolean consumed = mFragmentImpl.onActivityResult(requestCode, resultCode, data);
-        if (!consumed) {
+        boolean handled = mFragmentImpl.onActivityResult(requestCode, resultCode, data);
+        if (!handled) {
             super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(final int requestCode,
+            @NonNull final String[] permissions, @NonNull final int[] grantResults) {
+        boolean handled = mRuntimePermissions.onRequestPermissionsResult(requestCode, permissions,
+                grantResults);
+        if (!handled) {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
@@ -136,5 +152,52 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
     @Override
     public void hideInterface() {
         mFragmentImpl.hideInterface();
+    }
+
+    @Override
+    public void showErrorInSnackbar(@NonNull final String message, final int duration) {
+        mFragmentImpl.showErrorInSnackbar(message, duration);
+    }
+
+    @Override
+    public void showErrorInSnackbar(@NonNull final String message, @NonNull final String buttonTitle,
+            @NonNull final View.OnClickListener onClickListener) {
+        mFragmentImpl.showErrorInSnackbar(message, buttonTitle, onClickListener);
+    }
+
+    @Override
+    public void requestPermission(@NonNull final String permission,
+            @NonNull final PermissionRequestListener listener) {
+        mRuntimePermissions.requestPermission(this, permission, listener);
+    }
+
+    @Override
+    public void showAlertDialog(@StringRes final int message,
+            @StringRes final int positiveButtonTitle,
+            @NonNull final DialogInterface.OnClickListener positiveButtonClickListener) {
+        final Activity activity = getActivity();
+        if (activity == null) {
+            return;
+        }
+        new AlertDialog.Builder(activity)
+                .setMessage(message)
+                .setPositiveButton(positiveButtonTitle, positiveButtonClickListener)
+                .show();
+    }
+
+    @Override
+    public void showAlertDialog(@StringRes final int message,
+            @StringRes final int positiveButtonTitle,
+            @NonNull final DialogInterface.OnClickListener positiveButtonClickListener,
+            @StringRes final int negativeButtonTitle) {
+        final Activity activity = getActivity();
+        if (activity == null) {
+            return;
+        }
+        new AlertDialog.Builder(activity)
+                .setMessage(message)
+                .setPositiveButton(positiveButtonTitle, positiveButtonClickListener)
+                .setNegativeButton(negativeButtonTitle, null)
+                .show();
     }
 }

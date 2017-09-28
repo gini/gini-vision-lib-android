@@ -4,7 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.SurfaceView;
 
-import net.gini.android.vision.internal.camera.photo.Size;
+import net.gini.android.vision.internal.util.Size;
 
 /**
  * @exclude

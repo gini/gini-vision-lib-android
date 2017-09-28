@@ -8,7 +8,7 @@ import static net.gini.android.vision.internal.camera.api.Resolutions.toSizesLis
 
 import android.hardware.Camera;
 
-import net.gini.android.vision.internal.camera.photo.Size;
+import net.gini.android.vision.internal.util.Size;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

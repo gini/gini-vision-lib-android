@@ -21,6 +21,10 @@ public class PhotoEdit {
         mPhoto = photo;
     }
 
+    protected Photo getPhoto() {
+        return mPhoto;
+    }
+
     private List<PhotoModifier> getPhotoModifiers() {
         if (mPhotoModifiers == null) {
             mPhotoModifiers = new ArrayList<>();

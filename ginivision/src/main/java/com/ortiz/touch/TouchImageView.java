@@ -33,11 +33,10 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.widget.ImageView;
 import android.widget.OverScroller;
 import android.widget.Scroller;
 
-public class TouchImageView extends ImageView {
+public class TouchImageView extends android.support.v7.widget.AppCompatImageView {
 	
 	private static final String DEBUG = "DEBUG";
 	
@@ -75,8 +74,7 @@ public class TouchImageView extends ImageView {
     private Fling fling;
     
     private ScaleType mScaleType;
-    
-    private boolean imageRenderedAtLeastOnce;
+
     private boolean onDrawReady;
     
     private ZoomVariables delayedZoomVariables;
@@ -251,7 +249,6 @@ public class TouchImageView extends ImageView {
     	bundle.putInt("viewHeight", viewHeight);
     	matrix.getValues(m);
     	bundle.putFloatArray("matrix", m);
-    	bundle.putBoolean("imageRendered", imageRenderedAtLeastOnce);
     	return bundle;
     }
 
@@ -266,7 +263,6 @@ public class TouchImageView extends ImageView {
 	        prevMatchViewWidth = bundle.getFloat("matchViewWidth");
 	        prevViewHeight = bundle.getInt("viewHeight");
 	        prevViewWidth = bundle.getInt("viewWidth");
-	        imageRenderedAtLeastOnce = bundle.getBoolean("imageRendered");
 	        super.onRestoreInstanceState(bundle.getParcelable("instanceState"));
 	        return;
       	}
@@ -277,7 +273,6 @@ public class TouchImageView extends ImageView {
     @Override
     protected void onDraw(Canvas canvas) {
     	onDrawReady = true;
-    	imageRenderedAtLeastOnce = true;
     	if (delayedZoomVariables != null) {
     		setZoom(delayedZoomVariables.scale, delayedZoomVariables.focusX, delayedZoomVariables.focusY, delayedZoomVariables.scaleType);
     		delayedZoomVariables = null;
@@ -594,7 +589,7 @@ public class TouchImageView extends ImageView {
         float redundantYSpace = viewHeight - (scaleY * drawableHeight);
         matchViewWidth = viewWidth - redundantXSpace;
         matchViewHeight = viewHeight - redundantYSpace;
-        if (!isZoomed() && !imageRenderedAtLeastOnce) {
+        if (!isZoomed()) {
         	//
         	// Stretch and center image to fit view
         	//

@@ -28,4 +28,12 @@
     <string name="gv_noresults_flat">Seite glatt streichen</string>
     <string name="gv_noresults_back_button">Zurück zur Kamera</string>
     <string name="gv_upload_hint_text">Du kannst jetzt auch ganz einfach Dateien hochladen.</string>
+
+    <string name="gv_document_import_error">Ihre Datei konnte nicht geöffnet werden. Bitte versuchen sie es mit einer anderen Datei.</string>
+
+    <string name="gv_storage_permission_denied">Ohne Zugriff auf den Speicher ihres Gerätes können Sie leider keine Dateien analysieren.</string>
+    <string name="gv_storage_permission_denied_positive_button">Zugriff erteilen</string>
+    <string name="gv_storage_permission_denied_negative_button">Abbrechen</string>
+    <string name="gv_storage_permission_rationale">Um Ihre Dateien analysieren zu können wird Zugriff auf den Speicher ihres Gerätes benötigt.</string>
+    <string name="gv_storage_permission_rationale_positive_button">Zugriff erteilen</string>
 </resources>

@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import net.gini.android.vision.internal.camera.api.SizeSelectionHelper;
-import net.gini.android.vision.internal.camera.photo.Size;
+import net.gini.android.vision.internal.util.Size;
 
 class DeviceMemoryRequirement implements Requirement {
 

@@ -2,7 +2,9 @@ package net.gini.android.vision.analysis;
 
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -26,15 +28,24 @@ import android.widget.TextView;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
-import net.gini.android.vision.internal.camera.photo.Photo;
+import net.gini.android.vision.document.GiniVisionDocument;
+import net.gini.android.vision.internal.AsyncCallback;
+import net.gini.android.vision.internal.document.DocumentRenderer;
+import net.gini.android.vision.internal.document.DocumentRendererFactory;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
+import net.gini.android.vision.internal.util.Size;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 class AnalysisFragmentImpl implements AnalysisFragmentInterface {
+
+    private static final Logger LOG = LoggerFactory.getLogger(AnalysisFragmentImpl.class);
 
     private static final AnalysisFragmentListener NO_OP_LISTENER = new AnalysisFragmentListener() {
         @Override
@@ -48,12 +59,14 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
     private final FragmentImplCallback mFragment;
     private int mFragmentHeight;
+    private TextView mAnalysisMessageTextView;
     private ViewPropertyAnimatorCompat mHintAnimation;
     private View mHintContainer;
     private ImageView mHintImageView;
     private TextView mHintTextView;
     private List<AnalysisHint> mHints;
-    private Photo mPhoto;
+    private DocumentRenderer mDocumentRenderer;
+    private final GiniVisionDocument mDocument;
     private final String mDocumentAnalysisErrorMessage;
     private ImageView mImageDocument;
     private RelativeLayout mLayoutRoot;
@@ -64,11 +77,12 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     private static final int HINT_ANIMATION_DURATION = 500;
     private static final int HINT_START_DELAY = 5000;
     private static final int HINT_CYCLE_INTERVAL = 4000;
+    private boolean mStopped;
 
 
-    public AnalysisFragmentImpl(FragmentImplCallback fragment, Document document, String documentAnalysisErrorMessage) {
+    AnalysisFragmentImpl(FragmentImplCallback fragment, Document document, String documentAnalysisErrorMessage) {
         mFragment = fragment;
-        mPhoto = Photo.fromDocument(document);
+        mDocument = (GiniVisionDocument) document;
         mDocumentAnalysisErrorMessage = documentAnalysisErrorMessage;
     }
 
@@ -112,38 +126,72 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     @Override
     public void startScanAnimation() {
         mProgressActivity.setVisibility(View.VISIBLE);
+        mAnalysisMessageTextView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void stopScanAnimation() {
         mProgressActivity.setVisibility(View.GONE);
+        mAnalysisMessageTextView.setVisibility(View.GONE);
     }
 
     public void onCreate(Bundle savedInstanceState) {
-        forcePortraitOrientationOnPhones(mFragment.getActivity());
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
+        }
+        forcePortraitOrientationOnPhones(activity);
+        mDocumentRenderer = DocumentRendererFactory.fromDocument(mDocument, activity);
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.gv_fragment_analysis, container, false);
         bindViews(view);
-        showDocument();
-        observerViewTree(view);
         return view;
     }
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
     public void onDestroy() {
-        mPhoto = null;
+        mImageDocument = null;
         stopScanAnimation();
     }
 
     public void onStart() {
-        showHints();
+        mStopped = false;
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
+        }
+        startScanAnimation();
+        LOG.debug("Loading document data");
+        mDocument.loadData(activity,
+                new AsyncCallback<byte[]>() {
+                    @Override
+                    public void onSuccess(final byte[] result) {
+                        LOG.debug("Document data loaded");
+                        if (mStopped) {
+                            return;
+                        }
+                        observeViewTree();
+                    }
+
+                    @Override
+                    public void onError(final Exception exception) {
+                        LOG.error("Failed to load document data", exception);
+                        if (mStopped) {
+                            return;
+                        }
+                        mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.ANALYSIS,
+                                "An error occurred while loading the document."));
+                    }
+                });
+        if (!mDocument.isImported()) {
+            showHints();
+        }
     }
 
     private void showHints() {
-
         mHints = generateRandomHintsList();
 
         mHintCycleRunnable = new Runnable() {
@@ -223,6 +271,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     void onStop() {
+        mStopped = true;
         mHandler.removeCallbacks(mHintCycleRunnable);
         if (mHintAnimation != null) {
             mHintAnimation.cancel();
@@ -258,11 +307,11 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            mListener.onAnalyzeDocument(Document.fromPhoto(mPhoto));
+                            mListener.onAnalyzeDocument(mDocument);
                         }
                     });
         } else {
-            mListener.onAnalyzeDocument(Document.fromPhoto(mPhoto));
+            mListener.onAnalyzeDocument(mDocument);
         }
     }
 
@@ -273,9 +322,15 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         mHintImageView = view.findViewById(R.id.gv_analyse_hint_image);
         mHintTextView = view.findViewById(R.id.gv_analyse_hint_text);
         mHintContainer = view.findViewById(R.id.gv_analyse_hint_container);
+        mAnalysisMessageTextView = view.findViewById(R.id.gv_analysis_message);
     }
 
-    private void observerViewTree(@NonNull final View view) {
+    private void observeViewTree() {
+        final View view = mFragment.getView();
+        if (view == null) {
+            return;
+        }
+        LOG.debug("Observing the view layout");
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -287,26 +342,39 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     private void onViewLayoutFinished() {
-        rotateDocumentImageView();
+        LOG.debug("View layout finished");
+        showDocument();
         analyzeDocument();
     }
 
-    private void rotateDocumentImageView() {
+    private void rotateDocumentImageView(final int rotationForDisplay) {
         int newWidth = mLayoutRoot.getWidth();
         int newHeight = mLayoutRoot.getHeight();
-        if (mPhoto.getRotationForDisplay() == 90 || mPhoto.getRotationForDisplay() == 270) {
+        if (rotationForDisplay == 90 || rotationForDisplay == 270) {
             newWidth = mLayoutRoot.getHeight();
             newHeight = mLayoutRoot.getWidth();
         }
 
-        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mImageDocument.getLayoutParams();
+        final FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mImageDocument.getLayoutParams();
         layoutParams.width = newWidth;
         layoutParams.height = newHeight;
         mImageDocument.setLayoutParams(layoutParams);
-        mImageDocument.setRotation(mPhoto.getRotationForDisplay());
+        mImageDocument.setRotation(rotationForDisplay);
     }
 
     private void showDocument() {
-        mImageDocument.setImageBitmap(mPhoto.getBitmapPreview());
+        LOG.debug("Rendering the document");
+        final Size previewSize = new Size(mImageDocument.getWidth(), mImageDocument.getHeight());
+        mDocumentRenderer.toBitmap(previewSize, new DocumentRenderer.Callback() {
+            @Override
+            public void onBitmapReady(@Nullable final Bitmap bitmap, final int rotationForDisplay) {
+                LOG.debug("Document rendered");
+                if (mStopped) {
+                    return;
+                }
+                rotateDocumentImageView(rotationForDisplay);
+                mImageDocument.setImageBitmap(bitmap);
+            }
+        });
     }
 }
