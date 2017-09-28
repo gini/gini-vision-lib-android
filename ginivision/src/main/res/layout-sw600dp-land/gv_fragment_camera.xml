@@ -20,20 +20,16 @@
         android:src="@drawable/gv_camera_focus_indicator"
         tools:alpha="0.5" />
 
-    <ImageView
-        android:alpha="0"
-        tools:alpha="1"
+    <net.gini.android.vision.camera.FrameView
         android:id="@+id/gv_image_corners"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/gv_camera_preview_corners_padding"
-        android:src="@drawable/gv_camera_preview_corners"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/gv_upload_hint_container2"
-        android:layout_toStartOf="@+id/gv_upload_hint_container2"
-        android:layout_marginRight="184dp"
-        android:layout_marginEnd="184dp"
-        android:layout_marginBottom="12dp" />
+        android:layout_alignBottom="@+id/gv_camera_preview"
+        android:layout_alignLeft="@id/gv_camera_preview"
+        android:layout_alignRight="@id/gv_camera_preview"
+        android:layout_alignStart="@id/gv_camera_preview"
+        android:layout_alignEnd="@id/gv_camera_preview"
+        android:layout_alignTop="@+id/gv_camera_preview" />
 
     <ImageView
         android:alpha="0"
@@ -99,7 +95,7 @@
         android:layout_below="@id/gv_button_camera_trigger"
         android:background="@null"
         android:scaleType="centerInside"
-        android:src="@android:drawable/stat_sys_upload"
+        android:src="@drawable/gv_upload_icon"
         android:visibility="gone"
         tools:visibility="visible"/>
 
