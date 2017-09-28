@@ -11,8 +11,10 @@ import static net.gini.android.vision.internal.util.ContextHelper.getClientAppli
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -22,6 +24,8 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.View;
@@ -59,6 +63,8 @@ import jersey.repackaged.jsr166e.CompletableFuture;
 
 class CameraFragmentImpl implements CameraFragmentInterface {
 
+    public static final String GV_SHARED_PREFS = "GV_SHARED_PREFS";
+    public static final int DEFAULT_ANIMATION_DURATION = 200;
     private static final Logger LOG = LoggerFactory.getLogger(CameraFragmentImpl.class);
 
     private static final CameraFragmentListener NO_OP_LISTENER = new CameraFragmentListener() {
@@ -73,6 +79,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
     private static final int REQ_CODE_CHOOSE_FILE = 1;
     private static final int SHOW_ERROR_DURATION = 4000;
+    public static final String SHOW_HINT_POP_UP = "SHOW_HINT_POP_UP";
 
     private final CameraFragmentImplCallback mFragment;
     private CameraFragmentListener mListener = NO_OP_LISTENER;
@@ -86,6 +93,9 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     private ImageButton mButtonCameraTrigger;
     private LinearLayout mLayoutNoPermission;
     private ImageButton mButtonImportDocument;
+    private View mUploadHintCloseButton;
+    private View mUploadHintContainer;
+    private View mUploadHintContainerArrow;
 
     private ViewStubSafeInflater mViewStubInflater;
 
@@ -151,6 +161,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                                 setPreviewCornersImage(previewSize.width, previewSize.height);
                                 startPreview(surfaceHolder);
                                 enableTapToFocus();
+                                showUploadHintPopUpOnFirstExecution();
                             } else {
                                 handleError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW,
                                         "Cannot start preview: no SurfaceHolder received for SurfaceView", null);
@@ -161,6 +172,28 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                         return null;
                     }
                 });
+    }
+
+    private void showUploadHintPopUpOnFirstExecution() {
+        if(shouldShowHintPopUp()) {
+            ViewCompat.animate(mUploadHintContainer)
+                    .alpha(1)
+                    .setDuration(DEFAULT_ANIMATION_DURATION)
+                    .start();
+            ViewCompat.animate(mUploadHintContainerArrow)
+                    .alpha(1)
+                    .setDuration(DEFAULT_ANIMATION_DURATION)
+                    .start();
+        }
+    }
+
+    private boolean shouldShowHintPopUp() {
+        Context context = mFragment.getActivity();
+        if(context != null) {
+            SharedPreferences gvSharedPrefs = context.getSharedPreferences(GV_SHARED_PREFS, Context.MODE_PRIVATE);
+            return gvSharedPrefs.getBoolean(SHOW_HINT_POP_UP, true);
+        }
+        return false;
     }
 
     private void setPreviewCornersImage(final int width, final int height) {
@@ -212,11 +245,11 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         layoutParams.leftMargin = (int) Math.round(left + point.x - (mCameraFocusIndicator.getWidth() / 2.0));
         layoutParams.topMargin = (int) Math.round(top + point.y - (mCameraFocusIndicator.getHeight() / 2.0));
         mCameraFocusIndicator.setLayoutParams(layoutParams);
-        mCameraFocusIndicator.animate().setDuration(200).alpha(1.0f);
+        mCameraFocusIndicator.animate().setDuration(DEFAULT_ANIMATION_DURATION).alpha(1.0f);
     }
 
     private void hideFocusIndicator() {
-        mCameraFocusIndicator.animate().setDuration(200).alpha(0.0f);
+        mCameraFocusIndicator.animate().setDuration(DEFAULT_ANIMATION_DURATION).alpha(0.0f);
     }
 
     private CompletableFuture<Void> openCamera() {
@@ -287,6 +320,9 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         ViewStub stubNoPermission = (ViewStub) view.findViewById(R.id.gv_stub_camera_no_permission);
         mViewStubInflater = new ViewStubSafeInflater(stubNoPermission);
         mButtonImportDocument = view.findViewById(R.id.gv_button_import_document);
+        mUploadHintContainer = view.findViewById(R.id.gv_upload_hint_container);
+        mUploadHintContainerArrow = view.findViewById(R.id.gv_upload_hint_container2);
+        mUploadHintCloseButton = view.findViewById(R.id.gv_upload_hint_button);
     }
 
     private void initViews() {
@@ -357,6 +393,45 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                 });
             }
         });
+        mUploadHintCloseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                closeUploadHintPopUp();
+            }
+        });
+    }
+
+    private void closeUploadHintPopUp() {
+        ViewCompat.animate(mUploadHintContainerArrow)
+                .alpha(0)
+                .setDuration(DEFAULT_ANIMATION_DURATION)
+                .start();
+        ViewCompat.animate(mUploadHintContainer)
+                .alpha(0)
+                .setDuration(DEFAULT_ANIMATION_DURATION)
+                .setListener(new ViewPropertyAnimatorListener() {
+                    @Override
+                    public void onAnimationStart(final View view) {
+                    }
+
+                    @Override
+                    public void onAnimationEnd(final View view) {
+                        mUploadHintContainerArrow.setVisibility(View.GONE);
+                        mUploadHintContainer.setVisibility(View.GONE);
+                        Context context = view.getContext();
+                        savePopUpShown(context);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(final View view) {
+                    }
+                })
+                .start();
+    }
+
+    private void savePopUpShown(final Context context) {
+        SharedPreferences gvSharedPrefs = context.getSharedPreferences(GV_SHARED_PREFS, Context.MODE_PRIVATE);
+        gvSharedPrefs.edit().putBoolean(SHOW_HINT_POP_UP, false).apply();
     }
 
     private void showStoragePermissionRationale(
