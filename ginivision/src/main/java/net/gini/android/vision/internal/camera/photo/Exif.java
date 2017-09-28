@@ -79,7 +79,12 @@ class Exif {
             throws IOException, ImageReadException {
         RequiredTags requiredTags = new RequiredTags();
 
-        JpegImageMetadata jpegMetadata = (JpegImageMetadata) getMetadata(jpeg);
+        JpegImageMetadata jpegMetadata = null;
+        try {
+            jpegMetadata = (JpegImageMetadata) getMetadata(jpeg);
+        } catch (ClassCastException e) {
+            // Ignore
+        }
 
         if (jpegMetadata != null) {
             requiredTags.make = jpegMetadata.findEXIFValue(TiffTagConstants.TIFF_TAG_MAKE);
@@ -124,7 +129,14 @@ class Exif {
                 throws IOException, ImageReadException, ImageWriteException {
             ByteOrder byteOrder = defaultByteOrder;
 
-            JpegImageMetadata jpegMetadata = (JpegImageMetadata) getMetadata(jpeg);
+            JpegImageMetadata jpegMetadata;
+            try {
+                jpegMetadata = (JpegImageMetadata) getMetadata(jpeg);
+            } catch (ClassCastException e) {
+                throw new ImageReadException(
+                        "Wrong metadata type, only JpegImageMetadata supported", e);
+            }
+
             if (jpegMetadata != null) {
                 TiffImageMetadata exif = jpegMetadata.getExif();
                 if (exif != null) {

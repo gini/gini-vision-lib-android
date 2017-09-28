@@ -2,7 +2,8 @@ package net.gini.android.vision;
 
 import android.content.Context;
 
-import net.gini.android.vision.internal.camera.photo.Photo;
+import net.gini.android.vision.document.ImageDocument;
+import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,11 +69,31 @@ public final class GiniVisionDebug {
         if (!sEnabled) {
             return;
         }
+        if (document instanceof ImageDocument) {
+            writeImageDocumentToFile(context, (ImageDocument) document, suffix);
+        }
+    }
+
+    /**
+     * <p>
+     *     Helper for writing a document to file. Has no effect if debugging is disabled.
+     * </p>
+     * <p>
+     *     The filename consists of a timestamp concatenated with the suffix. Ex.: if suffix is "_original" then {@code 1469541253_original.jpeg}
+     * </p>
+     * <p>
+     *     Destination directory is {@code ginivisionlib} inside your apps external files directory: {@code /sdcard/Android/data/your.app.id/files/ginivisionlib/}
+     * </p>
+     */
+    private static void writeImageDocumentToFile(Context context, ImageDocument document, String suffix) {
+        if (!sEnabled) {
+            return;
+        }
         File giniVisionDir = createGiniVisionDir(context);
         long time = new Date().getTime();
         String jpegFilename = time + suffix + ".jpeg";
         File jpegFile = new File(giniVisionDir, jpegFilename);
-        Photo.fromDocument(document).saveJpegToFile(jpegFile);
+        PhotoFactory.newPhotoFromDocument((ImageDocument) document).saveToFile(jpegFile);
         LOG.debug("Document written to {}", jpegFile.getAbsolutePath());
     }
 

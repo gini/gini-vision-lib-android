@@ -12,7 +12,7 @@ import android.hardware.Camera;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import net.gini.android.vision.internal.camera.photo.Size;
+import net.gini.android.vision.internal.util.Size;
 
 import org.junit.After;
 import org.junit.Before;

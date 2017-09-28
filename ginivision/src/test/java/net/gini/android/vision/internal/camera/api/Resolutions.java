@@ -6,7 +6,7 @@ import static org.mockito.Mockito.mock;
 
 import android.hardware.Camera;
 
-import net.gini.android.vision.internal.camera.photo.Size;
+import net.gini.android.vision.internal.util.Size;
 
 import java.util.ArrayList;
 import java.util.List;
