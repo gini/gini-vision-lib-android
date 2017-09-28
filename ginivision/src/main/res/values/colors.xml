@@ -47,5 +47,8 @@
 
     <color name="gv_noresults_activity_background">@android:color/transparent</color>
     <color name="gv_noresults_fragment_background">#ffffff</color>
+    <color name="gv_analysis_pdf_info_background">#007C99</color>
+
+    <color name="gv_analysis_pdf_info_text">#ffffff</color>
 
 </resources>
