@@ -5,6 +5,7 @@ import static net.gini.android.vision.internal.util.ActivityHelper.forcePortrait
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -81,6 +82,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     private LinearLayout mPdfOverlayLayout;
     private TextView mPdfTitleTextView;
     private TextView mPdfPageCountTextView;
+    private LinearLayout mAnalysisOverlay;
 
     private static final int HINT_ANIMATION_DURATION = 500;
     private static final int HINT_START_DELAY = 5000;
@@ -334,6 +336,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         mPdfOverlayLayout = view.findViewById(R.id.gv_pdf_info);
         mPdfTitleTextView = view.findViewById(R.id.gv_pdf_filename);
         mPdfPageCountTextView = view.findViewById(R.id.gv_pdf_page_count);
+        mAnalysisOverlay = view.findViewById(R.id.gv_analysis_overlay);
     }
 
     private void observeViewTree() {
@@ -401,6 +404,8 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
                 return;
             }
             mPdfOverlayLayout.setVisibility(View.VISIBLE);
+            mAnalysisOverlay.setBackgroundColor(Color.TRANSPARENT);
+            mAnalysisMessageTextView.setText("");
 
             PdfDocument pdfDocument = (PdfDocument) mDocument;
             final String filename = getPdfFilename(activity, pdfDocument);
