@@ -3,6 +3,7 @@
     <style name="GiniVisionTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/gv_action_bar</item>
         <item name="colorPrimaryDark">@color/gv_status_bar</item>
+        <item name="colorAccent">@color/gv_accent</item>
         <item name="actionBarStyle">@style/GiniVisionTheme.ActionBar</item>
     </style>
 

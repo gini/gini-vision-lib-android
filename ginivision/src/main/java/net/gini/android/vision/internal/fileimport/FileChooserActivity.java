@@ -30,7 +30,6 @@ import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersAppI
 import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersItem;
 import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersSectionItem;
 import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersSpanSizeLookup;
-import net.gini.android.vision.internal.util.FileImportValidator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -134,22 +133,13 @@ public class FileChooserActivity extends AppCompatActivity {
     protected void onActivityResult(final int requestCode, final int resultCode,
             final Intent data) {
         if (requestCode == REQ_CODE_CHOOSE_FILE) {
-            if (resultCode == RESULT_OK) {
-                final FileImportValidator fileImportValidator = new FileImportValidator(this);
-                if(fileImportValidator.matchesCriteria(data.getData())) {
-                    setResult(resultCode, data);
-                } else {
-                    final Intent result = new Intent();
-                    result.putExtra(EXTRA_OUT_ERROR, fileImportValidator.getError());
-                    setResult(RESULT_ERROR, result);
-                }
-            } else if (resultCode != RESULT_CANCELED) {
-                final GiniVisionError error = new GiniVisionError(DOCUMENT_IMPORT,
-                        "Unexpected request code for activity result.");
-                final Intent result = new Intent();
-                result.putExtra(EXTRA_OUT_ERROR, error);
-                setResult(RESULT_ERROR, result);
-            }
+            setResult(resultCode, data);
+        } else {
+            final GiniVisionError error = new GiniVisionError(DOCUMENT_IMPORT,
+                    "Unexpected request code for activity result.");
+            final Intent result = new Intent();
+            result.putExtra(EXTRA_OUT_ERROR, error);
+            setResult(RESULT_ERROR, result);
         }
         finish();
     }

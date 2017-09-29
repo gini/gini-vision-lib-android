@@ -8,23 +8,40 @@ import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 
-import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.R;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class FileImportValidator {
 
+    public enum Error {
+        TYPE_NOT_SUPPORTED(R.string.gv_document_import_error_type_not_supported),
+        SIZE_TOO_LARGE(R.string.gv_document_import_error_size_too_large),
+        TOO_MANY_PDF_PAGES(R.string.gv_document_import_error_too_many_pdf_pages);
+
+        public int getTextResource() {
+            return mTextResource;
+        }
+
+        private final int mTextResource;
+
+        Error(@StringRes final int textResource) {
+            mTextResource = textResource;
+        }
+    }
+
     private final Context mContext;
-    private GiniVisionError mError;
+    private Error mError;
 
     public FileImportValidator(final Context context) {
         mContext = context;
     }
 
     @Nullable
-    public GiniVisionError getError() {
+    public Error getError() {
         return mError;
     }
 
@@ -32,21 +49,18 @@ public class FileImportValidator {
         final String type = mContext.getContentResolver().getType(fileUri);
 
         if (!isSupportedFileType(type)) {
-            mError = new GiniVisionError(GiniVisionError.ErrorCode.DOCUMENT_IMPORT,
-                    "File type is not supported for document import.");
+            mError = Error.TYPE_NOT_SUPPORTED;
             return false;
         }
 
         if (!matchesSizeCriteria(fileUri)) {
-            mError = new GiniVisionError(GiniVisionError.ErrorCode.DOCUMENT_IMPORT,
-                    "File is too big for document import.");
+            mError = Error.SIZE_TOO_LARGE;
             return false;
         }
 
         if (isPdf(type)) {
             if (!matchesPdfCriteria(fileUri)) {
-                mError = new GiniVisionError(GiniVisionError.ErrorCode.DOCUMENT_IMPORT,
-                        "PDF does not match the criteria for document import.");
+                mError = Error.TOO_MANY_PDF_PAGES;
                 return false;
             }
         }
@@ -61,7 +75,6 @@ public class FileImportValidator {
     private boolean isSupportedFileType(final String type) {
         return "image/jpeg".equals(type)
                 || "image/png".equals(type)
-                || "image/tiff".equals(type)
                 || "image/gif".equals(type)
                 || isPdf(type);
     }

@@ -2,6 +2,7 @@
 <resources>
     <color name="gv_action_bar">#009edc</color>
     <color name="gv_status_bar">#000</color>
+    <color name="gv_accent">#009edc</color>
 
     <color name="gv_action_bar_title">#fff</color>
 
