@@ -64,7 +64,10 @@ public final class UriHelper {
         if (cursor == null) {
             throw new IllegalStateException("Could not retrieve a Cursor for the Uri");
         }
-        final int nameIndex = cursor.getColumnIndexOrThrow(OpenableColumns.DISPLAY_NAME);
+        final int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+        if (nameIndex == -1) {
+            throw new IllegalStateException("Filename not available for the Uri");
+        }
         cursor.moveToFirst();
         final String filename = cursor.getString(nameIndex);
         cursor.close();

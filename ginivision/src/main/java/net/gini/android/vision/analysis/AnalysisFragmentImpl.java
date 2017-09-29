@@ -425,7 +425,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
     @Nullable
     private String getPdfFilename(final Activity activity, final PdfDocument pdfDocument) {
-        final Uri uri = (pdfDocument).getUri();
+        final Uri uri = pdfDocument.getUri();
         try {
             return UriHelper.getFilenameFromUri(uri, activity);
         } catch (IllegalStateException e) {
