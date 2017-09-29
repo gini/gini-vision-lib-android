@@ -342,6 +342,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                         view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                     }
                 });
+        view.requestLayout();
     }
 
     private void onViewLayoutFinished() {

@@ -35,6 +35,11 @@ public class Pdf implements Parcelable {
         renderer.toBitmap(targetSize, callback);
     }
 
+    public int getPageCount(@NonNull final Context context) {
+        final Renderer renderer = getRenderer(context);
+        return renderer.getPageCount();
+    }
+
     private Renderer getRenderer(@NonNull final Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             return new RendererLollipop(mUri, context);
