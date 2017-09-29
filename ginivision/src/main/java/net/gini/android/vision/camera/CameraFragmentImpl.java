@@ -3,7 +3,6 @@ package net.gini.android.vision.camera;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
-import static net.gini.android.vision.GiniVisionError.ErrorCode.DOCUMENT_IMPORT;
 import static net.gini.android.vision.camera.Util.cameraExceptionToGiniVisionError;
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 import static net.gini.android.vision.internal.util.AndroidHelper.isMarshmallowOrLater;
@@ -48,7 +47,6 @@ import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.view.CameraPreviewSurface;
 import net.gini.android.vision.internal.fileimport.FileChooserActivity;
 import net.gini.android.vision.internal.permission.PermissionRequestListener;
-import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.internal.ui.ViewStubSafeInflater;
 import net.gini.android.vision.internal.util.DeviceHelper;
 import net.gini.android.vision.internal.util.FileImportValidator;
@@ -482,16 +480,16 @@ class CameraFragmentImpl implements CameraFragmentInterface {
             if (resultCode == RESULT_OK) {
                 importDocumentFromIntent(data);
             } else if (resultCode != RESULT_CANCELED) {
-                final GiniVisionError error;
+                final String message;
                 if (resultCode == FileChooserActivity.RESULT_ERROR) {
-                    error = data.getParcelableExtra(
+                    final GiniVisionError error = data.getParcelableExtra(
                             FileChooserActivity.EXTRA_OUT_ERROR);
+                    message = "Document import failed: " + error.getMessage();
                 } else {
-                    error = new GiniVisionError(DOCUMENT_IMPORT,
-                            "Document import finished with unknown result code: "
-                                    + resultCode);
+                    message = "Document import failed: unknown result code " + resultCode;
                 }
-                handleError(error);
+                LOG.error(message);
+                showInvalidFileError(null);
             }
             return true;
         }
@@ -506,7 +504,8 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         }
         final Uri uri = data.getData();
         if (uri == null) {
-            handleError(DOCUMENT_IMPORT, "Failed to import selected document");
+            LOG.error("Document import failed: Intent has no Uri");
+            showInvalidFileError(null);
             return;
         }
         final FileImportValidator fileImportValidator = new FileImportValidator(activity);
@@ -527,8 +526,8 @@ class CameraFragmentImpl implements CameraFragmentInterface {
             LOG.info("Document imported: {}", document);
             mListener.onDocumentAvailable(document);
         } catch (IllegalArgumentException e) {
-            handleError(DOCUMENT_IMPORT,
-                    "Failed to import selected document", e);
+            LOG.error("Failed to import selected document", e);
+            showInvalidFileError(null);
         }
     }
 
@@ -667,25 +666,6 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         hideInterfaceAnimated();
     }
 
-    @Override
-    public void showErrorInSnackbar(@NonNull String message, int duration) {
-        if (mFragment.getActivity() == null || mLayoutRoot == null) {
-            return;
-        }
-        ErrorSnackbar.make(mFragment.getActivity(), mLayoutRoot, message, null, null,
-                duration).show();
-    }
-
-    @Override
-    public void showErrorInSnackbar(@NonNull String message, @NonNull String buttonTitle,
-            @NonNull View.OnClickListener onClickListener) {
-        if (mFragment.getActivity() == null || mLayoutRoot == null) {
-            return;
-        }
-        ErrorSnackbar.make(mFragment.getActivity(), mLayoutRoot, message, buttonTitle,
-                onClickListener, ErrorSnackbar.LENGTH_INDEFINITE).show();
-    }
-
     private void hideInterfaceAnimated() {
         hideCameraTriggerButtonAnimated();
         hideDocumentCornerGuidesAnimated();
@@ -805,14 +785,6 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
     private void handleError(@NonNull final GiniVisionError error) {
         LOG.error(error.getMessage());
-        if (error.getErrorCode() == DOCUMENT_IMPORT) {
-            final Activity activity = mFragment.getActivity();
-            if (activity == null) {
-                return;
-            }
-            showErrorInSnackbar(activity.getString(R.string.gv_document_import_error), SHOW_ERROR_DURATION);
-        } else {
-            mListener.onError(error);
-        }
+        mListener.onError(error);
     }
 }
