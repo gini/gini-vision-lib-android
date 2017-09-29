@@ -14,4 +14,9 @@ class RendererPreLollipop implements Renderer {
             @NonNull final Callback callback) {
         callback.onBitmapReady(null);
     }
+
+    @Override
+    public int getPageCount() {
+        return 0;
+    }
 }

@@ -3,7 +3,9 @@ package net.gini.android.vision.internal.util;
 import static net.gini.android.vision.internal.util.StreamHelper.inputStreamToByteArray;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
+import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 
 import java.io.IOException;
@@ -15,17 +17,17 @@ import java.io.InputStream;
 public final class UriHelper {
 
     /**
-     * Reads the contents of the resources pointed to by the Intent's data Uri into a byte array.
+     * Reads the contents of the resources pointed to by Uri into a byte array.
      *
-     * @param uri a {@link Uri} pointing to a file
+     * @param uri     a {@link Uri} pointing to a file
      * @param context Android context
      * @return contents of the Uri
-     * @throws IOException              if there is an issue with the input stream from the Uri
-     * @throws IllegalStateException    if null input stream was returned by the Context's Content
-     *                                  Resolver
+     * @throws IOException           if there is an issue with the input stream from the Uri
+     * @throws IllegalStateException if null input stream was returned by the Context's Content
+     *                               Resolver
      */
     @NonNull
-    public static byte[] getBytesFromUri(@NonNull final Uri uri,
+    static byte[] getBytesFromUri(@NonNull final Uri uri,
             @NonNull final Context context)
             throws IOException {
         InputStream inputStream = null;
@@ -45,4 +47,31 @@ public final class UriHelper {
             }
         }
     }
+
+    /**
+     * Retrieves the filename of a Uri, if available.
+     *
+     * @param uri     a {@link Uri} pointing to a file
+     * @param context Android context
+     * @return the filename
+     * @throws IllegalStateException if the Uri is not pointing to a file or the filename was not
+     *                               available
+     */
+    @NonNull
+    public static String getFilenameFromUri(@NonNull final Uri uri, @NonNull final Context context) {
+        Cursor cursor = null;
+        cursor = context.getContentResolver().query(uri, null, null, null, null);
+        if (cursor == null) {
+            throw new IllegalStateException("Could not retrieve a Cursor for the Uri");
+        }
+        final int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+        if (nameIndex == -1) {
+            throw new IllegalStateException("Filename not available for the Uri");
+        }
+        cursor.moveToFirst();
+        final String filename = cursor.getString(nameIndex);
+        cursor.close();
+        return filename;
+    }
+
 }

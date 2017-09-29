@@ -5,6 +5,8 @@ import static net.gini.android.vision.internal.util.ActivityHelper.forcePortrait
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -21,6 +23,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -29,12 +32,15 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.GiniVisionDocument;
+import net.gini.android.vision.document.PdfDocument;
 import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.document.DocumentRenderer;
 import net.gini.android.vision.internal.document.DocumentRendererFactory;
+import net.gini.android.vision.internal.pdf.Pdf;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 import net.gini.android.vision.internal.util.Size;
+import net.gini.android.vision.internal.util.UriHelper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,6 +79,10 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     private AnalysisFragmentListener mListener = NO_OP_LISTENER;
     private ProgressBar mProgressActivity;
     private Runnable mHintCycleRunnable;
+    private LinearLayout mPdfOverlayLayout;
+    private TextView mPdfTitleTextView;
+    private TextView mPdfPageCountTextView;
+    private LinearLayout mAnalysisOverlay;
 
     private static final int HINT_ANIMATION_DURATION = 500;
     private static final int HINT_START_DELAY = 5000;
@@ -323,6 +333,10 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         mHintTextView = view.findViewById(R.id.gv_analyse_hint_text);
         mHintContainer = view.findViewById(R.id.gv_analyse_hint_container);
         mAnalysisMessageTextView = view.findViewById(R.id.gv_analysis_message);
+        mPdfOverlayLayout = view.findViewById(R.id.gv_pdf_info);
+        mPdfTitleTextView = view.findViewById(R.id.gv_pdf_filename);
+        mPdfPageCountTextView = view.findViewById(R.id.gv_pdf_page_count);
+        mAnalysisOverlay = view.findViewById(R.id.gv_analysis_overlay);
     }
 
     private void observeViewTree() {
@@ -339,15 +353,20 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
                 view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
             }
         });
+        view.requestLayout();
     }
 
     private void onViewLayoutFinished() {
         LOG.debug("View layout finished");
         showDocument();
+        showPdfInfoForPdfDocument();
         analyzeDocument();
     }
 
     private void rotateDocumentImageView(final int rotationForDisplay) {
+        if (rotationForDisplay == 0) {
+            return;
+        }
         int newWidth = mLayoutRoot.getWidth();
         int newHeight = mLayoutRoot.getHeight();
         if (rotationForDisplay == 90 || rotationForDisplay == 270) {
@@ -376,5 +395,42 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
                 mImageDocument.setImageBitmap(bitmap);
             }
         });
+    }
+
+    private void showPdfInfoForPdfDocument() {
+        if (mDocument instanceof PdfDocument) {
+            final Activity activity = mFragment.getActivity();
+            if (activity == null) {
+                return;
+            }
+            mPdfOverlayLayout.setVisibility(View.VISIBLE);
+            mAnalysisOverlay.setBackgroundColor(Color.TRANSPARENT);
+            mAnalysisMessageTextView.setText("");
+
+            PdfDocument pdfDocument = (PdfDocument) mDocument;
+            final String filename = getPdfFilename(activity, pdfDocument);
+            if (filename != null) {
+                mPdfTitleTextView.setText(filename);
+            }
+
+            final int pageCount = Pdf.fromDocument(pdfDocument).getPageCount(activity);
+            if (pageCount > 0) {
+                mPdfPageCountTextView.setVisibility(View.VISIBLE);
+                final String pageCountString = activity.getResources().getQuantityString(
+                        R.plurals.gv_analysis_pdf_pages, pageCount, pageCount);
+                mPdfPageCountTextView.setText(pageCountString);
+            }
+        }
+    }
+
+    @Nullable
+    private String getPdfFilename(final Activity activity, final PdfDocument pdfDocument) {
+        final Uri uri = pdfDocument.getUri();
+        try {
+            return UriHelper.getFilenameFromUri(uri, activity);
+        } catch (IllegalStateException e) {
+            // Ignore
+        }
+        return null;
     }
 }
