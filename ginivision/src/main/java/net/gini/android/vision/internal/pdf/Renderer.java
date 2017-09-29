@@ -12,6 +12,8 @@ import net.gini.android.vision.internal.util.Size;
 public interface Renderer {
     void toBitmap(@NonNull final Size targetSize, @NonNull final Callback callback);
 
+    int getPageCount();
+
     interface Callback {
         void onBitmapReady(@Nullable final Bitmap bitmap);
     }

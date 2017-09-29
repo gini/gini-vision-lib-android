@@ -408,8 +408,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
                 mPdfTitleTextView.setText(filename);
             }
 
-            final int pageCount = Pdf.fromDocument(pdfDocument).getPageCount(
-                    activity);
+            final int pageCount = Pdf.fromDocument(pdfDocument).getPageCount(activity);
             if (pageCount > 0) {
                 mPdfPageCountTextView.setVisibility(View.VISIBLE);
                 final String pageCountString = activity.getResources().getQuantityString(
