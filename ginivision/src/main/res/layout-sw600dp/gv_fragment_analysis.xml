@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/gv_layout_root"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@color/gv_analysis_fragment_background"
     tools:context=".analysis.AnalysisFragmentCompat">
 
@@ -71,8 +71,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:background="@color/gv_analysis_pdf_info_background"
-        android:padding="@dimen/gv_analysis_pdf_info_padding"
         android:orientation="vertical"
+        android:padding="@dimen/gv_analysis_pdf_info_padding"
         android:visibility="gone"
         tools:visibility="visible">
 
@@ -104,16 +104,16 @@
 
     <LinearLayout
         android:id="@+id/gv_analyse_hint_container"
-        android:layout_width="match_parent"
+        android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="16dp"
-        android:padding="16dp">
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="64dp">
 
         <ImageView
             android:id="@+id/gv_analyse_hint_image"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="68dp"
+            android:layout_height="68dp"
             tools:src="@drawable/gv_icon_onboarding" />
 
         <TextView
@@ -124,6 +124,8 @@
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             android:textColor="@color/gv_analysis_message"
+            android:textSize="18sp"
             tools:text="Gute Lichtverhältnisse beim Aufnehmen des Fotos beschleunigen die Analyse." />
     </LinearLayout>
+
 </RelativeLayout>

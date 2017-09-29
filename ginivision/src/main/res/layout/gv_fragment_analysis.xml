@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/gv_layout_root"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@color/gv_analysis_fragment_background"
     tools:context=".analysis.AnalysisFragmentCompat">
 
@@ -72,8 +72,8 @@
         android:layout_alignParentTop="true"
         android:background="@color/gv_analysis_pdf_info_background"
         android:orientation="vertical"
-        android:visibility="gone"
         android:padding="@dimen/gv_analysis_pdf_info_padding"
+        android:visibility="gone"
         tools:visibility="visible">
 
         <TextView
@@ -107,8 +107,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="16dp"
-        android:padding="16dp">
+        android:layout_marginBottom="48dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginStart="16dp"
+        android:paddingEnd="0dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="0dp"
+        android:paddingStart="16dp">
 
         <ImageView
             android:id="@+id/gv_analyse_hint_image"
