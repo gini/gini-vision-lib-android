@@ -25,6 +25,10 @@ public class Pdf implements Parcelable {
         return new Pdf(document.getUri());
     }
 
+    public static Pdf fromUri(@NonNull Uri uri) {
+        return new Pdf(uri);
+    }
+
     private Pdf(@NonNull final Uri uri) {
         mUri = uri;
     }

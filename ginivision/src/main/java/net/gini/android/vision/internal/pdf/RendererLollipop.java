@@ -34,7 +34,6 @@ class RendererLollipop implements Renderer {
 
     private final Uri mUri;
     private Context mContext;
-    private PdfRenderer mPdfRenderer;
 
     RendererLollipop(@NonNull final Uri uri, @NonNull Context context) {
         mUri = uri;
@@ -55,14 +54,12 @@ class RendererLollipop implements Renderer {
             page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
             page.close();
         }
+        pdfRenderer.close();
         return bitmap;
     }
 
     @Nullable
     private PdfRenderer getPdfRenderer() {
-        if (mPdfRenderer != null) {
-            return mPdfRenderer;
-        }
         final ContentResolver contentResolver = mContext.getContentResolver();
         ParcelFileDescriptor fileDescriptor = null;
         try {
@@ -74,11 +71,11 @@ class RendererLollipop implements Renderer {
             return null;
         }
         try {
-            mPdfRenderer = new PdfRenderer(fileDescriptor);
+            return new PdfRenderer(fileDescriptor);
         } catch (IOException e) {
             LOG.error("Could not read pdf", e);
         }
-        return mPdfRenderer;
+        return null;
     }
 
     @Override
@@ -105,7 +102,9 @@ class RendererLollipop implements Renderer {
         if (pdfRenderer == null) {
             return 0;
         }
-        return pdfRenderer.getPageCount();
+        final int pageCount = pdfRenderer.getPageCount();
+        pdfRenderer.close();
+        return pageCount;
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)

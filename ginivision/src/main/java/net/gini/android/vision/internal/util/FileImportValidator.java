@@ -2,18 +2,16 @@ package net.gini.android.vision.internal.util;
 
 
 import android.content.Context;
-import android.graphics.pdf.PdfRenderer;
 import android.net.Uri;
-import android.os.Build;
 import android.os.ParcelFileDescriptor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 
 import net.gini.android.vision.R;
+import net.gini.android.vision.internal.pdf.Pdf;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 
 public class FileImportValidator {
 
@@ -80,25 +78,9 @@ public class FileImportValidator {
     }
 
     private boolean matchesPdfCriteria(final Uri fileUri) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            try {
-                final ParcelFileDescriptor parcelFileDescriptor =
-                        mContext.getContentResolver().openFileDescriptor(fileUri, "r");
-                if (parcelFileDescriptor != null) {
-                    PdfRenderer pdfRenderer = new PdfRenderer(parcelFileDescriptor);
-                    final int pageCount = pdfRenderer.getPageCount();
-                    if (pageCount <= 10) {
-                        return true;
-                    }
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            //not sure if we should just ignore this case
-            return true;
-        }
-        return false;
+        final Pdf pdf = Pdf.fromUri(fileUri);
+        final int pageCount = pdf.getPageCount(mContext);
+        return pageCount <= 10;
     }
 
     private boolean matchesSizeCriteria(final Uri fileUri) {
