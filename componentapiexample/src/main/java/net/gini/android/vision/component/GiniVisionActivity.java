@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
+import net.gini.android.vision.GiniVisionConfig;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.GiniVisionError;
@@ -61,6 +62,7 @@ public class GiniVisionActivity extends Activity
     private Fragment mCurrentFragment;
     private String mDocumentAnalysisErrorMessage;
     private Map<String, SpecificExtraction> mExtractionsFromReviewScreen;
+    private GiniVisionConfig mGiniVisionConfig;
     private GiniVisionCoordinator mGiniVisionCoordinator;
     private boolean mShowCameraOnStart = false;
     private SingleDocumentAnalyzer mSingleDocumentAnalyzer;
@@ -160,6 +162,7 @@ public class GiniVisionActivity extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gini_vision);
+        configureGiniVision();
         configureLogging();
         setupGiniVisionCoordinator();
         if (savedInstanceState == null) {
@@ -168,6 +171,11 @@ public class GiniVisionActivity extends Activity
             initState(savedInstanceState);
             retainFragment();
         }
+    }
+
+    private void configureGiniVision() {
+        mGiniVisionConfig = new GiniVisionConfig();
+        mGiniVisionConfig.enableDocumentImport(GiniVisionConfig.DocumentImportFileTypes.PDF_AND_IMAGES);
     }
 
     @Override
@@ -401,7 +409,7 @@ public class GiniVisionActivity extends Activity
     }
 
     private CameraFragmentStandard getCameraFragment() {
-        return new CameraFragmentStandard();
+        return CameraFragmentStandard.createInstance(mGiniVisionConfig);
     }
 
     private Bundle getExtractionsBundle(Map<String, SpecificExtraction> extractions) {
