@@ -164,6 +164,10 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
             startActivity(noResultsActivity);
             setResult(RESULT_NO_EXTRACTIONS);
             finish();
+        } else {
+            Intent result = new Intent();
+            setResult(RESULT_OK, result);
+            finish();
         }
     }
 
