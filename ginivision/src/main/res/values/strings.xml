@@ -37,6 +37,12 @@
     <string name="gv_storage_permission_rationale">Um Ihre Dateien analysieren zu können wird Zugriff auf den Speicher ihres Gerätes benötigt.</string>
     <string name="gv_storage_permission_rationale_positive_button">Zugriff erteilen</string>
 
+    <string name="gv_analysis_pdf_default_title">PDF Dokument</string>
+    <plurals name="gv_analysis_pdf_pages">
+        <item quantity="one">%d Seite</item>
+        <item quantity="other">%d Seiten</item>
+    </plurals>
+
     <string name="gv_document_import_invalid_document">Invalid document</string>
     <string name="gv_document_import_error_type_not_supported">type not supported</string>
     <string name="gv_document_import_error_size_too_large">error size too large</string>

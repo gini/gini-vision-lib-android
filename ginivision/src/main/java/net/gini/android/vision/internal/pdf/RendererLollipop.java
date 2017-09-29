@@ -34,6 +34,7 @@ class RendererLollipop implements Renderer {
 
     private final Uri mUri;
     private Context mContext;
+    private PdfRenderer mPdfRenderer;
 
     RendererLollipop(@NonNull final Uri uri, @NonNull Context context) {
         mUri = uri;
@@ -41,24 +42,9 @@ class RendererLollipop implements Renderer {
     }
 
     @Nullable
-    Bitmap toBitmap(@NonNull final Size targetSize) {
+    private Bitmap toBitmap(@NonNull final Size targetSize) {
         Bitmap bitmap = null;
-        final ContentResolver contentResolver = mContext.getContentResolver();
-        ParcelFileDescriptor fileDescriptor = null;
-        try {
-            fileDescriptor = contentResolver.openFileDescriptor(mUri, "r");
-        } catch (FileNotFoundException e) {
-            LOG.error("Pdf not found", e);
-        }
-        if (fileDescriptor == null) {
-            return null;
-        }
-        PdfRenderer pdfRenderer = null;
-        try {
-            pdfRenderer = new PdfRenderer(fileDescriptor);
-        } catch (IOException e) {
-            LOG.error("Could not read pdf", e);
-        }
+        final PdfRenderer pdfRenderer = getPdfRenderer();
         if (pdfRenderer == null) {
             return null;
         }
@@ -70,6 +56,29 @@ class RendererLollipop implements Renderer {
             page.close();
         }
         return bitmap;
+    }
+
+    @Nullable
+    private PdfRenderer getPdfRenderer() {
+        if (mPdfRenderer != null) {
+            return mPdfRenderer;
+        }
+        final ContentResolver contentResolver = mContext.getContentResolver();
+        ParcelFileDescriptor fileDescriptor = null;
+        try {
+            fileDescriptor = contentResolver.openFileDescriptor(mUri, "r");
+        } catch (FileNotFoundException e) {
+            LOG.error("Pdf not found", e);
+        }
+        if (fileDescriptor == null) {
+            return null;
+        }
+        try {
+            mPdfRenderer = new PdfRenderer(fileDescriptor);
+        } catch (IOException e) {
+            LOG.error("Could not read pdf", e);
+        }
+        return mPdfRenderer;
     }
 
     @Override
@@ -88,6 +97,15 @@ class RendererLollipop implements Renderer {
                     }
                 };
         asyncTask.execute(this);
+    }
+
+    @Override
+    public int getPageCount() {
+        final PdfRenderer pdfRenderer = getPdfRenderer();
+        if (pdfRenderer == null) {
+            return 0;
+        }
+        return pdfRenderer.getPageCount();
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
