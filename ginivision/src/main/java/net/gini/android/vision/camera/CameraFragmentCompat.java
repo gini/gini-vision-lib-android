@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import net.gini.android.vision.GiniVisionConfig;
 import net.gini.android.vision.internal.permission.PermissionRequestListener;
 import net.gini.android.vision.internal.permission.RuntimePermissions;
 
@@ -54,17 +55,15 @@ import net.gini.android.vision.internal.permission.RuntimePermissions;
 public class CameraFragmentCompat extends Fragment implements CameraFragmentInterface,
         CameraFragmentImplCallback {
 
-    private final CameraFragmentImpl mFragmentImpl = new CameraFragmentImpl(this);
-    private final RuntimePermissions mRuntimePermissions = new RuntimePermissions();
-
-    /**
-     * @exclude
-     */
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        CameraFragmentHelper.setListener(mFragmentImpl, context);
+    public static CameraFragmentCompat createInstance(@NonNull final GiniVisionConfig giniVisionConfig) {
+        CameraFragmentCompat fragment = new CameraFragmentCompat();
+        fragment.setArguments(
+                CameraFragmentHelper.createArguments(giniVisionConfig));
+        return fragment;
     }
+
+    private CameraFragmentImpl mFragmentImpl;
+    private final RuntimePermissions mRuntimePermissions = new RuntimePermissions();
 
     /**
      * @exclude
@@ -72,6 +71,8 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mFragmentImpl = CameraFragmentHelper.createFragmentImpl(this, getArguments());
+        CameraFragmentHelper.setListener(mFragmentImpl, getActivity());
         mFragmentImpl.onCreate(savedInstanceState);
     }
 

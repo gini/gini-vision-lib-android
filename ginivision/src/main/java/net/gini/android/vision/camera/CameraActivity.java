@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.RelativeLayout;
 
 import net.gini.android.vision.Document;
+import net.gini.android.vision.GiniVisionConfig;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
@@ -286,6 +287,8 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     public static final String EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY =
             "GV_EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY";
 
+    public static final String EXTRA_IN_GINI_VISION_CONFIG = "GV_EXTRA_IN_GINI_VISION_CONFIG";
+
     /**
      * <p>
      * Returned when the result code is {@link CameraActivity#RESULT_ERROR} and contains a {@link
@@ -306,6 +309,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     static final int REVIEW_DOCUMENT_REQUEST = 1;
     private static final int ONBOARDING_REQUEST = 2;
     private static final int ANALYSE_DOCUMENT_REQUEST = 3;
+    private static final String CAMERA_FRAGMENT = "CAMERA_FRAGMENT";
 
     private ArrayList<OnboardingPage> mOnboardingPages;
     private Intent mReviewDocumentActivityIntent;
@@ -316,6 +320,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     private boolean mBackButtonShouldCloseLibrary = false;
     private GiniVisionCoordinator mGiniVisionCoordinator;
     private Document mDocument;
+    private GiniVisionConfig mGiniVisionConfig;
 
     private RelativeLayout mLayoutRoot;
     private CameraFragmentCompat mFragment;
@@ -366,8 +371,40 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         setContentView(R.layout.gv_activity_camera);
         readExtras();
         createGiniVisionCoordinator();
+        if (savedInstanceState == null) {
+            initFragment();
+        } else {
+            retainFragment();
+        }
         bindViews();
         showOnboardingIfRequested();
+    }
+
+    private void createFragment() {
+        mFragment = CameraFragmentCompat.createInstance(mGiniVisionConfig);
+    }
+
+    private void initFragment() {
+        if (!isFragmentShown()) {
+            createFragment();
+            showFragment();
+        }
+    }
+
+    private boolean isFragmentShown() {
+        return getSupportFragmentManager().findFragmentByTag(CAMERA_FRAGMENT) != null;
+    }
+
+    private void retainFragment() {
+        mFragment = (CameraFragmentCompat) getSupportFragmentManager().findFragmentByTag(
+                CAMERA_FRAGMENT);
+    }
+
+    private void showFragment() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.gv_fragment_camera, mFragment, CAMERA_FRAGMENT)
+                .commit();
     }
 
     private void showOnboardingIfRequested() {
@@ -409,6 +446,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
                     true);
             mBackButtonShouldCloseLibrary = extras.getBoolean(
                     EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY, false);
+            mGiniVisionConfig = extras.getParcelable(EXTRA_IN_GINI_VISION_CONFIG);
         }
         checkRequiredExtras();
     }

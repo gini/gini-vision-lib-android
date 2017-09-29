@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.transition.AutoTransition;
 import android.support.transition.Transition;
 import android.support.transition.TransitionListenerAdapter;
@@ -22,6 +23,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.RelativeLayout;
 
+import net.gini.android.vision.GiniVisionConfig;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersAdapter;
@@ -38,6 +40,8 @@ public class FileChooserActivity extends AppCompatActivity {
 
     private static final int REQ_CODE_CHOOSE_FILE = 1;
 
+    public static final String EXTRA_IN_GINI_VISION_CONFIG = "GV_EXTRA_IN_GINI_VISION_CONFIG";
+
     public static final int RESULT_ERROR = RESULT_FIRST_USER + 1;
     public static final String EXTRA_OUT_ERROR = "GV_EXTRA_OUT_ERROR";
 
@@ -48,6 +52,7 @@ public class FileChooserActivity extends AppCompatActivity {
 
     private RelativeLayout mLayoutRoot;
     private RecyclerView mFileProvidersView;
+    private GiniVisionConfig mGiniVisionConfig;
 
     public static boolean canChooseFiles(@NonNull final Context context) {
         final List<ResolveInfo> imagePickerResolveInfos = queryImagePickers(context);
@@ -68,6 +73,7 @@ public class FileChooserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gv_activity_file_chooser);
         bindViews();
+        readExtras();
         setupFileProvidersView();
         overridePendingTransition(0, 0);
     }
@@ -75,6 +81,13 @@ public class FileChooserActivity extends AppCompatActivity {
     private void bindViews() {
         mLayoutRoot = findViewById(R.id.gv_layout_root);
         mFileProvidersView = findViewById(R.id.gv_file_providers);
+    }
+
+    private void readExtras() {
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            mGiniVisionConfig = extras.getParcelable(EXTRA_IN_GINI_VISION_CONFIG);
+        }
     }
 
     private void setupFileProvidersView() {
@@ -145,16 +158,20 @@ public class FileChooserActivity extends AppCompatActivity {
     }
 
     private void populateFileProviders() {
-        final List<ResolveInfo> imagePickerResolveInfos = queryImagePickers(this);
-        final List<ResolveInfo> imageProviderResolveInfos = queryImageProviders(this);
-        final List<ResolveInfo> pdfProviderResolveInfos = queryPdfProviders(this);
-
         final List<ProvidersItem> providerItems = new ArrayList<>();
-        final List<ProvidersItem> imageProviderItems = getImageProviderItems(
-                imagePickerResolveInfos, imageProviderResolveInfos);
-        final List<ProvidersItem> pdfProviderItems = getPdfProviderItems(pdfProviderResolveInfos);
-        providerItems.addAll(imageProviderItems);
-        providerItems.addAll(pdfProviderItems);
+        if (shouldShowImageProviders()) {
+            final List<ResolveInfo> imagePickerResolveInfos = queryImagePickers(this);
+            final List<ResolveInfo> imageProviderResolveInfos = queryImageProviders(this);
+            final List<ProvidersItem> imageProviderItems = getImageProviderItems(
+                    imagePickerResolveInfos, imageProviderResolveInfos);
+            providerItems.addAll(imageProviderItems);
+        }
+        if (shouldShowPdfProviders()) {
+            final List<ResolveInfo> pdfProviderResolveInfos = queryPdfProviders(this);
+            final List<ProvidersItem> pdfProviderItems = getPdfProviderItems(
+                    pdfProviderResolveInfos);
+            providerItems.addAll(pdfProviderItems);
+        }
 
         ((GridLayoutManager) mFileProvidersView.getLayoutManager()).setSpanSizeLookup(
                 new ProvidersSpanSizeLookup(providerItems));
@@ -170,6 +187,35 @@ public class FileChooserActivity extends AppCompatActivity {
                         startActivityForResult(intent, REQ_CODE_CHOOSE_FILE);
                     }
                 }));
+    }
+
+    private boolean shouldShowImageProviders() {
+        final GiniVisionConfig.DocumentImportFileTypes documentImportFileTypes =
+                getDocumentImportFileTypes();
+        if (documentImportFileTypes != null) {
+            return documentImportFileTypes ==
+                    GiniVisionConfig.DocumentImportFileTypes.PDF_AND_IMAGES;
+        }
+        return false;
+    }
+
+    private boolean shouldShowPdfProviders() {
+        final GiniVisionConfig.DocumentImportFileTypes documentImportFileTypes =
+                getDocumentImportFileTypes();
+        if (documentImportFileTypes != null) {
+            return documentImportFileTypes == GiniVisionConfig.DocumentImportFileTypes.PDF
+                    || documentImportFileTypes ==
+                    GiniVisionConfig.DocumentImportFileTypes.PDF_AND_IMAGES;
+        }
+        return false;
+    }
+
+    @Nullable
+    private GiniVisionConfig.DocumentImportFileTypes getDocumentImportFileTypes() {
+        if (mGiniVisionConfig != null) {
+            return mGiniVisionConfig.getDocumentImportFileTypes();
+        }
+        return null;
     }
 
     private List<ProvidersItem> getImageProviderItems(

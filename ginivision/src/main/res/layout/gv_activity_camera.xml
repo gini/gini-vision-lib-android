@@ -7,11 +7,9 @@
     tools:context="net.gini.android.vision.camera.CameraActivity"
     android:id="@+id/gv_root">
 
-    <fragment
+    <FrameLayout
         android:id="@+id/gv_fragment_camera"
-        android:name="net.gini.android.vision.camera.CameraFragmentCompat"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout="@layout/gv_fragment_camera" />
+        android:layout_height="match_parent" />
 
 </RelativeLayout>
