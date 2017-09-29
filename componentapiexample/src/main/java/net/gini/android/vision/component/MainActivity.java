@@ -1,9 +1,14 @@
 package net.gini.android.vision.component;
 
+import static net.gini.android.vision.component.Util.isIntentActionViewOrSend;
+
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -32,6 +37,39 @@ public class MainActivity extends Activity {
         addInputHandlers();
         setGiniVisionLibDebugging();
         showVersions();
+        if (savedInstanceState == null) {
+            final Intent intent = getIntent();
+            if (isIntentActionViewOrSend(intent)) {
+                startGiniVisionLibraryForImportedFile(intent);
+            }
+        }
+    }
+
+    @Override
+    protected void onNewIntent(final Intent intent) {
+        super.onNewIntent(intent);
+        if (isIntentActionViewOrSend(intent)) {
+            startGiniVisionLibraryForImportedFile(intent);
+        }
+    }
+
+    private void startGiniVisionLibraryForImportedFile(final Intent importedFileIntent) {
+        new AlertDialog.Builder(this)
+                .setMessage("Open file with standard or compat Gini Vision Library?")
+                .setPositiveButton("Compat", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialogInterface, final int i) {
+                        startGiniVisionCompat(importedFileIntent);
+                        finish();
+                    }
+                })
+                .setNegativeButton("Standard", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialogInterface, final int i) {
+                        startGiniVisionStandard(importedFileIntent);
+                        finish();
+                    }
+                }).show();
     }
 
     private void showVersions() {
@@ -61,6 +99,10 @@ public class MainActivity extends Activity {
     }
 
     private void startGiniVisionStandard() {
+        startGiniVisionStandard(null);
+    }
+
+    private void startGiniVisionStandard(@Nullable final Intent importedFileIntent) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
             Toast.makeText(this, "Component API Standard requires API Level 17 or higher",
                     Toast.LENGTH_SHORT).show();
@@ -75,11 +117,21 @@ public class MainActivity extends Activity {
 //            return;
 //        }
 
-        Intent intent = new Intent(this, GiniVisionActivity.class);
+        final Intent intent;
+        if (importedFileIntent == null) {
+            intent = new Intent(this, GiniVisionActivity.class);
+        } else {
+            intent = new Intent(importedFileIntent);
+            intent.setClass(this, GiniVisionActivity.class);
+        }
         startActivity(intent);
     }
 
     private void startGiniVisionCompat() {
+        startGiniVisionCompat(null);
+    }
+
+    private void startGiniVisionCompat(@Nullable final Intent importedFileIntent) {
         // Uncomment to enable requirements check.
         // NOTE: on Android 6.0 and later the camera permission is required before checking the requirements
 //        RequirementsReport report = GiniVisionRequirements.checkRequirements(this);
@@ -88,7 +140,13 @@ public class MainActivity extends Activity {
 //            return;
 //        }
 
-        Intent intent = new Intent(this, GiniVisionAppCompatActivity.class);
+        final Intent intent;
+        if (importedFileIntent == null) {
+            intent = new Intent(this, GiniVisionAppCompatActivity.class);
+        } else {
+            intent = new Intent(importedFileIntent);
+            intent.setClass(this, GiniVisionAppCompatActivity.class);
+        }
         startActivity(intent);
     }
 

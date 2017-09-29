@@ -1,11 +1,15 @@
 package net.gini.android.vision.component;
 
+import static net.gini.android.vision.component.Util.isIntentActionViewOrSend;
+
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,9 +18,11 @@ import android.widget.Toast;
 
 import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.ImportedFileValidationException;
 import net.gini.android.vision.analysis.AnalysisFragmentCompat;
 import net.gini.android.vision.analysis.AnalysisFragmentListener;
 import net.gini.android.vision.camera.CameraFragmentCompat;
@@ -133,14 +139,11 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
             removeOnboarding();
             return;
         }
-        // We recommend returning to the Camera Screen, skipping the Review Screen, if back was
-        // pressed while in the
-        // Analysis Screen
-        if (isShowingCamera()) {
+        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
             finish();
-        } else {
-            showCamera();
+            return;
         }
+        getSupportFragmentManager().popBackStack();
         getSingleDocumentAnalyzer().cancelAnalysis();
         mDocumentAnalysisErrorMessage = null;
         mExtractionsFromReviewScreen = null;
@@ -165,10 +168,60 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
         bindViews();
         setupGiniVisionCoordinator();
         if (savedInstanceState == null) {
-            showCamera();
+            final Intent intent = getIntent();
+            if (isIntentActionViewOrSend(intent)) {
+                startGiniVisionLibraryForImportedFile(intent);
+            } else {
+                showCamera();
+            }
         } else {
             initState(savedInstanceState);
             retainFragment();
+        }
+    }
+
+    @Override
+    protected void onNewIntent(final Intent intent) {
+        super.onNewIntent(intent);
+        if (isIntentActionViewOrSend(intent)) {
+            startGiniVisionLibraryForImportedFile(intent);
+        }
+    }
+
+    private void startGiniVisionLibraryForImportedFile(final Intent importedFileIntent) {
+        try {
+            final Document document = GiniVision.createDocumentForImportedFile(importedFileIntent,
+                    this);
+            if (document.isReviewable()) {
+                showFragment(getReviewFragment(document), R.string.title_review);
+            } else {
+                showFragment(getAnalysisFragment(document), R.string.title_review);
+            }
+        } catch (ImportedFileValidationException e) {
+            e.printStackTrace();
+            String message = "File cannot be analyzed";
+            if (e.getValidationError() != null) {
+                switch (e.getValidationError()) {
+                    case TYPE_NOT_SUPPORTED:
+                        message = "File type not supported.";
+                        break;
+                    case SIZE_TOO_LARGE:
+                        message = "File too large, must be less than 10 MB.";
+                        break;
+                    case TOO_MANY_PDF_PAGES:
+                        message = "Pdf must have less than 10 pages.";
+                        break;
+                }
+            }
+            new AlertDialog.Builder(this)
+                    .setMessage(message)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(final DialogInterface dialogInterface, final int i) {
+                            finish();
+                        }
+                    })
+                    .show();
         }
     }
 
@@ -350,6 +403,7 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
                 .replace(R.id.fragment_container, fragment)
+                .addToBackStack(fragment.getClass().getSimpleName())
                 .commit();
         setTitle(titleRes);
     }
@@ -497,6 +551,7 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
             intent.putExtra(ExtractionsActivity.EXTRA_IN_EXTRACTIONS,
                     getExtractionsBundle(extractions));
             startActivity(intent);
+            finish();
         } else {
             // Show a special screen, if no Pay5 extractions were found to give the user some
             // hints and tips
