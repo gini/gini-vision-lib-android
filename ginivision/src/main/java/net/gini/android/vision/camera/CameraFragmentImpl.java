@@ -480,34 +480,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     boolean onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         if (requestCode == REQ_CODE_CHOOSE_FILE) {
             if (resultCode == RESULT_OK) {
-                final Activity activity = mFragment
-                        .getActivity();
-                if (activity == null) {
-                    return true;
-                }
-                final Uri uri = data.getData();
-                if (uri != null) {
-                    final FileImportValidator fileImportValidator = new FileImportValidator(
-                            activity);
-                    if (fileImportValidator.matchesCriteria(uri)) {
-                        try {
-                            Document document = DocumentFactory.newDocumentFromIntent(data,
-                                    activity,
-                                    DeviceHelper.getDeviceOrientation(activity),
-                                    DeviceHelper.getDeviceType(activity),
-                                    "picker");
-                            LOG.info("Document imported: {}", document);
-                            mListener.onDocumentAvailable(document);
-                        } catch (IllegalArgumentException e) {
-                            handleError(DOCUMENT_IMPORT,
-                                    "Failed to import selected document", e);
-                        }
-                    } else {
-                        showInvalidFileError(fileImportValidator.getError());
-                    }
-                } else {
-                    handleError(DOCUMENT_IMPORT, "Failed to import selected document");
-                }
+                importDocumentFromIntent(data);
             } else if (resultCode != RESULT_CANCELED) {
                 final GiniVisionError error;
                 if (resultCode == FileChooserActivity.RESULT_ERROR) {
@@ -523,6 +496,40 @@ class CameraFragmentImpl implements CameraFragmentInterface {
             return true;
         }
         return false;
+    }
+
+    private void importDocumentFromIntent(final Intent data) {
+        final Activity activity = mFragment
+                .getActivity();
+        if (activity == null) {
+            return;
+        }
+        final Uri uri = data.getData();
+        if (uri == null) {
+            handleError(DOCUMENT_IMPORT, "Failed to import selected document");
+            return;
+        }
+        final FileImportValidator fileImportValidator = new FileImportValidator(activity);
+        if (fileImportValidator.matchesCriteria(uri)) {
+            createDocumentAndCallListener(data, activity);
+        } else {
+            showInvalidFileError(fileImportValidator.getError());
+        }
+    }
+
+    private void createDocumentAndCallListener(final Intent data, final Activity activity) {
+        try {
+            final Document document = DocumentFactory.newDocumentFromIntent(data,
+                    activity,
+                    DeviceHelper.getDeviceOrientation(activity),
+                    DeviceHelper.getDeviceType(activity),
+                    "picker");
+            LOG.info("Document imported: {}", document);
+            mListener.onDocumentAvailable(document);
+        } catch (IllegalArgumentException e) {
+            handleError(DOCUMENT_IMPORT,
+                    "Failed to import selected document", e);
+        }
     }
 
     private void showInvalidFileError(@Nullable final FileImportValidator.Error error) {
