@@ -180,10 +180,12 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
         if (activity == null) {
             return;
         }
-        new AlertDialog.Builder(activity)
+        final AlertDialog alertDialog = new AlertDialog.Builder(activity)
                 .setMessage(message)
                 .setPositiveButton(positiveButtonTitle, positiveButtonClickListener)
                 .setNegativeButton(negativeButtonTitle, null)
-                .show();
+                .create();
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.show();
     }
 }

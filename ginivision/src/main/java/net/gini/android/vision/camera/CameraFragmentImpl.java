@@ -442,7 +442,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                 LOG.info("Requesting storage permission from rationale");
                 response.requestPermission();
             }
-        });
+        }, R.string.gv_storage_permission_denied_negative_button);
     }
 
     private void showStoragePermissionDeniedDialog() {
@@ -456,7 +456,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                         LOG.info("Open app details in Settings app");
                         showAppDetailsSettingsScreen();
                     }
-                }, R.string.gv_storage_permission_denied_negative_button);
+                }, R.string.gv_storage_permission_rationale_negative_button);
     }
 
     private void showFileChooser() {
