@@ -3,16 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:minWidth="72dp"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:paddingTop="8dp">
 
-    <TextView
+    <View
         android:id="@+id/gv_section_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
-        android:textAlignment="center"
-        android:textSize="16sp"
-        tools:text="TextView" />
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gv_file_provider_separator"/>
 </LinearLayout>

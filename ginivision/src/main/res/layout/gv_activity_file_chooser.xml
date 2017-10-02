@@ -18,7 +18,6 @@
         android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:minHeight="180dp"
-        android:padding="16dp"
         android:layout_below="@id/gv_space"/>
 
 </RelativeLayout>
