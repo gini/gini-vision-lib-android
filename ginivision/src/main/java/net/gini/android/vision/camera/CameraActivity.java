@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import android.widget.RelativeLayout;
 
 import net.gini.android.vision.Document;
-import net.gini.android.vision.GiniVisionConfig;
+import net.gini.android.vision.DocumentImportFileTypes;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
@@ -287,7 +287,8 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     public static final String EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY =
             "GV_EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY";
 
-    public static final String EXTRA_IN_GINI_VISION_CONFIG = "GV_EXTRA_IN_GINI_VISION_CONFIG";
+    public static final String EXTRA_IN_ENABLE_DOCUMENT_IMPORT_FOR_FILE_TYPES =
+            "GV_EXTRA_IN_ENABLE_DOCUMENT_IMPORT_FOR_FILE_TYPES";
 
     /**
      * <p>
@@ -320,7 +321,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     private boolean mBackButtonShouldCloseLibrary = false;
     private GiniVisionCoordinator mGiniVisionCoordinator;
     private Document mDocument;
-    private GiniVisionConfig mGiniVisionConfig;
+    private DocumentImportFileTypes mDocumentImportFileTypes;
 
     private RelativeLayout mLayoutRoot;
     private CameraFragmentCompat mFragment;
@@ -381,7 +382,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     }
 
     private void createFragment() {
-        mFragment = CameraFragmentCompat.createInstance(mGiniVisionConfig);
+        mFragment = CameraFragmentCompat.createInstance(mDocumentImportFileTypes);
     }
 
     private void initFragment() {
@@ -446,7 +447,9 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
                     true);
             mBackButtonShouldCloseLibrary = extras.getBoolean(
                     EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY, false);
-            mGiniVisionConfig = extras.getParcelable(EXTRA_IN_GINI_VISION_CONFIG);
+            mDocumentImportFileTypes =
+                    (DocumentImportFileTypes) extras.getSerializable(
+                            EXTRA_IN_ENABLE_DOCUMENT_IMPORT_FOR_FILE_TYPES);
         }
         checkRequiredExtras();
     }

@@ -5,24 +5,28 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import net.gini.android.vision.GiniVisionConfig;
+import net.gini.android.vision.DocumentImportFileTypes;
 
 class CameraFragmentHelper {
 
-    private static final String ARGS_GINI_VISION_CONFIG = "GV_ARGS_GINI_VISION_CONFIG";
+    private static final String ARGS_DOCUMENT_IMPORT_FILE_TYPES = "GV_ARGS_DOCUMENT_IMPORT_FILE_TYPES";
 
-    public static Bundle createArguments(@NonNull final GiniVisionConfig giniVisionConfig) {
+    public static Bundle createArguments(
+            @NonNull final DocumentImportFileTypes documentImportFileTypes) {
         Bundle arguments = new Bundle();
-        arguments.putParcelable(ARGS_GINI_VISION_CONFIG, giniVisionConfig);
+        arguments.putSerializable(ARGS_DOCUMENT_IMPORT_FILE_TYPES, documentImportFileTypes);
         return arguments;
     }
 
-    static CameraFragmentImpl createFragmentImpl(@NonNull CameraFragmentImplCallback fragment, @Nullable Bundle arguments) {
-        GiniVisionConfig giniVisionConfig = null;
+    static CameraFragmentImpl createFragmentImpl(@NonNull CameraFragmentImplCallback fragment,
+            @Nullable Bundle arguments) {
+        DocumentImportFileTypes documentImportFileTypes = null;
         if (arguments != null) {
-            giniVisionConfig = arguments.getParcelable(ARGS_GINI_VISION_CONFIG);
+            documentImportFileTypes =
+                    (DocumentImportFileTypes) arguments.getSerializable(
+                            ARGS_DOCUMENT_IMPORT_FILE_TYPES);
         }
-        return new CameraFragmentImpl(fragment, giniVisionConfig);
+        return new CameraFragmentImpl(fragment, documentImportFileTypes);
     }
 
     public static void setListener(@NonNull CameraFragmentImpl fragmentImpl, @NonNull Context context) {

@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import net.gini.android.ginivisiontest.BuildConfig;
 import net.gini.android.ginivisiontest.R;
-import net.gini.android.vision.GiniVisionConfig;
+import net.gini.android.vision.DocumentImportFileTypes;
 import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.camera.CameraActivity;
@@ -97,10 +97,8 @@ public class MainActivity extends AppCompatActivity {
         // button from any Activity in the library
         //intent.putExtra(CameraActivity.EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY, true);
 
-        final GiniVisionConfig giniVisionConfig = new GiniVisionConfig();
-        giniVisionConfig.enableDocumentImport(GiniVisionConfig.DocumentImportFileTypes.PDF_AND_IMAGES);
-
-        intent.putExtra(CameraActivity.EXTRA_IN_GINI_VISION_CONFIG, giniVisionConfig);
+        intent.putExtra(CameraActivity.EXTRA_IN_ENABLE_DOCUMENT_IMPORT_FOR_FILE_TYPES,
+                DocumentImportFileTypes.PDF_AND_IMAGES);
 
         // Set your ReviewActivity subclass
         CameraActivity.setReviewActivityExtra(intent, this, ReviewActivity.class);

@@ -13,7 +13,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.transition.AutoTransition;
 import android.support.transition.Transition;
 import android.support.transition.TransitionListenerAdapter;
@@ -23,7 +22,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.RelativeLayout;
 
-import net.gini.android.vision.GiniVisionConfig;
+import net.gini.android.vision.DocumentImportFileTypes;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersAdapter;
@@ -40,7 +39,8 @@ public class FileChooserActivity extends AppCompatActivity {
 
     private static final int REQ_CODE_CHOOSE_FILE = 1;
 
-    public static final String EXTRA_IN_GINI_VISION_CONFIG = "GV_EXTRA_IN_GINI_VISION_CONFIG";
+    public static final String EXTRA_IN_DOCUMENT_IMPORT_FILE_TYPES =
+            "GV_EXTRA_IN_DOCUMENT_IMPORT_FILE_TYPES";
 
     public static final int RESULT_ERROR = RESULT_FIRST_USER + 1;
     public static final String EXTRA_OUT_ERROR = "GV_EXTRA_OUT_ERROR";
@@ -52,7 +52,7 @@ public class FileChooserActivity extends AppCompatActivity {
 
     private RelativeLayout mLayoutRoot;
     private RecyclerView mFileProvidersView;
-    private GiniVisionConfig mGiniVisionConfig;
+    private DocumentImportFileTypes mDocumentImportFileTypes;
 
     public static boolean canChooseFiles(@NonNull final Context context) {
         final List<ResolveInfo> imagePickerResolveInfos = queryImagePickers(context);
@@ -86,7 +86,9 @@ public class FileChooserActivity extends AppCompatActivity {
     private void readExtras() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            mGiniVisionConfig = extras.getParcelable(EXTRA_IN_GINI_VISION_CONFIG);
+            mDocumentImportFileTypes =
+                    (DocumentImportFileTypes) extras.getSerializable(
+                            EXTRA_IN_DOCUMENT_IMPORT_FILE_TYPES);
         }
     }
 
@@ -190,32 +192,14 @@ public class FileChooserActivity extends AppCompatActivity {
     }
 
     private boolean shouldShowImageProviders() {
-        final GiniVisionConfig.DocumentImportFileTypes documentImportFileTypes =
-                getDocumentImportFileTypes();
-        if (documentImportFileTypes != null) {
-            return documentImportFileTypes ==
-                    GiniVisionConfig.DocumentImportFileTypes.PDF_AND_IMAGES;
-        }
-        return false;
+        return mDocumentImportFileTypes != null
+                && mDocumentImportFileTypes == DocumentImportFileTypes.PDF_AND_IMAGES;
     }
 
     private boolean shouldShowPdfProviders() {
-        final GiniVisionConfig.DocumentImportFileTypes documentImportFileTypes =
-                getDocumentImportFileTypes();
-        if (documentImportFileTypes != null) {
-            return documentImportFileTypes == GiniVisionConfig.DocumentImportFileTypes.PDF
-                    || documentImportFileTypes ==
-                    GiniVisionConfig.DocumentImportFileTypes.PDF_AND_IMAGES;
-        }
-        return false;
-    }
-
-    @Nullable
-    private GiniVisionConfig.DocumentImportFileTypes getDocumentImportFileTypes() {
-        if (mGiniVisionConfig != null) {
-            return mGiniVisionConfig.getDocumentImportFileTypes();
-        }
-        return null;
+        return mDocumentImportFileTypes != null
+                && (mDocumentImportFileTypes == DocumentImportFileTypes.PDF
+                    || mDocumentImportFileTypes == DocumentImportFileTypes.PDF_AND_IMAGES);
     }
 
     private List<ProvidersItem> getImageProviderItems(

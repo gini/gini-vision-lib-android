@@ -14,7 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import net.gini.android.vision.GiniVisionConfig;
+import net.gini.android.vision.DocumentImportFileTypes;
 import net.gini.android.vision.internal.permission.PermissionRequestListener;
 import net.gini.android.vision.internal.permission.RuntimePermissions;
 
@@ -55,10 +55,15 @@ import net.gini.android.vision.internal.permission.RuntimePermissions;
 public class CameraFragmentCompat extends Fragment implements CameraFragmentInterface,
         CameraFragmentImplCallback {
 
-    public static CameraFragmentCompat createInstance(@NonNull final GiniVisionConfig giniVisionConfig) {
+    public static CameraFragmentCompat createInstance() {
+        return new CameraFragmentCompat();
+    }
+
+    public static CameraFragmentCompat createInstance(
+            @NonNull final DocumentImportFileTypes documentImportFileTypes) {
         CameraFragmentCompat fragment = new CameraFragmentCompat();
         fragment.setArguments(
-                CameraFragmentHelper.createArguments(giniVisionConfig));
+                CameraFragmentHelper.createArguments(documentImportFileTypes));
         return fragment;
     }
 

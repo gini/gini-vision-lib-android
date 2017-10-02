@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
-import net.gini.android.vision.GiniVisionConfig;
+import net.gini.android.vision.DocumentImportFileTypes;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.GiniVisionError;
@@ -62,7 +62,6 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
     private Fragment mCurrentFragment;
     private String mDocumentAnalysisErrorMessage;
     private Map<String, SpecificExtraction> mExtractionsFromReviewScreen;
-    private GiniVisionConfig mGiniVisionConfig;
     private GiniVisionCoordinator mGiniVisionCoordinator;
     private boolean mShowCameraOnStart = false;
     private SingleDocumentAnalyzer mSingleDocumentAnalyzer;
@@ -163,7 +162,6 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gini_vision);
-        configureGiniVision();
         configureLogging();
         bindViews();
         setupGiniVisionCoordinator();
@@ -173,11 +171,6 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
             initState(savedInstanceState);
             retainFragment();
         }
-    }
-
-    private void configureGiniVision() {
-        mGiniVisionConfig = new GiniVisionConfig();
-        mGiniVisionConfig.enableDocumentImport(GiniVisionConfig.DocumentImportFileTypes.PDF_AND_IMAGES);
     }
 
     @Override
@@ -403,7 +396,7 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
     }
 
     private CameraFragmentCompat getCameraFragment() {
-        return CameraFragmentCompat.createInstance(mGiniVisionConfig);
+        return CameraFragmentCompat.createInstance(DocumentImportFileTypes.PDF_AND_IMAGES);
     }
 
     private Bundle getExtractionsBundle(Map<String, SpecificExtraction> extractions) {
