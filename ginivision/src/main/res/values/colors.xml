@@ -18,6 +18,8 @@
     <color name="gv_onboarding_activity_background">@android:color/transparent</color>
     <color name="gv_onboarding_fragment_background">@android:color/transparent</color>
     <color name="gv_onboarding_page_fragment_background">@color/gv_background</color>
+
+    <color name="gv_camera_preview_shade">#aa000000</color>
     
     <color name="gv_onboarding_fab">#009edc</color>
     <color name="gv_onboarding_fab_pressed">#0095cf</color>
