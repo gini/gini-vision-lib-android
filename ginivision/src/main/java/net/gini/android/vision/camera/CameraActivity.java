@@ -416,8 +416,6 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
 
     private void bindViews() {
         mLayoutRoot = (RelativeLayout) findViewById(R.id.gv_root);
-        mFragment = (CameraFragmentCompat) getSupportFragmentManager().findFragmentById(
-                R.id.gv_fragment_camera);
     }
 
     @Override
