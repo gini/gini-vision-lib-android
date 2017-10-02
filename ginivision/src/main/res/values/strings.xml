@@ -18,7 +18,7 @@
     <string name="gv_review_bottom_panel_text">Dokument vollständig, scharf und in Leserichtung?\n\nDoppeltippen um Schärfe zu prüfen.</string>
 
     <string name="gv_document_analysis_error_retry">Wiederholen</string>
-    <string name="gv_document_analysis_state">Dokument wird analysiert</string>
+    <string name="gv_document_analysing_message">Dokument wird analysiert</string>
 
     <string name="gv_noresults_hints">Zur Erkennung aller Daten bitte folgende Tipps beim Abfotografieren beachten:</string>
     <string name="gv_noresults_align">Seite vollständig in den angezeigten Rahmen einpassen</string>
