@@ -10,6 +10,7 @@ import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.internal.util.ActivityHelper;
 import net.gini.android.vision.internal.util.DeviceHelper;
 import net.gini.android.vision.internal.util.FileImportValidator;
+import net.gini.android.vision.internal.util.IntentHelper;
 import net.gini.android.vision.review.ReviewActivity;
 
 public final class GiniVision {
@@ -38,7 +39,7 @@ public final class GiniVision {
     @NonNull
     public static Document createDocumentForImportedFile(@NonNull final Intent intent,
             @NonNull final Context context) throws ImportedFileValidationException {
-        final Uri uri = intent.getData();
+        final Uri uri = IntentHelper.getUri(intent);
         if (uri == null) {
             throw new ImportedFileValidationException("todo description no uri");
         }
