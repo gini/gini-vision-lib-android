@@ -352,6 +352,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mButtonImportDocument.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
+                closeUploadHintPopUp();
                 LOG.info("Requesting read storage permission");
                 requestStoragePermission(new PermissionRequestListener() {
                     @Override
