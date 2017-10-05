@@ -40,6 +40,8 @@ import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.DocumentFactory;
+import net.gini.android.vision.document.GiniVisionDocument;
+import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.camera.api.CameraController;
 import net.gini.android.vision.internal.camera.api.CameraException;
 import net.gini.android.vision.internal.camera.api.CameraInterface;
@@ -69,6 +71,12 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     private static final CameraFragmentListener NO_OP_LISTENER = new CameraFragmentListener() {
         @Override
         public void onDocumentAvailable(@NonNull Document document) {
+        }
+
+        @Override
+        public void onCheckImportedDocument(@NonNull final Document document,
+                @NonNull final DocumentCheckResultCallback callback) {
+            callback.documentAccepted();
         }
 
         @Override
@@ -547,13 +555,40 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
     private void createDocumentAndCallListener(final Intent data, final Activity activity) {
         try {
-            final Document document = DocumentFactory.newDocumentFromIntent(data,
+            final GiniVisionDocument document = DocumentFactory.newDocumentFromIntent(data,
                     activity,
                     DeviceHelper.getDeviceOrientation(activity),
                     DeviceHelper.getDeviceType(activity),
                     "picker");
             LOG.info("Document imported: {}", document);
-            mListener.onDocumentAvailable(document);
+            LOG.debug("Loading document data");
+            document.loadData(activity, new AsyncCallback<byte[]>() {
+                @Override
+                public void onSuccess(final byte[] result) {
+                    LOG.debug("Document data loaded");
+                    LOG.debug("Requesting document check from client");
+                    mListener.onCheckImportedDocument(document,
+                            new CameraFragmentListener.DocumentCheckResultCallback() {
+                                @Override
+                                public void documentAccepted() {
+                                    LOG.debug("Client accepted the document");
+                                    mListener.onDocumentAvailable(document);
+                                }
+
+                                @Override
+                                public void documentRejected(@NonNull final String messageForUser) {
+                                    LOG.debug("Client rejected the document: {}", messageForUser);
+                                    showInvalidFileAlert(messageForUser);
+                                }
+                            });
+                }
+
+                @Override
+                public void onError(final Exception exception) {
+                    LOG.error("Failed to load document data", exception);
+                    showInvalidFileError(null);
+                }
+            });
         } catch (IllegalArgumentException e) {
             LOG.error("Failed to import selected document", e);
             showInvalidFileError(null);
@@ -562,11 +597,20 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
     private void showInvalidFileError(@Nullable final FileImportValidator.Error error) {
         LOG.error("Invalid document {}", error != null ? error.toString() : "");
+        final Activity activity = mFragment
+                .getActivity();
+        if (activity == null) {
+            return;
+        }
         int messageRes = R.string.gv_document_import_invalid_document;
         if (error != null) {
             messageRes = error.getTextResource();
         }
-        mFragment.showAlertDialog(messageRes,
+        showInvalidFileAlert(activity.getString(messageRes));
+    }
+
+    private void showInvalidFileAlert(final String message) {
+        mFragment.showAlertDialog(message,
                 R.string.gv_document_import_pick_another_document,
                 new DialogInterface.OnClickListener() {
                     @Override

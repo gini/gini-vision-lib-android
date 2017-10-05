@@ -178,19 +178,18 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
     @Override
     public void showAlertDialog(@StringRes final int message,
             @StringRes final int positiveButtonTitle,
-            @NonNull final DialogInterface.OnClickListener positiveButtonClickListener) {
+            @NonNull final DialogInterface.OnClickListener positiveButtonClickListener,
+            @StringRes final int negativeButtonTitle) {
         final Activity activity = getActivity();
         if (activity == null) {
             return;
         }
-        new AlertDialog.Builder(activity)
-                .setMessage(message)
-                .setPositiveButton(positiveButtonTitle, positiveButtonClickListener)
-                .show();
+        showAlertDialog(activity.getString(message), positiveButtonTitle,
+                positiveButtonClickListener, negativeButtonTitle);
     }
 
     @Override
-    public void showAlertDialog(@StringRes final int message,
+    public void showAlertDialog(@NonNull final String message,
             @StringRes final int positiveButtonTitle,
             @NonNull final DialogInterface.OnClickListener positiveButtonClickListener,
             @StringRes final int negativeButtonTitle) {
