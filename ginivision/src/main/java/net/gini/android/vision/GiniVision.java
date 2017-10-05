@@ -41,7 +41,7 @@ public final class GiniVision {
             @NonNull final Context context) throws ImportedFileValidationException {
         final Uri uri = IntentHelper.getUri(intent);
         if (uri == null) {
-            throw new ImportedFileValidationException("todo description no uri");
+            throw new ImportedFileValidationException("Intent data did not contain a Uri");
         }
         final FileImportValidator fileImportValidator = new FileImportValidator(context);
         if (fileImportValidator.matchesCriteria(uri)) {
