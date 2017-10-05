@@ -5,6 +5,7 @@ import static android.content.Intent.ACTION_OPEN_DOCUMENT;
 import static android.content.Intent.ACTION_PICK;
 
 import static net.gini.android.vision.GiniVisionError.ErrorCode.DOCUMENT_IMPORT;
+import static net.gini.android.vision.internal.util.ContextHelper.isTablet;
 
 import android.content.Context;
 import android.content.Intent;
@@ -30,6 +31,7 @@ import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersAppI
 import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersAppItemSelectedListener;
 import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersItem;
 import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersSectionItem;
+import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersSeparatorItem;
 import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersSpanSizeLookup;
 
 import java.util.ArrayList;
@@ -45,7 +47,8 @@ public class FileChooserActivity extends AppCompatActivity {
     public static final int RESULT_ERROR = RESULT_FIRST_USER + 1;
     public static final String EXTRA_OUT_ERROR = "GV_EXTRA_OUT_ERROR";
 
-    public static final int GRID_SPAN_COUNT = 4;
+    public static final int GRID_SPAN_COUNT_PHONE = 3;
+    public static final int GRID_SPAN_COUNT_TABLET = 6;
 
     private static final int ANIM_DURATION = 200;
     private static final int SHOW_ANIM_DELAY = 300;
@@ -97,7 +100,11 @@ public class FileChooserActivity extends AppCompatActivity {
     }
 
     private void setupFileProvidersView() {
-        mFileProvidersView.setLayoutManager(new GridLayoutManager(this, GRID_SPAN_COUNT));
+        mFileProvidersView.setLayoutManager(new GridLayoutManager(this, getGridSpanCount()));
+    }
+
+    private int getGridSpanCount() {
+        return isTablet(this) ? GRID_SPAN_COUNT_TABLET : GRID_SPAN_COUNT_PHONE;
     }
 
     @Override
@@ -165,22 +172,27 @@ public class FileChooserActivity extends AppCompatActivity {
 
     private void populateFileProviders() {
         final List<ProvidersItem> providerItems = new ArrayList<>();
+        List<ProvidersItem> imageProviderItems = new ArrayList<>();
+        List<ProvidersItem> pdfProviderItems = new ArrayList<>();
         if (shouldShowImageProviders()) {
             final List<ResolveInfo> imagePickerResolveInfos = queryImagePickers(this);
             final List<ResolveInfo> imageProviderResolveInfos = queryImageProviders(this);
-            final List<ProvidersItem> imageProviderItems = getImageProviderItems(
-                    imagePickerResolveInfos, imageProviderResolveInfos);
-            providerItems.addAll(imageProviderItems);
+            imageProviderItems = getImageProviderItems(imagePickerResolveInfos,
+                    imageProviderResolveInfos);
         }
         if (shouldShowPdfProviders()) {
             final List<ResolveInfo> pdfProviderResolveInfos = queryPdfProviders(this);
-            final List<ProvidersItem> pdfProviderItems = getPdfProviderItems(
-                    pdfProviderResolveInfos);
-            providerItems.addAll(pdfProviderItems);
+            pdfProviderItems = getPdfProviderItems(pdfProviderResolveInfos);
         }
 
+        providerItems.addAll(imageProviderItems);
+        if (imageProviderItems.size() > 0 && pdfProviderItems.size() > 0) {
+            providerItems.add(new ProvidersSeparatorItem());
+        }
+        providerItems.addAll(pdfProviderItems);
+
         ((GridLayoutManager) mFileProvidersView.getLayoutManager()).setSpanSizeLookup(
-                new ProvidersSpanSizeLookup(providerItems));
+                new ProvidersSpanSizeLookup(providerItems, getGridSpanCount()));
 
         mFileProvidersView.setAdapter(new ProvidersAdapter(this, providerItems,
                 new ProvidersAppItemSelectedListener() {
