@@ -23,6 +23,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.RelativeLayout;
 
+import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersAdapter;
@@ -40,6 +41,9 @@ public class FileChooserActivity extends AppCompatActivity {
 
     private static final int REQ_CODE_CHOOSE_FILE = 1;
 
+    public static final String EXTRA_IN_DOCUMENT_IMPORT_FILE_TYPES =
+            "GV_EXTRA_IN_DOCUMENT_IMPORT_FILE_TYPES";
+
     public static final int RESULT_ERROR = RESULT_FIRST_USER + 1;
     public static final String EXTRA_OUT_ERROR = "GV_EXTRA_OUT_ERROR";
 
@@ -51,6 +55,8 @@ public class FileChooserActivity extends AppCompatActivity {
 
     private RelativeLayout mLayoutRoot;
     private RecyclerView mFileProvidersView;
+    private DocumentImportEnabledFileTypes mDocImportEnabledFileTypes =
+            DocumentImportEnabledFileTypes.NONE;
 
     public static boolean canChooseFiles(@NonNull final Context context) {
         final List<ResolveInfo> imagePickerResolveInfos = queryImagePickers(context);
@@ -71,6 +77,7 @@ public class FileChooserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gv_activity_file_chooser);
         bindViews();
+        readExtras();
         setupFileProvidersView();
         overridePendingTransition(0, 0);
     }
@@ -78,6 +85,18 @@ public class FileChooserActivity extends AppCompatActivity {
     private void bindViews() {
         mLayoutRoot = findViewById(R.id.gv_layout_root);
         mFileProvidersView = findViewById(R.id.gv_file_providers);
+    }
+
+    private void readExtras() {
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            final DocumentImportEnabledFileTypes enabledFileTypes =
+                    (DocumentImportEnabledFileTypes) extras.getSerializable(
+                            EXTRA_IN_DOCUMENT_IMPORT_FILE_TYPES);
+            if (enabledFileTypes != null) {
+                mDocImportEnabledFileTypes = enabledFileTypes;
+            }
+        }
     }
 
     private void setupFileProvidersView() {
@@ -152,14 +171,20 @@ public class FileChooserActivity extends AppCompatActivity {
     }
 
     private void populateFileProviders() {
-        final List<ResolveInfo> imagePickerResolveInfos = queryImagePickers(this);
-        final List<ResolveInfo> imageProviderResolveInfos = queryImageProviders(this);
-        final List<ResolveInfo> pdfProviderResolveInfos = queryPdfProviders(this);
-
         final List<ProvidersItem> providerItems = new ArrayList<>();
-        final List<ProvidersItem> imageProviderItems = getImageProviderItems(
-                imagePickerResolveInfos, imageProviderResolveInfos);
-        final List<ProvidersItem> pdfProviderItems = getPdfProviderItems(pdfProviderResolveInfos);
+        List<ProvidersItem> imageProviderItems = new ArrayList<>();
+        List<ProvidersItem> pdfProviderItems = new ArrayList<>();
+        if (shouldShowImageProviders()) {
+            final List<ResolveInfo> imagePickerResolveInfos = queryImagePickers(this);
+            final List<ResolveInfo> imageProviderResolveInfos = queryImageProviders(this);
+            imageProviderItems = getImageProviderItems(imagePickerResolveInfos,
+                    imageProviderResolveInfos);
+        }
+        if (shouldShowPdfProviders()) {
+            final List<ResolveInfo> pdfProviderResolveInfos = queryPdfProviders(this);
+            pdfProviderItems = getPdfProviderItems(pdfProviderResolveInfos);
+        }
+
         providerItems.addAll(imageProviderItems);
         if (imageProviderItems.size() > 0 && pdfProviderItems.size() > 0) {
             providerItems.add(new ProvidersSeparatorItem());
@@ -180,6 +205,15 @@ public class FileChooserActivity extends AppCompatActivity {
                         startActivityForResult(intent, REQ_CODE_CHOOSE_FILE);
                     }
                 }));
+    }
+
+    private boolean shouldShowImageProviders() {
+        return mDocImportEnabledFileTypes == DocumentImportEnabledFileTypes.PDF_AND_IMAGES;
+    }
+
+    private boolean shouldShowPdfProviders() {
+        return mDocImportEnabledFileTypes == DocumentImportEnabledFileTypes.PDF
+                    || mDocImportEnabledFileTypes == DocumentImportEnabledFileTypes.PDF_AND_IMAGES;
     }
 
     private List<ProvidersItem> getImageProviderItems(

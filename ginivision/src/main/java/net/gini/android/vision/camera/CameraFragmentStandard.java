@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.internal.permission.PermissionRequestListener;
 import net.gini.android.vision.internal.permission.RuntimePermissions;
 
@@ -45,7 +46,19 @@ import net.gini.android.vision.internal.permission.RuntimePermissions;
  */
 public class CameraFragmentStandard extends Fragment implements CameraFragmentInterface, CameraFragmentImplCallback {
 
-    private final CameraFragmentImpl mFragmentImpl = new CameraFragmentImpl(this);
+    public static CameraFragmentStandard createInstance() {
+        return new CameraFragmentStandard();
+    }
+
+    public static CameraFragmentStandard createInstance(
+            @NonNull final DocumentImportEnabledFileTypes docImportEnabledFileTypes) {
+        CameraFragmentStandard fragment = new CameraFragmentStandard();
+        fragment.setArguments(
+                CameraFragmentHelper.createArguments(docImportEnabledFileTypes));
+        return fragment;
+    }
+
+    private CameraFragmentImpl mFragmentImpl;
     private final RuntimePermissions mRuntimePermissions = new RuntimePermissions();
 
     /**
@@ -54,6 +67,7 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        mFragmentImpl = CameraFragmentHelper.createFragmentImpl(this, getArguments());
         CameraFragmentHelper.setListener(mFragmentImpl, context);
     }
 
@@ -67,6 +81,7 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return;
         }
+        mFragmentImpl = CameraFragmentHelper.createFragmentImpl(this, getArguments());
         CameraFragmentHelper.setListener(mFragmentImpl, activity);
     }
 

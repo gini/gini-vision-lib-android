@@ -104,6 +104,7 @@ public class ReviewActivity extends net.gini.android.vision.review.ReviewActivit
 
     @Override
     public void onProceedToAnalysisScreen(@NonNull Document document) {
+        GiniVisionDebug.writeDocumentToFile(this, document, "_for_analysis");
         LOG.debug("Proceed to analysis screen");
         // As the library will go to the Analysis Screen we should only remove the listener.
         // We should not cancel the analysis here as we don't know, if we proceed because the analysis didn't complete or
