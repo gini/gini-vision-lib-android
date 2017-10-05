@@ -42,7 +42,6 @@
             android:theme="@style/GiniVisionTheme" />
         <activity
             android:name="net.gini.android.vision.screen.AnalysisActivity"
-            android:label="@string/gv_title_analysis"
             android:theme="@style/GiniVisionTheme" />
         <activity
             android:name="net.gini.android.vision.screen.ExtractionsActivity"

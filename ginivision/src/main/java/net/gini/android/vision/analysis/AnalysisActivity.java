@@ -187,6 +187,7 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gv_activity_analysis);
+        setTitle("");
         readExtras();
         if (savedInstanceState == null) {
             initFragment();

@@ -5,6 +5,7 @@ import static android.content.Intent.ACTION_OPEN_DOCUMENT;
 import static android.content.Intent.ACTION_PICK;
 
 import static net.gini.android.vision.GiniVisionError.ErrorCode.DOCUMENT_IMPORT;
+import static net.gini.android.vision.internal.util.ContextHelper.isTablet;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +23,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.RelativeLayout;
 
+import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersAdapter;
@@ -29,6 +31,7 @@ import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersAppI
 import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersAppItemSelectedListener;
 import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersItem;
 import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersSectionItem;
+import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersSeparatorItem;
 import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersSpanSizeLookup;
 
 import java.util.ArrayList;
@@ -38,16 +41,22 @@ public class FileChooserActivity extends AppCompatActivity {
 
     private static final int REQ_CODE_CHOOSE_FILE = 1;
 
+    public static final String EXTRA_IN_DOCUMENT_IMPORT_FILE_TYPES =
+            "GV_EXTRA_IN_DOCUMENT_IMPORT_FILE_TYPES";
+
     public static final int RESULT_ERROR = RESULT_FIRST_USER + 1;
     public static final String EXTRA_OUT_ERROR = "GV_EXTRA_OUT_ERROR";
 
-    public static final int GRID_SPAN_COUNT = 4;
+    public static final int GRID_SPAN_COUNT_PHONE = 3;
+    public static final int GRID_SPAN_COUNT_TABLET = 6;
 
     private static final int ANIM_DURATION = 200;
     private static final int SHOW_ANIM_DELAY = 300;
 
     private RelativeLayout mLayoutRoot;
     private RecyclerView mFileProvidersView;
+    private DocumentImportEnabledFileTypes mDocImportEnabledFileTypes =
+            DocumentImportEnabledFileTypes.NONE;
 
     public static boolean canChooseFiles(@NonNull final Context context) {
         final List<ResolveInfo> imagePickerResolveInfos = queryImagePickers(context);
@@ -68,6 +77,7 @@ public class FileChooserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gv_activity_file_chooser);
         bindViews();
+        readExtras();
         setupFileProvidersView();
         overridePendingTransition(0, 0);
     }
@@ -77,8 +87,24 @@ public class FileChooserActivity extends AppCompatActivity {
         mFileProvidersView = findViewById(R.id.gv_file_providers);
     }
 
+    private void readExtras() {
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            final DocumentImportEnabledFileTypes enabledFileTypes =
+                    (DocumentImportEnabledFileTypes) extras.getSerializable(
+                            EXTRA_IN_DOCUMENT_IMPORT_FILE_TYPES);
+            if (enabledFileTypes != null) {
+                mDocImportEnabledFileTypes = enabledFileTypes;
+            }
+        }
+    }
+
     private void setupFileProvidersView() {
-        mFileProvidersView.setLayoutManager(new GridLayoutManager(this, GRID_SPAN_COUNT));
+        mFileProvidersView.setLayoutManager(new GridLayoutManager(this, getGridSpanCount()));
+    }
+
+    private int getGridSpanCount() {
+        return isTablet(this) ? GRID_SPAN_COUNT_TABLET : GRID_SPAN_COUNT_PHONE;
     }
 
     @Override
@@ -145,19 +171,28 @@ public class FileChooserActivity extends AppCompatActivity {
     }
 
     private void populateFileProviders() {
-        final List<ResolveInfo> imagePickerResolveInfos = queryImagePickers(this);
-        final List<ResolveInfo> imageProviderResolveInfos = queryImageProviders(this);
-        final List<ResolveInfo> pdfProviderResolveInfos = queryPdfProviders(this);
-
         final List<ProvidersItem> providerItems = new ArrayList<>();
-        final List<ProvidersItem> imageProviderItems = getImageProviderItems(
-                imagePickerResolveInfos, imageProviderResolveInfos);
-        final List<ProvidersItem> pdfProviderItems = getPdfProviderItems(pdfProviderResolveInfos);
+        List<ProvidersItem> imageProviderItems = new ArrayList<>();
+        List<ProvidersItem> pdfProviderItems = new ArrayList<>();
+        if (shouldShowImageProviders()) {
+            final List<ResolveInfo> imagePickerResolveInfos = queryImagePickers(this);
+            final List<ResolveInfo> imageProviderResolveInfos = queryImageProviders(this);
+            imageProviderItems = getImageProviderItems(imagePickerResolveInfos,
+                    imageProviderResolveInfos);
+        }
+        if (shouldShowPdfProviders()) {
+            final List<ResolveInfo> pdfProviderResolveInfos = queryPdfProviders(this);
+            pdfProviderItems = getPdfProviderItems(pdfProviderResolveInfos);
+        }
+
         providerItems.addAll(imageProviderItems);
+        if (imageProviderItems.size() > 0 && pdfProviderItems.size() > 0) {
+            providerItems.add(new ProvidersSeparatorItem());
+        }
         providerItems.addAll(pdfProviderItems);
 
         ((GridLayoutManager) mFileProvidersView.getLayoutManager()).setSpanSizeLookup(
-                new ProvidersSpanSizeLookup(providerItems));
+                new ProvidersSpanSizeLookup(providerItems, getGridSpanCount()));
 
         mFileProvidersView.setAdapter(new ProvidersAdapter(this, providerItems,
                 new ProvidersAppItemSelectedListener() {
@@ -170,6 +205,15 @@ public class FileChooserActivity extends AppCompatActivity {
                         startActivityForResult(intent, REQ_CODE_CHOOSE_FILE);
                     }
                 }));
+    }
+
+    private boolean shouldShowImageProviders() {
+        return mDocImportEnabledFileTypes == DocumentImportEnabledFileTypes.PDF_AND_IMAGES;
+    }
+
+    private boolean shouldShowPdfProviders() {
+        return mDocImportEnabledFileTypes == DocumentImportEnabledFileTypes.PDF
+                    || mDocImportEnabledFileTypes == DocumentImportEnabledFileTypes.PDF_AND_IMAGES;
     }
 
     private List<ProvidersItem> getImageProviderItems(

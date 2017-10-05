@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
+import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionDebug;
@@ -244,7 +245,7 @@ public class GiniVisionActivity extends Activity
         if (document.isReviewable()) {
             showFragment(getReviewFragment(document), R.string.title_review);
         } else {
-            showFragment(getAnalysisFragment(document), R.string.title_analysis);
+            showFragment(getAnalysisFragment(document));
         }
     }
 
@@ -312,7 +313,7 @@ public class GiniVisionActivity extends Activity
         // analysis didn't complete or
         // the user rotated the image
         getSingleDocumentAnalyzer().removeListener();
-        showFragment(getAnalysisFragment(document), R.string.title_analysis);
+        showFragment(getAnalysisFragment(document));
     }
 
     @Override
@@ -417,6 +418,16 @@ public class GiniVisionActivity extends Activity
         setTitle(titleRes);
     }
 
+    public void showFragment(Fragment fragment) {
+        LOG.debug("Showing fragment {} ", fragment.getClass().getSimpleName());
+        mCurrentFragment = fragment;
+        getFragmentManager().beginTransaction()
+                .setCustomAnimations(R.animator.fade_in, R.animator.fade_out)
+                .replace(R.id.fragment_container, fragment)
+                .commit();
+        setTitle("");
+    }
+
     public void showOnboarding() {
         LOG.debug("Show the Onboarding Screen");
         hideCameraOverlays();
@@ -455,7 +466,7 @@ public class GiniVisionActivity extends Activity
     }
 
     private CameraFragmentStandard getCameraFragment() {
-        return new CameraFragmentStandard();
+        return CameraFragmentStandard.createInstance(DocumentImportEnabledFileTypes.PDF_AND_IMAGES);
     }
 
     private Bundle getExtractionsBundle(Map<String, SpecificExtraction> extractions) {

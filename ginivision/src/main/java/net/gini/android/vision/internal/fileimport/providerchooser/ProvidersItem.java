@@ -6,6 +6,7 @@ public abstract class ProvidersItem {
 
     enum FileProviderItemType {
         SECTION,
+        SEPARATOR,
         APP;
 
         static FileProviderItemType fromOrdinal(final int ordinal) {
