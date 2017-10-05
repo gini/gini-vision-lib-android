@@ -197,17 +197,17 @@ public class GiniVisionActivity extends Activity
             }
         } catch (ImportedFileValidationException e) {
             e.printStackTrace();
-            String message = "File cannot be analyzed";
+            String message = getString(R.string.gv_document_import_invalid_document);
             if (e.getValidationError() != null) {
                 switch (e.getValidationError()) {
                     case TYPE_NOT_SUPPORTED:
-                        message = "File type not supported.";
+                        message = getString(R.string.gv_document_import_error_type_not_supported);
                         break;
                     case SIZE_TOO_LARGE:
-                        message = "File too large, must be less than 10 MB.";
+                        message = getString(R.string.gv_document_import_error_size_too_large);
                         break;
                     case TOO_MANY_PDF_PAGES:
-                        message = "Pdf must have less than 10 pages.";
+                        message = getString(R.string.gv_document_import_error_too_many_pdf_pages);
                         break;
                 }
             }
