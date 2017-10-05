@@ -14,7 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import net.gini.android.vision.DocumentImportFileTypes;
+import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.internal.permission.PermissionRequestListener;
 import net.gini.android.vision.internal.permission.RuntimePermissions;
 
@@ -60,10 +60,10 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
     }
 
     public static CameraFragmentCompat createInstance(
-            @NonNull final DocumentImportFileTypes documentImportFileTypes) {
+            @NonNull final DocumentImportEnabledFileTypes docImportEnabledFileTypes) {
         CameraFragmentCompat fragment = new CameraFragmentCompat();
         fragment.setArguments(
-                CameraFragmentHelper.createArguments(documentImportFileTypes));
+                CameraFragmentHelper.createArguments(docImportEnabledFileTypes));
         return fragment;
     }
 

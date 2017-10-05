@@ -36,7 +36,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import net.gini.android.vision.Document;
-import net.gini.android.vision.DocumentImportFileTypes;
+import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.DocumentFactory;
@@ -81,7 +81,8 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     public static final String SHOW_HINT_POP_UP = "SHOW_HINT_POP_UP";
 
     private final CameraFragmentImplCallback mFragment;
-    private final DocumentImportFileTypes mDocumentImportFileTypes;
+    private DocumentImportEnabledFileTypes mDocImportEnabledFileTypes =
+            DocumentImportEnabledFileTypes.NONE;
     private View mImageCorners;
     private CameraFragmentListener mListener = NO_OP_LISTENER;
     private final UIExecutor mUIExecutor = new UIExecutor();
@@ -105,9 +106,9 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     private boolean mImportDocumentButtonEnabled = false;
 
     CameraFragmentImpl(@NonNull CameraFragmentImplCallback fragment,
-            @Nullable final DocumentImportFileTypes documentImportFileTypes) {
+            @NonNull final DocumentImportEnabledFileTypes docImportEnabledFileTypes) {
         mFragment = fragment;
-        mDocumentImportFileTypes = documentImportFileTypes;
+        mDocImportEnabledFileTypes = docImportEnabledFileTypes;
     }
 
     void setListener(CameraFragmentListener listener) {
@@ -327,7 +328,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private boolean isDocumentImportEnabled() {
-        return mDocumentImportFileTypes != null;
+        return mDocImportEnabledFileTypes != DocumentImportEnabledFileTypes.NONE;
     }
 
     private void setInputHandlers() {
@@ -463,7 +464,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         }
         Intent fileChooserIntent = FileChooserActivity.createIntent(activity);
         fileChooserIntent.putExtra(FileChooserActivity.EXTRA_IN_DOCUMENT_IMPORT_FILE_TYPES,
-                mDocumentImportFileTypes);
+                mDocImportEnabledFileTypes);
         mFragment.startActivityForResult(fileChooserIntent, REQ_CODE_CHOOSE_FILE);
     }
 

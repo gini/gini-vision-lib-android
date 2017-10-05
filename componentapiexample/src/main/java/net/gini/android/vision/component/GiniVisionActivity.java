@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
-import net.gini.android.vision.DocumentImportFileTypes;
+import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.GiniVisionError;
@@ -402,7 +402,7 @@ public class GiniVisionActivity extends Activity
     }
 
     private CameraFragmentStandard getCameraFragment() {
-        return CameraFragmentStandard.createInstance(DocumentImportFileTypes.PDF_AND_IMAGES);
+        return CameraFragmentStandard.createInstance(DocumentImportEnabledFileTypes.PDF_AND_IMAGES);
     }
 
     private Bundle getExtractionsBundle(Map<String, SpecificExtraction> extractions) {

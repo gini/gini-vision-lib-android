@@ -22,7 +22,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.RelativeLayout;
 
-import net.gini.android.vision.DocumentImportFileTypes;
+import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersAdapter;
@@ -52,7 +52,8 @@ public class FileChooserActivity extends AppCompatActivity {
 
     private RelativeLayout mLayoutRoot;
     private RecyclerView mFileProvidersView;
-    private DocumentImportFileTypes mDocumentImportFileTypes;
+    private DocumentImportEnabledFileTypes mDocImportEnabledFileTypes =
+            DocumentImportEnabledFileTypes.NONE;
 
     public static boolean canChooseFiles(@NonNull final Context context) {
         final List<ResolveInfo> imagePickerResolveInfos = queryImagePickers(context);
@@ -86,9 +87,12 @@ public class FileChooserActivity extends AppCompatActivity {
     private void readExtras() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            mDocumentImportFileTypes =
-                    (DocumentImportFileTypes) extras.getSerializable(
+            final DocumentImportEnabledFileTypes enabledFileTypes =
+                    (DocumentImportEnabledFileTypes) extras.getSerializable(
                             EXTRA_IN_DOCUMENT_IMPORT_FILE_TYPES);
+            if (enabledFileTypes != null) {
+                mDocImportEnabledFileTypes = enabledFileTypes;
+            }
         }
     }
 
@@ -192,14 +196,12 @@ public class FileChooserActivity extends AppCompatActivity {
     }
 
     private boolean shouldShowImageProviders() {
-        return mDocumentImportFileTypes != null
-                && mDocumentImportFileTypes == DocumentImportFileTypes.PDF_AND_IMAGES;
+        return mDocImportEnabledFileTypes == DocumentImportEnabledFileTypes.PDF_AND_IMAGES;
     }
 
     private boolean shouldShowPdfProviders() {
-        return mDocumentImportFileTypes != null
-                && (mDocumentImportFileTypes == DocumentImportFileTypes.PDF
-                    || mDocumentImportFileTypes == DocumentImportFileTypes.PDF_AND_IMAGES);
+        return mDocImportEnabledFileTypes == DocumentImportEnabledFileTypes.PDF
+                    || mDocImportEnabledFileTypes == DocumentImportEnabledFileTypes.PDF_AND_IMAGES;
     }
 
     private List<ProvidersItem> getImageProviderItems(
