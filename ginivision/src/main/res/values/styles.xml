@@ -95,6 +95,12 @@
         <item name="gvCustomFont"/>
     </style>
 
+    <style name="Root.GiniVisionTheme.Analysis.AnalysingMessage" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/gv_analysis_analysing_message</item>
+        <item name="gvCustomFont"/>
+    </style>
+
     <!-- Text styles used in the layouts which are overridable for customization -->
 
     <style name="GiniVisionTheme.Camera.Error.NoPermission.TextStyle" parent="Root.GiniVisionTheme.Camera.Error.NoPermission.TextStyle"/>

@@ -36,6 +36,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import net.gini.android.vision.Document;
+import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.DocumentFactory;
@@ -80,6 +81,8 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     public static final String SHOW_HINT_POP_UP = "SHOW_HINT_POP_UP";
 
     private final CameraFragmentImplCallback mFragment;
+    private DocumentImportEnabledFileTypes mDocImportEnabledFileTypes =
+            DocumentImportEnabledFileTypes.NONE;
     private View mImageCorners;
     private CameraFragmentListener mListener = NO_OP_LISTENER;
     private final UIExecutor mUIExecutor = new UIExecutor();
@@ -94,6 +97,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     private View mUploadHintCloseButton;
     private View mUploadHintContainer;
     private View mUploadHintContainerArrow;
+    private View mCameraPreviewShade;
 
     private ViewStubSafeInflater mViewStubInflater;
 
@@ -102,8 +106,10 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
     private boolean mImportDocumentButtonEnabled = false;
 
-    CameraFragmentImpl(@NonNull CameraFragmentImplCallback fragment) {
+    CameraFragmentImpl(@NonNull CameraFragmentImplCallback fragment,
+            @NonNull final DocumentImportEnabledFileTypes docImportEnabledFileTypes) {
         mFragment = fragment;
+        mDocImportEnabledFileTypes = docImportEnabledFileTypes;
     }
 
     void setListener(CameraFragmentListener listener) {
@@ -173,6 +179,9 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
     private void showUploadHintPopUpOnFirstExecution() {
         if(shouldShowHintPopUp()) {
+            mUploadHintContainer.setVisibility(View.VISIBLE);
+            mUploadHintContainerArrow.setVisibility(View.VISIBLE);
+            mCameraPreviewShade.setVisibility(View.VISIBLE);
             ViewCompat.animate(mUploadHintContainer)
                     .alpha(1)
                     .setDuration(DEFAULT_ANIMATION_DURATION)
@@ -181,10 +190,17 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                     .alpha(1)
                     .setDuration(DEFAULT_ANIMATION_DURATION)
                     .start();
+            ViewCompat.animate(mCameraPreviewShade)
+                    .alpha(1)
+                    .setDuration(DEFAULT_ANIMATION_DURATION)
+                    .start();
         }
     }
 
     private boolean shouldShowHintPopUp() {
+        if (!isDocumentImportEnabled()) {
+            return false;
+        }
         Context context = mFragment.getActivity();
         if(context != null) {
             SharedPreferences gvSharedPrefs = context.getSharedPreferences(GV_SHARED_PREFS, Context.MODE_PRIVATE);
@@ -303,8 +319,9 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mViewStubInflater = new ViewStubSafeInflater(stubNoPermission);
         mButtonImportDocument = view.findViewById(R.id.gv_button_import_document);
         mUploadHintContainer = view.findViewById(R.id.gv_upload_hint_container);
-        mUploadHintContainerArrow = view.findViewById(R.id.gv_upload_hint_container2);
+        mUploadHintContainerArrow = view.findViewById(R.id.gv_upload_hint_container_arrow);
         mUploadHintCloseButton = view.findViewById(R.id.gv_upload_hint_button);
+        mCameraPreviewShade = view.findViewById(R.id.gv_camera_preview_shade);
     }
 
     private void initViews() {
@@ -312,11 +329,15 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         if (activity == null) {
             return;
         }
-        if (FileChooserActivity.canChooseFiles(activity)) {
+        if (isDocumentImportEnabled() && FileChooserActivity.canChooseFiles(activity)) {
             mImportDocumentButtonEnabled = true;
             mButtonImportDocument.setVisibility(View.VISIBLE);
             showImportDocumentButtonAnimated();
         }
+    }
+
+    private boolean isDocumentImportEnabled() {
+        return mDocImportEnabledFileTypes != DocumentImportEnabledFileTypes.NONE;
     }
 
     private void setInputHandlers() {
@@ -352,6 +373,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mButtonImportDocument.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
+                closeUploadHintPopUp();
                 LOG.info("Requesting read storage permission");
                 requestStoragePermission(new PermissionRequestListener() {
                     @Override
@@ -384,6 +406,10 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void closeUploadHintPopUp() {
+        ViewCompat.animate(mCameraPreviewShade)
+                .alpha(0)
+                .setDuration(DEFAULT_ANIMATION_DURATION)
+                .start();
         ViewCompat.animate(mUploadHintContainerArrow)
                 .alpha(0)
                 .setDuration(DEFAULT_ANIMATION_DURATION)
@@ -400,6 +426,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                     public void onAnimationEnd(final View view) {
                         mUploadHintContainerArrow.setVisibility(View.GONE);
                         mUploadHintContainer.setVisibility(View.GONE);
+                        mCameraPreviewShade.setVisibility(View.GONE);
                         Context context = view.getContext();
                         savePopUpShown(context);
                     }
@@ -427,7 +454,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                 LOG.info("Requesting storage permission from rationale");
                 response.requestPermission();
             }
-        });
+        }, R.string.gv_storage_permission_denied_negative_button);
     }
 
     private void showStoragePermissionDeniedDialog() {
@@ -441,7 +468,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                         LOG.info("Open app details in Settings app");
                         showAppDetailsSettingsScreen();
                     }
-                }, R.string.gv_storage_permission_denied_negative_button);
+                }, R.string.gv_storage_permission_rationale_negative_button);
     }
 
     private void showFileChooser() {
@@ -451,6 +478,8 @@ class CameraFragmentImpl implements CameraFragmentInterface {
             return;
         }
         Intent fileChooserIntent = FileChooserActivity.createIntent(activity);
+        fileChooserIntent.putExtra(FileChooserActivity.EXTRA_IN_DOCUMENT_IMPORT_FILE_TYPES,
+                mDocImportEnabledFileTypes);
         mFragment.startActivityForResult(fileChooserIntent, REQ_CODE_CHOOSE_FILE);
     }
 

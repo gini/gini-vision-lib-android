@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import net.gini.android.ginivisiontest.BuildConfig;
 import net.gini.android.ginivisiontest.R;
+import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.GiniVisionError;
@@ -133,8 +134,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void startGiniVisionLibrary() {
         // Uncomment to enable requirements check.
-        // NOTE: on Android 6.0 and later the camera permission is required before checking the
-        // requirements
+        // NOTE: on Android 6.0 and later the camera permission is required before checking the requirements
 //        RequirementsReport report = GiniVisionRequirements.checkRequirements(this);
 //        if (!report.isFulfilled()) {
 //            showUnfulfilledRequirementsToast(report);
@@ -144,24 +144,22 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, CameraActivity.class);
 
         // Uncomment to add an extra page to the Onboarding pages
-//        intent.putParcelableArrayListExtra(CameraActivity.EXTRA_IN_ONBOARDING_PAGES,
-// getOnboardingPages());
+//        intent.putParcelableArrayListExtra(CameraActivity.EXTRA_IN_ONBOARDING_PAGES, getOnboardingPages());
 
-        // Set EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN to false to disable automatically showing
-        // the OnboardingActivity the
-        // first time the CameraActivity is launched - we highly recommend letting the Gini
-        // Vision Library show the
+        // Set EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN to false to disable automatically showing the OnboardingActivity the
+        // first time the CameraActivity is launched - we highly recommend letting the Gini Vision Library show the
         // OnboardingActivity at first run
         //intent.putExtra(CameraActivity.EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN, false);
 
-        // Set EXTRA_IN_SHOW_ONBOARDING to true, to show the OnboardingActivity when the
-        // CameraActivity starts
+        // Set EXTRA_IN_SHOW_ONBOARDING to true, to show the OnboardingActivity when the CameraActivity starts
         //intent.putExtra(CameraActivity.EXTRA_IN_SHOW_ONBOARDING, true);
 
-        // Set EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY to true, to close library on pressing
-        // the back
+        // Set EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY to true, to close library on pressing the back
         // button from any Activity in the library
         //intent.putExtra(CameraActivity.EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY, true);
+
+        intent.putExtra(CameraActivity.EXTRA_IN_ENABLE_DOCUMENT_IMPORT_FOR_FILE_TYPES,
+                DocumentImportEnabledFileTypes.PDF_AND_IMAGES);
 
         // Set your ReviewActivity subclass
         CameraActivity.setReviewActivityExtra(intent, this, ReviewActivity.class);
@@ -169,10 +167,8 @@ public class MainActivity extends AppCompatActivity {
         // Set your AnalysisActivity subclass
         CameraActivity.setAnalysisActivityExtra(intent, this, AnalysisActivity.class);
 
-        // Start for result in order to receive the error result, in case something went wrong,
-        // or the extractions
-        // To receive the extractions add it to the result Intent in
-        // ReviewActivity#onAddDataToResult(Intent) or
+        // Start for result in order to receive the error result, in case something went wrong, or the extractions
+        // To receive the extractions add it to the result Intent in ReviewActivity#onAddDataToResult(Intent) or
         // AnalysisActivity#onAddDataToResult(Intent) and retrieve them here in onActivityResult()
         startActivityForResult(intent, REQUEST_SCAN);
     }
@@ -222,11 +218,9 @@ public class MainActivity extends AppCompatActivity {
             }
             switch (resultCode) {
                 case RESULT_OK:
-                    // Retrieve the extra we set in our ReviewActivity or AnalysisActivity
-                    // subclasses' onAddDataToResult()
+                    // Retrieve the extra we set in our ReviewActivity or AnalysisActivity subclasses' onAddDataToResult()
                     // method
-                    // The payload format is up to you. For the example we added all the
-                    // extractions as key-value pairs to
+                    // The payload format is up to you. For the example we added all the extractions as key-value pairs to
                     // a Bundle.
                     Bundle extractionsBundle = data.getBundleExtra(EXTRA_OUT_EXTRACTIONS);
                     if (extractionsBundle != null && pay5ExtractionsAvailable(extractionsBundle)) {
@@ -255,8 +249,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
         } else if (requestCode == REQUEST_NO_EXTRACTIONS) {
-            // The NoExtractionsActivity has a button for taking another picture which causes the
-            // activity to finish
+            // The NoExtractionsActivity has a button for taking another picture which causes the activity to finish
             // and return the result code seen below
             if (resultCode == NoExtractionsActivity.RESULT_START_GINI_VISION) {
                 startGiniVisionLibrary();
