@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import android.widget.RelativeLayout;
 
 import net.gini.android.vision.Document;
-import net.gini.android.vision.DocumentImportFileTypes;
+import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
@@ -321,7 +321,8 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     private boolean mBackButtonShouldCloseLibrary = false;
     private GiniVisionCoordinator mGiniVisionCoordinator;
     private Document mDocument;
-    private DocumentImportFileTypes mDocumentImportFileTypes;
+    private DocumentImportEnabledFileTypes mDocImportEnabledFileTypes =
+            DocumentImportEnabledFileTypes.NONE;
 
     private RelativeLayout mLayoutRoot;
     private CameraFragmentCompat mFragment;
@@ -382,7 +383,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     }
 
     private void createFragment() {
-        mFragment = CameraFragmentCompat.createInstance(mDocumentImportFileTypes);
+        mFragment = CameraFragmentCompat.createInstance(mDocImportEnabledFileTypes);
     }
 
     private void initFragment() {
@@ -445,9 +446,12 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
                     true);
             mBackButtonShouldCloseLibrary = extras.getBoolean(
                     EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY, false);
-            mDocumentImportFileTypes =
-                    (DocumentImportFileTypes) extras.getSerializable(
+            final DocumentImportEnabledFileTypes enabledFileTypes =
+                    (DocumentImportEnabledFileTypes) extras.getSerializable(
                             EXTRA_IN_ENABLE_DOCUMENT_IMPORT_FOR_FILE_TYPES);
+            if (enabledFileTypes != null) {
+                mDocImportEnabledFileTypes = enabledFileTypes;
+            }
         }
         checkRequiredExtras();
     }
