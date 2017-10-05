@@ -42,8 +42,12 @@ public class GiniVisionDocument implements Document {
 
     @Nullable
     @Override
-    public byte[] getData() {
+    public synchronized byte[] getData() {
         return mData;
+    }
+
+    private synchronized void setData(final byte[] data) {
+        mData = data;
     }
 
     @Nullable
@@ -80,7 +84,7 @@ public class GiniVisionDocument implements Document {
                 new AsyncCallback<byte[]>() {
                     @Override
                     public void onSuccess(final byte[] result) {
-                        mData = result;
+                        setData(result);
                         callback.onSuccess(mData);
                     }
 

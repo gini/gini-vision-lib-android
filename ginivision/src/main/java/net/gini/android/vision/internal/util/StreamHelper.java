@@ -24,8 +24,9 @@ class StreamHelper {
      */
     static byte[] inputStreamToByteArray(@NonNull InputStream inputStream)
             throws IOException {
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        byte[] buffer = new byte[8192];
+        final int bufferSize = 8192;
+        ByteArrayOutputStream out = new ByteArrayOutputStream(bufferSize);
+        byte[] buffer = new byte[bufferSize];
         int nrRead;
         while ((nrRead = inputStream.read(buffer)) > 0) {
             out.write(buffer, 0, nrRead);

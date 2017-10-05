@@ -33,6 +33,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import net.gini.android.vision.Document;
@@ -106,6 +107,8 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     private View mUploadHintContainer;
     private View mUploadHintContainerArrow;
     private View mCameraPreviewShade;
+    private View mActivityIndicatorBackground;
+    private ProgressBar mActivityIndicator;
 
     private ViewStubSafeInflater mViewStubInflater;
 
@@ -330,6 +333,9 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mUploadHintContainerArrow = view.findViewById(R.id.gv_upload_hint_container_arrow);
         mUploadHintCloseButton = view.findViewById(R.id.gv_upload_hint_button);
         mCameraPreviewShade = view.findViewById(R.id.gv_camera_preview_shade);
+        mActivityIndicatorBackground =
+                view.findViewById(R.id.gv_activity_indicator_background);
+        mActivityIndicator = view.findViewById(R.id.gv_activity_indicator);
     }
 
     private void initViews() {
@@ -555,6 +561,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
     private void createDocumentAndCallListener(final Intent data, final Activity activity) {
         try {
+            showActivityIndicatorAndDisableInteraction();
             final GiniVisionDocument document = DocumentFactory.newDocumentFromIntent(data,
                     activity,
                     DeviceHelper.getDeviceOrientation(activity),
@@ -572,12 +579,14 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                                 @Override
                                 public void documentAccepted() {
                                     LOG.debug("Client accepted the document");
+                                    hideActivityIndicatorAndEnableInteraction();
                                     mListener.onDocumentAvailable(document);
                                 }
 
                                 @Override
                                 public void documentRejected(@NonNull final String messageForUser) {
                                     LOG.debug("Client rejected the document: {}", messageForUser);
+                                    hideActivityIndicatorAndEnableInteraction();
                                     showInvalidFileAlert(messageForUser);
                                 }
                             });
@@ -586,13 +595,59 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                 @Override
                 public void onError(final Exception exception) {
                     LOG.error("Failed to load document data", exception);
+                    hideActivityIndicatorAndEnableInteraction();
                     showInvalidFileError(null);
                 }
             });
         } catch (IllegalArgumentException e) {
             LOG.error("Failed to import selected document", e);
+            hideActivityIndicatorAndEnableInteraction();
             showInvalidFileError(null);
         }
+    }
+
+    private void showActivityIndicatorAndDisableInteraction() {
+        if (mActivityIndicator == null
+                || mActivityIndicatorBackground == null) {
+            return;
+        }
+        mActivityIndicatorBackground.setVisibility(View.VISIBLE);
+        mActivityIndicatorBackground.setClickable(true);
+        mActivityIndicator.setVisibility(View.VISIBLE);
+        disableInteraction();
+    }
+
+    private void hideActivityIndicatorAndEnableInteraction() {
+        if (mActivityIndicator == null
+                || mActivityIndicatorBackground == null) {
+            return;
+        }
+        mActivityIndicatorBackground.setVisibility(View.INVISIBLE);
+        mActivityIndicatorBackground.setClickable(false);
+        mActivityIndicator.setVisibility(View.INVISIBLE);
+        enableInteraction();
+    }
+
+    private void enableInteraction() {
+        if (mCameraPreview == null
+                || mButtonImportDocument == null
+                || mButtonCameraTrigger == null) {
+            return;
+        }
+        mCameraPreview.setEnabled(true);
+        mButtonImportDocument.setEnabled(true);
+        mButtonCameraTrigger.setEnabled(true);
+    }
+
+    private void disableInteraction() {
+        if (mCameraPreview == null
+                || mButtonImportDocument == null
+                || mButtonCameraTrigger == null) {
+            return;
+        }
+        mCameraPreview.setEnabled(false);
+        mButtonImportDocument.setEnabled(false);
+        mButtonCameraTrigger.setEnabled(false);
     }
 
     private void showInvalidFileError(@Nullable final FileImportValidator.Error error) {
