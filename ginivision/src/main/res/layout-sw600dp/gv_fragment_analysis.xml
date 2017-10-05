@@ -50,10 +50,11 @@
 
         <TextView
             android:id="@+id/gv_analysis_message"
+            style="@style/Root.GiniVisionTheme.Analysis.AnalysingMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/gv_document_analysis_state"
+            android:text="@string/gv_document_analysing_message"
             android:textColor="@color/gv_analysis_message"
             android:visibility="gone"
             tools:visibility="visible" />

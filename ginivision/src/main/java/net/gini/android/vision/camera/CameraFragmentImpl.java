@@ -97,6 +97,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     private View mUploadHintCloseButton;
     private View mUploadHintContainer;
     private View mUploadHintContainerArrow;
+    private View mCameraPreviewShade;
 
     private ViewStubSafeInflater mViewStubInflater;
 
@@ -178,11 +179,18 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
     private void showUploadHintPopUpOnFirstExecution() {
         if(shouldShowHintPopUp()) {
+            mUploadHintContainer.setVisibility(View.VISIBLE);
+            mUploadHintContainerArrow.setVisibility(View.VISIBLE);
+            mCameraPreviewShade.setVisibility(View.VISIBLE);
             ViewCompat.animate(mUploadHintContainer)
                     .alpha(1)
                     .setDuration(DEFAULT_ANIMATION_DURATION)
                     .start();
             ViewCompat.animate(mUploadHintContainerArrow)
+                    .alpha(1)
+                    .setDuration(DEFAULT_ANIMATION_DURATION)
+                    .start();
+            ViewCompat.animate(mCameraPreviewShade)
                     .alpha(1)
                     .setDuration(DEFAULT_ANIMATION_DURATION)
                     .start();
@@ -311,8 +319,9 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mViewStubInflater = new ViewStubSafeInflater(stubNoPermission);
         mButtonImportDocument = view.findViewById(R.id.gv_button_import_document);
         mUploadHintContainer = view.findViewById(R.id.gv_upload_hint_container);
-        mUploadHintContainerArrow = view.findViewById(R.id.gv_upload_hint_container2);
+        mUploadHintContainerArrow = view.findViewById(R.id.gv_upload_hint_container_arrow);
         mUploadHintCloseButton = view.findViewById(R.id.gv_upload_hint_button);
+        mCameraPreviewShade = view.findViewById(R.id.gv_camera_preview_shade);
     }
 
     private void initViews() {
@@ -364,6 +373,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mButtonImportDocument.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
+                closeUploadHintPopUp();
                 LOG.info("Requesting read storage permission");
                 requestStoragePermission(new PermissionRequestListener() {
                     @Override
@@ -396,6 +406,10 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void closeUploadHintPopUp() {
+        ViewCompat.animate(mCameraPreviewShade)
+                .alpha(0)
+                .setDuration(DEFAULT_ANIMATION_DURATION)
+                .start();
         ViewCompat.animate(mUploadHintContainerArrow)
                 .alpha(0)
                 .setDuration(DEFAULT_ANIMATION_DURATION)
@@ -412,6 +426,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                     public void onAnimationEnd(final View view) {
                         mUploadHintContainerArrow.setVisibility(View.GONE);
                         mUploadHintContainer.setVisibility(View.GONE);
+                        mCameraPreviewShade.setVisibility(View.GONE);
                         Context context = view.getContext();
                         savePopUpShown(context);
                     }
@@ -439,7 +454,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                 LOG.info("Requesting storage permission from rationale");
                 response.requestPermission();
             }
-        });
+        }, R.string.gv_storage_permission_denied_negative_button);
     }
 
     private void showStoragePermissionDeniedDialog() {
@@ -453,7 +468,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                         LOG.info("Open app details in Settings app");
                         showAppDetailsSettingsScreen();
                     }
-                }, R.string.gv_storage_permission_denied_negative_button);
+                }, R.string.gv_storage_permission_rationale_negative_button);
     }
 
     private void showFileChooser() {

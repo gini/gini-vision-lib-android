@@ -40,6 +40,8 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersItemViewHold
                 return createSectionItemViewHolder(parent);
             case APP:
                 return createAppItemViewHolder(parent);
+            case SEPARATOR:
+                return createSeparatorItemViewHolder(parent);
             default:
                 return null;
         }
@@ -58,6 +60,12 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersItemViewHold
         final View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.gv_item_file_provider_app, parent, false);
         return new ProvidersAppItemViewHolder(itemView);
+    }
+
+    private ProvidersItemViewHolder createSeparatorItemViewHolder(@NonNull final ViewGroup parent) {
+        final View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.gv_item_file_provider_separator, parent, false);
+        return new ProvidersSeparatorItemViewHolder(itemView);
     }
 
     @Override
@@ -120,6 +128,13 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersItemViewHold
         ProvidersSectionItemViewHolder(final View itemView) {
             super(itemView, ProvidersItem.FileProviderItemType.SECTION);
             sectionTitle = itemView.findViewById(R.id.gv_section_title);
+        }
+    }
+
+    private class ProvidersSeparatorItemViewHolder extends ProvidersItemViewHolder {
+
+        ProvidersSeparatorItemViewHolder(final View itemView) {
+            super(itemView, ProvidersItem.FileProviderItemType.SEPARATOR);
         }
     }
 }

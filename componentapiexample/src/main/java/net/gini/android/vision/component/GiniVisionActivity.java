@@ -192,7 +192,7 @@ public class GiniVisionActivity extends Activity
         if (document.isReviewable()) {
             showFragment(getReviewFragment(document), R.string.title_review);
         } else {
-            showFragment(getAnalysisFragment(document), R.string.title_analysis);
+            showFragment(getAnalysisFragment(document));
         }
     }
 
@@ -260,7 +260,7 @@ public class GiniVisionActivity extends Activity
         // analysis didn't complete or
         // the user rotated the image
         getSingleDocumentAnalyzer().removeListener();
-        showFragment(getAnalysisFragment(document), R.string.title_analysis);
+        showFragment(getAnalysisFragment(document));
     }
 
     @Override
@@ -362,6 +362,16 @@ public class GiniVisionActivity extends Activity
                 .replace(R.id.fragment_container, fragment)
                 .commit();
         setTitle(titleRes);
+    }
+
+    public void showFragment(Fragment fragment) {
+        LOG.debug("Showing fragment {} ", fragment.getClass().getSimpleName());
+        mCurrentFragment = fragment;
+        getFragmentManager().beginTransaction()
+                .setCustomAnimations(R.animator.fade_in, R.animator.fade_out)
+                .replace(R.id.fragment_container, fragment)
+                .commit();
+        setTitle("");
     }
 
     public void showOnboarding() {
