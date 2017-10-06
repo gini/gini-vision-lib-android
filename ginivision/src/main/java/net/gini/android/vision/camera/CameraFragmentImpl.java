@@ -42,7 +42,6 @@ import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.GiniVisionDocument;
-import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.camera.api.CameraController;
 import net.gini.android.vision.internal.camera.api.CameraException;
 import net.gini.android.vision.internal.camera.api.CameraInterface;
@@ -568,37 +567,24 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                     DeviceHelper.getDeviceType(activity),
                     "picker");
             LOG.info("Document imported: {}", document);
-            LOG.debug("Loading document data");
-            document.loadData(activity, new AsyncCallback<byte[]>() {
-                @Override
-                public void onSuccess(final byte[] result) {
-                    LOG.debug("Document data loaded");
-                    LOG.debug("Requesting document check from client");
-                    mListener.onCheckImportedDocument(document,
-                            new CameraFragmentListener.DocumentCheckResultCallback() {
-                                @Override
-                                public void documentAccepted() {
-                                    LOG.debug("Client accepted the document");
-                                    hideActivityIndicatorAndEnableInteraction();
-                                    mListener.onDocumentAvailable(document);
-                                }
+            LOG.debug("Requesting document check from client");
+            mListener.onCheckImportedDocument(document,
+                    new CameraFragmentListener.DocumentCheckResultCallback() {
+                        @Override
+                        public void documentAccepted() {
+                            LOG.debug("Client accepted the document");
+                            hideActivityIndicatorAndEnableInteraction();
+                            mListener.onDocumentAvailable(document);
+                        }
 
-                                @Override
-                                public void documentRejected(@NonNull final String messageForUser) {
-                                    LOG.debug("Client rejected the document: {}", messageForUser);
-                                    hideActivityIndicatorAndEnableInteraction();
-                                    showInvalidFileAlert(messageForUser);
-                                }
-                            });
-                }
+                        @Override
+                        public void documentRejected(@NonNull final String messageForUser) {
+                            LOG.debug("Client rejected the document: {}", messageForUser);
+                            hideActivityIndicatorAndEnableInteraction();
+                            showInvalidFileAlert(messageForUser);
+                        }
+                    });
 
-                @Override
-                public void onError(final Exception exception) {
-                    LOG.error("Failed to load document data", exception);
-                    hideActivityIndicatorAndEnableInteraction();
-                    showInvalidFileError(null);
-                }
-            });
         } catch (IllegalArgumentException e) {
             LOG.error("Failed to import selected document", e);
             hideActivityIndicatorAndEnableInteraction();

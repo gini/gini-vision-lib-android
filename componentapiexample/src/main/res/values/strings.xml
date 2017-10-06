@@ -10,6 +10,7 @@
     <string name="menu_item_feedback">Send Feedback</string>
 
     <string name="retry_analysis">Wiederholen</string>
+    <string name="document_size_too_large">Diese Datei ist leider größer als 5MB.</string>
 
     <!-- String customization examples -->
 

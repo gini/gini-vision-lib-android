@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -28,6 +29,8 @@ import net.gini.android.vision.analysis.AnalysisFragmentListener;
 import net.gini.android.vision.analysis.AnalysisFragmentStandard;
 import net.gini.android.vision.camera.CameraFragmentListener;
 import net.gini.android.vision.camera.CameraFragmentStandard;
+import net.gini.android.vision.internal.util.IntentHelper;
+import net.gini.android.vision.internal.util.UriHelper;
 import net.gini.android.vision.noresults.NoResultsFragmentListener;
 import net.gini.android.vision.noresults.NoResultsFragmentStandard;
 import net.gini.android.vision.onboarding.OnboardingFragmentListener;
@@ -249,21 +252,45 @@ public class GiniVisionActivity extends Activity
         }
     }
 
+    // Set to true to allow execution of the custom code check
+    private static final boolean DO_CUSTOM_DOCUMENT_CHECK = false;
+
     @Override
     public void onCheckImportedDocument(@NonNull final Document document,
             @NonNull final DocumentCheckResultCallback callback) {
         // We can apply custom checks here to an imported document and notify the Gini Vision
         // Library about the result
-        // As an example we check the document size and allow documents smaller than 5MB
-        if (document.getData() != null) {
-            if (document.getData().length <= 5 * 1024 * 1024) {
+
+        // As an example we allow only documents smaller than 5MB
+        if (DO_CUSTOM_DOCUMENT_CHECK) {
+            // Use the Intent with which the document was imported to access its contents
+            // (document.getData() may be null)
+            final Intent intent = document.getIntent();
+            if (intent == null) {
+                callback.documentRejected(getString(R.string.gv_document_import_error));
+                return;
+            }
+            final Uri uri = IntentHelper.getUri(intent);
+            if (uri == null) {
+                callback.documentRejected(getString(R.string.gv_document_import_error));
+                return;
+            }
+            // IMPORTANT: always call one of the callback methods
+            if (hasLessThan5MB(callback, uri)) {
                 callback.documentAccepted();
             } else {
-                callback.documentRejected("Diese Datei ist leider größer als 5MB.");
+                callback.documentRejected(getString(R.string.document_size_too_large));
             }
         } else {
-            callback.documentRejected(getString(R.string.gv_document_import_error));
+            // IMPORTANT: always call one of the callback methods
+            callback.documentAccepted();
         }
+    }
+
+    private boolean hasLessThan5MB(final @NonNull DocumentCheckResultCallback callback,
+            final Uri uri) {
+        final int fileSize = UriHelper.getFileSizeFromUri(uri, this);
+        return fileSize <= 5 * 1024 * 1024;
     }
 
     @Override

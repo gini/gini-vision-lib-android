@@ -74,4 +74,29 @@ public final class UriHelper {
         return filename;
     }
 
+    /**
+     * Retrieves the file size of a Uri, if available.
+     *
+     * @param uri     a {@link Uri} pointing to a file
+     * @param context Android context
+     * @return the filename
+     * @throws IllegalStateException if the Uri is not pointing to a file or the filename was not
+     *                               available
+     */
+    public static int getFileSizeFromUri(@NonNull final Uri uri, @NonNull final Context context) {
+        Cursor cursor = null;
+        cursor = context.getContentResolver().query(uri, null, null, null, null);
+        if (cursor == null) {
+            throw new IllegalStateException("Could not retrieve a Cursor for the Uri");
+        }
+        final int nameIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
+        if (nameIndex == -1) {
+            throw new IllegalStateException("File size not available for the Uri");
+        }
+        cursor.moveToFirst();
+        final int fileSize = cursor.getInt(nameIndex);
+        cursor.close();
+        return fileSize;
+    }
+
 }
