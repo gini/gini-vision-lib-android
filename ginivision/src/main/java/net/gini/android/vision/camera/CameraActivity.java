@@ -526,6 +526,12 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         }
     }
 
+    @Override
+    public void onCheckImportedDocument(@NonNull final Document document,
+            @NonNull final DocumentCheckResultCallback callback) {
+        callback.documentAccepted();
+    }
+
     private void startReviewActivity(@NonNull final Document document) {
         final Intent reviewIntent = new Intent(mReviewDocumentActivityIntent);
         reviewIntent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, document);

@@ -129,4 +129,25 @@
         android:layout_height="match_parent"
         android:layout="@layout/gv_layout_camera_no_permission" />
 
+    <View
+        android:id="@+id/gv_activity_indicator_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gv_camera_preview_shade"
+        android:visibility="invisible"
+        tools:visibility="visible" />
+
+    <ProgressBar
+        android:id="@+id/gv_activity_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:indeterminateOnly="true"
+        android:indeterminateTint="@color/gv_analysis_activity_indicator"
+        android:indeterminateTintMode="src_in"
+        android:padding="16dp"
+        android:visibility="invisible"
+        tools:targetApi="lollipop"
+        tools:visibility="visible" />
+
 </RelativeLayout>

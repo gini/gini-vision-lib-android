@@ -20,6 +20,9 @@ public interface CameraFragmentListener {
      */
     void onDocumentAvailable(@NonNull Document document);
 
+    void onCheckImportedDocument(@NonNull Document document,
+            @NonNull DocumentCheckResultCallback callback);
+
     /**
      * <p>
      * Called when an error occurred.
@@ -27,4 +30,9 @@ public interface CameraFragmentListener {
      * @param error details about what went wrong
      */
     void onError(@NonNull GiniVisionError error);
+
+    interface DocumentCheckResultCallback {
+        void documentAccepted();
+        void documentRejected(@NonNull String messageForUser);
+    }
 }

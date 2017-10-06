@@ -36,6 +36,9 @@
                 <data android:mimeType="application/pdf" />
             </intent-filter>
         </activity>
+        <activity android:name="net.gini.android.vision.screen.CameraScreenApiActivity"
+            android:label="@string/gv_title_camera"
+            android:theme="@style/GiniVisionTheme"/>
         <activity
             android:name="net.gini.android.vision.screen.ReviewActivity"
             android:label="@string/gv_title_review"

@@ -33,6 +33,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import net.gini.android.vision.Document;
@@ -40,6 +41,7 @@ import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.DocumentFactory;
+import net.gini.android.vision.document.GiniVisionDocument;
 import net.gini.android.vision.internal.camera.api.CameraController;
 import net.gini.android.vision.internal.camera.api.CameraException;
 import net.gini.android.vision.internal.camera.api.CameraInterface;
@@ -72,6 +74,12 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         }
 
         @Override
+        public void onCheckImportedDocument(@NonNull final Document document,
+                @NonNull final DocumentCheckResultCallback callback) {
+            callback.documentAccepted();
+        }
+
+        @Override
         public void onError(@NonNull GiniVisionError error) {
         }
     };
@@ -98,6 +106,8 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     private View mUploadHintContainer;
     private View mUploadHintContainerArrow;
     private View mCameraPreviewShade;
+    private View mActivityIndicatorBackground;
+    private ProgressBar mActivityIndicator;
 
     private ViewStubSafeInflater mViewStubInflater;
 
@@ -322,6 +332,9 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mUploadHintContainerArrow = view.findViewById(R.id.gv_upload_hint_container_arrow);
         mUploadHintCloseButton = view.findViewById(R.id.gv_upload_hint_button);
         mCameraPreviewShade = view.findViewById(R.id.gv_camera_preview_shade);
+        mActivityIndicatorBackground =
+                view.findViewById(R.id.gv_activity_indicator_background);
+        mActivityIndicator = view.findViewById(R.id.gv_activity_indicator);
     }
 
     private void initViews() {
@@ -547,26 +560,98 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
     private void createDocumentAndCallListener(final Intent data, final Activity activity) {
         try {
-            final Document document = DocumentFactory.newDocumentFromIntent(data,
+            showActivityIndicatorAndDisableInteraction();
+            final GiniVisionDocument document = DocumentFactory.newDocumentFromIntent(data,
                     activity,
                     DeviceHelper.getDeviceOrientation(activity),
                     DeviceHelper.getDeviceType(activity),
                     "picker");
             LOG.info("Document imported: {}", document);
-            mListener.onDocumentAvailable(document);
+            LOG.debug("Requesting document check from client");
+            mListener.onCheckImportedDocument(document,
+                    new CameraFragmentListener.DocumentCheckResultCallback() {
+                        @Override
+                        public void documentAccepted() {
+                            LOG.debug("Client accepted the document");
+                            hideActivityIndicatorAndEnableInteraction();
+                            mListener.onDocumentAvailable(document);
+                        }
+
+                        @Override
+                        public void documentRejected(@NonNull final String messageForUser) {
+                            LOG.debug("Client rejected the document: {}", messageForUser);
+                            hideActivityIndicatorAndEnableInteraction();
+                            showInvalidFileAlert(messageForUser);
+                        }
+                    });
+
         } catch (IllegalArgumentException e) {
             LOG.error("Failed to import selected document", e);
+            hideActivityIndicatorAndEnableInteraction();
             showInvalidFileError(null);
         }
     }
 
+    private void showActivityIndicatorAndDisableInteraction() {
+        if (mActivityIndicator == null
+                || mActivityIndicatorBackground == null) {
+            return;
+        }
+        mActivityIndicatorBackground.setVisibility(View.VISIBLE);
+        mActivityIndicatorBackground.setClickable(true);
+        mActivityIndicator.setVisibility(View.VISIBLE);
+        disableInteraction();
+    }
+
+    private void hideActivityIndicatorAndEnableInteraction() {
+        if (mActivityIndicator == null
+                || mActivityIndicatorBackground == null) {
+            return;
+        }
+        mActivityIndicatorBackground.setVisibility(View.INVISIBLE);
+        mActivityIndicatorBackground.setClickable(false);
+        mActivityIndicator.setVisibility(View.INVISIBLE);
+        enableInteraction();
+    }
+
+    private void enableInteraction() {
+        if (mCameraPreview == null
+                || mButtonImportDocument == null
+                || mButtonCameraTrigger == null) {
+            return;
+        }
+        mCameraPreview.setEnabled(true);
+        mButtonImportDocument.setEnabled(true);
+        mButtonCameraTrigger.setEnabled(true);
+    }
+
+    private void disableInteraction() {
+        if (mCameraPreview == null
+                || mButtonImportDocument == null
+                || mButtonCameraTrigger == null) {
+            return;
+        }
+        mCameraPreview.setEnabled(false);
+        mButtonImportDocument.setEnabled(false);
+        mButtonCameraTrigger.setEnabled(false);
+    }
+
     private void showInvalidFileError(@Nullable final FileImportValidator.Error error) {
         LOG.error("Invalid document {}", error != null ? error.toString() : "");
+        final Activity activity = mFragment
+                .getActivity();
+        if (activity == null) {
+            return;
+        }
         int messageRes = R.string.gv_document_import_invalid_document;
         if (error != null) {
             messageRes = error.getTextResource();
         }
-        mFragment.showAlertDialog(messageRes,
+        showInvalidFileAlert(activity.getString(messageRes));
+    }
+
+    private void showInvalidFileAlert(final String message) {
+        mFragment.showAlertDialog(message,
                 R.string.gv_document_import_pick_another_document,
                 new DialogInterface.OnClickListener() {
                     @Override

@@ -16,9 +16,10 @@ interface CameraFragmentImplCallback extends FragmentImplCallback {
 
     void showAlertDialog(@StringRes final int message,
             @StringRes final int positiveButtonTitle,
-            @NonNull final DialogInterface.OnClickListener positiveButtonClickListener);
+            @NonNull final DialogInterface.OnClickListener positiveButtonClickListener,
+            @StringRes final int negativeButtonTitle);
 
-    void showAlertDialog(@StringRes final int message,
+    void showAlertDialog(@NonNull final String message,
             @StringRes final int positiveButtonTitle,
             @NonNull final DialogInterface.OnClickListener positiveButtonClickListener,
             @StringRes final int negativeButtonTitle);

@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 //            return;
 //        }
 
-        Intent intent = new Intent(this, CameraActivity.class);
+        Intent intent = new Intent(this, CameraScreenApiActivity.class);
 
         // Uncomment to add an extra page to the Onboarding pages
 //        intent.putParcelableArrayListExtra(CameraActivity.EXTRA_IN_ONBOARDING_PAGES, getOnboardingPages());

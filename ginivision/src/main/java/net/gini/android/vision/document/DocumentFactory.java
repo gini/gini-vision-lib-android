@@ -24,7 +24,7 @@ public final class DocumentFactory {
      * @throws IllegalArgumentException if the Intent's data is null or the mime type is unknown
      */
     @NonNull
-    public static Document newDocumentFromIntent(@NonNull final Intent intent,
+    public static GiniVisionDocument newDocumentFromIntent(@NonNull final Intent intent,
             @NonNull final Context context,
             @NonNull final String deviceOrientation,
             @NonNull final String deviceType,
@@ -42,7 +42,7 @@ public final class DocumentFactory {
         throw new IllegalArgumentException("Unknown Intent Uri mime type.");
     }
 
-    public static Document newDocumentFromPhoto(@NonNull final Photo photo) {
+    public static GiniVisionDocument newDocumentFromPhoto(@NonNull final Photo photo) {
         return ImageDocument.fromPhoto(photo);
     }
 }
