@@ -53,29 +53,26 @@
         android:id="@+id/gv_upload_hint_container_arrow"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginTop="-24dp"
         android:scaleType="centerInside"
-        android:layout_below="@+id/gv_button_import_document"
-        android:layout_alignRight="@+id/gv_button_import_document"
-        android:layout_alignEnd="@+id/gv_button_import_document"
-        android:layout_alignLeft="@+id/gv_button_import_document"
-        android:layout_alignStart="@+id/gv_button_import_document"
-        android:src="@drawable/gv_hint_arrow_up"/>
+        android:layout_marginRight="-24dp"
+        android:layout_toLeftOf="@id/gv_button_import_document"
+        android:layout_toStartOf="@id/gv_button_import_document"
+        android:layout_alignTop="@+id/gv_button_import_document"
+        android:layout_alignBottom="@+id/gv_button_import_document"
+        android:src="@drawable/gv_hint_arrow_right"/>
 
     <RelativeLayout
         android:alpha="0"
         tools:alpha="1"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:id="@+id/gv_upload_hint_container"
-        android:layout_marginBottom="32dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginEnd="16dp"
-        android:padding="16dp"
+        android:padding="24dp"
         android:background="@color/gv_upload_hint_background"
         android:layout_width="348dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/gv_upload_hint_container_arrow">
+        android:layout_toLeftOf="@+id/gv_upload_hint_container_arrow"
+        android:layout_toStartOf="@+id/gv_upload_hint_container_arrow"
+        android:layout_alignTop="@+id/gv_upload_hint_container_arrow"
+        android:layout_marginTop="-16dp">
 
         <TextView
             android:layout_alignParentLeft="true"
@@ -86,14 +83,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_toLeftOf="@+id/gv_upload_hint_button"
             android:layout_toStartOf="@+id/gv_upload_hint_button" />
 
         <ImageView
             android:src="@drawable/gv_hint_close"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:padding="8dp"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:id="@+id/gv_upload_hint_button"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"

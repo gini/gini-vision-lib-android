@@ -84,7 +84,7 @@
         android:layout_marginRight="24dp"
         android:alpha="0"
         android:background="@color/gv_upload_hint_background"
-        android:padding="16dp"
+        android:padding="24dp"
         android:visibility="gone"
         tools:alpha="1"
         tools:visibility="visible">
@@ -95,6 +95,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_toLeftOf="@+id/gv_upload_hint_button"
             android:layout_toStartOf="@+id/gv_upload_hint_button"
             android:text="@string/gv_upload_hint_text"
@@ -103,12 +105,11 @@
 
         <ImageView
             android:id="@+id/gv_upload_hint_button"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:padding="8dp"
             android:src="@drawable/gv_hint_close" />
 
     </RelativeLayout>
