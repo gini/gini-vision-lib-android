@@ -584,6 +584,9 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     }
 
     private void hideInterface() {
+        if (mFragment == null) {
+            return;
+        }
         mFragment.hideInterface();
     }
 
