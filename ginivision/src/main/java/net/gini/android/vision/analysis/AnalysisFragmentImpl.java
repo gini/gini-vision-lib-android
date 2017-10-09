@@ -16,7 +16,8 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorCompat;
-import android.support.v4.view.ViewPropertyAnimatorListener;
+import android.support.v4.view.ViewPropertyAnimatorListenerAdapter;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,10 +67,12 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     private final FragmentImplCallback mFragment;
     private int mFragmentHeight;
     private TextView mAnalysisMessageTextView;
+    private ViewPropertyAnimatorCompat mHintHeadlineAnimation;
     private ViewPropertyAnimatorCompat mHintAnimation;
     private View mHintContainer;
     private ImageView mHintImageView;
     private TextView mHintTextView;
+    private TextView mHintHeadlineTextView;
     private List<AnalysisHint> mHints;
     private DocumentRenderer mDocumentRenderer;
     private final GiniVisionDocument mDocument;
@@ -152,6 +155,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         }
         forcePortraitOrientationOnPhones(activity);
         mDocumentRenderer = DocumentRendererFactory.fromDocument(mDocument, activity);
+        mHints = generateRandomHintsList();
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -202,8 +206,6 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     private void showHints() {
-        mHints = generateRandomHintsList();
-
         mHintCycleRunnable = new Runnable() {
             @Override
             public void run() {
@@ -211,7 +213,40 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
                 mHintAnimation.start();
             }
         };
-        mHandler.postDelayed(mHintCycleRunnable, HINT_START_DELAY);
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (TextUtils.isEmpty(mHintHeadlineTextView.getText())) {
+                    mHintHeadlineAnimation = getHintHeadlineSlideDownAnimation();
+                    mHintHeadlineAnimation.start();
+                }
+                mHandler.post(mHintCycleRunnable);
+            }
+        }, HINT_START_DELAY);
+    }
+
+    private ViewPropertyAnimatorCompat getHintHeadlineSlideDownAnimation() {
+        return ViewCompat.animate(mHintHeadlineTextView)
+                .translationY(mFragmentHeight)
+                .setDuration(HINT_ANIMATION_DURATION)
+                .setListener(new ViewPropertyAnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(final View view) {
+                        showHeadlineText();
+                        mHintHeadlineAnimation = getHintHeadlineSlideUpAnimation();
+                        mHintHeadlineAnimation.start();
+                    }
+                });
+    }
+
+    private void showHeadlineText() {
+        mHintHeadlineTextView.setText(R.string.gv_analysis_hint_headline);
+    }
+
+    private ViewPropertyAnimatorCompat getHintHeadlineSlideUpAnimation() {
+        return ViewCompat.animate(mHintHeadlineTextView)
+                .translationY(0)
+                .setDuration(HINT_ANIMATION_DURATION);
     }
 
     @NonNull
@@ -219,20 +254,12 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         return ViewCompat.animate(mHintContainer)
                 .translationY(mFragmentHeight)
                 .setDuration(HINT_ANIMATION_DURATION)
-                .setListener(new ViewPropertyAnimatorListener() {
-                    @Override
-                    public void onAnimationStart(final View view) {
-                    }
-
+                .setListener(new ViewPropertyAnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(final View view) {
                         setNextHint();
                         mHintAnimation = getSlideUpAnimation();
                         mHintAnimation.start();
-                    }
-
-                    @Override
-                    public void onAnimationCancel(final View view) {
                     }
                 });
     }
@@ -242,18 +269,10 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         return ViewCompat.animate(mHintContainer)
                 .translationY(0)
                 .setDuration(HINT_ANIMATION_DURATION)
-                .setListener(new ViewPropertyAnimatorListener() {
-                    @Override
-                    public void onAnimationStart(final View view) {
-                    }
-
+                .setListener(new ViewPropertyAnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(final View view) {
                         mHandler.postDelayed(mHintCycleRunnable, HINT_CYCLE_INTERVAL);
-                    }
-
-                    @Override
-                    public void onAnimationCancel(final View view) {
                     }
                 });
     }
@@ -287,6 +306,11 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
             mHintAnimation.cancel();
             mHintContainer.clearAnimation();
             mHintAnimation.setListener(null);
+        }
+        if (mHintHeadlineAnimation != null) {
+            mHintHeadlineAnimation.cancel();
+            mHintHeadlineTextView.clearAnimation();
+            mHintHeadlineAnimation.setListener(null);
         }
     }
 
@@ -329,14 +353,15 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         mLayoutRoot = view.findViewById(R.id.gv_layout_root);
         mImageDocument = view.findViewById(R.id.gv_image_picture);
         mProgressActivity = view.findViewById(R.id.gv_progress_activity);
-        mHintImageView = view.findViewById(R.id.gv_analyse_hint_image);
-        mHintTextView = view.findViewById(R.id.gv_analyse_hint_text);
-        mHintContainer = view.findViewById(R.id.gv_analyse_hint_container);
+        mHintImageView = view.findViewById(R.id.gv_analysis_hint_image);
+        mHintTextView = view.findViewById(R.id.gv_analysis_hint_text);
+        mHintContainer = view.findViewById(R.id.gv_analysis_hint_container);
         mAnalysisMessageTextView = view.findViewById(R.id.gv_analysis_message);
         mPdfOverlayLayout = view.findViewById(R.id.gv_pdf_info);
         mPdfTitleTextView = view.findViewById(R.id.gv_pdf_filename);
         mPdfPageCountTextView = view.findViewById(R.id.gv_pdf_page_count);
         mAnalysisOverlay = view.findViewById(R.id.gv_analysis_overlay);
+        mHintHeadlineTextView = view.findViewById(R.id.gv_analysis_hint_headline);
     }
 
     private void observeViewTree() {

@@ -82,7 +82,7 @@
 
     <style name="Root.GiniVisionTheme.Analysis.PdfFilename.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">20sp</item>
+        <item name="autoSizeMaxTextSize">20sp</item>
         <item name="autoSizeMinTextSize">14sp</item>
         <item name="android:textColor">@color/gv_analysis_pdf_info_text</item>
         <item name="gvCustomFont"/>
@@ -98,6 +98,19 @@
     <style name="Root.GiniVisionTheme.Analysis.AnalysingMessage" parent="TextAppearance.AppCompat">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/gv_analysis_analysing_message</item>
+        <item name="gvCustomFont"/>
+    </style>
+
+    <style name="Root.GiniVisionTheme.Analysis.HintHeadline" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/gv_analysis_hint_headline</item>
+        <item name="gvCustomFont"/>
+    </style>
+
+    <style name="Root.GiniVisionTheme.Analysis.Hint" parent="TextAppearance.AppCompat">
+        <item name="autoSizeMaxTextSize">16sp</item>
+        <item name="autoSizeMinTextSize">12sp</item>
+        <item name="android:textColor">@color/gv_analysis_hint</item>
         <item name="gvCustomFont"/>
     </style>
 

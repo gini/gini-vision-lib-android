@@ -32,5 +32,15 @@
     <dimen name="gv_analysis_pdf_info_padding">16dp</dimen>
     <dimen name="gv_analysis_pdf_filename_height">24dp</dimen>
     <dimen name="gv_analysis_pdf_page_count_top_margin">4dp</dimen>
+    <dimen name="gv_analysis_hint_headline_bottom_margin">16dp</dimen>
+    <dimen name="gv_analysis_hint_headline_horizontal_margin">16dp</dimen>
+    <dimen name="gv_analysis_hint_container_width">0dp</dimen>
+    <dimen name="gv_analysis_hint_container_height">48dp</dimen>
+    <dimen name="gv_analysis_hint_container_bottom_margin">32dp</dimen>
+    <dimen name="gv_analysis_hint_container_horizontal_margin">16dp</dimen>
+    <dimen name="gv_analysis_hint_icon_size">32dp</dimen>
+    <dimen name="gv_analysis_hint_icon_margin">8dp</dimen>
+    <dimen name="gv_analysis_hint_text_height">48dp</dimen>
+    <dimen name="gv_analysis_hint_text_left_margin">16dp</dimen>
 
 </resources>

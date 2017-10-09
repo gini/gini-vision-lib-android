@@ -55,7 +55,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/gv_document_analysing_message"
-            android:textColor="@color/gv_analysis_message"
             android:visibility="gone"
             tools:visibility="visible" />
 
@@ -103,35 +102,51 @@
             tools:visibility="visible" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/gv_analyse_hint_container"
+    <TextView
+        android:id="@+id/gv_analysis_hint_headline"
+        style="@style/Root.GiniVisionTheme.Analysis.HintHeadline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/gv_analysis_hint_container"
+        android:layout_marginBottom="@dimen/gv_analysis_hint_headline_bottom_margin"
+        android:layout_marginEnd="@dimen/gv_analysis_hint_headline_horizontal_margin"
+        android:layout_marginLeft="@dimen/gv_analysis_hint_headline_horizontal_margin"
+        android:layout_marginRight="@dimen/gv_analysis_hint_headline_horizontal_margin"
+        android:layout_marginStart="@dimen/gv_analysis_hint_headline_horizontal_margin"
+        android:gravity="center_horizontal"
+        tools:text="Um schneller Ergebnisse zu erhalten, bitte:" />
+
+    <LinearLayout
+        android:id="@+id/gv_analysis_hint_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/gv_analysis_hint_container_height"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="48dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="16dp"
-        android:paddingEnd="0dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="0dp"
-        android:paddingStart="16dp">
+        android:layout_marginBottom="@dimen/gv_analysis_hint_container_bottom_margin"
+        android:layout_marginEnd="@dimen/gv_analysis_hint_container_horizontal_margin"
+        android:layout_marginLeft="@dimen/gv_analysis_hint_container_horizontal_margin"
+        android:layout_marginRight="@dimen/gv_analysis_hint_container_horizontal_margin"
+        android:layout_marginStart="@dimen/gv_analysis_hint_container_horizontal_margin">
 
         <ImageView
-            android:id="@+id/gv_analyse_hint_image"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            tools:src="@drawable/gv_icon_onboarding" />
+            android:id="@+id/gv_analysis_hint_image"
+            android:layout_width="@dimen/gv_analysis_hint_icon_size"
+            android:layout_height="@dimen/gv_analysis_hint_icon_size"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="@dimen/gv_analysis_hint_icon_margin"
+            tools:src="@drawable/gv_hint_icon" />
 
         <TextView
-            android:id="@+id/gv_analyse_hint_text"
+            android:id="@+id/gv_analysis_hint_text"
+            style="@style/Root.GiniVisionTheme.Analysis.Hint"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/gv_analysis_hint_text_height"
             android:layout_gravity="center"
-            android:layout_marginLeft="16dp"
-            android:layout_marginStart="16dp"
-            android:textColor="@color/gv_analysis_message"
+            android:layout_marginLeft="@dimen/gv_analysis_hint_text_left_margin"
+            android:layout_marginStart="@dimen/gv_analysis_hint_text_left_margin"
+            android:gravity="center_vertical"
+            app:autoSizeStepGranularity="1sp"
+            app:autoSizeTextType="uniform"
             tools:text="Gute Lichtverhältnisse beim Aufnehmen des Fotos beschleunigen die Analyse." />
+
     </LinearLayout>
 </RelativeLayout>
