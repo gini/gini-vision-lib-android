@@ -118,9 +118,10 @@
 
     <LinearLayout
         android:id="@+id/gv_analysis_hint_container"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/gv_analysis_hint_container_height"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/gv_analysis_hint_container_bottom_margin"
         android:layout_marginEnd="@dimen/gv_analysis_hint_container_horizontal_margin"
         android:layout_marginLeft="@dimen/gv_analysis_hint_container_horizontal_margin"
@@ -138,14 +139,12 @@
         <TextView
             android:id="@+id/gv_analysis_hint_text"
             style="@style/Root.GiniVisionTheme.Analysis.Hint.TextStyle"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/gv_analysis_hint_text_height"
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/gv_analysis_hint_text_left_margin"
             android:layout_marginStart="@dimen/gv_analysis_hint_text_left_margin"
             android:gravity="center_vertical"
-            app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
             tools:text="Gute Lichtverhältnisse beim Aufnehmen des Fotos beschleunigen die Analyse." />
 
     </LinearLayout>
