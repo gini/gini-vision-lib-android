@@ -60,16 +60,14 @@
 
     <ImageView
         android:id="@+id/gv_upload_hint_container_arrow"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/gv_button_import_document"
         android:layout_alignEnd="@+id/gv_button_import_document"
         android:layout_alignLeft="@+id/gv_button_import_document"
         android:layout_alignRight="@+id/gv_button_import_document"
         android:layout_alignStart="@+id/gv_button_import_document"
-        android:layout_marginBottom="-24dp"
         android:alpha="0"
-        android:scaleType="center"
         android:src="@drawable/gv_hint_arrow_down"
         android:visibility="gone"
         tools:alpha="1"
