@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gv_layout_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/gv_layout_root"
     tools:context="net.gini.android.vision.internal.fileimport.FileChooserActivity">
 
     <Space
@@ -16,8 +15,8 @@
         android:id="@+id/gv_file_providers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/gv_space"
         android:background="@android:color/white"
-        android:minHeight="180dp"
-        android:layout_below="@id/gv_space"/>
+        android:minHeight="180dp" />
 
 </RelativeLayout>

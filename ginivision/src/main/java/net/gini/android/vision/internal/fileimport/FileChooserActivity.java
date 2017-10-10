@@ -21,6 +21,7 @@ import android.support.transition.TransitionManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.RelativeLayout;
 
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
@@ -77,6 +78,7 @@ public class FileChooserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gv_activity_file_chooser);
         bindViews();
+        setInputHandlers();
         readExtras();
         setupFileProvidersView();
         overridePendingTransition(0, 0);
@@ -85,6 +87,26 @@ public class FileChooserActivity extends AppCompatActivity {
     private void bindViews() {
         mLayoutRoot = findViewById(R.id.gv_layout_root);
         mFileProvidersView = findViewById(R.id.gv_file_providers);
+    }
+
+    private void setInputHandlers() {
+        mLayoutRoot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View view) {
+                if (mFileProvidersView == null) {
+                    return;
+                }
+                final Object isShown = mFileProvidersView.getTag();
+                if (isShown != null && (boolean) isShown) {
+                    hideFileProviders(new TransitionListenerAdapter() {
+                        @Override
+                        public void onTransitionEnd(@NonNull final Transition transition) {
+                            finish();
+                        }
+                    });
+                }
+            }
+        });
     }
 
     private void readExtras() {
@@ -126,6 +148,7 @@ public class FileChooserActivity extends AppCompatActivity {
                 layoutParams.addRule(RelativeLayout.BELOW);
                 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
                 mFileProvidersView.setLayoutParams(layoutParams);
+                mFileProvidersView.setTag(true);
             }
         }, SHOW_ANIM_DELAY);
     }
@@ -153,6 +176,7 @@ public class FileChooserActivity extends AppCompatActivity {
         layoutParams.addRule(RelativeLayout.BELOW, R.id.gv_space);
         layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         mFileProvidersView.setLayoutParams(layoutParams);
+        mFileProvidersView.setTag(false);
     }
 
     @Override
