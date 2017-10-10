@@ -13,15 +13,15 @@
         android:layout_centerInParent="true" />
 
     <View
-        android:layout_alignTop="@id/gv_camera_preview"
-        android:layout_alignBottom="@id/gv_camera_preview"
-        android:layout_alignRight="@id/gv_camera_preview"
-        android:layout_alignEnd="@id/gv_camera_preview"
-        android:layout_alignLeft="@id/gv_camera_preview"
-        android:layout_alignStart="@id/gv_camera_preview"
         android:id="@+id/gv_camera_preview_shade"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignBottom="@id/gv_camera_preview"
+        android:layout_alignEnd="@id/gv_camera_preview"
+        android:layout_alignLeft="@id/gv_camera_preview"
+        android:layout_alignRight="@id/gv_camera_preview"
+        android:layout_alignStart="@id/gv_camera_preview"
+        android:layout_alignTop="@id/gv_camera_preview"
         android:alpha="0"
         android:background="@color/gv_camera_preview_shade"
         android:visibility="gone"
@@ -41,10 +41,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignBottom="@+id/gv_camera_preview"
+        android:layout_alignEnd="@id/gv_camera_preview"
         android:layout_alignLeft="@id/gv_camera_preview"
         android:layout_alignRight="@id/gv_camera_preview"
         android:layout_alignStart="@id/gv_camera_preview"
-        android:layout_alignEnd="@id/gv_camera_preview"
         android:layout_alignTop="@+id/gv_camera_preview" />
 
     <ImageButton
@@ -58,53 +58,54 @@
         android:src="@drawable/gv_camera_trigger" />
 
     <ImageView
-        android:alpha="0"
-        tools:alpha="1"
         android:id="@+id/gv_upload_hint_container_arrow"
         android:layout_width="wrap_content"
-        android:layout_height="24dp"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/gv_button_import_document"
-        android:layout_alignRight="@+id/gv_button_import_document"
         android:layout_alignEnd="@+id/gv_button_import_document"
         android:layout_alignLeft="@+id/gv_button_import_document"
+        android:layout_alignRight="@+id/gv_button_import_document"
         android:layout_alignStart="@+id/gv_button_import_document"
-        android:src="@drawable/gv_hint_arrow_down"/>
+        android:alpha="0"
+        android:src="@drawable/gv_hint_arrow_down"
+        android:tint="@color/gv_camera_upload_hint_background"
+        tools:alpha="1" />
 
     <RelativeLayout
-        android:alpha="0"
-        tools:alpha="1"
-        android:layout_marginLeft="136dp"
-        android:layout_marginRight="136dp"
         android:id="@+id/gv_upload_hint_container"
-        android:padding="24dp"
-        android:background="@color/gv_upload_hint_background"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/gv_upload_hint_container_arrow">
+        android:layout_above="@+id/gv_upload_hint_container_arrow"
+        android:layout_marginLeft="@dimen/gv_camera_upload_hint_container_horizontal_margin"
+        android:layout_marginRight="@dimen/gv_camera_upload_hint_container_horizontal_margin"
+        android:alpha="0"
+        android:background="@color/gv_camera_upload_hint_background"
+        android:padding="@dimen/gv_camera_upload_hint_container_padding"
+        tools:alpha="1">
 
         <TextView
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:textSize="14sp"
-            android:textColor="@color/gv_upload_hint_text"
-            android:text="@string/gv_upload_hint_text"
+            style="@style/Root.GiniVisionTheme.Camera.UploadHint.TextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginRight="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_toLeftOf="@+id/gv_upload_hint_button"
-            android:layout_toStartOf="@+id/gv_upload_hint_button" />
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/gv_camera_upload_hint_text_right_margin"
+            android:layout_marginRight="@dimen/gv_camera_upload_hint_text_right_margin"
+            android:layout_toLeftOf="@+id/gv_upload_hint_close_button"
+            android:layout_toStartOf="@+id/gv_upload_hint_close_button"
+            android:text="@string/gv_upload_hint_text" />
 
         <ImageView
-            android:src="@drawable/gv_hint_close"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:id="@+id/gv_upload_hint_button"
-            android:layout_centerVertical="true"
+            android:id="@+id/gv_upload_hint_close_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_centerVertical="true"
+            android:src="@drawable/gv_hint_close"
+            android:tint="@color/gv_hint_close" />
 
     </RelativeLayout>
 
@@ -120,7 +121,7 @@
         android:scaleType="centerInside"
         android:src="@drawable/gv_upload_icon"
         android:visibility="gone"
-        tools:visibility="visible"/>
+        tools:visibility="visible" />
 
     <ViewStub
         android:id="@+id/gv_stub_camera_no_permission"

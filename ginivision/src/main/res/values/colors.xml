@@ -15,6 +15,9 @@
     <color name="gv_camera_error_no_permission_button_title">#fff</color>
     <color name="gv_camera_error_no_permission_button_title_pressed">#ddd</color>
 
+    <color name="gv_camera_upload_hint_background">#ffffff</color>
+    <color name="gv_camera_upload_hint_text">#000000</color>
+
     <color name="gv_onboarding_activity_background">@android:color/transparent</color>
     <color name="gv_onboarding_fragment_background">@android:color/transparent</color>
     <color name="gv_onboarding_page_fragment_background">@color/gv_background</color>
@@ -54,8 +57,8 @@
 
     <color name="gv_noresults_activity_background">@android:color/transparent</color>
     <color name="gv_noresults_fragment_background">#ffffff</color>
-    <color name="gv_upload_hint_text">#000000</color>
-    <color name="gv_upload_hint_background">#ffffff</color>
+
     <color name="gv_file_provider_separator">#d8d8d8</color>
+    <color name="gv_hint_close">#afb2b3</color>
 
 </resources>

@@ -52,6 +52,12 @@
         <item name="gvCustomFont"/>
     </style>
 
+    <style name="Root.GiniVisionTheme.Camera.UploadHint.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gv_camera_upload_hint_text</item>
+        <item name="gvCustomFont"/>
+    </style>
+
     <style name="Root.GiniVisionTheme.Review.BottomPanel.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">14sp</item>
@@ -95,19 +101,19 @@
         <item name="gvCustomFont"/>
     </style>
 
-    <style name="Root.GiniVisionTheme.Analysis.AnalysingMessage" parent="TextAppearance.AppCompat">
+    <style name="Root.GiniVisionTheme.Analysis.AnalysingMessage.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/gv_analysis_analysing_message</item>
         <item name="gvCustomFont"/>
     </style>
 
-    <style name="Root.GiniVisionTheme.Analysis.HintHeadline" parent="TextAppearance.AppCompat">
+    <style name="Root.GiniVisionTheme.Analysis.HintHeadline.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/gv_analysis_hint_headline</item>
         <item name="gvCustomFont"/>
     </style>
 
-    <style name="Root.GiniVisionTheme.Analysis.Hint" parent="TextAppearance.AppCompat">
+    <style name="Root.GiniVisionTheme.Analysis.Hint.TextStyle" parent="TextAppearance.AppCompat">
         <item name="autoSizeMaxTextSize">16sp</item>
         <item name="autoSizeMinTextSize">12sp</item>
         <item name="android:textColor">@color/gv_analysis_hint</item>

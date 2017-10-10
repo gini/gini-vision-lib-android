@@ -330,7 +330,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mButtonImportDocument = view.findViewById(R.id.gv_button_import_document);
         mUploadHintContainer = view.findViewById(R.id.gv_upload_hint_container);
         mUploadHintContainerArrow = view.findViewById(R.id.gv_upload_hint_container_arrow);
-        mUploadHintCloseButton = view.findViewById(R.id.gv_upload_hint_button);
+        mUploadHintCloseButton = view.findViewById(R.id.gv_upload_hint_close_button);
         mCameraPreviewShade = view.findViewById(R.id.gv_camera_preview_shade);
         mActivityIndicatorBackground =
                 view.findViewById(R.id.gv_activity_indicator_background);
