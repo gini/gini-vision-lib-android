@@ -21,10 +21,16 @@ public class ReviewActivity extends net.gini.android.vision.review.ReviewActivit
 
     private SingleDocumentAnalyzer mSingleDocumentAnalyzer;
 
+    private SingleDocumentAnalyzer getSingleDocumentAnalyzer() {
+        if (mSingleDocumentAnalyzer == null) {
+            mSingleDocumentAnalyzer = ((ScreenApiApp) getApplication()).getSingleDocumentAnalyzer();
+        }
+        return mSingleDocumentAnalyzer;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSingleDocumentAnalyzer = ((ScreenApiApp) getApplication()).getSingleDocumentAnalyzer();
     }
 
     @Override
@@ -68,12 +74,12 @@ public class ReviewActivity extends net.gini.android.vision.review.ReviewActivit
         super.onDocumentWasRotated(document, oldRotation, newRotation);
         LOG.debug("Document was rotated");
         // We need to cancel the analysis here, we will have to upload the rotated document in the Analysis Screen
-        mSingleDocumentAnalyzer.cancelAnalysis();
+        getSingleDocumentAnalyzer().cancelAnalysis();
     }
 
     private void analyzeDocument(Document document) {
-        mSingleDocumentAnalyzer.cancelAnalysis();
-        mSingleDocumentAnalyzer.analyzeDocument(document, new SingleDocumentAnalyzer.DocumentAnalysisListener() {
+        getSingleDocumentAnalyzer().cancelAnalysis();
+        getSingleDocumentAnalyzer().analyzeDocument(document, new SingleDocumentAnalyzer.DocumentAnalysisListener() {
             @Override
             public void onExtractionsReceived(Map<String, SpecificExtraction> extractions) {
                 mExtractions = extractions;
@@ -102,7 +108,7 @@ public class ReviewActivity extends net.gini.android.vision.review.ReviewActivit
         // As the library will go to the Analysis Screen we should only remove the listener.
         // We should not cancel the analysis here as we don't know, if we proceed because the analysis didn't complete or
         // the user rotated the image
-        mSingleDocumentAnalyzer.removeListener();
+        getSingleDocumentAnalyzer().removeListener();
         super.onProceedToAnalysisScreen(document);
     }
 
@@ -112,7 +118,7 @@ public class ReviewActivity extends net.gini.android.vision.review.ReviewActivit
         LOG.debug("Back pressed");
         // Cancel the analysis here, this method is called when the user presses back button or the up button in the
         // ActionBar
-        mSingleDocumentAnalyzer.cancelAnalysis();
+        getSingleDocumentAnalyzer().cancelAnalysis();
     }
 }
 

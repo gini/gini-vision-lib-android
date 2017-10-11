@@ -4,6 +4,7 @@ This document describes the release process for a new version of the Gini Vision
 
 1. Add new features only in separate `feature` branches and merge them into `develop`
 2. Create a `release` branch from `develop`
+  * Update the version in gradle.properties
   * Add entry to the changelog with version and date
   * Update the version in the README.md
 3. Push the `release` branch and wait for the Jenkins build to finish

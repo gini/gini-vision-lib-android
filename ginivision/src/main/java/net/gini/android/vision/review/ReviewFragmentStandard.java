@@ -83,12 +83,18 @@ public class ReviewFragmentStandard extends Fragment implements FragmentImplCall
     }
 
     /**
-     *
+     * @exclude
      */
     @Override
     public void onStop() {
         super.onStop();
         mFragmentImpl.onStop();
+    }
+
+    @Override
+    public void onSaveInstanceState(final Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mFragmentImpl.onSaveInstanceState(outState);
     }
 
     /**

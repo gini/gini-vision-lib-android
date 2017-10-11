@@ -7,7 +7,7 @@ import android.view.SurfaceHolder;
 import android.view.View;
 
 import net.gini.android.vision.internal.camera.photo.Photo;
-import net.gini.android.vision.internal.camera.photo.Size;
+import net.gini.android.vision.internal.util.Size;
 
 import jersey.repackaged.jsr166e.CompletableFuture;
 
@@ -123,6 +123,16 @@ public interface CameraInterface {
      */
     @NonNull
     Size getPreviewSize();
+
+    /**
+     * <p>
+     *     The selected preview size for the camera rotated to match the camera orientation.
+     *     It is the largest preview size which has an aspect ratio of 4:3.
+     * </p>
+     * @return preview size
+     */
+    @NonNull
+    Size getPreviewSizeForDisplay();
 
     /**
      *<p>

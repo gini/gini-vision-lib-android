@@ -1,58 +1,37 @@
 package net.gini.android.vision;
 
-import android.os.Parcel;
+import android.content.Intent;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
-
-import net.gini.android.vision.internal.camera.photo.ImageCache;
-import net.gini.android.vision.internal.camera.photo.Photo;
+import android.support.annotation.Nullable;
 
 
 /**
- * <p>
- * This class is the container for transferring the image of a document as a JPEG between the client application and
- * the
+ * This class is the container for transferring documents between the client application and the
  * Gini Vision Library and between the Fragments of the Gini Vision Library.
- * </p>
- *
  * <p>
- * Due to the size limitations of the {@link android.os.Bundle}, the JPEG has to be stored in a memory cache when
- * parceling and read from the cache when unparceling.
- * </p>
- *
+ * Due to the size limitations of the {@link android.os.Bundle}, the document data byte array has to
+ * be stored in a memory cache when parceling and read from the cache when unparceling.
  * <p>
- * <b>Warning:</b> Always retrieve the {@link Document} extras from a Bundle to force unparceling and removing of the
- * reference to
- * the JPEG byte array from the memory cache. Failing to do so will lead to memory leaks.
- * </p>
+ * <b>Warning:</b> Always retrieve the {@link Document} extras from a Bundle to force unparceling
+ * and removing of the reference to the byte array from the memory cache. Failing to do so will lead
+ * to memory leaks.
  */
-public class Document implements Parcelable {
-
-    private final byte[] mJpeg;
-    private final int mRotationForDisplay;
+public interface Document extends Parcelable {
 
     /**
-     * @exclude
-     */
-    public static Document fromPhoto(@NonNull Photo photo) {
-        return new Document(photo.getJpeg(), photo.getRotationForDisplay());
-    }
-
-    private Document(@NonNull byte[] jpeg, int rotationForDisplay) {
-        mJpeg = jpeg;
-        mRotationForDisplay = rotationForDisplay;
-    }
-
-    /**
-     * <p>
      * The image of a document as a JPEG.
-     *</p>
+     *
      * @return a byte array containg a JPEG
+     * @deprecated Use {@link Document#getData()} instead. This method might return a byte array
+     * containing other types, like PDFs.
+     * <p>
+     * To check if the byte array contains an image query the type with {@link Document#getType()}
+     * and check if it equals {@link Document.Type#IMAGE}.
      */
+    @Deprecated
     @NonNull
-    public byte[] getJpeg() {
-        return mJpeg;
-    }
+    byte[] getJpeg();
 
     /**
      * <p>
@@ -61,64 +40,80 @@ public class Document implements Parcelable {
      * <p>
      * Degrees are positive and multiples of 90.
      * </p>
+     *
      * @return degrees by which the image should be rotated clockwise before displaying
+     * @deprecated Use
+     * {@link net.gini.android.vision.document.ImageDocument#getRotationForDisplay()}
+     * instead, if {@link Document#getType()} equals {@link Document.Type#IMAGE}.
      */
-    public int getRotationForDisplay() {
-        return mRotationForDisplay;
-    }
+    @Deprecated
+    int getRotationForDisplay();
 
     /**
-     * @exclude
+     * Get the concrete document type.
+     *
+     * @return the document type
      */
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        ImageCache cache = ImageCache.getInstance();
-
-        ImageCache.Token token = cache.storeJpeg(mJpeg);
-        dest.writeParcelable(token, flags);
-
-        dest.writeInt(mRotationForDisplay);
-    }
+    Type getType();
 
     /**
-     * @exclude
+     * <p>
+     * The contents of a document, if the document was loaded into memory.
+     * </p>
+     * <p>
+     *     For photos captured with the camera this is never null.
+     * </p>
+     * <p>
+     *     If {@link Document#isImported()} is {@code true} then this might be null. If it's null you can use {@link Document#getIntent()} and access the contents using the Intent.
+     * </p>
+     *
+     * @return a byte array containing one of the supported document types
      */
-    @Override
-    public int describeContents() {
-        return 0;
-    }
+    @Nullable
+    byte[] getData();
 
     /**
-     * @exclude
+     * <p>
+     * The {@link Intent} with which the imported document was received.
+     * </p>
+     *
+     * @return the {@link Intent} of the imported document
      */
-    public static final Creator<Document> CREATOR = new Creator<Document>() {
-        @Override
-        public Document createFromParcel(Parcel in) {
-            return new Document(in);
-        }
+    @Nullable
+    Intent getIntent();
 
-        @Override
-        public Document[] newArray(int size) {
-            return new Document[size];
-        }
-    };
+    /**
+     * <p> Document is imported if it was picked from another app from the Camera Screen's document
+     * upload button or if a file was passed to the Gini Vision Library through the client
+     * application from another app. </p>
+     *
+     * @return {@code true} if the document was imported
+     */
+    boolean isImported();
 
-    private Document(Parcel in) {
-        ImageCache cache = ImageCache.getInstance();
+    /**
+     * <p>
+     * Documents like PDFs are not reviewable and can be passed directly to the Analysis Screen.
+     * Reviewable documents have to be shown in the Review Screen first before passing it on to the
+     * Analysis Screen.
+     * </p>
+     *
+     * @return {@code true} if the document can be reviewed in the Review Screen otherwise the
+     * document has to be passed directly to the Analysis Screen
+     */
+    boolean isReviewable();
 
-        ImageCache.Token token = in.readParcelable(ImageCache.Token.class.getClassLoader());
-        mJpeg = cache.getJpeg(token);
-        cache.removeJpeg(token);
-
-        mRotationForDisplay = in.readInt();
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("Document{");
-        sb.append("mJpeg=[bytes]");
-        sb.append(", mRotationForDisplay=").append(mRotationForDisplay);
-        sb.append('}');
-        return sb.toString();
+    /**
+     * Supported document types.
+     */
+    enum Type {
+        /**
+         * The document is an image of type jpeg, png or gif.
+         */
+        IMAGE,
+        /**
+         * The document is a PDF.
+         */
+        PDF
     }
 }

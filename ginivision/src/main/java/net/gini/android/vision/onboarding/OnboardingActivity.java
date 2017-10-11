@@ -47,7 +47,7 @@ import java.util.ArrayList;
  *             <b>Onboarding message color:</b> via the color resource named {@code gv_onboarding_message}
  *         </li>
  *         <li>
- *             <b>Onboarding message font:</b> via overriding the style named {@code GiniVisionTheme.Onboarding.Message.TextStyle} and setting an item named {@code font} with the path to the font file in your {@code assets} folder
+ *             <b>Onboarding message font:</b> via overriding the style named {@code GiniVisionTheme.Onboarding.Message.TextStyle} and setting an item named {@code gvCustomFont} with the path to the font file in your {@code assets} folder
  *         </li>
  *         <li>
  *             <b>Onboarding message text style:</b> via overriding the style named {@code GiniVisionTheme.Onboarding.Message.TextStyle} and setting an item named {@code android:textStyle} to {@code normal}, {@code bold} or {@code italic}
@@ -59,16 +59,25 @@ import java.util.ArrayList;
  *             <b>First page image:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_onboarding_flat.png}
  *         </li>
  *         <li>
+ *             <b>First page image for tablets:</b> via images for sw600dp-mdpi, sw600dp-hdpi, sw600dp-xhdpi, sw600dp-xxhdpi, sw600dp-xxxhdpi named {@code gv_onboarding_flat.png}
+ *         </li>
+ *         <li>
  *             <b>First page text:</b> via the string resource named {@code gv_onboarding_flat}
  *         </li>
  *         <li>
  *             <b>Second page image:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_onboarding_parallel.png}
  *         </li>
  *         <li>
+ *             <b>Second page image for tablets:</b> via images for sw600dp-mdpi, sw600dp-hdpi, sw600dp-xhdpi, sw600dp-xxhdpi, sw600dp-xxxhdpi named {@code gv_onboarding_parallel.png}
+ *         </li>
+ *         <li>
  *             <b>Second page text:</b> via the string resource named {@code gv_onboarding_parallel}
  *         </li>
  *         <li>
  *             <b>Third page image:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_onboarding_align.png}
+ *         </li>
+ *         <li>
+ *             <b>Third page image for tablets:</b> via images for sw600dp-mdpi, sw600dp-hdpi, sw600dp-xhdpi, sw600dp-xxhdpi, sw600dp-xxxhdpi named {@code gv_onboarding_align.png}
  *         </li>
  *         <li>
  *             <b>Third page text:</b> via the string resource named {@code gv_onboarding_align}

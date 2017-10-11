@@ -1,13 +1,20 @@
 package net.gini.android.vision.test;
 
+import android.app.Instrumentation;
 import android.content.res.AssetManager;
+import android.os.Build;
 import android.os.Looper;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.os.RemoteException;
+import android.support.annotation.NonNull;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.uiautomator.UiDevice;
 
 import net.gini.android.vision.Document;
-import net.gini.android.vision.internal.camera.photo.Photo;
+import net.gini.android.vision.document.DocumentFactory;
+import net.gini.android.vision.internal.camera.photo.PhotoFactory;
+import net.gini.android.vision.internal.util.ContextHelper;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -63,8 +70,28 @@ public class Helpers {
         return bytes;
     }
 
-    public static Document createDocument(byte[] jpeg, int orientation) {
-        return Document.fromPhoto(Photo.fromJpeg(jpeg, orientation));
+    public static Document createDocument(byte[] jpeg, int orientation, String deviceOrientation,
+            String deviceType, String source) {
+        return DocumentFactory.newDocumentFromPhoto(
+                PhotoFactory.newPhotoFromJpeg(jpeg, orientation, deviceOrientation, deviceType, source));
+    }
+
+    public static boolean isTablet() {
+        final Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
+        return ContextHelper.isTablet(instrumentation.getTargetContext());
+    }
+
+    public static void resetDeviceOrientation() throws RemoteException {
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            final UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+            uiDevice.setOrientationNatural();
+            waitForWindowUpdate(uiDevice);
+            uiDevice.unfreezeRotation();
+        }
+    }
+
+    public static void waitForWindowUpdate(@NonNull final UiDevice uiDevice) {
+        uiDevice.waitForWindowUpdate(BuildConfig.APPLICATION_ID, 5000);
     }
 
 }

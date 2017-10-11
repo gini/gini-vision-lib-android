@@ -13,12 +13,11 @@
         android:name="android.support.multidex.MultiDexApplication"
         android:largeHeap="true">
         <activity
-            android:name="net.gini.android.vision.review.ReviewActivityTestStub"
+            android:name="net.gini.android.vision.review.ReviewActivityTestSpy"
             android:label="@string/gv_title_review"
             android:theme="@style/GiniVisionTheme" />
         <activity
-            android:name="net.gini.android.vision.analysis.AnalysisActivityTestStub"
-            android:label="@string/gv_title_analysis"
+            android:name="net.gini.android.vision.analysis.AnalysisActivityTestSpy"
             android:theme="@style/GiniVisionTheme" />
         <activity
             android:name="net.gini.android.vision.internal.ui.ErrorSnackbarTestActivity"

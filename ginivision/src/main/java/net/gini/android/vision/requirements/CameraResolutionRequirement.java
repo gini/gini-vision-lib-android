@@ -4,7 +4,7 @@ import android.hardware.Camera;
 import android.support.annotation.NonNull;
 
 import net.gini.android.vision.internal.camera.api.SizeSelectionHelper;
-import net.gini.android.vision.internal.camera.photo.Size;
+import net.gini.android.vision.internal.util.Size;
 
 import java.util.Locale;
 

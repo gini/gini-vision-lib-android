@@ -2,6 +2,7 @@
 <resources>
     <color name="gv_action_bar">#009edc</color>
     <color name="gv_status_bar">#000</color>
+    <color name="gv_accent">#009edc</color>
 
     <color name="gv_action_bar_title">#fff</color>
 
@@ -10,13 +11,20 @@
     <color name="gv_camera_activity_background">@android:color/transparent</color>
     <color name="gv_camera_fragment_background">@color/gv_background</color>
 
+    <color name="gv_camera_preview_corners">#ffffff</color>
+
     <color name="gv_camera_error_no_permission_text">#fff</color>
     <color name="gv_camera_error_no_permission_button_title">#fff</color>
     <color name="gv_camera_error_no_permission_button_title_pressed">#ddd</color>
 
+    <color name="gv_document_import_hint_background">#ffffff</color>
+    <color name="gv_document_import_hint_text">#000000</color>
+
     <color name="gv_onboarding_activity_background">@android:color/transparent</color>
     <color name="gv_onboarding_fragment_background">@android:color/transparent</color>
     <color name="gv_onboarding_page_fragment_background">@color/gv_background</color>
+
+    <color name="gv_camera_preview_shade">#aa000000</color>
     
     <color name="gv_onboarding_fab">#009edc</color>
     <color name="gv_onboarding_fab_pressed">#0095cf</color>
@@ -36,11 +44,23 @@
 
     <color name="gv_analysis_activity_background">@android:color/transparent</color>
     <color name="gv_analysis_fragment_background">@color/gv_background</color>
-    <color name="gv_analysis_activity_indicator">#E30B5D</color>
+    <color name="gv_analysis_activity_indicator">#0095cf</color>
+    <color name="gv_analysis_overlay">#b2000000</color>
+    <color name="gv_analysis_pdf_info_background">#007C99</color>
+    <color name="gv_analysis_pdf_info_text">#ffffff</color>
+    <color name="gv_analysis_analysing_message">#ffffff</color>
+    <color name="gv_analysis_hint_headline">#ffffff</color>
+    <color name="gv_analysis_hint">#ffffff</color>
 
     <color name="gv_snackbar_error_text">#85000a</color>
     <color name="gv_snackbar_error_button_title">#fff</color>
     <color name="gv_snackbar_error_button_title_pressed">#f7f7f7</color>
     <color name="gv_snackbar_error_background">#ff1744</color>
+
+    <color name="gv_noresults_activity_background">@android:color/transparent</color>
+    <color name="gv_noresults_fragment_background">#ffffff</color>
+
+    <color name="gv_file_provider_separator">#d8d8d8</color>
+    <color name="gv_hint_close">#afb2b3</color>
 
 </resources>

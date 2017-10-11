@@ -7,14 +7,20 @@
             android:name=".camera.CameraActivity"
             android:exported="false"
             android:label="@string/gv_title_camera"
-            android:screenOrientation="portrait"
+            android:theme="@style/GiniVisionTheme" />
+        <activity
+            android:name=".noresults.NoResultsActivity"
+            android:exported="false"
+            android:label="@string/gv_title_noresults"
             android:theme="@style/GiniVisionTheme" />
         <activity
             android:name=".onboarding.OnboardingActivity"
             android:exported="false"
             android:label="@string/gv_title_onboarding"
-            android:screenOrientation="portrait"
             android:theme="@style/GiniVisionTheme.Transparent" />
+        <activity android:name=".internal.fileimport.FileChooserActivity"
+            android:exported="false"
+            android:theme="@style/GiniVisionTheme.Chooser" />
     </application>
 
 </manifest>

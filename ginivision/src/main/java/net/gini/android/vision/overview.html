@@ -6,26 +6,43 @@
 <body>
 
 <p>
-    The Gini Vision Library for Android provides Activities and Fragments for capturing, reviewing and analyzing photos of invoices and remittance slips.
+    The Gini Vision Library for Android provides Activities and Fragments for capturing, reviewing
+    and analyzing photos, images and pdfs of invoices and remittance slips.
 </p>
 <p>
-    By integrating this library in your application you can allow your users to easily take a picture of a document, review it and - by implementing the necessary callbacks - upload the document to the Gini API for analysis .
+    By integrating this library in your application you can allow your users to easily take a
+    picture of a document, review it and - by implementing the necessary callbacks - upload the
+    document to the Gini API for analysis .
 </p>
 <p>
-    Communication with the Gini API is not part of this library. You can either use the Gini API SDK for Android or implement communication with the Gini API yourself.
+    Communication with the Gini API is not part of this library. You can either use the Gini API SDK
+    for Android or implement communication with the Gini API yourself.
 </p>
 <p>
-    The Gini Vision Library for Android can be integrated in two ways, either by using the Screen API or the Component API. The Screen API provides Activities for easy integration that can be customized in a limited way. The screen and configuration design is based on our long-lasting experience with integration in customer apps. In the Component API we provide Fragments for advanced integration with more freedom for customization. We strongly recommend keeping in mind our UI/UX guidelines, however.
+    The Gini Vision Library for Android can be integrated in two ways, either by using the Screen
+    API or the Component API. The Screen API provides Activities for easy integration that can be
+    customized in a limited way. The screen and configuration design is based on our long-lasting
+    experience with integration in customer apps. In the Component API we provide Fragments for
+    advanced integration with more freedom for customization. We strongly recommend keeping in mind
+    our UI/UX guidelines, however.
 </p>
 <p>
-    Customization of the Views is provided mostly via overriding of app resources: dimensions, strings, colors, texts, etc. Onboarding can also be customized to show your own pages, each consisting of an image and a short text.
+    Customization of the Views is provided mostly via overriding of app resources: dimensions,
+    strings, colors, texts, etc. Onboarding can also be customized to show your own pages, each
+    consisting of an image and a short text.
 </p>
 <p>
-    The Gini Vision Library has been designed for portrait orientation. We recommend limiting your concrete Activities which extend the Screen API's abstract Activities to portrait orientation. In case you use the Component API, you should limit the Activities hosting the Component API's Fragments to portrait orientation.
+    Due to in-memory image handling applications using the Gini Vision Library must enable large
+    heap.
 </p>
-<p>
-    Due to in-memory image handling applications using the Gini Vision Library must enable large heap.
-</p>
+
+<h3>Tablet Support</h3>
+
+The Gini Vision Library can be used on tablets, too. We have adapted some UI elements to offer a
+better experience to tablet users and removed the camera flash requirement for tablets since flash
+is not present on all tablets. For more information please consult our guide <a
+        href="http://developer.gini.net/gini-vision-lib-android/html/supporting-tablets.html">Supporting
+    Tablets</a>.
 
 <h3>Requirements</h3>
 
@@ -34,22 +51,34 @@
     Component API: Android 4.2+ (API Level 17+)
 </p>
 <p>
-    Hardware:
-    <ul>
-        <li>Back-facing camera with auto-focus and flash.</li>
-        <li>Minimum 8MP camera resolution.</li>
-        <li>Minimum 512MB RAM.</li>
-    </ul>
+    Phone Hardware:
+<ul>
+    <li>Back-facing camera with auto-focus and flash.</li>
+    <li>Minimum 8MP camera resolution.</li>
+    <li>Minimum 512MB RAM.</li>
+</ul>
+</p>
+<p>
+    Tablet Hardware:
+<ul>
+    <li>Back-facing camera with auto-focus.</li>
+    <li>Minimum 8MP camera resolution.</li>
+    <li>Minimum 512MB RAM.</li>
+</ul>
 </p>
 
 
 <h3>Screen API</h3>
 
 <p>
-    The Screen API provides a main Activity with which to start the Gini Vision Library and two abstract Activities which you need to override to react to events coming from the Gini Vision Library.
+    The Screen API provides a main Activity with which to start the Gini Vision Library and two
+    abstract Activities which you need to override to react to events coming from the Gini Vision
+    Library.
 </p>
 <p>
-    In order to support the widest variety of Android versions while keeping the look and feel consistent, we use the Android Support Library and provide only Activities subclassing the AppCompatActivity.
+    In order to support the widest variety of Android versions while keeping the look and feel
+    consistent, we use the Android Support Library and provide only Activities subclassing the
+    AppCompatActivity.
 </p>
 <p>
     A sequence diagram of the Screen API flow can be found <a href="ScreenAPI.png" target="_blank">here</a>.
@@ -58,13 +87,17 @@
 <h3>Component API</h3>
 
 <p>
-    The Component API provides four Fragments which you can include in your own layouts. This allows you more freedom to customize the Gini Vision Library, without being restricted to AppCompatActivities and the Gini Vision Library Theme.
+    The Component API provides four Fragments which you can include in your own layouts. This allows
+    you more freedom to customize the Gini Vision Library, without being restricted to
+    AppCompatActivities and the Gini Vision Library Theme.
 </p>
 <p>
-    To allow usage even if you aren't using the Android Support Library, we provide a Standard and a Compat version of each Fragment.
+    To allow usage even if you aren't using the Android Support Library, we provide a Standard and a
+    Compat version of each Fragment.
 </p>
 <p>
-    A sequence diagram of the Component API flow can be found <a href="ComponentAPI.png" target="_blank">here</a>.
+    A sequence diagram of the Component API flow can be found <a href="ComponentAPI.png"
+                                                                 target="_blank">here</a>.
 </p>
 
 @version 2.0

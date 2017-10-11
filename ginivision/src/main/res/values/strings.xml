@@ -2,7 +2,8 @@
     <string name="gv_title_camera">Dokument fotografieren</string>
     <string name="gv_title_onboarding">Anleitung</string>
     <string name="gv_title_review">Foto überprüfen</string>
-    <string name="gv_title_analysis">Etwas Geduld, analysiere Foto</string>
+    <string name="gv_title_noresults">Rechnung richtig fotografieren</string>
+
 
     <string name="gv_show_onboarding">Hilfe</string>
     <string name="gv_select_from_camera_roll">Eigenes Bild auswählen</string>
@@ -14,7 +15,40 @@
     <string name="gv_onboarding_parallel">Handy parallel\nzum Dokument\nhalten</string>
     <string name="gv_onboarding_align">Dokument\nvollständig in\nRahmen einpassen</string>
 
-    <string name="gv_review_bottom_panel_text">Dokument vollständig, scharf und in Leserichtung?\n\nDoppeltippen um Schärfe zu prüfen.</string>
+    <string name="gv_review_bottom_panel_text">Dokument vollständig, scharf und in Leserichtung fotografiert?\n\nDoppeltippen um Schärfe zu prüfen.</string>
 
     <string name="gv_document_analysis_error_retry">Wiederholen</string>
+    <string name="gv_analysis_activity_indicator_message">Dokument wird analysiert</string>
+
+    <string name="gv_noresults_hints">Zur Erkennung aller Daten bitte folgende Tipps beim Abfotografieren beachten:</string>
+    <string name="gv_noresults_align">Seite vollständig in den angezeigten Rahmen einpassen</string>
+    <string name="gv_noresults_lighting">Auf gute Beleuchtung achten</string>
+    <string name="gv_noresults_parallel">Gerät parallel über die Seite halten</string>
+    <string name="gv_noresults_flat">Seite glatt streichen</string>
+    <string name="gv_noresults_back_button">Zurück zur Kamera</string>
+    <string name="gv_document_import_hint_text">Es können jetzt auch ganz einfach Dateien hochgeladen werden.</string>
+
+    <string name="gv_document_import_error">Ihre Datei konnte nicht geöffnet werden. Bitte versuchen sie es mit einer anderen Datei.</string>
+
+    <string name="gv_storage_permission_denied">Nur mit Datei-Zugriff können gespeicherte Rechnungen hochgeladen werden.</string>
+    <string name="gv_storage_permission_denied_positive_button">Zugriff erteilen</string>
+    <string name="gv_storage_permission_denied_negative_button">Abbrechen</string>
+    <string name="gv_storage_permission_rationale">Um gespeicherte Bilder oder PDFs zu analysieren, wird Datei-Zugriff auf dem Gerät benötigt.</string>
+    <string name="gv_storage_permission_rationale_positive_button">Zugriff erteilen</string>
+    <string name="gv_storage_permission_rationale_negative_button">Abbrechen</string>
+
+    <string name="gv_analysis_pdf_default_title">PDF Dokument</string>
+    <plurals name="gv_analysis_pdf_pages">
+        <item quantity="one">%d Seite</item>
+        <item quantity="other">%d Seiten</item>
+    </plurals>
+    <string name="gv_analysis_hint_headline">Um schneller Ergebnisse zu erhalten, bitte:</string>
+
+    <string name="gv_document_import_invalid_document">Leider kann diese Datei nicht bearbeitet werden.</string>
+    <string name="gv_document_import_error_type_not_supported">Nur Dateien vom Format jpg, png, gif oder pdf können analysiert werden.</string>
+    <string name="gv_document_import_error_size_too_large">Diese Datei ist leider zu groß.</string>
+    <string name="gv_document_import_error_too_many_pdf_pages">Das Dokument darf nicht mehr als 10 Seiten haben.</string>
+
+    <string name="gv_document_import_pick_another_document">Andere Datei wählen</string>
+    <string name="gv_document_import_close_error">Abbrechen</string>
 </resources>

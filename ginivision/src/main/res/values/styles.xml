@@ -1,8 +1,9 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="GiniVisionTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/gv_action_bar</item>
         <item name="colorPrimaryDark">@color/gv_status_bar</item>
+        <item name="colorAccent">@color/gv_accent</item>
         <item name="actionBarStyle">@style/GiniVisionTheme.ActionBar</item>
     </style>
 
@@ -22,48 +23,100 @@
         <item name="android:textColor">@color/gv_action_bar_title</item>
     </style>
 
+    <style name="GiniVisionTheme.Chooser">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:statusBarColor" tools:targetApi="lollipop">@android:color/transparent
+        </item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+    </style>
+
     <!-- Root text styles -->
 
     <style name="Root.GiniVisionTheme.Camera.Error.NoPermission.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/gv_camera_error_no_permission_text</item>
-        <item name="font"/>
+        <item name="gvCustomFont"/>
     </style>
 
     <style name="Root.GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@drawable/gv_camera_error_no_permission_button_title_color</item>
-        <item name="font"/>
+        <item name="gvCustomFont"/>
+    </style>
+
+    <style name="Root.GiniVisionTheme.Camera.DocumentImportHint.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gv_document_import_hint_text</item>
+        <item name="gvCustomFont"/>
     </style>
 
     <style name="Root.GiniVisionTheme.Review.BottomPanel.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/gv_review_bottom_panel_text</item>
-        <item name="font"/>
+        <item name="gvCustomFont"/>
     </style>
 
     <style name="Root.GiniVisionTheme.Onboarding.Message.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">33sp</item>
         <item name="android:textColor">@color/gv_onboarding_message</item>
-        <item name="font">sans-serif-thin</item>
+        <item name="gvCustomFont">sans-serif-thin</item>
     </style>
 
     <style name="Root.GiniVisionTheme.Snackbar.Error.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/gv_snackbar_error_text</item>
-        <item name="font"/>
+        <item name="gvCustomFont"/>
     </style>
 
     <style name="Root.GiniVisionTheme.Snackbar.Error.Button.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@drawable/gv_snackbar_error_button_title_color</item>
-        <item name="font"/>
+        <item name="gvCustomFont"/>
+    </style>
+
+    <style name="Root.GiniVisionTheme.Analysis.PdfFilename.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textStyle">bold</item>
+        <item name="autoSizeMaxTextSize">20sp</item>
+        <item name="autoSizeMinTextSize">14sp</item>
+        <item name="android:textColor">@color/gv_analysis_pdf_info_text</item>
+        <item name="gvCustomFont"/>
+    </style>
+
+    <style name="Root.GiniVisionTheme.Analysis.PdfPageCount.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/gv_analysis_pdf_info_text</item>
+        <item name="gvCustomFont"/>
+    </style>
+
+    <style name="Root.GiniVisionTheme.Analysis.AnalysingMessage.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/gv_analysis_analysing_message</item>
+        <item name="gvCustomFont"/>
+    </style>
+
+    <style name="Root.GiniVisionTheme.Analysis.HintHeadline.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/gv_analysis_hint_headline</item>
+        <item name="gvCustomFont"/>
+    </style>
+
+    <style name="Root.GiniVisionTheme.Analysis.Hint.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/gv_analysis_hint</item>
+        <item name="gvCustomFont"/>
     </style>
 
     <!-- Text styles used in the layouts which are overridable for customization -->
@@ -72,6 +125,8 @@
 
     <style name="GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle" parent="Root.GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle"/>
 
+    <style name="GiniVisionTheme.Camera.DocumentImportHint.TextStyle" parent="Root.GiniVisionTheme.Camera.DocumentImportHint.TextStyle" />
+
     <style name="GiniVisionTheme.Review.BottomPanel.TextStyle" parent="Root.GiniVisionTheme.Review.BottomPanel.TextStyle"/>
 
     <style name="GiniVisionTheme.Onboarding.Message.TextStyle" parent="Root.GiniVisionTheme.Onboarding.Message.TextStyle"/>
@@ -79,5 +134,15 @@
     <style name="GiniVisionTheme.Snackbar.Error.TextStyle" parent="Root.GiniVisionTheme.Snackbar.Error.TextStyle"/>
 
     <style name="GiniVisionTheme.Snackbar.Error.Button.TextStyle" parent="Root.GiniVisionTheme.Snackbar.Error.Button.TextStyle"/>
+
+    <style name="GiniVisionTheme.Analysis.PdfFilename.TextStyle" parent="Root.GiniVisionTheme.Analysis.PdfFilename.TextStyle" />
+
+    <style name="GiniVisionTheme.Analysis.PdfPageCount.TextStyle" parent="Root.GiniVisionTheme.Analysis.PdfPageCount.TextStyle" />
+
+    <style name="GiniVisionTheme.Analysis.AnalysingMessage.TextStyle" parent="Root.GiniVisionTheme.Analysis.AnalysingMessage.TextStyle" />
+
+    <style name="GiniVisionTheme.Analysis.HintHeadline.TextStyle" parent="Root.GiniVisionTheme.Analysis.HintHeadline.TextStyle" />
+
+    <style name="GiniVisionTheme.Analysis.Hint.TextStyle" parent="Root.GiniVisionTheme.Analysis.Hint.TextStyle" />
 
 </resources>

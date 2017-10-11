@@ -1,11 +1,15 @@
 package net.gini.android.vision.requirements;
 
+import static net.gini.android.vision.internal.util.ContextHelper.isTablet;
+
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * <p>
@@ -36,19 +40,45 @@ public final class GiniVisionRequirements {
         LOG.info("Checking requirements");
         CameraHolder cameraHolder = new CameraHolder();
 
-        RequirementsReport requirementsReport = new RequirementsChecker(Arrays.asList(
+        List<Requirement> requirements;
+        if (isTablet(context)) {
+            requirements = getTabletRequirements(context, cameraHolder);
+        } else {
+            requirements = getPhoneRequirements(context, cameraHolder);
+        }
+
+        RequirementsReport requirementsReport = new RequirementsChecker(requirements)
+                .checkRequirements();
+
+        cameraHolder.closeCamera();
+
+        LOG.info("Requirements checked with results: {}", requirementsReport);
+        return requirementsReport;
+    }
+
+    @NonNull
+    private static List<Requirement> getPhoneRequirements(final Context context,
+            final CameraHolder cameraHolder) {
+        return Arrays.asList(
                 new CameraPermissionRequirement(context),
                 new CameraRequirement(cameraHolder),
                 new CameraResolutionRequirement(cameraHolder),
                 new CameraFlashRequirement(cameraHolder),
                 new CameraFocusRequirement(cameraHolder),
                 new DeviceMemoryRequirement(cameraHolder)
-        )).checkRequirements();
+        );
+    }
 
-        cameraHolder.closeCamera();
-
-        LOG.info("Requirements checked with results: {}", requirementsReport);
-        return requirementsReport;
+    @NonNull
+    private static List<Requirement> getTabletRequirements(final Context context,
+            final CameraHolder cameraHolder) {
+        return Arrays.asList(
+                new CameraPermissionRequirement(context),
+                new CameraRequirement(cameraHolder),
+                new CameraResolutionRequirement(cameraHolder),
+                new CameraFocusRequirement(cameraHolder),
+                new DeviceMemoryRequirement(cameraHolder)
+        );
     }
 
     private GiniVisionRequirements() {

@@ -44,6 +44,10 @@ class Exif {
     static final String USER_COMMENT_GINI_VISION_VERSION = "GiniVisionVer";
     static final String USER_COMMENT_CONTENT_ID = "ContentId";
     static final String USER_COMMENT_ROTATION_DELTA = "RotDeltaDeg";
+    static final String USER_COMMENT_DEVICE_ORIENTATION = "DeviceOrientation";
+    static final String USER_COMMENT_DEVICE_TYPE = "DeviceType";
+    static final String USER_COMMENT_SOURCE = "Source";
+    static final String USER_COMMENT_IMPORT_METHOD = "ImportMethod";
 
     private final TiffOutputSet mTiffOutputSet;
 
@@ -77,7 +81,12 @@ class Exif {
             throws IOException, ImageReadException {
         RequiredTags requiredTags = new RequiredTags();
 
-        JpegImageMetadata jpegMetadata = (JpegImageMetadata) getMetadata(jpeg);
+        JpegImageMetadata jpegMetadata = null;
+        try {
+            jpegMetadata = (JpegImageMetadata) getMetadata(jpeg);
+        } catch (ClassCastException e) {
+            // Ignore
+        }
 
         if (jpegMetadata != null) {
             requiredTags.make = jpegMetadata.findEXIFValue(TiffTagConstants.TIFF_TAG_MAKE);
@@ -122,7 +131,14 @@ class Exif {
                 throws IOException, ImageReadException, ImageWriteException {
             ByteOrder byteOrder = defaultByteOrder;
 
-            JpegImageMetadata jpegMetadata = (JpegImageMetadata) getMetadata(jpeg);
+            JpegImageMetadata jpegMetadata;
+            try {
+                jpegMetadata = (JpegImageMetadata) getMetadata(jpeg);
+            } catch (ClassCastException e) {
+                throw new ImageReadException(
+                        "Wrong metadata type, only JpegImageMetadata supported", e);
+            }
+
             if (jpegMetadata != null) {
                 TiffImageMetadata exif = jpegMetadata.getExif();
                 if (exif != null) {
@@ -138,11 +154,21 @@ class Exif {
                 throws ImageReadException, ImageWriteException {
             // Make
             if (requiredTags.make != null) {
-                addStringExif(mIfd0Directory, requiredTags.make);
+                try {
+                    TiffOutputField makeField = createTiffOutputField(requiredTags.make);
+                    mIfd0Directory.add(makeField);
+                } catch (Exception e) {
+                    // Shouldn't happen, but ignore it, if it does
+                }
             }
             // Model
             if (requiredTags.model != null) {
-                addStringExif(mIfd0Directory, requiredTags.model);
+                try {
+                    TiffOutputField modelField = createTiffOutputField(requiredTags.model);
+                    mIfd0Directory.add(modelField);
+                } catch (Exception e) {
+                    // Shouldn't happen, but ignore it, if it does
+                }
             }
             // ISO
             if (requiredTags.iso != null) {
@@ -220,12 +246,6 @@ class Exif {
         @NonNull
         public Exif build() {
             return new Exif(mTiffOutputSet);
-        }
-
-        private void addStringExif(@NonNull TiffOutputDirectory outputDirectory,
-                @NonNull TiffField field) throws ImageReadException {
-            byte bytes[] = field.getStringValue().getBytes(Charset.forName("US-ASCII"));
-            addStringExif(outputDirectory, field.getTagInfo(), bytes);
         }
 
         private void addUserCommentStringExif(@NonNull TiffOutputDirectory outputDirectory,
@@ -331,6 +351,10 @@ class Exif {
         private boolean mAddModel;
         private String mContentId;
         private int mRotationDelta;
+        private String mDeviceOrientation;
+        private String mDeviceType;
+        private String mSource;
+        private String mImportMethod;
 
         private UserCommentBuilder() {
 
@@ -353,6 +377,26 @@ class Exif {
 
         UserCommentBuilder setRotationDelta(final int rotationDelta) {
             mRotationDelta = rotationDelta;
+            return this;
+        }
+
+        UserCommentBuilder setDeviceOrientation(final String orientation) {
+            mDeviceOrientation = orientation;
+            return this;
+        }
+
+        UserCommentBuilder setDeviceType(final String type) {
+            mDeviceType = type;
+            return this;
+        }
+
+        UserCommentBuilder setSource(final String source) {
+            mSource = source;
+            return this;
+        }
+
+        UserCommentBuilder setImportMethod(final String importMethod) {
+            mImportMethod = importMethod;
             return this;
         }
 
@@ -391,6 +435,16 @@ class Exif {
             map.put(USER_COMMENT_CONTENT_ID, mContentId);
             // Rotation Delta
             map.put(USER_COMMENT_ROTATION_DELTA, String.valueOf(mRotationDelta));
+            // Device Orientation
+            map.put(USER_COMMENT_DEVICE_ORIENTATION, mDeviceOrientation);
+            // Device Type
+            map.put(USER_COMMENT_DEVICE_TYPE, mDeviceType);
+            // Source
+            map.put(USER_COMMENT_SOURCE, mSource);
+            // Import Method
+            if (mImportMethod != null) {
+                map.put(USER_COMMENT_IMPORT_METHOD, mImportMethod);
+            }
             return map;
         }
 

@@ -20,6 +20,7 @@ Table of contents
 
    Javadoc <http://developer.gini.net/gini-vision-lib-android/javadoc/index.html>
    guide-for-open-with
+   supporting-tablets
    changelog
    license
 

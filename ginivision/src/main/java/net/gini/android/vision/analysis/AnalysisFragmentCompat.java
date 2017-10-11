@@ -17,7 +17,13 @@ import net.gini.android.vision.internal.ui.FragmentImplCallback;
  * <h3>Component API</h3>
  *
  * <p>
- *     When you use the Component API with the Android Support Library, the {@code AnalyzeDocumentFragmentCompat} displays the captured document and an activity indicator while the document is being analyzed by the Gini API.
+ *     When you use the Component API with the Android Support Library, the {@code AnalyzeDocumentFragmentCompat} displays the captured or imported document and an activity indicator while the document is being analyzed by the Gini API.
+ * </p>
+ * <p>
+ *     <b>Note:</b> You can use the activity indicator message to display a message under the activity indicator by overriding the string resource named {@code gv_analysis_activity_indicator_message}. The message is displayed for images only.
+ * </p>
+ * <p>
+ *     For PDF documents the first page is shown (only on Android 5.0 Lollipop and newer) along with the PDF's filename and number of pages above the page. On Android KitKat and older only the PDF's filename is shown with the preview area left empty.
  * </p>
  * <p>
  *     <b>Note:</b> Your Activity hosting this Fragment must extend the {@link android.support.v7.app.AppCompatActivity} and use an AppCompat Theme.
@@ -42,30 +48,14 @@ public class AnalysisFragmentCompat extends Fragment implements FragmentImplCall
 
     private AnalysisFragmentImpl mFragmentImpl;
 
-    /**
-     * <p>
-     *     Factory method for creating a new instance of the Fragment using the provided document.
-     * </p>
-     * <p>
-     *     You may pass in an optional analysis error message. This error message is shown to the user with a retry
-     *     button.
-     * </p>
-     * <p>
-     *     <b>Note:</b> Always use this method to create new instances. Document is required and an exception is thrown if it's missing.
-     * </p>
-     * @param document must be the {@link Document} from {@link ReviewFragmentListener#onProceedToAnalysisScreen(Document)}
-     * @param documentAnalysisErrorMessage an optional error message shown to the user
-     * @return a new instance of the Fragment
-     */
-    public static AnalysisFragmentCompat createInstance(@NonNull Document document, @Nullable String documentAnalysisErrorMessage) {
-        AnalysisFragmentCompat fragment = new AnalysisFragmentCompat();
-        fragment.setArguments(AnalysisFragmentHelper.createArguments(document, documentAnalysisErrorMessage));
-        return fragment;
+    @Override
+    public void hideError() {
+        mFragmentImpl.hideError();
     }
 
-    @VisibleForTesting
-    AnalysisFragmentImpl getFragmentImpl() {
-        return mFragmentImpl;
+    @Override
+    public void noExtractionsFound() {
+
     }
 
     /**
@@ -92,6 +82,20 @@ public class AnalysisFragmentCompat extends Fragment implements FragmentImplCall
      * @exclude
      */
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mFragmentImpl.onDestroy();
+    }
+
+    @Override
+    public void onDocumentAnalyzed() {
+        mFragmentImpl.onDocumentAnalyzed();
+    }
+
+    /**
+     * @exclude
+     */
+    @Override
     public void onStart() {
         super.onStart();
         mFragmentImpl.onStart();
@@ -106,13 +110,15 @@ public class AnalysisFragmentCompat extends Fragment implements FragmentImplCall
         mFragmentImpl.onStop();
     }
 
-    /**
-     * @exclude
-     */
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mFragmentImpl.onDestroy();
+    public void showError(@NonNull String message, @NonNull String buttonTitle,
+            @NonNull View.OnClickListener onClickListener) {
+        mFragmentImpl.showError(message, buttonTitle, onClickListener);
+    }
+
+    @Override
+    public void showError(@NonNull String message, int duration) {
+        mFragmentImpl.showError(message, duration);
     }
 
     @Override
@@ -125,23 +131,36 @@ public class AnalysisFragmentCompat extends Fragment implements FragmentImplCall
         mFragmentImpl.stopScanAnimation();
     }
 
-    @Override
-    public void onDocumentAnalyzed() {
-        mFragmentImpl.onDocumentAnalyzed();
+    /**
+     * <p>
+     * Factory method for creating a new instance of the Fragment using the provided document.
+     * </p>
+     * <p>
+     * You may pass in an optional analysis error message. This error message is shown to the user
+     * with a retry
+     * button.
+     * </p>
+     * <p>
+     * <b>Note:</b> Always use this method to create new instances. Document is required and an
+     * exception is thrown if it's missing.
+     * </p>
+     *
+     * @param document                     must be the {@link Document} from {@link
+     *                                     ReviewFragmentListener#onProceedToAnalysisScreen
+     *                                     (Document)}
+     * @param documentAnalysisErrorMessage an optional error message shown to the user
+     * @return a new instance of the Fragment
+     */
+    public static AnalysisFragmentCompat createInstance(@NonNull Document document,
+            @Nullable String documentAnalysisErrorMessage) {
+        AnalysisFragmentCompat fragment = new AnalysisFragmentCompat();
+        fragment.setArguments(
+                AnalysisFragmentHelper.createArguments(document, documentAnalysisErrorMessage));
+        return fragment;
     }
 
-    @Override
-    public void showError(@NonNull String message, @NonNull String buttonTitle, @NonNull View.OnClickListener onClickListener) {
-        mFragmentImpl.showError(message, buttonTitle, onClickListener);
-    }
-
-    @Override
-    public void showError(@NonNull String message, int duration) {
-        mFragmentImpl.showError(message, duration);
-    }
-
-    @Override
-    public void hideError() {
-        mFragmentImpl.hideError();
+    @VisibleForTesting
+    AnalysisFragmentImpl getFragmentImpl() {
+        return mFragmentImpl;
     }
 }

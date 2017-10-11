@@ -156,7 +156,7 @@ public class SingleDocumentAnalyzer {
         }
 
         public synchronized void analyze(Document document) {
-            mDocumentTaskManager.createDocument(document.getJpeg(), null, null)
+            mDocumentTaskManager.createDocument(document.getData(), null, null)
                     .onSuccessTask(new Continuation<net.gini.android.models.Document, Task<net.gini.android.models.Document>>() {
                         @Override
                         public Task<net.gini.android.models.Document> then(Task<net.gini.android.models.Document> task) throws Exception {
@@ -188,10 +188,12 @@ public class SingleDocumentAnalyzer {
                         @Override
                         public Map<String, SpecificExtraction> then(final Task<Map<String, SpecificExtraction>> task) throws Exception {
                             if (isCancelled()) {
-                                LOG.debug("Analysis completed with cancellation for document: {}", getGiniApiDocument().getId());
+                                LOG.debug("Analysis completed with cancellation for document: {}",
+                                        getGiniApiDocument() != null ? getGiniApiDocument().getId() : "null");
                                 return null;
                             }
-                            LOG.debug("Analysis completed with {} for document: {}", task.isFaulted() ? "fault" : "success", getGiniApiDocument().getId());
+                            LOG.debug("Analysis completed with {} for document: {}", task.isFaulted() ? "fault" : "success",
+                                    getGiniApiDocument() != null ? getGiniApiDocument().getId() : "null");
                             setResultTask(task);
                             publishResult();
                             return null;
