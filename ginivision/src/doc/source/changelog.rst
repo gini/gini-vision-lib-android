@@ -2,8 +2,25 @@
 Changelog
 =========
 
+2.4.0-rc.1 (2017-10-11)
+=======================
+
+Features
+--------
+
+- Document Import: From the Camera Screen users can select images and PDFs from other apps which are imported into the Gini Vision Library for analysis. This feature is disabled by default.
+- Open With: If your app registers itself to handle files of type JPEG, GIF, PNG or PDF you can pass them to the Gini Vision Library for analysis.
+- Tips in the Analysis Screen: If analysis takes longer than 5 seconds the tips from the Onboarding Screen are shown one at a time.
+- No Results Screen: If none of the required extractions were received the No Results Screen can be shown offering tips to the user for improving the extraction results.
+
+UI Updates
+----------
+
+- Camera Screen UI design was updated and the preview corners are now drawn programmatically. The color of the corners can be customised with the gv_camera_preview_corners color resource. If you customised the corners by overriding the gv_camera_preview_corners.png you can remove these images and instead override the color resource.
+- Analysis Screen UI design was updated and in the Screen API the title was removed from the ActionBar. You should instead override the gv_analysis_activity_indicator_message string resource which is shown below the activity indicator.
+
 2.3.0 (2017-08-28)
-===========
+==================
 
 - Added support for tablets. For details you may consult our `Supporting Tablets <supporting-tablets.html>`_ guide. Please note that allowing tablets that do not meet our minimum hardware recommendations to use the GVL could lead to lower extraction quality. We recommend implementing hardware checks to avoid this. Many tablets with at least 8MP cameras don't have an LED flash (like the popular Samsung Galaxy Tab S2) therefore we don't require flash for tablets. For this reason the extraction quality on those tablets might be lower compared to smartphones.
 - Fixed image meta information handling bug related to ascii tags containing values with null bytes.
