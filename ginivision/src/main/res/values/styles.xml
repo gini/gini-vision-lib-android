@@ -125,6 +125,8 @@
 
     <style name="GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle" parent="Root.GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle"/>
 
+    <style name="GiniVisionTheme.Camera.UploadHint.TextStyle" parent="Root.GiniVisionTheme.Camera.UploadHint.TextStyle" />
+
     <style name="GiniVisionTheme.Review.BottomPanel.TextStyle" parent="Root.GiniVisionTheme.Review.BottomPanel.TextStyle"/>
 
     <style name="GiniVisionTheme.Onboarding.Message.TextStyle" parent="Root.GiniVisionTheme.Onboarding.Message.TextStyle"/>
@@ -132,5 +134,15 @@
     <style name="GiniVisionTheme.Snackbar.Error.TextStyle" parent="Root.GiniVisionTheme.Snackbar.Error.TextStyle"/>
 
     <style name="GiniVisionTheme.Snackbar.Error.Button.TextStyle" parent="Root.GiniVisionTheme.Snackbar.Error.Button.TextStyle"/>
+
+    <style name="GiniVisionTheme.Analysis.PdfFilename.TextStyle" parent="Root.GiniVisionTheme.Analysis.PdfFilename.TextStyle" />
+
+    <style name="GiniVisionTheme.Analysis.PdfPageCount.TextStyle" parent="Root.GiniVisionTheme.Analysis.PdfPageCount.TextStyle" />
+
+    <style name="GiniVisionTheme.Analysis.AnalysingMessage.TextStyle" parent="Root.GiniVisionTheme.Analysis.AnalysingMessage.TextStyle" />
+
+    <style name="GiniVisionTheme.Analysis.HintHeadline.TextStyle" parent="Root.GiniVisionTheme.Analysis.HintHeadline.TextStyle" />
+
+    <style name="GiniVisionTheme.Analysis.Hint.TextStyle" parent="Root.GiniVisionTheme.Analysis.Hint.TextStyle" />
 
 </resources>

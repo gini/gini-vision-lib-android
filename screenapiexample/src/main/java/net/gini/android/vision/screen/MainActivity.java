@@ -14,7 +14,7 @@ import android.widget.Toast;
 import net.gini.android.ginivisiontest.BuildConfig;
 import net.gini.android.ginivisiontest.R;
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
-import net.gini.android.vision.GiniVision;
+import net.gini.android.vision.GiniVisionFileImport;
 import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.ImportedFileValidationException;
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void startGiniVisionLibraryForImportedFile(final Intent importedFileIntent) {
         try {
-            final Intent giniVisionIntent = GiniVision.createIntentForImportedFile(
+            final Intent giniVisionIntent = GiniVisionFileImport.createIntentForImportedFile(
                     importedFileIntent,
                     this,
                     ReviewActivity.class,

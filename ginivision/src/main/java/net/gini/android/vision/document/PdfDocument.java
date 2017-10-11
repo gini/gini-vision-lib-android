@@ -18,8 +18,6 @@ public class PdfDocument extends GiniVisionDocument {
      * @param intent an {@link Intent} containing a pdf {@link Uri}
      * @return new instance with the contents of the Intent's Uri
      * @throws IllegalArgumentException if the Intent's data is null
-     * @throws IllegalStateException    if null input stream was returned by the Context's Content
-     *                                  Resolver
      */
     @NonNull
     static PdfDocument fromIntent(final Intent intent) {
