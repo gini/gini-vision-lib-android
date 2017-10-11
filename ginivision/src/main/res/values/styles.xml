@@ -54,7 +54,7 @@
 
     <style name="Root.GiniVisionTheme.Camera.DocumentImportHint.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/gv_camera_document_import_hint_text</item>
+        <item name="android:textColor">@color/gv_document_import_hint_text</item>
         <item name="gvCustomFont"/>
     </style>
 

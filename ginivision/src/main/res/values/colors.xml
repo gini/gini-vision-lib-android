@@ -18,7 +18,7 @@
     <color name="gv_camera_error_no_permission_button_title_pressed">#ddd</color>
 
     <color name="gv_document_import_hint_background">#ffffff</color>
-    <color name="gv_camera_document_import_hint_text">#000000</color>
+    <color name="gv_document_import_hint_text">#000000</color>
 
     <color name="gv_onboarding_activity_background">@android:color/transparent</color>
     <color name="gv_onboarding_fragment_background">@android:color/transparent</color>

@@ -139,7 +139,7 @@ import java.util.ArrayList;
  *         android:textSize} with the desired {@code sp} size
  *     </li>
  *     <li>
- *         <b>Document import hint text color:</b> via the color resource name {@code gv_camera_upload_hint_text}
+ *         <b>Document import hint text color:</b> via the color resource name {@code gv_document_import_hint_text}
  *     </li>
  *     <li>
  *         <b>Document import hint font:</b>  via overriding the style named {@code
