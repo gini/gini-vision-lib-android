@@ -64,9 +64,9 @@
           </value>
         </option>
         <option name="RIGHT_MARGIN" value="100" />
-        <option name="JD_KEEP_EMPTY_PARAMETER" value="false" />
-        <option name="JD_KEEP_EMPTY_EXCEPTION" value="false" />
-        <option name="JD_KEEP_EMPTY_RETURN" value="false" />
+        <option name="ENABLE_JAVADOC_FORMATTING" value="false" />
+        <option name="JD_ADD_BLANK_AFTER_PARM_COMMENTS" value="true" />
+        <option name="JD_ADD_BLANK_AFTER_RETURN" value="true" />
         <option name="KEEP_CONTROL_STATEMENT_IN_ONE_LINE" value="false" />
         <option name="KEEP_BLANK_LINES_IN_CODE" value="1" />
         <option name="BLANK_LINES_AROUND_FIELD" value="1" />
@@ -122,6 +122,7 @@
           </extensions>
         </Objective-C-extensions>
         <XML>
+          <option name="XML_KEEP_WHITESPACES" value="true" />
           <option name="XML_KEEP_LINE_BREAKS" value="false" />
           <option name="XML_ALIGN_ATTRIBUTES" value="false" />
           <option name="XML_SPACE_INSIDE_EMPTY_TAG" value="true" />
@@ -155,7 +156,7 @@
           <option name="DOWHILE_BRACE_FORCE" value="1" />
           <option name="WHILE_BRACE_FORCE" value="1" />
           <option name="FOR_BRACE_FORCE" value="1" />
-          <option name="WRAP_LONG_LINES" value="true" />
+          <option name="ENUM_CONSTANTS_WRAP" value="2" />
           <arrangement>
             <groups>
               <group>

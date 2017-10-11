@@ -1,8 +1,7 @@
 package net.gini.android.vision.analysis;
 
 import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
-import static net.gini.android.vision.internal.util.ActivityHelper
-        .handleMenuItemPressedForHomeButton;
+import static net.gini.android.vision.internal.util.ActivityHelper.handleMenuItemPressedForHomeButton;
 
 import android.content.Context;
 import android.content.Intent;
@@ -25,16 +24,25 @@ import net.gini.android.vision.review.ReviewActivity;
  * <h3>Screen API</h3>
  *
  * <p>
- *     When you use the Screen API, the {@code AnalysisActivity} displays the captured document and an activity indicator while the document is being analyzed by the Gini API.
+ *     When you use the Screen API, the {@code AnalysisActivity} displays the captured or imported document and an activity indicator while the document is being analyzed by the Gini API.
+ * </p>
+ * <p>
+ *     <b>Note:</b> The title from the ActionBar was removed. Use the activity indicator message instead by overriding the string resource named {@code gv_analysis_activity_indicator_message}. The message is displayed for images only.
+ * </p>
+ * <p>
+ *     For PDF documents the first page is shown (only on Android 5.0 Lollipop and newer) along with the PDF's filename and number of pages above the page. On Android KitKat and older only the PDF's filename is shown with the preview area left empty.
  * </p>
  * <p>
  *     You must extend the {@code AnalysisActivity} in your application and provide it to the {@link CameraActivity} by using the {@link CameraActivity#setAnalysisActivityExtra(Intent, Context, Class)} helper method.
  * </p>
  * <p>
- *     <b>Note:</b> When declaring your {@code AnalysisActivity} subclass in the {@code AndroidManifest.xml} you should set the theme to the {@code GiniVisionTheme} and the title to the string resource named {@code gv_title_analysis}. If you would like to use your own theme please consider that {@code AnalysisActivity} extends {@link AppCompatActivity} and requires an AppCompat Theme.
+ *     <b>Note:</b> When declaring your {@code AnalysisActivity} subclass in the {@code AndroidManifest.xml} you should set the theme to the {@code GiniVisionTheme}. If you would like to use your own theme please consider that {@code AnalysisActivity} extends {@link AppCompatActivity} and requires an AppCompat Theme.
  * </p>
  * <p>
  *     The {@code AnalysisActivity} is started by the {@link CameraActivity} after the user has reviewed the document and either made no changes to the document and it hasn't been analyzed before tapping the Next button, or the user has modified the document, e.g. by rotating it.
+ * </p>
+ * <p>
+ *     For imported documents that cannot be reviewed, like PDFs, the {@link CameraActivity} starts the {@code AnalysisActivity} directly.
  * </p>
  * <p>
  *     In your {@code AnalysisActivity} subclass you have to implement the following methods:
@@ -61,6 +69,36 @@ import net.gini.android.vision.review.ReviewActivity;
  *     <ul>
  *         <li>
  *             <b>Activity indicator color:</b> via the color resource named {@code gv_analysis_activity_indicator}
+ *         </li>
+ *         <li>
+ *             <b>Activity indicator message:</b> via the string resource named {@code gv_analysis_activity_indicator_message}
+ *         </li>
+ *         <li>
+ *             <b>PDF info panel background:</b> via the color resource named {@code gv_analysis_pdf_info_background}
+ *         </li>
+ *         <li>
+ *             <b>PDF filename text style:</b> via overriding the style named {@code GiniVisionTheme.Analysis.PdfFilename.TextStyle} and setting an item named {@code android:textStyle} to {@code normal}, {@code bold} or {@code italic}
+ *         </li>
+ *         <li>
+ *             <b>PDF filename text size:</b> via overriding the style named {@code GiniVisionTheme.Analysis.PdfFilename.TextStyle} and setting an item named {@code autoSizeMaxTextSize} and {@code autoSizeMinTextSize} to the desired maximum and minimum {@code sp} sizes
+ *         </li>
+ *         <li>
+ *             <b>PDF filename text color:</b> via the color resource named {@code gv_analysis_pdf_info_text}
+ *         </li>
+ *         <li>
+ *             <b>PDF filename font:</b> via overriding the style named {@code GiniVisionTheme.Analysis.PdfFilename.TextStyle} and setting an item named {@code gvCustomFont} with the path to the font file in your {@code assets} folder
+ *         </li>
+ *         <li>
+ *             <b>PDF page count text style:</b> via overriding the style named {@code GiniVisionTheme.Analysis.PdfPageCount.TextStyle} and setting an item named {@code android:textStyle} to {@code normal}, {@code bold} or {@code italic}
+ *         </li>
+ *         <li>
+ *             <b>PDF page count text size:</b> via overriding the style named {@code GiniVisionTheme.Analysis.PdfPageCount.TextStyle} and setting an item named {@code android:textSize} to the desired {@code sp} size
+ *         </li>
+ *         <li>
+ *             <b>PDF page count text color:</b> via the color resource named {@code gv_analysis_pdf_info_text}
+ *         </li>
+ *         <li>
+ *             <b>PDF page count font:</b> via overriding the style named {@code GiniVisionTheme.Analysis.PdfPageCount.TextStyle} and setting an item named {@code gvCustomFont} with the path to the font file in your {@code assets} folder
  *         </li>
  *         <li>
  *             <b>Background color:</b> via the color resource named {@code gv_background}. <b>Note:</b> this color resource is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity})
@@ -114,18 +152,13 @@ import net.gini.android.vision.review.ReviewActivity;
  *             <b>Background color:</b> via the color resource named {@code gv_action_bar} (highly recommended for Android 5+: customize the status bar color via {@code gv_status_bar})
  *         </li>
  *         <li>
- *             <b>Title:</b> via the string resource you set in your {@code AndroidManifest.xml} when declaring your Activity that extends {@link AnalysisActivity}. The default title string resource is named {@code gv_title_analysis}
- *         </li>
- *         <li>
- *             <b>Title color:</b> via the color resource named {@code gv_action_bar_title}
- *         </li>
- *         <li>
  *             <b>Back button (only for {@link ReviewActivity} and {@link AnalysisActivity}):</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_action_bar_back}
  *         </li>
  *     </ul>
  * </p>
  */
-public abstract class AnalysisActivity extends AppCompatActivity implements AnalysisFragmentListener, AnalysisFragmentInterface {
+public abstract class AnalysisActivity extends AppCompatActivity implements
+        AnalysisFragmentListener, AnalysisFragmentInterface {
 
     /**
      * @exclude
@@ -134,7 +167,8 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
     /**
      * @exclude
      */
-    public static final String EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE = "GV_EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE";
+    public static final String EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE =
+            "GV_EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE";
     /**
      * @exclude
      */
@@ -157,6 +191,15 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
         mFragment.hideError();
     }
 
+    /**
+     * <p>
+     * You should call this method after you've received the analysis results from the Gini API
+     * without the required extractions.
+     * </p>
+     * <p>
+     *     It will launch the {@link NoResultsActivity}, if the {@link Document}'s type is {@link Document.Type#IMAGE}. For other types it will just finish the {@code AnalysisActivity} with {@code RESULT_OK}.
+     * </p>
+     */
     @Override
     public void noExtractionsFound() {
         if (mDocument.getType() == Document.Type.IMAGE) {
@@ -314,9 +357,7 @@ public abstract class AnalysisActivity extends AppCompatActivity implements Anal
     }
 
     private void showFragment() {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.gv_fragment_analyze_document, mFragment, ANALYSIS_FRAGMENT)
-                .commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.gv_fragment_analyze_document,
+                mFragment, ANALYSIS_FRAGMENT).commit();
     }
 }

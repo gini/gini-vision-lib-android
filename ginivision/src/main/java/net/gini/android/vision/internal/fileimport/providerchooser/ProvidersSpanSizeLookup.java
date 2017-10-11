@@ -1,16 +1,16 @@
 package net.gini.android.vision.internal.fileimport.providerchooser;
 
-import static net.gini.android.vision.internal.fileimport.FileChooserActivity.GRID_SPAN_COUNT_PHONE;
-import static net.gini.android.vision.internal.fileimport.providerchooser.ProvidersItem
-        .FileProviderItemType.SECTION;
-import static net.gini.android.vision.internal.fileimport.providerchooser.ProvidersItem
-        .FileProviderItemType.SEPARATOR;
+import static net.gini.android.vision.internal.fileimport.providerchooser.ProvidersItem.FileProviderItemType.SECTION;
+import static net.gini.android.vision.internal.fileimport.providerchooser.ProvidersItem.FileProviderItemType.SEPARATOR;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager.SpanSizeLookup;
 
 import java.util.List;
 
+/**
+ * @exclude
+ */
 public class ProvidersSpanSizeLookup extends SpanSizeLookup {
 
     private final List<ProvidersItem> mItems;

@@ -14,6 +14,12 @@ import net.gini.android.vision.internal.camera.photo.Photo;
 
 import java.util.List;
 
+/**
+ * <p>
+ *     A document containing an image.
+ * </p>
+ *
+ */
 public class ImageDocument extends GiniVisionDocument {
 
     private final String mDeviceOrientation;
@@ -21,12 +27,17 @@ public class ImageDocument extends GiniVisionDocument {
     private final String mSource;
     private final String mImportMethod;
 
+    /**
+     * <p>
+     *     Supported image formats.
+     * </p>
+     */
     public enum ImageFormat {
         JPEG,
         PNG,
         GIF;
 
-        public static ImageFormat fromMimeType(@NonNull final String mimeType) {
+        static ImageFormat fromMimeType(@NonNull final String mimeType) {
             switch (mimeType) {
                 case "image/jpeg":
                     return JPEG;
@@ -94,6 +105,13 @@ public class ImageDocument extends GiniVisionDocument {
         mImportMethod = importMethod;
     }
 
+    /**
+     * <p>
+     *     Retrieve the format of the image.
+     * </p>
+     *
+     * @return image format
+     */
     @NonNull
     public ImageFormat getFormat() {
         return mFormat;
@@ -113,27 +131,45 @@ public class ImageDocument extends GiniVisionDocument {
         return mRotationForDisplay;
     }
 
+    /**
+     * @exclude
+     */
     public String getDeviceOrientation() {
         return mDeviceOrientation;
     }
 
+    /**
+     * @exclude
+     */
     public String getDeviceType() {
         return mDeviceType;
     }
 
+    /**
+     * @exclude
+     */
     public String getSource() {
         return mSource;
     }
 
+    /**
+     * @exclude
+     */
     public String getImportMethod() {
         return mImportMethod;
     }
 
+    /**
+     * @exclude
+     */
     @Override
     public int describeContents() {
         return 0;
     }
 
+    /**
+     * @exclude
+     */
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {
         super.writeToParcel(dest, flags);
@@ -145,6 +181,9 @@ public class ImageDocument extends GiniVisionDocument {
         dest.writeString(mImportMethod);
     }
 
+    /**
+     * @exclude
+     */
     public static final Creator<ImageDocument> CREATOR = new Creator<ImageDocument>() {
         @Override
         public ImageDocument createFromParcel(Parcel in) {

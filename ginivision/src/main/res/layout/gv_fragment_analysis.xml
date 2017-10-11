@@ -50,11 +50,11 @@
 
         <TextView
             android:id="@+id/gv_analysis_message"
-            style="@style/Root.GiniVisionTheme.Analysis.AnalysingMessage.TextStyle"
+            style="@style/GiniVisionTheme.Analysis.AnalysingMessage.TextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/gv_document_analysing_message"
+            android:text="@string/gv_analysis_activity_indicator_message"
             android:visibility="gone"
             tools:visibility="visible" />
 
@@ -78,7 +78,7 @@
 
         <TextView
             android:id="@+id/gv_pdf_filename"
-            style="@style/Root.GiniVisionTheme.Analysis.PdfFilename.TextStyle"
+            style="@style/GiniVisionTheme.Analysis.PdfFilename.TextStyle"
             android:layout_width="match_parent"
             android:layout_height="@dimen/gv_analysis_pdf_filename_height"
             android:layout_gravity="center_horizontal"
@@ -92,7 +92,7 @@
 
         <TextView
             android:id="@+id/gv_pdf_page_count"
-            style="@style/Root.GiniVisionTheme.Analysis.PdfPageCount.TextStyle"
+            style="@style/GiniVisionTheme.Analysis.PdfPageCount.TextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -104,7 +104,7 @@
 
     <TextView
         android:id="@+id/gv_analysis_hint_headline"
-        style="@style/Root.GiniVisionTheme.Analysis.HintHeadline.TextStyle"
+        style="@style/GiniVisionTheme.Analysis.HintHeadline.TextStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/gv_analysis_hint_container"
@@ -138,7 +138,7 @@
 
         <TextView
             android:id="@+id/gv_analysis_hint_text"
-            style="@style/Root.GiniVisionTheme.Analysis.Hint.TextStyle"
+            style="@style/GiniVisionTheme.Analysis.Hint.TextStyle"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/gv_analysis_hint_text_height"
             android:layout_gravity="center"

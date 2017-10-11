@@ -38,6 +38,9 @@ import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersSpan
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @exclude
+ */
 public class FileChooserActivity extends AppCompatActivity {
 
     private static final int REQ_CODE_CHOOSE_FILE = 1;

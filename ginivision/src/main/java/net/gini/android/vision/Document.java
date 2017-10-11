@@ -7,35 +7,27 @@ import android.support.annotation.Nullable;
 
 
 /**
- * <p>
- * This class is the container for transferring the image of a document as a JPEG between the client
- * application and
- * the
+ * This class is the container for transferring documents between the client application and the
  * Gini Vision Library and between the Fragments of the Gini Vision Library.
- * </p>
- *
  * <p>
- * Due to the size limitations of the {@link android.os.Bundle}, the JPEG has to be stored in a
- * memory cache when
- * parceling and read from the cache when unparceling.
- * </p>
- *
+ * Due to the size limitations of the {@link android.os.Bundle}, the document data byte array has to
+ * be stored in a memory cache when parceling and read from the cache when unparceling.
  * <p>
  * <b>Warning:</b> Always retrieve the {@link Document} extras from a Bundle to force unparceling
- * and removing of the
- * reference to
- * the JPEG byte array from the memory cache. Failing to do so will lead to memory leaks.
- * </p>
+ * and removing of the reference to the byte array from the memory cache. Failing to do so will lead
+ * to memory leaks.
  */
 public interface Document extends Parcelable {
 
     /**
-     * <p>
      * The image of a document as a JPEG.
-     * </p>
      *
      * @return a byte array containg a JPEG
-     * @deprecated Use {@link Document#getData()} instead.
+     * @deprecated Use {@link Document#getData()} instead. This method might return a byte array
+     * containing other types, like PDFs.
+     * <p>
+     * To check if the byte array contains an image query the type with {@link Document#getType()}
+     * and check if it equals {@link Document.Type#IMAGE}.
      */
     @Deprecated
     @NonNull
@@ -52,13 +44,13 @@ public interface Document extends Parcelable {
      * @return degrees by which the image should be rotated clockwise before displaying
      * @deprecated Use
      * {@link net.gini.android.vision.document.ImageDocument#getRotationForDisplay()}
-     * instead, if {@link Document#getType()} is {@link Document.Type#IMAGE} instead.
+     * instead, if {@link Document#getType()} equals {@link Document.Type#IMAGE}.
      */
     @Deprecated
     int getRotationForDisplay();
 
     /**
-     * Find out the concrete document type.
+     * Get the concrete document type.
      *
      * @return the document type
      */
@@ -66,7 +58,13 @@ public interface Document extends Parcelable {
 
     /**
      * <p>
-     * The contents of a document.
+     * The contents of a document, if the document was loaded into memory.
+     * </p>
+     * <p>
+     *     For photos captured with the camera this is never null.
+     * </p>
+     * <p>
+     *     If {@link Document#isImported()} is {@code true} then this might be null. If it's null you can use {@link Document#getIntent()} and access the contents using the Intent.
      * </p>
      *
      * @return a byte array containing one of the supported document types
@@ -85,10 +83,9 @@ public interface Document extends Parcelable {
     Intent getIntent();
 
     /**
-     * <p>
-     * Document is imported if it was picked from another app from the Camera Screen or if the file
-     * was passed to the Gini Vision Library through the client application from another app.
-     * </p>
+     * <p> Document is imported if it was picked from another app from the Camera Screen's document
+     * upload button or if a file was passed to the Gini Vision Library through the client
+     * application from another app. </p>
      *
      * @return {@code true} if the document was imported
      */
@@ -106,8 +103,17 @@ public interface Document extends Parcelable {
      */
     boolean isReviewable();
 
+    /**
+     * Supported document types.
+     */
     enum Type {
+        /**
+         * The document is an image of type jpeg, png or gif.
+         */
         IMAGE,
+        /**
+         * The document is a PDF.
+         */
         PDF
     }
 }

@@ -15,6 +15,9 @@ import net.gini.android.vision.internal.util.IntentHelper;
 
 import java.util.Arrays;
 
+/**
+ * @exclude
+ */
 public class GiniVisionDocument implements Document {
 
     private final Type mType;

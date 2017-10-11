@@ -1,9 +1,8 @@
 /**
+ * The Gini Vision Library for Android provides Activities and Fragments for capturing,
+ * reviewing and analyzing photos, images and pdfs of invoices and remittance slips.
  * <p>
- * The Gini Vision Library for Android provides Activities and Fragments for capturing, reviewing and analyzing photos of invoices and remittance slips.
- * </p>
- * <p>
- * For details please consult the <a href="../../../../overview-summary.html" target="classFrame">Overview</a>.
- * </p>
+ * For details please consult the <a href="../../../../overview-summary.html"
+ * target="classFrame">Overview</a>.
  */
 package net.gini.android.vision;

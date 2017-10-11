@@ -2,6 +2,9 @@ package net.gini.android.vision.internal.fileimport.providerchooser;
 
 import android.support.annotation.NonNull;
 
+/**
+ * @exclude
+ */
 public abstract class ProvidersItem {
 
     enum FileProviderItemType {

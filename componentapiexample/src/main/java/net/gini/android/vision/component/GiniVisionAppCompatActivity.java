@@ -20,7 +20,7 @@ import android.widget.Toast;
 import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
-import net.gini.android.vision.GiniVision;
+import net.gini.android.vision.GiniVisionFileImport;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.GiniVisionError;
@@ -194,7 +194,7 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
 
     private void startGiniVisionLibraryForImportedFile(final Intent importedFileIntent) {
         try {
-            final Document document = GiniVision.createDocumentForImportedFile(importedFileIntent,
+            final Document document = GiniVisionFileImport.createDocumentForImportedFile(importedFileIntent,
                     this);
             if (document.isReviewable()) {
                 showFragment(getReviewFragment(document), R.string.title_review);

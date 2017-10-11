@@ -2,6 +2,9 @@ package net.gini.android.vision.internal.fileimport.providerchooser;
 
 import android.support.annotation.NonNull;
 
+/**
+ * @exclude
+ */
 public class ProvidersSectionItem extends ProvidersItem {
 
     private final String mSectionTitle;

@@ -30,12 +30,18 @@ import net.gini.android.vision.internal.permission.RuntimePermissions;
  * preview also shows document corner guides to which the user should align the document.
  * </p>
  * <p>
+ *     If instantiated with {@link CameraFragmentCompat#createInstance(DocumentImportEnabledFileTypes)} then a button for importing documents is shown next to the trigger button. A hint popup is displayed the first time the Gini Vision Library is used to inform the user about document importing.
+ * </p>
+ * <p>
+ *     For importing documents {@code READ_EXTERNAL_STORAGE} permission is required and if the permission is not granted the Gini Vision Library will prompt the user to grant the permission. See @{code Customizing the Camera Screen} on how to override the message and button titles for the rationale and on permission denial alerts.
+ * </p>
+ * <p>
  * <b>Note:</b> Your Activity hosting this Fragment must extend the {@link
  * android.support.v7.app.AppCompatActivity} and use an AppCompat Theme.
  * </p>
  * <p>
  * Include the {@code CameraFragmentCompat} into your layout either directly with {@code <fragment>}
- * in your Activity's layout or using the {@link android.support.v4.app.FragmentManager}.
+ * in your Activity's layout or using the {@link android.support.v4.app.FragmentManager} and one of the {@code createInstance()} methods.
  * </p>
  * <p>
  * Your Activity must implement the {@link CameraFragmentListener} interface to receive events from
@@ -59,6 +65,13 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
         return new CameraFragmentCompat();
     }
 
+    /**
+     * <p>
+     *     Factory method for creating a new instance of the Fragment with document import enabled for the specified file types.
+     * </p>
+     * @param docImportEnabledFileTypes the file types enabled for document import
+     * @return a new instance of the Fragment
+     */
     public static CameraFragmentCompat createInstance(
             @NonNull final DocumentImportEnabledFileTypes docImportEnabledFileTypes) {
         CameraFragmentCompat fragment = new CameraFragmentCompat();

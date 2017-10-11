@@ -158,7 +158,7 @@ public class SingleDocumentAnalyzer {
         }
 
         public synchronized void analyze(Document document) {
-            mDocumentTaskManager.createDocument(document.getJpeg(), null, null)
+            mDocumentTaskManager.createDocument(document.getData(), null, null)
                     .onSuccessTask(new Continuation<net.gini.android.models.Document, Task<net.gini.android.models.Document>>() {
                         @Override
                         public Task<net.gini.android.models.Document> then(Task<net.gini.android.models.Document> task) throws Exception {

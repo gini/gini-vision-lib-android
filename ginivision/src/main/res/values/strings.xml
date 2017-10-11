@@ -18,7 +18,7 @@
     <string name="gv_review_bottom_panel_text">Dokument vollständig, scharf und in Leserichtung fotografiert?\n\nDoppeltippen um Schärfe zu prüfen.</string>
 
     <string name="gv_document_analysis_error_retry">Wiederholen</string>
-    <string name="gv_document_analysing_message">Dokument wird analysiert</string>
+    <string name="gv_analysis_activity_indicator_message">Dokument wird analysiert</string>
 
     <string name="gv_noresults_hints">Zur Erkennung aller Daten bitte folgende Tipps beim Abfotografieren beachten:</string>
     <string name="gv_noresults_align">Seite vollständig in den angezeigten Rahmen einpassen</string>
@@ -26,7 +26,7 @@
     <string name="gv_noresults_parallel">Gerät parallel über die Seite halten</string>
     <string name="gv_noresults_flat">Seite glatt streichen</string>
     <string name="gv_noresults_back_button">Zurück zur Kamera</string>
-    <string name="gv_upload_hint_text">Es können jetzt auch ganz einfach Dateien hochgeladen werden.</string>
+    <string name="gv_document_import_hint_text">Es können jetzt auch ganz einfach Dateien hochgeladen werden.</string>
 
     <string name="gv_document_import_error">Ihre Datei konnte nicht geöffnet werden. Bitte versuchen sie es mit einer anderen Datei.</string>
 

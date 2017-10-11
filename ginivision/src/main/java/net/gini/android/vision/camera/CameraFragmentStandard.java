@@ -29,7 +29,13 @@ import net.gini.android.vision.internal.permission.RuntimePermissions;
  *     It shows a camera preview with tap-to-focus functionality and a trigger button. The camera preview also shows document corner guides to which the user should align the document.
  * </p>
  * <p>
- *     Include the {@code CameraFragmentStandard} into your layout either directly with {@code <fragment>} in your Activity's layout or using the {@link android.app.FragmentManager}.
+ *     If instantiated with {@link CameraFragmentStandard#createInstance(DocumentImportEnabledFileTypes)} then a button for importing documents is shown next to the trigger button. A hint popup is displayed the first time the Gini Vision Library is used to inform the user about document importing.
+ * </p>
+ * <p>
+ *     For importing documents {@code READ_EXTERNAL_STORAGE} permission is required and if the permission is not granted the Gini Vision Library will prompt the user to grant the permission. See @{code Customizing the Camera Screen} on how to override the message and button titles for the rationale and on permission denial alerts.
+ * </p>
+ * <p>
+ *     Include the {@code CameraFragmentStandard} into your layout either directly with {@code <fragment>} in your Activity's layout or using the {@link android.app.FragmentManager} and one of the {@code createInstance()} methods.
  * </p>
  * <p>
  *     Your Activity must implement the {@link CameraFragmentListener} interface to receive events from the Camera Fragment. Failing to do so will throw an exception.
@@ -50,6 +56,13 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
         return new CameraFragmentStandard();
     }
 
+    /**
+     * <p>
+     *     Factory method for creating a new instance of the Fragment with document import enabled for the specified file types.
+     * </p>
+     * @param docImportEnabledFileTypes the file types enabled for document import
+     * @return a new instance of the Fragment
+     */
     public static CameraFragmentStandard createInstance(
             @NonNull final DocumentImportEnabledFileTypes docImportEnabledFileTypes) {
         CameraFragmentStandard fragment = new CameraFragmentStandard();
