@@ -27,7 +27,7 @@ import net.gini.android.vision.review.ReviewActivity;
  *     When you use the Screen API, the {@code AnalysisActivity} displays the captured or imported document and an activity indicator while the document is being analyzed by the Gini API.
  * </p>
  * <p>
- *     <b>Note:</b> The title from the ActionBar was removed. Use the activity indicator message instead by overriding the string resource named {@code gv_analysis_activity_indicator_message}.
+ *     <b>Note:</b> The title from the ActionBar was removed. Use the activity indicator message instead by overriding the string resource named {@code gv_analysis_activity_indicator_message}. The message is displayed for images only.
  * </p>
  * <p>
  *     For PDF documents the first page is shown (only on Android 5.0 Lollipop and newer) along with the PDF's filename and number of pages above the page. On Android KitKat and older only the PDF's filename is shown with the preview area left empty.
@@ -191,6 +191,15 @@ public abstract class AnalysisActivity extends AppCompatActivity implements
         mFragment.hideError();
     }
 
+    /**
+     * <p>
+     * You should call this method after you've received the analysis results from the Gini API
+     * without the required extractions.
+     * </p>
+     * <p>
+     *     It will launch the {@link NoResultsActivity}, if the {@link Document}'s type is {@link Document.Type#IMAGE}. For other types it will just finish the {@code AnalysisActivity} with {@code RESULT_OK}.
+     * </p>
+     */
     @Override
     public void noExtractionsFound() {
         if (mDocument.getType() == Document.Type.IMAGE) {

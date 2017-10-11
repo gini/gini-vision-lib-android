@@ -16,7 +16,13 @@ import net.gini.android.vision.internal.ui.FragmentImplCallback;
  * <h3>Component API</h3>
  *
  * <p>
- *     When you use the Component API without the Android Support Library, the {@code AnalyzeDocumentFragmentStandard} displays the captured document and an activity indicator while the document is being analyzed by the Gini API.
+ *     When you use the Component API without the Android Support Library, the {@code AnalyzeDocumentFragmentStandard} displays the captured or imported document and an activity indicator while the document is being analyzed by the Gini API.
+ * </p>
+ * <p>
+ *     <b>Note:</b> You can use the activity indicator message to display a message under the activity indicator by overriding the string resource named {@code gv_analysis_activity_indicator_message}. The message is displayed for images only.
+ * </p>
+ * <p>
+ *     For PDF documents the first page is shown (only on Android 5.0 Lollipop and newer) along with the PDF's filename and number of pages above the page. On Android KitKat and older only the PDF's filename is shown with the preview area left empty.
  * </p>
  * <p>
  *     Include the {@code AnalyzeDocumentFragmentStandard} into your layout by using the {@link AnalysisFragmentStandard#createInstance(Document, String)} factory method to create an instance and display it using the {@link android.app.FragmentManager}.
