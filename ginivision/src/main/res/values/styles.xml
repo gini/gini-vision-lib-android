@@ -52,9 +52,9 @@
         <item name="gvCustomFont"/>
     </style>
 
-    <style name="Root.GiniVisionTheme.Camera.UploadHint.TextStyle" parent="TextAppearance.AppCompat">
+    <style name="Root.GiniVisionTheme.Camera.DocumentImportHint.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/gv_camera_upload_hint_text</item>
+        <item name="android:textColor">@color/gv_camera_document_import_hint_text</item>
         <item name="gvCustomFont"/>
     </style>
 
@@ -125,7 +125,7 @@
 
     <style name="GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle" parent="Root.GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle"/>
 
-    <style name="GiniVisionTheme.Camera.UploadHint.TextStyle" parent="Root.GiniVisionTheme.Camera.UploadHint.TextStyle" />
+    <style name="GiniVisionTheme.Camera.DocumentImportHint.TextStyle" parent="Root.GiniVisionTheme.Camera.DocumentImportHint.TextStyle" />
 
     <style name="GiniVisionTheme.Review.BottomPanel.TextStyle" parent="Root.GiniVisionTheme.Review.BottomPanel.TextStyle"/>
 

@@ -11,12 +11,14 @@
     <color name="gv_camera_activity_background">@android:color/transparent</color>
     <color name="gv_camera_fragment_background">@color/gv_background</color>
 
+    <color name="gv_camera_preview_corners">#ffffff</color>
+
     <color name="gv_camera_error_no_permission_text">#fff</color>
     <color name="gv_camera_error_no_permission_button_title">#fff</color>
     <color name="gv_camera_error_no_permission_button_title_pressed">#ddd</color>
 
-    <color name="gv_camera_upload_hint_background">#ffffff</color>
-    <color name="gv_camera_upload_hint_text">#000000</color>
+    <color name="gv_document_import_hint_background">#ffffff</color>
+    <color name="gv_camera_document_import_hint_text">#000000</color>
 
     <color name="gv_onboarding_activity_background">@android:color/transparent</color>
     <color name="gv_onboarding_fragment_background">@android:color/transparent</color>

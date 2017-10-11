@@ -328,9 +328,9 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         ViewStub stubNoPermission = view.findViewById(R.id.gv_stub_camera_no_permission);
         mViewStubInflater = new ViewStubSafeInflater(stubNoPermission);
         mButtonImportDocument = view.findViewById(R.id.gv_button_import_document);
-        mUploadHintContainer = view.findViewById(R.id.gv_upload_hint_container);
-        mUploadHintContainerArrow = view.findViewById(R.id.gv_upload_hint_container_arrow);
-        mUploadHintCloseButton = view.findViewById(R.id.gv_upload_hint_close_button);
+        mUploadHintContainer = view.findViewById(R.id.gv_document_import_hint_container);
+        mUploadHintContainerArrow = view.findViewById(R.id.gv_document_import_hint_container_arrow);
+        mUploadHintCloseButton = view.findViewById(R.id.gv_document_import_hint_close_button);
         mCameraPreviewShade = view.findViewById(R.id.gv_camera_preview_shade);
         mActivityIndicatorBackground =
                 view.findViewById(R.id.gv_activity_indicator_background);

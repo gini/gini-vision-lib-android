@@ -24,6 +24,10 @@ public final class GiniVisionFileImport {
      * <p>
      * When your application receives a file from another application you can use this method to
      * create an Intent for launching the Gini Vision Library.
+     * <p>
+     *     Start the Intent with {@link android.app.Activity#startActivityForResult(Intent,
+     *     int)} to receive the {@link GiniVisionError} in case there was an error.
+     * </p>
      *
      * @param intent                the Intent your app received
      * @param context               Android context

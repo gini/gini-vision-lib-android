@@ -9,6 +9,11 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
+import net.gini.android.vision.R;
+
+/**
+ * @exclude
+ */
 public class FrameView extends View {
 
     private static final int INITIAL_OFFSET = 20;
@@ -31,7 +36,7 @@ public class FrameView extends View {
         super(context, attrs);
 
         mPaintLine = new Paint();
-        mPaintLine.setColor(Color.WHITE);
+        mPaintLine.setColor(context.getColor(R.color.gv_camera_preview_corners));
         mPaintLine.setStyle(Paint.Style.STROKE);
 
         setLineWidth(LINE_WIDTH);
