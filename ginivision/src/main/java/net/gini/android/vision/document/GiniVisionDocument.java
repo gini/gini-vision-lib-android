@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.internal.AsyncCallback;
-import net.gini.android.vision.internal.camera.photo.ImageCache;
+import net.gini.android.vision.internal.camera.photo.ParcelableMemoryCache;
 import net.gini.android.vision.internal.util.UriReaderAsyncTask;
 import net.gini.android.vision.internal.util.IntentHelper;
 
@@ -102,8 +102,8 @@ public class GiniVisionDocument implements Document {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         if (mData != null) {
-            ImageCache cache = ImageCache.getInstance();
-            ImageCache.Token token = cache.storeJpeg(mData);
+            ParcelableMemoryCache cache = ParcelableMemoryCache.getInstance();
+            ParcelableMemoryCache.Token token = cache.storeByteArray(mData);
             dest.writeParcelable(token, flags);
         } else {
             dest.writeParcelable(null, flags);
@@ -139,11 +139,11 @@ public class GiniVisionDocument implements Document {
     };
 
     GiniVisionDocument(Parcel in) {
-        ImageCache cache = ImageCache.getInstance();
-        ImageCache.Token token = in.readParcelable(ImageCache.Token.class.getClassLoader());
+        ParcelableMemoryCache cache = ParcelableMemoryCache.getInstance();
+        ParcelableMemoryCache.Token token = in.readParcelable(ParcelableMemoryCache.Token.class.getClassLoader());
         if (token != null) {
-            mData = cache.getJpeg(token);
-            cache.removeJpeg(token);
+            mData = cache.getByteArray(token);
+            cache.removeByteArray(token);
         } else {
             mData = null;
         }

@@ -180,12 +180,11 @@ class ImmutablePhoto implements Photo {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        ImageCache cache = ImageCache.getInstance();
-
-        ImageCache.Token token = cache.storeBitmap(mBitmapPreview);
+        final ParcelableMemoryCache cache = ParcelableMemoryCache.getInstance();
+        ParcelableMemoryCache.Token token = cache.storeBitmap(mBitmapPreview);
         dest.writeParcelable(token, flags);
 
-        token = cache.storeJpeg(mData);
+        token = cache.storeByteArray(mData);
         dest.writeParcelable(token, flags);
 
         dest.writeInt(mRotationForDisplay);
@@ -207,15 +206,15 @@ class ImmutablePhoto implements Photo {
             };
 
     protected ImmutablePhoto(Parcel in) {
-        ImageCache cache = ImageCache.getInstance();
-
-        ImageCache.Token token = in.readParcelable(ImageCache.Token.class.getClassLoader());
+        final ParcelableMemoryCache cache = ParcelableMemoryCache.getInstance();
+        ParcelableMemoryCache.Token token = in.readParcelable(
+                ParcelableMemoryCache.Token.class.getClassLoader());
         mBitmapPreview = cache.getBitmap(token);
         cache.removeBitmap(token);
 
-        token = in.readParcelable(ImageCache.Token.class.getClassLoader());
-        mData = cache.getJpeg(token);
-        cache.removeJpeg(token);
+        token = in.readParcelable(ParcelableMemoryCache.Token.class.getClassLoader());
+        mData = cache.getByteArray(token);
+        cache.removeByteArray(token);
 
         mRotationForDisplay = in.readInt();
         mImageFormat = (ImageDocument.ImageFormat) in.readSerializable();

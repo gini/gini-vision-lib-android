@@ -11,14 +11,15 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * The document cache is a singleton which stores the captured image. This solution is needed
- * because it is not possible to pass large bitmaps via intents.
- *
- * You should never use this service directly but instead work with the Photo.
+ * This singleton cache keeps references to byte arrays and Bitmaps to be preserved between
+ * parceling and unparceling.
+ * <p>
+ * This solution is needed because it is not possible to pass large byte arrays and Bitmaps via
+ * Intents.
  *
  * @exclude
  */
-public enum ImageCache {
+public enum ParcelableMemoryCache {
 
     INSTANCE;
 
@@ -78,8 +79,22 @@ public enum ImageCache {
         }
     }
 
+    private Map<Token, byte[]> mByteArrayCache = new ConcurrentHashMap<>();
     private Map<Token, Bitmap> mBitmapCache = new ConcurrentHashMap<>();
-    private Map<Token, byte[]> mJpegCache = new ConcurrentHashMap<>();
+
+    public byte[] getByteArray(@NonNull final Token token) {
+        return mByteArrayCache.get(token);
+    }
+
+    public Token storeByteArray(@NonNull final byte[] documentJpeg) {
+        final Token token = Token.next();
+        mByteArrayCache.put(token, documentJpeg);
+        return token;
+    }
+
+    public void removeByteArray(@NonNull final Token token) {
+        mByteArrayCache.remove(token);
+    }
 
     @Nullable
     public Bitmap getBitmap(@NonNull final Token token) {
@@ -99,22 +114,8 @@ public enum ImageCache {
         mBitmapCache.remove(token);
     }
 
-    public byte[] getJpeg(@NonNull final Token token) {
-        return mJpegCache.get(token);
-    }
-
-    public Token storeJpeg(@NonNull final byte[] documentJpeg) {
-        final Token token = Token.next();
-        mJpegCache.put(token, documentJpeg);
-        return token;
-    }
-
-    public void removeJpeg(@NonNull final Token token) {
-        mJpegCache.remove(token);
-    }
-
     @NonNull
-    public static ImageCache getInstance() {
+    public static ParcelableMemoryCache getInstance() {
         return INSTANCE;
     }
 }
