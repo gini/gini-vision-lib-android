@@ -8,6 +8,12 @@ import android.support.annotation.NonNull;
 
 import net.gini.android.vision.internal.util.IntentHelper;
 
+/**
+ * <p>
+ *     A document containing a PDF.
+ * </p>
+ *
+ */
 public class PdfDocument extends GiniVisionDocument {
 
     private final Uri mUri;
@@ -25,8 +31,8 @@ public class PdfDocument extends GiniVisionDocument {
     }
 
     /**
-     *
-     * @param intent
+     * Creates an instance from the provided Intent.
+     * @param intent an Intent that must point to a PDF
      * @throws IllegalArgumentException if the Intent's data is null
      */
     private PdfDocument(@NonNull final Intent intent) {
@@ -37,22 +43,38 @@ public class PdfDocument extends GiniVisionDocument {
         }
     }
 
+    /**
+     * <p>
+     *     Retrieve the Uri of the PDF.
+     * </p>
+     *
+     * @return the Uri pointing to the PDF
+     */
     @NonNull
     public Uri getUri() {
         return mUri;
     }
 
+    /**
+     * @exclude
+     */
     @Override
     public int describeContents() {
         return 0;
     }
 
+    /**
+     * @exclude
+     */
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {
         super.writeToParcel(dest, flags);
         dest.writeParcelable(mUri, flags);
     }
 
+    /**
+     * @exclude
+     */
     public static final Creator<PdfDocument> CREATOR = new Creator<PdfDocument>() {
         @Override
         public PdfDocument createFromParcel(Parcel in) {
@@ -65,6 +87,9 @@ public class PdfDocument extends GiniVisionDocument {
         }
     };
 
+    /**
+     * @exclude
+     */
     private PdfDocument(Parcel in) {
         super(in);
         mUri = in.readParcelable(Uri.class.getClassLoader());

@@ -13,6 +13,9 @@ import net.gini.android.vision.R;
 
 import java.util.List;
 
+/**
+ * @exclude
+ */
 public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersItemViewHolder> {
 
     private final Context mContext;

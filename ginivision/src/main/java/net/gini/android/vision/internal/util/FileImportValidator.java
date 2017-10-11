@@ -13,6 +13,9 @@ import net.gini.android.vision.internal.pdf.Pdf;
 
 import java.io.FileNotFoundException;
 
+/**
+ * @exclude
+ */
 public class FileImportValidator {
 
     public enum Error {

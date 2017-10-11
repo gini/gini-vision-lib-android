@@ -58,7 +58,13 @@ public interface Document extends Parcelable {
 
     /**
      * <p>
-     * The contents of a document.
+     * The contents of a document, if the document was loaded into memory.
+     * </p>
+     * <p>
+     *     For photos captured with the camera this is never null.
+     * </p>
+     * <p>
+     *     If {@link Document#isImported()} is {@code true} then this might be null. If it's null you can use {@link Document#getIntent()} and access the contents using the Intent.
      * </p>
      *
      * @return a byte array containing one of the supported document types
