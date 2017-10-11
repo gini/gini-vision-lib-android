@@ -3,6 +3,7 @@ package net.gini.android.vision.internal.camera.photo;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 
@@ -66,30 +67,33 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
 
         readRequiredTags();
 
-        ExifReader exifReader = ExifReader.forJpeg(data);
+        ExifReader exifReader = null;
         String userComment = "";
         try {
+            exifReader = ExifReader.forJpeg(data);
             userComment = exifReader.getUserComment();
         } catch (ExifReaderException e) {
             LOG.warn("Could not read exif User Comment", e);
         }
-        initContentId(exifReader, userComment);
-        initRotationDelta(exifReader, userComment);
-        initDeviceOrientation(exifReader, userComment);
-        initDeviceType(exifReader, userComment);
+        initContentId(userComment);
+        initRotationDelta(userComment);
+        initDeviceOrientation(userComment);
+        initDeviceType(userComment);
+        initSource(userComment);
+        initImportMethod(userComment);
         initRotationForDisplay(exifReader);
     }
 
-    private void initContentId(final ExifReader exifReader, final String userComment) {
-        mContentId = exifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_CONTENT_ID,
+    private void initContentId(final String userComment) {
+        mContentId = ExifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_CONTENT_ID,
                 userComment);
         if (mContentId == null) {
             mContentId = generateUUID();
         }
     }
 
-    private void initRotationDelta(final ExifReader exifReader, final String userComment) {
-        String rotationDelta = exifReader.getValueForKeyFromUserComment(
+    private void initRotationDelta(final String userComment) {
+        String rotationDelta = ExifReader.getValueForKeyFromUserComment(
                 Exif.USER_COMMENT_ROTATION_DELTA,
                 userComment);
         if (rotationDelta != null) {
@@ -101,26 +105,45 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
         }
     }
 
-    private void initDeviceOrientation(final ExifReader exifReader, final String userComment) {
+    private void initDeviceOrientation(final String userComment) {
         mDeviceOrientation =
-                exifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_DEVICE_ORIENTATION,
+                ExifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_DEVICE_ORIENTATION,
                         userComment);
         if (mDeviceOrientation == null && mImageDocument != null) {
             mDeviceOrientation = mImageDocument.getDeviceOrientation();
         }
     }
 
-    private void initDeviceType(final ExifReader exifReader, final String userComment) {
+    private void initDeviceType(final String userComment) {
         mDeviceType =
-                exifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_DEVICE_TYPE,
+                ExifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_DEVICE_TYPE,
                         userComment);
         if (mDeviceType == null && mImageDocument != null) {
             mDeviceType = mImageDocument.getDeviceType();
         }
     }
 
-    private void initRotationForDisplay(final ExifReader exifReader) {
-        if (mImageDocument != null && mImageDocument.isImported()) {
+    private void initSource(final String userComment) {
+        mSource =
+                ExifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_SOURCE,
+                        userComment);
+        if (mSource == null && mImageDocument != null) {
+            mSource = mImageDocument.getSource();
+        }
+    }
+
+    private void initImportMethod(final String userComment) {
+        mImportMethod =
+                ExifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_IMPORT_METHOD,
+                        userComment);
+        if (mImportMethod == null && mImageDocument != null) {
+            mImportMethod = mImageDocument.getImportMethod();
+        }
+    }
+
+    private void initRotationForDisplay(@Nullable final ExifReader exifReader) {
+        if (mImageDocument != null && mImageDocument.isImported()
+                && exifReader != null) {
             mRotationForDisplay = exifReader.getOrientationAsDegrees();
         }
     }
