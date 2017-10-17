@@ -55,7 +55,7 @@ public class AnalysisFragmentCompat extends Fragment implements FragmentImplCall
 
     @Override
     public void noExtractionsFound() {
-
+        mFragmentImpl.noExtractionsFound();
     }
 
     /**

@@ -45,4 +45,9 @@ public final class DocumentFactory {
     public static GiniVisionDocument newDocumentFromPhoto(@NonNull final Photo photo) {
         return ImageDocument.fromPhoto(photo);
     }
+
+    public static GiniVisionDocument newDocumentFromPhotoAndDocument(@NonNull final Photo photo,
+            @NonNull final Document document) {
+        return ImageDocument.fromPhotoAndDocument(photo, document);
+    }
 }

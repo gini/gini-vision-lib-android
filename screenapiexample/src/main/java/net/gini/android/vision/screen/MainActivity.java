@@ -1,5 +1,7 @@
 package net.gini.android.vision.screen;
 
+import static net.gini.android.vision.screen.Util.isPay5Extraction;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -259,11 +261,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean pay5ExtractionsAvailable(Bundle extractionsBundle) {
         for (String key : extractionsBundle.keySet()) {
-            if (key.equals("amountToPay") ||
-                    key.equals("bic") ||
-                    key.equals("iban") ||
-                    key.equals("paymentReference") ||
-                    key.equals("paymentRecipient")) {
+            if (isPay5Extraction(key)) {
                 return true;
             }
         }

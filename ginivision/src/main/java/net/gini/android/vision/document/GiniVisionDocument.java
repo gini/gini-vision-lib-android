@@ -152,7 +152,7 @@ public class GiniVisionDocument implements Document {
         }
 
         mType = (Type) in.readSerializable();
-        mIntent = in.readParcelable(Uri.class.getClassLoader());
+        mIntent = in.readParcelable(Intent.class.getClassLoader());
         mIsReviewable = in.readInt() == 1;
         mIsImported = in.readInt() == 1;
     }
