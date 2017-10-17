@@ -20,8 +20,8 @@
 
         <ImageView
             android:id="@+id/gv_image_onboarding"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/gv_onboarding_illustration_size"
+            android:layout_height="@dimen/gv_onboarding_illustration_size"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="@dimen/gv_onboarding_illustration_vertical_margin"
             tools:src="@drawable/gv_onboarding_flat" />

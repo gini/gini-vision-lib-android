@@ -20,7 +20,8 @@
     <string name="gv_document_analysis_error_retry">Wiederholen</string>
     <string name="gv_analysis_activity_indicator_message">Dokument wird analysiert</string>
 
-    <string name="gv_noresults_hints">Zur Erkennung aller Daten bitte folgende Tipps beim Abfotografieren beachten:</string>
+    <string name="gv_noresults_header">Es konntent keine Daten ausgelesen werden. Bitte Aufnahmen wiederholen.</string>
+    <string name="gv_noresults_headline">Tipps für beste Ergebnisse:</string>
     <string name="gv_noresults_align">Seite vollständig in den angezeigten Rahmen einpassen</string>
     <string name="gv_noresults_lighting">Auf gute Beleuchtung achten</string>
     <string name="gv_noresults_parallel">Gerät parallel über die Seite halten</string>
@@ -51,4 +52,5 @@
 
     <string name="gv_document_import_pick_another_document">Andere Datei wählen</string>
     <string name="gv_document_import_close_error">Abbrechen</string>
+
 </resources>
