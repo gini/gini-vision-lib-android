@@ -543,8 +543,7 @@ public class GiniVisionActivity extends Activity
             return;
         }
         CameraFragmentStandard cameraFragment = (CameraFragmentStandard) mCurrentFragment;
-        cameraFragment.hideDocumentCornerGuides();
-        cameraFragment.hideCameraTriggerButton();
+        cameraFragment.hideInterface();
     }
 
     private void initState(final Bundle savedInstanceState) {
@@ -597,8 +596,7 @@ public class GiniVisionActivity extends Activity
             return;
         }
         CameraFragmentStandard cameraFragment = (CameraFragmentStandard) mCurrentFragment;
-        cameraFragment.showDocumentCornerGuides();
-        cameraFragment.showCameraTriggerButton();
+        cameraFragment.showInterface();
     }
 
     private void showExtractions(net.gini.android.models.Document giniApiDocument,
