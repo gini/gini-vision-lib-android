@@ -114,7 +114,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     }
 
     @Override
-    public void noExtractionsFound() {
+    public void onNoExtractionsFound() {
     }
 
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -442,7 +442,9 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             return;
         }
         LOG.debug("Rotating the Photo {} degrees", mCurrentRotation);
-        mPhoto.edit().rotateTo(mCurrentRotation).applyAsync(callback);
+        mPhoto.edit()
+                .rotateTo(mCurrentRotation)
+                .applyAsync(callback);
     }
 
     private void applyCompressionToPhoto(@NonNull PhotoEdit.PhotoEditCallback callback) {
@@ -450,7 +452,9 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             return;
         }
         LOG.debug("Compressing the Photo to quality {}", JPEG_COMPRESSION_QUALITY_FOR_UPLOAD);
-        mPhoto.edit().compressBy(JPEG_COMPRESSION_QUALITY_FOR_UPLOAD).applyAsync(callback);
+        mPhoto.edit()
+                .compressBy(JPEG_COMPRESSION_QUALITY_FOR_UPLOAD)
+                .applyAsync(callback);
     }
 
     private void rotateImageView(int degrees, boolean animated) {

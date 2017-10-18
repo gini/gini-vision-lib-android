@@ -330,7 +330,7 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     }
 
     @Override
-    public void noExtractionsFound() {
+    public void onNoExtractionsFound() {
         mNoExtractionsFound = true;
     }
 

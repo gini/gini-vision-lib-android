@@ -66,7 +66,7 @@ public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisA
                     public void onExtractionsReceived(Map<String, SpecificExtraction> extractions) {
                         mExtractions = extractions;
                         if (mExtractions == null || hasNoPay5Extractions(mExtractions.keySet())) {
-                            noExtractionsFound();
+                            onNoExtractionsFound();
                         } else {
                             // Calling onDocumentAnalyzed() is important to notify the
                             // AnalysisActivity

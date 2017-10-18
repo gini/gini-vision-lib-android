@@ -33,5 +33,5 @@ public interface ReviewFragmentInterface {
      * without the required extractions.
      * </p>
      */
-    void noExtractionsFound();
+    void onNoExtractionsFound();
 }

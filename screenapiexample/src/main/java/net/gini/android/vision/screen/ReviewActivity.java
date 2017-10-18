@@ -86,7 +86,7 @@ public class ReviewActivity extends net.gini.android.vision.review.ReviewActivit
             public void onExtractionsReceived(Map<String, SpecificExtraction> extractions) {
                 mExtractions = extractions;
                 if (mExtractions == null || hasNoPay5Extractions(mExtractions.keySet())) {
-                    noExtractionsFound();
+                    onNoExtractionsFound();
                 } else {
                     // Calling onDocumentAnalyzed() is important to notify the
                     // ReviewActivity base class that the analysis has completed successfully

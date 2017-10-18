@@ -126,7 +126,7 @@ public class ReviewFragmentCompat extends Fragment implements FragmentImplCallba
     }
 
     @Override
-    public void noExtractionsFound() {
-        mFragmentImpl.noExtractionsFound();
+    public void onNoExtractionsFound() {
+        mFragmentImpl.onNoExtractionsFound();
     }
 }
