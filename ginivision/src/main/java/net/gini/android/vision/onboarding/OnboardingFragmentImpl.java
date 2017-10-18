@@ -1,8 +1,10 @@
 package net.gini.android.vision.onboarding;
 
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
+import static net.gini.android.vision.internal.util.ContextHelper.isTablet;
 
 import android.animation.Animator;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -54,16 +56,28 @@ class OnboardingFragmentImpl {
 
     public OnboardingFragmentImpl(OnboardingFragmentImplCallback fragment, boolean showEmptyLastPage) {
         mFragment = fragment;
-        mPages = DefaultPages.asArrayList();
+        mPages = getDefaultPages();
         mShowEmptyLastPage = showEmptyLastPage;
         if (mShowEmptyLastPage) {
             addTransparentPage();
         }
     }
 
+    private ArrayList<OnboardingPage> getDefaultPages() {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return new ArrayList<>();
+        }
+        if (isTablet(activity)){
+            return DefaultPagesTablet.asArrayList();
+        } else {
+            return DefaultPagesPhone.asArrayList();
+        }
+    }
+
     public OnboardingFragmentImpl(OnboardingFragmentImplCallback fragment, boolean showEmptyLastPage, ArrayList<OnboardingPage> pages) {
         mFragment = fragment;
-        mPages = pages != null ? new ArrayList<>(pages) : DefaultPages.asArrayList();
+        mPages = pages != null ? new ArrayList<>(pages) : getDefaultPages();
         mShowEmptyLastPage = showEmptyLastPage;
         if (mShowEmptyLastPage) {
             addTransparentPage();

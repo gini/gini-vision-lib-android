@@ -69,7 +69,9 @@
         android:alpha="0"
         android:src="@drawable/gv_hint_arrow_down"
         android:tint="@color/gv_document_import_hint_background"
-        tools:alpha="1" />
+        android:visibility="gone"
+        tools:alpha="1"
+        tools:visibility="visible" />
 
     <RelativeLayout
         android:id="@+id/gv_document_import_hint_container"

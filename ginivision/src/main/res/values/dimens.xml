@@ -16,6 +16,8 @@
     <dimen name="gv_onboarding_indicator_height">10dp</dimen>
     <dimen name="gv_onboarding_illustration_size">160dp</dimen>
     <dimen name="gv_onboarding_illustration_vertical_margin">40dp</dimen>
+    <dimen name="gv_onboarding_message_horizontal_margin">16dp</dimen>
+    <dimen name="gv_onboarding_message_max_width">600dp</dimen>
     <dimen name="gv_onboarding_vertical_margin">100dp</dimen>
 
     <dimen name="gv_review_button_rotate_vertical_margin">7dp</dimen>
