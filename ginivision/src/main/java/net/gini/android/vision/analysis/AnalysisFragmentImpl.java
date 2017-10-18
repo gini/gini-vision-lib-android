@@ -108,7 +108,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     @Override
-    public void noExtractionsFound() {
+    public void onNoExtractionsFound() {
 
     }
 

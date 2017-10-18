@@ -116,7 +116,7 @@ public class ReviewFragmentStandard extends Fragment implements FragmentImplCall
     }
 
     @Override
-    public void noExtractionsFound() {
-        mFragmentImpl.noExtractionsFound();
+    public void onNoExtractionsFound() {
+        mFragmentImpl.onNoExtractionsFound();
     }
 }

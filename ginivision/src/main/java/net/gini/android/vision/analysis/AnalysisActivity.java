@@ -205,7 +205,7 @@ public abstract class AnalysisActivity extends AppCompatActivity implements
      * </p>
      */
     @Override
-    public void noExtractionsFound() {
+    public void onNoExtractionsFound() {
         if (GiniVisionCoordinator.shouldShowGiniVisionNoResultsScreen(mDocument)) {
             final Intent noResultsActivity = new Intent(this, NoResultsActivity.class);
             noResultsActivity.putExtra(NoResultsActivity.EXTRA_IN_DOCUMENT, mDocument);

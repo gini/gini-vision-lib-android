@@ -11,7 +11,7 @@
  * <p>
  * The {@link net.gini.android.vision.noresults.NoResultsActivity} is launched directly by the
  * {@link net.gini.android.vision.analysis.AnalysisActivity} when {@link
- * net.gini.android.vision.analysis.AnalysisFragmentInterface#noExtractionsFound()} has been
+ * net.gini.android.vision.analysis.AnalysisFragmentInterface#onNoExtractionsFound()} has been
  * called.
  * </p>
  *

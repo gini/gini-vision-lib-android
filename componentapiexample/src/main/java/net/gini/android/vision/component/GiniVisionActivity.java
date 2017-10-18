@@ -128,8 +128,8 @@ public class GiniVisionActivity extends Activity implements CameraFragmentListen
                             showExtractions(getSingleDocumentAnalyzer().getGiniApiDocument(),
                                     extractions, document);
                         } else {
-                            LOG.debug("Document analyzed in the Analysis Screen, but not in the "
-                                    + "Analysis Screen anymore.");
+                            LOG.debug(
+                                    "Document analyzed in the Analysis Screen, but not in the Analysis Screen anymore.");
                         }
                     }
                 });
@@ -433,8 +433,10 @@ public class GiniVisionActivity extends Activity implements CameraFragmentListen
         Fragment fragment = getFragmentManager().findFragmentById(
                 R.id.fragment_container_onboarding);
         if (fragment != null) {
-            getFragmentManager().beginTransaction().setCustomAnimations(R.animator.fade_in,
-                    R.animator.fade_out).remove(fragment).commit();
+            getFragmentManager().beginTransaction()
+                    .setCustomAnimations(R.animator.fade_in, R.animator.fade_out)
+                    .remove(fragment)
+                    .commit();
         }
         setTitle(mTitleBeforeOnboarding != null ? mTitleBeforeOnboarding
                 : getString(R.string.title_camera));
