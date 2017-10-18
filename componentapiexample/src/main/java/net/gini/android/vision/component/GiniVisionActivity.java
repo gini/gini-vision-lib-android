@@ -72,7 +72,6 @@ public class GiniVisionActivity extends Activity implements CameraFragmentListen
     private String mDocumentAnalysisErrorMessage;
     private Map<String, SpecificExtraction> mExtractionsFromReviewScreen;
     private GiniVisionCoordinator mGiniVisionCoordinator;
-    private boolean mNoExtractionsFound = false;
     private boolean mShowCameraOnStart = false;
     private SingleDocumentAnalyzer mSingleDocumentAnalyzer;
     private String mTitleBeforeOnboarding;
@@ -127,7 +126,7 @@ public class GiniVisionActivity extends Activity implements CameraFragmentListen
                             analysisFragment.onDocumentAnalyzed();
                             stopScanAnimation();
                             showExtractions(getSingleDocumentAnalyzer().getGiniApiDocument(),
-                                        extractions, document);
+                                    extractions, document);
                         } else {
                             LOG.debug("Document analyzed in the Analysis Screen, but not in the "
                                     + "Analysis Screen anymore.");
@@ -346,22 +345,13 @@ public class GiniVisionActivity extends Activity implements CameraFragmentListen
     @Override
     public void onProceedToAnalysisScreen(@NonNull Document document) {
         LOG.debug("Proceed to Analysis Screen with document {}", document);
-        // If we haven't received any valid extractions we query the Gini Vision Library
-        // whether we should show the the Gini Vision No Results Screen
-        if (mNoExtractionsFound && GiniVisionCoordinator.shouldShowGiniVisionNoResultsScreen(document)) {
-            // Show a special screen, if no Pay5 extractions were found to give the user some
-            // hints and tips
-            // for using the Gini Vision Library
-            showNoResultsScreen(document);
-        } else {
-            // As the library requests us to go to the Analysis Screen we should only remove the
-            // listener.
-            // We should not cancel the analysis here as we don't know, if we proceed because the
-            // analysis didn't complete or
-            // the user rotated the image
-            getSingleDocumentAnalyzer().removeListener();
-            pushFragment(getAnalysisFragment(document));
-        }
+        // As the library requests us to go to the Analysis Screen we should only remove the
+        // listener.
+        // We should not cancel the analysis here as we don't know, if we proceed because the
+        // analysis didn't complete or
+        // the user rotated the image
+        getSingleDocumentAnalyzer().removeListener();
+        pushFragment(getAnalysisFragment(document));
     }
 
     private void showNoResultsScreen(final @NonNull Document document) {
@@ -379,8 +369,6 @@ public class GiniVisionActivity extends Activity implements CameraFragmentListen
     public void onShouldAnalyzeDocument(@NonNull Document document) {
         LOG.debug("Should analyze document in the Review Screen {}", document);
         GiniVisionDebug.writeDocumentToFile(this, document, "_for_review");
-
-        mNoExtractionsFound = false;
 
         // We should start analyzing the document by sending it to the Gini API.
         // If the user did not modify the image we can get the analysis results earlier.
@@ -416,18 +404,10 @@ public class GiniVisionActivity extends Activity implements CameraFragmentListen
                             // onDocumentReviewedAndAnalyzed()
                             // will have been called
                             mExtractionsFromReviewScreen = extractions;
-                            // If we have no valid extractions we just store that information
-                            // to access it when the user requests us to proceed to the
-                            // Analysis Screen
-                            if (mExtractionsFromReviewScreen == null || hasNoPay5Extractions(
-                                    mExtractionsFromReviewScreen.keySet())) {
-                                mNoExtractionsFound = true;
-                            } else {
-                                // Calling onDocumentAnalyzed() is important to notify the Review
-                                // Fragment that the
-                                // analysis has completed successfully
-                                reviewFragment.onDocumentAnalyzed();
-                            }
+                            // Calling onDocumentAnalyzed() is important to notify the Review
+                            // Fragment that the
+                            // analysis has completed successfully
+                            reviewFragment.onDocumentAnalyzed();
                         } else {
                             LOG.debug("Document analyzed in the Review Screen, but not in the "
                                     + "Review Screen anymore.");
@@ -445,11 +425,6 @@ public class GiniVisionActivity extends Activity implements CameraFragmentListen
             showCamera();
             mShowCameraOnStart = false;
         }
-    }
-
-    public boolean isShowingCamera() {
-        Fragment fragment = getFragmentManager().findFragmentById(R.id.fragment_container);
-        return fragment != null && fragment instanceof CameraFragmentStandard;
     }
 
     public void removeOnboarding() {
