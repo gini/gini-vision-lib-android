@@ -34,10 +34,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginEnd="@dimen/gv_onboarding_message_horizontal_margin"
+            android:layout_marginLeft="@dimen/gv_onboarding_message_horizontal_margin"
             android:layout_marginRight="@dimen/gv_onboarding_message_horizontal_margin"
             android:layout_marginStart="@dimen/gv_onboarding_message_horizontal_margin"
-            android:layout_marginLeft="@dimen/gv_onboarding_message_horizontal_margin"
             android:gravity="center"
+            android:maxWidth="@dimen/gv_onboarding_message_max_width"
             tools:text="Dokument flach\nauf eine einfarbige\nFläche legen" />
     </LinearLayout>
 
