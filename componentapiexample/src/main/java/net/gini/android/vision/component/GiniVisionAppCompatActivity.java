@@ -538,8 +538,7 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
             return;
         }
         CameraFragmentCompat cameraFragment = (CameraFragmentCompat) mCurrentFragment;
-        cameraFragment.hideDocumentCornerGuides();
-        cameraFragment.hideCameraTriggerButton();
+        cameraFragment.hideInterface();
     }
 
     private void initState(final Bundle savedInstanceState) {
@@ -579,8 +578,7 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
             return;
         }
         CameraFragmentCompat cameraFragment = (CameraFragmentCompat) mCurrentFragment;
-        cameraFragment.showDocumentCornerGuides();
-        cameraFragment.showCameraTriggerButton();
+        cameraFragment.showInterface();
     }
 
     private void showExtractions(net.gini.android.models.Document giniApiDocument,
