@@ -372,7 +372,7 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
 
     private void showNoResultsScreen(final @NonNull Document document) {
         getSupportFragmentManager().popBackStack(getCameraFragment().getClass().getSimpleName(), 0);
-        pushFragment(NoResultsFragmentCompat.createInstance(document), R.string.gv_title_noresults);
+        pushFragment(NoResultsFragmentCompat.createInstance(document));
     }
 
     @Override

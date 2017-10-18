@@ -61,6 +61,7 @@ public class NoResultsActivity extends AppCompatActivity implements NoResultsFra
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gv_activity_noresults);
+        setTitle("");
         readExtras();
         final ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {

@@ -11,7 +11,6 @@
         <activity
             android:name=".noresults.NoResultsActivity"
             android:exported="false"
-            android:label="@string/gv_title_noresults"
             android:theme="@style/GiniVisionTheme" />
         <activity
             android:name=".onboarding.OnboardingActivity"

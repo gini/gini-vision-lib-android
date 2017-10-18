@@ -15,6 +15,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import net.gini.android.models.SpecificExtraction;
@@ -365,8 +366,7 @@ public class GiniVisionActivity extends Activity implements CameraFragmentListen
 
     private void showNoResultsScreen(final @NonNull Document document) {
         getFragmentManager().popBackStack(getCameraFragment().getClass().getSimpleName(), 0);
-        pushFragment(NoResultsFragmentStandard.createInstance(document),
-                R.string.gv_title_noresults);
+        pushFragment(NoResultsFragmentStandard.createInstance(document));
     }
 
     @Override
