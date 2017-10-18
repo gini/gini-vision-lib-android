@@ -1,5 +1,7 @@
 package net.gini.android.vision.screen;
 
+import static net.gini.android.vision.screen.Util.hasNoPay5Extractions;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -83,9 +85,13 @@ public class ReviewActivity extends net.gini.android.vision.review.ReviewActivit
             @Override
             public void onExtractionsReceived(Map<String, SpecificExtraction> extractions) {
                 mExtractions = extractions;
-                // Calling onDocumentAnalyzed() is important to notify the ReviewActivity base class that the
-                // analysis has completed successfully
-                onDocumentAnalyzed();
+                if (mExtractions == null || hasNoPay5Extractions(mExtractions.keySet())) {
+                    noExtractionsFound();
+                } else {
+                    // Calling onDocumentAnalyzed() is important to notify the
+                    // ReviewActivity base class that the analysis has completed successfully
+                    onDocumentAnalyzed();
+                }
             }
 
             @Override

@@ -617,9 +617,11 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         switch (requestCode) {
             case REVIEW_DOCUMENT_REQUEST:
             case ANALYSE_DOCUMENT_REQUEST:
+                //noinspection ConstantConditions
                 if (mBackButtonShouldCloseLibrary
                         || (resultCode != Activity.RESULT_CANCELED
-                        && resultCode != AnalysisActivity.RESULT_NO_EXTRACTIONS)) {
+                        && resultCode != AnalysisActivity.RESULT_NO_EXTRACTIONS
+                        && resultCode != ReviewActivity.RESULT_NO_EXTRACTIONS)) {
                     setResult(resultCode, data);
                     finish();
                     clearMemory();

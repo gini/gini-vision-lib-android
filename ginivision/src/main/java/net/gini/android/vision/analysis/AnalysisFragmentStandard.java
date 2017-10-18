@@ -51,7 +51,7 @@ public class AnalysisFragmentStandard extends Fragment implements FragmentImplCa
 
     @Override
     public void noExtractionsFound() {
-
+        mFragmentImpl.noExtractionsFound();
     }
 
     /**

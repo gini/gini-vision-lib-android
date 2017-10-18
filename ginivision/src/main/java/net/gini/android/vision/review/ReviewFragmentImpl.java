@@ -113,6 +113,10 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         mDocumentWasAnalyzed = true;
     }
 
+    @Override
+    public void noExtractionsFound() {
+    }
+
     public void onCreate(@Nullable Bundle savedInstanceState) {
         forcePortraitOrientationOnPhones(mFragment.getActivity());
         if (savedInstanceState != null) {
@@ -138,32 +142,32 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             }
             showActivityIndicatorAndDisableButtons();
             LOG.debug("Loading document data");
-            mDocument.loadData(activity,
-                    new AsyncCallback<byte[]>() {
-                        @Override
-                        public void onSuccess(final byte[] result) {
-                            LOG.debug("Document data loaded");
-                            if (mNextClicked || mStopped) {
-                                return;
-                            }
-                            createAndCompressPhoto();
-                        }
+            mDocument.loadData(activity, new AsyncCallback<byte[]>() {
+                @Override
+                public void onSuccess(final byte[] result) {
+                    LOG.debug("Document data loaded");
+                    if (mNextClicked || mStopped) {
+                        return;
+                    }
+                    createAndCompressPhoto();
+                }
 
-                        @Override
-                        public void onError(final Exception exception) {
-                            LOG.error("Failed to load document data", exception);
-                            if (mNextClicked || mStopped) {
-                                return;
-                            }
-                            hideActivityIndicatorAndEnableButtons();
-                            mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW,
-                                    "An error occurred while loading the document."));
-                        }
-                    });
+                @Override
+                public void onError(final Exception exception) {
+                    LOG.error("Failed to load document data", exception);
+                    if (mNextClicked || mStopped) {
+                        return;
+                    }
+                    hideActivityIndicatorAndEnableButtons();
+                    mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW,
+                            "An error occurred while loading the document."));
+                }
+            });
         } else {
             observeViewTree();
             LOG.info("Should analyze document");
-            mListener.onShouldAnalyzeDocument(DocumentFactory.newDocumentFromPhoto(mPhoto));
+            mListener.onShouldAnalyzeDocument(
+                    DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto, mDocument));
         }
     }
 
@@ -189,7 +193,9 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                                 hideActivityIndicatorAndEnableButtons();
                                 observeViewTree();
                                 LOG.info("Should analyze document");
-                                mListener.onShouldAnalyzeDocument(DocumentFactory.newDocumentFromPhoto(mPhoto));
+                                mListener.onShouldAnalyzeDocument(
+                                        DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto,
+                                                mDocument));
                             }
 
                             @Override
@@ -198,8 +204,9 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                                 if (mNextClicked || mStopped) {
                                     return;
                                 }
-                                mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW,
-                                        "An error occurred while compressing the jpeg."));
+                                mListener.onError(
+                                        new GiniVisionError(GiniVisionError.ErrorCode.REVIEW,
+                                                "An error occurred while compressing the jpeg."));
                             }
                         });
                     }
@@ -289,8 +296,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     }
 
     private void bindViews(@NonNull View view) {
-        mLayoutDocumentContainer = view.findViewById(
-                R.id.gv_layout_document_container);
+        mLayoutDocumentContainer = view.findViewById(R.id.gv_layout_document_container);
         mImageDocument = view.findViewById(R.id.gv_image_document);
         mButtonRotate = view.findViewById(R.id.gv_button_rotate);
         mButtonNext = view.findViewById(R.id.gv_button_next);
@@ -369,8 +375,9 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                 if (mStopped) {
                     return;
                 }
-                mListener.onDocumentWasRotated(DocumentFactory.newDocumentFromPhoto(photo), oldRotation,
-                        mCurrentRotation);
+                mListener.onDocumentWasRotated(
+                        DocumentFactory.newDocumentFromPhotoAndDocument(photo, mDocument),
+                        oldRotation, mCurrentRotation);
             }
 
             @Override
@@ -397,7 +404,8 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                 LOG.info("Document reviewed and analyzed");
                 // Photo was not modified and has been analyzed, client should show extraction
                 // results
-                mListener.onDocumentReviewedAndAnalyzed(DocumentFactory.newDocumentFromPhoto(mPhoto));
+                mListener.onDocumentReviewedAndAnalyzed(
+                        DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto, mDocument));
             }
         } else {
             LOG.debug("Document was modified");
@@ -425,7 +433,8 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
     private void proceedToAnalysisScreen() {
         LOG.info("Proceed to Analysis Screen");
-        mListener.onProceedToAnalysisScreen(DocumentFactory.newDocumentFromPhoto(mPhoto));
+        mListener.onProceedToAnalysisScreen(
+                DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto, mDocument));
     }
 
     private void applyRotationToPhoto(@NonNull PhotoEdit.PhotoEditCallback callback) {
@@ -433,9 +442,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             return;
         }
         LOG.debug("Rotating the Photo {} degrees", mCurrentRotation);
-        mPhoto.edit()
-                .rotateTo(mCurrentRotation)
-                .applyAsync(callback);
+        mPhoto.edit().rotateTo(mCurrentRotation).applyAsync(callback);
     }
 
     private void applyCompressionToPhoto(@NonNull PhotoEdit.PhotoEditCallback callback) {
@@ -443,9 +450,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             return;
         }
         LOG.debug("Compressing the Photo to quality {}", JPEG_COMPRESSION_QUALITY_FOR_UPLOAD);
-        mPhoto.edit()
-                .compressBy(JPEG_COMPRESSION_QUALITY_FOR_UPLOAD)
-                .applyAsync(callback);
+        mPhoto.edit().compressBy(JPEG_COMPRESSION_QUALITY_FOR_UPLOAD).applyAsync(callback);
     }
 
     private void rotateImageView(int degrees, boolean animated) {
@@ -458,8 +463,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
         ValueAnimator widthAnimation;
         ValueAnimator heightAnimation;
-        if (degrees % 360 == 90 ||
-                degrees % 360 == 270) {
+        if (degrees % 360 == 90 || degrees % 360 == 270) {
             LOG.debug("ImageView width needs to fit container height");
             LOG.debug("ImageView height needs fit container width");
             widthAnimation = ValueAnimator.ofInt(mImageDocument.getWidth(),

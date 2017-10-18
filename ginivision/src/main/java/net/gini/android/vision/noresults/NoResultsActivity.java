@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import net.gini.android.vision.Document;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.camera.CameraActivity;
@@ -44,6 +45,13 @@ import net.gini.android.vision.review.ReviewActivity;
  */
 public class NoResultsActivity extends AppCompatActivity implements NoResultsFragmentListener {
 
+    /**
+     * @exclude
+     */
+    public static final String EXTRA_IN_DOCUMENT = "GV_EXTRA_IN_DOCUMENT";
+
+    private Document mDocument;
+
     @Override
     public void onBackToCameraPressed() {
         finish();
@@ -53,20 +61,40 @@ public class NoResultsActivity extends AppCompatActivity implements NoResultsFra
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gv_activity_noresults);
-
+        setTitle("");
+        readExtras();
         final ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {
             supportActionBar.setDisplayHomeAsUpEnabled(true);
             supportActionBar.setDisplayShowHomeEnabled(true);
         }
-
         if (savedInstanceState == null) {
-            NoResultsFragmentCompat noResultsFragment = NoResultsFragmentCompat.createInstance();
-            noResultsFragment.setArguments(getIntent().getExtras());
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.gv_fragment_noresults, noResultsFragment)
-                    .commit();
+            initFragment();
         }
+    }
+
+    private void readExtras() {
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            mDocument = extras.getParcelable(EXTRA_IN_DOCUMENT);
+        }
+        checkRequiredExtras();
+    }
+
+    private void checkRequiredExtras() {
+        if (mDocument == null) {
+            throw new IllegalStateException(
+                    "NoResultsActivity requires a Document. Set it as an extra using the EXTRA_IN_DOCUMENT key.");
+        }
+    }
+
+    private void initFragment() {
+        NoResultsFragmentCompat noResultsFragment = NoResultsFragmentCompat.createInstance(
+                mDocument);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.gv_fragment_noresults, noResultsFragment)
+                .commit();
     }
 
     @Override

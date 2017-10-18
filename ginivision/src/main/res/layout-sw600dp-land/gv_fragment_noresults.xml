@@ -1,136 +1,217 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gv_noresults_fragment_background"
-    android:fillViewport="true">
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/gv_no_results_header"
+        style="@style/GiniVisionTheme.NoResults.Header.TextStyle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_alignLeft="@+id/gv_no_results_headline"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/gv_no_results_headline"
+        android:layout_centerHorizontal="true"
+        android:drawableLeft="@drawable/gv_alert_icon"
+        android:drawablePadding="@dimen/gv_noresults_header_drawable_padding"
+        android:drawableStart="@drawable/gv_alert_icon"
+        android:padding="@dimen/gv_noresults_header_padding"
+        android:text="@string/gv_noresults_header" />
 
-        <TextView
-            android:layout_width="match_parent"
+    <View
+        android:id="@+id/gv_no_results_header_separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/gv_no_results_header"
+        android:background="#eee" />
+
+    <TextView
+        android:id="@+id/gv_no_results_headline"
+        style="@style/GiniVisionTheme.NoResults.Headline.TextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/gv_no_results_scrollview"
+        android:layout_alignStart="@+id/gv_no_results_scrollview"
+        android:layout_below="@id/gv_no_results_header_separator"
+        android:padding="16dp"
+        android:text="@string/gv_noresults_headline" />
+
+    <ScrollView
+        android:id="@+id/gv_no_results_scrollview"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/gv_button_no_results_back"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/gv_no_results_headline"
+        android:layout_centerHorizontal="true"
+        android:overScrollMode="ifContentScrolls"
+        android:scrollbars="none">
+
+        <GridLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:text="@string/gv_noresults_hints"
-            android:textColor="#000000" />
+            android:layout_gravity="center_horizontal"
+            android:columnCount="2"
+            android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp">
-
-            <ImageView
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:src="@drawable/gv_onboarding_align" />
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:paddingEnd="16dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingStart="16dp"
-                android:text="@string/gv_noresults_align" />
+                android:layout_marginEnd="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginStart="32dp"
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <ImageView
+                    android:layout_width="@dimen/gv_noresults_tip_icon_size"
+                    android:layout_height="@dimen/gv_noresults_tip_icon_size"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="@dimen/gv_noresults_tip_icon_margin"
+                    android:src="@drawable/gv_noresults_lighting" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp">
+                <TextView
+                    style="@style/GiniVisionTheme.NoResults.Tip.TextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="@dimen/gv_noresults_tip_text_bottom_margin"
+                    android:layout_marginEnd="@dimen/gv_noresults_tip_text_right_margin"
+                    android:layout_marginLeft="@dimen/gv_noresults_tip_text_left_margin"
+                    android:layout_marginRight="@dimen/gv_noresults_tip_text_right_margin"
+                    android:layout_marginStart="@dimen/gv_noresults_tip_text_left_margin"
+                    android:layout_marginTop="@dimen/gv_noresults_tip_text_top_margin"
+                    android:gravity="center_horizontal"
+                    android:maxWidth="@dimen/gv_noresults_tip_text_max_width"
+                    android:text="@string/gv_noresults_lighting" />
 
-            <ImageView
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:src="@drawable/gv_onboarding_align" />
+            </LinearLayout>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:paddingEnd="16dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingStart="16dp"
-                android:text="@string/gv_noresults_lighting" />
+                android:layout_marginEnd="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginStart="32dp"
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <ImageView
+                    android:layout_width="@dimen/gv_noresults_tip_icon_size"
+                    android:layout_height="@dimen/gv_noresults_tip_icon_size"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="@dimen/gv_noresults_tip_icon_margin"
+                    android:src="@drawable/gv_noresults_flat" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp">
+                <TextView
+                    style="@style/GiniVisionTheme.NoResults.Tip.TextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="@dimen/gv_noresults_tip_text_bottom_margin"
+                    android:layout_marginEnd="@dimen/gv_noresults_tip_text_right_margin"
+                    android:layout_marginLeft="@dimen/gv_noresults_tip_text_left_margin"
+                    android:layout_marginRight="@dimen/gv_noresults_tip_text_right_margin"
+                    android:layout_marginStart="@dimen/gv_noresults_tip_text_left_margin"
+                    android:layout_marginTop="@dimen/gv_noresults_tip_text_top_margin"
+                    android:gravity="center_horizontal"
+                    android:maxWidth="@dimen/gv_noresults_tip_text_max_width"
+                    android:text="@string/gv_noresults_flat" />
 
-            <ImageView
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:src="@drawable/gv_onboarding_parallel" />
+            </LinearLayout>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:paddingEnd="16dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingStart="16dp"
-                android:text="@string/gv_noresults_parallel" />
+                android:layout_marginEnd="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginStart="32dp"
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <ImageView
+                    android:layout_width="@dimen/gv_noresults_tip_icon_size"
+                    android:layout_height="@dimen/gv_noresults_tip_icon_size"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="@dimen/gv_noresults_tip_icon_margin"
+                    android:src="@drawable/gv_noresults_parallel" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp">
+                <TextView
+                    style="@style/GiniVisionTheme.NoResults.Tip.TextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="@dimen/gv_noresults_tip_text_bottom_margin"
+                    android:layout_marginEnd="@dimen/gv_noresults_tip_text_right_margin"
+                    android:layout_marginLeft="@dimen/gv_noresults_tip_text_left_margin"
+                    android:layout_marginRight="@dimen/gv_noresults_tip_text_right_margin"
+                    android:layout_marginStart="@dimen/gv_noresults_tip_text_left_margin"
+                    android:layout_marginTop="@dimen/gv_noresults_tip_text_top_margin"
+                    android:gravity="center_horizontal"
+                    android:maxWidth="@dimen/gv_noresults_tip_text_max_width"
+                    android:text="@string/gv_noresults_parallel" />
 
-            <ImageView
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:src="@drawable/gv_onboarding_flat" />
+            </LinearLayout>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:paddingEnd="16dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingStart="16dp"
-                android:text="@string/gv_noresults_flat" />
+                android:layout_marginEnd="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginRight="32dp"
+                android:layout_marginStart="32dp"
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <ImageView
+                    android:layout_width="@dimen/gv_noresults_tip_icon_size"
+                    android:layout_height="@dimen/gv_noresults_tip_icon_size"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="@dimen/gv_noresults_tip_icon_margin"
+                    android:src="@drawable/gv_noresults_align" />
 
-        <android.support.v4.widget.Space
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+                <TextView
+                    style="@style/GiniVisionTheme.NoResults.Tip.TextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="@dimen/gv_noresults_tip_text_bottom_margin"
+                    android:layout_marginEnd="@dimen/gv_noresults_tip_text_right_margin"
+                    android:layout_marginLeft="@dimen/gv_noresults_tip_text_left_margin"
+                    android:layout_marginRight="@dimen/gv_noresults_tip_text_right_margin"
+                    android:layout_marginStart="@dimen/gv_noresults_tip_text_left_margin"
+                    android:layout_marginTop="@dimen/gv_noresults_tip_text_top_margin"
+                    android:gravity="center_horizontal"
+                    android:maxWidth="@dimen/gv_noresults_tip_text_max_width"
+                    android:text="@string/gv_noresults_align" />
 
-        <LinearLayout
-            android:id="@+id/gv_button_no_results_back"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_gravity="bottom"
-            android:background="#4B4B4B"
-            android:foreground="?android:attr/selectableItemBackground">
+            </LinearLayout>
 
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_margin="16dp"
-                android:src="@drawable/gv_no_camera" />
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/gv_noresults_space_height_for_bottom_button"
+                android:layout_columnSpan="2" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/gv_noresults_back_button"
-                android:textColor="@color/gv_review_bottom_panel_text" />
+        </GridLayout>
 
-        </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/gv_button_no_results_back"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/gv_noresults_bottom_button_height"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/gv_noresults_bottom_button_margin"
+        android:background="@color/gv_accent"
+        android:text="@string/gv_noresults_back_button"
+        android:width="@dimen/gv_noresults_bottom_button_max_width"
+        android:textColor="@color/gv_noresults_button_text" />
+
+
+</RelativeLayout>

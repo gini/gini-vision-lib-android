@@ -1,5 +1,6 @@
 package net.gini.android.vision.component;
 
+import static net.gini.android.vision.component.Util.hasNoPay5Extractions;
 import static net.gini.android.vision.component.Util.isIntentActionViewOrSend;
 
 import android.app.Activity;
@@ -20,10 +21,10 @@ import android.widget.Toast;
 import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
-import net.gini.android.vision.GiniVisionFileImport;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.GiniVisionFileImport;
 import net.gini.android.vision.ImportedFileValidationException;
 import net.gini.android.vision.analysis.AnalysisFragmentListener;
 import net.gini.android.vision.analysis.AnalysisFragmentStandard;
@@ -58,9 +59,8 @@ import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
  * listener callbacks, document analysis with the Gini API SDK and related logic.
  * </p>
  */
-public class GiniVisionActivity extends Activity
-        implements CameraFragmentListener, OnboardingFragmentListener, ReviewFragmentListener,
-        AnalysisFragmentListener,
+public class GiniVisionActivity extends Activity implements CameraFragmentListener,
+        OnboardingFragmentListener, ReviewFragmentListener, AnalysisFragmentListener,
         NoResultsFragmentListener {
 
     private static final Logger LOG = LoggerFactory.getLogger(GiniVisionActivity.class);
@@ -126,11 +126,10 @@ public class GiniVisionActivity extends Activity
                             analysisFragment.onDocumentAnalyzed();
                             stopScanAnimation();
                             showExtractions(getSingleDocumentAnalyzer().getGiniApiDocument(),
-                                    extractions);
+                                    extractions, document);
                         } else {
-                            LOG.debug(
-                                    "Document analyzed in the Analysis Screen, but not in the "
-                                            + "Analysis Screen anymore.");
+                            LOG.debug("Document analyzed in the Analysis Screen, but not in the "
+                                    + "Analysis Screen anymore.");
                         }
                     }
                 });
@@ -154,7 +153,7 @@ public class GiniVisionActivity extends Activity
 
     @Override
     public void onBackToCameraPressed() {
-        showCamera();
+        getFragmentManager().popBackStack(getCameraFragment().getClass().getSimpleName(), 0);
     }
 
     @Override
@@ -192,12 +191,12 @@ public class GiniVisionActivity extends Activity
 
     private void startGiniVisionLibraryForImportedFile(final Intent importedFileIntent) {
         try {
-            final Document document = GiniVisionFileImport.createDocumentForImportedFile(importedFileIntent,
-                    this);
+            final Document document = GiniVisionFileImport.createDocumentForImportedFile(
+                    importedFileIntent, this);
             if (document.isReviewable()) {
-                showFragment(getReviewFragment(document), R.string.title_review);
+                pushFragment(getReviewFragment(document), R.string.title_review);
             } else {
-                showFragment(getAnalysisFragment(document), R.string.title_review);
+                pushFragment(getAnalysisFragment(document), R.string.title_review);
             }
         } catch (ImportedFileValidationException e) {
             e.printStackTrace();
@@ -215,15 +214,13 @@ public class GiniVisionActivity extends Activity
                         break;
                 }
             }
-            new AlertDialog.Builder(this)
-                    .setMessage(message)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            new AlertDialog.Builder(this).setMessage(message).setPositiveButton("OK",
+                    new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(final DialogInterface dialogInterface, final int i) {
                             finish();
                         }
-                    })
-                    .show();
+                    }).show();
         }
     }
 
@@ -246,9 +243,9 @@ public class GiniVisionActivity extends Activity
         // onShouldAnalyzeDocument()
         getSingleDocumentAnalyzer().cancelAnalysis();
         if (document.isReviewable()) {
-            showFragment(getReviewFragment(document), R.string.title_review);
+            pushFragment(getReviewFragment(document), R.string.title_review);
         } else {
-            showFragment(getAnalysisFragment(document));
+            pushFragment(getAnalysisFragment(document));
         }
     }
 
@@ -301,7 +298,7 @@ public class GiniVisionActivity extends Activity
         // we can show the extractions
         if (mExtractionsFromReviewScreen != null) {
             showExtractions(getSingleDocumentAnalyzer().getGiniApiDocument(),
-                    mExtractionsFromReviewScreen);
+                    mExtractionsFromReviewScreen, document);
             mExtractionsFromReviewScreen = null;
         }
     }
@@ -326,16 +323,13 @@ public class GiniVisionActivity extends Activity
                 // We can show errors in a Snackbar in the Analysis Fragment
                 AnalysisFragmentStandard analysisFragment =
                         (AnalysisFragmentStandard) mCurrentFragment;
-                analysisFragment.showError("Error: " +
-                                error.getErrorCode() + " - " +
-                                error.getMessage(),
+                analysisFragment.showError(
+                        "Error: " + error.getErrorCode() + " - " + error.getMessage(),
                         SHOW_ERROR_DURATION);
                 return;
             }
         }
-        Toast.makeText(this, "Error: " +
-                        error.getErrorCode() + " - " +
-                        error.getMessage(),
+        Toast.makeText(this, "Error: " + error.getErrorCode() + " - " + error.getMessage(),
                 Toast.LENGTH_LONG).show();
     }
 
@@ -357,7 +351,12 @@ public class GiniVisionActivity extends Activity
         // analysis didn't complete or
         // the user rotated the image
         getSingleDocumentAnalyzer().removeListener();
-        showFragment(getAnalysisFragment(document));
+        pushFragment(getAnalysisFragment(document));
+    }
+
+    private void showNoResultsScreen(final @NonNull Document document) {
+        getFragmentManager().popBackStack(getCameraFragment().getClass().getSimpleName(), 0);
+        pushFragment(NoResultsFragmentStandard.createInstance(document));
     }
 
     @Override
@@ -401,18 +400,17 @@ public class GiniVisionActivity extends Activity
                             LOG.debug("Document analyzed in the Review Screen");
                             ReviewFragmentStandard reviewFragment =
                                     (ReviewFragmentStandard) mCurrentFragment;
-                            // Calling onDocumentAnalyzed() is important to notify the Review
-                            // Fragment that the
-                            // analysis has completed successfully
-                            reviewFragment.onDocumentAnalyzed();
                             // Cache the extractions until the user clicks the next button and
                             // onDocumentReviewedAndAnalyzed()
                             // will have been called
                             mExtractionsFromReviewScreen = extractions;
+                            // Calling onDocumentAnalyzed() is important to notify the Review
+                            // Fragment that the
+                            // analysis has completed successfully
+                            reviewFragment.onDocumentAnalyzed();
                         } else {
-                            LOG.debug(
-                                    "Document analyzed in the Review Screen, but not in the "
-                                            + "Review Screen anymore.");
+                            LOG.debug("Document analyzed in the Review Screen, but not in the "
+                                    + "Review Screen anymore.");
                         }
                     }
                 });
@@ -429,29 +427,22 @@ public class GiniVisionActivity extends Activity
         }
     }
 
-    public boolean isShowingCamera() {
-        Fragment fragment = getFragmentManager().findFragmentById(R.id.fragment_container);
-        return fragment != null && fragment instanceof CameraFragmentStandard;
-    }
-
     public void removeOnboarding() {
         LOG.debug("Remove the Onboarding Screen");
         showCameraOverlays();
         Fragment fragment = getFragmentManager().findFragmentById(
                 R.id.fragment_container_onboarding);
         if (fragment != null) {
-            getFragmentManager().beginTransaction()
-                    .setCustomAnimations(R.animator.fade_in, R.animator.fade_out)
-                    .remove(fragment)
-                    .commit();
+            getFragmentManager().beginTransaction().setCustomAnimations(R.animator.fade_in,
+                    R.animator.fade_out).remove(fragment).commit();
         }
         setTitle(mTitleBeforeOnboarding != null ? mTitleBeforeOnboarding
                 : getString(R.string.title_camera));
         mTitleBeforeOnboarding = null;
     }
 
-    public void showFragment(Fragment fragment, @StringRes int titleRes) {
-        LOG.debug("Showing fragment {} with title '{}'", fragment.getClass().getSimpleName(),
+    public void pushFragment(Fragment fragment, @StringRes int titleRes) {
+        LOG.debug("Pushing fragment {} with title '{}'", fragment.getClass().getSimpleName(),
                 getString(titleRes));
         mCurrentFragment = fragment;
         getFragmentManager().beginTransaction()
@@ -462,12 +453,13 @@ public class GiniVisionActivity extends Activity
         setTitle(titleRes);
     }
 
-    public void showFragment(Fragment fragment) {
-        LOG.debug("Showing fragment {} ", fragment.getClass().getSimpleName());
+    public void pushFragment(Fragment fragment) {
+        LOG.debug("Pushing fragment {} ", fragment.getClass().getSimpleName());
         mCurrentFragment = fragment;
         getFragmentManager().beginTransaction()
                 .setCustomAnimations(R.animator.fade_in, R.animator.fade_out)
                 .replace(R.id.fragment_container, fragment)
+                .addToBackStack(fragment.getClass().getSimpleName())
                 .commit();
         setTitle("");
     }
@@ -552,19 +544,6 @@ public class GiniVisionActivity extends Activity
                 mShowCameraOnStart);
     }
 
-    private boolean pay5ExtractionsAvailable(Map<String, SpecificExtraction> extractionsBundle) {
-        for (String key : extractionsBundle.keySet()) {
-            if (key.equals("amountToPay") ||
-                    key.equals("bic") ||
-                    key.equals("iban") ||
-                    key.equals("paymentReference") ||
-                    key.equals("paymentRecipient")) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     private void retainFragment() {
         mCurrentFragment = getFragmentManager().findFragmentById(R.id.fragment_container);
     }
@@ -581,7 +560,7 @@ public class GiniVisionActivity extends Activity
 
     private void showCamera() {
         LOG.debug("Show the Camera Screen");
-        showFragment(getCameraFragment(), R.string.title_camera);
+        pushFragment(getCameraFragment(), R.string.title_camera);
         // Delay notifying the coordinator to allow the camera fragment view to be created
         new Handler().post(new Runnable() {
             @Override
@@ -602,22 +581,23 @@ public class GiniVisionActivity extends Activity
     }
 
     private void showExtractions(net.gini.android.models.Document giniApiDocument,
-            Map<String, SpecificExtraction> extractions) {
+            Map<String, SpecificExtraction> extractions, Document document) {
         LOG.debug("Show extractions");
-        // We display only the Pay5 extractions: paymentRecipient, iban, bic, amount and
-        // paymentReference
-        if (pay5ExtractionsAvailable(extractions)) {
+        // If we have no Pay 5 extractions we query the Gini Vision Library
+        // whether we should show the the Gini Vision No Results Screen
+        if (hasNoPay5Extractions(extractions.keySet())
+                && GiniVisionCoordinator.shouldShowGiniVisionNoResultsScreen(document)) {
+            // Show a special screen, if no Pay5 extractions were found to give the user some
+            // hints and tips
+            // for using the Gini Vision Library
+            showNoResultsScreen(document);
+        } else {
             Intent intent = new Intent(this, ExtractionsActivity.class);
             intent.putExtra(ExtractionsActivity.EXTRA_IN_DOCUMENT, giniApiDocument);
             intent.putExtra(ExtractionsActivity.EXTRA_IN_EXTRACTIONS,
                     getExtractionsBundle(extractions));
             startActivity(intent);
             finish();
-        } else {
-            // Show a special screen, if no Pay5 extractions were found to give the user some
-            // hints and tips
-            // for using the Gini Vision Library
-            showFragment(NoResultsFragmentStandard.createInstance(), R.string.gv_title_noresults);
         }
         mShowCameraOnStart = true;
     }

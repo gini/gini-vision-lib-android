@@ -119,6 +119,25 @@
         <item name="gvCustomFont"/>
     </style>
 
+    <style name="Root.GiniVisionTheme.NoResults.Header.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gv_noresults_header</item>
+        <item name="gvCustomFont"/>
+    </style>
+
+    <style name="Root.GiniVisionTheme.NoResults.Headline.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gv_noresults_headline</item>
+        <item name="android:textStyle">bold</item>
+        <item name="gvCustomFont"/>
+    </style>
+
+    <style name="Root.GiniVisionTheme.NoResults.Tip.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gv_noresults_tip</item>
+        <item name="gvCustomFont"/>
+    </style>
+
     <!-- Text styles used in the layouts which are overridable for customization -->
 
     <style name="GiniVisionTheme.Camera.Error.NoPermission.TextStyle" parent="Root.GiniVisionTheme.Camera.Error.NoPermission.TextStyle"/>
@@ -144,5 +163,11 @@
     <style name="GiniVisionTheme.Analysis.HintHeadline.TextStyle" parent="Root.GiniVisionTheme.Analysis.HintHeadline.TextStyle" />
 
     <style name="GiniVisionTheme.Analysis.Hint.TextStyle" parent="Root.GiniVisionTheme.Analysis.Hint.TextStyle" />
+
+    <style name="GiniVisionTheme.NoResults.Header.TextStyle" parent="Root.GiniVisionTheme.NoResults.Header.TextStyle" />
+
+    <style name="GiniVisionTheme.NoResults.Headline.TextStyle" parent="Root.GiniVisionTheme.NoResults.Headline.TextStyle" />
+
+    <style name="GiniVisionTheme.NoResults.Tip.TextStyle" parent="Root.GiniVisionTheme.NoResults.Tip.TextStyle" />
 
 </resources>
