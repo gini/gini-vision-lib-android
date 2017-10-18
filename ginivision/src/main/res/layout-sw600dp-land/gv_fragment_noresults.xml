@@ -203,12 +203,14 @@
 
     <Button
         android:id="@+id/gv_button_no_results_back"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/gv_noresults_bottom_button_height"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_margin="@dimen/gv_noresults_bottom_button_margin"
         android:background="@color/gv_accent"
         android:text="@string/gv_noresults_back_button"
+        android:width="@dimen/gv_noresults_bottom_button_max_width"
         android:textColor="@color/gv_noresults_button_text" />
 
 

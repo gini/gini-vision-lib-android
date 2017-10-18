@@ -62,7 +62,7 @@
 
                 <TextView
                     style="@style/GiniVisionTheme.NoResults.Tip.TextStyle"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_marginBottom="@dimen/gv_noresults_tip_text_bottom_margin"
@@ -72,6 +72,7 @@
                     android:layout_marginStart="@dimen/gv_noresults_tip_text_left_margin"
                     android:layout_marginTop="@dimen/gv_noresults_tip_text_top_margin"
                     android:gravity="center_vertical"
+                    android:maxWidth="@dimen/gv_noresults_tip_text_max_width"
                     android:text="@string/gv_noresults_lighting" />
 
             </LinearLayout>
@@ -91,7 +92,7 @@
 
                 <TextView
                     style="@style/GiniVisionTheme.NoResults.Tip.TextStyle"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_marginBottom="@dimen/gv_noresults_tip_text_bottom_margin"
@@ -101,6 +102,7 @@
                     android:layout_marginStart="@dimen/gv_noresults_tip_text_left_margin"
                     android:layout_marginTop="@dimen/gv_noresults_tip_text_top_margin"
                     android:gravity="center_vertical"
+                    android:maxWidth="@dimen/gv_noresults_tip_text_max_width"
                     android:text="@string/gv_noresults_flat" />
 
             </LinearLayout>
@@ -119,7 +121,7 @@
 
                 <TextView
                     style="@style/GiniVisionTheme.NoResults.Tip.TextStyle"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_marginBottom="@dimen/gv_noresults_tip_text_bottom_margin"
@@ -129,6 +131,7 @@
                     android:layout_marginStart="@dimen/gv_noresults_tip_text_left_margin"
                     android:layout_marginTop="@dimen/gv_noresults_tip_text_top_margin"
                     android:gravity="center_vertical"
+                    android:maxWidth="@dimen/gv_noresults_tip_text_max_width"
                     android:text="@string/gv_noresults_parallel" />
 
             </LinearLayout>
@@ -147,7 +150,7 @@
 
                 <TextView
                     style="@style/GiniVisionTheme.NoResults.Tip.TextStyle"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_marginBottom="@dimen/gv_noresults_tip_text_bottom_margin"
@@ -157,6 +160,7 @@
                     android:layout_marginStart="@dimen/gv_noresults_tip_text_left_margin"
                     android:layout_marginTop="@dimen/gv_noresults_tip_text_top_margin"
                     android:gravity="center_vertical"
+                    android:maxWidth="@dimen/gv_noresults_tip_text_max_width"
                     android:text="@string/gv_noresults_align" />
 
             </LinearLayout>
@@ -171,13 +175,15 @@
 
     <Button
         android:id="@+id/gv_button_no_results_back"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/gv_noresults_bottom_button_height"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_margin="@dimen/gv_noresults_bottom_button_margin"
         android:background="@color/gv_accent"
         android:text="@string/gv_noresults_back_button"
-        android:textColor="@color/gv_noresults_button_text"/>
+        android:width="@dimen/gv_noresults_bottom_button_max_width"
+        android:textColor="@color/gv_noresults_button_text" />
 
 
 </RelativeLayout>
