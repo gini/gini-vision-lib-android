@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import net.gini.android.vision.Document;
+import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.camera.CameraActivity;
@@ -179,6 +180,9 @@ public abstract class AnalysisActivity extends AppCompatActivity implements
      */
     public static final int RESULT_ERROR = RESULT_FIRST_USER + 1;
 
+    /**
+     * @exclude
+     */
     public static final int RESULT_NO_EXTRACTIONS = RESULT_FIRST_USER + 2;
 
     private static final String ANALYSIS_FRAGMENT = "ANALYSIS_FRAGMENT";
@@ -201,9 +205,10 @@ public abstract class AnalysisActivity extends AppCompatActivity implements
      * </p>
      */
     @Override
-    public void noExtractionsFound() {
-        if (mDocument.getType() == Document.Type.IMAGE) {
+    public void onNoExtractionsFound() {
+        if (GiniVisionCoordinator.shouldShowGiniVisionNoResultsScreen(mDocument)) {
             final Intent noResultsActivity = new Intent(this, NoResultsActivity.class);
+            noResultsActivity.putExtra(NoResultsActivity.EXTRA_IN_DOCUMENT, mDocument);
             startActivity(noResultsActivity);
             setResult(RESULT_NO_EXTRACTIONS);
         } else {

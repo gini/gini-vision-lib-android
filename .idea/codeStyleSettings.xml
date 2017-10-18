@@ -122,7 +122,6 @@
           </extensions>
         </Objective-C-extensions>
         <XML>
-          <option name="XML_KEEP_WHITESPACES" value="true" />
           <option name="XML_KEEP_LINE_BREAKS" value="false" />
           <option name="XML_ALIGN_ATTRIBUTES" value="false" />
           <option name="XML_SPACE_INSIDE_EMPTY_TAG" value="true" />
@@ -135,7 +134,6 @@
           <option name="CONTINUATION_INDENT_SIZE" value="4" />
         </ADDITIONAL_INDENT_OPTIONS>
         <codeStyleSettings language="JAVA">
-          <option name="KEEP_LINE_BREAKS" value="false" />
           <option name="ALIGN_MULTILINE_PARAMETERS" value="false" />
           <option name="ALIGN_MULTILINE_FOR" value="false" />
           <option name="CALL_PARAMETERS_WRAP" value="1" />

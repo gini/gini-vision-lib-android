@@ -3,12 +3,14 @@ package net.gini.android.vision.noresults;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import net.gini.android.vision.Document;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 
 /**
@@ -36,19 +38,11 @@ public class NoResultsFragmentCompat extends Fragment implements FragmentImplCal
 
     private NoResultsFragmentImpl mFragmentImpl;
 
-    public NoResultsFragmentCompat() {
-        mFragmentImpl = new NoResultsFragmentImpl(this);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mFragmentImpl.onAttach(context);
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mFragmentImpl = NoResultsFragmentHelper.createFragmentImpl(this, getArguments());
+        NoResultsFragmentHelper.setListener(mFragmentImpl, getActivity());
         mFragmentImpl.onCreate(savedInstanceState);
     }
 
@@ -64,10 +58,12 @@ public class NoResultsFragmentCompat extends Fragment implements FragmentImplCal
      * Factory method for creating a new instance of the Fragment.
      * </p>
      *
+     * @param document a {@link Document} for which no valid extractions were received
      * @return a new instance of the Fragment
      */
-    public static NoResultsFragmentCompat createInstance() {
+    public static NoResultsFragmentCompat createInstance(@NonNull final Document document) {
         NoResultsFragmentCompat fragment = new NoResultsFragmentCompat();
+        fragment.setArguments(NoResultsFragmentHelper.createArguments(document));
         return fragment;
     }
 

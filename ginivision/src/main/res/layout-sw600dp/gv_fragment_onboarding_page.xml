@@ -15,15 +15,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/gv_onboarding_vertical_margin">
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/gv_image_onboarding"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/gv_onboarding_illustration_size"
+            android:layout_height="@dimen/gv_onboarding_illustration_size"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="@dimen/gv_onboarding_illustration_vertical_margin"
+            android:scaleType="fitCenter"
             tools:src="@drawable/gv_onboarding_flat" />
 
         <!--suppress AndroidDomInspection -->
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
-            tools:text="Dokument flach\nauf eine einfarbige\nFläche legen" />
+            tools:text="@string/gv_onboarding_flat" />
     </LinearLayout>
 
 </RelativeLayout>

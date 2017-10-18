@@ -8,15 +8,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import net.gini.android.vision.Document;
+import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.camera.CameraActivity;
+import net.gini.android.vision.noresults.NoResultsActivity;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 
 /**
@@ -147,9 +150,16 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
      */
     public static final int RESULT_ERROR = RESULT_FIRST_USER + 1;
 
+    /**
+     * @exclude
+     */
+    public static final int RESULT_NO_EXTRACTIONS = RESULT_FIRST_USER + 2;
+
     @VisibleForTesting
     static final int ANALYSE_DOCUMENT_REQUEST = 1;
 
+
+    private static final String NO_EXTRACTIONS_FOUND_KEY = "NO_EXTRACTIONS_FOUND_KEY";
     private static final String REVIEW_FRAGMENT = "REVIEW_FRAGMENT";
 
     private ReviewFragmentCompat mFragment;
@@ -158,6 +168,7 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     private boolean mBackButtonShouldCloseLibrary = false;
 
     private Intent mAnalyzeDocumentActivityIntent;
+    private boolean mNoExtractionsFound;
 
     @VisibleForTesting
     ReviewFragmentCompat getFragment() {
@@ -172,9 +183,17 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
         if (savedInstanceState == null) {
             initFragment();
         } else {
+            restoreSavedState(savedInstanceState);
             retainFragment();
         }
         enableHomeAsUp(this);
+    }
+
+    private void restoreSavedState(@Nullable Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            return;
+        }
+        mNoExtractionsFound = savedInstanceState.getBoolean(NO_EXTRACTIONS_FOUND_KEY);
     }
 
     @Override
@@ -184,6 +203,12 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onSaveInstanceState(final Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(NO_EXTRACTIONS_FOUND_KEY, mNoExtractionsFound);
     }
 
     @Override
@@ -247,11 +272,25 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
 
     @Override
     public void onProceedToAnalysisScreen(@NonNull Document document) {
-        mAnalyzeDocumentActivityIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, document);
-        if (mDocumentAnalysisErrorMessage != null) {
-            mAnalyzeDocumentActivityIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE, mDocumentAnalysisErrorMessage);
+        if (mNoExtractionsFound) {
+            if (GiniVisionCoordinator.shouldShowGiniVisionNoResultsScreen(document)) {
+                final Intent noResultsActivity = new Intent(this, NoResultsActivity.class);
+                noResultsActivity.putExtra(NoResultsActivity.EXTRA_IN_DOCUMENT, mDocument);
+                startActivity(noResultsActivity);
+                setResult(RESULT_NO_EXTRACTIONS);
+            } else {
+                Intent result = new Intent();
+                setResult(RESULT_OK, result);
+            }
+            finish();
+        } else {
+            mAnalyzeDocumentActivityIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, document);
+            if (mDocumentAnalysisErrorMessage != null) {
+                mAnalyzeDocumentActivityIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE,
+                        mDocumentAnalysisErrorMessage);
+            }
+            startActivityForResult(mAnalyzeDocumentActivityIntent, ANALYSE_DOCUMENT_REQUEST);
         }
-        startActivityForResult(mAnalyzeDocumentActivityIntent, ANALYSE_DOCUMENT_REQUEST);
     }
 
     @Override
@@ -291,6 +330,11 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     }
 
     @Override
+    public void onNoExtractionsFound() {
+        mNoExtractionsFound = true;
+    }
+
+    @Override
     public void onError(@NonNull GiniVisionError error) {
         Intent result = new Intent();
         result.putExtra(EXTRA_OUT_ERROR, error);
@@ -316,7 +360,7 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == ANALYSE_DOCUMENT_REQUEST) {
-            if (resultCode == AnalysisActivity.RESULT_NO_EXTRACTIONS) {
+            if (resultCode == RESULT_NO_EXTRACTIONS) {
                 finish();
                 clearMemory();
             } else if (mBackButtonShouldCloseLibrary

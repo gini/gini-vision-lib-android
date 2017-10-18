@@ -24,7 +24,7 @@ public interface AnalysisFragmentInterface {
      * without the required extractions.
      * </p>
      */
-    void noExtractionsFound();
+    void onNoExtractionsFound();
 
     /**
      * <p>
