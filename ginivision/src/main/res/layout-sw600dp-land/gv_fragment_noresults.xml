@@ -5,7 +5,7 @@
     android:background="@color/gv_noresults_fragment_background"
     android:orientation="vertical">
 
-    <TextView
+    <net.gini.android.vision.internal.ui.CustomFontTextView
         android:id="@+id/gv_no_results_header"
         style="@style/GiniVisionTheme.NoResults.Header.TextStyle"
         android:layout_width="wrap_content"
@@ -27,7 +27,7 @@
         android:layout_below="@id/gv_no_results_header"
         android:background="#eee" />
 
-    <TextView
+    <net.gini.android.vision.internal.ui.CustomFontTextView
         android:id="@+id/gv_no_results_headline"
         style="@style/GiniVisionTheme.NoResults.Headline.TextStyle"
         android:layout_width="wrap_content"
@@ -73,7 +73,7 @@
                     android:layout_margin="@dimen/gv_noresults_tip_icon_margin"
                     android:src="@drawable/gv_noresults_lighting" />
 
-                <TextView
+                <net.gini.android.vision.internal.ui.CustomFontTextView
                     style="@style/GiniVisionTheme.NoResults.Tip.TextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -107,7 +107,7 @@
                     android:layout_margin="@dimen/gv_noresults_tip_icon_margin"
                     android:src="@drawable/gv_noresults_flat" />
 
-                <TextView
+                <net.gini.android.vision.internal.ui.CustomFontTextView
                     style="@style/GiniVisionTheme.NoResults.Tip.TextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -141,7 +141,7 @@
                     android:layout_margin="@dimen/gv_noresults_tip_icon_margin"
                     android:src="@drawable/gv_noresults_parallel" />
 
-                <TextView
+                <net.gini.android.vision.internal.ui.CustomFontTextView
                     style="@style/GiniVisionTheme.NoResults.Tip.TextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -175,7 +175,7 @@
                     android:layout_margin="@dimen/gv_noresults_tip_icon_margin"
                     android:src="@drawable/gv_noresults_align" />
 
-                <TextView
+                <net.gini.android.vision.internal.ui.CustomFontTextView
                     style="@style/GiniVisionTheme.NoResults.Tip.TextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
