@@ -51,14 +51,14 @@ public class OnboardingScreenTest {
         startOnboardingActivity();
 
         // Check that we are on the first page
-        Espresso.onView(ViewMatchers.withText(DefaultPages.values()[0].getPage().getTextResId()))
+        Espresso.onView(ViewMatchers.withText(DefaultPagesPhone.values()[0].getPage().getTextResId()))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
         Espresso.onView(ViewMatchers.withId(R.id.gv_button_next))
                 .perform(ViewActions.click());
 
         // Check that we are on the second page
-        Espresso.onView(ViewMatchers.withText(DefaultPages.values()[1].getPage().getTextResId()))
+        Espresso.onView(ViewMatchers.withText(DefaultPagesPhone.values()[1].getPage().getTextResId()))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
@@ -67,14 +67,14 @@ public class OnboardingScreenTest {
         startOnboardingActivity();
 
         // Check that we are on the first page
-        Espresso.onView(ViewMatchers.withText(DefaultPages.values()[0].getPage().getTextResId()))
+        Espresso.onView(ViewMatchers.withText(DefaultPagesPhone.values()[0].getPage().getTextResId()))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
         Espresso.onView(ViewMatchers.withId(R.id.gv_onboarding_viewpager))
                 .perform(ViewActions.swipeLeft());
 
         // Check that we are on the second page
-        Espresso.onView(ViewMatchers.withText(DefaultPages.values()[1].getPage().getTextResId()))
+        Espresso.onView(ViewMatchers.withText(DefaultPagesPhone.values()[1].getPage().getTextResId()))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
@@ -156,7 +156,8 @@ public class OnboardingScreenTest {
 
         // ViewPager should contain the default pages and an empty last page
         Espresso.onView(ViewMatchers.withId(R.id.gv_onboarding_viewpager))
-                .check(ViewAssertions.matches(EspressoMatchers.hasPageCount(DefaultPages.values().length + 1)));
+                .check(ViewAssertions.matches(EspressoMatchers.hasPageCount(
+                        DefaultPagesPhone.values().length + 1)));
     }
 
     @Test
@@ -167,7 +168,7 @@ public class OnboardingScreenTest {
 
         // ViewPager should contain the default pages and an empty last page
         Espresso.onView(ViewMatchers.withId(R.id.gv_onboarding_viewpager))
-                .check(ViewAssertions.matches(EspressoMatchers.hasPageCount(DefaultPages.values().length)));
+                .check(ViewAssertions.matches(EspressoMatchers.hasPageCount(DefaultPagesPhone.values().length)));
     }
 
     @Test

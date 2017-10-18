@@ -19,7 +19,7 @@ import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.ImportedFileValidationException;
 import net.gini.android.vision.camera.CameraActivity;
-import net.gini.android.vision.onboarding.DefaultPages;
+import net.gini.android.vision.onboarding.DefaultPagesPhone;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.requirements.RequirementReport;
 import net.gini.android.vision.requirements.RequirementsReport;
@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<OnboardingPage> getOnboardingPages() {
         // Adding a custom page to the default pages
-        ArrayList<OnboardingPage> pages = DefaultPages.asArrayList();
+        ArrayList<OnboardingPage> pages = DefaultPagesPhone.asArrayList();
         pages.add(new OnboardingPage(R.string.additional_onboarding_page,
                 R.drawable.additional_onboarding_illustration));
         return pages;
