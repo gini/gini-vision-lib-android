@@ -157,7 +157,7 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
 
     @Override
     public void onBackToCameraPressed() {
-        showCamera();
+        getSupportFragmentManager().popBackStack(getCameraFragment().getClass().getSimpleName(), 0);
     }
 
     @Override
@@ -195,7 +195,8 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
 
     private void startGiniVisionLibraryForImportedFile(final Intent importedFileIntent) {
         try {
-            final Document document = GiniVisionFileImport.createDocumentForImportedFile(importedFileIntent,
+            final Document document = GiniVisionFileImport.createDocumentForImportedFile(
+                    importedFileIntent,
                     this);
             if (document.isReviewable()) {
                 pushFragment(getReviewFragment(document), R.string.title_review);
@@ -357,7 +358,7 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
             // Show a special screen, if no Pay5 extractions were found to give the user some
             // hints and tips
             // for using the Gini Vision Library
-            pushFragment(NoResultsFragmentCompat.createInstance(), R.string.gv_title_noresults);
+            showNoResultsScreen(document);
         } else {
             // As the library requests us to go to the Analysis Screen we should only remove the
             // listener.
@@ -367,6 +368,11 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
             getSingleDocumentAnalyzer().removeListener();
             pushFragment(getAnalysisFragment(document));
         }
+    }
+
+    private void showNoResultsScreen(final @NonNull Document document) {
+        getSupportFragmentManager().popBackStack(getCameraFragment().getClass().getSimpleName(), 0);
+        pushFragment(NoResultsFragmentCompat.createInstance(document), R.string.gv_title_noresults);
     }
 
     @Override
@@ -481,6 +487,7 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.animator.fade_in, R.animator.fade_out)
                 .replace(R.id.fragment_container, fragment)
+                .addToBackStack(fragment.getClass().getSimpleName())
                 .commit();
         setTitle("");
     }
@@ -611,7 +618,7 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
             // Show a special screen, if no Pay5 extractions were found to give the user some
             // hints and tips
             // for using the Gini Vision Library
-            pushFragment(NoResultsFragmentCompat.createInstance(), R.string.gv_title_noresults);
+            showNoResultsScreen(document);
         } else {
             Intent intent = new Intent(this, ExtractionsActivity.class);
             intent.putExtra(ExtractionsActivity.EXTRA_IN_DOCUMENT, giniApiDocument);

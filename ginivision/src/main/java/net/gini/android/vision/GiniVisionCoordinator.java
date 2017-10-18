@@ -26,9 +26,7 @@ public class GiniVisionCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(GiniVisionCoordinator.class);
 
     public static boolean shouldShowGiniVisionNoResultsScreen(final Document document) {
-        final Intent intent = document.getIntent();
-        return document.getType() == Document.Type.IMAGE
-                && (intent == null || intent.getAction() == null);
+        return document.getType() == Document.Type.IMAGE;
     }
 
     /**

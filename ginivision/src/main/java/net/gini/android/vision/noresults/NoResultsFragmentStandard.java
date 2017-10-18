@@ -4,6 +4,7 @@ package net.gini.android.vision.noresults;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,19 +39,11 @@ public class NoResultsFragmentStandard extends Fragment implements FragmentImplC
 
     private NoResultsFragmentImpl mFragmentImpl;
 
-    public NoResultsFragmentStandard() {
-        mFragmentImpl = new NoResultsFragmentImpl(this);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mFragmentImpl.onAttach(context);
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mFragmentImpl = NoResultsFragmentHelper.createFragmentImpl(this, getArguments());
+        NoResultsFragmentHelper.setListener(mFragmentImpl, getActivity());
         mFragmentImpl.onCreate(savedInstanceState);
     }
 
@@ -66,10 +59,12 @@ public class NoResultsFragmentStandard extends Fragment implements FragmentImplC
      * Factory method for creating a new instance of the Fragment.
      * </p>
      *
+     * @param document a {@link Document} for which no valid extractions were received
      * @return a new instance of the Fragment
      */
-    public static NoResultsFragmentStandard createInstance() {
+    public static NoResultsFragmentStandard createInstance(@NonNull final Document document) {
         NoResultsFragmentStandard fragment = new NoResultsFragmentStandard();
+        fragment.setArguments(NoResultsFragmentHelper.createArguments(document));
         return fragment;
     }
 

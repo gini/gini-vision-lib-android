@@ -275,6 +275,7 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
         if (mNoExtractionsFound) {
             if (GiniVisionCoordinator.shouldShowGiniVisionNoResultsScreen(document)) {
                 final Intent noResultsActivity = new Intent(this, NoResultsActivity.class);
+                noResultsActivity.putExtra(NoResultsActivity.EXTRA_IN_DOCUMENT, mDocument);
                 startActivity(noResultsActivity);
                 setResult(RESULT_NO_EXTRACTIONS);
             } else {

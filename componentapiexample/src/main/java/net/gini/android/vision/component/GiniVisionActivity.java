@@ -15,7 +15,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import net.gini.android.models.SpecificExtraction;
@@ -154,7 +153,7 @@ public class GiniVisionActivity extends Activity implements CameraFragmentListen
 
     @Override
     public void onBackToCameraPressed() {
-        showCamera();
+        getFragmentManager().popBackStack(getCameraFragment().getClass().getSimpleName(), 0);
     }
 
     @Override
@@ -352,7 +351,7 @@ public class GiniVisionActivity extends Activity implements CameraFragmentListen
             // Show a special screen, if no Pay5 extractions were found to give the user some
             // hints and tips
             // for using the Gini Vision Library
-            pushFragment(NoResultsFragmentStandard.createInstance(), R.string.gv_title_noresults);
+            showNoResultsScreen(document);
         } else {
             // As the library requests us to go to the Analysis Screen we should only remove the
             // listener.
@@ -362,6 +361,12 @@ public class GiniVisionActivity extends Activity implements CameraFragmentListen
             getSingleDocumentAnalyzer().removeListener();
             pushFragment(getAnalysisFragment(document));
         }
+    }
+
+    private void showNoResultsScreen(final @NonNull Document document) {
+        getFragmentManager().popBackStack(getCameraFragment().getClass().getSimpleName(), 0);
+        pushFragment(NoResultsFragmentStandard.createInstance(document),
+                R.string.gv_title_noresults);
     }
 
     @Override
@@ -465,27 +470,32 @@ public class GiniVisionActivity extends Activity implements CameraFragmentListen
         LOG.debug("Pushing fragment {} with title '{}'", fragment.getClass().getSimpleName(),
                 getString(titleRes));
         mCurrentFragment = fragment;
-        getFragmentManager().beginTransaction().setCustomAnimations(R.animator.fade_in,
-                R.animator.fade_out).replace(R.id.fragment_container, fragment).addToBackStack(
-                fragment.getClass().getSimpleName()).commit();
+        getFragmentManager().beginTransaction()
+                .setCustomAnimations(R.animator.fade_in, R.animator.fade_out)
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(fragment.getClass().getSimpleName())
+                .commit();
         setTitle(titleRes);
     }
 
     public void pushFragment(Fragment fragment) {
         LOG.debug("Pushing fragment {} ", fragment.getClass().getSimpleName());
         mCurrentFragment = fragment;
-        getFragmentManager().beginTransaction().setCustomAnimations(R.animator.fade_in,
-                R.animator.fade_out).replace(R.id.fragment_container, fragment).addToBackStack(
-                fragment.getClass().getSimpleName()).commit();
+        getFragmentManager().beginTransaction()
+                .setCustomAnimations(R.animator.fade_in, R.animator.fade_out)
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(fragment.getClass().getSimpleName())
+                .commit();
         setTitle("");
     }
 
     public void showOnboarding() {
         LOG.debug("Show the Onboarding Screen");
         hideCameraOverlays();
-        getFragmentManager().beginTransaction().setCustomAnimations(R.animator.fade_in,
-                R.animator.fade_out).replace(R.id.fragment_container_onboarding,
-                getOnboardingFragment()).commit();
+        getFragmentManager().beginTransaction()
+                .setCustomAnimations(R.animator.fade_in, R.animator.fade_out)
+                .replace(R.id.fragment_container_onboarding, getOnboardingFragment())
+                .commit();
         mTitleBeforeOnboarding = (String) getTitle();
         setTitle(getString(R.string.title_onboarding));
     }
@@ -605,7 +615,7 @@ public class GiniVisionActivity extends Activity implements CameraFragmentListen
             // Show a special screen, if no Pay5 extractions were found to give the user some
             // hints and tips
             // for using the Gini Vision Library
-            pushFragment(NoResultsFragmentStandard.createInstance(), R.string.gv_title_noresults);
+            showNoResultsScreen(document);
         } else {
             Intent intent = new Intent(this, ExtractionsActivity.class);
             intent.putExtra(ExtractionsActivity.EXTRA_IN_DOCUMENT, giniApiDocument);
