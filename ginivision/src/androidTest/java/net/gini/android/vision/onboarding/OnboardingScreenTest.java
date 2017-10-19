@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
+import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.matcher.ViewMatchers;
@@ -51,14 +52,14 @@ public class OnboardingScreenTest {
         startOnboardingActivity();
 
         // Check that we are on the first page
-        Espresso.onView(ViewMatchers.withText(DefaultPagesPhone.values()[0].getPage().getTextResId()))
+        Espresso.onView(ViewMatchers.withText(getDefaultPageAtIndex(0).getTextResId()))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
         Espresso.onView(ViewMatchers.withId(R.id.gv_button_next))
                 .perform(ViewActions.click());
 
         // Check that we are on the second page
-        Espresso.onView(ViewMatchers.withText(DefaultPagesPhone.values()[1].getPage().getTextResId()))
+        Espresso.onView(ViewMatchers.withText(getDefaultPageAtIndex(1).getTextResId()))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
@@ -67,14 +68,14 @@ public class OnboardingScreenTest {
         startOnboardingActivity();
 
         // Check that we are on the first page
-        Espresso.onView(ViewMatchers.withText(DefaultPagesPhone.values()[0].getPage().getTextResId()))
+        Espresso.onView(ViewMatchers.withText(getDefaultPageAtIndex(0).getTextResId()))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
         Espresso.onView(ViewMatchers.withId(R.id.gv_onboarding_viewpager))
                 .perform(ViewActions.swipeLeft());
 
         // Check that we are on the second page
-        Espresso.onView(ViewMatchers.withText(DefaultPagesPhone.values()[1].getPage().getTextResId()))
+        Espresso.onView(ViewMatchers.withText(getDefaultPageAtIndex(1).getTextResId()))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
@@ -82,12 +83,13 @@ public class OnboardingScreenTest {
     public void should_finish_whenNextButton_isClicked_onLastPage() throws InterruptedException {
         OnboardingActivity activity = startOnboardingActivity();
 
-        // Go to the last page
-        Espresso.onView(ViewMatchers.withId(R.id.gv_button_next))
-                .perform(ViewActions.click())
-                .perform(ViewActions.click())
-        // Click the next button on the last page
-                .perform(ViewActions.click());
+        // Go to the last page by clicking the next button
+        final ViewInteraction viewInteraction = Espresso.onView(
+                ViewMatchers.withId(R.id.gv_button_next));
+        final int nrOfPages = getDefaultPages().length;
+        for (int i = 0; i < nrOfPages; i++) {
+            viewInteraction.perform(ViewActions.click());
+        }
 
         // Give some time for paging animation to finish
         Thread.sleep(TEST_PAUSE_DURATION);
@@ -100,11 +102,12 @@ public class OnboardingScreenTest {
         OnboardingActivity activity = startOnboardingActivity();
 
         // Go to the last page by swiping
-        Espresso.onView(ViewMatchers.withId(R.id.gv_onboarding_viewpager))
-                .perform(ViewActions.swipeLeft())
-                .perform(ViewActions.swipeLeft())
-                // Swipe left on the last page
-                .perform(ViewActions.swipeLeft());
+        final ViewInteraction viewInteraction = Espresso.onView(
+                ViewMatchers.withId(R.id.gv_onboarding_viewpager));
+        final int nrOfPages = getDefaultPages().length;
+        for (int i = 0; i < nrOfPages; i++) {
+            viewInteraction.perform(ViewActions.swipeLeft());
+        }
 
         // Wait a little for the animation to finish
         Thread.sleep(TEST_PAUSE_DURATION);
@@ -157,7 +160,7 @@ public class OnboardingScreenTest {
         // ViewPager should contain the default pages and an empty last page
         Espresso.onView(ViewMatchers.withId(R.id.gv_onboarding_viewpager))
                 .check(ViewAssertions.matches(EspressoMatchers.hasPageCount(
-                        DefaultPagesPhone.values().length + 1)));
+                        getDefaultPages().length + 1)));
     }
 
     @Test
@@ -168,7 +171,7 @@ public class OnboardingScreenTest {
 
         // ViewPager should contain the default pages and an empty last page
         Espresso.onView(ViewMatchers.withId(R.id.gv_onboarding_viewpager))
-                .check(ViewAssertions.matches(EspressoMatchers.hasPageCount(DefaultPagesPhone.values().length)));
+                .check(ViewAssertions.matches(EspressoMatchers.hasPageCount(getDefaultPages().length)));
     }
 
     @Test
@@ -188,6 +191,18 @@ public class OnboardingScreenTest {
         int rotation = onboardingActivity.getWindowManager().getDefaultDisplay().getRotation();
         assertThat(rotation)
                 .isEqualTo(Surface.ROTATION_0);
+    }
+
+    private OnboardingPage getDefaultPageAtIndex(final int index) {
+        if (isTablet()) {
+            return DefaultPagesTablet.values()[index].getPage();
+        } else {
+            return DefaultPagesPhone.values()[index].getPage();
+        }
+    }
+
+    private Enum[] getDefaultPages() {
+        return isTablet() ? DefaultPagesTablet.values() : DefaultPagesPhone.values();
     }
 
     private OnboardingActivity startOnboardingActivity() {
