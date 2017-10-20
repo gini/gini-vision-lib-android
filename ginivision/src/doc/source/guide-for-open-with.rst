@@ -1,5 +1,7 @@
-How to Upload PDFs and Images
+How to Upload PDFs and Images (pre-2.4.0)
 =============================
+
+Since version 2.4.0 the :ref:`File Import` feature should be used.
 
 General considerations
 ----------------------
