@@ -102,8 +102,18 @@ Getting the MIME type from the Intent:
 .. code-block:: java
 
     List<String> mimeTypes = new ArrayList<>();
-    String type = intent.getType();
-    if (mimeType != null) {
+    String type = context.getContentResolver().getType(data);
+    if (type == null) {
+        type = intent.getType();
+    }
+    if (type == null) {
+        String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+        if (extension != null) {
+            final MimeTypeMap mime = MimeTypeMap.getSingleton();
+            type = mime.getMimeTypeFromExtension(extension);
+        }
+    }
+    if (type != null) {
         mimeTypes.add(type);
     } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
         ClipData clipData = intent.getClipData();
