@@ -56,31 +56,56 @@ import java.util.ArrayList;
  *             <b>Onboarding message text size:</b> via overriding the style named {@code GiniVisionTheme.Onboarding.Message.TextStyle} and setting an item named {@code android:textSize} to the desired {@code sp} size
  *         </li>
  *         <li>
- *             <b>First page image:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_onboarding_flat.png}
+ *             <b>Tablet Onboarding Pages:</b>
+ *             <ul>
+ *                 <li>
+ *                     <b>First page image</b> via images for sw600dp-mdpi, sw600dp-hdpi, sw600dp-xhdpi, sw600dp-xxhdpi, sw600dp-xxxhdpi named {@code gv_onboarding_lighting.png}
+ *                 </li>
+ *                 <li>
+ *                     <b>First page text:</b> via the string resource named {@code gv_onboarding_ligthing}
+ *                 </li>
+ *                 <li>
+ *                     <b>Second page image</b> via images for sw600dp-mdpi, sw600dp-hdpi, sw600dp-xhdpi, sw600dp-xxhdpi, sw600dp-xxxhdpi named {@code gv_onboarding_flat.png}
+ *                 </li>
+ *                 <li>
+ *                     <b>Second page text:</b> via the string resource named {@code gv_onboarding_flat}
+ *                 </li>
+ *                 <li>
+ *                     <b>Third page image:</b> via images for sw600dp-mdpi, sw600dp-hdpi, sw600dp-xhdpi, sw600dp-xxhdpi, sw600dp-xxxhdpi named {@code gv_onboarding_parallel.png}
+ *                 </li>
+ *                 <li>
+ *                     <b>Third page text:</b> via the string resource named {@code gv_onboarding_parallel}
+ *                 </li>
+ *                 <li>
+ *                     <b>Fourth page image:</b> via images for sw600dp-mdpi, sw600dp-hdpi, sw600dp-xhdpi, sw600dp-xxhdpi, sw600dp-xxxhdpi named {@code gv_onboarding_align.png}
+ *                 </li>
+ *                 <li>
+ *                     <b>Fourth page text:</b> via the string resource named {@code gv_onboarding_align}
+ *                 </li>
+ *             </ul>
  *         </li>
  *         <li>
- *             <b>First page image for tablets:</b> via images for sw600dp-mdpi, sw600dp-hdpi, sw600dp-xhdpi, sw600dp-xxhdpi, sw600dp-xxxhdpi named {@code gv_onboarding_flat.png}
- *         </li>
- *         <li>
- *             <b>First page text:</b> via the string resource named {@code gv_onboarding_flat}
- *         </li>
- *         <li>
- *             <b>Second page image:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_onboarding_parallel.png}
- *         </li>
- *         <li>
- *             <b>Second page image for tablets:</b> via images for sw600dp-mdpi, sw600dp-hdpi, sw600dp-xhdpi, sw600dp-xxhdpi, sw600dp-xxxhdpi named {@code gv_onboarding_parallel.png}
- *         </li>
- *         <li>
- *             <b>Second page text:</b> via the string resource named {@code gv_onboarding_parallel}
- *         </li>
- *         <li>
- *             <b>Third page image:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_onboarding_align.png}
- *         </li>
- *         <li>
- *             <b>Third page image for tablets:</b> via images for sw600dp-mdpi, sw600dp-hdpi, sw600dp-xhdpi, sw600dp-xxhdpi, sw600dp-xxxhdpi named {@code gv_onboarding_align.png}
- *         </li>
- *         <li>
- *             <b>Third page text:</b> via the string resource named {@code gv_onboarding_align}
+ *             <b>Phone Onboarding Pages:</b>
+ *             <ul>
+ *                 <li>
+ *                     <b>First page image:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_onboarding_flat.png}
+ *                 </li>
+ *                 <li>
+ *                     <b>First page text:</b> via the string resource named {@code gv_onboarding_flat}
+ *                 </li>
+ *                 <li>
+ *                     <b>Second page image:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_onboarding_parallel.png}
+ *                 </li>
+ *                 <li>
+ *                     <b>Second page text:</b> via the string resource named {@code gv_onboarding_parallel}
+ *                 </li>
+ *                 <li>
+ *                     <b>Third page image:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_onboarding_align.png}
+ *                 </li>
+ *                 <li>
+ *                     <b>Third page text:</b> via the string resource named {@code gv_onboarding_align}
+ *                 </li>
+ *             </ul>
  *         </li>
  *         <li>
  *             <b>Background transparency:</b> via the string resource named {@code gv_onboarding_page_fragment_background_alpha} which must contain a real number between [0,1].
