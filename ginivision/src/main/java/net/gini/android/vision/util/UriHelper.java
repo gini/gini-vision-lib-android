@@ -1,4 +1,4 @@
-package net.gini.android.vision.internal.util;
+package net.gini.android.vision.util;
 
 import static net.gini.android.vision.internal.util.StreamHelper.inputStreamToByteArray;
 
@@ -12,12 +12,12 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * @exclude
+ * Helper methods for {@link android.net.Uri}.
  */
 public final class UriHelper {
 
     /**
-     * Reads the contents of the resources pointed to by Uri into a byte array.
+     * Reads the contents of the resource pointed to by the Uri into a byte array.
      *
      * @param uri     a {@link Uri} pointing to a file
      * @param context Android context
@@ -27,7 +27,7 @@ public final class UriHelper {
      *                               Resolver
      */
     @NonNull
-    static byte[] getBytesFromUri(@NonNull final Uri uri,
+    public static byte[] getBytesFromUri(@NonNull final Uri uri,
             @NonNull final Context context)
             throws IOException {
         InputStream inputStream = null;

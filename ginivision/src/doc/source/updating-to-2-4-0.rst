@@ -56,6 +56,10 @@ Document Import
 
 The Document Import feature allows users to select images (jpeg, png and gif) and PDFs from their device or from their cloud storage. The selected document will be made available to the client and may be optionally verified before accepting it for upload and analysis.
 
+.. note::
+
+    You can use ``IntentHelper`` and ``UriHelper`` for retrieving information about the imported document.
+
 Enable Document Import
 ~~~~
 

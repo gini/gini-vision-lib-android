@@ -10,7 +10,7 @@ import java.io.InputStream;
 /**
  * @exclude
  */
-class StreamHelper {
+public class StreamHelper {
 
     /**
      * Reads the input stream to a byte array.
@@ -21,8 +21,9 @@ class StreamHelper {
      * @throws IOException if the first byte cannot be read for any reason other than the end of the
      *                     file, if the input stream has been closed, or if some other I/O error
      *                     occurs.
+     * @exclude
      */
-    static byte[] inputStreamToByteArray(@NonNull InputStream inputStream)
+    public static byte[] inputStreamToByteArray(@NonNull InputStream inputStream)
             throws IOException {
         final int bufferSize = 8192;
         ByteArrayOutputStream out = new ByteArrayOutputStream(bufferSize);

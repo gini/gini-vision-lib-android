@@ -6,7 +6,7 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.support.annotation.NonNull;
 
-import net.gini.android.vision.internal.util.IntentHelper;
+import net.gini.android.vision.util.IntentHelper;
 
 /**
  * <p>

@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
 import net.gini.android.vision.internal.AsyncCallback;
+import net.gini.android.vision.util.UriHelper;
 
 import java.io.IOException;
 

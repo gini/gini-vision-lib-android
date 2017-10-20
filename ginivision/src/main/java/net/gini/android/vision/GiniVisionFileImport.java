@@ -10,7 +10,7 @@ import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.internal.util.ActivityHelper;
 import net.gini.android.vision.internal.util.DeviceHelper;
 import net.gini.android.vision.internal.util.FileImportValidator;
-import net.gini.android.vision.internal.util.IntentHelper;
+import net.gini.android.vision.util.IntentHelper;
 import net.gini.android.vision.review.ReviewActivity;
 
 /**
