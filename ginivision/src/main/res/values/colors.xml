@@ -72,4 +72,8 @@
     <color name="gv_help_item_separator">#f2f2f2</color>
     <color name="gv_help_item_background">#fff</color>
 
+    <color name="gv_photo_tips_activity_background">#fff</color>
+    <color name="gv_photo_tips_headline">#000</color>
+    <color name="gv_photo_tips_button_text">#fff</color>
+
 </resources>

@@ -3,6 +3,7 @@
     <string name="gv_title_onboarding">Anleitung</string>
     <string name="gv_title_review">Foto überprüfen</string>
     <string name="gv_title_help">Hilfe</string>
+    <string name="gv_title_photo_tips">Tipps für Fotos</string>
     <string name="gv_title_analysis" />
 
     <string name="gv_show_onboarding">Hilfe</string>
@@ -21,13 +22,15 @@
     <string name="gv_document_analysis_error_retry">Wiederholen</string>
     <string name="gv_analysis_activity_indicator_message">Dokument wird analysiert</string>
 
+    <string name="gv_photo_tip_align">Seite vollständig in den angezeigten Rahmen einpassen</string>
+    <string name="gv_photo_tip_lighting">Auf gute Beleuchtung achten</string>
+    <string name="gv_photo_tip_parallel">Gerät parallel über die Seite halten</string>
+    <string name="gv_photo_tip_flat">Seite glatt streichen</string>
+
     <string name="gv_noresults_header">Es konnten keine Daten ausgelesen werden. Bitte Aufnahmen wiederholen.</string>
     <string name="gv_noresults_headline">Tipps für beste Ergebnisse:</string>
-    <string name="gv_noresults_align">Seite vollständig in den angezeigten Rahmen einpassen</string>
-    <string name="gv_noresults_lighting">Auf gute Beleuchtung achten</string>
-    <string name="gv_noresults_parallel">Gerät parallel über die Seite halten</string>
-    <string name="gv_noresults_flat">Seite glatt streichen</string>
     <string name="gv_noresults_back_button">Zur Kamera</string>
+
     <string name="gv_document_import_hint_text">Es können jetzt auch ganz einfach Dateien hochgeladen werden.</string>
 
     <string name="gv_document_import_error">Ihre Datei konnte nicht geöffnet werden. Bitte versuchen sie es mit einer anderen Datei.</string>
@@ -59,5 +62,8 @@
     <string name="gv_help_item_photo_tips_title">Tipps für beste Ergebnisse aus Fotos</string>
     <string name="gv_help_item_open_with_guide_title">Dokumente aus anderen Apps öffnen</string>
     <string name="gv_help_item_supported_formats_title">Unterstütze Formate</string>
+
+    <string name="gv_photo_tips_headline">Zur Erkennung aller Daten bitte folgende Tipps beim Abfotografieren beachten:</string>
+    <string name="gv_photo_tips_camera_button">Zur Kamera</string>
 
 </resources>

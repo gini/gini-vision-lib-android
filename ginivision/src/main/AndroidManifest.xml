@@ -26,6 +26,10 @@
             android:exported="false"
             android:label="@string/gv_title_help"
             android:theme="@style/GiniVisionTheme" />
+        <activity android:name=".help.PhotoTipsActivity"
+            android:exported="false"
+            android:label="@string/gv_title_photo_tips"
+            android:theme="@style/GiniVisionTheme"/>
     </application>
 
 </manifest>
