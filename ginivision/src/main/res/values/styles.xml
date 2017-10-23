@@ -146,7 +146,7 @@
 
     <style name="Root.GiniVisionTheme.Help.PhotoTips.Header.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/gv_photo_tips_headline</item>
+        <item name="android:textColor">@color/gv_photo_tips_header</item>
         <item name="gvCustomFont"/>
     </style>
 
@@ -165,6 +165,24 @@
     <style name="Root.GiniVisionTheme.Help.SupportedFormats.Item.Header.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/gv_supported_formats_item_header</item>
+        <item name="gvCustomFont"/>
+    </style>
+
+    <style name="Root.GiniVisionTheme.Help.FileImport.Header.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gv_file_import_header</item>
+        <item name="gvCustomFont"/>
+    </style>
+
+    <style name="Root.GiniVisionTheme.Help.FileImport.Section.Title.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gv_file_import_section_title</item>
+        <item name="gvCustomFont"/>
+    </style>
+
+    <style name="Root.GiniVisionTheme.Help.FileImport.Section.Body.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gv_file_import_section_body</item>
         <item name="gvCustomFont"/>
     </style>
 
@@ -209,5 +227,11 @@
     <style name="GiniVisionTheme.Help.SupportedFormats.Item.TextStyle" parent="Root.GiniVisionTheme.Help.SupportedFormats.Item.TextStyle" />
 
     <style name="GiniVisionTheme.Help.SupportedFormats.Item.Header.TextStyle" parent="Root.GiniVisionTheme.Help.SupportedFormats.Item.Header.TextStyle" />
+
+    <style name="GiniVisionTheme.Help.FileImport.Header.TextStyle" parent="Root.GiniVisionTheme.Help.FileImport.Header.TextStyle" />
+
+    <style name="GiniVisionTheme.Help.FileImport.Section.Title.TextStyle" parent="Root.GiniVisionTheme.Help.FileImport.Section.Title.TextStyle" />
+
+    <style name="GiniVisionTheme.Help.FileImport.Section.Body.TextStyle" parent="Root.GiniVisionTheme.Help.FileImport.Section.Body.TextStyle" />
 
 </resources>

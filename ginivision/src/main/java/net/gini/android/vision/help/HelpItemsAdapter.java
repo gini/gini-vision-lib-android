@@ -50,7 +50,7 @@ class HelpItemsAdapter extends Adapter<HelpItemsAdapter.HelpItemsViewHolder> {
 
     enum HelpItem {
         PHOTO_TIPS(R.string.gv_help_item_photo_tips_title),
-        OPEN_WITH_GUIDE(R.string.gv_help_item_open_with_guide_title),
+        FILE_IMPORT_GUIDE(R.string.gv_help_item_file_import_guide_title),
         SUPPORTED_FORMATS(R.string.gv_help_item_supported_formats_title);
 
         @StringRes

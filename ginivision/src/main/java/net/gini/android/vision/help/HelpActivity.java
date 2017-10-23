@@ -47,7 +47,8 @@ public class HelpActivity extends AppCompatActivity {
             case PHOTO_TIPS:
                 launchPhotoTips();
                 break;
-            case OPEN_WITH_GUIDE:
+            case FILE_IMPORT_GUIDE:
+                launchFileImport();
                 break;
             case SUPPORTED_FORMATS:
                 launchSupportedFormats();
@@ -58,6 +59,11 @@ public class HelpActivity extends AppCompatActivity {
     private void launchPhotoTips() {
         final Intent intent = new Intent(this, PhotoTipsActivity.class);
         startActivityForResult(intent, PHOTO_TIPS_REQUEST);
+    }
+
+    private void launchFileImport() {
+        final Intent intent = new Intent(this, FileImportActivity.class);
+        startActivity(intent);
     }
 
     private void launchSupportedFormats() {
