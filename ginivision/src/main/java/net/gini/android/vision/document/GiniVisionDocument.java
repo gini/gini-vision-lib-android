@@ -168,6 +168,7 @@ public class GiniVisionDocument implements Document {
                 '}';
     }
 
+    @Deprecated
     @NonNull
     @Override
     public byte[] getJpeg() {
@@ -175,6 +176,7 @@ public class GiniVisionDocument implements Document {
         return data != null ? data : new byte[]{};
     }
 
+    @Deprecated
     @Override
     public int getRotationForDisplay() {
         return 0;

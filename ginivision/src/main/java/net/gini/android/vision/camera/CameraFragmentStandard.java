@@ -152,6 +152,7 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
         }
     }
 
+    @Deprecated
     @Override
     public void showDocumentCornerGuides() {
         if (mFragmentImpl == null) {
@@ -160,6 +161,7 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
         mFragmentImpl.showDocumentCornerGuides();
     }
 
+    @Deprecated
     @Override
     public void hideDocumentCornerGuides() {
         if (mFragmentImpl == null) {
@@ -168,6 +170,7 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
         mFragmentImpl.hideDocumentCornerGuides();
     }
 
+    @Deprecated
     @Override
     public void showCameraTriggerButton() {
         if (mFragmentImpl == null) {
@@ -176,6 +179,7 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
         mFragmentImpl.showCameraTriggerButton();
     }
 
+    @Deprecated
     @Override
     public void hideCameraTriggerButton() {
         if (mFragmentImpl == null) {

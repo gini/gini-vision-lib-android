@@ -701,6 +701,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         });
     }
 
+    @Deprecated
     @Override
     public void showDocumentCornerGuides() {
         if (isNoPermissionViewVisible()) {
@@ -713,6 +714,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mImageCorners.animate().alpha(1.0f);
     }
 
+    @Deprecated
     @Override
     public void hideDocumentCornerGuides() {
         if (isNoPermissionViewVisible()) {
@@ -725,6 +727,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mImageCorners.animate().alpha(0.0f);
     }
 
+    @Deprecated
     @Override
     public void showCameraTriggerButton() {
         if (isNoPermissionViewVisible()) {
@@ -738,6 +741,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mButtonCameraTrigger.setEnabled(true);
     }
 
+    @Deprecated
     @Override
     public void hideCameraTriggerButton() {
         if (isNoPermissionViewVisible()) {
