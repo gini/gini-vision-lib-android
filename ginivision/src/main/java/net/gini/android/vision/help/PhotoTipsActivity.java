@@ -1,7 +1,7 @@
 package net.gini.android.vision.help;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import net.gini.android.vision.R;

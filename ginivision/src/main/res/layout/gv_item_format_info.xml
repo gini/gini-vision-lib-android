@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/gv_supported_formats_item_background"
+    android:foreground="?attr/selectableItemBackground"
+    android:orientation="vertical">
+
+    <net.gini.android.vision.internal.ui.CustomFontTextView
+        android:id="@+id/gv_supported_formats_item_label"
+        style="@style/GiniVisionTheme.Help.SupportedFormats.Item.TextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/gv_supported_formats_item_margin"
+        android:layout_marginEnd="@dimen/gv_supported_formats_item_margin"
+        android:layout_marginLeft="@dimen/gv_supported_formats_item_left_margin"
+        android:layout_marginStart="@dimen/gv_supported_formats_item_left_margin"
+        android:layout_marginTop="@dimen/gv_supported_formats_item_margin"
+        android:layout_marginBottom="@dimen/gv_supported_formats_item_margin"
+        android:drawableLeft="@drawable/gv_alert_icon"
+        android:drawablePadding="16dp"
+        android:drawableStart="@drawable/gv_alert_icon"
+        tools:text="Computer-erstellte Überweisungsträger und Rechnungen" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gv_supported_formats_item_separator" />
+</LinearLayout>

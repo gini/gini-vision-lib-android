@@ -156,6 +156,18 @@
         <item name="gvCustomFont"/>
     </style>
 
+    <style name="Root.GiniVisionTheme.Help.SupportedFormats.Item.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gv_supported_formats_item_label</item>
+        <item name="gvCustomFont"/>
+    </style>
+
+    <style name="Root.GiniVisionTheme.Help.SupportedFormats.Item.Header.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/gv_supported_formats_item_header</item>
+        <item name="gvCustomFont"/>
+    </style>
+
     <!-- Text styles used in the layouts which are overridable for customization -->
 
     <style name="GiniVisionTheme.Camera.Error.NoPermission.TextStyle" parent="Root.GiniVisionTheme.Camera.Error.NoPermission.TextStyle"/>
@@ -193,5 +205,9 @@
     <style name="GiniVisionTheme.Help.PhotoTips.Header.TextStyle" parent="Root.GiniVisionTheme.Help.PhotoTips.Header.TextStyle" />
 
     <style name="GiniVisionTheme.Help.PhotoTips.Tip.TextStyle" parent="Root.GiniVisionTheme.Help.PhotoTips.Tip.TextStyle" />
+
+    <style name="GiniVisionTheme.Help.SupportedFormats.Item.TextStyle" parent="Root.GiniVisionTheme.Help.SupportedFormats.Item.TextStyle" />
+
+    <style name="GiniVisionTheme.Help.SupportedFormats.Item.Header.TextStyle" parent="Root.GiniVisionTheme.Help.SupportedFormats.Item.Header.TextStyle" />
 
 </resources>

@@ -50,6 +50,7 @@ public class HelpActivity extends AppCompatActivity {
             case OPEN_WITH_GUIDE:
                 break;
             case SUPPORTED_FORMATS:
+                launchSupportedFormats();
                 break;
         }
     }
@@ -57,5 +58,10 @@ public class HelpActivity extends AppCompatActivity {
     private void launchPhotoTips() {
         final Intent intent = new Intent(this, PhotoTipsActivity.class);
         startActivityForResult(intent, PHOTO_TIPS_REQUEST);
+    }
+
+    private void launchSupportedFormats() {
+        final Intent intent = new Intent(this, SupportedFormatsActivity.class);
+        startActivity(intent);
     }
 }

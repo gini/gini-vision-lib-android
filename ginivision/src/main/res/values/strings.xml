@@ -4,6 +4,7 @@
     <string name="gv_title_review">Foto überprüfen</string>
     <string name="gv_title_help">Hilfe</string>
     <string name="gv_title_photo_tips">Tipps für Fotos</string>
+    <string name="gv_title_supported_formats">Unterstütze Formate</string>
     <string name="gv_title_analysis" />
 
     <string name="gv_show_onboarding">Hilfe</string>
@@ -65,5 +66,13 @@
 
     <string name="gv_photo_tips_headline">Zur Erkennung aller Daten bitte folgende Tipps beim Abfotografieren beachten:</string>
     <string name="gv_photo_tips_camera_button">Zur Kamera</string>
+    
+    <string name="gv_supported_format_printed_invoices">Computer-erstellte Überweisungsträger und Rechnungen</string>
+    <string name="gv_supported_format_single_page_as_jpeg_png_gif">Einseitige Bilder im jpeg, png oder gif Format</string>
+    <string name="gv_supported_format_pdf">PDF Dokumente von bis zu 10 Seiten</string>
+    <string name="gv_unsupported_format_handwriting">Handschrift</string>
+    <string name="gv_unsupported_format_photos_of_screens">Fotos von Bildschirmen</string>
+    <string name="gv_supported_format_section_header">Folgende Formate werden unterstützt:</string>
+    <string name="gv_unsupported_format_section_header">Was nicht analysiert wird:</string>
 
 </resources>
