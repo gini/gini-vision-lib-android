@@ -38,7 +38,7 @@ Deprecation
 Deprecated methods:
 
 - ``Document#getJpeg()`` - use ``Document#getData()`` instead. This method might return a byte array containing other types, like PDFs.
-- ``Document#getRotationForDisplay()`` - use ``ImageDocument#getRotationForDisplay() instead, if ``Document#getType()`` is equal to ``Document.Type#IMAGE``.
+- ``Document#getRotationForDisplay()`` - use ``ImageDocument#getRotationForDisplay()`` instead, if ``Document#getType()`` is equal to ``Document.Type#IMAGE``.
 - ``CameraFragmentInterface#showDocumentCornerGuides()`` - Use ``CameraFragmentInterface#showInterface()`` instead.
 - ``CameraFragmentInterface#hideDocumentCornerGuides()`` - Use ``CameraFragmentInterface#hideInterface()`` instead.
 - ``CameraFragmentInterface#showCameraTriggerButton()`` - Use ``CameraFragmentInterface#showInterface()`` instead.
@@ -64,6 +64,8 @@ Enable Document Import
 ~~~~
 
 This feature is disabled by default. When it's enabled users will see a new button next to the camera trigger in the Camera Screen.
+
+After the feature is enabled a hint is displayed informing the user about the new button and its function.
 
 To enable the Document Import using the Screen API add the following extra to the ``CameraActivity`` intent and specify the file types you wish to allow:
 
@@ -161,7 +163,8 @@ Customizing the UI
 
 Camera Screen:
 
-- Document Import button icon
+- Document import button icon
+- Document import hint text, text style, background color and close icon color
 - Storage permission rationale AlertDialog text and button color
 - Storage permission denied AlertDialog text and button color
 
