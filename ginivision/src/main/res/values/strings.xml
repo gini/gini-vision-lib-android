@@ -43,7 +43,7 @@
         <item quantity="one">%d Seite</item>
         <item quantity="other">%d Seiten</item>
     </plurals>
-    <string name="gv_analysis_hint_headline">Um schneller Ergebnisse zu erhalten, bitte:</string>
+    <string name="gv_analysis_hint_headline">Für schnellere Ergebnisse, bitte:</string>
 
     <string name="gv_document_import_invalid_document">Leider kann diese Datei nicht bearbeitet werden.</string>
     <string name="gv_document_import_error_type_not_supported">Nur Dateien vom Format jpg, png, gif oder pdf können analysiert werden.</string>
