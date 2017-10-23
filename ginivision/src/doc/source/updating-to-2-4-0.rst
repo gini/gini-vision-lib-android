@@ -138,12 +138,12 @@ The Gini Vision Library verifies the file's mime-type, size (up to 10MB) and in 
 
 Rejecting a document displays the provided message to the user in an alert dialog. The user may select another document or cancel the document import.
 
-.. _Document Import - Analysing Imported Documents:
+.. _Document Import - Analyzing Imported Documents:
 
-Analysing Imported Documents
+Analyzing Imported Documents
 ~~~~
 
-After the document was accepted the Gini Vision Library shows the Review Screen for images and for PDFs it goes directly to the Analysis Screen. Analysing imported documents requires no changes. The document's content will be loaded into memory and can be uploaded like the pictures taken by the camera.
+After the document was accepted the Gini Vision Library shows the Review Screen for images and for PDFs it goes directly to the Analysis Screen. Analyzing imported documents requires no changes. The document's content will be loaded into memory and can be uploaded like the pictures taken by the camera.
 
 Additional methods were added to the ``Document`` to identify whether the document was imported, to get the ``Intent`` with which it was imported, to find out if it's reviewable (PDFs are not reviewable for ex.) and to get it's type (image or pdf).
 
@@ -303,10 +303,10 @@ For the Component API create a ``Document`` with ``GiniVisionFileImport.createDo
             }
         }
 
-Analysing Imported Documents
+Analyzing Imported Documents
 ~~~~
 
-Same as `Document Import - Analysing Imported Documents`_.
+Same as `Document Import - Analyzing Imported Documents`_.
 
 Analysis Screen for PDFs
 ~~~~
