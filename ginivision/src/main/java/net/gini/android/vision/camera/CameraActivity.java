@@ -563,7 +563,8 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         startActivity(intent);
     }
 
-    private void startOnboardingActivity() {
+    @VisibleForTesting
+    void startOnboardingActivity() {
         if (mOnboardingShown) {
             return;
         }
