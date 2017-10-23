@@ -67,4 +67,9 @@
     <color name="gv_hint_close">#afb2b3</color>
     <color name="gv_noresults_button_text">#fff</color>
 
+    <color name="gv_help_activity_background">#f2f2f2</color>
+    <color name="gv_help_item_title">#000</color>
+    <color name="gv_help_item_separator">#f2f2f2</color>
+    <color name="gv_help_item_background">#fff</color>
+
 </resources>

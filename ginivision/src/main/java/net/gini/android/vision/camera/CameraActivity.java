@@ -17,6 +17,7 @@ import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
+import net.gini.android.vision.help.HelpActivity;
 import net.gini.android.vision.internal.util.ActivityHelper;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
@@ -551,10 +552,15 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.gv_action_show_onboarding) {
-            startOnboardingActivity();
+            startHelpActivity();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void startHelpActivity() {
+        final Intent intent = new Intent(this, HelpActivity.class);
+        startActivity(intent);
     }
 
     private void startOnboardingActivity() {

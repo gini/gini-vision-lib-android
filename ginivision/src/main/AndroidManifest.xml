@@ -17,9 +17,15 @@
             android:exported="false"
             android:label="@string/gv_title_onboarding"
             android:theme="@style/GiniVisionTheme.Transparent" />
-        <activity android:name=".internal.fileimport.FileChooserActivity"
+        <activity
+            android:name=".internal.fileimport.FileChooserActivity"
             android:exported="false"
             android:theme="@style/GiniVisionTheme.Chooser" />
+        <activity
+            android:name=".help.HelpActivity"
+            android:exported="false"
+            android:label="@string/gv_title_help"
+            android:theme="@style/GiniVisionTheme" />
     </application>
 
 </manifest>

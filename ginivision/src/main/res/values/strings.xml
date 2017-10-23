@@ -2,7 +2,8 @@
     <string name="gv_title_camera">Dokument fotografieren</string>
     <string name="gv_title_onboarding">Anleitung</string>
     <string name="gv_title_review">Foto überprüfen</string>
-    <string name="gv_title_analysis" /> 
+    <string name="gv_title_help">Hilfe</string>
+    <string name="gv_title_analysis" />
 
     <string name="gv_show_onboarding">Hilfe</string>
     <string name="gv_select_from_camera_roll">Eigenes Bild auswählen</string>
@@ -55,5 +56,8 @@
 
     <string name="gv_file_chooser_fotos_section_header">Fotos</string>
     <string name="gv_file_chooser_pdfs_section_header">PDFs</string>
+    <string name="gv_help_item_photo_tips_title">Tipps für beste Ergebnisse aus Fotos</string>
+    <string name="gv_help_item_open_with_guide_title">Dokumente aus anderen Apps öffnen</string>
+    <string name="gv_help_item_supported_formats_title">Unterstütze Formate</string>
 
 </resources>

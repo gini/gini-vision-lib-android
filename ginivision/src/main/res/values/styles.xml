@@ -138,6 +138,12 @@
         <item name="gvCustomFont"/>
     </style>
 
+    <style name="Root.GiniVisionTheme.Help.Item.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gv_help_item_title</item>
+        <item name="gvCustomFont"/>
+    </style>
+
     <!-- Text styles used in the layouts which are overridable for customization -->
 
     <style name="GiniVisionTheme.Camera.Error.NoPermission.TextStyle" parent="Root.GiniVisionTheme.Camera.Error.NoPermission.TextStyle"/>
@@ -170,4 +176,5 @@
 
     <style name="GiniVisionTheme.NoResults.Tip.TextStyle" parent="Root.GiniVisionTheme.NoResults.Tip.TextStyle" />
 
+    <style name="GiniVisionTheme.Help.Item.TextStyle" parent="Root.GiniVisionTheme.Help.Item.TextStyle" />
 </resources>
