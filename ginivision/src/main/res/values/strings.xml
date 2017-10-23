@@ -53,4 +53,7 @@
     <string name="gv_document_import_pick_another_document">Andere Datei wählen</string>
     <string name="gv_document_import_close_error">Abbrechen</string>
 
+    <string name="gv_file_chooser_fotos_section_header">Fotos</string>
+    <string name="gv_file_chooser_pdfs_section_header">PDFs</string>
+
 </resources>
