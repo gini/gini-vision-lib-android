@@ -23,7 +23,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
 import android.support.v4.view.ViewCompat;
-import android.support.v4.view.ViewPropertyAnimatorListener;
+import android.support.v4.view.ViewPropertyAnimatorCompat;
+import android.support.v4.view.ViewPropertyAnimatorListenerAdapter;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.View;
@@ -91,7 +92,9 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
     private final CameraFragmentImplCallback mFragment;
     private final GiniVisionFeatureConfiguration mGiniVisionFeatureConfiguration;
+
     private View mImageCorners;
+    private boolean mInterfaceHidden = false;
     private CameraFragmentListener mListener = NO_OP_LISTENER;
     private final UIExecutor mUIExecutor = new UIExecutor();
     private CameraController mCameraController;
@@ -108,6 +111,9 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     private View mCameraPreviewShade;
     private View mActivityIndicatorBackground;
     private ProgressBar mActivityIndicator;
+    private ViewPropertyAnimatorCompat mUploadHintContainerArrowAnimation;
+    private ViewPropertyAnimatorCompat mCameraPreviewShadeAnimation;
+    private ViewPropertyAnimatorCompat mUploadHintContainerAnimation;
 
     private ViewStubSafeInflater mViewStubInflater;
 
@@ -193,21 +199,45 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
     private void showUploadHintPopUpOnFirstExecution() {
         if(shouldShowHintPopUp()) {
+            mButtonCameraTrigger.setEnabled(false);
             mUploadHintContainer.setVisibility(View.VISIBLE);
             mUploadHintContainerArrow.setVisibility(View.VISIBLE);
             mCameraPreviewShade.setVisibility(View.VISIBLE);
-            ViewCompat.animate(mUploadHintContainer)
+            mCameraPreviewShade.setClickable(true);
+            clearUploadHintPopUpAnimations();
+            mUploadHintContainerAnimation = ViewCompat.animate(
+                    mUploadHintContainer)
                     .alpha(1)
-                    .setDuration(DEFAULT_ANIMATION_DURATION)
-                    .start();
-            ViewCompat.animate(mUploadHintContainerArrow)
+                    .setDuration(DEFAULT_ANIMATION_DURATION);
+            mUploadHintContainerAnimation.start();
+            mUploadHintContainerArrowAnimation = ViewCompat.animate(
+                    mUploadHintContainerArrow)
                     .alpha(1)
-                    .setDuration(DEFAULT_ANIMATION_DURATION)
-                    .start();
-            ViewCompat.animate(mCameraPreviewShade)
+                    .setDuration(DEFAULT_ANIMATION_DURATION);
+            mUploadHintContainerArrowAnimation.start();
+            mCameraPreviewShadeAnimation = ViewCompat.animate(
+                    mCameraPreviewShade)
                     .alpha(1)
-                    .setDuration(DEFAULT_ANIMATION_DURATION)
-                    .start();
+                    .setDuration(DEFAULT_ANIMATION_DURATION);
+            mCameraPreviewShadeAnimation.start();
+        }
+    }
+
+    private void clearUploadHintPopUpAnimations() {
+        if (mUploadHintContainerAnimation != null) {
+            mUploadHintContainerAnimation.cancel();
+            mUploadHintContainer.clearAnimation();
+            mUploadHintContainerAnimation.setListener(null);
+        }
+        if (mUploadHintContainerArrowAnimation != null) {
+            mUploadHintContainerArrowAnimation.cancel();
+            mUploadHintContainerArrow.clearAnimation();
+            mUploadHintContainerArrowAnimation.setListener(null);
+        }
+        if (mCameraPreviewShadeAnimation != null) {
+            mCameraPreviewShadeAnimation.cancel();
+            mCameraPreviewShade.clearAnimation();
+            mCameraPreviewShadeAnimation.setListener(null);
         }
     }
 
@@ -313,6 +343,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
     void onStop() {
         closeCamera();
+        clearUploadHintPopUpAnimations();
     }
 
     private void closeCamera() {
@@ -423,36 +454,43 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void closeUploadHintPopUp() {
-        ViewCompat.animate(mCameraPreviewShade)
-                .alpha(0)
-                .setDuration(DEFAULT_ANIMATION_DURATION)
-                .start();
-        ViewCompat.animate(mUploadHintContainerArrow)
-                .alpha(0)
-                .setDuration(DEFAULT_ANIMATION_DURATION)
-                .start();
-        ViewCompat.animate(mUploadHintContainer)
-                .alpha(0)
-                .setDuration(DEFAULT_ANIMATION_DURATION)
-                .setListener(new ViewPropertyAnimatorListener() {
-                    @Override
-                    public void onAnimationStart(final View view) {
-                    }
+        hideUploadHintPopUp(new ViewPropertyAnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(final View view) {
+                Context context = view.getContext();
+                savePopUpShown(context);
+            }
+        });
+    }
 
+    private void hideUploadHintPopUp(@Nullable final ViewPropertyAnimatorListenerAdapter
+            animatorListener) {
+        mButtonCameraTrigger.setEnabled(true);
+        clearUploadHintPopUpAnimations();
+        mUploadHintContainerAnimation = ViewCompat.animate(mUploadHintContainer)
+                .alpha(0)
+                .setDuration(DEFAULT_ANIMATION_DURATION)
+                .setListener(new ViewPropertyAnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(final View view) {
                         mUploadHintContainerArrow.setVisibility(View.GONE);
                         mUploadHintContainer.setVisibility(View.GONE);
                         mCameraPreviewShade.setVisibility(View.GONE);
-                        Context context = view.getContext();
-                        savePopUpShown(context);
+                        mCameraPreviewShade.setClickable(false);
+                        if (animatorListener != null) {
+                            animatorListener.onAnimationEnd(view);
+                        }
                     }
-
-                    @Override
-                    public void onAnimationCancel(final View view) {
-                    }
-                })
-                .start();
+                });
+        mUploadHintContainerAnimation.start();
+        mUploadHintContainerArrowAnimation = ViewCompat.animate(mUploadHintContainerArrow)
+                .alpha(0)
+                .setDuration(DEFAULT_ANIMATION_DURATION);
+        mUploadHintContainerArrowAnimation.start();
+        mCameraPreviewShadeAnimation = ViewCompat.animate(mCameraPreviewShade)
+                .alpha(0)
+                .setDuration(DEFAULT_ANIMATION_DURATION);
+        mCameraPreviewShadeAnimation.start();
     }
 
     private void savePopUpShown(final Context context) {
@@ -757,9 +795,10 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
     @Override
     public void showInterface() {
-        if (isNoPermissionViewVisible()) {
+        if (!mInterfaceHidden || isNoPermissionViewVisible()) {
             return;
         }
+        mInterfaceHidden = false;
         showInterfaceAnimated();
     }
 
@@ -767,6 +806,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         showCameraTriggerButtonAnimated();
         showDocumentCornerGuidesAnimated();
         if (mImportDocumentButtonEnabled) {
+            showUploadHintPopUpOnFirstExecution();
             showImportDocumentButtonAnimated();
         }
     }
@@ -778,9 +818,10 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
     @Override
     public void hideInterface() {
-        if (isNoPermissionViewVisible()) {
+        if (mInterfaceHidden || isNoPermissionViewVisible()) {
             return;
         }
+        mInterfaceHidden = true;
         hideInterfaceAnimated();
     }
 
@@ -788,6 +829,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         hideCameraTriggerButtonAnimated();
         hideDocumentCornerGuidesAnimated();
         if (mImportDocumentButtonEnabled) {
+            hideUploadHintPopUp(null);
             hideImportDocumentButtonAnimated();
         }
     }
