@@ -2,7 +2,7 @@
  * <p>
  * Contains the Activity and Fragments used for the No Results Screen. The No Results Screen
  * includes
- * hints how to take a picture in an optimal condition. This screen should be shown when the
+ * hints on how to take a picture in an optimal condition. This screen should be shown when the
  * received results from the Gini API don't include the required extractions.
  * </p>
  *
@@ -10,9 +10,15 @@
  *
  * <p>
  * The {@link net.gini.android.vision.noresults.NoResultsActivity} is launched directly by the
- * {@link net.gini.android.vision.analysis.AnalysisActivity} when {@link
- * net.gini.android.vision.analysis.AnalysisFragmentInterface#onNoExtractionsFound()} has been
- * called.
+ * {@link net.gini.android.vision.analysis.AnalysisActivity} or the
+ * {@link net.gini.android.vision.review.ReviewActivity}, depending on where analysis results
+ * were received.
+ * </p>
+ * <p>
+ *     Call {@link
+ * net.gini.android.vision.analysis.AnalysisFragmentInterface#onNoExtractionsFound()} or
+ * {@link net.gini.android.vision.review.ReviewFragmentInterface#onNoExtractionsFound()} after you
+ * received the results from the Gini API and it didn't include the required extractions.
  * </p>
  *
  * <h3>Component API</h3>

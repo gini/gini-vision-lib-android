@@ -2,7 +2,6 @@ package net.gini.android.vision.noresults;
 
 
 import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import net.gini.android.vision.Document;
-import net.gini.android.vision.analysis.AnalysisFragmentStandard;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 
 /**
@@ -19,11 +17,11 @@ import net.gini.android.vision.internal.ui.FragmentImplCallback;
  *
  * <p>
  * When you use the Component API without the Android Support Library, the {@code
- * NoResultsFragmentCompat} displays hints that show how to best take a picture of a document.
+ * NoResultsFragmentStandard} displays hints that show how to best take a picture of a document.
  * </p>
  * <p>
- * Include the {@code AnalyzeDocumentFragmentStandard} into your layout by using the {@link
- * AnalysisFragmentStandard#createInstance(Document, String)} factory method to create an instance
+ * Include the {@code NoResultsFragmentStandard} into your layout by using the {@link
+ * NoResultsFragmentStandard#createInstance(Document)} factory method to create an instance
  * and display it using the {@link android.app.FragmentManager}.
  * </p>
  * <p>
@@ -32,7 +30,7 @@ import net.gini.android.vision.internal.ui.FragmentImplCallback;
  * </p>
  * <p>
  * Your Activity is automatically set as the listener in
- * {@link AnalysisFragmentStandard#onAttach(Context)}.
+ * {@link NoResultsFragmentStandard#onCreate(Bundle)}.
  * </p>
  */
 public class NoResultsFragmentStandard extends Fragment implements FragmentImplCallback {
