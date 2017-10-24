@@ -181,8 +181,8 @@ import java.util.ArrayList;
  *         gv_camera_focus_indicator.png}
  *     </li>
  *     <li>
- *         <b>Onboarding menu item icon:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code
- *         gv_icon_onboarding.png}
+ *         <b>Help menu item icon:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code
+ *         gv_help_icon.png}
  *     </li>
  *     <li>
  *         <b>Onboarding menu item title:</b> via the string resource named {@code gv_show_onboarding}
