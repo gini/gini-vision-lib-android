@@ -7,13 +7,11 @@ Breaking Changes
 Camera Screen
 ^^^^
 
-The UI of the Camera Screen was updated for a better user experience. The document corner guides in the camera screen are now drawn programmatically. The color of the corner lines can be set by overriding the color resource named ``gv_camera_preview_corners``.
+The UI of the Camera Screen was updated for a better user experience. The document corner guides on the camera screen are now drawn programmatically. The color of the corner lines can be set by overriding the color resource named ``gv_camera_preview_corners``.
 
 The corner guide png image resources called ``gv_camera_preview_corners.png`` can be deleted as they are not used anymore.
 
 The `CameraFragmentListener` received an additional method for checking imported documents. Even if you don't use the `Document Import`_ feature you need to implement ``CameraFragmentListener#onCheckImportedDocument(Document, DocumentCheckResultCallback)``. If you don't use the `Document Import`_ feature an empty implementation is sufficient. In case you enabled document import you must call one of the callback methods.
-
-When using the Screen API Camera Activity the ``gv_icon_onboarding.png`` was replaced with a new image showing a question mark called ``gv_help_icon.png``. Override this new image when configuring the Camera Screen using the Screen API.
 
 Analysis Screen
 ^^^^
@@ -23,7 +21,7 @@ The Analysis Screen UI was updated and in the Screen API the title was removed f
 Android Support Library
 ^^^^
 
-We updated to the Android Support Library 26 which requires the Google Maven Repository. Add the following to the ``repositories`` in your ``build.gradle``:
+We updated to the Android Support Library 26, which requires the Google Maven Repository. Add the following to the ``repositories`` in your ``build.gradle``:
 
 .. code-block:: groovy
 
@@ -58,7 +56,7 @@ Feature Configuration
 
 Gini Vision Library features can be configured using the ``GiniVisionFeatureConfiguration`` class.
 
-Using this class the Document Import and the File Import features can be enabled and configured.
+Using this class, the Document Import and the File Import features can be enabled and configured.
 
 Document Import
 ^^^^
@@ -72,9 +70,9 @@ The Document Import feature allows users to select images (jpeg, png and gif) an
 Enable Document Import
 ~~~~
 
-This feature is disabled by default. When it's enabled users will see a new button next to the camera trigger in the Camera Screen.
+This feature is disabled by default. When it's enabled, users will see a new button next to the camera trigger in the Camera Screen.
 
-After the feature is enabled a hint is displayed informing the user about the new button and its function.
+After the feature is enabled, a hint is displayed once, the next time the user uses the Fototüberweisung, informing the user about the new button and its function.
 
 To enable the Document Import using the Screen API add the following extra to the ``CameraActivity`` intent and specify the file types you wish to allow:
 
@@ -89,7 +87,7 @@ To enable the Document Import using the Screen API add the following extra to th
     intent.putExtra(CameraActivity.EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION,
             giniVisionFeatureConfiguration);
 
-    // Or only for PDFs
+    // Or enable only for PDFs
     final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration =
             GiniVisionFeatureConfiguration.buildNewConfiguration()
                     .setDocumentImportEnabledFileTypes(
@@ -110,7 +108,7 @@ For the Component API use the factory method of the ``CameraFragmentCompat`` or 
                     .build();
     CameraFragmentCompat.createInstance(giniVisionFeatureConfiguration);
 
-    // Or only for PDFs
+    // Or enable only for PDFs
     final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration =
             GiniVisionFeatureConfiguration.buildNewConfiguration()
                     .setDocumentImportEnabledFileTypes(
@@ -130,11 +128,11 @@ The Gini Vision Library verifies the file's mime-type, size (up to 10MB) and in 
 
 .. code-block:: java
 
-    // As an example we show how to allow only jpegs and pdfs smaller than 5MB
+    // As an example, here's how to allow only jpegs and pdfs smaller than 5MB
     @Override
     public void onCheckImportedDocument(@NonNull final Document document,
             @NonNull final DocumentCheckResultCallback callback) {
-        // We can apply custom checks here to an imported document and notify the Gini Vision
+        // One can apply custom checks here to an imported document and notify the Gini Vision
         // Library about the result
         // IMPORTANT: do not call super as it will lead to unexpected behaviors
 
@@ -174,7 +172,7 @@ Rejecting a document displays the provided message to the user in an alert dialo
 Analyzing Imported Documents
 ~~~~
 
-After the document was accepted the Gini Vision Library shows the Review Screen for images and for PDFs it goes directly to the Analysis Screen. Analyzing imported documents requires no changes. The document's content will be loaded into memory and can be uploaded like the pictures taken by the camera.
+After the document is accepted the Gini Vision Library shows the Review Screen for images while for PDFs it goes directly to the Analysis Screen. Analyzing imported documents requires no changes. The document's content will be loaded into memory and can be uploaded like the pictures taken by the camera.
 
 Additional methods were added to the ``Document`` to identify whether the document was imported, to get the ``Intent`` with which it was imported, to find out if it's reviewable (PDFs are not reviewable for ex.) and to get it's type (image or pdf).
 
@@ -185,7 +183,7 @@ Use the additional methods in the Review and Analysis screens if you wish to han
 Analysis Screen for PDFs
 ~~~~
 
-The Analysis Screen will render the first page of the PDF on Android Lollipop and newer. On older versions no preview is shown. In addition above the PDF preview area the PDF filename is displayed and the nr of pages (on Android Lollipop and newer).
+The Analysis Screen will render the first page of the PDF on Android Lollipop and newer. On older versions no preview is shown. In addition, the PDF filename is displayed above the PDF preview area. The number of pages of the document is also displays on Android Lollipop and newer.
 
 .. _Document Import - Customizing the UI:
 
@@ -195,14 +193,14 @@ Customizing the UI
 Camera Screen:
 
 - Document import button icon
-- Document import hint text, text style, background color and close icon color
+- Document import feature hint text, text style, background color and close icon color
 - Storage permission rationale AlertDialog text and button color
 - Storage permission denied AlertDialog text and button color
 
 Analysis Screen:
 
 - Activity indicator message for images
-- PDF info panel background and text style
+- PDF info panel background color and text style
 
 For detailed customization options consult the Javadoc of the ``CameraActivity`` and ``AnalysisActivity``.
 
@@ -214,7 +212,7 @@ File Import ("Open With")
 Enable File Import
 ~~~~
 
-This feature is disabled by default. To enable it build a ``GiniVisionFeatureConfiguration`` instance with enabled file import and pass it to the CameraActivity or CameraFragment:
+This feature is disabled by default. To enable it, build a ``GiniVisionFeatureConfiguration`` instance with enabled file import and pass it to the CameraActivity or CameraFragment:
 
 .. code-block:: java
 
@@ -232,7 +230,7 @@ This feature is disabled by default. To enable it build a ``GiniVisionFeatureCon
     CameraFragmentCompat.createInstance(giniVisionFeatureConfiguration);
 
 
-The File Import feature allows users to send images (jpeg, png and gif) to the Gini Vision Library from other apps through your app.
+The File Import feature allows users to send images (jpeg, png and gif) to the Gini Vision Library from other apps through your app. 
 
 Registering PDF and image file types
 ~~~~
@@ -255,7 +253,7 @@ Add the following intent filter to the Activity in your ``AndroidManifest.xml`` 
 
 .. note::
 
-    We recommend adding `ACTION_VIEW <https://developer.android.com/reference/android/content/Intent.html#ACTION_VIEW>`_ to the intent filter to also allow users to send PDFs and images to your app from apps which don’t implement sharing with `ACTION_SEND <https://developer.android.com/reference/android/content/Intent.html#ACTION_SEND>`_ but enable viewing the PDF or file with other apps.
+    We recommend adding `ACTION_VIEW <https://developer.android.com/reference/android/content/Intent.html#ACTION_VIEW>`_ to the intent filter to also allow users to send PDFs and images to your app from apps that don’t implement sharing with `ACTION_SEND <https://developer.android.com/reference/android/content/Intent.html#ACTION_SEND>`_ but enable viewing the PDF or file with other apps.
 
 Handling Imported File
 ~~~~
@@ -271,7 +269,7 @@ Checking whether the Intent has the required action:
         ...
     }
 
-Using the Screen API create an Intent for launching the Gini Vision Library with ``GiniVisionFileImport.createIntentForImportedFile()``. This method will throw an ``ImportedFileValidationException``, if the file is too large, has the wrong mime-type or has more than 10 pages (only for PDFs).
+Using the Screen API, create an Intent for launching the Gini Vision Library with ``GiniVisionFileImport.createIntentForImportedFile()``. This method will throw an ``ImportedFileValidationException``, if the file is too large, has the wrong mime-type or has more than 10 pages (only for PDFs).
 
 .. code-block:: java
 
@@ -311,9 +309,9 @@ Using the Screen API create an Intent for launching the Gini Vision Library with
         }
     }
 
-The returned Intent will launch either the ReviewActivity or the AnalysisActivity implementation you provided. PDFs cannot be reviewed in which case the AnalysisActivity will be launched. You should not expect the ReviewActivity to be launched every time.
+The returned Intent will launch either the ReviewActivity or the AnalysisActivity implementation you provided. PDFs cannot be reviewed by the user, so the AnalysisActivity will be launched. You should not expect the ReviewActivity to be launched every time.
 
-For the Component API create a ``Document`` with ``GiniVisionFileImport.createDocumentForImportedFile()``. This method will throw an ``ImportedFileValidationException``, if the file is too large, has the wrong mime-type or has more than 10 pages (only for PDFs). The ReviewFragment may only be used with reviewable documents therefore it is important to check whether the document is reviewable or not:
+For the Component API, create a ``Document`` with ``GiniVisionFileImport.createDocumentForImportedFile()``. This method will throw an ``ImportedFileValidationException``, if the file is too large, has the wrong mime-type or has more than 10 pages (only for PDFs). The ReviewFragment may only be used with reviewable documents. Therefore, it is important to check whether the document is reviewable or not:
 
 .. code-block:: java
 
@@ -373,22 +371,22 @@ Same as `Document Import - Customizing the UI`_.
 Tips in the Analysis Screen
 ^^^^
 
-When analysis takes more than 5 seconds the Gini Vision Library cycles through tips showing each one for 4 seconds. The tips are shown on the bottom of the Analysis Screen. The tips should help our users achieve better results by offering them advice on how to take good pictures.
+When analysis takes more than 5 seconds the Gini Vision Library cycles through tips, showing each one for 4 seconds. The tips are shown on the bottom of the Analysis Screen. The tips are intended to help our users achieve better results by offering them advice on how to take photos most suitable for analysis.
 
 Help Screens
 ^^^^
 
-To aid users in discovering and learning about the features of the Gini Vision Library and how to best use them we added help screens. These can be viewed from the Camera Screen.
+To aid users in discovering and learning about the features of the Gini Vision Library, and how to best use them, we added help screens. These can be viewed from the Camera Screen.
 
-The top right button in the Screen API Camera Activity will now launch the HelpActivity instead of showing the Onboarding Screen.
+The top right button in the Screen API Camera Activity will now launch the HelpActivity instead of showing the Onboarding Screens.
 
-When using the Component API you need to launch the ``HelpActivity`` manually which requires a ``GiniVisionFeatureConfiguration`` instance.
+When using the Component API, you need to launch the ``HelpActivity`` manually which requires a ``GiniVisionFeatureConfiguration`` instance.
 
 From the Help Screen the following screens can be reached:
 
-- Photo Tips Screen -  information about how to take good pictures
-- File Import Screen - a guide on how to import files from other apps via "open with"
-- Supported Formats Screen - information about the document formats supported by the Gini Vision Library
+- Photo Tips Screen:  information about how to take good pictures
+- File Import Screen: a guide on how to import files from other apps via "open with"
+- Supported Formats Screen: information about the document formats supported by the Gini Vision Library
 
 These screens are configured according to the feature configuration you provided with the ``GiniVisionFeatureConfiguration``.
 
@@ -400,7 +398,7 @@ For detailed customization options consult the Javadoc of the ``HelpActivity``, 
 No Results Screen
 ^^^^
 
-The Gini Vision Library contains a new screen providing tips for users in order to achieve better results. The No Results Screen is displayed only for pictures taken by the camera and imported images.
+The Gini Vision Library contains a new screen providing tips for users in order to achieve better results from images. The No Results Screen is displayed only for pictures taken by the camera and imported images.
 
 The No Results Screen should be requested only when none of the required extractions were received.
 
@@ -422,7 +420,7 @@ When using the Screen API call the ``onNoExtractionsFound()`` either in your Rev
 
 By invoking ``onNoExtractionsFound()`` the Gini Vision Library will display the NoResultsActivity, if the document was an image. From this Activity users can go back to the Camera Screen, provided the Camera Screen was shown, otherwise users can go back to your Activity that launched the Gini Vision Library. 
 
-For the Component API you should invoke ``GiniVisionCoordinator#shouldShowGiniVisionNoResultsScreen(Document)`` which returns true only if the Document .
+For the Component API you should invoke ``GiniVisionCoordinator#shouldShowGiniVisionNoResultsScreen(Document)`` which returns true only if the Document was an image.
 
 .. code-block:: java
 
@@ -478,7 +476,7 @@ You can view the Gini Vision Library's hardware requirements `here <http://devel
 Supporting All Screen Orientations
 ~~~~
 
-On tablets landscape orientations are also supported (smartphones are portrait only). 
+On tablets, landscape orientation is also supported (smartphones are portrait only). 
 
 Previously we recommended limiting the orientation to portrait for Activities extending the Screen API's abstract Activities and Activities hosting the Component API's Fragment. If you are updating from a previous version you should remove the portrait limitation. The Gini Vision Library limited the orientation to portrait by adding ``android:screenOrientation="portrait"`` to the Activities in earlier versions. This has been removed and you should also remove it from your Activities, too.
 
