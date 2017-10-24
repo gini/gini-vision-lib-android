@@ -65,7 +65,7 @@ public class GiniVisionFeatureConfiguration implements Parcelable {
 
         private DocumentImportEnabledFileTypes mDocumentImportEnabledFileTypes =
                 DocumentImportEnabledFileTypes.NONE;
-        private boolean mOpenWithEnabled;
+        private boolean mOpenWithEnabled = false;
 
         private Builder() {
         }

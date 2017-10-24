@@ -561,6 +561,8 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
 
     private void startHelpActivity() {
         final Intent intent = new Intent(this, HelpActivity.class);
+        intent.putExtra(HelpActivity.EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION,
+                mGiniVisionFeatureConfiguration);
         startActivity(intent);
     }
 

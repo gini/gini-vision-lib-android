@@ -7,11 +7,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.R;
 
 public class HelpActivity extends AppCompatActivity {
 
+    public static final String EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION =
+            "GV_EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION";
     private static final int PHOTO_TIPS_REQUEST = 1;
+    private GiniVisionFeatureConfiguration mGiniVisionFeatureConfiguration;
 
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode,
@@ -27,13 +31,26 @@ public class HelpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gv_activity_help);
+        readExtras();
         setUpHelpItems();
+    }
+
+    private void readExtras() {
+        final Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            mGiniVisionFeatureConfiguration = extras.getParcelable(
+                    EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION);
+            if (mGiniVisionFeatureConfiguration == null) {
+                mGiniVisionFeatureConfiguration =
+                        GiniVisionFeatureConfiguration.buildNewConfiguration().build();
+            }
+        }
     }
 
     private void setUpHelpItems() {
         final RecyclerView recyclerView = findViewById(R.id.gv_help_items);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new HelpItemsAdapter(
+        recyclerView.setAdapter(new HelpItemsAdapter(mGiniVisionFeatureConfiguration,
                 new HelpItemsAdapter.HelpItemSelectedListener() {
                     @Override
                     public void onItemSelected(@NonNull final HelpItemsAdapter.HelpItem helpItem) {
@@ -68,6 +85,8 @@ public class HelpActivity extends AppCompatActivity {
 
     private void launchSupportedFormats() {
         final Intent intent = new Intent(this, SupportedFormatsActivity.class);
+        intent.putExtra(SupportedFormatsActivity.EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION,
+                mGiniVisionFeatureConfiguration);
         startActivity(intent);
     }
 }

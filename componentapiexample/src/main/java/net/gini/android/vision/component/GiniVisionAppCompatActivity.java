@@ -75,6 +75,7 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
     private String mDocumentAnalysisErrorMessage;
     private Map<String, SpecificExtraction> mExtractionsFromReviewScreen;
     private GiniVisionCoordinator mGiniVisionCoordinator;
+    private GiniVisionFeatureConfiguration mGiniVisionFeatureConfiguration;
     private boolean mShowCameraOnStart = false;
     private SingleDocumentAnalyzer mSingleDocumentAnalyzer;
     private String mTitleBeforeOnboarding;
@@ -173,6 +174,15 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
         setContentView(R.layout.activity_gini_vision);
         configureLogging();
         setupGiniVisionCoordinator();
+
+        // Configure the features you would like to use
+        mGiniVisionFeatureConfiguration =
+                GiniVisionFeatureConfiguration.buildNewConfiguration()
+                        .setDocumentImportEnabledFileTypes(
+                                DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
+                        .setOpenWithEnabled(true)
+                        .build();
+
         if (savedInstanceState == null) {
             final Intent intent = getIntent();
             if (isIntentActionViewOrSend(intent)) {
@@ -483,6 +493,8 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
     public void showHelp() {
         LOG.debug("Show the Help Activity");
         final Intent intent = new Intent(this, HelpActivity.class);
+        intent.putExtra(HelpActivity.EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION,
+                mGiniVisionFeatureConfiguration);
         startActivity(intent);
     }
 
@@ -513,14 +525,7 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
     }
 
     private CameraFragmentCompat getCameraFragment() {
-        // Configure the features you would like to use
-        final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration =
-                GiniVisionFeatureConfiguration.buildNewConfiguration()
-                        .setDocumentImportEnabledFileTypes(
-                                DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
-                        .build();
-
-        return CameraFragmentCompat.createInstance(giniVisionFeatureConfiguration);
+        return CameraFragmentCompat.createInstance(mGiniVisionFeatureConfiguration);
     }
 
     private Bundle getExtractionsBundle(Map<String, SpecificExtraction> extractions) {

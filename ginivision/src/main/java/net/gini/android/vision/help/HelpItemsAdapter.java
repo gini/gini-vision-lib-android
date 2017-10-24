@@ -9,7 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @exclude
@@ -18,9 +22,24 @@ import net.gini.android.vision.R;
 class HelpItemsAdapter extends Adapter<HelpItemsAdapter.HelpItemsViewHolder> {
 
     private final HelpItemSelectedListener mItemSelectedListener;
+    private final List<HelpItem> mItems;
 
-    HelpItemsAdapter(final HelpItemSelectedListener itemSelectedListener) {
+    HelpItemsAdapter(@NonNull final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration,
+            @NonNull final HelpItemSelectedListener itemSelectedListener) {
         mItemSelectedListener = itemSelectedListener;
+        mItems = setUpItems(giniVisionFeatureConfiguration);
+    }
+
+    @NonNull
+    private List<HelpItem> setUpItems(
+            final @NonNull GiniVisionFeatureConfiguration giniVisionFeatureConfiguration) {
+        final ArrayList<HelpItem> items = new ArrayList<>();
+        items.add(HelpItem.PHOTO_TIPS);
+        if (giniVisionFeatureConfiguration.isOpenWithEnabled()) {
+            items.add(HelpItem.FILE_IMPORT_GUIDE);
+        }
+        items.add(HelpItem.SUPPORTED_FORMATS);
+        return items;
     }
 
     @Override
@@ -32,20 +51,20 @@ class HelpItemsAdapter extends Adapter<HelpItemsAdapter.HelpItemsViewHolder> {
 
     @Override
     public void onBindViewHolder(final HelpItemsViewHolder holder, final int position) {
-        final HelpItem helpItem = HelpItem.values()[position];
+        final HelpItem helpItem = mItems.get(position);
         holder.title.setText(helpItem.title);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
                 final int actualPosition = holder.getAdapterPosition();
-                mItemSelectedListener.onItemSelected(HelpItem.values()[actualPosition]);
+                mItemSelectedListener.onItemSelected(mItems.get(actualPosition));
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return HelpItem.values().length;
+        return mItems.size();
     }
 
     enum HelpItem {

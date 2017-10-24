@@ -5,6 +5,7 @@ import static net.gini.android.vision.help.SupportedFormatsAdapter.ItemType.HEAD
 
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.TextViewCompat;
@@ -14,7 +15,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import net.gini.android.vision.DocumentImportEnabledFileTypes;
+import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.R;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @exclude
@@ -22,28 +29,30 @@ import net.gini.android.vision.R;
 class SupportedFormatsAdapter extends
         RecyclerView.Adapter<SupportedFormatsAdapter.FormatItemViewHolder> {
 
-    private final Enum[] mItems;
+    private final List<Enum> mItems;
 
-    SupportedFormatsAdapter() {
-        mItems = new Enum[getCount()];
-        int i = 0;
-        mItems[i] = SectionHeader.SUPPORTED_FORMATS;
-        for (final SupportedFormat supportedFormat : SupportedFormat.values()) {
-            i++;
-            mItems[i] = supportedFormat;
-        }
-        i++;
-        mItems[i] = SectionHeader.UNSUPPORTED_FORMATS;
-        for (final UnsupportedFormat unsupportedFormat : UnsupportedFormat.values()) {
-            i++;
-            mItems[i] = unsupportedFormat;
-        }
+    SupportedFormatsAdapter(
+            @NonNull final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration) {
+        mItems = setUpItems(giniVisionFeatureConfiguration);
     }
 
-    private int getCount() {
-        return SectionHeader.values().length
-                + SupportedFormat.values().length
-                + UnsupportedFormat.values().length;
+    private List<Enum> setUpItems(
+            @NonNull final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration) {
+        final ArrayList<Enum> items = new ArrayList<>();
+        items.add(SectionHeader.SUPPORTED_FORMATS);
+        items.add(SupportedFormat.PRINTED_INVOICES);
+        if (giniVisionFeatureConfiguration.isOpenWithEnabled()
+                || giniVisionFeatureConfiguration.getDocumentImportEnabledFileTypes()
+                == DocumentImportEnabledFileTypes.PDF_AND_IMAGES) {
+            items.add(SupportedFormat.SINGLE_PAGE_AS_JPEG_PNG_GIF);
+            items.add(SupportedFormat.PDF);
+        } else if (giniVisionFeatureConfiguration.getDocumentImportEnabledFileTypes() ==
+                DocumentImportEnabledFileTypes.PDF) {
+            items.add(SupportedFormat.PDF);
+        }
+        items.add(SectionHeader.UNSUPPORTED_FORMATS);
+        Collections.addAll(items, UnsupportedFormat.values());
+        return items;
     }
 
     @Override
@@ -75,11 +84,11 @@ class SupportedFormatsAdapter extends
             final int position) {
         if (holder instanceof HeaderItemViewHolder) {
             final HeaderItemViewHolder viewHolder = (HeaderItemViewHolder) holder;
-            final SectionHeader sectionHeader = (SectionHeader) mItems[position];
+            final SectionHeader sectionHeader = (SectionHeader) mItems.get(position);
             viewHolder.title.setText(sectionHeader.title);
         } else if (holder instanceof FormatInfoItemViewHolder) {
             final FormatInfoItemViewHolder viewHolder = (FormatInfoItemViewHolder) holder;
-            final FormatInfo formatInfo = (FormatInfo) mItems[position];
+            final FormatInfo formatInfo = (FormatInfo) mItems.get(position);
             viewHolder.label.setText(formatInfo.getLabel());
             final Drawable iconDrawable = ContextCompat.getDrawable(
                     viewHolder.itemView.getContext(), formatInfo.getIcon());
@@ -90,13 +99,13 @@ class SupportedFormatsAdapter extends
 
     @Override
     public int getItemViewType(final int position) {
-        final Enum item = mItems[position];
+        final Enum item = mItems.get(position);
         return item instanceof SectionHeader ? HEADER.ordinal() : FORMAT_INFO.ordinal();
     }
 
     @Override
     public int getItemCount() {
-        return mItems.length;
+        return mItems.size();
     }
 
     enum ItemType {
@@ -214,4 +223,6 @@ class SupportedFormatsAdapter extends
         @StringRes
         int getLabel();
     }
+
+
 }
