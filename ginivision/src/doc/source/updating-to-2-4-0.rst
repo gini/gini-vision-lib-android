@@ -13,6 +13,8 @@ The corner guide png image resources called ``gv_camera_preview_corners.png`` ca
 
 The `CameraFragmentListener` received an additional method for checking imported documents. Even if you don't use the `Document Import`_ feature you need to implement ``CameraFragmentListener#onCheckImportedDocument(Document, DocumentCheckResultCallback)``. If you don't use the `Document Import`_ feature an empty implementation is sufficient. In case you enabled document import you must call one of the callback methods.
 
+When using the Screen API Camera Activity the ``gv_icon_onboarding.png`` was replaced with a new image showing a question mark called ``gv_help_icon.png``. Override this new image when configuring the Camera Screen using the Screen API.
+
 Analysis Screen
 ^^^^
 
