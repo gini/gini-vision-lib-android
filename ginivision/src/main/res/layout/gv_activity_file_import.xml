@@ -53,6 +53,15 @@
             android:layout_margin="@dimen/gv_file_import_section_body_margin"
             android:text="@string/gv_file_import_section_1_body" />
 
+        <ImageView
+            android:id="@+id/gv_section_1_illustration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/gv_file_import_illustration_margin"
+            android:visibility="gone"
+            android:src="@drawable/gv_file_import_section_1_illustration" />
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
