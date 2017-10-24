@@ -39,6 +39,7 @@ import android.widget.RelativeLayout;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.GiniVisionDocument;
@@ -89,8 +90,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     public static final String SHOW_HINT_POP_UP = "SHOW_HINT_POP_UP";
 
     private final CameraFragmentImplCallback mFragment;
-    private DocumentImportEnabledFileTypes mDocImportEnabledFileTypes =
-            DocumentImportEnabledFileTypes.NONE;
+    private final GiniVisionFeatureConfiguration mGiniVisionFeatureConfiguration;
     private View mImageCorners;
     private CameraFragmentListener mListener = NO_OP_LISTENER;
     private final UIExecutor mUIExecutor = new UIExecutor();
@@ -116,10 +116,14 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
     private boolean mImportDocumentButtonEnabled = false;
 
+    CameraFragmentImpl(@NonNull CameraFragmentImplCallback fragment) {
+        this(fragment, GiniVisionFeatureConfiguration.buildNewConfiguration().build());
+    }
+
     CameraFragmentImpl(@NonNull CameraFragmentImplCallback fragment,
-            @NonNull final DocumentImportEnabledFileTypes docImportEnabledFileTypes) {
+            @NonNull final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration) {
         mFragment = fragment;
-        mDocImportEnabledFileTypes = docImportEnabledFileTypes;
+        mGiniVisionFeatureConfiguration = giniVisionFeatureConfiguration;
     }
 
     void setListener(CameraFragmentListener listener) {
@@ -350,7 +354,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private boolean isDocumentImportEnabled() {
-        return mDocImportEnabledFileTypes != DocumentImportEnabledFileTypes.NONE;
+        return mGiniVisionFeatureConfiguration.getDocumentImportEnabledFileTypes() != DocumentImportEnabledFileTypes.NONE;
     }
 
     private void setInputHandlers() {
@@ -492,7 +496,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         }
         Intent fileChooserIntent = FileChooserActivity.createIntent(activity);
         fileChooserIntent.putExtra(FileChooserActivity.EXTRA_IN_DOCUMENT_IMPORT_FILE_TYPES,
-                mDocImportEnabledFileTypes);
+                mGiniVisionFeatureConfiguration.getDocumentImportEnabledFileTypes());
         mFragment.startActivityForResult(fileChooserIntent, REQ_CODE_CHOOSE_FILE);
     }
 

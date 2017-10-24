@@ -24,6 +24,7 @@ import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.GiniVisionFileImport;
 import net.gini.android.vision.ImportedFileValidationException;
 import net.gini.android.vision.analysis.AnalysisFragmentCompat;
@@ -505,7 +506,14 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
     }
 
     private CameraFragmentCompat getCameraFragment() {
-        return CameraFragmentCompat.createInstance(DocumentImportEnabledFileTypes.PDF_AND_IMAGES);
+        // Configure the features you would like to use
+        final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration =
+                GiniVisionFeatureConfiguration.buildNewConfiguration()
+                        .setDocumentImportEnabledFileTypes(
+                                DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
+                        .build();
+
+        return CameraFragmentCompat.createInstance(giniVisionFeatureConfiguration);
     }
 
     private Bundle getExtractionsBundle(Map<String, SpecificExtraction> extractions) {

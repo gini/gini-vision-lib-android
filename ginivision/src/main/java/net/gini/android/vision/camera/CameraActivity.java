@@ -15,6 +15,7 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.help.HelpActivity;
@@ -41,7 +42,8 @@ import java.util.ArrayList;
  *     screen for easier access.
  * </p>
  * <p>
- *     If {@link CameraActivity#EXTRA_IN_ENABLE_DOCUMENT_IMPORT_FOR_FILE_TYPES} was used then a button for importing documents is shown next to the trigger button. A hint popup is displayed the first time the Gini Vision Library is used to inform the user about document importing.
+ *     If {@link CameraActivity#EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION} was set and {@link DocumentImportEnabledFileTypes} is not equal to {@link DocumentImportEnabledFileTypes#NONE}
+ *     then a button for importing documents is shown next to the trigger button. A hint popup is displayed the first time the Gini Vision Library is used to inform the user about document importing.
  * </p>
  * <p>
  *     For importing documents {@code READ_EXTERNAL_STORAGE} permission is required and if the permission is not granted the Gini Vision Library will prompt the user to grant the permission. See {@code Customizing the Camera Screen} on how to override the message and button titles for the rationale and on permission denial alerts.
@@ -74,7 +76,7 @@ import java.util.ArrayList;
  *     <li>{@link CameraActivity#EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY} - if set to {@code true} the
  *         back button closes the Gini Vision Library from any of its activities with result code {@link
  *         CameraActivity#RESULT_CANCELED}</li>
- *     <li>{@link CameraActivity#EXTRA_IN_ENABLE_DOCUMENT_IMPORT_FOR_FILE_TYPES} - must contain a {@link DocumentImportEnabledFileTypes} enum value and enables the document import button, if the value is not {@link DocumentImportEnabledFileTypes#NONE}</li>
+ *     <li>{@link CameraActivity#EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION} - must contain a {@link GiniVisionFeatureConfiguration} instance to apply the feature configuration</li>
  * </ul>
  * </p>
  * <p>
@@ -339,12 +341,11 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
 
     /**
      * <p>
-     *     Optional extra which must contain a {@link DocumentImportEnabledFileTypes} enum value and
-     *     enables document importing for the specified file types.
+     *     Optional extra which must contain a {@link GiniVisionFeatureConfiguration} instance.
      * </p>
      */
-    public static final String EXTRA_IN_ENABLE_DOCUMENT_IMPORT_FOR_FILE_TYPES =
-            "GV_EXTRA_IN_ENABLE_DOCUMENT_IMPORT_FOR_FILE_TYPES";
+    public static final String EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION =
+            "GV_EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION";
 
     /**
      * <p>
@@ -377,8 +378,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     private boolean mBackButtonShouldCloseLibrary = false;
     private GiniVisionCoordinator mGiniVisionCoordinator;
     private Document mDocument;
-    private DocumentImportEnabledFileTypes mDocImportEnabledFileTypes =
-            DocumentImportEnabledFileTypes.NONE;
+    private GiniVisionFeatureConfiguration mGiniVisionFeatureConfiguration;
 
     private RelativeLayout mLayoutRoot;
     private CameraFragmentCompat mFragment;
@@ -439,7 +439,12 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     }
 
     private void createFragment() {
-        mFragment = CameraFragmentCompat.createInstance(mDocImportEnabledFileTypes);
+        if (mGiniVisionFeatureConfiguration != null) {
+            mFragment = CameraFragmentCompat.createInstance(mGiniVisionFeatureConfiguration);
+        }
+        else {
+            mFragment = CameraFragmentCompat.createInstance();
+        }
     }
 
     private void initFragment() {
@@ -502,12 +507,8 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
                     true);
             mBackButtonShouldCloseLibrary = extras.getBoolean(
                     EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY, false);
-            final DocumentImportEnabledFileTypes enabledFileTypes =
-                    (DocumentImportEnabledFileTypes) extras.getSerializable(
-                            EXTRA_IN_ENABLE_DOCUMENT_IMPORT_FOR_FILE_TYPES);
-            if (enabledFileTypes != null) {
-                mDocImportEnabledFileTypes = enabledFileTypes;
-            }
+            mGiniVisionFeatureConfiguration =
+                    extras.getParcelable(EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION);
         }
         checkRequiredExtras();
     }
