@@ -392,7 +392,7 @@ Extraction Quality Considerations
 
 We recommend implementing checks on tablet hardware to ensure that devices meet the Gini Vision Libraries minimum recommended hardware specifications.
 
-Many tablets with at least 8MP cameras don't have an LED flash (like the popular Samsung Galaxy Tab S2) therefore we don't require flash for tablets. For this reason the extraction quality on those tablets might be lower compared to smartphones.
+Many tablets with at least 8MP cameras don't have an LED flash (like the popular Samsung Galaxy Tab S2). Therefore we don't require flash for tablets. For this reason the extraction quality on those tablets might be lower compared to smartphones.
 
 Hardware Requirements
 ~~~~
@@ -401,7 +401,7 @@ We disabled the camera flash requirement for tablets. Camera flash is not a stan
 
 You can view the Gini Vision Library's hardware requirements `here <http://developer.gini.net/gini-vision-lib-android/javadoc/net/gini/android/vision/requirements/RequirementId.html>`_.
 
-Supporting All Orientations
+Supporting All Screen Orientations
 ~~~~
 
 On tablets landscape orientations are also supported (smartphones are portrait only). 
@@ -431,10 +431,11 @@ Tablet specific images are required only for the Camera Screen for tablets. The 
 
 These images are higher resolution versions of the same images that are used for phones.
 
-Quick Checklist
+Tablet Support Quick Checklist
 ~~~~
 
 #. Remove portrait orientation limitation from your Activities like ``android:screenOrientation="portrait"``.
+#. Remove manual LED flash requirement check, if used. For tablets we don't require an LED flash.
 #. Handle multiple listener method invocations on Activity restarts due to orientation change.
 #. Preserve state between orientation change related Activity restarts.
 #. Customize the tablet specific images and add them to ``drawable-sw600dp-*`` resource folders for mdpi, hdpi, xhdpi, xxhdpi and xxxhdpi:
