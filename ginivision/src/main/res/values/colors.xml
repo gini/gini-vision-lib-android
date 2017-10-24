@@ -58,7 +58,7 @@
     <color name="gv_snackbar_error_background">#ff1744</color>
 
     <color name="gv_noresults_activity_background">@android:color/transparent</color>
-    <color name="gv_noresults_fragment_background">#ffffff</color>
+    <color name="gv_noresults_background">#ffffff</color>
     <color name="gv_noresults_header">#000</color>
     <color name="gv_noresults_headline">#000</color>
     <color name="gv_noresults_tip">#000</color>
@@ -66,6 +66,7 @@
     <color name="gv_file_provider_separator">#d8d8d8</color>
     <color name="gv_hint_close">#afb2b3</color>
     <color name="gv_noresults_button_text">#fff</color>
+    <color name="gv_noresults_button">#009edc</color>
 
     <color name="gv_help_activity_background">#f2f2f2</color>
     <color name="gv_help_item_title">#000</color>

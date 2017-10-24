@@ -1,7 +1,6 @@
 package net.gini.android.vision.noresults;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,12 +16,12 @@ import net.gini.android.vision.internal.ui.FragmentImplCallback;
  * <h3>Component API</h3>
  *
  * <p>
- * When you use the Component API without the Android Support Library, the {@code
+ * When you use the Component API with the Android Support Library, the {@code
  * NoResultsFragmentCompat} displays hints that show how to best take a picture of a document.
  * </p>
  * <p>
  * Include the {@code NoResultsFragmentCompat} into your layout by using the {@link
- * NoResultsFragmentCompat#createInstance()} factory method to create an instance
+ * NoResultsFragmentCompat#createInstance(Document)} factory method to create an instance
  * and display it using the {@link android.support.v4.app.FragmentManager}.
  * </p>
  * <p>
@@ -31,7 +30,7 @@ import net.gini.android.vision.internal.ui.FragmentImplCallback;
  * </p>
  * <p>
  * Your Activity is automatically set as the listener in
- * {@link NoResultsFragmentCompat#onAttach(Context)}.
+ * {@link NoResultsFragmentCompat#onCreate(Bundle)}.
  * </p>
  */
 public class NoResultsFragmentCompat extends Fragment implements FragmentImplCallback {

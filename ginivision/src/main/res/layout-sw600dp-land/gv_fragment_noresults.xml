@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gv_noresults_fragment_background"
+    android:background="@color/gv_noresults_background"
     android:orientation="vertical">
 
     <net.gini.android.vision.internal.ui.CustomFontTextView
@@ -207,7 +207,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_margin="@dimen/gv_noresults_bottom_button_margin"
-        android:background="@color/gv_accent"
+        android:background="@color/gv_noresults_button"
         android:text="@string/gv_noresults_back_button"
         android:width="@dimen/gv_noresults_bottom_button_max_width"
         android:textColor="@color/gv_noresults_button_text" />
