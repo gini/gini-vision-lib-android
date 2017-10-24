@@ -67,4 +67,29 @@
     <dimen name="gv_noresults_bottom_button_margin">16dp</dimen>
     <dimen name="gv_noresults_bottom_button_max_width">300dp</dimen>
 
+    <dimen name="gv_help_item_margin">24dp</dimen>
+
+    <dimen name="gv_photo_tips_header_padding">16dp</dimen>
+    <dimen name="gv_photo_tips_header_drawable_padding">16dp</dimen>
+    <dimen name="gv_photo_tips_tip_icon_size">64dp</dimen>
+    <dimen name="gv_photo_tips_tip_icon_margin">16dp</dimen>
+    <dimen name="gv_photo_tips_tip_text_top_margin">16dp</dimen>
+    <dimen name="gv_photo_tips_tip_text_bottom_margin">16dp</dimen>
+    <dimen name="gv_photo_tips_tip_text_right_margin">16dp</dimen>
+    <dimen name="gv_photo_tips_tip_text_left_margin">8dp</dimen>
+    <dimen name="gv_photo_tips_tip_text_max_width">250dp</dimen>
+    <dimen name="gv_photo_tips_space_height_for_bottom_button">64dp</dimen>
+    <dimen name="gv_photo_tips_bottom_button_height">48dp</dimen>
+    <dimen name="gv_photo_tips_bottom_button_margin">16dp</dimen>
+    <dimen name="gv_photo_tips_bottom_button_max_width">300dp</dimen>
+
+    <dimen name="gv_supported_formats_item_margin">24dp</dimen>
+    <dimen name="gv_supported_formats_item_header_margin">24dp</dimen>
+    <dimen name="gv_file_import_header_margin">16dp</dimen>
+    <dimen name="gv_file_import_section_number_margin">16dp</dimen>
+    <dimen name="gv_file_import_section_number_margin_top">32dp</dimen>
+    <dimen name="gv_file_import_section_title_margin">16dp</dimen>
+    <dimen name="gv_file_import_section_body_margin">16dp</dimen>
+    <dimen name="gv_file_import_illustration_margin">32dp</dimen>
+
 </resources>

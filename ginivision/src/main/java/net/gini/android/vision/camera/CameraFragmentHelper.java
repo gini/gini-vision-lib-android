@@ -5,32 +5,29 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import net.gini.android.vision.DocumentImportEnabledFileTypes;
+import net.gini.android.vision.GiniVisionFeatureConfiguration;
 
 class CameraFragmentHelper {
 
-    private static final String ARGS_DOCUMENT_IMPORT_FILE_TYPES = "GV_ARGS_DOCUMENT_IMPORT_FILE_TYPES";
+    private static final String ARGS_GINI_VISION_FEATURES = "GV_ARGS_GINI_VISION_FEATURES";
 
     public static Bundle createArguments(
-            @NonNull final DocumentImportEnabledFileTypes docImportEnabledFileTypes) {
+            @NonNull final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration) {
         Bundle arguments = new Bundle();
-        arguments.putSerializable(ARGS_DOCUMENT_IMPORT_FILE_TYPES, docImportEnabledFileTypes);
+        arguments.putParcelable(ARGS_GINI_VISION_FEATURES, giniVisionFeatureConfiguration);
         return arguments;
     }
 
     static CameraFragmentImpl createFragmentImpl(@NonNull CameraFragmentImplCallback fragment,
             @Nullable Bundle arguments) {
-        DocumentImportEnabledFileTypes docImportEnabledFileTypes =
-                DocumentImportEnabledFileTypes.NONE;
         if (arguments != null) {
-            final DocumentImportEnabledFileTypes enabledFileTypes =
-                    (DocumentImportEnabledFileTypes) arguments.getSerializable(
-                            ARGS_DOCUMENT_IMPORT_FILE_TYPES);
-            if (enabledFileTypes != null) {
-                docImportEnabledFileTypes = enabledFileTypes;
+            final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration =
+                    arguments.getParcelable(ARGS_GINI_VISION_FEATURES);
+            if (giniVisionFeatureConfiguration != null) {
+                return new CameraFragmentImpl(fragment, giniVisionFeatureConfiguration);
             }
         }
-        return new CameraFragmentImpl(fragment, docImportEnabledFileTypes);
+        return new CameraFragmentImpl(fragment);
     }
 
     public static void setListener(@NonNull CameraFragmentImpl fragmentImpl, @NonNull Context context) {

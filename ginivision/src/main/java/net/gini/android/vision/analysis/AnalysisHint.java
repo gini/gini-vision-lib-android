@@ -12,9 +12,9 @@ import java.util.List;
 
 enum AnalysisHint {
 
-    FLAT(R.drawable.gv_hint_icon, R.string.gv_noresults_flat),
-    ALIGN(R.drawable.gv_hint_icon, R.string.gv_noresults_align),
-    PARALLEL(R.drawable.gv_hint_icon, R.string.gv_noresults_parallel);
+    FLAT(R.drawable.gv_hint_icon, R.string.gv_photo_tip_flat),
+    ALIGN(R.drawable.gv_hint_icon, R.string.gv_photo_tip_align),
+    PARALLEL(R.drawable.gv_hint_icon, R.string.gv_photo_tip_parallel);
 
     public int getDrawableResource() {
         return mDrawableResource;

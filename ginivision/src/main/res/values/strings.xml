@@ -2,7 +2,11 @@
     <string name="gv_title_camera">Dokument fotografieren</string>
     <string name="gv_title_onboarding">Anleitung</string>
     <string name="gv_title_review">Foto überprüfen</string>
-    <string name="gv_title_analysis" /> 
+    <string name="gv_title_help">Hilfe</string>
+    <string name="gv_title_photo_tips">Tipps für Fotos</string>
+    <string name="gv_title_supported_formats">Unterstütze Formate</string>
+    <string name="gv_title_file_import">Dokumente aus anderen Apps öffnen</string>
+    <string name="gv_title_analysis" />
 
     <string name="gv_show_onboarding">Hilfe</string>
     <string name="gv_select_from_camera_roll">Eigenes Bild auswählen</string>
@@ -20,13 +24,15 @@
     <string name="gv_document_analysis_error_retry">Wiederholen</string>
     <string name="gv_analysis_activity_indicator_message">Dokument wird analysiert</string>
 
+    <string name="gv_photo_tip_align">Seite vollständig in den angezeigten Rahmen einpassen</string>
+    <string name="gv_photo_tip_lighting">Auf gute Beleuchtung achten</string>
+    <string name="gv_photo_tip_parallel">Gerät parallel über die Seite halten</string>
+    <string name="gv_photo_tip_flat">Seite glatt streichen</string>
+
     <string name="gv_noresults_header">Es konnten keine Daten ausgelesen werden. Bitte Aufnahmen wiederholen.</string>
     <string name="gv_noresults_headline">Tipps für beste Ergebnisse:</string>
-    <string name="gv_noresults_align">Seite vollständig in den angezeigten Rahmen einpassen</string>
-    <string name="gv_noresults_lighting">Auf gute Beleuchtung achten</string>
-    <string name="gv_noresults_parallel">Gerät parallel über die Seite halten</string>
-    <string name="gv_noresults_flat">Seite glatt streichen</string>
     <string name="gv_noresults_back_button">Zur Kamera</string>
+
     <string name="gv_document_import_hint_text">Es können jetzt auch ganz einfach Dateien hochgeladen werden.</string>
 
     <string name="gv_document_import_error">Ihre Datei konnte nicht geöffnet werden. Bitte versuchen sie es mit einer anderen Datei.</string>
@@ -55,5 +61,27 @@
 
     <string name="gv_file_chooser_fotos_section_header">Fotos</string>
     <string name="gv_file_chooser_pdfs_section_header">PDFs</string>
+    <string name="gv_help_item_photo_tips_title">Tipps für beste Ergebnisse aus Fotos</string>
+    <string name="gv_help_item_file_import_guide_title">Dokumente aus anderen Apps öffnen</string>
+    <string name="gv_help_item_supported_formats_title">Unterstütze Formate</string>
+
+    <string name="gv_photo_tips_headline">Zur Erkennung aller Daten bitte folgende Tipps beim Abfotografieren beachten:</string>
+    <string name="gv_photo_tips_camera_button">Zur Kamera</string>
+
+    <string name="gv_supported_format_printed_invoices">Computer-erstellte Überweisungsträger und Rechnungen</string>
+    <string name="gv_supported_format_single_page_as_jpeg_png_gif">Einseitige Bilder im jpeg, png oder gif Format</string>
+    <string name="gv_supported_format_pdf">PDF Dokumente von bis zu 10 Seiten</string>
+    <string name="gv_unsupported_format_handwriting">Handschrift</string>
+    <string name="gv_unsupported_format_photos_of_screens">Fotos von Bildschirmen</string>
+    <string name="gv_supported_format_section_header">Folgende Formate werden unterstützt:</string>
+    <string name="gv_unsupported_format_section_header">Was nicht analysiert wird:</string>
+
+    <string name="gv_file_import_header"><![CDATA[Digitale Rechnungen können nun noch komfortabler beglichen werden: Senden Sie einfach Ihre Rechnung als PDF direkt an Ihre <Banking App Name>. Diese wird automatisch für die Überweisung analysiert.]]></string>
+    <string name="gv_file_import_section_1_title">Wählen Sie bitte eine Rechnung aus</string>
+    <string name="gv_file_import_section_1_body">Bitte wählen Sie hierfür auf Ihrem Smartphone die Rechnung als PDF innerhalb einer Email-App, eines PDF-Viewers oder einer anderen App aus.</string>
+    <string name="gv_file_import_section_2_title">Aktivieren Sie die Senden-Funktion</string>
+    <string name="gv_file_import_section_2_body"><![CDATA[Um die Datei an die <Banking App Name> weiterzuleiten, verwenden Sie eine Funktion wie “Öffnen mit...”, “Datei senden...”, oder “Teilen”. Die “Teilen”-Funktion wird oft grafisch als drei Punkte, die mit zwei Linien verbunden sind, dargestellt.\n\nDiese Funktionen können üblicherweise entweder im Overflow-Menü (drei Punkte oben rechts) oder in einer Funktionsleiste am unteren App-Rand gefunden werden. In manchen Email-Apps wird die Funktion in der Nähe des PDF-Anhangs vor dem Öffnen der Datei angezeigt.]]></string>
+    <string name="gv_file_import_section_3_title"><![CDATA[Wählen Sie die <Banking App Name> als Ziel aus]]></string>
+    <string name="gv_file_import_section_3_body"><![CDATA[Beim Aktivieren dieser Funktionen werden Apps angezeigt, an die eine PDF-Datei weitergeleitet werden kann. Bitte wählen Sie die <Banking App Name> aus der Liste aus, um den Analyse- und Überweisungsprozess zu starten.]]></string>
 
 </resources>
