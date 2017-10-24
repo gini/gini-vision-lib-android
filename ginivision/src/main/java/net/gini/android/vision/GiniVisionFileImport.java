@@ -11,6 +11,7 @@ import net.gini.android.vision.internal.util.ActivityHelper;
 import net.gini.android.vision.internal.util.DeviceHelper;
 import net.gini.android.vision.internal.util.FileImportValidator;
 import net.gini.android.vision.internal.util.IntentHelper;
+import net.gini.android.vision.internal.util.UriHelper;
 import net.gini.android.vision.review.ReviewActivity;
 
 /**
@@ -36,7 +37,7 @@ public final class GiniVisionFileImport {
      *                              subclass
      * @return an Intent for launching the Gini Vision Library
      * @throws ImportedFileValidationException if the file didn't pass validation
-     * @throws IllegalArgumentException        if the Intent's data is null or the mime type is not
+     * @throws IllegalArgumentException        if the Intent's data is not valid or the mime type is not
      *                                         supported
      */
     @NonNull
@@ -89,8 +90,11 @@ public final class GiniVisionFileImport {
         if (uri == null) {
             throw new ImportedFileValidationException("Intent data did not contain a Uri");
         }
+        if (!UriHelper.isUriInputStreamAvailable(uri, context)){
+            throw new ImportedFileValidationException("InputStream not available for Intent's data Uri");
+        }
         final FileImportValidator fileImportValidator = new FileImportValidator(context);
-        if (fileImportValidator.matchesCriteria(uri)) {
+        if (fileImportValidator.matchesCriteria(intent, uri)) {
             return DocumentFactory.newDocumentFromIntent(intent, context,
                     DeviceHelper.getDeviceOrientation(context), DeviceHelper.getDeviceType(context),
                     "openwith");

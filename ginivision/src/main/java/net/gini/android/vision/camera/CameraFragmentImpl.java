@@ -55,7 +55,9 @@ import net.gini.android.vision.internal.permission.PermissionRequestListener;
 import net.gini.android.vision.internal.ui.ViewStubSafeInflater;
 import net.gini.android.vision.internal.util.DeviceHelper;
 import net.gini.android.vision.internal.util.FileImportValidator;
+import net.gini.android.vision.internal.util.IntentHelper;
 import net.gini.android.vision.internal.util.Size;
+import net.gini.android.vision.internal.util.UriHelper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -586,14 +588,19 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         if (activity == null) {
             return;
         }
-        final Uri uri = data.getData();
+        final Uri uri = IntentHelper.getUri(data);
         if (uri == null) {
             LOG.error("Document import failed: Intent has no Uri");
             showInvalidFileError(null);
             return;
         }
+        if (!UriHelper.isUriInputStreamAvailable(uri, activity)){
+            LOG.error("Document import failed: InputStream not available for the Uri");
+            showInvalidFileError(null);
+            return;
+        }
         final FileImportValidator fileImportValidator = new FileImportValidator(activity);
-        if (fileImportValidator.matchesCriteria(uri)) {
+        if (fileImportValidator.matchesCriteria(data, uri)) {
             createDocumentAndCallListener(data, activity);
         } else {
             showInvalidFileError(fileImportValidator.getError());
