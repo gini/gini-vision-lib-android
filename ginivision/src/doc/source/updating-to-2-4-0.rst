@@ -51,6 +51,13 @@ Deprecated CameraActivity Intent extra:
 New Features
 ----
 
+Feature Configuration
+^^^^
+
+Gini Vision Library features can be configured using the ``GiniVisionFeatureConfiguration`` class.
+
+Using this class the Document Import and the File Import features can be enabled and configured.
+
 Document Import
 ^^^^
 
@@ -72,20 +79,42 @@ To enable the Document Import using the Screen API add the following extra to th
 .. code-block:: java
 
     // Enable for PDFs and images
-    intent.putExtra(CameraActivity.EXTRA_IN_ENABLE_DOCUMENT_IMPORT_FOR_FILE_TYPES,
-                DocumentImportEnabledFileTypes.PDF_AND_IMAGES);
+    final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration =
+            GiniVisionFeatureConfiguration.buildNewConfiguration()
+                    .setDocumentImportEnabledFileTypes(
+                            DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
+                    .build();
+    intent.putExtra(CameraActivity.EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION,
+            giniVisionFeatureConfiguration);
+
     // Or only for PDFs
-    intent.putExtra(CameraActivity.EXTRA_IN_ENABLE_DOCUMENT_IMPORT_FOR_FILE_TYPES,
-                DocumentImportEnabledFileTypes.PDF);
+    final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration =
+            GiniVisionFeatureConfiguration.buildNewConfiguration()
+                    .setDocumentImportEnabledFileTypes(
+                            DocumentImportEnabledFileTypes.PDF)
+                    .build();
+    intent.putExtra(CameraActivity.EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION,
+            giniVisionFeatureConfiguration);
 
 For the Component API use the factory method of the ``CameraFragmentCompat`` or ``CameraFragmentStandard``:
 
 .. code-block:: java
 
     // Enable for PDFs and images
-    CameraFragmentCompat.createInstance(DocumentImportEnabledFileTypes.PDF_AND_IMAGES);
+    final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration =
+            GiniVisionFeatureConfiguration.buildNewConfiguration()
+                    .setDocumentImportEnabledFileTypes(
+                            DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
+                    .build();
+    CameraFragmentCompat.createInstance(giniVisionFeatureConfiguration);
+
     // Or only for PDFs
-    CameraFragmentCompat.createInstance(DocumentImportEnabledFileTypes.PDF);
+    final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration =
+            GiniVisionFeatureConfiguration.buildNewConfiguration()
+                    .setDocumentImportEnabledFileTypes(
+                            DocumentImportEnabledFileTypes.PDF)
+                    .build();
+    CameraFragmentCompat.createInstance(giniVisionFeatureConfiguration);
 
 Read Storage Permission
 ~~~~
@@ -179,6 +208,27 @@ For detailed customization options consult the Javadoc of the ``CameraActivity``
 
 File Import ("Open With")
 ^^^^
+
+Enable File Import
+~~~~
+
+This feature is disabled by default. To enable it build a ``GiniVisionFeatureConfiguration`` instance with enabled file import and pass it to the CameraActivity or CameraFragment:
+
+.. code-block:: java
+
+    // Enable file import
+    final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration =
+            GiniVisionFeatureConfiguration.buildNewConfiguration()
+                    .setFileImportEnabled(true)
+                    .build();
+
+    // Pass it to the CameraActivity when using the Screen API
+    intent.putExtra(CameraActivity.EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION,
+            giniVisionFeatureConfiguration);
+
+    // Or to the CameraFragment when using the Component API
+    CameraFragmentCompat.createInstance(giniVisionFeatureConfiguration);
+
 
 The File Import feature allows users to send images (jpeg, png and gif) to the Gini Vision Library from other apps through your app.
 
@@ -322,6 +372,28 @@ Tips in the Analysis Screen
 ^^^^
 
 When analysis takes more than 5 seconds the Gini Vision Library cycles through tips showing each one for 4 seconds. The tips are shown on the bottom of the Analysis Screen. The tips should help our users achieve better results by offering them advice on how to take good pictures.
+
+Help Screens
+^^^^
+
+To aid users in discovering and learning about the features of the Gini Vision Library and how to best use them we added help screens. These can be viewed from the Camera Screen.
+
+The top right button in the Screen API Camera Activity will now launch the HelpActivity instead of showing the Onboarding Screen.
+
+When using the Component API you need to launch the ``HelpActivity`` manually which requires a ``GiniVisionFeatureConfiguration`` instance.
+
+From the Help Screen the following screens can be reached:
+
+- Photo Tips Screen -  information about how to take good pictures
+- File Import Screen - a guide on how to import files from other apps via "open with"
+- Supported Formats Screen - information about the document formats supported by the Gini Vision Library
+
+These screens are configured according to the feature configuration you provided with the ``GiniVisionFeatureConfiguration``.
+
+Customizing the UI
+~~~~
+
+For detailed customization options consult the Javadoc of the ``HelpActivity``, ``PhotoTipsActivity``, ``FileImportActivity`` and ``SupportedFormatsActivity``.
 
 No Results Screen
 ^^^^
