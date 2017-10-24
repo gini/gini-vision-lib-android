@@ -31,6 +31,7 @@ import net.gini.android.vision.analysis.AnalysisFragmentListener;
 import net.gini.android.vision.analysis.AnalysisFragmentStandard;
 import net.gini.android.vision.camera.CameraFragmentListener;
 import net.gini.android.vision.camera.CameraFragmentStandard;
+import net.gini.android.vision.help.HelpActivity;
 import net.gini.android.vision.internal.util.IntentHelper;
 import net.gini.android.vision.internal.util.UriHelper;
 import net.gini.android.vision.noresults.NoResultsFragmentListener;
@@ -336,8 +337,8 @@ public class GiniVisionActivity extends Activity implements CameraFragmentListen
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.onboarding) {
-            showOnboarding();
+        if (item.getItemId() == R.id.help) {
+            showHelp();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -476,6 +477,12 @@ public class GiniVisionActivity extends Activity implements CameraFragmentListen
                 .commit();
         mTitleBeforeOnboarding = (String) getTitle();
         setTitle(getString(R.string.title_onboarding));
+    }
+
+    public void showHelp() {
+        LOG.debug("Show the Help Activity");
+        final Intent intent = new Intent(this, HelpActivity.class);
+        startActivity(intent);
     }
 
     private void configureLogging() {
