@@ -42,7 +42,7 @@ class SupportedFormatsAdapter extends
         final ArrayList<Enum> items = new ArrayList<>();
         items.add(SectionHeader.SUPPORTED_FORMATS);
         items.add(SupportedFormat.PRINTED_INVOICES);
-        if (giniVisionFeatureConfiguration.isOpenWithEnabled()
+        if (giniVisionFeatureConfiguration.isFileImportEnabled()
                 || giniVisionFeatureConfiguration.getDocumentImportEnabledFileTypes()
                 == DocumentImportEnabledFileTypes.PDF_AND_IMAGES) {
             items.add(SupportedFormat.SINGLE_PAGE_AS_JPEG_PNG_GIF);

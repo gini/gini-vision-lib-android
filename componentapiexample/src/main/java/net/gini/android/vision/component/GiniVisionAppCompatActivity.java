@@ -180,7 +180,7 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
                 GiniVisionFeatureConfiguration.buildNewConfiguration()
                         .setDocumentImportEnabledFileTypes(
                                 DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
-                        .setOpenWithEnabled(true)
+                        .setFileImportEnabled(true)
                         .build();
 
         if (savedInstanceState == null) {

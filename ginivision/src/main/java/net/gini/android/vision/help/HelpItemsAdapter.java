@@ -1,7 +1,6 @@
 package net.gini.android.vision.help;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.view.LayoutInflater;
@@ -35,7 +34,7 @@ class HelpItemsAdapter extends Adapter<HelpItemsAdapter.HelpItemsViewHolder> {
             final @NonNull GiniVisionFeatureConfiguration giniVisionFeatureConfiguration) {
         final ArrayList<HelpItem> items = new ArrayList<>();
         items.add(HelpItem.PHOTO_TIPS);
-        if (giniVisionFeatureConfiguration.isOpenWithEnabled()) {
+        if (giniVisionFeatureConfiguration.isFileImportEnabled()) {
             items.add(HelpItem.FILE_IMPORT_GUIDE);
         }
         items.add(HelpItem.SUPPORTED_FORMATS);
@@ -65,19 +64,6 @@ class HelpItemsAdapter extends Adapter<HelpItemsAdapter.HelpItemsViewHolder> {
     @Override
     public int getItemCount() {
         return mItems.size();
-    }
-
-    enum HelpItem {
-        PHOTO_TIPS(R.string.gv_help_item_photo_tips_title),
-        FILE_IMPORT_GUIDE(R.string.gv_help_item_file_import_guide_title),
-        SUPPORTED_FORMATS(R.string.gv_help_item_supported_formats_title);
-
-        @StringRes
-        final int title;
-
-        HelpItem(@StringRes final int title) {
-            this.title = title;
-        }
     }
 
     class HelpItemsViewHolder extends RecyclerView.ViewHolder {

@@ -51,5 +51,5 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/gv_supported_formats_item_separator" />
+        android:background="@color/gv_supported_formats_item_background" />
 </LinearLayout>

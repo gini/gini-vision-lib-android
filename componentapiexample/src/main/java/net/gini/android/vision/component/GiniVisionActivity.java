@@ -177,7 +177,7 @@ public class GiniVisionActivity extends Activity implements CameraFragmentListen
                 GiniVisionFeatureConfiguration.buildNewConfiguration()
                         .setDocumentImportEnabledFileTypes(
                                 DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
-                        .setOpenWithEnabled(true)
+                        .setFileImportEnabled(true)
                         .build();
 
         if (savedInstanceState == null) {

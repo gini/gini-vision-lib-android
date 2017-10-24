@@ -9,11 +9,89 @@ import android.support.v7.widget.RecyclerView;
 
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.R;
+import net.gini.android.vision.analysis.AnalysisActivity;
+import net.gini.android.vision.camera.CameraActivity;
+import net.gini.android.vision.noresults.NoResultsActivity;
+import net.gini.android.vision.review.ReviewActivity;
 
+/**
+ * <h3>Screen API and Component API</h3>
+ *
+ * <p>
+ *     On the Help Screen users can get information about how to best use the Gini Vision Library.
+ * </p>
+ * <p>
+ *     This Activity can be used for both Screen and Component APIs.
+ * </p>
+ *
+ * <p>
+ *     For the Component API you need to pass in the following extra:
+ * <ul>
+ *     <li>{@link HelpActivity#EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION} - Must contain a {@link GiniVisionFeatureConfiguration} instance</li>
+ * </ul>
+ * </p>
+ *
+ * <h3>Customizing the Help Screen</h3>
+ *
+ * <p>
+ *     Customizing the look of the Help Screen is done via overriding of app resources.
+ * </p>
+ * <p>
+ *     The following items are customizable:
+ * <ul>
+ *     <li>
+ *         <b>Background color:</b> via the color resource named {@code gv_help_activity_background}
+ *     </li>
+ *     <li>
+ *         <b>Help list item background color:</b> via the color resource name {@code gv_help_item_background}
+ *     </li>
+ *     <li>
+ *         <b>Help list item text style:</b> via overriding the style named {@code
+ *         GiniVisionTheme.Help.Item.TextStyle}
+ *     </li>
+ *     <li>
+ *         <b>Help list item labels:</b> via overriding the string resources found in the {@link HelpItem} enum
+ *     </li>
+ * </ul>
+ * </p>
+ *
+ * <p>
+ *     <b>Important:</b> All overriden styles must have their respective {@code Root.} prefixed style as their parent. Ex.: the parent of {@code GiniVisionTheme.Onboarding.Message.TextStyle} must be {@code Root.GiniVisionTheme.Onboarding.Message.TextStyle}.
+ * </p>
+ *
+ * <h3>Customizing the Action Bar</h3>
+ *
+ * <p>
+ * Customizing the Action Bar is done via overriding of app resources and each one - except the
+ * title string resource - is global to all Activities ({@link CameraActivity}, {@link
+ * NoResultsActivity}, {@link HelpActivity}, {@link ReviewActivity}, {@link AnalysisActivity}).
+ * </p>
+ * <p>
+ * The following items are customizable:
+ * <ul>
+ * <li>
+ * <b>Background color:</b> via the color resource named {@code gv_action_bar} (highly recommended
+ * for Android 5+: customize the status bar color via {@code gv_status_bar})
+ * </li>
+ * <li>
+ * <b>Title:</b> via the string resource name {@code gv_title_help}
+ * </li>
+ * <li>
+ * <b>Title color:</b> via the color resource named {@code gv_action_bar_title}
+ * </li>
+ * </ul>
+ * </p>
+ */
 public class HelpActivity extends AppCompatActivity {
 
+    /**
+     * <p>
+     *     Mandatory extra which must contain a {@link GiniVisionFeatureConfiguration} instance.
+     * </p>
+     */
     public static final String EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION =
             "GV_EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION";
+
     private static final int PHOTO_TIPS_REQUEST = 1;
     private GiniVisionFeatureConfiguration mGiniVisionFeatureConfiguration;
 
@@ -41,8 +119,9 @@ public class HelpActivity extends AppCompatActivity {
             mGiniVisionFeatureConfiguration = extras.getParcelable(
                     EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION);
             if (mGiniVisionFeatureConfiguration == null) {
-                mGiniVisionFeatureConfiguration =
-                        GiniVisionFeatureConfiguration.buildNewConfiguration().build();
+                throw new IllegalStateException(
+                        "HelpActivity requires a GiniVisionFeatureConfiguration instance. "
+                                + "Pass it in as an extra with the name HelpActivity.EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION.");
             }
         }
     }
@@ -53,13 +132,13 @@ public class HelpActivity extends AppCompatActivity {
         recyclerView.setAdapter(new HelpItemsAdapter(mGiniVisionFeatureConfiguration,
                 new HelpItemsAdapter.HelpItemSelectedListener() {
                     @Override
-                    public void onItemSelected(@NonNull final HelpItemsAdapter.HelpItem helpItem) {
+                    public void onItemSelected(@NonNull final HelpItem helpItem) {
                         launchHelpScreen(helpItem);
                     }
                 }));
     }
 
-    private void launchHelpScreen(final HelpItemsAdapter.HelpItem helpItem) {
+    private void launchHelpScreen(final HelpItem helpItem) {
         switch (helpItem) {
             case PHOTO_TIPS:
                 launchPhotoTips();

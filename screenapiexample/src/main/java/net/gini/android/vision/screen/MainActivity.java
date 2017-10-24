@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
                 GiniVisionFeatureConfiguration.buildNewConfiguration()
                         .setDocumentImportEnabledFileTypes(
                                 DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
-                        .setOpenWithEnabled(true)
+                        .setFileImportEnabled(true)
                         .build();
 
         intent.putExtra(CameraActivity.EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION,

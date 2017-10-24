@@ -24,16 +24,16 @@ public class GiniVisionFeatureConfiguration implements Parcelable {
     };
 
     private final DocumentImportEnabledFileTypes mDocumentImportEnabledFileTypes;
-    private final boolean mOpenWithEnabled;
+    private final boolean mFileImportEnabled;
 
     private GiniVisionFeatureConfiguration(Parcel in) {
         mDocumentImportEnabledFileTypes = (DocumentImportEnabledFileTypes) in.readSerializable();
-        mOpenWithEnabled = in.readByte() != 0;
+        mFileImportEnabled = in.readByte() != 0;
     }
 
     private GiniVisionFeatureConfiguration(Builder builder) {
         mDocumentImportEnabledFileTypes = builder.getDocumentImportEnabledFileTypes();
-        mOpenWithEnabled = builder.isOpenWithEnabled();
+        mFileImportEnabled = builder.isFileImportEnabled();
     }
 
     @NonNull
@@ -41,8 +41,8 @@ public class GiniVisionFeatureConfiguration implements Parcelable {
         return mDocumentImportEnabledFileTypes;
     }
 
-    public boolean isOpenWithEnabled() {
-        return mOpenWithEnabled;
+    public boolean isFileImportEnabled() {
+        return mFileImportEnabled;
     }
 
     @Override
@@ -53,7 +53,7 @@ public class GiniVisionFeatureConfiguration implements Parcelable {
     @Override
     public void writeToParcel(final Parcel parcel, final int i) {
         parcel.writeSerializable(mDocumentImportEnabledFileTypes);
-        parcel.writeByte((byte) (mOpenWithEnabled ? 1 : 0));
+        parcel.writeByte((byte) (mFileImportEnabled ? 1 : 0));
     }
 
     @NonNull
@@ -65,7 +65,7 @@ public class GiniVisionFeatureConfiguration implements Parcelable {
 
         private DocumentImportEnabledFileTypes mDocumentImportEnabledFileTypes =
                 DocumentImportEnabledFileTypes.NONE;
-        private boolean mOpenWithEnabled = false;
+        private boolean mFileImportEnabled = false;
 
         private Builder() {
         }
@@ -86,13 +86,13 @@ public class GiniVisionFeatureConfiguration implements Parcelable {
             return this;
         }
 
-        private boolean isOpenWithEnabled() {
-            return mOpenWithEnabled;
+        private boolean isFileImportEnabled() {
+            return mFileImportEnabled;
         }
 
         @NonNull
-        public Builder setOpenWithEnabled(final boolean openWithEnabled) {
-            mOpenWithEnabled = openWithEnabled;
+        public Builder setFileImportEnabled(final boolean fileImportEnabled) {
+            mFileImportEnabled = fileImportEnabled;
             return this;
         }
     }

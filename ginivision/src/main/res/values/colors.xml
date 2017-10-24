@@ -70,16 +70,15 @@
 
     <color name="gv_help_activity_background">#f2f2f2</color>
     <color name="gv_help_item_title">#000</color>
-    <color name="gv_help_item_separator">#f2f2f2</color>
     <color name="gv_help_item_background">#fff</color>
 
     <color name="gv_photo_tips_activity_background">#fff</color>
     <color name="gv_photo_tips_header">#000</color>
     <color name="gv_photo_tips_button_text">#fff</color>
+    <color name="gv_photo_tips_button">#009edc</color>
 
     <color name="gv_supported_formats_activity_background">#f2f2f2</color>
     <color name="gv_supported_formats_item_label">#000</color>
-    <color name="gv_supported_formats_item_separator">#f2f2f2</color>
     <color name="gv_supported_formats_item_background">#fff</color>
 
     <color name="gv_supported_formats_item_header">#000</color>
@@ -96,5 +95,5 @@
     <color name="gv_file_import_section_number_background">#e8e8e8</color>
     <color name="gv_file_import_section_title">#000</color>
     <color name="gv_file_import_section_body">#8e9193</color>
-    
+
 </resources>

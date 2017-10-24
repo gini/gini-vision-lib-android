@@ -70,20 +70,20 @@ import net.gini.android.vision.review.ReviewActivity;
  *         <li>
  *             <b>Tip image - Good lighting:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi
  *             named
- *             {@code gv_noresults_lighting.png}
+ *             {@code gv_photo_tip_lighting.png}
  *         </li>
  *         <li>
  *             <b>Tip image - Document should be flat:</b> via images for mdpi, hdpi, xhdpi, xxhdpi,
  *             xxxhdpi
- *             named {@code gv_noresults_flat.png}
+ *             named {@code gv_photo_tip_flat.png}
  *         </li>
  *         <li>
  *             <b>Tip image - Device should be parallel to document:</b> via images for mdpi, hdpi,
- *             xhdpi,xxhdpi, xxxhdpi named {@code gv_noresults_parallel.png}
+ *             xhdpi,xxhdpi, xxxhdpi named {@code gv_photo_tip_parallel.png}
  *         </li>
  *         <li>
  *             <b>Tip image - Document should be aligned with corner guides:</b> via
- *             images for mdpi, hdpi, xhdpi,xxhdpi, xxxhdpi named {@code gv_noresults_align.png}
+ *             images for mdpi, hdpi, xhdpi,xxhdpi, xxxhdpi named {@code gv_photo_tip_align.png}
  *         </li>
  *         <li>
  *             <b>Button color:</b> via the color resource named {@code gv_noresults_button}

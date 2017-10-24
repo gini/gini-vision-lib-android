@@ -7,8 +7,121 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 
+import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.R;
+import net.gini.android.vision.analysis.AnalysisActivity;
+import net.gini.android.vision.camera.CameraActivity;
+import net.gini.android.vision.noresults.NoResultsActivity;
+import net.gini.android.vision.review.ReviewActivity;
 
+/**
+ * <h3>Screen API and Component API</h3>
+ *
+ * <p>
+ *     On the File Import Screen users can get information about how import files from other apps via "open with".
+ * </p>
+ * <p>
+ *     This Activity is launched by the {@link HelpActivity} for both Screen and Component APIs.
+ * </p>
+ * <p>
+ *     <b>Important:</b> The File Import Screen is only shown only if file import was enabled with the {@link GiniVisionFeatureConfiguration}.
+ * </p>
+ * <p>
+ *     The contents of this screen need to be customized to insert your App's name or label for the "open with" functionality into the texts and illustrations.
+ * </p>
+ *
+ * <h3>Customizing the File Import Screen</h3>
+ *
+ * <p>
+ *     Customizing the look of the File Import Screen is done via overriding of app resources.
+ * </p>
+ * <p>
+ *     The following items are customizable:
+ *     <ul>
+ *         <li>
+ *             <b>Background color:</b> via the color resource named {@code gv_file_import_activity_background}.
+ *         </li>
+ *         <li>
+ *             <b>Header text:</b> via overriding the string resource named {@code gv_file_import_header}
+ *         </li>
+ *         <li>
+ *             <b>Header text style:</b> via overriding the style named {@code GiniVisionTheme.Help.FileImport.Header.TextStyle}
+ *         </li>
+ *         <li>
+ *             <b>Separator line color:</b> via the color resource named {@code gv_file_import_separator}
+ *         </li>
+ *         <li>
+ *             <b>Section numbers' background circle color:</b> via the color resource named {@code gv_file_import_section_number_background}
+ *         </li>
+ *         <li>
+ *             <b>Section numbers' text color:</b>  via the color resource named {@code gv_file_import_section_number}
+ *         </li>
+ *         <li>
+ *             <b>Section title text style:</b> via overriding the style named {@code GiniVisionTheme.Help.FileImport.Section.Title.TextStyle}
+ *         </li>
+ *         <li>
+ *             <b>Section body text style:</b> via overriding the style named {@code GiniVisionTheme.Help.FileImport.Section.Body.TextStyle}
+ *         </li>
+ *         <li>
+ *             <b>Section 1 title:</b> via overriding the string resource named {@code gv_file_import_section_1_title}
+ *         </li>
+ *         <li>
+ *             <b>Section 1 body:</b> via overriding the string resource named {@code gv_file_import_section_1_body}
+ *         </li>
+ *         <li>
+ *             <b>Section 1 illustration image:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi
+ *             named {@code gv_file_import_section_1_illustration.png}
+ *         </li>
+ *         <li>
+ *             <b>Section 2 title:</b> via overriding the string resource named {@code gv_file_import_section_2_title}
+ *         </li>
+ *         <li>
+ *             <b>Section 2 body:</b> via overriding the string resource named {@code gv_file_import_section_2_body}
+ *         </li>
+ *         <li>
+ *             <b>Section 2 illustration image:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi
+ *             named {@code gv_file_import_section_2_illustration.png}
+ *         </li>
+ *         <li>
+ *             <b>Section 3 title:</b> via overriding the string resource named {@code gv_file_import_section_3_title}
+ *         </li>
+ *         <li>
+ *             <b>Section 3 body:</b> via overriding the string resource named {@code gv_file_import_section_3_body}
+ *         </li>
+ *         <li>
+ *             <b>Section 3 illustration image:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi
+ *             named {@code gv_file_import_section_3_illustration.png}
+ *         </li>
+ *     </ul>
+ * </p>
+ *
+ * <p>
+ *     <b>Important:</b> All overriden styles must have their respective {@code Root.} prefixed style as their parent. Ex.: the parent of {@code GiniVisionTheme.Onboarding.Message.TextStyle} must be {@code Root.GiniVisionTheme.Onboarding.Message.TextStyle}.
+ * </p>
+ *
+ * <h3>Customizing the Action Bar</h3>
+ *
+ * <p>
+ * Customizing the Action Bar is done via overriding of app resources and each one - except the
+ * title string resource - is global to all Activities ({@link CameraActivity}, {@link
+ * NoResultsActivity}, {@link HelpActivity}, {@link ReviewActivity}, {@link AnalysisActivity}).
+ * </p>
+ * <p>
+ * The following items are customizable:
+ * <ul>
+ * <li>
+ * <b>Background color:</b> via the color resource named {@code gv_action_bar} (highly recommended
+ * for Android 5+: customize the status bar color via {@code gv_status_bar})
+ * </li>
+ * <li>
+ * <b>Title:</b> via the string resource name {@code gv_title_file_import}
+ * </li>
+ * <li>
+ * <b>Title color:</b> via the color resource named {@code gv_action_bar_title}
+ * </li>
+ * </ul>
+ * </p>
+ */
 public class FileImportActivity extends AppCompatActivity {
 
     @Override

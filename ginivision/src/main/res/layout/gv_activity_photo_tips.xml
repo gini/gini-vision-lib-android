@@ -158,7 +158,7 @@
         android:layout_height="@dimen/gv_photo_tips_bottom_button_height"
         android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/gv_photo_tips_bottom_button_margin"
-        android:background="@color/gv_accent"
+        android:background="@color/gv_photo_tips_button"
         android:text="@string/gv_photo_tips_camera_button"
         android:textColor="@color/gv_photo_tips_button_text" />
 
