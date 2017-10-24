@@ -154,7 +154,7 @@
 
     <Button
         android:id="@+id/gv_button_photo_tips_camera"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/gv_photo_tips_bottom_button_height"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
@@ -163,6 +163,5 @@
         android:text="@string/gv_photo_tips_camera_button"
         android:width="@dimen/gv_photo_tips_bottom_button_max_width"
         android:textColor="@color/gv_photo_tips_button_text" />
-
 
 </RelativeLayout>
