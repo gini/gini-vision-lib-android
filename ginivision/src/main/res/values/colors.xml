@@ -83,6 +83,10 @@
 
     <color name="gv_supported_formats_item_header">#000</color>
     <color name="gv_supported_formats_item_header_background">#f2f2f2</color>
+    <color name="gv_supported_formats_item_supported_icon_background">#b8e986</color>
+    <color name="gv_supported_formats_item_supported_icon_foreground">#fff</color>
+    <color name="gv_supported_formats_item_unsupported_icon_background">#ff4f65</color>
+    <color name="gv_supported_formats_item_unsupported_icon_foreground">#fff</color>
 
     <color name="gv_file_import_activity_background">#fff</color>
     <color name="gv_file_import_separator">#f2f2f2</color>

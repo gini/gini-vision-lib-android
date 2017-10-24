@@ -3,16 +3,17 @@ package net.gini.android.vision.help;
 import static net.gini.android.vision.help.SupportedFormatsAdapter.ItemType.FORMAT_INFO;
 import static net.gini.android.vision.help.SupportedFormatsAdapter.ItemType.HEADER;
 
-import android.graphics.drawable.Drawable;
+import android.graphics.PorterDuff;
+import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.TextViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
@@ -90,10 +91,11 @@ class SupportedFormatsAdapter extends
             final FormatInfoItemViewHolder viewHolder = (FormatInfoItemViewHolder) holder;
             final FormatInfo formatInfo = (FormatInfo) mItems.get(position);
             viewHolder.label.setText(formatInfo.getLabel());
-            final Drawable iconDrawable = ContextCompat.getDrawable(
-                    viewHolder.itemView.getContext(), formatInfo.getIcon());
-            TextViewCompat.setCompoundDrawablesRelativeWithIntrinsicBounds(viewHolder.label,
-                    iconDrawable, null, null, null);
+            viewHolder.backgroundIcon.setImageResource(formatInfo.getIconBackground());
+            viewHolder.foregroundIcon.setImageResource(formatInfo.getIconForeground());
+            final int tintColor = ContextCompat.getColor(
+                    viewHolder.itemView.getContext(), formatInfo.getIconForegroundTint());
+            viewHolder.foregroundIcon.setColorFilter(tintColor, PorterDuff.Mode.MULTIPLY);
         }
     }
 
@@ -140,19 +142,37 @@ class SupportedFormatsAdapter extends
         PDF(R.string.gv_supported_format_pdf);
 
         @DrawableRes
-        private final int mIcon;
+        private final int mIconBackground;
+        @DrawableRes
+        private final int mIconForeground;
+        @ColorRes
+        private final int mIconForegroundTint;
         @StringRes
         private final int mLabel;
 
         SupportedFormat(@StringRes final int label) {
             this.mLabel = label;
-            this.mIcon = R.drawable.gv_alert_icon;
+            this.mIconBackground = R.drawable.gv_format_info_supported_icon_background;
+            this.mIconForeground = R.drawable.gv_format_info_supported_icon_foreground;
+            this.mIconForegroundTint =
+                    R.color.gv_supported_formats_item_supported_icon_foreground;
         }
 
         @Override
         @DrawableRes
-        public int getIcon() {
-            return mIcon;
+        public int getIconBackground() {
+            return mIconBackground;
+        }
+
+        @Override
+        @DrawableRes
+        public int getIconForeground() {
+            return mIconForeground;
+        }
+
+        @Override
+        public int getIconForegroundTint() {
+            return mIconForegroundTint;
         }
 
         @Override
@@ -167,20 +187,39 @@ class SupportedFormatsAdapter extends
         PHOTOS_OF_SCREENS(R.string.gv_unsupported_format_photos_of_screens);
 
         @DrawableRes
-        private final int mIcon;
+        private final int mIconBackground;
+        @DrawableRes
+        private final int mIconForeground;
+        @ColorRes
+        private final int mIconForegroundTint;
         @StringRes
         private final int mLabel;
 
         UnsupportedFormat(@StringRes final int label) {
             this.mLabel = label;
-            this.mIcon = R.drawable.gv_alert_icon;
+            this.mIconBackground = R.drawable.gv_format_info_unsupported_icon_background;
+            this.mIconForeground = R.drawable.gv_format_info_unsupported_icon_foreground;
+            this.mIconForegroundTint =
+                    R.color.gv_supported_formats_item_unsupported_icon_foreground;
         }
 
         @Override
         @DrawableRes
-        public int getIcon() {
-            return mIcon;
+        public int getIconBackground() {
+            return mIconBackground;
         }
+
+        @Override
+        @DrawableRes
+        public int getIconForeground() {
+            return mIconForeground;
+        }
+
+        @Override
+        public int getIconForegroundTint() {
+            return mIconForegroundTint;
+        }
+
 
         @Override
         @StringRes
@@ -191,11 +230,15 @@ class SupportedFormatsAdapter extends
 
     private class FormatInfoItemViewHolder extends FormatItemViewHolder {
 
+        final ImageView backgroundIcon;
+        final ImageView foregroundIcon;
         final TextView label;
 
         FormatInfoItemViewHolder(final View itemView) {
             super(itemView);
-            label = itemView.findViewById(R.id.gv_supported_formats_item_label);
+            label = itemView.findViewById(R.id.gv_format_info_item_label);
+            backgroundIcon = itemView.findViewById(R.id.gv_format_info_item_icon_background);
+            foregroundIcon = itemView.findViewById(R.id.gv_format_info_item_icon_foreground);
         }
     }
 
@@ -218,7 +261,13 @@ class SupportedFormatsAdapter extends
 
     interface FormatInfo {
         @DrawableRes
-        int getIcon();
+        int getIconBackground();
+
+        @DrawableRes
+        int getIconForeground();
+
+        @ColorRes
+        int getIconForegroundTint();
 
         @StringRes
         int getLabel();
