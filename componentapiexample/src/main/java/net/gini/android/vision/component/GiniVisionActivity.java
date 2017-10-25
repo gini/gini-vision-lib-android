@@ -32,14 +32,14 @@ import net.gini.android.vision.analysis.AnalysisFragmentStandard;
 import net.gini.android.vision.camera.CameraFragmentListener;
 import net.gini.android.vision.camera.CameraFragmentStandard;
 import net.gini.android.vision.help.HelpActivity;
-import net.gini.android.vision.internal.util.IntentHelper;
-import net.gini.android.vision.internal.util.UriHelper;
 import net.gini.android.vision.noresults.NoResultsFragmentListener;
 import net.gini.android.vision.noresults.NoResultsFragmentStandard;
 import net.gini.android.vision.onboarding.OnboardingFragmentListener;
 import net.gini.android.vision.onboarding.OnboardingFragmentStandard;
 import net.gini.android.vision.review.ReviewFragmentListener;
 import net.gini.android.vision.review.ReviewFragmentStandard;
+import net.gini.android.vision.util.IntentHelper;
+import net.gini.android.vision.util.UriHelper;
 import net.gini.android.visionadvtest.R;
 
 import org.slf4j.Logger;

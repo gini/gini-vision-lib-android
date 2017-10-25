@@ -55,9 +55,9 @@ import net.gini.android.vision.internal.permission.PermissionRequestListener;
 import net.gini.android.vision.internal.ui.ViewStubSafeInflater;
 import net.gini.android.vision.internal.util.DeviceHelper;
 import net.gini.android.vision.internal.util.FileImportValidator;
-import net.gini.android.vision.internal.util.IntentHelper;
 import net.gini.android.vision.internal.util.Size;
-import net.gini.android.vision.internal.util.UriHelper;
+import net.gini.android.vision.util.IntentHelper;
+import net.gini.android.vision.util.UriHelper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -750,6 +750,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         });
     }
 
+    @Deprecated
     @Override
     public void showDocumentCornerGuides() {
         if (isNoPermissionViewVisible()) {
@@ -762,6 +763,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mImageCorners.animate().alpha(1.0f);
     }
 
+    @Deprecated
     @Override
     public void hideDocumentCornerGuides() {
         if (isNoPermissionViewVisible()) {
@@ -774,6 +776,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mImageCorners.animate().alpha(0.0f);
     }
 
+    @Deprecated
     @Override
     public void showCameraTriggerButton() {
         if (isNoPermissionViewVisible()) {
@@ -787,6 +790,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mButtonCameraTrigger.setEnabled(true);
     }
 
+    @Deprecated
     @Override
     public void hideCameraTriggerButton() {
         if (isNoPermissionViewVisible()) {

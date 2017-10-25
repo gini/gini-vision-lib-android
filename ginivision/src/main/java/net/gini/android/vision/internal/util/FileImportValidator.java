@@ -10,6 +10,8 @@ import android.support.annotation.StringRes;
 
 import net.gini.android.vision.R;
 import net.gini.android.vision.internal.pdf.Pdf;
+import net.gini.android.vision.util.IntentHelper;
+import net.gini.android.vision.util.UriHelper;
 
 import java.util.List;
 

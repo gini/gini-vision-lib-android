@@ -1,4 +1,4 @@
-package net.gini.android.vision.internal.util;
+package net.gini.android.vision.util;
 
 import android.content.ClipData;
 import android.content.ClipDescription;
@@ -17,10 +17,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @exclude
+ * Helper methods for {@link android.content.Intent}.
  */
 public final class IntentHelper {
 
+    /**
+     * Retrieves the Uri from the Intent.
+     *
+     * @param intent an Intent
+     * @return an Uri or null
+     */
     @Nullable
     public static Uri getUri(@NonNull final Intent intent) {
         Uri uri = intent.getData();
@@ -33,6 +39,14 @@ public final class IntentHelper {
         return uri;
     }
 
+    /**
+     * Retrieves the available mime-types from the Intent.
+     *
+     * @param intent an Intent
+     * @param context Android context
+     * @return a list of mime-types or an empty list
+     * @throws IllegalArgumentException if the Intent contains no Uri
+     */
     @NonNull
     public static List<String> getMimeTypes(@NonNull final Intent intent,
             @NonNull final Context context) {
@@ -64,7 +78,7 @@ public final class IntentHelper {
     }
 
     @Nullable
-    public static String getMimeTypeFromUrl(@NonNull final String url)
+    private static String getMimeTypeFromUrl(@NonNull final String url)
     {
         final String extension = MimeTypeMap.getFileExtensionFromUrl(url);
         if (extension != null) {
@@ -74,6 +88,15 @@ public final class IntentHelper {
         return null;
     }
 
+    /**
+     * Check whether the Intent has a specific mime-type.
+     *
+     * @param intent an Intent
+     * @param context Android context
+     * @param mimeType required mime-type string
+     * @return {@code true}, if the Intent has the mime-type or {@code false}
+     * @throws IllegalArgumentException if the Intent contains no Uri
+     */
     public static boolean hasMimeType(@NonNull final Intent intent,
             @NonNull final Context context, @NonNull final String mimeType) {
         List<String> mimeTypes = getMimeTypes(intent, context);
@@ -85,6 +108,15 @@ public final class IntentHelper {
         return false;
     }
 
+    /**
+     * Check whether the Intent has a mime-type starting the provided prefix.
+     *
+     * @param intent an Intent
+     * @param context Android context
+     * @param prefix mime-type prefix
+     * @return {@code true}, if the Intent has a mime-type starting with the prefix or {@code false}
+     * @throws IllegalArgumentException if the Intent contains no Uri
+     */
     public static boolean hasMimeTypeWithPrefix(@NonNull final Intent intent,
             @NonNull final Context context, @NonNull final String prefix) {
         List<String> mimeTypes = getMimeTypes(intent, context);
@@ -96,6 +128,14 @@ public final class IntentHelper {
         return false;
     }
 
+    /**
+     * Retrieve the name of the app from which the Intent was received.
+     *
+     * @param intent an Intent
+     * @param context Android context
+     * @return the app's name or null
+     * @throws IllegalArgumentException if the Intent contains no Uri
+     */
     @Nullable
     public static String getSourceAppName(@NonNull final Intent intent,
             @NonNull final Context context) {

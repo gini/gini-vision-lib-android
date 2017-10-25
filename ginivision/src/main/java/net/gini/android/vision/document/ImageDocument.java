@@ -1,8 +1,8 @@
 package net.gini.android.vision.document;
 
-import static net.gini.android.vision.internal.util.IntentHelper.getMimeTypes;
-import static net.gini.android.vision.internal.util.IntentHelper.getSourceAppName;
-import static net.gini.android.vision.internal.util.IntentHelper.hasMimeTypeWithPrefix;
+import static net.gini.android.vision.util.IntentHelper.getMimeTypes;
+import static net.gini.android.vision.util.IntentHelper.getSourceAppName;
+import static net.gini.android.vision.util.IntentHelper.hasMimeTypeWithPrefix;
 
 import android.content.Context;
 import android.content.Intent;

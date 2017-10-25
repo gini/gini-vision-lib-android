@@ -141,6 +141,7 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
         }
     }
 
+    @Deprecated
     @Override
     public void showDocumentCornerGuides() {
         if (mFragmentImpl == null) {
@@ -149,6 +150,7 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
         mFragmentImpl.showDocumentCornerGuides();
     }
 
+    @Deprecated
     @Override
     public void hideDocumentCornerGuides() {
         if (mFragmentImpl == null) {
@@ -157,6 +159,7 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
         mFragmentImpl.hideDocumentCornerGuides();
     }
 
+    @Deprecated
     @Override
     public void showCameraTriggerButton() {
         if (mFragmentImpl == null) {
@@ -165,6 +168,7 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
         mFragmentImpl.showCameraTriggerButton();
     }
 
+    @Deprecated
     @Override
     public void hideCameraTriggerButton() {
         if (mFragmentImpl == null) {

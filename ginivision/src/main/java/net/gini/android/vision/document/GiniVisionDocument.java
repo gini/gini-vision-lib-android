@@ -11,7 +11,7 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.camera.photo.ParcelableMemoryCache;
 import net.gini.android.vision.internal.util.UriReaderAsyncTask;
-import net.gini.android.vision.internal.util.IntentHelper;
+import net.gini.android.vision.util.IntentHelper;
 
 import java.util.Arrays;
 
@@ -168,6 +168,7 @@ public class GiniVisionDocument implements Document {
                 '}';
     }
 
+    @Deprecated
     @NonNull
     @Override
     public byte[] getJpeg() {
@@ -175,6 +176,7 @@ public class GiniVisionDocument implements Document {
         return data != null ? data : new byte[]{};
     }
 
+    @Deprecated
     @Override
     public int getRotationForDisplay() {
         return 0;

@@ -73,7 +73,7 @@ import java.util.ArrayList;
  *         Screen is shown when the Gini Vision Library is started</li>
  *     <li>{@link CameraActivity#EXTRA_IN_ONBOARDING_PAGES} - custom pages for the Onboarding Screen as
  *         an {@link ArrayList} containing {@link OnboardingPage} objects</li>
- *     <li>{@link CameraActivity#EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY} - if set to {@code true} the
+ *     <li><b>Deprecated</b> {@link CameraActivity#EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY} - if set to {@code true} the
  *         back button closes the Gini Vision Library from any of its activities with result code {@link
  *         CameraActivity#RESULT_CANCELED}</li>
  *     <li>{@link CameraActivity#EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION} - must contain a {@link GiniVisionFeatureConfiguration} instance to apply the feature configuration</li>
@@ -159,6 +159,9 @@ import java.util.ArrayList;
  *         <b>Read storage permission rationale negative button text:</b> via the string resource named {@code gv_storage_permission_rationale_negative_button}
  *     </li>
  *     <li>
+ *         <b>Read storage permission rationale button color:</b> via the color resource named {@code gv_accent}
+ *     </li>
+ *     <li>
  *         <b>Read storage permission denied text:</b> via the string resource named {@code gv_storage_permission_denied}
  *     </li>
  *     <li>
@@ -168,13 +171,7 @@ import java.util.ArrayList;
  *         <b>Read storage permission denied negative button text:</b> via the string resource named {@code gv_storage_permission_denied_negative_button}
  *     </li>
  *     <li>
- *         <b>Read storage permission rationale text:</b> via the string resource named {@code gv_storage_permission_rationale}
- *     </li>
- *     <li>
- *         <b>Read storage permission rationale positive button text:</b> via the string resource named {@code gv_storage_permission_rationale_positive_button}
- *     </li>
- *     <li>
- *         <b>Read storage permission rationale negative button text:</b> via the string resource named {@code gv_storage_permission_rationale_negative_button}
+ *         <b>Read storage permission denied button color:</b> via the color resource named {@code gv_accent}
  *     </li>
  *     <li>
  *         <b>Tap-to-focus indicator:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code
@@ -335,6 +332,8 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * <p>
      * Default value is {@code false}.
      * </p>
+     * @deprecated The option to close the library with the back button from any screen will be removed
+     * in a future version.
      */
     public static final String EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY =
             "GV_EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY";
