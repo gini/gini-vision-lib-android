@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>How to Upload PDFs and Images &mdash; Gini Vision Library for Android 2.0 documentation</title>
+  <title>How to Upload PDFs and Images (pre-2.4.0) &mdash; Gini Vision Library for Android 2.0 documentation</title>
   
 
   
@@ -54,7 +54,7 @@
   
     <link rel="top" title="Gini Vision Library for Android 2.0 documentation" href="index.html"/>
         <link rel="next" title="Changelog" href="changelog.html"/>
-        <link rel="prev" title="Gini Vision Library for Android" href="index.html"/> 
+        <link rel="prev" title="Updating to 2.4.0" href="updating-to-2-4-0.html"/> 
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
 
@@ -82,7 +82,27 @@
         
             <ul class="current">
 <li class="toctree-l1"><a class="reference external" href="http://developer.gini.net/gini-vision-lib-android/javadoc/index.html">Javadoc</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">How to Upload PDFs and Images</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="updating-to-2-4-0.html">Updating to 2.4.0</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="updating-to-2-4-0.html#breaking-changes">Breaking Changes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#camera-screen">Camera Screen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#analysis-screen">Analysis Screen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#android-support-library">Android Support Library</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="updating-to-2-4-0.html#deprecation">Deprecation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="updating-to-2-4-0.html#new-features">New Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#feature-configuration">Feature Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#document-import">Document Import</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#file-import-open-with">File Import (&#8220;Open With&#8221;)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#tips-in-the-analysis-screen">Tips in the Analysis Screen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#help-screens">Help Screens</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#no-results-screen">No Results Screen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#tablet-support">Tablet Support</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">How to Upload PDFs and Images (pre-2.4.0)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#general-considerations">General considerations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#registering-pdf-and-image-file-types">Registering PDF and image file types</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#documentation">Documentation</a></li>
@@ -103,18 +123,24 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">2.2.2 (2017-07-03)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">2.2.1 (2017-06-30)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">2.2.0 (2017-03-22)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">2.1.0 (2017-01-30)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id5">2.0.1 (2016-10-18)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id6">2.0.0 (2016-08-25)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#alpha-1-2016-08-18">2.0.0-alpha.1 (2016-08-18)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">2.4.0 (2017-10-25)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#features">Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#ui-updates">UI Updates</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">2.3.0 (2017-08-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">2.2.2 (2017-07-03)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">2.2.1 (2017-06-30)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id5">2.2.0 (2017-03-22)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id6">2.1.0 (2017-01-30)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id7">2.0.1 (2016-10-18)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id8">2.0.0 (2016-08-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#alpha-1-2016-08-18">2.0.0-alpha.1 (2016-08-18)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id9">Features</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html#stub-1-2016-07-15">2.0.0-stub.1 (2016-07-15)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id7">Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id10">Features</a></li>
 </ul>
 </li>
 </ul>
@@ -150,7 +176,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>How to Upload PDFs and Images</li>
+    <li>How to Upload PDFs and Images (pre-2.4.0)</li>
       <li class="wy-breadcrumbs-aside">
         
       </li>
@@ -159,8 +185,9 @@
 </div>
           <div role="main">
             
-  <div class="section" id="how-to-upload-pdfs-and-images">
-<h1>How to Upload PDFs and Images<a class="headerlink" href="#how-to-upload-pdfs-and-images" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="how-to-upload-pdfs-and-images-pre-2-4-0">
+<h1>How to Upload PDFs and Images (pre-2.4.0)<a class="headerlink" href="#how-to-upload-pdfs-and-images-pre-2-4-0" title="Permalink to this headline">¶</a></h1>
+<p>Since version 2.4.0 the <a class="reference internal" href="updating-to-2-4-0.html#file-import"><em>File Import (&#8220;Open With&#8221;)</em></a> feature should be used.</p>
 <div class="section" id="general-considerations">
 <h2>General considerations<a class="headerlink" href="#general-considerations" title="Permalink to this headline">¶</a></h2>
 <p>Enabling your app to open PDFs and images allows your users to open any kind of files which are identified by the OS as PDFs or images. Make sure to check the MIME type and that the file size is below an acceptable threshold (5MB for example). It is also advisable to check the first bytes of the incoming files to determine their type and allow only PDFs and known image types.</p>
@@ -241,8 +268,18 @@
 <p>We recommend checking the MIME type of Intent. The MIME type can be in the <tt class="docutils literal"><span class="pre">type</span></tt> field or since Android 4.1 (API Level 16) it can also be in the <tt class="docutils literal"><span class="pre">clipData</span></tt> field.</p>
 <p>Getting the MIME type from the Intent:</p>
 <div class="highlight-java"><div class="highlight"><pre><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">mimeTypes</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
-<span class="n">String</span> <span class="n">type</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="na">getType</span><span class="o">();</span>
-<span class="k">if</span> <span class="o">(</span><span class="n">mimeType</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+<span class="n">String</span> <span class="n">type</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">getContentResolver</span><span class="o">().</span><span class="na">getType</span><span class="o">(</span><span class="n">data</span><span class="o">);</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">type</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">type</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="na">getType</span><span class="o">();</span>
+<span class="o">}</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">type</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">extension</span> <span class="o">=</span> <span class="n">MimeTypeMap</span><span class="o">.</span><span class="na">getFileExtensionFromUrl</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">extension</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="n">MimeTypeMap</span> <span class="n">mime</span> <span class="o">=</span> <span class="n">MimeTypeMap</span><span class="o">.</span><span class="na">getSingleton</span><span class="o">();</span>
+        <span class="n">type</span> <span class="o">=</span> <span class="n">mime</span><span class="o">.</span><span class="na">getMimeTypeFromExtension</span><span class="o">(</span><span class="n">extension</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">type</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
     <span class="n">mimeTypes</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">type</span><span class="o">);</span>
 <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">Build</span><span class="o">.</span><span class="na">VERSION</span><span class="o">.</span><span class="na">SDK_INT</span> <span class="o">&gt;=</span> <span class="n">Build</span><span class="o">.</span><span class="na">VERSION_CODES</span><span class="o">.</span><span class="na">JELLY_BEAN</span><span class="o">)</span> <span class="o">{</span>
     <span class="n">ClipData</span> <span class="n">clipData</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="na">getClipData</span><span class="o">();</span>
@@ -328,7 +365,7 @@ if (fileDescriptor != null) {
         <a href="changelog.html" class="btn btn-neutral float-right" title="Changelog">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="Gini Vision Library for Android"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="updating-to-2-4-0.html" class="btn btn-neutral" title="Updating to 2.4.0"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

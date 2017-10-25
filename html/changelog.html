@@ -54,7 +54,7 @@
   
     <link rel="top" title="Gini Vision Library for Android 2.0 documentation" href="index.html"/>
         <link rel="next" title="License" href="license.html"/>
-        <link rel="prev" title="How to Upload PDFs and Images" href="guide-for-open-with.html"/> 
+        <link rel="prev" title="How to Upload PDFs and Images (pre-2.4.0)" href="guide-for-open-with.html"/> 
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
 
@@ -82,7 +82,27 @@
         
             <ul class="current">
 <li class="toctree-l1"><a class="reference external" href="http://developer.gini.net/gini-vision-lib-android/javadoc/index.html">Javadoc</a></li>
-<li class="toctree-l1"><a class="reference internal" href="guide-for-open-with.html">How to Upload PDFs and Images</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="updating-to-2-4-0.html">Updating to 2.4.0</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="updating-to-2-4-0.html#breaking-changes">Breaking Changes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#camera-screen">Camera Screen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#analysis-screen">Analysis Screen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#android-support-library">Android Support Library</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="updating-to-2-4-0.html#deprecation">Deprecation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="updating-to-2-4-0.html#new-features">New Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#feature-configuration">Feature Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#document-import">Document Import</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#file-import-open-with">File Import (&#8220;Open With&#8221;)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#tips-in-the-analysis-screen">Tips in the Analysis Screen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#help-screens">Help Screens</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#no-results-screen">No Results Screen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#tablet-support">Tablet Support</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="guide-for-open-with.html">How to Upload PDFs and Images (pre-2.4.0)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="guide-for-open-with.html#general-considerations">General considerations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="guide-for-open-with.html#registering-pdf-and-image-file-types">Registering PDF and image file types</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="guide-for-open-with.html#documentation">Documentation</a></li>
@@ -103,18 +123,24 @@
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">2.2.2 (2017-07-03)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">2.2.1 (2017-06-30)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">2.2.0 (2017-03-22)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">2.1.0 (2017-01-30)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id5">2.0.1 (2016-10-18)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id6">2.0.0 (2016-08-25)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#alpha-1-2016-08-18">2.0.0-alpha.1 (2016-08-18)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">2.4.0 (2017-10-25)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#features">Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ui-updates">UI Updates</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">2.3.0 (2017-08-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">2.2.2 (2017-07-03)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">2.2.1 (2017-06-30)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">2.2.0 (2017-03-22)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">2.1.0 (2017-01-30)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">2.0.1 (2016-10-18)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">2.0.0 (2016-08-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#alpha-1-2016-08-18">2.0.0-alpha.1 (2016-08-18)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id9">Features</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#stub-1-2016-07-15">2.0.0-stub.1 (2016-07-15)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id7">Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">Features</a></li>
 </ul>
 </li>
 </ul>
@@ -162,26 +188,56 @@
   <div class="section" id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="id1">
-<h2>2.2.2 (2017-07-03)<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<h2>2.4.0 (2017-10-25)<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Consult the <strong>Updating to 2.4.0</strong> page in the guide for detailed information.</li>
+</ul>
+<div class="section" id="features">
+<h3>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Document Import: From the Camera Screen users can select images and PDFs from other apps which are imported into the Gini Vision Library for analysis. This feature is disabled by default.</li>
+<li>Open With: If your app registers itself to handle files of type JPEG, GIF, PNG or PDF you can pass them to the Gini Vision Library for analysis.</li>
+<li>Tips in the Analysis Screen: If analysis takes longer than 5 seconds the tips from the Onboarding Screen are shown one at a time.</li>
+<li>No Results Screen: If none of the required extractions were received the No Results Screen can be shown offering tips to the user for improving the extraction results.</li>
+<li>Help Screens: Screens for users to be able to get information about how to best use the Gini Vision Library.</li>
+</ul>
+</div>
+<div class="section" id="ui-updates">
+<h3>UI Updates<a class="headerlink" href="#ui-updates" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li>Camera Screen UI design was updated and the preview corners are now drawn programmatically. The color of the corners can be customised with the gv_camera_preview_corners color resource. If you customised the corners by overriding the gv_camera_preview_corners.png you can remove these images and instead override the color resource.</li>
+<li>Analysis Screen UI design was updated and in the Screen API the title was removed from the ActionBar. You should instead override the gv_analysis_activity_indicator_message string resource which is shown below the activity indicator.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>2.3.0 (2017-08-28)<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Added support for tablets. For details you may consult our <a class="reference external" href="supporting-tablets.html">Supporting Tablets</a> guide. Please note that allowing tablets that do not meet our minimum hardware recommendations to use the GVL could lead to lower extraction quality. We recommend implementing hardware checks to avoid this. Many tablets with at least 8MP cameras don&#8217;t have an LED flash (like the popular Samsung Galaxy Tab S2) therefore we don&#8217;t require flash for tablets. For this reason the extraction quality on those tablets might be lower compared to smartphones.</li>
+<li>Fixed image meta information handling bug related to ascii tags containing values with null bytes.</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2>2.2.2 (2017-07-03)<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Fixed image rotation bug.</li>
 </ul>
 </div>
-<div class="section" id="id2">
-<h2>2.2.1 (2017-06-30)<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h2>2.2.1 (2017-06-30)<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Fixed image meta information handling bug impacting Android 4.4 and later.</li>
 </ul>
 </div>
-<div class="section" id="id3">
-<h2>2.2.0 (2017-03-22)<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h2>2.2.0 (2017-03-22)<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Added meta information to images to be able to differentiate between Review Screen uploads and Analysis Screen uploads.</li>
 <li>Updated to Android Support Library version 25.3.0.</li>
 </ul>
 </div>
-<div class="section" id="id4">
-<h2>2.1.0 (2017-01-30)<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h2>2.1.0 (2017-01-30)<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Removed the 4:3 aspect ratio requirement for photos. The default camera aspect ratio will be used from now on. An 8MP minimum resolution is still required.</li>
 <li>Removed the continuous-focus mode requirement. Only auto-focus is required.</li>
@@ -191,14 +247,14 @@
 <li>Fixed an issue regarding ReviewActivity and AnalysisActivity restart in the Screen API after the app had been killed while in the background.</li>
 </ul>
 </div>
-<div class="section" id="id5">
-<h2>2.0.1 (2016-10-18)<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h2>2.0.1 (2016-10-18)<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Updated Sanselan to Commons Imaging.</li>
 </ul>
 </div>
-<div class="section" id="id6">
-<h2>2.0.0 (2016-08-25)<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id8">
+<h2>2.0.0 (2016-08-25)<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Finalized documentation and example apps.</li>
 <li>Reorganized internal (non-public API) packages and classes.</li>
@@ -207,8 +263,8 @@
 </div>
 <div class="section" id="alpha-1-2016-08-18">
 <h2>2.0.0-alpha.1 (2016-08-18)<a class="headerlink" href="#alpha-1-2016-08-18" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="features">
-<h3>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h3>Features<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Feature complete version.</li>
 <li>Using the Screen API a picture can be taken with the <cite>CameraActivity</cite>. It can be reviewed with the <cite>ReviewActvitiy</cite> with the possibility to start document analysis. If the document analysis didn&#8217;t complete or the document was rotated the document analysis can be continued or started again in the <cite>AnalysisActivity</cite>.</li>
@@ -221,8 +277,8 @@
 </div>
 <div class="section" id="stub-1-2016-07-15">
 <h2>2.0.0-stub.1 (2016-07-15)<a class="headerlink" href="#stub-1-2016-07-15" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id7">
-<h3>Features<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id10">
+<h3>Features<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>Stub version of the completely rewritten Gini Vision Library.</li>
 <li>Provides two integration options: 1) A Screen API that can be easily implemented using Activities. 2) A more complex but at the same time more flexible Component API using Fragments.</li>
@@ -242,7 +298,7 @@
         <a href="license.html" class="btn btn-neutral float-right" title="License">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="guide-for-open-with.html" class="btn btn-neutral" title="How to Upload PDFs and Images"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="guide-for-open-with.html" class="btn btn-neutral" title="How to Upload PDFs and Images (pre-2.4.0)"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
