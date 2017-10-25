@@ -439,6 +439,12 @@ public class GiniVisionActivity extends Activity implements CameraFragmentListen
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        removeOnboarding();
+    }
+
     public void removeOnboarding() {
         LOG.debug("Remove the Onboarding Screen");
         showCameraOverlays();
@@ -448,7 +454,7 @@ public class GiniVisionActivity extends Activity implements CameraFragmentListen
             getFragmentManager().beginTransaction()
                     .setCustomAnimations(R.animator.fade_in, R.animator.fade_out)
                     .remove(fragment)
-                    .commit();
+                    .commitAllowingStateLoss();
         }
         setTitle(mTitleBeforeOnboarding != null ? mTitleBeforeOnboarding
                 : getString(R.string.title_camera));

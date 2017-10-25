@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -367,6 +368,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     private static final int ONBOARDING_REQUEST = 2;
     private static final int ANALYSE_DOCUMENT_REQUEST = 3;
     private static final String CAMERA_FRAGMENT = "CAMERA_FRAGMENT";
+    private static final String ONBOARDING_SHOWN_KEY = "ONBOARDING_SHOWN_KEY";
 
     private ArrayList<OnboardingPage> mOnboardingPages;
     private Intent mReviewDocumentActivityIntent;
@@ -431,10 +433,24 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         if (savedInstanceState == null) {
             initFragment();
         } else {
+            restoreSavedState(savedInstanceState);
             retainFragment();
         }
         bindViews();
         showOnboardingIfRequested();
+    }
+
+    private void restoreSavedState(@Nullable Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            return;
+        }
+        mOnboardingShown = savedInstanceState.getBoolean(ONBOARDING_SHOWN_KEY);
+    }
+
+    @Override
+    protected void onSaveInstanceState(final Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(ONBOARDING_SHOWN_KEY, mOnboardingShown);
     }
 
     private void createFragment() {

@@ -2,7 +2,6 @@ package net.gini.android.vision;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 
 import net.gini.android.vision.camera.CameraFragmentCompat;
 import net.gini.android.vision.camera.CameraFragmentStandard;

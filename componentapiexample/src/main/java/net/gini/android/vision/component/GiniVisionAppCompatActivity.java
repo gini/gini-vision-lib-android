@@ -440,6 +440,12 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        removeOnboarding();
+    }
+
     public void removeOnboarding() {
         LOG.debug("Remove the Onboarding Screen");
         showCameraOverlays();
@@ -449,7 +455,7 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction()
                     .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
                     .remove(fragment)
-                    .commit();
+                    .commitAllowingStateLoss();
         }
         setTitle(mTitleBeforeOnboarding != null ? mTitleBeforeOnboarding
                 : getString(R.string.title_camera));
