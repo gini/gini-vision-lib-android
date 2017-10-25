@@ -1,5 +1,7 @@
 package net.gini.android.vision.help;
 
+import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
+
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -103,6 +105,7 @@ public class SupportedFormatsActivity extends AppCompatActivity {
         setContentView(R.layout.gv_activity_supported_formats);
         readExtras();
         setUpFormatsList();
+        forcePortraitOrientationOnPhones(this);
     }
 
     private void readExtras() {

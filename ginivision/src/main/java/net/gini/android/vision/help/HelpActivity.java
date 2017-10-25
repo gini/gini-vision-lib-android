@@ -1,5 +1,7 @@
 package net.gini.android.vision.help;
 
+import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -111,6 +113,7 @@ public class HelpActivity extends AppCompatActivity {
         setContentView(R.layout.gv_activity_help);
         readExtras();
         setUpHelpItems();
+        forcePortraitOrientationOnPhones(this);
     }
 
     private void readExtras() {

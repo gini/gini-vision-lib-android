@@ -1,5 +1,7 @@
 package net.gini.android.vision.help;
 
+import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
+
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -128,6 +130,7 @@ public class FileImportActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gv_activity_file_import);
+        forcePortraitOrientationOnPhones(this);
 
         // Show illustration for the first section only if available (height > 0)
         final Drawable section1Illustration = ContextCompat.getDrawable(this,

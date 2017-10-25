@@ -1,5 +1,7 @@
 package net.gini.android.vision.help;
 
+import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
+
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -107,5 +109,6 @@ public class PhotoTipsActivity extends AppCompatActivity {
                         finish();
                     }
                 });
+        forcePortraitOrientationOnPhones(this);
     }
 }
