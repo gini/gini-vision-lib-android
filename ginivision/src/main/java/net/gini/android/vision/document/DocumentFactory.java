@@ -1,8 +1,8 @@
 package net.gini.android.vision.document;
 
-import static net.gini.android.vision.internal.util.IntentHelper.getUri;
-import static net.gini.android.vision.internal.util.IntentHelper.hasMimeType;
-import static net.gini.android.vision.internal.util.IntentHelper.hasMimeTypeWithPrefix;
+import static net.gini.android.vision.util.IntentHelper.getUri;
+import static net.gini.android.vision.util.IntentHelper.hasMimeType;
+import static net.gini.android.vision.util.IntentHelper.hasMimeTypeWithPrefix;
 
 import android.content.Context;
 import android.content.Intent;
@@ -44,5 +44,10 @@ public final class DocumentFactory {
 
     public static GiniVisionDocument newDocumentFromPhoto(@NonNull final Photo photo) {
         return ImageDocument.fromPhoto(photo);
+    }
+
+    public static GiniVisionDocument newDocumentFromPhotoAndDocument(@NonNull final Photo photo,
+            @NonNull final Document document) {
+        return ImageDocument.fromPhotoAndDocument(photo, document);
     }
 }

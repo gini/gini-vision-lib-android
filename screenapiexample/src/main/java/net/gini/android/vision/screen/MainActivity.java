@@ -1,5 +1,7 @@
 package net.gini.android.vision.screen;
 
+import static net.gini.android.vision.screen.Util.isPay5Extraction;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,12 +16,13 @@ import android.widget.Toast;
 import net.gini.android.ginivisiontest.BuildConfig;
 import net.gini.android.ginivisiontest.R;
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
-import net.gini.android.vision.GiniVisionFileImport;
 import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.GiniVisionFeatureConfiguration;
+import net.gini.android.vision.GiniVisionFileImport;
 import net.gini.android.vision.ImportedFileValidationException;
 import net.gini.android.vision.camera.CameraActivity;
-import net.gini.android.vision.onboarding.DefaultPages;
+import net.gini.android.vision.onboarding.DefaultPagesPhone;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.requirements.RequirementReport;
 import net.gini.android.vision.requirements.RequirementsReport;
@@ -158,8 +161,16 @@ public class MainActivity extends AppCompatActivity {
         // button from any Activity in the library
         //intent.putExtra(CameraActivity.EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY, true);
 
-        intent.putExtra(CameraActivity.EXTRA_IN_ENABLE_DOCUMENT_IMPORT_FOR_FILE_TYPES,
-                DocumentImportEnabledFileTypes.PDF_AND_IMAGES);
+        // Configure the features you would like to use
+        final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration =
+                GiniVisionFeatureConfiguration.buildNewConfiguration()
+                        .setDocumentImportEnabledFileTypes(
+                                DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
+                        .setFileImportEnabled(true)
+                        .build();
+
+        intent.putExtra(CameraActivity.EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION,
+                giniVisionFeatureConfiguration);
 
         // Set your ReviewActivity subclass
         CameraActivity.setReviewActivityExtra(intent, this, ReviewActivity.class);
@@ -201,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<OnboardingPage> getOnboardingPages() {
         // Adding a custom page to the default pages
-        ArrayList<OnboardingPage> pages = DefaultPages.asArrayList();
+        ArrayList<OnboardingPage> pages = DefaultPagesPhone.asArrayList();
         pages.add(new OnboardingPage(R.string.additional_onboarding_page,
                 R.drawable.additional_onboarding_illustration));
         return pages;
@@ -259,11 +270,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean pay5ExtractionsAvailable(Bundle extractionsBundle) {
         for (String key : extractionsBundle.keySet()) {
-            if (key.equals("amountToPay") ||
-                    key.equals("bic") ||
-                    key.equals("iban") ||
-                    key.equals("paymentReference") ||
-                    key.equals("paymentRecipient")) {
+            if (isPay5Extraction(key)) {
                 return true;
             }
         }

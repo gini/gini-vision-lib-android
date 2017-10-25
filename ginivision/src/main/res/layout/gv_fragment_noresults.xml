@@ -1,136 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gv_noresults_fragment_background"
-    android:fillViewport="true">
+    android:background="@color/gv_noresults_background"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <net.gini.android.vision.internal.ui.CustomFontTextView
+        android:id="@+id/gv_no_results_header"
+        style="@style/GiniVisionTheme.NoResults.Header.TextStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_alignParentTop="true"
+        android:drawableLeft="@drawable/gv_alert_icon"
+        android:drawablePadding="@dimen/gv_noresults_header_drawable_padding"
+        android:drawableStart="@drawable/gv_alert_icon"
+        android:gravity="center_vertical"
+        android:padding="@dimen/gv_noresults_header_padding"
+        android:text="@string/gv_noresults_header" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:text="@string/gv_noresults_hints"
-            android:textColor="#000000" />
+    <View
+        android:id="@+id/gv_no_results_header_separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/gv_no_results_header"
+        android:background="#eee" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp">
+    <net.gini.android.vision.internal.ui.CustomFontTextView
+        android:id="@+id/gv_no_results_headline"
+        style="@style/GiniVisionTheme.NoResults.Headline.TextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gv_no_results_header_separator"
+        android:padding="16dp"
+        android:text="@string/gv_noresults_headline" />
 
-            <ImageView
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:src="@drawable/gv_onboarding_align" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingEnd="16dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingStart="16dp"
-                android:text="@string/gv_noresults_align" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp">
-
-            <ImageView
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:src="@drawable/gv_onboarding_align" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingEnd="16dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingStart="16dp"
-                android:text="@string/gv_noresults_lighting" />
-
-        </LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/gv_no_results_headline"
+        android:overScrollMode="ifContentScrolls">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:src="@drawable/gv_onboarding_parallel" />
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingEnd="16dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingStart="16dp"
-                android:text="@string/gv_noresults_parallel" />
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/gv_noresults_tip_icon_size"
+                    android:layout_height="@dimen/gv_noresults_tip_icon_size"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="@dimen/gv_noresults_tip_icon_margin"
+                    android:src="@drawable/gv_photo_tip_lighting" />
+
+                <net.gini.android.vision.internal.ui.CustomFontTextView
+                    style="@style/GiniVisionTheme.NoResults.Tip.TextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/gv_noresults_tip_text_bottom_margin"
+                    android:layout_marginEnd="@dimen/gv_noresults_tip_text_right_margin"
+                    android:layout_marginLeft="@dimen/gv_noresults_tip_text_left_margin"
+                    android:layout_marginRight="@dimen/gv_noresults_tip_text_right_margin"
+                    android:layout_marginStart="@dimen/gv_noresults_tip_text_left_margin"
+                    android:layout_marginTop="@dimen/gv_noresults_tip_text_top_margin"
+                    android:gravity="center_vertical"
+                    android:maxWidth="@dimen/gv_noresults_tip_text_max_width"
+                    android:text="@string/gv_photo_tip_lighting" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/gv_noresults_tip_icon_size"
+                    android:layout_height="@dimen/gv_noresults_tip_icon_size"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="@dimen/gv_noresults_tip_icon_margin"
+                    android:src="@drawable/gv_photo_tip_flat" />
+
+                <net.gini.android.vision.internal.ui.CustomFontTextView
+                    style="@style/GiniVisionTheme.NoResults.Tip.TextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/gv_noresults_tip_text_bottom_margin"
+                    android:layout_marginEnd="@dimen/gv_noresults_tip_text_right_margin"
+                    android:layout_marginLeft="@dimen/gv_noresults_tip_text_left_margin"
+                    android:layout_marginRight="@dimen/gv_noresults_tip_text_right_margin"
+                    android:layout_marginStart="@dimen/gv_noresults_tip_text_left_margin"
+                    android:layout_marginTop="@dimen/gv_noresults_tip_text_top_margin"
+                    android:gravity="center_vertical"
+                    android:maxWidth="@dimen/gv_noresults_tip_text_max_width"
+                    android:text="@string/gv_photo_tip_flat" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/gv_noresults_tip_icon_size"
+                    android:layout_height="@dimen/gv_noresults_tip_icon_size"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="@dimen/gv_noresults_tip_icon_margin"
+                    android:src="@drawable/gv_photo_tip_parallel" />
+
+                <net.gini.android.vision.internal.ui.CustomFontTextView
+                    style="@style/GiniVisionTheme.NoResults.Tip.TextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/gv_noresults_tip_text_bottom_margin"
+                    android:layout_marginEnd="@dimen/gv_noresults_tip_text_right_margin"
+                    android:layout_marginLeft="@dimen/gv_noresults_tip_text_left_margin"
+                    android:layout_marginRight="@dimen/gv_noresults_tip_text_right_margin"
+                    android:layout_marginStart="@dimen/gv_noresults_tip_text_left_margin"
+                    android:layout_marginTop="@dimen/gv_noresults_tip_text_top_margin"
+                    android:gravity="center_vertical"
+                    android:maxWidth="@dimen/gv_noresults_tip_text_max_width"
+                    android:text="@string/gv_photo_tip_parallel" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/gv_noresults_tip_icon_size"
+                    android:layout_height="@dimen/gv_noresults_tip_icon_size"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="@dimen/gv_noresults_tip_icon_margin"
+                    android:src="@drawable/gv_photo_tip_align" />
+
+                <net.gini.android.vision.internal.ui.CustomFontTextView
+                    style="@style/GiniVisionTheme.NoResults.Tip.TextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/gv_noresults_tip_text_bottom_margin"
+                    android:layout_marginEnd="@dimen/gv_noresults_tip_text_right_margin"
+                    android:layout_marginLeft="@dimen/gv_noresults_tip_text_left_margin"
+                    android:layout_marginRight="@dimen/gv_noresults_tip_text_right_margin"
+                    android:layout_marginStart="@dimen/gv_noresults_tip_text_left_margin"
+                    android:layout_marginTop="@dimen/gv_noresults_tip_text_top_margin"
+                    android:gravity="center_vertical"
+                    android:maxWidth="@dimen/gv_noresults_tip_text_max_width"
+                    android:text="@string/gv_photo_tip_align" />
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/gv_noresults_space_height_for_bottom_button" />
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp">
+    </ScrollView>
 
-            <ImageView
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:src="@drawable/gv_onboarding_flat" />
+    <Button
+        android:id="@+id/gv_button_no_results_back"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/gv_noresults_bottom_button_height"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/gv_noresults_bottom_button_margin"
+        android:background="@color/gv_noresults_button"
+        android:text="@string/gv_noresults_back_button"
+        android:textColor="@color/gv_noresults_button_text" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingEnd="16dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingStart="16dp"
-                android:text="@string/gv_noresults_flat" />
 
-        </LinearLayout>
-
-        <android.support.v4.widget.Space
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-
-        <LinearLayout
-            android:id="@+id/gv_button_no_results_back"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_gravity="bottom"
-            android:background="#4B4B4B"
-            android:foreground="?android:attr/selectableItemBackground">
-
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_margin="16dp"
-                android:src="@drawable/gv_no_camera" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/gv_noresults_back_button"
-                android:textColor="@color/gv_review_bottom_panel_text" />
-
-        </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+</RelativeLayout>

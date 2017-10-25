@@ -170,13 +170,11 @@ public class CameraScreenTest {
         Intent intent = getCameraActivityIntent();
         intent.putExtra(CameraActivity.EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN, false);
         intent.putExtra(CameraActivity.EXTRA_IN_ONBOARDING_PAGES, onboardingPages);
-        mIntentsTestRule.launchActivity(intent);
+        final CameraActivity cameraActivity = mIntentsTestRule.launchActivity(intent);
 
         Thread.sleep(PAUSE_DURATION);
 
-        // Starting by clicking the menu item, otherwise the intent is not recorded ...
-        Espresso.onView(ViewMatchers.withId(R.id.gv_action_show_onboarding))
-                .perform(ViewActions.click());
+        cameraActivity.startOnboardingActivity();
 
         Intents.intended(IntentMatchers.hasComponent(OnboardingActivity.class.getName()));
         Intents.intended(
@@ -186,10 +184,9 @@ public class CameraScreenTest {
 
     @Test
     public void should_showOnboarding_whenOnboardingMenuItem_wasTapped() {
-        startCameraActivityWithoutOnboarding();
+        final CameraActivity cameraActivity = startCameraActivityWithoutOnboarding();
 
-        Espresso.onView(ViewMatchers.withId(R.id.gv_action_show_onboarding))
-                .perform(ViewActions.click());
+        cameraActivity.startOnboardingActivity();
 
         Intents.intended(IntentMatchers.hasComponent(OnboardingActivity.class.getName()));
     }

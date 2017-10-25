@@ -14,8 +14,8 @@ import android.support.annotation.RequiresApi;
 import net.gini.android.ginivisiontest.R;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.camera.CameraActivity;
-import net.gini.android.vision.internal.util.IntentHelper;
-import net.gini.android.vision.internal.util.UriHelper;
+import net.gini.android.vision.util.IntentHelper;
+import net.gini.android.vision.util.UriHelper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

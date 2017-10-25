@@ -1,10 +1,16 @@
 package net.gini.android.vision.onboarding;
 
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +19,7 @@ import android.widget.TextView;
 
 import net.gini.android.vision.R;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
+import net.gini.android.vision.internal.util.ContextHelper;
 
 class OnboardingPageFragmentImpl {
 
@@ -55,13 +62,33 @@ class OnboardingPageFragmentImpl {
 
     @Nullable
     private Drawable getImageDrawable() {
-        if (mFragment.getActivity() == null) {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
             return null;
         }
         if (mPage.getImageResId() == 0) {
             return null;
         }
-        return mFragment.getActivity().getResources().getDrawable(mPage.getImageResId());
+        final Drawable drawable = ContextCompat.getDrawable(activity, mPage.getImageResId());
+        if (!ContextHelper.isPortraitOrientation(activity)
+                && mPage.shouldRotateImageForLandscape()) {
+            return createRotatedDrawableForLandscape(activity, drawable);
+        } else {
+            return drawable;
+        }
+    }
+
+    private Drawable createRotatedDrawableForLandscape(final Activity activity,
+            final Drawable drawable) {
+        final Bitmap bitmap = BitmapFactory.decodeResource(activity.getResources(), mPage.getImageResId());
+        if (bitmap == null) {
+            return drawable;
+        }
+        final Matrix matrix = new Matrix();
+        matrix.postRotate(270f);
+        final Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0,
+                bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        return new BitmapDrawable(activity.getResources(), rotatedBitmap);
     }
 
     @Nullable

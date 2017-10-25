@@ -11,16 +11,36 @@
         <activity
             android:name=".noresults.NoResultsActivity"
             android:exported="false"
-            android:label="@string/gv_title_noresults"
             android:theme="@style/GiniVisionTheme" />
         <activity
             android:name=".onboarding.OnboardingActivity"
             android:exported="false"
             android:label="@string/gv_title_onboarding"
             android:theme="@style/GiniVisionTheme.Transparent" />
-        <activity android:name=".internal.fileimport.FileChooserActivity"
+        <activity
+            android:name=".internal.fileimport.FileChooserActivity"
             android:exported="false"
             android:theme="@style/GiniVisionTheme.Chooser" />
+        <activity
+            android:name=".help.HelpActivity"
+            android:exported="false"
+            android:label="@string/gv_title_help"
+            android:theme="@style/GiniVisionTheme" />
+        <activity
+            android:name=".help.PhotoTipsActivity"
+            android:exported="false"
+            android:label="@string/gv_title_photo_tips"
+            android:theme="@style/GiniVisionTheme" />
+        <activity
+            android:name=".help.SupportedFormatsActivity"
+            android:exported="false"
+            android:label="@string/gv_title_supported_formats"
+            android:theme="@style/GiniVisionTheme" />
+        <activity
+            android:name=".help.FileImportActivity"
+            android:exported="false"
+            android:label="@string/gv_title_file_import"
+            android:theme="@style/GiniVisionTheme" />
     </application>
 
 </manifest>

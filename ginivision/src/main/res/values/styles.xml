@@ -119,6 +119,73 @@
         <item name="gvCustomFont"/>
     </style>
 
+    <style name="Root.GiniVisionTheme.NoResults.Header.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gv_noresults_header</item>
+        <item name="gvCustomFont"/>
+    </style>
+
+    <style name="Root.GiniVisionTheme.NoResults.Headline.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gv_noresults_headline</item>
+        <item name="android:textStyle">bold</item>
+        <item name="gvCustomFont"/>
+    </style>
+
+    <style name="Root.GiniVisionTheme.NoResults.Tip.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gv_noresults_tip</item>
+        <item name="gvCustomFont"/>
+    </style>
+
+    <style name="Root.GiniVisionTheme.Help.Item.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gv_help_item_title</item>
+        <item name="gvCustomFont"/>
+    </style>
+
+    <style name="Root.GiniVisionTheme.Help.PhotoTips.Header.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gv_photo_tips_header</item>
+        <item name="gvCustomFont"/>
+    </style>
+
+    <style name="Root.GiniVisionTheme.Help.PhotoTips.Tip.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gv_noresults_tip</item>
+        <item name="gvCustomFont"/>
+    </style>
+
+    <style name="Root.GiniVisionTheme.Help.SupportedFormats.Item.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gv_supported_formats_item_label</item>
+        <item name="gvCustomFont"/>
+    </style>
+
+    <style name="Root.GiniVisionTheme.Help.SupportedFormats.Item.Header.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/gv_supported_formats_item_header</item>
+        <item name="gvCustomFont"/>
+    </style>
+
+    <style name="Root.GiniVisionTheme.Help.FileImport.Header.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gv_file_import_header</item>
+        <item name="gvCustomFont"/>
+    </style>
+
+    <style name="Root.GiniVisionTheme.Help.FileImport.Section.Title.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gv_file_import_section_title</item>
+        <item name="gvCustomFont"/>
+    </style>
+
+    <style name="Root.GiniVisionTheme.Help.FileImport.Section.Body.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gv_file_import_section_body</item>
+        <item name="gvCustomFont"/>
+    </style>
+
     <!-- Text styles used in the layouts which are overridable for customization -->
 
     <style name="GiniVisionTheme.Camera.Error.NoPermission.TextStyle" parent="Root.GiniVisionTheme.Camera.Error.NoPermission.TextStyle"/>
@@ -144,5 +211,27 @@
     <style name="GiniVisionTheme.Analysis.HintHeadline.TextStyle" parent="Root.GiniVisionTheme.Analysis.HintHeadline.TextStyle" />
 
     <style name="GiniVisionTheme.Analysis.Hint.TextStyle" parent="Root.GiniVisionTheme.Analysis.Hint.TextStyle" />
+
+    <style name="GiniVisionTheme.NoResults.Header.TextStyle" parent="Root.GiniVisionTheme.NoResults.Header.TextStyle" />
+
+    <style name="GiniVisionTheme.NoResults.Headline.TextStyle" parent="Root.GiniVisionTheme.NoResults.Headline.TextStyle" />
+
+    <style name="GiniVisionTheme.NoResults.Tip.TextStyle" parent="Root.GiniVisionTheme.NoResults.Tip.TextStyle" />
+
+    <style name="GiniVisionTheme.Help.Item.TextStyle" parent="Root.GiniVisionTheme.Help.Item.TextStyle" />
+
+    <style name="GiniVisionTheme.Help.PhotoTips.Header.TextStyle" parent="Root.GiniVisionTheme.Help.PhotoTips.Header.TextStyle" />
+
+    <style name="GiniVisionTheme.Help.PhotoTips.Tip.TextStyle" parent="Root.GiniVisionTheme.Help.PhotoTips.Tip.TextStyle" />
+
+    <style name="GiniVisionTheme.Help.SupportedFormats.Item.TextStyle" parent="Root.GiniVisionTheme.Help.SupportedFormats.Item.TextStyle" />
+
+    <style name="GiniVisionTheme.Help.SupportedFormats.Item.Header.TextStyle" parent="Root.GiniVisionTheme.Help.SupportedFormats.Item.Header.TextStyle" />
+
+    <style name="GiniVisionTheme.Help.FileImport.Header.TextStyle" parent="Root.GiniVisionTheme.Help.FileImport.Header.TextStyle" />
+
+    <style name="GiniVisionTheme.Help.FileImport.Section.Title.TextStyle" parent="Root.GiniVisionTheme.Help.FileImport.Section.Title.TextStyle" />
+
+    <style name="GiniVisionTheme.Help.FileImport.Section.Body.TextStyle" parent="Root.GiniVisionTheme.Help.FileImport.Section.Body.TextStyle" />
 
 </resources>

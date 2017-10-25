@@ -58,9 +58,42 @@
     <color name="gv_snackbar_error_background">#ff1744</color>
 
     <color name="gv_noresults_activity_background">@android:color/transparent</color>
-    <color name="gv_noresults_fragment_background">#ffffff</color>
+    <color name="gv_noresults_background">#ffffff</color>
+    <color name="gv_noresults_header">#000</color>
+    <color name="gv_noresults_headline">#000</color>
+    <color name="gv_noresults_tip">#000</color>
 
     <color name="gv_file_provider_separator">#d8d8d8</color>
     <color name="gv_hint_close">#afb2b3</color>
+    <color name="gv_noresults_button_text">#fff</color>
+    <color name="gv_noresults_button">#009edc</color>
+
+    <color name="gv_help_activity_background">#f2f2f2</color>
+    <color name="gv_help_item_title">#000</color>
+    <color name="gv_help_item_background">#fff</color>
+
+    <color name="gv_photo_tips_activity_background">#fff</color>
+    <color name="gv_photo_tips_header">#000</color>
+    <color name="gv_photo_tips_button_text">#fff</color>
+    <color name="gv_photo_tips_button">#009edc</color>
+
+    <color name="gv_supported_formats_activity_background">#f2f2f2</color>
+    <color name="gv_supported_formats_item_label">#000</color>
+    <color name="gv_supported_formats_item_background">#fff</color>
+
+    <color name="gv_supported_formats_item_header">#000</color>
+    <color name="gv_supported_formats_item_header_background">#f2f2f2</color>
+    <color name="gv_supported_formats_item_supported_icon_background">#b8e986</color>
+    <color name="gv_supported_formats_item_supported_icon_foreground">#fff</color>
+    <color name="gv_supported_formats_item_unsupported_icon_background">#ff4f65</color>
+    <color name="gv_supported_formats_item_unsupported_icon_foreground">#fff</color>
+
+    <color name="gv_file_import_activity_background">#fff</color>
+    <color name="gv_file_import_separator">#f2f2f2</color>
+    <color name="gv_file_import_header">#000</color>
+    <color name="gv_file_import_section_number">#009edc</color>
+    <color name="gv_file_import_section_number_background">#e8e8e8</color>
+    <color name="gv_file_import_section_title">#000</color>
+    <color name="gv_file_import_section_body">#8e9193</color>
 
 </resources>

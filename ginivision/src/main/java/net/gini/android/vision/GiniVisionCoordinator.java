@@ -24,6 +24,10 @@ public class GiniVisionCoordinator {
 
     private static final Logger LOG = LoggerFactory.getLogger(GiniVisionCoordinator.class);
 
+    public static boolean shouldShowGiniVisionNoResultsScreen(final Document document) {
+        return document.getType() == Document.Type.IMAGE;
+    }
+
     /**
      * <p>
      *     Interface for the {@link GiniVisionCoordinator} to dispatch events.

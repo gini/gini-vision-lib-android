@@ -1,8 +1,8 @@
 package net.gini.android.vision.document;
 
-import static net.gini.android.vision.internal.util.IntentHelper.getMimeTypes;
-import static net.gini.android.vision.internal.util.IntentHelper.getSourceAppName;
-import static net.gini.android.vision.internal.util.IntentHelper.hasMimeTypeWithPrefix;
+import static net.gini.android.vision.util.IntentHelper.getMimeTypes;
+import static net.gini.android.vision.util.IntentHelper.getSourceAppName;
+import static net.gini.android.vision.util.IntentHelper.hasMimeTypeWithPrefix;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,7 @@ import android.os.Parcel;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import net.gini.android.vision.Document;
 import net.gini.android.vision.internal.camera.photo.Photo;
 
 import java.util.List;
@@ -60,6 +61,12 @@ public class ImageDocument extends GiniVisionDocument {
     }
 
     @NonNull
+    static ImageDocument fromPhotoAndDocument(@NonNull final Photo photo,
+            @NonNull final Document document) {
+        return new ImageDocument(photo, document);
+    }
+
+    @NonNull
     static ImageDocument fromIntent(@NonNull final Intent intent,
             @NonNull final Context context,
             @NonNull final String deviceOrientation,
@@ -82,7 +89,17 @@ public class ImageDocument extends GiniVisionDocument {
     }
 
     private ImageDocument(@NonNull final Photo photo) {
-        super(Type.IMAGE, photo.getData(), null, true, photo.isImported());
+        this(photo, (Intent) null);
+    }
+
+    private ImageDocument(@NonNull final Photo photo,
+            @NonNull final Document document) {
+        this(photo, document.getIntent());
+    }
+
+    private ImageDocument(@NonNull final Photo photo,
+            @Nullable final Intent intent) {
+        super(Type.IMAGE, photo.getData(), intent, true, photo.isImported());
         mRotationForDisplay = photo.getRotationForDisplay();
         mFormat = photo.getImageFormat();
         mDeviceOrientation = photo.getDeviceOrientation();

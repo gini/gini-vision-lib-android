@@ -1,9 +1,9 @@
 package net.gini.android.vision.review;
 
+import net.gini.android.vision.Document;
 import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.analysis.AnalysisFragmentCompat;
 import net.gini.android.vision.analysis.AnalysisFragmentStandard;
-import net.gini.android.vision.Document;
 
 /**
  * <p>
@@ -26,4 +26,12 @@ public interface ReviewFragmentInterface {
      * </p>
      */
     void onDocumentAnalyzed();
+
+    /**
+     * <p>
+     * You should call this method after you've received the analysis results from the Gini API
+     * without the required extractions.
+     * </p>
+     */
+    void onNoExtractionsFound();
 }

@@ -2,8 +2,10 @@
 Changelog
 =========
 
-2.4.0-rc.1 (2017-10-11)
+2.4.0 (2017-10-25)
 =======================
+
+- Consult the **Updating to 2.4.0** page in the guide for detailed information.
 
 Features
 --------
@@ -12,6 +14,7 @@ Features
 - Open With: If your app registers itself to handle files of type JPEG, GIF, PNG or PDF you can pass them to the Gini Vision Library for analysis.
 - Tips in the Analysis Screen: If analysis takes longer than 5 seconds the tips from the Onboarding Screen are shown one at a time.
 - No Results Screen: If none of the required extractions were received the No Results Screen can be shown offering tips to the user for improving the extraction results.
+- Help Screens: Screens for users to be able to get information about how to best use the Gini Vision Library.
 
 UI Updates
 ----------

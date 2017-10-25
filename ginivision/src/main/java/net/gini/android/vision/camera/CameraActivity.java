@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -15,8 +16,10 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
+import net.gini.android.vision.help.HelpActivity;
 import net.gini.android.vision.internal.util.ActivityHelper;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
@@ -40,7 +43,8 @@ import java.util.ArrayList;
  *     screen for easier access.
  * </p>
  * <p>
- *     If {@link CameraActivity#EXTRA_IN_ENABLE_DOCUMENT_IMPORT_FOR_FILE_TYPES} was used then a button for importing documents is shown next to the trigger button. A hint popup is displayed the first time the Gini Vision Library is used to inform the user about document importing.
+ *     If {@link CameraActivity#EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION} was set and {@link DocumentImportEnabledFileTypes} is not equal to {@link DocumentImportEnabledFileTypes#NONE}
+ *     then a button for importing documents is shown next to the trigger button. A hint popup is displayed the first time the Gini Vision Library is used to inform the user about document importing.
  * </p>
  * <p>
  *     For importing documents {@code READ_EXTERNAL_STORAGE} permission is required and if the permission is not granted the Gini Vision Library will prompt the user to grant the permission. See {@code Customizing the Camera Screen} on how to override the message and button titles for the rationale and on permission denial alerts.
@@ -70,10 +74,10 @@ import java.util.ArrayList;
  *         Screen is shown when the Gini Vision Library is started</li>
  *     <li>{@link CameraActivity#EXTRA_IN_ONBOARDING_PAGES} - custom pages for the Onboarding Screen as
  *         an {@link ArrayList} containing {@link OnboardingPage} objects</li>
- *     <li>{@link CameraActivity#EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY} - if set to {@code true} the
+ *     <li><b>Deprecated</b> {@link CameraActivity#EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY} - if set to {@code true} the
  *         back button closes the Gini Vision Library from any of its activities with result code {@link
  *         CameraActivity#RESULT_CANCELED}</li>
- *     <li>{@link CameraActivity#EXTRA_IN_ENABLE_DOCUMENT_IMPORT_FOR_FILE_TYPES} - must contain a {@link DocumentImportEnabledFileTypes} enum value and enables the document import button, if the value is not {@link DocumentImportEnabledFileTypes#NONE}</li>
+ *     <li>{@link CameraActivity#EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION} - must contain a {@link GiniVisionFeatureConfiguration} instance to apply the feature configuration</li>
  * </ul>
  * </p>
  * <p>
@@ -156,6 +160,9 @@ import java.util.ArrayList;
  *         <b>Read storage permission rationale negative button text:</b> via the string resource named {@code gv_storage_permission_rationale_negative_button}
  *     </li>
  *     <li>
+ *         <b>Read storage permission rationale button color:</b> via the color resource named {@code gv_accent}
+ *     </li>
+ *     <li>
  *         <b>Read storage permission denied text:</b> via the string resource named {@code gv_storage_permission_denied}
  *     </li>
  *     <li>
@@ -165,21 +172,15 @@ import java.util.ArrayList;
  *         <b>Read storage permission denied negative button text:</b> via the string resource named {@code gv_storage_permission_denied_negative_button}
  *     </li>
  *     <li>
- *         <b>Read storage permission rationale text:</b> via the string resource named {@code gv_storage_permission_rationale}
- *     </li>
- *     <li>
- *         <b>Read storage permission rationale positive button text:</b> via the string resource named {@code gv_storage_permission_rationale_positive_button}
- *     </li>
- *     <li>
- *         <b>Read storage permission rationale negative button text:</b> via the string resource named {@code gv_storage_permission_rationale_negative_button}
+ *         <b>Read storage permission denied button color:</b> via the color resource named {@code gv_accent}
  *     </li>
  *     <li>
  *         <b>Tap-to-focus indicator:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code
  *         gv_camera_focus_indicator.png}
  *     </li>
  *     <li>
- *         <b>Onboarding menu item icon:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code
- *         gv_icon_onboarding.png}
+ *         <b>Help menu item icon:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code
+ *         gv_help_icon.png}
  *     </li>
  *     <li>
  *         <b>Onboarding menu item title:</b> via the string resource named {@code gv_show_onboarding}
@@ -332,18 +333,19 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * <p>
      * Default value is {@code false}.
      * </p>
+     * @deprecated The option to close the library with the back button from any screen will be removed
+     * in a future version.
      */
     public static final String EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY =
             "GV_EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY";
 
     /**
      * <p>
-     *     Optional extra which must contain a {@link DocumentImportEnabledFileTypes} enum value and
-     *     enables document importing for the specified file types.
+     *     Optional extra which must contain a {@link GiniVisionFeatureConfiguration} instance.
      * </p>
      */
-    public static final String EXTRA_IN_ENABLE_DOCUMENT_IMPORT_FOR_FILE_TYPES =
-            "GV_EXTRA_IN_ENABLE_DOCUMENT_IMPORT_FOR_FILE_TYPES";
+    public static final String EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION =
+            "GV_EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION";
 
     /**
      * <p>
@@ -366,6 +368,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     private static final int ONBOARDING_REQUEST = 2;
     private static final int ANALYSE_DOCUMENT_REQUEST = 3;
     private static final String CAMERA_FRAGMENT = "CAMERA_FRAGMENT";
+    private static final String ONBOARDING_SHOWN_KEY = "ONBOARDING_SHOWN_KEY";
 
     private ArrayList<OnboardingPage> mOnboardingPages;
     private Intent mReviewDocumentActivityIntent;
@@ -376,8 +379,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     private boolean mBackButtonShouldCloseLibrary = false;
     private GiniVisionCoordinator mGiniVisionCoordinator;
     private Document mDocument;
-    private DocumentImportEnabledFileTypes mDocImportEnabledFileTypes =
-            DocumentImportEnabledFileTypes.NONE;
+    private GiniVisionFeatureConfiguration mGiniVisionFeatureConfiguration;
 
     private RelativeLayout mLayoutRoot;
     private CameraFragmentCompat mFragment;
@@ -431,14 +433,33 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         if (savedInstanceState == null) {
             initFragment();
         } else {
+            restoreSavedState(savedInstanceState);
             retainFragment();
         }
         bindViews();
         showOnboardingIfRequested();
     }
 
+    private void restoreSavedState(@Nullable Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            return;
+        }
+        mOnboardingShown = savedInstanceState.getBoolean(ONBOARDING_SHOWN_KEY);
+    }
+
+    @Override
+    protected void onSaveInstanceState(final Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(ONBOARDING_SHOWN_KEY, mOnboardingShown);
+    }
+
     private void createFragment() {
-        mFragment = CameraFragmentCompat.createInstance(mDocImportEnabledFileTypes);
+        if (mGiniVisionFeatureConfiguration != null) {
+            mFragment = CameraFragmentCompat.createInstance(mGiniVisionFeatureConfiguration);
+        }
+        else {
+            mFragment = CameraFragmentCompat.createInstance();
+        }
     }
 
     private void initFragment() {
@@ -501,12 +522,8 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
                     true);
             mBackButtonShouldCloseLibrary = extras.getBoolean(
                     EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY, false);
-            final DocumentImportEnabledFileTypes enabledFileTypes =
-                    (DocumentImportEnabledFileTypes) extras.getSerializable(
-                            EXTRA_IN_ENABLE_DOCUMENT_IMPORT_FOR_FILE_TYPES);
-            if (enabledFileTypes != null) {
-                mDocImportEnabledFileTypes = enabledFileTypes;
-            }
+            mGiniVisionFeatureConfiguration =
+                    extras.getParcelable(EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION);
         }
         checkRequiredExtras();
     }
@@ -551,13 +568,21 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.gv_action_show_onboarding) {
-            startOnboardingActivity();
+            startHelpActivity();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void startOnboardingActivity() {
+    private void startHelpActivity() {
+        final Intent intent = new Intent(this, HelpActivity.class);
+        intent.putExtra(HelpActivity.EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION,
+                mGiniVisionFeatureConfiguration);
+        startActivity(intent);
+    }
+
+    @VisibleForTesting
+    void startOnboardingActivity() {
         if (mOnboardingShown) {
             return;
         }
@@ -617,9 +642,11 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         switch (requestCode) {
             case REVIEW_DOCUMENT_REQUEST:
             case ANALYSE_DOCUMENT_REQUEST:
+                //noinspection ConstantConditions
                 if (mBackButtonShouldCloseLibrary
                         || (resultCode != Activity.RESULT_CANCELED
-                        && resultCode != AnalysisActivity.RESULT_NO_EXTRACTIONS)) {
+                        && resultCode != AnalysisActivity.RESULT_NO_EXTRACTIONS
+                        && resultCode != ReviewActivity.RESULT_NO_EXTRACTIONS)) {
                     setResult(resultCode, data);
                     finish();
                     clearMemory();

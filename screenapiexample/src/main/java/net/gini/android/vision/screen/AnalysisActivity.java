@@ -1,5 +1,7 @@
 package net.gini.android.vision.screen;
 
+import static net.gini.android.vision.screen.Util.hasNoPay5Extractions;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,7 +16,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Map;
-import java.util.Set;
 
 public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisActivity {
 
@@ -65,7 +66,7 @@ public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisA
                     public void onExtractionsReceived(Map<String, SpecificExtraction> extractions) {
                         mExtractions = extractions;
                         if (mExtractions == null || hasNoPay5Extractions(mExtractions.keySet())) {
-                            noExtractionsFound();
+                            onNoExtractionsFound();
                         } else {
                             // Calling onDocumentAnalyzed() is important to notify the
                             // AnalysisActivity
@@ -95,22 +96,5 @@ public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisA
             extractionsBundle.putParcelable(entry.getKey(), entry.getValue());
         }
         return extractionsBundle;
-    }
-
-    private boolean hasNoPay5Extractions(final Set<String> extractionNames) {
-        for (String extractionName : extractionNames) {
-            if (isPay5Extraction(extractionName)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private boolean isPay5Extraction(String extractionName) {
-        return extractionName.equals("amountToPay") ||
-                extractionName.equals("bic") ||
-                extractionName.equals("iban") ||
-                extractionName.equals("paymentReference") ||
-                extractionName.equals("paymentRecipient");
     }
 }

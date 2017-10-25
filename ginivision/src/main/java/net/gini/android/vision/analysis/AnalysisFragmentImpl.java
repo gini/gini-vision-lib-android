@@ -41,7 +41,7 @@ import net.gini.android.vision.internal.pdf.Pdf;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 import net.gini.android.vision.internal.util.Size;
-import net.gini.android.vision.internal.util.UriHelper;
+import net.gini.android.vision.util.UriHelper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -108,7 +108,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     @Override
-    public void noExtractionsFound() {
+    public void onNoExtractionsFound() {
 
     }
 

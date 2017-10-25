@@ -29,6 +29,7 @@ public class OnboardingPage implements Parcelable {
     private final int mTextResId;
     private final int mImageResId;
     private final boolean mTransparent;
+    private final boolean mRotateImageForLandscape;
 
     /**
      * <p>
@@ -48,9 +49,18 @@ public class OnboardingPage implements Parcelable {
      * @exclude
      */
     OnboardingPage(@StringRes int textResId, @DrawableRes int imageResId, boolean transparent) {
+        this(textResId, imageResId, transparent, false);
+    }
+
+    /**
+     * @exclude
+     */
+    OnboardingPage(@StringRes int textResId, @DrawableRes int imageResId, boolean transparent,
+            boolean rotateImageForLandscape) {
         mTextResId = textResId;
         mImageResId = imageResId;
         mTransparent = transparent;
+        mRotateImageForLandscape = rotateImageForLandscape;
     }
 
     /**
@@ -79,6 +89,13 @@ public class OnboardingPage implements Parcelable {
     /**
      * @exclude
      */
+    public boolean shouldRotateImageForLandscape() {
+        return mRotateImageForLandscape;
+    }
+
+    /**
+     * @exclude
+     */
     @Override
     public int describeContents() {
         return 0;
@@ -92,6 +109,7 @@ public class OnboardingPage implements Parcelable {
         dest.writeInt(mTextResId);
         dest.writeInt(mImageResId);
         dest.writeInt(mTransparent ? 1 : 0);
+        dest.writeInt(mRotateImageForLandscape ? 1 : 0);
     }
 
     /**
@@ -113,5 +131,6 @@ public class OnboardingPage implements Parcelable {
         mTextResId = in.readInt();
         mImageResId = in.readInt();
         mTransparent = in.readInt() == 1;
+        mRotateImageForLandscape = in.readInt() == 1;
     }
 }

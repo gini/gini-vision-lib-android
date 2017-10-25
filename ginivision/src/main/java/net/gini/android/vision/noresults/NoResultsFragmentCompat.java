@@ -1,26 +1,27 @@
 package net.gini.android.vision.noresults;
 
 
-import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import net.gini.android.vision.Document;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 
 /**
  * <h3>Component API</h3>
  *
  * <p>
- * When you use the Component API without the Android Support Library, the {@code
+ * When you use the Component API with the Android Support Library, the {@code
  * NoResultsFragmentCompat} displays hints that show how to best take a picture of a document.
  * </p>
  * <p>
  * Include the {@code NoResultsFragmentCompat} into your layout by using the {@link
- * NoResultsFragmentCompat#createInstance()} factory method to create an instance
+ * NoResultsFragmentCompat#createInstance(Document)} factory method to create an instance
  * and display it using the {@link android.support.v4.app.FragmentManager}.
  * </p>
  * <p>
@@ -29,26 +30,18 @@ import net.gini.android.vision.internal.ui.FragmentImplCallback;
  * </p>
  * <p>
  * Your Activity is automatically set as the listener in
- * {@link NoResultsFragmentCompat#onAttach(Context)}.
+ * {@link NoResultsFragmentCompat#onCreate(Bundle)}.
  * </p>
  */
 public class NoResultsFragmentCompat extends Fragment implements FragmentImplCallback {
 
     private NoResultsFragmentImpl mFragmentImpl;
 
-    public NoResultsFragmentCompat() {
-        mFragmentImpl = new NoResultsFragmentImpl(this);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mFragmentImpl.onAttach(context);
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mFragmentImpl = NoResultsFragmentHelper.createFragmentImpl(this, getArguments());
+        NoResultsFragmentHelper.setListener(mFragmentImpl, getActivity());
         mFragmentImpl.onCreate(savedInstanceState);
     }
 
@@ -64,10 +57,12 @@ public class NoResultsFragmentCompat extends Fragment implements FragmentImplCal
      * Factory method for creating a new instance of the Fragment.
      * </p>
      *
+     * @param document a {@link Document} for which no valid extractions were received
      * @return a new instance of the Fragment
      */
-    public static NoResultsFragmentCompat createInstance() {
+    public static NoResultsFragmentCompat createInstance(@NonNull final Document document) {
         NoResultsFragmentCompat fragment = new NoResultsFragmentCompat();
+        fragment.setArguments(NoResultsFragmentHelper.createArguments(document));
         return fragment;
     }
 

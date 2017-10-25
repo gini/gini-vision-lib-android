@@ -19,8 +19,8 @@ Table of contents
    :maxdepth: 2
 
    Javadoc <http://developer.gini.net/gini-vision-lib-android/javadoc/index.html>
+   updating-to-2-4-0
    guide-for-open-with
-   supporting-tablets
    changelog
    license
 
