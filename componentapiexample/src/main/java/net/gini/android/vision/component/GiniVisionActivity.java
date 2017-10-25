@@ -24,20 +24,22 @@ import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.GiniVisionFileImport;
 import net.gini.android.vision.ImportedFileValidationException;
 import net.gini.android.vision.analysis.AnalysisFragmentListener;
 import net.gini.android.vision.analysis.AnalysisFragmentStandard;
 import net.gini.android.vision.camera.CameraFragmentListener;
 import net.gini.android.vision.camera.CameraFragmentStandard;
-import net.gini.android.vision.util.IntentHelper;
-import net.gini.android.vision.util.UriHelper;
+import net.gini.android.vision.help.HelpActivity;
 import net.gini.android.vision.noresults.NoResultsFragmentListener;
 import net.gini.android.vision.noresults.NoResultsFragmentStandard;
 import net.gini.android.vision.onboarding.OnboardingFragmentListener;
 import net.gini.android.vision.onboarding.OnboardingFragmentStandard;
 import net.gini.android.vision.review.ReviewFragmentListener;
 import net.gini.android.vision.review.ReviewFragmentStandard;
+import net.gini.android.vision.util.IntentHelper;
+import net.gini.android.vision.util.UriHelper;
 import net.gini.android.visionadvtest.R;
 
 import org.slf4j.Logger;
@@ -72,6 +74,7 @@ public class GiniVisionActivity extends Activity implements CameraFragmentListen
     private String mDocumentAnalysisErrorMessage;
     private Map<String, SpecificExtraction> mExtractionsFromReviewScreen;
     private GiniVisionCoordinator mGiniVisionCoordinator;
+    private GiniVisionFeatureConfiguration mGiniVisionFeatureConfiguration;
     private boolean mShowCameraOnStart = false;
     private SingleDocumentAnalyzer mSingleDocumentAnalyzer;
     private String mTitleBeforeOnboarding;
@@ -168,6 +171,15 @@ public class GiniVisionActivity extends Activity implements CameraFragmentListen
         setContentView(R.layout.activity_gini_vision);
         configureLogging();
         setupGiniVisionCoordinator();
+
+        // Configure the features you would like to use
+        mGiniVisionFeatureConfiguration =
+                GiniVisionFeatureConfiguration.buildNewConfiguration()
+                        .setDocumentImportEnabledFileTypes(
+                                DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
+                        .setFileImportEnabled(true)
+                        .build();
+
         if (savedInstanceState == null) {
             final Intent intent = getIntent();
             if (isIntentActionViewOrSend(intent)) {
@@ -335,8 +347,8 @@ public class GiniVisionActivity extends Activity implements CameraFragmentListen
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.onboarding) {
-            showOnboarding();
+        if (item.getItemId() == R.id.help) {
+            showHelp();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -477,6 +489,14 @@ public class GiniVisionActivity extends Activity implements CameraFragmentListen
         setTitle(getString(R.string.title_onboarding));
     }
 
+    public void showHelp() {
+        LOG.debug("Show the Help Activity");
+        final Intent intent = new Intent(this, HelpActivity.class);
+        intent.putExtra(HelpActivity.EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION,
+                mGiniVisionFeatureConfiguration);
+        startActivity(intent);
+    }
+
     private void configureLogging() {
         final LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
         lc.reset();
@@ -504,7 +524,7 @@ public class GiniVisionActivity extends Activity implements CameraFragmentListen
     }
 
     private CameraFragmentStandard getCameraFragment() {
-        return CameraFragmentStandard.createInstance(DocumentImportEnabledFileTypes.PDF_AND_IMAGES);
+        return CameraFragmentStandard.createInstance(mGiniVisionFeatureConfiguration);
     }
 
     private Bundle getExtractionsBundle(Map<String, SpecificExtraction> extractions) {

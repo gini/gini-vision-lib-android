@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
+import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.internal.permission.PermissionRequestListener;
 import net.gini.android.vision.internal.permission.RuntimePermissions;
 
@@ -60,14 +61,14 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
      * <p>
      *     Factory method for creating a new instance of the Fragment with document import enabled for the specified file types.
      * </p>
-     * @param docImportEnabledFileTypes the file types enabled for document import
+     * @param giniVisionFeatureConfiguration feature configuration
      * @return a new instance of the Fragment
      */
     public static CameraFragmentStandard createInstance(
-            @NonNull final DocumentImportEnabledFileTypes docImportEnabledFileTypes) {
+            @NonNull final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration) {
         CameraFragmentStandard fragment = new CameraFragmentStandard();
         fragment.setArguments(
-                CameraFragmentHelper.createArguments(docImportEnabledFileTypes));
+                CameraFragmentHelper.createArguments(giniVisionFeatureConfiguration));
         return fragment;
     }
 

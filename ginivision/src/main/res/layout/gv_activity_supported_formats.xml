@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gv_supported_formats_activity_background"
+    android:orientation="vertical"
+    tools:context="net.gini.android.vision.help.SupportedFormatsActivity">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/gv_formats_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/gv_item_format_info" />
+</LinearLayout>

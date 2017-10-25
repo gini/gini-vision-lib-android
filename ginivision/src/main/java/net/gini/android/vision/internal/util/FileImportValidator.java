@@ -2,21 +2,25 @@ package net.gini.android.vision.internal.util;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
-import android.os.ParcelFileDescriptor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 
 import net.gini.android.vision.R;
 import net.gini.android.vision.internal.pdf.Pdf;
+import net.gini.android.vision.util.IntentHelper;
+import net.gini.android.vision.util.UriHelper;
 
-import java.io.FileNotFoundException;
+import java.util.List;
 
 /**
  * @exclude
  */
 public class FileImportValidator {
+
+    private static final int FILE_SIZE_LIMIT = 10485760; // 10MB
 
     public enum Error {
         TYPE_NOT_SUPPORTED(R.string.gv_document_import_error_type_not_supported),
@@ -46,10 +50,10 @@ public class FileImportValidator {
         return mError;
     }
 
-    public boolean matchesCriteria(@NonNull final Uri fileUri) {
-        final String type = mContext.getContentResolver().getType(fileUri);
+    public boolean matchesCriteria(@NonNull final Intent intent, @NonNull final Uri fileUri) {
+        final List<String> mimeTypes = IntentHelper.getMimeTypes(intent, mContext);
 
-        if (!isSupportedFileType(type)) {
+        if (!isSupportedFileType(mimeTypes)) {
             mError = Error.TYPE_NOT_SUPPORTED;
             return false;
         }
@@ -59,7 +63,7 @@ public class FileImportValidator {
             return false;
         }
 
-        if (isPdf(type)) {
+        if (isPdf(mimeTypes)) {
             if (!matchesPdfCriteria(fileUri)) {
                 mError = Error.TOO_MANY_PDF_PAGES;
                 return false;
@@ -69,15 +73,27 @@ public class FileImportValidator {
         return true;
     }
 
-    private boolean isPdf(final String fileType) {
-        return "application/pdf".equals(fileType);
+    private boolean isPdf(final List<String> mimeTypes) {
+        for (final String mimeType : mimeTypes) {
+            if ("application/pdf".equals(mimeType)) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    private boolean isSupportedFileType(final String type) {
-        return "image/jpeg".equals(type)
-                || "image/png".equals(type)
-                || "image/gif".equals(type)
-                || isPdf(type);
+    private boolean isSupportedFileType(final List<String> mimeTypes) {
+        if (isPdf(mimeTypes)) {
+            return true;
+        }
+        for (final String mimeType : mimeTypes) {
+            if ("image/jpeg".equals(mimeType)
+                    || "image/png".equals(mimeType)
+                    || "image/gif".equals(mimeType)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean matchesPdfCriteria(final Uri fileUri) {
@@ -87,13 +103,10 @@ public class FileImportValidator {
     }
 
     private boolean matchesSizeCriteria(final Uri fileUri) {
-        ParcelFileDescriptor parcelFileDescriptor = null;
         try {
-            parcelFileDescriptor = mContext.getContentResolver().openFileDescriptor(fileUri, "r");
-            if (parcelFileDescriptor != null) {
-                return parcelFileDescriptor.getStatSize() < 10485760;
-            }
-        } catch (FileNotFoundException e) {
+            final int fileSize = UriHelper.getFileSizeFromUri(fileUri, mContext);
+            return fileSize < FILE_SIZE_LIMIT;
+        } catch (IllegalStateException e) {
             e.printStackTrace();
         }
         return false;

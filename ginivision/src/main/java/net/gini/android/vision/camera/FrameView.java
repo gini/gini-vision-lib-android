@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -36,7 +37,7 @@ public class FrameView extends View {
         super(context, attrs);
 
         mPaintLine = new Paint();
-        mPaintLine.setColor(context.getColor(R.color.gv_camera_preview_corners));
+        mPaintLine.setColor(ContextCompat.getColor(context,R.color.gv_camera_preview_corners));
         mPaintLine.setStyle(Paint.Style.STROKE);
 
         setLineWidth(LINE_WIDTH);

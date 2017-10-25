@@ -249,7 +249,7 @@ public class FileChooserActivity extends AppCompatActivity {
         final List<ProvidersItem> providerItems = new ArrayList<>();
         if (imagePickerResolveInfos.size() > 0
                 || imageProviderResolveInfos.size() > 0) {
-            providerItems.add(new ProvidersSectionItem("Photos"));
+            providerItems.add(new ProvidersSectionItem(getString(R.string.gv_file_chooser_fotos_section_header)));
             final Intent imagePickerIntent = createImagePickerIntent();
             for (final ResolveInfo imagePickerResolveInfo : imagePickerResolveInfos) {
                 providerItems.add(new ProvidersAppItem(imagePickerIntent, imagePickerResolveInfo));
@@ -267,7 +267,7 @@ public class FileChooserActivity extends AppCompatActivity {
             final List<ResolveInfo> pdfProviderResolveInfos) {
         final List<ProvidersItem> providerItems = new ArrayList<>();
         if (pdfProviderResolveInfos.size() > 0) {
-            providerItems.add(new ProvidersSectionItem("PDFs"));
+            providerItems.add(new ProvidersSectionItem(getString(R.string.gv_file_chooser_pdfs_section_header)));
             final Intent getPdfDocumentIntent = createGetPdfDocumentIntent();
             for (final ResolveInfo pdfProviderResolveInfo : pdfProviderResolveInfos) {
                 providerItems.add(

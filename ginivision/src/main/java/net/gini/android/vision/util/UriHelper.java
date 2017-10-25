@@ -49,6 +49,31 @@ public final class UriHelper {
     }
 
     /**
+     * Test whether an InputStream can be opened for the Uri.
+     *
+     * @param uri     a {@link Uri} pointing to a file
+     * @param context Android context
+     * @return {@code true} if an InputStream can be opened for the Uri
+     */
+    public static boolean isUriInputStreamAvailable(@NonNull final Uri uri,
+            @NonNull final Context context) {
+        InputStream inputStream = null;
+        try {
+            inputStream = context.getContentResolver().openInputStream(uri);
+            return inputStream != null;
+        } catch (IOException ignored) {
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException ignored) {
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
      * Retrieves the filename of a Uri, if available.
      *
      * @param uri     a {@link Uri} pointing to a file

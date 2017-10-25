@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gv_noresults_fragment_background"
+    android:background="@color/gv_noresults_background"
     android:orientation="vertical">
 
     <net.gini.android.vision.internal.ui.CustomFontTextView
@@ -37,7 +37,6 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/gv_button_no_results_back"
         android:layout_alignParentBottom="true"
         android:layout_below="@+id/gv_no_results_headline"
         android:overScrollMode="ifContentScrolls">
@@ -58,7 +57,7 @@
                     android:layout_height="@dimen/gv_noresults_tip_icon_size"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="@dimen/gv_noresults_tip_icon_margin"
-                    android:src="@drawable/gv_noresults_lighting" />
+                    android:src="@drawable/gv_photo_tip_lighting" />
 
                 <net.gini.android.vision.internal.ui.CustomFontTextView
                     style="@style/GiniVisionTheme.NoResults.Tip.TextStyle"
@@ -73,7 +72,7 @@
                     android:layout_marginTop="@dimen/gv_noresults_tip_text_top_margin"
                     android:gravity="center_vertical"
                     android:maxWidth="@dimen/gv_noresults_tip_text_max_width"
-                    android:text="@string/gv_noresults_lighting" />
+                    android:text="@string/gv_photo_tip_lighting" />
 
             </LinearLayout>
 
@@ -88,7 +87,7 @@
                     android:layout_height="@dimen/gv_noresults_tip_icon_size"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="@dimen/gv_noresults_tip_icon_margin"
-                    android:src="@drawable/gv_noresults_flat" />
+                    android:src="@drawable/gv_photo_tip_flat" />
 
                 <net.gini.android.vision.internal.ui.CustomFontTextView
                     style="@style/GiniVisionTheme.NoResults.Tip.TextStyle"
@@ -103,7 +102,7 @@
                     android:layout_marginTop="@dimen/gv_noresults_tip_text_top_margin"
                     android:gravity="center_vertical"
                     android:maxWidth="@dimen/gv_noresults_tip_text_max_width"
-                    android:text="@string/gv_noresults_flat" />
+                    android:text="@string/gv_photo_tip_flat" />
 
             </LinearLayout>
 
@@ -117,7 +116,7 @@
                     android:layout_height="@dimen/gv_noresults_tip_icon_size"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="@dimen/gv_noresults_tip_icon_margin"
-                    android:src="@drawable/gv_noresults_parallel" />
+                    android:src="@drawable/gv_photo_tip_parallel" />
 
                 <net.gini.android.vision.internal.ui.CustomFontTextView
                     style="@style/GiniVisionTheme.NoResults.Tip.TextStyle"
@@ -132,7 +131,7 @@
                     android:layout_marginTop="@dimen/gv_noresults_tip_text_top_margin"
                     android:gravity="center_vertical"
                     android:maxWidth="@dimen/gv_noresults_tip_text_max_width"
-                    android:text="@string/gv_noresults_parallel" />
+                    android:text="@string/gv_photo_tip_parallel" />
 
             </LinearLayout>
 
@@ -146,7 +145,7 @@
                     android:layout_height="@dimen/gv_noresults_tip_icon_size"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="@dimen/gv_noresults_tip_icon_margin"
-                    android:src="@drawable/gv_noresults_align" />
+                    android:src="@drawable/gv_photo_tip_align" />
 
                 <net.gini.android.vision.internal.ui.CustomFontTextView
                     style="@style/GiniVisionTheme.NoResults.Tip.TextStyle"
@@ -161,7 +160,7 @@
                     android:layout_marginTop="@dimen/gv_noresults_tip_text_top_margin"
                     android:gravity="center_vertical"
                     android:maxWidth="@dimen/gv_noresults_tip_text_max_width"
-                    android:text="@string/gv_noresults_align" />
+                    android:text="@string/gv_photo_tip_align" />
 
             </LinearLayout>
 
@@ -179,7 +178,7 @@
         android:layout_height="@dimen/gv_noresults_bottom_button_height"
         android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/gv_noresults_bottom_button_margin"
-        android:background="@color/gv_accent"
+        android:background="@color/gv_noresults_button"
         android:text="@string/gv_noresults_back_button"
         android:textColor="@color/gv_noresults_button_text" />
 
