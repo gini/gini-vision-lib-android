@@ -85,11 +85,14 @@
 
     <dimen name="gv_supported_formats_item_margin">24dp</dimen>
     <dimen name="gv_supported_formats_item_header_margin">24dp</dimen>
+
+    <dimen name="gv_file_import_content_width">0dp</dimen>
     <dimen name="gv_file_import_header_margin">16dp</dimen>
     <dimen name="gv_file_import_section_number_margin">16dp</dimen>
     <dimen name="gv_file_import_section_number_margin_top">32dp</dimen>
     <dimen name="gv_file_import_section_title_margin">16dp</dimen>
     <dimen name="gv_file_import_section_body_margin">16dp</dimen>
     <dimen name="gv_file_import_illustration_margin">32dp</dimen>
+
 
 </resources>

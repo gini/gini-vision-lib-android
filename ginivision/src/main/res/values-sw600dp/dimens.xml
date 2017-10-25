@@ -18,4 +18,6 @@
     <dimen name="gv_photo_tips_tip_icon_margin">32dp</dimen>
     <dimen name="gv_photo_tips_tip_text_right_margin">64dp</dimen>
 
+    <dimen name="gv_file_import_content_width">600dp</dimen>
+
 </resources>
