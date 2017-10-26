@@ -24,7 +24,7 @@ Tablet Support
 
 We enabled landscape orientation and adapted some UI elements to offer a better experience to tablet users. We also removed the camera flash requirement for tablets since many tablets with at least 8MP cameras don't have an LED flash (like the popular Samsung Galaxy Tab S2). 
 
-For more information please consult our guide [Supporting Tablets](http://developer.gini.net/gini-vision-lib-android/html/supporting-tablets.html).
+For more information please consult our guide for [supporting tablets](http://developer.gini.net/gini-vision-lib-android/html/updating-to-2-4-0.html#tablet-support).
 
 > **Note:** Please see our minimum hardware recommendations for tablets below. We recommend implementing corresponding hardware checks for the Gini Vision Library to deliver optimal results to users. As mentioned many tablets with at least 8MP cameras don't have an LED flash (like the popular Samsung Galaxy Tab S2) and we don't require flash for tablets. For this reason the extraction quality on those tablets might be lower compared to smartphones.
 
