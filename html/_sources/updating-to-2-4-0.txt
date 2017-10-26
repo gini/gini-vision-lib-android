@@ -503,6 +503,8 @@ Tablet specific images are required only for the Camera Screen for tablets. The 
 
 These images are higher resolution versions of the same images that are used for phones.
 
+.. _Quick Checklist:
+
 Tablet Support Quick Checklist
 ~~~~
 
