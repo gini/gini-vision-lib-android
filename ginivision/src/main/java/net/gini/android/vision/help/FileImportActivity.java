@@ -72,7 +72,7 @@ import net.gini.android.vision.review.ReviewActivity;
  *         </li>
  *         <li>
  *             <b>Section 1 illustration image:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi
- *             named {@code gv_file_import_section_1_illustration.png}
+ *             named {@code gv_file_import_section_1_illustration.png}. For creating your custom illustration you may use <a href="https://github.com/gini/gini-vision-lib-assets/blob/master/Gini-Vision-Lib-Design-Elements/Illustrations/PDF/android_pdf_open_with_illustration_1.pdf" target="_blank">this template</a> from the <a href="https://github.com/gini/gini-vision-lib-assets" target="_blank">Gini Vision Library UI Assets</a> repository.
  *         </li>
  *         <li>
  *             <b>Section 2 title:</b> via overriding the string resource named {@code gv_file_import_section_2_title}
@@ -82,7 +82,7 @@ import net.gini.android.vision.review.ReviewActivity;
  *         </li>
  *         <li>
  *             <b>Section 2 illustration image:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi
- *             named {@code gv_file_import_section_2_illustration.png}
+ *             named {@code gv_file_import_section_2_illustration.png}. For creating your custom illustration you may use <a href="https://github.com/gini/gini-vision-lib-assets/blob/master/Gini-Vision-Lib-Design-Elements/Illustrations/PDF/android_pdf_open_with_illustration_2.pdf" target="_blank">this template</a> from the <a href="https://github.com/gini/gini-vision-lib-assets" target="_blank">Gini Vision Library UI Assets</a> repository.
  *         </li>
  *         <li>
  *             <b>Section 3 title:</b> via overriding the string resource named {@code gv_file_import_section_3_title}

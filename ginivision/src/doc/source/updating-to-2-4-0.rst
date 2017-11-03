@@ -204,6 +204,10 @@ Analysis Screen:
 
 For detailed customization options consult the Javadoc of the ``CameraActivity`` and ``AnalysisActivity``.
 
+.. note::
+
+    The `Gini Vision Library UI Assets <https://github.com/gini/gini-vision-lib-assets/>`_ repository can be used as an aid for customizing the UI.
+
 .. _File Import:
 
 File Import ("Open With")
@@ -395,6 +399,10 @@ Customizing the UI
 
 For detailed customization options consult the Javadoc of the ``HelpActivity``, ``PhotoTipsActivity``, ``FileImportActivity`` and ``SupportedFormatsActivity``.
 
+.. note::
+
+    The `Gini Vision Library UI Assets <https://github.com/gini/gini-vision-lib-assets/>`_ repository can be used as an aid for customizing the UI.
+
 No Results Screen
 ^^^^
 
@@ -452,6 +460,10 @@ Customizing the UI
 
 For detailed customization options consult the Javadoc of the ``NoResultsActivity``.
 
+.. note::
+
+    The `Gini Vision Library UI Assets <https://github.com/gini/gini-vision-lib-assets/>`_ repository can be used as an aid for customizing the UI.
+
 Tablet Support
 ^^^^
 
@@ -502,6 +514,10 @@ Tablet specific images are required only for the Camera Screen for tablets. The 
 * ``gv_onboarding_align.png`` - Fourth onboarding page image
 
 These images are higher resolution versions of the same images that are used for phones.
+
+.. note::
+
+    The `Gini Vision Library UI Assets <https://github.com/gini/gini-vision-lib-assets/>`_ repository can be used as an aid for customizing the UI.
 
 .. _Quick Checklist:
 

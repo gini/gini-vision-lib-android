@@ -30,6 +30,10 @@ import net.gini.android.vision.review.ReviewActivity;
  *     The following items are customizable:
  *     <ul>
  *         <li>
+ *             <b>Header icon:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named
+ *             {@code gv_alert_icon.png}
+ *         </li>
+ *         <li>
  *             <b>Header text color:</b> via the color resource named {@code
  *             gv_noresults_header}
  *         </li>
