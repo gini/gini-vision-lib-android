@@ -3,9 +3,10 @@
 buildscript {
     repositories {
         jcenter()
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.0.0'
         classpath 'com.dicedmelon.gradle:jacoco-android:0.1.1'
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -43,7 +44,7 @@ task printLibraryVersion {
 
 ext {
     compileSdkVersion = 26
-    buildToolsVersion = '26.0.1'
+    buildToolsVersion = '26.0.2'
     minSdkVersion = 14
     targetSdkVersion = 26
     versionCode = libVersionCode
