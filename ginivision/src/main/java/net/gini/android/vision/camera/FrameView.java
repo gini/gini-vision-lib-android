@@ -53,21 +53,22 @@ public class FrameView extends View {
         drawLowerLeftLines(canvas);
         drawUpperRightLines(canvas);
         drawLowerRightLines(canvas);
-        drawBackgroundForButtons(canvas);
+        if(mShouldDrawBackgroundForButtons) {
+            drawBackgroundForButtons(canvas);
+        }
     }
 
     private void drawBackgroundForButtons(final Canvas canvas) {
-        if(mShouldDrawBackgroundForButtons) {
-            final Paint paintRectangle = new Paint();
-            paintRectangle.setStyle(Paint.Style.FILL);
-            paintRectangle.setColor(Color.BLACK);
-            paintRectangle.setAlpha(75);
+        final Paint paintRectangle = new Paint();
+        paintRectangle.setStyle(Paint.Style.FILL);
+        paintRectangle.setColor(Color.BLACK);
+        paintRectangle.setAlpha(75);
 
-            canvas.drawRect(mWallOffsetSide,
-                    mHeight-mWallOffsetTop -mLineLength,
-                    mWidth - mWallOffsetSide,
-                    mHeight - mWallOffsetBottom, paintRectangle);
-        }
+        canvas.drawRect(mWallOffsetSide,
+                mHeight - mWallOffsetTop - mLineLength,
+                mWidth - mWallOffsetSide,
+                mHeight - mWallOffsetBottom,
+                paintRectangle);
     }
 
     @Override
@@ -77,47 +78,57 @@ public class FrameView extends View {
 
         boolean portrait = mWidth < mHeight;
 
-        final int initialOffset = dpToPx(INITIAL_OFFSET);
-        int documentHeight;
-        int documentWidth;
-        final double sqrt2 = Math.sqrt(2);
-        if(portrait) {
-            // Fit height and center horizontally
-            mShouldDrawBackgroundForButtons = true;
-            mWallOffsetTop = initialOffset;
-            mWallOffsetBottom = initialOffset;
-            documentHeight = mHeight - mWallOffsetTop;
-            documentWidth = (int) (documentHeight / sqrt2); //din a4
-            mWallOffsetSide = (mWidth - documentWidth) / 2;
-            // If A4 width is greater than the view's width
-            if (mWallOffsetSide < 0) {
-                // Fit width and align to top
-                mShouldDrawBackgroundForButtons = false;
-                mWallOffsetSide = initialOffset;
-                documentWidth = mWidth - mWallOffsetSide;
-                documentHeight = (int) (documentWidth * sqrt2);
-                mWallOffsetBottom = mHeight - documentHeight - mWallOffsetTop;
-            }
+        if (portrait) {
+            measurePortrait();
         } else {
-            // Fit width and center vertically
-            mShouldDrawBackgroundForButtons = false;
-            mWallOffsetSide = initialOffset;
-            documentWidth = mWidth - mWallOffsetSide;
-            documentHeight = (int) (documentWidth / sqrt2);
-            mWallOffsetTop = (mHeight - documentHeight) / 2;
-            mWallOffsetBottom = mWallOffsetTop;
-            // If A4 height is greater than the view's height
-            if (mWallOffsetTop < 0) {
-                // Fit height and center horizontally
-                mWallOffsetTop = initialOffset;
-                mWallOffsetBottom = initialOffset;
-                documentHeight = mHeight - mWallOffsetTop;
-                documentWidth = (int) (documentHeight * sqrt2); //din a4
-                mWallOffsetSide = (mWidth - documentWidth) / 2;
-            }
+            measureLandscape();
         }
 
         setMeasuredDimension(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    private void measurePortrait() {
+        final int initialOffset = dpToPx(INITIAL_OFFSET);
+        final double sqrt2 = Math.sqrt(2);
+
+        // Fit height and center horizontally
+        mShouldDrawBackgroundForButtons = true;
+        mWallOffsetTop = initialOffset;
+        mWallOffsetBottom = initialOffset;
+        int documentHeight = mHeight - mWallOffsetTop;
+        int documentWidth = (int) (documentHeight / sqrt2); //din a4
+        mWallOffsetSide = (mWidth - documentWidth) / 2;
+        // If A4 width is greater than the view's width
+        if (mWallOffsetSide < 0) {
+            // Fit width and align to top
+            mShouldDrawBackgroundForButtons = false;
+            mWallOffsetSide = initialOffset;
+            documentWidth = mWidth - mWallOffsetSide;
+            documentHeight = (int) (documentWidth * sqrt2);
+            mWallOffsetBottom = mHeight - documentHeight - mWallOffsetTop;
+        }
+    }
+
+    private void measureLandscape() {
+        final int initialOffset = dpToPx(INITIAL_OFFSET);
+        final double sqrt2 = Math.sqrt(2);
+
+        // Fit width and center vertically
+        mShouldDrawBackgroundForButtons = false;
+        mWallOffsetSide = initialOffset;
+        int documentWidth = mWidth - mWallOffsetSide;
+        int documentHeight = (int) (documentWidth / sqrt2);
+        mWallOffsetTop = (mHeight - documentHeight) / 2;
+        mWallOffsetBottom = mWallOffsetTop;
+        // If A4 height is greater than the view's height
+        if (mWallOffsetTop < 0) {
+            // Fit height and center horizontally
+            mWallOffsetTop = initialOffset;
+            mWallOffsetBottom = initialOffset;
+            documentHeight = mHeight - mWallOffsetTop;
+            documentWidth = (int) (documentHeight * sqrt2); //din a4
+            mWallOffsetSide = (mWidth - documentWidth) / 2;
+        }
     }
 
     public void setLineLength(final int dp) {
