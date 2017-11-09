@@ -95,7 +95,7 @@ public class FrameView extends View {
         mShouldDrawBackgroundForButtons = true;
         mWallOffsetTop = initialOffset;
         mWallOffsetBottom = initialOffset;
-        int documentHeight = mHeight - mWallOffsetTop;
+        int documentHeight = mHeight - mWallOffsetTop - mWallOffsetBottom;
         int documentWidth = (int) (documentHeight / sqrt2); //din a4
         mWallOffsetSide = (mWidth - documentWidth) / 2;
         // If A4 width is greater than the view's width
@@ -103,7 +103,7 @@ public class FrameView extends View {
             // Fit width and align to top
             mShouldDrawBackgroundForButtons = false;
             mWallOffsetSide = initialOffset;
-            documentWidth = mWidth - mWallOffsetSide;
+            documentWidth = mWidth - 2 * mWallOffsetSide;
             documentHeight = (int) (documentWidth * sqrt2);
             mWallOffsetBottom = mHeight - documentHeight - mWallOffsetTop;
         }
@@ -116,7 +116,7 @@ public class FrameView extends View {
         // Fit width and center vertically
         mShouldDrawBackgroundForButtons = false;
         mWallOffsetSide = initialOffset;
-        int documentWidth = mWidth - mWallOffsetSide;
+        int documentWidth = mWidth - 2 * mWallOffsetSide;
         int documentHeight = (int) (documentWidth / sqrt2);
         mWallOffsetTop = (mHeight - documentHeight) / 2;
         mWallOffsetBottom = mWallOffsetTop;
@@ -125,7 +125,7 @@ public class FrameView extends View {
             // Fit height and center horizontally
             mWallOffsetTop = initialOffset;
             mWallOffsetBottom = initialOffset;
-            documentHeight = mHeight - mWallOffsetTop;
+            documentHeight = mHeight - mWallOffsetTop - mWallOffsetBottom;
             documentWidth = (int) (documentHeight * sqrt2); //din a4
             mWallOffsetSide = (mWidth - documentWidth) / 2;
         }
