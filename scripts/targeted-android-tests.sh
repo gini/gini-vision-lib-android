@@ -54,7 +54,7 @@ adb -s ${target} shell pm uninstall ${package}.test || true
 ./gradlew ${module}:getAutomatorLogConverter
 
 # Upload the test apk and install it
-adb -s ${target} push ${module}/build/outputs/apk/${module}-${variant}-androidTest.apk /data/local/tmp/${package}.test
+adb -s ${target} push ${module}/build/outputs/apk/androidTest/${variant}/${module}-${variant}-androidTest.apk /data/local/tmp/${package}.test
 adb -s ${target} shell pm install -r "/data/local/tmp/${package}.test"
 
 # Run the instrumented tests with code coverage reporting
