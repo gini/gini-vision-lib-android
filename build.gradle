@@ -55,6 +55,7 @@ def supportLibVersion = '26.0.1'
 def mockitoVersion = '2.6.3'
 def testSupportLibVersion = '1.0.1'
 def espressoVersion = '3.0.1'
+def jacocoVersion = '0.7.4.201502262128'
 
 ext.deps = [
         // Android
@@ -79,4 +80,9 @@ ext.deps = [
         supportTestEspressoIntents: "com.android.support.test.espresso:espresso-intents:$espressoVersion",
         supportTestUiAutomator: 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2',
         supportMultidex: 'com.android.support:multidex:1.0.1',
+        // Jacoco for test coverage reports
+        jacocoAnt: "org.jacoco:org.jacoco.ant:$jacocoVersion",
+        jacocoAgent: "org.jacoco:org.jacoco.agent:$jacocoVersion",
+        jacocoCore: "org.jacoco:org.jacoco.core:$jacocoVersion",
+        jacocoReport: "org.jacoco:org.jacoco.report:$jacocoVersion"
 ]
