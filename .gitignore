@@ -25,6 +25,9 @@ local.properties
 .idea/**/uiDesigner.xml
 **/*.iml
 
+# IDEA project files that keep changing:
+.idea/misc.xml
+
 # Gradle:
 .idea/**/gradle.xml
 .idea/**/libraries
