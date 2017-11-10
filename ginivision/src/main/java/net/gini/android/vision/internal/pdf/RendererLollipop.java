@@ -6,6 +6,7 @@ import static net.gini.android.vision.internal.pdf.Pdf.DEFAULT_PREVIEW_WIDTH;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.pdf.PdfRenderer;
 import android.net.Uri;
@@ -133,18 +134,11 @@ class RendererLollipop implements Renderer {
 
     @NonNull
     private static Bitmap createWhiteBitmap(@NonNull Size renderingSize) {
-        int[] colors = createWhiteColors(renderingSize);
-        return Bitmap.createBitmap(colors, renderingSize.width, renderingSize.height,
+        final Bitmap bitmap = Bitmap.createBitmap(renderingSize.width, renderingSize.height,
                 Bitmap.Config.ARGB_8888);
-    }
-
-    @NonNull
-    private static int[] createWhiteColors(@NonNull Size renderingSize) {
-        int[] colors = new int[renderingSize.width * renderingSize.height];
-        for (int i = 0; i < colors.length; i++) {
-            colors[i] = Color.WHITE;
-        }
-        return colors;
+        final Canvas canvas = new Canvas(bitmap);
+        canvas.drawColor(Color.WHITE);
+        return bitmap;
     }
 
     @NonNull
