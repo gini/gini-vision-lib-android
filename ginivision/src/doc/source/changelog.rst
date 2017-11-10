@@ -2,8 +2,13 @@
 Changelog
 =========
 
+2.4.1 (2017-11-10)
+==================
+
+- Fixed document corner guides not being drawn correctly for camera preview sizes with a 16:9 ratio.
+
 2.4.0 (2017-10-25)
-=======================
+==================
 
 - Consult the `Updating to 2.4.0 <updating-to-2-4-0.html>`_ page in the guide for detailed information.
 
