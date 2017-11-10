@@ -1,6 +1,7 @@
 package net.gini.android.vision.internal.pdf;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Parcel;
@@ -8,6 +9,7 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import net.gini.android.vision.document.PdfDocument;
+import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.util.Size;
 
 /**
@@ -20,6 +22,7 @@ public class Pdf implements Parcelable {
     static final int DEFAULT_PREVIEW_WIDTH = 1080;
 
     private final Uri mUri;
+    private Renderer mRenderer;
 
     public static Pdf fromDocument(@NonNull PdfDocument document) {
         return new Pdf(document.getUri());
@@ -34,21 +37,29 @@ public class Pdf implements Parcelable {
     }
 
     public void toBitmap(@NonNull Size targetSize, @NonNull final Context context,
-            @NonNull final Renderer.Callback callback) {
-        final Renderer renderer = getRenderer(context);
-        renderer.toBitmap(targetSize, callback);
+            @NonNull final AsyncCallback<Bitmap> asyncCallback) {
+        getRenderer(context).toBitmap(targetSize, asyncCallback);
+    }
+
+    public void getPageCount(@NonNull final Context context,
+            @NonNull final AsyncCallback<Integer> asyncCallback) {
+        getRenderer(context).getPageCount(asyncCallback);
     }
 
     public int getPageCount(@NonNull final Context context) {
-        final Renderer renderer = getRenderer(context);
-        return renderer.getPageCount();
+        return getRenderer(context).getPageCount();
     }
 
     private Renderer getRenderer(@NonNull final Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            return new RendererLollipop(mUri, context);
+        if (mRenderer != null) {
+            return mRenderer;
         }
-        return new RendererPreLollipop();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mRenderer = new RendererLollipop(mUri, context);
+        } else {
+            mRenderer = new RendererPreLollipop();
+        }
+        return mRenderer;
     }
 
     @Override
