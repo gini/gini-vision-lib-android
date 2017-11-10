@@ -26,8 +26,9 @@ public class FrameView extends View {
     private Paint mPaintLine;
     private int mWallOffsetSide;
     private int mWallOffsetTop;
+    private int mWallOffsetBottom;
     private int mWidth;
-    private boolean mPortrait;
+    private boolean mShouldDrawBackgroundForButtons;
 
     public FrameView(final Context context) {
         this(context, null);
@@ -52,18 +53,22 @@ public class FrameView extends View {
         drawLowerLeftLines(canvas);
         drawUpperRightLines(canvas);
         drawLowerRightLines(canvas);
-        drawBackgroundForButtons(canvas);
+        if(mShouldDrawBackgroundForButtons) {
+            drawBackgroundForButtons(canvas);
+        }
     }
 
     private void drawBackgroundForButtons(final Canvas canvas) {
-        if(mPortrait) {
-            final Paint paintRectangle = new Paint();
-            paintRectangle.setStyle(Paint.Style.FILL);
-            paintRectangle.setColor(Color.BLACK);
-            paintRectangle.setAlpha(75);
+        final Paint paintRectangle = new Paint();
+        paintRectangle.setStyle(Paint.Style.FILL);
+        paintRectangle.setColor(Color.BLACK);
+        paintRectangle.setAlpha(75);
 
-            canvas.drawRect(mWallOffsetSide, mHeight-mWallOffsetTop -mLineLength, mWidth - mWallOffsetSide, mHeight - mWallOffsetTop, paintRectangle);
-        }
+        canvas.drawRect(mWallOffsetSide,
+                mHeight - mWallOffsetTop - mLineLength,
+                mWidth - mWallOffsetSide,
+                mHeight - mWallOffsetBottom,
+                paintRectangle);
     }
 
     @Override
@@ -71,21 +76,59 @@ public class FrameView extends View {
         mWidth = MeasureSpec.getSize(widthMeasureSpec);
         mHeight = MeasureSpec.getSize(heightMeasureSpec);
 
-        mPortrait = mWidth < mHeight;
+        boolean portrait = mWidth < mHeight;
 
-        if(mPortrait) {
-            mWallOffsetTop = dpToPx(INITIAL_OFFSET);
-            int documentHeight = mHeight - mWallOffsetTop;
-            int documentWidth = (int) (documentHeight / Math.sqrt(2)); //din a4
-            mWallOffsetSide = (mWidth - documentWidth) / 2;
+        if (portrait) {
+            measurePortrait();
         } else {
-            mWallOffsetSide = dpToPx(INITIAL_OFFSET);
-            int documentWidth = mWidth - mWallOffsetSide;
-            int documentHeight = (int) (documentWidth / Math.sqrt(2)); //din a4
-            mWallOffsetTop = (mHeight - documentHeight) / 2;
+            measureLandscape();
         }
 
         setMeasuredDimension(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    private void measurePortrait() {
+        final int initialOffset = dpToPx(INITIAL_OFFSET);
+        final double sqrt2 = Math.sqrt(2);
+
+        // Fit height and center horizontally
+        mShouldDrawBackgroundForButtons = true;
+        mWallOffsetTop = initialOffset;
+        mWallOffsetBottom = initialOffset;
+        int documentHeight = mHeight - mWallOffsetTop - mWallOffsetBottom;
+        int documentWidth = (int) (documentHeight / sqrt2); //din a4
+        mWallOffsetSide = (mWidth - documentWidth) / 2;
+        // If A4 width is greater than the view's width
+        if (mWallOffsetSide < 0) {
+            // Fit width and align to top
+            mShouldDrawBackgroundForButtons = false;
+            mWallOffsetSide = initialOffset;
+            documentWidth = mWidth - 2 * mWallOffsetSide;
+            documentHeight = (int) (documentWidth * sqrt2);
+            mWallOffsetBottom = mHeight - documentHeight - mWallOffsetTop;
+        }
+    }
+
+    private void measureLandscape() {
+        final int initialOffset = dpToPx(INITIAL_OFFSET);
+        final double sqrt2 = Math.sqrt(2);
+
+        // Fit width and center vertically
+        mShouldDrawBackgroundForButtons = false;
+        mWallOffsetSide = initialOffset;
+        int documentWidth = mWidth - 2 * mWallOffsetSide;
+        int documentHeight = (int) (documentWidth / sqrt2);
+        mWallOffsetTop = (mHeight - documentHeight) / 2;
+        mWallOffsetBottom = mWallOffsetTop;
+        // If A4 height is greater than the view's height
+        if (mWallOffsetTop < 0) {
+            // Fit height and center horizontally
+            mWallOffsetTop = initialOffset;
+            mWallOffsetBottom = initialOffset;
+            documentHeight = mHeight - mWallOffsetTop - mWallOffsetBottom;
+            documentWidth = (int) (documentHeight * sqrt2); //din a4
+            mWallOffsetSide = (mWidth - documentWidth) / 2;
+        }
     }
 
     public void setLineLength(final int dp) {
@@ -101,17 +144,29 @@ public class FrameView extends View {
     }
 
     private void drawLowerLeftLines(final Canvas canvas) {
-        canvas.drawLine(mWallOffsetSide, mHeight - mLineLength - mWallOffsetTop, mWallOffsetSide,
-                mHeight - mWallOffsetTop, mPaintLine); // |
-        canvas.drawLine(mWallOffsetSide, mHeight - mWallOffsetTop, mWallOffsetSide + mLineLength,
-                mHeight - mWallOffsetTop, mPaintLine); // -
+        canvas.drawLine(mWallOffsetSide,
+                mHeight - mLineLength - mWallOffsetBottom,
+                mWallOffsetSide,
+                mHeight - mWallOffsetBottom,
+                mPaintLine); // |
+        canvas.drawLine(mWallOffsetSide,
+                mHeight - mWallOffsetBottom,
+                mWallOffsetSide + mLineLength,
+                mHeight - mWallOffsetBottom,
+                mPaintLine); // -
     }
 
     private void drawLowerRightLines(final Canvas canvas) {
-        canvas.drawLine(mWidth - mWallOffsetSide, mHeight - mLineLength - mWallOffsetTop,
-                mWidth - mWallOffsetSide, mHeight - mWallOffsetTop, mPaintLine); // |
-        canvas.drawLine(mWidth - mLineLength - mWallOffsetSide, mHeight - mWallOffsetTop,
-                mWidth - mWallOffsetSide, mHeight - mWallOffsetTop, mPaintLine); // -
+        canvas.drawLine(mWidth - mWallOffsetSide,
+                mHeight - mLineLength - mWallOffsetBottom,
+                mWidth - mWallOffsetSide,
+                mHeight - mWallOffsetBottom,
+                mPaintLine); // |
+        canvas.drawLine(mWidth - mLineLength - mWallOffsetSide,
+                mHeight - mWallOffsetBottom,
+                mWidth - mWallOffsetSide,
+                mHeight - mWallOffsetBottom,
+                mPaintLine); // -
     }
 
     private void drawShadowRectangles(final Canvas canvas) {
@@ -129,7 +184,7 @@ public class FrameView extends View {
         canvas.drawRect(mWallOffsetSide, 0, mWidth - mWallOffsetSide, mWallOffsetTop,
                 paintRectangle);
         //lower
-        canvas.drawRect(mWallOffsetSide, mHeight - mWallOffsetTop, mWidth - mWallOffsetSide,
+        canvas.drawRect(mWallOffsetSide, mHeight - mWallOffsetBottom, mWidth - mWallOffsetSide,
                 mHeight, paintRectangle);
     }
 
