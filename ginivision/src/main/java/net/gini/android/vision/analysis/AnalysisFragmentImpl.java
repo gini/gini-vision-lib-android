@@ -37,7 +37,6 @@ import net.gini.android.vision.document.PdfDocument;
 import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.document.DocumentRenderer;
 import net.gini.android.vision.internal.document.DocumentRendererFactory;
-import net.gini.android.vision.internal.pdf.Pdf;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 import net.gini.android.vision.internal.util.Size;
@@ -383,8 +382,8 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
     private void onViewLayoutFinished() {
         LOG.debug("View layout finished");
-        showDocument();
         showPdfInfoForPdfDocument();
+        showDocument();
         analyzeDocument();
     }
 
@@ -438,13 +437,27 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
                 mPdfTitleTextView.setText(filename);
             }
 
-            final int pageCount = Pdf.fromDocument(pdfDocument).getPageCount(activity);
-            if (pageCount > 0) {
-                mPdfPageCountTextView.setVisibility(View.VISIBLE);
-                final String pageCountString = activity.getResources().getQuantityString(
-                        R.plurals.gv_analysis_pdf_pages, pageCount, pageCount);
-                mPdfPageCountTextView.setText(pageCountString);
-            }
+            mPdfPageCountTextView.setVisibility(View.VISIBLE);
+            mPdfPageCountTextView.setText("");
+
+            mDocumentRenderer.getPageCount(new AsyncCallback<Integer>() {
+                @Override
+                public void onSuccess(final Integer result) {
+                    if (result > 0) {
+                        mPdfPageCountTextView.setVisibility(View.VISIBLE);
+                        final String pageCountString = activity.getResources().getQuantityString(
+                                R.plurals.gv_analysis_pdf_pages, result, result);
+                        mPdfPageCountTextView.setText(pageCountString);
+                    } else {
+                        mPdfPageCountTextView.setVisibility(View.GONE);
+                    }
+                }
+
+                @Override
+                public void onError(final Exception exception) {
+                    mPdfPageCountTextView.setVisibility(View.GONE);
+                }
+            });
         }
     }
 
