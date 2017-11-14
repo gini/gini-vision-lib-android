@@ -2,6 +2,11 @@
 Changelog
 =========
 
+2.4.2 (2017-11-14)
+==================
+
+- Fixed an issue related to PDF rendering affecting some Android Lollipop devices like the Huawei MediaPad T2 10" Pro.
+
 2.4.1 (2017-11-10)
 ==================
 
