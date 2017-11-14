@@ -3,11 +3,10 @@ package net.gini.android.vision.internal.document;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import net.gini.android.vision.document.PdfDocument;
+import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.pdf.Pdf;
-import net.gini.android.vision.internal.pdf.Renderer;
 import net.gini.android.vision.internal.util.Size;
 
 /**
@@ -19,6 +18,7 @@ class PdfDocumentRenderer implements DocumentRenderer {
     private final Context mContext;
     private Pdf mPdf;
     private Bitmap mBitmap;
+    private int mPageCount = -1;
 
     PdfDocumentRenderer(@NonNull final PdfDocument document,
             @NonNull final Context context) {
@@ -29,19 +29,51 @@ class PdfDocumentRenderer implements DocumentRenderer {
     @Override
     public void toBitmap(@NonNull final Size targetSize,
             @NonNull final Callback callback) {
-        if (mPdf == null) {
-            mPdf = Pdf.fromDocument(mPdfDocument);
-        }
+        final Pdf pdf = getPdf();
         if (mBitmap == null) {
-            mPdf.toBitmap(targetSize, mContext, new Renderer.Callback() {
+            pdf.toBitmap(targetSize, mContext, new AsyncCallback<Bitmap>() {
                 @Override
-                public void onBitmapReady(@Nullable final Bitmap bitmap) {
-                    mBitmap = bitmap;
-                    callback.onBitmapReady(bitmap, 0);
+                public void onSuccess(final Bitmap result) {
+                    mBitmap = result;
+                    callback.onBitmapReady(result, 0);
+                }
+
+                @Override
+                public void onError(final Exception exception) {
+                    callback.onBitmapReady(null, 0);
                 }
             });
         } else {
             callback.onBitmapReady(mBitmap, 0);
+        }
+    }
+
+    private Pdf getPdf() {
+        if (mPdf != null) {
+            return mPdf;
+        }
+        mPdf = Pdf.fromDocument(mPdfDocument);
+        return mPdf;
+    }
+
+    @Override
+    public void getPageCount(@NonNull final AsyncCallback<Integer> asyncCallback) {
+        final Pdf pdf = getPdf();
+        if (mPageCount == -1) {
+            pdf.getPageCount(mContext, new AsyncCallback<Integer>() {
+                @Override
+                public void onSuccess(final Integer result) {
+                    mPageCount = result;
+                    asyncCallback.onSuccess(result);
+                }
+
+                @Override
+                public void onError(final Exception exception) {
+                    asyncCallback.onError(exception);
+                }
+            });
+        } else {
+            asyncCallback.onSuccess(mPageCount);
         }
     }
 }
