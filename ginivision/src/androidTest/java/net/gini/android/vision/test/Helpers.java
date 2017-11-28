@@ -1,7 +1,11 @@
 package net.gini.android.vision.test;
 
+import static java.nio.file.FileVisitResult.CONTINUE;
+import static java.nio.file.FileVisitResult.TERMINATE;
+
 import android.app.Instrumentation;
 import android.content.res.AssetManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Looper;
 import android.os.Parcel;
@@ -17,8 +21,16 @@ import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 import net.gini.android.vision.internal.util.ContextHelper;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 
 public class Helpers {
 
@@ -92,6 +104,70 @@ public class Helpers {
 
     public static void waitForWindowUpdate(@NonNull final UiDevice uiDevice) {
         uiDevice.waitForWindowUpdate(BuildConfig.APPLICATION_ID, 5000);
+    }
+
+    public static void copyAssetToStorage(@NonNull final String assetFilePath,
+            @NonNull final String storageDirPath) throws IOException {
+        AssetManager assetManager = InstrumentationRegistry.getTargetContext().getAssets();
+        InputStream inputStream = null;
+        OutputStream outputStream = null;
+        try {
+            inputStream = assetManager.open(assetFilePath);
+            final File file = new File(storageDirPath,
+                    Uri.parse(assetFilePath).getLastPathSegment());
+            if (!file.exists()) {
+                Files.createFile(file.toPath());
+                outputStream = new FileOutputStream(file);
+                copyFile(inputStream, outputStream);
+            }
+        } finally {
+            if (inputStream != null) {
+                inputStream.close();
+            }
+            if (outputStream != null) {
+                outputStream.close();
+            }
+        }
+    }
+
+    private static void copyFile(final InputStream inputStream, final OutputStream outputStream)
+            throws IOException {
+        byte[] buffer = new byte[8192];
+        int read;
+        while ((read = inputStream.read(buffer)) != -1) {
+            outputStream.write(buffer, 0, read);
+        }
+    }
+
+    public static void deleteFileOrFolder(@NonNull final File file) throws IOException {
+        Files.walkFileTree(file.toPath(), new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs)
+                    throws IOException {
+                Files.delete(file);
+                return CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult visitFileFailed(final Path file, final IOException e) {
+                return handleException(e);
+            }
+
+            private FileVisitResult handleException(final IOException e) {
+                e.printStackTrace(); // replace with more robust error handling
+                return TERMINATE;
+            }
+
+            @Override
+            public FileVisitResult postVisitDirectory(final Path dir, final IOException e)
+                    throws IOException {
+                if (e != null) {
+                    return handleException(e);
+                }
+                Files.delete(dir);
+                return CONTINUE;
+            }
+        });
     }
 
 }
