@@ -43,14 +43,14 @@ task printLibraryVersion {
 
 ext {
     compileSdkVersion = 26
-    buildToolsVersion = '26.0.1'
+    buildToolsVersion = '26.0.3'
     minSdkVersion = 14
     targetSdkVersion = 26
     versionCode = libVersionCode
     versionName = libVersionName
 }
 
-def supportLibVersion = '26.0.1'
+def supportLibVersion = '26.0.2'
 def mockitoVersion = '2.6.3'
 def testSupportLibVersion = '1.0.1'
 def espressoVersion = '3.0.1'
