@@ -1,8 +1,5 @@
 package net.gini.android.vision.test;
 
-import static java.nio.file.FileVisitResult.CONTINUE;
-import static java.nio.file.FileVisitResult.TERMINATE;
-
 import android.app.Instrumentation;
 import android.content.res.AssetManager;
 import android.net.Uri;
@@ -26,11 +23,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.file.FileVisitResult;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
 
 public class Helpers {
 
@@ -116,7 +108,8 @@ public class Helpers {
             final File file = new File(storageDirPath,
                     Uri.parse(assetFilePath).getLastPathSegment());
             if (!file.exists()) {
-                Files.createFile(file.toPath());
+                //noinspection ResultOfMethodCallIgnored
+                file.createNewFile();
                 outputStream = new FileOutputStream(file);
                 copyFile(inputStream, outputStream);
             }
@@ -138,36 +131,4 @@ public class Helpers {
             outputStream.write(buffer, 0, read);
         }
     }
-
-    public static void deleteFileOrFolder(@NonNull final File file) throws IOException {
-        Files.walkFileTree(file.toPath(), new SimpleFileVisitor<Path>() {
-            @Override
-            public FileVisitResult visitFile(final Path file, final BasicFileAttributes attrs)
-                    throws IOException {
-                Files.delete(file);
-                return CONTINUE;
-            }
-
-            @Override
-            public FileVisitResult visitFileFailed(final Path file, final IOException e) {
-                return handleException(e);
-            }
-
-            private FileVisitResult handleException(final IOException e) {
-                e.printStackTrace(); // replace with more robust error handling
-                return TERMINATE;
-            }
-
-            @Override
-            public FileVisitResult postVisitDirectory(final Path dir, final IOException e)
-                    throws IOException {
-                if (e != null) {
-                    return handleException(e);
-                }
-                Files.delete(dir);
-                return CONTINUE;
-            }
-        });
-    }
-
 }

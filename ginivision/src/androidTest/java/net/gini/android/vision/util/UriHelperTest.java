@@ -2,12 +2,11 @@ package net.gini.android.vision.util;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import static net.gini.android.vision.test.Helpers.deleteFileOrFolder;
-
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
 import android.support.v4.content.FileProvider;
 
 import net.gini.android.vision.test.Helpers;
@@ -15,10 +14,10 @@ import net.gini.android.vision.test.Helpers;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 
 /**
  * Created by Alpar Szotyori on 28.11.2017.
@@ -26,6 +25,7 @@ import java.nio.file.Files;
  * Copyright (c) 2017 Gini GmbH.
  */
 
+@RunWith(AndroidJUnit4.class)
 public class UriHelperTest {
 
     private static final String TEST_FILE = "invoice.jpg";
@@ -37,10 +37,10 @@ public class UriHelperTest {
 
     private static void setUpFileProvider() throws IOException {
         final File fileProviderDir = getFileProviderDir();
-        if (fileProviderDir.exists()) {
-            deleteFileOrFolder(fileProviderDir);
+        if (!fileProviderDir.exists()) {
+            //noinspection ResultOfMethodCallIgnored
+            fileProviderDir.mkdirs();
         }
-        Files.createDirectories(fileProviderDir.toPath());
         Helpers.copyAssetToStorage(TEST_FILE, fileProviderDir.getPath());
     }
 
@@ -57,9 +57,9 @@ public class UriHelperTest {
 
     private static void tearDownFileProvider() throws IOException {
         final File fileProviderDir = getFileProviderDir();
-        if (fileProviderDir.exists()) {
-            deleteFileOrFolder(fileProviderDir);
-        }
+        final File testFile = new File(fileProviderDir, TEST_FILE);
+        //noinspection ResultOfMethodCallIgnored
+        testFile.delete();
     }
 
     @Test
