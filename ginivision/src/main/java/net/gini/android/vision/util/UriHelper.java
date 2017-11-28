@@ -127,7 +127,7 @@ public final class UriHelper {
         final Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
         if (cursor == null) {
             final int size = getFileSizeForPath(uri.getPath());
-            if (size == 0) {
+            if (size < 0) {
                 throw new IllegalStateException("Could not retrieve the file size");
             }
             return size;
@@ -147,7 +147,7 @@ public final class UriHelper {
         if (file.exists()) {
             return (int) file.length();
         }
-        return 0;
+        return -1;
     }
 
 }
