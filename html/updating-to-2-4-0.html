@@ -123,26 +123,27 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">2.4.2 (2017-11-14)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">2.4.1 (2017-11-10)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">2.4.0 (2017-10-25)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">2.4.3 (2017-11-29)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">2.4.2 (2017-11-14)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">2.4.1 (2017-11-10)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">2.4.0 (2017-10-25)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#features">Features</a></li>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#ui-updates">UI Updates</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">2.3.0 (2017-08-28)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id5">2.2.2 (2017-07-03)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id6">2.2.1 (2017-06-30)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id7">2.2.0 (2017-03-22)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id8">2.1.0 (2017-01-30)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id9">2.0.1 (2016-10-18)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id10">2.0.0 (2016-08-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id5">2.3.0 (2017-08-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id6">2.2.2 (2017-07-03)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id7">2.2.1 (2017-06-30)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id8">2.2.0 (2017-03-22)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id9">2.1.0 (2017-01-30)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id10">2.0.1 (2016-10-18)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id11">2.0.0 (2016-08-25)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html#alpha-1-2016-08-18">2.0.0-alpha.1 (2016-08-18)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id11">Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id12">Features</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html#stub-1-2016-07-15">2.0.0-stub.1 (2016-07-15)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id12">Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id13">Features</a></li>
 </ul>
 </li>
 </ul>
@@ -409,6 +410,10 @@
 <div class="section" id="handling-imported-file">
 <h4>Handling Imported File<a class="headerlink" href="#handling-imported-file" title="Permalink to this headline">¶</a></h4>
 <p>When your app is requested to handle a PDF or an image your Activity (declaring the intent filter shown above) is launched or resumed (<tt class="docutils literal"><span class="pre">onNewIntent(Intent)</span></tt>) with an Intent having <tt class="docutils literal"><span class="pre">ACTION_VIEW</span></tt> or <tt class="docutils literal"><span class="pre">ACTION_SEND</span></tt>.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">To make sure your application can read the shared file declare and request the <tt class="docutils literal"><span class="pre">READ_EXTERNAL_STORAGE</span></tt> permission before accessing the <tt class="docutils literal"><span class="pre">Uri</span></tt> or before starting the Gini Vision Library.</p>
+</div>
 <p>Checking whether the Intent has the required action:</p>
 <div class="highlight-java"><div class="highlight"><pre><span class="n">String</span> <span class="n">action</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="na">getAction</span><span class="o">();</span>
 <span class="k">if</span> <span class="o">(</span><span class="n">Intent</span><span class="o">.</span><span class="na">ACTION_VIEW</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">action</span><span class="o">)</span> <span class="o">||</span> <span class="n">Intent</span><span class="o">.</span><span class="na">ACTION_SEND</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">action</span><span class="o">))</span> <span class="o">{</span>
