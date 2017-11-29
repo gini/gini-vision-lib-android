@@ -264,6 +264,10 @@ Handling Imported File
 
 When your app is requested to handle a PDF or an image your Activity (declaring the intent filter shown above) is launched or resumed (``onNewIntent(Intent)``) with an Intent having ``ACTION_VIEW`` or ``ACTION_SEND``.
 
+.. important::
+
+    To make sure your application can read the shared file declare and request the ``READ_EXTERNAL_STORAGE`` permission before accessing the ``Uri`` or before starting the Gini Vision Library.
+
 Checking whether the Intent has the required action:
 
 .. code-block:: java

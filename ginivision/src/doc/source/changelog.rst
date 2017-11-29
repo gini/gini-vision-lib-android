@@ -2,6 +2,11 @@
 Changelog
 =========
 
+2.4.3 (2017-11-29)
+==================
+
+- Fixed an issue where an imported file's size and name could not be retrieved when using "open with".
+
 2.4.2 (2017-11-14)
 ==================
 
