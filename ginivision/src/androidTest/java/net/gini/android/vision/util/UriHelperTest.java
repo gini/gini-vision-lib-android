@@ -29,6 +29,7 @@ import java.io.IOException;
 public class UriHelperTest {
 
     private static final String TEST_FILE = "invoice.jpg";
+    private static File sFileProviderDir;
 
     @BeforeClass
     public static void setUpClass() throws Exception {
@@ -36,12 +37,12 @@ public class UriHelperTest {
     }
 
     private static void setUpFileProvider() throws IOException {
-        final File fileProviderDir = getFileProviderDir();
-        if (!fileProviderDir.exists()) {
+        sFileProviderDir = getFileProviderDir();
+        if (!sFileProviderDir.exists()) {
             //noinspection ResultOfMethodCallIgnored
-            fileProviderDir.mkdirs();
+            sFileProviderDir.mkdirs();
         }
-        Helpers.copyAssetToStorage(TEST_FILE, fileProviderDir.getPath());
+        Helpers.copyAssetToStorage(TEST_FILE, sFileProviderDir.getPath());
     }
 
     @NonNull
@@ -56,8 +57,7 @@ public class UriHelperTest {
     }
 
     private static void tearDownFileProvider() throws IOException {
-        final File fileProviderDir = getFileProviderDir();
-        final File testFile = new File(fileProviderDir, TEST_FILE);
+        final File testFile = new File(sFileProviderDir, TEST_FILE);
         //noinspection ResultOfMethodCallIgnored
         testFile.delete();
     }
@@ -75,12 +75,11 @@ public class UriHelperTest {
     }
 
     private int getTestFileSize() {
-        File fileProviderDir = getFileProviderDir();
-        return (int) new File(fileProviderDir, TEST_FILE).length();
+        return (int) new File(sFileProviderDir, TEST_FILE).length();
     }
 
     private Uri getTestFileContentUri() {
-        final File file = new File(getFileProviderDir(), TEST_FILE);
+        final File file = new File(sFileProviderDir, TEST_FILE);
         return FileProvider.getUriForFile(InstrumentationRegistry.getTargetContext(),
                 "net.gini.android.vision.test.fileprovider", file);
     }
@@ -98,7 +97,7 @@ public class UriHelperTest {
     }
 
     private Uri getTestFileFileUri() {
-        File file = new File(getFileProviderDir(), TEST_FILE);
+        File file = new File(sFileProviderDir, TEST_FILE);
         return Uri.parse(file.getPath());
     }
 
