@@ -7,7 +7,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -84,10 +87,13 @@ public final class UriHelper {
      */
     @NonNull
     public static String getFilenameFromUri(@NonNull final Uri uri, @NonNull final Context context) {
-        Cursor cursor = null;
-        cursor = context.getContentResolver().query(uri, null, null, null, null);
+        final Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
         if (cursor == null) {
-            throw new IllegalStateException("Could not retrieve a Cursor for the Uri");
+            final String filename = getFilenameForPath(uri.getPath());
+            if (TextUtils.isEmpty(filename)) {
+                throw new IllegalStateException("Could not retrieve fhe filename");
+            }
+            return filename;
         }
         final int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
         if (nameIndex == -1) {
@@ -99,20 +105,32 @@ public final class UriHelper {
         return filename;
     }
 
+    @Nullable
+    private static String getFilenameForPath(final String path) {
+        final File file = new File(path);
+        if (file.exists()) {
+            return file.getName();
+        }
+        return null;
+    }
+
     /**
      * Retrieves the file size of a Uri, if available.
      *
      * @param uri     a {@link Uri} pointing to a file
      * @param context Android context
      * @return the filename
-     * @throws IllegalStateException if the Uri is not pointing to a file or the filename was not
+     * @throws IllegalStateException if the Uri is not pointing to a file or the filesize was not
      *                               available
      */
     public static int getFileSizeFromUri(@NonNull final Uri uri, @NonNull final Context context) {
-        Cursor cursor = null;
-        cursor = context.getContentResolver().query(uri, null, null, null, null);
+        final Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
         if (cursor == null) {
-            throw new IllegalStateException("Could not retrieve a Cursor for the Uri");
+            final int size = getFileSizeForPath(uri.getPath());
+            if (size < 0) {
+                throw new IllegalStateException("Could not retrieve the file size");
+            }
+            return size;
         }
         final int nameIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
         if (nameIndex == -1) {
@@ -122,6 +140,14 @@ public final class UriHelper {
         final int fileSize = cursor.getInt(nameIndex);
         cursor.close();
         return fileSize;
+    }
+
+    private static int getFileSizeForPath(final String path) {
+        final File file = new File(path);
+        if (file.exists()) {
+            return (int) file.length();
+        }
+        return -1;
     }
 
 }

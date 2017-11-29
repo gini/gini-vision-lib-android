@@ -2,6 +2,7 @@ package net.gini.android.vision.test;
 
 import android.app.Instrumentation;
 import android.content.res.AssetManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Looper;
 import android.os.Parcel;
@@ -17,8 +18,11 @@ import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 import net.gini.android.vision.internal.util.ContextHelper;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 public class Helpers {
 
@@ -94,4 +98,37 @@ public class Helpers {
         uiDevice.waitForWindowUpdate(BuildConfig.APPLICATION_ID, 5000);
     }
 
+    public static void copyAssetToStorage(@NonNull final String assetFilePath,
+            @NonNull final String storageDirPath) throws IOException {
+        AssetManager assetManager = InstrumentationRegistry.getTargetContext().getAssets();
+        InputStream inputStream = null;
+        OutputStream outputStream = null;
+        try {
+            inputStream = assetManager.open(assetFilePath);
+            final File file = new File(storageDirPath,
+                    Uri.parse(assetFilePath).getLastPathSegment());
+            if (!file.exists()) {
+                //noinspection ResultOfMethodCallIgnored
+                file.createNewFile();
+                outputStream = new FileOutputStream(file);
+                copyFile(inputStream, outputStream);
+            }
+        } finally {
+            if (inputStream != null) {
+                inputStream.close();
+            }
+            if (outputStream != null) {
+                outputStream.close();
+            }
+        }
+    }
+
+    private static void copyFile(final InputStream inputStream, final OutputStream outputStream)
+            throws IOException {
+        byte[] buffer = new byte[8192];
+        int read;
+        while ((read = inputStream.read(buffer)) != -1) {
+            outputStream.write(buffer, 0, read);
+        }
+    }
 }
