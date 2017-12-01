@@ -1,7 +1,7 @@
 package net.gini.android.vision.component;
 
-import static net.gini.android.vision.component.Util.hasNoPay5Extractions;
-import static net.gini.android.vision.component.Util.isIntentActionViewOrSend;
+import static net.gini.android.vision.example.ExampleUtil.hasNoPay5Extractions;
+import static net.gini.android.vision.example.ExampleUtil.isIntentActionViewOrSend;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,6 +31,8 @@ import net.gini.android.vision.analysis.AnalysisFragmentCompat;
 import net.gini.android.vision.analysis.AnalysisFragmentListener;
 import net.gini.android.vision.camera.CameraFragmentCompat;
 import net.gini.android.vision.camera.CameraFragmentListener;
+import net.gini.android.vision.example.DocumentAnalyzer;
+import net.gini.android.vision.example.SingleDocumentAnalyzer;
 import net.gini.android.vision.help.HelpActivity;
 import net.gini.android.vision.noresults.NoResultsFragmentCompat;
 import net.gini.android.vision.noresults.NoResultsFragmentListener;
@@ -40,7 +42,6 @@ import net.gini.android.vision.review.ReviewFragmentCompat;
 import net.gini.android.vision.review.ReviewFragmentListener;
 import net.gini.android.vision.util.IntentHelper;
 import net.gini.android.vision.util.UriHelper;
-import net.gini.android.visionadvtest.R;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -88,7 +89,7 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
         startScanAnimation();
         // We can start analyzing the document by sending it to the Gini API
         getSingleDocumentAnalyzer().analyzeDocument(document,
-                new SingleDocumentAnalyzer.DocumentAnalysisListener() {
+                new DocumentAnalyzer.Listener() {
                     @Override
                     public void onException(Exception exception) {
                         stopScanAnimation();
@@ -102,7 +103,7 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
                             // Show the error in the Snackbar with a retry button
                             AnalysisFragmentCompat analysisFragment =
                                     (AnalysisFragmentCompat) mCurrentFragment;
-                            final SingleDocumentAnalyzer.DocumentAnalysisListener listener = this;
+                            final DocumentAnalyzer.Listener listener = this;
                             analysisFragment.showError("Analysis failed: " + message,
                                     getString(R.string.retry_analysis), new View.OnClickListener() {
                                         @Override
@@ -391,7 +392,7 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
         // Vision Library
         // will request you to proceed to the Analysis Screen.
         getSingleDocumentAnalyzer().analyzeDocument(document,
-                new SingleDocumentAnalyzer.DocumentAnalysisListener() {
+                new DocumentAnalyzer.Listener() {
                     @Override
                     public void onException(Exception exception) {
                         String message = "unknown";
@@ -553,7 +554,7 @@ public class GiniVisionAppCompatActivity extends AppCompatActivity
     private SingleDocumentAnalyzer getSingleDocumentAnalyzer() {
         if (mSingleDocumentAnalyzer == null) {
             mSingleDocumentAnalyzer =
-                    ((ComponentApiApp) getApplication()).getSingleDocumentAnalyzer();
+                    ((ComponentApiExampleApp) getApplication()).getSingleDocumentAnalyzer();
         }
         return mSingleDocumentAnalyzer;
     }

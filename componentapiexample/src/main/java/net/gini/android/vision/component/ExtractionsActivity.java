@@ -17,7 +17,6 @@ import net.gini.android.DocumentTaskManager;
 import net.gini.android.models.Document;
 import net.gini.android.models.Extraction;
 import net.gini.android.models.SpecificExtraction;
-import net.gini.android.visionadvtest.R;
 
 import org.json.JSONException;
 import org.slf4j.Logger;
@@ -135,7 +134,7 @@ public class ExtractionsActivity extends AppCompatActivity {
     }
 
     private void sendFeedback() {
-        DocumentTaskManager documentTaskManager = ((ComponentApiApp) getApplication()).getGiniApi().getDocumentTaskManager();
+        DocumentTaskManager documentTaskManager = ((ComponentApiExampleApp) getApplication()).getGiniApi().getDocumentTaskManager();
 
         // An example for sending feedback where we change the amount or add one if it is missing
         // Feedback should be sent only for the user visible fields. Non-visible fields should be filtered out.

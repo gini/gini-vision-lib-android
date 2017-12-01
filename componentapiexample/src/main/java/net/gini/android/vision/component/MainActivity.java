@@ -1,6 +1,6 @@
 package net.gini.android.vision.component;
 
-import static net.gini.android.vision.component.Util.isIntentActionViewOrSend;
+import static net.gini.android.vision.example.ExampleUtil.isIntentActionViewOrSend;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -17,8 +17,6 @@ import android.widget.Toast;
 import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.requirements.RequirementReport;
 import net.gini.android.vision.requirements.RequirementsReport;
-import net.gini.android.visionadvtest.BuildConfig;
-import net.gini.android.visionadvtest.R;
 
 import java.util.List;
 

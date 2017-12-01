@@ -11,7 +11,6 @@ import android.os.ParcelFileDescriptor;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 
-import net.gini.android.ginivisiontest.R;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.camera.CameraActivity;
 import net.gini.android.vision.util.IntentHelper;

@@ -23,6 +23,13 @@ android {
 
         // Use the test runner with JUnit4 support
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        sourceSets {
+            main {
+                java.srcDirs += "$rootProject.projectDir/exampleShared/java"
+            }
+        }
+
     }
 
     signingConfigs {

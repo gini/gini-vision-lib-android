@@ -1,6 +1,6 @@
 package net.gini.android.vision.screen;
 
-import static net.gini.android.vision.screen.Util.isPay5Extraction;
+import static net.gini.android.vision.example.ExampleUtil.isPay5Extraction;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,8 +13,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import net.gini.android.ginivisiontest.BuildConfig;
-import net.gini.android.ginivisiontest.R;
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.GiniVisionError;

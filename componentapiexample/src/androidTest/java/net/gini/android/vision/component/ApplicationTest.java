@@ -1,4 +1,4 @@
-package net.gini.android.visionadvtest;
+package net.gini.android.vision.component;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

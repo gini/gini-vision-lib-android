@@ -1,4 +1,4 @@
-package net.gini.android.visionadvtest;
+package net.gini.android.vision.component;
 
 import org.junit.Test;
 

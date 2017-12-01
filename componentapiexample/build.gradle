@@ -38,6 +38,12 @@ android {
             signingConfig signingConfigs.release
         }
     }
+
+    sourceSets {
+        main {
+            java.srcDirs += "$rootProject.projectDir/exampleShared/java"
+        }
+    }
 }
 
 // For testing a released version

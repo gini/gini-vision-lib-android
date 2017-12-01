@@ -1,6 +1,6 @@
 package net.gini.android.vision.screen;
 
-import static net.gini.android.vision.screen.Util.hasNoPay5Extractions;
+import static net.gini.android.vision.example.ExampleUtil.hasNoPay5Extractions;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,9 @@ import android.support.annotation.NonNull;
 import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionDebug;
+import net.gini.android.vision.example.AbstractExampleApp;
+import net.gini.android.vision.example.DocumentAnalyzer;
+import net.gini.android.vision.example.SingleDocumentAnalyzer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +28,7 @@ public class ReviewActivity extends net.gini.android.vision.review.ReviewActivit
 
     private SingleDocumentAnalyzer getSingleDocumentAnalyzer() {
         if (mSingleDocumentAnalyzer == null) {
-            mSingleDocumentAnalyzer = ((ScreenApiApp) getApplication()).getSingleDocumentAnalyzer();
+            mSingleDocumentAnalyzer = ((AbstractExampleApp) getApplication()).getSingleDocumentAnalyzer();
         }
         return mSingleDocumentAnalyzer;
     }
@@ -81,7 +84,7 @@ public class ReviewActivity extends net.gini.android.vision.review.ReviewActivit
 
     private void analyzeDocument(Document document) {
         getSingleDocumentAnalyzer().cancelAnalysis();
-        getSingleDocumentAnalyzer().analyzeDocument(document, new SingleDocumentAnalyzer.DocumentAnalysisListener() {
+        getSingleDocumentAnalyzer().analyzeDocument(document, new DocumentAnalyzer.Listener() {
             @Override
             public void onExtractionsReceived(Map<String, SpecificExtraction> extractions) {
                 mExtractions = extractions;
