@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.camera.CameraFragmentCompat;
 import net.gini.android.vision.component.R;
+import net.gini.android.vision.component.analysis.AnalysisExampleActivity;
 import net.gini.android.vision.component.review.ReviewExampleAppCompatActivity;
 import net.gini.android.vision.onboarding.OnboardingFragmentCompat;
 
@@ -55,6 +56,11 @@ public class CameraScreenHandlerAppCompat extends AbstractCameraScreenHandler {
     @Override
     protected Intent getReviewActivityIntent(final Document document) {
         return ReviewExampleAppCompatActivity.newInstance(document, mAppCompatActivity);
+    }
+
+    @Override
+    protected Intent getAnalysisActivityIntent(final Document document) {
+        return AnalysisExampleActivity.newInstance(document, null, mAppCompatActivity);
     }
 
     @Override

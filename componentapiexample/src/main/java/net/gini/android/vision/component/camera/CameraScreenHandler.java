@@ -8,6 +8,7 @@ import android.content.Intent;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.camera.CameraFragmentStandard;
 import net.gini.android.vision.component.R;
+import net.gini.android.vision.component.analysis.AnalysisExampleActivity;
 import net.gini.android.vision.component.review.ReviewExampleActivity;
 import net.gini.android.vision.onboarding.OnboardingFragmentStandard;
 
@@ -51,6 +52,11 @@ public class CameraScreenHandler extends AbstractCameraScreenHandler {
     @Override
     protected Intent getReviewActivityIntent(final Document document) {
         return ReviewExampleActivity.newInstance(document, getActivity());
+    }
+
+    @Override
+    protected Intent getAnalysisActivityIntent(final Document document) {
+        return AnalysisExampleActivity.newInstance(document, null, getActivity());
     }
 
     @Override

@@ -44,6 +44,7 @@ public abstract class AbstractCameraScreenHandler implements CameraFragmentListe
     private static final boolean DO_CUSTOM_DOCUMENT_CHECK = false;
     private static final Logger LOG = LoggerFactory.getLogger(AbstractCameraScreenHandler.class);
     private static final int REVIEW_REQUEST = 1;
+    private static final int ANALYSIS_REQUEST = 2;
     private final Activity mActivity;
     private GiniVisionCoordinator mGiniVisionCoordinator;
     private GiniVisionFeatureConfiguration mGiniVisionFeatureConfiguration;
@@ -80,11 +81,9 @@ public abstract class AbstractCameraScreenHandler implements CameraFragmentListe
         getSingleDocumentAnalyzer().cancelAnalysis();
         if (document.isReviewable()) {
             launchReviewScreen(document);
+        } else {
+            launchAnalysisScreen(document);
         }
-//        else {
-//            launchAnalysisScreen(document);
-//            launchAnalysisScreen(document);
-//        }
     }
 
     private SingleDocumentAnalyzer getSingleDocumentAnalyzer() {
@@ -149,6 +148,13 @@ public abstract class AbstractCameraScreenHandler implements CameraFragmentListe
 
     protected abstract Intent getReviewActivityIntent(final Document document);
 
+    private void launchAnalysisScreen(final Document document) {
+        final Intent intent = getAnalysisActivityIntent(document);
+        mActivity.startActivityForResult(intent, ANALYSIS_REQUEST);
+    }
+
+    protected abstract Intent getAnalysisActivityIntent(final Document document);
+
     Activity getActivity() {
         return mActivity;
     }
@@ -160,6 +166,7 @@ public abstract class AbstractCameraScreenHandler implements CameraFragmentListe
     void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         switch (requestCode) {
             case REVIEW_REQUEST:
+            case ANALYSIS_REQUEST:
                 if (resultCode == Activity.RESULT_OK) {
                     mActivity.finish();
                 }
@@ -266,6 +273,7 @@ public abstract class AbstractCameraScreenHandler implements CameraFragmentListe
 
     private void startGiniVisionLibraryForImportedFile(final Intent importedFileIntent) {
         try {
+            getSingleDocumentAnalyzer().cancelAnalysis();
             final Document document = GiniVisionFileImport.createDocumentForImportedFile(
                     importedFileIntent,
                     mActivity);
@@ -274,6 +282,7 @@ public abstract class AbstractCameraScreenHandler implements CameraFragmentListe
             } else {
                 launchAnalysisScreen(document);
             }
+            mActivity.finish();
         } catch (ImportedFileValidationException e) {
             e.printStackTrace();
             String message = mActivity.getString(R.string.gv_document_import_invalid_document);
@@ -303,10 +312,6 @@ public abstract class AbstractCameraScreenHandler implements CameraFragmentListe
                     })
                     .show();
         }
-    }
-
-    private void launchAnalysisScreen(final Document document) {
-
     }
 
     boolean onCreateOptionsMenu(final Menu menu) {
