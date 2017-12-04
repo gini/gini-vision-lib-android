@@ -58,6 +58,12 @@
         <activity
             android:name=".review.ReviewExampleActivity"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".analysis.AnalysisExampleAppCompatActivity"
+            android:theme="@style/AppThemeCompat.NoActionBar" />
+        <activity
+            android:name=".analysis.AnalysisExampleActivity"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

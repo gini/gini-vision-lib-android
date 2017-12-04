@@ -149,7 +149,15 @@ public abstract class AbstractCameraScreenHandler implements CameraFragmentListe
 
     protected abstract Intent getReviewActivityIntent(final Document document);
 
-    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+    Activity getActivity() {
+        return mActivity;
+    }
+
+    GiniVisionFeatureConfiguration getGiniVisionFeatureConfiguration() {
+        return mGiniVisionFeatureConfiguration;
+    }
+
+    void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         switch (requestCode) {
             case REVIEW_REQUEST:
                 if (resultCode == Activity.RESULT_OK) {
@@ -157,14 +165,6 @@ public abstract class AbstractCameraScreenHandler implements CameraFragmentListe
                 }
                 break;
         }
-    }
-
-    Activity getActivity() {
-        return mActivity;
-    }
-
-    GiniVisionFeatureConfiguration getGiniVisionFeatureConfiguration() {
-        return mGiniVisionFeatureConfiguration;
     }
 
     boolean onBackPressed() {

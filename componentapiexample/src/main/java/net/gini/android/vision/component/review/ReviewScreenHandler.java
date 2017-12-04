@@ -2,8 +2,12 @@ package net.gini.android.vision.component.review;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 
+import net.gini.android.vision.Document;
 import net.gini.android.vision.component.R;
+import net.gini.android.vision.component.analysis.AnalysisExampleActivity;
+import net.gini.android.vision.review.ReviewFragmentInterface;
 import net.gini.android.vision.review.ReviewFragmentStandard;
 
 /**
@@ -21,23 +25,25 @@ public class ReviewScreenHandler extends AbstractReviewScreenHandler {
     }
 
     @Override
-    protected void callOnDocumentAnalyzed() {
-        mReviewFragment.onDocumentAnalyzed();
+    protected Intent getAnalysisActivityIntent(final Document document, final String errorMessage) {
+        return AnalysisExampleActivity.newInstance(document, errorMessage, getActivity());
     }
 
     @Override
-    protected void showReviewFragment() {
+    protected ReviewFragmentInterface showReviewFragment() {
         mReviewFragment = ReviewFragmentStandard.createInstance(getDocument());
         getActivity().getFragmentManager().beginTransaction()
                 .replace(R.id.review_screen_container, mReviewFragment)
                 .commit();
+        return mReviewFragment;
     }
 
     @Override
-    protected void retainReviewFragment() {
+    protected ReviewFragmentInterface retainReviewFragment() {
         mReviewFragment =
                 (ReviewFragmentStandard) getActivity().getFragmentManager().findFragmentById(
                         R.id.review_screen_container);
+        return mReviewFragment;
     }
 
     @Override

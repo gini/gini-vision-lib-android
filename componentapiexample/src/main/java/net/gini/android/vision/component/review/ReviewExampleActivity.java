@@ -26,6 +26,13 @@ public class ReviewExampleActivity extends Activity implements
     }
 
     @Override
+    protected void onActivityResult(final int requestCode, final int resultCode,
+            final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mReviewScreenHandler.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
     public void onShouldAnalyzeDocument(@NonNull final Document document) {
         mReviewScreenHandler.onShouldAnalyzeDocument(document);
     }

@@ -1,5 +1,7 @@
 package net.gini.android.vision.component.review;
 
+import static android.app.Activity.RESULT_OK;
+
 import static net.gini.android.vision.component.review.ReviewExampleAppCompatActivity.EXTRA_IN_DOCUMENT;
 import static net.gini.android.vision.example.ExampleUtil.hasNoPay5Extractions;
 
@@ -18,6 +20,7 @@ import net.gini.android.vision.component.ComponentApiExampleApp;
 import net.gini.android.vision.component.ExtractionsActivity;
 import net.gini.android.vision.example.DocumentAnalyzer;
 import net.gini.android.vision.example.SingleDocumentAnalyzer;
+import net.gini.android.vision.review.ReviewFragmentInterface;
 import net.gini.android.vision.review.ReviewFragmentListener;
 
 import org.slf4j.Logger;
@@ -33,11 +36,13 @@ import java.util.Map;
 
 public abstract class AbstractReviewScreenHandler implements ReviewFragmentListener {
 
+    private static final int ANALYSIS_REQUEST = 1;
     private static final Logger LOG = LoggerFactory.getLogger(AbstractReviewScreenHandler.class);
     private final Activity mActivity;
     private Document mDocument;
     private String mDocumentAnalysisErrorMessage;
     private Map<String, SpecificExtraction> mExtractions;
+    private ReviewFragmentInterface mReviewFragmentInterface;
     private SingleDocumentAnalyzer mSingleDocumentAnalyzer;
 
     AbstractReviewScreenHandler(final Activity activity) {
@@ -82,12 +87,10 @@ public abstract class AbstractReviewScreenHandler implements ReviewFragmentListe
                         // Calling onDocumentAnalyzed() is important to notify the Review
                         // Fragment that the
                         // analysis has completed successfully
-                        callOnDocumentAnalyzed();
+                        mReviewFragmentInterface.onDocumentAnalyzed();
                     }
                 });
     }
-
-    protected abstract void callOnDocumentAnalyzed();
 
     private SingleDocumentAnalyzer getSingleDocumentAnalyzer() {
         if (mSingleDocumentAnalyzer == null) {
@@ -99,8 +102,12 @@ public abstract class AbstractReviewScreenHandler implements ReviewFragmentListe
 
     @Override
     public void onProceedToAnalysisScreen(@NonNull final Document document) {
-        // TODO: go to analysis
+        final Intent intent = getAnalysisActivityIntent(document, mDocumentAnalysisErrorMessage);
+        mActivity.startActivityForResult(intent, ANALYSIS_REQUEST);
     }
+
+    protected abstract Intent getAnalysisActivityIntent(final Document document,
+            final String errorMessage);
 
     @Override
     public void onDocumentReviewedAndAnalyzed(@NonNull final Document document) {
@@ -132,7 +139,7 @@ public abstract class AbstractReviewScreenHandler implements ReviewFragmentListe
             intent.putExtra(ExtractionsActivity.EXTRA_IN_EXTRACTIONS,
                     getExtractionsBundle(extractions));
             mActivity.startActivity(intent);
-            mActivity.setResult(Activity.RESULT_OK);
+            mActivity.setResult(RESULT_OK);
             mActivity.finish();
         }
     }
@@ -147,7 +154,7 @@ public abstract class AbstractReviewScreenHandler implements ReviewFragmentListe
 
     private void showNoResultsScreen(final Document document) {
         // TODO: show no results activity
-        mActivity.setResult(Activity.RESULT_OK);
+        mActivity.setResult(RESULT_OK);
         mActivity.finish();
     }
 
@@ -178,15 +185,26 @@ public abstract class AbstractReviewScreenHandler implements ReviewFragmentListe
         return mDocument;
     }
 
+    void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        switch (requestCode) {
+            case ANALYSIS_REQUEST:
+                if (resultCode == RESULT_OK) {
+                    mActivity.setResult(RESULT_OK);
+                    mActivity.finish();
+                }
+                break;
+        }
+    }
+
     void onCreate(final Bundle savedInstanceState) {
         setUpActionBar();
         setTitles();
         readDocumentFromExtras();
 
         if (savedInstanceState == null) {
-            showReviewFragment();
+            mReviewFragmentInterface = showReviewFragment();
         } else {
-            retainReviewFragment();
+            mReviewFragmentInterface = retainReviewFragment();
         }
     }
 
@@ -194,9 +212,9 @@ public abstract class AbstractReviewScreenHandler implements ReviewFragmentListe
         mDocument = mActivity.getIntent().getParcelableExtra(EXTRA_IN_DOCUMENT);
     }
 
-    protected abstract void showReviewFragment();
+    protected abstract ReviewFragmentInterface showReviewFragment();
 
-    protected abstract void retainReviewFragment();
+    protected abstract ReviewFragmentInterface retainReviewFragment();
 
     protected abstract void setTitles();
 

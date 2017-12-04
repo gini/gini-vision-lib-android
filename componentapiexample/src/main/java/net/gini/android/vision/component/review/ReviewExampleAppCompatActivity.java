@@ -18,6 +18,13 @@ public class ReviewExampleAppCompatActivity extends AppCompatActivity implements
     private ReviewScreenHandlerAppCompat mReviewScreenHandler;
 
     @Override
+    protected void onActivityResult(final int requestCode, final int resultCode,
+            final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mReviewScreenHandler.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_compat);

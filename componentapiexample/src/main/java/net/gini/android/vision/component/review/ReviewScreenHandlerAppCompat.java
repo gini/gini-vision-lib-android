@@ -1,12 +1,16 @@
 package net.gini.android.vision.component.review;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import net.gini.android.vision.Document;
 import net.gini.android.vision.component.R;
+import net.gini.android.vision.component.analysis.AnalysisExampleAppCompatActivity;
 import net.gini.android.vision.review.ReviewFragmentCompat;
+import net.gini.android.vision.review.ReviewFragmentInterface;
 
 /**
  * Created by Alpar Szotyori on 04.12.2017.
@@ -25,23 +29,26 @@ public class ReviewScreenHandlerAppCompat extends AbstractReviewScreenHandler {
     }
 
     @Override
-    protected void callOnDocumentAnalyzed() {
-        mReviewFragment.onDocumentAnalyzed();
+    protected Intent getAnalysisActivityIntent(final Document document, final String errorMessage) {
+        return AnalysisExampleAppCompatActivity.newInstance(document, errorMessage,
+                mAppCompatActivity);
     }
 
     @Override
-    protected void showReviewFragment() {
+    protected ReviewFragmentInterface showReviewFragment() {
         mReviewFragment = ReviewFragmentCompat.createInstance(getDocument());
         mAppCompatActivity.getSupportFragmentManager().beginTransaction()
                 .replace(R.id.review_screen_container, mReviewFragment)
                 .commit();
+        return mReviewFragment;
     }
 
     @Override
-    protected void retainReviewFragment() {
+    protected ReviewFragmentInterface retainReviewFragment() {
         mReviewFragment =
                 (ReviewFragmentCompat) mAppCompatActivity.getSupportFragmentManager().findFragmentById(
                         R.id.review_screen_container);
+        return mReviewFragment;
     }
 
     @Override
