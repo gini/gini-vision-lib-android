@@ -17,11 +17,18 @@ public class CameraExampleAppCompatActivity extends AppCompatActivity implements
         CameraFragmentListener,
         OnboardingFragmentListener {
 
-    private CameraScreenHandlerAppCompat mCameraScreen;
+    private CameraScreenHandlerAppCompat mCameraScreenHandler;
+
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode,
+            final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mCameraScreenHandler.onActivityResult(requestCode, resultCode, data);
+    }
 
     @Override
     public void onBackPressed() {
-        if (mCameraScreen.onBackPressed()) {
+        if (mCameraScreenHandler.onBackPressed()) {
             return;
         }
         super.onBackPressed();
@@ -30,30 +37,30 @@ public class CameraExampleAppCompatActivity extends AppCompatActivity implements
     @Override
     protected void onNewIntent(final Intent intent) {
         super.onNewIntent(intent);
-        mCameraScreen.onNewIntent(intent);
+        mCameraScreenHandler.onNewIntent(intent);
     }
 
     @Override
     public void onCloseOnboarding() {
-        mCameraScreen.onCloseOnboarding();
+        mCameraScreenHandler.onCloseOnboarding();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_compat);
-        mCameraScreen = new CameraScreenHandlerAppCompat(this);
-        mCameraScreen.onCreate(savedInstanceState);
+        mCameraScreenHandler = new CameraScreenHandlerAppCompat(this);
+        mCameraScreenHandler.onCreate(savedInstanceState);
     }
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
-        return mCameraScreen.onCreateOptionsMenu(menu);
+        return mCameraScreenHandler.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        if (mCameraScreen.onOptionsItemSelected(item)) {
+        if (mCameraScreenHandler.onOptionsItemSelected(item)) {
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -61,17 +68,17 @@ public class CameraExampleAppCompatActivity extends AppCompatActivity implements
 
     @Override
     public void onDocumentAvailable(@NonNull final Document document) {
-        mCameraScreen.onDocumentAvailable(document);
+        mCameraScreenHandler.onDocumentAvailable(document);
     }
 
     @Override
     public void onCheckImportedDocument(@NonNull final Document document,
             @NonNull final DocumentCheckResultCallback callback) {
-        mCameraScreen.onCheckImportedDocument(document, callback);
+        mCameraScreenHandler.onCheckImportedDocument(document, callback);
     }
 
     @Override
     public void onError(@NonNull final GiniVisionError error) {
-        mCameraScreen.onError(error);
+        mCameraScreenHandler.onError(error);
     }
 }

@@ -3,9 +3,12 @@ package net.gini.android.vision.component.camera;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 
+import net.gini.android.vision.Document;
 import net.gini.android.vision.camera.CameraFragmentStandard;
 import net.gini.android.vision.component.R;
+import net.gini.android.vision.component.review.ReviewExampleActivity;
 import net.gini.android.vision.onboarding.OnboardingFragmentStandard;
 
 /**
@@ -43,6 +46,11 @@ public class CameraScreenHandler extends AbstractCameraScreenHandler {
         }
         actionBar.setTitle("Seite abfotografieren");
         actionBar.setSubtitle("Vollständig in den Rahmen einpassen");
+    }
+
+    @Override
+    protected Intent getReviewActivityIntent(final Document document) {
+        return ReviewExampleActivity.newInstance(document, getActivity());
     }
 
     @Override

@@ -1,13 +1,16 @@
 package net.gini.android.vision.component.camera;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import net.gini.android.vision.Document;
 import net.gini.android.vision.camera.CameraFragmentCompat;
 import net.gini.android.vision.component.R;
+import net.gini.android.vision.component.review.ReviewExampleAppCompatActivity;
 import net.gini.android.vision.onboarding.OnboardingFragmentCompat;
 
 /**
@@ -47,6 +50,11 @@ public class CameraScreenHandlerAppCompat extends AbstractCameraScreenHandler {
         }
         actionBar.setTitle("Seite abfotografieren");
         actionBar.setSubtitle("Vollständig in den Rahmen einpassen");
+    }
+
+    @Override
+    protected Intent getReviewActivityIntent(final Document document) {
+        return ReviewExampleAppCompatActivity.newInstance(document, mAppCompatActivity);
     }
 
     @Override

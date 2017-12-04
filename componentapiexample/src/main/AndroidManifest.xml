@@ -52,6 +52,12 @@
         <activity
             android:name=".camera.CameraExampleActivity"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".review.ReviewExampleAppCompatActivity"
+            android:theme="@style/AppThemeCompat.NoActionBar" />
+        <activity
+            android:name=".review.ReviewExampleActivity"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

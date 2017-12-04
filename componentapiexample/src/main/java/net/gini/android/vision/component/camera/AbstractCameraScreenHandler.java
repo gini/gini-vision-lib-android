@@ -22,7 +22,9 @@ import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.GiniVisionFileImport;
 import net.gini.android.vision.ImportedFileValidationException;
 import net.gini.android.vision.camera.CameraFragmentListener;
+import net.gini.android.vision.component.ComponentApiExampleApp;
 import net.gini.android.vision.component.R;
+import net.gini.android.vision.example.SingleDocumentAnalyzer;
 import net.gini.android.vision.help.HelpActivity;
 import net.gini.android.vision.onboarding.OnboardingFragmentListener;
 import net.gini.android.vision.util.IntentHelper;
@@ -41,10 +43,12 @@ public abstract class AbstractCameraScreenHandler implements CameraFragmentListe
     // Set to true to allow execution of the custom code check
     private static final boolean DO_CUSTOM_DOCUMENT_CHECK = false;
     private static final Logger LOG = LoggerFactory.getLogger(AbstractCameraScreenHandler.class);
+    private static final int REVIEW_REQUEST = 1;
     private final Activity mActivity;
     private GiniVisionCoordinator mGiniVisionCoordinator;
     private GiniVisionFeatureConfiguration mGiniVisionFeatureConfiguration;
     private Menu mMenu;
+    private SingleDocumentAnalyzer mSingleDocumentAnalyzer;
 
     AbstractCameraScreenHandler(final Activity activity) {
         mActivity = activity;
@@ -71,12 +75,24 @@ public abstract class AbstractCameraScreenHandler implements CameraFragmentListe
     @Override
     public void onDocumentAvailable(@NonNull final Document document) {
         LOG.debug("Document available {}", document);
-//        if (document.isReviewable()) {
-//            launchReviewScreen(document);
-//        } else {
+        // Cancel analysis to make sure, that the document analysis will start in
+        // onShouldAnalyzeDocument()
+        getSingleDocumentAnalyzer().cancelAnalysis();
+        if (document.isReviewable()) {
+            launchReviewScreen(document);
+        }
+//        else {
 //            launchAnalysisScreen(document);
 //            launchAnalysisScreen(document);
 //        }
+    }
+
+    private SingleDocumentAnalyzer getSingleDocumentAnalyzer() {
+        if (mSingleDocumentAnalyzer == null) {
+            mSingleDocumentAnalyzer =
+                    ((ComponentApiExampleApp) mActivity.getApplication()).getSingleDocumentAnalyzer();
+        }
+        return mSingleDocumentAnalyzer;
     }
 
     @Override
@@ -124,6 +140,23 @@ public abstract class AbstractCameraScreenHandler implements CameraFragmentListe
                         error.getErrorCode() + " - " +
                         error.getMessage(),
                 Toast.LENGTH_LONG).show();
+    }
+
+    private void launchReviewScreen(final Document document) {
+        final Intent intent = getReviewActivityIntent(document);
+        mActivity.startActivityForResult(intent, REVIEW_REQUEST);
+    }
+
+    protected abstract Intent getReviewActivityIntent(final Document document);
+
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        switch (requestCode) {
+            case REVIEW_REQUEST:
+                if (resultCode == Activity.RESULT_OK) {
+                    mActivity.finish();
+                }
+                break;
+        }
     }
 
     Activity getActivity() {
@@ -273,10 +306,6 @@ public abstract class AbstractCameraScreenHandler implements CameraFragmentListe
     }
 
     private void launchAnalysisScreen(final Document document) {
-
-    }
-
-    private void launchReviewScreen(final Document document) {
 
     }
 
