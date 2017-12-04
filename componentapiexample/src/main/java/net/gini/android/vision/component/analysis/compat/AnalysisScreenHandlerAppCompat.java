@@ -1,4 +1,4 @@
-package net.gini.android.vision.component.analysis;
+package net.gini.android.vision.component.analysis.compat;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,7 +10,8 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.analysis.AnalysisFragmentCompat;
 import net.gini.android.vision.analysis.AnalysisFragmentInterface;
 import net.gini.android.vision.component.R;
-import net.gini.android.vision.component.noresults.NoResultsExampleAppCompatActivity;
+import net.gini.android.vision.component.analysis.AbstractAnalysisScreenHandler;
+import net.gini.android.vision.component.noresults.compat.NoResultsExampleAppCompatActivity;
 
 /**
  * Created by Alpar Szotyori on 04.12.2017.

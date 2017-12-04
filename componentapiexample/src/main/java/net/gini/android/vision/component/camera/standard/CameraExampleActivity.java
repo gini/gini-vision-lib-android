@@ -1,4 +1,4 @@
-package net.gini.android.vision.component.camera;
+package net.gini.android.vision.component.camera.standard;
 
 import android.app.Activity;
 import android.content.Intent;

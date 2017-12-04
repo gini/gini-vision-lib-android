@@ -1,6 +1,6 @@
 package net.gini.android.vision.component.noresults;
 
-import static net.gini.android.vision.component.noresults.NoResultsExampleAppCompatActivity.EXTRA_IN_DOCUMENT;
+import static net.gini.android.vision.component.noresults.compat.NoResultsExampleAppCompatActivity.EXTRA_IN_DOCUMENT;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -41,7 +41,7 @@ public abstract class AbstractNoResultsScreenHandler implements NoResultsFragmen
         return mDocument;
     }
 
-    void onCreate(final Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         setUpActionBar();
         setTitles();
         readExtras();

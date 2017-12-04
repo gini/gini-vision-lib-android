@@ -1,4 +1,4 @@
-package net.gini.android.vision.component.review;
+package net.gini.android.vision.component.review.standard;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -6,8 +6,9 @@ import android.content.Intent;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.component.R;
-import net.gini.android.vision.component.analysis.AnalysisExampleActivity;
-import net.gini.android.vision.component.noresults.NoResultsExampleActivity;
+import net.gini.android.vision.component.analysis.standard.AnalysisExampleActivity;
+import net.gini.android.vision.component.noresults.standard.NoResultsExampleActivity;
+import net.gini.android.vision.component.review.AbstractReviewScreenHandler;
 import net.gini.android.vision.review.ReviewFragmentInterface;
 import net.gini.android.vision.review.ReviewFragmentStandard;
 

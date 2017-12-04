@@ -15,8 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.gini.android.vision.GiniVisionDebug;
-import net.gini.android.vision.component.camera.CameraExampleActivity;
-import net.gini.android.vision.component.camera.CameraExampleAppCompatActivity;
+import net.gini.android.vision.component.camera.standard.CameraExampleActivity;
+import net.gini.android.vision.component.camera.compat.CameraExampleAppCompatActivity;
 import net.gini.android.vision.requirements.RequirementReport;
 import net.gini.android.vision.requirements.RequirementsReport;
 

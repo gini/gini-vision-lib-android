@@ -51,7 +51,7 @@ public abstract class AbstractCameraScreenHandler implements CameraFragmentListe
     private Menu mMenu;
     private SingleDocumentAnalyzer mSingleDocumentAnalyzer;
 
-    AbstractCameraScreenHandler(final Activity activity) {
+    protected AbstractCameraScreenHandler(final Activity activity) {
         mActivity = activity;
     }
 
@@ -155,15 +155,15 @@ public abstract class AbstractCameraScreenHandler implements CameraFragmentListe
 
     protected abstract Intent getAnalysisActivityIntent(final Document document);
 
-    Activity getActivity() {
+    protected Activity getActivity() {
         return mActivity;
     }
 
-    GiniVisionFeatureConfiguration getGiniVisionFeatureConfiguration() {
+    protected GiniVisionFeatureConfiguration getGiniVisionFeatureConfiguration() {
         return mGiniVisionFeatureConfiguration;
     }
 
-    void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         switch (requestCode) {
             case REVIEW_REQUEST:
             case ANALYSIS_REQUEST:
@@ -174,7 +174,7 @@ public abstract class AbstractCameraScreenHandler implements CameraFragmentListe
         }
     }
 
-    boolean onBackPressed() {
+    public boolean onBackPressed() {
         if (isOnboardingVisible()) {
             removeOnboarding();
             return true;
@@ -184,7 +184,7 @@ public abstract class AbstractCameraScreenHandler implements CameraFragmentListe
 
     protected abstract boolean isOnboardingVisible();
 
-    void onCreate(final Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         setUpActionBar();
         setTitlesForCamera();
 
@@ -314,19 +314,19 @@ public abstract class AbstractCameraScreenHandler implements CameraFragmentListe
         }
     }
 
-    boolean onCreateOptionsMenu(final Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         mMenu = menu;
         mActivity.getMenuInflater().inflate(R.menu.menu_camera, menu);
         return true;
     }
 
-    void onNewIntent(final Intent intent) {
+    public void onNewIntent(final Intent intent) {
         if (isIntentActionViewOrSend(intent)) {
             startGiniVisionLibraryForImportedFile(intent);
         }
     }
 
-    boolean onOptionsItemSelected(final MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.tips:
                 showOnboarding();

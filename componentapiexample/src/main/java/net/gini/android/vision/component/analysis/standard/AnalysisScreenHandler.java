@@ -1,4 +1,4 @@
-package net.gini.android.vision.component.analysis;
+package net.gini.android.vision.component.analysis.standard;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -8,7 +8,8 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.analysis.AnalysisFragmentInterface;
 import net.gini.android.vision.analysis.AnalysisFragmentStandard;
 import net.gini.android.vision.component.R;
-import net.gini.android.vision.component.noresults.NoResultsExampleActivity;
+import net.gini.android.vision.component.analysis.AbstractAnalysisScreenHandler;
+import net.gini.android.vision.component.noresults.standard.NoResultsExampleActivity;
 
 /**
  * Created by Alpar Szotyori on 04.12.2017.

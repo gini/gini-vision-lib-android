@@ -2,7 +2,7 @@ package net.gini.android.vision.component.review;
 
 import static android.app.Activity.RESULT_OK;
 
-import static net.gini.android.vision.component.review.ReviewExampleAppCompatActivity.EXTRA_IN_DOCUMENT;
+import static net.gini.android.vision.component.review.compat.ReviewExampleAppCompatActivity.EXTRA_IN_DOCUMENT;
 import static net.gini.android.vision.example.ExampleUtil.hasNoPay5Extractions;
 
 import android.app.Activity;
@@ -45,7 +45,7 @@ public abstract class AbstractReviewScreenHandler implements ReviewFragmentListe
     private ReviewFragmentInterface mReviewFragmentInterface;
     private SingleDocumentAnalyzer mSingleDocumentAnalyzer;
 
-    AbstractReviewScreenHandler(final Activity activity) {
+    protected AbstractReviewScreenHandler(final Activity activity) {
         mActivity = activity;
     }
 
@@ -188,7 +188,7 @@ public abstract class AbstractReviewScreenHandler implements ReviewFragmentListe
         return mDocument;
     }
 
-    void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         switch (requestCode) {
             case ANALYSIS_REQUEST:
                 if (resultCode == RESULT_OK) {
@@ -199,7 +199,7 @@ public abstract class AbstractReviewScreenHandler implements ReviewFragmentListe
         }
     }
 
-    void onCreate(final Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         setUpActionBar();
         setTitles();
         readDocumentFromExtras();

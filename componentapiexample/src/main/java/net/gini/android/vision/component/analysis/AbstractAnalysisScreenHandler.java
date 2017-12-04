@@ -2,8 +2,8 @@ package net.gini.android.vision.component.analysis;
 
 import static android.app.Activity.RESULT_OK;
 
-import static net.gini.android.vision.component.analysis.AnalysisExampleAppCompatActivity.EXTRA_IN_DOCUMENT;
-import static net.gini.android.vision.component.analysis.AnalysisExampleAppCompatActivity.EXTRA_IN_ERROR_MESSAGE;
+import static net.gini.android.vision.component.analysis.compat.AnalysisExampleAppCompatActivity.EXTRA_IN_DOCUMENT;
+import static net.gini.android.vision.component.analysis.compat.AnalysisExampleAppCompatActivity.EXTRA_IN_ERROR_MESSAGE;
 import static net.gini.android.vision.example.ExampleUtil.hasNoPay5Extractions;
 
 import android.app.Activity;
@@ -47,7 +47,7 @@ public abstract class AbstractAnalysisScreenHandler implements AnalysisFragmentL
     private String mErrorMessageFromReviewScreen;
     private SingleDocumentAnalyzer mSingleDocumentAnalyzer;
 
-    AbstractAnalysisScreenHandler(final Activity activity) {
+    protected AbstractAnalysisScreenHandler(final Activity activity) {
         mActivity = activity;
     }
 
@@ -161,11 +161,11 @@ public abstract class AbstractAnalysisScreenHandler implements AnalysisFragmentL
         return mDocument;
     }
 
-    String getErrorMessageFromReviewScreen() {
+    protected String getErrorMessageFromReviewScreen() {
         return mErrorMessageFromReviewScreen;
     }
 
-    void onCreate(final Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         setUpActionBar();
         setTitles();
         readExtras();

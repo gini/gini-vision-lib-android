@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="net.gini.android.vision.component">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -28,7 +29,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <intent-filter android:label="@string/app_name">
+            <intent-filter
+                android:label="@string/app_name"
+                tools:ignore="AppLinkUrlError">
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.SEND" />
 
@@ -43,28 +46,28 @@
             android:label="@string/title_extractions"
             android:theme="@style/AppThemeCompat" />
         <activity
-            android:name=".camera.CameraExampleAppCompatActivity"
+            android:name=".camera.compat.CameraExampleAppCompatActivity"
             android:theme="@style/AppThemeCompat.NoActionBar" />
         <activity
-            android:name=".camera.CameraExampleActivity"
+            android:name=".camera.standard.CameraExampleActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".review.ReviewExampleAppCompatActivity"
+            android:name=".review.compat.ReviewExampleAppCompatActivity"
             android:theme="@style/AppThemeCompat.NoActionBar" />
         <activity
-            android:name=".review.ReviewExampleActivity"
+            android:name=".review.standard.ReviewExampleActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".analysis.AnalysisExampleAppCompatActivity"
+            android:name=".analysis.compat.AnalysisExampleAppCompatActivity"
             android:theme="@style/AppThemeCompat.NoActionBar" />
         <activity
-            android:name=".analysis.AnalysisExampleActivity"
+            android:name=".analysis.standard.AnalysisExampleActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".noresults.NoResultsExampleAppCompatActivity"
+            android:name=".noresults.compat.NoResultsExampleAppCompatActivity"
             android:theme="@style/AppThemeCompat.NoActionBar" />
         <activity
-            android:name=".noresults.NoResultsExampleActivity"
+            android:name=".noresults.standard.NoResultsExampleActivity"
             android:theme="@style/AppTheme" />
     </application>
 

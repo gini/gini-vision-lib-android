@@ -1,4 +1,4 @@
-package net.gini.android.vision.component.noresults;
+package net.gini.android.vision.component.noresults.compat;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,7 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import net.gini.android.vision.component.R;
-import net.gini.android.vision.component.camera.CameraExampleAppCompatActivity;
+import net.gini.android.vision.component.camera.compat.CameraExampleAppCompatActivity;
+import net.gini.android.vision.component.noresults.AbstractNoResultsScreenHandler;
 import net.gini.android.vision.noresults.NoResultsFragmentCompat;
 
 /**
@@ -21,7 +22,7 @@ public class NoResultsScreenHandlerAppCompat extends AbstractNoResultsScreenHand
     private final AppCompatActivity mAppCompatActivity;
     private NoResultsFragmentCompat mNoResultsFragment;
 
-    public NoResultsScreenHandlerAppCompat(final Activity activity) {
+    NoResultsScreenHandlerAppCompat(final Activity activity) {
         super(activity);
         mAppCompatActivity = (AppCompatActivity) activity;
     }

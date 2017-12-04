@@ -1,4 +1,4 @@
-package net.gini.android.vision.component.review;
+package net.gini.android.vision.component.review.compat;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,8 +8,9 @@ import android.support.v7.widget.Toolbar;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.component.R;
-import net.gini.android.vision.component.analysis.AnalysisExampleAppCompatActivity;
-import net.gini.android.vision.component.noresults.NoResultsExampleAppCompatActivity;
+import net.gini.android.vision.component.analysis.compat.AnalysisExampleAppCompatActivity;
+import net.gini.android.vision.component.noresults.compat.NoResultsExampleAppCompatActivity;
+import net.gini.android.vision.component.review.AbstractReviewScreenHandler;
 import net.gini.android.vision.review.ReviewFragmentCompat;
 import net.gini.android.vision.review.ReviewFragmentInterface;
 
