@@ -239,7 +239,7 @@ public class GiniVisionActivity extends Activity implements CameraFragmentListen
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_scanner, menu);
+        getMenuInflater().inflate(R.menu.menu_camera, menu);
         return true;
     }
 

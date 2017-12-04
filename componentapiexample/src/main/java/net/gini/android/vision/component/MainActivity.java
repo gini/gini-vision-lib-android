@@ -15,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.gini.android.vision.GiniVisionDebug;
+import net.gini.android.vision.component.camera.CameraExampleActivity;
+import net.gini.android.vision.component.camera.CameraExampleAppCompatActivity;
 import net.gini.android.vision.requirements.RequirementReport;
 import net.gini.android.vision.requirements.RequirementsReport;
 
@@ -117,10 +119,10 @@ public class MainActivity extends Activity {
 
         final Intent intent;
         if (importedFileIntent == null) {
-            intent = new Intent(this, GiniVisionActivity.class);
+            intent = new Intent(this, CameraExampleActivity.class);
         } else {
             intent = new Intent(importedFileIntent);
-            intent.setClass(this, GiniVisionActivity.class);
+            intent.setClass(this, CameraExampleActivity.class);
         }
         startActivity(intent);
     }
@@ -140,10 +142,10 @@ public class MainActivity extends Activity {
 
         final Intent intent;
         if (importedFileIntent == null) {
-            intent = new Intent(this, GiniVisionAppCompatActivity.class);
+            intent = new Intent(this, CameraExampleAppCompatActivity.class);
         } else {
             intent = new Intent(importedFileIntent);
-            intent.setClass(this, GiniVisionAppCompatActivity.class);
+            intent.setClass(this, CameraExampleAppCompatActivity.class);
         }
         startActivity(intent);
     }
