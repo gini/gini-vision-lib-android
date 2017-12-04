@@ -1,13 +1,16 @@
 package net.gini.android.vision.component.analysis;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import net.gini.android.vision.Document;
 import net.gini.android.vision.analysis.AnalysisFragmentCompat;
 import net.gini.android.vision.analysis.AnalysisFragmentInterface;
 import net.gini.android.vision.component.R;
+import net.gini.android.vision.component.noresults.NoResultsExampleAppCompatActivity;
 
 /**
  * Created by Alpar Szotyori on 04.12.2017.
@@ -23,6 +26,11 @@ public class AnalysisScreenHandlerAppCompat extends AbstractAnalysisScreenHandle
     AnalysisScreenHandlerAppCompat(final Activity activity) {
         super(activity);
         mAppCompatActivity = (AppCompatActivity) activity;
+    }
+
+    @Override
+    protected Intent getNoResultsActivityIntent(final Document document) {
+        return NoResultsExampleAppCompatActivity.newInstance(document, mAppCompatActivity);
     }
 
     @Override

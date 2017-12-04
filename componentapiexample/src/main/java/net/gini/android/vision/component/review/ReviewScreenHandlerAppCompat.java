@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.component.R;
 import net.gini.android.vision.component.analysis.AnalysisExampleAppCompatActivity;
+import net.gini.android.vision.component.noresults.NoResultsExampleAppCompatActivity;
 import net.gini.android.vision.review.ReviewFragmentCompat;
 import net.gini.android.vision.review.ReviewFragmentInterface;
 
@@ -32,6 +33,11 @@ public class ReviewScreenHandlerAppCompat extends AbstractReviewScreenHandler {
     protected Intent getAnalysisActivityIntent(final Document document, final String errorMessage) {
         return AnalysisExampleAppCompatActivity.newInstance(document, errorMessage,
                 mAppCompatActivity);
+    }
+
+    @Override
+    protected Intent getNoResultsActivityIntent(final Document document) {
+        return NoResultsExampleAppCompatActivity.newInstance(document, mAppCompatActivity);
     }
 
     @Override

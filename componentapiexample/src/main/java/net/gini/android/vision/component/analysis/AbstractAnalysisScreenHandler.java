@@ -1,5 +1,7 @@
 package net.gini.android.vision.component.analysis;
 
+import static android.app.Activity.RESULT_OK;
+
 import static net.gini.android.vision.component.analysis.AnalysisExampleAppCompatActivity.EXTRA_IN_DOCUMENT;
 import static net.gini.android.vision.component.analysis.AnalysisExampleAppCompatActivity.EXTRA_IN_ERROR_MESSAGE;
 import static net.gini.android.vision.example.ExampleUtil.hasNoPay5Extractions;
@@ -135,10 +137,13 @@ public abstract class AbstractAnalysisScreenHandler implements AnalysisFragmentL
     }
 
     private void showNoResultsScreen(final Document document) {
-        // TODO: show no results activity
-        mActivity.setResult(Activity.RESULT_OK);
+        final Intent intent = getNoResultsActivityIntent(document);
+        mActivity.startActivity(intent);
+        mActivity.setResult(RESULT_OK);
         mActivity.finish();
     }
+
+    protected abstract Intent getNoResultsActivityIntent(final Document document);
 
     @Override
     public void onError(@NonNull final GiniVisionError error) {

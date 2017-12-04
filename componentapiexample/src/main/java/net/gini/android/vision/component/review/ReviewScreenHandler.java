@@ -7,6 +7,7 @@ import android.content.Intent;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.component.R;
 import net.gini.android.vision.component.analysis.AnalysisExampleActivity;
+import net.gini.android.vision.component.noresults.NoResultsExampleActivity;
 import net.gini.android.vision.review.ReviewFragmentInterface;
 import net.gini.android.vision.review.ReviewFragmentStandard;
 
@@ -27,6 +28,11 @@ public class ReviewScreenHandler extends AbstractReviewScreenHandler {
     @Override
     protected Intent getAnalysisActivityIntent(final Document document, final String errorMessage) {
         return AnalysisExampleActivity.newInstance(document, errorMessage, getActivity());
+    }
+
+    @Override
+    protected Intent getNoResultsActivityIntent(final Document document) {
+        return NoResultsExampleActivity.newInstance(document, getActivity());
     }
 
     @Override

@@ -2,10 +2,13 @@ package net.gini.android.vision.component.analysis;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
 
+import net.gini.android.vision.Document;
 import net.gini.android.vision.analysis.AnalysisFragmentInterface;
 import net.gini.android.vision.analysis.AnalysisFragmentStandard;
 import net.gini.android.vision.component.R;
+import net.gini.android.vision.component.noresults.NoResultsExampleActivity;
 
 /**
  * Created by Alpar Szotyori on 04.12.2017.
@@ -19,6 +22,11 @@ public class AnalysisScreenHandler extends AbstractAnalysisScreenHandler {
 
     AnalysisScreenHandler(final Activity activity) {
         super(activity);
+    }
+
+    @Override
+    protected Intent getNoResultsActivityIntent(final Document document) {
+        return NoResultsExampleActivity.newInstance(document, getActivity());
     }
 
     @Override

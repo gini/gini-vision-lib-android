@@ -153,10 +153,13 @@ public abstract class AbstractReviewScreenHandler implements ReviewFragmentListe
     }
 
     private void showNoResultsScreen(final Document document) {
-        // TODO: show no results activity
+        final Intent intent = getNoResultsActivityIntent(document);
+        mActivity.startActivity(intent);
         mActivity.setResult(RESULT_OK);
         mActivity.finish();
     }
+
+    protected abstract Intent getNoResultsActivityIntent(final Document document);
 
     @Override
     public void onDocumentWasRotated(@NonNull final Document document, final int oldRotation,
