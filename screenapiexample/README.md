@@ -84,7 +84,7 @@ The Gini API SDK is created in and accessed using the `ScreenApiApp`. The `Singl
 Customization
 =============
 
-Customization options are detailed in each Screen API Activity's javadoc: `CameraActivity`, `OnboardingActivity`, `ReviewActivity` and `AnalysisActivity`.
+Customization options are detailed in each Screen API Activity's javadoc: `CameraActivity`, `HelpActivity`, `OnboardingActivity`, `ReviewActivity` and `AnalysisActivity`.
 
 To experiment with customizing the images used in the Gini Vision Library you can copy the contents of the folder `screenapiexample/customized-drawables` to `screenapiexample/src/main/res`.
 
@@ -107,6 +107,8 @@ $ ./gradlew screenapiexample::assembleRelease \
     -PreleaseKeystoreFile=<path to keystore> \ 
     -PreleaseKeystorePassword=<keystore password> \ 
     -PreleaseKeyAlias=<key alias> \ 
-    -PreleaseKeyPassword=<key password> 
+    -PreleaseKeyPassword=<key password> \
+    -PclientId=<Gini API client id> \
+    -PclientSecret=<Gini API client secret>
 ``` 
  
