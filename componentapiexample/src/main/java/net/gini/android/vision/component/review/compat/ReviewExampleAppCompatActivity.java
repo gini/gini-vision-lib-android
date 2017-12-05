@@ -8,9 +8,24 @@ import android.support.v7.app.AppCompatActivity;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.component.ExtractionsActivity;
 import net.gini.android.vision.component.R;
+import net.gini.android.vision.component.analysis.compat.AnalysisExampleAppCompatActivity;
+import net.gini.android.vision.component.noresults.compat.NoResultsExampleAppCompatActivity;
+import net.gini.android.vision.review.ReviewFragmentCompat;
 import net.gini.android.vision.review.ReviewFragmentListener;
 
+/**
+ * Created by Alpar Szotyori on 04.12.2017.
+ *
+ * Copyright (c) 2017 Gini GmbH.
+ */
+
+/**
+ * AppCompatActivity using the {@link ReviewScreenHandlerAppCompat} to host the
+ * {@link ReviewFragmentCompat} and to start the {@link AnalysisExampleAppCompatActivity}, the
+ * {@link NoResultsExampleAppCompatActivity} or the {@link ExtractionsActivity}.
+ */
 public class ReviewExampleAppCompatActivity extends AppCompatActivity implements
         ReviewFragmentListener {
 

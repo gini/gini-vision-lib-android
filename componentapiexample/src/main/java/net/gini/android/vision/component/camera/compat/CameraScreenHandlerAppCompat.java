@@ -22,6 +22,9 @@ import net.gini.android.vision.onboarding.OnboardingFragmentCompat;
  * Copyright (c) 2017 Gini GmbH.
  */
 
+/**
+ * Creates compatibility library fragments and activities for the Camera Screen.
+ */
 public class CameraScreenHandlerAppCompat extends BaseCameraScreenHandler {
 
     private final AppCompatActivity mAppCompatActivity;

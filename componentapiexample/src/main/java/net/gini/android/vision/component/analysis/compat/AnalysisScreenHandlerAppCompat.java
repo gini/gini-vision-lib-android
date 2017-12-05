@@ -19,6 +19,9 @@ import net.gini.android.vision.component.noresults.compat.NoResultsExampleAppCom
  * Copyright (c) 2017 Gini GmbH.
  */
 
+/**
+ * Creates compatibility library fragments and activities for the Analysis Screen.
+ */
 public class AnalysisScreenHandlerAppCompat extends BaseAnalysisScreenHandler {
 
     private final AppCompatActivity mAppCompatActivity;

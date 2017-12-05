@@ -10,9 +10,25 @@ import android.view.MenuItem;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.camera.CameraFragmentListener;
+import net.gini.android.vision.camera.CameraFragmentStandard;
 import net.gini.android.vision.component.R;
+import net.gini.android.vision.component.analysis.standard.AnalysisExampleActivity;
+import net.gini.android.vision.component.review.standard.ReviewExampleActivity;
+import net.gini.android.vision.help.HelpActivity;
 import net.gini.android.vision.onboarding.OnboardingFragmentListener;
+import net.gini.android.vision.onboarding.OnboardingFragmentStandard;
 
+/**
+ * Created by Alpar Szotyori on 04.12.2017.
+ *
+ * Copyright (c) 2017 Gini GmbH.
+ */
+
+/**
+ * Standard Activity using the {@link CameraScreenHandler} to host the
+ * {@link CameraFragmentStandard} and the {@link OnboardingFragmentStandard} and to start the
+ * {@link ReviewExampleActivity}, the {@link AnalysisExampleActivity} or the {@link HelpActivity}.
+ */
 public class CameraExampleActivity extends Activity implements CameraFragmentListener,
         OnboardingFragmentListener {
 

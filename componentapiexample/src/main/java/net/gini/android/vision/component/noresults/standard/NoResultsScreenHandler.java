@@ -15,6 +15,9 @@ import net.gini.android.vision.noresults.NoResultsFragmentStandard;
  * Copyright (c) 2017 Gini GmbH.
  */
 
+/**
+ * Creates standard fragments and activities for the No Results Screen.
+ */
 public class NoResultsScreenHandler extends BaseNoResultsScreenHandler {
 
     private NoResultsFragmentStandard mNoResultsFragment;

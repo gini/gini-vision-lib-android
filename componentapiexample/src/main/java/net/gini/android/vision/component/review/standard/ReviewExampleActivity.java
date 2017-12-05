@@ -8,9 +8,24 @@ import android.support.annotation.NonNull;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.component.ExtractionsActivity;
 import net.gini.android.vision.component.R;
+import net.gini.android.vision.component.analysis.standard.AnalysisExampleActivity;
+import net.gini.android.vision.component.noresults.standard.NoResultsExampleActivity;
 import net.gini.android.vision.review.ReviewFragmentListener;
+import net.gini.android.vision.review.ReviewFragmentStandard;
 
+/**
+ * Created by Alpar Szotyori on 04.12.2017.
+ *
+ * Copyright (c) 2017 Gini GmbH.
+ */
+
+/**
+ * Standard Activity using the {@link ReviewScreenHandler} to host the
+ * {@link ReviewFragmentStandard} and to start the {@link AnalysisExampleActivity}, the
+ * {@link NoResultsExampleActivity} or the {@link ExtractionsActivity}.
+ */
 public class ReviewExampleActivity extends Activity implements
         ReviewFragmentListener {
 

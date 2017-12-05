@@ -20,9 +20,9 @@ import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.analysis.AnalysisFragmentInterface;
 import net.gini.android.vision.analysis.AnalysisFragmentListener;
-import net.gini.android.vision.component.ComponentApiExampleApp;
 import net.gini.android.vision.component.ExtractionsActivity;
 import net.gini.android.vision.component.R;
+import net.gini.android.vision.example.BaseExampleApp;
 import net.gini.android.vision.example.DocumentAnalyzer;
 import net.gini.android.vision.example.SingleDocumentAnalyzer;
 
@@ -37,6 +37,12 @@ import java.util.Map;
  * Copyright (c) 2017 Gini GmbH.
  */
 
+/**
+ * Contains the logic for the Analysis Screen.
+ * <p>
+ * Code that differs between the standard and the compatibility library is abstracted away and is
+ * implemented in the {@code standard} and {@code compat} packages.
+ */
 public abstract class BaseAnalysisScreenHandler implements AnalysisFragmentListener {
 
     private static final Logger LOG = LoggerFactory.getLogger(BaseAnalysisScreenHandler.class);
@@ -101,7 +107,7 @@ public abstract class BaseAnalysisScreenHandler implements AnalysisFragmentListe
     private SingleDocumentAnalyzer getSingleDocumentAnalyzer() {
         if (mSingleDocumentAnalyzer == null) {
             mSingleDocumentAnalyzer =
-                    ((ComponentApiExampleApp) mActivity.getApplication()).getSingleDocumentAnalyzer();
+                    ((BaseExampleApp) mActivity.getApplication()).getSingleDocumentAnalyzer();
         }
         return mSingleDocumentAnalyzer;
     }

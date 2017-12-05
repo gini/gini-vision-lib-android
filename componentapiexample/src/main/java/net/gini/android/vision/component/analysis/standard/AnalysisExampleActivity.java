@@ -9,8 +9,22 @@ import android.support.annotation.NonNull;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.analysis.AnalysisFragmentListener;
+import net.gini.android.vision.analysis.AnalysisFragmentStandard;
+import net.gini.android.vision.component.ExtractionsActivity;
 import net.gini.android.vision.component.R;
+import net.gini.android.vision.component.noresults.standard.NoResultsExampleActivity;
 
+/**
+ * Created by Alpar Szotyori on 04.12.2017.
+ *
+ * Copyright (c) 2017 Gini GmbH.
+ */
+
+/**
+ * Standard Activity using the {@link AnalysisScreenHandler} to host the
+ * {@link AnalysisFragmentStandard} and to start the {@link ExtractionsActivity} or the
+ * {@link NoResultsExampleActivity}.
+ */
 public class AnalysisExampleActivity extends Activity implements
         AnalysisFragmentListener {
 

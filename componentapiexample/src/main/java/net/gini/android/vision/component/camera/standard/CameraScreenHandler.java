@@ -20,6 +20,9 @@ import net.gini.android.vision.onboarding.OnboardingFragmentStandard;
  * Copyright (c) 2017 Gini GmbH.
  */
 
+/**
+ * Creates standard fragments and activities for the Camera Screen.
+ */
 public class CameraScreenHandler extends BaseCameraScreenHandler {
 
     private CameraFragmentStandard mCameraFragment;

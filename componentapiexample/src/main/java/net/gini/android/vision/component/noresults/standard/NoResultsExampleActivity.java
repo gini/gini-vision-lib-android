@@ -8,7 +8,18 @@ import android.os.Bundle;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.component.R;
 import net.gini.android.vision.noresults.NoResultsFragmentListener;
+import net.gini.android.vision.noresults.NoResultsFragmentStandard;
 
+/**
+ * Created by Alpar Szotyori on 04.12.2017.
+ *
+ * Copyright (c) 2017 Gini GmbH.
+ */
+
+/**
+ * Standard Activity using the {@link NoResultsScreenHandler} to host the
+ * {@link NoResultsFragmentStandard}.
+ */
 public class NoResultsExampleActivity extends Activity implements
         NoResultsFragmentListener {
 

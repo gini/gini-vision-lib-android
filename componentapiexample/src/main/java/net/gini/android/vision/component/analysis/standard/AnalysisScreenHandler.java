@@ -17,6 +17,9 @@ import net.gini.android.vision.component.noresults.standard.NoResultsExampleActi
  * Copyright (c) 2017 Gini GmbH.
  */
 
+/**
+ * Creates standard fragments and activities for the Analysis Screen.
+ */
 public class AnalysisScreenHandler extends BaseAnalysisScreenHandler {
 
     private AnalysisFragmentStandard mAnalysisFragment;

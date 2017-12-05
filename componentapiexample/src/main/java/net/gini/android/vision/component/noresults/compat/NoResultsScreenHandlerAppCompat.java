@@ -17,6 +17,9 @@ import net.gini.android.vision.noresults.NoResultsFragmentCompat;
  * Copyright (c) 2017 Gini GmbH.
  */
 
+/**
+ * Creates compatibility library fragments and activities for the No Results Screen.
+ */
 public class NoResultsScreenHandlerAppCompat extends BaseNoResultsScreenHandler {
 
     private final AppCompatActivity mAppCompatActivity;

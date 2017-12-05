@@ -7,8 +7,19 @@ import android.support.v7.app.AppCompatActivity;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.component.R;
+import net.gini.android.vision.noresults.NoResultsFragmentCompat;
 import net.gini.android.vision.noresults.NoResultsFragmentListener;
 
+/**
+ * Created by Alpar Szotyori on 04.12.2017.
+ *
+ * Copyright (c) 2017 Gini GmbH.
+ */
+
+/**
+ * AppCompatActivity using the {@link NoResultsScreenHandlerAppCompat} to host the
+ * {@link NoResultsFragmentCompat}.
+ */
 public class NoResultsExampleAppCompatActivity extends AppCompatActivity implements
         NoResultsFragmentListener {
 

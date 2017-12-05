@@ -23,8 +23,8 @@ import net.gini.android.vision.GiniVisionFileImport;
 import net.gini.android.vision.ImportedFileValidationException;
 import net.gini.android.vision.camera.CameraFragmentInterface;
 import net.gini.android.vision.camera.CameraFragmentListener;
-import net.gini.android.vision.component.ComponentApiExampleApp;
 import net.gini.android.vision.component.R;
+import net.gini.android.vision.example.BaseExampleApp;
 import net.gini.android.vision.example.SingleDocumentAnalyzer;
 import net.gini.android.vision.help.HelpActivity;
 import net.gini.android.vision.onboarding.OnboardingFragmentListener;
@@ -38,6 +38,12 @@ import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.android.LogcatAppender;
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 
+/**
+ * Contains the logic for the Camera Screen.
+ * <p>
+ * Code that differs between the standard and the compatibility library is abstracted away and is
+ * implemented in the {@code standard} and {@code compat} packages.
+ */
 public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
         OnboardingFragmentListener {
 
@@ -92,7 +98,7 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
     private SingleDocumentAnalyzer getSingleDocumentAnalyzer() {
         if (mSingleDocumentAnalyzer == null) {
             mSingleDocumentAnalyzer =
-                    ((ComponentApiExampleApp) mActivity.getApplication()).getSingleDocumentAnalyzer();
+                    ((BaseExampleApp) mActivity.getApplication()).getSingleDocumentAnalyzer();
         }
         return mSingleDocumentAnalyzer;
     }

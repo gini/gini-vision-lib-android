@@ -8,9 +8,23 @@ import android.support.v7.app.AppCompatActivity;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.analysis.AnalysisFragmentCompat;
 import net.gini.android.vision.analysis.AnalysisFragmentListener;
+import net.gini.android.vision.component.ExtractionsActivity;
 import net.gini.android.vision.component.R;
+import net.gini.android.vision.component.noresults.compat.NoResultsExampleAppCompatActivity;
 
+/**
+ * Created by Alpar Szotyori on 04.12.2017.
+ *
+ * Copyright (c) 2017 Gini GmbH.
+ */
+
+/**
+ * AppCompatActivity using the {@link AnalysisScreenHandlerAppCompat} to host the
+ * {@link AnalysisFragmentCompat} and to start the {@link ExtractionsActivity} or the
+ * {@link NoResultsExampleAppCompatActivity}.
+ */
 public class AnalysisExampleAppCompatActivity extends AppCompatActivity implements
         AnalysisFragmentListener {
 

@@ -15,6 +15,12 @@ import net.gini.android.vision.noresults.NoResultsFragmentListener;
  * Copyright (c) 2017 Gini GmbH.
  */
 
+/**
+ * Contains the logic for the No Results Screen.
+ * <p>
+ * Code that differs between the standard and the compatibility library is abstracted away and is
+ * implemented in the {@code standard} and {@code compat} packages.
+ */
 public abstract class BaseNoResultsScreenHandler implements NoResultsFragmentListener {
 
     private final Activity mActivity;

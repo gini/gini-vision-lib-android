@@ -20,6 +20,9 @@ import net.gini.android.vision.review.ReviewFragmentInterface;
  * Copyright (c) 2017 Gini GmbH.
  */
 
+/**
+ * Creates compatibility library fragments and activities for the Review Screen.
+ */
 public class ReviewScreenHandlerAppCompat extends BaseReviewScreenHandler {
 
     private final AppCompatActivity mAppCompatActivity;

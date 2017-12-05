@@ -9,10 +9,26 @@ import android.view.MenuItem;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.camera.CameraFragmentCompat;
 import net.gini.android.vision.camera.CameraFragmentListener;
 import net.gini.android.vision.component.R;
+import net.gini.android.vision.component.analysis.compat.AnalysisExampleAppCompatActivity;
+import net.gini.android.vision.component.review.compat.ReviewExampleAppCompatActivity;
+import net.gini.android.vision.help.HelpActivity;
+import net.gini.android.vision.onboarding.OnboardingFragmentCompat;
 import net.gini.android.vision.onboarding.OnboardingFragmentListener;
 
+/**
+ * Created by Alpar Szotyori on 04.12.2017.
+ *
+ * Copyright (c) 2017 Gini GmbH.
+ */
+
+/**
+ * AppCompatActivity using the {@link CameraScreenHandlerAppCompat} to host the
+ * {@link CameraFragmentCompat} and the {@link OnboardingFragmentCompat} and to start the
+ * {@link ReviewExampleAppCompatActivity}, the {@link AnalysisExampleAppCompatActivity} or the {@link HelpActivity}.
+ */
 public class CameraExampleAppCompatActivity extends AppCompatActivity implements
         CameraFragmentListener,
         OnboardingFragmentListener {

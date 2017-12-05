@@ -18,6 +18,9 @@ import net.gini.android.vision.review.ReviewFragmentStandard;
  * Copyright (c) 2017 Gini GmbH.
  */
 
+/**
+ * Creates standard fragments and activities for the Review Screen.
+ */
 public class ReviewScreenHandler extends BaseReviewScreenHandler {
 
     private ReviewFragmentStandard mReviewFragment;
