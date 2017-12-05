@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button mButtonStartGiniVisionCompat;
     private Button mButtonStartGiniVisionStandard;
+    private boolean mRestoredInstance;
     private RuntimePermissionHandler mRuntimePermissionHandler;
     private TextView mTextAppVersion;
     private TextView mTextGiniVisionLibVersion;
@@ -42,7 +43,13 @@ public class MainActivity extends AppCompatActivity {
         setGiniVisionLibDebugging();
         showVersions();
         createRuntimePermissionsHandler();
-        if (savedInstanceState == null) {
+        mRestoredInstance = savedInstanceState != null;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (!mRestoredInstance) {
             final Intent intent = getIntent();
             if (isIntentActionViewOrSend(intent)) {
                 startGiniVisionLibraryForImportedFile(intent);
