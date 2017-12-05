@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply from: rootProject.file('gradle/git_utils.gradle')
+apply from: rootProject.file('gradle/gini_credentials.gradle')
 
 def appVersionCode = gitCommitUnixTime()
 def appVersionName = "${version}-${gitBranch()}-${gitHash()} (${appVersionCode})"
@@ -42,10 +43,16 @@ android {
     }
 
     buildTypes {
+        debug {
+            resValue 'string', 'gini_api_client_id', clientId
+            resValue 'string', 'gini_api_client_secret', clientSecret
+        }
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+            resValue 'string', 'gini_api_client_id', clientId
+            resValue 'string', 'gini_api_client_secret', clientSecret
         }
     }
 }
@@ -97,5 +104,4 @@ dependencies {
 }
 
 apply from: rootProject.file('gradle/codequality.gradle')
-apply from: rootProject.file('gradle/client_credentials.gradle')
 apply from: rootProject.file('gradle/multidex_for_tests.gradle')
