@@ -20,6 +20,7 @@ import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.GiniVisionFileImport;
 import net.gini.android.vision.ImportedFileValidationException;
 import net.gini.android.vision.camera.CameraActivity;
+import net.gini.android.vision.example.RuntimePermissionHandler;
 import net.gini.android.vision.onboarding.DefaultPagesPhone;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.requirements.RequirementReport;
@@ -43,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_NO_EXTRACTIONS = 2;
 
     private Button mButtonStartScanner;
+    private boolean mRestoredInstance;
+    private RuntimePermissionHandler mRuntimePermissionHandler;
     private TextView mTextGiniVisionLibVersion;
     private TextView mTextAppVersion;
 
@@ -54,12 +57,33 @@ public class MainActivity extends AppCompatActivity {
         addInputHandlers();
         setGiniVisionLibDebugging();
         showVersions();
-        if (savedInstanceState == null) {
+        createRuntimePermissionsHandler();
+        mRestoredInstance = savedInstanceState != null;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (!mRestoredInstance) {
             final Intent intent = getIntent();
             if (isIntentActionViewOrSend(intent)) {
                 startGiniVisionLibraryForImportedFile(intent);
             }
         }
+    }
+
+    private void createRuntimePermissionsHandler() {
+        mRuntimePermissionHandler = RuntimePermissionHandler
+                .forActivity(this)
+                .withCameraPermissionDeniedMessage(
+                        getString(R.string.camera_permission_denied_message))
+                .withCameraPermissionRationale(getString(R.string.camera_permission_rationale))
+                .withStoragePermissionDeniedMessage(
+                        getString(R.string.storage_permission_denied_message))
+                .withStoragePermissionRationale(getString(R.string.storage_permission_rationale))
+                .withGrantAccessButtonTitle(getString(R.string.grant_access))
+                .withCancelButtonTitle(getString(R.string.cancel))
+                .build();
     }
 
     @Override
@@ -71,6 +95,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startGiniVisionLibraryForImportedFile(final Intent importedFileIntent) {
+        mRuntimePermissionHandler.requestStoragePermission(new RuntimePermissionHandler.Listener() {
+            @Override
+            public void permissionGranted() {
+                doStartGiniVisionLibraryForImportedFile(importedFileIntent);
+            }
+
+            @Override
+            public void permissionDenied() {
+                finish();
+            }
+        });
+
+    }
+
+    private void doStartGiniVisionLibraryForImportedFile(final Intent importedFileIntent) {
         try {
             final Intent giniVisionIntent = GiniVisionFileImport.createIntentForImportedFile(
                     importedFileIntent,
@@ -134,7 +173,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startGiniVisionLibrary() {
-        // Uncomment to enable requirements check.
+        mRuntimePermissionHandler.requestCameraPermission(new RuntimePermissionHandler.Listener() {
+            @Override
+            public void permissionGranted() {
+                doStartGiniVisionLibrary();
+            }
+
+            @Override
+            public void permissionDenied() {
+
+            }
+        });
+    }
+
+    private void doStartGiniVisionLibrary() {
         // NOTE: on Android 6.0 and later the camera permission is required before checking the requirements
 //        RequirementsReport report = GiniVisionRequirements.checkRequirements(this);
 //        if (!report.isFulfilled()) {
