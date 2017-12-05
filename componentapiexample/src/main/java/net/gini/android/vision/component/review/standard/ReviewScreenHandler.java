@@ -8,7 +8,7 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.component.R;
 import net.gini.android.vision.component.analysis.standard.AnalysisExampleActivity;
 import net.gini.android.vision.component.noresults.standard.NoResultsExampleActivity;
-import net.gini.android.vision.component.review.AbstractReviewScreenHandler;
+import net.gini.android.vision.component.review.BaseReviewScreenHandler;
 import net.gini.android.vision.review.ReviewFragmentInterface;
 import net.gini.android.vision.review.ReviewFragmentStandard;
 
@@ -18,7 +18,7 @@ import net.gini.android.vision.review.ReviewFragmentStandard;
  * Copyright (c) 2017 Gini GmbH.
  */
 
-public class ReviewScreenHandler extends AbstractReviewScreenHandler {
+public class ReviewScreenHandler extends BaseReviewScreenHandler {
 
     private ReviewFragmentStandard mReviewFragment;
 

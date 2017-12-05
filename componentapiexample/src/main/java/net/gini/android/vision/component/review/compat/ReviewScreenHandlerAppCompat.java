@@ -10,7 +10,7 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.component.R;
 import net.gini.android.vision.component.analysis.compat.AnalysisExampleAppCompatActivity;
 import net.gini.android.vision.component.noresults.compat.NoResultsExampleAppCompatActivity;
-import net.gini.android.vision.component.review.AbstractReviewScreenHandler;
+import net.gini.android.vision.component.review.BaseReviewScreenHandler;
 import net.gini.android.vision.review.ReviewFragmentCompat;
 import net.gini.android.vision.review.ReviewFragmentInterface;
 
@@ -20,7 +20,7 @@ import net.gini.android.vision.review.ReviewFragmentInterface;
  * Copyright (c) 2017 Gini GmbH.
  */
 
-public class ReviewScreenHandlerAppCompat extends AbstractReviewScreenHandler {
+public class ReviewScreenHandlerAppCompat extends BaseReviewScreenHandler {
 
     private final AppCompatActivity mAppCompatActivity;
     private ReviewFragmentCompat mReviewFragment;

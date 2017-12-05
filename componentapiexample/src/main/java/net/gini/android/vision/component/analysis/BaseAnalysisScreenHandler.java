@@ -37,9 +37,9 @@ import java.util.Map;
  * Copyright (c) 2017 Gini GmbH.
  */
 
-public abstract class AbstractAnalysisScreenHandler implements AnalysisFragmentListener {
+public abstract class BaseAnalysisScreenHandler implements AnalysisFragmentListener {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractAnalysisScreenHandler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BaseAnalysisScreenHandler.class);
 
     private final Activity mActivity;
     private AnalysisFragmentInterface mAnalysisFragmentInterface;
@@ -47,7 +47,7 @@ public abstract class AbstractAnalysisScreenHandler implements AnalysisFragmentL
     private String mErrorMessageFromReviewScreen;
     private SingleDocumentAnalyzer mSingleDocumentAnalyzer;
 
-    protected AbstractAnalysisScreenHandler(final Activity activity) {
+    protected BaseAnalysisScreenHandler(final Activity activity) {
         mActivity = activity;
     }
 

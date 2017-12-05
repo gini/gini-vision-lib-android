@@ -34,10 +34,10 @@ import java.util.Map;
  * Copyright (c) 2017 Gini GmbH.
  */
 
-public abstract class AbstractReviewScreenHandler implements ReviewFragmentListener {
+public abstract class BaseReviewScreenHandler implements ReviewFragmentListener {
 
     private static final int ANALYSIS_REQUEST = 1;
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractReviewScreenHandler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BaseReviewScreenHandler.class);
     private final Activity mActivity;
     private Document mDocument;
     private String mDocumentAnalysisErrorMessage;
@@ -45,7 +45,7 @@ public abstract class AbstractReviewScreenHandler implements ReviewFragmentListe
     private ReviewFragmentInterface mReviewFragmentInterface;
     private SingleDocumentAnalyzer mSingleDocumentAnalyzer;
 
-    protected AbstractReviewScreenHandler(final Activity activity) {
+    protected BaseReviewScreenHandler(final Activity activity) {
         mActivity = activity;
     }
 

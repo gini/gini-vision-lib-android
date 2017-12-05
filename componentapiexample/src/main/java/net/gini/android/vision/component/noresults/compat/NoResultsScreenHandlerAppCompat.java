@@ -8,7 +8,7 @@ import android.support.v7.widget.Toolbar;
 
 import net.gini.android.vision.component.R;
 import net.gini.android.vision.component.camera.compat.CameraExampleAppCompatActivity;
-import net.gini.android.vision.component.noresults.AbstractNoResultsScreenHandler;
+import net.gini.android.vision.component.noresults.BaseNoResultsScreenHandler;
 import net.gini.android.vision.noresults.NoResultsFragmentCompat;
 
 /**
@@ -17,7 +17,7 @@ import net.gini.android.vision.noresults.NoResultsFragmentCompat;
  * Copyright (c) 2017 Gini GmbH.
  */
 
-public class NoResultsScreenHandlerAppCompat extends AbstractNoResultsScreenHandler {
+public class NoResultsScreenHandlerAppCompat extends BaseNoResultsScreenHandler {
 
     private final AppCompatActivity mAppCompatActivity;
     private NoResultsFragmentCompat mNoResultsFragment;

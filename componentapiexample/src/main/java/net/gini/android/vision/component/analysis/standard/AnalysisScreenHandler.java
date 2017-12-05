@@ -8,7 +8,7 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.analysis.AnalysisFragmentInterface;
 import net.gini.android.vision.analysis.AnalysisFragmentStandard;
 import net.gini.android.vision.component.R;
-import net.gini.android.vision.component.analysis.AbstractAnalysisScreenHandler;
+import net.gini.android.vision.component.analysis.BaseAnalysisScreenHandler;
 import net.gini.android.vision.component.noresults.standard.NoResultsExampleActivity;
 
 /**
@@ -17,7 +17,7 @@ import net.gini.android.vision.component.noresults.standard.NoResultsExampleActi
  * Copyright (c) 2017 Gini GmbH.
  */
 
-public class AnalysisScreenHandler extends AbstractAnalysisScreenHandler {
+public class AnalysisScreenHandler extends BaseAnalysisScreenHandler {
 
     private AnalysisFragmentStandard mAnalysisFragment;
 

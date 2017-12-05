@@ -12,7 +12,7 @@ import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.example.DocumentAnalyzer;
-import net.gini.android.vision.example.AbstractExampleApp;
+import net.gini.android.vision.example.BaseExampleApp;
 import net.gini.android.vision.example.SingleDocumentAnalyzer;
 
 import org.slf4j.Logger;
@@ -84,13 +84,13 @@ public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisA
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSingleDocumentAnalyzer = ((AbstractExampleApp) getApplication()).getSingleDocumentAnalyzer();
+        mSingleDocumentAnalyzer = ((BaseExampleApp) getApplication()).getSingleDocumentAnalyzer();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ((AbstractExampleApp) getApplication()).getSingleDocumentAnalyzer().cancelAnalysis();
+        ((BaseExampleApp) getApplication()).getSingleDocumentAnalyzer().cancelAnalysis();
     }
 
     private Bundle getExtractionsBundle() {

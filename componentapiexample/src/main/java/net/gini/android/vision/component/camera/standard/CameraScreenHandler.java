@@ -6,10 +6,11 @@ import android.app.Fragment;
 import android.content.Intent;
 
 import net.gini.android.vision.Document;
+import net.gini.android.vision.camera.CameraFragmentInterface;
 import net.gini.android.vision.camera.CameraFragmentStandard;
 import net.gini.android.vision.component.R;
 import net.gini.android.vision.component.analysis.standard.AnalysisExampleActivity;
-import net.gini.android.vision.component.camera.AbstractCameraScreenHandler;
+import net.gini.android.vision.component.camera.BaseCameraScreenHandler;
 import net.gini.android.vision.component.review.standard.ReviewExampleActivity;
 import net.gini.android.vision.onboarding.OnboardingFragmentStandard;
 
@@ -19,7 +20,7 @@ import net.gini.android.vision.onboarding.OnboardingFragmentStandard;
  * Copyright (c) 2017 Gini GmbH.
  */
 
-public class CameraScreenHandler extends AbstractCameraScreenHandler {
+public class CameraScreenHandler extends BaseCameraScreenHandler {
 
     private CameraFragmentStandard mCameraFragment;
 
@@ -29,7 +30,6 @@ public class CameraScreenHandler extends AbstractCameraScreenHandler {
 
     @Override
     protected void removeOnboardingFragment() {
-        mCameraFragment.showInterface();
         final Fragment fragment = getActivity().getFragmentManager().findFragmentById(
                 R.id.onboarding_container);
         if (fragment != null) {
@@ -72,24 +72,25 @@ public class CameraScreenHandler extends AbstractCameraScreenHandler {
     }
 
     @Override
-    protected void showCameraFragment() {
+    protected CameraFragmentInterface showCameraFragment() {
         mCameraFragment = CameraFragmentStandard.createInstance(
                 getGiniVisionFeatureConfiguration());
         getActivity().getFragmentManager().beginTransaction()
                 .replace(R.id.camera_container, mCameraFragment)
                 .commit();
+        return mCameraFragment;
     }
 
     @Override
-    protected void retainCameraFragment() {
+    protected CameraFragmentInterface retainCameraFragment() {
         mCameraFragment =
                 (CameraFragmentStandard) getActivity().getFragmentManager().findFragmentById(
                         R.id.camera_container);
+        return mCameraFragment;
     }
 
     @Override
     protected void showOnboardingFragment() {
-        mCameraFragment.hideInterface();
         getActivity().getFragmentManager().beginTransaction()
                 .setCustomAnimations(R.animator.fade_in, R.animator.fade_out)
                 .replace(R.id.onboarding_container, new OnboardingFragmentStandard())

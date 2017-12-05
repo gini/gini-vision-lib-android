@@ -21,6 +21,7 @@ import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.GiniVisionFileImport;
 import net.gini.android.vision.ImportedFileValidationException;
+import net.gini.android.vision.camera.CameraFragmentInterface;
 import net.gini.android.vision.camera.CameraFragmentListener;
 import net.gini.android.vision.component.ComponentApiExampleApp;
 import net.gini.android.vision.component.R;
@@ -37,21 +38,22 @@ import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.android.LogcatAppender;
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 
-public abstract class AbstractCameraScreenHandler implements CameraFragmentListener,
+public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
         OnboardingFragmentListener {
 
     // Set to true to allow execution of the custom code check
     private static final boolean DO_CUSTOM_DOCUMENT_CHECK = false;
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractCameraScreenHandler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BaseCameraScreenHandler.class);
     private static final int REVIEW_REQUEST = 1;
     private static final int ANALYSIS_REQUEST = 2;
     private final Activity mActivity;
+    private CameraFragmentInterface mCameraFragmentInterface;
     private GiniVisionCoordinator mGiniVisionCoordinator;
     private GiniVisionFeatureConfiguration mGiniVisionFeatureConfiguration;
     private Menu mMenu;
     private SingleDocumentAnalyzer mSingleDocumentAnalyzer;
 
-    protected AbstractCameraScreenHandler(final Activity activity) {
+    protected BaseCameraScreenHandler(final Activity activity) {
         mActivity = activity;
     }
 
@@ -65,6 +67,7 @@ public abstract class AbstractCameraScreenHandler implements CameraFragmentListe
         if (mMenu != null) {
             mMenu.setGroupVisible(R.id.group, true);
         }
+        mCameraFragmentInterface.showInterface();
         setTitlesForCamera();
         removeOnboardingFragment();
     }
@@ -207,7 +210,7 @@ public abstract class AbstractCameraScreenHandler implements CameraFragmentListe
                 showCamera();
             }
         } else {
-            retainCameraFragment();
+            mCameraFragmentInterface = retainCameraFragment();
         }
     }
 
@@ -215,7 +218,7 @@ public abstract class AbstractCameraScreenHandler implements CameraFragmentListe
 
     private void showCamera() {
         LOG.debug("Show the Camera Screen");
-        showCameraFragment();
+        mCameraFragmentInterface = showCameraFragment();
         // Delay notifying the coordinator to allow the camera fragment view to be created
         new Handler().post(new Runnable() {
             @Override
@@ -225,9 +228,9 @@ public abstract class AbstractCameraScreenHandler implements CameraFragmentListe
         });
     }
 
-    protected abstract void showCameraFragment();
+    protected abstract CameraFragmentInterface showCameraFragment();
 
-    protected abstract void retainCameraFragment();
+    protected abstract CameraFragmentInterface retainCameraFragment();
 
     private void configureLogging() {
         final LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
@@ -263,6 +266,7 @@ public abstract class AbstractCameraScreenHandler implements CameraFragmentListe
         if (mMenu != null) {
             mMenu.setGroupVisible(R.id.group, false);
         }
+        mCameraFragmentInterface.hideInterface();
         setTitlesForOnboarding();
         showOnboardingFragment();
     }

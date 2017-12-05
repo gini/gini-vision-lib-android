@@ -17,7 +17,7 @@ import net.gini.android.SdkBuilder;
  *     only started when the Analysis Screen was shown where the reviewed final document is available.
  * </p>
  */
-public abstract class AbstractExampleApp extends Application {
+public abstract class BaseExampleApp extends Application {
 
     private Gini mGiniApi;
     private SingleDocumentAnalyzer mSingleDocumentAnalyzer;

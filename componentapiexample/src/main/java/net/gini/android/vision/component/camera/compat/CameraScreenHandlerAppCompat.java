@@ -9,9 +9,10 @@ import android.support.v7.widget.Toolbar;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.camera.CameraFragmentCompat;
+import net.gini.android.vision.camera.CameraFragmentInterface;
 import net.gini.android.vision.component.R;
 import net.gini.android.vision.component.analysis.standard.AnalysisExampleActivity;
-import net.gini.android.vision.component.camera.AbstractCameraScreenHandler;
+import net.gini.android.vision.component.camera.BaseCameraScreenHandler;
 import net.gini.android.vision.component.review.compat.ReviewExampleAppCompatActivity;
 import net.gini.android.vision.onboarding.OnboardingFragmentCompat;
 
@@ -21,7 +22,7 @@ import net.gini.android.vision.onboarding.OnboardingFragmentCompat;
  * Copyright (c) 2017 Gini GmbH.
  */
 
-public class CameraScreenHandlerAppCompat extends AbstractCameraScreenHandler {
+public class CameraScreenHandlerAppCompat extends BaseCameraScreenHandler {
 
     private final AppCompatActivity mAppCompatActivity;
     private CameraFragmentCompat mCameraFragment;
@@ -33,7 +34,6 @@ public class CameraScreenHandlerAppCompat extends AbstractCameraScreenHandler {
 
     @Override
     protected void removeOnboardingFragment() {
-        mCameraFragment.showInterface();
         final Fragment fragment = mAppCompatActivity.getSupportFragmentManager().findFragmentById(
                 R.id.onboarding_container);
         if (fragment != null) {
@@ -77,24 +77,25 @@ public class CameraScreenHandlerAppCompat extends AbstractCameraScreenHandler {
     }
 
     @Override
-    protected void showCameraFragment() {
+    protected CameraFragmentInterface showCameraFragment() {
         mCameraFragment = CameraFragmentCompat.createInstance(
                 getGiniVisionFeatureConfiguration());
         mAppCompatActivity.getSupportFragmentManager().beginTransaction()
                 .replace(R.id.camera_container, mCameraFragment)
                 .commit();
+        return mCameraFragment;
     }
 
     @Override
-    protected void retainCameraFragment() {
+    protected CameraFragmentInterface retainCameraFragment() {
         mCameraFragment =
                 (CameraFragmentCompat) mAppCompatActivity.getSupportFragmentManager().findFragmentById(
                         R.id.camera_container);
+        return mCameraFragment;
     }
 
     @Override
     protected void showOnboardingFragment() {
-        mCameraFragment.hideInterface();
         mAppCompatActivity.getSupportFragmentManager().beginTransaction()
                 .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
                 .replace(R.id.onboarding_container, new OnboardingFragmentCompat())

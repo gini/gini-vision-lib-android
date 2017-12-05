@@ -9,7 +9,7 @@ import android.support.annotation.NonNull;
 import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionDebug;
-import net.gini.android.vision.example.AbstractExampleApp;
+import net.gini.android.vision.example.BaseExampleApp;
 import net.gini.android.vision.example.DocumentAnalyzer;
 import net.gini.android.vision.example.SingleDocumentAnalyzer;
 
@@ -28,7 +28,7 @@ public class ReviewActivity extends net.gini.android.vision.review.ReviewActivit
 
     private SingleDocumentAnalyzer getSingleDocumentAnalyzer() {
         if (mSingleDocumentAnalyzer == null) {
-            mSingleDocumentAnalyzer = ((AbstractExampleApp) getApplication()).getSingleDocumentAnalyzer();
+            mSingleDocumentAnalyzer = ((BaseExampleApp) getApplication()).getSingleDocumentAnalyzer();
         }
         return mSingleDocumentAnalyzer;
     }

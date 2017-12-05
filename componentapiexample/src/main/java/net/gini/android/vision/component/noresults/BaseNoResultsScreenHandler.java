@@ -15,12 +15,12 @@ import net.gini.android.vision.noresults.NoResultsFragmentListener;
  * Copyright (c) 2017 Gini GmbH.
  */
 
-public abstract class AbstractNoResultsScreenHandler implements NoResultsFragmentListener {
+public abstract class BaseNoResultsScreenHandler implements NoResultsFragmentListener {
 
     private final Activity mActivity;
     private Document mDocument;
 
-    public AbstractNoResultsScreenHandler(final Activity activity) {
+    public BaseNoResultsScreenHandler(final Activity activity) {
         mActivity = activity;
     }
 

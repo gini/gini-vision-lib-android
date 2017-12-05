@@ -6,7 +6,7 @@ import android.content.Intent;
 
 import net.gini.android.vision.component.R;
 import net.gini.android.vision.component.camera.compat.CameraExampleAppCompatActivity;
-import net.gini.android.vision.component.noresults.AbstractNoResultsScreenHandler;
+import net.gini.android.vision.component.noresults.BaseNoResultsScreenHandler;
 import net.gini.android.vision.noresults.NoResultsFragmentStandard;
 
 /**
@@ -15,7 +15,7 @@ import net.gini.android.vision.noresults.NoResultsFragmentStandard;
  * Copyright (c) 2017 Gini GmbH.
  */
 
-public class NoResultsScreenHandler extends AbstractNoResultsScreenHandler {
+public class NoResultsScreenHandler extends BaseNoResultsScreenHandler {
 
     private NoResultsFragmentStandard mNoResultsFragment;
 

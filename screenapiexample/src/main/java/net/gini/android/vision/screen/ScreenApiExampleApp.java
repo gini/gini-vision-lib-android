@@ -1,6 +1,6 @@
 package net.gini.android.vision.screen;
 
-import net.gini.android.vision.example.AbstractExampleApp;
+import net.gini.android.vision.example.BaseExampleApp;
 
 /**
  * Created by Alpar Szotyori on 01.12.2017.
@@ -8,7 +8,7 @@ import net.gini.android.vision.example.AbstractExampleApp;
  * Copyright (c) 2017 Gini GmbH.
  */
 
-public class ScreenApiExampleApp extends AbstractExampleApp {
+public class ScreenApiExampleApp extends BaseExampleApp {
 
     @Override
     protected String getClientId() {
