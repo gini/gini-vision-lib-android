@@ -1,9 +1,13 @@
 package net.gini.android.vision.example;
 
 import android.app.Application;
+import android.text.TextUtils;
 
 import net.gini.android.Gini;
 import net.gini.android.SdkBuilder;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>
@@ -18,6 +22,8 @@ import net.gini.android.SdkBuilder;
  * </p>
  */
 public abstract class BaseExampleApp extends Application {
+
+    private static final Logger LOG = LoggerFactory.getLogger(BaseExampleApp.class);
 
     private Gini mGiniApi;
     private SingleDocumentAnalyzer mSingleDocumentAnalyzer;
@@ -37,14 +43,23 @@ public abstract class BaseExampleApp extends Application {
     }
 
     private void createGiniApi() {
+        final String clientId = getClientId();
+        final String clientSecret = getClientSecret();
+        if (TextUtils.isEmpty(clientId) || TextUtils.isEmpty(clientSecret)) {
+            LOG.warn(
+                    "Missing Gini API client credentials. Either create a local.properties file "
+                            + "with clientId and clientSecret properties or pass them in as gradle "
+                            + "parameters with -PclientId and -PclientSecret.");
+        }
         SdkBuilder builder = new SdkBuilder(this,
-                getClientId(),
-                getClientSecret(),
+                clientId,
+                clientSecret,
                 "example.com");
         mGiniApi = builder.build();
     }
 
     protected abstract String getClientId();
+
     protected abstract String getClientSecret();
 
 }
