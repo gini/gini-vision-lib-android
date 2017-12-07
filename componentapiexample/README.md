@@ -34,7 +34,7 @@ The `GiniVisionCoordinator` is used to show the onboarding on the first run. Aft
 Camera Screen
 -------------
 
-The `BaseCameraScreenHandler` contains the main logic. The Activity and concrete handler in the `compat` and `standard` sub-packages provide the implementations dependent on whether the standard or Support Library components are used.
+The `BaseCameraScreenHandler` contains the main logic. The `compat` and `standard` sub-packages provide the implementations for the Support Library components and standard components, respectively. They contain an Activity and a concrete handler.
 
 It starts by showing the `CameraFragment`. When a picture was taken or file was imported using the document import button the `CameraFragmentListener#onDocumentAvailable()` is called where either the Review Screen or the Analysis Screen is shown.
 
@@ -44,7 +44,7 @@ When a file was received from another app the `CameraFragment` is not shown. Ins
 
 In case of an error the `CameraFragmentListener#onError()` will be called.
 
-On first launch or when using the `Tipps` menu item the `OnboardingFragment` is shown. When the Onboarding should be closed the `OnboardingFragmentListener#onCloseOnboarding()` is called.
+On first launch or when using the `Tipps` menu item the `OnboardingFragment` is shown. The Onboarding should be closed when the `OnboardingFragmentListener#onCloseOnboarding()` is called.
 
 The Help Screen is shown by clicking the help menu item (question mark).
 
@@ -56,9 +56,9 @@ This screen is shown using the `HelpActivity`. This Activity is used with both t
 Review Screen
 --------------
 
-The `BaseReviewScreenHandler` contains the main logic. The Activity and concrete handler in the `compat` and `standard` sub-packages provide the implementations dependent on whether the standard or Support Library components are used.
+The `BaseReviewScreenHandler` contains the main logic. The `compat` and `standard` sub-packages provide the implementations for the Support Library components and standard components, respectively. They contain an Activity and a concrete handler.
 
-When the `ReviewFragment` starts the `ReviewFragmentListener#onShouldAnalyzeDocument()` is called where the document analysis is started while the user reviews the picture. If the picture was rotated the `BaseReviewScreenHandler` cancels the analysis in `ReviewFragmentListener#onDocumentWasRotated()`. If the analysis fails it caches an error message which will be passed to the Analysis Screen to be shown to the user.
+The `ReviewFragmentListener#onShouldAnalyzeDocument()` method is called when the `ReviewFragment` starts. In this method the document analysis is started to use the time for analysis while the user reviews the picture. If the picture was rotated the `BaseReviewScreenHandler` cancels the analysis in `ReviewFragmentListener#onDocumentWasRotated()`. If the analysis fails it caches an error message which will be passed to the Analysis Screen to be shown to the user.
 
 When the document analysis successfully completed it calls `ReviewFragmentInterface#onDocumentAnalyzed()`. When the user clicks the next button either `ReviewFragmentListener#onDocumentReviewedAndAnalyzed()` or `ReviewFragmentListener#onProceedToAnalysisScreen()` is called. In the first method the extractions are shown in the `ExtractionsActivity` and in the second one the `AnalysisFragment` is shown.
 
@@ -76,7 +76,7 @@ The table below shows you when one of those methods is called:
 Analysis Screen
 ----------------
 
-The `BaseAnalysisScreenHandler` contains the main logic. The Activity and concrete handler in the `compat` and `standard` sub-packages provide the implementations dependent on whether the standard or Support Library components are used.
+The `BaseAnalysisScreenHandler` contains the main logic. The `compat` and `standard` sub-packages provide the implementations for the Support Library components and standard components, respectively. They contain an Activity and a concrete handler.
 
 When the `AnalysisFragment` starts the `AnalysisFragmentListener#onAnalyzeDocument()` is called (if an error message was given, this method is called only when the user clicks the retry button) where the document analysis is started or resumed. Notifying the Fragment about successful completion of the analysis is done similarly to the `ReviewFragment` with `AnalysisFragmentInterface#onDocumentAnalyzed()`.
 
@@ -85,7 +85,7 @@ An error message is displayed, if the analysis fails with `AnalysisFragmentInter
 No Results Screen
 -----------------
 
-The `BaseNoResultsScreenHandler` contains the main logic. The Activity and concrete handler in the `compat` and `standard` sub-packages provide the implementations dependent on whether the standard or Support Library components are used.
+The `BaseNoResultsScreenHandler` contains the main logic. The `compat` and `standard` sub-packages provide the implementations for the Support Library components and standard components, respectively. They contain an Activity and a concrete handler.
 
 This screen is not shown for PDFs as it shows tips for taking better pictures of documents.
 
