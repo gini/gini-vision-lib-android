@@ -1,16 +1,19 @@
 package net.gini.android.vision.screen;
 
-import static net.gini.android.vision.screen.Util.hasNoPay5Extractions;
+import static net.gini.android.vision.example.ExampleUtil.hasNoPay5Extractions;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import net.gini.android.ginivisiontest.R;
+import net.gini.android.vision.R;
 import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionDebug;
+import net.gini.android.vision.example.DocumentAnalyzer;
+import net.gini.android.vision.example.BaseExampleApp;
+import net.gini.android.vision.example.SingleDocumentAnalyzer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +45,7 @@ public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisA
         startScanAnimation();
         // We can start analyzing the document by sending it to the Gini API
         mSingleDocumentAnalyzer.analyzeDocument(document,
-                new SingleDocumentAnalyzer.DocumentAnalysisListener() {
+                new DocumentAnalyzer.Listener() {
                     @Override
                     public void onException(Exception exception) {
                         stopScanAnimation();
@@ -50,7 +53,7 @@ public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisA
                         if (exception != null) {
                             message += exception.getMessage();
                         }
-                        final SingleDocumentAnalyzer.DocumentAnalysisListener listener = this;
+                        final DocumentAnalyzer.Listener listener = this;
                         showError(message, getString(R.string.gv_document_analysis_error_retry),
                                 new View.OnClickListener() {
                                     @Override
@@ -81,13 +84,13 @@ public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisA
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mSingleDocumentAnalyzer = ((ScreenApiApp) getApplication()).getSingleDocumentAnalyzer();
+        mSingleDocumentAnalyzer = ((BaseExampleApp) getApplication()).getSingleDocumentAnalyzer();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        ((ScreenApiApp) getApplication()).getSingleDocumentAnalyzer().cancelAnalysis();
+        ((BaseExampleApp) getApplication()).getSingleDocumentAnalyzer().cancelAnalysis();
     }
 
     private Bundle getExtractionsBundle() {
