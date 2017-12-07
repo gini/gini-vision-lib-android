@@ -52,8 +52,8 @@ public class NoResultsScreenHandler extends BaseNoResultsScreenHandler {
         if (actionBar == null) {
             return;
         }
-        actionBar.setTitle("Keine Ergebnisse");
-        actionBar.setSubtitle("Wir haben ein paar Tipps für Sie");
+        actionBar.setTitle(R.string.no_results_screen_title);
+        actionBar.setSubtitle(getActivity().getString(R.string.no_results_screen_subtitle));
     }
 
     @Override

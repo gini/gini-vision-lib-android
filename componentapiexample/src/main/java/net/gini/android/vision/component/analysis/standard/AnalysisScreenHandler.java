@@ -58,7 +58,7 @@ public class AnalysisScreenHandler extends BaseAnalysisScreenHandler {
             return;
         }
         actionBar.setTitle("");
-        actionBar.setSubtitle("Einen Moment bitte ...");
+        actionBar.setSubtitle(getActivity().getString(R.string.one_moment_please));
     }
 
     @Override

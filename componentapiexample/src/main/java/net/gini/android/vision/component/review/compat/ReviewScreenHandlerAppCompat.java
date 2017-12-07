@@ -67,8 +67,8 @@ public class ReviewScreenHandlerAppCompat extends BaseReviewScreenHandler {
         if (actionBar == null) {
             return;
         }
-        actionBar.setTitle("Seite überprüfen");
-        actionBar.setSubtitle("Vollständig, scharf und in Leserichtung?");
+        actionBar.setTitle(R.string.review_screen_title);
+        actionBar.setSubtitle(mAppCompatActivity.getString(R.string.review_screen_subtitle));
     }
 
     @Override

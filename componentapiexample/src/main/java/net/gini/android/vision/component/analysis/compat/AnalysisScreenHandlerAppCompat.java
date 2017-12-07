@@ -62,7 +62,7 @@ public class AnalysisScreenHandlerAppCompat extends BaseAnalysisScreenHandler {
             return;
         }
         actionBar.setTitle("");
-        actionBar.setSubtitle("Einen Moment bitte ...");
+        actionBar.setSubtitle(mAppCompatActivity.getString(R.string.one_moment_please));
     }
 
     @Override

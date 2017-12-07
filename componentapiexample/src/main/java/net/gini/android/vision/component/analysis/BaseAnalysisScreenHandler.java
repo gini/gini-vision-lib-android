@@ -69,14 +69,14 @@ public abstract class BaseAnalysisScreenHandler implements AnalysisFragmentListe
                     @Override
                     public void onException(Exception exception) {
                         mAnalysisFragmentInterface.stopScanAnimation();
-                        String message = "unknown";
+                        String message = mActivity.getString(R.string.unknown_error);
                         if (exception.getMessage() != null) {
                             message = exception.getMessage();
                         }
 
                         // Show the error in the Snackbar with a retry button
                         final DocumentAnalyzer.Listener listener = this;
-                        mAnalysisFragmentInterface.showError("Analysis failed: " + message,
+                        mAnalysisFragmentInterface.showError(mActivity.getString(R.string.analysis_failed, message),
                                 mActivity.getString(R.string.retry_analysis),
                                 new View.OnClickListener() {
                                     @Override
@@ -153,10 +153,8 @@ public abstract class BaseAnalysisScreenHandler implements AnalysisFragmentListe
 
     @Override
     public void onError(@NonNull final GiniVisionError error) {
-        mAnalysisFragmentInterface.showError("Error: " +
-                        error.getErrorCode() + " - " +
-                        error.getMessage(),
-                Toast.LENGTH_LONG);
+        mAnalysisFragmentInterface.showError(mActivity.getString(R.string.gini_vision_error,
+                        error.getErrorCode(), error.getMessage()), Toast.LENGTH_LONG);
     }
 
     public Activity getActivity() {

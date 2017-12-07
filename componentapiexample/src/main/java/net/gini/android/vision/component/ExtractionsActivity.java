@@ -141,16 +141,17 @@ public class ExtractionsActivity extends AppCompatActivity {
         // In a real application the user input should be used as the new value.
 
         SpecificExtraction amount = mExtractions.get("amountToPay");
+        final String newAmount = "10.00:EUR";
         if (amount != null) {
             // Let's assume the amount was wrong and change it
-            amount.setValue("10.00:EUR");
-            Toast.makeText(this, "Amount changed to 10.00:EUR", Toast.LENGTH_SHORT).show();
+            amount.setValue(newAmount);
+            Toast.makeText(this, getString(R.string.amount_changed_feedback_message, newAmount), Toast.LENGTH_SHORT).show();
         } else {
             // Amount was missing, let's add it
-            SpecificExtraction extraction = new SpecificExtraction("amountToPay", "10.00:EUR", "amount", null, Collections.<Extraction>emptyList());
+            SpecificExtraction extraction = new SpecificExtraction("amountToPay", newAmount, "amount", null, Collections.<Extraction>emptyList());
             mExtractions.put("amountToPay", extraction);
             mExtractionsAdapter.setExtractions(getSortedExtractions());
-            Toast.makeText(this, "Added amount of 10.00:EUR", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.amount_added_feedback_message, newAmount), Toast.LENGTH_SHORT).show();
         }
         mExtractionsAdapter.notifyDataSetChanged();
 
@@ -167,13 +168,13 @@ public class ExtractionsActivity extends AppCompatActivity {
                                     public void run() {
                                         if (task.isFaulted()) {
                                             LOG.error("Feedback error", task.getError());
-                                            String message = "unknown";
+                                            String message = getString(R.string.unknown_error);
                                             if (task.getError() != null) {
                                                 message = task.getError().getMessage();
                                             }
-                                            Toast.makeText(ExtractionsActivity.this, "Feedback error:\n" + message, Toast.LENGTH_LONG).show();
+                                            Toast.makeText(ExtractionsActivity.this, getString(R.string.feedback_error, message), Toast.LENGTH_LONG).show();
                                         } else {
-                                            Toast.makeText(ExtractionsActivity.this, "Feedback successful", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(ExtractionsActivity.this, R.string.feedbacl_successful, Toast.LENGTH_LONG).show();
                                         }
                                         hideProgressIndicator();
                                     }
@@ -183,10 +184,10 @@ public class ExtractionsActivity extends AppCompatActivity {
                         });
             } catch (JSONException e) {
                 LOG.error("Feedback not sent", e);
-                Toast.makeText(this, "Feedback not set:\n" + e.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.feedback_error, e.getMessage()), Toast.LENGTH_LONG).show();
             }
         } else {
-            Toast.makeText(this, "Feedback not set: no Gini Api Document available", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.feedback_error_no_gini_api_document, Toast.LENGTH_LONG).show();
         }
     }
 

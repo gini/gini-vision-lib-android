@@ -49,8 +49,8 @@ public class CameraScreenHandler extends BaseCameraScreenHandler {
         if (actionBar == null) {
             return;
         }
-        actionBar.setTitle("Seite abfotografieren");
-        actionBar.setSubtitle("Vollständig in den Rahmen einpassen");
+        actionBar.setTitle(R.string.camera_screen_title);
+        actionBar.setSubtitle(getActivity().getString(R.string.camera_screen_subtitle));
     }
 
     @Override

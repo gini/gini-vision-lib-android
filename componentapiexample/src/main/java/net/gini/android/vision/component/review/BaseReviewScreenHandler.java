@@ -17,6 +17,7 @@ import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.component.ExtractionsActivity;
+import net.gini.android.vision.component.R;
 import net.gini.android.vision.example.BaseExampleApp;
 import net.gini.android.vision.example.DocumentAnalyzer;
 import net.gini.android.vision.example.SingleDocumentAnalyzer;
@@ -72,14 +73,14 @@ public abstract class BaseReviewScreenHandler implements ReviewFragmentListener 
                 new DocumentAnalyzer.Listener() {
                     @Override
                     public void onException(Exception exception) {
-                        String message = "unknown";
+                        String message = mActivity.getString(R.string.unknown_error);
                         if (exception.getMessage() != null) {
                             message = exception.getMessage();
                         }
                         // Don't show the error message here, but forward it to the Analysis
                         // Fragment, where it will be
                         // shown in a Snackbar
-                        mDocumentAnalysisErrorMessage = "Analysis failed: " + message;
+                        mDocumentAnalysisErrorMessage = mActivity.getString(R.string.analysis_failed, message);
                         LOG.error("Analysis failed in the Review Screen", exception);
                     }
 
@@ -180,10 +181,8 @@ public abstract class BaseReviewScreenHandler implements ReviewFragmentListener 
 
     @Override
     public void onError(@NonNull final GiniVisionError error) {
-        Toast.makeText(mActivity, "Error: " +
-                        error.getErrorCode() + " - " +
-                        error.getMessage(),
-                Toast.LENGTH_LONG).show();
+        Toast.makeText(mActivity, mActivity.getString(R.string.gini_vision_error,
+                        error.getErrorCode(), error.getMessage()), Toast.LENGTH_LONG).show();
     }
 
     public Activity getActivity() {

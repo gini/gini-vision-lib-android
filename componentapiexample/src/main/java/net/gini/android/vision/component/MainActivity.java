@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void startGiniVisionLibraryForImportedFile(final Intent importedFileIntent) {
         new AlertDialog.Builder(this)
-                .setMessage("Open file with standard or compat Gini Vision Library?")
+                .setMessage(R.string.open_file_standard_or_compat)
                 .setPositiveButton("Compat", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(final DialogInterface dialogInterface, final int i) {
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void startGiniVisionStandardForImportedFile(@NonNull final Intent importedFileIntent) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            Toast.makeText(this, "Component API Standard requires API Level 17 or higher",
+            Toast.makeText(this, R.string.component_api_min_sdk_level_error,
                     Toast.LENGTH_SHORT).show();
             return;
         }
@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void startGiniVisionStandard() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            Toast.makeText(this, "Component API Standard requires API Level 17 or higher",
+            Toast.makeText(this, R.string.component_api_min_sdk_level_error,
                     Toast.LENGTH_SHORT).show();
             return;
         }
@@ -207,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-        Toast.makeText(this, "Requirements not fulfilled:\n" + stringBuilder,
+        Toast.makeText(this, getString(R.string.unfulfilled_requirements, stringBuilder),
                 Toast.LENGTH_LONG).show();
     }
 
