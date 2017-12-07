@@ -175,15 +175,18 @@ public abstract class BaseAnalysisScreenHandler implements AnalysisFragmentListe
         readExtras();
 
         if (savedInstanceState == null) {
-            mAnalysisFragmentInterface = showAnalysisFragment();
+            mAnalysisFragmentInterface = createAnalysisFragment();
+            showAnalysisFragment();
         } else {
-            mAnalysisFragmentInterface = retainAnalysisFragment();
+            mAnalysisFragmentInterface = retrieveAnalysisFragment();
         }
     }
 
-    protected abstract AnalysisFragmentInterface retainAnalysisFragment();
+    protected abstract AnalysisFragmentInterface retrieveAnalysisFragment();
 
-    protected abstract AnalysisFragmentInterface showAnalysisFragment();
+    protected abstract void showAnalysisFragment();
+
+    protected abstract AnalysisFragmentInterface createAnalysisFragment();
 
     private void readExtras() {
         mDocument = mActivity.getIntent().getParcelableExtra(EXTRA_IN_DOCUMENT);

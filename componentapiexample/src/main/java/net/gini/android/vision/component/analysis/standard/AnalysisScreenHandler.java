@@ -34,7 +34,7 @@ public class AnalysisScreenHandler extends BaseAnalysisScreenHandler {
     }
 
     @Override
-    protected AnalysisFragmentInterface retainAnalysisFragment() {
+    protected AnalysisFragmentInterface retrieveAnalysisFragment() {
         mAnalysisFragment =
                 (AnalysisFragmentStandard) getActivity().getFragmentManager().findFragmentById(
                         R.id.analysis_screen_container);
@@ -42,12 +42,16 @@ public class AnalysisScreenHandler extends BaseAnalysisScreenHandler {
     }
 
     @Override
-    protected AnalysisFragmentInterface showAnalysisFragment() {
-        mAnalysisFragment = AnalysisFragmentStandard.createInstance(getDocument(),
-                getErrorMessageFromReviewScreen());
+    protected void showAnalysisFragment() {
         getActivity().getFragmentManager().beginTransaction()
                 .replace(R.id.analysis_screen_container, mAnalysisFragment)
                 .commit();
+    }
+
+    @Override
+    protected AnalysisFragmentInterface createAnalysisFragment() {
+        mAnalysisFragment = AnalysisFragmentStandard.createInstance(getDocument(),
+                getErrorMessageFromReviewScreen());
         return mAnalysisFragment;
     }
 

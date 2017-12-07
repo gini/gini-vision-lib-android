@@ -214,7 +214,7 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
                 showCamera();
             }
         } else {
-            mCameraFragmentInterface = retainCameraFragment();
+            mCameraFragmentInterface = retrieveCameraFragment();
         }
     }
 
@@ -222,7 +222,8 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
 
     private void showCamera() {
         LOG.debug("Show the Camera Screen");
-        mCameraFragmentInterface = showCameraFragment();
+        mCameraFragmentInterface = createCameraFragment();
+        showCameraFragment();
         // Delay notifying the coordinator to allow the camera fragment view to be created
         new Handler().post(new Runnable() {
             @Override
@@ -232,9 +233,11 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
         });
     }
 
-    protected abstract CameraFragmentInterface showCameraFragment();
+    protected abstract CameraFragmentInterface createCameraFragment();
 
-    protected abstract CameraFragmentInterface retainCameraFragment();
+    protected abstract void showCameraFragment();
+
+    protected abstract CameraFragmentInterface retrieveCameraFragment();
 
     private void configureLogging() {
         final LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();

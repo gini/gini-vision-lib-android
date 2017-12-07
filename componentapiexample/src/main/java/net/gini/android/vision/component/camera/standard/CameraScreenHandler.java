@@ -75,17 +75,21 @@ public class CameraScreenHandler extends BaseCameraScreenHandler {
     }
 
     @Override
-    protected CameraFragmentInterface showCameraFragment() {
+    protected CameraFragmentInterface createCameraFragment() {
         mCameraFragment = CameraFragmentStandard.createInstance(
                 getGiniVisionFeatureConfiguration());
-        getActivity().getFragmentManager().beginTransaction()
-                .replace(R.id.camera_container, mCameraFragment)
-                .commit();
         return mCameraFragment;
     }
 
     @Override
-    protected CameraFragmentInterface retainCameraFragment() {
+    protected void showCameraFragment() {
+        getActivity().getFragmentManager().beginTransaction()
+                .replace(R.id.camera_container, mCameraFragment)
+                .commit();
+    }
+
+    @Override
+    protected CameraFragmentInterface retrieveCameraFragment() {
         mCameraFragment =
                 (CameraFragmentStandard) getActivity().getFragmentManager().findFragmentById(
                         R.id.camera_container);

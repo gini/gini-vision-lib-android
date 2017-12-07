@@ -210,9 +210,10 @@ public abstract class BaseReviewScreenHandler implements ReviewFragmentListener 
         readDocumentFromExtras();
 
         if (savedInstanceState == null) {
-            mReviewFragmentInterface = showReviewFragment();
+            mReviewFragmentInterface = createReviewFragment();
+            showReviewFragment();
         } else {
-            mReviewFragmentInterface = retainReviewFragment();
+            mReviewFragmentInterface = retrieveReviewFragment();
         }
     }
 
@@ -220,9 +221,11 @@ public abstract class BaseReviewScreenHandler implements ReviewFragmentListener 
         mDocument = mActivity.getIntent().getParcelableExtra(EXTRA_IN_DOCUMENT);
     }
 
-    protected abstract ReviewFragmentInterface showReviewFragment();
+    protected abstract ReviewFragmentInterface createReviewFragment();
 
-    protected abstract ReviewFragmentInterface retainReviewFragment();
+    protected abstract void showReviewFragment();
+
+    protected abstract ReviewFragmentInterface retrieveReviewFragment();
 
     protected abstract void setTitles();
 

@@ -80,17 +80,21 @@ public class CameraScreenHandlerAppCompat extends BaseCameraScreenHandler {
     }
 
     @Override
-    protected CameraFragmentInterface showCameraFragment() {
+    protected CameraFragmentInterface createCameraFragment() {
         mCameraFragment = CameraFragmentCompat.createInstance(
                 getGiniVisionFeatureConfiguration());
-        mAppCompatActivity.getSupportFragmentManager().beginTransaction()
-                .replace(R.id.camera_container, mCameraFragment)
-                .commit();
         return mCameraFragment;
     }
 
     @Override
-    protected CameraFragmentInterface retainCameraFragment() {
+    protected void showCameraFragment() {
+        mAppCompatActivity.getSupportFragmentManager().beginTransaction()
+                .replace(R.id.camera_container, mCameraFragment)
+                .commit();
+    }
+
+    @Override
+    protected CameraFragmentInterface retrieveCameraFragment() {
         mCameraFragment =
                 (CameraFragmentCompat) mAppCompatActivity.getSupportFragmentManager().findFragmentById(
                         R.id.camera_container);

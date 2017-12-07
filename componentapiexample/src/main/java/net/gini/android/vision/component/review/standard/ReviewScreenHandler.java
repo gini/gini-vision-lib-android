@@ -40,16 +40,20 @@ public class ReviewScreenHandler extends BaseReviewScreenHandler {
     }
 
     @Override
-    protected ReviewFragmentInterface showReviewFragment() {
+    protected ReviewFragmentInterface createReviewFragment() {
         mReviewFragment = ReviewFragmentStandard.createInstance(getDocument());
-        getActivity().getFragmentManager().beginTransaction()
-                .replace(R.id.review_screen_container, mReviewFragment)
-                .commit();
         return mReviewFragment;
     }
 
     @Override
-    protected ReviewFragmentInterface retainReviewFragment() {
+    protected void showReviewFragment() {
+        getActivity().getFragmentManager().beginTransaction()
+                .replace(R.id.review_screen_container, mReviewFragment)
+                .commit();
+    }
+
+    @Override
+    protected ReviewFragmentInterface retrieveReviewFragment() {
         mReviewFragment =
                 (ReviewFragmentStandard) getActivity().getFragmentManager().findFragmentById(
                         R.id.review_screen_container);
