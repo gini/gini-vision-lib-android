@@ -116,8 +116,8 @@ public class RuntimePermissionHandler {
     }
 
     private void showCameraPermissionRationale(final PermissionToken token) {
-        final android.support.v7.app.AlertDialog
-                alertDialog = new android.support.v7.app.AlertDialog.Builder(mActivity)
+        final AlertDialog
+                alertDialog = new AlertDialog.Builder(mActivity)
                 .setMessage(mCameraPermissionRationale)
                 .setPositiveButton(mGrantAccessButtonTitle,
                         new DialogInterface.OnClickListener() {
@@ -218,8 +218,9 @@ public class RuntimePermissionHandler {
     }
 
     public interface Listener {
-        void permissionGranted();
         void permissionDenied();
+
+        void permissionGranted();
     }
 
     public static final class Builder {
@@ -231,6 +232,10 @@ public class RuntimePermissionHandler {
         private String mGrantAccessButtonTitle;
         private String mStoragePermissionDeniedMessage;
         private String mStoragePermissionRationale;
+
+        public RuntimePermissionHandler build() {
+            return new RuntimePermissionHandler(this);
+        }
 
         public Builder withCameraPermissionDeniedMessage(
                 final String cameraPermissionDeniedMessage) {
@@ -267,10 +272,6 @@ public class RuntimePermissionHandler {
         private Builder forActivity(final Activity activity) {
             mActivity = activity;
             return this;
-        }
-
-        public RuntimePermissionHandler build() {
-            return new RuntimePermissionHandler(this);
         }
     }
 }

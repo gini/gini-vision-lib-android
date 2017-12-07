@@ -282,7 +282,7 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
 
     protected abstract void setTitlesForOnboarding();
 
-    private void startGiniVisionLibraryForImportedFile(final Intent importedFileIntent) {
+    private void startGiniVisionLibraryForImportedFile(@NonNull final Intent importedFileIntent) {
         try {
             getSingleDocumentAnalyzer().cancelAnalysis();
             final Document document = GiniVisionFileImport.createDocumentForImportedFile(
