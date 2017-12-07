@@ -25,7 +25,8 @@ class CameraPermissionRequirement implements Requirement {
         boolean result = true;
         String details = "";
 
-        int check = mContext.getPackageManager().checkPermission(Manifest.permission.CAMERA, mContext.getPackageName());
+        int check = mContext.getPackageManager().checkPermission(Manifest.permission.CAMERA,
+                mContext.getPackageName());
         if (check != PackageManager.PERMISSION_GRANTED) {
             result = false;
             details = "Camera permission was not granted";

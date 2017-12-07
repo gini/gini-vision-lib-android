@@ -92,7 +92,8 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     private boolean mStopped;
 
 
-    AnalysisFragmentImpl(FragmentImplCallback fragment, Document document, String documentAnalysisErrorMessage) {
+    AnalysisFragmentImpl(FragmentImplCallback fragment, Document document,
+            String documentAnalysisErrorMessage) {
         mFragment = fragment;
         mDocument = (GiniVisionDocument) document;
         mDocumentAnalysisErrorMessage = documentAnalysisErrorMessage;
@@ -157,7 +158,8 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         mHints = generateRandomHintsList();
     }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.gv_fragment_analysis, container, false);
         bindViews(view);
         return view;
@@ -277,9 +279,9 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     private void setNextHint() {
-        final AnalysisHint nextHint= getNextHint();
+        final AnalysisHint nextHint = getNextHint();
         final Context context = mFragment.getActivity();
-        if(context != null) {
+        if (context != null) {
             mHintImageView.setImageDrawable(
                     ContextCompat.getDrawable(context, nextHint.getDrawableResource()));
         }
@@ -336,7 +338,8 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
             return;
         }
         if (mDocumentAnalysisErrorMessage != null) {
-            showError(mDocumentAnalysisErrorMessage, mFragment.getActivity().getString(R.string.gv_document_analysis_error_retry),
+            showError(mDocumentAnalysisErrorMessage,
+                    mFragment.getActivity().getString(R.string.gv_document_analysis_error_retry),
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -369,14 +372,15 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
             return;
         }
         LOG.debug("Observing the view layout");
-        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                onViewLayoutFinished();
-                mFragmentHeight = view.getHeight();
-                view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-            }
-        });
+        view.getViewTreeObserver().addOnGlobalLayoutListener(
+                new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        onViewLayoutFinished();
+                        mFragmentHeight = view.getHeight();
+                        view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                    }
+                });
         view.requestLayout();
     }
 
@@ -398,7 +402,8 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
             newHeight = mLayoutRoot.getWidth();
         }
 
-        final FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mImageDocument.getLayoutParams();
+        final FrameLayout.LayoutParams layoutParams =
+                (FrameLayout.LayoutParams) mImageDocument.getLayoutParams();
         layoutParams.width = newWidth;
         layoutParams.height = newHeight;
         mImageDocument.setLayoutParams(layoutParams);

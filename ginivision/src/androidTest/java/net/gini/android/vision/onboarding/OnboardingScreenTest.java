@@ -39,7 +39,8 @@ public class OnboardingScreenTest {
     private static final long TEST_PAUSE_DURATION = 500;
 
     @Rule
-    public ActivityTestRule<OnboardingActivity> mActivityTestRule = new ActivityTestRule<>(OnboardingActivity.class, true, false);
+    public ActivityTestRule<OnboardingActivity> mActivityTestRule = new ActivityTestRule<>(
+            OnboardingActivity.class, true, false);
 
 
     @After
@@ -118,8 +119,9 @@ public class OnboardingScreenTest {
     @Test
     public void should_showCustomPages_whenSet() throws InterruptedException {
         ArrayList<OnboardingPage> customPages = new ArrayList<>(1);
-        customPages.add(new OnboardingPage(R.string.gv_title_camera,R.drawable.gv_camera_trigger));
-        customPages.add(new OnboardingPage(R.string.gv_title_review,R.drawable.gv_review_button_rotate));
+        customPages.add(new OnboardingPage(R.string.gv_title_camera, R.drawable.gv_camera_trigger));
+        customPages.add(
+                new OnboardingPage(R.string.gv_title_review, R.drawable.gv_review_button_rotate));
 
         Intent intent = getOnboardingActivityIntent();
         intent.putExtra(OnboardingActivity.EXTRA_ONBOARDING_PAGES, customPages);
@@ -166,12 +168,14 @@ public class OnboardingScreenTest {
     @Test
     public void should_notShowEmptyLastPage_ifRequested() {
         OnboardingActivity onboardingActivity = startOnboardingActivity();
-        OnboardingFragmentCompat onboardingFragment = OnboardingFragmentCompat.createInstanceWithoutEmptyLastPage();
+        OnboardingFragmentCompat onboardingFragment =
+                OnboardingFragmentCompat.createInstanceWithoutEmptyLastPage();
         onboardingActivity.showFragment(onboardingFragment);
 
         // ViewPager should contain the default pages and an empty last page
         Espresso.onView(ViewMatchers.withId(R.id.gv_onboarding_viewpager))
-                .check(ViewAssertions.matches(EspressoMatchers.hasPageCount(getDefaultPages().length)));
+                .check(ViewAssertions.matches(
+                        EspressoMatchers.hasPageCount(getDefaultPages().length)));
     }
 
     @Test

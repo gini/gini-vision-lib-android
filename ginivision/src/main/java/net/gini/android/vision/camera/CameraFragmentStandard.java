@@ -51,7 +51,8 @@ import net.gini.android.vision.internal.permission.RuntimePermissions;
  *     See the {@link CameraActivity} for details.
  * </p>
  */
-public class CameraFragmentStandard extends Fragment implements CameraFragmentInterface, CameraFragmentImplCallback {
+public class CameraFragmentStandard extends Fragment implements CameraFragmentInterface,
+        CameraFragmentImplCallback {
 
     public static CameraFragmentStandard createInstance() {
         return new CameraFragmentStandard();
@@ -113,7 +114,8 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
      */
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
         return mFragmentImpl.onCreateView(inflater, container, savedInstanceState);
     }
 

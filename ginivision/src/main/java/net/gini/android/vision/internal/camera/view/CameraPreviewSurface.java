@@ -14,7 +14,8 @@ public class CameraPreviewSurface extends SurfaceView {
     private Size mPreviewSize;
 
     public enum ScaleType {
-        CENTER_RESIZE, CENTER_INSIDE;
+        CENTER_RESIZE,
+        CENTER_INSIDE;
     }
 
     private ScaleType mScaleType = ScaleType.CENTER_INSIDE;

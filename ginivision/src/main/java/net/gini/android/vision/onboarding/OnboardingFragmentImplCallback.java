@@ -8,7 +8,7 @@ import net.gini.android.vision.internal.ui.FragmentImplCallback;
 import java.util.List;
 
 /**
- * @exclude 
+ * @exclude
  */
 public interface OnboardingFragmentImplCallback extends FragmentImplCallback {
 

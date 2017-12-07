@@ -272,7 +272,7 @@ import java.util.ArrayList;
  *     </li>
  * </ul>
  * </p>
-**/
+ **/
 public class CameraActivity extends AppCompatActivity implements CameraFragmentListener {
 
     /**
@@ -456,8 +456,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     private void createFragment() {
         if (mGiniVisionFeatureConfiguration != null) {
             mFragment = CameraFragmentCompat.createInstance(mGiniVisionFeatureConfiguration);
-        }
-        else {
+        } else {
             mFragment = CameraFragmentCompat.createInstance();
         }
     }

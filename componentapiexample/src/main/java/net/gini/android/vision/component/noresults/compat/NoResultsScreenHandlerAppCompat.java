@@ -47,7 +47,7 @@ public class NoResultsScreenHandlerAppCompat extends BaseNoResultsScreenHandler 
         mNoResultsFragment = NoResultsFragmentCompat.createInstance(getDocument());
         mAppCompatActivity.getSupportFragmentManager().beginTransaction()
                 .replace(R.id.no_results_screen_container, mNoResultsFragment)
-        .commit();
+                .commit();
     }
 
     @Override

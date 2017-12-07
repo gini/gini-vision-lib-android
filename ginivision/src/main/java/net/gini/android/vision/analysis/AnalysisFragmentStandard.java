@@ -9,8 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import net.gini.android.vision.Document;
-import net.gini.android.vision.review.ReviewFragmentListener;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
+import net.gini.android.vision.review.ReviewFragmentListener;
 
 /**
  * <h3>Component API</h3>
@@ -40,7 +40,8 @@ import net.gini.android.vision.internal.ui.FragmentImplCallback;
  *     See the {@link AnalysisActivity} for details.
  * </p>
  */
-public class AnalysisFragmentStandard extends Fragment implements FragmentImplCallback, AnalysisFragmentInterface {
+public class AnalysisFragmentStandard extends Fragment implements FragmentImplCallback,
+        AnalysisFragmentInterface {
 
     private AnalysisFragmentImpl mFragmentImpl;
 
@@ -70,7 +71,8 @@ public class AnalysisFragmentStandard extends Fragment implements FragmentImplCa
      */
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         return mFragmentImpl.onCreateView(inflater, container, savedInstanceState);
     }
 

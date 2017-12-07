@@ -37,7 +37,8 @@ public class JpegByteArraySubject extends Subject<JpegByteArraySubject, byte[]> 
         }
 
         final String userComment = readExifUserComment(verb, contentId, getSubject());
-        final String contentIdInUserComment = getValueForKeyfromUserComment("ContentId", userComment);
+        final String contentIdInUserComment = getValueForKeyfromUserComment("ContentId",
+                userComment);
 
         if (contentIdInUserComment == null) {
             triggerFailureWithRawMessage(verb, contentId, "It had no ContentId in User Comment");
@@ -54,7 +55,8 @@ public class JpegByteArraySubject extends Subject<JpegByteArraySubject, byte[]> 
     }
 
     @NonNull
-    private String readExifUserComment(@NonNull final String verb, @NonNull final String expected, @NonNull final byte[] jpeg) {
+    private String readExifUserComment(@NonNull final String verb, @NonNull final String expected,
+            @NonNull final byte[] jpeg) {
         try {
             ExifReader reader = ExifReader.forJpeg(jpeg);
             return reader.getUserComment();
@@ -70,13 +72,15 @@ public class JpegByteArraySubject extends Subject<JpegByteArraySubject, byte[]> 
             ExifReader reader = ExifReader.forJpeg(jpeg);
             return reader.getUserComment();
         } catch (ExifReaderException e) {
-            failWithRawMessage("Could not read User Comment from <%s> due to error: %s", jpeg, e.getMessage());
+            failWithRawMessage("Could not read User Comment from <%s> due to error: %s", jpeg,
+                    e.getMessage());
         }
         return "";
     }
 
     @Nullable
-    private String getValueForKeyfromUserComment(@NonNull final String key, @NonNull final String userComment) {
+    private String getValueForKeyfromUserComment(@NonNull final String key,
+            @NonNull final String userComment) {
         String[] keyValuePairs = userComment.split(",");
         for (final String keyValuePair : keyValuePairs) {
             String[] keyAndValue = keyValuePair.split("=");
@@ -120,7 +124,8 @@ public class JpegByteArraySubject extends Subject<JpegByteArraySubject, byte[]> 
         String verb = "has in User Comment rotation delta";
 
         final String userComment = readExifUserComment(getSubject());
-        final String subjectRotDeltaDegString = getValueForKeyfromUserComment("RotDeltaDeg", userComment);
+        final String subjectRotDeltaDegString = getValueForKeyfromUserComment("RotDeltaDeg",
+                userComment);
 
         if (subjectRotDeltaDegString == null) {
             triggerFailureWithRawMessage(verb, String.valueOf(rotationDelta),

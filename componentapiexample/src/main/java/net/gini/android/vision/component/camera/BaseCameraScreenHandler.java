@@ -145,7 +145,7 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
     public void onError(@NonNull final GiniVisionError error) {
         LOG.error("Gini Vision Lib error: {} - {}", error.getErrorCode(), error.getMessage());
         Toast.makeText(mActivity, mActivity.getString(R.string.gini_vision_error,
-                        error.getErrorCode(), error.getMessage()), Toast.LENGTH_LONG).show();
+                error.getErrorCode(), error.getMessage()), Toast.LENGTH_LONG).show();
     }
 
     private void launchReviewScreen(final Document document) {

@@ -1,6 +1,7 @@
 package net.gini.android.vision.requirements;
 
 import static com.google.common.truth.Truth.assertThat;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -40,8 +41,10 @@ public class CameraPermissionRequirementTest {
         when(context.getPackageManager()).thenReturn(packageManager);
         String packageName = "permission.test";
         when(context.getPackageName()).thenReturn(packageName);
-        when(packageManager.checkPermission(Matchers.eq(Manifest.permission.CAMERA), Matchers.eq(packageName)))
-                .thenReturn(cameraPermissionGranted ? PackageManager.PERMISSION_GRANTED : PackageManager.PERMISSION_DENIED);
+        when(packageManager.checkPermission(Matchers.eq(Manifest.permission.CAMERA),
+                Matchers.eq(packageName)))
+                .thenReturn(cameraPermissionGranted ? PackageManager.PERMISSION_GRANTED
+                        : PackageManager.PERMISSION_DENIED);
         return context;
     }
 }

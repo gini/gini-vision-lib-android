@@ -122,7 +122,8 @@ import net.gini.android.vision.onboarding.OnboardingActivity;
  *     </ul>
  * </p>
  */
-public abstract class ReviewActivity extends AppCompatActivity implements ReviewFragmentListener, ReviewFragmentInterface {
+public abstract class ReviewActivity extends AppCompatActivity implements ReviewFragmentListener,
+        ReviewFragmentInterface {
 
     /**
      * @exclude
@@ -135,7 +136,8 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     /**
      * @exclude
      */
-    public static final String EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY = "GV_EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY";
+    public static final String EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY =
+            "GV_EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY";
     /**
      * @exclude
      */
@@ -227,17 +229,20 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
         if (extras != null) {
             mDocument = extras.getParcelable(EXTRA_IN_DOCUMENT);
             mAnalyzeDocumentActivityIntent = extras.getParcelable(EXTRA_IN_ANALYSIS_ACTIVITY);
-            mBackButtonShouldCloseLibrary = extras.getBoolean(EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY, false);
+            mBackButtonShouldCloseLibrary = extras.getBoolean(
+                    EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY, false);
         }
         checkRequiredExtras();
     }
 
     private void checkRequiredExtras() {
         if (mDocument == null) {
-            throw new IllegalStateException("ReviewActivity requires a Document. Set it as an extra using the EXTRA_IN_DOCUMENT key.");
+            throw new IllegalStateException(
+                    "ReviewActivity requires a Document. Set it as an extra using the EXTRA_IN_DOCUMENT key.");
         }
         if (mAnalyzeDocumentActivityIntent == null) {
-            throw new IllegalStateException("ReviewActivity requires an AnalyzeDocumentActivity class. Call setAnalyzeDocumentActivityExtra() to set it.");
+            throw new IllegalStateException(
+                    "ReviewActivity requires an AnalyzeDocumentActivity class. Call setAnalyzeDocumentActivityExtra() to set it.");
         }
     }
 
@@ -257,7 +262,8 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     }
 
     private void retainFragment() {
-        mFragment = (ReviewFragmentCompat) getSupportFragmentManager().findFragmentByTag(REVIEW_FRAGMENT);
+        mFragment = (ReviewFragmentCompat) getSupportFragmentManager().findFragmentByTag(
+                REVIEW_FRAGMENT);
     }
 
     private void showFragment() {
@@ -286,7 +292,8 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
         } else {
             mAnalyzeDocumentActivityIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, document);
             if (mDocumentAnalysisErrorMessage != null) {
-                mAnalyzeDocumentActivityIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE,
+                mAnalyzeDocumentActivityIntent.putExtra(
+                        AnalysisActivity.EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE,
                         mDocumentAnalysisErrorMessage);
             }
             startActivityForResult(mAnalyzeDocumentActivityIntent, ANALYSE_DOCUMENT_REQUEST);

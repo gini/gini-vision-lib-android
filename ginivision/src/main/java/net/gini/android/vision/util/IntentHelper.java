@@ -78,8 +78,7 @@ public final class IntentHelper {
     }
 
     @Nullable
-    private static String getMimeTypeFromUrl(@NonNull final String url)
-    {
+    private static String getMimeTypeFromUrl(@NonNull final String url) {
         final String extension = MimeTypeMap.getFileExtensionFromUrl(url);
         if (extension != null) {
             final MimeTypeMap mime = MimeTypeMap.getSingleton();

@@ -7,12 +7,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import net.gini.android.vision.R;
 import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionDebug;
-import net.gini.android.vision.example.DocumentAnalyzer;
+import net.gini.android.vision.R;
 import net.gini.android.vision.example.BaseExampleApp;
+import net.gini.android.vision.example.DocumentAnalyzer;
 import net.gini.android.vision.example.SingleDocumentAnalyzer;
 
 import org.slf4j.Logger;

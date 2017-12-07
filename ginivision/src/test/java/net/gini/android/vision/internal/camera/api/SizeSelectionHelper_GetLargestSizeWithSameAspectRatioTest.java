@@ -48,17 +48,21 @@ public class SizeSelectionHelper_GetLargestSizeWithSameAspectRatioTest {
                         new int[]{376, 240}, new int[]{3200, 2048}},
                 // No exact matching aspect ratio for 4224x3136 (~1.346939) but should still find
                 // a similar resolution
-                {"Largest similar for 4224x3136 from decreasing resolutions", DECREASING_RESOLUTIONS,
+                {"Largest similar for 4224x3136 from decreasing resolutions",
+                        DECREASING_RESOLUTIONS,
                         new int[]{4224, 3136}, new int[]{4096, 3072}},
-                {"Largest similar for 4224x3136 from increasing resolutions", INCREASING_RESOLUTIONS,
+                {"Largest similar for 4224x3136 from increasing resolutions",
+                        INCREASING_RESOLUTIONS,
                         new int[]{4224, 3136}, new int[]{4096, 3072}},
                 {"Largest similar for 4224x3136 from unsorted resolutions", UNSORTED_RESOLUTIONS,
                         new int[]{4224, 3136}, new int[]{4096, 3072}},
                 // No exact matching aspect ratio for 5376x3752 (~1.432836) but should still find
                 // a similar resolution
-                {"Largest similar for 5376x3752 from decreasing resolutions", DECREASING_RESOLUTIONS,
+                {"Largest similar for 5376x3752 from decreasing resolutions",
+                        DECREASING_RESOLUTIONS,
                         new int[]{5376, 3752}, new int[]{4096, 3072}},
-                {"Largest similar for 5376x3752 from increasing resolutions", INCREASING_RESOLUTIONS,
+                {"Largest similar for 5376x3752 from increasing resolutions",
+                        INCREASING_RESOLUTIONS,
                         new int[]{5376, 3752}, new int[]{4096, 3072}},
                 {"Largest similar for 5376x3752 from unsorted resolutions", UNSORTED_RESOLUTIONS,
                         new int[]{5376, 3752}, new int[]{4096, 3072}},

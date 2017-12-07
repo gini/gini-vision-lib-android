@@ -47,12 +47,14 @@ public class RequirementsCheckerTest {
         for (RequirementReport requirementReport : report.getRequirementReports()) {
             switch (requirementReport.getRequirementId()) {
                 case CAMERA:
-                    assertThat(requirementReport.getRequirementId()).isEqualTo(RequirementId.CAMERA);
+                    assertThat(requirementReport.getRequirementId()).isEqualTo(
+                            RequirementId.CAMERA);
                     assertThat(requirementReport.isFulfilled()).isTrue();
                     assertThat(requirementReport.getDetails()).isEqualTo("fulfilled");
                     break;
                 case CAMERA_PERMISSION:
-                    assertThat(requirementReport.getRequirementId()).isEqualTo(RequirementId.CAMERA_PERMISSION);
+                    assertThat(requirementReport.getRequirementId()).isEqualTo(
+                            RequirementId.CAMERA_PERMISSION);
                     assertThat(requirementReport.isFulfilled()).isFalse();
                     assertThat(requirementReport.getDetails()).isEqualTo("unfulfilled");
                     break;

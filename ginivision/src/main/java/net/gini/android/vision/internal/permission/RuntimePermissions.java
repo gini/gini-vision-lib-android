@@ -30,7 +30,8 @@ public class RuntimePermissions {
         }
     }
 
-    public void requestPermission(@NonNull final Fragment fragment, @NonNull final String permission,
+    public void requestPermission(@NonNull final Fragment fragment,
+            @NonNull final String permission,
             @NonNull final PermissionRequestListener listener) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             final int requestCode = getNextRequestCode();

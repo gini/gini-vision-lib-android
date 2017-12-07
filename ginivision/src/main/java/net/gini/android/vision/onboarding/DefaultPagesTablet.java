@@ -10,9 +10,11 @@ import java.util.ArrayList;
  * @exclude
  */
 public enum DefaultPagesTablet {
-    LIGHTING(new OnboardingPage(R.string.gv_onboarding_lighting, R.drawable.gv_onboarding_lighting)),
+    LIGHTING(
+            new OnboardingPage(R.string.gv_onboarding_lighting, R.drawable.gv_onboarding_lighting)),
     FLAT(new OnboardingPage(R.string.gv_onboarding_flat, R.drawable.gv_onboarding_flat)),
-    PARALLEL(new OnboardingPage(R.string.gv_onboarding_parallel, R.drawable.gv_onboarding_parallel)),
+    PARALLEL(
+            new OnboardingPage(R.string.gv_onboarding_parallel, R.drawable.gv_onboarding_parallel)),
     ALIGN(new OnboardingPage(R.string.gv_onboarding_align, R.drawable.gv_onboarding_align,
             false, true));
 

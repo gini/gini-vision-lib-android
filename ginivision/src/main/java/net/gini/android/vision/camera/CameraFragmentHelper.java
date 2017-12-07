@@ -30,11 +30,13 @@ class CameraFragmentHelper {
         return new CameraFragmentImpl(fragment);
     }
 
-    public static void setListener(@NonNull CameraFragmentImpl fragmentImpl, @NonNull Context context) {
+    public static void setListener(@NonNull CameraFragmentImpl fragmentImpl,
+            @NonNull Context context) {
         if (context instanceof CameraFragmentListener) {
             fragmentImpl.setListener((CameraFragmentListener) context);
         } else {
-            throw new IllegalStateException("Hosting activity must implement CameraFragmentListener.");
+            throw new IllegalStateException(
+                    "Hosting activity must implement CameraFragmentListener.");
         }
     }
 }

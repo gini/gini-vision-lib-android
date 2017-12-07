@@ -10,7 +10,7 @@ import net.gini.android.vision.screen.screenshots.screens.Screen;
 public class AnalysisScreen implements Screen {
 
     private static final String IMAGE_RES_ID =
-        "net.gini.android.vision.screenapiexample:id/gv_image_picture";
+            "net.gini.android.vision.screenapiexample:id/gv_image_picture";
 
     private final UiDevice mUiDevice;
 

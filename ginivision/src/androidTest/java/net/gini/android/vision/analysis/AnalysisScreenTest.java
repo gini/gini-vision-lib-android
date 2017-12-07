@@ -51,7 +51,8 @@ public class AnalysisScreenTest {
     private static byte[] TEST_JPEG = null;
 
     @Rule
-    public ActivityTestRule<AnalysisActivityTestSpy> mActivityTestRule = new ActivityTestRule<>(AnalysisActivityTestSpy.class, true, false);
+    public ActivityTestRule<AnalysisActivityTestSpy> mActivityTestRule = new ActivityTestRule<>(
+            AnalysisActivityTestSpy.class, true, false);
 
     @BeforeClass
     public static void setupClass() throws IOException {
@@ -77,8 +78,10 @@ public class AnalysisScreenTest {
 
         assertThat(activity.analyzeDocument).isNotNull();
 
-        assertAbout(document()).that(activity.analyzeDocument).isEqualToDocument(DocumentFactory.newDocumentFromPhoto(
-                PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "phone", "camera")));
+        assertAbout(document()).that(activity.analyzeDocument).isEqualToDocument(
+                DocumentFactory.newDocumentFromPhoto(
+                        PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "phone",
+                                "camera")));
     }
 
     @Test
@@ -88,11 +91,14 @@ public class AnalysisScreenTest {
         // Allow the activity to run a little for listeners to be invoked
         Thread.sleep(TEST_PAUSE_DURATION);
 
-        assertThat(activity.getFragment().getFragmentImpl().getImageDocument().getRotation()).isWithin(0.0f).of(180);
+        assertThat(
+                activity.getFragment().getFragmentImpl().getImageDocument().getRotation()).isWithin(
+                0.0f).of(180);
     }
 
     @Test
-    public void should_startIndeterminateProgressAnimation_ifRequested() throws InterruptedException {
+    public void should_startIndeterminateProgressAnimation_ifRequested()
+            throws InterruptedException {
         final AnalysisActivityTestSpy activity = startAnalysisActivity(TEST_JPEG, 0);
 
         Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
@@ -113,7 +119,8 @@ public class AnalysisScreenTest {
     }
 
     @Test
-    public void should_stopIndeterminateProgressAnimation_ifRequested() throws InterruptedException {
+    public void should_stopIndeterminateProgressAnimation_ifRequested()
+            throws InterruptedException {
         final AnalysisActivityTestSpy activity = startAnalysisActivity(TEST_JPEG, 0);
 
         Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
@@ -141,7 +148,8 @@ public class AnalysisScreenTest {
     }
 
     @Test
-    public void should_invokeAddDataToResult_andFinish_whenDocumentAnalyzed_hasBeenCalled() throws InterruptedException {
+    public void should_invokeAddDataToResult_andFinish_whenDocumentAnalyzed_hasBeenCalled()
+            throws InterruptedException {
         AnalysisActivityTestSpy activity = startAnalysisActivity(TEST_JPEG, 0);
 
         // Allow the activity to run a little for listeners to be invoked
@@ -154,7 +162,8 @@ public class AnalysisScreenTest {
     }
 
     @Test
-    public void should_notInvokeAddDataToResult_whenFinished_withoutDocumentAnalyzed_beingCalled() throws InterruptedException {
+    public void should_notInvokeAddDataToResult_whenFinished_withoutDocumentAnalyzed_beingCalled()
+            throws InterruptedException {
         AnalysisActivityTestSpy activity = startAnalysisActivity(TEST_JPEG, 0);
 
         InstrumentationRegistry.getInstrumentation().waitForIdleSync();
@@ -169,7 +178,8 @@ public class AnalysisScreenTest {
     }
 
     @Test
-    public void should_showErrorSnackbar_withButton_andClickListener_whenRequested() throws InterruptedException {
+    public void should_showErrorSnackbar_withButton_andClickListener_whenRequested()
+            throws InterruptedException {
         final AnalysisActivityTestSpy activity = startAnalysisActivity(TEST_JPEG, 0);
 
         final AtomicBoolean buttonClicked = new AtomicBoolean();
@@ -245,7 +255,8 @@ public class AnalysisScreenTest {
     }
 
     @Test
-    public void should_notInvokeAddDataToResult_whenHomeButton_wasPressed() throws InterruptedException {
+    public void should_notInvokeAddDataToResult_whenHomeButton_wasPressed()
+            throws InterruptedException {
         final AnalysisActivityTestSpy activity = startAnalysisActivity(TEST_JPEG, 0);
 
         // Allow the activity to run a little for listeners to be invoked
@@ -262,7 +273,8 @@ public class AnalysisScreenTest {
 
     @Test
     @SdkSuppress(minSdkVersion = 18)
-    public void should_notInvokeAddDataToResult_whenBackButton_wasPressed() throws InterruptedException {
+    public void should_notInvokeAddDataToResult_whenBackButton_wasPressed()
+            throws InterruptedException {
         final AnalysisActivityTestSpy activity = startAnalysisActivity(TEST_JPEG, 0);
 
         // Allow the activity to run a little for listeners to be invoked
@@ -277,9 +289,11 @@ public class AnalysisScreenTest {
     }
 
     @Test
-    public void should_showErrorMessage_whenAnalysisErrorMessage_wasGiven() throws InterruptedException {
+    public void should_showErrorMessage_whenAnalysisErrorMessage_wasGiven()
+            throws InterruptedException {
         Intent intent = getAnalysisActivityIntentWithDocument(TEST_JPEG, 0);
-        intent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE, "Something happened");
+        intent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE,
+                "Something happened");
         mActivityTestRule.launchActivity(intent);
 
         // Allow the activity to run a little for the error message to be shown
@@ -290,9 +304,11 @@ public class AnalysisScreenTest {
     }
 
     @Test
-    public void should_notInvokeAnalyzeDocument_whenAnalysisErrorMessage_wasGiven() throws InterruptedException {
+    public void should_notInvokeAnalyzeDocument_whenAnalysisErrorMessage_wasGiven()
+            throws InterruptedException {
         Intent intent = getAnalysisActivityIntentWithDocument(TEST_JPEG, 0);
-        intent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE, "Something happened");
+        intent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE,
+                "Something happened");
         AnalysisActivityTestSpy activity = mActivityTestRule.launchActivity(intent);
 
         // Allow the activity to run a little for the error message to be shown
@@ -302,9 +318,11 @@ public class AnalysisScreenTest {
     }
 
     @Test
-    public void should_invokeAnalyzeDocument_whenAnalysisErrorRetryButton_wasClicked() throws InterruptedException {
+    public void should_invokeAnalyzeDocument_whenAnalysisErrorRetryButton_wasClicked()
+            throws InterruptedException {
         Intent intent = getAnalysisActivityIntentWithDocument(TEST_JPEG, 0);
-        intent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE, "Something happened");
+        intent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE,
+                "Something happened");
         AnalysisActivityTestSpy activity = mActivityTestRule.launchActivity(intent);
 
         // Allow the activity to run a little for the error message to be shown
@@ -317,7 +335,8 @@ public class AnalysisScreenTest {
 
         assertAbout(document()).that(activity.analyzeDocument)
                 .isEqualToDocument(DocumentFactory.newDocumentFromPhoto(
-                        PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "phone", "camera")));
+                        PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "phone",
+                                "camera")));
     }
 
     @Test
@@ -346,12 +365,15 @@ public class AnalysisScreenTest {
     }
 
     private Intent getAnalysisActivityIntent() {
-        return new Intent(InstrumentationRegistry.getTargetContext(), AnalysisActivityTestSpy.class);
+        return new Intent(InstrumentationRegistry.getTargetContext(),
+                AnalysisActivityTestSpy.class);
     }
 
     private Intent getAnalysisActivityIntentWithDocument(byte[] jpeg, int orientation) {
-        Intent intent = new Intent(InstrumentationRegistry.getTargetContext(), AnalysisActivityTestSpy.class);
-        intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, createDocument(jpeg, orientation, "portrait", "phone", "camera"));
+        Intent intent = new Intent(InstrumentationRegistry.getTargetContext(),
+                AnalysisActivityTestSpy.class);
+        intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT,
+                createDocument(jpeg, orientation, "portrait", "phone", "camera"));
         return intent;
     }
 }

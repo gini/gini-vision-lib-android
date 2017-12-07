@@ -92,7 +92,8 @@ public class ExtractionsActivity extends AppCompatActivity {
                 for (String key : extractionsBundle.keySet()) {
                     // We only show Pay5 extractions: paymentRecipient, iban, bic, amount and paymentReference
                     if (isPay5Extraction(key)) {
-                        mExtractions.put(key, (SpecificExtraction) extractionsBundle.getParcelable(key));
+                        mExtractions.put(key,
+                                (SpecificExtraction) extractionsBundle.getParcelable(key));
                     }
                 }
             }
@@ -134,7 +135,8 @@ public class ExtractionsActivity extends AppCompatActivity {
     }
 
     private void sendFeedback() {
-        DocumentTaskManager documentTaskManager = ((ComponentApiExampleApp) getApplication()).getGiniApi().getDocumentTaskManager();
+        DocumentTaskManager documentTaskManager =
+                ((ComponentApiExampleApp) getApplication()).getGiniApi().getDocumentTaskManager();
 
         // An example for sending feedback where we change the amount or add one if it is missing
         // Feedback should be sent only for the user visible fields. Non-visible fields should be filtered out.
@@ -145,13 +147,16 @@ public class ExtractionsActivity extends AppCompatActivity {
         if (amount != null) {
             // Let's assume the amount was wrong and change it
             amount.setValue(newAmount);
-            Toast.makeText(this, getString(R.string.amount_changed_feedback_message, newAmount), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.amount_changed_feedback_message, newAmount),
+                    Toast.LENGTH_SHORT).show();
         } else {
             // Amount was missing, let's add it
-            SpecificExtraction extraction = new SpecificExtraction("amountToPay", newAmount, "amount", null, Collections.<Extraction>emptyList());
+            SpecificExtraction extraction = new SpecificExtraction("amountToPay", newAmount,
+                    "amount", null, Collections.<Extraction>emptyList());
             mExtractions.put("amountToPay", extraction);
             mExtractionsAdapter.setExtractions(getSortedExtractions());
-            Toast.makeText(this, getString(R.string.amount_added_feedback_message, newAmount), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.amount_added_feedback_message, newAmount),
+                    Toast.LENGTH_SHORT).show();
         }
         mExtractionsAdapter.notifyDataSetChanged();
 
@@ -172,9 +177,13 @@ public class ExtractionsActivity extends AppCompatActivity {
                                             if (task.getError() != null) {
                                                 message = task.getError().getMessage();
                                             }
-                                            Toast.makeText(ExtractionsActivity.this, getString(R.string.feedback_error, message), Toast.LENGTH_LONG).show();
+                                            Toast.makeText(ExtractionsActivity.this,
+                                                    getString(R.string.feedback_error, message),
+                                                    Toast.LENGTH_LONG).show();
                                         } else {
-                                            Toast.makeText(ExtractionsActivity.this, R.string.feedbacl_successful, Toast.LENGTH_LONG).show();
+                                            Toast.makeText(ExtractionsActivity.this,
+                                                    R.string.feedbacl_successful,
+                                                    Toast.LENGTH_LONG).show();
                                         }
                                         hideProgressIndicator();
                                     }
@@ -184,10 +193,12 @@ public class ExtractionsActivity extends AppCompatActivity {
                         });
             } catch (JSONException e) {
                 LOG.error("Feedback not sent", e);
-                Toast.makeText(this, getString(R.string.feedback_error, e.getMessage()), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.feedback_error, e.getMessage()),
+                        Toast.LENGTH_LONG).show();
             }
         } else {
-            Toast.makeText(this, R.string.feedback_error_no_gini_api_document, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.feedback_error_no_gini_api_document,
+                    Toast.LENGTH_LONG).show();
         }
     }
 
@@ -201,7 +212,8 @@ public class ExtractionsActivity extends AppCompatActivity {
         mLayoutProgress.setVisibility(View.GONE);
     }
 
-    private class ExtractionsAdapter extends RecyclerView.Adapter<ExtractionsAdapter.ExtractionsViewHolder> {
+    private class ExtractionsAdapter extends
+            RecyclerView.Adapter<ExtractionsAdapter.ExtractionsViewHolder> {
 
         class ExtractionsViewHolder extends RecyclerView.ViewHolder {
 
@@ -229,7 +241,8 @@ public class ExtractionsActivity extends AppCompatActivity {
         @Override
         public ExtractionsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-            return new ExtractionsViewHolder(layoutInflater.inflate(R.layout.item_extraction, parent, false));
+            return new ExtractionsViewHolder(
+                    layoutInflater.inflate(R.layout.item_extraction, parent, false));
         }
 
         @Override

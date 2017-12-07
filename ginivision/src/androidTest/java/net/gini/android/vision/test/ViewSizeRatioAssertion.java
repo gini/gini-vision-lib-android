@@ -18,6 +18,7 @@ public class ViewSizeRatioAssertion implements ViewAssertion {
 
     @Override
     public void check(final View view, final NoMatchingViewException noViewFoundException) {
-        assertThat("View size ratio (w/h) is not " + sizeRatio, sizeRatio, IsCloseTo.closeTo((double) view.getWidth() / view.getHeight(), 0.001));
+        assertThat("View size ratio (w/h) is not " + sizeRatio, sizeRatio,
+                IsCloseTo.closeTo((double) view.getWidth() / view.getHeight(), 0.001));
     }
 }

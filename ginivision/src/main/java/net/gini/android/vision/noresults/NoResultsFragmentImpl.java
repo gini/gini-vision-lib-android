@@ -19,11 +19,12 @@ import net.gini.android.vision.internal.ui.FragmentImplCallback;
 
 class NoResultsFragmentImpl {
 
-    private static final NoResultsFragmentListener NO_OP_LISTENER = new NoResultsFragmentListener() {
-        @Override
-        public void onBackToCameraPressed() {
-        }
-    };
+    private static final NoResultsFragmentListener NO_OP_LISTENER =
+            new NoResultsFragmentListener() {
+                @Override
+                public void onBackToCameraPressed() {
+                }
+            };
 
     private final FragmentImplCallback mFragment;
     private final Document mDocument;

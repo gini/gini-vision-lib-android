@@ -151,7 +151,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.gv_fragment_camera, container, false);
         bindViews(view);
         setInputHandlers();
@@ -189,10 +189,12 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                                 showUploadHintPopUpOnFirstExecution();
                             } else {
                                 handleError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW,
-                                        "Cannot start preview: no SurfaceHolder received for SurfaceView", null);
+                                        "Cannot start preview: no SurfaceHolder received for SurfaceView",
+                                        null);
                             }
                         } catch (InterruptedException | ExecutionException e) {
-                            handleError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW, "Cannot start preview", e);
+                            handleError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW,
+                                    "Cannot start preview", e);
                         }
                         return null;
                     }
@@ -200,7 +202,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void showUploadHintPopUpOnFirstExecution() {
-        if(shouldShowHintPopUp()) {
+        if (shouldShowHintPopUp()) {
             mButtonCameraTrigger.setEnabled(false);
             mUploadHintContainer.setVisibility(View.VISIBLE);
             mUploadHintContainerArrow.setVisibility(View.VISIBLE);
@@ -248,8 +250,9 @@ class CameraFragmentImpl implements CameraFragmentInterface {
             return false;
         }
         Context context = mFragment.getActivity();
-        if(context != null) {
-            SharedPreferences gvSharedPrefs = context.getSharedPreferences(GV_SHARED_PREFS, Context.MODE_PRIVATE);
+        if (context != null) {
+            SharedPreferences gvSharedPrefs = context.getSharedPreferences(GV_SHARED_PREFS,
+                    Context.MODE_PRIVATE);
             return gvSharedPrefs.getBoolean(SHOW_HINT_POP_UP, true);
         }
         return false;
@@ -261,7 +264,8 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                     @Override
                     public Void apply(final Void aVoid, final Throwable throwable) {
                         if (throwable != null) {
-                            handleError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW, "Cannot start preview", throwable);
+                            handleError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW,
+                                    "Cannot start preview", throwable);
                         }
                         return null;
                     }
@@ -269,25 +273,29 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void enableTapToFocus() {
-        mCameraController.enableTapToFocus(mCameraPreview, new CameraInterface.TapToFocusListener() {
-            @Override
-            public void onFocusing(Point point) {
-                showFocusIndicator(point);
-            }
+        mCameraController.enableTapToFocus(mCameraPreview,
+                new CameraInterface.TapToFocusListener() {
+                    @Override
+                    public void onFocusing(Point point) {
+                        showFocusIndicator(point);
+                    }
 
-            @Override
-            public void onFocused(boolean success) {
-                hideFocusIndicator();
-            }
-        });
+                    @Override
+                    public void onFocused(boolean success) {
+                        hideFocusIndicator();
+                    }
+                });
     }
 
     private void showFocusIndicator(Point point) {
         int top = Math.round((mLayoutRoot.getHeight() - mCameraPreview.getHeight()) / 2.0f);
         int left = Math.round((mLayoutRoot.getWidth() - mCameraPreview.getWidth()) / 2.0f);
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) mCameraFocusIndicator.getLayoutParams();
-        layoutParams.leftMargin = (int) Math.round(left + point.x - (mCameraFocusIndicator.getWidth() / 2.0));
-        layoutParams.topMargin = (int) Math.round(top + point.y - (mCameraFocusIndicator.getHeight() / 2.0));
+        RelativeLayout.LayoutParams layoutParams =
+                (RelativeLayout.LayoutParams) mCameraFocusIndicator.getLayoutParams();
+        layoutParams.leftMargin = (int) Math.round(
+                left + point.x - (mCameraFocusIndicator.getWidth() / 2.0));
+        layoutParams.topMargin = (int) Math.round(
+                top + point.y - (mCameraFocusIndicator.getHeight() / 2.0));
         mCameraFocusIndicator.setLayoutParams(layoutParams);
         mCameraFocusIndicator.animate().setDuration(DEFAULT_ANIMATION_DURATION).alpha(1.0f);
     }
@@ -304,11 +312,13 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                     public Void apply(final Void aVoid, final Throwable throwable) {
                         if (throwable != null) {
                             if (throwable instanceof CameraException) {
-                                handleError(GiniVisionError.ErrorCode.CAMERA_OPEN_FAILED, "Failed to open camera", throwable);
+                                handleError(GiniVisionError.ErrorCode.CAMERA_OPEN_FAILED,
+                                        "Failed to open camera", throwable);
                             } else if (throwable instanceof Exception) {
                                 handleCameraException((Exception) throwable);
                             } else {
-                                handleError(GiniVisionError.ErrorCode.CAMERA_OPEN_FAILED, "Failed to open camera", throwable);
+                                handleError(GiniVisionError.ErrorCode.CAMERA_OPEN_FAILED,
+                                        "Failed to open camera", throwable);
                             }
                             throw new RuntimeException(throwable);
                         } else {
@@ -321,16 +331,18 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private CompletableFuture<SurfaceHolder> handleSurfaceCreation() {
-        return mSurfaceCreatedFuture.handle(new CompletableFuture.BiFun<SurfaceHolder, Throwable, SurfaceHolder>() {
-            @Override
-            public SurfaceHolder apply(SurfaceHolder surfaceHolder, Throwable throwable) {
-                if (throwable != null) {
-                    handleError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW, "Cannot start preview", throwable);
-                    throw new RuntimeException(throwable);
-                }
-                return surfaceHolder;
-            }
-        });
+        return mSurfaceCreatedFuture.handle(
+                new CompletableFuture.BiFun<SurfaceHolder, Throwable, SurfaceHolder>() {
+                    @Override
+                    public SurfaceHolder apply(SurfaceHolder surfaceHolder, Throwable throwable) {
+                        if (throwable != null) {
+                            handleError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW,
+                                    "Cannot start preview", throwable);
+                            throw new RuntimeException(throwable);
+                        }
+                        return surfaceHolder;
+                    }
+                });
     }
 
     private void handleCameraException(@NonNull Exception e) {
@@ -387,7 +399,8 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private boolean isDocumentImportEnabled() {
-        return mGiniVisionFeatureConfiguration.getDocumentImportEnabledFileTypes() != DocumentImportEnabledFileTypes.NONE;
+        return mGiniVisionFeatureConfiguration.getDocumentImportEnabledFileTypes()
+                != DocumentImportEnabledFileTypes.NONE;
     }
 
     private void setInputHandlers() {
@@ -496,7 +509,8 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void savePopUpShown(final Context context) {
-        SharedPreferences gvSharedPrefs = context.getSharedPreferences(GV_SHARED_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences gvSharedPrefs = context.getSharedPreferences(GV_SHARED_PREFS,
+                Context.MODE_PRIVATE);
         gvSharedPrefs.edit().putBoolean(SHOW_HINT_POP_UP, false).apply();
     }
 
@@ -505,13 +519,13 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mFragment.showAlertDialog(R.string.gv_storage_permission_rationale,
                 R.string.gv_storage_permission_rationale_positive_button,
                 new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(final DialogInterface dialogInterface,
-                    final int i) {
-                LOG.info("Requesting storage permission from rationale");
-                response.requestPermission();
-            }
-        }, R.string.gv_storage_permission_denied_negative_button);
+                    @Override
+                    public void onClick(final DialogInterface dialogInterface,
+                            final int i) {
+                        LOG.info("Requesting storage permission from rationale");
+                        response.requestPermission();
+                    }
+                }, R.string.gv_storage_permission_denied_negative_button);
     }
 
     private void showStoragePermissionDeniedDialog() {
@@ -594,7 +608,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
             showInvalidFileError(null);
             return;
         }
-        if (!UriHelper.isUriInputStreamAvailable(uri, activity)){
+        if (!UriHelper.isUriInputStreamAvailable(uri, activity)) {
             LOG.error("Document import failed: InputStream not available for the Uri");
             showInvalidFileError(null);
             return;
@@ -715,7 +729,8 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     @UiThread
     private void callListener(final Photo photo, final Throwable throwable) {
         if (throwable != null) {
-            handleError(GiniVisionError.ErrorCode.CAMERA_SHOT_FAILED, "Failed to take picture", throwable);
+            handleError(GiniVisionError.ErrorCode.CAMERA_SHOT_FAILED, "Failed to take picture",
+                    throwable);
             mCameraController.startPreview();
         } else {
             if (photo != null) {
@@ -941,7 +956,8 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         return mCameraController;
     }
 
-    private void handleError(GiniVisionError.ErrorCode errorCode, @NonNull String message, @Nullable Throwable throwable) {
+    private void handleError(GiniVisionError.ErrorCode errorCode, @NonNull String message,
+            @Nullable Throwable throwable) {
         if (throwable != null) {
             LOG.error(message, throwable);
             // Add error info to the message to help clients, if they don't have logging enabled

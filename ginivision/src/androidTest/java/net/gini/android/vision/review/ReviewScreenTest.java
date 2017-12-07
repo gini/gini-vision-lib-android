@@ -88,7 +88,8 @@ public class ReviewScreenTest {
     }
 
     @Test
-    public void should_rotatePreview_accordingToOrientation() throws IOException, InterruptedException {
+    public void should_rotatePreview_accordingToOrientation()
+            throws IOException, InterruptedException {
         ReviewActivityTestSpy activity = startReviewActivity(TEST_JPEG, 180);
 
         InstrumentationRegistry.getInstrumentation().waitForIdleSync();
@@ -96,7 +97,9 @@ public class ReviewScreenTest {
         // Give some time for the activity to settle
         Thread.sleep(PAUSE_DURATION);
 
-        assertThat(activity.getFragment().getFragmentImpl().getImageDocument().getRotation()).isWithin(0.0f).of(180);
+        assertThat(
+                activity.getFragment().getFragmentImpl().getImageDocument().getRotation()).isWithin(
+                0.0f).of(180);
     }
 
     private ReviewActivityTestSpy startReviewActivity(byte[] jpeg, int orientation) {
@@ -105,14 +108,19 @@ public class ReviewScreenTest {
     }
 
     private Intent getReviewActivityIntent(byte[] jpeg, int orientation) {
-        Intent intent = new Intent(InstrumentationRegistry.getTargetContext(), ReviewActivityTestSpy.class);
-        intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, createDocument(jpeg, orientation, "portrait", "phone", "camera"));
-        intent.putExtra(ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY, new Intent(InstrumentationRegistry.getTargetContext(), AnalysisActivityTestSpy.class));
+        Intent intent = new Intent(InstrumentationRegistry.getTargetContext(),
+                ReviewActivityTestSpy.class);
+        intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT,
+                createDocument(jpeg, orientation, "portrait", "phone", "camera"));
+        intent.putExtra(ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY,
+                new Intent(InstrumentationRegistry.getTargetContext(),
+                        AnalysisActivityTestSpy.class));
         return intent;
     }
 
     @Test
-    public void should_rotatePreview_whenRotateButton_isClicked() throws IOException, InterruptedException {
+    public void should_rotatePreview_whenRotateButton_isClicked()
+            throws IOException, InterruptedException {
         ReviewActivityTestSpy activity = startReviewActivity(TEST_JPEG, 90);
 
         Espresso.onView(ViewMatchers.withId(R.id.gv_button_rotate))
@@ -121,11 +129,14 @@ public class ReviewScreenTest {
         // Give some time for the rotation animation to finish
         Thread.sleep(PAUSE_DURATION);
 
-        assertThat(activity.getFragment().getFragmentImpl().getImageDocument().getRotation()).isWithin(0.0f).of(180);
+        assertThat(
+                activity.getFragment().getFragmentImpl().getImageDocument().getRotation()).isWithin(
+                0.0f).of(180);
     }
 
     @Test
-    public void should_invokeAnalyzeDocument_whenLaunched() throws IOException, InterruptedException {
+    public void should_invokeAnalyzeDocument_whenLaunched()
+            throws IOException, InterruptedException {
         ReviewActivityTestSpy activity = startReviewActivity(TEST_JPEG, 90);
 
         final AtomicBoolean analyzeDocumentInvoked = new AtomicBoolean();
@@ -144,7 +155,8 @@ public class ReviewScreenTest {
     }
 
     @Test
-    public void should_compressJpeg_beforeAnalyzeDocument_isInvoked() throws IOException, InterruptedException {
+    public void should_compressJpeg_beforeAnalyzeDocument_isInvoked()
+            throws IOException, InterruptedException {
         ReviewActivityTestSpy activity = startReviewActivity(TEST_JPEG, 90);
 
         final AtomicReference<Document> documentToAnalyze = new AtomicReference<>();
@@ -164,7 +176,8 @@ public class ReviewScreenTest {
     }
 
     @Test
-    public void should_onlyInvokeProceedToAnalysis_whenNextButton_wasClicked_ifDocument_wasModified_andNotAnalyzed() throws InterruptedException {
+    public void should_onlyInvokeProceedToAnalysis_whenNextButton_wasClicked_ifDocument_wasModified_andNotAnalyzed()
+            throws InterruptedException {
         ReviewActivityTestSpy activity = startReviewActivity(TEST_JPEG, 0);
 
         // Modify the document
@@ -198,7 +211,8 @@ public class ReviewScreenTest {
     }
 
     @Test
-    public void should_onlyInvokeProceedToAnalysis_whenNextButton_wasClicked_ifDocument_wasModified_andAnalyzed() throws InterruptedException {
+    public void should_onlyInvokeProceedToAnalysis_whenNextButton_wasClicked_ifDocument_wasModified_andAnalyzed()
+            throws InterruptedException {
         final ReviewActivityTestSpy activity = startReviewActivity(TEST_JPEG, 0);
 
         // Modify the document
@@ -238,7 +252,8 @@ public class ReviewScreenTest {
     }
 
     @Test
-    public void should_onlyInvokeProceedToAnalysis_whenNextButton_wasClicked_ifDocument_wasNotModified_andNotAnalyzed() throws InterruptedException {
+    public void should_onlyInvokeProceedToAnalysis_whenNextButton_wasClicked_ifDocument_wasNotModified_andNotAnalyzed()
+            throws InterruptedException {
         ReviewActivityTestSpy activity = startReviewActivity(TEST_JPEG, 0);
 
         final AtomicBoolean proceedToAnalysisInvoked = new AtomicBoolean();
@@ -268,7 +283,8 @@ public class ReviewScreenTest {
     }
 
     @Test
-    public void should_invokeDocumentReviewed_andAddDataToResult_whenNextButton_wasClicked_ifDocument_wasNotModified_andWasAnalyzed() throws InterruptedException {
+    public void should_invokeDocumentReviewed_andAddDataToResult_whenNextButton_wasClicked_ifDocument_wasNotModified_andWasAnalyzed()
+            throws InterruptedException {
         final ReviewActivityTestSpy activity = startReviewActivity(TEST_JPEG, 0);
 
         final AtomicBoolean documentReviewedCalled = new AtomicBoolean();
@@ -304,10 +320,12 @@ public class ReviewScreenTest {
     }
 
     @Test
-    public void should_notInvokeAnyListenerMethods_whenHomeButton_wasClicked() throws InterruptedException {
+    public void should_notInvokeAnyListenerMethods_whenHomeButton_wasClicked()
+            throws InterruptedException {
         final ReviewActivityTestSpy activity = startReviewActivity(TEST_JPEG, 0);
 
-        ReviewActivityTestSpy.ListenerHook listenerHook = mock(ReviewActivityTestSpy.ListenerHook.class);
+        ReviewActivityTestSpy.ListenerHook listenerHook = mock(
+                ReviewActivityTestSpy.ListenerHook.class);
 
         activity.setListenerHook(listenerHook);
 
@@ -327,10 +345,12 @@ public class ReviewScreenTest {
 
     @Test
     @SdkSuppress(minSdkVersion = 18)
-    public void should_notInvokeAnyListenerMethods_whenBackButton_wasClicked() throws InterruptedException {
+    public void should_notInvokeAnyListenerMethods_whenBackButton_wasClicked()
+            throws InterruptedException {
         final ReviewActivityTestSpy activity = startReviewActivity(TEST_JPEG, 0);
 
-        ReviewActivityTestSpy.ListenerHook listenerHook = mock(ReviewActivityTestSpy.ListenerHook.class);
+        ReviewActivityTestSpy.ListenerHook listenerHook = mock(
+                ReviewActivityTestSpy.ListenerHook.class);
 
         activity.setListenerHook(listenerHook);
 
@@ -348,10 +368,12 @@ public class ReviewScreenTest {
     }
 
     @Test
-    public void should_invokeDocumentWasRotated_whenRotateButton_wasClicked() throws InterruptedException {
+    public void should_invokeDocumentWasRotated_whenRotateButton_wasClicked()
+            throws InterruptedException {
         final ReviewActivityTestSpy activity = startReviewActivity(TEST_JPEG, 0);
 
-        ReviewActivityTestSpy.ListenerHook listenerHook = mock(ReviewActivityTestSpy.ListenerHook.class);
+        ReviewActivityTestSpy.ListenerHook listenerHook = mock(
+                ReviewActivityTestSpy.ListenerHook.class);
 
         activity.setListenerHook(listenerHook);
 
@@ -506,7 +528,8 @@ public class ReviewScreenTest {
         // Allow the activity to run a little for listeners to be invoked
         Thread.sleep(PAUSE_DURATION);
 
-        assertAbout(document()).that(documentToProceedWith.get()).hasRotationDeltaInUserComment(180);
+        assertAbout(document()).that(documentToProceedWith.get()).hasRotationDeltaInUserComment(
+                180);
     }
 
     @Test
@@ -565,7 +588,8 @@ public class ReviewScreenTest {
 
 
         // Then
-        final AtomicReference<Document> documentToAnalyzeAfterOrientationChange = new AtomicReference<>();
+        final AtomicReference<Document> documentToAnalyzeAfterOrientationChange =
+                new AtomicReference<>();
 
         final ReviewActivityTestSpy activity = mActivityTestRule.getCurrentActivity();
 
@@ -576,9 +600,13 @@ public class ReviewScreenTest {
             }
         });
 
-        assertAbout(document()).that(documentToAnalyzeAfterOrientationChange.get()).hasRotationDeltaInUserComment(180);
-        assertThat(documentToAnalyzeAfterOrientationChange.get().getRotationForDisplay()).isEqualTo(270);
-        assertThat(activity.getFragment().getFragmentImpl().getImageDocument().getRotation()).isWithin(0.0f).of(270);
+        assertAbout(document()).that(
+                documentToAnalyzeAfterOrientationChange.get()).hasRotationDeltaInUserComment(180);
+        assertThat(documentToAnalyzeAfterOrientationChange.get().getRotationForDisplay()).isEqualTo(
+                270);
+        assertThat(
+                activity.getFragment().getFragmentImpl().getImageDocument().getRotation()).isWithin(
+                0.0f).of(270);
     }
 
     @Test

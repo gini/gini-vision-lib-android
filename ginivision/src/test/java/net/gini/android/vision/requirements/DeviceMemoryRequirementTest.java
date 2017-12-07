@@ -1,7 +1,9 @@
 package net.gini.android.vision.requirements;
 
 import static com.google.common.truth.Truth.assertThat;
+
 import static net.gini.android.vision.requirements.TestUtil.createSize;
+
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -45,7 +47,8 @@ public class DeviceMemoryRequirementTest {
 
     @Test
     public void should_reportFulfilled_ifEnoughMemory_isAvailable() {
-        CameraHolder cameraHolder = getCameraHolder(Collections.singletonList(createSize(800, 600)));
+        CameraHolder cameraHolder = getCameraHolder(
+                Collections.singletonList(createSize(800, 600)));
 
         DeviceMemoryRequirement requirement = new DeviceMemoryRequirement(cameraHolder);
 

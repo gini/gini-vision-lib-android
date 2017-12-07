@@ -30,12 +30,14 @@ class OnboardingPageFragmentImpl {
     private ImageView mImageOnboarding;
     private TextView mTextMessage;
 
-    public OnboardingPageFragmentImpl(@NonNull FragmentImplCallback fragment, @NonNull OnboardingPage page) {
+    public OnboardingPageFragmentImpl(@NonNull FragmentImplCallback fragment,
+            @NonNull OnboardingPage page) {
         mFragment = fragment;
         mPage = page;
     }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.gv_fragment_onboarding_page, container, false);
         bindViews(view);
         setUpViews();
@@ -80,7 +82,8 @@ class OnboardingPageFragmentImpl {
 
     private Drawable createRotatedDrawableForLandscape(final Activity activity,
             final Drawable drawable) {
-        final Bitmap bitmap = BitmapFactory.decodeResource(activity.getResources(), mPage.getImageResId());
+        final Bitmap bitmap = BitmapFactory.decodeResource(activity.getResources(),
+                mPage.getImageResId());
         if (bitmap == null) {
             return drawable;
         }

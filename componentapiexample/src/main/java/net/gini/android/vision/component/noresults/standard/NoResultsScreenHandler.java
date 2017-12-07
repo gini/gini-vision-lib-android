@@ -43,7 +43,7 @@ public class NoResultsScreenHandler extends BaseNoResultsScreenHandler {
         mNoResultsFragment = NoResultsFragmentStandard.createInstance(getDocument());
         getActivity().getFragmentManager().beginTransaction()
                 .replace(R.id.no_results_screen_container, mNoResultsFragment)
-        .commit();
+                .commit();
     }
 
     @Override
