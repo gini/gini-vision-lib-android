@@ -408,7 +408,7 @@ public class CameraController implements CameraInterface {
     }
 
     @Override
-    public void setPreviewCallback(@NonNull final Camera.PreviewCallback previewCallback) {
+    public void setPreviewCallback(@Nullable final Camera.PreviewCallback previewCallback) {
         mPreviewCallback = previewCallback;
     }
 

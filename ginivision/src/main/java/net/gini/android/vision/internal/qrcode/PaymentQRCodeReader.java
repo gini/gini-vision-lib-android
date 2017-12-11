@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import net.gini.android.vision.internal.util.Size;
 
 import java.util.IllegalFormatException;
+import java.util.List;
 
 /**
  * Created by Alpar Szotyori on 08.12.2017.
@@ -35,11 +36,14 @@ public class PaymentQRCodeReader {
         mParser = parser;
         mDetector.setListener(new QRCodeDetector.Listener() {
             @Override
-            public void onQRCodeDetected(@NonNull final QRCode qrCode) {
-                try {
-                    final PaymentData paymentData = mParser.parse(qrCode);
-                    mListener.onPaymentDataAvailable(paymentData);
-                } catch (final IllegalFormatException ignored) {
+            public void onQRCodesDetected(@NonNull final List<QRCode> qrCodes) {
+                for (final QRCode qrCode : qrCodes) {
+                    try {
+                        final PaymentData paymentData = mParser.parse(qrCode);
+                        mListener.onPaymentDataAvailable(paymentData);
+                        return;
+                    } catch (final IllegalFormatException ignored) {
+                    }
                 }
             }
         });
