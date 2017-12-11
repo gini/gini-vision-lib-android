@@ -3,6 +3,8 @@ package net.gini.android.vision.internal.qrcode;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
+import net.gini.android.vision.PaymentData;
+
 /**
  * Created by Alpar Szotyori on 11.12.2017.
  *
@@ -18,7 +20,8 @@ import android.support.annotation.NonNull;
 public class BezahlCodeParser implements QRCodeParser<PaymentData> {
 
     @Override
-    public PaymentData parse(@NonNull final String qrCodeContent) throws IllegalArgumentException {
+    public PaymentData parse(@NonNull final String qrCodeContent)
+            throws IllegalArgumentException {
         final Uri uri = Uri.parse(qrCodeContent);
         if (!"bank".equals(uri.getScheme())) {
             throw new IllegalArgumentException(

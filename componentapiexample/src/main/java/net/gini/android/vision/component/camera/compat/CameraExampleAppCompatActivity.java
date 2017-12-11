@@ -9,6 +9,7 @@ import android.view.MenuItem;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.PaymentData;
 import net.gini.android.vision.camera.CameraFragmentCompat;
 import net.gini.android.vision.camera.CameraFragmentListener;
 import net.gini.android.vision.component.R;
@@ -62,7 +63,7 @@ public class CameraExampleAppCompatActivity extends AppCompatActivity implements
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera_compat);
         mCameraScreenHandler = new CameraScreenHandlerAppCompat(this);
@@ -85,6 +86,11 @@ public class CameraExampleAppCompatActivity extends AppCompatActivity implements
     @Override
     public void onDocumentAvailable(@NonNull final Document document) {
         mCameraScreenHandler.onDocumentAvailable(document);
+    }
+
+    @Override
+    public void onPaymentDataAvailable(@NonNull final PaymentData paymentData) {
+        mCameraScreenHandler.onPaymentDataAvailable(paymentData);
     }
 
     @Override

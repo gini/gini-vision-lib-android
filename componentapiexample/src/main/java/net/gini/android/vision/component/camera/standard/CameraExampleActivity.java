@@ -9,6 +9,7 @@ import android.view.MenuItem;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.PaymentData;
 import net.gini.android.vision.camera.CameraFragmentListener;
 import net.gini.android.vision.camera.CameraFragmentStandard;
 import net.gini.android.vision.component.R;
@@ -40,7 +41,7 @@ public class CameraExampleActivity extends Activity implements CameraFragmentLis
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
         mCameraScreenHandler = new CameraScreenHandler(this);
@@ -84,6 +85,11 @@ public class CameraExampleActivity extends Activity implements CameraFragmentLis
     @Override
     public void onDocumentAvailable(@NonNull final Document document) {
         mCameraScreenHandler.onDocumentAvailable(document);
+    }
+
+    @Override
+    public void onPaymentDataAvailable(@NonNull final PaymentData paymentData) {
+        mCameraScreenHandler.onPaymentDataAvailable(paymentData);
     }
 
     @Override

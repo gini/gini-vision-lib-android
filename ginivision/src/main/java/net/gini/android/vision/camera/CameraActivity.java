@@ -17,6 +17,7 @@ import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
+import net.gini.android.vision.PaymentData;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.help.HelpActivity;
@@ -397,9 +398,9 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * @param reviewActivityClass class of your {@link ReviewActivity} subclass
      * @param <T>                 type of your {@link ReviewActivity} subclass
      */
-    public static <T extends ReviewActivity> void setReviewActivityExtra(Intent target,
-            Context context,
-            Class<T> reviewActivityClass) {
+    public static <T extends ReviewActivity> void setReviewActivityExtra(final Intent target,
+            final Context context,
+            final Class<T> reviewActivityClass) {
         ActivityHelper.setActivityExtra(target, EXTRA_IN_REVIEW_ACTIVITY, context,
                 reviewActivityClass);
     }
@@ -417,15 +418,15 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * @param analysisActivityClass class of your {@link AnalysisActivity} subclass
      * @param <T>                   type of your {@link AnalysisActivity} subclass
      */
-    public static <T extends AnalysisActivity> void setAnalysisActivityExtra(Intent target,
-            Context context,
-            Class<T> analysisActivityClass) {
+    public static <T extends AnalysisActivity> void setAnalysisActivityExtra(final Intent target,
+            final Context context,
+            final Class<T> analysisActivityClass) {
         ActivityHelper.setActivityExtra(target, EXTRA_IN_ANALYSIS_ACTIVITY, context,
                 analysisActivityClass);
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gv_activity_camera);
         readExtras();
@@ -440,7 +441,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         showOnboardingIfRequested();
     }
 
-    private void restoreSavedState(@Nullable Bundle savedInstanceState) {
+    private void restoreSavedState(@Nullable final Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             return;
         }
@@ -511,7 +512,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
 
     @VisibleForTesting
     void readExtras() {
-        Bundle extras = getIntent().getExtras();
+        final Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mOnboardingPages = extras.getParcelableArrayList(EXTRA_IN_ONBOARDING_PAGES);
             mReviewDocumentActivityIntent = extras.getParcelable(EXTRA_IN_REVIEW_ACTIVITY);
@@ -556,7 +557,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * @exclude
      */
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.gv_camera, menu);
         return true;
     }
@@ -565,7 +566,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * @exclude
      */
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         if (item.getItemId() == R.id.gv_action_show_onboarding) {
             startHelpActivity();
             return true;
@@ -585,7 +586,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         if (mOnboardingShown) {
             return;
         }
-        Intent intent = new Intent(this, OnboardingActivity.class);
+        final Intent intent = new Intent(this, OnboardingActivity.class);
         if (mOnboardingPages != null) {
             intent.putParcelableArrayListExtra(OnboardingActivity.EXTRA_ONBOARDING_PAGES,
                     mOnboardingPages);
@@ -596,13 +597,18 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     }
 
     @Override
-    public void onDocumentAvailable(@NonNull Document document) {
+    public void onDocumentAvailable(@NonNull final Document document) {
         mDocument = document;
         if (mDocument.isReviewable()) {
             startReviewActivity(document);
         } else {
             startAnalysisActivity(document);
         }
+    }
+
+    @Override
+    public void onPaymentDataAvailable(@NonNull final PaymentData paymentData) {
+
     }
 
     @Override
@@ -629,19 +635,19 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     }
 
     @Override
-    public void onError(@NonNull GiniVisionError error) {
-        Intent result = new Intent();
+    public void onError(@NonNull final GiniVisionError error) {
+        final Intent result = new Intent();
         result.putExtra(EXTRA_OUT_ERROR, error);
         setResult(RESULT_ERROR, result);
         finish();
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(final int requestCode, final int resultCode,
+            final Intent data) {
         switch (requestCode) {
             case REVIEW_DOCUMENT_REQUEST:
             case ANALYSE_DOCUMENT_REQUEST:
-                //noinspection ConstantConditions
                 if (mBackButtonShouldCloseLibrary
                         || (resultCode != Activity.RESULT_CANCELED
                         && resultCode != AnalysisActivity.RESULT_NO_EXTRACTIONS

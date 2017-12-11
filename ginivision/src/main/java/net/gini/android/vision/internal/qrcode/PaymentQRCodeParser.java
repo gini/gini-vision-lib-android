@@ -2,6 +2,8 @@ package net.gini.android.vision.internal.qrcode;
 
 import android.support.annotation.NonNull;
 
+import net.gini.android.vision.PaymentData;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +25,8 @@ class PaymentQRCodeParser implements QRCodeParser<PaymentData> {
 
     @NonNull
     @Override
-    public PaymentData parse(@NonNull final String qrCodeContent) throws IllegalArgumentException {
+    public PaymentData parse(@NonNull final String qrCodeContent)
+            throws IllegalArgumentException {
         for (final QRCodeParser<PaymentData> parser : mParsers) {
             try {
                 return parser.parse(qrCodeContent);

@@ -47,7 +47,7 @@ public class QRCodeDetectorTaskGoogleVision implements QRCodeDetectorTask {
                 .build();
         final SparseArray<Barcode> barcodes = mBarcodeDetector.detect(frame);
         if (barcodes.size() > 0) {
-            LOG.info("Detected QRCodes:\n{}", barcodesToString(barcodes));
+            LOG.debug("Detected QRCodes:\n{}", barcodesToString(barcodes));
         }
         return barcodesToStrings(barcodes);
     }

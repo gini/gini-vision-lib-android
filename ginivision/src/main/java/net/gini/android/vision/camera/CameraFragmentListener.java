@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.PaymentData;
 
 /**
  * <p>
@@ -19,6 +20,8 @@ public interface CameraFragmentListener {
      * @param document the image taken by the camera or the validated imported document
      */
     void onDocumentAvailable(@NonNull Document document);
+
+    void onPaymentDataAvailable(@NonNull PaymentData paymentData);
 
     /**
      * <p>

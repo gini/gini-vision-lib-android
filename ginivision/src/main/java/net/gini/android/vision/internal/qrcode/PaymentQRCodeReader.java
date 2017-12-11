@@ -3,6 +3,7 @@ package net.gini.android.vision.internal.qrcode;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import net.gini.android.vision.PaymentData;
 import net.gini.android.vision.internal.util.Size;
 
 import java.util.List;

@@ -1,5 +1,6 @@
-package net.gini.android.vision.internal.qrcode;
+package net.gini.android.vision;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
@@ -9,6 +10,9 @@ import android.text.TextUtils;
  * Copyright (c) 2017 Gini GmbH.
  */
 
+/**
+ * TODO: documentation
+ */
 public class PaymentData {
 
     private final String mAmount;
@@ -17,7 +21,7 @@ public class PaymentData {
     private final String mPaymentRecipient;
     private final String mPaymentReference;
 
-    PaymentData(@Nullable final String paymentRecipient,
+    public PaymentData(@Nullable final String paymentRecipient,
             @Nullable final String paymentReference,
             @Nullable final String iban,
             @Nullable final String bic,
@@ -44,28 +48,64 @@ public class PaymentData {
                 '}';
     }
 
-    @Nullable
+    @NonNull
     public String getAmount() {
         return mAmount;
     }
 
-    @Nullable
+    @NonNull
     public String getBIC() {
         return mBIC;
     }
 
-    @Nullable
+    @NonNull
     public String getIBAN() {
         return mIBAN;
     }
 
-    @Nullable
+    @NonNull
     public String getPaymentRecipient() {
         return mPaymentRecipient;
     }
 
-    @Nullable
+    @NonNull
     public String getPaymentReference() {
         return mPaymentReference;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        final PaymentData that = (PaymentData) o;
+
+        if (!mAmount.equals(that.mAmount)) {
+            return false;
+        }
+        if (!mBIC.equals(that.mBIC)) {
+            return false;
+        }
+        if (!mIBAN.equals(that.mIBAN)) {
+            return false;
+        }
+        if (!mPaymentRecipient.equals(that.mPaymentRecipient)) {
+            return false;
+        }
+        return mPaymentReference.equals(that.mPaymentReference);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mAmount.hashCode();
+        result = 31 * result + mBIC.hashCode();
+        result = 31 * result + mIBAN.hashCode();
+        result = 31 * result + mPaymentRecipient.hashCode();
+        result = 31 * result + mPaymentReference.hashCode();
+        return result;
     }
 }

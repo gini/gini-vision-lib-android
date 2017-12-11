@@ -58,6 +58,12 @@
         <item name="gvCustomFont"/>
     </style>
 
+    <style name="Root.GiniVisionTheme.Camera.PaymentDataDetectedPopup.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gv_payment_data_detected_popup_text</item>
+        <item name="gvCustomFont" />
+    </style>
+
     <style name="Root.GiniVisionTheme.Review.BottomPanel.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">14sp</item>
@@ -193,6 +199,8 @@
     <style name="GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle" parent="Root.GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle"/>
 
     <style name="GiniVisionTheme.Camera.DocumentImportHint.TextStyle" parent="Root.GiniVisionTheme.Camera.DocumentImportHint.TextStyle" />
+
+    <style name="GiniVisionTheme.Camera.PaymentDataDetectedPopup.TextStyle" parent="Root.GiniVisionTheme.Camera.PaymentDataDetectedPopup.TextStyle" />
 
     <style name="GiniVisionTheme.Review.BottomPanel.TextStyle" parent="Root.GiniVisionTheme.Review.BottomPanel.TextStyle"/>
 

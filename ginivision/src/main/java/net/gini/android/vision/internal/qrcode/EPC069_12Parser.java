@@ -3,6 +3,8 @@ package net.gini.android.vision.internal.qrcode;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import net.gini.android.vision.PaymentData;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,19 +29,25 @@ public class EPC069_12Parser implements QRCodeParser<PaymentData> {
     private static final Logger LOG = LoggerFactory.getLogger(EPC069_12Parser.class);
 
     @Override
-    public PaymentData parse(@NonNull final String qrCodeContent) throws IllegalArgumentException {
+    public PaymentData parse(@NonNull final String qrCodeContent)
+            throws IllegalArgumentException {
         final String[] lines = qrCodeContent.split("\r\n|\n", 12);
-        if (lines.length < 12 || !"BCD".equals(lines[0])) {
+        if (lines.length == 0 || !"BCD".equals(lines[0])) {
             throw new IllegalArgumentException(
                     "QRCode content does not conform to the EPC069-12 format.");
         }
         checkFormat(lines);
-        final String paymentRecipient = lines[5];
-        final String paymentReference = concatPaymentReferenceLines(lines[9], lines[10]);
-        final String iban = lines[6];
-        final String bic = lines[4];
-        final String amount = lines[7];
+        final String paymentRecipient = getLineString(5, lines);
+        final String paymentReference = concatPaymentReferenceLines(getLineString(9, lines),
+                getLineString(10, lines));
+        final String iban = getLineString(6, lines);
+        final String bic = getLineString(4, lines);
+        final String amount = getLineString(7, lines);
         return new PaymentData(paymentRecipient, paymentReference, iban, bic, amount);
+    }
+
+    private String getLineString(final int lineNr, final String[] lines) {
+        return lines.length > lineNr ? lines[lineNr] : "";
     }
 
     private void checkFormat(@NonNull final String[] lines) {
