@@ -41,6 +41,7 @@ dependencies {
     compile deps.commonsImaging
     compile deps.slf4j
     compile deps.completableFuture
+    compile deps.playServicesVision
 
     compile fileTree(dir: '${project.rootDir}/tools/doccheck-doclet', include: ['*.jar'])
 

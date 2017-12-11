@@ -47,8 +47,9 @@ public class CameraController implements CameraInterface {
     private Camera mCamera;
 
     private boolean mPreviewRunning = false;
-    private AtomicReference<CompletableFuture<Boolean>> mFocusingFuture = new AtomicReference<>();
-    private AtomicReference<CompletableFuture<Photo>> mTakingPictureFuture =
+    private final AtomicReference<CompletableFuture<Boolean>> mFocusingFuture =
+            new AtomicReference<>();
+    private final AtomicReference<CompletableFuture<Photo>> mTakingPictureFuture =
             new AtomicReference<>();
 
     private Size mPreviewSize = new Size(0, 0);
@@ -56,14 +57,15 @@ public class CameraController implements CameraInterface {
 
     private final Activity mActivity;
     private final Handler mResetFocusHandler;
+    private Camera.PreviewCallback mPreviewCallback;
 
-    private Runnable mResetFocusMode = new Runnable() {
+    private final Runnable mResetFocusMode = new Runnable() {
         @Override
         public void run() {
             if (mCamera == null) {
                 return;
             }
-            Camera.Parameters parameters = mCamera.getParameters();
+            final Camera.Parameters parameters = mCamera.getParameters();
             if (!isUsingFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE, mCamera)
                     && isFocusModeSupported(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE,
                     mCamera)) {
@@ -73,7 +75,7 @@ public class CameraController implements CameraInterface {
         }
     };
 
-    public CameraController(@NonNull Activity activity) {
+    public CameraController(@NonNull final Activity activity) {
         mActivity = activity;
         mResetFocusHandler = new Handler();
     }
@@ -103,7 +105,7 @@ public class CameraController implements CameraInterface {
                 LOG.error("No back-facing camera");
                 return failedFuture(new CameraException("No back-facing camera"));
             }
-        } catch (RuntimeException e) {
+        } catch (final RuntimeException e) {
             LOG.error("Cannot start camera", e);
             return failedFuture(e);
         }
@@ -130,7 +132,7 @@ public class CameraController implements CameraInterface {
 
     @NonNull
     @Override
-    public CompletableFuture<Void> startPreview(@NonNull SurfaceHolder surfaceHolder) {
+    public CompletableFuture<Void> startPreview(@NonNull final SurfaceHolder surfaceHolder) {
         LOG.info("Start preview for the given SurfaceHolder");
         if (mCamera == null) {
             LOG.error("Cannot start preview: camera not open");
@@ -141,11 +143,12 @@ public class CameraController implements CameraInterface {
             return CompletableFuture.completedFuture(null);
         }
         try {
+            mCamera.setPreviewCallback(mPreviewCallback);
             mCamera.setPreviewDisplay(surfaceHolder);
             mCamera.startPreview();
             mPreviewRunning = true;
             LOG.info("Preview started");
-        } catch (IOException e) {
+        } catch (final IOException e) {
             LOG.error("Cannot start preview", e);
             return failedFuture(e);
         }
@@ -164,6 +167,7 @@ public class CameraController implements CameraInterface {
             LOG.info("Preview already running");
             return CompletableFuture.completedFuture(null);
         }
+        mCamera.setPreviewCallback(mPreviewCallback);
         mCamera.startPreview();
         mPreviewRunning = true;
         LOG.info("Preview started");
@@ -177,6 +181,7 @@ public class CameraController implements CameraInterface {
             LOG.info("Preview not running: camera is stopped");
             return;
         }
+        mCamera.setPreviewCallback(null);
         mCamera.stopPreview();
         mPreviewRunning = false;
         LOG.info("Preview stopped");
@@ -188,7 +193,7 @@ public class CameraController implements CameraInterface {
     }
 
     @Override
-    public void enableTapToFocus(@NonNull View tapView,
+    public void enableTapToFocus(@NonNull final View tapView,
             @Nullable final TapToFocusListener listener) {
         LOG.info("Tap to focus enabled");
         tapView.setOnTouchListener(new View.OnTouchListener() {
@@ -216,18 +221,18 @@ public class CameraController implements CameraInterface {
                     } while (!mFocusingFuture.compareAndSet(null, focused));
 
                     mCamera.cancelAutoFocus();
-                    Rect focusRect = calculateTapArea(x, y, getBackFacingCameraOrientation(),
+                    final Rect focusRect = calculateTapArea(x, y, getBackFacingCameraOrientation(),
                             view.getWidth(), view.getHeight());
                     LOG.debug("Focus rect calculated (l:{}, t:{}, r:{}, b:{})", focusRect.left,
                             focusRect.top, focusRect.right, focusRect.bottom);
 
-                    Camera.Parameters parameters = mCamera.getParameters();
+                    final Camera.Parameters parameters = mCamera.getParameters();
                     if (!isUsingFocusMode(Camera.Parameters.FOCUS_MODE_AUTO, mCamera)
                             && isFocusModeSupported(Camera.Parameters.FOCUS_MODE_AUTO, mCamera)) {
                         parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
                     }
                     if (parameters.getMaxNumFocusAreas() > 0) {
-                        List<Camera.Area> mylist = new ArrayList<Camera.Area>();
+                        final List<Camera.Area> mylist = new ArrayList<>();
                         mylist.add(new Camera.Area(focusRect, 1000));
                         parameters.setFocusAreas(mylist);
                         LOG.debug("Focus area set");
@@ -243,7 +248,7 @@ public class CameraController implements CameraInterface {
                         LOG.info("Focusing started");
                         mCamera.autoFocus(new Camera.AutoFocusCallback() {
                             @Override
-                            public void onAutoFocus(final boolean success, Camera camera) {
+                            public void onAutoFocus(final boolean success, final Camera camera) {
                                 LOG.info("Focusing finished with result: {}", success);
                                 mFocusingFuture.set(null);
                                 focused.complete(success);
@@ -254,7 +259,7 @@ public class CameraController implements CameraInterface {
                                 mResetFocusHandler.postDelayed(mResetFocusMode, 5000);
                             }
                         });
-                    } catch (Exception e) {
+                    } catch (final Exception e) {
                         mFocusingFuture.set(null);
                         LOG.error("Could not focus", e);
                     }
@@ -265,7 +270,7 @@ public class CameraController implements CameraInterface {
     }
 
     @Override
-    public void disableTapToFocus(@NonNull View tapView) {
+    public void disableTapToFocus(@NonNull final View tapView) {
         LOG.info("Tap to focus disabled");
         tapView.setOnTouchListener(null);
     }
@@ -302,7 +307,7 @@ public class CameraController implements CameraInterface {
         mCamera.cancelAutoFocus();
         mCamera.autoFocus(new Camera.AutoFocusCallback() {
             @Override
-            public void onAutoFocus(final boolean success, Camera camera) {
+            public void onAutoFocus(final boolean success, final Camera camera) {
                 LOG.info("Focusing finished with result: {}", success);
                 mFocusingFuture.set(null);
                 completed.complete(success);
@@ -354,7 +359,7 @@ public class CameraController implements CameraInterface {
             public Void apply(final Boolean aBoolean, final Throwable throwable) {
                 takePicture(new Camera.PictureCallback() {
                     @Override
-                    public void onPictureTaken(final byte[] bytes, Camera camera) {
+                    public void onPictureTaken(final byte[] bytes, final Camera camera) {
                         mTakingPictureFuture.set(null);
                         final Photo photo = PhotoFactory.newPhotoFromJpeg(bytes,
                                 getDisplayOrientationForCamera(mActivity),
@@ -373,7 +378,7 @@ public class CameraController implements CameraInterface {
     }
 
     @VisibleForTesting
-    protected void takePicture(Camera.PictureCallback callback) {
+    protected void takePicture(final Camera.PictureCallback callback) {
         if (mCamera == null) {
             return;
         }
@@ -391,7 +396,6 @@ public class CameraController implements CameraInterface {
     public Size getPreviewSizeForDisplay() {
         final int rotation = getDisplayOrientationForCamera(mActivity);
         if (rotation == 90 || rotation == 270) {
-            //noinspection SuspiciousNameCombination
             return new Size(mPreviewSize.height, mPreviewSize.width);
         }
         return mPreviewSize;
@@ -403,14 +407,24 @@ public class CameraController implements CameraInterface {
         return mPictureSize;
     }
 
-    private void configureCamera(Activity activity) {
+    @Override
+    public void setPreviewCallback(@NonNull final Camera.PreviewCallback previewCallback) {
+        mPreviewCallback = previewCallback;
+    }
+
+    @Override
+    public int getCameraRotation() {
+        return getDisplayOrientationForCamera(mActivity);
+    }
+
+    private void configureCamera(final Activity activity) {
         LOG.debug("Configuring camera");
         if (mCamera == null) {
             LOG.error("Cannot configure camera: camera not open");
             return;
         }
 
-        Camera.Parameters params = mCamera.getParameters();
+        final Camera.Parameters params = mCamera.getParameters();
         selectPictureSize(params);
         selectPreviewSize(params);
         selectFocusMode(params);
@@ -421,8 +435,8 @@ public class CameraController implements CameraInterface {
     }
 
     private void selectPictureSize(final Camera.Parameters params) {
-        List<Camera.Size> pictureSizes = params.getSupportedPictureSizes();
-        Size pictureSize = getLargestSize(pictureSizes);
+        final List<Camera.Size> pictureSizes = params.getSupportedPictureSizes();
+        final Size pictureSize = getLargestSize(pictureSizes);
         if (pictureSize != null) {
             mPictureSize = pictureSize;
             params.setPictureSize(mPictureSize.width, mPictureSize.height);
@@ -433,8 +447,8 @@ public class CameraController implements CameraInterface {
     }
 
     private void selectPreviewSize(final Camera.Parameters params) {
-        List<Camera.Size> previewSizes = params.getSupportedPreviewSizes();
-        Size previewSize = getLargestSizeWithSimilarAspectRatio(previewSizes, mPictureSize);
+        final List<Camera.Size> previewSizes = params.getSupportedPreviewSizes();
+        final Size previewSize = getLargestSizeWithSimilarAspectRatio(previewSizes, mPictureSize);
         if (previewSize != null) {
             mPreviewSize = previewSize;
             params.setPreviewSize(mPreviewSize.width, mPreviewSize.height);
@@ -462,20 +476,21 @@ public class CameraController implements CameraInterface {
         }
     }
 
-    private void setCameraDisplayOrientation(Activity activity, android.hardware.Camera camera) {
+    private void setCameraDisplayOrientation(final Activity activity,
+            final android.hardware.Camera camera) {
         LOG.debug("Setting camera display orientation");
         final int displayOrientation = getDisplayOrientationForCamera(activity);
         camera.setDisplayOrientation(displayOrientation);
         LOG.debug("Camera display orientation set to {}", displayOrientation);
     }
 
-    private int getDisplayOrientationForCamera(Activity activity) {
-        Camera.CameraInfo info = getBackFacingCameraInfo();
+    private int getDisplayOrientationForCamera(final Activity activity) {
+        final Camera.CameraInfo info = getBackFacingCameraInfo();
         if (info == null) {
             LOG.error("Could not get back facing camera info");
             return 0;
         }
-        int rotation = activity.getWindowManager().getDefaultDisplay()
+        final int rotation = activity.getWindowManager().getDefaultDisplay()
                 .getRotation();
         int degrees = 0;
         switch (rotation) {
@@ -508,8 +523,8 @@ public class CameraController implements CameraInterface {
     @Nullable
     private Camera.CameraInfo getBackFacingCameraInfo() {
         LOG.debug("Getting back facing camera info");
-        int numberOfCameras = Camera.getNumberOfCameras();
-        Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+        final int numberOfCameras = Camera.getNumberOfCameras();
+        final Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
         for (int i = 0; i < numberOfCameras; i++) {
             Camera.getCameraInfo(i, cameraInfo);
             if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
@@ -523,7 +538,7 @@ public class CameraController implements CameraInterface {
 
     private int getBackFacingCameraOrientation() {
         LOG.debug("Getting back facing camera orientation");
-        Camera.CameraInfo cameraInfo = getBackFacingCameraInfo();
+        final Camera.CameraInfo cameraInfo = getBackFacingCameraInfo();
         if (cameraInfo != null) {
             LOG.debug("Camera orientation: {}", cameraInfo.orientation);
             return cameraInfo.orientation;
@@ -591,9 +606,9 @@ public class CameraController implements CameraInterface {
      * @param tapViewWidth  the width of the tappable view
      * @param tapViewHeight the height of the tappable view
      */
-    private Rect calculateTapArea(float x, float y, int orientation, int tapViewWidth,
-            int tapViewHeight) {
-        Rect rect = new Rect(0, 0, 0, 0);
+    private Rect calculateTapArea(float x, float y, final int orientation, final int tapViewWidth,
+            final int tapViewHeight) {
+        final Rect rect = new Rect(0, 0, 0, 0);
         if (x < tapViewWidth / 2.f && y < tapViewHeight / 2.f) {
             // A: x: -1000 .. 0; y: 1000 .. 0
             rect.left = -(1000 - (int) (1000 * (y / (tapViewHeight / 2.f))));
@@ -621,9 +636,9 @@ public class CameraController implements CameraInterface {
         // Rotate the rect according to the camera's orientation
         // Tap area was calculated for a camera with a 90 degrees orientation
         // so we have to normalize the rotation taking that into account
-        int rectRotation = orientation - 90;
-        RectF rectF = new RectF(rect);
-        Matrix matrix = new Matrix();
+        final int rectRotation = orientation - 90;
+        final RectF rectF = new RectF(rect);
+        final Matrix matrix = new Matrix();
         matrix.setRotate(rectRotation);
         matrix.mapRect(rectF);
         rect.set((int) rectF.left, (int) rectF.top, (int) rectF.right, (int) rectF.bottom);

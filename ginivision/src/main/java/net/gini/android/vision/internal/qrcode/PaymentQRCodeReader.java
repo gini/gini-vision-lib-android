@@ -1,0 +1,65 @@
+package net.gini.android.vision.internal.qrcode;
+
+import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
+import net.gini.android.vision.internal.util.Size;
+
+import java.util.IllegalFormatException;
+
+/**
+ * Created by Alpar Szotyori on 08.12.2017.
+ *
+ * Copyright (c) 2017 Gini GmbH.
+ */
+
+public class PaymentQRCodeReader {
+
+    private final QRCodeDetector mDetector;
+    private final QRCodeParser<PaymentData> mParser;
+    private Listener mListener = new Listener() {
+        @Override
+        public void onPaymentDataAvailable(@NonNull final PaymentData paymentData) {
+        }
+    };
+
+    public static PaymentQRCodeReader newInstance(@NonNull final Context context) {
+        return new PaymentQRCodeReader(new QRCodeDetector(context), new PaymentQRCodeParser());
+    }
+
+    private PaymentQRCodeReader(
+            @NonNull final QRCodeDetector detector,
+            @NonNull final QRCodeParser<PaymentData> parser) {
+        mDetector = detector;
+        mParser = parser;
+        mDetector.setListener(new QRCodeDetector.Listener() {
+            @Override
+            public void onQRCodeDetected(@NonNull final QRCode qrCode) {
+                try {
+                    final PaymentData paymentData = mParser.parse(qrCode);
+                    mListener.onPaymentDataAvailable(paymentData);
+                } catch (final IllegalFormatException ignored) {
+                }
+            }
+        });
+    }
+
+    public void readFromImage(@NonNull final byte[] image, @NonNull final Size imageSize,
+            final int rotation) {
+        mDetector.detect(image, imageSize, rotation);
+    }
+
+    public void release() {
+        mDetector.release();
+    }
+
+    public void setListener(@Nullable final Listener listener) {
+        mListener = listener;
+    }
+
+    public interface Listener {
+
+        void onPaymentDataAvailable(@NonNull final PaymentData paymentData);
+    }
+}

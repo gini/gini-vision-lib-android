@@ -1,6 +1,7 @@
 package net.gini.android.vision.internal.camera.api;
 
 import android.graphics.Point;
+import android.hardware.Camera;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.SurfaceHolder;
@@ -142,6 +143,20 @@ public interface CameraInterface {
      */
     @NonNull
     Size getPictureSize();
+
+    /**
+     * TODO: documentation
+     *
+     * @param previewCallback
+     */
+    void setPreviewCallback(@NonNull Camera.PreviewCallback previewCallback);
+
+    /**
+     * TODO: documentation
+     *
+     * @return
+     */
+    int getCameraRotation();
 
     public interface TapToFocusListener {
         void onFocusing(Point point);

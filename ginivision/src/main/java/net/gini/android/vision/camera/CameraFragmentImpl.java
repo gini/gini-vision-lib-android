@@ -15,6 +15,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
+import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -52,6 +53,8 @@ import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.view.CameraPreviewSurface;
 import net.gini.android.vision.internal.fileimport.FileChooserActivity;
 import net.gini.android.vision.internal.permission.PermissionRequestListener;
+import net.gini.android.vision.internal.qrcode.PaymentData;
+import net.gini.android.vision.internal.qrcode.PaymentQRCodeReader;
 import net.gini.android.vision.internal.ui.ViewStubSafeInflater;
 import net.gini.android.vision.internal.util.DeviceHelper;
 import net.gini.android.vision.internal.util.FileImportValidator;
@@ -66,7 +69,7 @@ import java.util.concurrent.ExecutionException;
 
 import jersey.repackaged.jsr166e.CompletableFuture;
 
-class CameraFragmentImpl implements CameraFragmentInterface {
+class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader.Listener {
 
     public static final String GV_SHARED_PREFS = "GV_SHARED_PREFS";
     public static final int DEFAULT_ANIMATION_DURATION = 200;
@@ -74,7 +77,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
     private static final CameraFragmentListener NO_OP_LISTENER = new CameraFragmentListener() {
         @Override
-        public void onDocumentAvailable(@NonNull Document document) {
+        public void onDocumentAvailable(@NonNull final Document document) {
         }
 
         @Override
@@ -84,7 +87,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         }
 
         @Override
-        public void onError(@NonNull GiniVisionError error) {
+        public void onError(@NonNull final GiniVisionError error) {
         }
     };
 
@@ -100,6 +103,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     private CameraFragmentListener mListener = NO_OP_LISTENER;
     private final UIExecutor mUIExecutor = new UIExecutor();
     private CameraController mCameraController;
+    private PaymentQRCodeReader mPaymentQRCodeReader;
 
     private RelativeLayout mLayoutRoot;
     private CameraPreviewSurface mCameraPreview;
@@ -124,17 +128,22 @@ class CameraFragmentImpl implements CameraFragmentInterface {
 
     private boolean mImportDocumentButtonEnabled = false;
 
-    CameraFragmentImpl(@NonNull CameraFragmentImplCallback fragment) {
+    CameraFragmentImpl(@NonNull final CameraFragmentImplCallback fragment) {
         this(fragment, GiniVisionFeatureConfiguration.buildNewConfiguration().build());
     }
 
-    CameraFragmentImpl(@NonNull CameraFragmentImplCallback fragment,
+    CameraFragmentImpl(@NonNull final CameraFragmentImplCallback fragment,
             @NonNull final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration) {
         mFragment = fragment;
         mGiniVisionFeatureConfiguration = giniVisionFeatureConfiguration;
     }
 
-    void setListener(CameraFragmentListener listener) {
+    @Override
+    public void onPaymentDataAvailable(@NonNull final PaymentData paymentData) {
+        LOG.info("QRCode Payment data found: {}", paymentData);
+    }
+
+    void setListener(final CameraFragmentListener listener) {
         if (listener == null) {
             mListener = NO_OP_LISTENER;
         } else {
@@ -142,7 +151,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         }
     }
 
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         final Activity activity = mFragment.getActivity();
         if (activity == null) {
             return;
@@ -150,9 +159,9 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         forcePortraitOrientationOnPhones(activity);
     }
 
-    View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.gv_fragment_camera, container, false);
+    View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+            final Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.gv_fragment_camera, container, false);
         bindViews(view);
         setInputHandlers();
         setSurfaceViewCallback();
@@ -167,19 +176,22 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         initViews();
         initCameraController(activity);
 
+        mPaymentQRCodeReader = PaymentQRCodeReader.newInstance(activity);
+        mPaymentQRCodeReader.setListener(this);
+
         final CompletableFuture<Void> openCameraCompletable = openCamera();
         final CompletableFuture<SurfaceHolder> surfaceCreationCompletable = handleSurfaceCreation();
 
         CompletableFuture.allOf(openCameraCompletable, surfaceCreationCompletable)
                 .handle(new CompletableFuture.BiFun<Void, Throwable, Object>() {
                     @Override
-                    public Object apply(Void aVoid, Throwable throwable) {
+                    public Object apply(final Void aVoid, final Throwable throwable) {
                         if (throwable != null) {
                             // Exceptions were handled before
                             return null;
                         }
                         try {
-                            SurfaceHolder surfaceHolder = surfaceCreationCompletable.get();
+                            final SurfaceHolder surfaceHolder = surfaceCreationCompletable.get();
                             if (surfaceHolder != null) {
                                 final Size previewSize =
                                         mCameraController.getPreviewSizeForDisplay();
@@ -249,16 +261,16 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         if (!isDocumentImportEnabled()) {
             return false;
         }
-        Context context = mFragment.getActivity();
+        final Context context = mFragment.getActivity();
         if (context != null) {
-            SharedPreferences gvSharedPrefs = context.getSharedPreferences(GV_SHARED_PREFS,
+            final SharedPreferences gvSharedPrefs = context.getSharedPreferences(GV_SHARED_PREFS,
                     Context.MODE_PRIVATE);
             return gvSharedPrefs.getBoolean(SHOW_HINT_POP_UP, true);
         }
         return false;
     }
 
-    private void startPreview(SurfaceHolder holder) {
+    private void startPreview(final SurfaceHolder holder) {
         mCameraController.startPreview(holder)
                 .handle(new CompletableFuture.BiFun<Void, Throwable, Void>() {
                     @Override
@@ -276,21 +288,21 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mCameraController.enableTapToFocus(mCameraPreview,
                 new CameraInterface.TapToFocusListener() {
                     @Override
-                    public void onFocusing(Point point) {
+                    public void onFocusing(final Point point) {
                         showFocusIndicator(point);
                     }
 
                     @Override
-                    public void onFocused(boolean success) {
+                    public void onFocused(final boolean success) {
                         hideFocusIndicator();
                     }
                 });
     }
 
-    private void showFocusIndicator(Point point) {
-        int top = Math.round((mLayoutRoot.getHeight() - mCameraPreview.getHeight()) / 2.0f);
-        int left = Math.round((mLayoutRoot.getWidth() - mCameraPreview.getWidth()) / 2.0f);
-        RelativeLayout.LayoutParams layoutParams =
+    private void showFocusIndicator(final Point point) {
+        final int top = Math.round((mLayoutRoot.getHeight() - mCameraPreview.getHeight()) / 2.0f);
+        final int left = Math.round((mLayoutRoot.getWidth() - mCameraPreview.getWidth()) / 2.0f);
+        final RelativeLayout.LayoutParams layoutParams =
                 (RelativeLayout.LayoutParams) mCameraFocusIndicator.getLayoutParams();
         layoutParams.leftMargin = (int) Math.round(
                 left + point.x - (mCameraFocusIndicator.getWidth() / 2.0));
@@ -334,7 +346,8 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         return mSurfaceCreatedFuture.handle(
                 new CompletableFuture.BiFun<SurfaceHolder, Throwable, SurfaceHolder>() {
                     @Override
-                    public SurfaceHolder apply(SurfaceHolder surfaceHolder, Throwable throwable) {
+                    public SurfaceHolder apply(final SurfaceHolder surfaceHolder,
+                            final Throwable throwable) {
                         if (throwable != null) {
                             handleError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW,
                                     "Cannot start preview", throwable);
@@ -345,9 +358,9 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                 });
     }
 
-    private void handleCameraException(@NonNull Exception e) {
+    private void handleCameraException(@NonNull final Exception e) {
         LOG.error("Failed to open camera", e);
-        GiniVisionError error = cameraExceptionToGiniVisionError(e);
+        final GiniVisionError error = cameraExceptionToGiniVisionError(e);
         if (error.getErrorCode() == GiniVisionError.ErrorCode.CAMERA_NO_ACCESS) {
             showNoPermissionView();
         } else {
@@ -368,13 +381,13 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         LOG.info("Camera closed");
     }
 
-    private void bindViews(View view) {
+    private void bindViews(final View view) {
         mLayoutRoot = view.findViewById(R.id.gv_root);
         mCameraPreview = view.findViewById(R.id.gv_camera_preview);
         mImageCorners = view.findViewById(R.id.gv_image_corners);
         mCameraFocusIndicator = view.findViewById(R.id.gv_camera_focus_indicator);
         mButtonCameraTrigger = view.findViewById(R.id.gv_button_camera_trigger);
-        ViewStub stubNoPermission = view.findViewById(R.id.gv_stub_camera_no_permission);
+        final ViewStub stubNoPermission = view.findViewById(R.id.gv_stub_camera_no_permission);
         mViewStubInflater = new ViewStubSafeInflater(stubNoPermission);
         mButtonImportDocument = view.findViewById(R.id.gv_button_import_document);
         mUploadHintContainer = view.findViewById(R.id.gv_document_import_hint_container);
@@ -406,7 +419,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     private void setInputHandlers() {
         mButtonCameraTrigger.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 LOG.info("Taking picture");
                 if (!mCameraController.isPreviewRunning()) {
                     LOG.info("Will not take picture: preview must be running");
@@ -472,7 +485,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         hideUploadHintPopUp(new ViewPropertyAnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(final View view) {
-                Context context = view.getContext();
+                final Context context = view.getContext();
                 savePopUpShown(context);
             }
         });
@@ -509,7 +522,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void savePopUpShown(final Context context) {
-        SharedPreferences gvSharedPrefs = context.getSharedPreferences(GV_SHARED_PREFS,
+        final SharedPreferences gvSharedPrefs = context.getSharedPreferences(GV_SHARED_PREFS,
                 Context.MODE_PRIVATE);
         gvSharedPrefs.edit().putBoolean(SHOW_HINT_POP_UP, false).apply();
     }
@@ -548,7 +561,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         if (activity == null) {
             return;
         }
-        Intent fileChooserIntent = FileChooserActivity.createIntent(activity);
+        final Intent fileChooserIntent = FileChooserActivity.createIntent(activity);
         fileChooserIntent.putExtra(FileChooserActivity.EXTRA_IN_DOCUMENT_IMPORT_FILE_TYPES,
                 mGiniVisionFeatureConfiguration.getDocumentImportEnabledFileTypes());
         mFragment.startActivityForResult(fileChooserIntent, REQ_CODE_CHOOSE_FILE);
@@ -648,7 +661,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                         }
                     });
 
-        } catch (IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
             LOG.error("Failed to import selected document", e);
             hideActivityIndicatorAndEnableInteraction();
             showInvalidFileError(null);
@@ -747,18 +760,19 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     private void setSurfaceViewCallback() {
         mCameraPreview.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
-            public void surfaceCreated(SurfaceHolder holder) {
+            public void surfaceCreated(final SurfaceHolder holder) {
                 LOG.debug("Surface created");
                 mSurfaceCreatedFuture.complete(holder);
             }
 
             @Override
-            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+            public void surfaceChanged(final SurfaceHolder holder, final int format,
+                    final int width, final int height) {
                 LOG.debug("Surface changed");
             }
 
             @Override
-            public void surfaceDestroyed(SurfaceHolder holder) {
+            public void surfaceDestroyed(final SurfaceHolder holder) {
                 LOG.debug("Surface destroyed");
                 mSurfaceCreatedFuture = new CompletableFuture<>();
             }
@@ -914,50 +928,60 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void handleNoPermissionButtonClick() {
-        View view = mFragment.getView();
+        final View view = mFragment.getView();
         if (view == null) {
             return;
         }
-        Button button = view.findViewById(R.id.gv_button_camera_no_permission);
+        final Button button = view.findViewById(R.id.gv_button_camera_no_permission);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 startApplicationDetailsSettings();
             }
         });
     }
 
     private void hideNoPermissionButton() {
-        View view = mFragment.getView();
+        final View view = mFragment.getView();
         if (view == null) {
             return;
         }
-        Button button = (Button) view.findViewById(R.id.gv_button_camera_no_permission);
+        final Button button = (Button) view.findViewById(R.id.gv_button_camera_no_permission);
         button.setVisibility(View.GONE);
     }
 
     private void startApplicationDetailsSettings() {
-        Activity activity = mFragment.getActivity();
+        final Activity activity = mFragment.getActivity();
         if (activity == null) {
             return;
         }
         LOG.debug("Starting Application Details");
-        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        Uri uri = Uri.fromParts("package", getClientApplicationId(activity), null);
+        final Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        final Uri uri = Uri.fromParts("package", getClientApplicationId(activity), null);
         intent.setData(uri);
         mFragment.startActivity(intent);
     }
 
-    private CameraController initCameraController(Activity activity) {
+    private CameraController initCameraController(final Activity activity) {
         if (mCameraController == null) {
             LOG.debug("CameraController created");
             mCameraController = new CameraController(activity);
         }
+        mCameraController.setPreviewCallback(new Camera.PreviewCallback() {
+            @Override
+            public void onPreviewFrame(final byte[] data, final Camera camera) {
+                if (mPaymentQRCodeReader == null) {
+                    return;
+                }
+                mPaymentQRCodeReader.readFromImage(data, mCameraController.getPreviewSize(),
+                        mCameraController.getCameraRotation());
+            }
+        });
         return mCameraController;
     }
 
-    private void handleError(GiniVisionError.ErrorCode errorCode, @NonNull String message,
-            @Nullable Throwable throwable) {
+    private void handleError(final GiniVisionError.ErrorCode errorCode, @NonNull String message,
+            @Nullable final Throwable throwable) {
         if (throwable != null) {
             LOG.error(message, throwable);
             // Add error info to the message to help clients, if they don't have logging enabled
@@ -966,7 +990,8 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         handleError(errorCode, message);
     }
 
-    private void handleError(GiniVisionError.ErrorCode errorCode, @NonNull String message) {
+    private void handleError(final GiniVisionError.ErrorCode errorCode,
+            @NonNull final String message) {
         handleError(new GiniVisionError(errorCode, message));
     }
 
