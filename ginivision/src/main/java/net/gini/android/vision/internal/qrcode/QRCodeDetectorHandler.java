@@ -37,7 +37,7 @@ class QRCodeDetectorHandler extends Handler {
                 return;
             }
             final ImageData imageData = (ImageData) msg.obj;
-            final List<QRCode> qrCodes = mQRCodeDetectorTask.detect(imageData.image,
+            final List<String> qrCodes = mQRCodeDetectorTask.detect(imageData.image,
                     imageData.imageSize, imageData.rotation);
             if (qrCodes.size() > 0) {
                 mUIExecutor.runOnUiThread(new Runnable() {

@@ -59,7 +59,7 @@ class QRCodeDetectorImpl implements QRCodeDetector {
         }
         mHandler.setListener(new Listener() {
             @Override
-            public void onQRCodesDetected(@NonNull final List<QRCode> qrCodes) {
+            public void onQRCodesDetected(@NonNull final List<String> qrCodes) {
                 if (mListener == null) {
                     return;
                 }

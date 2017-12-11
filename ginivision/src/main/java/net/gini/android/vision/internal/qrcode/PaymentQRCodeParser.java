@@ -2,7 +2,8 @@ package net.gini.android.vision.internal.qrcode;
 
 import android.support.annotation.NonNull;
 
-import java.util.IllegalFormatException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Alpar Szotyori on 08.12.2017.
@@ -12,9 +13,22 @@ import java.util.IllegalFormatException;
 
 class PaymentQRCodeParser implements QRCodeParser<PaymentData> {
 
+    private final List<QRCodeParser<PaymentData>> mParsers;
+
+    PaymentQRCodeParser() {
+        mParsers = new ArrayList<>(3);
+        mParsers.add(new BezahlCodeParser());
+    }
+
     @NonNull
     @Override
-    public PaymentData parse(@NonNull final QRCode qrCode) throws IllegalFormatException {
-        return new PaymentData(qrCode.getContent(), null, null, null, null);
+    public PaymentData parse(@NonNull final String qrCodeContent) throws IllegalArgumentException {
+        for (final QRCodeParser<PaymentData> parser : mParsers) {
+            try {
+                return parser.parse(qrCodeContent);
+            } catch (final IllegalArgumentException ignore) {
+            }
+        }
+        throw new IllegalArgumentException("Unknown QRCode content format.");
     }
 }

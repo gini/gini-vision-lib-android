@@ -15,11 +15,11 @@ import java.util.List;
 public interface QRCodeDetectorTask {
 
     @NonNull
-    List<QRCode> detect(@NonNull final byte[] image, @NonNull final Size imageSize,
+    List<String> detect(@NonNull final byte[] image, @NonNull final Size imageSize,
             final int rotation);
 
-    void release();
-
     boolean isOperational();
+
+    void release();
 
 }

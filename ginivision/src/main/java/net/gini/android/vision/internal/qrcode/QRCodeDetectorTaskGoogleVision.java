@@ -36,7 +36,7 @@ public class QRCodeDetectorTaskGoogleVision implements QRCodeDetectorTask {
 
     @NonNull
     @Override
-    public List<QRCode> detect(@NonNull final byte[] image, @NonNull final Size imageSize,
+    public List<String> detect(@NonNull final byte[] image, @NonNull final Size imageSize,
             final int rotation) {
         // This corresponds to the rotation constants in {@link Frame}.
         final int rotationForFrame = rotation / 90;
@@ -49,15 +49,15 @@ public class QRCodeDetectorTaskGoogleVision implements QRCodeDetectorTask {
         if (barcodes.size() > 0) {
             LOG.info("Detected QRCodes:\n{}", barcodesToString(barcodes));
         }
-        return barcodesToQRCodes(barcodes);
+        return barcodesToStrings(barcodes);
     }
 
-    private List<QRCode> barcodesToQRCodes(final SparseArray<Barcode> barcodes) {
-        final List<QRCode> qrCodes = new ArrayList<>(barcodes.size());
+    private List<String> barcodesToStrings(final SparseArray<Barcode> barcodes) {
+        final List<String> qrCodes = new ArrayList<>(barcodes.size());
         for (int i = 0; i < barcodes.size(); i++) {
             final int key = barcodes.keyAt(i);
             final Barcode barcode = barcodes.get(key);
-            qrCodes.add(new QRCode(barcode.rawValue));
+            qrCodes.add(barcode.rawValue);
         }
         return qrCodes;
     }
@@ -76,12 +76,12 @@ public class QRCodeDetectorTaskGoogleVision implements QRCodeDetectorTask {
     }
 
     @Override
-    public void release() {
-        mBarcodeDetector.release();
+    public boolean isOperational() {
+        return mBarcodeDetector.isOperational();
     }
 
     @Override
-    public boolean isOperational() {
-        return mBarcodeDetector.isOperational();
+    public void release() {
+        mBarcodeDetector.release();
     }
 }

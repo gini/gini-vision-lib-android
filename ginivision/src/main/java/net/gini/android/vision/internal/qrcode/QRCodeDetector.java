@@ -23,6 +23,6 @@ interface QRCodeDetector {
 
     interface Listener {
 
-        void onQRCodesDetected(@NonNull final List<QRCode> qrCodes);
+        void onQRCodesDetected(@NonNull final List<String> qrCodes);
     }
 }

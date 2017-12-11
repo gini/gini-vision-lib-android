@@ -1,6 +1,7 @@
 package net.gini.android.vision.internal.qrcode;
 
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 /**
  * Created by Alpar Szotyori on 08.12.2017.
@@ -16,16 +17,20 @@ public class PaymentData {
     private final String mPaymentRecipient;
     private final String mPaymentReference;
 
-    public PaymentData(@Nullable final String paymentRecipient,
+    PaymentData(@Nullable final String paymentRecipient,
             @Nullable final String paymentReference,
             @Nullable final String iban,
             @Nullable final String bic,
             @Nullable final String amount) {
-        mPaymentRecipient = paymentRecipient;
-        mPaymentReference = paymentReference;
-        mIBAN = iban;
-        mBIC = bic;
-        mAmount = amount;
+        mPaymentRecipient = nullToEmpty(paymentRecipient);
+        mPaymentReference = nullToEmpty(paymentReference);
+        mIBAN = nullToEmpty(iban);
+        mBIC = nullToEmpty(bic);
+        mAmount = nullToEmpty(amount);
+    }
+
+    private String nullToEmpty(@Nullable final String str) {
+        return TextUtils.isEmpty(str) ? "" : str;
     }
 
     @Override
