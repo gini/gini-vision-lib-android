@@ -391,6 +391,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         LOG.info("Closing camera");
         if (mPaymentQRCodeReader != null) {
             mPaymentQRCodeReader.release();
+            mPaymentQRCodeReader = null;
         }
         mCameraController.disableTapToFocus(mCameraPreview);
         mCameraController.setPreviewCallback(null);
