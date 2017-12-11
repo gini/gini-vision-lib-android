@@ -1,6 +1,5 @@
 package net.gini.android.vision.internal.qrcode;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -25,11 +24,14 @@ public class PaymentQRCodeReader {
         }
     };
 
-    public static PaymentQRCodeReader newInstance(@NonNull final Context context) {
-        return new PaymentQRCodeReader(new QRCodeDetector(context), new PaymentQRCodeParser());
+    public static PaymentQRCodeReader newInstance(
+            @NonNull final QRCodeDetectorTask qrCodeDetectorTask) {
+        return new PaymentQRCodeReader(
+                new QRCodeDetectorImpl(qrCodeDetectorTask),
+                new PaymentQRCodeParser());
     }
 
-    private PaymentQRCodeReader(
+    PaymentQRCodeReader(
             @NonNull final QRCodeDetector detector,
             @NonNull final QRCodeParser<PaymentData> parser) {
         mDetector = detector;

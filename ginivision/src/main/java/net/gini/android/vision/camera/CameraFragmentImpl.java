@@ -55,6 +55,7 @@ import net.gini.android.vision.internal.fileimport.FileChooserActivity;
 import net.gini.android.vision.internal.permission.PermissionRequestListener;
 import net.gini.android.vision.internal.qrcode.PaymentData;
 import net.gini.android.vision.internal.qrcode.PaymentQRCodeReader;
+import net.gini.android.vision.internal.qrcode.QRCodeDetectorTaskGoogleVision;
 import net.gini.android.vision.internal.ui.ViewStubSafeInflater;
 import net.gini.android.vision.internal.util.DeviceHelper;
 import net.gini.android.vision.internal.util.FileImportValidator;
@@ -175,9 +176,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         }
         initViews();
         initCameraController(activity);
-
-        mPaymentQRCodeReader = PaymentQRCodeReader.newInstance(activity);
-        mPaymentQRCodeReader.setListener(this);
+        initQRCodeReader(activity);
 
         final CompletableFuture<Void> openCameraCompletable = openCamera();
         final CompletableFuture<SurfaceHolder> surfaceCreationCompletable = handleSurfaceCreation();
@@ -211,6 +210,21 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                         return null;
                     }
                 });
+    }
+
+    private void initQRCodeReader(final Activity activity) {
+        if (mPaymentQRCodeReader != null) {
+            return;
+        }
+        final QRCodeDetectorTaskGoogleVision qrCodeDetectorTask =
+                new QRCodeDetectorTaskGoogleVision(activity);
+        if (qrCodeDetectorTask.isOperational()) {
+            mPaymentQRCodeReader = PaymentQRCodeReader.newInstance(qrCodeDetectorTask);
+            mPaymentQRCodeReader.setListener(this);
+        } else {
+            mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.QR_CODE,
+                    "QRCode detector dependencies are not yet available."));
+        }
     }
 
     private void showUploadHintPopUpOnFirstExecution() {
@@ -375,7 +389,9 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
 
     private void closeCamera() {
         LOG.info("Closing camera");
-        mPaymentQRCodeReader.release();
+        if (mPaymentQRCodeReader != null) {
+            mPaymentQRCodeReader.release();
+        }
         mCameraController.disableTapToFocus(mCameraPreview);
         mCameraController.setPreviewCallback(null);
         mCameraController.stopPreview();
@@ -964,11 +980,12 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         mFragment.startActivity(intent);
     }
 
-    private CameraController initCameraController(final Activity activity) {
+    private void initCameraController(final Activity activity) {
         if (mCameraController == null) {
             LOG.debug("CameraController created");
             mCameraController = new CameraController(activity);
         }
+        final int rotation = mCameraController.getCameraRotation();
         mCameraController.setPreviewCallback(new Camera.PreviewCallback() {
             @Override
             public void onPreviewFrame(final byte[] data, final Camera camera) {
@@ -976,10 +993,9 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                     return;
                 }
                 mPaymentQRCodeReader.readFromImage(data, mCameraController.getPreviewSize(),
-                        mCameraController.getCameraRotation());
+                        rotation);
             }
         });
-        return mCameraController;
     }
 
     private void handleError(final GiniVisionError.ErrorCode errorCode, @NonNull String message,

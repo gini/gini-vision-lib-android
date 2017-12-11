@@ -67,7 +67,13 @@ public class GiniVisionError implements Parcelable {
          *     An error occurred in the Analysis Screen. Check the message for details.
          * </p>
          */
-        ANALYSIS
+        ANALYSIS,
+        /**
+         * <p>
+         *     An error occurred with the QRCode detection. Check the message for details.
+         * </p>
+         */
+        QR_CODE
     }
 
     private final ErrorCode mErrorCode;
@@ -76,7 +82,7 @@ public class GiniVisionError implements Parcelable {
     /**
      * @exclude
      */
-    public GiniVisionError(ErrorCode code, String message) {
+    public GiniVisionError(final ErrorCode code, final String message) {
         mErrorCode = code;
         mMessage = message;
     }
@@ -116,7 +122,7 @@ public class GiniVisionError implements Parcelable {
      * @exclude
      */
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeInt(mErrorCode.ordinal());
         dest.writeString(mMessage);
     }
@@ -126,17 +132,17 @@ public class GiniVisionError implements Parcelable {
      */
     public static final Creator<GiniVisionError> CREATOR = new Creator<GiniVisionError>() {
         @Override
-        public GiniVisionError createFromParcel(Parcel in) {
+        public GiniVisionError createFromParcel(final Parcel in) {
             return new GiniVisionError(in);
         }
 
         @Override
-        public GiniVisionError[] newArray(int size) {
+        public GiniVisionError[] newArray(final int size) {
             return new GiniVisionError[size];
         }
     };
 
-    private GiniVisionError(Parcel in) {
+    private GiniVisionError(final Parcel in) {
         mErrorCode = ErrorCode.values()[in.readInt()];
         mMessage = in.readString();
     }
