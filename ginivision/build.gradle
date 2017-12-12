@@ -30,6 +30,11 @@ android {
         exclude 'META-INF/maven/com.google.guava/guava/pom.properties'
         exclude 'META-INF/maven/com.google.guava/guava/pom.xml'
     }
+
+    // Fix for androidTest builds due to Play Services Vision and Espresso creating their own protobuf.meta files
+    packagingOptions {
+        pickFirst 'protobuf.meta'
+    }
 }
 
 dependencies {
