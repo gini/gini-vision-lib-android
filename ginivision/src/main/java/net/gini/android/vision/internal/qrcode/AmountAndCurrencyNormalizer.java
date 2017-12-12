@@ -17,16 +17,15 @@ final class AmountAndCurrencyNormalizer {
 
     @NonNull
     static String normalizeAmount(@Nullable final String amount, @NonNull final String currency) {
-        if (TextUtils.isEmpty(amount)) {
-            return "";
-        }
-        try {
-            BigDecimal amountBigDecimal = new BigDecimal(amount.replace(",", "."));
-            if (amountBigDecimal.scale() < 2) {
-                amountBigDecimal = amountBigDecimal.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+        if (!TextUtils.isEmpty(amount)) {
+            try {
+                BigDecimal amountBigDecimal = new BigDecimal(amount.replace(",", "."));
+                if (amountBigDecimal.scale() < 2) {
+                    amountBigDecimal = amountBigDecimal.setScale(2, BigDecimal.ROUND_HALF_EVEN);
+                }
+                return amountBigDecimal.toPlainString() + ":" + currency;
+            } catch (final NumberFormatException ignored) {
             }
-            return amountBigDecimal.toPlainString() + ":" + currency;
-        } catch (final NumberFormatException ignored) {
         }
         return "";
     }

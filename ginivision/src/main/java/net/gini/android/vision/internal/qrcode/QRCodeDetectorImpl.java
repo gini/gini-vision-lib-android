@@ -34,6 +34,7 @@ class QRCodeDetectorImpl implements QRCodeDetector {
     @Override
     public void detect(@NonNull final byte[] image, @NonNull final Size imageSize,
             final int rotation) {
+        // If there is no listener, we don't process the image to avoid unnecessary computation
         if (mListener == null) {
             return;
         }

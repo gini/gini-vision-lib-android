@@ -31,7 +31,7 @@ public class PaymentQRCodeReader {
                 new PaymentQRCodeParser());
     }
 
-    PaymentQRCodeReader(
+    private PaymentQRCodeReader(
             @NonNull final QRCodeDetector detector,
             @NonNull final QRCodeParser<PaymentData> parser) {
         mDetector = detector;
