@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView mTextAppVersion;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bindViews();
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
                     ReviewActivity.class,
                     AnalysisActivity.class);
             startActivityForResult(giniVisionIntent, REQUEST_SCAN);
-        } catch (ImportedFileValidationException e) {
+        } catch (final ImportedFileValidationException e) {
             e.printStackTrace();
             String message = "File cannot be analyzed";
             if (e.getValidationError() != null) {
@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean isIntentActionViewOrSend(@NonNull final Intent intent) {
-        String action = intent.getAction();
+        final String action = intent.getAction();
         return Intent.ACTION_VIEW.equals(action) || Intent.ACTION_SEND.equals(action);
     }
 
@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
     private void addInputHandlers() {
         mButtonStartScanner.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 startGiniVisionLibrary();
             }
         });
@@ -194,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
 //            return;
 //        }
 
-        Intent intent = new Intent(this, CameraScreenApiActivity.class);
+        final Intent intent = new Intent(this, CameraScreenApiActivity.class);
 
         // Uncomment to add an extra page to the Onboarding pages
 //        intent.putParcelableArrayListExtra(CameraActivity.EXTRA_IN_ONBOARDING_PAGES, getOnboardingPages());
@@ -217,6 +217,7 @@ public class MainActivity extends AppCompatActivity {
                         .setDocumentImportEnabledFileTypes(
                                 DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
                         .setFileImportEnabled(true)
+                        .setQRCodeScanningEnabled(true)
                         .build();
 
         intent.putExtra(CameraActivity.EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION,
@@ -234,11 +235,11 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, REQUEST_SCAN);
     }
 
-    private void showUnfulfilledRequirementsToast(RequirementsReport report) {
-        StringBuilder stringBuilder = new StringBuilder();
-        List<RequirementReport> requirementReports = report.getRequirementReports();
+    private void showUnfulfilledRequirementsToast(final RequirementsReport report) {
+        final StringBuilder stringBuilder = new StringBuilder();
+        final List<RequirementReport> requirementReports = report.getRequirementReports();
         for (int i = 0; i < requirementReports.size(); i++) {
-            RequirementReport requirementReport = requirementReports.get(i);
+            final RequirementReport requirementReport = requirementReports.get(i);
             if (!requirementReport.isFulfilled()) {
                 if (stringBuilder.length() > 0) {
                     stringBuilder.append("\n");
@@ -262,14 +263,15 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<OnboardingPage> getOnboardingPages() {
         // Adding a custom page to the default pages
-        ArrayList<OnboardingPage> pages = DefaultPagesPhone.asArrayList();
+        final ArrayList<OnboardingPage> pages = DefaultPagesPhone.asArrayList();
         pages.add(new OnboardingPage(R.string.additional_onboarding_page,
                 R.drawable.additional_onboarding_illustration));
         return pages;
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(final int requestCode, final int resultCode,
+            final Intent data) {
         if (requestCode == REQUEST_SCAN) {
             if (data == null) {
                 if (isIntentActionViewOrSend(getIntent())) {
@@ -283,7 +285,7 @@ public class MainActivity extends AppCompatActivity {
                     // method
                     // The payload format is up to you. For the example we added all the extractions as key-value pairs to
                     // a Bundle.
-                    Bundle extractionsBundle = data.getBundleExtra(EXTRA_OUT_EXTRACTIONS);
+                    final Bundle extractionsBundle = data.getBundleExtra(EXTRA_OUT_EXTRACTIONS);
                     if (extractionsBundle != null && pay5ExtractionsAvailable(extractionsBundle)) {
                         // We display only the Pay5 extractions: paymentRecipient, iban, bic,
                         // amount and paymentReference
@@ -300,7 +302,8 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case CameraActivity.RESULT_ERROR:
                     // Something went wrong, retrieve and show the error
-                    GiniVisionError error = data.getParcelableExtra(CameraActivity.EXTRA_OUT_ERROR);
+                    final GiniVisionError error = data.getParcelableExtra(
+                            CameraActivity.EXTRA_OUT_ERROR);
                     if (error != null) {
                         Toast.makeText(this, "Error: " +
                                         error.getErrorCode() + " - " +
@@ -318,8 +321,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private boolean pay5ExtractionsAvailable(Bundle extractionsBundle) {
-        for (String key : extractionsBundle.keySet()) {
+    private boolean pay5ExtractionsAvailable(final Bundle extractionsBundle) {
+        for (final String key : extractionsBundle.keySet()) {
             if (isPay5Extraction(key)) {
                 return true;
             }
@@ -328,12 +331,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startNoExtractionsActivity() {
-        Intent intent = new Intent(this, NoExtractionsActivity.class);
+        final Intent intent = new Intent(this, NoExtractionsActivity.class);
         startActivityForResult(intent, REQUEST_NO_EXTRACTIONS);
     }
 
-    private void startExtractionsActivity(Bundle extractionsBundle) {
-        Intent intent = new Intent(this, ExtractionsActivity.class);
+    private void startExtractionsActivity(final Bundle extractionsBundle) {
+        final Intent intent = new Intent(this, ExtractionsActivity.class);
         intent.putExtra(ExtractionsActivity.EXTRA_IN_EXTRACTIONS, extractionsBundle);
         startActivity(intent);
     }

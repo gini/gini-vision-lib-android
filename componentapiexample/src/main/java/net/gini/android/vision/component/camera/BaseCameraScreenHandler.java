@@ -220,6 +220,7 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
                         .setDocumentImportEnabledFileTypes(
                                 DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
                         .setFileImportEnabled(true)
+                        .setQRCodeScanningEnabled(true)
                         .build();
 
         if (savedInstanceState == null) {

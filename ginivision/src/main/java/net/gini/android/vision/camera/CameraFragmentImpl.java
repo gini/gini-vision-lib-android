@@ -241,7 +241,9 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         }
         initViews();
         initCameraController(activity);
-        initQRCodeReader(activity);
+        if (mGiniVisionFeatureConfiguration.isQRCodeScanningEnabled()) {
+            initQRCodeReader(activity);
+        }
 
         final CompletableFuture<Void> openCameraCompletable = openCamera();
         final CompletableFuture<SurfaceHolder> surfaceCreationCompletable = handleSurfaceCreation();
@@ -1062,17 +1064,19 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             LOG.debug("CameraController created");
             mCameraController = new CameraController(activity);
         }
-        final int rotation = mCameraController.getCameraRotation();
-        mCameraController.setPreviewCallback(new Camera.PreviewCallback() {
-            @Override
-            public void onPreviewFrame(final byte[] data, final Camera camera) {
-                if (mPaymentQRCodeReader == null) {
-                    return;
+        if (mGiniVisionFeatureConfiguration.isQRCodeScanningEnabled()) {
+            final int rotation = mCameraController.getCameraRotation();
+            mCameraController.setPreviewCallback(new Camera.PreviewCallback() {
+                @Override
+                public void onPreviewFrame(final byte[] data, final Camera camera) {
+                    if (mPaymentQRCodeReader == null) {
+                        return;
+                    }
+                    mPaymentQRCodeReader.readFromImage(data, mCameraController.getPreviewSize(),
+                            rotation);
                 }
-                mPaymentQRCodeReader.readFromImage(data, mCameraController.getPreviewSize(),
-                        rotation);
-            }
-        });
+            });
+        }
     }
 
     private void handleError(final GiniVisionError.ErrorCode errorCode, @NonNull String message,
