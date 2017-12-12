@@ -19,6 +19,12 @@ import net.gini.android.vision.PaymentData;
  */
 public class BezahlCodeParser implements QRCodeParser<PaymentData> {
 
+    private final IBANValidator mIBANValidator;
+
+    BezahlCodeParser() {
+        mIBANValidator = new IBANValidator();
+    }
+
     @Override
     public PaymentData parse(@NonNull final String qrCodeContent)
             throws IllegalArgumentException {
@@ -30,6 +36,11 @@ public class BezahlCodeParser implements QRCodeParser<PaymentData> {
         final String paymentRecipient = uri.getQueryParameter("name");
         final String paymentReference = uri.getQueryParameter("reason");
         final String iban = uri.getQueryParameter("iban");
+        try {
+            mIBANValidator.validate(iban);
+        } catch (final IBANValidator.IllegalIBANException e) {
+            throw new IllegalArgumentException("Invalid IBAN in QRCode. " + e.getMessage(), e);
+        }
         final String bic = uri.getQueryParameter("bic");
         final String amount = uri.getQueryParameter("amount");
         return new PaymentData(paymentRecipient, paymentReference, iban, bic, amount);

@@ -27,6 +27,11 @@ import org.slf4j.LoggerFactory;
 public class EPC069_12Parser implements QRCodeParser<PaymentData> {
 
     private static final Logger LOG = LoggerFactory.getLogger(EPC069_12Parser.class);
+    private final IBANValidator mIBANValidator;
+
+    EPC069_12Parser() {
+        mIBANValidator = new IBANValidator();
+    }
 
     @Override
     public PaymentData parse(@NonNull final String qrCodeContent)
@@ -41,6 +46,11 @@ public class EPC069_12Parser implements QRCodeParser<PaymentData> {
         final String paymentReference = concatPaymentReferenceLines(getLineString(9, lines),
                 getLineString(10, lines));
         final String iban = getLineString(6, lines);
+        try {
+            mIBANValidator.validate(iban);
+        } catch (final IBANValidator.IllegalIBANException e) {
+            throw new IllegalArgumentException("Invalid IBAN in QRCode. " + e.getMessage(), e);
+        }
         final String bic = getLineString(4, lines);
         final String amount = getLineString(7, lines);
         return new PaymentData(paymentRecipient, paymentReference, iban, bic, amount);
