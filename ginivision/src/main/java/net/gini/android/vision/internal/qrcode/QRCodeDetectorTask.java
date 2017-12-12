@@ -12,6 +12,9 @@ import java.util.List;
  * Copyright (c) 2017 Gini GmbH.
  */
 
+/**
+ * Interface for synchronous detection of QRCodes from images.
+ */
 public interface QRCodeDetectorTask {
 
     @NonNull

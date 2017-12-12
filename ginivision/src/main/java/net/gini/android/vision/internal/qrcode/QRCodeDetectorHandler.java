@@ -16,6 +16,10 @@ import java.util.List;
  * Copyright (c) 2017 Gini GmbH.
  */
 
+/**
+ * Handler to execute QRCode detection. To be used with a {@link Looper} and enables detection on
+ * background threads.
+ */
 class QRCodeDetectorHandler extends Handler {
 
     static final int DETECT_QRCODE = 1;

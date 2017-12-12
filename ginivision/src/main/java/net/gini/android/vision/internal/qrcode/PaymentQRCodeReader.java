@@ -14,6 +14,11 @@ import java.util.List;
  * Copyright (c) 2017 Gini GmbH.
  */
 
+/**
+ * Reads the first supported QRCode payment data from images.
+ * <p>
+ * See {@link PaymentQRCodeParser} for supported formats.
+ */
 public class PaymentQRCodeReader {
 
     private final QRCodeDetector mDetector;
@@ -24,6 +29,13 @@ public class PaymentQRCodeReader {
         }
     };
 
+    /**
+     * Create a new instance which uses the provided {@link QRCodeDetectorTask} to do QRCode
+     * detection.
+     *
+     * @param qrCodeDetectorTask a {@link QRCodeDetectorTask} implementation
+     * @return new instance
+     */
     public static PaymentQRCodeReader newInstance(
             @NonNull final QRCodeDetectorTask qrCodeDetectorTask) {
         return new PaymentQRCodeReader(
@@ -51,11 +63,21 @@ public class PaymentQRCodeReader {
         });
     }
 
+    /**
+     * Reads the first supported QRCode payment data from the image.
+     *
+     * @param image an image byte array
+     * @param imageSize size of the image
+     * @param rotation rotation to be applied to the image for correct orientation
+     */
     public void readFromImage(@NonNull final byte[] image, @NonNull final Size imageSize,
             final int rotation) {
         mDetector.detect(image, imageSize, rotation);
     }
 
+    /**
+     * Release all resources. Detection not possible after this has been called.
+     */
     public void release() {
         mDetector.release();
     }
@@ -66,6 +88,11 @@ public class PaymentQRCodeReader {
 
     public interface Listener {
 
+        /**
+         * Called when a QRCode was found containing a supported payment data format.
+         *
+         * @param paymentData the payment data found on the image
+         */
         void onPaymentDataAvailable(@NonNull final PaymentData paymentData);
     }
 }

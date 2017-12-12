@@ -18,6 +18,9 @@ import java.util.List;
  * Copyright (c) 2017 Gini GmbH.
  */
 
+/**
+ * QRCode detector executing detection on a background thread.
+ */
 class QRCodeDetectorImpl implements QRCodeDetector {
 
     private final QRCodeDetectorHandler mHandler;

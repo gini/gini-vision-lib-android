@@ -10,7 +10,10 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class IBANValidator {
+/**
+ * Checks that an IBAN string conforms to the IBAN standard.
+ */
+class IBANValidator {
 
     private static final Map<String, Integer> COUNTRY_IBAN_MAP = new HashMap<>();
 
@@ -82,11 +85,17 @@ public class IBANValidator {
 
     private final Pattern mPattern;
 
-    public IBANValidator() {
+    IBANValidator() {
         mPattern = Pattern.compile("^[A-Z0-9]+$");
     }
 
-    public void validate(@Nullable String iban) throws IllegalIBANException {
+    /**
+     * Verifies, that the IBAN string conforms to the IBAN standard.
+     *
+     * @param iban an IBAN string
+     * @throws IllegalIBANException if the IBAN was not valid
+     */
+    void validate(@Nullable String iban) throws IllegalIBANException {
         if (TextUtils.isEmpty(iban)) {
             throw new IllegalIBANException(IBANError.EMPTY);
         }
@@ -171,7 +180,7 @@ public class IBANValidator {
         }
     }
 
-    public enum IBANError {
+    enum IBANError {
         EMPTY,
         INVALID_CHARACTERS,
         UNKNOWN_STRING_ERROR,
@@ -182,7 +191,11 @@ public class IBANValidator {
         INVALID_CHECKSUM
     }
 
-    public class IllegalIBANException extends RuntimeException {
+    /**
+     * Exception containing an {@link IBANError} for information about the reason why an
+     * IBAN was not valid.
+     */
+    class IllegalIBANException extends RuntimeException {
 
         private final IBANError mIBANError;
 
@@ -191,7 +204,7 @@ public class IBANValidator {
             mIBANError = ibanError;
         }
 
-        public IBANError getIBANError() {
+        IBANError getIBANError() {
             return mIBANError;
         }
 

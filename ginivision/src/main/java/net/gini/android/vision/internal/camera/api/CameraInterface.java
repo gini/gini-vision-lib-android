@@ -145,16 +145,19 @@ public interface CameraInterface {
     Size getPictureSize();
 
     /**
-     * TODO: documentation
-     *
-     * @param previewCallback
+     * <p>
+     *      Set a callback to recieve preview images from the camera.
+     * </p>
+     * @param previewCallback callback implementation
      */
     void setPreviewCallback(@NonNull Camera.PreviewCallback previewCallback);
 
     /**
-     * TODO: documentation
-     *
-     * @return
+     * <p>
+     *     The rotation in degrees of the camera. Derived from the camera sensor orientation
+     *     and device orientation.
+     * </p>
+     * @return rotation in degrees
      */
     int getCameraRotation();
 

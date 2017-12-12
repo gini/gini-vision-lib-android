@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
  * See also the
  * <a href="https://www.stuzza.at/de/zahlungsverkehr/qr-code.html">"Zahlen mit Code" Specification</a>
  */
-public class EPC069_12Parser implements QRCodeParser<PaymentData> {
+class EPC069_12Parser implements QRCodeParser<PaymentData> {
 
     private static final Logger LOG = LoggerFactory.getLogger(EPC069_12Parser.class);
     private final IBANValidator mIBANValidator;

@@ -21,6 +21,19 @@ public interface CameraFragmentListener {
      */
     void onDocumentAvailable(@NonNull Document document);
 
+    /**
+     * <p>
+     *     Called when the user clicked the payment data detected popup. You should check the data,
+     *     close the Gini Vision Library and continue to your app's transfer form, if all the needed
+     *     information was present. Otherwise you may show a message informing the user about missing
+     *     data and wait until {@link CameraFragmentListener#onDocumentAvailable(Document)} is called.
+     * </p>
+     * <p>
+     *      See {@link PaymentData} for supported formats.
+     * </p>
+     *
+     * @param paymentData extracted payment data
+     */
     void onPaymentDataAvailable(@NonNull PaymentData paymentData);
 
     /**

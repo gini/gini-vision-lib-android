@@ -8,6 +8,11 @@ import android.support.annotation.NonNull;
  * Copyright (c) 2017 Gini GmbH.
  */
 
+/**
+ * Interface for parsing QRCode content strings.
+ *
+ * @param <T> parsing output class
+ */
 interface QRCodeParser<T> {
 
     T parse(@NonNull final String qrCodeContent) throws IllegalArgumentException;

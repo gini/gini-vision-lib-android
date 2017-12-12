@@ -24,6 +24,9 @@ import java.util.List;
  * Copyright (c) 2017 Gini GmbH.
  */
 
+/**
+ * QRCode detector task using the Google Mobile Vision API.
+ */
 public class QRCodeDetectorTaskGoogleVision implements QRCodeDetectorTask {
 
     private static final Logger LOG = LoggerFactory.getLogger(QRCodeDetectorTaskGoogleVision.class);

@@ -21,7 +21,7 @@ import net.gini.android.vision.PaymentData;
  * See also the
  * <a href="http://www.bezahlcode.de/wp-content/uploads/BezahlCode_TechDok.pdf">BezahlCode Specification</a>
  */
-public class BezahlCodeParser implements QRCodeParser<PaymentData> {
+class BezahlCodeParser implements QRCodeParser<PaymentData> {
 
     private final IBANValidator mIBANValidator;
 

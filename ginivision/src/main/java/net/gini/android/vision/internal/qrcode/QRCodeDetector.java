@@ -13,6 +13,9 @@ import java.util.List;
  * Copyright (c) 2017 Gini GmbH.
  */
 
+/**
+ * Interface for asynchronous detection of QRCodes from images.
+ */
 interface QRCodeDetector {
 
     void detect(@NonNull byte[] image, @NonNull Size imageSize, int rotation);
@@ -23,6 +26,11 @@ interface QRCodeDetector {
 
     interface Listener {
 
+        /**
+         * Called when QRCodes were detected.
+         *
+         * @param qrCodes list of QRCode content strings
+         */
         void onQRCodesDetected(@NonNull final List<String> qrCodes);
     }
 }
