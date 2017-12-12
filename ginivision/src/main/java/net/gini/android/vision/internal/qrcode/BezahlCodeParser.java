@@ -1,7 +1,11 @@
 package net.gini.android.vision.internal.qrcode;
 
+import static net.gini.android.vision.internal.qrcode.AmountAndCurrencyNormalizer.normalizeAmount;
+import static net.gini.android.vision.internal.qrcode.AmountAndCurrencyNormalizer.normalizeCurrency;
+
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import net.gini.android.vision.PaymentData;
 
@@ -13,7 +17,7 @@ import net.gini.android.vision.PaymentData;
 
 /**
  * QRCode parser for the BezahlCode format.
- *
+ * <p>
  * See also the
  * <a href="http://www.bezahlcode.de/wp-content/uploads/BezahlCode_TechDok.pdf">BezahlCode Specification</a>
  */
@@ -42,7 +46,9 @@ public class BezahlCodeParser implements QRCodeParser<PaymentData> {
             throw new IllegalArgumentException("Invalid IBAN in QRCode. " + e.getMessage(), e);
         }
         final String bic = uri.getQueryParameter("bic");
-        final String amount = uri.getQueryParameter("amount");
+        String currency = normalizeCurrency(uri.getQueryParameter("currency"));
+        currency = TextUtils.isEmpty(currency) ? "EUR" : currency;
+        final String amount = normalizeAmount(uri.getQueryParameter("amount"), currency);
         return new PaymentData(paymentRecipient, paymentReference, iban, bic, amount);
     }
 }

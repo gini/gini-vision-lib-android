@@ -1,6 +1,9 @@
 package net.gini.android.vision.internal.qrcode;
 
+import static net.gini.android.vision.internal.qrcode.AmountAndCurrencyNormalizer.normalizeAmount;
+
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import net.gini.android.vision.PaymentData;
@@ -16,11 +19,11 @@ import org.slf4j.LoggerFactory;
 
 /**
  * QRCode parser for the EPC069-12 format.
- * See: https://www.europeanpaymentscouncil.eu/document-library/guidance-documents/quick-response-code-guidelines-enable-data-capture-initiation
- *
+ * See: <a href="https://www.europeanpaymentscouncil.eu/document-library/guidance-documents/quick-response-code-guidelines-enable-data-capture-initiation">EPC069-12 Specification</a>
+ * <p>
  * This recommendation is implemented by Girocode (DE) and Stuzza (AT).
  * Currently it supports versions 1 and 2 and it does not honor the specified encoding.
- *
+ * <p>
  * See also the
  * <a href="https://www.stuzza.at/de/zahlungsverkehr/qr-code.html">"Zahlen mit Code" Specification</a>
  */
@@ -52,8 +55,16 @@ public class EPC069_12Parser implements QRCodeParser<PaymentData> {
             throw new IllegalArgumentException("Invalid IBAN in QRCode. " + e.getMessage(), e);
         }
         final String bic = getLineString(4, lines);
-        final String amount = getLineString(7, lines);
+        final String amount = normalizeAmount(processAmount(getLineString(7, lines)), "EUR");
         return new PaymentData(paymentRecipient, paymentReference, iban, bic, amount);
+    }
+
+    @NonNull
+    private String processAmount(@Nullable final String amount) {
+        if (TextUtils.isEmpty(amount)) {
+            return "";
+        }
+        return amount.length() > 3 ? amount.substring(3) : "";
     }
 
     private String getLineString(final int lineNr, final String[] lines) {
