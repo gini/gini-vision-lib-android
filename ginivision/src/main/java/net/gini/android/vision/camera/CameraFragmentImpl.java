@@ -25,6 +25,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorCompat;
+import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.support.v4.view.ViewPropertyAnimatorListenerAdapter;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
@@ -73,8 +74,10 @@ import jersey.repackaged.jsr166e.CompletableFuture;
 
 class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader.Listener {
 
-    public static final String GV_SHARED_PREFS = "GV_SHARED_PREFS";
-    public static final int DEFAULT_ANIMATION_DURATION = 200;
+    private static final String GV_SHARED_PREFS = "GV_SHARED_PREFS";
+    private static final int DEFAULT_ANIMATION_DURATION = 200;
+    private static final long HIDE_PAYMENT_DATA_DETECTED_POPUP_DELAY_MS = 10000;
+    private static final long DIFFERENT_PAYMENT_DATA_DETECTED_POPUP_DELAY_MS = 200;
     private static final Logger LOG = LoggerFactory.getLogger(CameraFragmentImpl.class);
 
     private static final CameraFragmentListener NO_OP_LISTENER = new CameraFragmentListener() {
@@ -152,15 +155,38 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     @Override
     public void onPaymentDataAvailable(@NonNull final PaymentData paymentData) {
         LOG.info("QRCode Payment data found: {}", paymentData);
+        if (mUploadHintContainer.getVisibility() == View.VISIBLE
+                || mInterfaceHidden) {
+            hidePaymentDataDetectedPopup(null);
+            mPaymentData = null;
+            return;
+        }
+
+        final View view = mFragment.getView();
+        if (view == null) {
+            return;
+        }
+
         if (mPaymentData == null) {
-            showPaymentDataDetectedPopup();
-        } else {
-            final View view = mFragment.getView();
-            if (view == null) {
-                return;
-            }
+            showPaymentDataDetectedPopup(0);
             view.removeCallbacks(mHidePaymentDataDetectedPopupRunnable);
-            view.postDelayed(mHidePaymentDataDetectedPopupRunnable, 10000);
+            view.postDelayed(mHidePaymentDataDetectedPopupRunnable,
+                    HIDE_PAYMENT_DATA_DETECTED_POPUP_DELAY_MS);
+        } else {
+            if (mPaymentData.equals(paymentData)) {
+                view.removeCallbacks(mHidePaymentDataDetectedPopupRunnable);
+                view.postDelayed(mHidePaymentDataDetectedPopupRunnable,
+                        HIDE_PAYMENT_DATA_DETECTED_POPUP_DELAY_MS);
+            } else {
+                view.removeCallbacks(mHidePaymentDataDetectedPopupRunnable);
+                hidePaymentDataDetectedPopup(new ViewPropertyAnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(final View view) {
+                        showPaymentDataDetectedPopup(
+                                DIFFERENT_PAYMENT_DATA_DETECTED_POPUP_DELAY_MS);
+                    }
+                });
+            }
         }
         mPaymentData = paymentData;
     }
@@ -169,20 +195,32 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
 
         @Override
         public void run() {
-            hidePaymentDataDetectedPopup();
+            hidePaymentDataDetectedPopup(null);
+            mPaymentData = null;
         }
     }
 
-    private void showPaymentDataDetectedPopup() {
+    private void showPaymentDataDetectedPopup(final long startDelay) {
+        if (mPaymentDataDetectedPopupContainer.getAlpha() != 0) {
+            return;
+        }
         clearPaymentDataDetectedPopUpAnimation();
         mPaymentDataDetectedPopupContainer.setVisibility(View.VISIBLE);
         mPaymentDataDetectedPopupAnimation = ViewCompat.animate(mPaymentDataDetectedPopupContainer)
                 .alpha(1.0f)
+                .setStartDelay(startDelay)
                 .setDuration(DEFAULT_ANIMATION_DURATION);
         mPaymentDataDetectedPopupAnimation.start();
     }
 
-    private void hidePaymentDataDetectedPopup() {
+    private void hidePaymentDataDetectedPopup(
+            @Nullable final ViewPropertyAnimatorListener animatorListener) {
+        if (mPaymentDataDetectedPopupContainer.getAlpha() != 1) {
+            if (animatorListener != null) {
+                animatorListener.onAnimationEnd(mPaymentDataDetectedPopupContainer);
+            }
+            return;
+        }
         clearPaymentDataDetectedPopUpAnimation();
         mPaymentDataDetectedPopupAnimation = ViewCompat.animate(mPaymentDataDetectedPopupContainer)
                 .alpha(0.0f)
@@ -191,7 +229,9 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                     @Override
                     public void onAnimationEnd(final View view) {
                         mPaymentDataDetectedPopupContainer.setVisibility(View.GONE);
-                        mPaymentData = null;
+                        if (animatorListener != null) {
+                            animatorListener.onAnimationEnd(view);
+                        }
                     }
                 });
         mPaymentDataDetectedPopupAnimation.start();
