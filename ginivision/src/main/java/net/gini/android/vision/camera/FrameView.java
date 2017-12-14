@@ -38,7 +38,7 @@ public class FrameView extends View {
         super(context, attrs);
 
         mPaintLine = new Paint();
-        mPaintLine.setColor(ContextCompat.getColor(context,R.color.gv_camera_preview_corners));
+        mPaintLine.setColor(ContextCompat.getColor(context, R.color.gv_camera_preview_corners));
         mPaintLine.setStyle(Paint.Style.STROKE);
 
         setLineWidth(LINE_WIDTH);
@@ -53,7 +53,7 @@ public class FrameView extends View {
         drawLowerLeftLines(canvas);
         drawUpperRightLines(canvas);
         drawLowerRightLines(canvas);
-        if(mShouldDrawBackgroundForButtons) {
+        if (mShouldDrawBackgroundForButtons) {
             drawBackgroundForButtons(canvas);
         }
     }

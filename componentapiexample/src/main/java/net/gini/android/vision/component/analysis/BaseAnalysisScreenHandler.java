@@ -76,7 +76,8 @@ public abstract class BaseAnalysisScreenHandler implements AnalysisFragmentListe
 
                         // Show the error in the Snackbar with a retry button
                         final DocumentAnalyzer.Listener listener = this;
-                        mAnalysisFragmentInterface.showError(mActivity.getString(R.string.analysis_failed, message),
+                        mAnalysisFragmentInterface.showError(
+                                mActivity.getString(R.string.analysis_failed, message),
                                 mActivity.getString(R.string.retry_analysis),
                                 new View.OnClickListener() {
                                     @Override
@@ -154,7 +155,7 @@ public abstract class BaseAnalysisScreenHandler implements AnalysisFragmentListe
     @Override
     public void onError(@NonNull final GiniVisionError error) {
         mAnalysisFragmentInterface.showError(mActivity.getString(R.string.gini_vision_error,
-                        error.getErrorCode(), error.getMessage()), Toast.LENGTH_LONG);
+                error.getErrorCode(), error.getMessage()), Toast.LENGTH_LONG);
     }
 
     public Activity getActivity() {

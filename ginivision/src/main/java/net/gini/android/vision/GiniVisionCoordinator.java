@@ -109,7 +109,8 @@ public class GiniVisionCoordinator {
      * </p>
      */
     public void onCameraStarted() {
-        if (mShowOnboardingAtFirstRun && !mOncePerInstallEventStore.containsEvent(OncePerInstallEvent.SHOW_ONBOARDING)) {
+        if (mShowOnboardingAtFirstRun && !mOncePerInstallEventStore.containsEvent(
+                OncePerInstallEvent.SHOW_ONBOARDING)) {
             LOG.debug("Show onboarding at first run");
             mListener.onShowOnboarding();
             mOncePerInstallEventStore.saveEvent(OncePerInstallEvent.SHOW_ONBOARDING);

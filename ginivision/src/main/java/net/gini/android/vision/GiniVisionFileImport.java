@@ -90,8 +90,9 @@ public final class GiniVisionFileImport {
         if (uri == null) {
             throw new ImportedFileValidationException("Intent data did not contain a Uri");
         }
-        if (!UriHelper.isUriInputStreamAvailable(uri, context)){
-            throw new ImportedFileValidationException("InputStream not available for Intent's data Uri");
+        if (!UriHelper.isUriInputStreamAvailable(uri, context)) {
+            throw new ImportedFileValidationException(
+                    "InputStream not available for Intent's data Uri");
         }
         final FileImportValidator fileImportValidator = new FileImportValidator(context);
         if (fileImportValidator.matchesCriteria(intent, uri)) {

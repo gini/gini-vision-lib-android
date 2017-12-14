@@ -36,8 +36,10 @@ public class ErrorSnackbar extends RelativeLayout {
     private static final String TAG_SNACKBAR_ERROR = "GV_SNACKBAR_ERROR";
 
     private enum State {
-        SHOWING, SHOWN,
-        HIDING, HIDDEN
+        SHOWING,
+        SHOWN,
+        HIDING,
+        HIDDEN
     }
 
     private Runnable mHideRunnable = new Runnable() {
@@ -57,11 +59,11 @@ public class ErrorSnackbar extends RelativeLayout {
     private Button mButton;
 
     public static ErrorSnackbar make(@NonNull Context context,
-                                     @NonNull RelativeLayout parentView,
-                                     @NonNull String message,
-                                     @Nullable String buttonTitle,
-                                     @Nullable OnClickListener onClickListener,
-                                     int duration) {
+            @NonNull RelativeLayout parentView,
+            @NonNull String message,
+            @Nullable String buttonTitle,
+            @Nullable OnClickListener onClickListener,
+            int duration) {
         ErrorSnackbar errorSnackbar = new ErrorSnackbar(context);
         errorSnackbar.setParentView(parentView);
         errorSnackbar.setMessage(message);
@@ -189,12 +191,14 @@ public class ErrorSnackbar extends RelativeLayout {
         for (ErrorSnackbar existingSnackbar : existingSnackbars) {
             existingSnackbar.hide();
         }
-        LOG.debug("Removed {} existing Snackbars from parent view {}", existingSnackbars.size(), parentView);
+        LOG.debug("Removed {} existing Snackbars from parent view {}", existingSnackbars.size(),
+                parentView);
         return existingSnackbars.size();
     }
 
     @NonNull
-    private static List<ErrorSnackbar> getExistingSnackbarsFromParentView(@NonNull RelativeLayout parentView) {
+    private static List<ErrorSnackbar> getExistingSnackbarsFromParentView(
+            @NonNull RelativeLayout parentView) {
         List<ErrorSnackbar> existingSnackbars = new ArrayList<>();
         int childCount = parentView.getChildCount();
         for (int i = 0; i < childCount; i++) {
@@ -205,7 +209,8 @@ public class ErrorSnackbar extends RelativeLayout {
                 existingSnackbars.add((ErrorSnackbar) child);
             }
         }
-        LOG.debug("Found {} existing Snackbars in parent view {}", existingSnackbars.size(), parentView);
+        LOG.debug("Found {} existing Snackbars in parent view {}", existingSnackbars.size(),
+                parentView);
         return existingSnackbars;
     }
 

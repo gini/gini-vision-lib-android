@@ -1,6 +1,7 @@
 package net.gini.android.vision.requirements;
 
 import static com.google.common.truth.Truth.assertThat;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

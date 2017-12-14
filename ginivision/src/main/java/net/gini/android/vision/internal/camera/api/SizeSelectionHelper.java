@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @exclude 
+ * @exclude
  */
 public final class SizeSelectionHelper {
 

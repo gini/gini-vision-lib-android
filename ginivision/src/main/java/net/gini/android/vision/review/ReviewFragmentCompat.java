@@ -38,7 +38,8 @@ import net.gini.android.vision.internal.ui.FragmentImplCallback;
  *     See the {@link ReviewActivity} for details.
  * </p>
  */
-public class ReviewFragmentCompat extends Fragment implements FragmentImplCallback, ReviewFragmentInterface {
+public class ReviewFragmentCompat extends Fragment implements FragmentImplCallback,
+        ReviewFragmentInterface {
 
     private ReviewFragmentImpl mFragmentImpl;
 
@@ -79,7 +80,8 @@ public class ReviewFragmentCompat extends Fragment implements FragmentImplCallba
      */
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         return mFragmentImpl.onCreateView(inflater, container, savedInstanceState);
     }
 

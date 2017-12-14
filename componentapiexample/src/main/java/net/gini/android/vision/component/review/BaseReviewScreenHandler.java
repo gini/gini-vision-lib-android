@@ -80,7 +80,8 @@ public abstract class BaseReviewScreenHandler implements ReviewFragmentListener 
                         // Don't show the error message here, but forward it to the Analysis
                         // Fragment, where it will be
                         // shown in a Snackbar
-                        mDocumentAnalysisErrorMessage = mActivity.getString(R.string.analysis_failed, message);
+                        mDocumentAnalysisErrorMessage = mActivity.getString(
+                                R.string.analysis_failed, message);
                         LOG.error("Analysis failed in the Review Screen", exception);
                     }
 
@@ -182,7 +183,7 @@ public abstract class BaseReviewScreenHandler implements ReviewFragmentListener 
     @Override
     public void onError(@NonNull final GiniVisionError error) {
         Toast.makeText(mActivity, mActivity.getString(R.string.gini_vision_error,
-                        error.getErrorCode(), error.getMessage()), Toast.LENGTH_LONG).show();
+                error.getErrorCode(), error.getMessage()), Toast.LENGTH_LONG).show();
     }
 
     public Activity getActivity() {

@@ -33,15 +33,16 @@ class OnboardingFragmentImpl {
 
     private static final Logger LOG = LoggerFactory.getLogger(OnboardingFragmentImpl.class);
 
-    private static final OnboardingFragmentListener NO_OP_LISTENER = new OnboardingFragmentListener() {
-        @Override
-        public void onCloseOnboarding() {
-        }
+    private static final OnboardingFragmentListener NO_OP_LISTENER =
+            new OnboardingFragmentListener() {
+                @Override
+                public void onCloseOnboarding() {
+                }
 
-        @Override
-        public void onError(@NonNull GiniVisionError error) {
-        }
-    };
+                @Override
+                public void onError(@NonNull GiniVisionError error) {
+                }
+            };
 
     private final OnboardingFragmentImplCallback mFragment;
     private OnboardingFragmentListener mListener = NO_OP_LISTENER;
@@ -54,7 +55,8 @@ class OnboardingFragmentImpl {
 
     private PageChangeListener mPageChangeListener;
 
-    public OnboardingFragmentImpl(OnboardingFragmentImplCallback fragment, boolean showEmptyLastPage) {
+    public OnboardingFragmentImpl(OnboardingFragmentImplCallback fragment,
+            boolean showEmptyLastPage) {
         mFragment = fragment;
         mPages = getDefaultPages();
         mShowEmptyLastPage = showEmptyLastPage;
@@ -68,14 +70,15 @@ class OnboardingFragmentImpl {
         if (activity == null) {
             return new ArrayList<>();
         }
-        if (isTablet(activity)){
+        if (isTablet(activity)) {
             return DefaultPagesTablet.asArrayList();
         } else {
             return DefaultPagesPhone.asArrayList();
         }
     }
 
-    public OnboardingFragmentImpl(OnboardingFragmentImplCallback fragment, boolean showEmptyLastPage, ArrayList<OnboardingPage> pages) {
+    public OnboardingFragmentImpl(OnboardingFragmentImplCallback fragment,
+            boolean showEmptyLastPage, ArrayList<OnboardingPage> pages) {
         mFragment = fragment;
         mPages = pages != null ? new ArrayList<>(pages) : getDefaultPages();
         mShowEmptyLastPage = showEmptyLastPage;
@@ -101,7 +104,8 @@ class OnboardingFragmentImpl {
         forcePortraitOrientationOnPhones(mFragment.getActivity());
     }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.gv_fragment_onboarding, container, false);
         bindViews(view);
         setUpViewPager();
@@ -119,19 +123,21 @@ class OnboardingFragmentImpl {
         mViewPager.setAdapter(mFragment.getViewPagerAdapter(mPages));
 
         int nrOfPageIndicators = mShowEmptyLastPage ? mPages.size() - 1 : mPages.size();
-        PageIndicators pageIndicators = new PageIndicators(mFragment.getActivity(), nrOfPageIndicators, mLayoutPageIndicators);
+        PageIndicators pageIndicators = new PageIndicators(mFragment.getActivity(),
+                nrOfPageIndicators, mLayoutPageIndicators);
         pageIndicators.create();
 
-        mPageChangeListener = new PageChangeListener(pageIndicators, 0, mPages.size(), new PageChangeListener.Callback() {
-            @Override
-            public void onLastPage() {
-                // Only when an empty last page is shown slide out the page indicator and next button and notify
-                // the listener that the onboarding should be closed
-                if (mShowEmptyLastPage) {
-                    slideOutViewsAndNotifyListener();
-                }
-            }
-        });
+        mPageChangeListener = new PageChangeListener(pageIndicators, 0, mPages.size(),
+                new PageChangeListener.Callback() {
+                    @Override
+                    public void onLastPage() {
+                        // Only when an empty last page is shown slide out the page indicator and next button and notify
+                        // the listener that the onboarding should be closed
+                        if (mShowEmptyLastPage) {
+                            slideOutViewsAndNotifyListener();
+                        }
+                    }
+                });
         mPageChangeListener.init();
 
         mViewPager.addOnPageChangeListener(mPageChangeListener);
@@ -142,7 +148,8 @@ class OnboardingFragmentImpl {
         // If width is still 0  set it to a big value to make sure the view
         // will slide out completely
         int layoutPageIndicatorsWidth = mLayoutPageIndicators.getWidth();
-        layoutPageIndicatorsWidth = layoutPageIndicatorsWidth != 0 ? layoutPageIndicatorsWidth : 10000;
+        layoutPageIndicatorsWidth =
+                layoutPageIndicatorsWidth != 0 ? layoutPageIndicatorsWidth : 10000;
         int buttonNextWidth = mButtonNext.getWidth();
         buttonNextWidth = buttonNextWidth != 0 ? buttonNextWidth : 10000;
 
@@ -215,12 +222,14 @@ class OnboardingFragmentImpl {
             }
             deactivatePageIndicators();
             ImageView pageIndicator = mPageIndicators.get(page);
-            pageIndicator.setImageDrawable(mContext.getResources().getDrawable(R.drawable.gv_onboarding_indicator_active));
+            pageIndicator.setImageDrawable(
+                    mContext.getResources().getDrawable(R.drawable.gv_onboarding_indicator_active));
         }
 
         private void deactivatePageIndicators() {
             for (ImageView pageIndicator : mPageIndicators) {
-                pageIndicator.setImageDrawable(mContext.getResources().getDrawable(R.drawable.gv_onboarding_indicator_inactive));
+                pageIndicator.setImageDrawable(mContext.getResources().getDrawable(
+                        R.drawable.gv_onboarding_indicator_inactive));
             }
         }
 
@@ -233,19 +242,24 @@ class OnboardingFragmentImpl {
         private ImageView createPageIndicator() {
             ImageView pageIndicator = new ImageView(mContext);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                    mContext.getResources().getDimensionPixelSize(R.dimen.gv_onboarding_indicator_width),
-                    mContext.getResources().getDimensionPixelSize(R.dimen.gv_onboarding_indicator_height));
+                    mContext.getResources().getDimensionPixelSize(
+                            R.dimen.gv_onboarding_indicator_width),
+                    mContext.getResources().getDimensionPixelSize(
+                            R.dimen.gv_onboarding_indicator_height));
             pageIndicator.setLayoutParams(layoutParams);
             pageIndicator.setScaleType(ImageView.ScaleType.CENTER);
-            pageIndicator.setImageDrawable(mContext.getResources().getDrawable(R.drawable.gv_onboarding_indicator_inactive));
+            pageIndicator.setImageDrawable(mContext.getResources().getDrawable(
+                    R.drawable.gv_onboarding_indicator_inactive));
             return pageIndicator;
         }
 
         private Space createSpace() {
             Space space = new Space(mContext);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                    mContext.getResources().getDimensionPixelSize(R.dimen.gv_onboarding_indicator_width),
-                    mContext.getResources().getDimensionPixelSize(R.dimen.gv_onboarding_indicator_height));
+                    mContext.getResources().getDimensionPixelSize(
+                            R.dimen.gv_onboarding_indicator_width),
+                    mContext.getResources().getDimensionPixelSize(
+                            R.dimen.gv_onboarding_indicator_height));
             space.setLayoutParams(layoutParams);
             return space;
         }
@@ -273,7 +287,8 @@ class OnboardingFragmentImpl {
         private final Callback mCallback;
         private int mCurrentPage;
 
-        PageChangeListener(PageIndicators pageIndicators, int currentPage, int pages, Callback callback) {
+        PageChangeListener(PageIndicators pageIndicators, int currentPage, int pages,
+                Callback callback) {
             mPageIndicators = pageIndicators;
             mCurrentPage = currentPage;
             mPages = pages;

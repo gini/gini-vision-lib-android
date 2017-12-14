@@ -71,7 +71,8 @@ class ExifReader {
     }
 
     int getOrientationAsDegrees() {
-        final TiffField orientation = mJpegMetadata.findEXIFValue(TiffTagConstants.TIFF_TAG_ORIENTATION);
+        final TiffField orientation = mJpegMetadata.findEXIFValue(
+                TiffTagConstants.TIFF_TAG_ORIENTATION);
         if (orientation != null) {
             try {
                 return exifOrientationToRotation(orientation.getIntValue());

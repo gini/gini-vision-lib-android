@@ -20,11 +20,25 @@ import java.util.Arrays;
  */
 public class GiniVisionDocument implements Document {
 
+    /**
+     * @exclude
+     */
+    public static final Creator<GiniVisionDocument> CREATOR = new Creator<GiniVisionDocument>() {
+        @Override
+        public GiniVisionDocument createFromParcel(Parcel in) {
+            return new GiniVisionDocument(in);
+        }
+
+        @Override
+        public GiniVisionDocument[] newArray(int size) {
+            return new GiniVisionDocument[size];
+        }
+    };
+    private final Intent mIntent;
+    private final boolean mIsImported;
+    private final boolean mIsReviewable;
     private final Type mType;
     private byte[] mData;
-    private final boolean mIsReviewable;
-    private final boolean mIsImported;
-    private final Intent mIntent;
 
     GiniVisionDocument(@NonNull final Type type,
             @Nullable final byte[] data,
@@ -36,6 +50,64 @@ public class GiniVisionDocument implements Document {
         mIntent = intent;
         mIsReviewable = isReviewable;
         mIsImported = isImported;
+    }
+
+    GiniVisionDocument(Parcel in) {
+        ParcelableMemoryCache cache = ParcelableMemoryCache.getInstance();
+        ParcelableMemoryCache.Token token = in.readParcelable(
+                ParcelableMemoryCache.Token.class.getClassLoader());
+        if (token != null) {
+            mData = cache.getByteArray(token);
+            cache.removeByteArray(token);
+        } else {
+            mData = null;
+        }
+
+        mType = (Type) in.readSerializable();
+        mIntent = in.readParcelable(Intent.class.getClassLoader());
+        mIsReviewable = in.readInt() == 1;
+        mIsImported = in.readInt() == 1;
+    }
+
+    /**
+     * @exclude
+     */
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    /**
+     * @exclude
+     */
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (mData != null) {
+            ParcelableMemoryCache cache = ParcelableMemoryCache.getInstance();
+            ParcelableMemoryCache.Token token = cache.storeByteArray(mData);
+            dest.writeParcelable(token, flags);
+        } else {
+            dest.writeParcelable(null, flags);
+        }
+
+        dest.writeSerializable(mType);
+        dest.writeParcelable(mIntent, flags);
+        dest.writeInt(mIsReviewable ? 1 : 0);
+        dest.writeInt(mIsImported ? 1 : 0);
+    }
+
+    @Deprecated
+    @NonNull
+    @Override
+    public byte[] getJpeg() {
+        final byte[] data = getData();
+        return data != null ? data : new byte[]{};
+    }
+
+    @Deprecated
+    @Override
+    public int getRotationForDisplay() {
+        return 0;
     }
 
     @Override
@@ -69,7 +141,19 @@ public class GiniVisionDocument implements Document {
         return mIsReviewable;
     }
 
-    public void loadData(@NonNull final Context context, @NonNull final AsyncCallback<byte[]> callback) {
+    @Override
+    public String toString() {
+        return "GiniVisionDocument{" +
+                "mType=" + mType +
+                ", mData=" + Arrays.toString(mData) +
+                ", mIsReviewable=" + mIsReviewable +
+                ", mIsImported=" + mIsImported +
+                ", mIntent=" + mIntent +
+                '}';
+    }
+
+    public void loadData(@NonNull final Context context,
+            @NonNull final AsyncCallback<byte[]> callback) {
         if (mData != null) {
             callback.onSuccess(mData);
             return;
@@ -97,89 +181,6 @@ public class GiniVisionDocument implements Document {
                     }
                 });
         asyncTask.execute(uri);
-    }
-
-    /**
-     * @exclude
-     */
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        if (mData != null) {
-            ParcelableMemoryCache cache = ParcelableMemoryCache.getInstance();
-            ParcelableMemoryCache.Token token = cache.storeByteArray(mData);
-            dest.writeParcelable(token, flags);
-        } else {
-            dest.writeParcelable(null, flags);
-        }
-
-        dest.writeSerializable(mType);
-        dest.writeParcelable(mIntent, flags);
-        dest.writeInt(mIsReviewable ? 1 : 0);
-        dest.writeInt(mIsImported ? 1 : 0);
-    }
-
-    /**
-     * @exclude
-     */
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    /**
-     * @exclude
-     */
-    public static final Creator<GiniVisionDocument> CREATOR = new Creator<GiniVisionDocument>() {
-        @Override
-        public GiniVisionDocument createFromParcel(Parcel in) {
-            return new GiniVisionDocument(in);
-        }
-
-        @Override
-        public GiniVisionDocument[] newArray(int size) {
-            return new GiniVisionDocument[size];
-        }
-    };
-
-    GiniVisionDocument(Parcel in) {
-        ParcelableMemoryCache cache = ParcelableMemoryCache.getInstance();
-        ParcelableMemoryCache.Token token = in.readParcelable(ParcelableMemoryCache.Token.class.getClassLoader());
-        if (token != null) {
-            mData = cache.getByteArray(token);
-            cache.removeByteArray(token);
-        } else {
-            mData = null;
-        }
-
-        mType = (Type) in.readSerializable();
-        mIntent = in.readParcelable(Intent.class.getClassLoader());
-        mIsReviewable = in.readInt() == 1;
-        mIsImported = in.readInt() == 1;
-    }
-
-    @Override
-    public String toString() {
-        return "GiniVisionDocument{" +
-                "mType=" + mType +
-                ", mData=" + Arrays.toString(mData) +
-                ", mIsReviewable=" + mIsReviewable +
-                ", mIsImported=" + mIsImported +
-                ", mIntent=" + mIntent +
-                '}';
-    }
-
-    @Deprecated
-    @NonNull
-    @Override
-    public byte[] getJpeg() {
-        final byte[] data = getData();
-        return data != null ? data : new byte[]{};
-    }
-
-    @Deprecated
-    @Override
-    public int getRotationForDisplay() {
-        return 0;
     }
 
 }

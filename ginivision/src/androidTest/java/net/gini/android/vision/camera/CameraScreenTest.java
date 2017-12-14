@@ -2,10 +2,8 @@ package net.gini.android.vision.camera;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import static net.gini.android.vision.OncePerInstallEventStoreHelper
-        .clearOnboardingWasShownPreference;
-import static net.gini.android.vision.OncePerInstallEventStoreHelper
-        .setOnboardingWasShownPreference;
+import static net.gini.android.vision.OncePerInstallEventStoreHelper.clearOnboardingWasShownPreference;
+import static net.gini.android.vision.OncePerInstallEventStoreHelper.setOnboardingWasShownPreference;
 import static net.gini.android.vision.test.EspressoMatchers.hasComponent;
 import static net.gini.android.vision.test.Helpers.isTablet;
 import static net.gini.android.vision.test.Helpers.prepareLooper;

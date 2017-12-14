@@ -29,7 +29,8 @@ class CameraFlashRequirement implements Requirement {
             Camera.Parameters parameters = mCameraHolder.getCameraParameters();
             if (parameters != null) {
                 List<String> supportedFlashModes = parameters.getSupportedFlashModes();
-                if (supportedFlashModes == null || !supportedFlashModes.contains(Camera.Parameters.FLASH_MODE_ON)) {
+                if (supportedFlashModes == null || !supportedFlashModes.contains(
+                        Camera.Parameters.FLASH_MODE_ON)) {
                     result = false;
                     details = "Camera does not support flash";
                 }

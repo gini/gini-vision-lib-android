@@ -1,5 +1,8 @@
 package net.gini.android.vision.component.camera;
 
+import static android.app.Activity.RESULT_OK;
+
+import static net.gini.android.vision.example.ExampleUtil.getExtractionsBundle;
 import static net.gini.android.vision.example.ExampleUtil.isIntentActionViewOrSend;
 
 import android.app.Activity;
@@ -21,8 +24,10 @@ import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.GiniVisionFileImport;
 import net.gini.android.vision.ImportedFileValidationException;
+import net.gini.android.vision.PaymentData;
 import net.gini.android.vision.camera.CameraFragmentInterface;
 import net.gini.android.vision.camera.CameraFragmentListener;
+import net.gini.android.vision.component.ExtractionsActivity;
 import net.gini.android.vision.component.R;
 import net.gini.android.vision.example.BaseExampleApp;
 import net.gini.android.vision.example.SingleDocumentAnalyzer;
@@ -104,6 +109,17 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
     }
 
     @Override
+    public void onPaymentDataAvailable(@NonNull final PaymentData paymentData) {
+        final Intent result = new Intent();
+        final Bundle extractionsBundle = getExtractionsBundle(paymentData);
+        final Intent intent = new Intent(mActivity, ExtractionsActivity.class);
+        intent.putExtra(ExtractionsActivity.EXTRA_IN_EXTRACTIONS, extractionsBundle);
+        mActivity.startActivity(intent);
+        mActivity.setResult(Activity.RESULT_OK);
+        mActivity.finish();
+    }
+
+    @Override
     public void onCheckImportedDocument(@NonNull final Document document,
             @NonNull final DocumentCheckResultCallback callback) {
         // We can apply custom checks here to an imported document and notify the Gini Vision
@@ -145,7 +161,7 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
     public void onError(@NonNull final GiniVisionError error) {
         LOG.error("Gini Vision Lib error: {} - {}", error.getErrorCode(), error.getMessage());
         Toast.makeText(mActivity, mActivity.getString(R.string.gini_vision_error,
-                        error.getErrorCode(), error.getMessage()), Toast.LENGTH_LONG).show();
+                error.getErrorCode(), error.getMessage()), Toast.LENGTH_LONG).show();
     }
 
     private void launchReviewScreen(final Document document) {
@@ -174,7 +190,7 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
         switch (requestCode) {
             case REVIEW_REQUEST:
             case ANALYSIS_REQUEST:
-                if (resultCode == Activity.RESULT_OK) {
+                if (resultCode == RESULT_OK) {
                     mActivity.finish();
                 }
                 break;
@@ -204,6 +220,7 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
                         .setDocumentImportEnabledFileTypes(
                                 DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
                         .setFileImportEnabled(true)
+                        .setQRCodeScanningEnabled(true)
                         .build();
 
         if (savedInstanceState == null) {
@@ -294,7 +311,7 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
                 launchAnalysisScreen(document);
             }
             mActivity.finish();
-        } catch (ImportedFileValidationException e) {
+        } catch (final ImportedFileValidationException e) {
             e.printStackTrace();
             String message = mActivity.getString(R.string.gv_document_import_invalid_document);
             if (e.getValidationError() != null) {

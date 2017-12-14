@@ -20,11 +20,12 @@ public class PageChangeListenerTest {
     @Test
     public void should_updatePageIndicators_onPageChange() {
         OnboardingFragmentImpl.PageIndicators pageIndicators = createPageIndicatorsInstance(2);
-        OnboardingFragmentImpl.PageChangeListener.Callback callback = new OnboardingFragmentImpl.PageChangeListener.Callback() {
-            @Override
-            public void onLastPage() {
-            }
-        };
+        OnboardingFragmentImpl.PageChangeListener.Callback callback =
+                new OnboardingFragmentImpl.PageChangeListener.Callback() {
+                    @Override
+                    public void onLastPage() {
+                    }
+                };
 
         OnboardingFragmentImpl.PageChangeListener pageChangeListener =
                 new OnboardingFragmentImpl.PageChangeListener(pageIndicators, 0, 2, callback);
@@ -38,11 +39,12 @@ public class PageChangeListenerTest {
     @Test
     public void should_setPageIndicator_toInitialCurrentPage() {
         OnboardingFragmentImpl.PageIndicators pageIndicators = createPageIndicatorsInstance(2);
-        OnboardingFragmentImpl.PageChangeListener.Callback callback = new OnboardingFragmentImpl.PageChangeListener.Callback() {
-            @Override
-            public void onLastPage() {
-            }
-        };
+        OnboardingFragmentImpl.PageChangeListener.Callback callback =
+                new OnboardingFragmentImpl.PageChangeListener.Callback() {
+                    @Override
+                    public void onLastPage() {
+                    }
+                };
 
         OnboardingFragmentImpl.PageChangeListener pageChangeListener =
                 new OnboardingFragmentImpl.PageChangeListener(pageIndicators, 1, 2, callback);
@@ -56,12 +58,13 @@ public class PageChangeListenerTest {
         OnboardingFragmentImpl.PageIndicators pageIndicators = createPageIndicatorsInstance(4);
 
         final AtomicBoolean lastPageCalled = new AtomicBoolean();
-        OnboardingFragmentImpl.PageChangeListener.Callback callback = new OnboardingFragmentImpl.PageChangeListener.Callback() {
-            @Override
-            public void onLastPage() {
-                lastPageCalled.set(true);
-            }
-        };
+        OnboardingFragmentImpl.PageChangeListener.Callback callback =
+                new OnboardingFragmentImpl.PageChangeListener.Callback() {
+                    @Override
+                    public void onLastPage() {
+                        lastPageCalled.set(true);
+                    }
+                };
 
         OnboardingFragmentImpl.PageChangeListener pageChangeListener =
                 new OnboardingFragmentImpl.PageChangeListener(pageIndicators, 1, 4, callback);
@@ -76,7 +79,8 @@ public class PageChangeListenerTest {
     private OnboardingFragmentImpl.PageIndicators createPageIndicatorsInstance(int nrOfPages) {
         LinearLayout linearLayout = new LinearLayout(InstrumentationRegistry.getTargetContext());
         OnboardingFragmentImpl.PageIndicators pageIndicators =
-                new OnboardingFragmentImpl.PageIndicators(InstrumentationRegistry.getTargetContext(), nrOfPages, linearLayout);
+                new OnboardingFragmentImpl.PageIndicators(
+                        InstrumentationRegistry.getTargetContext(), nrOfPages, linearLayout);
         pageIndicators.create();
         return pageIndicators;
     }

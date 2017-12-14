@@ -19,7 +19,8 @@ class OncePerInstallEventStore {
     private final SharedPreferences mSharedPreferences;
 
     public OncePerInstallEventStore(Context context) {
-        mSharedPreferences = context.getSharedPreferences(ONCE_PER_INSTALL_EVENTS, Context.MODE_PRIVATE);
+        mSharedPreferences = context.getSharedPreferences(ONCE_PER_INSTALL_EVENTS,
+                Context.MODE_PRIVATE);
     }
 
     public boolean containsEvent(OncePerInstallEvent event) {
@@ -30,7 +31,7 @@ class OncePerInstallEventStore {
         mSharedPreferences.edit()
                 .putBoolean(event.name(), true)
                 .apply();
-        LOG.debug("Saved event {}",event.name());
+        LOG.debug("Saved event {}", event.name());
     }
 
     @VisibleForTesting
@@ -38,6 +39,6 @@ class OncePerInstallEventStore {
         mSharedPreferences.edit()
                 .remove(event.name())
                 .apply();
-        LOG.debug("Cleared event {}",event.name());
+        LOG.debug("Cleared event {}", event.name());
     }
 }

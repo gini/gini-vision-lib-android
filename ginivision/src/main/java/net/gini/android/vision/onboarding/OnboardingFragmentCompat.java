@@ -66,7 +66,8 @@ public class OnboardingFragmentCompat extends Fragment implements OnboardingFrag
      * @param pages the pages to be shown
      * @return a new instance of the Fragment
      */
-    public static OnboardingFragmentCompat createInstanceWithoutEmptyLastPage(@NonNull ArrayList<OnboardingPage> pages) {
+    public static OnboardingFragmentCompat createInstanceWithoutEmptyLastPage(
+            @NonNull ArrayList<OnboardingPage> pages) {
         OnboardingFragmentCompat fragment = new OnboardingFragmentCompat();
         fragment.setArguments(OnboardingFragmentHelper.createArguments(pages, false));
         return fragment;
@@ -85,7 +86,8 @@ public class OnboardingFragmentCompat extends Fragment implements OnboardingFrag
      * @param pages the pages to be shown
      * @return a new instance of the Fragment
      */
-    public static OnboardingFragmentCompat createInstance(@NonNull ArrayList<OnboardingPage> pages) {
+    public static OnboardingFragmentCompat createInstance(
+            @NonNull ArrayList<OnboardingPage> pages) {
         OnboardingFragmentCompat fragment = new OnboardingFragmentCompat();
         fragment.setArguments(OnboardingFragmentHelper.createArguments(pages, true));
         return fragment;
@@ -127,7 +129,8 @@ public class OnboardingFragmentCompat extends Fragment implements OnboardingFrag
      */
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
         return mFragmentImpl.onCreateView(inflater, container, savedInstanceState);
     }
 

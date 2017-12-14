@@ -13,7 +13,8 @@ public class RequirementReport {
     private final boolean mFulfilled;
     private final String mDetails;
 
-    RequirementReport(@NonNull RequirementId requirementId, boolean fulfilled, @NonNull String details) {
+    RequirementReport(@NonNull RequirementId requirementId, boolean fulfilled,
+            @NonNull String details) {
         mRequirementId = requirementId;
         mFulfilled = fulfilled;
         mDetails = details;

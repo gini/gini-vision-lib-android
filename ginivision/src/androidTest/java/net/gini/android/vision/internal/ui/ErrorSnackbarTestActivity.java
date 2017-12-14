@@ -19,8 +19,8 @@ public class ErrorSnackbarTestActivity extends AppCompatActivity {
     }
 
     private void bindViews() {
-        mRootLayout = (RelativeLayout)findViewById(R.id.layout_root);
-        mSubviewLayout = (RelativeLayout)findViewById(R.id.layout_subview);
+        mRootLayout = (RelativeLayout) findViewById(R.id.layout_root);
+        mSubviewLayout = (RelativeLayout) findViewById(R.id.layout_subview);
     }
 
     public RelativeLayout getRootLayout() {

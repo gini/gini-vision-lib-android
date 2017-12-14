@@ -77,7 +77,8 @@ public class Helpers {
     public static Document createDocument(byte[] jpeg, int orientation, String deviceOrientation,
             String deviceType, String source) {
         return DocumentFactory.newDocumentFromPhoto(
-                PhotoFactory.newPhotoFromJpeg(jpeg, orientation, deviceOrientation, deviceType, source));
+                PhotoFactory.newPhotoFromJpeg(jpeg, orientation, deviceOrientation, deviceType,
+                        source));
     }
 
     public static boolean isTablet() {
@@ -86,8 +87,9 @@ public class Helpers {
     }
 
     public static void resetDeviceOrientation() throws RemoteException {
-        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            final UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            final UiDevice uiDevice = UiDevice.getInstance(
+                    InstrumentationRegistry.getInstrumentation());
             uiDevice.setOrientationNatural();
             waitForWindowUpdate(uiDevice);
             uiDevice.unfreezeRotation();

@@ -28,7 +28,8 @@ public class ReviewActivity extends net.gini.android.vision.review.ReviewActivit
 
     private SingleDocumentAnalyzer getSingleDocumentAnalyzer() {
         if (mSingleDocumentAnalyzer == null) {
-            mSingleDocumentAnalyzer = ((BaseExampleApp) getApplication()).getSingleDocumentAnalyzer();
+            mSingleDocumentAnalyzer =
+                    ((BaseExampleApp) getApplication()).getSingleDocumentAnalyzer();
         }
         return mSingleDocumentAnalyzer;
     }

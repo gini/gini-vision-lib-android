@@ -42,7 +42,8 @@ public class PhotoEdit {
     @NonNull
     public PhotoEdit compressBy(int quality) {
         removeCompressionModifier();
-        final PhotoCompressionModifier compressionModifier = new PhotoCompressionModifier(quality, mPhoto);
+        final PhotoCompressionModifier compressionModifier = new PhotoCompressionModifier(quality,
+                mPhoto);
         getPhotoModifiers().add(compressionModifier);
         return this;
     }

@@ -86,7 +86,8 @@ public final class UriHelper {
      *                               available
      */
     @NonNull
-    public static String getFilenameFromUri(@NonNull final Uri uri, @NonNull final Context context) {
+    public static String getFilenameFromUri(@NonNull final Uri uri,
+            @NonNull final Context context) {
         final Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
         if (cursor == null) {
             final String filename = getFilenameForPath(uri.getPath());

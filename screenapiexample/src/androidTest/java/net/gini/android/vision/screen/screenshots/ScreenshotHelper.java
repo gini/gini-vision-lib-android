@@ -1,7 +1,6 @@
 package net.gini.android.vision.screen.screenshots;
 
-import static net.gini.android.vision.screen.testhelper.PermissionsHelper
-        .grantExternalStoragePermission;
+import static net.gini.android.vision.screen.testhelper.PermissionsHelper.grantExternalStoragePermission;
 
 import android.app.Activity;
 import android.graphics.Bitmap;

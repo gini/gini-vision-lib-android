@@ -11,7 +11,8 @@ class ViewPagerAdapterCompat extends FragmentPagerAdapter {
 
     private final List<OnboardingPage> mPages;
 
-    public ViewPagerAdapterCompat(@NonNull FragmentManager fm, @NonNull List<OnboardingPage> pages) {
+    public ViewPagerAdapterCompat(@NonNull FragmentManager fm,
+            @NonNull List<OnboardingPage> pages) {
         super(fm);
         mPages = pages;
     }

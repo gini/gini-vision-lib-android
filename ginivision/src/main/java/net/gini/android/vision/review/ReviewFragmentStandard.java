@@ -7,8 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import net.gini.android.vision.camera.CameraFragmentListener;
 import net.gini.android.vision.Document;
+import net.gini.android.vision.camera.CameraFragmentListener;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 
 /**
@@ -33,7 +33,8 @@ import net.gini.android.vision.internal.ui.FragmentImplCallback;
  *     See the {@link ReviewActivity} for details.
  * </p>
  */
-public class ReviewFragmentStandard extends Fragment implements FragmentImplCallback, ReviewFragmentInterface {
+public class ReviewFragmentStandard extends Fragment implements FragmentImplCallback,
+        ReviewFragmentInterface {
 
     private ReviewFragmentImpl mFragmentImpl;
 
@@ -69,7 +70,8 @@ public class ReviewFragmentStandard extends Fragment implements FragmentImplCall
      */
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+            @Nullable Bundle savedInstanceState) {
         return mFragmentImpl.onCreateView(inflater, container, savedInstanceState);
     }
 

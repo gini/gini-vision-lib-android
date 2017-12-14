@@ -45,7 +45,8 @@ public class CameraControllerTest {
     public void should_useLargestPictureResolution() throws InterruptedException {
         mCameraController = new CameraController(createNoOpActivity());
         final Camera.Parameters parameters = openAndGetCamera().getParameters();
-        final Size largestSize = SizeSelectionHelper.getLargestSize(parameters.getSupportedPictureSizes());
+        final Size largestSize = SizeSelectionHelper.getLargestSize(
+                parameters.getSupportedPictureSizes());
         assertThat(largestSize).isNotNull();
         final Camera.Size usedSize = parameters.getPictureSize();
         assertThat(usedSize.width).isEqualTo(largestSize.width);
@@ -70,11 +71,14 @@ public class CameraControllerTest {
     }
 
     @Test
-    public void should_useLargestPreviewResolution_withSimilarAspectRatio_asPictureSize() throws InterruptedException {
+    public void should_useLargestPreviewResolution_withSimilarAspectRatio_asPictureSize()
+            throws InterruptedException {
         mCameraController = new CameraController(createNoOpActivity());
         final Camera.Parameters parameters = openAndGetCamera().getParameters();
-        final Size pictureSize = new Size(parameters.getPictureSize().width, parameters.getPictureSize().height);
-        final Size largestSize = SizeSelectionHelper.getLargestSizeWithSimilarAspectRatio(parameters.getSupportedPreviewSizes(), pictureSize);
+        final Size pictureSize = new Size(parameters.getPictureSize().width,
+                parameters.getPictureSize().height);
+        final Size largestSize = SizeSelectionHelper.getLargestSizeWithSimilarAspectRatio(
+                parameters.getSupportedPreviewSizes(), pictureSize);
         assertThat(largestSize).isNotNull();
         final Camera.Size usedSize = parameters.getPreviewSize();
         assertThat(usedSize.width).isEqualTo(largestSize.width);

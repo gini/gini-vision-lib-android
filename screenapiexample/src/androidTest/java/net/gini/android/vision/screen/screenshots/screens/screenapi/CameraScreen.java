@@ -36,7 +36,8 @@ public class CameraScreen implements Screen {
     }
 
     public void triggerCamera() throws UiObjectNotFoundException {
-        UiObject triggerButton = mUiDevice.findObject(new UiSelector().resourceId(TRIGGER_BUTTON_RES_ID));
+        UiObject triggerButton = mUiDevice.findObject(
+                new UiSelector().resourceId(TRIGGER_BUTTON_RES_ID));
         triggerButton.clickAndWaitForNewWindow();
     }
 
@@ -50,7 +51,8 @@ public class CameraScreen implements Screen {
     }
 
     public void showOnboarding() throws UiObjectNotFoundException {
-        UiObject button = mUiDevice.findObject(new UiSelector().resourceId(ONBOARDING_BUTTON_RES_ID));
+        UiObject button = mUiDevice.findObject(
+                new UiSelector().resourceId(ONBOARDING_BUTTON_RES_ID));
         button.clickAndWaitForNewWindow();
     }
 }
