@@ -17,6 +17,10 @@
     <color name="gv_camera_error_no_permission_button_title">#fff</color>
     <color name="gv_camera_error_no_permission_button_title_pressed">#ddd</color>
 
+    <color name="gv_payment_data_detected_popup_background">#ccffffff</color>
+    <color name="gv_payment_data_detected_popup_text">#000</color>
+    <color name="gv_payment_data_detected_popup_arrow">#009edc</color>
+
     <color name="gv_document_import_hint_background">#ffffff</color>
     <color name="gv_document_import_hint_text">#000000</color>
 

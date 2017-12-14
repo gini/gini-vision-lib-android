@@ -15,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.internal.permission.PermissionRequestListener;
 import net.gini.android.vision.internal.permission.RuntimePermissions;
@@ -30,7 +29,7 @@ import net.gini.android.vision.internal.permission.RuntimePermissions;
  *     It shows a camera preview with tap-to-focus functionality and a trigger button. The camera preview also shows document corner guides to which the user should align the document.
  * </p>
  * <p>
- *     If instantiated with {@link CameraFragmentStandard#createInstance(DocumentImportEnabledFileTypes)} then a button for importing documents is shown next to the trigger button. A hint popup is displayed the first time the Gini Vision Library is used to inform the user about document importing.
+ *     If instantiated with {@link CameraFragmentStandard#createInstance(GiniVisionFeatureConfiguration)} then a button for importing documents is shown next to the trigger button. A hint popup is displayed the first time the Gini Vision Library is used to inform the user about document importing.
  * </p>
  * <p>
  *     For importing documents {@code READ_EXTERNAL_STORAGE} permission is required and if the permission is not granted the Gini Vision Library will prompt the user to grant the permission. See @{code Customizing the Camera Screen} on how to override the message and button titles for the rationale and on permission denial alerts.
@@ -67,7 +66,7 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
      */
     public static CameraFragmentStandard createInstance(
             @NonNull final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration) {
-        CameraFragmentStandard fragment = new CameraFragmentStandard();
+        final CameraFragmentStandard fragment = new CameraFragmentStandard();
         fragment.setArguments(
                 CameraFragmentHelper.createArguments(giniVisionFeatureConfiguration));
         return fragment;
@@ -80,7 +79,7 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
      * @exclude
      */
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(final Context context) {
         super.onAttach(context);
         mFragmentImpl = CameraFragmentHelper.createFragmentImpl(this, getArguments());
         CameraFragmentHelper.setListener(mFragmentImpl, context);
@@ -89,9 +88,8 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
     /**
      * @exclude
      */
-    @SuppressWarnings("deprecation")
     @Override
-    public void onAttach(Activity activity) {
+    public void onAttach(final Activity activity) {
         super.onAttach(activity);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return;
@@ -104,7 +102,7 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
      * @exclude
      */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFragmentImpl.onCreate(savedInstanceState);
     }
@@ -114,8 +112,8 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
      */
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+            final Bundle savedInstanceState) {
         return mFragmentImpl.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -139,7 +137,7 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
 
     @Override
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        boolean handled = mFragmentImpl.onActivityResult(requestCode, resultCode, data);
+        final boolean handled = mFragmentImpl.onActivityResult(requestCode, resultCode, data);
         if (!handled) {
             super.onActivityResult(requestCode, resultCode, data);
         }
@@ -148,7 +146,8 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
     @Override
     public void onRequestPermissionsResult(final int requestCode,
             @NonNull final String[] permissions, @NonNull final int[] grantResults) {
-        boolean handled = mRuntimePermissions.onRequestPermissionsResult(requestCode, permissions,
+        final boolean handled = mRuntimePermissions.onRequestPermissionsResult(requestCode,
+                permissions,
                 grantResults);
         if (!handled) {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);

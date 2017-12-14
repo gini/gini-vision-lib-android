@@ -1,5 +1,7 @@
 package net.gini.android.vision.screen;
 
+import static net.gini.android.vision.example.ExampleUtil.getExtractionsBundle;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -7,11 +9,13 @@ import android.graphics.Rect;
 import android.graphics.pdf.PdfRenderer;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 
 import net.gini.android.vision.Document;
+import net.gini.android.vision.PaymentData;
 import net.gini.android.vision.camera.CameraActivity;
 import net.gini.android.vision.util.IntentHelper;
 import net.gini.android.vision.util.UriHelper;
@@ -84,17 +88,17 @@ public class CameraScreenApiActivity extends CameraActivity {
                         && (isJpegWithExif(inputStream, magicBytes, read)
                         || isPDF(uri, magicBytes, read));
             }
-        } catch (FileNotFoundException e) {
+        } catch (final FileNotFoundException e) {
             LOG.error("Could not open document", e);
             return false;
-        } catch (IOException e) {
+        } catch (final IOException e) {
             LOG.error("Could not read document", e);
             return false;
         } finally {
             if (inputStream != null) {
                 try {
                     inputStream.close();
-                } catch (IOException e) {
+                } catch (final IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -115,7 +119,7 @@ public class CameraScreenApiActivity extends CameraActivity {
 
     private boolean isDecodableToBitmap(final InputStream inputStream)
             throws IOException {
-        BitmapFactory.Options options = new BitmapFactory.Options();
+        final BitmapFactory.Options options = new BitmapFactory.Options();
         final Bitmap bitmap = BitmapFactory.decodeStream(inputStream, new Rect(), options);
         return bitmap != null;
     }
@@ -138,7 +142,7 @@ public class CameraScreenApiActivity extends CameraActivity {
         final ParcelFileDescriptor fileDescriptor;
         try {
             fileDescriptor = getContentResolver().openFileDescriptor(uri, "r");
-        } catch (FileNotFoundException e) {
+        } catch (final FileNotFoundException e) {
             LOG.error("Pdf not found", e);
             return false;
         }
@@ -150,9 +154,19 @@ public class CameraScreenApiActivity extends CameraActivity {
             final PdfRenderer pdfRenderer = new PdfRenderer(fileDescriptor);
             pdfRenderer.close();
             return true;
-        } catch (IOException e) {
+        } catch (final IOException e) {
             LOG.error("Could not read pdf", e);
         }
         return false;
+    }
+
+    @Override
+    public void onPaymentDataAvailable(@NonNull final PaymentData paymentData) {
+        super.onPaymentDataAvailable(paymentData);
+        final Intent result = new Intent();
+        final Bundle extractionsBundle = getExtractionsBundle(paymentData);
+        result.putExtra(MainActivity.EXTRA_OUT_EXTRACTIONS, extractionsBundle);
+        setResult(RESULT_OK, result);
+        finish();
     }
 }

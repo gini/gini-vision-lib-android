@@ -1,6 +1,7 @@
 package net.gini.android.vision.internal.camera.api;
 
 import android.graphics.Point;
+import android.hardware.Camera;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.SurfaceHolder;
@@ -142,6 +143,23 @@ public interface CameraInterface {
      */
     @NonNull
     Size getPictureSize();
+
+    /**
+     * <p>
+     *      Set a callback to recieve preview images from the camera.
+     * </p>
+     * @param previewCallback callback implementation
+     */
+    void setPreviewCallback(@NonNull Camera.PreviewCallback previewCallback);
+
+    /**
+     * <p>
+     *     The rotation in degrees of the camera. Derived from the camera sensor orientation
+     *     and device orientation.
+     * </p>
+     * @return rotation in degrees
+     */
+    int getCameraRotation();
 
     public interface TapToFocusListener {
         void onFocusing(Point point);
