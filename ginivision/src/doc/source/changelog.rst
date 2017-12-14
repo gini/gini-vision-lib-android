@@ -2,6 +2,11 @@
 Changelog
 =========
 
+2.5.0-beta.1 (2017-12-14)
+==================
+
+- QRCodes on invoices and remittance slips can be detected and read. Supported formats are the BezahlCode and EPC069-12 (Stuzza (AT) and GiroCode (DE)).
+
 2.4.3 (2017-11-29)
 ==================
 
