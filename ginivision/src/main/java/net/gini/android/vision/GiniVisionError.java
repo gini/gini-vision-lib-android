@@ -67,13 +67,7 @@ public class GiniVisionError implements Parcelable {
          *     An error occurred in the Analysis Screen. Check the message for details.
          * </p>
          */
-        ANALYSIS,
-        /**
-         * <p>
-         *     An error occurred with the QRCode detection. Check the message for details.
-         * </p>
-         */
-        QR_CODE
+        ANALYSIS
     }
 
     private final ErrorCode mErrorCode;

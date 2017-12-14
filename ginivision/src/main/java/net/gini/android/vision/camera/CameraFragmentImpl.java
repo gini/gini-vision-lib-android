@@ -55,6 +55,7 @@ import net.gini.android.vision.internal.camera.view.CameraPreviewSurface;
 import net.gini.android.vision.internal.fileimport.FileChooserActivity;
 import net.gini.android.vision.internal.permission.PermissionRequestListener;
 import net.gini.android.vision.internal.qrcode.PaymentQRCodeReader;
+import net.gini.android.vision.internal.qrcode.QRCodeDetectorTask;
 import net.gini.android.vision.internal.qrcode.QRCodeDetectorTaskGoogleVision;
 import net.gini.android.vision.internal.ui.ViewStubSafeInflater;
 import net.gini.android.vision.internal.util.DeviceHelper;
@@ -98,8 +99,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     };
 
     private static final int REQ_CODE_CHOOSE_FILE = 1;
-    private static final int SHOW_ERROR_DURATION = 4000;
-    public static final String SHOW_HINT_POP_UP = "SHOW_HINT_POP_UP";
+    private static final String SHOW_HINT_POP_UP = "SHOW_HINT_POP_UP";
 
     private final CameraFragmentImplCallback mFragment;
     private final GiniVisionFeatureConfiguration mGiniVisionFeatureConfiguration;
@@ -285,13 +285,25 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         }
         final QRCodeDetectorTaskGoogleVision qrCodeDetectorTask =
                 new QRCodeDetectorTaskGoogleVision(activity);
-        if (qrCodeDetectorTask.isOperational()) {
-            mPaymentQRCodeReader = PaymentQRCodeReader.newInstance(qrCodeDetectorTask);
-            mPaymentQRCodeReader.setListener(this);
-        } else {
-            mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.QR_CODE,
-                    "QRCode detector dependencies are not yet available."));
-        }
+        qrCodeDetectorTask.isOperational(new QRCodeDetectorTask.Callback() {
+            @Override
+            public void onResult(final boolean isOperational) {
+                if (isOperational) {
+                    mPaymentQRCodeReader = PaymentQRCodeReader.newInstance(qrCodeDetectorTask);
+                    mPaymentQRCodeReader.setListener(CameraFragmentImpl.this);
+                } else {
+                    LOG.warn(
+                            "QRCode detector dependencies are not yet available. QRCode detection is disabled.");
+                }
+            }
+
+            @Override
+            public void onInterrupted() {
+                LOG.debug(
+                        "Checking whether the QRCode detector task is operational was interrupted.");
+            }
+        });
+
     }
 
     private void showUploadHintPopUpOnFirstExecution() {
