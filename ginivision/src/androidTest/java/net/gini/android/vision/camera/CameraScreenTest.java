@@ -556,7 +556,7 @@ public class CameraScreenTest {
 
     @Test
     public void should_notShowPaymentDataDetectedPopup_whenInterfaceIsHidden()
-            throws IOException, InterruptedException {
+            throws Throwable {
         // Given
         assumeTrue(!isTablet());
 
@@ -567,7 +567,13 @@ public class CameraScreenTest {
 
         final CameraActivityFake cameraActivityFake = startCameraActivityFakeWithoutOnboarding(
                 featureConfiguration);
-        cameraActivityFake.getCameraFragmentImplFake().hideInterface();
+
+        mCameraActivityFakeActivityTestRule.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                cameraActivityFake.getCameraFragmentImplFake().hideInterface();
+            }
+        });
 
         // When
         detectQRCode(cameraActivityFake, "qrcode_bezahlcode.jpeg", "qrcode_bezahlcode_nv21.bmp");
