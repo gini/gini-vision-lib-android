@@ -2,6 +2,13 @@
 Changelog
 =========
 
+2.5.0-beta.2 (2017-12-15)
+==================
+
+- Google Mobile Vision API availability checked with retries and only warning logged, if not available.
+- Show QRCode detected popup only when onboarding is not shown and document upload hint is not shown.
+- Hide and show QRCode detected popup, if a different QRCode is detected.
+
 2.5.0-beta.1 (2017-12-14)
 ==================
 
