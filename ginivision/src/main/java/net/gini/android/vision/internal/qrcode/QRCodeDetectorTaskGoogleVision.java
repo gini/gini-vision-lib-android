@@ -2,6 +2,8 @@ package net.gini.android.vision.internal.qrcode;
 
 import android.content.Context;
 import android.graphics.ImageFormat;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.util.SparseArray;
 
@@ -31,10 +33,13 @@ public class QRCodeDetectorTaskGoogleVision implements QRCodeDetectorTask {
 
     private static final Logger LOG = LoggerFactory.getLogger(QRCodeDetectorTaskGoogleVision.class);
     private final BarcodeDetector mBarcodeDetector;
+    private final Handler mRetryHandler;
+    private CheckAvailabilityRetryRunnable mCheckAvailabilityRetryRunnable;
 
     public QRCodeDetectorTaskGoogleVision(@NonNull final Context context) {
         mBarcodeDetector = new BarcodeDetector.Builder(context).setBarcodeFormats(
                 Barcode.QR_CODE).build();
+        mRetryHandler = new Handler(Looper.getMainLooper());
     }
 
     @NonNull
@@ -53,6 +58,25 @@ public class QRCodeDetectorTaskGoogleVision implements QRCodeDetectorTask {
             LOG.debug("Detected QRCodes:\n{}", barcodesToString(barcodes));
         }
         return barcodesToStrings(barcodes);
+    }
+
+    @Override
+    public void checkAvailability(@NonNull final Callback callback) {
+        if (mCheckAvailabilityRetryRunnable != null) {
+            mCheckAvailabilityRetryRunnable.stop();
+        }
+        mCheckAvailabilityRetryRunnable = new CheckAvailabilityRetryRunnable(mBarcodeDetector,
+                mRetryHandler, callback);
+        mRetryHandler.post(mCheckAvailabilityRetryRunnable);
+    }
+
+    @Override
+    public void release() {
+        mBarcodeDetector.release();
+        if (mCheckAvailabilityRetryRunnable != null) {
+            mCheckAvailabilityRetryRunnable.stop();
+            mRetryHandler.removeCallbacks(mCheckAvailabilityRetryRunnable);
+        }
     }
 
     private List<String> barcodesToStrings(final SparseArray<Barcode> barcodes) {
@@ -78,13 +102,44 @@ public class QRCodeDetectorTaskGoogleVision implements QRCodeDetectorTask {
         return builder.toString();
     }
 
-    @Override
-    public boolean isOperational() {
-        return mBarcodeDetector.isOperational();
-    }
+    class CheckAvailabilityRetryRunnable implements Runnable {
 
-    @Override
-    public void release() {
-        mBarcodeDetector.release();
+        private static final int RETRY_DELAY_MS = 500;
+        private static final int RETRY_LIMIT = 3;
+        private final BarcodeDetector mBarcodeDetector;
+        private final Callback mCallback;
+        private final Handler mRetryHandler;
+        private boolean mHasFinished = false;
+        private int mRetries = 0;
+
+        CheckAvailabilityRetryRunnable(final BarcodeDetector barcodeDetector,
+                final Handler retryHandler, final Callback callback) {
+            mCallback = callback;
+            mBarcodeDetector = barcodeDetector;
+            mRetryHandler = retryHandler;
+        }
+
+        @Override
+        public void run() {
+            if (mRetries <= RETRY_LIMIT) {
+                if (mBarcodeDetector.isOperational()) {
+                    mCallback.onResult(true);
+                    mHasFinished = true;
+                } else {
+                    mRetryHandler.postDelayed(this, RETRY_DELAY_MS);
+                    mRetries++;
+                }
+            } else {
+                mCallback.onResult(false);
+                mHasFinished = true;
+            }
+        }
+
+        void stop() {
+            if (mHasFinished) {
+                return;
+            }
+            mCallback.onInterrupted();
+        }
     }
 }
