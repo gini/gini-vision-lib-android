@@ -34,7 +34,7 @@ public class QRCodeDetectorTaskGoogleVision implements QRCodeDetectorTask {
     private static final Logger LOG = LoggerFactory.getLogger(QRCodeDetectorTaskGoogleVision.class);
     private final BarcodeDetector mBarcodeDetector;
     private final Handler mRetryHandler;
-    private IsOperationalRetryRunnable mIsOperationalRetryRunnable;
+    private CheckAvailabilityRetryRunnable mCheckAvailabilityRetryRunnable;
 
     public QRCodeDetectorTaskGoogleVision(@NonNull final Context context) {
         mBarcodeDetector = new BarcodeDetector.Builder(context).setBarcodeFormats(
@@ -61,21 +61,21 @@ public class QRCodeDetectorTaskGoogleVision implements QRCodeDetectorTask {
     }
 
     @Override
-    public void isOperational(@NonNull final Callback callback) {
-        if (mIsOperationalRetryRunnable != null) {
-            mIsOperationalRetryRunnable.stop();
+    public void checkAvailability(@NonNull final Callback callback) {
+        if (mCheckAvailabilityRetryRunnable != null) {
+            mCheckAvailabilityRetryRunnable.stop();
         }
-        mIsOperationalRetryRunnable = new IsOperationalRetryRunnable(mBarcodeDetector,
+        mCheckAvailabilityRetryRunnable = new CheckAvailabilityRetryRunnable(mBarcodeDetector,
                 mRetryHandler, callback);
-        mRetryHandler.post(mIsOperationalRetryRunnable);
+        mRetryHandler.post(mCheckAvailabilityRetryRunnable);
     }
 
     @Override
     public void release() {
         mBarcodeDetector.release();
-        if (mIsOperationalRetryRunnable != null) {
-            mIsOperationalRetryRunnable.stop();
-            mRetryHandler.removeCallbacks(mIsOperationalRetryRunnable);
+        if (mCheckAvailabilityRetryRunnable != null) {
+            mCheckAvailabilityRetryRunnable.stop();
+            mRetryHandler.removeCallbacks(mCheckAvailabilityRetryRunnable);
         }
     }
 
@@ -102,7 +102,7 @@ public class QRCodeDetectorTaskGoogleVision implements QRCodeDetectorTask {
         return builder.toString();
     }
 
-    class IsOperationalRetryRunnable implements Runnable {
+    class CheckAvailabilityRetryRunnable implements Runnable {
 
         private static final int RETRY_DELAY_MS = 500;
         private static final int RETRY_LIMIT = 3;
@@ -112,7 +112,7 @@ public class QRCodeDetectorTaskGoogleVision implements QRCodeDetectorTask {
         private boolean mHasFinished = false;
         private int mRetries = 0;
 
-        IsOperationalRetryRunnable(final BarcodeDetector barcodeDetector,
+        CheckAvailabilityRetryRunnable(final BarcodeDetector barcodeDetector,
                 final Handler retryHandler, final Callback callback) {
             mCallback = callback;
             mBarcodeDetector = barcodeDetector;

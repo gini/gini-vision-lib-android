@@ -325,10 +325,10 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         }
         final QRCodeDetectorTaskGoogleVision qrCodeDetectorTask =
                 new QRCodeDetectorTaskGoogleVision(activity);
-        qrCodeDetectorTask.isOperational(new QRCodeDetectorTask.Callback() {
+        qrCodeDetectorTask.checkAvailability(new QRCodeDetectorTask.Callback() {
             @Override
-            public void onResult(final boolean isOperational) {
-                if (isOperational) {
+            public void onResult(final boolean isAvailable) {
+                if (isAvailable) {
                     mPaymentQRCodeReader = PaymentQRCodeReader.newInstance(qrCodeDetectorTask);
                     mPaymentQRCodeReader.setListener(CameraFragmentImpl.this);
                 } else {

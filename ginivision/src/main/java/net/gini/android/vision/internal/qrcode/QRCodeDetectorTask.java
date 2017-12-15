@@ -21,13 +21,13 @@ public interface QRCodeDetectorTask {
     List<String> detect(@NonNull final byte[] image, @NonNull final Size imageSize,
             final int rotation);
 
-    void isOperational(@NonNull final Callback callback);
+    void checkAvailability(@NonNull final Callback callback);
 
     void release();
 
-    public interface Callback {
+    interface Callback {
 
-        void onResult(final boolean isOperational);
+        void onResult(final boolean isAvailable);
 
         void onInterrupted();
     }
