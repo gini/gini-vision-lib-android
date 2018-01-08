@@ -4,13 +4,13 @@ pipeline {
     environment {
         NEXUS_MAVEN = credentials('external-nexus-maven-repo-credentials')
         GIT = credentials('github')
-        COMPONENT_API_EXAMPLE_APP_KEYSTORE_PSW = credentials('component-api-example-app-release-keystore-password')
-        COMPONENT_API_EXAMPLE_APP_KEY_PSW = credentials('component-api-example-app-release-key-password')
-        SCREEN_API_EXAMPLE_APP_KEYSTORE_PSW = credentials('screen-api-example-app-release-keystore-password')
-        SCREEN_API_EXAMPLE_APP_KEY_PSW = credentials('screen-api-example-app-release-key-password')
-        EXAMPLE_APP_CLIENT_CREDENTIALS = credentials('gini-api-client-credentials')
-        COMPONENT_API_EXAMPLE_APP_HOCKEYAPP_API_TOKEN = credentials('component-api-example-app-hockeyapp-api-token')
-        SCREEN_API_EXAMPLE_APP_HOCKEYAPP_API_TOKEN = credentials('screen-api-example-app-hockeyapp-api-token')
+        COMPONENT_API_EXAMPLE_APP_KEYSTORE_PSW = credentials('gini-vision-library-android_component-api-example-app-release-keystore-password')
+        COMPONENT_API_EXAMPLE_APP_KEY_PSW = credentials('gini-vision-library-android_component-api-example-app-release-key-password')
+        SCREEN_API_EXAMPLE_APP_KEYSTORE_PSW = credentials('gini-vision-library-android_screen-api-example-app-release-keystore-password')
+        SCREEN_API_EXAMPLE_APP_KEY_PSW = credentials('gini-vision-library-android_screen-api-example-app-release-key-password')
+        EXAMPLE_APP_CLIENT_CREDENTIALS = credentials('gini-vision-library-android_gini-api-client-credentials')
+        COMPONENT_API_EXAMPLE_APP_HOCKEYAPP_API_TOKEN = credentials('gini-vision-library-android_component-api-example-app-hockeyapp-api-token')
+        SCREEN_API_EXAMPLE_APP_HOCKEYAPP_API_TOKEN = credentials('gini-vision-library-android_screen-api-example-app-hockeyapp-api-token')
     }
     stages {
         stage('Build') {
