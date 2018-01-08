@@ -456,10 +456,19 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
 
     private void createFragment() {
         if (mGiniVisionFeatureConfiguration != null) {
-            mFragment = CameraFragmentCompat.createInstance(mGiniVisionFeatureConfiguration);
+            mFragment = createCameraFragmentCompat(mGiniVisionFeatureConfiguration);
         } else {
-            mFragment = CameraFragmentCompat.createInstance();
+            mFragment = createCameraFragmentCompat();
         }
+    }
+
+    protected CameraFragmentCompat createCameraFragmentCompat() {
+        return CameraFragmentCompat.createInstance();
+    }
+
+    protected CameraFragmentCompat createCameraFragmentCompat(
+            @NonNull final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration) {
+        return CameraFragmentCompat.createInstance(giniVisionFeatureConfiguration);
     }
 
     private void initFragment() {

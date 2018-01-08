@@ -2,6 +2,7 @@ package net.gini.android.vision.internal.qrcode;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import net.gini.android.vision.PaymentData;
 import net.gini.android.vision.internal.util.Size;
@@ -61,6 +62,11 @@ public class PaymentQRCodeReader {
                 }
             }
         });
+    }
+
+    @VisibleForTesting
+    QRCodeDetector getDetector() {
+        return mDetector;
     }
 
     /**
