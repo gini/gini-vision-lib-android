@@ -6,14 +6,16 @@ Google Play Services
 
 With version 2.5.0 we added the Google Mobile Vision API dependency which is part of the Google Play Services. We only depend on the ``play-services-vision`` package.
 
-In case you already use the Google Mobile Vision API there might be a conflict related to the ``<meta-data android:name="com.google.android.gms.vision.DEPENDENCIES">`` tag after updating to 2.5.0. If this is the case add the attribute ``tools:replace="android:value"``. Make sure that the value contains ``barcode``:
+In case you already use the Google Mobile Vision API there might be a conflict related to the ``<meta-data android:name="com.google.android.gms.vision.DEPENDENCIES">`` tag after updating to 2.5.0. If this is the case add the attribute ``tools:replace="android:value"``. Make sure that you add ``barcode`` to the ``android:value`` tag.
+
+The following snippet shows how to update the tag, if the app has been using text recognition before updating to 2.5.0: 
 
 .. code-block:: xml
 
     <meta-data
         android:name="com.google.android.gms.vision.DEPENDENCIES"
         tools:replace="android:value"
-        android:value="face,barcode"/>
+        android:value="ocr,barcode"/>
 
 QR Code Scanning
 ----
@@ -22,7 +24,7 @@ By using the Google Mobile Vision API the GVL can read payment data from QR Code
 
 When a supported QR Code is detected and read with valid payment data a popup is shown in the Camera Screen. The user may tap the popup to use the payment data directly without the need to analyse the document.
 
-QR Code Scanning is available on devices running Android 4.2.2 Gingerbread or later.
+QR Code Scanning is available on devices running Android 4.2.2 Gingerbread or later with Google Play Services installed.
 
 Enable QR Code Scanning
 ^^^^
@@ -52,7 +54,7 @@ For the Component API use the factory method of the ``CameraFragmentCompat`` or 
 
 .. important::
 
-    When your application is installed Google Mobile Services will download libraries to the device in order to do QR Code detection. Under certain circumstances (user not online, slow connection or lack of sufficient storage space) the libraries will not be ready at the time your app starts the Camera Screen and QR Code detection will be silently disabled until the next time the Camera Screen starts.
+    When your application is installed Google Mobile Services will download libraries to the device in order to do QR Code detection. If another app already uses QR Code detection on the device the library won't be downloaded again. Under certain circumstances (user not online, slow connection or lack of sufficient storage space) the libraries will not be ready at the time your app starts the Camera Screen and QR Code detection will be silently disabled until the next time the Camera Screen starts.
 
 Handle the Payment Data
 ^^^^
