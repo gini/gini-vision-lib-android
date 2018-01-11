@@ -155,26 +155,24 @@ import java.util.ArrayList;
  *         <b>Payment data (QRCode) detected popup background:</b> via the color resource named {@code gv_payment_data_detected_popup_background}
  *     </li>
  *     <li>
- *         <b>Payment data (QRCode) detected popup text:</b> via the string resource named {@code gv_payment_data_detected_popup_message}
+ *         <b>Payment data (QRCode) detected popup texts:</b> via the string resources named {@code gv_payment_data_detected_popup_message_1} and
+ *         {@code gv_payment_data_detected_popup_message_2}
  *     </li>
  *     <li>
- *         <b>Payment data (QRCode) detected popup text size:</b>  via overriding the style named {@code
- *         GiniVisionTheme.Camera.PaymentDataDetectedPopup.TextStyle} and setting an item named {@code
+ *         <b>Payment data (QRCode) detected popup text sizes:</b>  via overriding the styles named {@code
+ *         GiniVisionTheme.Camera.PaymentDataDetectedPopup.Message1.TextStyle} and {@code
+ *         GiniVisionTheme.Camera.PaymentDataDetectedPopup.Message2.TextStyle} and setting an item named {@code
  *         android:textSize} with the desired {@code sp} size
  *     </li>
  *     <li>
- *         <b>Payment data (QRCode) detected popup text color:</b> via the color resource name {@code gv_payment_data_detected_popup_text}
+ *         <b>Payment data (QRCode) detected popup text colors:</b> via the color resource name {@code gv_payment_data_detected_popup_message_1} and
+ *         {@code gv_payment_data_detected_popup_message_2}
  *     </li>
  *     <li>
- *         <b>Payment data (QRCode) detected popup font:</b>  via overriding the style named {@code
- *         GiniVisionTheme.Camera.PaymentDataDetectedPopup.TextStyle} and setting an item named {@code
+ *         <b>Payment data (QRCode) detected popup fonts:</b>  via overriding the styles named {@code
+ *         GiniVisionTheme.Camera.PaymentDataDetectedPopup.Message1.TextStyle} and {@code
+ *         GiniVisionTheme.Camera.PaymentDataDetectedPopup.Message2.TextStyle} and setting an item named {@code
  *         gvCustomFont} with the path to the font file in your {@code assets} folder
- *     </li>
- *     <li>
- *         <b>Payment data (QRCode) detected popup icon:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_payment_data_detected_popup_arrow.png}
- *     </li>
- *     <li>
- *         <b>Payment data (QRCode) detected popup icon tint:</b> via the color resource named {@code gv_payment_data_detected_popup_arrow}
  *     </li>
  *     <li>
  *         <b>Read storage permission rationale text:</b> via the string resource named {@code gv_storage_permission_rationale}
