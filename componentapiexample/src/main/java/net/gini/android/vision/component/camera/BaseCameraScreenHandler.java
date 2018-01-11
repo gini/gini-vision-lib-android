@@ -110,7 +110,6 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
 
     @Override
     public void onPaymentDataAvailable(@NonNull final PaymentData paymentData) {
-        final Intent result = new Intent();
         final Bundle extractionsBundle = getExtractionsBundle(paymentData);
         final Intent intent = new Intent(mActivity, ExtractionsActivity.class);
         intent.putExtra(ExtractionsActivity.EXTRA_IN_EXTRACTIONS, extractionsBundle);

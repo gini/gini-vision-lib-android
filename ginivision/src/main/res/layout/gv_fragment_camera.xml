@@ -151,7 +151,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/gv_review_fab_next"
+            android:src="@drawable/gv_payment_data_detected_popup_arrow"
             android:tint="@color/gv_payment_data_detected_popup_arrow" />
 
     </RelativeLayout>
