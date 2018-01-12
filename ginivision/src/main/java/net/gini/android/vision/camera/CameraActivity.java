@@ -152,26 +152,26 @@ import java.util.ArrayList;
  *         gvCustomFont} with the path to the font file in your {@code assets} folder
  *     </li>
  *     <li>
- *         <b>Payment data (QRCode) detected popup background:</b> via the color resource named {@code gv_payment_data_detected_popup_background}
+ *         <b>QRCode detected popup background:</b> via the color resource named {@code gv_qrcode_detected_popup_background}
  *     </li>
  *     <li>
- *         <b>Payment data (QRCode) detected popup texts:</b> via the string resources named {@code gv_payment_data_detected_popup_message_1} and
- *         {@code gv_payment_data_detected_popup_message_2}
+ *         <b>QRCode detected popup texts:</b> via the string resources named {@code gv_qrcode_detected_popup_message_1} and
+ *         {@code gv_qrcode_detected_popup_message_2}
  *     </li>
  *     <li>
- *         <b>Payment data (QRCode) detected popup text sizes:</b>  via overriding the styles named {@code
- *         GiniVisionTheme.Camera.PaymentDataDetectedPopup.Message1.TextStyle} and {@code
- *         GiniVisionTheme.Camera.PaymentDataDetectedPopup.Message2.TextStyle} and setting an item named {@code
+ *         <b>QRCode detected popup text sizes:</b>  via overriding the styles named {@code
+ *         GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle} and {@code
+ *         GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle} and setting an item named {@code
  *         android:textSize} with the desired {@code sp} size
  *     </li>
  *     <li>
- *         <b>Payment data (QRCode) detected popup text colors:</b> via the color resource name {@code gv_payment_data_detected_popup_message_1} and
- *         {@code gv_payment_data_detected_popup_message_2}
+ *         <b>QRCode detected popup text colors:</b> via the color resource name {@code gv_qrcode_detected_popup_message_1} and
+ *         {@code gv_qrcode_detected_popup_message_2}
  *     </li>
  *     <li>
- *         <b>Payment data (QRCode) detected popup fonts:</b>  via overriding the styles named {@code
- *         GiniVisionTheme.Camera.PaymentDataDetectedPopup.Message1.TextStyle} and {@code
- *         GiniVisionTheme.Camera.PaymentDataDetectedPopup.Message2.TextStyle} and setting an item named {@code
+ *         <b>QRCode detected popup fonts:</b>  via overriding the styles named {@code
+ *         GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle} and {@code
+ *         GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle} and setting an item named {@code
  *         gvCustomFont} with the path to the font file in your {@code assets} folder
  *     </li>
  *     <li>

@@ -1,4 +1,4 @@
-package net.gini.android.vision;
+package net.gini.android.vision.internal.qrcode;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -20,17 +20,15 @@ import java.io.StringWriter;
  */
 
 /**
- * Contains payment information required for transactions that were extracted from the document.
+ * Contains payment information required for transactions that were parsed from a payment QR Code.
  * <p>
- * Payment data from
- * <a href="http://www.bezahlcode.de/wp-content/uploads/BezahlCode_TechDok.pdf">BezahlCode</a>
- * and <a href="https://www.europeanpaymentscouncil.eu/document-library/guidance-documents/quick-response-code-guidelines-enable-data-capture-initiation">EPC069-12</a>
- * (<a href="https://www.stuzza.at/de/zahlungsverkehr/qr-code.html">Stuzza (AT)</a> and <a href="https://www.girocode.de/rechnungsempfaenger/">GiroCode (DE)</a>)
- * QRCodes are detected and read.
+ * See {@link PaymentQRCodeParser} for supported formats.
+ *
+ * @exclude
  */
-public class PaymentData implements Parcelable {
+public class PaymentQRCodeData implements Parcelable {
 
-    private static final Logger LOG = LoggerFactory.getLogger(PaymentData.class);
+    private static final Logger LOG = LoggerFactory.getLogger(PaymentQRCodeData.class);
 
     private final String mUnparsedContent;
     private final String mAmount;
@@ -39,7 +37,7 @@ public class PaymentData implements Parcelable {
     private final String mPaymentRecipient;
     private final String mPaymentReference;
 
-    public PaymentData(@NonNull final String unparsedContent,
+    public PaymentQRCodeData(@NonNull final String unparsedContent,
             @Nullable final String paymentRecipient,
             @Nullable final String paymentReference,
             @Nullable final String iban,
@@ -84,7 +82,7 @@ public class PaymentData implements Parcelable {
 
     @Override
     public String toString() {
-        return "PaymentData{" +
+        return "PaymentQRCodeData{" +
                 "mUnparsedContent='" + mUnparsedContent + '\'' +
                 ", mAmount='" + mAmount + '\'' +
                 ", mBIC='" + mBIC + '\'' +
@@ -137,7 +135,7 @@ public class PaymentData implements Parcelable {
             return false;
         }
 
-        final PaymentData that = (PaymentData) o;
+        final PaymentQRCodeData that = (PaymentQRCodeData) o;
 
         if (!mUnparsedContent.equals(that.mUnparsedContent)) {
             return false;
@@ -170,7 +168,7 @@ public class PaymentData implements Parcelable {
         return result;
     }
 
-    private PaymentData(final Parcel in) {
+    private PaymentQRCodeData(final Parcel in) {
         mUnparsedContent = in.readString();
         mAmount = in.readString();
         mBIC = in.readString();
@@ -194,15 +192,15 @@ public class PaymentData implements Parcelable {
         dest.writeString(mPaymentReference);
     }
 
-    public static final Creator<PaymentData> CREATOR = new Creator<PaymentData>() {
+    public static final Creator<PaymentQRCodeData> CREATOR = new Creator<PaymentQRCodeData>() {
         @Override
-        public PaymentData createFromParcel(final Parcel in) {
-            return new PaymentData(in);
+        public PaymentQRCodeData createFromParcel(final Parcel in) {
+            return new PaymentQRCodeData(in);
         }
 
         @Override
-        public PaymentData[] newArray(final int size) {
-            return new PaymentData[size];
+        public PaymentQRCodeData[] newArray(final int size) {
+            return new PaymentQRCodeData[size];
         }
     };
 }

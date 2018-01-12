@@ -46,13 +46,13 @@ import android.view.View;
 
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
-import net.gini.android.vision.PaymentData;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivityTestSpy;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.QRCodeDocumentHelper;
 import net.gini.android.vision.internal.camera.api.CameraControllerFake;
 import net.gini.android.vision.internal.camera.photo.PhotoFactory;
+import net.gini.android.vision.internal.qrcode.PaymentQRCodeData;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.review.ReviewActivity;
@@ -459,7 +459,7 @@ public class CameraScreenTest {
     public void should_detectBezahlCode_andShowPopup_andReturnPaymentData_whenPopupClicked()
             throws IOException, InterruptedException {
         detectAndCheckQRCode("qrcode_bezahlcode.jpeg", "qrcode_bezahlcode_nv21.bmp",
-                new PaymentData(
+                new PaymentQRCodeData(
                         "bank://singlepaymentsepa?name=GINI%20GMBH&reason=BezahlCode%20Test&iban=DE27100777770209299700&bic=DEUTDEMMXXX&amount=140%2C4",
                         "GINI GMBH",
                         "BezahlCode Test",
@@ -469,7 +469,7 @@ public class CameraScreenTest {
     }
 
     private void detectAndCheckQRCode(@NonNull final String jpegFilename,
-            @NonNull final String nv21Filename, @NonNull final PaymentData paymentData)
+            @NonNull final String nv21Filename, @NonNull final PaymentQRCodeData paymentData)
             throws IOException, InterruptedException {
         // Given
         assumeTrue(!isTablet());
@@ -486,11 +486,11 @@ public class CameraScreenTest {
 
         // When
         Thread.sleep(PAUSE_DURATION);
-        Espresso.onView(ViewMatchers.withId(R.id.gv_payment_data_detected_popup_container))
+        Espresso.onView(ViewMatchers.withId(R.id.gv_qrcode_detected_popup_container))
                 .perform(ViewActions.click());
 
         // Then
-        final PaymentData actualPaymentData = QRCodeDocumentHelper.getPaymentData(
+        final PaymentQRCodeData actualPaymentData = QRCodeDocumentHelper.getPaymentData(
                 mCameraActivityFakeActivityTestRule.getActivity().getQRCodeDocument());
         assertThat(actualPaymentData).isEqualTo(paymentData);
     }
@@ -510,7 +510,7 @@ public class CameraScreenTest {
     public void should_detectEPC069_andShowPopup_andReturnPaymentData_whenPopupClicked()
             throws IOException, InterruptedException {
         detectAndCheckQRCode("qrcode_epc069_12.jpeg", "qrcode_epc069_12_nv21.bmp",
-                new PaymentData(
+                new PaymentQRCodeData(
                         "BCD\n001\n2\nSCT\nSOLADES1PFD\nGirosolution GmbH\nDE19690516200000581900\nEUR140.4\n\n\nBezahlCode Test",
                         "Girosolution GmbH",
                         "BezahlCode Test",
@@ -539,9 +539,9 @@ public class CameraScreenTest {
 
         // When
         final long hideDelay =
-                mCameraActivityFakeActivityTestRule.getActivity().getCameraFragmentImplFake().getHidePaymentDataDetectedPopupDelayMs();
+                mCameraActivityFakeActivityTestRule.getActivity().getCameraFragmentImplFake().getHideQRCodeDetectedPopupDelayMs();
         Thread.sleep(hideDelay + CameraFragmentImpl.DEFAULT_ANIMATION_DURATION + 200);
-        Espresso.onView(ViewMatchers.withId(R.id.gv_payment_data_detected_popup_container))
+        Espresso.onView(ViewMatchers.withId(R.id.gv_qrcode_detected_popup_container))
                 .check(ViewAssertions.matches(ViewMatchers.withAlpha(0)));
     }
 
@@ -569,7 +569,7 @@ public class CameraScreenTest {
                 cameraActivityFake.getCameraFragmentImplFake();
         Thread.sleep(CameraFragmentImpl.DEFAULT_ANIMATION_DURATION + 100);
         Mockito.verify(cameraFragmentImplFake, times(2))
-                .showPaymentDataDetectedPopup(anyLong());
+                .showQRCodeDetectedPopup(anyLong());
     }
 
     @Test
@@ -598,7 +598,7 @@ public class CameraScreenTest {
 
         // Then
         Thread.sleep(CameraFragmentImpl.DEFAULT_ANIMATION_DURATION + 100);
-        Espresso.onView(ViewMatchers.withId(R.id.gv_payment_data_detected_popup_container))
+        Espresso.onView(ViewMatchers.withId(R.id.gv_qrcode_detected_popup_container))
                 .check(ViewAssertions.matches(ViewMatchers.withAlpha(0)));
     }
 
@@ -629,7 +629,7 @@ public class CameraScreenTest {
 
         // Then
         Thread.sleep(CameraFragmentImpl.DEFAULT_ANIMATION_DURATION + 100);
-        Espresso.onView(ViewMatchers.withId(R.id.gv_payment_data_detected_popup_container))
+        Espresso.onView(ViewMatchers.withId(R.id.gv_qrcode_detected_popup_container))
                 .check(ViewAssertions.matches(ViewMatchers.withAlpha(0)));
     }
 }

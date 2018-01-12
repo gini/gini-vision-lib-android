@@ -4,6 +4,8 @@ import static com.google.common.truth.Truth.assertThat;
 
 import android.support.test.runner.AndroidJUnit4;
 
+import net.gini.android.vision.internal.qrcode.PaymentQRCodeData;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -14,12 +16,12 @@ import org.junit.runner.RunWith;
  */
 
 @RunWith(AndroidJUnit4.class)
-public class PaymentDataTest {
+public class PaymentQRCodeDataTest {
 
     @Test
     public void should_writePaymentData_toJson() {
         // Given
-        final PaymentData paymentData = new PaymentData(
+        final PaymentQRCodeData paymentData = new PaymentQRCodeData(
                 "bank://singlepaymentsepa?name=GINI%20GMBH&reason=BezahlCode%20Test&iban=DE27100777770209299700&bic=DEUTDEMMXXX&amount=140%2C4",
                 "GINI GMBH",
                 "BezahlCode Test",
@@ -36,7 +38,7 @@ public class PaymentDataTest {
     @Test
     public void should_notWrite_emptyLabel_toPaymentDataJson() {
         // Given
-        final PaymentData paymentData = new PaymentData(
+        final PaymentQRCodeData paymentData = new PaymentQRCodeData(
                 "bank://singlepaymentsepa?name=GINI%20GMBH&reason=BezahlCode%20Test&iban=DE27100777770209299700&bic=DEUTDEMMXXX&amount=140%2C4",
                 "GINI GMBH",
                 "BezahlCode Test",

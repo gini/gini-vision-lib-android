@@ -5,7 +5,7 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
-import net.gini.android.vision.PaymentData;
+import net.gini.android.vision.internal.qrcode.PaymentQRCodeData;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,26 +22,26 @@ public class QRCodeDocument extends GiniVisionDocument {
 
     private static final Logger LOG = LoggerFactory.getLogger(QRCodeDocument.class);
 
-    public static QRCodeDocument fromPaymentData(@NonNull final PaymentData paymentData) {
+    public static QRCodeDocument fromPaymentQRCodeData(@NonNull final PaymentQRCodeData paymentQRCodeData) {
         byte[] jsonBytes = new byte[]{};
         try {
-            jsonBytes = paymentData.toJson().getBytes("UTF-8");
+            jsonBytes = paymentQRCodeData.toJson().getBytes("UTF-8");
         } catch (final UnsupportedEncodingException e) {
             LOG.error("UTF-8 encoding not available", e);
         }
-        return new QRCodeDocument(jsonBytes, paymentData);
+        return new QRCodeDocument(jsonBytes, paymentQRCodeData);
     }
 
-    private final PaymentData mPaymentData;
+    private final PaymentQRCodeData mPaymentData;
 
-    private QRCodeDocument(@NonNull final byte[] data, @NonNull final PaymentData paymentData) {
+    private QRCodeDocument(@NonNull final byte[] data, @NonNull final PaymentQRCodeData paymentQRCodeData) {
         super(Type.QRCode, data, null, false, false);
-        mPaymentData = paymentData;
+        mPaymentData = paymentQRCodeData;
     }
 
     private QRCodeDocument(final Parcel in) {
         super(in);
-        mPaymentData = in.readParcelable(PaymentData.class.getClassLoader());
+        mPaymentData = in.readParcelable(PaymentQRCodeData.class.getClassLoader());
     }
 
     @Override
@@ -71,7 +71,7 @@ public class QRCodeDocument extends GiniVisionDocument {
      * @exclude
      */
     @VisibleForTesting
-    PaymentData getPaymentData() {
+    PaymentQRCodeData getPaymentData() {
         return mPaymentData;
     }
 }

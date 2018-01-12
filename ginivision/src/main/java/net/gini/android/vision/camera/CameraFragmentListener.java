@@ -4,8 +4,8 @@ import android.support.annotation.NonNull;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
-import net.gini.android.vision.PaymentData;
 import net.gini.android.vision.document.QRCodeDocument;
+import net.gini.android.vision.internal.qrcode.PaymentQRCodeData;
 
 /**
  * <p>
@@ -29,7 +29,7 @@ public interface CameraFragmentListener {
      *     close the Gini Vision Library and continue to your app's transfer form.
      * </p>
      * <p>
-     *      See {@link PaymentData} for supported formats.
+     *      See {@link PaymentQRCodeData} for supported formats.
      * </p>
      *
      * @param qrCodeDocument {@link Document} instance containing payment data from a QR Code

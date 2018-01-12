@@ -2,7 +2,7 @@ package net.gini.android.vision.document;
 
 import android.support.annotation.NonNull;
 
-import net.gini.android.vision.PaymentData;
+import net.gini.android.vision.internal.qrcode.PaymentQRCodeData;
 
 /**
  * Created by Alpar Szotyori on 12.01.2018.
@@ -11,7 +11,7 @@ import net.gini.android.vision.PaymentData;
  */
 public class QRCodeDocumentHelper {
 
-    public static PaymentData getPaymentData(@NonNull final QRCodeDocument qrCodeDocument) {
+    public static PaymentQRCodeData getPaymentData(@NonNull final QRCodeDocument qrCodeDocument) {
         return qrCodeDocument.getPaymentData();
     }
 
