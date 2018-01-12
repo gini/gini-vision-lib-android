@@ -131,6 +131,7 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
                         final Intent intent = new Intent(mActivity, ExtractionsActivity.class);
                         intent.putExtra(ExtractionsActivity.EXTRA_IN_EXTRACTIONS,
                                 getExtractionsBundle(extractions));
+                        intent.putExtra(ExtractionsActivity.EXTRA_IN_DOCUMENT, getSingleDocumentAnalyzer().getGiniApiDocument());
                         mActivity.startActivity(intent);
                         mActivity.setResult(Activity.RESULT_OK);
                         mActivity.finish();

@@ -26,7 +26,7 @@ public final class ExampleUtil {
         return true;
     }
 
-    private static boolean isPay5Extraction(final String extractionName) {
+    public static boolean isPay5Extraction(final String extractionName) {
         return extractionName.equals("amountToPay") ||
                 extractionName.equals("bic") ||
                 extractionName.equals("iban") ||
