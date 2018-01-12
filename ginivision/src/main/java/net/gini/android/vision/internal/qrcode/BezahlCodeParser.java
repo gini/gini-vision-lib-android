@@ -49,6 +49,7 @@ class BezahlCodeParser implements QRCodeParser<PaymentData> {
         String currency = normalizeCurrency(uri.getQueryParameter("currency"));
         currency = TextUtils.isEmpty(currency) ? "EUR" : currency;
         final String amount = normalizeAmount(uri.getQueryParameter("amount"), currency);
-        return new PaymentData(paymentRecipient, paymentReference, iban, bic, amount);
+        return new PaymentData(qrCodeContent, paymentRecipient, paymentReference, iban, bic,
+                amount);
     }
 }
