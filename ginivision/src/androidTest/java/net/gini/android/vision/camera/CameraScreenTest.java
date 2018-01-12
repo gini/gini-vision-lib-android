@@ -50,6 +50,7 @@ import net.gini.android.vision.PaymentData;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivityTestSpy;
 import net.gini.android.vision.document.DocumentFactory;
+import net.gini.android.vision.document.QRCodeDocumentHelper;
 import net.gini.android.vision.internal.camera.api.CameraControllerFake;
 import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 import net.gini.android.vision.onboarding.OnboardingActivity;
@@ -489,8 +490,9 @@ public class CameraScreenTest {
                 .perform(ViewActions.click());
 
         // Then
-        assertThat(mCameraActivityFakeActivityTestRule.getActivity().getPaymentData())
-                .isEqualTo(paymentData);
+        final PaymentData actualPaymentData = QRCodeDocumentHelper.getPaymentData(
+                mCameraActivityFakeActivityTestRule.getActivity().getQRCodeDocument());
+        assertThat(actualPaymentData).isEqualTo(paymentData);
     }
 
     private void detectQRCode(

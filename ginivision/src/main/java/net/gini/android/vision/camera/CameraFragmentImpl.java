@@ -48,6 +48,7 @@ import net.gini.android.vision.PaymentData;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.GiniVisionDocument;
+import net.gini.android.vision.document.QRCodeDocument;
 import net.gini.android.vision.internal.camera.api.CameraController;
 import net.gini.android.vision.internal.camera.api.CameraException;
 import net.gini.android.vision.internal.camera.api.CameraInterface;
@@ -59,6 +60,7 @@ import net.gini.android.vision.internal.permission.PermissionRequestListener;
 import net.gini.android.vision.internal.qrcode.PaymentQRCodeReader;
 import net.gini.android.vision.internal.qrcode.QRCodeDetectorTask;
 import net.gini.android.vision.internal.qrcode.QRCodeDetectorTaskGoogleVision;
+import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.internal.ui.ViewStubSafeInflater;
 import net.gini.android.vision.internal.util.DeviceHelper;
 import net.gini.android.vision.internal.util.FileImportValidator;
@@ -88,7 +90,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         }
 
         @Override
-        public void onPaymentDataAvailable(@NonNull final PaymentData paymentData) {
+        public void onQRCodeAvailable(@NonNull final QRCodeDocument qrCodeDocument) {
 
         }
 
@@ -155,9 +157,9 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
 
     @Override
     public void onPaymentDataAvailable(@NonNull final PaymentData paymentData) {
-        LOG.info("QRCode Payment data found: {}", paymentData);
         if (mUploadHintContainer.getVisibility() == View.VISIBLE
-                || mInterfaceHidden) {
+                || mInterfaceHidden
+                || mActivityIndicator.getVisibility() == View.VISIBLE) {
             hidePaymentDataDetectedPopup(null);
             mPaymentData = null;
             return;
@@ -168,7 +170,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             return;
         }
 
-        if (mPaymentData == null) {
+        if (mPaymentData == null
+                || mPaymentDataDetectedPopupContainer.getVisibility() == View.GONE) {
             showPaymentDataDetectedPopup(0);
             view.removeCallbacks(mHidePaymentDataDetectedPopupRunnable);
             view.postDelayed(mHidePaymentDataDetectedPopupRunnable,
@@ -644,8 +647,12 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         mPaymentDataDetectedPopupContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
+                hidePaymentDataDetectedPopup(null);
                 if (mPaymentData != null) {
-                    mListener.onPaymentDataAvailable(mPaymentData);
+                        final QRCodeDocument qrCodeDocument = QRCodeDocument.fromPaymentData(
+                                mPaymentData);
+                        mListener.onQRCodeAvailable(qrCodeDocument);
+                        mPaymentData = null;
                 }
             }
         });
@@ -838,7 +845,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         }
     }
 
-    private void showActivityIndicatorAndDisableInteraction() {
+    @Override
+    public void showActivityIndicatorAndDisableInteraction() {
         if (mActivityIndicator == null
                 || mActivityIndicatorBackground == null) {
             return;
@@ -849,7 +857,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         disableInteraction();
     }
 
-    private void hideActivityIndicatorAndEnableInteraction() {
+    @Override
+    public void hideActivityIndicatorAndEnableInteraction() {
         if (mActivityIndicator == null
                 || mActivityIndicatorBackground == null) {
             return;
@@ -858,6 +867,15 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         mActivityIndicatorBackground.setClickable(false);
         mActivityIndicator.setVisibility(View.INVISIBLE);
         enableInteraction();
+    }
+
+    @Override
+    public void showError(@NonNull final String message, final int duration) {
+        if (mFragment.getActivity() == null || mLayoutRoot == null) {
+            return;
+        }
+        ErrorSnackbar.make(mFragment.getActivity(), mLayoutRoot, message, null, null,
+                duration).show();
     }
 
     private void enableInteraction() {

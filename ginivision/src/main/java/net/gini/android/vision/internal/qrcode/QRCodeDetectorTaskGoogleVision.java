@@ -31,6 +31,7 @@ import java.util.List;
  */
 public class QRCodeDetectorTaskGoogleVision implements QRCodeDetectorTask {
 
+    private static final boolean DEBUG = false;
     private static final Logger LOG = LoggerFactory.getLogger(QRCodeDetectorTaskGoogleVision.class);
     private final BarcodeDetector mBarcodeDetector;
     private final Handler mRetryHandler;
@@ -54,7 +55,7 @@ public class QRCodeDetectorTaskGoogleVision implements QRCodeDetectorTask {
                 .setRotation(rotationForFrame)
                 .build();
         final SparseArray<Barcode> barcodes = mBarcodeDetector.detect(frame);
-        if (barcodes.size() > 0) {
+        if (barcodes.size() > 0 && DEBUG) {
             LOG.debug("Detected QRCodes:\n{}", barcodesToString(barcodes));
         }
         return barcodesToStrings(barcodes);

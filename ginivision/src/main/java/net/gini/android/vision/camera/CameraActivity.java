@@ -17,9 +17,9 @@ import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
-import net.gini.android.vision.PaymentData;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
+import net.gini.android.vision.document.QRCodeDocument;
 import net.gini.android.vision.help.HelpActivity;
 import net.gini.android.vision.internal.util.ActivityHelper;
 import net.gini.android.vision.onboarding.OnboardingActivity;
@@ -297,7 +297,8 @@ import java.util.ArrayList;
  * </ul>
  * </p>
  **/
-public class CameraActivity extends AppCompatActivity implements CameraFragmentListener {
+public class CameraActivity extends AppCompatActivity implements CameraFragmentListener,
+        CameraFragmentInterface {
 
     /**
      * <p>
@@ -639,7 +640,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     }
 
     @Override
-    public void onPaymentDataAvailable(@NonNull final PaymentData paymentData) {
+    public void onQRCodeAvailable(@NonNull final QRCodeDocument qrCodeDocument) {
 
     }
 
@@ -698,12 +699,49 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         }
     }
 
-    private void showInterface() {
+    @Override
+    public void showDocumentCornerGuides() {
+        mFragment.showDocumentCornerGuides();
+    }
+
+    @Override
+    public void hideDocumentCornerGuides() {
+        mFragment.hideDocumentCornerGuides();
+    }
+
+    @Override
+    public void showCameraTriggerButton() {
+        mFragment.showCameraTriggerButton();
+    }
+
+    @Override
+    public void hideCameraTriggerButton() {
+        mFragment.hideCameraTriggerButton();
+    }
+
+    @Override
+    public void showInterface() {
         mFragment.showInterface();
     }
 
-    private void hideInterface() {
+    @Override
+    public void hideInterface() {
         mFragment.hideInterface();
+    }
+
+    @Override
+    public void showActivityIndicatorAndDisableInteraction() {
+        mFragment.showActivityIndicatorAndDisableInteraction();
+    }
+
+    @Override
+    public void hideActivityIndicatorAndEnableInteraction() {
+        mFragment.hideActivityIndicatorAndEnableInteraction();
+    }
+
+    @Override
+    public void showError(@NonNull final String message, final int duration) {
+        mFragment.showError(message, duration);
     }
 
     private void clearMemory() {

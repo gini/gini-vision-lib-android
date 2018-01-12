@@ -1,5 +1,6 @@
 package net.gini.android.vision.screen;
 
+import static net.gini.android.vision.example.ExampleUtil.getExtractionsBundle;
 import static net.gini.android.vision.example.ExampleUtil.hasNoPay5Extractions;
 
 import android.content.Intent;
@@ -28,12 +29,12 @@ public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisA
     private SingleDocumentAnalyzer mSingleDocumentAnalyzer;
 
     @Override
-    public void onAddDataToResult(@NonNull Intent result) {
+    public void onAddDataToResult(@NonNull final Intent result) {
         LOG.debug("Add data to result");
         // We add the extraction results here to the Intent. The payload format is up to you.
         // For the example we add the extractions as key-value pairs to a Bundle
         // We retrieve them when the CameraActivity has finished in MainActivity#onActivityResult()
-        Bundle extractionsBundle = getExtractionsBundle();
+        final Bundle extractionsBundle = getExtractionsBundle(mExtractions);
         result.putExtra(MainActivity.EXTRA_OUT_EXTRACTIONS, extractionsBundle);
     }
 
@@ -47,7 +48,7 @@ public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisA
         mSingleDocumentAnalyzer.analyzeDocument(document,
                 new DocumentAnalyzer.Listener() {
                     @Override
-                    public void onException(Exception exception) {
+                    public void onException(final Exception exception) {
                         stopScanAnimation();
                         String message = "Analysis failed: ";
                         if (exception != null) {
@@ -57,7 +58,7 @@ public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisA
                         showError(message, getString(R.string.gv_document_analysis_error_retry),
                                 new View.OnClickListener() {
                                     @Override
-                                    public void onClick(View v) {
+                                    public void onClick(final View v) {
                                         startScanAnimation();
                                         mSingleDocumentAnalyzer.cancelAnalysis();
                                         mSingleDocumentAnalyzer.analyzeDocument(document, listener);
@@ -66,7 +67,7 @@ public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisA
                     }
 
                     @Override
-                    public void onExtractionsReceived(Map<String, SpecificExtraction> extractions) {
+                    public void onExtractionsReceived(final Map<String, SpecificExtraction> extractions) {
                         mExtractions = extractions;
                         if (mExtractions == null || hasNoPay5Extractions(mExtractions.keySet())) {
                             onNoExtractionsFound();
@@ -82,7 +83,7 @@ public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisA
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSingleDocumentAnalyzer = ((BaseExampleApp) getApplication()).getSingleDocumentAnalyzer();
     }
@@ -91,13 +92,5 @@ public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisA
     protected void onDestroy() {
         super.onDestroy();
         ((BaseExampleApp) getApplication()).getSingleDocumentAnalyzer().cancelAnalysis();
-    }
-
-    private Bundle getExtractionsBundle() {
-        final Bundle extractionsBundle = new Bundle();
-        for (Map.Entry<String, SpecificExtraction> entry : mExtractions.entrySet()) {
-            extractionsBundle.putParcelable(entry.getKey(), entry.getValue());
-        }
-        return extractionsBundle;
     }
 }

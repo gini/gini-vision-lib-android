@@ -3,13 +3,11 @@ package net.gini.android.vision.example;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
-import net.gini.android.models.Box;
-import net.gini.android.models.Extraction;
 import net.gini.android.models.SpecificExtraction;
-import net.gini.android.vision.PaymentData;
 
-import java.util.Collections;
+import java.util.Map;
 import java.util.Set;
 
 public final class ExampleUtil {
@@ -28,7 +26,7 @@ public final class ExampleUtil {
         return true;
     }
 
-    public static boolean isPay5Extraction(final String extractionName) {
+    private static boolean isPay5Extraction(final String extractionName) {
         return extractionName.equals("amountToPay") ||
                 extractionName.equals("bic") ||
                 extractionName.equals("iban") ||
@@ -36,31 +34,15 @@ public final class ExampleUtil {
                 extractionName.equals("paymentRecipient");
     }
 
-    public static Bundle getExtractionsBundle(@NonNull final PaymentData paymentData) {
+    public static Bundle getExtractionsBundle(@Nullable final Map<String, SpecificExtraction> extractions) {
+        if (extractions ==null) {
+            return null;
+        }
         final Bundle extractionsBundle = new Bundle();
-        extractionsBundle.putParcelable("paymentReference",
-                createSpecificExtraction("paymentReference",
-                        paymentData.getPaymentReference()));
-        extractionsBundle.putParcelable("paymentRecipient",
-                createSpecificExtraction("paymentRecipient",
-                        paymentData.getPaymentRecipient()));
-        extractionsBundle.putParcelable("amountToPay",
-                createSpecificExtraction("amountToPay",
-                        paymentData.getAmount()));
-        extractionsBundle.putParcelable("iban",
-                createSpecificExtraction("iban",
-                        paymentData.getIBAN()));
-        extractionsBundle.putParcelable("bic",
-                createSpecificExtraction("bic",
-                        paymentData.getBIC()));
+        for (final Map.Entry<String, SpecificExtraction> entry : extractions.entrySet()) {
+            extractionsBundle.putParcelable(entry.getKey(), entry.getValue());
+        }
         return extractionsBundle;
-    }
-
-    @NonNull
-    private static SpecificExtraction createSpecificExtraction(
-            final @NonNull String name, final @NonNull String value) {
-        return new SpecificExtraction(name, value, "", new Box(0, 0, 0, 0, 0),
-                Collections.<Extraction>emptyList());
     }
 
     private ExampleUtil() {

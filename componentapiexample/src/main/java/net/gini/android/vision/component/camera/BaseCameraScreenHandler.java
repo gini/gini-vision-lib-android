@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVisionCoordinator;
@@ -24,12 +25,13 @@ import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.GiniVisionFileImport;
 import net.gini.android.vision.ImportedFileValidationException;
-import net.gini.android.vision.PaymentData;
 import net.gini.android.vision.camera.CameraFragmentInterface;
 import net.gini.android.vision.camera.CameraFragmentListener;
 import net.gini.android.vision.component.ExtractionsActivity;
 import net.gini.android.vision.component.R;
+import net.gini.android.vision.document.QRCodeDocument;
 import net.gini.android.vision.example.BaseExampleApp;
+import net.gini.android.vision.example.DocumentAnalyzer;
 import net.gini.android.vision.example.SingleDocumentAnalyzer;
 import net.gini.android.vision.help.HelpActivity;
 import net.gini.android.vision.onboarding.OnboardingFragmentListener;
@@ -38,6 +40,8 @@ import net.gini.android.vision.util.UriHelper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Map;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.android.LogcatAppender;
@@ -109,13 +113,29 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
     }
 
     @Override
-    public void onPaymentDataAvailable(@NonNull final PaymentData paymentData) {
-        final Bundle extractionsBundle = getExtractionsBundle(paymentData);
-        final Intent intent = new Intent(mActivity, ExtractionsActivity.class);
-        intent.putExtra(ExtractionsActivity.EXTRA_IN_EXTRACTIONS, extractionsBundle);
-        mActivity.startActivity(intent);
-        mActivity.setResult(Activity.RESULT_OK);
-        mActivity.finish();
+    public void onQRCodeAvailable(@NonNull final QRCodeDocument qrCodeDocument) {
+        mCameraFragmentInterface.showActivityIndicatorAndDisableInteraction();
+        getSingleDocumentAnalyzer().cancelAnalysis();
+        getSingleDocumentAnalyzer().analyzeDocument(qrCodeDocument,
+                new DocumentAnalyzer.Listener() {
+                    @Override
+                    public void onException(final Exception exception) {
+                        mCameraFragmentInterface.hideActivityIndicatorAndEnableInteraction();
+                        mCameraFragmentInterface.showError("Could not use the QR Code. Try again or take a picture of your document.", 4000);
+                    }
+
+                    @Override
+                    public void onExtractionsReceived(
+                            final Map<String, SpecificExtraction> extractions) {
+                        mCameraFragmentInterface.hideActivityIndicatorAndEnableInteraction();
+                        final Intent intent = new Intent(mActivity, ExtractionsActivity.class);
+                        intent.putExtra(ExtractionsActivity.EXTRA_IN_EXTRACTIONS,
+                                getExtractionsBundle(extractions));
+                        mActivity.startActivity(intent);
+                        mActivity.setResult(Activity.RESULT_OK);
+                        mActivity.finish();
+                    }
+                });
     }
 
     @Override

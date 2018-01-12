@@ -1,5 +1,7 @@
 package net.gini.android.vision;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -26,7 +28,7 @@ import java.io.StringWriter;
  * (<a href="https://www.stuzza.at/de/zahlungsverkehr/qr-code.html">Stuzza (AT)</a> and <a href="https://www.girocode.de/rechnungsempfaenger/">GiroCode (DE)</a>)
  * QRCodes are detected and read.
  */
-public class PaymentData {
+public class PaymentData implements Parcelable {
 
     private static final Logger LOG = LoggerFactory.getLogger(PaymentData.class);
 
@@ -167,4 +169,40 @@ public class PaymentData {
         result = 31 * result + (mPaymentReference != null ? mPaymentReference.hashCode() : 0);
         return result;
     }
+
+    private PaymentData(final Parcel in) {
+        mUnparsedContent = in.readString();
+        mAmount = in.readString();
+        mBIC = in.readString();
+        mIBAN = in.readString();
+        mPaymentRecipient = in.readString();
+        mPaymentReference = in.readString();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull final Parcel dest, final int flags) {
+        dest.writeString(mUnparsedContent);
+        dest.writeString(mAmount);
+        dest.writeString(mBIC);
+        dest.writeString(mIBAN);
+        dest.writeString(mPaymentRecipient);
+        dest.writeString(mPaymentReference);
+    }
+
+    public static final Creator<PaymentData> CREATOR = new Creator<PaymentData>() {
+        @Override
+        public PaymentData createFromParcel(final Parcel in) {
+            return new PaymentData(in);
+        }
+
+        @Override
+        public PaymentData[] newArray(final int size) {
+            return new PaymentData[size];
+        }
+    };
 }

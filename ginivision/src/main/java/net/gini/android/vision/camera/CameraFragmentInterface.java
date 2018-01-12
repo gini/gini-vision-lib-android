@@ -1,5 +1,7 @@
 package net.gini.android.vision.camera;
 
+import android.support.annotation.NonNull;
+
 /**
  * <p>
  *     Methods which both Camera Fragments must implement.
@@ -79,4 +81,22 @@ public interface CameraFragmentInterface {
      *
      */
     void hideInterface();
+
+    /**
+     * TODO: documentation
+     */
+    void showActivityIndicatorAndDisableInteraction();
+
+    /**
+     * TODO: documentation
+     */
+    void hideActivityIndicatorAndEnableInteraction();
+
+    /**
+     * TODO: documentation
+     *
+     * @param message  a short error message
+     * @param duration how long should the error message be shown in ms
+     */
+    void showError(@NonNull String message, int duration);
 }

@@ -3,6 +3,7 @@ package net.gini.android.vision.component.review;
 import static android.app.Activity.RESULT_OK;
 
 import static net.gini.android.vision.component.review.compat.ReviewExampleAppCompatActivity.EXTRA_IN_DOCUMENT;
+import static net.gini.android.vision.example.ExampleUtil.getExtractionsBundle;
 import static net.gini.android.vision.example.ExampleUtil.hasNoPay5Extractions;
 
 import android.app.Activity;
@@ -72,7 +73,7 @@ public abstract class BaseReviewScreenHandler implements ReviewFragmentListener 
         getSingleDocumentAnalyzer().analyzeDocument(document,
                 new DocumentAnalyzer.Listener() {
                     @Override
-                    public void onException(Exception exception) {
+                    public void onException(final Exception exception) {
                         String message = mActivity.getString(R.string.unknown_error);
                         if (exception.getMessage() != null) {
                             message = exception.getMessage();
@@ -86,7 +87,8 @@ public abstract class BaseReviewScreenHandler implements ReviewFragmentListener 
                     }
 
                     @Override
-                    public void onExtractionsReceived(Map<String, SpecificExtraction> extractions) {
+                    public void onExtractionsReceived(
+                            final Map<String, SpecificExtraction> extractions) {
                         LOG.debug("Document analyzed in the Review Screen");
                         // Cache the extractions until the user clicks the next button and
                         // onDocumentReviewedAndAnalyzed()
@@ -130,8 +132,8 @@ public abstract class BaseReviewScreenHandler implements ReviewFragmentListener 
         }
     }
 
-    private void showExtractions(net.gini.android.models.Document giniApiDocument,
-            Map<String, SpecificExtraction> extractions, Document document) {
+    private void showExtractions(final net.gini.android.models.Document giniApiDocument,
+            final Map<String, SpecificExtraction> extractions, final Document document) {
         LOG.debug("Show extractions");
         // If we have no Pay 5 extractions we query the Gini Vision Library
         // whether we should show the the Gini Vision No Results Screen
@@ -142,7 +144,7 @@ public abstract class BaseReviewScreenHandler implements ReviewFragmentListener 
             // for using the Gini Vision Library
             showNoResultsScreen(document);
         } else {
-            Intent intent = new Intent(mActivity, ExtractionsActivity.class);
+            final Intent intent = new Intent(mActivity, ExtractionsActivity.class);
             intent.putExtra(ExtractionsActivity.EXTRA_IN_DOCUMENT, giniApiDocument);
             intent.putExtra(ExtractionsActivity.EXTRA_IN_EXTRACTIONS,
                     getExtractionsBundle(extractions));
@@ -150,14 +152,6 @@ public abstract class BaseReviewScreenHandler implements ReviewFragmentListener 
             mActivity.setResult(RESULT_OK);
             mActivity.finish();
         }
-    }
-
-    private Bundle getExtractionsBundle(Map<String, SpecificExtraction> extractions) {
-        final Bundle extractionsBundle = new Bundle();
-        for (Map.Entry<String, SpecificExtraction> entry : extractions.entrySet()) {
-            extractionsBundle.putParcelable(entry.getKey(), entry.getValue());
-        }
-        return extractionsBundle;
     }
 
     private void showNoResultsScreen(final Document document) {

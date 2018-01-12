@@ -4,6 +4,7 @@ import static android.app.Activity.RESULT_OK;
 
 import static net.gini.android.vision.component.analysis.compat.AnalysisExampleAppCompatActivity.EXTRA_IN_DOCUMENT;
 import static net.gini.android.vision.component.analysis.compat.AnalysisExampleAppCompatActivity.EXTRA_IN_ERROR_MESSAGE;
+import static net.gini.android.vision.example.ExampleUtil.getExtractionsBundle;
 import static net.gini.android.vision.example.ExampleUtil.hasNoPay5Extractions;
 
 import android.app.Activity;
@@ -67,7 +68,7 @@ public abstract class BaseAnalysisScreenHandler implements AnalysisFragmentListe
         getSingleDocumentAnalyzer().analyzeDocument(document,
                 new DocumentAnalyzer.Listener() {
                     @Override
-                    public void onException(Exception exception) {
+                    public void onException(final Exception exception) {
                         mAnalysisFragmentInterface.stopScanAnimation();
                         String message = mActivity.getString(R.string.unknown_error);
                         if (exception.getMessage() != null) {
@@ -81,7 +82,7 @@ public abstract class BaseAnalysisScreenHandler implements AnalysisFragmentListe
                                 mActivity.getString(R.string.retry_analysis),
                                 new View.OnClickListener() {
                                     @Override
-                                    public void onClick(View v) {
+                                    public void onClick(final View v) {
                                         mAnalysisFragmentInterface.startScanAnimation();
                                         getSingleDocumentAnalyzer().cancelAnalysis();
                                         getSingleDocumentAnalyzer().analyzeDocument(document,
@@ -92,7 +93,8 @@ public abstract class BaseAnalysisScreenHandler implements AnalysisFragmentListe
                     }
 
                     @Override
-                    public void onExtractionsReceived(Map<String, SpecificExtraction> extractions) {
+                    public void onExtractionsReceived(
+                            final Map<String, SpecificExtraction> extractions) {
                         LOG.debug("Document analyzed in the Analysis Screen");
                         // Calling onDocumentAnalyzed() is important to notify the Analysis
                         // Fragment that the
@@ -113,8 +115,8 @@ public abstract class BaseAnalysisScreenHandler implements AnalysisFragmentListe
         return mSingleDocumentAnalyzer;
     }
 
-    private void showExtractions(net.gini.android.models.Document giniApiDocument,
-            Map<String, SpecificExtraction> extractions, Document document) {
+    private void showExtractions(final net.gini.android.models.Document giniApiDocument,
+            final Map<String, SpecificExtraction> extractions, final Document document) {
         LOG.debug("Show extractions");
         // If we have no Pay 5 extractions we query the Gini Vision Library
         // whether we should show the the Gini Vision No Results Screen
@@ -125,7 +127,7 @@ public abstract class BaseAnalysisScreenHandler implements AnalysisFragmentListe
             // for using the Gini Vision Library
             showNoResultsScreen(document);
         } else {
-            Intent intent = new Intent(mActivity, ExtractionsActivity.class);
+            final Intent intent = new Intent(mActivity, ExtractionsActivity.class);
             intent.putExtra(ExtractionsActivity.EXTRA_IN_DOCUMENT, giniApiDocument);
             intent.putExtra(ExtractionsActivity.EXTRA_IN_EXTRACTIONS,
                     getExtractionsBundle(extractions));
@@ -133,14 +135,6 @@ public abstract class BaseAnalysisScreenHandler implements AnalysisFragmentListe
             mActivity.setResult(Activity.RESULT_OK);
             mActivity.finish();
         }
-    }
-
-    private Bundle getExtractionsBundle(Map<String, SpecificExtraction> extractions) {
-        final Bundle extractionsBundle = new Bundle();
-        for (Map.Entry<String, SpecificExtraction> entry : extractions.entrySet()) {
-            extractionsBundle.putParcelable(entry.getKey(), entry.getValue());
-        }
-        return extractionsBundle;
     }
 
     private void showNoResultsScreen(final Document document) {
