@@ -207,7 +207,12 @@ public class CameraScreenTest {
 
         Thread.sleep(PAUSE_DURATION);
 
-        cameraActivity.startOnboardingActivity();
+        InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
+            @Override
+            public void run() {
+                cameraActivity.startOnboardingActivity();
+            }
+        });
 
         Intents.intended(IntentMatchers.hasComponent(OnboardingActivity.class.getName()));
         Intents.intended(
@@ -219,7 +224,12 @@ public class CameraScreenTest {
     public void should_showOnboarding_whenOnboardingMenuItem_wasTapped() {
         final CameraActivity cameraActivity = startCameraActivityWithoutOnboarding();
 
-        cameraActivity.startOnboardingActivity();
+        InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
+            @Override
+            public void run() {
+                cameraActivity.startOnboardingActivity();
+            }
+        });
 
         Intents.intended(IntentMatchers.hasComponent(OnboardingActivity.class.getName()));
     }

@@ -99,7 +99,7 @@ public class Helpers {
     }
 
     public static void waitForWindowUpdate(@NonNull final UiDevice uiDevice) {
-        uiDevice.waitForWindowUpdate(BuildConfig.APPLICATION_ID, 5000);
+        uiDevice.waitForWindowUpdate(BuildConfig.APPLICATION_ID, 1000);
     }
 
     public static void copyAssetToStorage(@NonNull final String assetFilePath,
