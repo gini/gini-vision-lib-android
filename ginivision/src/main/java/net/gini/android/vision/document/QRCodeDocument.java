@@ -18,6 +18,17 @@ import java.io.UnsupportedEncodingException;
  * Copyright (c) 2018 Gini GmbH.
  */
 
+/**
+ * Contains payment information required for transactions that were parsed from a document with a QR Code.
+ * <p>
+ * Payment data from
+ * <a href="http://www.bezahlcode.de/wp-content/uploads/BezahlCode_TechDok.pdf">BezahlCode</a>
+ * and <a href="https://www.europeanpaymentscouncil.eu/document-library/guidance-documents/quick-response-code-guidelines-enable-data-capture-initiation">EPC069-12</a>
+ * (<a href="https://www.stuzza.at/de/zahlungsverkehr/qr-code.html">Stuzza (AT)</a> and <a href="https://www.girocode.de/rechnungsempfaenger/">GiroCode (DE)</a>)
+ * QRCodes are detected and read.
+ * <p>
+ * Get the contents with ({@link QRCodeDocument#getData()}) and upload it to the Gini API to get the extractions.
+ */
 public class QRCodeDocument extends GiniVisionDocument {
 
     private static final Logger LOG = LoggerFactory.getLogger(QRCodeDocument.class);

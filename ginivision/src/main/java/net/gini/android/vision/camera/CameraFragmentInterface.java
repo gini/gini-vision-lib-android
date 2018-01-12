@@ -83,17 +83,24 @@ public interface CameraFragmentInterface {
     void hideInterface();
 
     /**
-     * TODO: documentation
+     * <p>
+     *     Call this method to show an activity indicator and disable user interaction.
+     *     The camera preview remains visible.
+     * </p>
      */
     void showActivityIndicatorAndDisableInteraction();
 
     /**
-     * TODO: documentation
+     * <p>
+     *     Call this method to hide the activity indicator and enable user interaction.
+     * </p>
      */
     void hideActivityIndicatorAndEnableInteraction();
 
     /**
-     * TODO: documentation
+     * <p>
+     * Call this method when to show an error message to the user in the Camera Screen.
+     * </p>
      *
      * @param message  a short error message
      * @param duration how long should the error message be shown in ms
