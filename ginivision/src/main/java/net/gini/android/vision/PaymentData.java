@@ -3,6 +3,13 @@ package net.gini.android.vision;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.JsonWriter;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.io.StringWriter;
 
 /**
  * Created by Alpar Szotyori on 08.12.2017.
@@ -21,17 +28,22 @@ import android.text.TextUtils;
  */
 public class PaymentData {
 
+    private static final Logger LOG = LoggerFactory.getLogger(PaymentData.class);
+
+    private final String mUnparsedContent;
     private final String mAmount;
     private final String mBIC;
     private final String mIBAN;
     private final String mPaymentRecipient;
     private final String mPaymentReference;
 
-    public PaymentData(@Nullable final String paymentRecipient,
+    public PaymentData(@NonNull final String unparsedContent,
+            @Nullable final String paymentRecipient,
             @Nullable final String paymentReference,
             @Nullable final String iban,
             @Nullable final String bic,
             @Nullable final String amount) {
+        mUnparsedContent = unparsedContent;
         mPaymentRecipient = nullToEmpty(paymentRecipient);
         mPaymentReference = nullToEmpty(paymentReference);
         mIBAN = nullToEmpty(iban);
@@ -41,17 +53,6 @@ public class PaymentData {
 
     private String nullToEmpty(@Nullable final String str) {
         return TextUtils.isEmpty(str) ? "" : str;
-    }
-
-    @Override
-    public String toString() {
-        return "PaymentData{" +
-                "mAmount='" + mAmount + '\'' +
-                ", mBIC='" + mBIC + '\'' +
-                ", mIBAN='" + mIBAN + '\'' +
-                ", mPaymentRecipient='" + mPaymentRecipient + '\'' +
-                ", mPaymentReference='" + mPaymentReference + '\'' +
-                '}';
     }
 
     @NonNull
@@ -80,6 +81,52 @@ public class PaymentData {
     }
 
     @Override
+    public String toString() {
+        return "PaymentData{" +
+                "mUnparsedContent='" + mUnparsedContent + '\'' +
+                ", mAmount='" + mAmount + '\'' +
+                ", mBIC='" + mBIC + '\'' +
+                ", mIBAN='" + mIBAN + '\'' +
+                ", mPaymentRecipient='" + mPaymentRecipient + '\'' +
+                ", mPaymentReference='" + mPaymentReference + '\'' +
+                '}';
+    }
+
+    @NonNull
+    public String toJson() {
+        final StringWriter stringWriter = new StringWriter();
+        final JsonWriter jsonWriter = new JsonWriter(stringWriter);
+        try {
+            jsonWriter.beginObject();
+            jsonWriter.name("qrcode").value(mUnparsedContent);
+            jsonWriter.name("paymentdata");
+            jsonWriter.beginObject();
+            writeNameAndValueIfNotEmpty(jsonWriter, "amountToPay", mAmount);
+            writeNameAndValueIfNotEmpty(jsonWriter, "paymentRecipient", mPaymentRecipient);
+            writeNameAndValueIfNotEmpty(jsonWriter, "iban", mIBAN);
+            writeNameAndValueIfNotEmpty(jsonWriter, "bic", mBIC);
+            writeNameAndValueIfNotEmpty(jsonWriter, "paymentReference", mPaymentReference);
+            jsonWriter.endObject();
+            jsonWriter.endObject();
+        } catch (final IOException e) {
+            LOG.error("Could not write to json", e);
+        } finally {
+            try {
+                jsonWriter.close();
+            } catch (final IOException ignore) {
+            }
+        }
+        return stringWriter.toString();
+    }
+
+    private void writeNameAndValueIfNotEmpty(@NonNull final JsonWriter jsonWriter,
+            @Nullable final String name, @Nullable final String value) throws IOException {
+        if (!TextUtils.isEmpty(value)) {
+            jsonWriter.name(name).value(value);
+        }
+    }
+
+    @Override
     public boolean equals(final Object o) {
         if (this == o) {
             return true;
@@ -90,28 +137,34 @@ public class PaymentData {
 
         final PaymentData that = (PaymentData) o;
 
-        if (!mAmount.equals(that.mAmount)) {
+        if (!mUnparsedContent.equals(that.mUnparsedContent)) {
             return false;
         }
-        if (!mBIC.equals(that.mBIC)) {
+        if (mAmount != null ? !mAmount.equals(that.mAmount) : that.mAmount != null) {
             return false;
         }
-        if (!mIBAN.equals(that.mIBAN)) {
+        if (mBIC != null ? !mBIC.equals(that.mBIC) : that.mBIC != null) {
             return false;
         }
-        if (!mPaymentRecipient.equals(that.mPaymentRecipient)) {
+        if (mIBAN != null ? !mIBAN.equals(that.mIBAN) : that.mIBAN != null) {
             return false;
         }
-        return mPaymentReference.equals(that.mPaymentReference);
+        if (mPaymentRecipient != null ? !mPaymentRecipient.equals(that.mPaymentRecipient)
+                : that.mPaymentRecipient != null) {
+            return false;
+        }
+        return mPaymentReference != null ? mPaymentReference.equals(that.mPaymentReference)
+                : that.mPaymentReference == null;
     }
 
     @Override
     public int hashCode() {
-        int result = mAmount.hashCode();
-        result = 31 * result + mBIC.hashCode();
-        result = 31 * result + mIBAN.hashCode();
-        result = 31 * result + mPaymentRecipient.hashCode();
-        result = 31 * result + mPaymentReference.hashCode();
+        int result = mUnparsedContent.hashCode();
+        result = 31 * result + (mAmount != null ? mAmount.hashCode() : 0);
+        result = 31 * result + (mBIC != null ? mBIC.hashCode() : 0);
+        result = 31 * result + (mIBAN != null ? mIBAN.hashCode() : 0);
+        result = 31 * result + (mPaymentRecipient != null ? mPaymentRecipient.hashCode() : 0);
+        result = 31 * result + (mPaymentReference != null ? mPaymentReference.hashCode() : 0);
         return result;
     }
 }

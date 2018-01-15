@@ -56,7 +56,8 @@ class EPC069_12Parser implements QRCodeParser<PaymentData> {
         }
         final String bic = getLineString(4, lines);
         final String amount = normalizeAmount(processAmount(getLineString(7, lines)), "EUR");
-        return new PaymentData(paymentRecipient, paymentReference, iban, bic, amount);
+        return new PaymentData(qrCodeContent, paymentRecipient, paymentReference, iban, bic,
+                amount);
     }
 
     @NonNull

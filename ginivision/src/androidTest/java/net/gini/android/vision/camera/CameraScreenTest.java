@@ -458,9 +458,12 @@ public class CameraScreenTest {
     public void should_detectBezahlCode_andShowPopup_andReturnPaymentData_whenPopupClicked()
             throws IOException, InterruptedException {
         detectAndCheckQRCode("qrcode_bezahlcode.jpeg", "qrcode_bezahlcode_nv21.bmp",
-                new PaymentData("GINI GMBH",
+                new PaymentData(
+                        "bank://singlepaymentsepa?name=GINI%20GMBH&reason=BezahlCode%20Test&iban=DE27100777770209299700&bic=DEUTDEMMXXX&amount=140%2C4",
+                        "GINI GMBH",
                         "BezahlCode Test",
-                        "DE27100777770209299700", "DEUTDEMMXXX",
+                        "DE27100777770209299700",
+                        "DEUTDEMMXXX",
                         "140.40:EUR"));
     }
 
@@ -505,9 +508,12 @@ public class CameraScreenTest {
     public void should_detectEPC069_andShowPopup_andReturnPaymentData_whenPopupClicked()
             throws IOException, InterruptedException {
         detectAndCheckQRCode("qrcode_epc069_12.jpeg", "qrcode_epc069_12_nv21.bmp",
-                new PaymentData("Girosolution GmbH",
+                new PaymentData(
+                        "BCD\n001\n2\nSCT\nSOLADES1PFD\nGirosolution GmbH\nDE19690516200000581900\nEUR140.4\n\n\nBezahlCode Test",
+                        "Girosolution GmbH",
                         "BezahlCode Test",
-                        "DE19690516200000581900", "SOLADES1PFD",
+                        "DE19690516200000581900",
+                        "SOLADES1PFD",
                         "140.40:EUR"));
     }
 
