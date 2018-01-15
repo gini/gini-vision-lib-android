@@ -175,7 +175,6 @@ public class CameraScreenApiActivity extends CameraActivity {
 
     @Override
     public void onQRCodeAvailable(@NonNull final QRCodeDocument qrCodeDocument) {
-        super.onQRCodeAvailable(qrCodeDocument);
         showActivityIndicatorAndDisableInteraction();
         mSingleDocumentAnalyzer.cancelAnalysis();
         mSingleDocumentAnalyzer.analyzeDocument(qrCodeDocument,

@@ -99,7 +99,7 @@ public interface CameraFragmentInterface {
 
     /**
      * <p>
-     * Call this method when to show an error message to the user in the Camera Screen.
+     *     Call this method when to show an error message to the user in the Camera Screen.
      * </p>
      *
      * @param message  a short error message
