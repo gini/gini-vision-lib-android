@@ -14,6 +14,8 @@ import java.util.List;
 
 /**
  * Interface for synchronous detection of QRCodes from images.
+ *
+ * @exclude
  */
 public interface QRCodeDetectorTask {
 

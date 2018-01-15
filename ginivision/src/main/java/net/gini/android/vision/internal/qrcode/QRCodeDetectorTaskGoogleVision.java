@@ -28,6 +28,8 @@ import java.util.List;
 
 /**
  * QRCode detector task using the Google Mobile Vision API.
+ *
+ * @exclude
  */
 public class QRCodeDetectorTaskGoogleVision implements QRCodeDetectorTask {
 

@@ -18,6 +18,8 @@ import java.util.List;
  * Reads the first supported QRCode payment data from images.
  * <p>
  * See {@link PaymentQRCodeParser} for supported formats.
+ *
+ * @exclude
  */
 public class PaymentQRCodeReader {
 
