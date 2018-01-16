@@ -89,9 +89,13 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFragmentImpl = CameraFragmentHelper.createFragmentImpl(this, getArguments());
+        mFragmentImpl = createFragmentImpl();
         CameraFragmentHelper.setListener(mFragmentImpl, getActivity());
         mFragmentImpl.onCreate(savedInstanceState);
+    }
+
+    protected CameraFragmentImpl createFragmentImpl() {
+        return new CameraFragmentHelper().createFragmentImpl(this, getArguments());
     }
 
     /**
@@ -191,6 +195,21 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
             return;
         }
         mFragmentImpl.hideInterface();
+    }
+
+    @Override
+    public void showActivityIndicatorAndDisableInteraction() {
+        mFragmentImpl.showActivityIndicatorAndDisableInteraction();
+    }
+
+    @Override
+    public void hideActivityIndicatorAndEnableInteraction() {
+        mFragmentImpl.hideActivityIndicatorAndEnableInteraction();
+    }
+
+    @Override
+    public void showError(@NonNull final String message, final int duration) {
+        mFragmentImpl.showError(message, duration);
     }
 
     @Override

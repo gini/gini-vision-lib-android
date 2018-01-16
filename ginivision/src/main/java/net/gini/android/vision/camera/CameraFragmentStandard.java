@@ -81,7 +81,7 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
     @Override
     public void onAttach(final Context context) {
         super.onAttach(context);
-        mFragmentImpl = CameraFragmentHelper.createFragmentImpl(this, getArguments());
+        mFragmentImpl = new CameraFragmentHelper().createFragmentImpl(this, getArguments());
         CameraFragmentHelper.setListener(mFragmentImpl, context);
     }
 
@@ -94,7 +94,7 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return;
         }
-        mFragmentImpl = CameraFragmentHelper.createFragmentImpl(this, getArguments());
+        mFragmentImpl = new CameraFragmentHelper().createFragmentImpl(this, getArguments());
         CameraFragmentHelper.setListener(mFragmentImpl, activity);
     }
 
@@ -204,6 +204,21 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
             return;
         }
         mFragmentImpl.hideInterface();
+    }
+
+    @Override
+    public void showActivityIndicatorAndDisableInteraction() {
+        mFragmentImpl.showActivityIndicatorAndDisableInteraction();
+    }
+
+    @Override
+    public void hideActivityIndicatorAndEnableInteraction() {
+        mFragmentImpl.hideActivityIndicatorAndEnableInteraction();
+    }
+
+    @Override
+    public void showError(@NonNull final String message, final int duration) {
+        mFragmentImpl.showError(message, duration);
     }
 
     @Override

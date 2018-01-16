@@ -16,6 +16,7 @@
     <string name="storage_permission_rationale">Um gespeicherte Bilder oder PDFs zu analysieren, wird Datei-Zugriff auf dem Gerät benötigt.</string>
     <string name="camera_permission_denied_message">Nur mit Kamera-Zugriff können Sie die Gini Vision Library verwenden.</string>
     <string name="camera_permission_rationale">Um Rechnungen fotografieren zu können, wird Kamera-Zugriff benötigt.</string>
+    <string name="qrcode_error">Could not use the QR Code. Try again or take a picture of your document.</string>
 
     <!-- String customization examples -->
 

@@ -2,9 +2,9 @@ package net.gini.android.vision.internal.camera.photo;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import static net.gini.android.vision.test.Helpers.getTestJpeg;
-
 import android.support.test.runner.AndroidJUnit4;
+
+import net.gini.android.vision.test.Helpers;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +16,7 @@ public class ExifTest {
     public void should_handleStringTags_containingNullBytes() throws Exception {
         // Given
         // Test jpeg make and model tags contain null bytes
-        final byte[] testJpeg = getTestJpeg("exif-string-tag-with-null-bytes.jpeg");
+        final byte[] testJpeg = Helpers.loadAsset("exif-string-tag-with-null-bytes.jpeg");
         final Exif.RequiredTags requiredTags = Exif.readRequiredTags(testJpeg);
 
         // When

@@ -9,12 +9,12 @@ import android.view.MenuItem;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
-import net.gini.android.vision.PaymentData;
 import net.gini.android.vision.camera.CameraFragmentCompat;
 import net.gini.android.vision.camera.CameraFragmentListener;
 import net.gini.android.vision.component.R;
 import net.gini.android.vision.component.analysis.compat.AnalysisExampleAppCompatActivity;
 import net.gini.android.vision.component.review.compat.ReviewExampleAppCompatActivity;
+import net.gini.android.vision.document.QRCodeDocument;
 import net.gini.android.vision.help.HelpActivity;
 import net.gini.android.vision.onboarding.OnboardingFragmentCompat;
 import net.gini.android.vision.onboarding.OnboardingFragmentListener;
@@ -89,8 +89,8 @@ public class CameraExampleAppCompatActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onPaymentDataAvailable(@NonNull final PaymentData paymentData) {
-        mCameraScreenHandler.onPaymentDataAvailable(paymentData);
+    public void onQRCodeAvailable(@NonNull final QRCodeDocument qrCodeDocument) {
+        mCameraScreenHandler.onQRCodeAvailable(qrCodeDocument);
     }
 
     @Override

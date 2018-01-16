@@ -2,8 +2,8 @@ package net.gini.android.vision.internal.qrcode;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
-import net.gini.android.vision.PaymentData;
 import net.gini.android.vision.internal.util.Size;
 
 import java.util.List;
@@ -18,14 +18,16 @@ import java.util.List;
  * Reads the first supported QRCode payment data from images.
  * <p>
  * See {@link PaymentQRCodeParser} for supported formats.
+ *
+ * @exclude
  */
 public class PaymentQRCodeReader {
 
     private final QRCodeDetector mDetector;
-    private final QRCodeParser<PaymentData> mParser;
+    private final QRCodeParser<PaymentQRCodeData> mParser;
     private Listener mListener = new Listener() {
         @Override
-        public void onPaymentDataAvailable(@NonNull final PaymentData paymentData) {
+        public void onPaymentQRCodeDataAvailable(@NonNull final PaymentQRCodeData paymentQRCodeData) {
         }
     };
 
@@ -45,7 +47,7 @@ public class PaymentQRCodeReader {
 
     private PaymentQRCodeReader(
             @NonNull final QRCodeDetector detector,
-            @NonNull final QRCodeParser<PaymentData> parser) {
+            @NonNull final QRCodeParser<PaymentQRCodeData> parser) {
         mDetector = detector;
         mParser = parser;
         mDetector.setListener(new QRCodeDetector.Listener() {
@@ -53,14 +55,19 @@ public class PaymentQRCodeReader {
             public void onQRCodesDetected(@NonNull final List<String> qrCodes) {
                 for (final String qrCodeContent : qrCodes) {
                     try {
-                        final PaymentData paymentData = mParser.parse(qrCodeContent);
-                        mListener.onPaymentDataAvailable(paymentData);
+                        final PaymentQRCodeData paymentData = mParser.parse(qrCodeContent);
+                        mListener.onPaymentQRCodeDataAvailable(paymentData);
                         return;
                     } catch (final IllegalArgumentException ignored) {
                     }
                 }
             }
         });
+    }
+
+    @VisibleForTesting
+    QRCodeDetector getDetector() {
+        return mDetector;
     }
 
     /**
@@ -91,8 +98,8 @@ public class PaymentQRCodeReader {
         /**
          * Called when a QRCode was found containing a supported payment data format.
          *
-         * @param paymentData the payment data found on the image
+         * @param paymentQRCodeData the payment data found on the image
          */
-        void onPaymentDataAvailable(@NonNull final PaymentData paymentData);
+        void onPaymentQRCodeDataAvailable(@NonNull final PaymentQRCodeData paymentQRCodeData);
     }
 }

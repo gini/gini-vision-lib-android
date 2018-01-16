@@ -2,8 +2,6 @@ package net.gini.android.vision.internal.qrcode;
 
 import android.support.annotation.NonNull;
 
-import net.gini.android.vision.PaymentData;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,11 +14,15 @@ import java.util.List;
 /**
  * Parser of QRCode content strings for payment data.
  * <p>
- * Currently supports the BezahlCode and EPC069-12 formats.
+ * Currently supports the
+ * <a href="http://www.bezahlcode.de/wp-content/uploads/BezahlCode_TechDok.pdf">BezahlCode</a>
+ * and <a href="https://www.europeanpaymentscouncil.eu/document-library/guidance-documents/quick-response-code-guidelines-enable-data-capture-initiation">EPC069-12</a>
+ * (<a href="https://www.stuzza.at/de/zahlungsverkehr/qr-code.html">Stuzza (AT)</a> and <a href="https://www.girocode.de/rechnungsempfaenger/">GiroCode (DE)</a>)
+ * QRCode formats.
  */
-class PaymentQRCodeParser implements QRCodeParser<PaymentData> {
+class PaymentQRCodeParser implements QRCodeParser<PaymentQRCodeData> {
 
-    private final List<QRCodeParser<PaymentData>> mParsers;
+    private final List<QRCodeParser<PaymentQRCodeData>> mParsers;
 
     PaymentQRCodeParser() {
         mParsers = new ArrayList<>(3);
@@ -32,14 +34,14 @@ class PaymentQRCodeParser implements QRCodeParser<PaymentData> {
      * Parses the content of a QRCode to retrieve the payment data.
      *
      * @param qrCodeContent content of a QRCode
-     * @return a {@link PaymentData} containing the payment information from the QRCode
+     * @return a {@link PaymentQRCodeData} containing the payment information from the QRCode
      * @throws IllegalArgumentException if the QRCode did not conform to any of the supported formats
      */
     @NonNull
     @Override
-    public PaymentData parse(@NonNull final String qrCodeContent)
+    public PaymentQRCodeData parse(@NonNull final String qrCodeContent)
             throws IllegalArgumentException {
-        for (final QRCodeParser<PaymentData> parser : mParsers) {
+        for (final QRCodeParser<PaymentQRCodeData> parser : mParsers) {
             try {
                 return parser.parse(qrCodeContent);
             } catch (final IllegalArgumentException ignore) {

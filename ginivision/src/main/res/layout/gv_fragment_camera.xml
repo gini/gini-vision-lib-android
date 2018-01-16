@@ -114,45 +114,45 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/gv_payment_data_detected_popup_container"
+        android:id="@+id/gv_qrcode_detected_popup_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/gv_button_camera_trigger"
-        android:layout_marginLeft="@dimen/gv_camera_payment_data_detected_popup_horizontal_margin"
-        android:layout_marginRight="@dimen/gv_camera_payment_data_detected_popup_horizontal_margin"
-        android:layout_marginBottom="@dimen/gv_camera_payment_data_detected_popup_vertical_margin"
+        android:layout_marginLeft="@dimen/gv_camera_qrcode_detected_popup_horizontal_margin"
+        android:layout_marginRight="@dimen/gv_camera_qrcode_detected_popup_horizontal_margin"
+        android:layout_marginBottom="@dimen/gv_camera_qrcode_detected_popup_vertical_margin"
         android:alpha="0"
-        android:background="@color/gv_payment_data_detected_popup_background"
-        android:paddingLeft="@dimen/gv_camera_payment_data_detected_popup_horizontal_padding"
-        android:paddingRight="@dimen/gv_camera_payment_data_detected_popup_horizontal_padding"
-        android:paddingTop="@dimen/gv_camera_payment_data_detected_popup_vertical_padding"
-        android:paddingBottom="@dimen/gv_camera_payment_data_detected_popup_vertical_padding"
+        android:background="@color/gv_qrcode_detected_popup_background"
+        android:paddingLeft="@dimen/gv_camera_qrcode_detected_popup_horizontal_padding"
+        android:paddingRight="@dimen/gv_camera_qrcode_detected_popup_horizontal_padding"
+        android:paddingTop="@dimen/gv_camera_qrcode_detected_popup_vertical_padding"
+        android:paddingBottom="@dimen/gv_camera_qrcode_detected_popup_vertical_padding"
         android:visibility="gone"
         tools:alpha="1"
         tools:visibility="visible">
 
         <net.gini.android.vision.internal.ui.CustomFontTextView
-            style="@style/GiniVisionTheme.Camera.PaymentDataDetectedPopup.TextStyle"
-            android:layout_width="match_parent"
+            style="@style/GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/gv_camera_payment_data_detected_popup_text_right_margin"
-            android:layout_marginRight="@dimen/gv_camera_payment_data_detected_popup_text_right_margin"
-            android:layout_toLeftOf="@+id/gv_camera_payment_data_detected_popup_arrow"
-            android:layout_toStartOf="@+id/gv_camera_payment_data_detected_popup_arrow"
-            android:text="@string/gv_payment_data_detected_popup_message" />
+            android:layout_marginEnd="@dimen/gv_camera_qrcode_detected_popup_text_right_margin"
+            android:layout_marginRight="@dimen/gv_camera_qrcode_detected_popup_text_right_margin"
+            android:layout_toLeftOf="@+id/gv_camera_qrcode_detected_popup_message_2"
+            android:layout_toStartOf="@+id/gv_camera_qrcode_detected_popup_message_2"
+            android:text="@string/gv_qrcode_detected_popup_message_1" />
 
-        <ImageView
-            android:id="@+id/gv_camera_payment_data_detected_popup_arrow"
+        <net.gini.android.vision.internal.ui.CustomFontTextView
+            android:id="@+id/gv_camera_qrcode_detected_popup_message_2"
+            style="@style/GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:src="@drawable/gv_review_fab_next"
-            android:tint="@color/gv_payment_data_detected_popup_arrow" />
+            android:text="@string/gv_qrcode_detected_popup_message_2" />
 
     </RelativeLayout>
 

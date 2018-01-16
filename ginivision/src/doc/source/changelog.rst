@@ -2,6 +2,12 @@
 Changelog
 =========
 
+2.5.0-beta.3 (2018-01-16)
+==================
+
+- Public API updated to expose a QRCodeDocument instead of the payment data. The contents of the QRCodeDocument should be uploaded to the Gini API to retrieve the extractions. Feedback should also be sent for these extractions.
+- QR Code detected popup UI finalized.
+
 2.5.0-beta.2 (2017-12-15)
 ==================
 
