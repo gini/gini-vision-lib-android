@@ -121,7 +121,7 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
                     @Override
                     public void onException(final Exception exception) {
                         mCameraFragmentInterface.hideActivityIndicatorAndEnableInteraction();
-                        mCameraFragmentInterface.showError("Could not use the QR Code. Try again or take a picture of your document.", 4000);
+                        mCameraFragmentInterface.showError(mActivity.getString(R.string.qrcode_error), 4000);
                     }
 
                     @Override

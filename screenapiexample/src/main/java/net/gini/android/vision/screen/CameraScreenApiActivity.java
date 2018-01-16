@@ -182,7 +182,7 @@ public class CameraScreenApiActivity extends CameraActivity {
                     @Override
                     public void onException(final Exception exception) {
                         hideActivityIndicatorAndEnableInteraction();
-                        showError("Could not use the QR Code. Try again or take a picture of your document.", 4000);
+                        showError(getString(R.string.qrcode_error), 4000);
                     }
 
                     @Override
