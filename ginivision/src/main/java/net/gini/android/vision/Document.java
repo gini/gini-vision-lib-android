@@ -61,7 +61,7 @@ public interface Document extends Parcelable {
      * The contents of a document, if the document was loaded into memory.
      * </p>
      * <p>
-     *     For photos captured with the camera this is never null.
+     *     For photos captured with the camera or for QR Codes this is never null.
      * </p>
      * <p>
      *     If {@link Document#isImported()} is {@code true} then this might be null. If it's null you can use {@link Document#getIntent()} and access the contents using the Intent.
@@ -114,6 +114,10 @@ public interface Document extends Parcelable {
         /**
          * The document is a PDF.
          */
-        PDF
+        PDF,
+        /**
+         * The document is a payment QR Code.
+         */
+        QRCode
     }
 }

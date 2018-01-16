@@ -37,6 +37,7 @@
     <string name="no_results_screen_subtitle">Wir haben ein paar Tipps für Sie</string>
     <string name="review_screen_title">Seite überprüfen</string>
     <string name="review_screen_subtitle">Vollständig, scharf und in Leserichtung?</string>
+    <string name="qrcode_error">Could not use the QR Code. Try again or take a picture of your document.</string>
 
     <!-- String customization examples -->
 

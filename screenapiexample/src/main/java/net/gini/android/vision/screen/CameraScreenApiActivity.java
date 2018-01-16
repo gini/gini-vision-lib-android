@@ -14,9 +14,13 @@ import android.os.ParcelFileDescriptor;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 
+import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
-import net.gini.android.vision.PaymentData;
 import net.gini.android.vision.camera.CameraActivity;
+import net.gini.android.vision.document.QRCodeDocument;
+import net.gini.android.vision.example.BaseExampleApp;
+import net.gini.android.vision.example.DocumentAnalyzer;
+import net.gini.android.vision.example.SingleDocumentAnalyzer;
 import net.gini.android.vision.util.IntentHelper;
 import net.gini.android.vision.util.UriHelper;
 
@@ -26,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 public class CameraScreenApiActivity extends CameraActivity {
 
@@ -33,6 +38,14 @@ public class CameraScreenApiActivity extends CameraActivity {
 
     // Set to true to allow execution of the custom code check
     private static final boolean DO_CUSTOM_DOCUMENT_CHECK = false;
+
+    private SingleDocumentAnalyzer mSingleDocumentAnalyzer;
+
+    @Override
+    protected void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mSingleDocumentAnalyzer = ((BaseExampleApp) getApplication()).getSingleDocumentAnalyzer();
+    }
 
     @Override
     public void onCheckImportedDocument(@NonNull final Document document,
@@ -161,12 +174,27 @@ public class CameraScreenApiActivity extends CameraActivity {
     }
 
     @Override
-    public void onPaymentDataAvailable(@NonNull final PaymentData paymentData) {
-        super.onPaymentDataAvailable(paymentData);
-        final Intent result = new Intent();
-        final Bundle extractionsBundle = getExtractionsBundle(paymentData);
-        result.putExtra(MainActivity.EXTRA_OUT_EXTRACTIONS, extractionsBundle);
-        setResult(RESULT_OK, result);
-        finish();
+    public void onQRCodeAvailable(@NonNull final QRCodeDocument qrCodeDocument) {
+        showActivityIndicatorAndDisableInteraction();
+        mSingleDocumentAnalyzer.cancelAnalysis();
+        mSingleDocumentAnalyzer.analyzeDocument(qrCodeDocument,
+                new DocumentAnalyzer.Listener() {
+                    @Override
+                    public void onException(final Exception exception) {
+                        hideActivityIndicatorAndEnableInteraction();
+                        showError(getString(R.string.qrcode_error), 4000);
+                    }
+
+                    @Override
+                    public void onExtractionsReceived(
+                            final Map<String, SpecificExtraction> extractions) {
+                        hideActivityIndicatorAndEnableInteraction();
+                        final Intent result = new Intent();
+                        final Bundle extractionsBundle = getExtractionsBundle(extractions);
+                        result.putExtra(MainActivity.EXTRA_OUT_EXTRACTIONS, extractionsBundle);
+                        setResult(RESULT_OK, result);
+                        finish();
+                    }
+                });
     }
 }

@@ -17,9 +17,9 @@ import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
-import net.gini.android.vision.PaymentData;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
+import net.gini.android.vision.document.QRCodeDocument;
 import net.gini.android.vision.help.HelpActivity;
 import net.gini.android.vision.internal.util.ActivityHelper;
 import net.gini.android.vision.onboarding.OnboardingActivity;
@@ -152,26 +152,26 @@ import java.util.ArrayList;
  *         gvCustomFont} with the path to the font file in your {@code assets} folder
  *     </li>
  *     <li>
- *         <b>Payment data (QRCode) detected popup background:</b> via the color resource named {@code gv_payment_data_detected_popup_background}
+ *         <b>QRCode detected popup background:</b> via the color resource named {@code gv_qrcode_detected_popup_background}
  *     </li>
  *     <li>
- *         <b>Payment data (QRCode) detected popup texts:</b> via the string resources named {@code gv_payment_data_detected_popup_message_1} and
- *         {@code gv_payment_data_detected_popup_message_2}
+ *         <b>QRCode detected popup texts:</b> via the string resources named {@code gv_qrcode_detected_popup_message_1} and
+ *         {@code gv_qrcode_detected_popup_message_2}
  *     </li>
  *     <li>
- *         <b>Payment data (QRCode) detected popup text sizes:</b>  via overriding the styles named {@code
- *         GiniVisionTheme.Camera.PaymentDataDetectedPopup.Message1.TextStyle} and {@code
- *         GiniVisionTheme.Camera.PaymentDataDetectedPopup.Message2.TextStyle} and setting an item named {@code
+ *         <b>QRCode detected popup text sizes:</b>  via overriding the styles named {@code
+ *         GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle} and {@code
+ *         GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle} and setting an item named {@code
  *         android:textSize} with the desired {@code sp} size
  *     </li>
  *     <li>
- *         <b>Payment data (QRCode) detected popup text colors:</b> via the color resource name {@code gv_payment_data_detected_popup_message_1} and
- *         {@code gv_payment_data_detected_popup_message_2}
+ *         <b>QRCode detected popup text colors:</b> via the color resource name {@code gv_qrcode_detected_popup_message_1} and
+ *         {@code gv_qrcode_detected_popup_message_2}
  *     </li>
  *     <li>
- *         <b>Payment data (QRCode) detected popup fonts:</b>  via overriding the styles named {@code
- *         GiniVisionTheme.Camera.PaymentDataDetectedPopup.Message1.TextStyle} and {@code
- *         GiniVisionTheme.Camera.PaymentDataDetectedPopup.Message2.TextStyle} and setting an item named {@code
+ *         <b>QRCode detected popup fonts:</b>  via overriding the styles named {@code
+ *         GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle} and {@code
+ *         GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle} and setting an item named {@code
  *         gvCustomFont} with the path to the font file in your {@code assets} folder
  *     </li>
  *     <li>
@@ -297,7 +297,8 @@ import java.util.ArrayList;
  * </ul>
  * </p>
  **/
-public class CameraActivity extends AppCompatActivity implements CameraFragmentListener {
+public class CameraActivity extends AppCompatActivity implements CameraFragmentListener,
+        CameraFragmentInterface {
 
     /**
      * <p>
@@ -639,7 +640,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     }
 
     @Override
-    public void onPaymentDataAvailable(@NonNull final PaymentData paymentData) {
+    public void onQRCodeAvailable(@NonNull final QRCodeDocument qrCodeDocument) {
 
     }
 
@@ -698,12 +699,49 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         }
     }
 
-    private void showInterface() {
+    @Override
+    public void showDocumentCornerGuides() {
+        mFragment.showDocumentCornerGuides();
+    }
+
+    @Override
+    public void hideDocumentCornerGuides() {
+        mFragment.hideDocumentCornerGuides();
+    }
+
+    @Override
+    public void showCameraTriggerButton() {
+        mFragment.showCameraTriggerButton();
+    }
+
+    @Override
+    public void hideCameraTriggerButton() {
+        mFragment.hideCameraTriggerButton();
+    }
+
+    @Override
+    public void showInterface() {
         mFragment.showInterface();
     }
 
-    private void hideInterface() {
+    @Override
+    public void hideInterface() {
         mFragment.hideInterface();
+    }
+
+    @Override
+    public void showActivityIndicatorAndDisableInteraction() {
+        mFragment.showActivityIndicatorAndDisableInteraction();
+    }
+
+    @Override
+    public void hideActivityIndicatorAndEnableInteraction() {
+        mFragment.hideActivityIndicatorAndEnableInteraction();
+    }
+
+    @Override
+    public void showError(@NonNull final String message, final int duration) {
+        mFragment.showError(message, duration);
     }
 
     private void clearMemory() {

@@ -56,28 +56,70 @@ For the Component API use the factory method of the ``CameraFragmentCompat`` or 
 
     When your application is installed Google Mobile Services will download libraries to the device in order to do QR Code detection. If another app already uses QR Code detection on the device the library won't be downloaded again. Under certain circumstances (user not online, slow connection or lack of sufficient storage space) the libraries will not be ready at the time your app starts the Camera Screen and QR Code detection will be silently disabled until the next time the Camera Screen starts.
 
-Handle the Payment Data
+Handle the QR Code
 ^^^^
 
-After the user tapped on the QR Code detected popup the ``CameraFragmentListener#onPaymentDataAvailable(PaymentData)`` method is invoked. In this method you can do additional checks on the payment data and exit the Gini Vision Library to use the payment data in your application.
+After the user tapped on the QR Code detected popup the ``CameraFragmentListener#onQRCodeAvailable(QRCodeDocument)`` method is invoked. In this method you should upload the ``QRCodeDocument`` to the Gini API, retrieve the extractions and exit the Gini Vision Library to use the payment data in your application. You should also send feedback for the QR Codes. Basically you need to execute the same steps as for images, but instead of uploading an image you upload the contents of the QRCodeDocument.
 
-Using the Screen API extend the ``CameraActivity`` and override the ``onPaymentDataAvailable()`` method.
+Using the Screen API extend the ``CameraActivity`` and override the ``onQRCodeAvailable()`` method where you can make use of the new methods in the ``CameraActivity`` to show/hide an activity indicator and to show an error snackbar. The new methods are shown on highlighted lines.
 
 .. code-block:: java
+    :emphasize-lines: 4,36,39
 
     @Override
-    public void onPaymentDataAvailable(@NonNull final PaymentData paymentData) {
-        // Start your activity with the payment data
-        final Bundle paymentDataBundle = createPaymentDataBundle(paymentData);
-        final Intent intent = new Intent(this, MyTransferActivity.class);
-        intent.putExtra(MyTransferActivity.PREFILL_DATA, paymentDataBundle);
-        startActivity(intent);
-        // Finish the CameraActivity with RESULT_OK
-        setResult(Activity.RESULT_OK);
-        finish();
+    public void onQRCodeAvailable(@NonNull final QRCodeDocument qrCodeDocument) {
+        // Show an activity indicator on the Camera Screen
+        showActivityIndicatorAndDisableInteraction();
+        // Upload the contents of the QRCodeDocument using 
+        // the Gini API SDK (http://developer.gini.net/gini-sdk-android/)
+        mDocumentTaskManager
+            .createDocument(qrCodeDocument.getData(), null, null)
+            .onSuccessTask(
+                    new Continuation<net.gini.android.models.Document, Task<net.gini.android.models.Document>>() {
+                        @Override
+                        public Task<net.gini.android.models.Document> then(
+                                Task<net.gini.android.models.Document> task)
+                                throws Exception {
+                            net.gini.android.models.Document giniDocument = task.getResult();
+                            return mDocumentTaskManager.pollDocument(giniDocument);
+                        }
+                    })
+            .onSuccessTask(
+                    new Continuation<net.gini.android.models.Document, Task<Map<String, SpecificExtraction>>>() {
+                        @Override
+                        public Task<Map<String, SpecificExtraction>> then(
+                                Task<net.gini.android.models.Document> task)
+                                throws Exception {
+                            net.gini.android.models.Document giniDocument = task.getResult();
+                            return mDocumentTaskManager.getExtractions(giniDocument);
+                        }
+                    })
+            .continueWith(
+                    new Continuation<Map<String, SpecificExtraction>, Map<String, SpecificExtraction>>() {
+                        @Override
+                        public Map<String, SpecificExtraction> then(
+                                final Task<Map<String, SpecificExtraction>> task)
+                                throws Exception {
+                            // Hide the activity indicator
+                            hideActivityIndicatorAndEnableInteraction();
+                            // Show an error if something went wrong
+                            if (task.isFaulted()) {
+                                showError("Could not use the QR Code. Try again or take a picture of your document.", 4000);
+                                return null;
+                            }
+                            // Add the extractions to the activity's result and finish with RESULT_OK
+                            Map<String, SpecificExtraction> extractions = task.getResult();
+                            final Intent result = new Intent();
+                            final Bundle extractionsBundle = getExtractionsBundle(extractions);
+                            result.putExtra(MainActivity.EXTRA_OUT_EXTRACTIONS, extractionsBundle);
+                            setResult(RESULT_OK, result);
+                            finish();
+                            return null;
+                        }
+                    });
     }
 
-With the Component API the only difference is, that you implement the ``onPaymentDataAvailable()`` in your ``CameraFragmentListener`` implementation.
+With the Component API you implement the ``onQRCodeAvailable()`` in your ``CameraFragmentListener`` implementation. The ``CameraFragmentInterface`` contains the same methods as above to show/hide an activity indicator and to show an error snackbar.
 
 Customizing the UI
 ^^^^

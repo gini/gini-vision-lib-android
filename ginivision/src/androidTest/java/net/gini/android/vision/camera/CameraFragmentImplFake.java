@@ -30,7 +30,7 @@ public class CameraFragmentImplFake extends CameraFragmentImpl {
     }
 
     @Override
-    long getHidePaymentDataDetectedPopupDelayMs() {
+    long getHideQRCodeDetectedPopupDelayMs() {
         return CameraFragmentImpl.DEFAULT_ANIMATION_DURATION + mHidePaymentDataDetectedPopupDelayMs;
     }
 
@@ -40,7 +40,7 @@ public class CameraFragmentImplFake extends CameraFragmentImpl {
     }
 
     @Override
-    long getDifferentPaymentDataDetectedPopupDelayMs() {
+    long getDifferentQRCodeDetectedPopupDelayMs() {
         return 100;
     }
 

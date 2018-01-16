@@ -207,6 +207,21 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
     }
 
     @Override
+    public void showActivityIndicatorAndDisableInteraction() {
+        mFragmentImpl.showActivityIndicatorAndDisableInteraction();
+    }
+
+    @Override
+    public void hideActivityIndicatorAndEnableInteraction() {
+        mFragmentImpl.hideActivityIndicatorAndEnableInteraction();
+    }
+
+    @Override
+    public void showError(@NonNull final String message, final int duration) {
+        mFragmentImpl.showError(message, duration);
+    }
+
+    @Override
     public void requestPermission(@NonNull final String permission,
             @NonNull final PermissionRequestListener listener) {
         mRuntimePermissions.requestPermission(this, permission, listener);

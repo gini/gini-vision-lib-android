@@ -7,8 +7,6 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import net.gini.android.vision.PaymentData;
-
 /**
  * Created by Alpar Szotyori on 11.12.2017.
  *
@@ -21,7 +19,7 @@ import net.gini.android.vision.PaymentData;
  * See also the
  * <a href="http://www.bezahlcode.de/wp-content/uploads/BezahlCode_TechDok.pdf">BezahlCode Specification</a>
  */
-class BezahlCodeParser implements QRCodeParser<PaymentData> {
+class BezahlCodeParser implements QRCodeParser<PaymentQRCodeData> {
 
     private final IBANValidator mIBANValidator;
 
@@ -30,7 +28,7 @@ class BezahlCodeParser implements QRCodeParser<PaymentData> {
     }
 
     @Override
-    public PaymentData parse(@NonNull final String qrCodeContent)
+    public PaymentQRCodeData parse(@NonNull final String qrCodeContent)
             throws IllegalArgumentException {
         final Uri uri = Uri.parse(qrCodeContent);
         if (!"bank".equals(uri.getScheme())) {
@@ -49,7 +47,7 @@ class BezahlCodeParser implements QRCodeParser<PaymentData> {
         String currency = normalizeCurrency(uri.getQueryParameter("currency"));
         currency = TextUtils.isEmpty(currency) ? "EUR" : currency;
         final String amount = normalizeAmount(uri.getQueryParameter("amount"), currency);
-        return new PaymentData(qrCodeContent, paymentRecipient, paymentReference, iban, bic,
+        return new PaymentQRCodeData(qrCodeContent, paymentRecipient, paymentReference, iban, bic,
                 amount);
     }
 }

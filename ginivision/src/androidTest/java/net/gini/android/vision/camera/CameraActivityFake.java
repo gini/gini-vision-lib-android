@@ -3,7 +3,7 @@ package net.gini.android.vision.camera;
 import android.support.annotation.NonNull;
 
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
-import net.gini.android.vision.PaymentData;
+import net.gini.android.vision.document.QRCodeDocument;
 import net.gini.android.vision.internal.camera.api.CameraControllerFake;
 
 /**
@@ -15,7 +15,7 @@ import net.gini.android.vision.internal.camera.api.CameraControllerFake;
 public class CameraActivityFake extends CameraActivity {
 
     private CameraFragmentCompatFake mCameraFragmentCompatFake;
-    private PaymentData mPaymentData;
+    private QRCodeDocument mQRCodeDocument;
 
     @Override
     protected CameraFragmentCompat createCameraFragmentCompat() {
@@ -30,8 +30,8 @@ public class CameraActivityFake extends CameraActivity {
     }
 
     @Override
-    public void onPaymentDataAvailable(@NonNull final PaymentData paymentData) {
-        mPaymentData = paymentData;
+    public void onQRCodeAvailable(@NonNull final QRCodeDocument qrCodeDocument) {
+        mQRCodeDocument = qrCodeDocument;
     }
 
     public CameraControllerFake getCameraControllerFake() {
@@ -42,7 +42,7 @@ public class CameraActivityFake extends CameraActivity {
         return mCameraFragmentCompatFake.getCameraFragmentImplFake();
     }
 
-    public PaymentData getPaymentData() {
-        return mPaymentData;
+    public QRCodeDocument getQRCodeDocument() {
+        return mQRCodeDocument;
     }
 }

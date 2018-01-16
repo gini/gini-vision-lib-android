@@ -6,8 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import net.gini.android.vision.PaymentData;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +25,7 @@ import org.slf4j.LoggerFactory;
  * See also the
  * <a href="https://www.stuzza.at/de/zahlungsverkehr/qr-code.html">"Zahlen mit Code" Specification</a>
  */
-class EPC069_12Parser implements QRCodeParser<PaymentData> {
+class EPC069_12Parser implements QRCodeParser<PaymentQRCodeData> {
 
     private static final Logger LOG = LoggerFactory.getLogger(EPC069_12Parser.class);
     private final IBANValidator mIBANValidator;
@@ -37,7 +35,7 @@ class EPC069_12Parser implements QRCodeParser<PaymentData> {
     }
 
     @Override
-    public PaymentData parse(@NonNull final String qrCodeContent)
+    public PaymentQRCodeData parse(@NonNull final String qrCodeContent)
             throws IllegalArgumentException {
         final String[] lines = qrCodeContent.split("\r\n|\n", 12);
         if (lines.length == 0 || !"BCD".equals(lines[0])) {
@@ -56,7 +54,7 @@ class EPC069_12Parser implements QRCodeParser<PaymentData> {
         }
         final String bic = getLineString(4, lines);
         final String amount = normalizeAmount(processAmount(getLineString(7, lines)), "EUR");
-        return new PaymentData(qrCodeContent, paymentRecipient, paymentReference, iban, bic,
+        return new PaymentQRCodeData(qrCodeContent, paymentRecipient, paymentReference, iban, bic,
                 amount);
     }
 
