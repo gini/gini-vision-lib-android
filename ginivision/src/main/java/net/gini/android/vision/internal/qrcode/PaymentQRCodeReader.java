@@ -27,7 +27,8 @@ public class PaymentQRCodeReader {
     private final QRCodeParser<PaymentQRCodeData> mParser;
     private Listener mListener = new Listener() {
         @Override
-        public void onPaymentQRCodeDataAvailable(@NonNull final PaymentQRCodeData paymentQRCodeData) {
+        public void onPaymentQRCodeDataAvailable(
+                @NonNull final PaymentQRCodeData paymentQRCodeData) {
         }
     };
 
@@ -93,6 +94,9 @@ public class PaymentQRCodeReader {
         mListener = listener;
     }
 
+    /**
+     * @exclude
+     */
     public interface Listener {
 
         /**

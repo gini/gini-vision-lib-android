@@ -39,8 +39,8 @@
             <property name="allowNonPrintableEscapes" value="true"/>
         </module>
         <module name="LineLength">
-            <property name="max" value="120"/>
-            <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
+            <property name="max" value="100"/>
+            <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://|^\s+\*|^\s+//|^\s+&quot;|^\s+\+ &quot;"/>
         </module>
         <module name="AvoidStarImport"/>
         <module name="OneTopLevelClass"/>
@@ -49,7 +49,9 @@
             <property name="option" value="TEXT"/>
             <property name="tokens" value="LITERAL_TRY, LITERAL_FINALLY, LITERAL_IF, LITERAL_ELSE, LITERAL_SWITCH"/>
         </module>
-        <module name="NeedBraces"/>
+        <module name="NeedBraces">
+            <property name="allowSingleLineStatement" value="true"/>
+        </module>
         <module name="LeftCurly">
             <property name="maxLineLength" value="120"/>
         </module>
@@ -71,7 +73,6 @@
         <module name="OneStatementPerLine"/>
         <module name="MultipleVariableDeclarations"/>
         <module name="ArrayTypeStyle"/>
-        <module name="MissingSwitchDefault"/>
         <module name="FallThrough"/>
         <module name="UpperEll"/>
         <module name="ModifierOrder"/>
@@ -92,16 +93,12 @@
                 value="Package name ''{0}'' must match pattern ''{1}''."/>
         </module>
         <module name="TypeName">
+            <property name="format"
+                value="^[A-Z][a-zA-Z0-9_]*$"/>
             <message key="name.invalidPattern"
                 value="Type name ''{0}'' must match pattern ''{1}''."/>
         </module>
-        <module name="MemberName">
-            <metadata name="net.sf.eclipsecs.core.comment" value="non public members should start with m"/>
-            <property name="applyToPublic" value="false"/>
-            <property name="format" value="^[m][a-zA-Z0-9]*$"/>
-        </module>
         <module name="ParameterName">
-            <property name="format" value="^[a-zA-Z0-9]+$"/>
             <message key="name.invalidPattern"
                 value="Parameter name ''{0}'' must match pattern ''{1}''."/>
         </module>
@@ -146,41 +143,24 @@
             <property name="lineWrappingIndentation" value="8"/>
             <property name="arrayInitIndent" value="4"/>
         </module>
-        <module name="OverloadMethodsDeclarationOrder"/>
-        <module name="VariableDeclarationUsageDistance"/>
-        <module name="CustomImportOrder">
-            <property name="specialImportsRegExp" value="com.google"/>
-            <property name="sortImportsInGroupAlphabetically" value="true"/>
-            <property name="customImportOrderRules" value="STATIC###SPECIAL_IMPORTS###THIRD_PARTY_PACKAGE###STANDARD_JAVA_PACKAGE"/>
-        </module>
         <module name="MethodParamPad"/>
-        <module name="OperatorWrap">
-            <property name="option" value="EOL"/>
-            <property name="tokens" value="BAND, BOR, BSR, BXOR, DIV, EQUAL, GE, GT, LAND, LE, LITERAL_INSTANCEOF, LOR, LT, MINUS, MOD, NOT_EQUAL, PLUS, QUESTION, SL, SR, STAR "/>
-        </module>
+        <module name="OperatorWrap"/>
         <module name="JavadocType">
             <property name="scope" value="public"/>
             <property name="allowUnknownTags" value="true"/>
+            <property name="allowMissingParamTags" value="true"/>
         </module>
         <module name="JavadocMethod">
             <property name="scope" value="public"/>
-            <property name="allowMissingParamTags" value="true"/>
-            <property name="allowMissingThrowsTags" value="true"/>
+            <property name="allowMissingJavadoc" value="true"/>
             <property name="allowMissingReturnTag" value="true"/>
-            <property name="allowThrowsTagsForSubclasses" value="true"/>
+            <property name="allowMissingParamTags" value="true"/>
+            <property name="suppressLoadErrors" value="true"/>
         </module>
         <module name="MethodName">
             <property name="format" value="^[a-z][a-z0-9][a-zA-Z0-9_]*$"/>
             <message key="name.invalidPattern"
                 value="Method name ''{0}'' must match pattern ''{1}''."/>
-        </module>
-        <module name="StaticVariableName">
-            <metadata name="net.sf.eclipsecs.core.comment" value="starts with 's'"/>
-            <property name="format" value="^[s][a-zA-Z0-9]*$"/>
-        </module>
-        <module name="DesignForExtension">
-            <property name="severity" value="ignore"/>
-            <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
         </module>
     </module>
 </module>

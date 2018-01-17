@@ -16,6 +16,9 @@ public interface DocumentRenderer {
 
     void getPageCount(@NonNull final AsyncCallback<Integer> asyncCallback);
 
+    /**
+     * @exclude
+     */
     interface Callback {
         void onBitmapReady(@Nullable final Bitmap bitmap, final int rotationForDisplay);
     }

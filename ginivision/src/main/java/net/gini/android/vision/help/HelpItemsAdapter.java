@@ -31,7 +31,7 @@ class HelpItemsAdapter extends Adapter<HelpItemsAdapter.HelpItemsViewHolder> {
 
     @NonNull
     private List<HelpItem> setUpItems(
-            final @NonNull GiniVisionFeatureConfiguration giniVisionFeatureConfiguration) {
+            @NonNull final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration) {
         final ArrayList<HelpItem> items = new ArrayList<>();
         items.add(HelpItem.PHOTO_TIPS);
         if (giniVisionFeatureConfiguration.isFileImportEnabled()) {

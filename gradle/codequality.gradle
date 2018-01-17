@@ -18,6 +18,10 @@ apply plugin: 'pmd'
  * limitations under the License.
  */
 
+checkstyle {
+    toolVersion = "6.5"
+}
+
 task checkstyle(type: Checkstyle) {
     ignoreFailures = true
     showViolations = false
@@ -25,7 +29,7 @@ task checkstyle(type: Checkstyle) {
     configProperties.checkstyleSuppressionsPath = file("${project.rootDir}/config/checkstyle/suppressions.xml").absolutePath
     source 'src'
     include '**/*.java'
-    exclude '**/gen/**'
+    exclude '**/androidTest/**', '**/test/**', '**/testShared/**', '**/com/ortiz/**'
     classpath = files()
 }
 

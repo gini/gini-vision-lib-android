@@ -27,6 +27,9 @@ public interface QRCodeDetectorTask {
 
     void release();
 
+    /**
+     * @exclude
+     */
     interface Callback {
 
         void onResult(final boolean isAvailable);

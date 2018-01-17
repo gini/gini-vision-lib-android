@@ -82,14 +82,14 @@ public class PaymentQRCodeData implements Parcelable {
 
     @Override
     public String toString() {
-        return "PaymentQRCodeData{" +
-                "mUnparsedContent='" + mUnparsedContent + '\'' +
-                ", mAmount='" + mAmount + '\'' +
-                ", mBIC='" + mBIC + '\'' +
-                ", mIBAN='" + mIBAN + '\'' +
-                ", mPaymentRecipient='" + mPaymentRecipient + '\'' +
-                ", mPaymentReference='" + mPaymentReference + '\'' +
-                '}';
+        return "PaymentQRCodeData{"
+                + "mUnparsedContent='" + mUnparsedContent + '\''
+                + ", mAmount='" + mAmount + '\''
+                + ", mBIC='" + mBIC + '\''
+                + ", mIBAN='" + mIBAN + '\''
+                + ", mPaymentRecipient='" + mPaymentRecipient + '\''
+                + ", mPaymentReference='" + mPaymentReference + '\''
+                + '}';
     }
 
     @NonNull

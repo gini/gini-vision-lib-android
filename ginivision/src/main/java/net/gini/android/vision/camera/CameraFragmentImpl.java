@@ -1080,8 +1080,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     }
 
     private boolean isNoPermissionViewVisible() {
-        return mLayoutNoPermission != null &&
-                mLayoutNoPermission.getVisibility() == View.VISIBLE;
+        return mLayoutNoPermission != null
+                && mLayoutNoPermission.getVisibility() == View.VISIBLE;
     }
 
     private void inflateNoPermissionStub() {

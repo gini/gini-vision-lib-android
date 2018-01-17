@@ -124,6 +124,9 @@ public class PhotoEdit {
         }
     }
 
+    /**
+     * @exclude
+     */
     public interface PhotoEditCallback {
         void onDone(@NonNull Photo photo);
 

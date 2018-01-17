@@ -12,6 +12,9 @@ public interface PermissionRequestListener {
 
     void shouldShowRequestPermissionRationale(@NonNull final RationaleResponse response);
 
+    /**
+     * @exclude
+     */
     interface RationaleResponse {
         void requestPermission();
     }

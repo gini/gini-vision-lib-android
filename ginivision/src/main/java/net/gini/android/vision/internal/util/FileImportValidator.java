@@ -22,6 +22,9 @@ public class FileImportValidator {
 
     private static final int FILE_SIZE_LIMIT = 10485760; // 10MB
 
+    /**
+     * File validation errors.
+     */
     public enum Error {
         TYPE_NOT_SUPPORTED(R.string.gv_document_import_error_type_not_supported),
         SIZE_TOO_LARGE(R.string.gv_document_import_error_size_too_large),
@@ -106,7 +109,7 @@ public class FileImportValidator {
         try {
             final int fileSize = UriHelper.getFileSizeFromUri(fileUri, mContext);
             return fileSize < FILE_SIZE_LIMIT;
-        } catch (IllegalStateException e) {
+        } catch (final IllegalStateException e) {
             e.printStackTrace();
         }
         return false;

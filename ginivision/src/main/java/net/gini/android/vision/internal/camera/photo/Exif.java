@@ -251,10 +251,10 @@ class Exif {
         private void addUserCommentStringExif(@NonNull TiffOutputDirectory outputDirectory,
                 @NonNull String value) {
             // ASCII character code
-            byte characterCode[] = new byte[]{0x41, 0x53, 0x43, 0x49, 0x49, 0x00, 0x00, 0x00};
+            byte[] characterCode = new byte[]{0x41, 0x53, 0x43, 0x49, 0x49, 0x00, 0x00, 0x00};
 
-            byte comment[] = value.getBytes(Charset.forName("US-ASCII"));
-            byte userComment[] = new byte[characterCode.length + comment.length];
+            byte[] comment = value.getBytes(Charset.forName("US-ASCII"));
+            byte[] userComment = new byte[characterCode.length + comment.length];
 
             System.arraycopy(characterCode, 0, userComment, 0, characterCode.length);
             System.arraycopy(comment, 0, userComment, characterCode.length, comment.length);
