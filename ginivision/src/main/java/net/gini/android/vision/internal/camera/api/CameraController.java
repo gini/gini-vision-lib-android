@@ -506,6 +506,8 @@ public class CameraController implements CameraInterface {
             case Surface.ROTATION_270:
                 degrees = 270;
                 break;
+            default:
+                break;
         }
         LOG.debug("Default display rotation is {}", degrees);
 

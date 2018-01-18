@@ -392,7 +392,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
             setScaleType(scaleType);
         }
         resetZoom();
-        scaleImage(scale, viewWidth / 2, viewHeight / 2, true);
+        scaleImage(scale, viewWidth / 2f, viewHeight / 2f, true);
         matrix.getValues(m);
         m[Matrix.MTRANS_X] = -((focusX * getImageWidth()) - (viewWidth * 0.5f));
         m[Matrix.MTRANS_Y] = -((focusY * getImageHeight()) - (viewHeight * 0.5f));
@@ -426,7 +426,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
         final int drawableWidth = drawable.getIntrinsicWidth();
         final int drawableHeight = drawable.getIntrinsicHeight();
 
-        final PointF point = transformCoordTouchToBitmap(viewWidth / 2, viewHeight / 2, true);
+        final PointF point = transformCoordTouchToBitmap(viewWidth / 2f, viewHeight / 2f, true);
         point.x /= drawableWidth;
         point.y /= drawableHeight;
         return point;
@@ -580,7 +580,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
 
             case CENTER_INSIDE:
                 scaleX = scaleY = Math.min(1, Math.min(scaleX, scaleY));
-
+                break;
             case FIT_CENTER:
                 scaleX = scaleY = Math.min(scaleX, scaleY);
                 break;
@@ -864,6 +864,8 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
                     case MotionEvent.ACTION_POINTER_UP:
                         setState(State.NONE);
                         break;
+                    default:
+                        break;
                 }
             }
 
@@ -931,8 +933,8 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
             }
 
             if (animateToZoomBoundary) {
-                final DoubleTapZoom doubleTap = new DoubleTapZoom(targetZoom, viewWidth / 2,
-                        viewHeight / 2, true);
+                final DoubleTapZoom doubleTap = new DoubleTapZoom(targetZoom, viewWidth / 2f,
+                        viewHeight / 2f, true);
                 compatPostOnAnimation(doubleTap);
             }
         }
@@ -1000,7 +1002,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
             // Used for translating image during scaling
             //
             startTouch = transformCoordBitmapToTouch(bitmapX, bitmapY);
-            endTouch = new PointF(viewWidth / 2, viewHeight / 2);
+            endTouch = new PointF(viewWidth / 2f, viewHeight / 2f);
         }
 
         @Override
@@ -1199,7 +1201,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
     }
 
     @TargetApi(VERSION_CODES.GINGERBREAD)
-    private class CompatScroller {
+    private static class CompatScroller {
         Scroller scroller;
         OverScroller overScroller;
         boolean isPreGingerbread;
@@ -1270,7 +1272,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
         }
     }
 
-    private class ZoomVariables {
+    private static class ZoomVariables {
         public float scale;
         public float focusX;
         public float focusY;

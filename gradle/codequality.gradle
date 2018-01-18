@@ -41,8 +41,12 @@ task findbugs(type: FindBugs, dependsOn: 'assembleDebug') {
 
     source 'src'
     include '**/*.java'
-    exclude '**/gen/**'
+    exclude '**/gen/**', '**/androidTest/**', '**/test/**', '**/testShared/**'
     classpath = files()
+    reports {
+        xml.enabled = true
+        html.enabled = false
+    }
 }
 
 task pmd(type: Pmd) {

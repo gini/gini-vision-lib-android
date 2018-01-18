@@ -195,7 +195,7 @@ class IBANValidator {
      * Exception containing an {@link IBANError} for information about the reason why an
      * IBAN was not valid.
      */
-    class IllegalIBANException extends RuntimeException {
+    static class IllegalIBANException extends RuntimeException {
 
         private final IBANError mIBANError;
 

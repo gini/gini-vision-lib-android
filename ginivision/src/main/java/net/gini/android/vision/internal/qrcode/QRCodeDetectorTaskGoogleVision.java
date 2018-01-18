@@ -105,7 +105,7 @@ public class QRCodeDetectorTaskGoogleVision implements QRCodeDetectorTask {
         return builder.toString();
     }
 
-    class CheckAvailabilityRetryRunnable implements Runnable {
+    static class CheckAvailabilityRetryRunnable implements Runnable {
 
         private static final int RETRY_DELAY_MS = 500;
         private static final int RETRY_LIMIT = 3;

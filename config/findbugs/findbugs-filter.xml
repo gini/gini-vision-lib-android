@@ -30,6 +30,22 @@
             <Bug code="IJU" />
         </Not>
     </Match>
-
-
+    <Match>
+        <Class name="net.gini.android.vision.camera.CameraActivity"/>
+        <Method name="onActivityResult"/>
+        <Bug pattern="RpC_REPEATED_CONDITIONAL_TEST" />
+    </Match>
+    <Match>
+        <Class name="com.ortiz.touch.TouchImageView$CompatScroller"/>
+        <Or>
+            <Method name="~.*"/>
+            <Field name="~.*"/>
+        </Or>
+        <Bug pattern="NP_UNWRITTEN_FIELD,UWF_UNWRITTEN_FIELD" />
+    </Match>
+    <Match>
+        <Class name="net.gini.android.vision.document.GiniVisionDocument"/>
+        <Method name="getData"/>
+        <Bug pattern="EI_EXPOSE_REP" />
+    </Match>
 </FindBugsFilter>

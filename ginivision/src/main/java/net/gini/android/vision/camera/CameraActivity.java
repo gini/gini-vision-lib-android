@@ -10,7 +10,6 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.RelativeLayout;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
@@ -406,7 +405,6 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     private Document mDocument;
     private GiniVisionFeatureConfiguration mGiniVisionFeatureConfiguration;
 
-    private RelativeLayout mLayoutRoot;
     private CameraFragmentCompat mFragment;
 
     /**
@@ -461,7 +459,6 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
             restoreSavedState(savedInstanceState);
             retainFragment();
         }
-        bindViews();
         showOnboardingIfRequested();
     }
 
@@ -522,10 +519,6 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         if (mShowOnboarding) {
             startOnboardingActivity();
         }
-    }
-
-    private void bindViews() {
-        mLayoutRoot = (RelativeLayout) findViewById(R.id.gv_root);
     }
 
     @Override
