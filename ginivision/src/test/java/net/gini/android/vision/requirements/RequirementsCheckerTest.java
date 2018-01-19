@@ -15,7 +15,7 @@ public class RequirementsCheckerTest {
 
     @Test
     public void should_reportFulfilled_ifAllRequirements_wereMet() {
-        RequirementsChecker checker = new RequirementsChecker(Arrays.asList(
+        final RequirementsChecker checker = new RequirementsChecker(Arrays.asList(
                 new FulfilledRequirement(),
                 new FulfilledRequirement(),
                 new FulfilledRequirement()
@@ -26,7 +26,7 @@ public class RequirementsCheckerTest {
 
     @Test
     public void should_reportUnfulfilled_ifAtLeastOneRequirement_wasNotMet() {
-        RequirementsChecker checker = new RequirementsChecker(Arrays.asList(
+        final RequirementsChecker checker = new RequirementsChecker(Arrays.asList(
                 new FulfilledRequirement(),
                 new FulfilledRequirement(),
                 new UnfulfilledRequirement()
@@ -37,14 +37,14 @@ public class RequirementsCheckerTest {
 
     @Test
     public void should_returnReports_forCheckedRequirements() {
-        RequirementsChecker checker = new RequirementsChecker(Arrays.asList(
+        final RequirementsChecker checker = new RequirementsChecker(Arrays.asList(
                 new FulfilledRequirement(),
                 new UnfulfilledRequirement()
         ));
 
-        RequirementsReport report = checker.checkRequirements();
+        final RequirementsReport report = checker.checkRequirements();
 
-        for (RequirementReport requirementReport : report.getRequirementReports()) {
+        for (final RequirementReport requirementReport : report.getRequirementReports()) {
             switch (requirementReport.getRequirementId()) {
                 case CAMERA:
                     assertThat(requirementReport.getRequirementId()).isEqualTo(
@@ -62,7 +62,7 @@ public class RequirementsCheckerTest {
         }
     }
 
-    private class FulfilledRequirement implements Requirement {
+    private static class FulfilledRequirement implements Requirement {
 
         @NonNull
         @Override
@@ -77,7 +77,7 @@ public class RequirementsCheckerTest {
         }
     }
 
-    private class UnfulfilledRequirement implements Requirement {
+    private static class UnfulfilledRequirement implements Requirement {
 
         @NonNull
         @Override
