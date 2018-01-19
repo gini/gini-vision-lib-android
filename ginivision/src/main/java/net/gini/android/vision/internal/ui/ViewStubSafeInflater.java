@@ -16,9 +16,9 @@ public class ViewStubSafeInflater {
     private static final Logger LOG = LoggerFactory.getLogger(ViewStubSafeInflater.class);
 
     private final ViewStub mViewStub;
-    private boolean mInflated = false;
+    private boolean mInflated;
 
-    public ViewStubSafeInflater(@NonNull ViewStub viewStub) {
+    public ViewStubSafeInflater(@NonNull final ViewStub viewStub) {
         mViewStub = viewStub;
     }
 
@@ -29,7 +29,7 @@ public class ViewStubSafeInflater {
             return null;
         }
         mInflated = true;
-        View view = mViewStub.inflate();
+        final View view = mViewStub.inflate();
         LOG.debug("Inflated {} to {}", mViewStub, view);
         return view;
     }

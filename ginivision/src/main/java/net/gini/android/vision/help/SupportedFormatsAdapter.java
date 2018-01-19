@@ -59,13 +59,15 @@ class SupportedFormatsAdapter extends
     @Override
     public FormatItemViewHolder onCreateViewHolder(final ViewGroup parent,
             final int viewType) {
-        switch (ItemType.fromOrdinal(viewType)) {
+        final ItemType itemType = ItemType.fromOrdinal(viewType);
+        switch (itemType) {
             case HEADER:
                 return createHeaderItemViewHolder(parent);
             case FORMAT_INFO:
                 return createFormatInfoItemViewHolder(parent);
+            default:
+                throw new IllegalStateException("Unknown ItemType: " + itemType);
         }
-        return null;
     }
 
     private FormatItemViewHolder createHeaderItemViewHolder(final ViewGroup parent) {

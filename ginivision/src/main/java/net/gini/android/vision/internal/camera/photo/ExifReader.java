@@ -18,7 +18,7 @@ import java.util.Arrays;
 /**
  * @exclude
  */
-class ExifReader {
+final class ExifReader{
 
     private final JpegImageMetadata mJpegMetadata;
 

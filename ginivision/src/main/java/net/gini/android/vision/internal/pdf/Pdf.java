@@ -15,7 +15,7 @@ import net.gini.android.vision.internal.util.Size;
 /**
  * @exclude
  */
-public class Pdf implements Parcelable {
+public final class Pdf implements Parcelable {
 
     // Default preview size is set to be tolerably small and has a DIN A4 aspect ratio
     static final int DEFAULT_PREVIEW_HEIGHT = 1500;
@@ -24,11 +24,11 @@ public class Pdf implements Parcelable {
     private final Uri mUri;
     private Renderer mRenderer;
 
-    public static Pdf fromDocument(@NonNull PdfDocument document) {
+    public static Pdf fromDocument(@NonNull final PdfDocument document) {
         return new Pdf(document.getUri());
     }
 
-    public static Pdf fromUri(@NonNull Uri uri) {
+    public static Pdf fromUri(@NonNull final Uri uri) {
         return new Pdf(uri);
     }
 
@@ -36,7 +36,7 @@ public class Pdf implements Parcelable {
         mUri = uri;
     }
 
-    public void toBitmap(@NonNull Size targetSize, @NonNull final Context context,
+    public void toBitmap(@NonNull final Size targetSize, @NonNull final Context context,
             @NonNull final AsyncCallback<Bitmap> asyncCallback) {
         getRenderer(context).toBitmap(targetSize, asyncCallback);
     }
@@ -74,17 +74,17 @@ public class Pdf implements Parcelable {
 
     public static final Creator<Pdf> CREATOR = new Creator<Pdf>() {
         @Override
-        public Pdf createFromParcel(Parcel in) {
+        public Pdf createFromParcel(final Parcel in) {
             return new Pdf(in);
         }
 
         @Override
-        public Pdf[] newArray(int size) {
+        public Pdf[] newArray(final int size) {
             return new Pdf[size];
         }
     };
 
-    private Pdf(Parcel in) {
+    private Pdf(final Parcel in) {
         mUri = in.readParcelable(Uri.class.getClassLoader());
     }
 }

@@ -96,7 +96,7 @@ public class QRCodeDetectorTaskGoogleVision implements QRCodeDetectorTask {
         final StringBuilder builder = new StringBuilder();
         for (int i = 0; i < barcodes.size(); i++) {
             if (i != 0) {
-                builder.append("\n");
+                builder.append('\n');
             }
             final int key = barcodes.keyAt(i);
             final Barcode barcode = barcodes.get(key);
@@ -112,8 +112,8 @@ public class QRCodeDetectorTaskGoogleVision implements QRCodeDetectorTask {
         private final BarcodeDetector mBarcodeDetector;
         private final Callback mCallback;
         private final Handler mRetryHandler;
-        private boolean mHasFinished = false;
-        private int mRetries = 0;
+        private boolean mHasFinished;
+        private int mRetries;
 
         CheckAvailabilityRetryRunnable(final BarcodeDetector barcodeDetector,
                 final Handler retryHandler, final Callback callback) {

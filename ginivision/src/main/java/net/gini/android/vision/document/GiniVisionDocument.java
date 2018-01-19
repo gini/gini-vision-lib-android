@@ -59,10 +59,7 @@ public class GiniVisionDocument implements Document {
         if (token != null) {
             mData = cache.getByteArray(token);
             cache.removeByteArray(token);
-        } else {
-            mData = null;
         }
-
         mType = (Type) in.readSerializable();
         mIntent = in.readParcelable(Intent.class.getClassLoader());
         mIsReviewable = in.readInt() == 1;

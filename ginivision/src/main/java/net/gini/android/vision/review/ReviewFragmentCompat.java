@@ -1,4 +1,4 @@
-package net.gini.android.vision.review;
+    package net.gini.android.vision.review;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -53,8 +53,8 @@ public class ReviewFragmentCompat extends Fragment implements FragmentImplCallba
      * @param document must be the {@link Document} from {@link CameraFragmentListener#onDocumentAvailable(Document)}
      * @return a new instance of the Fragment
      */
-    public static ReviewFragmentCompat createInstance(@NonNull Document document) {
-        ReviewFragmentCompat fragment = new ReviewFragmentCompat();
+    public static ReviewFragmentCompat createInstance(@NonNull final Document document) {
+        final ReviewFragmentCompat fragment = new ReviewFragmentCompat();
         fragment.setArguments(ReviewFragmentHelper.createArguments(document));
         return fragment;
     }
@@ -68,7 +68,7 @@ public class ReviewFragmentCompat extends Fragment implements FragmentImplCallba
      * @exclude
      */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFragmentImpl = ReviewFragmentHelper.createFragmentImpl(this, getArguments());
         ReviewFragmentHelper.setListener(mFragmentImpl, getActivity());
@@ -80,8 +80,8 @@ public class ReviewFragmentCompat extends Fragment implements FragmentImplCallba
      */
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container,
+            @Nullable final Bundle savedInstanceState) {
         return mFragmentImpl.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -116,7 +116,7 @@ public class ReviewFragmentCompat extends Fragment implements FragmentImplCallba
     public void onDestroy() {
         super.onDestroy();
         mFragmentImpl.onDestroy();
-        mFragmentImpl = null;
+        mFragmentImpl = null;  // NOPMD
     }
 
     @Override

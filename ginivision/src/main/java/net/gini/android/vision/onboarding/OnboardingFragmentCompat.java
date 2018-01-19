@@ -67,8 +67,8 @@ public class OnboardingFragmentCompat extends Fragment implements OnboardingFrag
      * @return a new instance of the Fragment
      */
     public static OnboardingFragmentCompat createInstanceWithoutEmptyLastPage(
-            @NonNull ArrayList<OnboardingPage> pages) {
-        OnboardingFragmentCompat fragment = new OnboardingFragmentCompat();
+            @NonNull final ArrayList<OnboardingPage> pages) { // NOPMD - ArrayList required (Bundle)
+        final OnboardingFragmentCompat fragment = new OnboardingFragmentCompat();
         fragment.setArguments(OnboardingFragmentHelper.createArguments(pages, false));
         return fragment;
     }
@@ -87,8 +87,8 @@ public class OnboardingFragmentCompat extends Fragment implements OnboardingFrag
      * @return a new instance of the Fragment
      */
     public static OnboardingFragmentCompat createInstance(
-            @NonNull ArrayList<OnboardingPage> pages) {
-        OnboardingFragmentCompat fragment = new OnboardingFragmentCompat();
+            @NonNull final ArrayList<OnboardingPage> pages) { // NOPMD - ArrayList required (Bundle)
+        final OnboardingFragmentCompat fragment = new OnboardingFragmentCompat();
         fragment.setArguments(OnboardingFragmentHelper.createArguments(pages, true));
         return fragment;
     }
@@ -103,7 +103,7 @@ public class OnboardingFragmentCompat extends Fragment implements OnboardingFrag
      * @return a new instance of the Fragment
      */
     public static OnboardingFragmentCompat createInstanceWithoutEmptyLastPage() {
-        OnboardingFragmentCompat fragment = new OnboardingFragmentCompat();
+        final OnboardingFragmentCompat fragment = new OnboardingFragmentCompat();
         fragment.setArguments(OnboardingFragmentHelper.createArguments(false));
         return fragment;
     }
@@ -113,7 +113,7 @@ public class OnboardingFragmentCompat extends Fragment implements OnboardingFrag
      * @param savedInstanceState
      */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFragmentImpl = OnboardingFragmentHelper.createFragmentImpl(this, getArguments());
         OnboardingFragmentHelper.setListener(mFragmentImpl, getActivity());
@@ -129,13 +129,13 @@ public class OnboardingFragmentCompat extends Fragment implements OnboardingFrag
      */
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+            final Bundle savedInstanceState) {
         return mFragmentImpl.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
-    public PagerAdapter getViewPagerAdapter(@NonNull List<OnboardingPage> pages) {
+    public PagerAdapter getViewPagerAdapter(@NonNull final List<OnboardingPage> pages) {
         return new ViewPagerAdapterCompat(getChildFragmentManager(), pages);
     }
 }

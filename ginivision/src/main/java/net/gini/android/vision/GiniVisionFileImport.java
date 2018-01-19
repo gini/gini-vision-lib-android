@@ -103,4 +103,7 @@ public final class GiniVisionFileImport {
             throw new ImportedFileValidationException(fileImportValidator.getError());
         }
     }
+
+    private GiniVisionFileImport() {
+    }
 }

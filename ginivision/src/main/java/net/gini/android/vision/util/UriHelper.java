@@ -44,8 +44,7 @@ public final class UriHelper {
             if (inputStream != null) {
                 try {
                     inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } catch (final IOException ignored) {
                 }
             }
         }
@@ -64,12 +63,12 @@ public final class UriHelper {
         try {
             inputStream = context.getContentResolver().openInputStream(uri);
             return inputStream != null;
-        } catch (IOException ignored) {
+        } catch (final IOException ignored) {
         } finally {
             if (inputStream != null) {
                 try {
                     inputStream.close();
-                } catch (IOException ignored) {
+                } catch (final IOException ignored) {
                 }
             }
         }
@@ -151,4 +150,6 @@ public final class UriHelper {
         return -1;
     }
 
+    private UriHelper() {
+    }
 }

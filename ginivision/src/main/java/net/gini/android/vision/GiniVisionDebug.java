@@ -34,7 +34,7 @@ public final class GiniVisionDebug {
 
     private static final Logger LOG = LoggerFactory.getLogger(GiniVisionDebug.class);
 
-    private static boolean sEnabled = false;
+    private static boolean sEnabled;
 
     /**
      * <p>

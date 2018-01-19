@@ -43,24 +43,24 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
     private static final ReviewFragmentListener NO_OP_LISTENER = new ReviewFragmentListener() {
         @Override
-        public void onShouldAnalyzeDocument(@NonNull Document document) {
+        public void onShouldAnalyzeDocument(@NonNull final Document document) {
         }
 
         @Override
-        public void onProceedToAnalysisScreen(@NonNull Document document) {
+        public void onProceedToAnalysisScreen(@NonNull final Document document) {
         }
 
         @Override
-        public void onDocumentReviewedAndAnalyzed(@NonNull Document document) {
+        public void onDocumentReviewedAndAnalyzed(@NonNull final Document document) {
         }
 
         @Override
-        public void onDocumentWasRotated(@NonNull Document document, int oldRotation,
-                int newRotation) {
+        public void onDocumentWasRotated(@NonNull final Document document, final int oldRotation,
+                final int newRotation) {
         }
 
         @Override
-        public void onError(@NonNull GiniVisionError error) {
+        public void onError(@NonNull final GiniVisionError error) {
         }
     };
 
@@ -74,13 +74,13 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     private Photo mPhoto;
     private ImageDocument mDocument;
     private ReviewFragmentListener mListener = NO_OP_LISTENER;
-    private boolean mDocumentWasAnalyzed = false;
-    private boolean mDocumentWasModified = false;
-    private int mCurrentRotation = 0;
-    private boolean mNextClicked = false;
-    private boolean mStopped = false;
+    private boolean mDocumentWasAnalyzed;
+    private boolean mDocumentWasModified;
+    private int mCurrentRotation;
+    private boolean mNextClicked;
+    private boolean mStopped;
 
-    ReviewFragmentImpl(@NonNull FragmentImplCallback fragment, @NonNull Document document) {
+    ReviewFragmentImpl(@NonNull final FragmentImplCallback fragment, @NonNull final Document document) {
         mFragment = fragment;
         if (!document.isReviewable()) {
             throw new IllegalArgumentException(
@@ -100,7 +100,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         return mImageDocument;
     }
 
-    public void setListener(@Nullable ReviewFragmentListener listener) {
+    public void setListener(@Nullable final ReviewFragmentListener listener) {
         if (listener == null) {
             mListener = NO_OP_LISTENER;
         } else {
@@ -108,6 +108,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         }
     }
 
+    @Override
     public void onDocumentAnalyzed() {
         LOG.info("Document was analyzed");
         mDocumentWasAnalyzed = true;
@@ -117,15 +118,15 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     public void onNoExtractionsFound() {
     }
 
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable final Bundle savedInstanceState) {
         forcePortraitOrientationOnPhones(mFragment.getActivity());
         if (savedInstanceState != null) {
             restoreSavedState(savedInstanceState);
         }
     }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+            final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.gv_fragment_review, container, false);
         bindViews(view);
         setInputHandlers();
@@ -173,7 +174,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
     private void createAndCompressPhoto() {
         LOG.debug("Instantiating a Photo from the Document");
-        PhotoFactoryDocumentAsyncTask asyncTask = new PhotoFactoryDocumentAsyncTask(
+        final PhotoFactoryDocumentAsyncTask asyncTask = new PhotoFactoryDocumentAsyncTask(
                 new AsyncCallback<Photo>() {
                     @Override
                     public void onSuccess(final Photo result) {
@@ -185,7 +186,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                         mCurrentRotation = mPhoto.getRotationForDisplay();
                         applyCompressionToPhoto(new PhotoEdit.PhotoEditCallback() {
                             @Override
-                            public void onDone(@NonNull Photo photo) {
+                            public void onDone(@NonNull final Photo photo) {
                                 LOG.debug("Photo compressed");
                                 if (mNextClicked || mStopped) {
                                     return;
@@ -291,11 +292,11 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     }
 
     public void onDestroy() {
-        mPhoto = null;
-        mDocument = null;
+        mPhoto = null; // NOPMD
+        mDocument = null; // NOPMD
     }
 
-    private void bindViews(@NonNull View view) {
+    private void bindViews(@NonNull final View view) {
         mLayoutDocumentContainer = view.findViewById(R.id.gv_layout_document_container);
         mImageDocument = view.findViewById(R.id.gv_image_document);
         mButtonRotate = view.findViewById(R.id.gv_button_rotate);
@@ -303,7 +304,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         mActivityIndicator = view.findViewById(R.id.gv_activity_indicator);
     }
 
-    private void restoreSavedState(@Nullable Bundle savedInstanceState) {
+    private void restoreSavedState(@Nullable final Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             return;
         }
@@ -322,13 +323,13 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     private void setInputHandlers() {
         mButtonRotate.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 onRotateClicked();
             }
         });
         mButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 onNextClicked();
             }
         });
@@ -371,7 +372,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         mDocumentWasModified = true;
         applyRotationToPhoto(new PhotoEdit.PhotoEditCallback() {
             @Override
-            public void onDone(@NonNull Photo photo) {
+            public void onDone(@NonNull final Photo photo) {
                 if (mStopped) {
                     return;
                 }
@@ -411,7 +412,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             LOG.debug("Document was modified");
             applyRotationToPhoto(new PhotoEdit.PhotoEditCallback() {
                 @Override
-                public void onDone(@NonNull Photo photo) {
+                public void onDone(@NonNull final Photo photo) {
                     if (mStopped) {
                         return;
                     }
@@ -437,7 +438,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                 DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto, mDocument));
     }
 
-    private void applyRotationToPhoto(@NonNull PhotoEdit.PhotoEditCallback callback) {
+    private void applyRotationToPhoto(@NonNull final PhotoEdit.PhotoEditCallback callback) {
         if (mPhoto == null) {
             return;
         }
@@ -447,7 +448,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                 .applyAsync(callback);
     }
 
-    private void applyCompressionToPhoto(@NonNull PhotoEdit.PhotoEditCallback callback) {
+    private void applyCompressionToPhoto(@NonNull final PhotoEdit.PhotoEditCallback callback) {
         if (mPhoto == null) {
             return;
         }
@@ -457,7 +458,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                 .applyAsync(callback);
     }
 
-    private void rotateImageView(int degrees, boolean animated) {
+    private void rotateImageView(final int degrees, final boolean animated) {
         LOG.info("Rotate ImageView {} degrees animated {}", degrees, animated);
         if (degrees == 0) {
             return;
@@ -465,8 +466,8 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
         mImageDocument.resetZoom();
 
-        ValueAnimator widthAnimation;
-        ValueAnimator heightAnimation;
+        final ValueAnimator widthAnimation;
+        final ValueAnimator heightAnimation;
         if (degrees % 360 == 90 || degrees % 360 == 270) {
             LOG.debug("ImageView width needs to fit container height");
             LOG.debug("ImageView height needs fit container width");
@@ -485,9 +486,9 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
         widthAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                int width = (int) valueAnimator.getAnimatedValue();
-                FrameLayout.LayoutParams layoutParams =
+            public void onAnimationUpdate(final ValueAnimator valueAnimator) {
+                final int width = (int) valueAnimator.getAnimatedValue();
+                final FrameLayout.LayoutParams layoutParams =
                         (FrameLayout.LayoutParams) mImageDocument.getLayoutParams();
                 layoutParams.width = width;
                 mImageDocument.requestLayout();
@@ -495,16 +496,16 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         });
         heightAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                int height = (int) valueAnimator.getAnimatedValue();
-                FrameLayout.LayoutParams layoutParams =
+            public void onAnimationUpdate(final ValueAnimator valueAnimator) {
+                final int height = (int) valueAnimator.getAnimatedValue();
+                final FrameLayout.LayoutParams layoutParams =
                         (FrameLayout.LayoutParams) mImageDocument.getLayoutParams();
                 layoutParams.height = height;
                 mImageDocument.requestLayout();
             }
         });
 
-        ObjectAnimator rotateAnimation = ObjectAnimator.ofFloat(mImageDocument, "rotation",
+        final ObjectAnimator rotateAnimation = ObjectAnimator.ofFloat(mImageDocument, "rotation",
                 degrees);
 
         if (!animated) {

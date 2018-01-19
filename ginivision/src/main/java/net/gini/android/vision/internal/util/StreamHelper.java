@@ -10,7 +10,7 @@ import java.io.InputStream;
 /**
  * @exclude
  */
-public class StreamHelper {
+public final class StreamHelper {
 
     /**
      * Reads the input stream to a byte array.
@@ -23,15 +23,18 @@ public class StreamHelper {
      *                     occurs.
      * @exclude
      */
-    public static byte[] inputStreamToByteArray(@NonNull InputStream inputStream)
+    public static byte[] inputStreamToByteArray(@NonNull final InputStream inputStream)
             throws IOException {
         final int bufferSize = 8192;
-        ByteArrayOutputStream out = new ByteArrayOutputStream(bufferSize);
-        byte[] buffer = new byte[bufferSize];
+        final ByteArrayOutputStream out = new ByteArrayOutputStream(bufferSize);
+        final byte[] buffer = new byte[bufferSize];
         int nrRead;
-        while ((nrRead = inputStream.read(buffer)) > 0) {
+        while ((nrRead = inputStream.read(buffer)) > 0) { // NOPMD
             out.write(buffer, 0, nrRead);
         }
         return out.toByteArray();
+    }
+
+    private StreamHelper() {
     }
 }

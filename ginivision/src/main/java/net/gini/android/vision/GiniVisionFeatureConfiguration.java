@@ -36,13 +36,13 @@ public class GiniVisionFeatureConfiguration implements Parcelable {
     private final boolean mFileImportEnabled;
     private final boolean mQRCodeScanningEnabled;
 
-    private GiniVisionFeatureConfiguration(final Parcel in) {
+    protected GiniVisionFeatureConfiguration(final Parcel in) {
         mDocumentImportEnabledFileTypes = (DocumentImportEnabledFileTypes) in.readSerializable();
         mFileImportEnabled = in.readByte() != 0;
         mQRCodeScanningEnabled = in.readByte() != 0;
     }
 
-    private GiniVisionFeatureConfiguration(final Builder builder) {
+    protected GiniVisionFeatureConfiguration(final Builder builder) {
         mDocumentImportEnabledFileTypes = builder.getDocumentImportEnabledFileTypes();
         mFileImportEnabled = builder.isFileImportEnabled();
         mQRCodeScanningEnabled = builder.isQRCodeScanningEnabled();
@@ -126,10 +126,10 @@ public class GiniVisionFeatureConfiguration implements Parcelable {
 
         private DocumentImportEnabledFileTypes mDocumentImportEnabledFileTypes =
                 DocumentImportEnabledFileTypes.NONE;
-        private boolean mFileImportEnabled = false;
-        private boolean mQRCodeScanningEnabled = false;
+        private boolean mFileImportEnabled;
+        private boolean mQRCodeScanningEnabled;
 
-        private Builder() {
+        protected Builder() {
         }
 
         /**

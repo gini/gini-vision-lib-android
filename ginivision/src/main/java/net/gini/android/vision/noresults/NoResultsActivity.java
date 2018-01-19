@@ -153,7 +153,7 @@ public class NoResultsActivity extends AppCompatActivity implements NoResultsFra
     }
 
     private void readExtras() {
-        Bundle extras = getIntent().getExtras();
+        final Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mDocument = extras.getParcelable(EXTRA_IN_DOCUMENT);
         }
@@ -168,7 +168,7 @@ public class NoResultsActivity extends AppCompatActivity implements NoResultsFra
     }
 
     private void initFragment() {
-        NoResultsFragmentCompat noResultsFragment = NoResultsFragmentCompat.createInstance(
+        final NoResultsFragmentCompat noResultsFragment = NoResultsFragmentCompat.createInstance(
                 mDocument);
         getSupportFragmentManager()
                 .beginTransaction()
@@ -177,11 +177,10 @@ public class NoResultsActivity extends AppCompatActivity implements NoResultsFra
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

@@ -20,7 +20,7 @@ public enum DefaultPagesTablet {
 
     private final OnboardingPage mOnboardingPage;
 
-    DefaultPagesTablet(OnboardingPage onboardingPage) {
+    DefaultPagesTablet(final OnboardingPage onboardingPage) {
         mOnboardingPage = onboardingPage;
     }
 
@@ -29,9 +29,9 @@ public enum DefaultPagesTablet {
         return mOnboardingPage;
     }
 
-    public static ArrayList<OnboardingPage> asArrayList() {
-        ArrayList<OnboardingPage> arrayList = new ArrayList<>(values().length);
-        for (DefaultPagesTablet pages : values()) {
+    public static ArrayList<OnboardingPage> asArrayList() { // NOPMD - ArrayList required (Bundle)
+        final ArrayList<OnboardingPage> arrayList = new ArrayList<>(values().length);
+        for (final DefaultPagesTablet pages : values()) {
             arrayList.add(pages.getPage());
         }
         return arrayList;

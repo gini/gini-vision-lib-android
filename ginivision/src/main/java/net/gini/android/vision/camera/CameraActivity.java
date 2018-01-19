@@ -394,13 +394,13 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     private static final String CAMERA_FRAGMENT = "CAMERA_FRAGMENT";
     private static final String ONBOARDING_SHOWN_KEY = "ONBOARDING_SHOWN_KEY";
 
-    private ArrayList<OnboardingPage> mOnboardingPages;
+    private ArrayList<OnboardingPage> mOnboardingPages; // NOPMD
     private Intent mReviewDocumentActivityIntent;
     private Intent mAnalyzeDocumentActivityIntent;
-    private boolean mShowOnboarding = false;
+    private boolean mShowOnboarding;
     private boolean mShowOnboardingAtFirstRun = true;
-    private boolean mOnboardingShown = false;
-    private boolean mBackButtonShouldCloseLibrary = false;
+    private boolean mOnboardingShown;
+    private boolean mBackButtonShouldCloseLibrary;
     private GiniVisionCoordinator mGiniVisionCoordinator;
     private Document mDocument;
     private GiniVisionFeatureConfiguration mGiniVisionFeatureConfiguration;
@@ -738,6 +738,6 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     }
 
     private void clearMemory() {
-        mDocument = null;
+        mDocument = null; // NOPMD
     }
 }

@@ -17,7 +17,7 @@ public class PhotoEdit {
     @VisibleForTesting
     List<PhotoModifier> mPhotoModifiers;
 
-    PhotoEdit(@NonNull Photo photo) {
+    PhotoEdit(@NonNull final Photo photo) {
         mPhoto = photo;
     }
 
@@ -33,14 +33,14 @@ public class PhotoEdit {
     }
 
     @NonNull
-    public PhotoEdit rotateTo(int degrees) {
+    public PhotoEdit rotateTo(final int degrees) {
         final PhotoRotationModifier rotationModifier = new PhotoRotationModifier(degrees, mPhoto);
         getPhotoModifiers().add(rotationModifier);
         return this;
     }
 
     @NonNull
-    public PhotoEdit compressBy(int quality) {
+    public PhotoEdit compressBy(final int quality) {
         removeCompressionModifier();
         final PhotoCompressionModifier compressionModifier = new PhotoCompressionModifier(quality,
                 mPhoto);
@@ -60,12 +60,12 @@ public class PhotoEdit {
 
     public void apply() {
         applyChanges(mPhotoModifiers);
-        mPhotoModifiers = null;
+        mPhotoModifiers = null; // NOPMD
     }
 
     public void applyAsync(@NonNull final PhotoEditCallback callback) {
         final EditAsync async = new EditAsync(mPhoto, mPhotoModifiers);
-        mPhotoModifiers = null;
+        mPhotoModifiers = null; // NOPMD
         async.setCallback(callback);
         async.execute((Void[]) null);
     }
@@ -83,7 +83,7 @@ public class PhotoEdit {
 
         private static final PhotoEditCallback NO_OP_CALLBACK = new PhotoEditCallback() {
             @Override
-            public void onDone(@NonNull Photo photo) {
+            public void onDone(@NonNull final Photo photo) {
             }
 
             @Override
@@ -100,7 +100,7 @@ public class PhotoEdit {
             mPhotoModifiers = photoModifiers;
         }
 
-        public void setCallback(@Nullable PhotoEditCallback callback) {
+        public void setCallback(@Nullable final PhotoEditCallback callback) {
             if (callback == null) {
                 mCallback = NO_OP_CALLBACK;
             } else {
@@ -109,13 +109,13 @@ public class PhotoEdit {
         }
 
         @Override
-        protected Photo doInBackground(Void... params) {
+        protected Photo doInBackground(final Void... params) {
             applyChanges(mPhotoModifiers);
             return mPhoto;
         }
 
         @Override
-        protected void onPostExecute(Photo result) {
+        protected void onPostExecute(final Photo result) {
             if (result != null) {
                 mCallback.onDone(result);
             } else {

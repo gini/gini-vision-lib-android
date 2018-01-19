@@ -92,7 +92,7 @@ class EPC069_12Parser implements QRCodeParser<PaymentQRCodeData> {
             final String referenceText) {
         final StringBuilder builder = new StringBuilder();
         if (!TextUtils.isEmpty(referenceNr)) {
-            builder.append(referenceNr).append(" ");
+            builder.append(referenceNr).append(' ');
         }
         if (!TextUtils.isEmpty(referenceText)) {
             builder.append(referenceText);

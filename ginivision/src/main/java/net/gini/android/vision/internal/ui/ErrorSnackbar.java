@@ -53,7 +53,7 @@ public class ErrorSnackbar extends RelativeLayout {
     private RelativeLayout mParentView;
     private int mShowDuration;
     private boolean mIsAttachedToWindow;
-    private boolean mWaitForExisting = false;
+    private boolean mWaitForExisting;
 
     private TextView mTextView;
     private Button mButton;

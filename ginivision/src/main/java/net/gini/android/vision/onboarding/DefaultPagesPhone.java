@@ -17,7 +17,7 @@ public enum DefaultPagesPhone {
 
     private final OnboardingPage mOnboardingPage;
 
-    DefaultPagesPhone(OnboardingPage onboardingPage) {
+    DefaultPagesPhone(final OnboardingPage onboardingPage) {
         mOnboardingPage = onboardingPage;
     }
 
@@ -26,9 +26,9 @@ public enum DefaultPagesPhone {
         return mOnboardingPage;
     }
 
-    public static ArrayList<OnboardingPage> asArrayList() {
-        ArrayList<OnboardingPage> arrayList = new ArrayList<>(values().length);
-        for (DefaultPagesPhone pages : values()) {
+    public static ArrayList<OnboardingPage> asArrayList() { // NOPMD - ArrayList required (Bundle)
+        final ArrayList<OnboardingPage> arrayList = new ArrayList<>(values().length);
+        for (final DefaultPagesPhone pages : values()) {
             arrayList.add(pages.getPage());
         }
         return arrayList;

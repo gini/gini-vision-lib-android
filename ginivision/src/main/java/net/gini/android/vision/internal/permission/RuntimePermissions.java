@@ -11,7 +11,7 @@ import android.util.SparseArray;
 public class RuntimePermissions {
 
     private final SparseArray<PermissionRequest> mPermissionRequests = new SparseArray<>();
-    private int mPrevRequestCode = 0;
+    private int mPrevRequestCode;
 
     public RuntimePermissions() {
     }

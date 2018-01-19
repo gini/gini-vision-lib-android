@@ -13,6 +13,9 @@ import net.gini.android.vision.internal.pdf.Pdf;
 import net.gini.android.vision.util.IntentHelper;
 import net.gini.android.vision.util.UriHelper;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.List;
 
 /**
@@ -21,6 +24,7 @@ import java.util.List;
 public class FileImportValidator {
 
     private static final int FILE_SIZE_LIMIT = 10485760; // 10MB
+    private static final Logger LOG = LoggerFactory.getLogger(FileImportValidator.class);
 
     /**
      * File validation errors.
@@ -67,7 +71,7 @@ public class FileImportValidator {
         }
 
         if (isPdf(mimeTypes)) {
-            if (!matchesPdfCriteria(fileUri)) {
+            if (!matchesPdfCriteria(fileUri)) { // NOPMD
                 mError = Error.TOO_MANY_PDF_PAGES;
                 return false;
             }
@@ -110,7 +114,7 @@ public class FileImportValidator {
             final int fileSize = UriHelper.getFileSizeFromUri(fileUri, mContext);
             return fileSize < FILE_SIZE_LIMIT;
         } catch (final IllegalStateException e) {
-            e.printStackTrace();
+            LOG.error("Could not retrieve file size for uri: ", fileUri, e);
         }
         return false;
     }

@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 /**
  * @exclude
  */
-public abstract class ProvidersItem {
+public class ProvidersItem {
 
     enum FileProviderItemType {
         SECTION,

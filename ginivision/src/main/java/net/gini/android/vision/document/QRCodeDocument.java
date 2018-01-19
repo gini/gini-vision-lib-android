@@ -30,7 +30,7 @@ import java.io.UnsupportedEncodingException;
  * <p>
  * Get the contents with ({@link Document#getData()}) and upload it to the Gini API to get the extractions.
  */
-public class QRCodeDocument extends GiniVisionDocument {
+public final class QRCodeDocument extends GiniVisionDocument {
 
     private static final Logger LOG = LoggerFactory.getLogger(QRCodeDocument.class);
 

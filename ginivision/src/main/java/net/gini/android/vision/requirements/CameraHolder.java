@@ -10,7 +10,7 @@ class CameraHolder {
     public void closeCamera() {
         if (mCamera != null) {
             mCamera.release();
-            mCamera = null;
+            mCamera = null; // NOPMD
         }
     }
 

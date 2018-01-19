@@ -29,7 +29,7 @@ task checkstyle(type: Checkstyle) {
     configProperties.checkstyleSuppressionsPath = file("${project.rootDir}/config/checkstyle/suppressions.xml").absolutePath
     source 'src'
     include '**/*.java'
-    exclude '**/androidTest/**', '**/test/**', '**/testShared/**', '**/com/ortiz/**'
+    exclude '**/gen/**', '**/androidTest/**', '**/test/**', '**/testShared/**', '**/com/ortiz/**'
     classpath = files()
 }
 
@@ -49,6 +49,10 @@ task findbugs(type: FindBugs, dependsOn: 'assembleDebug') {
     }
 }
 
+pmd {
+    toolVersion = '6.0.0'
+}
+
 task pmd(type: Pmd) {
     ignoreFailures = true
     ruleSetFiles = files("${project.rootDir}/config/pmd/pmd-ruleset.xml")
@@ -56,7 +60,7 @@ task pmd(type: Pmd) {
 
     source 'src'
     include '**/*.java'
-    exclude '**/gen/**'
+    exclude '**/gen/**', '**/androidTest/**', '**/test/**', '**/testShared/**', '**/com/ortiz/**'
 }
 
 android {

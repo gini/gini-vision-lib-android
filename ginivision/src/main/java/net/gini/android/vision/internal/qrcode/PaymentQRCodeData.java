@@ -113,7 +113,7 @@ public class PaymentQRCodeData implements Parcelable {
         } finally {
             try {
                 jsonWriter.close();
-            } catch (final IOException ignore) {
+            } catch (final IOException ignore) { // NOPMD
             }
         }
         return stringWriter.toString();

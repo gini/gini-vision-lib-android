@@ -85,6 +85,8 @@ public class CameraPreviewSurface extends SurfaceView {
                         adjustedWidth = (int) (height * aspectRatioPreview);
                     }
                     break;
+                default:
+                    break;
             }
 
             setMeasuredDimension(adjustedWidth, adjustedHeight);

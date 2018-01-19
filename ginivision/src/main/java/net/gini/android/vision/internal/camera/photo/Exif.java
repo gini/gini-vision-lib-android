@@ -51,7 +51,7 @@ class Exif {
 
     private final TiffOutputSet mTiffOutputSet;
 
-    private Exif(@NonNull TiffOutputSet tiffOutputSet) {
+    private Exif(@NonNull final TiffOutputSet tiffOutputSet) {
         mTiffOutputSet = tiffOutputSet;
     }
 
@@ -66,25 +66,25 @@ class Exif {
     }
 
     @NonNull
-    public byte[] writeToJpeg(@NonNull byte[] jpeg)
+    public byte[] writeToJpeg(@NonNull final byte[] jpeg)
             throws ImageWriteException, ImageReadException, IOException {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
-        ExifRewriter exifRewriter = new ExifRewriter();
+        final ExifRewriter exifRewriter = new ExifRewriter();
         exifRewriter.updateExifMetadataLossless(jpeg, outputStream, mTiffOutputSet);
 
         return outputStream.toByteArray();
     }
 
     @NonNull
-    public static RequiredTags readRequiredTags(@NonNull byte[] jpeg)
+    public static RequiredTags readRequiredTags(@NonNull final byte[] jpeg)
             throws IOException, ImageReadException {
-        RequiredTags requiredTags = new RequiredTags();
+        final RequiredTags requiredTags = new RequiredTags();
 
         JpegImageMetadata jpegMetadata = null;
         try {
             jpegMetadata = (JpegImageMetadata) getMetadata(jpeg);
-        } catch (ClassCastException e) {
+        } catch (final ClassCastException e) { // NOPMD
             // Ignore
         }
 
@@ -106,9 +106,9 @@ class Exif {
 
     static class Builder {
 
-        private TiffOutputSet mTiffOutputSet;
+        private final TiffOutputSet mTiffOutputSet;
         private TiffOutputDirectory mIfd0Directory;
-        private TiffOutputDirectory mExifDirectory;
+        private final TiffOutputDirectory mExifDirectory;
 
         private Builder(@NonNull final byte[] jpeg)
                 throws ImageWriteException, IOException, ImageReadException {
@@ -131,16 +131,16 @@ class Exif {
                 throws IOException, ImageReadException, ImageWriteException {
             ByteOrder byteOrder = defaultByteOrder;
 
-            JpegImageMetadata jpegMetadata;
+            final JpegImageMetadata jpegMetadata;
             try {
                 jpegMetadata = (JpegImageMetadata) getMetadata(jpeg);
-            } catch (ClassCastException e) {
+            } catch (final ClassCastException e) {
                 throw new ImageReadException(
                         "Wrong metadata type, only JpegImageMetadata supported", e);
             }
 
             if (jpegMetadata != null) {
-                TiffImageMetadata exif = jpegMetadata.getExif();
+                final TiffImageMetadata exif = jpegMetadata.getExif();
                 if (exif != null) {
                     byteOrder = exif.getOutputSet().byteOrder;
                 }
@@ -150,69 +150,69 @@ class Exif {
         }
 
         @NonNull
-        public Builder setRequiredTags(@NonNull RequiredTags requiredTags)
+        public Builder setRequiredTags(@NonNull final RequiredTags requiredTags)
                 throws ImageReadException, ImageWriteException {
             // Make
             if (requiredTags.make != null) {
                 try {
-                    TiffOutputField makeField = createTiffOutputField(requiredTags.make);
+                    final TiffOutputField makeField = createTiffOutputField(requiredTags.make);
                     mIfd0Directory.add(makeField);
-                } catch (Exception e) {
+                } catch (final Exception e) { // NOPMD
                     // Shouldn't happen, but ignore it, if it does
                 }
             }
             // Model
             if (requiredTags.model != null) {
                 try {
-                    TiffOutputField modelField = createTiffOutputField(requiredTags.model);
+                    final TiffOutputField modelField = createTiffOutputField(requiredTags.model);
                     mIfd0Directory.add(modelField);
-                } catch (Exception e) {
+                } catch (final Exception e) { // NOPMD
                     // Shouldn't happen, but ignore it, if it does
                 }
             }
             // ISO
             if (requiredTags.iso != null) {
                 try {
-                    TiffOutputField isoField = createTiffOutputField(requiredTags.iso);
+                    final TiffOutputField isoField = createTiffOutputField(requiredTags.iso);
                     mExifDirectory.add(isoField);
-                } catch (Exception e) {
+                } catch (final Exception e) { // NOPMD
                     // Ignore, ClassCastException was thrown on a Galaxy Nexus w. Android 4.3
                 }
             }
             // Exposure
             if (requiredTags.exposure != null) {
                 try {
-                    TiffOutputField exposureField = createTiffOutputField(requiredTags.exposure);
+                    final TiffOutputField exposureField = createTiffOutputField(requiredTags.exposure);
                     mExifDirectory.add(exposureField);
-                } catch (Exception e) {
+                } catch (final Exception e) { // NOPMD
                     // Shouldn't happen, but ignore it, if it does
                 }
             }
             // Aperture
             if (requiredTags.aperture != null) {
                 try {
-                    TiffOutputField apertureField = createTiffOutputField(requiredTags.aperture);
+                    final TiffOutputField apertureField = createTiffOutputField(requiredTags.aperture);
                     mExifDirectory.add(apertureField);
-                } catch (Exception e) {
+                } catch (final Exception e) { // NOPMD
                     // Shouldn't happen, but ignore it, if it does
                 }
             }
             // Flash
             if (requiredTags.flash != null) {
                 try {
-                    TiffOutputField flashField = createTiffOutputField(requiredTags.flash);
+                    final TiffOutputField flashField = createTiffOutputField(requiredTags.flash);
                     mExifDirectory.add(flashField);
-                } catch (Exception e) {
+                } catch (final Exception e) { // NOPMD
                     // Shouldn't happen, but ignore it, if it does
                 }
             }
             // Compressed bits per pixel
             if (requiredTags.compressedBitsPerPixel != null) {
                 try {
-                    TiffOutputField compressedBitsPerPixelField = createTiffOutputField(
+                    final TiffOutputField compressedBitsPerPixelField = createTiffOutputField(
                             requiredTags.compressedBitsPerPixel);
                     mExifDirectory.add(compressedBitsPerPixelField);
-                } catch (Exception e) {
+                } catch (final Exception e) { // NOPMD
                     // Shouldn't happen, but ignore it, if it does
                 }
             }
@@ -220,7 +220,7 @@ class Exif {
         }
 
         @NonNull
-        private TiffOutputField createTiffOutputField(@NonNull TiffField tiffField) {
+        private TiffOutputField createTiffOutputField(@NonNull final TiffField tiffField) {
             return new TiffOutputField(tiffField.getTagInfo(),
                     tiffField.getFieldType(),
                     (int) tiffField.getCount(),
@@ -228,16 +228,16 @@ class Exif {
         }
 
         @NonNull
-        public Builder setUserComment(String userComment) {
+        public Builder setUserComment(final String userComment) {
             addUserCommentStringExif(mExifDirectory, userComment);
             return this;
         }
 
         @NonNull
-        public Builder setOrientationFromDegrees(int degrees) {
-            byte[] bytes = new byte[1];
+        public Builder setOrientationFromDegrees(final int degrees) {
+            final byte[] bytes = new byte[1];
             bytes[0] = (byte) rotationToExifOrientation(degrees);
-            TiffOutputField orientationOutputField = new TiffOutputField(
+            final TiffOutputField orientationOutputField = new TiffOutputField(
                     TiffTagConstants.TIFF_TAG_ORIENTATION, FieldType.SHORT, 1, bytes);
             mIfd0Directory.add(orientationOutputField);
             return this;
@@ -248,13 +248,13 @@ class Exif {
             return new Exif(mTiffOutputSet);
         }
 
-        private void addUserCommentStringExif(@NonNull TiffOutputDirectory outputDirectory,
-                @NonNull String value) {
+        private void addUserCommentStringExif(@NonNull final TiffOutputDirectory outputDirectory,
+                @NonNull final String value) {
             // ASCII character code
-            byte[] characterCode = new byte[]{0x41, 0x53, 0x43, 0x49, 0x49, 0x00, 0x00, 0x00};
+            final byte[] characterCode = new byte[]{0x41, 0x53, 0x43, 0x49, 0x49, 0x00, 0x00, 0x00};
 
-            byte[] comment = value.getBytes(Charset.forName("US-ASCII"));
-            byte[] userComment = new byte[characterCode.length + comment.length];
+            final byte[] comment = value.getBytes(Charset.forName("US-ASCII"));
+            final byte[] userComment = new byte[characterCode.length + comment.length];
 
             System.arraycopy(characterCode, 0, userComment, 0, characterCode.length);
             System.arraycopy(comment, 0, userComment, characterCode.length, comment.length);
@@ -262,15 +262,15 @@ class Exif {
             addStringExif(outputDirectory, ExifTagConstants.EXIF_TAG_USER_COMMENT, userComment);
         }
 
-        private void addStringExif(TiffOutputDirectory outputDirectory, TagInfo tagInfo,
-                byte[] bytes) {
-            TiffOutputField outputField = new TiffOutputField(tagInfo, FieldType.ASCII,
+        private void addStringExif(final TiffOutputDirectory outputDirectory, final TagInfo tagInfo,
+                final byte[] bytes) {
+            final TiffOutputField outputField = new TiffOutputField(tagInfo, FieldType.ASCII,
                     bytes.length, bytes);
             outputDirectory.add(outputField);
         }
 
-        private static int rotationToExifOrientation(int degrees) {
-            int exifOrientation;
+        private static int rotationToExifOrientation(final int degrees) {
+            final int exifOrientation;
             switch (degrees) {
                 case 0:
                     exifOrientation = 1; // 0CW
@@ -307,8 +307,12 @@ class Exif {
 
         @Override
         public boolean equals(final Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
 
             final RequiredTags that = (RequiredTags) o;
 
@@ -321,9 +325,9 @@ class Exif {
                     && areEqual(compressedBitsPerPixel, that.compressedBitsPerPixel);
         }
 
-        private boolean areEqual(@Nullable TiffField left, @Nullable TiffField right) {
-            boolean leftIsNotNull = left != null;
-            boolean rightIsNotNull = right != null;
+        private boolean areEqual(@Nullable final TiffField left, @Nullable final TiffField right) {
+            final boolean leftIsNotNull = left != null;
+            final boolean rightIsNotNull = right != null;
             Log.d("RequiredTags", "left : " + (leftIsNotNull ? left.toString() : "null"));
             Log.d("RequiredTags", "right: " + (rightIsNotNull ? right.toString() : "null"));
             return leftIsNotNull && rightIsNotNull ? left.getValueDescription().equals(
@@ -416,7 +420,7 @@ class Exif {
 
         @NonNull
         private Map<String, String> createKeyValueMap() {
-            final Map<String, String> map = new LinkedHashMap<>();
+            final Map<String, String> map = new LinkedHashMap<>(); // NOPMD
             // Make
             if (mAddMake) {
                 map.put(USER_COMMENT_MAKE, Build.BRAND);
@@ -454,12 +458,12 @@ class Exif {
             boolean isFirst = true;
             for (final Map.Entry<String, String> keyValueEntry : keyValueMap.entrySet()) {
                 if (!isFirst) {
-                    csvBuilder.append(",");
+                    csvBuilder.append(',');
                 }
                 isFirst = false;
 
                 csvBuilder.append(keyValueEntry.getKey())
-                        .append("=")
+                        .append('=')
                         .append(keyValueEntry.getValue());
             }
             return csvBuilder.toString();
