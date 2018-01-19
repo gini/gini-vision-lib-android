@@ -86,8 +86,8 @@ public final class GiniVisionDebug {
      *     Destination directory is {@code ginivisionlib} inside your apps external files directory: {@code /sdcard/Android/data/your.app.id/files/ginivisionlib/}
      * </p>
      */
-    private static void writeImageDocumentToFile(final Context context, final ImageDocument document,
-            final String suffix) {
+    private static void writeImageDocumentToFile(final Context context,
+            final ImageDocument document, final String suffix) {
         if (!sEnabled) {
             return;
         }

@@ -42,12 +42,14 @@ public class CustomFontButton extends android.support.v7.widget.AppCompatButton 
         configureFont(context, attrs, 0);
     }
 
-    public CustomFontButton(final Context context, final AttributeSet attrs, final int defStyleAttr) {
+    public CustomFontButton(final Context context, final AttributeSet attrs,
+            final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         configureFont(context, attrs, defStyleAttr);
     }
 
-    private void configureFont(final Context context, final AttributeSet attrs, final int defStyleAttr) {
+    private void configureFont(final Context context, final AttributeSet attrs,
+            final int defStyleAttr) {
         parseAttributesAndSetFont(this, context, attrs, defStyleAttr);
     }
 }

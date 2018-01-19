@@ -186,8 +186,10 @@ public class ErrorSnackbar extends RelativeLayout {
         LOG.debug("Removed handler callbacks");
     }
 
-    private static int removeExistingSnackbarsFromParentView(@NonNull final RelativeLayout parentView) {
-        final List<ErrorSnackbar> existingSnackbars = getExistingSnackbarsFromParentView(parentView);
+    private static int removeExistingSnackbarsFromParentView(
+            @NonNull final RelativeLayout parentView) {
+        final List<ErrorSnackbar> existingSnackbars = getExistingSnackbarsFromParentView(
+                parentView);
         for (final ErrorSnackbar existingSnackbar : existingSnackbars) {
             existingSnackbar.hide();
         }

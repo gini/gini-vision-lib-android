@@ -327,7 +327,8 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     public abstract void onAddDataToResult(@NonNull Intent result);
 
     @Override
-    public void onDocumentWasRotated(@NonNull final Document document, final int oldRotation, final int newRotation) {
+    public void onDocumentWasRotated(@NonNull final Document document, final int oldRotation,
+            final int newRotation) {
         clearDocumentAnalysisError();
     }
 
@@ -365,7 +366,8 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     }
 
     @Override
-    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+    protected void onActivityResult(final int requestCode, final int resultCode,
+            final Intent data) {
         if (requestCode == ANALYSE_DOCUMENT_REQUEST) {
             if (resultCode == RESULT_NO_EXTRACTIONS) {
                 finish();

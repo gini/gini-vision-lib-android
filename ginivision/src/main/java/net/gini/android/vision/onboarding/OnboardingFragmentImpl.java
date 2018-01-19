@@ -199,7 +199,8 @@ class OnboardingFragmentImpl {
         private final LinearLayout mLayoutPageIndicators;
         private final List<ImageView> mPageIndicators = new ArrayList<>();
 
-        PageIndicators(final Context context, final int nrOfPages, final LinearLayout layoutPageIndicators) {
+        PageIndicators(final Context context, final int nrOfPages,
+                final LinearLayout layoutPageIndicators) {
             mContext = context;
             mNrOfPages = nrOfPages;
             mLayoutPageIndicators = layoutPageIndicators;
@@ -279,6 +280,7 @@ class OnboardingFragmentImpl {
     static class PageChangeListener implements ViewPager.OnPageChangeListener {
 
         interface Callback {
+
             void onLastPage();
         }
 
@@ -287,7 +289,8 @@ class OnboardingFragmentImpl {
         private final Callback mCallback;
         private int mCurrentPage;
 
-        PageChangeListener(final PageIndicators pageIndicators, final int currentPage, final int pages,
+        PageChangeListener(final PageIndicators pageIndicators, final int currentPage,
+                final int pages,
                 final Callback callback) {
             mPageIndicators = pageIndicators;
             mCurrentPage = currentPage;
@@ -304,7 +307,8 @@ class OnboardingFragmentImpl {
         }
 
         @Override
-        public void onPageScrolled(final int position, final float positionOffset, final int positionOffsetPixels) {
+        public void onPageScrolled(final int position, final float positionOffset,
+                final int positionOffsetPixels) {
 
         }
 

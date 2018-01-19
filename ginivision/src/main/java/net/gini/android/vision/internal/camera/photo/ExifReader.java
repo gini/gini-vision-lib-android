@@ -18,7 +18,7 @@ import java.util.Arrays;
 /**
  * @exclude
  */
-final class ExifReader{
+final class ExifReader {
 
     private final JpegImageMetadata mJpegMetadata;
 
@@ -52,7 +52,8 @@ final class ExifReader{
         }
 
         if (rawUserComment.length >= 8) {
-            return new String(Arrays.copyOfRange(rawUserComment, 8, rawUserComment.length), Charset.forName("US-ASCII"));
+            return new String(Arrays.copyOfRange(rawUserComment, 8, rawUserComment.length),
+                    Charset.forName("US-ASCII"));
         } else {
             return new String(rawUserComment, Charset.forName("US-ASCII"));
         }

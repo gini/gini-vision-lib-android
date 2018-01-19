@@ -80,7 +80,8 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     private boolean mNextClicked;
     private boolean mStopped;
 
-    ReviewFragmentImpl(@NonNull final FragmentImplCallback fragment, @NonNull final Document document) {
+    ReviewFragmentImpl(@NonNull final FragmentImplCallback fragment,
+            @NonNull final Document document) {
         mFragment = fragment;
         if (!document.isReviewable()) {
             throw new IllegalArgumentException(

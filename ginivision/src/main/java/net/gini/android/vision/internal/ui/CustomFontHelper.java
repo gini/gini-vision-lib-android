@@ -26,8 +26,9 @@ final class CustomFontHelper {
      * @param defStyleAttr an attribute in the current theme that contains a reference to a style resource that supplies
      *                     default values for the view. Can be 0 to not look for defaults.
      */
-    public static void parseAttributesAndSetFont(@NonNull final TextView textView,
-            @NonNull final Context context, @NonNull final AttributeSet attributeSet, final int defStyleAttr) {
+    static void parseAttributesAndSetFont(@NonNull final TextView textView,
+            @NonNull final Context context, @NonNull final AttributeSet attributeSet,
+            final int defStyleAttr) {
         final TypedArray giniTypedArray = context.getTheme().obtainStyledAttributes(attributeSet,
                 R.styleable.CustomFont, defStyleAttr, 0);
         String fontFamily = null;
@@ -37,7 +38,8 @@ final class CustomFontHelper {
             giniTypedArray.recycle();
         }
 
-        final TypedArray typefaceTypedArray = context.getTheme().obtainStyledAttributes(attributeSet,
+        final TypedArray typefaceTypedArray = context.getTheme().obtainStyledAttributes(
+                attributeSet,
                 new int[]{android.R.attr.textStyle}, defStyleAttr, 0);
         int fontStyle = Typeface.NORMAL;
         try {
@@ -81,7 +83,8 @@ final class CustomFontHelper {
      * @param fontStyle  Typeface style constant
      * @return true, if custom font could be set, false otherwise
      */
-    private static boolean setCustomFont(@NonNull final TextView textView, @NonNull final Context context,
+    private static boolean setCustomFont(@NonNull final TextView textView,
+            @NonNull final Context context,
             @NonNull final String fontPath, final int fontStyle) {
         boolean success = false;
         try {
@@ -101,7 +104,8 @@ final class CustomFontHelper {
      * @param fontFamily system font family name
      * @param fontStyle  Typeface style constant
      */
-    private static boolean setSystemFont(@NonNull final TextView textView, @Nullable final String fontFamily,
+    private static boolean setSystemFont(@NonNull final TextView textView,
+            @Nullable final String fontFamily,
             final int fontStyle) {
         boolean success = false;
         try {

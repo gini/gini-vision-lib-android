@@ -15,8 +15,8 @@ final class OnboardingPageFragmentHelper {
         return arguments;
     }
 
-    static OnboardingPageFragmentImpl createFragmentImpl(@NonNull final FragmentImplCallback fragment,
-            @NonNull final Bundle arguments) {
+    static OnboardingPageFragmentImpl createFragmentImpl(
+            @NonNull final FragmentImplCallback fragment, @NonNull final Bundle arguments) {
         final OnboardingPage page = arguments.getParcelable(ARGS_PAGE);
         if (page == null) {
             throw new IllegalStateException("Missing OnboardingPage.");

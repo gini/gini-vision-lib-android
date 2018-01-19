@@ -27,7 +27,8 @@ final class OnboardingFragmentHelper {
     }
 
     static OnboardingFragmentImpl createFragmentImpl(
-            @NonNull final OnboardingFragmentImplCallback fragment, @Nullable final Bundle arguments) {
+            @NonNull final OnboardingFragmentImplCallback fragment,
+            @Nullable final Bundle arguments) {
         if (arguments != null) {
             final ArrayList<OnboardingPage> pages = arguments.getParcelableArrayList(ARGS_PAGES);
             final boolean showEmptyLastPage = arguments.getBoolean(ARGS_SHOW_EMPTY_LAST_PAGE, true);

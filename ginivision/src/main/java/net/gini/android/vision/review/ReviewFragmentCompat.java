@@ -1,4 +1,4 @@
-    package net.gini.android.vision.review;
+package net.gini.android.vision.review;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

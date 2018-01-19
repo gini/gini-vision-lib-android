@@ -182,7 +182,8 @@ class Exif {
             // Exposure
             if (requiredTags.exposure != null) {
                 try {
-                    final TiffOutputField exposureField = createTiffOutputField(requiredTags.exposure);
+                    final TiffOutputField exposureField = createTiffOutputField(
+                            requiredTags.exposure);
                     mExifDirectory.add(exposureField);
                 } catch (final Exception e) { // NOPMD
                     // Shouldn't happen, but ignore it, if it does
@@ -191,7 +192,8 @@ class Exif {
             // Aperture
             if (requiredTags.aperture != null) {
                 try {
-                    final TiffOutputField apertureField = createTiffOutputField(requiredTags.aperture);
+                    final TiffOutputField apertureField = createTiffOutputField(
+                            requiredTags.aperture);
                     mExifDirectory.add(apertureField);
                 } catch (final Exception e) { // NOPMD
                     // Shouldn't happen, but ignore it, if it does
@@ -294,6 +296,7 @@ class Exif {
     }
 
     static class RequiredTags {
+
         public TiffField make;
         public TiffField model;
         public TiffField iso;

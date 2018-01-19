@@ -28,7 +28,8 @@ final class AnalysisFragmentHelper {
             @NonNull final Bundle arguments) {
         final Document document = arguments.getParcelable(ARGS_DOCUMENT);
         if (document != null) {
-            final String analysisErrorMessage = arguments.getString(ARGS_DOCUMENT_ANALYSIS_ERROR_MESSAGE);
+            final String analysisErrorMessage = arguments.getString(
+                    ARGS_DOCUMENT_ANALYSIS_ERROR_MESSAGE);
             return new AnalysisFragmentImpl(fragment, document, analysisErrorMessage);
         } else {
             throw new IllegalStateException(

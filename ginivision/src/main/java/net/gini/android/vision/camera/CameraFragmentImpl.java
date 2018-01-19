@@ -416,7 +416,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         }
     }
 
-    protected boolean shouldShowHintPopUp() {
+    private boolean shouldShowHintPopUp() {
         if (!isDocumentImportEnabled()) {
             return false;
         }
@@ -651,10 +651,10 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             public void onClick(final View v) {
                 hideQRCodeDetectedPopup(null);
                 if (mPaymentQRCodeData != null) {
-                        final QRCodeDocument qrCodeDocument = QRCodeDocument.fromPaymentQRCodeData(
-                                mPaymentQRCodeData);
-                        mListener.onQRCodeAvailable(qrCodeDocument);
-                        mPaymentQRCodeData = null; // NOPMD
+                    final QRCodeDocument qrCodeDocument = QRCodeDocument.fromPaymentQRCodeData(
+                            mPaymentQRCodeData);
+                    mListener.onQRCodeAvailable(qrCodeDocument);
+                    mPaymentQRCodeData = null; // NOPMD
                 }
             }
         });
@@ -1177,7 +1177,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         return new CameraController(activity);
     }
 
-    private void handleError(final GiniVisionError.ErrorCode errorCode, @NonNull final String message,
+    private void handleError(final GiniVisionError.ErrorCode errorCode,
+            @NonNull final String message,
             @Nullable final Throwable throwable) {
         String errorMessage = message;
         if (throwable != null) {

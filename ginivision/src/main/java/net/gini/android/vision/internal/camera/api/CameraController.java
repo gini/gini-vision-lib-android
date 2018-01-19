@@ -608,7 +608,8 @@ public class CameraController implements CameraInterface {
      * @param tapViewWidth  the width of the tappable view
      * @param tapViewHeight the height of the tappable view
      */
-    private Rect calculateTapArea(final float x, final float y, final int orientation, final int tapViewWidth,
+    private Rect calculateTapArea(final float x, final float y, final int orientation,
+            final int tapViewWidth,
             final int tapViewHeight) {
         final Rect rect = new Rect(0, 0, 0, 0);
         if (x < tapViewWidth / 2.f && y < tapViewHeight / 2.f) {

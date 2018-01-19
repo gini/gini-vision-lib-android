@@ -42,12 +42,14 @@ public class CustomFontTextView extends android.support.v7.widget.AppCompatTextV
         configureFont(context, attrs, 0);
     }
 
-    public CustomFontTextView(final Context context, final AttributeSet attrs, final int defStyleAttr) {
+    public CustomFontTextView(final Context context, final AttributeSet attrs,
+            final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         configureFont(context, attrs, defStyleAttr);
     }
 
-    private void configureFont(final Context context, final AttributeSet attrs, final int defStyleAttr) {
+    private void configureFont(final Context context, final AttributeSet attrs,
+            final int defStyleAttr) {
         parseAttributesAndSetFont(this, context, attrs, defStyleAttr);
     }
 }
