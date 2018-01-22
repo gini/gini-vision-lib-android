@@ -25,15 +25,15 @@
 
         <!-- These views are created during runtime. Kept here only for visualization during development. -->
         <!--<ImageView-->
-            <!--android:id="@+id/gv_page_indicator_1"-->
-            <!--android:layout_width="@dimen/gv_onboarding_indicator_width"-->
-            <!--android:layout_height="@dimen/gv_onboarding_indicator_height"-->
-            <!--android:scaleType="center"-->
-            <!--android:src="@drawable/gv_onboarding_indicator_active" />-->
+        <!--android:id="@+id/gv_page_indicator_1"-->
+        <!--android:layout_width="@dimen/gv_onboarding_indicator_width"-->
+        <!--android:layout_height="@dimen/gv_onboarding_indicator_height"-->
+        <!--android:scaleType="center"-->
+        <!--android:src="@drawable/gv_onboarding_indicator_active" />-->
         <!---->
         <!--<Space-->
-            <!--android:layout_width="@dimen/gv_onboarding_indicator_width"-->
-            <!--android:layout_height="@dimen/gv_onboarding_indicator_height" />-->
+        <!--android:layout_width="@dimen/gv_onboarding_indicator_width"-->
+        <!--android:layout_height="@dimen/gv_onboarding_indicator_height" />-->
     </LinearLayout>
 
     <ImageButton
@@ -41,8 +41,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="@dimen/gv_fab_vertical_margin"
+        android:layout_marginEnd="@dimen/gv_fab_horizontal_margin"
         android:layout_marginRight="@dimen/gv_fab_horizontal_margin"
         android:background="@drawable/gv_onboarding_fab_background"
         android:src="@drawable/gv_onboarding_fab_next" />

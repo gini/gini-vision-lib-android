@@ -31,6 +31,7 @@
     <dimen name="gv_review_button_rotate_horizontal_margin">8dp</dimen>
     <dimen name="gv_review_bottom_panel_horizontal_padding">16dp</dimen>
     <dimen name="gv_review_bottom_panel_vertical_padding">16dp</dimen>
+    <dimen name="gv_review_progressbar_padding">16dp</dimen>
 
     <dimen name="gv_fab_vertical_margin">16dp</dimen>
     <dimen name="gv_fab_horizontal_margin">16dp</dimen>
