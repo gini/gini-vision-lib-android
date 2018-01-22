@@ -2,29 +2,11 @@
 Changelog
 =========
 
-2.5.0-beta.4 (2018-01-22)
-==================
-
-- QR Code detected popup UI updated to be less transparent and show a QR Code icon on the left.
-
-
-2.5.0-beta.3 (2018-01-16)
-==================
-
-- Public API updated to expose a QRCodeDocument instead of the payment data. The contents of the QRCodeDocument should be uploaded to the Gini API to retrieve the extractions. Feedback should also be sent for these extractions.
-- QR Code detected popup UI finalized.
-
-2.5.0-beta.2 (2017-12-15)
-==================
-
-- Google Mobile Vision API availability checked with retries and only warning logged, if not available.
-- Show QRCode detected popup only when onboarding is not shown and document upload hint is not shown.
-- Hide and show QRCode detected popup, if a different QRCode is detected.
-
-2.5.0-beta.1 (2017-12-14)
+2.5.0 (2018-01-22)
 ==================
 
 - QRCodes on invoices and remittance slips can be detected and read. Supported formats are the BezahlCode and EPC069-12 (Stuzza (AT) and GiroCode (DE)).
+- Consult the `Updating to 2.5.0 <updating-to-2-5-0.html>`_ page in the guide for detailed information.
 
 2.4.3 (2017-11-29)
 ==================
