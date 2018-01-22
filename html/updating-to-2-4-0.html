@@ -54,7 +54,7 @@
   
     <link rel="top" title="Gini Vision Library for Android 2.0 documentation" href="index.html"/>
         <link rel="next" title="How to Upload PDFs and Images (pre-2.4.0)" href="guide-for-open-with.html"/>
-        <link rel="prev" title="Gini Vision Library for Android" href="index.html"/> 
+        <link rel="prev" title="Updating to 2.5.0" href="updating-to-2-5-0.html"/> 
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
 
@@ -82,6 +82,16 @@
         
             <ul class="current">
 <li class="toctree-l1"><a class="reference external" href="http://developer.gini.net/gini-vision-lib-android/javadoc/index.html">Javadoc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="updating-to-2-5-0.html">Updating to 2.5.0</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="updating-to-2-5-0.html#google-play-services">Google Play Services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="updating-to-2-5-0.html#qr-code-scanning">QR Code Scanning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-5-0.html#enable-qr-code-scanning">Enable QR Code Scanning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-5-0.html#handle-the-qr-code">Handle the QR Code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-5-0.html#customizing-the-ui">Customizing the UI</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Updating to 2.4.0</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#breaking-changes">Breaking Changes</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#camera-screen">Camera Screen</a></li>
@@ -123,27 +133,28 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">2.4.3 (2017-11-29)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">2.4.2 (2017-11-14)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">2.4.1 (2017-11-10)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">2.4.0 (2017-10-25)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">2.5.0 (2018-01-22)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">2.4.3 (2017-11-29)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">2.4.2 (2017-11-14)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">2.4.1 (2017-11-10)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id5">2.4.0 (2017-10-25)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#features">Features</a></li>
 <li class="toctree-l3"><a class="reference internal" href="changelog.html#ui-updates">UI Updates</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id5">2.3.0 (2017-08-28)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id6">2.2.2 (2017-07-03)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id7">2.2.1 (2017-06-30)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id8">2.2.0 (2017-03-22)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id9">2.1.0 (2017-01-30)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id10">2.0.1 (2016-10-18)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="changelog.html#id11">2.0.0 (2016-08-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id6">2.3.0 (2017-08-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id7">2.2.2 (2017-07-03)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id8">2.2.1 (2017-06-30)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id9">2.2.0 (2017-03-22)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id10">2.1.0 (2017-01-30)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id11">2.0.1 (2016-10-18)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id12">2.0.0 (2016-08-25)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html#alpha-1-2016-08-18">2.0.0-alpha.1 (2016-08-18)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id12">Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id13">Features</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="changelog.html#stub-1-2016-07-15">2.0.0-stub.1 (2016-07-15)</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="changelog.html#id13">Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id14">Features</a></li>
 </ul>
 </li>
 </ul>
@@ -669,7 +680,7 @@
         <a href="guide-for-open-with.html" class="btn btn-neutral float-right" title="How to Upload PDFs and Images (pre-2.4.0)">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral" title="Gini Vision Library for Android"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="updating-to-2-5-0.html" class="btn btn-neutral" title="Updating to 2.5.0"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
