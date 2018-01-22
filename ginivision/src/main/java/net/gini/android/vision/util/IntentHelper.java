@@ -31,7 +31,7 @@ public final class IntentHelper {
     public static Uri getUri(@NonNull final Intent intent) {
         Uri uri = intent.getData();
         if (uri == null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            ClipData clipData = intent.getClipData();
+            final ClipData clipData = intent.getClipData();
             if (clipData != null && clipData.getItemCount() > 0) {
                 uri = clipData.getItemAt(0).getUri();
             }
@@ -50,7 +50,7 @@ public final class IntentHelper {
     @NonNull
     public static List<String> getMimeTypes(@NonNull final Intent intent,
             @NonNull final Context context) {
-        Uri data = getUri(intent);
+        final Uri data = getUri(intent);
         if (data == null) {
             throw new IllegalArgumentException("Intent data must contain a Uri");
         }
@@ -65,9 +65,9 @@ public final class IntentHelper {
         if (type != null) {
             mimeTypes.add(type);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            ClipData clipData = intent.getClipData();
+            final ClipData clipData = intent.getClipData();
             if (clipData != null) {
-                ClipDescription description = clipData.getDescription();
+                final ClipDescription description = clipData.getDescription();
                 for (int i = 0; i < description.getMimeTypeCount(); i++) {
                     type = description.getMimeType(i);
                     mimeTypes.add(type);
@@ -98,7 +98,7 @@ public final class IntentHelper {
      */
     public static boolean hasMimeType(@NonNull final Intent intent,
             @NonNull final Context context, @NonNull final String mimeType) {
-        List<String> mimeTypes = getMimeTypes(intent, context);
+        final List<String> mimeTypes = getMimeTypes(intent, context);
         for (final String type : mimeTypes) {
             if (type.equals(mimeType)) {
                 return true;
@@ -118,7 +118,7 @@ public final class IntentHelper {
      */
     public static boolean hasMimeTypeWithPrefix(@NonNull final Intent intent,
             @NonNull final Context context, @NonNull final String prefix) {
-        List<String> mimeTypes = getMimeTypes(intent, context);
+        final List<String> mimeTypes = getMimeTypes(intent, context);
         for (final String type : mimeTypes) {
             if (type.startsWith(prefix)) {
                 return true;
@@ -146,9 +146,12 @@ public final class IntentHelper {
             final ApplicationInfo appInfo = context.getPackageManager()
                     .getApplicationInfo(component.getPackageName(), 0);
             return (String) context.getPackageManager().getApplicationLabel(appInfo);
-        } catch (PackageManager.NameNotFoundException e) {
+        } catch (final PackageManager.NameNotFoundException e) {  // NOPMD
             // Ignore
         }
         return null;
+    }
+
+    private IntentHelper() {
     }
 }

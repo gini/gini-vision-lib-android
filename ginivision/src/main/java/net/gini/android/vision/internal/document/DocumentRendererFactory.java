@@ -20,8 +20,11 @@ public final class DocumentRendererFactory {
                 return new ImageDocumentRenderer((ImageDocument) document);
             case PDF:
                 return new PdfDocumentRenderer((PdfDocument) document, context);
+            default:
+                throw new IllegalArgumentException("Unknown document type");
         }
-        throw new IllegalArgumentException("Unknown document type");
     }
 
+    private DocumentRendererFactory() {
+    }
 }

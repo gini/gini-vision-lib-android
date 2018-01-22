@@ -12,12 +12,13 @@ import org.apache.commons.imaging.formats.tiff.constants.ExifTagConstants;
 import org.apache.commons.imaging.formats.tiff.constants.TiffTagConstants;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 
 /**
  * @exclude
  */
-class ExifReader {
+final class ExifReader {
 
     private final JpegImageMetadata mJpegMetadata;
 
@@ -51,9 +52,10 @@ class ExifReader {
         }
 
         if (rawUserComment.length >= 8) {
-            return new String(Arrays.copyOfRange(rawUserComment, 8, rawUserComment.length));
+            return new String(Arrays.copyOfRange(rawUserComment, 8, rawUserComment.length),
+                    Charset.forName("US-ASCII"));
         } else {
-            return new String(rawUserComment);
+            return new String(rawUserComment, Charset.forName("US-ASCII"));
         }
     }
 
@@ -76,15 +78,15 @@ class ExifReader {
         if (orientation != null) {
             try {
                 return exifOrientationToRotation(orientation.getIntValue());
-            } catch (ImageReadException e) {
+            } catch (final ImageReadException e) {
                 return 0;
             }
         }
         return 0;
     }
 
-    private int exifOrientationToRotation(int exifOrientation) {
-        int degrees;
+    private int exifOrientationToRotation(final int exifOrientation) {
+        final int degrees;
         switch (exifOrientation) {
             case 1:
                 degrees = 0; // 0CW

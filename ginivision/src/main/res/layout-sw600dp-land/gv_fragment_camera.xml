@@ -122,15 +122,27 @@
         tools:alpha="1"
         tools:visibility="visible">
 
+        <ImageView
+            android:id="@+id/gv_camera_qrcode_detected_popup_icon"
+            android:layout_width="@dimen/gv_camera_qrcode_icon_size"
+            android:layout_height="@dimen/gv_camera_qrcode_icon_size"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/qr_code_icon"
+            tools:ignore="ContentDescription" />
+
         <net.gini.android.vision.internal.ui.CustomFontTextView
             style="@style/GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/gv_camera_qrcode_detected_popup_text_right_margin"
-            android:layout_marginRight="@dimen/gv_camera_qrcode_detected_popup_text_right_margin"
+            android:layout_marginStart="@dimen/gv_camera_qrcode_detected_popup_text_horizontal_margin"
+            android:layout_marginLeft="@dimen/gv_camera_qrcode_detected_popup_text_horizontal_margin"
+            android:layout_marginEnd="@dimen/gv_camera_qrcode_detected_popup_text_horizontal_margin"
+            android:layout_marginRight="@dimen/gv_camera_qrcode_detected_popup_text_horizontal_margin"
+            android:layout_toRightOf="@id/gv_camera_qrcode_detected_popup_icon"
+            android:layout_toEndOf="@id/gv_camera_qrcode_detected_popup_icon"
             android:layout_toLeftOf="@+id/gv_camera_qrcode_detected_popup_message_2"
             android:layout_toStartOf="@+id/gv_camera_qrcode_detected_popup_message_2"
             android:text="@string/gv_qrcode_detected_popup_message_1" />

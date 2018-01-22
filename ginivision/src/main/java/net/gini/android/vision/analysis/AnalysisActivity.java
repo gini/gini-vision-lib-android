@@ -212,7 +212,7 @@ public abstract class AnalysisActivity extends AppCompatActivity implements
             startActivity(noResultsActivity);
             setResult(RESULT_NO_EXTRACTIONS);
         } else {
-            Intent result = new Intent();
+            final Intent result = new Intent();
             setResult(RESULT_OK, result);
         }
         finish();
@@ -232,7 +232,7 @@ public abstract class AnalysisActivity extends AppCompatActivity implements
     public abstract void onAnalyzeDocument(@NonNull Document document);
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gv_activity_analysis);
         setTitle("");
@@ -254,22 +254,22 @@ public abstract class AnalysisActivity extends AppCompatActivity implements
     @Override
     public void onDocumentAnalyzed() {
         mFragment.onDocumentAnalyzed();
-        Intent result = new Intent();
+        final Intent result = new Intent();
         onAddDataToResult(result);
         setResult(RESULT_OK, result);
         finish();
     }
 
     @Override
-    public void onError(@NonNull GiniVisionError error) {
-        Intent result = new Intent();
+    public void onError(@NonNull final GiniVisionError error) {
+        final Intent result = new Intent();
         result.putExtra(EXTRA_OUT_ERROR, error);
         setResult(RESULT_ERROR, result);
         finish();
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         if (handleMenuItemPressedForHomeButton(this, item)) {
             onBackPressed();
             return true;
@@ -278,13 +278,13 @@ public abstract class AnalysisActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void showError(@NonNull String message, @NonNull String buttonTitle,
-            @NonNull View.OnClickListener onClickListener) {
+    public void showError(@NonNull final String message, @NonNull final String buttonTitle,
+            @NonNull final View.OnClickListener onClickListener) {
         mFragment.showError(message, buttonTitle, onClickListener);
     }
 
     @Override
-    public void showError(@NonNull String message, int duration) {
+    public void showError(@NonNull final String message, final int duration) {
         mFragment.showError(message, duration);
     }
 
@@ -329,7 +329,7 @@ public abstract class AnalysisActivity extends AppCompatActivity implements
     }
 
     private void clearMemory() {
-        mDocument = null;
+        mDocument = null; // NOPMD
     }
 
     private void createFragment() {
@@ -348,7 +348,7 @@ public abstract class AnalysisActivity extends AppCompatActivity implements
     }
 
     private void readExtras() {
-        Bundle extras = getIntent().getExtras();
+        final Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mDocument = extras.getParcelable(EXTRA_IN_DOCUMENT);
             mAnalysisErrorMessage = extras.getString(EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE);

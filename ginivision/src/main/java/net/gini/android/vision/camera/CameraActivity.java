@@ -10,7 +10,6 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.RelativeLayout;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
@@ -395,18 +394,17 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     private static final String CAMERA_FRAGMENT = "CAMERA_FRAGMENT";
     private static final String ONBOARDING_SHOWN_KEY = "ONBOARDING_SHOWN_KEY";
 
-    private ArrayList<OnboardingPage> mOnboardingPages;
+    private ArrayList<OnboardingPage> mOnboardingPages; // NOPMD
     private Intent mReviewDocumentActivityIntent;
     private Intent mAnalyzeDocumentActivityIntent;
-    private boolean mShowOnboarding = false;
+    private boolean mShowOnboarding;
     private boolean mShowOnboardingAtFirstRun = true;
-    private boolean mOnboardingShown = false;
-    private boolean mBackButtonShouldCloseLibrary = false;
+    private boolean mOnboardingShown;
+    private boolean mBackButtonShouldCloseLibrary;
     private GiniVisionCoordinator mGiniVisionCoordinator;
     private Document mDocument;
     private GiniVisionFeatureConfiguration mGiniVisionFeatureConfiguration;
 
-    private RelativeLayout mLayoutRoot;
     private CameraFragmentCompat mFragment;
 
     /**
@@ -461,7 +459,6 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
             restoreSavedState(savedInstanceState);
             retainFragment();
         }
-        bindViews();
         showOnboardingIfRequested();
     }
 
@@ -522,10 +519,6 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         if (mShowOnboarding) {
             startOnboardingActivity();
         }
-    }
-
-    private void bindViews() {
-        mLayoutRoot = (RelativeLayout) findViewById(R.id.gv_root);
     }
 
     @Override
@@ -745,6 +738,6 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     }
 
     private void clearMemory() {
-        mDocument = null;
+        mDocument = null; // NOPMD
     }
 }

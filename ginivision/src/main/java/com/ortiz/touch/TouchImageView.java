@@ -69,7 +69,6 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
         ANIMATE_ZOOM
     }
 
-    ;
     private State state;
 
     private float minScale;
@@ -103,22 +102,22 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
     private OnTouchListener userTouchListener = null;
     private OnTouchImageViewListener touchImageViewListener = null;
 
-    public TouchImageView(Context context) {
+    public TouchImageView(final Context context) {
         super(context);
         sharedConstructing(context);
     }
 
-    public TouchImageView(Context context, AttributeSet attrs) {
+    public TouchImageView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
         sharedConstructing(context);
     }
 
-    public TouchImageView(Context context, AttributeSet attrs, int defStyle) {
+    public TouchImageView(final Context context, final AttributeSet attrs, final int defStyle) {
         super(context, attrs, defStyle);
         sharedConstructing(context);
     }
 
-    private void sharedConstructing(Context context) {
+    private void sharedConstructing(final Context context) {
         super.setClickable(true);
         this.context = context;
         mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
@@ -142,48 +141,48 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
     }
 
     @Override
-    public void setOnTouchListener(OnTouchListener l) {
+    public void setOnTouchListener(final OnTouchListener l) {
         userTouchListener = l;
     }
 
-    public void setOnTouchImageViewListener(OnTouchImageViewListener l) {
+    public void setOnTouchImageViewListener(final OnTouchImageViewListener l) {
         touchImageViewListener = l;
     }
 
-    public void setOnDoubleTapListener(GestureDetector.OnDoubleTapListener l) {
+    public void setOnDoubleTapListener(final GestureDetector.OnDoubleTapListener l) {
         doubleTapListener = l;
     }
 
     @Override
-    public void setImageResource(int resId) {
+    public void setImageResource(final int resId) {
         super.setImageResource(resId);
         savePreviousImageValues();
         fitImageToView();
     }
 
     @Override
-    public void setImageBitmap(Bitmap bm) {
+    public void setImageBitmap(final Bitmap bm) {
         super.setImageBitmap(bm);
         savePreviousImageValues();
         fitImageToView();
     }
 
     @Override
-    public void setImageDrawable(Drawable drawable) {
+    public void setImageDrawable(final Drawable drawable) {
         super.setImageDrawable(drawable);
         savePreviousImageValues();
         fitImageToView();
     }
 
     @Override
-    public void setImageURI(Uri uri) {
+    public void setImageURI(final Uri uri) {
         super.setImageURI(uri);
         savePreviousImageValues();
         fitImageToView();
     }
 
     @Override
-    public void setScaleType(ScaleType type) {
+    public void setScaleType(final ScaleType type) {
         if (type == ScaleType.FIT_START || type == ScaleType.FIT_END) {
             throw new UnsupportedOperationException(
                     "TouchImageView does not support FIT_START or FIT_END");
@@ -224,11 +223,11 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
         if (mScaleType == ScaleType.FIT_XY) {
             throw new UnsupportedOperationException("getZoomedRect() not supported with FIT_XY");
         }
-        PointF topLeft = transformCoordTouchToBitmap(0, 0, true);
-        PointF bottomRight = transformCoordTouchToBitmap(viewWidth, viewHeight, true);
+        final PointF topLeft = transformCoordTouchToBitmap(0, 0, true);
+        final PointF bottomRight = transformCoordTouchToBitmap(viewWidth, viewHeight, true);
 
-        float w = getDrawable().getIntrinsicWidth();
-        float h = getDrawable().getIntrinsicHeight();
+        final float w = getDrawable().getIntrinsicWidth();
+        final float h = getDrawable().getIntrinsicHeight();
         return new RectF(topLeft.x / w, topLeft.y / h, bottomRight.x / w, bottomRight.y / h);
     }
 
@@ -249,7 +248,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
 
     @Override
     public Parcelable onSaveInstanceState() {
-        Bundle bundle = new Bundle();
+        final Bundle bundle = new Bundle();
         bundle.putParcelable("instanceState", super.onSaveInstanceState());
         bundle.putFloat("saveScale", normalizedScale);
         bundle.putFloat("matchViewHeight", matchViewHeight);
@@ -262,9 +261,9 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
     }
 
     @Override
-    public void onRestoreInstanceState(Parcelable state) {
+    public void onRestoreInstanceState(final Parcelable state) {
         if (state instanceof Bundle) {
-            Bundle bundle = (Bundle) state;
+            final Bundle bundle = (Bundle) state;
             normalizedScale = bundle.getFloat("saveScale");
             m = bundle.getFloatArray("matrix");
             prevMatrix.setValues(m);
@@ -280,7 +279,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw(final Canvas canvas) {
         onDrawReady = true;
         if (delayedZoomVariables != null) {
             setZoom(delayedZoomVariables.scale, delayedZoomVariables.focusX,
@@ -291,7 +290,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(final Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         savePreviousImageValues();
     }
@@ -308,7 +307,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
      * Set the max zoom multiplier. Default value: 3.
      * @param max max zoom multiplier.
      */
-    public void setMaxZoom(float max) {
+    public void setMaxZoom(final float max) {
         maxScale = max;
         superMaxScale = SUPER_MAX_MULTIPLIER * maxScale;
     }
@@ -334,7 +333,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
      * Set the min zoom multiplier. Default value: 1.
      * @param min min zoom multiplier.
      */
-    public void setMinZoom(float min) {
+    public void setMinZoom(final float min) {
         minScale = min;
         superMinScale = SUPER_MIN_MULTIPLIER * minScale;
     }
@@ -351,7 +350,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
      * Set zoom to the specified scale. Image will be centered by default.
      * @param scale
      */
-    public void setZoom(float scale) {
+    public void setZoom(final float scale) {
         setZoom(scale, 0.5f, 0.5f);
     }
 
@@ -364,7 +363,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
      * @param focusX
      * @param focusY
      */
-    public void setZoom(float scale, float focusX, float focusY) {
+    public void setZoom(final float scale, final float focusX, final float focusY) {
         setZoom(scale, focusX, focusY, mScaleType);
     }
 
@@ -378,7 +377,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
      * @param focusY
      * @param scaleType
      */
-    public void setZoom(float scale, float focusX, float focusY, ScaleType scaleType) {
+    public void setZoom(final float scale, final float focusX, final float focusY, final ScaleType scaleType) {
         //
         // setZoom can be called before the image is on the screen, but at this point,
         // image and view sizes have not yet been calculated in onMeasure. Thus, we should
@@ -393,7 +392,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
             setScaleType(scaleType);
         }
         resetZoom();
-        scaleImage(scale, viewWidth / 2, viewHeight / 2, true);
+        scaleImage(scale, viewWidth / 2f, viewHeight / 2f, true);
         matrix.getValues(m);
         m[Matrix.MTRANS_X] = -((focusX * getImageWidth()) - (viewWidth * 0.5f));
         m[Matrix.MTRANS_Y] = -((focusY * getImageHeight()) - (viewHeight * 0.5f));
@@ -407,8 +406,8 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
      * and ScaleType.
      * @param TouchImageView
      */
-    public void setZoom(TouchImageView img) {
-        PointF center = img.getScrollPosition();
+    public void setZoom(final TouchImageView img) {
+        final PointF center = img.getScrollPosition();
         setZoom(img.getCurrentZoom(), center.x, center.y, img.getScaleType());
     }
 
@@ -420,14 +419,14 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
      * @return PointF representing the scroll position of the zoomed image.
      */
     public PointF getScrollPosition() {
-        Drawable drawable = getDrawable();
+        final Drawable drawable = getDrawable();
         if (drawable == null) {
             return null;
         }
-        int drawableWidth = drawable.getIntrinsicWidth();
-        int drawableHeight = drawable.getIntrinsicHeight();
+        final int drawableWidth = drawable.getIntrinsicWidth();
+        final int drawableHeight = drawable.getIntrinsicHeight();
 
-        PointF point = transformCoordTouchToBitmap(viewWidth / 2, viewHeight / 2, true);
+        final PointF point = transformCoordTouchToBitmap(viewWidth / 2f, viewHeight / 2f, true);
         point.x /= drawableWidth;
         point.y /= drawableHeight;
         return point;
@@ -439,7 +438,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
      * @param focusX
      * @param focusY
      */
-    public void setScrollPosition(float focusX, float focusY) {
+    public void setScrollPosition(final float focusX, final float focusY) {
         setZoom(normalizedScale, focusX, focusY);
     }
 
@@ -449,11 +448,11 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
      */
     private void fixTrans() {
         matrix.getValues(m);
-        float transX = m[Matrix.MTRANS_X];
-        float transY = m[Matrix.MTRANS_Y];
+        final float transX = m[Matrix.MTRANS_X];
+        final float transY = m[Matrix.MTRANS_Y];
 
-        float fixTransX = getFixTrans(transX, viewWidth, getImageWidth());
-        float fixTransY = getFixTrans(transY, viewHeight, getImageHeight());
+        final float fixTransX = getFixTrans(transX, viewWidth, getImageWidth());
+        final float fixTransY = getFixTrans(transY, viewHeight, getImageHeight());
 
         if (fixTransX != 0 || fixTransY != 0) {
             matrix.postTranslate(fixTransX, fixTransY);
@@ -480,8 +479,9 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
         matrix.setValues(m);
     }
 
-    private float getFixTrans(float trans, float viewSize, float contentSize) {
-        float minTrans, maxTrans;
+    private float getFixTrans(final float trans, final float viewSize, final float contentSize) {
+        final float minTrans;
+        final float maxTrans;
 
         if (contentSize <= viewSize) {
             minTrans = 0;
@@ -501,7 +501,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
         return 0;
     }
 
-    private float getFixDragTrans(float delta, float viewSize, float contentSize) {
+    private float getFixDragTrans(final float delta, final float viewSize, final float contentSize) {
         if (contentSize <= viewSize) {
             return 0;
         }
@@ -517,20 +517,20 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        Drawable drawable = getDrawable();
+    protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
+        final Drawable drawable = getDrawable();
         if (drawable == null || drawable.getIntrinsicWidth() == 0
                 || drawable.getIntrinsicHeight() == 0) {
             setMeasuredDimension(0, 0);
             return;
         }
 
-        int drawableWidth = drawable.getIntrinsicWidth();
-        int drawableHeight = drawable.getIntrinsicHeight();
-        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
-        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
-        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
-        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+        final int drawableWidth = drawable.getIntrinsicWidth();
+        final int drawableHeight = drawable.getIntrinsicHeight();
+        final int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+        final int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+        final int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+        final int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         viewWidth = setViewSize(widthMode, widthSize, drawableWidth);
         viewHeight = setViewSize(heightMode, heightSize, drawableHeight);
 
@@ -551,7 +551,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
      * allows the image to maintain its zoom after rotation.
      */
     private void fitImageToView() {
-        Drawable drawable = getDrawable();
+        final Drawable drawable = getDrawable();
         if (drawable == null || drawable.getIntrinsicWidth() == 0
                 || drawable.getIntrinsicHeight() == 0) {
             return;
@@ -560,8 +560,8 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
             return;
         }
 
-        int drawableWidth = drawable.getIntrinsicWidth();
-        int drawableHeight = drawable.getIntrinsicHeight();
+        final int drawableWidth = drawable.getIntrinsicWidth();
+        final int drawableHeight = drawable.getIntrinsicHeight();
 
         //
         // Scale image for view
@@ -580,7 +580,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
 
             case CENTER_INSIDE:
                 scaleX = scaleY = Math.min(1, Math.min(scaleX, scaleY));
-
+                break;
             case FIT_CENTER:
                 scaleX = scaleY = Math.min(scaleX, scaleY);
                 break;
@@ -600,8 +600,8 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
         //
         // Center the image
         //
-        float redundantXSpace = viewWidth - (scaleX * drawableWidth);
-        float redundantYSpace = viewHeight - (scaleY * drawableHeight);
+        final float redundantXSpace = viewWidth - (scaleX * drawableWidth);
+        final float redundantYSpace = viewHeight - (scaleY * drawableHeight);
         matchViewWidth = viewWidth - redundantXSpace;
         matchViewHeight = viewHeight - redundantYSpace;
         if (!isZoomed()) {
@@ -633,22 +633,22 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
             //
             // TransX and TransY from previous matrix
             //
-            float transX = m[Matrix.MTRANS_X];
-            float transY = m[Matrix.MTRANS_Y];
+            final float transX = m[Matrix.MTRANS_X];
+            final float transY = m[Matrix.MTRANS_Y];
 
             //
             // Width
             //
-            float prevActualWidth = prevMatchViewWidth * normalizedScale;
-            float actualWidth = getImageWidth();
+            final float prevActualWidth = prevMatchViewWidth * normalizedScale;
+            final float actualWidth = getImageWidth();
             translateMatrixAfterRotate(Matrix.MTRANS_X, transX, prevActualWidth, actualWidth,
                     prevViewWidth, viewWidth, drawableWidth);
 
             //
             // Height
             //
-            float prevActualHeight = prevMatchViewHeight * normalizedScale;
-            float actualHeight = getImageHeight();
+            final float prevActualHeight = prevMatchViewHeight * normalizedScale;
+            final float actualHeight = getImageHeight();
             translateMatrixAfterRotate(Matrix.MTRANS_Y, transY, prevActualHeight, actualHeight,
                     prevViewHeight, viewHeight, drawableHeight);
 
@@ -669,8 +669,8 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
      * @param drawableWidth
      * @return
      */
-    private int setViewSize(int mode, int size, int drawableWidth) {
-        int viewSize;
+    private int setViewSize(final int mode, final int size, final int drawableWidth) {
+        final int viewSize;
         switch (mode) {
             case MeasureSpec.EXACTLY:
                 viewSize = size;
@@ -703,8 +703,8 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
      * @param viewSize width/height of view after rotation
      * @param drawableSize width/height of drawable
      */
-    private void translateMatrixAfterRotate(int axis, float trans, float prevImageSize,
-            float imageSize, int prevViewSize, int viewSize, int drawableSize) {
+    private void translateMatrixAfterRotate(final int axis, final float trans, final float prevImageSize,
+            final float imageSize, final int prevViewSize, final int viewSize, final int drawableSize) {
         if (imageSize < viewSize) {
             //
             // The width/height of image is less than the view's width/height. Center it.
@@ -723,23 +723,23 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
             // from the left/top side of the view as a fraction of the entire image's width/height. Use that percentage
             // to calculate the trans in the new view width/height.
             //
-            float percentage = (Math.abs(trans) + (0.5f * prevViewSize)) / prevImageSize;
+            final float percentage = (Math.abs(trans) + (0.5f * prevViewSize)) / prevImageSize;
             m[axis] = -((percentage * imageSize) - (viewSize * 0.5f));
         }
     }
 
-    private void setState(State state) {
+    private void setState(final State state) {
         this.state = state;
     }
 
-    public boolean canScrollHorizontallyFroyo(int direction) {
+    public boolean canScrollHorizontallyFroyo(final int direction) {
         return canScrollHorizontally(direction);
     }
 
     @Override
-    public boolean canScrollHorizontally(int direction) {
+    public boolean canScrollHorizontally(final int direction) {
         matrix.getValues(m);
-        float x = m[Matrix.MTRANS_X];
+        final float x = m[Matrix.MTRANS_X];
 
         if (getImageWidth() < viewWidth) {
             return false;
@@ -763,7 +763,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
 
         @Override
-        public boolean onSingleTapConfirmed(MotionEvent e) {
+        public boolean onSingleTapConfirmed(final MotionEvent e) {
             if (doubleTapListener != null) {
                 return doubleTapListener.onSingleTapConfirmed(e);
             }
@@ -771,12 +771,12 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
         }
 
         @Override
-        public void onLongPress(MotionEvent e) {
+        public void onLongPress(final MotionEvent e) {
             performLongClick();
         }
 
         @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        public boolean onFling(final MotionEvent e1, final MotionEvent e2, final float velocityX, final float velocityY) {
             if (fling != null) {
                 //
                 // If a previous fling is still active, it should be cancelled so that two flings
@@ -790,14 +790,14 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
         }
 
         @Override
-        public boolean onDoubleTap(MotionEvent e) {
+        public boolean onDoubleTap(final MotionEvent e) {
             boolean consumed = false;
             if (doubleTapListener != null) {
                 consumed = doubleTapListener.onDoubleTap(e);
             }
             if (state == State.NONE) {
-                float targetZoom = (normalizedScale == minScale) ? maxScale : minScale;
-                DoubleTapZoom doubleTap = new DoubleTapZoom(targetZoom, e.getX(), e.getY(), false);
+                final float targetZoom = (normalizedScale == minScale) ? maxScale : minScale;
+                final DoubleTapZoom doubleTap = new DoubleTapZoom(targetZoom, e.getX(), e.getY(), false);
                 compatPostOnAnimation(doubleTap);
                 consumed = true;
             }
@@ -805,7 +805,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
         }
 
         @Override
-        public boolean onDoubleTapEvent(MotionEvent e) {
+        public boolean onDoubleTapEvent(final MotionEvent e) {
             if (doubleTapListener != null) {
                 return doubleTapListener.onDoubleTapEvent(e);
             }
@@ -830,13 +830,13 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
         //
         // Remember last point position for dragging
         //
-        private PointF last = new PointF();
+        private final PointF last = new PointF();
 
         @Override
-        public boolean onTouch(View v, MotionEvent event) {
+        public boolean onTouch(final View v, final MotionEvent event) {
             mScaleDetector.onTouchEvent(event);
             mGestureDetector.onTouchEvent(event);
-            PointF curr = new PointF(event.getX(), event.getY());
+            final PointF curr = new PointF(event.getX(), event.getY());
 
             if (state == State.NONE || state == State.DRAG || state == State.FLING) {
                 switch (event.getAction()) {
@@ -850,10 +850,10 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
 
                     case MotionEvent.ACTION_MOVE:
                         if (state == State.DRAG) {
-                            float deltaX = curr.x - last.x;
-                            float deltaY = curr.y - last.y;
-                            float fixTransX = getFixDragTrans(deltaX, viewWidth, getImageWidth());
-                            float fixTransY = getFixDragTrans(deltaY, viewHeight, getImageHeight());
+                            final float deltaX = curr.x - last.x;
+                            final float deltaY = curr.y - last.y;
+                            final float fixTransX = getFixDragTrans(deltaX, viewWidth, getImageWidth());
+                            final float fixTransY = getFixDragTrans(deltaY, viewHeight, getImageHeight());
                             matrix.postTranslate(fixTransX, fixTransY);
                             fixTrans();
                             last.set(curr.x, curr.y);
@@ -863,6 +863,8 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_POINTER_UP:
                         setState(State.NONE);
+                        break;
+                    default:
                         break;
                 }
             }
@@ -897,13 +899,13 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
      */
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
         @Override
-        public boolean onScaleBegin(ScaleGestureDetector detector) {
+        public boolean onScaleBegin(final ScaleGestureDetector detector) {
             setState(State.ZOOM);
             return true;
         }
 
         @Override
-        public boolean onScale(ScaleGestureDetector detector) {
+        public boolean onScale(final ScaleGestureDetector detector) {
             scaleImage(detector.getScaleFactor(), detector.getFocusX(), detector.getFocusY(), true);
 
             //
@@ -916,7 +918,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
         }
 
         @Override
-        public void onScaleEnd(ScaleGestureDetector detector) {
+        public void onScaleEnd(final ScaleGestureDetector detector) {
             super.onScaleEnd(detector);
             setState(State.NONE);
             boolean animateToZoomBoundary = false;
@@ -931,17 +933,18 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
             }
 
             if (animateToZoomBoundary) {
-                DoubleTapZoom doubleTap = new DoubleTapZoom(targetZoom, viewWidth / 2,
-                        viewHeight / 2, true);
+                final DoubleTapZoom doubleTap = new DoubleTapZoom(targetZoom, viewWidth / 2f,
+                        viewHeight / 2f, true);
                 compatPostOnAnimation(doubleTap);
             }
         }
     }
 
-    private void scaleImage(double deltaScale, float focusX, float focusY,
-            boolean stretchImageToSuper) {
+    private void scaleImage(double deltaScale, final float focusX, final float focusY,
+            final boolean stretchImageToSuper) {
 
-        float lowerScale, upperScale;
+        final float lowerScale;
+        final float upperScale;
         if (stretchImageToSuper) {
             lowerScale = superMinScale;
             upperScale = superMaxScale;
@@ -951,7 +954,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
             upperScale = maxScale;
         }
 
-        float origScale = normalizedScale;
+        final float origScale = normalizedScale;
         normalizedScale *= deltaScale;
         if (normalizedScale > upperScale) {
             normalizedScale = upperScale;
@@ -973,37 +976,39 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
      */
     private class DoubleTapZoom implements Runnable {
 
-        private long startTime;
+        private final long startTime;
         private static final float ZOOM_TIME = 500;
-        private float startZoom, targetZoom;
-        private float bitmapX, bitmapY;
-        private boolean stretchImageToSuper;
-        private AccelerateDecelerateInterpolator interpolator =
+        private final float startZoom;
+        private final float targetZoom;
+        private final float bitmapX;
+        private final float bitmapY;
+        private final boolean stretchImageToSuper;
+        private final AccelerateDecelerateInterpolator interpolator =
                 new AccelerateDecelerateInterpolator();
-        private PointF startTouch;
-        private PointF endTouch;
+        private final PointF startTouch;
+        private final PointF endTouch;
 
-        DoubleTapZoom(float targetZoom, float focusX, float focusY, boolean stretchImageToSuper) {
+        DoubleTapZoom(final float targetZoom, final float focusX, final float focusY, final boolean stretchImageToSuper) {
             setState(State.ANIMATE_ZOOM);
             startTime = System.currentTimeMillis();
-            this.startZoom = normalizedScale;
+            startZoom = normalizedScale;
             this.targetZoom = targetZoom;
             this.stretchImageToSuper = stretchImageToSuper;
-            PointF bitmapPoint = transformCoordTouchToBitmap(focusX, focusY, false);
-            this.bitmapX = bitmapPoint.x;
-            this.bitmapY = bitmapPoint.y;
+            final PointF bitmapPoint = transformCoordTouchToBitmap(focusX, focusY, false);
+            bitmapX = bitmapPoint.x;
+            bitmapY = bitmapPoint.y;
 
             //
             // Used for translating image during scaling
             //
             startTouch = transformCoordBitmapToTouch(bitmapX, bitmapY);
-            endTouch = new PointF(viewWidth / 2, viewHeight / 2);
+            endTouch = new PointF(viewWidth / 2f, viewHeight / 2f);
         }
 
         @Override
         public void run() {
-            float t = interpolate();
-            double deltaScale = calculateDeltaScale(t);
+            final float t = interpolate();
+            final double deltaScale = calculateDeltaScale(t);
             scaleImage(deltaScale, bitmapX, bitmapY, stretchImageToSuper);
             translateImageToCenterTouchPosition(t);
             fixScaleTrans();
@@ -1037,10 +1042,10 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
          * of the zoom.
          * @param t
          */
-        private void translateImageToCenterTouchPosition(float t) {
-            float targetX = startTouch.x + t * (endTouch.x - startTouch.x);
-            float targetY = startTouch.y + t * (endTouch.y - startTouch.y);
-            PointF curr = transformCoordBitmapToTouch(bitmapX, bitmapY);
+        private void translateImageToCenterTouchPosition(final float t) {
+            final float targetX = startTouch.x + t * (endTouch.x - startTouch.x);
+            final float targetY = startTouch.y + t * (endTouch.y - startTouch.y);
+            final PointF curr = transformCoordBitmapToTouch(bitmapX, bitmapY);
             matrix.postTranslate(targetX - curr.x, targetY - curr.y);
         }
 
@@ -1049,7 +1054,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
          * @return
          */
         private float interpolate() {
-            long currTime = System.currentTimeMillis();
+            final long currTime = System.currentTimeMillis();
             float elapsed = (currTime - startTime) / ZOOM_TIME;
             elapsed = Math.min(1f, elapsed);
             return interpolator.getInterpolation(elapsed);
@@ -1061,8 +1066,8 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
          * @param t
          * @return
          */
-        private double calculateDeltaScale(float t) {
-            double zoom = startZoom + t * (targetZoom - startZoom);
+        private double calculateDeltaScale(final float t) {
+            final double zoom = startZoom + t * (targetZoom - startZoom);
             return zoom / normalizedScale;
         }
     }
@@ -1076,12 +1081,12 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
      * 			to the bounds of the bitmap size.
      * @return Coordinates of the point touched, in the coordinate system of the original drawable.
      */
-    private PointF transformCoordTouchToBitmap(float x, float y, boolean clipToBitmap) {
+    private PointF transformCoordTouchToBitmap(final float x, final float y, final boolean clipToBitmap) {
         matrix.getValues(m);
-        float origW = getDrawable().getIntrinsicWidth();
-        float origH = getDrawable().getIntrinsicHeight();
-        float transX = m[Matrix.MTRANS_X];
-        float transY = m[Matrix.MTRANS_Y];
+        final float origW = getDrawable().getIntrinsicWidth();
+        final float origH = getDrawable().getIntrinsicHeight();
+        final float transX = m[Matrix.MTRANS_X];
+        final float transY = m[Matrix.MTRANS_Y];
         float finalX = ((x - transX) * origW) / getImageWidth();
         float finalY = ((y - transY) * origH) / getImageHeight();
 
@@ -1100,14 +1105,14 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
      * @param by y-coordinate in original bitmap coordinate system
      * @return Coordinates of the point in the view's coordinate system.
      */
-    private PointF transformCoordBitmapToTouch(float bx, float by) {
+    private PointF transformCoordBitmapToTouch(final float bx, final float by) {
         matrix.getValues(m);
-        float origW = getDrawable().getIntrinsicWidth();
-        float origH = getDrawable().getIntrinsicHeight();
-        float px = bx / origW;
-        float py = by / origH;
-        float finalX = m[Matrix.MTRANS_X] + getImageWidth() * px;
-        float finalY = m[Matrix.MTRANS_Y] + getImageHeight() * py;
+        final float origW = getDrawable().getIntrinsicWidth();
+        final float origH = getDrawable().getIntrinsicHeight();
+        final float px = bx / origW;
+        final float py = by / origH;
+        final float finalX = m[Matrix.MTRANS_X] + getImageWidth() * px;
+        final float finalY = m[Matrix.MTRANS_Y] + getImageHeight() * py;
         return new PointF(finalX, finalY);
     }
 
@@ -1123,14 +1128,17 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
         CompatScroller scroller;
         int currX, currY;
 
-        Fling(int velocityX, int velocityY) {
+        Fling(final int velocityX, final int velocityY) {
             setState(State.FLING);
             scroller = new CompatScroller(context);
             matrix.getValues(m);
 
-            int startX = (int) m[Matrix.MTRANS_X];
-            int startY = (int) m[Matrix.MTRANS_Y];
-            int minX, maxX, minY, maxY;
+            final int startX = (int) m[Matrix.MTRANS_X];
+            final int startY = (int) m[Matrix.MTRANS_Y];
+            final int minX;
+            final int maxX;
+            final int minY;
+            final int maxY;
 
             if (getImageWidth() > viewWidth) {
                 minX = viewWidth - (int) getImageWidth();
@@ -1178,10 +1186,10 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
             }
 
             if (scroller.computeScrollOffset()) {
-                int newX = scroller.getCurrX();
-                int newY = scroller.getCurrY();
-                int transX = newX - currX;
-                int transY = newY - currY;
+                final int newX = scroller.getCurrX();
+                final int newY = scroller.getCurrY();
+                final int transX = newX - currX;
+                final int transY = newY - currY;
                 currX = newX;
                 currY = newY;
                 matrix.postTranslate(transX, transY);
@@ -1193,24 +1201,18 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
     }
 
     @TargetApi(VERSION_CODES.GINGERBREAD)
-    private class CompatScroller {
+    private static class CompatScroller {
         Scroller scroller;
         OverScroller overScroller;
         boolean isPreGingerbread;
 
-        public CompatScroller(Context context) {
-            if (VERSION.SDK_INT < VERSION_CODES.GINGERBREAD) {
-                isPreGingerbread = true;
-                scroller = new Scroller(context);
-
-            } else {
-                isPreGingerbread = false;
-                overScroller = new OverScroller(context);
-            }
+        public CompatScroller(final Context context) {
+            isPreGingerbread = false;
+            overScroller = new OverScroller(context);
         }
 
-        public void fling(int startX, int startY, int velocityX, int velocityY, int minX, int maxX,
-                int minY, int maxY) {
+        public void fling(final int startX, final int startY, final int velocityX, final int velocityY, final int minX, final int maxX,
+                final int minY, final int maxY) {
             if (isPreGingerbread) {
                 scroller.fling(startX, startY, velocityX, velocityY, minX, maxX, minY, maxY);
             } else {
@@ -1218,7 +1220,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
             }
         }
 
-        public void forceFinished(boolean finished) {
+        public void forceFinished(final boolean finished) {
             if (isPreGingerbread) {
                 scroller.forceFinished(finished);
             } else {
@@ -1261,7 +1263,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
     }
 
     @TargetApi(VERSION_CODES.JELLY_BEAN)
-    private void compatPostOnAnimation(Runnable runnable) {
+    private void compatPostOnAnimation(final Runnable runnable) {
         if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN) {
             postOnAnimation(runnable);
 
@@ -1270,13 +1272,14 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
         }
     }
 
-    private class ZoomVariables {
+    private static class ZoomVariables {
         public float scale;
         public float focusX;
         public float focusY;
         public ScaleType scaleType;
 
-        public ZoomVariables(float scale, float focusX, float focusY, ScaleType scaleType) {
+        public ZoomVariables(
+                final float scale, final float focusX, final float focusY, final ScaleType scaleType) {
             this.scale = scale;
             this.focusX = focusX;
             this.focusY = focusY;
@@ -1285,7 +1288,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
     }
 
     private void printMatrixInfo() {
-        float[] n = new float[9];
+        final float[] n = new float[9];
         matrix.getValues(n);
         Log.d(DEBUG, "Scale: " + n[Matrix.MSCALE_X] + " TransX: " + n[Matrix.MTRANS_X] + " TransY: "
                 + n[Matrix.MTRANS_Y]);

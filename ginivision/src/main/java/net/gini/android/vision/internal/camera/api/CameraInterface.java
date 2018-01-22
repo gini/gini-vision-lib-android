@@ -161,7 +161,10 @@ public interface CameraInterface {
      */
     int getCameraRotation();
 
-    public interface TapToFocusListener {
+    /**
+     * Listener for tap to focus.
+     */
+    interface TapToFocusListener {
         void onFocusing(Point point);
 
         void onFocused(boolean success);

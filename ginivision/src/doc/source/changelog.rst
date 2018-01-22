@@ -2,6 +2,12 @@
 Changelog
 =========
 
+2.5.0-beta.4 (2018-01-22)
+==================
+
+- QR Code detected popup UI updated to be less transparent and show a QR Code icon on the left.
+
+
 2.5.0-beta.3 (2018-01-16)
 ==================
 

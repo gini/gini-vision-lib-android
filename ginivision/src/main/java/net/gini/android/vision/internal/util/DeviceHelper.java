@@ -15,4 +15,7 @@ public final class DeviceHelper {
     public static String getDeviceType(@NonNull final Context context) {
         return ContextHelper.isTablet(context) ? "tablet" : "phone";
     }
+
+    private DeviceHelper() {
+    }
 }

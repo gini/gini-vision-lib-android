@@ -26,13 +26,13 @@ class ImmutablePhoto implements Photo {
 
     private static final Logger LOG = LoggerFactory.getLogger(ImmutablePhoto.class);
 
-    protected Bitmap mBitmapPreview;
-    protected byte[] mData;
-    protected int mRotationForDisplay = 0;
+    Bitmap mBitmapPreview;
+    byte[] mData;
+    int mRotationForDisplay;
     private final ImageDocument.ImageFormat mImageFormat;
     private final boolean mIsImported;
 
-    ImmutablePhoto(@NonNull byte[] data, int orientation,
+    ImmutablePhoto(@NonNull final byte[] data, final int orientation,
             @NonNull final ImageDocument.ImageFormat imageFormat, final boolean isImported) {
         mData = data;
         mRotationForDisplay = orientation;
@@ -41,7 +41,7 @@ class ImmutablePhoto implements Photo {
         mBitmapPreview = createPreview();
     }
 
-    ImmutablePhoto(@NonNull ImageDocument imageDocument) {
+    ImmutablePhoto(@NonNull final ImageDocument imageDocument) {
         mData = imageDocument.getData();
         mRotationForDisplay = imageDocument.getRotationForDisplay();
         mImageFormat = imageDocument.getFormat();
@@ -50,17 +50,18 @@ class ImmutablePhoto implements Photo {
     }
 
     @Nullable
-    protected Bitmap createPreview() {
+    final Bitmap createPreview() {
         if (mData == null) {
             return null;
         }
 
-        BitmapFactory.Options options = new BitmapFactory.Options();
+        final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 2;
 
         return BitmapFactory.decodeByteArray(mData, 0, mData.length, options);
     }
 
+    @Override
     @Nullable
     public synchronized Bitmap getBitmapPreview() {
         return mBitmapPreview;
@@ -96,6 +97,7 @@ class ImmutablePhoto implements Photo {
         return mIsImported;
     }
 
+    @Override
     @Nullable
     public synchronized byte[] getData() {
         return mData;
@@ -136,18 +138,19 @@ class ImmutablePhoto implements Photo {
         return null;
     }
 
-    public synchronized void saveToFile(File file) {
+    @Override
+    public synchronized void saveToFile(final File file) {
         FileOutputStream fileOutputStream = null;
         try {
             fileOutputStream = new FileOutputStream(file);
             fileOutputStream.write(mData, 0, mData.length);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             LOG.error("Failed to save jpeg to {}", file.getAbsolutePath(), e);
         } finally {
             if (fileOutputStream != null) {
                 try {
                     fileOutputStream.close();
-                } catch (IOException e) {
+                } catch (final IOException e) {
                     LOG.error("Closing FileOutputStream failed for {}", file.getAbsolutePath(), e);
                 }
             }
@@ -155,18 +158,18 @@ class ImmutablePhoto implements Photo {
     }
 
     @VisibleForTesting
-    public synchronized void savePreviewToFile(File file) {
+    public synchronized void savePreviewToFile(final File file) {
         FileOutputStream outputStream = null;
         try {
             outputStream = new FileOutputStream(file);
             mBitmapPreview.compress(Bitmap.CompressFormat.JPEG, 90, outputStream);
-        } catch (FileNotFoundException e) {
+        } catch (final FileNotFoundException e) {
             LOG.error("Failed to save preview to {}", file.getAbsolutePath(), e);
         } finally {
             if (outputStream != null) {
                 try {
                     outputStream.close();
-                } catch (IOException e) {
+                } catch (final IOException e) {
                     LOG.error("Closing FileOutputStream failed for {}", file.getAbsolutePath(), e);
                 }
             }
@@ -179,7 +182,7 @@ class ImmutablePhoto implements Photo {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         final ParcelableMemoryCache cache = ParcelableMemoryCache.getInstance();
         ParcelableMemoryCache.Token token = cache.storeBitmap(mBitmapPreview);
         dest.writeParcelable(token, flags);
@@ -195,17 +198,17 @@ class ImmutablePhoto implements Photo {
     public static final Parcelable.Creator<ImmutablePhoto> CREATOR =
             new Parcelable.Creator<ImmutablePhoto>() {
                 @Override
-                public ImmutablePhoto createFromParcel(Parcel in) {
+                public ImmutablePhoto createFromParcel(final Parcel in) {
                     return new ImmutablePhoto(in);
                 }
 
                 @Override
-                public ImmutablePhoto[] newArray(int size) {
+                public ImmutablePhoto[] newArray(final int size) {
                     return new ImmutablePhoto[size];
                 }
             };
 
-    protected ImmutablePhoto(Parcel in) {
+    protected ImmutablePhoto(final Parcel in) {
         final ParcelableMemoryCache cache = ParcelableMemoryCache.getInstance();
         ParcelableMemoryCache.Token token = in.readParcelable(
                 ParcelableMemoryCache.Token.class.getClassLoader());
@@ -223,8 +226,12 @@ class ImmutablePhoto implements Photo {
 
     @Override
     public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         final ImmutablePhoto photo = (ImmutablePhoto) o;
 

@@ -4,7 +4,6 @@ import static net.gini.android.vision.internal.ui.CustomFontHelper.parseAttribut
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
 /**
  * Custom TextView with an additional 'gvCustomFont' attribute. System font names or font file paths (full path in the assets folder)
@@ -32,23 +31,25 @@ import android.widget.TextView;
  *
  * @exclude
  */
-public class CustomFontTextView extends TextView {
+public class CustomFontTextView extends android.support.v7.widget.AppCompatTextView {
 
-    public CustomFontTextView(Context context) {
+    public CustomFontTextView(final Context context) {
         super(context);
     }
 
-    public CustomFontTextView(Context context, AttributeSet attrs) {
+    public CustomFontTextView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
         configureFont(context, attrs, 0);
     }
 
-    public CustomFontTextView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CustomFontTextView(final Context context, final AttributeSet attrs,
+            final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         configureFont(context, attrs, defStyleAttr);
     }
 
-    private void configureFont(Context context, AttributeSet attrs, int defStyleAttr) {
+    private void configureFont(final Context context, final AttributeSet attrs,
+            final int defStyleAttr) {
         parseAttributesAndSetFont(this, context, attrs, defStyleAttr);
     }
 }

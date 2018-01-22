@@ -15,6 +15,7 @@ build/
 .idea/dictionaries
 .idea/saveactions_settings.xml
 local.properties
+checkstyle-idea.xml
 
 # Sensitive or high-churn files:
 .idea/**/dataSources/

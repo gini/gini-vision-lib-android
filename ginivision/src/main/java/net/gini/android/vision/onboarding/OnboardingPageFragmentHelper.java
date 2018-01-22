@@ -5,22 +5,25 @@ import android.support.annotation.NonNull;
 
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 
-class OnboardingPageFragmentHelper {
+final class OnboardingPageFragmentHelper {
 
     private static final String ARGS_PAGE = "GV_PAGE";
 
-    static Bundle createArguments(@NonNull OnboardingPage page) {
-        Bundle arguments = new Bundle();
+    static Bundle createArguments(@NonNull final OnboardingPage page) {
+        final Bundle arguments = new Bundle();
         arguments.putParcelable(ARGS_PAGE, page);
         return arguments;
     }
 
-    static OnboardingPageFragmentImpl createFragmentImpl(@NonNull FragmentImplCallback fragment,
-            @NonNull Bundle arguments) {
-        OnboardingPage page = arguments.getParcelable(ARGS_PAGE);
+    static OnboardingPageFragmentImpl createFragmentImpl(
+            @NonNull final FragmentImplCallback fragment, @NonNull final Bundle arguments) {
+        final OnboardingPage page = arguments.getParcelable(ARGS_PAGE);
         if (page == null) {
             throw new IllegalStateException("Missing OnboardingPage.");
         }
         return new OnboardingPageFragmentImpl(fragment, page);
+    }
+
+    private OnboardingPageFragmentHelper() {
     }
 }

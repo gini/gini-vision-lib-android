@@ -44,7 +44,7 @@ class PaymentQRCodeParser implements QRCodeParser<PaymentQRCodeData> {
         for (final QRCodeParser<PaymentQRCodeData> parser : mParsers) {
             try {
                 return parser.parse(qrCodeContent);
-            } catch (final IllegalArgumentException ignore) {
+            } catch (final IllegalArgumentException ignore) { // NOPMD
             }
         }
         throw new IllegalArgumentException("Unknown QRCode content format.");

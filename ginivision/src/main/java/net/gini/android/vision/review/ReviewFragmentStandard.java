@@ -48,8 +48,8 @@ public class ReviewFragmentStandard extends Fragment implements FragmentImplCall
      * @param document must be the {@link Document} from {@link CameraFragmentListener#onDocumentAvailable(Document)}
      * @return a new instance of the Fragment
      */
-    public static ReviewFragmentStandard createInstance(Document document) {
-        ReviewFragmentStandard fragment = new ReviewFragmentStandard();
+    public static ReviewFragmentStandard createInstance(final Document document) {
+        final ReviewFragmentStandard fragment = new ReviewFragmentStandard();
         fragment.setArguments(ReviewFragmentHelper.createArguments(document));
         return fragment;
     }
@@ -58,7 +58,7 @@ public class ReviewFragmentStandard extends Fragment implements FragmentImplCall
      * @exclude
      */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFragmentImpl = ReviewFragmentHelper.createFragmentImpl(this, getArguments());
         ReviewFragmentHelper.setListener(mFragmentImpl, getActivity());
@@ -70,8 +70,8 @@ public class ReviewFragmentStandard extends Fragment implements FragmentImplCall
      */
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container,
+            @Nullable final Bundle savedInstanceState) {
         return mFragmentImpl.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -106,7 +106,7 @@ public class ReviewFragmentStandard extends Fragment implements FragmentImplCall
     public void onDestroy() {
         super.onDestroy();
         mFragmentImpl.onDestroy();
-        mFragmentImpl = null;
+        mFragmentImpl = null;  // NOPMD
     }
 
     @Override

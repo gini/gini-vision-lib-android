@@ -14,7 +14,8 @@ public class RequirementsReport {
     private final boolean mFulfilled;
     private final List<RequirementReport> mRequirementReports;
 
-    RequirementsReport(boolean fulfilled, @NonNull List<RequirementReport> requirementReports) {
+    RequirementsReport(final boolean fulfilled,
+            @NonNull final List<RequirementReport> requirementReports) {
         mFulfilled = fulfilled;
         mRequirementReports = requirementReports;
     }
@@ -42,10 +43,8 @@ public class RequirementsReport {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("RequirementsReport{");
-        sb.append("mFulfilled=").append(mFulfilled);
-        sb.append(", mRequirementReports=").append(mRequirementReports);
-        sb.append('}');
-        return sb.toString();
+        return "RequirementsReport{" + "mFulfilled=" + mFulfilled
+                + ", mRequirementReports=" + mRequirementReports
+                + '}';
     }
 }

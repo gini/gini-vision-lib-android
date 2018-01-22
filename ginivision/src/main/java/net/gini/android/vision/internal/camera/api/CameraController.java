@@ -46,7 +46,7 @@ public class CameraController implements CameraInterface {
 
     private Camera mCamera;
 
-    private boolean mPreviewRunning = false;
+    private boolean mPreviewRunning;
     private final AtomicReference<CompletableFuture<Boolean>> mFocusingFuture =
             new AtomicReference<>();
     private final AtomicReference<CompletableFuture<Photo>> mTakingPictureFuture =
@@ -126,7 +126,7 @@ public class CameraController implements CameraInterface {
             return;
         }
         mCamera.release();
-        mCamera = null;
+        mCamera = null; // NOPMD
         LOG.info("Camera closed");
     }
 
@@ -285,7 +285,7 @@ public class CameraController implements CameraInterface {
             return CompletableFuture.completedFuture(false);
         }
 
-        if (!CameraParametersHelper.isFocusModeSupported(Camera.Parameters.FOCUS_MODE_AUTO,
+        if (!isFocusModeSupported(Camera.Parameters.FOCUS_MODE_AUTO,
                 mCamera)) {
             LOG.error("Cannot focus: auto-focus mode not supported");
             return CompletableFuture.completedFuture(false);
@@ -477,7 +477,7 @@ public class CameraController implements CameraInterface {
     }
 
     private void setCameraDisplayOrientation(final Activity activity,
-            final android.hardware.Camera camera) {
+            final Camera camera) {
         LOG.debug("Setting camera display orientation");
         final int displayOrientation = getDisplayOrientationForCamera(activity);
         camera.setDisplayOrientation(displayOrientation);
@@ -505,6 +505,8 @@ public class CameraController implements CameraInterface {
                 break;
             case Surface.ROTATION_270:
                 degrees = 270;
+                break;
+            default:
                 break;
         }
         LOG.debug("Default display rotation is {}", degrees);
@@ -606,7 +608,8 @@ public class CameraController implements CameraInterface {
      * @param tapViewWidth  the width of the tappable view
      * @param tapViewHeight the height of the tappable view
      */
-    private Rect calculateTapArea(float x, float y, final int orientation, final int tapViewWidth,
+    private Rect calculateTapArea(final float x, final float y, final int orientation,
+            final int tapViewWidth,
             final int tapViewHeight) {
         final Rect rect = new Rect(0, 0, 0, 0);
         if (x < tapViewWidth / 2.f && y < tapViewHeight / 2.f) {
@@ -615,20 +618,20 @@ public class CameraController implements CameraInterface {
             rect.top = 1000 - (int) (1000 * (x / (tapViewWidth / 2.f)));
         } else if (x < tapViewWidth / 2.f && y >= tapViewHeight / 2.f) {
             // C: x: 0 .. 1000; y: 1000 .. 0
-            y = y - tapViewHeight / 2.f;
-            rect.left = (int) (1000 * (y / (tapViewHeight / 2.f)));
+            final float newY = y - tapViewHeight / 2.f;
+            rect.left = (int) (1000 * (newY / (tapViewHeight / 2.f)));
             rect.top = 1000 - (int) (1000 * (x / (tapViewWidth / 2.f)));
         } else if (x >= tapViewWidth / 2.f && y < tapViewHeight / 2.f) {
             // B: x: -1000 .. 0; y: 0 .. -1000
-            x = x - tapViewWidth / 2.f;
+            final float newX = x - tapViewWidth / 2.f;
             rect.left = -(1000 - (int) (1000 * (y / (tapViewHeight / 2.f))));
-            rect.top = -(int) (1000 * (x / (tapViewWidth / 2.f)));
+            rect.top = -(int) (1000 * (newX / (tapViewWidth / 2.f)));
         } else if (x >= tapViewWidth / 2.f && y >= tapViewHeight / 2.f) {
             // D: x: 0 .. 1000; y: 0 .. -1000
-            x = x - tapViewWidth / 2.f;
-            y = y - tapViewHeight / 2.f;
-            rect.left = (int) (1000 * (y / (tapViewHeight / 2.f)));
-            rect.top = -(int) (1000 * (x / (tapViewWidth / 2.f)));
+            final float newX = x - tapViewWidth / 2.f;
+            final float newY = y - tapViewHeight / 2.f;
+            rect.left = (int) (1000 * (newY / (tapViewHeight / 2.f)));
+            rect.top = -(int) (1000 * (newX / (tapViewWidth / 2.f)));
         }
         // Give a size to the rect
         rect.bottom = rect.top + 5;

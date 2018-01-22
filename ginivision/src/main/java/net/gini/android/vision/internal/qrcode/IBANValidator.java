@@ -6,6 +6,7 @@ import android.text.TextUtils;
 
 import java.math.BigInteger;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,7 +16,7 @@ import java.util.regex.Pattern;
  */
 class IBANValidator {
 
-    private static final Map<String, Integer> COUNTRY_IBAN_MAP = new HashMap<>();
+    private static final Map<String, Integer> COUNTRY_IBAN_MAP = new HashMap<>(); // NOPMD
 
     static {
         COUNTRY_IBAN_MAP.put("AL", 28);
@@ -95,21 +96,21 @@ class IBANValidator {
      * @param iban an IBAN string
      * @throws IllegalIBANException if the IBAN was not valid
      */
-    void validate(@Nullable String iban) throws IllegalIBANException {
+    void validate(@Nullable final String iban) throws IllegalIBANException {
         if (TextUtils.isEmpty(iban)) {
             throw new IllegalIBANException(IBANError.EMPTY);
         }
 
-        iban = sanitizeIBAN(iban);
+        final String sanitizedIban = sanitizeIBAN(iban);
 
-        final Matcher matcher = mPattern.matcher(iban);
+        final Matcher matcher = mPattern.matcher(sanitizedIban);
         if (!matcher.matches()) {
             throw new IllegalIBANException(IBANError.INVALID_CHARACTERS);
         }
 
-        validateCountryAndChecksum(iban);
-        validateLength(iban);
-        validateChecksum(iban);
+        validateCountryAndChecksum(sanitizedIban);
+        validateLength(sanitizedIban);
+        validateChecksum(sanitizedIban);
     }
 
     private String getBban(@NonNull final String iban) {
@@ -145,11 +146,11 @@ class IBANValidator {
         return numbers.toString();
     }
 
-    private String sanitizeIBAN(@NonNull String iban) {
-        iban = iban.trim();
-        iban = iban.replace(" ", "");
-        iban = iban.toUpperCase();
-        return iban;
+    private String sanitizeIBAN(@NonNull final String iban) {
+        String sanitizedIban = iban.trim();
+        sanitizedIban = sanitizedIban.replace(" ", "");
+        sanitizedIban = sanitizedIban.toUpperCase(Locale.ENGLISH);
+        return sanitizedIban;
     }
 
     private void validateChecksum(@NonNull final String iban) throws IllegalIBANException {
@@ -195,7 +196,7 @@ class IBANValidator {
      * Exception containing an {@link IBANError} for information about the reason why an
      * IBAN was not valid.
      */
-    class IllegalIBANException extends RuntimeException {
+    static class IllegalIBANException extends RuntimeException {
 
         private final IBANError mIBANError;
 

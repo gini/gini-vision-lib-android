@@ -13,46 +13,51 @@ public class CameraPreviewSurface extends SurfaceView {
 
     private Size mPreviewSize;
 
+    /**
+     * @exclude
+     */
     public enum ScaleType {
         CENTER_RESIZE,
-        CENTER_INSIDE;
+        CENTER_INSIDE
     }
 
     private ScaleType mScaleType = ScaleType.CENTER_INSIDE;
 
-    public CameraPreviewSurface(Context context) {
+    public CameraPreviewSurface(final Context context) {
         super(context);
     }
 
-    public CameraPreviewSurface(Context context, AttributeSet attrs) {
+    public CameraPreviewSurface(final Context context, final AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public CameraPreviewSurface(Context context, AttributeSet attrs, int defStyleAttr) {
+    public CameraPreviewSurface(final Context context, final AttributeSet attrs,
+            final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public void setPreviewSize(Size previewSize) {
-        this.mPreviewSize = previewSize;
+    public void setPreviewSize(final Size previewSize) {
+        mPreviewSize = previewSize;
         requestLayout();
     }
 
-    public void setScaleType(ScaleType scaleType) {
+    public void setScaleType(final ScaleType scaleType) {
         mScaleType = scaleType;
         requestLayout();
     }
 
     @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        int width = getWidth();
-        int height = getHeight();
+        final int width = getWidth();
+        final int height = getHeight();
 
-        if (width > 0 && height > 0 &&
-                mPreviewSize != null) {
-            float aspectRatioSurface = (float) width / (float) height;
-            float aspectRatioPreview = (float) mPreviewSize.width / (float) mPreviewSize.height;
+        if (width > 0 && height > 0
+                && mPreviewSize != null) {
+            final float aspectRatioSurface = (float) width / (float) height;
+            final float aspectRatioPreview =
+                    (float) mPreviewSize.width / (float) mPreviewSize.height;
 
             int adjustedWidth = width;
             int adjustedHeight = height;
@@ -79,6 +84,8 @@ public class CameraPreviewSurface extends SurfaceView {
                         // Keep the height and change the width to fit the preview inside the surface's original size
                         adjustedWidth = (int) (height * aspectRatioPreview);
                     }
+                    break;
+                default:
                     break;
             }
 

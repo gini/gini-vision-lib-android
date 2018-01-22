@@ -26,19 +26,19 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
 
     private Exif.RequiredTags mRequiredTags;
     private String mContentId = "";
-    private int mRotationDelta = 0;
+    private int mRotationDelta;
     private String mDeviceOrientation;
     private String mDeviceType;
     private String mSource;
     private String mImportMethod;
     private ImageDocument mImageDocument;
 
-    MutablePhoto(@NonNull byte[] data, int orientation,
+    MutablePhoto(@NonNull final byte[] data, final int orientation,
             @NonNull final String deviceOrientation,
             @NonNull final String deviceType,
             @NonNull final String source,
             @NonNull final String importMethod,
-            @NonNull ImageDocument.ImageFormat format, final boolean isImported) {
+            @NonNull final ImageDocument.ImageFormat format, final boolean isImported) {
         super(data, orientation, format, isImported);
         mContentId = generateUUID();
         mDeviceOrientation = deviceOrientation;
@@ -46,7 +46,7 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
         mSource = source;
         mImportMethod = importMethod;
         readRequiredTags();
-        updateExif();
+        updateExif(); // NOPMD
     }
 
     MutablePhoto(@NonNull final ImageDocument document) {
@@ -72,7 +72,7 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
         try {
             exifReader = ExifReader.forJpeg(data);
             userComment = exifReader.getUserComment();
-        } catch (ExifReaderException e) {
+        } catch (final ExifReaderException e) {
             LOG.warn("Could not read exif User Comment", e);
         }
         initContentId(userComment);
@@ -93,13 +93,13 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
     }
 
     private void initRotationDelta(final String userComment) {
-        String rotationDelta = ExifReader.getValueForKeyFromUserComment(
+        final String rotationDelta = ExifReader.getValueForKeyFromUserComment(
                 Exif.USER_COMMENT_ROTATION_DELTA,
                 userComment);
         if (rotationDelta != null) {
             try {
                 mRotationDelta = Integer.parseInt(rotationDelta);
-            } catch (NumberFormatException e) {
+            } catch (final NumberFormatException e) {
                 LOG.error("Could not set rotation delta from exif User Comment", e);
             }
         }
@@ -159,13 +159,13 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
     }
 
     @Override
-    public synchronized void setRotationForDisplay(int degrees) {
+    public synchronized void setRotationForDisplay(final int degrees) {
         // Converts input degrees to degrees between [0,360)
         super.mRotationForDisplay = ((degrees % 360) + 360) % 360;
     }
 
     @Override
-    public synchronized void updateRotationDeltaBy(int degrees) {
+    public synchronized void updateRotationDeltaBy(final int degrees) {
         // Converts input degrees to degrees between [0,360)
         mRotationDelta = ((mRotationDelta + degrees % 360) + 360) % 360;
     }
@@ -228,7 +228,7 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
             boolean addMake = false;
             boolean addModel = false;
 
-            Exif.Builder exifBuilder = Exif.builder(data);
+            final Exif.Builder exifBuilder = Exif.builder(data);
 
             if (mRequiredTags != null) {
                 exifBuilder.setRequiredTags(mRequiredTags);
@@ -249,10 +249,10 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
             }
 
             final String userComment = builder.build();
-            exifBuilder.setUserComment(userComment);
-            exifBuilder.setOrientationFromDegrees(super.mRotationForDisplay);
+            exifBuilder.setUserComment(userComment)
+                    .setOrientationFromDegrees(super.mRotationForDisplay);
 
-            byte[] jpeg = exifBuilder.build().writeToJpeg(data);
+            final byte[] jpeg = exifBuilder.build().writeToJpeg(data);
             setData(jpeg);
         } catch (ImageReadException | ImageWriteException | IOException e) {
             LOG.error("Could not add required exif tags", e);
@@ -271,7 +271,7 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         super.writeToParcel(dest, flags);
         dest.writeString(mContentId);
         dest.writeInt(mRotationDelta);
@@ -283,17 +283,17 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
 
     public static final Creator<MutablePhoto> CREATOR = new Creator<MutablePhoto>() {
         @Override
-        public MutablePhoto createFromParcel(Parcel in) {
+        public MutablePhoto createFromParcel(final Parcel in) {
             return new MutablePhoto(in);
         }
 
         @Override
-        public MutablePhoto[] newArray(int size) {
+        public MutablePhoto[] newArray(final int size) {
             return new MutablePhoto[size];
         }
     };
 
-    private MutablePhoto(Parcel in) {
+    private MutablePhoto(final Parcel in) {
         super(in);
         mContentId = in.readString();
         mRotationDelta = in.readInt();
@@ -307,13 +307,21 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
 
     @Override
     public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
 
         final MutablePhoto that = (MutablePhoto) o;
 
-        if (mRotationDelta != that.mRotationDelta) return false;
+        if (mRotationDelta != that.mRotationDelta) {
+            return false;
+        }
         if (mRequiredTags != null ? !mRequiredTags.equals(that.mRequiredTags)
                 : that.mRequiredTags != null) {
             return false;
@@ -329,7 +337,9 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
                 : that.mDeviceType != null) {
             return false;
         }
-        if (mSource != null ? !mSource.equals(that.mSource) : that.mSource != null) return false;
+        if (mSource != null ? !mSource.equals(that.mSource) : that.mSource != null) {
+            return false;
+        }
         if (mImportMethod != null ? !mImportMethod.equals(that.mImportMethod)
                 : that.mImportMethod != null) {
             return false;

@@ -37,9 +37,9 @@ class RendererLollipop implements Renderer {
     private static final Logger LOG = LoggerFactory.getLogger(RendererLollipop.class);
 
     private final Uri mUri;
-    private Context mContext;
+    private final Context mContext;
 
-    RendererLollipop(@NonNull final Uri uri, @NonNull Context context) {
+    RendererLollipop(@NonNull final Uri uri, @NonNull final Context context) {
         mUri = uri;
         mContext = context;
     }
@@ -52,8 +52,8 @@ class RendererLollipop implements Renderer {
             return null;
         }
         if (pdfRenderer.getPageCount() > 0) {
-            PdfRenderer.Page page = pdfRenderer.openPage(0);
-            Size optimalSize = calculateOptimalRenderingSize(page, targetSize);
+            final PdfRenderer.Page page = pdfRenderer.openPage(0);
+            final Size optimalSize = calculateOptimalRenderingSize(page, targetSize);
             bitmap = createWhiteBitmap(optimalSize);
             page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
             page.close();
@@ -68,7 +68,7 @@ class RendererLollipop implements Renderer {
         ParcelFileDescriptor fileDescriptor = null;
         try {
             fileDescriptor = contentResolver.openFileDescriptor(mUri, "r");
-        } catch (FileNotFoundException e) {
+        } catch (final FileNotFoundException e) {
             LOG.error("Pdf not found", e);
         }
         if (fileDescriptor == null) {
@@ -76,7 +76,7 @@ class RendererLollipop implements Renderer {
         }
         try {
             return new PdfRenderer(fileDescriptor);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             LOG.error("Could not read pdf", e);
         }
         return null;
@@ -131,30 +131,30 @@ class RendererLollipop implements Renderer {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @NonNull
-    private static Size calculateOptimalRenderingSize(@NonNull PdfRenderer.Page page,
-            @NonNull Size previewSize) {
-        previewSize = getDefaultPreviewSizeIfEmpty(previewSize);
+    private static Size calculateOptimalRenderingSize(@NonNull final PdfRenderer.Page page,
+            @NonNull final Size previewSize) {
+        final Size newPreviewSize = getDefaultPreviewSizeIfEmpty(previewSize);
         final float pageRatio = (float) page.getWidth() / (float) page.getHeight();
-        final float previewRatio = (float) previewSize.width / (float) previewSize.height;
+        final float previewRatio = (float) newPreviewSize.width / (float) newPreviewSize.height;
         if (pageRatio < previewRatio) {
             // The PDF page is taller than wide, or at least more so than the preview => fit the
             // height of the pdf page
             // to the preview and resize the width according to the pdf page's aspect ratio
-            int height = previewSize.height;
-            int width = (int) ((float) height * pageRatio);
+            final int height = newPreviewSize.height;
+            final int width = (int) ((float) height * pageRatio);
             return new Size(width, height);
         } else {
             // The PDF page is wider than tall, or at least more so than the preview => fit the
             // width of the pdf page
             // to the preview and resize the height according to the pdf page's aspect ratio
-            int width = previewSize.width;
-            int height = (int) ((float) width / pageRatio);
+            final int width = newPreviewSize.width;
+            final int height = (int) ((float) width / pageRatio);
             return new Size(width, height);
         }
     }
 
     @NonNull
-    private static Bitmap createWhiteBitmap(@NonNull Size renderingSize) {
+    private static Bitmap createWhiteBitmap(@NonNull final Size renderingSize) {
         final Bitmap bitmap = Bitmap.createBitmap(renderingSize.width, renderingSize.height,
                 Bitmap.Config.ARGB_8888);
         final Canvas canvas = new Canvas(bitmap);
@@ -163,7 +163,7 @@ class RendererLollipop implements Renderer {
     }
 
     @NonNull
-    private static Size getDefaultPreviewSizeIfEmpty(@NonNull Size size) {
+    private static Size getDefaultPreviewSizeIfEmpty(@NonNull final Size size) {
         if (size.width == 0 || size.height == 0) {
             return new Size(DEFAULT_PREVIEW_WIDTH, DEFAULT_PREVIEW_HEIGHT);
         }

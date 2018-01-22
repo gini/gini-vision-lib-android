@@ -66,8 +66,8 @@ public class OnboardingFragmentStandard extends Fragment implements OnboardingFr
      * @return a new instance of the Fragment
      */
     public static OnboardingFragmentStandard createInstanceWithoutEmptyLastPage(
-            @NonNull ArrayList<OnboardingPage> pages) {
-        OnboardingFragmentStandard fragment = new OnboardingFragmentStandard();
+            @NonNull final ArrayList<OnboardingPage> pages) { // NOPMD - ArrayList required (Bundle)
+        final OnboardingFragmentStandard fragment = new OnboardingFragmentStandard();
         fragment.setArguments(OnboardingFragmentHelper.createArguments(pages, false));
         return fragment;
     }
@@ -86,8 +86,8 @@ public class OnboardingFragmentStandard extends Fragment implements OnboardingFr
      * @return a new instance of the Fragment
      */
     public static OnboardingFragmentStandard createInstance(
-            @NonNull ArrayList<OnboardingPage> pages) {
-        OnboardingFragmentStandard fragment = new OnboardingFragmentStandard();
+            @NonNull final ArrayList<OnboardingPage> pages) { // NOPMD - ArrayList required (Bundle)
+        final OnboardingFragmentStandard fragment = new OnboardingFragmentStandard();
         fragment.setArguments(OnboardingFragmentHelper.createArguments(pages, true));
         return fragment;
     }
@@ -102,7 +102,7 @@ public class OnboardingFragmentStandard extends Fragment implements OnboardingFr
      * @return a new instance of the Fragment
      */
     public static OnboardingFragmentStandard createInstanceWithoutEmptyLastPage() {
-        OnboardingFragmentStandard fragment = new OnboardingFragmentStandard();
+        final OnboardingFragmentStandard fragment = new OnboardingFragmentStandard();
         fragment.setArguments(OnboardingFragmentHelper.createArguments(false));
         return fragment;
     }
@@ -112,7 +112,7 @@ public class OnboardingFragmentStandard extends Fragment implements OnboardingFr
      * @param savedInstanceState
      */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFragmentImpl = OnboardingFragmentHelper.createFragmentImpl(this, getArguments());
         OnboardingFragmentHelper.setListener(mFragmentImpl, getActivity());
@@ -128,14 +128,14 @@ public class OnboardingFragmentStandard extends Fragment implements OnboardingFr
      */
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+            final Bundle savedInstanceState) {
         return mFragmentImpl.onCreateView(inflater, container, savedInstanceState);
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
-    public PagerAdapter getViewPagerAdapter(@NonNull List<OnboardingPage> pages) {
+    public PagerAdapter getViewPagerAdapter(@NonNull final List<OnboardingPage> pages) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
             throw new IllegalStateException("Component API requires API Level 17 or higher");
         }

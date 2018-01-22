@@ -113,7 +113,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     private HideQRCodeDetectedRunnable mHideQRCodeDetectedPopupRunnable;
 
     private View mImageCorners;
-    private boolean mInterfaceHidden = false;
+    private boolean mInterfaceHidden;
     private CameraFragmentListener mListener = NO_OP_LISTENER;
     private final UIExecutor mUIExecutor = new UIExecutor();
     private CameraInterface mCameraController;
@@ -141,9 +141,9 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     private ViewStubSafeInflater mViewStubInflater;
 
     private CompletableFuture<SurfaceHolder> mSurfaceCreatedFuture = new CompletableFuture<>();
-    private boolean mIsTakingPicture = false;
+    private boolean mIsTakingPicture;
 
-    private boolean mImportDocumentButtonEnabled = false;
+    private boolean mImportDocumentButtonEnabled;
 
     CameraFragmentImpl(@NonNull final CameraFragmentImplCallback fragment) {
         this(fragment, GiniVisionFeatureConfiguration.buildNewConfiguration().build());
@@ -161,7 +161,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 || mInterfaceHidden
                 || mActivityIndicator.getVisibility() == View.VISIBLE) {
             hideQRCodeDetectedPopup(null);
-            mPaymentQRCodeData = null;
+            mPaymentQRCodeData = null; // NOPMD
             return;
         }
 
@@ -210,7 +210,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         @Override
         public void run() {
             hideQRCodeDetectedPopup(null);
-            mPaymentQRCodeData = null;
+            mPaymentQRCodeData = null; // NOPMD
         }
     }
 
@@ -416,7 +416,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         }
     }
 
-    protected boolean shouldShowHintPopUp() {
+    private boolean shouldShowHintPopUp() {
         if (!isDocumentImportEnabled()) {
             return false;
         }
@@ -491,7 +491,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                                 handleError(GiniVisionError.ErrorCode.CAMERA_OPEN_FAILED,
                                         "Failed to open camera", throwable);
                             }
-                            throw new RuntimeException(throwable);
+                            throw new CameraException(throwable);
                         } else {
                             LOG.info("Camera opened");
                             hideNoPermissionView();
@@ -510,7 +510,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                         if (throwable != null) {
                             handleError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW,
                                     "Cannot start preview", throwable);
-                            throw new RuntimeException(throwable);
+                            throw new CameraException(throwable);
                         }
                         return surfaceHolder;
                     }
@@ -537,7 +537,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         LOG.info("Closing camera");
         if (mPaymentQRCodeReader != null) {
             mPaymentQRCodeReader.release();
-            mPaymentQRCodeReader = null;
+            mPaymentQRCodeReader = null; // NOPMD
         }
         mCameraController.disableTapToFocus(mCameraPreview);
         mCameraController.setPreviewCallback(null);
@@ -651,10 +651,10 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             public void onClick(final View v) {
                 hideQRCodeDetectedPopup(null);
                 if (mPaymentQRCodeData != null) {
-                        final QRCodeDocument qrCodeDocument = QRCodeDocument.fromPaymentQRCodeData(
-                                mPaymentQRCodeData);
-                        mListener.onQRCodeAvailable(qrCodeDocument);
-                        mPaymentQRCodeData = null;
+                    final QRCodeDocument qrCodeDocument = QRCodeDocument.fromPaymentQRCodeData(
+                            mPaymentQRCodeData);
+                    mListener.onQRCodeAvailable(qrCodeDocument);
+                    mPaymentQRCodeData = null; // NOPMD
                 }
             }
         });
@@ -1080,8 +1080,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     }
 
     private boolean isNoPermissionViewVisible() {
-        return mLayoutNoPermission != null &&
-                mLayoutNoPermission.getVisibility() == View.VISIBLE;
+        return mLayoutNoPermission != null
+                && mLayoutNoPermission.getVisibility() == View.VISIBLE;
     }
 
     private void inflateNoPermissionStub() {
@@ -1177,14 +1177,16 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         return new CameraController(activity);
     }
 
-    private void handleError(final GiniVisionError.ErrorCode errorCode, @NonNull String message,
+    private void handleError(final GiniVisionError.ErrorCode errorCode,
+            @NonNull final String message,
             @Nullable final Throwable throwable) {
+        String errorMessage = message;
         if (throwable != null) {
             LOG.error(message, throwable);
             // Add error info to the message to help clients, if they don't have logging enabled
-            message += ": " + throwable.getMessage();
+            errorMessage = errorMessage + ": " + throwable.getMessage();
         }
-        handleError(errorCode, message);
+        handleError(errorCode, errorMessage);
     }
 
     private void handleError(final GiniVisionError.ErrorCode errorCode,

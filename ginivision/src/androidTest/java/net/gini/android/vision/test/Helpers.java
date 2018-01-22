@@ -111,10 +111,11 @@ public class Helpers {
             inputStream = assetManager.open(assetFilePath);
             final File file = new File(storageDirPath,
                     Uri.parse(assetFilePath).getLastPathSegment());
-            if (!file.exists()) {
-                file.createNewFile();
+            if (file.exists() || file.createNewFile()) {
                 outputStream = new FileOutputStream(file);
                 copyFile(inputStream, outputStream);
+            } else {
+                throw new IOException("Could not create file: " + file.getAbsolutePath());
             }
         } finally {
             if (inputStream != null) {
@@ -143,26 +144,24 @@ public class Helpers {
         saveToFile(outNV21Filename, nv21);
     }
 
-    public static void saveToFile(@NonNull final String filename, @NonNull final byte[] data) {
+    private static void saveToFile(@NonNull final String filename, @NonNull final byte[] data)
+            throws IOException {
         final File file = new File(
                 InstrumentationRegistry.getTargetContext().getExternalFilesDir(null)
                         + File.separator +
                         filename);
         FileOutputStream fileOutputStream = null;
         try {
-            if (!file.exists()) {
-                file.createNewFile();
+            if (!file.exists() && !file.createNewFile()) {
+                throw new IOException("Could not create file: " + file.getAbsolutePath());
             }
             fileOutputStream = new FileOutputStream(file);
             fileOutputStream.write(data, 0, data.length);
-        } catch (final IOException e) {
-            throw new RuntimeException(e);
         } finally {
             if (fileOutputStream != null) {
                 try {
                     fileOutputStream.close();
-                } catch (final IOException e) {
-                    throw new RuntimeException(e);
+                } catch (final IOException ignored) {
                 }
             }
         }
