@@ -109,6 +109,7 @@ pipeline {
                     junit allowEmptyResults: true, testResults: 'ginivision/build/outputs/androidTest-results/targeted/*.xml'
                     script {
                         def emulatorPort = sh returnStdout:true, script: 'cat emulator_port'
+                        emulatorPort = emulatorPort.trim().replaceAll("\r", "").replaceAll("\n", "")
                         emulator.stop(emulatorPort)
                         sh 'rm emulator_port || true'
                     }
@@ -145,6 +146,7 @@ pipeline {
                     junit allowEmptyResults: true, testResults: 'ginivision/build/outputs/androidTest-results/targeted/*.xml'
                     script {
                         def emulatorPort = sh returnStdout:true, script: 'cat emulator_port'
+                        emulatorPort = emulatorPort.trim().replaceAll("\r", "").replaceAll("\n", "")
                         emulator.stop(emulatorPort)
                         sh 'rm emulator_port || true'
                     }
