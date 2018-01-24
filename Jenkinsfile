@@ -99,6 +99,8 @@ pipeline {
                     def emulatorPort = emulator.start(avd.createName("api-25-nexus-5x"), "nexus_5x", "-prop persist.sys.language=en -prop persist.sys.country=US -no-snapshot-load -no-snapshot-save -gpu on -camera-back emulated")
                     sh "echo $emulatorPort > emulator_port"
                     adb.setAnimationDurationScale("emulator-$emulatorPort", 0)
+                }
+                withEnv(["PATH+TOOLS=$ANDROID_HOME/tools", "PATH+TOOLS_BIN=$ANDROID_HOME/tools/bin", "PATH+PLATFORM_TOOLS=$ANDROID_HOME/platform-tools"]) {
                     sh "./gradlew ginivision:targetedDebugAndroidTest -PpackageName=net.gini.android.vision -PtestTarget=emulator-$emulatorPort"
                 }
             }
@@ -133,6 +135,8 @@ pipeline {
                     def emulatorPort = emulator.start(avd.createName("api-25-nexus-9"), "nexus_9", "-prop persist.sys.language=en -prop persist.sys.country=US -no-snapshot-load -no-snapshot-save -gpu on -camera-back emulated")
                     sh "echo $emulatorPort > emulator_port"
                     adb.setAnimationDurationScale("emulator-$emulatorPort", 0)
+                }
+                withEnv(["PATH+TOOLS=$ANDROID_HOME/tools", "PATH+TOOLS_BIN=$ANDROID_HOME/tools/bin", "PATH+PLATFORM_TOOLS=$ANDROID_HOME/platform-tools"]) {
                     sh "./gradlew ginivision:targetedDebugAndroidTest -PpackageName=net.gini.android.vision -PtestTarget=emulator-$emulatorPort"
                 }
             }
