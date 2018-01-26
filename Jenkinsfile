@@ -13,6 +13,11 @@ pipeline {
         SCREEN_API_EXAMPLE_APP_HOCKEYAPP_API_TOKEN = credentials('gini-vision-library-android_screen-api-example-app-hockeyapp-api-token')
     }
     stages {
+        stage('Import Pipeline Libraries') {
+            steps{
+                library 'android-tools'
+            }
+        }
         stage('Build') {
             when {
                 anyOf {
