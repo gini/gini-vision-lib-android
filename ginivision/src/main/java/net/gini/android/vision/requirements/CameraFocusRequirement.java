@@ -29,7 +29,8 @@ class CameraFocusRequirement implements Requirement {
             Camera.Parameters parameters = mCameraHolder.getCameraParameters();
             if (parameters != null) {
                 List<String> supportedFocusModes = parameters.getSupportedFocusModes();
-                if (supportedFocusModes == null || !supportedFocusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
+                if (supportedFocusModes == null || !supportedFocusModes.contains(
+                        Camera.Parameters.FOCUS_MODE_AUTO)) {
                     fulfilled = false;
                     details = "Camera does not support auto-focus";
                 }

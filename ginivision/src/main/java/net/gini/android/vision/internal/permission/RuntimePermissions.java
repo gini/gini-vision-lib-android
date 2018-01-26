@@ -11,7 +11,7 @@ import android.util.SparseArray;
 public class RuntimePermissions {
 
     private final SparseArray<PermissionRequest> mPermissionRequests = new SparseArray<>();
-    private int mPrevRequestCode = 0;
+    private int mPrevRequestCode;
 
     public RuntimePermissions() {
     }
@@ -30,7 +30,8 @@ public class RuntimePermissions {
         }
     }
 
-    public void requestPermission(@NonNull final Fragment fragment, @NonNull final String permission,
+    public void requestPermission(@NonNull final Fragment fragment,
+            @NonNull final String permission,
             @NonNull final PermissionRequestListener listener) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             final int requestCode = getNextRequestCode();

@@ -13,7 +13,8 @@ public class RequirementReport {
     private final boolean mFulfilled;
     private final String mDetails;
 
-    RequirementReport(@NonNull RequirementId requirementId, boolean fulfilled, @NonNull String details) {
+    RequirementReport(@NonNull final RequirementId requirementId, final boolean fulfilled,
+            @NonNull final String details) {
         mRequirementId = requirementId;
         mFulfilled = fulfilled;
         mDetails = details;
@@ -52,11 +53,9 @@ public class RequirementReport {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("RequirementReport{");
-        sb.append("mRequirementId=").append(mRequirementId);
-        sb.append(", mFulfilled=").append(mFulfilled);
-        sb.append(", mDetails='").append(mDetails).append('\'');
-        sb.append('}');
-        return sb.toString();
+        return "RequirementReport{" + "mRequirementId=" + mRequirementId
+                + ", mFulfilled=" + mFulfilled
+                + ", mDetails='" + mDetails + '\''
+                + '}';
     }
 }

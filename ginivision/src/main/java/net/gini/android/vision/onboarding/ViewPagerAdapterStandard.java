@@ -11,7 +11,8 @@ class ViewPagerAdapterStandard extends FragmentPagerAdapter {
 
     private final List<OnboardingPage> mPages;
 
-    public ViewPagerAdapterStandard(@NonNull FragmentManager fm, @NonNull List<OnboardingPage> pages) {
+    public ViewPagerAdapterStandard(@NonNull FragmentManager fm,
+            @NonNull List<OnboardingPage> pages) {
         super(fm);
         mPages = pages;
     }

@@ -43,9 +43,11 @@ public class DocumentSubject extends Subject<DocumentSubject, Document> {
         }
 
         //noinspection ConstantConditions - null check done above
-        Bitmap bitmap = BitmapFactory.decodeByteArray(document.getJpeg(), 0, document.getJpeg().length);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(document.getJpeg(), 0,
+                document.getJpeg().length);
         //noinspection ConstantConditions - null check done above
-        Bitmap otherBitmap = BitmapFactory.decodeByteArray(other.getJpeg(), 0, other.getJpeg().length);
+        Bitmap otherBitmap = BitmapFactory.decodeByteArray(other.getJpeg(), 0,
+                other.getJpeg().length);
 
         if (!bitmap.sameAs(otherBitmap)) {
             fail("is equal to Document " + other + " - contain different bitmaps");

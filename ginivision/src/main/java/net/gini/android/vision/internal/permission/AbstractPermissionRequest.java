@@ -13,7 +13,8 @@ abstract class AbstractPermissionRequest<T> implements PermissionRequest<T> {
     private final int mReqCode;
     private final PermissionRequestListener mListener;
 
-    AbstractPermissionRequest(String permission, int reqCode, final PermissionRequestListener listener) {
+    AbstractPermissionRequest(String permission, int reqCode,
+            final PermissionRequestListener listener) {
         mPermission = permission;
         mReqCode = reqCode;
         mListener = listener;

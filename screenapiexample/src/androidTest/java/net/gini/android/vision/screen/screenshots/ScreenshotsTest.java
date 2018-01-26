@@ -67,7 +67,8 @@ public class ScreenshotsTest {
         takeScreenshots("right-");
     }
 
-    private void takeScreenshots(final String namePrefix) throws UiObjectNotFoundException, InterruptedException {
+    private void takeScreenshots(final String namePrefix)
+            throws UiObjectNotFoundException, InterruptedException {
         MainScreen mainScreen = new MainScreen(mDevice);
         CameraScreen cameraScreen = new CameraScreen(mDevice);
         ReviewScreen reviewScreen = new ReviewScreen(mDevice);

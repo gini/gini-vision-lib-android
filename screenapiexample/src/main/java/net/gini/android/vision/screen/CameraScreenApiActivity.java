@@ -1,5 +1,7 @@
 package net.gini.android.vision.screen;
 
+import static net.gini.android.vision.example.ExampleUtil.getExtractionsBundle;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -7,13 +9,18 @@ import android.graphics.Rect;
 import android.graphics.pdf.PdfRenderer;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 
-import net.gini.android.ginivisiontest.R;
+import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.camera.CameraActivity;
+import net.gini.android.vision.document.QRCodeDocument;
+import net.gini.android.vision.example.BaseExampleApp;
+import net.gini.android.vision.example.DocumentAnalyzer;
+import net.gini.android.vision.example.SingleDocumentAnalyzer;
 import net.gini.android.vision.util.IntentHelper;
 import net.gini.android.vision.util.UriHelper;
 
@@ -23,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 public class CameraScreenApiActivity extends CameraActivity {
 
@@ -30,6 +38,14 @@ public class CameraScreenApiActivity extends CameraActivity {
 
     // Set to true to allow execution of the custom code check
     private static final boolean DO_CUSTOM_DOCUMENT_CHECK = false;
+
+    private SingleDocumentAnalyzer mSingleDocumentAnalyzer;
+
+    @Override
+    protected void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mSingleDocumentAnalyzer = ((BaseExampleApp) getApplication()).getSingleDocumentAnalyzer();
+    }
 
     @Override
     public void onCheckImportedDocument(@NonNull final Document document,
@@ -85,17 +101,17 @@ public class CameraScreenApiActivity extends CameraActivity {
                         && (isJpegWithExif(inputStream, magicBytes, read)
                         || isPDF(uri, magicBytes, read));
             }
-        } catch (FileNotFoundException e) {
+        } catch (final FileNotFoundException e) {
             LOG.error("Could not open document", e);
             return false;
-        } catch (IOException e) {
+        } catch (final IOException e) {
             LOG.error("Could not read document", e);
             return false;
         } finally {
             if (inputStream != null) {
                 try {
                     inputStream.close();
-                } catch (IOException e) {
+                } catch (final IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -116,7 +132,7 @@ public class CameraScreenApiActivity extends CameraActivity {
 
     private boolean isDecodableToBitmap(final InputStream inputStream)
             throws IOException {
-        BitmapFactory.Options options = new BitmapFactory.Options();
+        final BitmapFactory.Options options = new BitmapFactory.Options();
         final Bitmap bitmap = BitmapFactory.decodeStream(inputStream, new Rect(), options);
         return bitmap != null;
     }
@@ -139,7 +155,7 @@ public class CameraScreenApiActivity extends CameraActivity {
         final ParcelFileDescriptor fileDescriptor;
         try {
             fileDescriptor = getContentResolver().openFileDescriptor(uri, "r");
-        } catch (FileNotFoundException e) {
+        } catch (final FileNotFoundException e) {
             LOG.error("Pdf not found", e);
             return false;
         }
@@ -151,9 +167,34 @@ public class CameraScreenApiActivity extends CameraActivity {
             final PdfRenderer pdfRenderer = new PdfRenderer(fileDescriptor);
             pdfRenderer.close();
             return true;
-        } catch (IOException e) {
+        } catch (final IOException e) {
             LOG.error("Could not read pdf", e);
         }
         return false;
+    }
+
+    @Override
+    public void onQRCodeAvailable(@NonNull final QRCodeDocument qrCodeDocument) {
+        showActivityIndicatorAndDisableInteraction();
+        mSingleDocumentAnalyzer.cancelAnalysis();
+        mSingleDocumentAnalyzer.analyzeDocument(qrCodeDocument,
+                new DocumentAnalyzer.Listener() {
+                    @Override
+                    public void onException(final Exception exception) {
+                        hideActivityIndicatorAndEnableInteraction();
+                        showError(getString(R.string.qrcode_error), 4000);
+                    }
+
+                    @Override
+                    public void onExtractionsReceived(
+                            final Map<String, SpecificExtraction> extractions) {
+                        hideActivityIndicatorAndEnableInteraction();
+                        final Intent result = new Intent();
+                        final Bundle extractionsBundle = getExtractionsBundle(extractions);
+                        result.putExtra(MainActivity.EXTRA_OUT_EXTRACTIONS, extractionsBundle);
+                        setResult(RESULT_OK, result);
+                        finish();
+                    }
+                });
     }
 }

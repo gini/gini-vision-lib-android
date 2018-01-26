@@ -9,7 +9,8 @@ import net.gini.android.vision.GiniVisionError;
  */
 final class Util {
 
-    private static final String CAMERA_EXCEPTION_MESSAGE_NO_ACCESS = "Fail to connect to camera service";
+    private static final String CAMERA_EXCEPTION_MESSAGE_NO_ACCESS =
+            "Fail to connect to camera service";
 
     @NonNull
     public static GiniVisionError cameraExceptionToGiniVisionError(@NonNull Exception exception) {

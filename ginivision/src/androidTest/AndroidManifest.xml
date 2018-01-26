@@ -23,6 +23,19 @@
             android:name="net.gini.android.vision.internal.ui.ErrorSnackbarTestActivity"
             android:theme="@style/GiniVisionTheme" />
         <activity android:name="net.gini.android.vision.internal.camera.api.NoOpActivity"/>
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="net.gini.android.vision.test.fileprovider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
+
+        <activity
+            android:name="net.gini.android.vision.camera.CameraActivityFake"
+            android:theme="@style/GiniVisionTheme" />
     </application>
 
 </manifest>

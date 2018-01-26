@@ -10,7 +10,6 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.RelativeLayout;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
@@ -19,6 +18,7 @@ import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
+import net.gini.android.vision.document.QRCodeDocument;
 import net.gini.android.vision.help.HelpActivity;
 import net.gini.android.vision.internal.util.ActivityHelper;
 import net.gini.android.vision.onboarding.OnboardingActivity;
@@ -151,6 +151,29 @@ import java.util.ArrayList;
  *         gvCustomFont} with the path to the font file in your {@code assets} folder
  *     </li>
  *     <li>
+ *         <b>QRCode detected popup background:</b> via the color resource named {@code gv_qrcode_detected_popup_background}
+ *     </li>
+ *     <li>
+ *         <b>QRCode detected popup texts:</b> via the string resources named {@code gv_qrcode_detected_popup_message_1} and
+ *         {@code gv_qrcode_detected_popup_message_2}
+ *     </li>
+ *     <li>
+ *         <b>QRCode detected popup text sizes:</b>  via overriding the styles named {@code
+ *         GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle} and {@code
+ *         GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle} and setting an item named {@code
+ *         android:textSize} with the desired {@code sp} size
+ *     </li>
+ *     <li>
+ *         <b>QRCode detected popup text colors:</b> via the color resource name {@code gv_qrcode_detected_popup_message_1} and
+ *         {@code gv_qrcode_detected_popup_message_2}
+ *     </li>
+ *     <li>
+ *         <b>QRCode detected popup fonts:</b>  via overriding the styles named {@code
+ *         GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle} and {@code
+ *         GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle} and setting an item named {@code
+ *         gvCustomFont} with the path to the font file in your {@code assets} folder
+ *     </li>
+ *     <li>
  *         <b>Read storage permission rationale text:</b> via the string resource named {@code gv_storage_permission_rationale}
  *     </li>
  *     <li>
@@ -272,8 +295,9 @@ import java.util.ArrayList;
  *     </li>
  * </ul>
  * </p>
-**/
-public class CameraActivity extends AppCompatActivity implements CameraFragmentListener {
+ **/
+public class CameraActivity extends AppCompatActivity implements CameraFragmentListener,
+        CameraFragmentInterface {
 
     /**
      * <p>
@@ -370,18 +394,17 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     private static final String CAMERA_FRAGMENT = "CAMERA_FRAGMENT";
     private static final String ONBOARDING_SHOWN_KEY = "ONBOARDING_SHOWN_KEY";
 
-    private ArrayList<OnboardingPage> mOnboardingPages;
+    private ArrayList<OnboardingPage> mOnboardingPages; // NOPMD
     private Intent mReviewDocumentActivityIntent;
     private Intent mAnalyzeDocumentActivityIntent;
-    private boolean mShowOnboarding = false;
+    private boolean mShowOnboarding;
     private boolean mShowOnboardingAtFirstRun = true;
-    private boolean mOnboardingShown = false;
-    private boolean mBackButtonShouldCloseLibrary = false;
+    private boolean mOnboardingShown;
+    private boolean mBackButtonShouldCloseLibrary;
     private GiniVisionCoordinator mGiniVisionCoordinator;
     private Document mDocument;
     private GiniVisionFeatureConfiguration mGiniVisionFeatureConfiguration;
 
-    private RelativeLayout mLayoutRoot;
     private CameraFragmentCompat mFragment;
 
     /**
@@ -397,9 +420,9 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * @param reviewActivityClass class of your {@link ReviewActivity} subclass
      * @param <T>                 type of your {@link ReviewActivity} subclass
      */
-    public static <T extends ReviewActivity> void setReviewActivityExtra(Intent target,
-            Context context,
-            Class<T> reviewActivityClass) {
+    public static <T extends ReviewActivity> void setReviewActivityExtra(final Intent target,
+            final Context context,
+            final Class<T> reviewActivityClass) {
         ActivityHelper.setActivityExtra(target, EXTRA_IN_REVIEW_ACTIVITY, context,
                 reviewActivityClass);
     }
@@ -417,15 +440,15 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * @param analysisActivityClass class of your {@link AnalysisActivity} subclass
      * @param <T>                   type of your {@link AnalysisActivity} subclass
      */
-    public static <T extends AnalysisActivity> void setAnalysisActivityExtra(Intent target,
-            Context context,
-            Class<T> analysisActivityClass) {
+    public static <T extends AnalysisActivity> void setAnalysisActivityExtra(final Intent target,
+            final Context context,
+            final Class<T> analysisActivityClass) {
         ActivityHelper.setActivityExtra(target, EXTRA_IN_ANALYSIS_ACTIVITY, context,
                 analysisActivityClass);
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gv_activity_camera);
         readExtras();
@@ -436,11 +459,10 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
             restoreSavedState(savedInstanceState);
             retainFragment();
         }
-        bindViews();
         showOnboardingIfRequested();
     }
 
-    private void restoreSavedState(@Nullable Bundle savedInstanceState) {
+    private void restoreSavedState(@Nullable final Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             return;
         }
@@ -455,11 +477,19 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
 
     private void createFragment() {
         if (mGiniVisionFeatureConfiguration != null) {
-            mFragment = CameraFragmentCompat.createInstance(mGiniVisionFeatureConfiguration);
+            mFragment = createCameraFragmentCompat(mGiniVisionFeatureConfiguration);
+        } else {
+            mFragment = createCameraFragmentCompat();
         }
-        else {
-            mFragment = CameraFragmentCompat.createInstance();
-        }
+    }
+
+    protected CameraFragmentCompat createCameraFragmentCompat() {
+        return CameraFragmentCompat.createInstance();
+    }
+
+    protected CameraFragmentCompat createCameraFragmentCompat(
+            @NonNull final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration) {
+        return CameraFragmentCompat.createInstance(giniVisionFeatureConfiguration);
     }
 
     private void initFragment() {
@@ -491,10 +521,6 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         }
     }
 
-    private void bindViews() {
-        mLayoutRoot = (RelativeLayout) findViewById(R.id.gv_root);
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -512,7 +538,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
 
     @VisibleForTesting
     void readExtras() {
-        Bundle extras = getIntent().getExtras();
+        final Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mOnboardingPages = extras.getParcelableArrayList(EXTRA_IN_ONBOARDING_PAGES);
             mReviewDocumentActivityIntent = extras.getParcelable(EXTRA_IN_REVIEW_ACTIVITY);
@@ -557,7 +583,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * @exclude
      */
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.gv_camera, menu);
         return true;
     }
@@ -566,7 +592,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * @exclude
      */
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         if (item.getItemId() == R.id.gv_action_show_onboarding) {
             startHelpActivity();
             return true;
@@ -586,7 +612,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         if (mOnboardingShown) {
             return;
         }
-        Intent intent = new Intent(this, OnboardingActivity.class);
+        final Intent intent = new Intent(this, OnboardingActivity.class);
         if (mOnboardingPages != null) {
             intent.putParcelableArrayListExtra(OnboardingActivity.EXTRA_ONBOARDING_PAGES,
                     mOnboardingPages);
@@ -597,13 +623,18 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     }
 
     @Override
-    public void onDocumentAvailable(@NonNull Document document) {
+    public void onDocumentAvailable(@NonNull final Document document) {
         mDocument = document;
         if (mDocument.isReviewable()) {
             startReviewActivity(document);
         } else {
             startAnalysisActivity(document);
         }
+    }
+
+    @Override
+    public void onQRCodeAvailable(@NonNull final QRCodeDocument qrCodeDocument) {
+
     }
 
     @Override
@@ -630,19 +661,19 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     }
 
     @Override
-    public void onError(@NonNull GiniVisionError error) {
-        Intent result = new Intent();
+    public void onError(@NonNull final GiniVisionError error) {
+        final Intent result = new Intent();
         result.putExtra(EXTRA_OUT_ERROR, error);
         setResult(RESULT_ERROR, result);
         finish();
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(final int requestCode, final int resultCode,
+            final Intent data) {
         switch (requestCode) {
             case REVIEW_DOCUMENT_REQUEST:
             case ANALYSE_DOCUMENT_REQUEST:
-                //noinspection ConstantConditions
                 if (mBackButtonShouldCloseLibrary
                         || (resultCode != Activity.RESULT_CANCELED
                         && resultCode != AnalysisActivity.RESULT_NO_EXTRACTIONS
@@ -661,15 +692,52 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         }
     }
 
-    private void showInterface() {
+    @Override
+    public void showDocumentCornerGuides() {
+        mFragment.showDocumentCornerGuides();
+    }
+
+    @Override
+    public void hideDocumentCornerGuides() {
+        mFragment.hideDocumentCornerGuides();
+    }
+
+    @Override
+    public void showCameraTriggerButton() {
+        mFragment.showCameraTriggerButton();
+    }
+
+    @Override
+    public void hideCameraTriggerButton() {
+        mFragment.hideCameraTriggerButton();
+    }
+
+    @Override
+    public void showInterface() {
         mFragment.showInterface();
     }
 
-    private void hideInterface() {
+    @Override
+    public void hideInterface() {
         mFragment.hideInterface();
     }
 
+    @Override
+    public void showActivityIndicatorAndDisableInteraction() {
+        mFragment.showActivityIndicatorAndDisableInteraction();
+    }
+
+    @Override
+    public void hideActivityIndicatorAndEnableInteraction() {
+        mFragment.hideActivityIndicatorAndEnableInteraction();
+    }
+
+    @Override
+    public void showError(@NonNull final String message, final int duration) {
+        mFragment.showError(message, duration);
+    }
+
     private void clearMemory() {
-        mDocument = null;
+        mDocument = null; // NOPMD
     }
 }

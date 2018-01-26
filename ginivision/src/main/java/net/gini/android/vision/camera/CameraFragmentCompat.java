@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.internal.permission.PermissionRequestListener;
 import net.gini.android.vision.internal.permission.RuntimePermissions;
@@ -31,7 +30,7 @@ import net.gini.android.vision.internal.permission.RuntimePermissions;
  * preview also shows document corner guides to which the user should align the document.
  * </p>
  * <p>
- *     If instantiated with {@link CameraFragmentCompat#createInstance(DocumentImportEnabledFileTypes)} then a button for importing documents is shown next to the trigger button. A hint popup is displayed the first time the Gini Vision Library is used to inform the user about document importing.
+ *     If instantiated with {@link CameraFragmentCompat#createInstance(GiniVisionFeatureConfiguration)} then a button for importing documents is shown next to the trigger button. A hint popup is displayed the first time the Gini Vision Library is used to inform the user about document importing.
  * </p>
  * <p>
  *     For importing documents {@code READ_EXTERNAL_STORAGE} permission is required and if the permission is not granted the Gini Vision Library will prompt the user to grant the permission. See @{code Customizing the Camera Screen} on how to override the message and button titles for the rationale and on permission denial alerts.
@@ -75,7 +74,7 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
      */
     public static CameraFragmentCompat createInstance(
             @NonNull final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration) {
-        CameraFragmentCompat fragment = new CameraFragmentCompat();
+        final CameraFragmentCompat fragment = new CameraFragmentCompat();
         fragment.setArguments(
                 CameraFragmentHelper.createArguments(giniVisionFeatureConfiguration));
         return fragment;
@@ -88,11 +87,15 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
      * @exclude
      */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFragmentImpl = CameraFragmentHelper.createFragmentImpl(this, getArguments());
+        mFragmentImpl = createFragmentImpl();
         CameraFragmentHelper.setListener(mFragmentImpl, getActivity());
         mFragmentImpl.onCreate(savedInstanceState);
+    }
+
+    protected CameraFragmentImpl createFragmentImpl() {
+        return new CameraFragmentHelper().createFragmentImpl(this, getArguments());
     }
 
     /**
@@ -100,8 +103,8 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
      */
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+            final Bundle savedInstanceState) {
         return mFragmentImpl.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -125,7 +128,7 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
 
     @Override
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        boolean handled = mFragmentImpl.onActivityResult(requestCode, resultCode, data);
+        final boolean handled = mFragmentImpl.onActivityResult(requestCode, resultCode, data);
         if (!handled) {
             super.onActivityResult(requestCode, resultCode, data);
         }
@@ -134,7 +137,8 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
     @Override
     public void onRequestPermissionsResult(final int requestCode,
             @NonNull final String[] permissions, @NonNull final int[] grantResults) {
-        boolean handled = mRuntimePermissions.onRequestPermissionsResult(requestCode, permissions,
+        final boolean handled = mRuntimePermissions.onRequestPermissionsResult(requestCode,
+                permissions,
                 grantResults);
         if (!handled) {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -191,6 +195,21 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
             return;
         }
         mFragmentImpl.hideInterface();
+    }
+
+    @Override
+    public void showActivityIndicatorAndDisableInteraction() {
+        mFragmentImpl.showActivityIndicatorAndDisableInteraction();
+    }
+
+    @Override
+    public void hideActivityIndicatorAndEnableInteraction() {
+        mFragmentImpl.hideActivityIndicatorAndEnableInteraction();
+    }
+
+    @Override
+    public void showError(@NonNull final String message, final int duration) {
+        mFragmentImpl.showError(message, duration);
     }
 
     @Override

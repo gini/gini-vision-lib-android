@@ -67,9 +67,9 @@ public class FileChooserActivity extends AppCompatActivity {
         final List<ResolveInfo> imageProviderResolveInfos = queryImageProviders(context);
         final List<ResolveInfo> pdfProviderResolveInfos = queryPdfProviders(context);
 
-        return imagePickerResolveInfos.size() > 0
-                || imageProviderResolveInfos.size() > 0
-                || pdfProviderResolveInfos.size() > 0;
+        return !imagePickerResolveInfos.isEmpty()
+                || !imageProviderResolveInfos.isEmpty()
+                || !pdfProviderResolveInfos.isEmpty();
     }
 
     public static Intent createIntent(final Context context) {
@@ -77,7 +77,7 @@ public class FileChooserActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gv_activity_file_chooser);
         bindViews();
@@ -113,7 +113,7 @@ public class FileChooserActivity extends AppCompatActivity {
     }
 
     private void readExtras() {
-        Bundle extras = getIntent().getExtras();
+        final Bundle extras = getIntent().getExtras();
         if (extras != null) {
             final DocumentImportEnabledFileTypes enabledFileTypes =
                     (DocumentImportEnabledFileTypes) extras.getSerializable(
@@ -143,10 +143,10 @@ public class FileChooserActivity extends AppCompatActivity {
         mLayoutRoot.postDelayed(new Runnable() {
             @Override
             public void run() {
-                AutoTransition transition = new AutoTransition();
+                final AutoTransition transition = new AutoTransition();
                 transition.setDuration(ANIM_DURATION);
                 TransitionManager.beginDelayedTransition(mLayoutRoot, transition);
-                RelativeLayout.LayoutParams layoutParams =
+                final RelativeLayout.LayoutParams layoutParams =
                         (RelativeLayout.LayoutParams) mFileProvidersView.getLayoutParams();
                 layoutParams.addRule(RelativeLayout.BELOW);
                 layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
@@ -170,11 +170,11 @@ public class FileChooserActivity extends AppCompatActivity {
 
     private void hideFileProviders(
             @NonNull final Transition.TransitionListener transitionListener) {
-        AutoTransition transition = new AutoTransition();
+        final AutoTransition transition = new AutoTransition();
         transition.setDuration(ANIM_DURATION);
         transition.addListener(transitionListener);
         TransitionManager.beginDelayedTransition(mLayoutRoot, transition);
-        RelativeLayout.LayoutParams layoutParams =
+        final RelativeLayout.LayoutParams layoutParams =
                 (RelativeLayout.LayoutParams) mFileProvidersView.getLayoutParams();
         layoutParams.addRule(RelativeLayout.BELOW, R.id.gv_space);
         layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
@@ -213,7 +213,7 @@ public class FileChooserActivity extends AppCompatActivity {
         }
 
         providerItems.addAll(imageProviderItems);
-        if (imageProviderItems.size() > 0 && pdfProviderItems.size() > 0) {
+        if (!imageProviderItems.isEmpty() && !pdfProviderItems.isEmpty()) {
             providerItems.add(new ProvidersSeparatorItem());
         }
         providerItems.addAll(pdfProviderItems);
@@ -225,7 +225,7 @@ public class FileChooserActivity extends AppCompatActivity {
                 new ProvidersAppItemSelectedListener() {
                     @Override
                     public void onItemSelected(@NonNull final ProvidersAppItem item) {
-                        Intent intent = item.getIntent();
+                        final Intent intent = item.getIntent();
                         intent.setClassName(
                                 item.getResolveInfo().activityInfo.packageName,
                                 item.getResolveInfo().activityInfo.name);
@@ -240,16 +240,18 @@ public class FileChooserActivity extends AppCompatActivity {
 
     private boolean shouldShowPdfProviders() {
         return mDocImportEnabledFileTypes == DocumentImportEnabledFileTypes.PDF
-                    || mDocImportEnabledFileTypes == DocumentImportEnabledFileTypes.PDF_AND_IMAGES;
+                || mDocImportEnabledFileTypes == DocumentImportEnabledFileTypes.PDF_AND_IMAGES;
     }
 
+    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     private List<ProvidersItem> getImageProviderItems(
             final List<ResolveInfo> imagePickerResolveInfos,
             final List<ResolveInfo> imageProviderResolveInfos) {
         final List<ProvidersItem> providerItems = new ArrayList<>();
-        if (imagePickerResolveInfos.size() > 0
-                || imageProviderResolveInfos.size() > 0) {
-            providerItems.add(new ProvidersSectionItem(getString(R.string.gv_file_chooser_fotos_section_header)));
+        if (!imagePickerResolveInfos.isEmpty()
+                || !imageProviderResolveInfos.isEmpty()) {
+            providerItems.add(new ProvidersSectionItem(
+                    getString(R.string.gv_file_chooser_fotos_section_header)));
             final Intent imagePickerIntent = createImagePickerIntent();
             for (final ResolveInfo imagePickerResolveInfo : imagePickerResolveInfos) {
                 providerItems.add(new ProvidersAppItem(imagePickerIntent, imagePickerResolveInfo));
@@ -263,11 +265,13 @@ public class FileChooserActivity extends AppCompatActivity {
         return providerItems;
     }
 
+    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     private List<ProvidersItem> getPdfProviderItems(
             final List<ResolveInfo> pdfProviderResolveInfos) {
         final List<ProvidersItem> providerItems = new ArrayList<>();
-        if (pdfProviderResolveInfos.size() > 0) {
-            providerItems.add(new ProvidersSectionItem(getString(R.string.gv_file_chooser_pdfs_section_header)));
+        if (!pdfProviderResolveInfos.isEmpty()) {
+            providerItems.add(new ProvidersSectionItem(
+                    getString(R.string.gv_file_chooser_pdfs_section_header)));
             final Intent getPdfDocumentIntent = createGetPdfDocumentIntent();
             for (final ResolveInfo pdfProviderResolveInfo : pdfProviderResolveInfos) {
                 providerItems.add(
@@ -279,28 +283,28 @@ public class FileChooserActivity extends AppCompatActivity {
 
     @NonNull
     private static List<ResolveInfo> queryImagePickers(@NonNull final Context context) {
-        Intent intent = createImagePickerIntent();
+        final Intent intent = createImagePickerIntent();
 
         return context.getPackageManager().queryIntentActivities(intent, 0);
     }
 
     @NonNull
     private static Intent createImagePickerIntent() {
-        Intent intent = new Intent(ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        final Intent intent = new Intent(ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/*");
         return intent;
     }
 
     @NonNull
     private static List<ResolveInfo> queryImageProviders(@NonNull final Context context) {
-        Intent intent = createGetImageDocumentIntent();
+        final Intent intent = createGetImageDocumentIntent();
 
         return context.getPackageManager().queryIntentActivities(intent, 0);
     }
 
     @NonNull
     private static Intent createGetImageDocumentIntent() {
-        Intent intent;
+        final Intent intent;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             intent = new Intent(ACTION_OPEN_DOCUMENT);
         } else {
@@ -313,14 +317,14 @@ public class FileChooserActivity extends AppCompatActivity {
 
     @NonNull
     private static List<ResolveInfo> queryPdfProviders(@NonNull final Context context) {
-        Intent intent = createGetPdfDocumentIntent();
+        final Intent intent = createGetPdfDocumentIntent();
 
         return context.getPackageManager().queryIntentActivities(intent, 0);
     }
 
     @NonNull
     private static Intent createGetPdfDocumentIntent() {
-        Intent intent;
+        final Intent intent;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             intent = new Intent(ACTION_OPEN_DOCUMENT);
         } else {

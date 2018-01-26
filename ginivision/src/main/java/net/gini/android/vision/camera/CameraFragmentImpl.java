@@ -15,6 +15,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
+import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,8 +23,10 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorCompat;
+import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.support.v4.view.ViewPropertyAnimatorListenerAdapter;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
@@ -44,6 +47,7 @@ import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.GiniVisionDocument;
+import net.gini.android.vision.document.QRCodeDocument;
 import net.gini.android.vision.internal.camera.api.CameraController;
 import net.gini.android.vision.internal.camera.api.CameraException;
 import net.gini.android.vision.internal.camera.api.CameraInterface;
@@ -52,6 +56,11 @@ import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.view.CameraPreviewSurface;
 import net.gini.android.vision.internal.fileimport.FileChooserActivity;
 import net.gini.android.vision.internal.permission.PermissionRequestListener;
+import net.gini.android.vision.internal.qrcode.PaymentQRCodeData;
+import net.gini.android.vision.internal.qrcode.PaymentQRCodeReader;
+import net.gini.android.vision.internal.qrcode.QRCodeDetectorTask;
+import net.gini.android.vision.internal.qrcode.QRCodeDetectorTaskGoogleVision;
+import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.internal.ui.ViewStubSafeInflater;
 import net.gini.android.vision.internal.util.DeviceHelper;
 import net.gini.android.vision.internal.util.FileImportValidator;
@@ -66,15 +75,23 @@ import java.util.concurrent.ExecutionException;
 
 import jersey.repackaged.jsr166e.CompletableFuture;
 
-class CameraFragmentImpl implements CameraFragmentInterface {
+class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader.Listener {
 
-    public static final String GV_SHARED_PREFS = "GV_SHARED_PREFS";
-    public static final int DEFAULT_ANIMATION_DURATION = 200;
+    private static final String GV_SHARED_PREFS = "GV_SHARED_PREFS";
+    @VisibleForTesting
+    static final int DEFAULT_ANIMATION_DURATION = 200;
+    private static final long HIDE_QRCODE_DETECTED_POPUP_DELAY_MS = 10000;
+    private static final long DIFFERENT_QRCODE_DETECTED_POPUP_DELAY_MS = 200;
     private static final Logger LOG = LoggerFactory.getLogger(CameraFragmentImpl.class);
 
     private static final CameraFragmentListener NO_OP_LISTENER = new CameraFragmentListener() {
         @Override
-        public void onDocumentAvailable(@NonNull Document document) {
+        public void onDocumentAvailable(@NonNull final Document document) {
+        }
+
+        @Override
+        public void onQRCodeAvailable(@NonNull final QRCodeDocument qrCodeDocument) {
+
         }
 
         @Override
@@ -84,22 +101,23 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         }
 
         @Override
-        public void onError(@NonNull GiniVisionError error) {
+        public void onError(@NonNull final GiniVisionError error) {
         }
     };
 
     private static final int REQ_CODE_CHOOSE_FILE = 1;
-    private static final int SHOW_ERROR_DURATION = 4000;
-    public static final String SHOW_HINT_POP_UP = "SHOW_HINT_POP_UP";
+    private static final String SHOW_HINT_POP_UP = "SHOW_HINT_POP_UP";
 
     private final CameraFragmentImplCallback mFragment;
     private final GiniVisionFeatureConfiguration mGiniVisionFeatureConfiguration;
+    private HideQRCodeDetectedRunnable mHideQRCodeDetectedPopupRunnable;
 
     private View mImageCorners;
-    private boolean mInterfaceHidden = false;
+    private boolean mInterfaceHidden;
     private CameraFragmentListener mListener = NO_OP_LISTENER;
     private final UIExecutor mUIExecutor = new UIExecutor();
-    private CameraController mCameraController;
+    private CameraInterface mCameraController;
+    private PaymentQRCodeReader mPaymentQRCodeReader;
 
     private RelativeLayout mLayoutRoot;
     private CameraPreviewSurface mCameraPreview;
@@ -107,6 +125,8 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     private ImageButton mButtonCameraTrigger;
     private LinearLayout mLayoutNoPermission;
     private ImageButton mButtonImportDocument;
+    private View mQRCodeDetectedPopupContainer;
+    private PaymentQRCodeData mPaymentQRCodeData;
     private View mUploadHintCloseButton;
     private View mUploadHintContainer;
     private View mUploadHintContainerArrow;
@@ -116,25 +136,135 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     private ViewPropertyAnimatorCompat mUploadHintContainerArrowAnimation;
     private ViewPropertyAnimatorCompat mCameraPreviewShadeAnimation;
     private ViewPropertyAnimatorCompat mUploadHintContainerAnimation;
+    private ViewPropertyAnimatorCompat mQRCodeDetectedPopupAnimation;
 
     private ViewStubSafeInflater mViewStubInflater;
 
     private CompletableFuture<SurfaceHolder> mSurfaceCreatedFuture = new CompletableFuture<>();
-    private boolean mIsTakingPicture = false;
+    private boolean mIsTakingPicture;
 
-    private boolean mImportDocumentButtonEnabled = false;
+    private boolean mImportDocumentButtonEnabled;
 
-    CameraFragmentImpl(@NonNull CameraFragmentImplCallback fragment) {
+    CameraFragmentImpl(@NonNull final CameraFragmentImplCallback fragment) {
         this(fragment, GiniVisionFeatureConfiguration.buildNewConfiguration().build());
     }
 
-    CameraFragmentImpl(@NonNull CameraFragmentImplCallback fragment,
+    CameraFragmentImpl(@NonNull final CameraFragmentImplCallback fragment,
             @NonNull final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration) {
         mFragment = fragment;
         mGiniVisionFeatureConfiguration = giniVisionFeatureConfiguration;
     }
 
-    void setListener(CameraFragmentListener listener) {
+    @Override
+    public void onPaymentQRCodeDataAvailable(@NonNull final PaymentQRCodeData paymentQRCodeData) {
+        if (mUploadHintContainer.getVisibility() == View.VISIBLE
+                || mInterfaceHidden
+                || mActivityIndicator.getVisibility() == View.VISIBLE) {
+            hideQRCodeDetectedPopup(null);
+            mPaymentQRCodeData = null; // NOPMD
+            return;
+        }
+
+        final View view = mFragment.getView();
+        if (view == null) {
+            return;
+        }
+
+        if (mPaymentQRCodeData == null
+                || mQRCodeDetectedPopupContainer.getVisibility() == View.GONE) {
+            showQRCodeDetectedPopup(0);
+            view.removeCallbacks(mHideQRCodeDetectedPopupRunnable);
+            view.postDelayed(mHideQRCodeDetectedPopupRunnable,
+                    getHideQRCodeDetectedPopupDelayMs());
+        } else {
+            if (mPaymentQRCodeData.equals(paymentQRCodeData)) {
+                view.removeCallbacks(mHideQRCodeDetectedPopupRunnable);
+                view.postDelayed(mHideQRCodeDetectedPopupRunnable,
+                        getHideQRCodeDetectedPopupDelayMs());
+            } else {
+                view.removeCallbacks(mHideQRCodeDetectedPopupRunnable);
+                hideQRCodeDetectedPopup(new ViewPropertyAnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(final View view) {
+                        showQRCodeDetectedPopup(
+                                getDifferentQRCodeDetectedPopupDelayMs());
+                    }
+                });
+            }
+        }
+        mPaymentQRCodeData = paymentQRCodeData;
+    }
+
+    @VisibleForTesting
+    long getHideQRCodeDetectedPopupDelayMs() {
+        return HIDE_QRCODE_DETECTED_POPUP_DELAY_MS;
+    }
+
+    @VisibleForTesting
+    long getDifferentQRCodeDetectedPopupDelayMs() {
+        return DIFFERENT_QRCODE_DETECTED_POPUP_DELAY_MS;
+    }
+
+    private class HideQRCodeDetectedRunnable implements Runnable {
+
+        @Override
+        public void run() {
+            hideQRCodeDetectedPopup(null);
+            mPaymentQRCodeData = null; // NOPMD
+        }
+    }
+
+    @VisibleForTesting
+    void showQRCodeDetectedPopup(final long startDelay) {
+        if (mQRCodeDetectedPopupContainer.getAlpha() != 0) {
+            return;
+        }
+        clearQRCodeDetectedPopUpAnimation();
+        mQRCodeDetectedPopupContainer.setVisibility(View.VISIBLE);
+        mQRCodeDetectedPopupAnimation = ViewCompat.animate(mQRCodeDetectedPopupContainer)
+                .alpha(1.0f)
+                .setStartDelay(startDelay)
+                .setDuration(DEFAULT_ANIMATION_DURATION);
+        mQRCodeDetectedPopupAnimation.start();
+    }
+
+    private void hideQRCodeDetectedPopup(
+            @Nullable final ViewPropertyAnimatorListener animatorListener) {
+        if (mQRCodeDetectedPopupContainer.getAlpha() != 1) {
+            if (animatorListener != null) {
+                animatorListener.onAnimationEnd(mQRCodeDetectedPopupContainer);
+            }
+            return;
+        }
+        clearQRCodeDetectedPopUpAnimation();
+        mQRCodeDetectedPopupAnimation = ViewCompat.animate(mQRCodeDetectedPopupContainer)
+                .alpha(0.0f)
+                .setDuration(DEFAULT_ANIMATION_DURATION)
+                .setListener(new ViewPropertyAnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(final View view) {
+                        mQRCodeDetectedPopupContainer.setVisibility(View.GONE);
+                        if (animatorListener != null) {
+                            animatorListener.onAnimationEnd(view);
+                        }
+                    }
+                });
+        mQRCodeDetectedPopupAnimation.start();
+    }
+
+    private void clearQRCodeDetectedPopUpAnimation() {
+        if (mQRCodeDetectedPopupAnimation != null) {
+            mQRCodeDetectedPopupAnimation.cancel();
+            mQRCodeDetectedPopupContainer.clearAnimation();
+            mQRCodeDetectedPopupAnimation.setListener(null);
+        }
+        final View view = mFragment.getView();
+        if (view != null) {
+            view.removeCallbacks(mHideQRCodeDetectedPopupRunnable);
+        }
+    }
+
+    void setListener(final CameraFragmentListener listener) {
         if (listener == null) {
             mListener = NO_OP_LISTENER;
         } else {
@@ -142,7 +272,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         }
     }
 
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         final Activity activity = mFragment.getActivity();
         if (activity == null) {
             return;
@@ -150,9 +280,9 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         forcePortraitOrientationOnPhones(activity);
     }
 
-    View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.gv_fragment_camera, container, false);
+    View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+            final Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.gv_fragment_camera, container, false);
         bindViews(view);
         setInputHandlers();
         setSurfaceViewCallback();
@@ -166,6 +296,10 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         }
         initViews();
         initCameraController(activity);
+        if (mGiniVisionFeatureConfiguration.isQRCodeScanningEnabled()) {
+            mHideQRCodeDetectedPopupRunnable = new HideQRCodeDetectedRunnable();
+            initQRCodeReader(activity);
+        }
 
         final CompletableFuture<Void> openCameraCompletable = openCamera();
         final CompletableFuture<SurfaceHolder> surfaceCreationCompletable = handleSurfaceCreation();
@@ -173,13 +307,13 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         CompletableFuture.allOf(openCameraCompletable, surfaceCreationCompletable)
                 .handle(new CompletableFuture.BiFun<Void, Throwable, Object>() {
                     @Override
-                    public Object apply(Void aVoid, Throwable throwable) {
+                    public Object apply(final Void aVoid, final Throwable throwable) {
                         if (throwable != null) {
                             // Exceptions were handled before
                             return null;
                         }
                         try {
-                            SurfaceHolder surfaceHolder = surfaceCreationCompletable.get();
+                            final SurfaceHolder surfaceHolder = surfaceCreationCompletable.get();
                             if (surfaceHolder != null) {
                                 final Size previewSize =
                                         mCameraController.getPreviewSizeForDisplay();
@@ -189,40 +323,79 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                                 showUploadHintPopUpOnFirstExecution();
                             } else {
                                 handleError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW,
-                                        "Cannot start preview: no SurfaceHolder received for SurfaceView", null);
+                                        "Cannot start preview: no SurfaceHolder received for SurfaceView",
+                                        null);
                             }
                         } catch (InterruptedException | ExecutionException e) {
-                            handleError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW, "Cannot start preview", e);
+                            handleError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW,
+                                    "Cannot start preview", e);
                         }
                         return null;
                     }
                 });
     }
 
-    private void showUploadHintPopUpOnFirstExecution() {
-        if(shouldShowHintPopUp()) {
-            mButtonCameraTrigger.setEnabled(false);
-            mUploadHintContainer.setVisibility(View.VISIBLE);
-            mUploadHintContainerArrow.setVisibility(View.VISIBLE);
-            mCameraPreviewShade.setVisibility(View.VISIBLE);
-            mCameraPreviewShade.setClickable(true);
-            clearUploadHintPopUpAnimations();
-            mUploadHintContainerAnimation = ViewCompat.animate(
-                    mUploadHintContainer)
-                    .alpha(1)
-                    .setDuration(DEFAULT_ANIMATION_DURATION);
-            mUploadHintContainerAnimation.start();
-            mUploadHintContainerArrowAnimation = ViewCompat.animate(
-                    mUploadHintContainerArrow)
-                    .alpha(1)
-                    .setDuration(DEFAULT_ANIMATION_DURATION);
-            mUploadHintContainerArrowAnimation.start();
-            mCameraPreviewShadeAnimation = ViewCompat.animate(
-                    mCameraPreviewShade)
-                    .alpha(1)
-                    .setDuration(DEFAULT_ANIMATION_DURATION);
-            mCameraPreviewShadeAnimation.start();
+    private void initQRCodeReader(final Activity activity) {
+        if (mPaymentQRCodeReader != null) {
+            return;
         }
+        final QRCodeDetectorTaskGoogleVision qrCodeDetectorTask =
+                new QRCodeDetectorTaskGoogleVision(activity);
+        qrCodeDetectorTask.checkAvailability(new QRCodeDetectorTask.Callback() {
+            @Override
+            public void onResult(final boolean isAvailable) {
+                if (isAvailable) {
+                    mPaymentQRCodeReader = PaymentQRCodeReader.newInstance(qrCodeDetectorTask);
+                    mPaymentQRCodeReader.setListener(CameraFragmentImpl.this);
+                } else {
+                    LOG.warn(
+                            "QRCode detector dependencies are not yet available. QRCode detection is disabled.");
+                }
+            }
+
+            @Override
+            public void onInterrupted() {
+                LOG.debug(
+                        "Checking whether the QRCode detector task is operational was interrupted.");
+            }
+        });
+    }
+
+    @VisibleForTesting
+    PaymentQRCodeReader getPaymentQRCodeReader() {
+        return mPaymentQRCodeReader;
+    }
+
+
+    private void showUploadHintPopUpOnFirstExecution() {
+        if (shouldShowHintPopUp()) {
+            showUploadHintPopUp();
+        }
+    }
+
+    @VisibleForTesting
+    void showUploadHintPopUp() {
+        mButtonCameraTrigger.setEnabled(false);
+        mUploadHintContainer.setVisibility(View.VISIBLE);
+        mUploadHintContainerArrow.setVisibility(View.VISIBLE);
+        mCameraPreviewShade.setVisibility(View.VISIBLE);
+        mCameraPreviewShade.setClickable(true);
+        clearUploadHintPopUpAnimations();
+        mUploadHintContainerAnimation = ViewCompat.animate(
+                mUploadHintContainer)
+                .alpha(1)
+                .setDuration(DEFAULT_ANIMATION_DURATION);
+        mUploadHintContainerAnimation.start();
+        mUploadHintContainerArrowAnimation = ViewCompat.animate(
+                mUploadHintContainerArrow)
+                .alpha(1)
+                .setDuration(DEFAULT_ANIMATION_DURATION);
+        mUploadHintContainerArrowAnimation.start();
+        mCameraPreviewShadeAnimation = ViewCompat.animate(
+                mCameraPreviewShade)
+                .alpha(1)
+                .setDuration(DEFAULT_ANIMATION_DURATION);
+        mCameraPreviewShadeAnimation.start();
     }
 
     private void clearUploadHintPopUpAnimations() {
@@ -247,21 +420,23 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         if (!isDocumentImportEnabled()) {
             return false;
         }
-        Context context = mFragment.getActivity();
-        if(context != null) {
-            SharedPreferences gvSharedPrefs = context.getSharedPreferences(GV_SHARED_PREFS, Context.MODE_PRIVATE);
+        final Context context = mFragment.getActivity();
+        if (context != null) {
+            final SharedPreferences gvSharedPrefs = context.getSharedPreferences(GV_SHARED_PREFS,
+                    Context.MODE_PRIVATE);
             return gvSharedPrefs.getBoolean(SHOW_HINT_POP_UP, true);
         }
         return false;
     }
 
-    private void startPreview(SurfaceHolder holder) {
+    private void startPreview(final SurfaceHolder holder) {
         mCameraController.startPreview(holder)
                 .handle(new CompletableFuture.BiFun<Void, Throwable, Void>() {
                     @Override
                     public Void apply(final Void aVoid, final Throwable throwable) {
                         if (throwable != null) {
-                            handleError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW, "Cannot start preview", throwable);
+                            handleError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW,
+                                    "Cannot start preview", throwable);
                         }
                         return null;
                     }
@@ -269,25 +444,29 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void enableTapToFocus() {
-        mCameraController.enableTapToFocus(mCameraPreview, new CameraInterface.TapToFocusListener() {
-            @Override
-            public void onFocusing(Point point) {
-                showFocusIndicator(point);
-            }
+        mCameraController.enableTapToFocus(mCameraPreview,
+                new CameraInterface.TapToFocusListener() {
+                    @Override
+                    public void onFocusing(final Point point) {
+                        showFocusIndicator(point);
+                    }
 
-            @Override
-            public void onFocused(boolean success) {
-                hideFocusIndicator();
-            }
-        });
+                    @Override
+                    public void onFocused(final boolean success) {
+                        hideFocusIndicator();
+                    }
+                });
     }
 
-    private void showFocusIndicator(Point point) {
-        int top = Math.round((mLayoutRoot.getHeight() - mCameraPreview.getHeight()) / 2.0f);
-        int left = Math.round((mLayoutRoot.getWidth() - mCameraPreview.getWidth()) / 2.0f);
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) mCameraFocusIndicator.getLayoutParams();
-        layoutParams.leftMargin = (int) Math.round(left + point.x - (mCameraFocusIndicator.getWidth() / 2.0));
-        layoutParams.topMargin = (int) Math.round(top + point.y - (mCameraFocusIndicator.getHeight() / 2.0));
+    private void showFocusIndicator(final Point point) {
+        final int top = Math.round((mLayoutRoot.getHeight() - mCameraPreview.getHeight()) / 2.0f);
+        final int left = Math.round((mLayoutRoot.getWidth() - mCameraPreview.getWidth()) / 2.0f);
+        final RelativeLayout.LayoutParams layoutParams =
+                (RelativeLayout.LayoutParams) mCameraFocusIndicator.getLayoutParams();
+        layoutParams.leftMargin = (int) Math.round(
+                left + point.x - (mCameraFocusIndicator.getWidth() / 2.0));
+        layoutParams.topMargin = (int) Math.round(
+                top + point.y - (mCameraFocusIndicator.getHeight() / 2.0));
         mCameraFocusIndicator.setLayoutParams(layoutParams);
         mCameraFocusIndicator.animate().setDuration(DEFAULT_ANIMATION_DURATION).alpha(1.0f);
     }
@@ -304,13 +483,15 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                     public Void apply(final Void aVoid, final Throwable throwable) {
                         if (throwable != null) {
                             if (throwable instanceof CameraException) {
-                                handleError(GiniVisionError.ErrorCode.CAMERA_OPEN_FAILED, "Failed to open camera", throwable);
+                                handleError(GiniVisionError.ErrorCode.CAMERA_OPEN_FAILED,
+                                        "Failed to open camera", throwable);
                             } else if (throwable instanceof Exception) {
                                 handleCameraException((Exception) throwable);
                             } else {
-                                handleError(GiniVisionError.ErrorCode.CAMERA_OPEN_FAILED, "Failed to open camera", throwable);
+                                handleError(GiniVisionError.ErrorCode.CAMERA_OPEN_FAILED,
+                                        "Failed to open camera", throwable);
                             }
-                            throw new RuntimeException(throwable);
+                            throw new CameraException(throwable);
                         } else {
                             LOG.info("Camera opened");
                             hideNoPermissionView();
@@ -321,21 +502,24 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private CompletableFuture<SurfaceHolder> handleSurfaceCreation() {
-        return mSurfaceCreatedFuture.handle(new CompletableFuture.BiFun<SurfaceHolder, Throwable, SurfaceHolder>() {
-            @Override
-            public SurfaceHolder apply(SurfaceHolder surfaceHolder, Throwable throwable) {
-                if (throwable != null) {
-                    handleError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW, "Cannot start preview", throwable);
-                    throw new RuntimeException(throwable);
-                }
-                return surfaceHolder;
-            }
-        });
+        return mSurfaceCreatedFuture.handle(
+                new CompletableFuture.BiFun<SurfaceHolder, Throwable, SurfaceHolder>() {
+                    @Override
+                    public SurfaceHolder apply(final SurfaceHolder surfaceHolder,
+                            final Throwable throwable) {
+                        if (throwable != null) {
+                            handleError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW,
+                                    "Cannot start preview", throwable);
+                            throw new CameraException(throwable);
+                        }
+                        return surfaceHolder;
+                    }
+                });
     }
 
-    private void handleCameraException(@NonNull Exception e) {
+    private void handleCameraException(@NonNull final Exception e) {
         LOG.error("Failed to open camera", e);
-        GiniVisionError error = cameraExceptionToGiniVisionError(e);
+        final GiniVisionError error = cameraExceptionToGiniVisionError(e);
         if (error.getErrorCode() == GiniVisionError.ErrorCode.CAMERA_NO_ACCESS) {
             showNoPermissionView();
         } else {
@@ -346,23 +530,29 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     void onStop() {
         closeCamera();
         clearUploadHintPopUpAnimations();
+        clearQRCodeDetectedPopUpAnimation();
     }
 
     private void closeCamera() {
         LOG.info("Closing camera");
+        if (mPaymentQRCodeReader != null) {
+            mPaymentQRCodeReader.release();
+            mPaymentQRCodeReader = null; // NOPMD
+        }
         mCameraController.disableTapToFocus(mCameraPreview);
+        mCameraController.setPreviewCallback(null);
         mCameraController.stopPreview();
         mCameraController.close();
         LOG.info("Camera closed");
     }
 
-    private void bindViews(View view) {
+    private void bindViews(final View view) {
         mLayoutRoot = view.findViewById(R.id.gv_root);
         mCameraPreview = view.findViewById(R.id.gv_camera_preview);
         mImageCorners = view.findViewById(R.id.gv_image_corners);
         mCameraFocusIndicator = view.findViewById(R.id.gv_camera_focus_indicator);
         mButtonCameraTrigger = view.findViewById(R.id.gv_button_camera_trigger);
-        ViewStub stubNoPermission = view.findViewById(R.id.gv_stub_camera_no_permission);
+        final ViewStub stubNoPermission = view.findViewById(R.id.gv_stub_camera_no_permission);
         mViewStubInflater = new ViewStubSafeInflater(stubNoPermission);
         mButtonImportDocument = view.findViewById(R.id.gv_button_import_document);
         mUploadHintContainer = view.findViewById(R.id.gv_document_import_hint_container);
@@ -372,6 +562,8 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mActivityIndicatorBackground =
                 view.findViewById(R.id.gv_activity_indicator_background);
         mActivityIndicator = view.findViewById(R.id.gv_activity_indicator);
+        mQRCodeDetectedPopupContainer = view.findViewById(
+                R.id.gv_qrcode_detected_popup_container);
     }
 
     private void initViews() {
@@ -387,13 +579,14 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private boolean isDocumentImportEnabled() {
-        return mGiniVisionFeatureConfiguration.getDocumentImportEnabledFileTypes() != DocumentImportEnabledFileTypes.NONE;
+        return mGiniVisionFeatureConfiguration.getDocumentImportEnabledFileTypes()
+                != DocumentImportEnabledFileTypes.NONE;
     }
 
     private void setInputHandlers() {
         mButtonCameraTrigger.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 LOG.info("Taking picture");
                 if (!mCameraController.isPreviewRunning()) {
                     LOG.info("Will not take picture: preview must be running");
@@ -453,13 +646,25 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                 closeUploadHintPopUp();
             }
         });
+        mQRCodeDetectedPopupContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                hideQRCodeDetectedPopup(null);
+                if (mPaymentQRCodeData != null) {
+                    final QRCodeDocument qrCodeDocument = QRCodeDocument.fromPaymentQRCodeData(
+                            mPaymentQRCodeData);
+                    mListener.onQRCodeAvailable(qrCodeDocument);
+                    mPaymentQRCodeData = null; // NOPMD
+                }
+            }
+        });
     }
 
     private void closeUploadHintPopUp() {
         hideUploadHintPopUp(new ViewPropertyAnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(final View view) {
-                Context context = view.getContext();
+                final Context context = view.getContext();
                 savePopUpShown(context);
             }
         });
@@ -496,7 +701,8 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void savePopUpShown(final Context context) {
-        SharedPreferences gvSharedPrefs = context.getSharedPreferences(GV_SHARED_PREFS, Context.MODE_PRIVATE);
+        final SharedPreferences gvSharedPrefs = context.getSharedPreferences(GV_SHARED_PREFS,
+                Context.MODE_PRIVATE);
         gvSharedPrefs.edit().putBoolean(SHOW_HINT_POP_UP, false).apply();
     }
 
@@ -505,13 +711,13 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mFragment.showAlertDialog(R.string.gv_storage_permission_rationale,
                 R.string.gv_storage_permission_rationale_positive_button,
                 new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(final DialogInterface dialogInterface,
-                    final int i) {
-                LOG.info("Requesting storage permission from rationale");
-                response.requestPermission();
-            }
-        }, R.string.gv_storage_permission_denied_negative_button);
+                    @Override
+                    public void onClick(final DialogInterface dialogInterface,
+                            final int i) {
+                        LOG.info("Requesting storage permission from rationale");
+                        response.requestPermission();
+                    }
+                }, R.string.gv_storage_permission_denied_negative_button);
     }
 
     private void showStoragePermissionDeniedDialog() {
@@ -534,7 +740,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         if (activity == null) {
             return;
         }
-        Intent fileChooserIntent = FileChooserActivity.createIntent(activity);
+        final Intent fileChooserIntent = FileChooserActivity.createIntent(activity);
         fileChooserIntent.putExtra(FileChooserActivity.EXTRA_IN_DOCUMENT_IMPORT_FILE_TYPES,
                 mGiniVisionFeatureConfiguration.getDocumentImportEnabledFileTypes());
         mFragment.startActivityForResult(fileChooserIntent, REQ_CODE_CHOOSE_FILE);
@@ -594,7 +800,7 @@ class CameraFragmentImpl implements CameraFragmentInterface {
             showInvalidFileError(null);
             return;
         }
-        if (!UriHelper.isUriInputStreamAvailable(uri, activity)){
+        if (!UriHelper.isUriInputStreamAvailable(uri, activity)) {
             LOG.error("Document import failed: InputStream not available for the Uri");
             showInvalidFileError(null);
             return;
@@ -634,14 +840,15 @@ class CameraFragmentImpl implements CameraFragmentInterface {
                         }
                     });
 
-        } catch (IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
             LOG.error("Failed to import selected document", e);
             hideActivityIndicatorAndEnableInteraction();
             showInvalidFileError(null);
         }
     }
 
-    private void showActivityIndicatorAndDisableInteraction() {
+    @Override
+    public void showActivityIndicatorAndDisableInteraction() {
         if (mActivityIndicator == null
                 || mActivityIndicatorBackground == null) {
             return;
@@ -652,7 +859,8 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         disableInteraction();
     }
 
-    private void hideActivityIndicatorAndEnableInteraction() {
+    @Override
+    public void hideActivityIndicatorAndEnableInteraction() {
         if (mActivityIndicator == null
                 || mActivityIndicatorBackground == null) {
             return;
@@ -661,6 +869,15 @@ class CameraFragmentImpl implements CameraFragmentInterface {
         mActivityIndicatorBackground.setClickable(false);
         mActivityIndicator.setVisibility(View.INVISIBLE);
         enableInteraction();
+    }
+
+    @Override
+    public void showError(@NonNull final String message, final int duration) {
+        if (mFragment.getActivity() == null || mLayoutRoot == null) {
+            return;
+        }
+        ErrorSnackbar.make(mFragment.getActivity(), mLayoutRoot, message, null, null,
+                duration).show();
     }
 
     private void enableInteraction() {
@@ -715,7 +932,8 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     @UiThread
     private void callListener(final Photo photo, final Throwable throwable) {
         if (throwable != null) {
-            handleError(GiniVisionError.ErrorCode.CAMERA_SHOT_FAILED, "Failed to take picture", throwable);
+            handleError(GiniVisionError.ErrorCode.CAMERA_SHOT_FAILED, "Failed to take picture",
+                    throwable);
             mCameraController.startPreview();
         } else {
             if (photo != null) {
@@ -732,18 +950,19 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     private void setSurfaceViewCallback() {
         mCameraPreview.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
-            public void surfaceCreated(SurfaceHolder holder) {
+            public void surfaceCreated(final SurfaceHolder holder) {
                 LOG.debug("Surface created");
                 mSurfaceCreatedFuture.complete(holder);
             }
 
             @Override
-            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+            public void surfaceChanged(final SurfaceHolder holder, final int format,
+                    final int width, final int height) {
                 LOG.debug("Surface changed");
             }
 
             @Override
-            public void surfaceDestroyed(SurfaceHolder holder) {
+            public void surfaceDestroyed(final SurfaceHolder holder) {
                 LOG.debug("Surface destroyed");
                 mSurfaceCreatedFuture = new CompletableFuture<>();
             }
@@ -861,8 +1080,8 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private boolean isNoPermissionViewVisible() {
-        return mLayoutNoPermission != null &&
-                mLayoutNoPermission.getVisibility() == View.VISIBLE;
+        return mLayoutNoPermission != null
+                && mLayoutNoPermission.getVisibility() == View.VISIBLE;
     }
 
     private void inflateNoPermissionStub() {
@@ -899,58 +1118,79 @@ class CameraFragmentImpl implements CameraFragmentInterface {
     }
 
     private void handleNoPermissionButtonClick() {
-        View view = mFragment.getView();
+        final View view = mFragment.getView();
         if (view == null) {
             return;
         }
-        Button button = view.findViewById(R.id.gv_button_camera_no_permission);
+        final Button button = view.findViewById(R.id.gv_button_camera_no_permission);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 startApplicationDetailsSettings();
             }
         });
     }
 
     private void hideNoPermissionButton() {
-        View view = mFragment.getView();
+        final View view = mFragment.getView();
         if (view == null) {
             return;
         }
-        Button button = (Button) view.findViewById(R.id.gv_button_camera_no_permission);
+        final Button button = (Button) view.findViewById(R.id.gv_button_camera_no_permission);
         button.setVisibility(View.GONE);
     }
 
     private void startApplicationDetailsSettings() {
-        Activity activity = mFragment.getActivity();
+        final Activity activity = mFragment.getActivity();
         if (activity == null) {
             return;
         }
         LOG.debug("Starting Application Details");
-        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        Uri uri = Uri.fromParts("package", getClientApplicationId(activity), null);
+        final Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        final Uri uri = Uri.fromParts("package", getClientApplicationId(activity), null);
         intent.setData(uri);
         mFragment.startActivity(intent);
     }
 
-    private CameraController initCameraController(Activity activity) {
+    private void initCameraController(final Activity activity) {
         if (mCameraController == null) {
             LOG.debug("CameraController created");
-            mCameraController = new CameraController(activity);
+            mCameraController = createCameraController(activity);
         }
-        return mCameraController;
+        if (mGiniVisionFeatureConfiguration.isQRCodeScanningEnabled()) {
+            final int rotation = mCameraController.getCameraRotation();
+            mCameraController.setPreviewCallback(new Camera.PreviewCallback() {
+                @Override
+                public void onPreviewFrame(final byte[] data, final Camera camera) {
+                    if (mPaymentQRCodeReader == null) {
+                        return;
+                    }
+                    mPaymentQRCodeReader.readFromImage(data, mCameraController.getPreviewSize(),
+                            rotation);
+                }
+            });
+        }
     }
 
-    private void handleError(GiniVisionError.ErrorCode errorCode, @NonNull String message, @Nullable Throwable throwable) {
+    @NonNull
+    protected CameraInterface createCameraController(final Activity activity) {
+        return new CameraController(activity);
+    }
+
+    private void handleError(final GiniVisionError.ErrorCode errorCode,
+            @NonNull final String message,
+            @Nullable final Throwable throwable) {
+        String errorMessage = message;
         if (throwable != null) {
             LOG.error(message, throwable);
             // Add error info to the message to help clients, if they don't have logging enabled
-            message += ": " + throwable.getMessage();
+            errorMessage = errorMessage + ": " + throwable.getMessage();
         }
-        handleError(errorCode, message);
+        handleError(errorCode, errorMessage);
     }
 
-    private void handleError(GiniVisionError.ErrorCode errorCode, @NonNull String message) {
+    private void handleError(final GiniVisionError.ErrorCode errorCode,
+            @NonNull final String message) {
         handleError(new GiniVisionError(errorCode, message));
     }
 

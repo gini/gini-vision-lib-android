@@ -122,7 +122,8 @@ import net.gini.android.vision.onboarding.OnboardingActivity;
  *     </ul>
  * </p>
  */
-public abstract class ReviewActivity extends AppCompatActivity implements ReviewFragmentListener, ReviewFragmentInterface {
+public abstract class ReviewActivity extends AppCompatActivity implements ReviewFragmentListener,
+        ReviewFragmentInterface {
 
     /**
      * @exclude
@@ -135,7 +136,8 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     /**
      * @exclude
      */
-    public static final String EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY = "GV_EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY";
+    public static final String EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY =
+            "GV_EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY";
     /**
      * @exclude
      */
@@ -165,7 +167,7 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     private ReviewFragmentCompat mFragment;
     private Document mDocument;
     private String mDocumentAnalysisErrorMessage;
-    private boolean mBackButtonShouldCloseLibrary = false;
+    private boolean mBackButtonShouldCloseLibrary;
 
     private Intent mAnalyzeDocumentActivityIntent;
     private boolean mNoExtractionsFound;
@@ -176,7 +178,7 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gv_activity_review);
         readExtras();
@@ -189,7 +191,7 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
         enableHomeAsUp(this);
     }
 
-    private void restoreSavedState(@Nullable Bundle savedInstanceState) {
+    private void restoreSavedState(@Nullable final Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             return;
         }
@@ -197,7 +199,7 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         if (handleMenuItemPressedForHomeButton(this, item)) {
             onBackPressed();
             return true;
@@ -218,26 +220,29 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     }
 
     private void clearMemory() {
-        mDocument = null;
+        mDocument = null;  // NOPMD
     }
 
     @VisibleForTesting
     void readExtras() {
-        Bundle extras = getIntent().getExtras();
+        final Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mDocument = extras.getParcelable(EXTRA_IN_DOCUMENT);
             mAnalyzeDocumentActivityIntent = extras.getParcelable(EXTRA_IN_ANALYSIS_ACTIVITY);
-            mBackButtonShouldCloseLibrary = extras.getBoolean(EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY, false);
+            mBackButtonShouldCloseLibrary = extras.getBoolean(
+                    EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY, false);
         }
         checkRequiredExtras();
     }
 
     private void checkRequiredExtras() {
         if (mDocument == null) {
-            throw new IllegalStateException("ReviewActivity requires a Document. Set it as an extra using the EXTRA_IN_DOCUMENT key.");
+            throw new IllegalStateException(
+                    "ReviewActivity requires a Document. Set it as an extra using the EXTRA_IN_DOCUMENT key.");
         }
         if (mAnalyzeDocumentActivityIntent == null) {
-            throw new IllegalStateException("ReviewActivity requires an AnalyzeDocumentActivity class. Call setAnalyzeDocumentActivityExtra() to set it.");
+            throw new IllegalStateException(
+                    "ReviewActivity requires an AnalyzeDocumentActivity class. Call setAnalyzeDocumentActivityExtra() to set it.");
         }
     }
 
@@ -257,7 +262,8 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     }
 
     private void retainFragment() {
-        mFragment = (ReviewFragmentCompat) getSupportFragmentManager().findFragmentByTag(REVIEW_FRAGMENT);
+        mFragment = (ReviewFragmentCompat) getSupportFragmentManager().findFragmentByTag(
+                REVIEW_FRAGMENT);
     }
 
     private void showFragment() {
@@ -271,7 +277,7 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     public abstract void onShouldAnalyzeDocument(@NonNull Document document);
 
     @Override
-    public void onProceedToAnalysisScreen(@NonNull Document document) {
+    public void onProceedToAnalysisScreen(@NonNull final Document document) {
         if (mNoExtractionsFound) {
             if (GiniVisionCoordinator.shouldShowGiniVisionNoResultsScreen(document)) {
                 final Intent noResultsActivity = new Intent(this, NoResultsActivity.class);
@@ -279,14 +285,15 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
                 startActivity(noResultsActivity);
                 setResult(RESULT_NO_EXTRACTIONS);
             } else {
-                Intent result = new Intent();
+                final Intent result = new Intent();
                 setResult(RESULT_OK, result);
             }
             finish();
         } else {
             mAnalyzeDocumentActivityIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, document);
             if (mDocumentAnalysisErrorMessage != null) {
-                mAnalyzeDocumentActivityIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE,
+                mAnalyzeDocumentActivityIntent.putExtra(
+                        AnalysisActivity.EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE,
                         mDocumentAnalysisErrorMessage);
             }
             startActivityForResult(mAnalyzeDocumentActivityIntent, ANALYSE_DOCUMENT_REQUEST);
@@ -294,8 +301,8 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     }
 
     @Override
-    public void onDocumentReviewedAndAnalyzed(@NonNull Document document) {
-        Intent result = new Intent();
+    public void onDocumentReviewedAndAnalyzed(@NonNull final Document document) {
+        final Intent result = new Intent();
         result.putExtra(EXTRA_OUT_DOCUMENT, document);
         onAddDataToResult(result);
         setResult(RESULT_OK, result);
@@ -320,7 +327,8 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     public abstract void onAddDataToResult(@NonNull Intent result);
 
     @Override
-    public void onDocumentWasRotated(@NonNull Document document, int oldRotation, int newRotation) {
+    public void onDocumentWasRotated(@NonNull final Document document, final int oldRotation,
+            final int newRotation) {
         clearDocumentAnalysisError();
     }
 
@@ -335,8 +343,8 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     }
 
     @Override
-    public void onError(@NonNull GiniVisionError error) {
-        Intent result = new Intent();
+    public void onError(@NonNull final GiniVisionError error) {
+        final Intent result = new Intent();
         result.putExtra(EXTRA_OUT_ERROR, error);
         setResult(RESULT_ERROR, result);
         finish();
@@ -349,16 +357,17 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
      * </p>
      * @param message an error message to be shown to the user
      */
-    protected void onDocumentAnalysisError(String message) {
+    protected void onDocumentAnalysisError(final String message) {
         mDocumentAnalysisErrorMessage = message;
     }
 
     private void clearDocumentAnalysisError() {
-        mDocumentAnalysisErrorMessage = null;
+        mDocumentAnalysisErrorMessage = null;  // NOPMD
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(final int requestCode, final int resultCode,
+            final Intent data) {
         if (requestCode == ANALYSE_DOCUMENT_REQUEST) {
             if (resultCode == RESULT_NO_EXTRACTIONS) {
                 finish();

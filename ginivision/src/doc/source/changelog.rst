@@ -2,8 +2,29 @@
 Changelog
 =========
 
+2.5.0 (2018-01-22)
+==================
+
+- QRCodes on invoices and remittance slips can be detected and read. Supported formats are the BezahlCode and EPC069-12 (Stuzza (AT) and GiroCode (DE)).
+- Consult the `Updating to 2.5.0 <updating-to-2-5-0.html>`_ page in the guide for detailed information.
+
+2.4.3 (2017-11-29)
+==================
+
+- Fixed an issue where an imported file's size and name could not be retrieved when using "open with".
+
+2.4.2 (2017-11-14)
+==================
+
+- Fixed an issue related to PDF rendering affecting some Android Lollipop devices like the Huawei MediaPad T2 10" Pro.
+
+2.4.1 (2017-11-10)
+==================
+
+- Fixed document corner guides not being drawn correctly for camera preview sizes with a 16:9 ratio.
+
 2.4.0 (2017-10-25)
-=======================
+==================
 
 - Consult the `Updating to 2.4.0 <updating-to-2-4-0.html>`_ page in the guide for detailed information.
 

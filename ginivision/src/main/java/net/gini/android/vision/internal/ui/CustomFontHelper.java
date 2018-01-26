@@ -26,8 +26,11 @@ final class CustomFontHelper {
      * @param defStyleAttr an attribute in the current theme that contains a reference to a style resource that supplies
      *                     default values for the view. Can be 0 to not look for defaults.
      */
-    public static void parseAttributesAndSetFont(@NonNull TextView textView, @NonNull Context context, @NonNull AttributeSet attributeSet, int defStyleAttr) {
-        TypedArray giniTypedArray = context.getTheme().obtainStyledAttributes(attributeSet, R.styleable.CustomFont, defStyleAttr, 0);
+    static void parseAttributesAndSetFont(@NonNull final TextView textView,
+            @NonNull final Context context, @NonNull final AttributeSet attributeSet,
+            final int defStyleAttr) {
+        final TypedArray giniTypedArray = context.getTheme().obtainStyledAttributes(attributeSet,
+                R.styleable.CustomFont, defStyleAttr, 0);
         String fontFamily = null;
         try {
             fontFamily = giniTypedArray.getString(R.styleable.CustomFont_gvCustomFont);
@@ -35,7 +38,9 @@ final class CustomFontHelper {
             giniTypedArray.recycle();
         }
 
-        TypedArray typefaceTypedArray = context.getTheme().obtainStyledAttributes(attributeSet, new int[]{android.R.attr.textStyle}, defStyleAttr, 0);
+        final TypedArray typefaceTypedArray = context.getTheme().obtainStyledAttributes(
+                attributeSet,
+                new int[]{android.R.attr.textStyle}, defStyleAttr, 0);
         int fontStyle = Typeface.NORMAL;
         try {
             fontStyle = typefaceTypedArray.getInteger(0, Typeface.NORMAL);
@@ -55,14 +60,15 @@ final class CustomFontHelper {
      * @param fontFamily system font name or custom font file name with extension
      * @param fontStyle  Typeface style constant
      */
-    private static void setFont(@NonNull TextView textView, @NonNull Context context, @Nullable String fontFamily, int fontStyle) {
+    private static void setFont(@NonNull final TextView textView, @NonNull final Context context,
+            @Nullable final String fontFamily, final int fontStyle) {
         if (TextUtils.isEmpty(fontFamily)) {
             // No font family: use default font with the font style
             setSystemFont(textView, null, fontStyle);
         } else if (!setCustomFont(textView, context, fontFamily, fontStyle)) {
             // Custom font couldn't be set (non-existing font family, system font or error)
             // Try it as a system font
-            if (!setSystemFont(textView, fontFamily, fontStyle)) {
+            if (!setSystemFont(textView, fontFamily, fontStyle)) { // NOPMD
                 // Font family couldn't be used: fall back to the default font with the font style
                 setSystemFont(textView, null, fontStyle);
             }
@@ -77,14 +83,16 @@ final class CustomFontHelper {
      * @param fontStyle  Typeface style constant
      * @return true, if custom font could be set, false otherwise
      */
-    private static boolean setCustomFont(@NonNull TextView textView, @NonNull Context context, @NonNull String fontPath, int fontStyle) {
+    private static boolean setCustomFont(@NonNull final TextView textView,
+            @NonNull final Context context,
+            @NonNull final String fontPath, final int fontStyle) {
         boolean success = false;
         try {
-            Typeface typeface = Typeface.createFromAsset(context.getAssets(), fontPath);
-            Typeface styledTypeface = Typeface.create(typeface, fontStyle);
+            final Typeface typeface = Typeface.createFromAsset(context.getAssets(), fontPath);
+            final Typeface styledTypeface = Typeface.create(typeface, fontStyle);
             textView.setTypeface(styledTypeface);
             success = true;
-        } catch (Exception e) {
+        } catch (final Exception e) {
             LOG.error("Typeface couldn't be created. Font file '{}' not usable.", fontPath, e);
         }
         return success;
@@ -96,19 +104,20 @@ final class CustomFontHelper {
      * @param fontFamily system font family name
      * @param fontStyle  Typeface style constant
      */
-    private static boolean setSystemFont(@NonNull TextView textView, @Nullable String fontFamily, int fontStyle) {
+    private static boolean setSystemFont(@NonNull final TextView textView,
+            @Nullable final String fontFamily,
+            final int fontStyle) {
         boolean success = false;
         try {
-            Typeface typeface = Typeface.create(fontFamily, fontStyle);
+            final Typeface typeface = Typeface.create(fontFamily, fontStyle);
             textView.setTypeface(typeface);
             success = true;
-        } catch (Exception e) {
+        } catch (final Exception e) {
             LOG.error("Typeface couldn't be created. Font family '{}' not found.", fontFamily, e);
         }
         return success;
     }
 
     private CustomFontHelper() {
-
     }
 }

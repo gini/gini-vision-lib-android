@@ -44,14 +44,14 @@ task printLibraryVersion {
 
 ext {
     compileSdkVersion = 26
-    buildToolsVersion = '26.0.2'
+    buildToolsVersion = '26.0.3'
     minSdkVersion = 14
     targetSdkVersion = 26
     versionCode = libVersionCode
     versionName = libVersionName
 }
 
-def supportLibVersion = '26.0.1'
+def supportLibVersion = '26.0.2'
 def mockitoVersion = '2.6.3'
 def testSupportLibVersion = '1.0.1'
 def espressoVersion = '3.0.1'
@@ -59,30 +59,27 @@ def jacocoVersion = '0.7.4.201502262128'
 
 ext.deps = [
         // Android
-        appCompatv7: "com.android.support:appcompat-v7:$supportLibVersion",
-        supportv4: "com.android.support:support-v4:$supportLibVersion",
-        supportv13: "com.android.support:support-v13:$supportLibVersion",
-        supportDesign: "com.android.support:design:$supportLibVersion",
+        appCompatv7               : "com.android.support:appcompat-v7:$supportLibVersion",
+        supportv4                 : "com.android.support:support-v4:$supportLibVersion",
+        supportv13                : "com.android.support:support-v13:$supportLibVersion",
+        supportDesign             : "com.android.support:design:$supportLibVersion",
+        // Google Mobile Vision API
+        playServicesVision        : 'com.google.android.gms:play-services-vision:11.6.0',
         // Exif editing library. IMPORTANT: notify backend when the version is changed
-        commonsImaging: 'org.apache.commons:commons-imaging:1.0.0gini',
+        commonsImaging            : 'org.apache.commons:commons-imaging:1.0.0gini',
         // Logging
-        slf4j: 'org.slf4j:slf4j-api:1.7.21',
+        slf4j                     : 'org.slf4j:slf4j-api:1.7.21',
         // Backport/standalone version of CompletableFuture
-        completableFuture: 'org.glassfish.jersey.bundles.repackaged:jersey-jsr166e:2.23.1',
+        completableFuture         : 'org.glassfish.jersey.bundles.repackaged:jersey-jsr166e:2.23.1',
         // Test dependencies
-        junit: 'junit:junit:4.12',
-        truth: 'com.google.truth:truth:0.28',
-        mockito: "org.mockito:mockito-core:$mockitoVersion",
-        mockitoAndroid: "org.mockito:mockito-android:$mockitoVersion",
-        supportTestRunner: "com.android.support.test:runner:$testSupportLibVersion",
-        supportTestRules: "com.android.support.test:rules:$testSupportLibVersion",
-        supportTestEspressoCore: "com.android.support.test.espresso:espresso-core:$espressoVersion",
+        junit                     : 'junit:junit:4.12',
+        truth                     : 'com.google.truth:truth:0.28',
+        mockito                   : "org.mockito:mockito-core:$mockitoVersion",
+        mockitoAndroid            : "org.mockito:mockito-android:$mockitoVersion",
+        supportTestRunner         : "com.android.support.test:runner:$testSupportLibVersion",
+        supportTestRules          : "com.android.support.test:rules:$testSupportLibVersion",
+        supportTestEspressoCore   : "com.android.support.test.espresso:espresso-core:$espressoVersion",
         supportTestEspressoIntents: "com.android.support.test.espresso:espresso-intents:$espressoVersion",
-        supportTestUiAutomator: 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2',
-        supportMultidex: 'com.android.support:multidex:1.0.1',
-        // Jacoco for test coverage reports
-        jacocoAnt: "org.jacoco:org.jacoco.ant:$jacocoVersion",
-        jacocoAgent: "org.jacoco:org.jacoco.agent:$jacocoVersion",
-        jacocoCore: "org.jacoco:org.jacoco.core:$jacocoVersion",
-        jacocoReport: "org.jacoco:org.jacoco.report:$jacocoVersion"
+        supportTestUiAutomator    : 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2',
+        supportMultidex           : 'com.android.support:multidex:1.0.1',
 ]

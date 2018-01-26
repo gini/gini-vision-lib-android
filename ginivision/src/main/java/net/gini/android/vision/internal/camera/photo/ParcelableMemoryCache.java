@@ -24,7 +24,7 @@ public enum ParcelableMemoryCache {
     INSTANCE;
 
     /**
-     * Opaque token type to identify a document.
+     * Opaque tokenId type to identify a document.
      */
     public static final class Token implements Parcelable {
 
@@ -42,14 +42,14 @@ public enum ParcelableMemoryCache {
             }
         };
 
-        private final int token;
+        private final int tokenId;
 
-        private Token(final int token) {
-            this.token = token;
+        private Token(final int tokenId) {
+            this.tokenId = tokenId;
         }
 
         @NonNull
-        private static Token next() {
+        static Token next() {
             return new Token(COUNTER.getAndIncrement());
         }
 
@@ -60,7 +60,7 @@ public enum ParcelableMemoryCache {
 
         @Override
         public void writeToParcel(final Parcel dest, final int flags) {
-            dest.writeInt(token);
+            dest.writeInt(tokenId);
         }
 
         @Override
@@ -68,19 +68,19 @@ public enum ParcelableMemoryCache {
             if (this == other) {
                 return true;
             } else if (other instanceof Token) {
-                return token == ((Token) other).token;
+                return tokenId == ((Token) other).tokenId;
             }
             return false;
         }
 
         @Override
         public int hashCode() {
-            return token;
+            return tokenId;
         }
     }
 
-    private Map<Token, byte[]> mByteArrayCache = new ConcurrentHashMap<>();
-    private Map<Token, Bitmap> mBitmapCache = new ConcurrentHashMap<>();
+    private final Map<Token, byte[]> mByteArrayCache = new ConcurrentHashMap<>();
+    private final Map<Token, Bitmap> mBitmapCache = new ConcurrentHashMap<>();
 
     public byte[] getByteArray(@NonNull final Token token) {
         return mByteArrayCache.get(token);

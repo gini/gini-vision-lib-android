@@ -18,6 +18,10 @@ apply plugin: 'pmd'
  * limitations under the License.
  */
 
+checkstyle {
+    toolVersion = "6.5"
+}
+
 task checkstyle(type: Checkstyle) {
     ignoreFailures = true
     showViolations = false
@@ -25,7 +29,7 @@ task checkstyle(type: Checkstyle) {
     configProperties.checkstyleSuppressionsPath = file("${project.rootDir}/config/checkstyle/suppressions.xml").absolutePath
     source 'src'
     include '**/*.java'
-    exclude '**/gen/**'
+    exclude '**/gen/**', '**/androidTest/**', '**/test/**', '**/testShared/**', '**/com/ortiz/**'
     classpath = files()
 }
 
@@ -37,8 +41,16 @@ task findbugs(type: FindBugs, dependsOn: 'assembleDebug') {
 
     source 'src'
     include '**/*.java'
-    exclude '**/gen/**'
+    exclude '**/gen/**', '**/androidTest/**', '**/test/**', '**/testShared/**'
     classpath = files()
+    reports {
+        xml.enabled = true
+        html.enabled = false
+    }
+}
+
+pmd {
+    toolVersion = '6.0.0'
 }
 
 task pmd(type: Pmd) {
@@ -48,12 +60,13 @@ task pmd(type: Pmd) {
 
     source 'src'
     include '**/*.java'
-    exclude '**/gen/**'
+    exclude '**/gen/**', '**/androidTest/**', '**/test/**', '**/testShared/**', '**/com/ortiz/**'
 }
 
 android {
     lintOptions {
         abortOnError false
         lintConfig file("${project.rootDir}/config/lint/lint.xml")
+
     }
 }

@@ -80,24 +80,28 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersItemViewHold
             case APP:
                 bindAppItemViewHolder((ProvidersAppItemViewHolder) holder, position);
                 break;
+            case SEPARATOR:
+                break;
+            default:
+                throw new IllegalStateException("Unknown FileProviderItemType: " + holder.type);
         }
     }
 
     private void bindSectionItemViewHolder(@NonNull final ProvidersSectionItemViewHolder holder,
             final int position) {
-        ProvidersSectionItem item = (ProvidersSectionItem) mItems.get(position);
+        final ProvidersSectionItem item = (ProvidersSectionItem) mItems.get(position);
         holder.sectionTitle.setText(item.getSectionTitle());
     }
 
     private void bindAppItemViewHolder(@NonNull final ProvidersAppItemViewHolder holder,
             final int position) {
-        ProvidersAppItem item = (ProvidersAppItem) mItems.get(position);
+        final ProvidersAppItem item = (ProvidersAppItem) mItems.get(position);
         holder.icon.setImageDrawable(item.getResolveInfo().loadIcon(mContext.getPackageManager()));
         holder.label.setText(item.getResolveInfo().loadLabel(mContext.getPackageManager()));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                ProvidersAppItem item =
+                final ProvidersAppItem item =
                         (ProvidersAppItem) mItems.get(holder.getAdapterPosition());
                 mItemSelectedListener.onItemSelected(item);
             }
@@ -109,7 +113,7 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersItemViewHold
         return mItems.size();
     }
 
-    private class ProvidersAppItemViewHolder extends ProvidersItemViewHolder {
+    private static class ProvidersAppItemViewHolder extends ProvidersItemViewHolder {
 
         @NonNull
         final ImageView icon;
@@ -123,7 +127,7 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersItemViewHold
         }
     }
 
-    private class ProvidersSectionItemViewHolder extends ProvidersItemViewHolder {
+    private static class ProvidersSectionItemViewHolder extends ProvidersItemViewHolder {
 
         @NonNull
         final TextView sectionTitle;
@@ -134,7 +138,7 @@ public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersItemViewHold
         }
     }
 
-    private class ProvidersSeparatorItemViewHolder extends ProvidersItemViewHolder {
+    private static class ProvidersSeparatorItemViewHolder extends ProvidersItemViewHolder {
 
         ProvidersSeparatorItemViewHolder(final View itemView) {
             super(itemView, ProvidersItem.FileProviderItemType.SEPARATOR);

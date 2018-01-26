@@ -34,7 +34,8 @@ class CameraResolutionRequirement implements Requirement {
         try {
             Camera.Parameters parameters = mCameraHolder.getCameraParameters();
             if (parameters != null) {
-                Size pictureSize = SizeSelectionHelper.getLargestSize(parameters.getSupportedPictureSizes());
+                Size pictureSize = SizeSelectionHelper.getLargestSize(
+                        parameters.getSupportedPictureSizes());
                 if (pictureSize == null) {
                     result = false;
                     details = "Camera has no picture resolutions";

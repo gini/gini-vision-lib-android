@@ -8,7 +8,11 @@ package net.gini.android.vision.internal.camera.api;
  */
 public class CameraException extends RuntimeException {
 
-    public CameraException(final String detailMessage) {
+    CameraException(final String detailMessage) {
         super(detailMessage);
+    }
+
+    public CameraException(final Throwable cause) {
+        super(cause);
     }
 }

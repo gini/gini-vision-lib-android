@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.gini.android.visionadvtest">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="net.gini.android.vision.component">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -16,34 +17,59 @@
         android:required="true" />
 
     <application
-        android:name="net.gini.android.vision.component.ComponentApiApp"
+        android:name=".ComponentApiExampleApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:largeHeap="true"
-        android:theme="@style/AppTheme">
-        <activity android:name="net.gini.android.vision.component.MainActivity">
+        android:largeHeap="true">
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppThemeCompat">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <intent-filter android:label="@string/app_name">
+            <intent-filter
+                android:label="@string/app_name"
+                tools:ignore="AppLinkUrlError">
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.SEND" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="image/*" />
                 <data android:mimeType="application/pdf" />
             </intent-filter>
         </activity>
         <activity
-            android:name="net.gini.android.vision.component.GiniVisionActivity"/>
-        <activity
-            android:name="net.gini.android.vision.component.GiniVisionAppCompatActivity"
-            android:theme="@style/AppThemeCompat" />
-        <activity
-            android:name="net.gini.android.vision.component.ExtractionsActivity"
+            android:name=".ExtractionsActivity"
             android:label="@string/title_extractions"
             android:theme="@style/AppThemeCompat" />
+        <activity
+            android:name=".camera.compat.CameraExampleAppCompatActivity"
+            android:theme="@style/AppThemeCompat.NoActionBar" />
+        <activity
+            android:name=".camera.standard.CameraExampleActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".review.compat.ReviewExampleAppCompatActivity"
+            android:theme="@style/AppThemeCompat.NoActionBar" />
+        <activity
+            android:name=".review.standard.ReviewExampleActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".analysis.compat.AnalysisExampleAppCompatActivity"
+            android:theme="@style/AppThemeCompat.NoActionBar" />
+        <activity
+            android:name=".analysis.standard.AnalysisExampleActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".noresults.compat.NoResultsExampleAppCompatActivity"
+            android:theme="@style/AppThemeCompat.NoActionBar" />
+        <activity
+            android:name=".noresults.standard.NoResultsExampleActivity"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

@@ -108,7 +108,7 @@ public class HelpActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gv_activity_help);
         readExtras();
@@ -152,6 +152,8 @@ public class HelpActivity extends AppCompatActivity {
             case SUPPORTED_FORMATS:
                 launchSupportedFormats();
                 break;
+            default:
+                throw new IllegalStateException("Unknown HelpItem: " + helpItem);
         }
     }
 

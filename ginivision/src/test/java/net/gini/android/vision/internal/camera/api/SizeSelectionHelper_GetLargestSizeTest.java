@@ -24,8 +24,10 @@ public class SizeSelectionHelper_GetLargestSizeTest {
     @Parameterized.Parameters(name = "{0}")
     public static Collection<Object[]> parameters() {
         return Arrays.asList(new Object[][]{
-                {"Largest from decreasing resolutions", DECREASING_RESOLUTIONS, new int[]{4096, 3072}},
-                {"Largest from increasing resolutions", INCREASING_RESOLUTIONS, new int[]{4096, 3072}},
+                {"Largest from decreasing resolutions", DECREASING_RESOLUTIONS,
+                        new int[]{4096, 3072}},
+                {"Largest from increasing resolutions", INCREASING_RESOLUTIONS,
+                        new int[]{4096, 3072}},
                 {"Largest from unsorted resolutions", UNSORTED_RESOLUTIONS, new int[]{4096, 3072}}
         });
     }
@@ -34,7 +36,8 @@ public class SizeSelectionHelper_GetLargestSizeTest {
     private final int[][] resolutions;
     private final int[] expectedResolution;
 
-    public SizeSelectionHelper_GetLargestSizeTest(final String description, final int[][] resolutions,
+    public SizeSelectionHelper_GetLargestSizeTest(final String description,
+            final int[][] resolutions,
             final int[] expectedResolution) {
         this.description = description;
         this.resolutions = resolutions;

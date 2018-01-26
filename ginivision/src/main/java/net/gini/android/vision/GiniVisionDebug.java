@@ -34,7 +34,7 @@ public final class GiniVisionDebug {
 
     private static final Logger LOG = LoggerFactory.getLogger(GiniVisionDebug.class);
 
-    private static boolean sEnabled = false;
+    private static boolean sEnabled;
 
     /**
      * <p>
@@ -65,7 +65,8 @@ public final class GiniVisionDebug {
      *     Destination directory is {@code ginivisionlib} inside your apps external files directory: {@code /sdcard/Android/data/your.app.id/files/ginivisionlib/}
      * </p>
      */
-    public static void writeDocumentToFile(Context context, Document document, String suffix) {
+    public static void writeDocumentToFile(
+            final Context context, final Document document, final String suffix) {
         if (!sEnabled) {
             return;
         }
@@ -85,23 +86,30 @@ public final class GiniVisionDebug {
      *     Destination directory is {@code ginivisionlib} inside your apps external files directory: {@code /sdcard/Android/data/your.app.id/files/ginivisionlib/}
      * </p>
      */
-    private static void writeImageDocumentToFile(Context context, ImageDocument document, String suffix) {
+    private static void writeImageDocumentToFile(final Context context,
+            final ImageDocument document, final String suffix) {
         if (!sEnabled) {
             return;
         }
-        File giniVisionDir = createGiniVisionDir(context);
-        long time = new Date().getTime();
-        String jpegFilename = time + suffix + ".jpeg";
-        File jpegFile = new File(giniVisionDir, jpegFilename);
+        final long time = new Date().getTime();
+        final String jpegFilename = time + suffix + ".jpeg";
+        final File giniVisionDir = createGiniVisionDir(context);
+        if (giniVisionDir == null) {
+            LOG.error("Could not write document to file {}", jpegFilename);
+            return;
+        }
+        final File jpegFile = new File(giniVisionDir, jpegFilename);
         PhotoFactory.newPhotoFromDocument((ImageDocument) document).saveToFile(jpegFile);
         LOG.debug("Document written to {}", jpegFile.getAbsolutePath());
     }
 
-    private static File createGiniVisionDir(Context context) {
-        File externalFilesDir = context.getExternalFilesDir(null);
-        File giniVisionDir = new File(externalFilesDir, "ginivisionlib");
-        giniVisionDir.mkdir();
-        return giniVisionDir;
+    private static File createGiniVisionDir(final Context context) {
+        final File externalFilesDir = context.getExternalFilesDir(null);
+        final File giniVisionDir = new File(externalFilesDir, "ginivisionlib");
+        if (giniVisionDir.exists() || giniVisionDir.mkdir()) {
+            return giniVisionDir;
+        }
+        return null;
     }
 
     private GiniVisionDebug() {

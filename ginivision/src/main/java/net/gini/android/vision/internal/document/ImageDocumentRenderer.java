@@ -44,4 +44,9 @@ class ImageDocumentRenderer implements DocumentRenderer {
             callback.onBitmapReady(mPhoto.getBitmapPreview(), mPhoto.getRotationForDisplay());
         }
     }
+
+    @Override
+    public void getPageCount(@NonNull final AsyncCallback<Integer> asyncCallback) {
+        asyncCallback.onSuccess(1);
+    }
 }

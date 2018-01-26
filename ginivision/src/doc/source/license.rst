@@ -10,7 +10,7 @@ integrates several third party libraries.
 
 ::
 
-   Copyright (c) 2014-2016, Gini GmbH
+   Copyright (c) 2014-2018, Gini GmbH
    All rights reserved.
    
    The Gini Vision Library is licensed through Gini GmbH ("Gini") and may not be

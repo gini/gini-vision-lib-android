@@ -167,4 +167,8 @@
     <issue id="WrongFolder" severity="ignore" />
     <issue id="WrongManifestParent" severity="ignore" />
     <issue id="WrongViewCast" severity="ignore" />
+    <issue id="UnusedAttribute" severity="ignore" />
+    <issue id="IconDipSize" severity="ignore" />
+    <issue id="ClickableViewAccessibility" severity="ignore" />
+    <issue id="RtlEnabled" severity="ignore" />
 </lint>

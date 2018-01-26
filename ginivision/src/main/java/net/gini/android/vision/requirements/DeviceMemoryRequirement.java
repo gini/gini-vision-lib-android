@@ -30,10 +30,12 @@ class DeviceMemoryRequirement implements Requirement {
         try {
             Camera.Parameters parameters = mCameraHolder.getCameraParameters();
             if (parameters != null) {
-                Size pictureSize = SizeSelectionHelper.getLargestSize(parameters.getSupportedPictureSizes());
+                Size pictureSize = SizeSelectionHelper.getLargestSize(
+                        parameters.getSupportedPictureSizes());
                 if (pictureSize == null) {
                     result = false;
-                    details = "Cannot determine memory requirement as the camera has no picture resolution with a 4:3 aspect ratio";
+                    details =
+                            "Cannot determine memory requirement as the camera has no picture resolution with a 4:3 aspect ratio";
                 } else if (!sufficientMemoryAvailable(pictureSize)) {
                     result = false;
                     details = "Insufficient memory available";
@@ -64,10 +66,10 @@ class DeviceMemoryRequirement implements Requirement {
 
     @VisibleForTesting
     boolean sufficientMemoryAvailable(Runtime runtime,
-                                      final Size photoSize) {
-        final float memoryUsed = (runtime.totalMemory() - runtime.freeMemory()) / 1024 / 1024;
-        final float memoryNeeded = calculateMemoryUsageForSize(photoSize) / 1024 / 1024;
-        final float maxMemory = runtime.maxMemory() / 1024 / 1024;
+            final Size photoSize) {
+        final float memoryUsed = (runtime.totalMemory() - runtime.freeMemory()) / 1024f / 1024f;
+        final float memoryNeeded = calculateMemoryUsageForSize(photoSize) / 1024f / 1024f;
+        final float maxMemory = runtime.maxMemory() / 1024f / 1024f;
         return memoryNeeded + memoryUsed < maxMemory;
     }
 

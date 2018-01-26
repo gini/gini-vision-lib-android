@@ -14,7 +14,7 @@ import net.gini.android.vision.util.IntentHelper;
  * </p>
  *
  */
-public class PdfDocument extends GiniVisionDocument {
+public final class PdfDocument extends GiniVisionDocument {
 
     private final Uri mUri;
 
@@ -77,12 +77,12 @@ public class PdfDocument extends GiniVisionDocument {
      */
     public static final Creator<PdfDocument> CREATOR = new Creator<PdfDocument>() {
         @Override
-        public PdfDocument createFromParcel(Parcel in) {
+        public PdfDocument createFromParcel(final Parcel in) {
             return new PdfDocument(in);
         }
 
         @Override
-        public PdfDocument[] newArray(int size) {
+        public PdfDocument[] newArray(final int size) {
             return new PdfDocument[size];
         }
     };
@@ -90,7 +90,7 @@ public class PdfDocument extends GiniVisionDocument {
     /**
      * @exclude
      */
-    private PdfDocument(Parcel in) {
+    private PdfDocument(final Parcel in) {
         super(in);
         mUri = in.readParcelable(Uri.class.getClassLoader());
     }

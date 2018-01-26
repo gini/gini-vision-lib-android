@@ -13,7 +13,9 @@ build/
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/dictionaries
+.idea/saveactions_settings.xml
 local.properties
+checkstyle-idea.xml
 
 # Sensitive or high-churn files:
 .idea/**/dataSources/
@@ -24,6 +26,9 @@ local.properties
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 **/*.iml
+
+# IDEA project files that keep changing:
+.idea/misc.xml
 
 # Gradle:
 .idea/**/gradle.xml

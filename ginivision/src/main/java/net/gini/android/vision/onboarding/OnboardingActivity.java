@@ -149,11 +149,11 @@ public class OnboardingActivity extends AppCompatActivity implements OnboardingF
 
     private static final String ONBOARDING_FRAGMENT = "ONBOARDING_FRAGMENT";
 
-    private ArrayList<OnboardingPage> mPages;
+    private ArrayList<OnboardingPage> mPages; // NOPMD - ArrayList required (Bundle)
     private OnboardingFragmentCompat mOnboardingFragment;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gv_activity_onboarding);
         readExtras();
@@ -161,7 +161,7 @@ public class OnboardingActivity extends AppCompatActivity implements OnboardingF
     }
 
     private void readExtras() {
-        Bundle extras = getIntent().getExtras();
+        final Bundle extras = getIntent().getExtras();
         if (extras != null) {
             mPages = extras.getParcelableArrayList(EXTRA_ONBOARDING_PAGES);
         }
@@ -199,12 +199,12 @@ public class OnboardingActivity extends AppCompatActivity implements OnboardingF
     }
 
     @Override
-    public void onError(@NonNull GiniVisionError giniVisionError) {
+    public void onError(@NonNull final GiniVisionError giniVisionError) {
 
     }
 
     @VisibleForTesting
-    void showFragment(@NonNull OnboardingFragmentCompat onboardingFragment) {
+    void showFragment(@NonNull final OnboardingFragmentCompat onboardingFragment) {
         if (mOnboardingFragment != null) {
             getSupportFragmentManager()
                     .beginTransaction()

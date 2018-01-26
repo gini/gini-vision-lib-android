@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.document.QRCodeDocument;
 
 /**
  * <p>
@@ -19,6 +20,20 @@ public interface CameraFragmentListener {
      * @param document the image taken by the camera or the validated imported document
      */
     void onDocumentAvailable(@NonNull Document document);
+
+    /**
+     * <p>
+     *     Called when the user clicked the QR Code detected popup.
+     *     You should upload the {@link QRCodeDocument}'s data to the Gini API to get the extractions,
+     *     close the Gini Vision Library and continue to your app's transfer form.
+     * </p>
+     * <p>
+     *      See {@link QRCodeDocument} for supported formats.
+     * </p>
+     *
+     * @param qrCodeDocument contains payment data from a QR Code
+     */
+    void onQRCodeAvailable(@NonNull QRCodeDocument qrCodeDocument);
 
     /**
      * <p>

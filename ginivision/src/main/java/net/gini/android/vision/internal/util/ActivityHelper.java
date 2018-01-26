@@ -23,7 +23,8 @@ public final class ActivityHelper {
         }
     }
 
-    public static boolean handleMenuItemPressedForHomeButton(AppCompatActivity activity, MenuItem item) {
+    public static boolean handleMenuItemPressedForHomeButton(AppCompatActivity activity,
+            MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             activity.finish();
             return true;
@@ -31,7 +32,8 @@ public final class ActivityHelper {
         return false;
     }
 
-    public static <T> void setActivityExtra(Intent target, String extraKey, Context context, Class<T> activityClass) {
+    public static <T> void setActivityExtra(Intent target, String extraKey, Context context,
+            Class<T> activityClass) {
         target.putExtra(extraKey, new Intent(context, activityClass));
     }
 

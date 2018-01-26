@@ -1,7 +1,9 @@
 package net.gini.android.vision.requirements;
 
 import static com.google.common.truth.Truth.assertThat;
+
 import static net.gini.android.vision.requirements.TestUtil.createSize;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -20,12 +22,14 @@ public class CameraResolutionRequirementTest {
 
     @Test
     public void should_reportUnfulfilled_ifNoPreviewSize_withSameAspectRatio_asLargestPictureSize() {
-        CameraHolder cameraHolder = getCameraHolder(Collections.singletonList(createSize(300, 200)), null);
+        CameraHolder cameraHolder = getCameraHolder(Collections.singletonList(createSize(300, 200)),
+                null);
 
         CameraResolutionRequirement requirement = new CameraResolutionRequirement(cameraHolder);
 
         assertThat(requirement.check().isFulfilled()).isFalse();
-        assertThat(requirement.check().getDetails()).isEqualTo("Camera has no preview resolutions matching the picture resolution 3840x2160");
+        assertThat(requirement.check().getDetails()).isEqualTo(
+                "Camera has no preview resolutions matching the picture resolution 3840x2160");
     }
 
     @Test
@@ -39,12 +43,13 @@ public class CameraResolutionRequirementTest {
         CameraResolutionRequirement requirement = new CameraResolutionRequirement(cameraHolder);
 
         assertThat(requirement.check().isFulfilled()).isFalse();
-        assertThat(requirement.check().getDetails()).isEqualTo("Largest camera picture resolution is lower than 8MP");
+        assertThat(requirement.check().getDetails()).isEqualTo(
+                "Largest camera picture resolution is lower than 8MP");
     }
 
     @Test
     public void should_reportFulfilled_ifPreviewSize_andPictureSize_isLargerThan8MP() {
-        CameraHolder cameraHolder = getCameraHolder(null,null);
+        CameraHolder cameraHolder = getCameraHolder(null, null);
 
         CameraResolutionRequirement requirement = new CameraResolutionRequirement(cameraHolder);
 
@@ -62,7 +67,8 @@ public class CameraResolutionRequirementTest {
         assertThat(requirement.check().getDetails()).isEqualTo("Camera not open");
     }
 
-    private CameraHolder getCameraHolder(List<Camera.Size> previewSizes, List<Camera.Size> pictureSizes) {
+    private CameraHolder getCameraHolder(List<Camera.Size> previewSizes,
+            List<Camera.Size> pictureSizes) {
         CameraHolder cameraHolder = mock(CameraHolder.class);
         Camera.Parameters parameters = mock(Camera.Parameters.class);
         when(cameraHolder.getCameraParameters()).thenReturn(parameters);

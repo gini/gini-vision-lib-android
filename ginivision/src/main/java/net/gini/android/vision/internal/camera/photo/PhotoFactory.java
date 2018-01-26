@@ -19,11 +19,12 @@ public final class PhotoFactory {
     }
 
     public static Photo newPhotoFromDocument(final ImageDocument document) {
-        switch (document.getFormat()) {
-            case JPEG:
-                return new MutablePhoto(document);
-            default:
-                return new ImmutablePhoto(document);
+        if (document.getFormat() == ImageDocument.ImageFormat.JPEG) {
+            return new MutablePhoto(document);
         }
+        return new ImmutablePhoto(document);
+    }
+
+    private PhotoFactory() {
     }
 }

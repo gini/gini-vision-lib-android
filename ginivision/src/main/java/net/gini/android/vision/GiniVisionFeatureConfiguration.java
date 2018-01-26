@@ -22,27 +22,30 @@ public class GiniVisionFeatureConfiguration implements Parcelable {
     public static final Creator<GiniVisionFeatureConfiguration> CREATOR =
             new Creator<GiniVisionFeatureConfiguration>() {
                 @Override
-                public GiniVisionFeatureConfiguration createFromParcel(Parcel in) {
+                public GiniVisionFeatureConfiguration createFromParcel(final Parcel in) {
                     return new GiniVisionFeatureConfiguration(in);
                 }
 
                 @Override
-                public GiniVisionFeatureConfiguration[] newArray(int size) {
+                public GiniVisionFeatureConfiguration[] newArray(final int size) {
                     return new GiniVisionFeatureConfiguration[size];
                 }
             };
 
     private final DocumentImportEnabledFileTypes mDocumentImportEnabledFileTypes;
     private final boolean mFileImportEnabled;
+    private final boolean mQRCodeScanningEnabled;
 
-    private GiniVisionFeatureConfiguration(Parcel in) {
+    protected GiniVisionFeatureConfiguration(final Parcel in) {
         mDocumentImportEnabledFileTypes = (DocumentImportEnabledFileTypes) in.readSerializable();
         mFileImportEnabled = in.readByte() != 0;
+        mQRCodeScanningEnabled = in.readByte() != 0;
     }
 
-    private GiniVisionFeatureConfiguration(Builder builder) {
+    protected GiniVisionFeatureConfiguration(final Builder builder) {
         mDocumentImportEnabledFileTypes = builder.getDocumentImportEnabledFileTypes();
         mFileImportEnabled = builder.isFileImportEnabled();
+        mQRCodeScanningEnabled = builder.isQRCodeScanningEnabled();
     }
 
     /**
@@ -60,6 +63,7 @@ public class GiniVisionFeatureConfiguration implements Parcelable {
     public void writeToParcel(final Parcel parcel, final int i) {
         parcel.writeSerializable(mDocumentImportEnabledFileTypes);
         parcel.writeByte((byte) (mFileImportEnabled ? 1 : 0));
+        parcel.writeByte((byte) (mQRCodeScanningEnabled ? 1 : 0));
     }
 
     /**
@@ -102,6 +106,19 @@ public class GiniVisionFeatureConfiguration implements Parcelable {
 
     /**
      * <p>
+     *     Find out whether QRCode scanning has been enabled.
+     * </p>
+     * <p>
+     *     Disabled by default.
+     * </p>
+     * @return {@code true} if QRCode scanning was enabled
+     */
+    public boolean isQRCodeScanningEnabled() {
+        return mQRCodeScanningEnabled;
+    }
+
+    /**
+     * <p>
      *     Feature configuration builder.
      * </p>
      */
@@ -109,9 +126,10 @@ public class GiniVisionFeatureConfiguration implements Parcelable {
 
         private DocumentImportEnabledFileTypes mDocumentImportEnabledFileTypes =
                 DocumentImportEnabledFileTypes.NONE;
-        private boolean mFileImportEnabled = false;
+        private boolean mFileImportEnabled;
+        private boolean mQRCodeScanningEnabled;
 
-        private Builder() {
+        protected Builder() {
         }
 
         /**
@@ -151,6 +169,10 @@ public class GiniVisionFeatureConfiguration implements Parcelable {
             return mFileImportEnabled;
         }
 
+        private boolean isQRCodeScanningEnabled() {
+            return mQRCodeScanningEnabled;
+        }
+
         /**
          * <p>
          *     Enable/disable the file import feature.
@@ -164,6 +186,22 @@ public class GiniVisionFeatureConfiguration implements Parcelable {
         @NonNull
         public Builder setFileImportEnabled(final boolean fileImportEnabled) {
             mFileImportEnabled = fileImportEnabled;
+            return this;
+        }
+
+        /**
+         * <p>
+         *     Enable/disable the QRCode scanning feature.
+         * </p>
+         * <p>
+         *     Disabled by default.
+         * </p>
+         * @param qrCodeScanningEnabled {@code true} to enable QRCode scanning
+         * @return the {@link Builder} instance
+         */
+        @NonNull
+        public Builder setQRCodeScanningEnabled(final boolean qrCodeScanningEnabled) {
+            mQRCodeScanningEnabled = qrCodeScanningEnabled;
             return this;
         }
     }

@@ -21,7 +21,7 @@ import java.util.List;
  * </p>
  *
  */
-public class ImageDocument extends GiniVisionDocument {
+public final class ImageDocument extends GiniVisionDocument {
 
     private final String mDeviceOrientation;
     private final String mDeviceType;
@@ -73,7 +73,7 @@ public class ImageDocument extends GiniVisionDocument {
             @NonNull final String deviceType,
             @NonNull final String importMethod) {
         final List<String> mimeTypes = getMimeTypes(intent, context);
-        if (mimeTypes.size() == 0 || !hasMimeTypeWithPrefix(intent, context, "image/")) {
+        if (mimeTypes.isEmpty() || !hasMimeTypeWithPrefix(intent, context, "image/")) {
             throw new IllegalArgumentException("Intent must have a mime type of image/*");
         }
         final String mimeType = mimeTypes.get(0);
@@ -84,7 +84,7 @@ public class ImageDocument extends GiniVisionDocument {
 
     private static String getDocumentSource(@NonNull final Intent data,
             @NonNull final Context context) {
-        String appName = getSourceAppName(data, context);
+        final String appName = getSourceAppName(data, context);
         return appName != null ? appName : "external";
     }
 
@@ -144,6 +144,7 @@ public class ImageDocument extends GiniVisionDocument {
      *
      * @return degrees by which the image should be rotated clockwise before displaying
      */
+    @Override
     public int getRotationForDisplay() {
         return mRotationForDisplay;
     }
@@ -203,17 +204,17 @@ public class ImageDocument extends GiniVisionDocument {
      */
     public static final Creator<ImageDocument> CREATOR = new Creator<ImageDocument>() {
         @Override
-        public ImageDocument createFromParcel(Parcel in) {
+        public ImageDocument createFromParcel(final Parcel in) {
             return new ImageDocument(in);
         }
 
         @Override
-        public ImageDocument[] newArray(int size) {
+        public ImageDocument[] newArray(final int size) {
             return new ImageDocument[size];
         }
     };
 
-    private ImageDocument(Parcel in) {
+    private ImageDocument(final Parcel in) {
         super(in);
         mRotationForDisplay = in.readInt();
         mFormat = (ImageFormat) in.readSerializable();

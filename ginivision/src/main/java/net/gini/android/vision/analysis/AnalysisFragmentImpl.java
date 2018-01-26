@@ -37,7 +37,6 @@ import net.gini.android.vision.document.PdfDocument;
 import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.document.DocumentRenderer;
 import net.gini.android.vision.internal.document.DocumentRendererFactory;
-import net.gini.android.vision.internal.pdf.Pdf;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 import net.gini.android.vision.internal.util.Size;
@@ -52,15 +51,15 @@ import java.util.Random;
 
 class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AnalysisFragmentImpl.class);
+    protected static final Logger LOG = LoggerFactory.getLogger(AnalysisFragmentImpl.class);
 
     private static final AnalysisFragmentListener NO_OP_LISTENER = new AnalysisFragmentListener() {
         @Override
-        public void onAnalyzeDocument(@NonNull Document document) {
+        public void onAnalyzeDocument(@NonNull final Document document) {
         }
 
         @Override
-        public void onError(@NonNull GiniVisionError error) {
+        public void onError(@NonNull final GiniVisionError error) {
         }
     };
 
@@ -93,7 +92,8 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     private boolean mStopped;
 
 
-    AnalysisFragmentImpl(FragmentImplCallback fragment, Document document, String documentAnalysisErrorMessage) {
+    AnalysisFragmentImpl(final FragmentImplCallback fragment, final Document document,
+            final String documentAnalysisErrorMessage) {
         mFragment = fragment;
         mDocument = (GiniVisionDocument) document;
         mDocumentAnalysisErrorMessage = documentAnalysisErrorMessage;
@@ -118,7 +118,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     @Override
-    public void showError(@NonNull String message, int duration) {
+    public void showError(@NonNull final String message, final int duration) {
         if (mFragment.getActivity() == null || mLayoutRoot == null) {
             return;
         }
@@ -127,8 +127,8 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     @Override
-    public void showError(@NonNull String message, @NonNull String buttonTitle,
-            @NonNull View.OnClickListener onClickListener) {
+    public void showError(@NonNull final String message, @NonNull final String buttonTitle,
+            @NonNull final View.OnClickListener onClickListener) {
         if (mFragment.getActivity() == null) {
             return;
         }
@@ -148,7 +148,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         mAnalysisMessageTextView.setVisibility(View.GONE);
     }
 
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         final Activity activity = mFragment.getActivity();
         if (activity == null) {
             return;
@@ -158,16 +158,17 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         mHints = generateRandomHintsList();
     }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.gv_fragment_analysis, container, false);
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+            final Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.gv_fragment_analysis, container, false);
         bindViews(view);
         return view;
     }
 
-    private Handler mHandler = new Handler(Looper.getMainLooper());
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
 
     public void onDestroy() {
-        mImageDocument = null;
+        mImageDocument = null; // NOPMD
         stopScanAnimation();
     }
 
@@ -278,9 +279,9 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     private void setNextHint() {
-        final AnalysisHint nextHint= getNextHint();
+        final AnalysisHint nextHint = getNextHint();
         final Context context = mFragment.getActivity();
-        if(context != null) {
+        if (context != null) {
             mHintImageView.setImageDrawable(
                     ContextCompat.getDrawable(context, nextHint.getDrawableResource()));
         }
@@ -294,7 +295,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     private List<AnalysisHint> generateRandomHintsList() {
-        List<AnalysisHint> list = AnalysisHint.getArray();
+        final List<AnalysisHint> list = AnalysisHint.getArray();
         Collections.shuffle(list, new Random());
         return list;
     }
@@ -314,7 +315,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         }
     }
 
-    public void setListener(@Nullable AnalysisFragmentListener listener) {
+    public void setListener(@Nullable final AnalysisFragmentListener listener) {
         if (listener == null) {
             mListener = NO_OP_LISTENER;
         } else {
@@ -337,10 +338,11 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
             return;
         }
         if (mDocumentAnalysisErrorMessage != null) {
-            showError(mDocumentAnalysisErrorMessage, mFragment.getActivity().getString(R.string.gv_document_analysis_error_retry),
+            showError(mDocumentAnalysisErrorMessage,
+                    mFragment.getActivity().getString(R.string.gv_document_analysis_error_retry),
                     new View.OnClickListener() {
                         @Override
-                        public void onClick(View v) {
+                        public void onClick(final View v) {
                             mListener.onAnalyzeDocument(mDocument);
                         }
                     });
@@ -349,7 +351,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         }
     }
 
-    private void bindViews(@NonNull View view) {
+    private void bindViews(@NonNull final View view) {
         mLayoutRoot = view.findViewById(R.id.gv_layout_root);
         mImageDocument = view.findViewById(R.id.gv_image_picture);
         mProgressActivity = view.findViewById(R.id.gv_progress_activity);
@@ -370,21 +372,22 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
             return;
         }
         LOG.debug("Observing the view layout");
-        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                onViewLayoutFinished();
-                mFragmentHeight = view.getHeight();
-                view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-            }
-        });
+        view.getViewTreeObserver().addOnGlobalLayoutListener(
+                new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        onViewLayoutFinished();
+                        mFragmentHeight = view.getHeight();
+                        view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                    }
+                });
         view.requestLayout();
     }
 
     private void onViewLayoutFinished() {
         LOG.debug("View layout finished");
-        showDocument();
         showPdfInfoForPdfDocument();
+        showDocument();
         analyzeDocument();
     }
 
@@ -399,7 +402,8 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
             newHeight = mLayoutRoot.getWidth();
         }
 
-        final FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mImageDocument.getLayoutParams();
+        final FrameLayout.LayoutParams layoutParams =
+                (FrameLayout.LayoutParams) mImageDocument.getLayoutParams();
         layoutParams.width = newWidth;
         layoutParams.height = newHeight;
         mImageDocument.setLayoutParams(layoutParams);
@@ -432,19 +436,33 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
             mAnalysisOverlay.setBackgroundColor(Color.TRANSPARENT);
             mAnalysisMessageTextView.setText("");
 
-            PdfDocument pdfDocument = (PdfDocument) mDocument;
+            final PdfDocument pdfDocument = (PdfDocument) mDocument;
             final String filename = getPdfFilename(activity, pdfDocument);
             if (filename != null) {
                 mPdfTitleTextView.setText(filename);
             }
 
-            final int pageCount = Pdf.fromDocument(pdfDocument).getPageCount(activity);
-            if (pageCount > 0) {
-                mPdfPageCountTextView.setVisibility(View.VISIBLE);
-                final String pageCountString = activity.getResources().getQuantityString(
-                        R.plurals.gv_analysis_pdf_pages, pageCount, pageCount);
-                mPdfPageCountTextView.setText(pageCountString);
-            }
+            mPdfPageCountTextView.setVisibility(View.VISIBLE);
+            mPdfPageCountTextView.setText("");
+
+            mDocumentRenderer.getPageCount(new AsyncCallback<Integer>() {
+                @Override
+                public void onSuccess(final Integer result) {
+                    if (result > 0) {
+                        mPdfPageCountTextView.setVisibility(View.VISIBLE);
+                        final String pageCountString = activity.getResources().getQuantityString(
+                                R.plurals.gv_analysis_pdf_pages, result, result);
+                        mPdfPageCountTextView.setText(pageCountString);
+                    } else {
+                        mPdfPageCountTextView.setVisibility(View.GONE);
+                    }
+                }
+
+                @Override
+                public void onError(final Exception exception) {
+                    mPdfPageCountTextView.setVisibility(View.GONE);
+                }
+            });
         }
     }
 
@@ -453,7 +471,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         final Uri uri = pdfDocument.getUri();
         try {
             return UriHelper.getFilenameFromUri(uri, activity);
-        } catch (IllegalStateException e) {
+        } catch (final IllegalStateException e) { // NOPMD
             // Ignore
         }
         return null;

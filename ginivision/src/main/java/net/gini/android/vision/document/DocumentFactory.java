@@ -50,4 +50,7 @@ public final class DocumentFactory {
             @NonNull final Document document) {
         return ImageDocument.fromPhotoAndDocument(photo, document);
     }
+
+    private DocumentFactory() {
+    }
 }

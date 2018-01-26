@@ -10,14 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @exclude 
+ * @exclude
  */
 public final class SizeSelectionHelper {
 
     @Nullable
-    public static Size getLargestSize(@NonNull List<Camera.Size> sizes) {
+    public static Size getLargestSize(@NonNull final List<Camera.Size> sizes) {
         Camera.Size largest = null;
-        for (Camera.Size size : sizes) {
+        for (final Camera.Size size : sizes) {
             if (largest == null || getArea(largest) < getArea(size)) {
                 largest = size;
             }
@@ -28,16 +28,16 @@ public final class SizeSelectionHelper {
     @Nullable
     public static Size getLargestSizeWithSimilarAspectRatio(
             @NonNull final List<Camera.Size> sizes, @NonNull final Size referenceSize) {
-        List<Camera.Size> sameAspectSizes = getSameAspectRatioSizes(sizes, referenceSize);
+        final List<Camera.Size> sameAspectSizes = getSameAspectRatioSizes(sizes, referenceSize);
         return getLargestSize(sameAspectSizes);
     }
 
     @NonNull
-    private static List<Camera.Size> getSameAspectRatioSizes(final @NonNull List<Camera.Size> sizes,
-            final @NonNull Size referenceSize) {
+    private static List<Camera.Size> getSameAspectRatioSizes(@NonNull final List<Camera.Size> sizes,
+            @NonNull final Size referenceSize) {
         final float referenceAspectRatio =
                 (float) referenceSize.width / (float) referenceSize.height;
-        List<Camera.Size> sameAspectSizes = new ArrayList<>();
+        final List<Camera.Size> sameAspectSizes = new ArrayList<>();
         for (final Camera.Size size : sizes) {
             final float aspectRatio = (float) size.width / (float) size.height;
             if (isSimilarAspectRatio(aspectRatio, referenceAspectRatio)) {

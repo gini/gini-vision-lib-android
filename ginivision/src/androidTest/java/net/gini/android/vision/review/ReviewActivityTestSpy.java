@@ -31,9 +31,11 @@ public class ReviewActivityTestSpy extends ReviewActivity {
         if (mDocumentReviewedAndAnalyzedDocument != null) {
             mListenerHook.onDocumentReviewedAndAnalyzed(mDocumentReviewedAndAnalyzedDocument);
         }
-        if (mDocumentWasRotatedDocument != null && mDocumentWasRotatedDegreesOld != Integer.MAX_VALUE &&
+        if (mDocumentWasRotatedDocument != null
+                && mDocumentWasRotatedDegreesOld != Integer.MAX_VALUE &&
                 mDocumentWasRotatedDegreesNew != Integer.MAX_VALUE) {
-            mListenerHook.onDocumentWasRotated(mDocumentWasRotatedDocument, mDocumentWasRotatedDegreesOld, mDocumentWasRotatedDegreesNew);
+            mListenerHook.onDocumentWasRotated(mDocumentWasRotatedDocument,
+                    mDocumentWasRotatedDegreesOld, mDocumentWasRotatedDegreesNew);
         }
     }
 
@@ -100,7 +102,8 @@ public class ReviewActivityTestSpy extends ReviewActivity {
         public void onDocumentReviewedAndAnalyzed(@NonNull Document document) {
         }
 
-        public void onDocumentWasRotated(@NonNull Document document, int oldRotation, int newRotation) {
+        public void onDocumentWasRotated(@NonNull Document document, int oldRotation,
+                int newRotation) {
         }
     }
 }

@@ -19,7 +19,8 @@ public class CurrentActivityTestRule<T extends Activity> extends ActivityTestRul
         super(activityClass, initialTouchMode, true);
     }
 
-    public CurrentActivityTestRule(Class<T> activityClass, boolean initialTouchMode, boolean launchActivity) {
+    public CurrentActivityTestRule(Class<T> activityClass, boolean initialTouchMode,
+            boolean launchActivity) {
         super(activityClass, initialTouchMode, launchActivity);
     }
 
@@ -29,9 +30,12 @@ public class CurrentActivityTestRule<T extends Activity> extends ActivityTestRul
         getInstrumentation().runOnMainSync(new Runnable() {
             @Override
             public void run() {
-                java.util.Collection<Activity> activities = ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(Stage.RESUMED);
+                java.util.Collection<Activity> activities =
+                        ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(
+                                Stage.RESUMED);
                 activity.set(Iterables.getOnlyElement(activities));
-            }});
+            }
+        });
         //noinspection unchecked
         return (T) activity.get();
     }

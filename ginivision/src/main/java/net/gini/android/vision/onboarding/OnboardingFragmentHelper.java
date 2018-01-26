@@ -7,28 +7,31 @@ import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
 
-class OnboardingFragmentHelper {
+final class OnboardingFragmentHelper {
 
     private static final String ARGS_PAGES = "GV_PAGES";
     private static final String ARGS_SHOW_EMPTY_LAST_PAGE = "GV_SHOW_EMPTY_LAST_PAGE";
 
-    static Bundle createArguments(@NonNull ArrayList<OnboardingPage> pages, boolean showEmptyLastPage) {
-        Bundle arguments = new Bundle();
+    static Bundle createArguments(@NonNull final ArrayList<OnboardingPage> pages, // NOPMD - Bundle
+            final boolean showEmptyLastPage) {
+        final Bundle arguments = new Bundle();
         arguments.putParcelableArrayList(ARGS_PAGES, pages);
         arguments.putBoolean(ARGS_SHOW_EMPTY_LAST_PAGE, showEmptyLastPage);
         return arguments;
     }
 
-    static Bundle createArguments(boolean showEmptyLastPage) {
-        Bundle arguments = new Bundle();
+    static Bundle createArguments(final boolean showEmptyLastPage) {
+        final Bundle arguments = new Bundle();
         arguments.putBoolean(ARGS_SHOW_EMPTY_LAST_PAGE, showEmptyLastPage);
         return arguments;
     }
 
-    static OnboardingFragmentImpl createFragmentImpl(@NonNull OnboardingFragmentImplCallback fragment, @Nullable Bundle arguments) {
+    static OnboardingFragmentImpl createFragmentImpl(
+            @NonNull final OnboardingFragmentImplCallback fragment,
+            @Nullable final Bundle arguments) {
         if (arguments != null) {
-            ArrayList<OnboardingPage> pages = arguments.getParcelableArrayList(ARGS_PAGES);
-            boolean showEmptyLastPage = arguments.getBoolean(ARGS_SHOW_EMPTY_LAST_PAGE, true);
+            final ArrayList<OnboardingPage> pages = arguments.getParcelableArrayList(ARGS_PAGES);
+            final boolean showEmptyLastPage = arguments.getBoolean(ARGS_SHOW_EMPTY_LAST_PAGE, true);
             if (pages != null) {
                 return new OnboardingFragmentImpl(fragment, showEmptyLastPage, pages);
             } else {
@@ -38,11 +41,16 @@ class OnboardingFragmentHelper {
         return new OnboardingFragmentImpl(fragment, true);
     }
 
-    public static void setListener(@NonNull OnboardingFragmentImpl fragmentImpl, @NonNull Context context) {
+    public static void setListener(@NonNull final OnboardingFragmentImpl fragmentImpl,
+            @NonNull final Context context) {
         if (context instanceof OnboardingFragmentListener) {
             fragmentImpl.setListener((OnboardingFragmentListener) context);
         } else {
-            throw new IllegalStateException("Hosting activity must implement OnboardingFragmentListener.");
+            throw new IllegalStateException(
+                    "Hosting activity must implement OnboardingFragmentListener.");
         }
+    }
+
+    private OnboardingFragmentHelper() {
     }
 }

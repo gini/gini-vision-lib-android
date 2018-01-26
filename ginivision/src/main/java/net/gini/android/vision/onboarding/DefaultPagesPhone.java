@@ -11,12 +11,13 @@ import java.util.ArrayList;
  */
 public enum DefaultPagesPhone {
     FLAT(new OnboardingPage(R.string.gv_onboarding_flat, R.drawable.gv_onboarding_flat)),
-    PARALLEL(new OnboardingPage(R.string.gv_onboarding_parallel, R.drawable.gv_onboarding_parallel)),
+    PARALLEL(
+            new OnboardingPage(R.string.gv_onboarding_parallel, R.drawable.gv_onboarding_parallel)),
     ALIGN(new OnboardingPage(R.string.gv_onboarding_align, R.drawable.gv_onboarding_align));
 
     private final OnboardingPage mOnboardingPage;
 
-    DefaultPagesPhone(OnboardingPage onboardingPage) {
+    DefaultPagesPhone(final OnboardingPage onboardingPage) {
         mOnboardingPage = onboardingPage;
     }
 
@@ -25,9 +26,9 @@ public enum DefaultPagesPhone {
         return mOnboardingPage;
     }
 
-    public static ArrayList<OnboardingPage> asArrayList() {
-        ArrayList<OnboardingPage> arrayList = new ArrayList<>(values().length);
-        for (DefaultPagesPhone pages : values()) {
+    public static ArrayList<OnboardingPage> asArrayList() { // NOPMD - ArrayList required (Bundle)
+        final ArrayList<OnboardingPage> arrayList = new ArrayList<>(values().length);
+        for (final DefaultPagesPhone pages : values()) {
             arrayList.add(pages.getPage());
         }
         return arrayList;

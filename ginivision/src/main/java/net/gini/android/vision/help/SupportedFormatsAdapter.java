@@ -47,8 +47,8 @@ class SupportedFormatsAdapter extends
                 == DocumentImportEnabledFileTypes.PDF_AND_IMAGES) {
             items.add(SupportedFormat.SINGLE_PAGE_AS_JPEG_PNG_GIF);
             items.add(SupportedFormat.PDF);
-        } else if (giniVisionFeatureConfiguration.getDocumentImportEnabledFileTypes() ==
-                DocumentImportEnabledFileTypes.PDF) {
+        } else if (giniVisionFeatureConfiguration.getDocumentImportEnabledFileTypes()
+                == DocumentImportEnabledFileTypes.PDF) {
             items.add(SupportedFormat.PDF);
         }
         items.add(SectionHeader.UNSUPPORTED_FORMATS);
@@ -59,13 +59,15 @@ class SupportedFormatsAdapter extends
     @Override
     public FormatItemViewHolder onCreateViewHolder(final ViewGroup parent,
             final int viewType) {
-        switch (ItemType.fromOrdinal(viewType)) {
+        final ItemType itemType = ItemType.fromOrdinal(viewType);
+        switch (itemType) {
             case HEADER:
                 return createHeaderItemViewHolder(parent);
             case FORMAT_INFO:
                 return createFormatInfoItemViewHolder(parent);
+            default:
+                throw new IllegalStateException("Unknown ItemType: " + itemType);
         }
-        return null;
     }
 
     private FormatItemViewHolder createHeaderItemViewHolder(final ViewGroup parent) {
@@ -151,10 +153,10 @@ class SupportedFormatsAdapter extends
         private final int mLabel;
 
         SupportedFormat(@StringRes final int label) {
-            this.mLabel = label;
-            this.mIconBackground = R.drawable.gv_format_info_supported_icon_background;
-            this.mIconForeground = R.drawable.gv_format_info_supported_icon_foreground;
-            this.mIconForegroundTint =
+            mLabel = label;
+            mIconBackground = R.drawable.gv_format_info_supported_icon_background;
+            mIconForeground = R.drawable.gv_format_info_supported_icon_foreground;
+            mIconForegroundTint =
                     R.color.gv_supported_formats_item_supported_icon_foreground;
         }
 
@@ -196,10 +198,10 @@ class SupportedFormatsAdapter extends
         private final int mLabel;
 
         UnsupportedFormat(@StringRes final int label) {
-            this.mLabel = label;
-            this.mIconBackground = R.drawable.gv_format_info_unsupported_icon_background;
-            this.mIconForeground = R.drawable.gv_format_info_unsupported_icon_foreground;
-            this.mIconForegroundTint =
+            mLabel = label;
+            mIconBackground = R.drawable.gv_format_info_unsupported_icon_background;
+            mIconForeground = R.drawable.gv_format_info_unsupported_icon_foreground;
+            mIconForegroundTint =
                     R.color.gv_supported_formats_item_unsupported_icon_foreground;
         }
 

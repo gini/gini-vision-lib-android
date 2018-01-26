@@ -41,7 +41,8 @@ public class PageIndicatorsTest {
     private OnboardingFragmentImpl.PageIndicators createPageIndicatorsInstance(int nrOfPages) {
         LinearLayout linearLayout = new LinearLayout(InstrumentationRegistry.getTargetContext());
         OnboardingFragmentImpl.PageIndicators pageIndicators =
-                new OnboardingFragmentImpl.PageIndicators(InstrumentationRegistry.getTargetContext(), nrOfPages, linearLayout);
+                new OnboardingFragmentImpl.PageIndicators(
+                        InstrumentationRegistry.getTargetContext(), nrOfPages, linearLayout);
         pageIndicators.create();
         return pageIndicators;
     }
