@@ -61,25 +61,28 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile deps.appCompatv7
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation deps.appCompatv7
 
-    compile 'com.karumi:dexter:4.2.0'
+    implementation 'com.karumi:dexter:4.2.0'
 
-    compile 'com.github.tony19:logback-android-core:1.1.1-5'
-    compile 'com.github.tony19:logback-android-classic:1.1.1-5'
+    implementation 'com.github.tony19:logback-android-core:1.1.1-6'
+    implementation('com.github.tony19:logback-android-classic:1.1.1-6') {
+        // workaround issue #73
+        exclude group: 'com.google.android', module: 'android'
+    }
 
-    compile('net.gini:gini-android-sdk:1.4.1@aar') {
+    implementation('net.gini:gini-android-sdk:1.4.2@aar') {
         transitive = true
     }
 
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    testCompile deps.junit
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    testImplementation deps.junit
 
     // For testing the local version
-    compile project(path: ':ginivision')
+    implementation project(path: ':ginivision')
     // For testing a released version
-//    compile 'net.gini:gini-vision-lib:2.0.0-alpha.1'
+//    implementation 'net.gini:gini-vision-lib:2.0.0-alpha.1'
 }
 
 apply from: rootProject.file('gradle/codequality.gradle')
