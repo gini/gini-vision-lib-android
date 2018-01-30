@@ -3,9 +3,10 @@
 buildscript {
     repositories {
         jcenter()
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.0.1'
         classpath 'com.dicedmelon.gradle:jacoco-android:0.1.1'
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -16,9 +17,7 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-        maven {
-            url 'https://maven.google.com'
-        }
+        google()
         maven {
             // For Commons Imaging
             url 'https://repo.gini.net/nexus/content/repositories/open'
@@ -42,18 +41,19 @@ task printLibraryVersion {
 }
 
 ext {
-    compileSdkVersion = 26
-    buildToolsVersion = '26.0.3'
+    compileSdkVersion = 27
+    buildToolsVersion = '27.0.3'
     minSdkVersion = 14
-    targetSdkVersion = 26
+    targetSdkVersion = 27
     versionCode = libVersionCode
     versionName = libVersionName
 }
 
-def supportLibVersion = '26.0.2'
+def supportLibVersion = '27.0.2'
 def mockitoVersion = '2.6.3'
 def testSupportLibVersion = '1.0.1'
 def espressoVersion = '3.0.1'
+def jacocoVersion = '0.7.4.201502262128'
 
 ext.deps = [
         // Android
@@ -80,4 +80,10 @@ ext.deps = [
         supportTestEspressoIntents: "com.android.support.test.espresso:espresso-intents:$espressoVersion",
         supportTestUiAutomator    : 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2',
         supportMultidex           : 'com.android.support:multidex:1.0.1',
+        // Jacoco for test coverage reports
+        jacocoAnt                 : "org.jacoco:org.jacoco.ant:$jacocoVersion",
+        jacocoAgent               : "org.jacoco:org.jacoco.agent:$jacocoVersion",
+        jacocoCore                : "org.jacoco:org.jacoco.core:$jacocoVersion",
+        jacocoReport              : "org.jacoco:org.jacoco.report:$jacocoVersion"
+
 ]
