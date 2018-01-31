@@ -116,7 +116,6 @@ public class OnboardingFragmentStandard extends Fragment implements OnboardingFr
         super.onCreate(savedInstanceState);
         mFragmentImpl = OnboardingFragmentHelper.createFragmentImpl(this, getArguments());
         OnboardingFragmentHelper.setListener(mFragmentImpl, getActivity());
-        mFragmentImpl.onCreate(savedInstanceState);
     }
 
     /**
