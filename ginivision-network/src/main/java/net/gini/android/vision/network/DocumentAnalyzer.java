@@ -1,4 +1,4 @@
-package net.gini.android.vision.example;
+package net.gini.android.vision.network;
 
 import android.util.Log;
 
@@ -18,29 +18,30 @@ import bolts.Task;
  * Copyright (c) 2017 Gini GmbH.
  */
 
-public class DocumentAnalyzer {
+class DocumentAnalyzer {
 
     private final DocumentTaskManager mDocumentTaskManager;
+    private final UIExecutor mUIExecutor = new UIExecutor();
     private boolean mCancelled = false;
     private net.gini.android.models.Document mGiniApiDocument;
     private Listener mListener;
     private Task<Map<String, SpecificExtraction>> mResultTask;
-    private UIExecutor mUIExecutor = new UIExecutor();
 
-    DocumentAnalyzer(DocumentTaskManager documentTaskManager) {
+    DocumentAnalyzer(final DocumentTaskManager documentTaskManager) {
         mDocumentTaskManager = documentTaskManager;
     }
 
-    synchronized void analyze(Document document) {
+    synchronized void analyze(final Document document) {
         mDocumentTaskManager
                 .createDocument(document.getData(), null, null)
                 .onSuccessTask(
                         new Continuation<net.gini.android.models.Document, Task<net.gini.android.models.Document>>() {
                             @Override
                             public Task<net.gini.android.models.Document> then(
-                                    Task<net.gini.android.models.Document> task)
+                                    final Task<net.gini.android.models.Document> task)
                                     throws Exception {
-                                net.gini.android.models.Document giniDocument = task.getResult();
+                                final net.gini.android.models.Document giniDocument =
+                                        task.getResult();
                                 Log.d("gini-api", "Document created: " + giniDocument.getId());
                                 if (isCancelled()) {
                                     Log.d("gini-api", "Analysis cancelled for document: "
@@ -56,9 +57,10 @@ public class DocumentAnalyzer {
                         new Continuation<net.gini.android.models.Document, Task<Map<String, SpecificExtraction>>>() {
                             @Override
                             public Task<Map<String, SpecificExtraction>> then(
-                                    Task<net.gini.android.models.Document> task)
+                                    final Task<net.gini.android.models.Document> task)
                                     throws Exception {
-                                net.gini.android.models.Document giniDocument = task.getResult();
+                                final net.gini.android.models.Document giniDocument =
+                                        task.getResult();
                                 Log.d("gini-api", "Document polling done: " + giniDocument.getId());
                                 if (isCancelled()) {
                                     Log.d("gini-api", "Analysis cancelled for document: "
@@ -99,8 +101,8 @@ public class DocumentAnalyzer {
         mUIExecutor.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Task<Map<String, SpecificExtraction>> resultTask = getResultTask();
-                Listener listener = getListener();
+                final Task<Map<String, SpecificExtraction>> resultTask = getResultTask();
+                final Listener listener = getListener();
                 if (resultTask == null || isCancelled() || listener == null) {
                     return;
                 }
@@ -118,7 +120,7 @@ public class DocumentAnalyzer {
         return mListener;
     }
 
-    public synchronized void setListener(Listener listener) {
+    synchronized void setListener(final Listener listener) {
         mListener = listener;
         publishResult();
     }
@@ -127,7 +129,8 @@ public class DocumentAnalyzer {
         return mResultTask;
     }
 
-    private synchronized void setResultTask(Task<Map<String, SpecificExtraction>> resultTask) {
+    private synchronized void setResultTask(
+            final Task<Map<String, SpecificExtraction>> resultTask) {
         mResultTask = resultTask;
     }
 
@@ -139,7 +142,8 @@ public class DocumentAnalyzer {
         return mGiniApiDocument;
     }
 
-    private synchronized void setGiniApiDocument(net.gini.android.models.Document giniApiDocument) {
+    private synchronized void setGiniApiDocument(
+            final net.gini.android.models.Document giniApiDocument) {
         mGiniApiDocument = giniApiDocument;
     }
 
@@ -152,7 +156,8 @@ public class DocumentAnalyzer {
         return mResultTask != null;
     }
 
-    public interface Listener {
+    interface Listener {
+
         void onException(Exception exception);
 
         void onExtractionsReceived(Map<String, SpecificExtraction> extractions);

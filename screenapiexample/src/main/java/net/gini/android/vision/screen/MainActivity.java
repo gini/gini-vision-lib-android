@@ -285,7 +285,8 @@ public class MainActivity extends AppCompatActivity {
                     // method
                     // The payload format is up to you. For the example we added all the extractions as key-value pairs to
                     // a Bundle.
-                    final Bundle extractionsBundle = data.getBundleExtra(EXTRA_OUT_EXTRACTIONS);
+                    // WIP: analyze qr codes
+                    final Bundle extractionsBundle = data.getBundleExtra(CameraActivity.EXTRA_OUT_EXTRACTIONS);
                     if (extractionsBundle != null && pay5ExtractionsAvailable(extractionsBundle)) {
                         // We display only the Pay5 extractions: paymentRecipient, iban, bic,
                         // amount and paymentReference

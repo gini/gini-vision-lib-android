@@ -21,11 +21,13 @@ import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.document.QRCodeDocument;
 import net.gini.android.vision.help.HelpActivity;
 import net.gini.android.vision.internal.util.ActivityHelper;
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.review.ReviewActivity;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * <h3>Screen API</h3>
@@ -379,6 +381,9 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      */
     public static final String EXTRA_OUT_ERROR = "GV_EXTRA_OUT_ERROR";
 
+    // WIP: analyse qr code
+    public static final String EXTRA_OUT_EXTRACTIONS = "GV_EXTRA_OUT_EXTRACTIONS";
+
     /**
      * <p>
      * Returned result code in case something went wrong. You should retrieve the {@link
@@ -665,6 +670,18 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         final Intent result = new Intent();
         result.putExtra(EXTRA_OUT_ERROR, error);
         setResult(RESULT_ERROR, result);
+        finish();
+    }
+
+    @Override
+    public void onExtractionsAvailable(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
+        final Intent result = new Intent();
+        final Bundle extractionsBundle = new Bundle();
+        for (final Map.Entry<String, GiniVisionSpecificExtraction> extraction : extractions.entrySet()) {
+            extractionsBundle.putParcelable(extraction.getKey(), extraction.getValue());
+        }
+        result.putExtra(CameraActivity.EXTRA_OUT_EXTRACTIONS, extractionsBundle);
+        setResult(RESULT_OK, result);
         finish();
     }
 

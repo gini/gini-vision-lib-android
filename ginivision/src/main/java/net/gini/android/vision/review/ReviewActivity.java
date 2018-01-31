@@ -19,8 +19,11 @@ import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.camera.CameraActivity;
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.noresults.NoResultsActivity;
 import net.gini.android.vision.onboarding.OnboardingActivity;
+
+import java.util.Map;
 
 /**
  * <h3>Screen API</h3>
@@ -278,6 +281,13 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
 
     @Override
     public void onProceedToAnalysisScreen(@NonNull final Document document) {
+        onProceedToAnalysisScreen(document, null);
+    }
+
+    // WIP: review screen analyse document
+    @Override
+    public void onProceedToAnalysisScreen(@NonNull final Document document,
+            @Nullable final String errorMessage) {
         if (mNoExtractionsFound) {
             if (GiniVisionCoordinator.shouldShowGiniVisionNoResultsScreen(document)) {
                 final Intent noResultsActivity = new Intent(this, NoResultsActivity.class);
@@ -291,10 +301,10 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
             finish();
         } else {
             mAnalyzeDocumentActivityIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, document);
-            if (mDocumentAnalysisErrorMessage != null) {
+            if (errorMessage != null) {
                 mAnalyzeDocumentActivityIntent.putExtra(
                         AnalysisActivity.EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE,
-                        mDocumentAnalysisErrorMessage);
+                        errorMessage);
             }
             startActivityForResult(mAnalyzeDocumentActivityIntent, ANALYSE_DOCUMENT_REQUEST);
         }
@@ -379,5 +389,32 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
                 clearMemory();
             }
         }
+    }
+
+    @Override
+    public void onExtractionsAvailable(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
+        final Intent result = new Intent();
+        final Bundle extractionsBundle = new Bundle();
+        for (final Map.Entry<String, GiniVisionSpecificExtraction> extraction : extractions.entrySet()) {
+            extractionsBundle.putParcelable(extraction.getKey(), extraction.getValue());
+        }
+        result.putExtra(CameraActivity.EXTRA_OUT_EXTRACTIONS, extractionsBundle);
+        setResult(RESULT_OK, result);
+        finish();
+        clearMemory();
+    }
+
+    @Override
+    public void onProceedToNoExtractionsScreen(@NonNull final Document document) {
+        if (GiniVisionCoordinator.shouldShowGiniVisionNoResultsScreen(document)) {
+            final Intent noResultsActivity = new Intent(this, NoResultsActivity.class);
+            noResultsActivity.putExtra(NoResultsActivity.EXTRA_IN_DOCUMENT, mDocument);
+            startActivity(noResultsActivity);
+            setResult(RESULT_NO_EXTRACTIONS);
+        } else {
+            final Intent result = new Intent();
+            setResult(RESULT_OK, result);
+        }
+        finish();
     }
 }

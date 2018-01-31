@@ -13,13 +13,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import net.gini.android.DocumentTaskManager;
-import net.gini.android.models.Document;
-import net.gini.android.models.Extraction;
-import net.gini.android.models.SpecificExtraction;
-import net.gini.android.vision.example.BaseExampleApp;
+import net.gini.android.vision.GiniVisionApplication;
+import net.gini.android.vision.network.Error;
+import net.gini.android.vision.network.GiniVisionNetwork;
+import net.gini.android.vision.network.GiniVisionNetworkHandler;
+import net.gini.android.vision.network.model.GiniVisionExtraction;
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
-import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,9 +28,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import bolts.Continuation;
-import bolts.Task;
 
 /**
  * <p>
@@ -46,7 +43,7 @@ public class ExtractionsActivity extends AppCompatActivity {
 
     public static final String EXTRA_IN_EXTRACTIONS = "EXTRA_IN_EXTRACTIONS";
 
-    private Map<String, SpecificExtraction> mExtractions = new HashMap<>();
+    private final Map<String, GiniVisionSpecificExtraction> mExtractions = new HashMap<>();
 
     private RecyclerView mRecyclerView;
     private LinearLayout mLayoutProgress;
@@ -54,7 +51,7 @@ public class ExtractionsActivity extends AppCompatActivity {
     private ExtractionsAdapter mExtractionsAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_extractions);
         readExtras();
@@ -68,14 +65,14 @@ public class ExtractionsActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_extractions, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         if (item.getItemId() == R.id.feedback) {
             sendFeedback();
             return true;
@@ -84,15 +81,15 @@ public class ExtractionsActivity extends AppCompatActivity {
     }
 
     private void readExtras() {
-        Bundle extras = getIntent().getExtras();
+        final Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            Bundle extractionsBundle = extras.getParcelable(EXTRA_IN_EXTRACTIONS);
+            final Bundle extractionsBundle = extras.getParcelable(EXTRA_IN_EXTRACTIONS);
             if (extractionsBundle != null) {
-                for (String key : extractionsBundle.keySet()) {
+                for (final String key : extractionsBundle.keySet()) {
                     // We only show Pay5 extractions: paymentRecipient, iban, bic, amount and paymentReference
                     if (isPay5Extraction(key)) {
                         mExtractions.put(key,
-                                (SpecificExtraction) extractionsBundle.getParcelable(key));
+                                (GiniVisionSpecificExtraction) extractionsBundle.getParcelable(key));
                     }
                 }
             }
@@ -103,7 +100,7 @@ public class ExtractionsActivity extends AppCompatActivity {
         //noinspection ConstantConditions
         mRecyclerView.setHasFixedSize(true);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
 
         mExtractionsAdapter = new ExtractionsAdapter(getSortedExtractions());
@@ -113,7 +110,7 @@ public class ExtractionsActivity extends AppCompatActivity {
     /**
      * Returns true, if the extraction name is one of the Pay5 extractions: paymentRecipient, iban, bic, amount and paymentReference
      */
-    private boolean isPay5Extraction(String extractionName) {
+    private boolean isPay5Extraction(final String extractionName) {
         return extractionName.equals("amountToPay") ||
                 extractionName.equals("bic") ||
                 extractionName.equals("iban") ||
@@ -121,83 +118,64 @@ public class ExtractionsActivity extends AppCompatActivity {
                 extractionName.equals("paymentRecipient");
     }
 
-    private List<SpecificExtraction> getSortedExtractions() {
-        ArrayList<SpecificExtraction> sortedExtractions = new ArrayList<>();
-        ArrayList<String> keys = new ArrayList<>(mExtractions.keySet());
+    private List<GiniVisionSpecificExtraction> getSortedExtractions() {
+        final ArrayList<GiniVisionSpecificExtraction> sortedExtractions = new ArrayList<>();
+        final ArrayList<String> keys = new ArrayList<>(mExtractions.keySet());
         // Ascending order
         Collections.sort(keys);
-        for (String key : keys) {
+        for (final String key : keys) {
             sortedExtractions.add(mExtractions.get(key));
         }
         return sortedExtractions;
     }
 
     private void sendFeedback() {
-        DocumentTaskManager documentTaskManager =
-                ((BaseExampleApp) getApplication()).getGiniApi().getDocumentTaskManager();
-
         // An example for sending feedback where we change the amount or add one if it is missing
         // Feedback should be sent only for the user visible fields. Non-visible fields should be filtered out.
         // In a real application the user input should be used as the new value.
 
-        SpecificExtraction amount = mExtractions.get("amountToPay");
+        final GiniVisionSpecificExtraction amount = mExtractions.get("amountToPay");
         if (amount != null) {
             // Let's assume the amount was wrong and change it
             amount.setValue("10.00:EUR");
             Toast.makeText(this, "Amount changed to 10.00:EUR", Toast.LENGTH_SHORT).show();
         } else {
             // Amount was missing, let's add it
-            SpecificExtraction extraction = new SpecificExtraction("amountToPay", "10.00:EUR",
-                    "amount", null, Collections.<Extraction>emptyList());
+            final GiniVisionSpecificExtraction extraction = new GiniVisionSpecificExtraction("amountToPay", "10.00:EUR",
+                    "amount", null, Collections.<GiniVisionExtraction>emptyList());
             mExtractions.put("amountToPay", extraction);
             mExtractionsAdapter.setExtractions(getSortedExtractions());
             Toast.makeText(this, "Added amount of 10.00:EUR", Toast.LENGTH_SHORT).show();
         }
         mExtractionsAdapter.notifyDataSetChanged();
 
-        Document document =
-                ((BaseExampleApp) getApplication()).getSingleDocumentAnalyzer().getGiniApiDocument();
+        final GiniVisionNetworkHandler networkHandler =
+                (GiniVisionNetworkHandler) ((GiniVisionApplication)getApplication()).getGiniVisionNetwork();
 
-        // We require the Gini API SDK's net.gini.android.models.Document for sending the feedback
-        if (document != null) {
-            try {
-                showProgressIndicator();
-                documentTaskManager.sendFeedbackForExtractions(document, mExtractions)
-                        .continueWith(new Continuation<Document, Object>() {
-                            @Override
-                            public Object then(final Task<Document> task) throws Exception {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        if (task.isFaulted()) {
-                                            LOG.error("Feedback error", task.getError());
-                                            String message = "unknown";
-                                            if (task.getError() != null) {
-                                                message = task.getError().getMessage();
-                                            }
-                                            Toast.makeText(ExtractionsActivity.this,
-                                                    "Feedback error:\n" + message,
-                                                    Toast.LENGTH_LONG).show();
-                                        } else {
-                                            Toast.makeText(ExtractionsActivity.this,
-                                                    "Feedback successful",
-                                                    Toast.LENGTH_LONG).show();
-                                        }
-                                        hideProgressIndicator();
-                                    }
-                                });
-                                return null;
-                            }
-                        });
-            } catch (JSONException e) {
-                LOG.error("Feedback not sent", e);
-                Toast.makeText(this, "Feedback not set:\n" + e.getMessage(),
+        showProgressIndicator();
+        networkHandler.sendFeedback(mExtractions, new GiniVisionNetwork.Callback<Void, Error>() {
+            @Override
+            public void failure(final Error error) {
+                hideProgressIndicator();
+                Toast.makeText(ExtractionsActivity.this,
+                        "Feedback error:\n" + error.getMessage(),
                         Toast.LENGTH_LONG).show();
             }
-        } else {
-            Toast.makeText(this, "Feedback not set: no Gini Api Document available",
-                    Toast.LENGTH_LONG).show();
-        }
+
+            @Override
+            public void success(final Void result) {
+                hideProgressIndicator();
+                Toast.makeText(ExtractionsActivity.this,
+                        "Feedback successful",
+                        Toast.LENGTH_LONG).show();
+
+            }
+
+            @Override
+            public void cancelled() {
+                hideProgressIndicator();
+            }
+        });
     }
 
     private void showProgressIndicator() {
@@ -218,7 +196,7 @@ public class ExtractionsActivity extends AppCompatActivity {
             public TextView mTextName;
             public TextView mTextValue;
 
-            public ExtractionsViewHolder(View itemView) {
+            public ExtractionsViewHolder(final View itemView) {
                 super(itemView);
 
                 mTextName = (TextView) itemView.findViewById(R.id.text_name);
@@ -226,25 +204,25 @@ public class ExtractionsActivity extends AppCompatActivity {
             }
         }
 
-        private List<SpecificExtraction> mExtractions;
+        private List<GiniVisionSpecificExtraction> mExtractions;
 
-        private ExtractionsAdapter(List<SpecificExtraction> extractions) {
+        private ExtractionsAdapter(final List<GiniVisionSpecificExtraction> extractions) {
             mExtractions = extractions;
         }
 
-        public void setExtractions(List<SpecificExtraction> extractions) {
+        public void setExtractions(final List<GiniVisionSpecificExtraction> extractions) {
             mExtractions = extractions;
         }
 
         @Override
-        public ExtractionsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        public ExtractionsViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
+            final LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
             return new ExtractionsViewHolder(
                     layoutInflater.inflate(R.layout.item_extraction, parent, false));
         }
 
         @Override
-        public void onBindViewHolder(ExtractionsViewHolder holder, int position) {
+        public void onBindViewHolder(final ExtractionsViewHolder holder, final int position) {
             holder.mTextName.setText(mExtractions.get(position).getName());
             holder.mTextValue.setText(mExtractions.get(position).getValue());
         }

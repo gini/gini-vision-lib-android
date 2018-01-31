@@ -4,6 +4,9 @@ import android.support.annotation.NonNull;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -17,6 +20,7 @@ public interface AnalysisFragmentListener {
      * </p>
      * @param document contains the image taken by the camera (original or modified)
      */
+    // WIP: disabled
     void onAnalyzeDocument(@NonNull Document document);
 
     /**
@@ -26,4 +30,10 @@ public interface AnalysisFragmentListener {
      * @param error details about what went wrong
      */
     void onError(@NonNull GiniVisionError error);
+
+    // WIP: review screen analyse document
+    void onExtractionsAvailable(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions);
+
+    // WIP: review screen analyse document
+    void onProceedToNoExtractionsScreen(@NonNull final Document document);
 }

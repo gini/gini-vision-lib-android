@@ -11,21 +11,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.view.View;
 import android.widget.Toast;
 
-import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionCoordinator;
-import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.analysis.AnalysisFragmentInterface;
 import net.gini.android.vision.analysis.AnalysisFragmentListener;
 import net.gini.android.vision.component.ExtractionsActivity;
 import net.gini.android.vision.component.R;
-import net.gini.android.vision.example.BaseExampleApp;
-import net.gini.android.vision.example.DocumentAnalyzer;
-import net.gini.android.vision.example.SingleDocumentAnalyzer;
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,7 +47,6 @@ public abstract class BaseAnalysisScreenHandler implements AnalysisFragmentListe
     private AnalysisFragmentInterface mAnalysisFragmentInterface;
     private Document mDocument;
     private String mErrorMessageFromReviewScreen;
-    private SingleDocumentAnalyzer mSingleDocumentAnalyzer;
 
     protected BaseAnalysisScreenHandler(final Activity activity) {
         mActivity = activity;
@@ -61,74 +55,21 @@ public abstract class BaseAnalysisScreenHandler implements AnalysisFragmentListe
     @Override
     public void onAnalyzeDocument(@NonNull final Document document) {
         LOG.debug("Analyze document {}", document);
-        GiniVisionDebug.writeDocumentToFile(mActivity, document, "_for_analysis");
-
-        mAnalysisFragmentInterface.startScanAnimation();
-        // We can start analyzing the document by sending it to the Gini API
-        getSingleDocumentAnalyzer().analyzeDocument(document,
-                new DocumentAnalyzer.Listener() {
-                    @Override
-                    public void onException(final Exception exception) {
-                        mAnalysisFragmentInterface.stopScanAnimation();
-                        String message = mActivity.getString(R.string.unknown_error);
-                        if (exception.getMessage() != null) {
-                            message = exception.getMessage();
-                        }
-
-                        // Show the error in the Snackbar with a retry button
-                        final DocumentAnalyzer.Listener listener = this;
-                        mAnalysisFragmentInterface.showError(
-                                mActivity.getString(R.string.analysis_failed, message),
-                                mActivity.getString(R.string.retry_analysis),
-                                new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(final View v) {
-                                        mAnalysisFragmentInterface.startScanAnimation();
-                                        getSingleDocumentAnalyzer().cancelAnalysis();
-                                        getSingleDocumentAnalyzer().analyzeDocument(document,
-                                                listener);
-                                    }
-                                });
-                        LOG.error("Analysis failed in the Analysis Screen", exception);
-                    }
-
-                    @Override
-                    public void onExtractionsReceived(
-                            final Map<String, SpecificExtraction> extractions) {
-                        LOG.debug("Document analyzed in the Analysis Screen");
-                        // Calling onDocumentAnalyzed() is important to notify the Analysis
-                        // Fragment that the
-                        // analysis has completed successfully
-                        mAnalysisFragmentInterface.onDocumentAnalyzed();
-                        mAnalysisFragmentInterface.stopScanAnimation();
-                        showExtractions(getSingleDocumentAnalyzer().getGiniApiDocument(),
-                                extractions, document);
-                    }
-                });
+        // WIP: networking library poc
     }
 
-    private SingleDocumentAnalyzer getSingleDocumentAnalyzer() {
-        if (mSingleDocumentAnalyzer == null) {
-            mSingleDocumentAnalyzer =
-                    ((BaseExampleApp) mActivity.getApplication()).getSingleDocumentAnalyzer();
-        }
-        return mSingleDocumentAnalyzer;
-    }
-
-    private void showExtractions(final net.gini.android.models.Document giniApiDocument,
-            final Map<String, SpecificExtraction> extractions, final Document document) {
+    private void showExtractions(final Map<String, GiniVisionSpecificExtraction> extractions) {
         LOG.debug("Show extractions");
         // If we have no Pay 5 extractions we query the Gini Vision Library
         // whether we should show the the Gini Vision No Results Screen
         if (hasNoPay5Extractions(extractions.keySet())
-                && GiniVisionCoordinator.shouldShowGiniVisionNoResultsScreen(document)) {
+                && GiniVisionCoordinator.shouldShowGiniVisionNoResultsScreen(mDocument)) {
             // Show a special screen, if no Pay5 extractions were found to give the user some
             // hints and tips
             // for using the Gini Vision Library
-            showNoResultsScreen(document);
+            showNoResultsScreen(mDocument);
         } else {
             final Intent intent = new Intent(mActivity, ExtractionsActivity.class);
-            intent.putExtra(ExtractionsActivity.EXTRA_IN_DOCUMENT, giniApiDocument);
             intent.putExtra(ExtractionsActivity.EXTRA_IN_EXTRACTIONS,
                     getExtractionsBundle(extractions));
             mActivity.startActivity(intent);
@@ -193,4 +134,13 @@ public abstract class BaseAnalysisScreenHandler implements AnalysisFragmentListe
 
     protected abstract void setUpActionBar();
 
+    @Override
+    public void onExtractionsAvailable(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
+        showExtractions(extractions);
+    }
+
+    @Override
+    public void onProceedToNoExtractionsScreen(@NonNull final Document document) {
+        showNoResultsScreen(document);
+    }
 }

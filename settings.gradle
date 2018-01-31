@@ -1,1 +1,1 @@
-include ':ginivision', ':screenapiexample', ':componentapiexample'
+include ':ginivision', ':screenapiexample', ':componentapiexample', ':ginivision-network'

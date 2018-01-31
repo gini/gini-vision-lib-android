@@ -5,6 +5,9 @@ import android.support.annotation.NonNull;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.document.QRCodeDocument;
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -33,6 +36,7 @@ public interface CameraFragmentListener {
      *
      * @param qrCodeDocument contains payment data from a QR Code
      */
+    // WIP: disabled
     void onQRCodeAvailable(@NonNull QRCodeDocument qrCodeDocument);
 
     /**
@@ -58,6 +62,9 @@ public interface CameraFragmentListener {
      * @param error details about what went wrong
      */
     void onError(@NonNull GiniVisionError error);
+
+    // WIP: analyse qr code
+    void onExtractionsAvailable(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions);
 
     /**
      * <p>

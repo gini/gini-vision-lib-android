@@ -42,6 +42,7 @@ import android.widget.RelativeLayout;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
+import net.gini.android.vision.GiniVisionApplication;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.R;
@@ -65,12 +66,17 @@ import net.gini.android.vision.internal.ui.ViewStubSafeInflater;
 import net.gini.android.vision.internal.util.DeviceHelper;
 import net.gini.android.vision.internal.util.FileImportValidator;
 import net.gini.android.vision.internal.util.Size;
+import net.gini.android.vision.network.AnalysisResult;
+import net.gini.android.vision.network.Error;
+import net.gini.android.vision.network.GiniVisionNetwork;
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.util.IntentHelper;
 import net.gini.android.vision.util.UriHelper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import jersey.repackaged.jsr166e.CompletableFuture;
@@ -102,6 +108,11 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
 
         @Override
         public void onError(@NonNull final GiniVisionError error) {
+        }
+
+        @Override
+        public void onExtractionsAvailable(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
+
         }
     };
 
@@ -533,6 +544,13 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         clearQRCodeDetectedPopUpAnimation();
     }
 
+    void onDestroy() {
+        final GiniVisionApplication app =
+                (GiniVisionApplication) mFragment.getActivity().getApplication();
+        final GiniVisionNetwork network = app.getGiniVisionNetwork();
+        network.cancel();
+    }
+
     private void closeCamera() {
         LOG.info("Closing camera");
         if (mPaymentQRCodeReader != null) {
@@ -653,7 +671,34 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 if (mPaymentQRCodeData != null) {
                     final QRCodeDocument qrCodeDocument = QRCodeDocument.fromPaymentQRCodeData(
                             mPaymentQRCodeData);
-                    mListener.onQRCodeAvailable(qrCodeDocument);
+
+                    // WIP: analyse qr code
+                    final GiniVisionApplication app =
+                            (GiniVisionApplication) mFragment.getActivity().getApplication();
+                    final GiniVisionNetwork networking = app.getGiniVisionNetwork();
+                    showActivityIndicatorAndDisableInteraction();
+                    networking.analyze(qrCodeDocument,
+                            new GiniVisionNetwork.Callback<AnalysisResult, Error>() {
+                                @Override
+                                public void failure(final Error error) {
+                                    hideActivityIndicatorAndEnableInteraction();
+                                    // TODO: show error
+                                    showError(error.getMessage(), 3000);
+                                }
+
+                                @Override
+                                public void success(final AnalysisResult result) {
+                                    hideActivityIndicatorAndEnableInteraction();
+                                    // TODO: return extractions
+                                    mListener.onExtractionsAvailable(result.getExtractions());
+                                }
+
+                                @Override
+                                public void cancelled() {
+                                    hideActivityIndicatorAndEnableInteraction();
+                                }
+                            });
+//                    mListener.onQRCodeAvailable(qrCodeDocument);
                     mPaymentQRCodeData = null; // NOPMD
                 }
             }

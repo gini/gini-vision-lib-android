@@ -1,10 +1,14 @@
 package net.gini.android.vision.review;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.analysis.AnalysisActivity;
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -24,6 +28,7 @@ public interface ReviewFragmentListener {
      * </p>
      * @param document contains the original image taken by the camera
      */
+    // WIP: disabled
     void onShouldAnalyzeDocument(@NonNull Document document);
 
     /**
@@ -47,6 +52,7 @@ public interface ReviewFragmentListener {
      * </p>
      * @param document contains the reviewed image (can be the original one or a modified image)
      */
+    // WIP: disabled
     void onDocumentReviewedAndAnalyzed(@NonNull Document document);
 
     /**
@@ -71,4 +77,13 @@ public interface ReviewFragmentListener {
      * @param error details about what went wrong
      */
     void onError(@NonNull GiniVisionError error);
+
+    // WIP: review screen analyse document
+    void onExtractionsAvailable(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions);
+
+    // WIP: review screen analyse document
+    void onProceedToNoExtractionsScreen(@NonNull final Document document);
+
+    // WIP: review screen analyse document
+    void onProceedToAnalysisScreen(@NonNull Document document, @Nullable String errorMessage);
 }

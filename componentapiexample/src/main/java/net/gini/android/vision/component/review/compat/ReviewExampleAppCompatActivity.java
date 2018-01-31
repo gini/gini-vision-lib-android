@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import net.gini.android.vision.Document;
@@ -12,8 +13,11 @@ import net.gini.android.vision.component.ExtractionsActivity;
 import net.gini.android.vision.component.R;
 import net.gini.android.vision.component.analysis.compat.AnalysisExampleAppCompatActivity;
 import net.gini.android.vision.component.noresults.compat.NoResultsExampleAppCompatActivity;
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.review.ReviewFragmentCompat;
 import net.gini.android.vision.review.ReviewFragmentListener;
+
+import java.util.Map;
 
 /**
  * Created by Alpar Szotyori on 04.12.2017.
@@ -40,7 +44,7 @@ public class ReviewExampleAppCompatActivity extends AppCompatActivity implements
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_compat);
         mReviewScreenHandler = new ReviewScreenHandlerAppCompat(this);
@@ -71,6 +75,23 @@ public class ReviewExampleAppCompatActivity extends AppCompatActivity implements
     @Override
     public void onError(@NonNull final GiniVisionError error) {
         mReviewScreenHandler.onError(error);
+    }
+
+    @Override
+    public void onExtractionsAvailable(
+            @NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
+        mReviewScreenHandler.onExtractionsAvailable(extractions);
+    }
+
+    @Override
+    public void onProceedToNoExtractionsScreen(@NonNull final Document document) {
+        mReviewScreenHandler.onProceedToNoExtractionsScreen(document);
+    }
+
+    @Override
+    public void onProceedToAnalysisScreen(@NonNull final Document document,
+            @Nullable final String errorMessage) {
+        mReviewScreenHandler.onProceedToAnalysisScreen(document, errorMessage);
     }
 
     public static Intent newInstance(final Document document, final Context context) {
