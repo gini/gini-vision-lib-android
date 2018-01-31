@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
-import net.gini.android.vision.component.ExtractionsActivity;
 import net.gini.android.vision.component.R;
 import net.gini.android.vision.component.analysis.compat.AnalysisExampleAppCompatActivity;
 import net.gini.android.vision.component.noresults.compat.NoResultsExampleAppCompatActivity;

@@ -10,7 +10,6 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.analysis.AnalysisFragmentCompat;
 import net.gini.android.vision.analysis.AnalysisFragmentListener;
-import net.gini.android.vision.component.ExtractionsActivity;
 import net.gini.android.vision.component.R;
 import net.gini.android.vision.component.noresults.compat.NoResultsExampleAppCompatActivity;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;

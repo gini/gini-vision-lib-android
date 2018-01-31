@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
 import java.util.Map;
@@ -41,6 +42,18 @@ public final class ExampleUtil {
         }
         final Bundle extractionsBundle = new Bundle();
         for (final Map.Entry<String, GiniVisionSpecificExtraction> entry : extractions.entrySet()) {
+            extractionsBundle.putParcelable(entry.getKey(), entry.getValue());
+        }
+        return extractionsBundle;
+    }
+
+    public static Bundle getLegacyExtractionsBundle(
+            @Nullable final Map<String, SpecificExtraction> extractions) {
+        if (extractions == null) {
+            return null;
+        }
+        final Bundle extractionsBundle = new Bundle();
+        for (final Map.Entry<String, SpecificExtraction> entry : extractions.entrySet()) {
             extractionsBundle.putParcelable(entry.getKey(), entry.getValue());
         }
         return extractionsBundle;

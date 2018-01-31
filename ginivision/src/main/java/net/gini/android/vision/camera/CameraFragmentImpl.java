@@ -545,10 +545,20 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     }
 
     void onDestroy() {
-        final GiniVisionApplication app =
-                (GiniVisionApplication) mFragment.getActivity().getApplication();
-        final GiniVisionNetwork network = app.getGiniVisionNetwork();
-        network.cancel();
+        cancelAnalysis();
+    }
+
+    private void cancelAnalysis() {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
+        }
+        if (activity.getApplication() instanceof GiniVisionApplication) {
+            final GiniVisionApplication app =
+                    (GiniVisionApplication) mFragment.getActivity().getApplication();
+            final GiniVisionNetwork network = app.getGiniVisionNetwork();
+            network.cancel();
+        }
     }
 
     private void closeCamera() {
@@ -671,38 +681,48 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 if (mPaymentQRCodeData != null) {
                     final QRCodeDocument qrCodeDocument = QRCodeDocument.fromPaymentQRCodeData(
                             mPaymentQRCodeData);
-
                     // WIP: analyse qr code
-                    final GiniVisionApplication app =
-                            (GiniVisionApplication) mFragment.getActivity().getApplication();
-                    final GiniVisionNetwork networking = app.getGiniVisionNetwork();
-                    showActivityIndicatorAndDisableInteraction();
-                    networking.analyze(qrCodeDocument,
-                            new GiniVisionNetwork.Callback<AnalysisResult, Error>() {
-                                @Override
-                                public void failure(final Error error) {
-                                    hideActivityIndicatorAndEnableInteraction();
-                                    // TODO: show error
-                                    showError(error.getMessage(), 3000);
-                                }
-
-                                @Override
-                                public void success(final AnalysisResult result) {
-                                    hideActivityIndicatorAndEnableInteraction();
-                                    // TODO: return extractions
-                                    mListener.onExtractionsAvailable(result.getExtractions());
-                                }
-
-                                @Override
-                                public void cancelled() {
-                                    hideActivityIndicatorAndEnableInteraction();
-                                }
-                            });
-//                    mListener.onQRCodeAvailable(qrCodeDocument);
+                    analyzeQRCode(qrCodeDocument);
                     mPaymentQRCodeData = null; // NOPMD
                 }
             }
         });
+    }
+
+    private void analyzeQRCode(final QRCodeDocument qrCodeDocument) {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
+        }
+        if (activity.getApplication() instanceof GiniVisionApplication) {
+            final GiniVisionApplication app =
+                    (GiniVisionApplication) mFragment.getActivity().getApplication();
+            final GiniVisionNetwork networking = app.getGiniVisionNetwork();
+            showActivityIndicatorAndDisableInteraction();
+            networking.analyze(qrCodeDocument,
+                    new GiniVisionNetwork.Callback<AnalysisResult, Error>() {
+                        @Override
+                        public void failure(final Error error) {
+                            hideActivityIndicatorAndEnableInteraction();
+                            // TODO: show error
+                            showError(error.getMessage(), 3000);
+                        }
+
+                        @Override
+                        public void success(final AnalysisResult result) {
+                            hideActivityIndicatorAndEnableInteraction();
+                            // TODO: return extractions
+                            mListener.onExtractionsAvailable(result.getExtractions());
+                        }
+
+                        @Override
+                        public void cancelled() {
+                            hideActivityIndicatorAndEnableInteraction();
+                        }
+                    });
+        } else {
+            mListener.onQRCodeAvailable(qrCodeDocument);
+        }
     }
 
     private void closeUploadHintPopUp() {

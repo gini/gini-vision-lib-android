@@ -210,16 +210,16 @@ public abstract class AnalysisActivity extends AppCompatActivity implements
     @Override
     public void onNoExtractionsFound() {
         // WIP: analysis screen analyse document
-//        if (GiniVisionCoordinator.shouldShowGiniVisionNoResultsScreen(mDocument)) {
-//            final Intent noResultsActivity = new Intent(this, NoResultsActivity.class);
-//            noResultsActivity.putExtra(NoResultsActivity.EXTRA_IN_DOCUMENT, mDocument);
-//            startActivity(noResultsActivity);
-//            setResult(RESULT_NO_EXTRACTIONS);
-//        } else {
-//            final Intent result = new Intent();
-//            setResult(RESULT_OK, result);
-//        }
-//        finish();
+        if (GiniVisionCoordinator.shouldShowGiniVisionNoResultsScreen(mDocument)) {
+            final Intent noResultsActivity = new Intent(this, NoResultsActivity.class);
+            noResultsActivity.putExtra(NoResultsActivity.EXTRA_IN_DOCUMENT, mDocument);
+            startActivity(noResultsActivity);
+            setResult(RESULT_NO_EXTRACTIONS);
+        } else {
+            final Intent result = new Intent();
+            setResult(RESULT_OK, result);
+        }
+        finish();
     }
 
     /**

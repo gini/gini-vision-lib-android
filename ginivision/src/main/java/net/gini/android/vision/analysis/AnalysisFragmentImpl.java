@@ -187,10 +187,20 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     public void onDestroy() {
         mImageDocument = null; // NOPMD
         stopScanAnimation();
-        final GiniVisionApplication app =
-                (GiniVisionApplication) mFragment.getActivity().getApplication();
-        final GiniVisionNetwork network = app.getGiniVisionNetwork();
-        network.cancel();
+        cancelAnalysis();
+    }
+
+    private void cancelAnalysis() {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
+        }
+        if (activity.getApplication() instanceof GiniVisionApplication) {
+            final GiniVisionApplication app =
+                    (GiniVisionApplication) mFragment.getActivity().getApplication();
+            final GiniVisionNetwork network = app.getGiniVisionNetwork();
+            network.cancel();
+        }
     }
 
     public void onStart() {
@@ -366,56 +376,62 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
                         public void onClick(final View v) {
                             // WIP: analysis screen analyse document
                             doAnalyzeDocument();
-//                            mListener.onAnalyzeDocument(mDocument);
                         }
                     });
         } else {
             // WIP: analysis screen analyse document
             doAnalyzeDocument();
-//            mListener.onAnalyzeDocument(mDocument);
         }
     }
 
     // WIP: analysis screen analyse document
     private void doAnalyzeDocument() {
-        startScanAnimation();
-        final GiniVisionApplication app =
-                (GiniVisionApplication) mFragment.getActivity().getApplication();
-        final GiniVisionNetwork networking = app.getGiniVisionNetwork();
-        networking.analyze(mDocument,
-                new GiniVisionNetwork.Callback<AnalysisResult, Error>() {
-                    @Override
-                    public void failure(final Error error) {
-                        stopScanAnimation();
-                        // TODO: show error
-                        showError(error.getMessage(), mFragment.getActivity().getString(
-                                R.string.gv_document_analysis_error_retry),
-                                new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(final View v) {
-                                        doAnalyzeDocument();
-                                    }
-                                });
-                    }
-
-                    @Override
-                    public void success(final AnalysisResult result) {
-                        stopScanAnimation();
-                        // TODO: return extractions
-                        final Map<String, GiniVisionSpecificExtraction> extractions =
-                                result.getExtractions();
-                        if (extractions.isEmpty()) {
-                            mListener.onProceedToNoExtractionsScreen(mDocument);
-                        } else {
-                            mListener.onExtractionsAvailable(extractions);
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
+        }
+        if (activity.getApplication() instanceof GiniVisionApplication) {
+            startScanAnimation();
+            final GiniVisionApplication app =
+                    (GiniVisionApplication) mFragment.getActivity().getApplication();
+            final GiniVisionNetwork networking = app.getGiniVisionNetwork();
+            networking.analyze(mDocument,
+                    new GiniVisionNetwork.Callback<AnalysisResult, Error>() {
+                        @Override
+                        public void failure(final Error error) {
+                            stopScanAnimation();
+                            // TODO: show error
+                            showError(error.getMessage(), mFragment.getActivity().getString(
+                                    R.string.gv_document_analysis_error_retry),
+                                    new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(final View v) {
+                                            doAnalyzeDocument();
+                                        }
+                                    });
                         }
-                    }
 
-                    @Override
-                    public void cancelled() {
-                        stopScanAnimation();
-                    }
-                });
+                        @Override
+                        public void success(final AnalysisResult result) {
+                            stopScanAnimation();
+                            // TODO: return extractions
+                            final Map<String, GiniVisionSpecificExtraction> extractions =
+                                    result.getExtractions();
+                            if (extractions.isEmpty()) {
+                                mListener.onProceedToNoExtractionsScreen(mDocument);
+                            } else {
+                                mListener.onExtractionsAvailable(extractions);
+                            }
+                        }
+
+                        @Override
+                        public void cancelled() {
+                            stopScanAnimation();
+                        }
+                    });
+        } else {
+            mListener.onAnalyzeDocument(mDocument);
+        }
     }
 
     private void bindViews(@NonNull final View view) {

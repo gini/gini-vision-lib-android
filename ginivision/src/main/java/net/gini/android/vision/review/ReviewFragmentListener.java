@@ -28,7 +28,7 @@ public interface ReviewFragmentListener {
      * </p>
      * @param document contains the original image taken by the camera
      */
-    // WIP: disabled
+    // WIP: called only if not using GiniVisionApplication
     void onShouldAnalyzeDocument(@NonNull Document document);
 
     /**
@@ -52,7 +52,7 @@ public interface ReviewFragmentListener {
      * </p>
      * @param document contains the reviewed image (can be the original one or a modified image)
      */
-    // WIP: disabled
+    // WIP: called only if not using GiniVisionApplication
     void onDocumentReviewedAndAnalyzed(@NonNull Document document);
 
     /**

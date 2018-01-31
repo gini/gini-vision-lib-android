@@ -68,12 +68,17 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation deps.appCompatv7
 
-    implementation('com.karumi:dexter:4.2.0')
+    implementation 'com.karumi:dexter:4.2.0'
 
     implementation 'com.github.tony19:logback-android-core:1.1.1-6'
     implementation('com.github.tony19:logback-android-classic:1.1.1-6') {
         // workaround issue #73
         exclude group: 'com.google.android', module: 'android'
+    }
+
+    // For backward compatibility
+    implementation('net.gini:gini-android-sdk:1.4.2@aar') {
+        transitive = true
     }
 
     // For testing the local version

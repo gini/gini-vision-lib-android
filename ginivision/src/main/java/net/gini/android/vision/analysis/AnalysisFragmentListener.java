@@ -20,7 +20,7 @@ public interface AnalysisFragmentListener {
      * </p>
      * @param document contains the image taken by the camera (original or modified)
      */
-    // WIP: disabled
+    // WIP: called only if not using GiniVisionApplication
     void onAnalyzeDocument(@NonNull Document document);
 
     /**
@@ -31,9 +31,9 @@ public interface AnalysisFragmentListener {
      */
     void onError(@NonNull GiniVisionError error);
 
-    // WIP: review screen analyse document
+    // WIP: analysis screen analyse document
     void onExtractionsAvailable(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions);
 
-    // WIP: review screen analyse document
+    // WIP: analysis screen analyse document
     void onProceedToNoExtractionsScreen(@NonNull final Document document);
 }

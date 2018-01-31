@@ -36,7 +36,7 @@ public interface CameraFragmentListener {
      *
      * @param qrCodeDocument contains payment data from a QR Code
      */
-    // WIP: disabled
+    // WIP: called only if not using GiniVisionApplication
     void onQRCodeAvailable(@NonNull QRCodeDocument qrCodeDocument);
 
     /**
