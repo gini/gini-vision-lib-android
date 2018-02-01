@@ -30,7 +30,7 @@ uploadArchives {
 
             pom.whenConfigured { pom ->
                 pom.dependencies.forEach { dep ->
-                    if (dep.getGroupId() == "gini-vision-lib-android") {
+                    if (dep.getArtifactId().startsWith("gini-")) {
                         dep.setGroupId(groupId)
                     }
                 }
