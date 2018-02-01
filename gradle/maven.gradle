@@ -28,6 +28,14 @@ uploadArchives {
                 }
             }
 
+            pom.whenConfigured { pom ->
+                pom.dependencies.forEach { dep ->
+                    if (dep.getGroupId() == "gini-vision-lib-android") {
+                        dep.setGroupId(groupId)
+                    }
+                }
+            }
+
             if (project.hasProperty('mavenSnapshotsRepoUrl')) {
                 repository(url: mavenSnapshotsRepoUrl) {
                     authentication(
