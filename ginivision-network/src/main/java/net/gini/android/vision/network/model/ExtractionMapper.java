@@ -26,8 +26,11 @@ public final class ExtractionMapper {
 
     @NonNull
     public static GiniVisionExtraction map(@NonNull final net.gini.android.models.Extraction source) {
-        return new GiniVisionExtraction(source.getValue(), source.getEntity(),
+        final GiniVisionExtraction giniVisionExtraction = new GiniVisionExtraction(
+                source.getValue(), source.getEntity(),
                 BoxMapper.map(source.getBox()));
+        giniVisionExtraction.setIsDirty(source.isDirty());
+        return giniVisionExtraction;
     }
 
     @NonNull
@@ -41,8 +44,10 @@ public final class ExtractionMapper {
 
     @NonNull
     public static Extraction map(@NonNull final GiniVisionExtraction source) {
-        return new Extraction(source.getValue(), source.getEntity(),
+        final Extraction extraction = new Extraction(source.getValue(), source.getEntity(),
                 BoxMapper.map(source.getBox()));
+        extraction.setIsDirty(source.isDirty());
+        return extraction;
     }
 
     private ExtractionMapper() {
