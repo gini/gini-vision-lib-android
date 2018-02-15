@@ -33,8 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:alpha="0"
-        android:src="@drawable/gv_camera_focus_indicator"
-        tools:alpha="0.5" />
+        android:src="@drawable/gv_camera_focus_indicator" />
 
 
     <net.gini.android.vision.camera.FrameView
@@ -73,6 +72,18 @@
         android:visibility="gone"
         tools:alpha="1"
         tools:visibility="invisible" />
+
+    <net.gini.android.vision.camera.ImageStack
+        android:id="@+id/gv_image_stack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/gv_image_corners"
+        android:layout_alignEnd="@id/gv_image_corners"
+        android:layout_alignLeft="@id/gv_image_corners"
+        android:layout_alignRight="@id/gv_image_corners"
+        android:layout_alignStart="@id/gv_image_corners"
+        android:layout_alignTop="@+id/gv_image_corners"
+        android:layout_margin="12dp"/>
 
     <RelativeLayout
         android:id="@+id/gv_document_import_hint_container"
@@ -118,18 +129,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/gv_button_camera_trigger"
+        android:layout_marginBottom="@dimen/gv_camera_qrcode_detected_popup_vertical_margin"
         android:layout_marginLeft="@dimen/gv_camera_qrcode_detected_popup_horizontal_margin"
         android:layout_marginRight="@dimen/gv_camera_qrcode_detected_popup_horizontal_margin"
-        android:layout_marginBottom="@dimen/gv_camera_qrcode_detected_popup_vertical_margin"
         android:alpha="0"
         android:background="@color/gv_qrcode_detected_popup_background"
+        android:paddingBottom="@dimen/gv_camera_qrcode_detected_popup_vertical_padding"
         android:paddingLeft="@dimen/gv_camera_qrcode_detected_popup_horizontal_padding"
         android:paddingRight="@dimen/gv_camera_qrcode_detected_popup_horizontal_padding"
         android:paddingTop="@dimen/gv_camera_qrcode_detected_popup_vertical_padding"
-        android:paddingBottom="@dimen/gv_camera_qrcode_detected_popup_vertical_padding"
-        android:visibility="gone"
-        tools:alpha="1"
-        tools:visibility="visible">
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/gv_camera_qrcode_detected_popup_icon"
@@ -146,13 +155,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/gv_camera_qrcode_detected_popup_text_horizontal_margin"
-            android:layout_marginLeft="@dimen/gv_camera_qrcode_detected_popup_text_horizontal_margin"
             android:layout_marginEnd="@dimen/gv_camera_qrcode_detected_popup_text_horizontal_margin"
+            android:layout_marginLeft="@dimen/gv_camera_qrcode_detected_popup_text_horizontal_margin"
             android:layout_marginRight="@dimen/gv_camera_qrcode_detected_popup_text_horizontal_margin"
-            android:layout_toRightOf="@id/gv_camera_qrcode_detected_popup_icon"
+            android:layout_marginStart="@dimen/gv_camera_qrcode_detected_popup_text_horizontal_margin"
             android:layout_toEndOf="@id/gv_camera_qrcode_detected_popup_icon"
             android:layout_toLeftOf="@+id/gv_camera_qrcode_detected_popup_message_2"
+            android:layout_toRightOf="@id/gv_camera_qrcode_detected_popup_icon"
             android:layout_toStartOf="@+id/gv_camera_qrcode_detected_popup_message_2"
             android:text="@string/gv_qrcode_detected_popup_message_1" />
 
@@ -161,8 +170,8 @@
             style="@style/GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:text="@string/gv_qrcode_detected_popup_message_2" />
 
@@ -195,8 +204,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/gv_camera_preview_shade"
-        android:visibility="invisible"
-        tools:visibility="invisible" />
+        android:visibility="invisible" />
 
     <ProgressBar
         android:id="@+id/gv_activity_indicator"
@@ -208,7 +216,6 @@
         android:indeterminateTintMode="src_in"
         android:padding="@dimen/gv_camera_activity_indicator_padding"
         android:visibility="invisible"
-        tools:targetApi="lollipop"
-        tools:visibility="invisible" />
+        tools:targetApi="lollipop" />
 
 </RelativeLayout>

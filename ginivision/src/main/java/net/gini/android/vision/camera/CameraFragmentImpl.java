@@ -113,6 +113,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     private HideQRCodeDetectedRunnable mHideQRCodeDetectedPopupRunnable;
 
     private View mImageCorners;
+    private ImageStack mImageStack;
     private boolean mInterfaceHidden;
     private CameraFragmentListener mListener = NO_OP_LISTENER;
     private final UIExecutor mUIExecutor = new UIExecutor();
@@ -563,7 +564,9 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 view.findViewById(R.id.gv_activity_indicator_background);
         mActivityIndicator = view.findViewById(R.id.gv_activity_indicator);
         mQRCodeDetectedPopupContainer = view.findViewById(
+
                 R.id.gv_qrcode_detected_popup_container);
+        mImageStack = view.findViewById(R.id.gv_image_stack);
     }
 
     private void initViews() {
