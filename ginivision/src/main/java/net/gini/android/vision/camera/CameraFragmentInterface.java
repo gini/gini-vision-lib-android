@@ -2,6 +2,8 @@ package net.gini.android.vision.camera;
 
 import android.support.annotation.NonNull;
 
+import net.gini.android.vision.Document;
+
 /**
  * <p>
  *     Methods which both Camera Fragments must implement.
@@ -106,4 +108,6 @@ public interface CameraFragmentInterface {
      * @param duration how long should the error message be shown in ms
      */
     void showError(@NonNull String message, int duration);
+
+    void startMultiPage(@NonNull final Document document);
 }

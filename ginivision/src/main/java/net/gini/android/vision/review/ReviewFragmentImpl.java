@@ -62,6 +62,11 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         @Override
         public void onError(@NonNull final GiniVisionError error) {
         }
+
+        @Override
+        public void onAddMorePages(@NonNull final Document document) {
+
+        }
     };
 
     private FrameLayout mLayoutDocumentContainer;
@@ -117,6 +122,12 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
     @Override
     public void onNoExtractionsFound() {
+    }
+
+    @Override
+    public void addMorePages() {
+        mListener.onAddMorePages(
+                DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto, mDocument));
     }
 
     public void onCreate(@Nullable final Bundle savedInstanceState) {

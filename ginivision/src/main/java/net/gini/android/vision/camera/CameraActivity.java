@@ -674,7 +674,13 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         switch (requestCode) {
             case REVIEW_DOCUMENT_REQUEST:
             case ANALYSE_DOCUMENT_REQUEST:
-                if (mBackButtonShouldCloseLibrary
+                if (resultCode == 2018) {
+                    final Document document = data.getParcelableExtra(
+                            "multipage_first_page");
+                    if (document != null) {
+                        mFragment.startMultiPage(document);
+                    }
+                } else if (mBackButtonShouldCloseLibrary
                         || (resultCode != Activity.RESULT_CANCELED
                         && resultCode != AnalysisActivity.RESULT_NO_EXTRACTIONS
                         && resultCode != ReviewActivity.RESULT_NO_EXTRACTIONS)) {
@@ -735,6 +741,11 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     @Override
     public void showError(@NonNull final String message, final int duration) {
         mFragment.showError(message, duration);
+    }
+
+    @Override
+    public void startMultiPage(@NonNull final Document document) {
+        mFragment.startMultiPage(document);
     }
 
     private void clearMemory() {

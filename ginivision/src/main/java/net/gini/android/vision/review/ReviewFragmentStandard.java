@@ -121,4 +121,9 @@ public class ReviewFragmentStandard extends Fragment implements FragmentImplCall
     public void onNoExtractionsFound() {
         mFragmentImpl.onNoExtractionsFound();
     }
+
+    @Override
+    public void addMorePages() {
+        mFragmentImpl.addMorePages();
+    }
 }

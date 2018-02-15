@@ -131,4 +131,9 @@ public class ReviewFragmentCompat extends Fragment implements FragmentImplCallba
     public void onNoExtractionsFound() {
         mFragmentImpl.onNoExtractionsFound();
     }
+
+    @Override
+    public void addMorePages() {
+        mFragmentImpl.addMorePages();
+    }
 }

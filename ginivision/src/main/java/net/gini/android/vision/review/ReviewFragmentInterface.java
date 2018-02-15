@@ -34,4 +34,6 @@ public interface ReviewFragmentInterface {
      * </p>
      */
     void onNoExtractionsFound();
+
+    void addMorePages();
 }

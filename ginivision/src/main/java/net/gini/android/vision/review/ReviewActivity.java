@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import net.gini.android.vision.Document;
@@ -199,12 +200,36 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
     }
 
     @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        getMenuInflater().inflate(R.menu.gv_review, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        if (handleMenuItemPressedForHomeButton(this, item)) {
-            onBackPressed();
+        if (item.getItemId() == android.R.id.home) {
+            if (handleMenuItemPressedForHomeButton(this, item)) {
+                onBackPressed();
+                return true;
+            }
+        } else if (item.getItemId() == R.id.gv_action_add_pages) {
+            mFragment.addMorePages();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onAddMorePages(@NonNull final Document document) {
+        final Intent intent = new Intent();
+        intent.putExtra("multipage_first_page", document);
+        setResult(2018, intent);
+        finish();
+    }
+
+    @Override
+    public void addMorePages() {
+        mFragment.addMorePages();
     }
 
     @Override
