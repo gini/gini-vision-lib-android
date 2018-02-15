@@ -35,17 +35,75 @@ public class ImageStack extends RelativeLayout {
     private static final long BADGE_TRANSITION_DURATION_MS = 150;
     private static final long TRANSITION_DURATION_MS = 300;
     private static final long TRANSITION_START_DELAY_MS = 150;
+
+    private AddImageTransitionListener addImageTransitionListener;
     private TextView badge;
+    private CleanupTransitionListener cleanupTransitionListener;
     private OnClickListener clickListener;
-    private ImageView newImage;
+    private Scene defaultScene;
+    private Scene imageAddedScene;
+    private int imageCount;
     private ImageView stackItem1;
     private ImageView stackItem2;
     private ImageView stackItem3;
-    private int imageCount;
+    private TransitionManager transitionManager;
 
     public ImageStack(final Context context) {
         super(context, null, 0);
         init(context);
+    }
+
+    private void init(@NonNull final Context context) {
+        final LayoutInflater inflater = LayoutInflater.from(context);
+        inflater.inflate(R.layout.gv_image_stack_default, this);
+
+        stackItem1 = findViewById(R.id.gv_stack_item_1);
+        stackItem2 = findViewById(R.id.gv_stack_item_2);
+        stackItem3 = findViewById(R.id.gv_stack_item_3);
+        badge = findViewById(R.id.gv_badge);
+        badge.setVisibility(INVISIBLE);
+
+        defaultScene = Scene.getSceneForLayout(ImageStack.this,
+                R.layout.gv_image_stack_default, getContext());
+        imageAddedScene = Scene.getSceneForLayout(ImageStack.this,
+                R.layout.gv_image_stack_image_added, getContext());
+
+        addImageTransitionListener =
+                new AddImageTransitionListener(imageAddedScene, this);
+        cleanupTransitionListener =
+                new CleanupTransitionListener(imageAddedScene, this);
+
+        // Set up the add image transitions
+        final TransitionSet addImageTransitions = new TransitionSet();
+        addImageTransitions.setDuration(TRANSITION_DURATION_MS);
+        addImageTransitions.addTransition(new ChangeBounds());
+
+        final Fade fadeOut = new Fade(Fade.OUT);
+        fadeOut.addTarget(R.id.gv_stack_item_3);
+        addImageTransitions.addTransition(fadeOut);
+
+        addImageTransitions.setStartDelay(TRANSITION_START_DELAY_MS);
+
+        addImageTransitions.addListener(addImageTransitionListener);
+
+        // Set up the cleanup transitions
+        final TransitionSet cleanupTransitions = new TransitionSet();
+
+        final Transition changeBounds = new ChangeBounds();
+        changeBounds.setDuration(0);
+        cleanupTransitions.addTransition(changeBounds);
+
+        final Fade fadeIn = new Fade(Fade.IN);
+        fadeIn.addTarget(R.id.gv_badge);
+        fadeIn.setDuration(BADGE_TRANSITION_DURATION_MS);
+        cleanupTransitions.addTransition(fadeIn);
+
+        cleanupTransitions.addListener(cleanupTransitionListener);
+
+        // Set up the transition manager
+        transitionManager = new TransitionManager();
+        transitionManager.setTransition(imageAddedScene, addImageTransitions);
+        transitionManager.setTransition(defaultScene, cleanupTransitions);
     }
 
     public ImageStack(final Context context,
@@ -67,16 +125,32 @@ public class ImageStack extends RelativeLayout {
         init(context);
     }
 
-    private void init(@NonNull final Context context) {
-        final LayoutInflater inflater = LayoutInflater.from(context);
-        inflater.inflate(R.layout.gv_image_stack_default, this);
+    @Override
+    public void setOnClickListener(@Nullable final OnClickListener clickListener) {
+        this.clickListener = clickListener;
+        if (clickListener != null && imageCount > 0) {
+            stackItem1.setOnClickListener(clickListener);
+        }
+    }
 
-        newImage = findViewById(R.id.gv_new_photo);
-        stackItem1 = findViewById(R.id.gv_stack_item_1);
-        stackItem2 = findViewById(R.id.gv_stack_item_2);
-        stackItem3 = findViewById(R.id.gv_stack_item_3);
-        badge = findViewById(R.id.gv_badge);
-        badge.setVisibility(INVISIBLE);
+    public void addImage(@NonNull final Bitmap bitmap) {
+        // Get the current images visible in the stack
+        final Drawable drawable1 = stackItem1.getDrawable();
+        final Drawable drawable2 = stackItem2.getDrawable();
+        final Drawable drawable3 = stackItem3.getDrawable();
+
+        // Prepare the transition listeners
+        addImageTransitionListener.setDrawable1(drawable1);
+        addImageTransitionListener.setDrawable2(drawable2);
+        addImageTransitionListener.setDrawable3(drawable3);
+        addImageTransitionListener.setNewImage(bitmap);
+
+        cleanupTransitionListener.setDrawable1(drawable1);
+        cleanupTransitionListener.setDrawable2(drawable2);
+        cleanupTransitionListener.setNewImage(bitmap);
+
+        // Execute the transition
+        transitionManager.transitionTo(imageAddedScene);
     }
 
     public void removeImages() {
@@ -119,103 +193,116 @@ public class ImageStack extends RelativeLayout {
         }
     }
 
-    public void addImage(@NonNull final Bitmap bitmap) {
-        // Create the default and the image added scenes
-        final Scene defaultScene = Scene.getSceneForLayout(ImageStack.this,
-                R.layout.gv_image_stack_default, getContext());
-        final Scene imageAddedScene = Scene.getSceneForLayout(ImageStack.this,
-                R.layout.gv_image_stack_image_added, getContext());
+    private static class AddImageTransitionListener extends TransitionListenerAdapter {
 
-        // Get the current images visible in the stack
-        final Drawable drawable1 = stackItem1.getDrawable();
-        final Drawable drawable2 = stackItem2.getDrawable();
-        final Drawable drawable3 = stackItem3.getDrawable();
+        private final Scene imageAddedScene;
+        private final ImageStack imageStack;
+        private Drawable drawable1;
+        private Drawable drawable2;
+        private Drawable drawable3;
+        private Bitmap newImage;
 
-        // Set up the transitions
-        final TransitionSet transitions = new TransitionSet();
-        transitions.setDuration(TRANSITION_DURATION_MS);
-        transitions.addTransition(new ChangeBounds());
+        private AddImageTransitionListener(final Scene imageAddedScene,
+                final ImageStack imageStack) {
+            this.imageAddedScene = imageAddedScene;
+            this.imageStack = imageStack;
+        }
 
-        final Fade fadeOut = new Fade(Fade.OUT);
-        fadeOut.addTarget(R.id.gv_stack_item_3);
-        transitions.addTransition(fadeOut);
+        @Override
+        public void onTransitionStart(@NonNull final Transition transition) {
+            final ViewGroup sceneRoot = imageAddedScene.getSceneRoot();
+            final ImageView stackItem1View = sceneRoot.findViewById(R.id.gv_stack_item_1);
+            final ImageView stackItem2View = sceneRoot.findViewById(R.id.gv_stack_item_2);
+            final ImageView stackItem3View = sceneRoot.findViewById(R.id.gv_stack_item_3);
+            final ImageView newImageView = sceneRoot.findViewById(R.id.gv_new_photo);
+            final TextView badge = sceneRoot.findViewById(R.id.gv_badge);
 
-        transitions.setStartDelay(TRANSITION_START_DELAY_MS);
-
-        transitions.addListener(new TransitionListenerAdapter() {
-            @Override
-            public void onTransitionStart(@NonNull final Transition transition) {
-                final ViewGroup sceneRoot = imageAddedScene.getSceneRoot();
-                final ImageView stackItem1View = sceneRoot.findViewById(R.id.gv_stack_item_1);
-                final ImageView stackItem2View = sceneRoot.findViewById(R.id.gv_stack_item_2);
-                final ImageView stackItem3View = sceneRoot.findViewById(R.id.gv_stack_item_3);
-                final ImageView newImageView = sceneRoot.findViewById(R.id.gv_new_photo);
-                final TextView badge = sceneRoot.findViewById(R.id.gv_badge);
-
-                // Show the current images and badge in the image added scene
-                stackItem1View.setImageDrawable(drawable1);
-                stackItem2View.setImageDrawable(drawable2);
-                stackItem3View.setImageDrawable(drawable3);
-                if (imageCount > 0) {
-                    badge.setVisibility(VISIBLE);
-                    badge.setText(String.valueOf(imageCount));
-                }
-                // Show the new image
-                newImageView.setVisibility(VISIBLE);
-                newImageView.setImageBitmap(bitmap);
+            // Show the current images and badge in the image added scene
+            stackItem1View.setImageDrawable(drawable1);
+            stackItem2View.setImageDrawable(drawable2);
+            stackItem3View.setImageDrawable(drawable3);
+            if (imageStack.imageCount > 0) {
+                badge.setVisibility(VISIBLE);
+                badge.setText(String.valueOf(imageStack.imageCount));
             }
+            // Show the new image
+            newImageView.setVisibility(VISIBLE);
+            newImageView.setImageBitmap(newImage);
+        }
 
-            @Override
-            public void onTransitionEnd(@NonNull final Transition transition) {
-                // Return to the default scene
-                final TransitionSet cleanupTransitions = new TransitionSet();
+        void setDrawable1(final Drawable drawable1) {
+            this.drawable1 = drawable1;
+        }
 
-                final Transition changeBounds = new ChangeBounds();
-                changeBounds.setDuration(0);
-                cleanupTransitions.addTransition(changeBounds);
+        void setDrawable2(final Drawable drawable2) {
+            this.drawable2 = drawable2;
+        }
 
-                final Fade fadeIn = new Fade(Fade.IN);
-                fadeIn.addTarget(R.id.gv_badge);
-                fadeIn.setDuration(BADGE_TRANSITION_DURATION_MS);
-                cleanupTransitions.addTransition(fadeIn);
+        void setDrawable3(final Drawable drawable3) {
+            this.drawable3 = drawable3;
+        }
 
-                cleanupTransitions.addListener(new TransitionListenerAdapter() {
-                    @Override
-                    public void onTransitionStart(@NonNull final Transition transition) {
-                        final ViewGroup sceneRoot = defaultScene.getSceneRoot();
-                        stackItem1 = sceneRoot.findViewById(R.id.gv_stack_item_1);
-                        stackItem2 = sceneRoot.findViewById(R.id.gv_stack_item_2);
-                        stackItem3 = sceneRoot.findViewById(R.id.gv_stack_item_3);
-                        newImage = sceneRoot.findViewById(R.id.gv_new_photo);
-                        badge = sceneRoot.findViewById(R.id.gv_badge);
+        void setNewImage(final Bitmap newImage) {
+            this.newImage = newImage;
+        }
 
-                        // Push the images to the left (remove last image and show image on top)
-                        stackItem3.setImageDrawable(drawable2);
-                        stackItem2.setImageDrawable(drawable1);
-                        stackItem1.setImageBitmap(bitmap);
-
-                        // Update the badge
-                        imageCount++;
-                        badge.setText(String.valueOf(imageCount));
-
-                        stackItem1.setClickable(true);
-                        stackItem1.setFocusable(true);
-                        if (clickListener != null) {
-                            stackItem1.setOnClickListener(clickListener);
-                        }
-                    }
-                });
-                TransitionManager.go(defaultScene, cleanupTransitions);
-            }
-        });
-        TransitionManager.go(imageAddedScene, transitions);
+        @Override
+        public void onTransitionEnd(@NonNull final Transition transition) {
+            // Return to the default scene
+            imageStack.cleanupTransitionListener.setDrawable1(drawable1);
+            imageStack.cleanupTransitionListener.setDrawable2(drawable2);
+            imageStack.cleanupTransitionListener.setNewImage(newImage);
+            imageStack.transitionManager.transitionTo(imageStack.defaultScene);
+        }
     }
 
-    @Override
-    public void setOnClickListener(@Nullable final OnClickListener clickListener) {
-        this.clickListener = clickListener;
-        if (clickListener != null && imageCount > 0) {
-            stackItem1.setOnClickListener(clickListener);
+    private static class CleanupTransitionListener extends TransitionListenerAdapter {
+
+        private final Scene defaultScene;
+        private final ImageStack imageStack;
+        private Drawable drawable1;
+        private Drawable drawable2;
+        private Bitmap newImage;
+
+        private CleanupTransitionListener(final Scene defaultScene, final ImageStack imageStack) {
+            this.defaultScene = defaultScene;
+            this.imageStack = imageStack;
+        }
+
+        void setDrawable1(final Drawable drawable1) {
+            this.drawable1 = drawable1;
+        }
+
+        void setDrawable2(final Drawable drawable2) {
+            this.drawable2 = drawable2;
+        }
+
+        void setNewImage(final Bitmap newImage) {
+            this.newImage = newImage;
+        }
+
+        @Override
+        public void onTransitionStart(@NonNull final Transition transition) {
+            final ViewGroup sceneRoot = defaultScene.getSceneRoot();
+            imageStack.stackItem1 = sceneRoot.findViewById(R.id.gv_stack_item_1);
+            imageStack.stackItem2 = sceneRoot.findViewById(R.id.gv_stack_item_2);
+            imageStack.stackItem3 = sceneRoot.findViewById(R.id.gv_stack_item_3);
+            imageStack.badge = sceneRoot.findViewById(R.id.gv_badge);
+
+            // Push the images to the left (remove last image and show image on top)
+            imageStack.stackItem3.setImageDrawable(drawable2);
+            imageStack.stackItem2.setImageDrawable(drawable1);
+            imageStack.stackItem1.setImageBitmap(newImage);
+
+            // Update the badge
+            imageStack.imageCount++;
+            imageStack.badge.setText(String.valueOf(imageStack.imageCount));
+
+            imageStack.stackItem1.setClickable(true);
+            imageStack.stackItem1.setFocusable(true);
+            if (imageStack.clickListener != null) {
+                imageStack.stackItem1.setOnClickListener(imageStack.clickListener);
+            }
         }
     }
 }
