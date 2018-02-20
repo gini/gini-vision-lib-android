@@ -50,6 +50,7 @@ import net.gini.android.vision.R;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.GiniVisionDocument;
 import net.gini.android.vision.document.ImageDocument;
+import net.gini.android.vision.document.MultiPageDocument;
 import net.gini.android.vision.document.QRCodeDocument;
 import net.gini.android.vision.internal.camera.api.CameraController;
 import net.gini.android.vision.internal.camera.api.CameraException;
@@ -94,6 +95,11 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         }
 
         @Override
+        public void onProceedToMultiPageReviewScreen(
+                @NonNull final MultiPageDocument multiPageDocument) {
+        }
+
+        @Override
         public void onQRCodeAvailable(@NonNull final QRCodeDocument qrCodeDocument) {
 
         }
@@ -123,6 +129,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     private CameraFragmentListener mListener = NO_OP_LISTENER;
     private final UIExecutor mUIExecutor = new UIExecutor();
     private CameraInterface mCameraController;
+    private MultiPageDocument mMultiPageDocument;
     private PaymentQRCodeReader mPaymentQRCodeReader;
 
     private RelativeLayout mLayoutRoot;
@@ -666,6 +673,12 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 }
             }
         });
+        mImageStack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                mListener.onProceedToMultiPageReviewScreen(mMultiPageDocument);
+            }
+        });
     }
 
     private void closeUploadHintPopUp() {
@@ -893,11 +906,13 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         if (!(document instanceof  ImageDocument)) {
             return;
         }
-        final Photo photo = PhotoFactory.newPhotoFromDocument(
-                (ImageDocument) document);
+        final ImageDocument imageDocument = (ImageDocument) document;
+        final Photo photo = PhotoFactory.newPhotoFromDocument(imageDocument);
+        // TODO: get rid of bitmap rotation -> rotate only the ImageView in the stack
         final Bitmap rotatedBitmap = getRotatedBitmap(photo);
         mImageStack.addImage(rotatedBitmap);
         mIsMultiPage = true;
+        mMultiPageDocument = new MultiPageDocument(imageDocument, false);
     }
 
     private void enableInteraction() {
@@ -959,6 +974,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             if (photo != null) {
                 LOG.info("Picture taken");
                 if (mIsMultiPage) {
+                    mMultiPageDocument.addImageDocument(
+                            (ImageDocument) DocumentFactory.newDocumentFromPhoto(photo));
                     final Bitmap rotatedBitmap = getRotatedBitmap(photo);
                     mImageStack.addImage(rotatedBitmap);
                     mCameraController.startPreview();

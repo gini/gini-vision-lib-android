@@ -18,11 +18,13 @@ import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
+import net.gini.android.vision.document.MultiPageDocument;
 import net.gini.android.vision.document.QRCodeDocument;
 import net.gini.android.vision.help.HelpActivity;
 import net.gini.android.vision.internal.util.ActivityHelper;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
+import net.gini.android.vision.review.MultiPageReviewActivity;
 import net.gini.android.vision.review.ReviewActivity;
 
 import java.util.ArrayList;
@@ -391,6 +393,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     static final int REVIEW_DOCUMENT_REQUEST = 1;
     private static final int ONBOARDING_REQUEST = 2;
     private static final int ANALYSE_DOCUMENT_REQUEST = 3;
+    private static final int MULTI_PAGE_REVIEW_REQUEST = 2;
     private static final String CAMERA_FRAGMENT = "CAMERA_FRAGMENT";
     private static final String ONBOARDING_SHOWN_KEY = "ONBOARDING_SHOWN_KEY";
 
@@ -630,6 +633,13 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         } else {
             startAnalysisActivity(document);
         }
+    }
+
+    @Override
+    public void onProceedToMultiPageReviewScreen(
+            @NonNull final MultiPageDocument multiPageDocument) {
+        final Intent intent = MultiPageReviewActivity.createIntent(this, multiPageDocument);
+        startActivityForResult(intent, MULTI_PAGE_REVIEW_REQUEST);
     }
 
     @Override
