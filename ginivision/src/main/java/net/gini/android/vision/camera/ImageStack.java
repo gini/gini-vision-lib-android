@@ -174,21 +174,21 @@ public class ImageStack extends RelativeLayout {
             badge.setVisibility(View.VISIBLE);
             badge.setText(String.valueOf(imageCount));
         }
-        if (bitmaps.size() > 0) {
+        if (imageCount > 0) {
             stackItem1.setClickable(true);
             stackItem1.setFocusable(true);
             if (clickListener != null) {
                 stackItem1.setOnClickListener(clickListener);
             }
         }
-        if (bitmaps.size() > 2) {
+        if (imageCount > 2) {
             stackItem3.setImageBitmap(bitmaps.get(0));
             stackItem2.setImageBitmap(bitmaps.get(1));
             stackItem1.setImageBitmap(bitmaps.get(2));
-        } else if (bitmaps.size() > 1) {
+        } else if (imageCount > 1) {
             stackItem2.setImageBitmap(bitmaps.get(0));
             stackItem1.setImageBitmap(bitmaps.get(1));
-        } else if (bitmaps.size() > 0) {
+        } else if (imageCount > 0) {
             stackItem1.setImageBitmap(bitmaps.get(0));
         }
     }

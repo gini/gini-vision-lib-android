@@ -5,9 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.transition.AutoTransition;
-import android.support.transition.Transition;
-import android.support.transition.TransitionListenerAdapter;
 import android.support.transition.TransitionManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -104,14 +101,7 @@ public class MultiPageReviewActivity extends AppCompatActivity {
                 final boolean isSelected = !v.isSelected();
                 v.setSelected(isSelected);
 
-                final Transition transition = new AutoTransition();
-                transition.addListener(new TransitionListenerAdapter() {
-                    @Override
-                    public void onTransitionEnd(@NonNull final Transition transition) {
-                        mImagesPager.requestLayout();
-                    }
-                });
-                TransitionManager.beginDelayedTransition(mRootView, transition);
+                TransitionManager.beginDelayedTransition(mRootView);
                 final RelativeLayout.LayoutParams layoutParams =
                         (RelativeLayout.LayoutParams) mThumbnailsRV.getLayoutParams();
                 if (isSelected) {
