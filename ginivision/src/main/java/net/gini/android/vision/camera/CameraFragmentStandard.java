@@ -85,6 +85,7 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
     @Override
     public void onAttach(final Context context) {
         super.onAttach(context);
+        mFragmentImpl = new CameraFragmentHelper().createFragmentImpl(this, getArguments());
         CameraFragmentHelper.setListener(mFragmentImpl, context, mListener);
     }
 

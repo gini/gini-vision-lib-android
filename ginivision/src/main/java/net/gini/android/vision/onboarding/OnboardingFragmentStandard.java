@@ -111,9 +111,6 @@ public class OnboardingFragmentStandard extends Fragment implements OnboardingFr
         return fragment;
     }
 
-    private void initFragmentImpl() {
-        mFragmentImpl = OnboardingFragmentHelper.createFragmentImpl(this, getArguments());
-    }
 
     /**
      * @exclude
@@ -122,6 +119,7 @@ public class OnboardingFragmentStandard extends Fragment implements OnboardingFr
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mFragmentImpl = OnboardingFragmentHelper.createFragmentImpl(this, getArguments());
         OnboardingFragmentHelper.setListener(mFragmentImpl, getActivity(), mListener);
     }
 
