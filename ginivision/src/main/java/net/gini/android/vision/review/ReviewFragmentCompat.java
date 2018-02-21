@@ -26,7 +26,9 @@ import net.gini.android.vision.internal.ui.FragmentImplCallback;
  *     Include the {@code ReviewFragmentCompat} into your layout by using the {@link ReviewFragmentCompat#createInstance(Document)} factory method to create an instance and display it using the {@link android.support.v4.app.FragmentManager}.
  * </p>
  * <p>
- *     Your Activity must implement the {@link ReviewFragmentListener} interface to receive events from the Review Document Fragment. Failing to do so will throw an exception.
+ *     A {@link ReviewFragmentListener} instance must be available until the {@code ReviewFragmentCompat} is attached to an activity. Failing to do so will throw an exception.
+ *     The listener instance can be provided either implicitly by having the hosting Activity implement the {@link ReviewFragmentListener} interface or explicitly by
+ *     setting the listener using {@link ReviewFragmentCompat#setListener(ReviewFragmentListener)}.
  * </p>
  * <p>
  *     Your Activity is automatically set as the listener in {@link ReviewFragmentCompat#onCreate(Bundle)}.
@@ -41,7 +43,9 @@ import net.gini.android.vision.internal.ui.FragmentImplCallback;
 public class ReviewFragmentCompat extends Fragment implements FragmentImplCallback,
         ReviewFragmentInterface {
 
-    private ReviewFragmentImpl mFragmentImpl;
+    @VisibleForTesting
+    ReviewFragmentImpl mFragmentImpl;
+    private ReviewFragmentListener mListener;
 
     /**
      * <p>
@@ -71,7 +75,7 @@ public class ReviewFragmentCompat extends Fragment implements FragmentImplCallba
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFragmentImpl = ReviewFragmentHelper.createFragmentImpl(this, getArguments());
-        ReviewFragmentHelper.setListener(mFragmentImpl, getActivity());
+        ReviewFragmentHelper.setListener(mFragmentImpl, getActivity(), mListener);
         mFragmentImpl.onCreate(savedInstanceState);
     }
 
@@ -130,5 +134,13 @@ public class ReviewFragmentCompat extends Fragment implements FragmentImplCallba
     @Override
     public void onNoExtractionsFound() {
         mFragmentImpl.onNoExtractionsFound();
+    }
+
+    @Override
+    public void setListener(@NonNull final ReviewFragmentListener listener) {
+        if (mFragmentImpl != null) {
+            mFragmentImpl.setListener(listener);
+        }
+        mListener = listener;
     }
 }

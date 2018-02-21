@@ -10,7 +10,8 @@ import net.gini.android.vision.GiniVisionError;
  * Copyright (c) 2018 Gini GmbH.
  */
 
-public class OnboardingFragmentHostActivity extends OnboardingFragmentHostActivityNotListener implements OnboardingFragmentListener {
+public class OnboardingFragmentHostActivity extends
+        OnboardingFragmentHostActivityNotListener implements OnboardingFragmentListener {
 
     private boolean isClosed;
 

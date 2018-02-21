@@ -270,10 +270,6 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         mListener = listener;
     }
 
-    boolean hasListener() {
-        return mListener != NO_OP_LISTENER;
-    }
-
     public void onCreate(final Bundle savedInstanceState) {
         final Activity activity = mFragment.getActivity();
         if (activity == null) {

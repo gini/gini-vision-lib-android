@@ -685,12 +685,12 @@ public class CameraScreenTest {
         final CameraFragmentHostActivityNotListener activity =
                 mCameraFragmentHostActivityNotListenerTR.launchActivity(intent);
         // When
-        activity.getCameraFragmentCompatFake().getCameraControllerFake()
+        activity.getFragment().getCameraControllerFake()
                 .showImageAsPreview(loadAsset("invoice.jpg"), null);
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                activity.getCameraFragmentCompatFake()
+                activity.getFragment()
                         .getCameraFragmentImplFake().mButtonCameraTrigger.performClick();
             }
         });
@@ -707,12 +707,12 @@ public class CameraScreenTest {
         final CameraFragmentHostActivity activity =
                 mCameraFragmentHostActivityTR.launchActivity(intent);
         // When
-        activity.getCameraFragmentCompatFake().getCameraControllerFake()
+        activity.getFragment().getCameraControllerFake()
                 .showImageAsPreview(loadAsset("invoice.jpg"), null);
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                activity.getCameraFragmentCompatFake()
+                activity.getFragment()
                         .getCameraFragmentImplFake().mButtonCameraTrigger.performClick();
             }
         });

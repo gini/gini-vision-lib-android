@@ -269,7 +269,7 @@ public class OnboardingScreenTest {
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                activity.getOnboardingFragmentCompat().mFragmentImpl.mButtonNext.performClick();
+                activity.getFragment().mFragmentImpl.mButtonNext.performClick();
             }
         });
         InstrumentationRegistry.getInstrumentation().waitForIdleSync();
@@ -288,7 +288,7 @@ public class OnboardingScreenTest {
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                activity.getOnboardingFragmentCompat().mFragmentImpl.mButtonNext.performClick();
+                activity.getFragment().mFragmentImpl.mButtonNext.performClick();
             }
         });
         InstrumentationRegistry.getInstrumentation().waitForIdleSync();

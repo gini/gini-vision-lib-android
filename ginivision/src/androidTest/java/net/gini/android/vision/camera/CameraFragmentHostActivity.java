@@ -12,7 +12,8 @@ import net.gini.android.vision.document.QRCodeDocument;
  * Copyright (c) 2018 Gini GmbH.
  */
 
-public class CameraFragmentHostActivity extends CameraFragmentHostActivityNotListener implements CameraFragmentListener {
+public class CameraFragmentHostActivity extends CameraFragmentHostActivityNotListener implements
+        CameraFragmentListener {
 
     private boolean hasDocument = false;
 

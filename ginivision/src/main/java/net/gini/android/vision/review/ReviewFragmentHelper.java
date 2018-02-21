@@ -3,6 +3,7 @@ package net.gini.android.vision.review;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
@@ -29,12 +30,16 @@ final class ReviewFragmentHelper{
     }
 
     public static void setListener(@NonNull final ReviewFragmentImpl fragmentImpl,
-            @NonNull final Context context) {
+            @NonNull final Context context, @Nullable final ReviewFragmentListener listener) {
         if (context instanceof ReviewFragmentListener) {
             fragmentImpl.setListener((ReviewFragmentListener) context);
+        } else if (listener != null){
+            fragmentImpl.setListener(listener);
         } else {
             throw new IllegalStateException(
-                    "Hosting activity must implement ReviewFragmentListener.");
+                    "ReviewFragmentListener not set. "
+                            + "You can set it with ReviewFragment[Compat,Standard]#setListener() or "
+                            + "by having the host activity implement the ReviewFragmentListener.");
         }
     }
 

@@ -49,6 +49,12 @@
         <activity
             android:name="net.gini.android.vision.onboarding.OnboardingFragmentHostActivity"
             android:theme="@style/GiniVisionTheme" />
+        <activity
+            android:name="net.gini.android.vision.review.ReviewFragmentHostActivityNotListener"
+            android:theme="@style/GiniVisionTheme" />
+        <activity
+            android:name="net.gini.android.vision.review.ReviewFragmentHostActivity"
+            android:theme="@style/GiniVisionTheme" />
     </application>
 
 </manifest>

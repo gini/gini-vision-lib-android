@@ -97,10 +97,6 @@ class OnboardingFragmentImpl implements OnboardingFragmentInterface {
         mListener = listener;
     }
 
-    public boolean hasListener() {
-        return mListener != NO_OP_LISTENER;
-    }
-
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
             final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.gv_fragment_onboarding, container, false);
