@@ -72,7 +72,6 @@ public class ReviewScreenTest {
     @BeforeClass
     public static void setupClass() throws IOException {
         TEST_JPEG = getTestJpeg();
-        ReviewFragmentHostActivityNotListener.sListener = null;
     }
 
     @AfterClass
@@ -83,6 +82,7 @@ public class ReviewScreenTest {
     @After
     public void tearDown() throws Exception {
         resetDeviceOrientation();
+        ReviewFragmentHostActivityNotListener.sListener = null;
     }
 
     @Test(expected = IllegalStateException.class)

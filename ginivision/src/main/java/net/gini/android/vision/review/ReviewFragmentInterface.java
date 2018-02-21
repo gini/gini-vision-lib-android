@@ -39,7 +39,7 @@ public interface ReviewFragmentInterface {
 
     /**
      * <p>
-     *     Set a listener for review fragment events.
+     *     Set a listener for review events.
      * </p>
      * <p>
      *     By default the hosting Activity is expected to implement

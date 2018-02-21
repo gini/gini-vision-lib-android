@@ -38,12 +38,16 @@ final class AnalysisFragmentHelper {
     }
 
     public static void setListener(@NonNull final AnalysisFragmentImpl fragmentImpl,
-            @NonNull final Context context) {
+            @NonNull final Context context, @Nullable final AnalysisFragmentListener listener) {
         if (context instanceof AnalysisFragmentListener) {
             fragmentImpl.setListener((AnalysisFragmentListener) context);
+        } else if (listener != null) {
+            fragmentImpl.setListener(listener);
         } else {
             throw new IllegalStateException(
-                    "Hosting activity must implement AnalysisFragmentListener.");
+                    "AnalysisFragmentListener not set. "
+                            + "You can set it with AnalysisFragment[Compat,Standard]#setListener() or "
+                            + "by having the host activity implement the AnalysisFragmentListener.");
         }
     }
 

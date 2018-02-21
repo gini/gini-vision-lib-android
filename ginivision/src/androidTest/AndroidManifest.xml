@@ -55,6 +55,12 @@
         <activity
             android:name="net.gini.android.vision.review.ReviewFragmentHostActivity"
             android:theme="@style/GiniVisionTheme" />
+        <activity
+            android:name="net.gini.android.vision.analysis.AnalysisFragmentHostActivityNotListener"
+            android:theme="@style/GiniVisionTheme" />
+        <activity
+            android:name="net.gini.android.vision.analysis.AnalysisFragmentHostActivity"
+            android:theme="@style/GiniVisionTheme" />
     </application>
 
 </manifest>

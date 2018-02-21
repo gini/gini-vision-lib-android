@@ -103,7 +103,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     }
 
     @Override
-    public void setListener(@Nullable final ReviewFragmentListener listener) {
+    public void setListener(@NonNull final ReviewFragmentListener listener) {
         mListener = listener;
     }
 

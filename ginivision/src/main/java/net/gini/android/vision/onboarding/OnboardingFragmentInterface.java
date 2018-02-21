@@ -17,7 +17,7 @@ public interface OnboardingFragmentInterface {
 
     /**
      * <p>
-     *     Set a listener for onboarding fragment events.
+     *     Set a listener for onboarding events.
      * </p>
      * <p>
      *     By default the hosting Activity is expected to implement

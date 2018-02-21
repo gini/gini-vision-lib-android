@@ -11,7 +11,7 @@ public interface CameraFragmentInterface {
 
     /**
      * <p>
-     *     Set a listener for camera fragment events.
+     *     Set a listener for camera events.
      * </p>
      * <p>
      *     By default the hosting Activity is expected to implement
