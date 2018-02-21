@@ -36,7 +36,9 @@ import java.util.List;
  *     If you would like to disable the appending of the empty last page, you can use the {@link OnboardingFragmentStandard#createInstanceWithoutEmptyLastPage(ArrayList)} or the {@link OnboardingFragmentStandard#createInstanceWithoutEmptyLastPage()} factory method.
  * </p>
  * <p>
- *     Your Activity must implement the {@link OnboardingFragmentListener} interface to receive events from the Onboarding Fragment. Failing to do so will throw an exception.
+ *     An {@link OnboardingFragmentListener} instance must be available until the {@code OnboardingFragmentStandard} is attached to an activity. Failing to do so will throw an exception.
+ *     The listener instance can be provided either implicitly by having the hosting Activity implement the {@link OnboardingFragmentListener} interface or explicitly by
+ *     setting the listener using {@link OnboardingFragmentCompat#setListener(OnboardingFragmentListener)}.
  * </p>
  * <p>
  *     Your Activity is automatically set as the listener in {@link OnboardingFragmentStandard#onCreate(Bundle)}.
@@ -48,9 +50,11 @@ import java.util.List;
  *     See the {@link OnboardingActivity} for details.
  * </p>
  */
-public class OnboardingFragmentStandard extends Fragment implements OnboardingFragmentImplCallback {
+public class OnboardingFragmentStandard extends Fragment implements OnboardingFragmentImplCallback,
+        OnboardingFragmentInterface {
 
     private OnboardingFragmentImpl mFragmentImpl;
+    private OnboardingFragmentListener mListener;
 
     /**
      * <p>
@@ -107,6 +111,10 @@ public class OnboardingFragmentStandard extends Fragment implements OnboardingFr
         return fragment;
     }
 
+    private void initFragmentImpl() {
+        mFragmentImpl = OnboardingFragmentHelper.createFragmentImpl(this, getArguments());
+    }
+
     /**
      * @exclude
      * @param savedInstanceState
@@ -114,8 +122,7 @@ public class OnboardingFragmentStandard extends Fragment implements OnboardingFr
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFragmentImpl = OnboardingFragmentHelper.createFragmentImpl(this, getArguments());
-        OnboardingFragmentHelper.setListener(mFragmentImpl, getActivity());
+        OnboardingFragmentHelper.setListener(mFragmentImpl, getActivity(), mListener);
     }
 
     /**
@@ -139,5 +146,13 @@ public class OnboardingFragmentStandard extends Fragment implements OnboardingFr
             throw new IllegalStateException("Component API requires API Level 17 or higher");
         }
         return new ViewPagerAdapterStandard(getChildFragmentManager(), pages);
+    }
+
+    @Override
+    public void setListener(@NonNull final OnboardingFragmentListener listener) {
+        if (mFragmentImpl != null) {
+            mFragmentImpl.setListener(listener);
+        }
+        mListener = listener;
     }
 }

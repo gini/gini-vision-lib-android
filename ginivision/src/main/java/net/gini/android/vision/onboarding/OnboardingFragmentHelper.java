@@ -42,12 +42,16 @@ final class OnboardingFragmentHelper {
     }
 
     public static void setListener(@NonNull final OnboardingFragmentImpl fragmentImpl,
-            @NonNull final Context context) {
+            @NonNull final Context context, @Nullable final OnboardingFragmentListener listener) {
         if (context instanceof OnboardingFragmentListener) {
             fragmentImpl.setListener((OnboardingFragmentListener) context);
+        } else if (listener != null) {
+            fragmentImpl.setListener(listener);
         } else {
             throw new IllegalStateException(
-                    "Hosting activity must implement OnboardingFragmentListener.");
+                    "OnboardingFragmentListener not set. "
+                            + "You can set it with OnboardingFragment[Compat,Standard]#setListener() or "
+                            + "by having the host activity implement the OnboardingFragmentListener.");
         }
     }
 

@@ -122,7 +122,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     private RelativeLayout mLayoutRoot;
     private CameraPreviewSurface mCameraPreview;
     private ImageView mCameraFocusIndicator;
-    private ImageButton mButtonCameraTrigger;
+    @VisibleForTesting
+    ImageButton mButtonCameraTrigger;
     private LinearLayout mLayoutNoPermission;
     private ImageButton mButtonImportDocument;
     private View mQRCodeDetectedPopupContainer;
@@ -264,12 +265,13 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         }
     }
 
-    void setListener(final CameraFragmentListener listener) {
-        if (listener == null) {
-            mListener = NO_OP_LISTENER;
-        } else {
-            mListener = listener;
-        }
+    @Override
+    public void setListener(@NonNull final CameraFragmentListener listener) {
+        mListener = listener;
+    }
+
+    boolean hasListener() {
+        return mListener != NO_OP_LISTENER;
     }
 
     public void onCreate(final Bundle savedInstanceState) {

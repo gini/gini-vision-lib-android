@@ -44,11 +44,14 @@ import android.support.test.uiautomator.UiSelector;
 import android.view.Surface;
 import android.view.View;
 
+import net.gini.android.vision.Document;
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
+import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivityTestSpy;
 import net.gini.android.vision.document.DocumentFactory;
+import net.gini.android.vision.document.QRCodeDocument;
 import net.gini.android.vision.document.QRCodeDocumentHelper;
 import net.gini.android.vision.internal.camera.api.CameraControllerFake;
 import net.gini.android.vision.internal.camera.photo.PhotoFactory;
@@ -72,6 +75,7 @@ import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @RunWith(AndroidJUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -89,10 +93,21 @@ public class CameraScreenTest {
     public ActivityTestRule<CameraActivityFake> mCameraActivityFakeActivityTestRule =
             new ActivityTestRule<>(
                     CameraActivityFake.class, true, false);
+    @Rule
+    public ActivityTestRule<CameraFragmentHostActivityNotListener>
+            mCameraFragmentHostActivityNotListenerTR =
+            new ActivityTestRule<>(
+                    CameraFragmentHostActivityNotListener.class, true, false);
+    @Rule
+    public ActivityTestRule<CameraFragmentHostActivity>
+            mCameraFragmentHostActivityTR =
+            new ActivityTestRule<>(
+                    CameraFragmentHostActivity.class, true, false);
 
     @Before
     public void setup() throws Exception {
         prepareLooper();
+        CameraFragmentHostActivityNotListener.sListener = null;
     }
 
     @After
@@ -631,5 +646,78 @@ public class CameraScreenTest {
         Thread.sleep(CameraFragmentImpl.DEFAULT_ANIMATION_DURATION + 100);
         Espresso.onView(ViewMatchers.withId(R.id.gv_qrcode_detected_popup_container))
                 .check(ViewAssertions.matches(ViewMatchers.withAlpha(0)));
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void should_throwException_whenListener_wasNotSet() {
+        final CameraFragmentCompat cameraFragment = CameraFragmentCompat.createInstance();
+        cameraFragment.onCreate(null);
+    }
+
+    @Test
+    public void should_useExplicitListener_whenActivity_isNotListener() throws Exception {
+        // Given
+        final AtomicBoolean isDocumentAvailable = new AtomicBoolean();
+        CameraFragmentHostActivityNotListener.sListener = new CameraFragmentListener() {
+            @Override
+            public void onDocumentAvailable(@NonNull final Document document) {
+                isDocumentAvailable.set(true);
+            }
+
+            @Override
+            public void onQRCodeAvailable(@NonNull final QRCodeDocument qrCodeDocument) {
+
+            }
+
+            @Override
+            public void onCheckImportedDocument(@NonNull final Document document,
+                    @NonNull final DocumentCheckResultCallback callback) {
+
+            }
+
+            @Override
+            public void onError(@NonNull final GiniVisionError error) {
+
+            }
+        };
+        final Intent intent = new Intent(InstrumentationRegistry.getTargetContext(),
+                CameraFragmentHostActivityNotListener.class);
+        final CameraFragmentHostActivityNotListener activity =
+                mCameraFragmentHostActivityNotListenerTR.launchActivity(intent);
+        // When
+        activity.getCameraFragmentCompatFake().getCameraControllerFake()
+                .showImageAsPreview(loadAsset("invoice.jpg"), null);
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                activity.getCameraFragmentCompatFake()
+                        .getCameraFragmentImplFake().mButtonCameraTrigger.performClick();
+            }
+        });
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+        // Then
+        assertThat(isDocumentAvailable.get()).isTrue();
+    }
+
+    @Test
+    public void should_useActivity_asListener_whenAvailable() throws Exception {
+        // Given
+        final Intent intent = new Intent(InstrumentationRegistry.getTargetContext(),
+                CameraFragmentHostActivity.class);
+        final CameraFragmentHostActivity activity =
+                mCameraFragmentHostActivityTR.launchActivity(intent);
+        // When
+        activity.getCameraFragmentCompatFake().getCameraControllerFake()
+                .showImageAsPreview(loadAsset("invoice.jpg"), null);
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                activity.getCameraFragmentCompatFake()
+                        .getCameraFragmentImplFake().mButtonCameraTrigger.performClick();
+            }
+        });
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+        // Then
+        assertThat(activity.hasDocument()).isTrue();
     }
 }

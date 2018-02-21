@@ -4,8 +4,8 @@
     package="net.gini.android.vision.test">
 
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <uses-sdk tools:overrideLibrary="android.support.test.uiautomator.v18" />\
 
@@ -22,12 +22,13 @@
         <activity
             android:name="net.gini.android.vision.internal.ui.ErrorSnackbarTestActivity"
             android:theme="@style/GiniVisionTheme" />
-        <activity android:name="net.gini.android.vision.internal.camera.api.NoOpActivity"/>
+        <activity android:name="net.gini.android.vision.internal.camera.api.NoOpActivity" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="net.gini.android.vision.test.fileprovider"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
@@ -35,6 +36,18 @@
 
         <activity
             android:name="net.gini.android.vision.camera.CameraActivityFake"
+            android:theme="@style/GiniVisionTheme" />
+        <activity
+            android:name="net.gini.android.vision.camera.CameraFragmentHostActivityNotListener"
+            android:theme="@style/GiniVisionTheme" />
+        <activity
+            android:name="net.gini.android.vision.camera.CameraFragmentHostActivity"
+            android:theme="@style/GiniVisionTheme" />
+        <activity
+            android:name="net.gini.android.vision.onboarding.OnboardingFragmentHostActivityNotListener"
+            android:theme="@style/GiniVisionTheme" />
+        <activity
+            android:name="net.gini.android.vision.onboarding.OnboardingFragmentHostActivity"
             android:theme="@style/GiniVisionTheme" />
     </application>
 

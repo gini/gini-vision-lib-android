@@ -38,7 +38,9 @@ import net.gini.android.vision.internal.permission.RuntimePermissions;
  *     Include the {@code CameraFragmentStandard} into your layout either directly with {@code <fragment>} in your Activity's layout or using the {@link android.app.FragmentManager} and one of the {@code createInstance()} methods.
  * </p>
  * <p>
- *     Your Activity must implement the {@link CameraFragmentListener} interface to receive events from the Camera Fragment. Failing to do so will throw an exception.
+ *     A {@link CameraFragmentListener} instance must be available until the {@code CameraFragmentStandard} is attached to an activity. Failing to do so will throw an exception.
+ *     The listener instance can be provided either implicitly by having the hosting Activity implement the {@link CameraFragmentListener} interface or explicitly by
+ *     setting the listener using {@link CameraFragmentCompat#setListener(CameraFragmentListener)}.
  * </p>
  * <p>
  *     Your Activity is automatically set as the listener in {@link CameraFragmentStandard#onAttach(Context)}.
@@ -52,6 +54,8 @@ import net.gini.android.vision.internal.permission.RuntimePermissions;
  */
 public class CameraFragmentStandard extends Fragment implements CameraFragmentInterface,
         CameraFragmentImplCallback {
+
+    private CameraFragmentListener mListener;
 
     public static CameraFragmentStandard createInstance() {
         return new CameraFragmentStandard();
@@ -81,8 +85,7 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
     @Override
     public void onAttach(final Context context) {
         super.onAttach(context);
-        mFragmentImpl = new CameraFragmentHelper().createFragmentImpl(this, getArguments());
-        CameraFragmentHelper.setListener(mFragmentImpl, context);
+        CameraFragmentHelper.setListener(mFragmentImpl, context, mListener);
     }
 
     /**
@@ -95,7 +98,7 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
             return;
         }
         mFragmentImpl = new CameraFragmentHelper().createFragmentImpl(this, getArguments());
-        CameraFragmentHelper.setListener(mFragmentImpl, activity);
+        CameraFragmentHelper.setListener(mFragmentImpl, activity, mListener);
     }
 
     /**
@@ -152,6 +155,14 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
         if (!handled) {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+    }
+
+    @Override
+    public void setListener(@NonNull final CameraFragmentListener listener) {
+        if (mFragmentImpl != null) {
+            mFragmentImpl.setListener(listener);
+        }
+        mListener = listener;
     }
 
     @Deprecated

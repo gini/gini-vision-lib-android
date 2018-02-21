@@ -693,6 +693,13 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     }
 
     @Override
+    public void setListener(@NonNull final CameraFragmentListener listener) {
+        throw new IllegalStateException("CameraFragmentListener must not be altered in the "
+                + "CameraActivity. Override listener methods in a CameraActivity subclass "
+                + "instead.");
+    }
+
+    @Override
     public void showDocumentCornerGuides() {
         mFragment.showDocumentCornerGuides();
     }

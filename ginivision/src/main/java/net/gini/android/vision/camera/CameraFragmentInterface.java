@@ -8,6 +8,24 @@ import android.support.annotation.NonNull;
  * </p>
  */
 public interface CameraFragmentInterface {
+
+    /**
+     * <p>
+     *     Set a listener for camera fragment events.
+     * </p>
+     * <p>
+     *     By default the hosting Activity is expected to implement
+     *     the {@link CameraFragmentListener}. In case that is not feasible you may set the
+     *     listener using this method.
+     * </p>
+     * <p>
+     *     <b>Note:</b> the listener is expected to be available until the fragment is
+     *     attached to an activity. Make sure to set the listener before that.
+     * </p>
+     * @param listener the {@link CameraFragmentListener} instance
+     */
+    void setListener(@NonNull final CameraFragmentListener listener);
+
     /**
      * <p>
      *     Call this method to show the document corner guides.
