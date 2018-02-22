@@ -13,20 +13,11 @@ import net.gini.android.vision.Document;
 public interface GiniVisionNetworkService {
 
     void analyze(@NonNull final Document document,
-            @NonNull final Callback<AnalysisResult, Error> callback);
+            @NonNull final GiniVisionNetworkCallback<AnalysisResult, Error> callback);
 
     void upload(@NonNull final Document document,
-            @NonNull final Callback<Result, Error> callback);
+            @NonNull final GiniVisionNetworkCallback<Result, Error> callback);
 
     void cancel();
-
-    interface Callback<R, E> {
-
-        void failure(E error);
-
-        void success(R result);
-
-        void cancelled();
-    }
 
 }

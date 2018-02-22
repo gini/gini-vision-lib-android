@@ -44,7 +44,7 @@ public class GiniVisionDefaultNetworkApi implements GiniVisionNetworkApi {
 
     @Override
     public void sendFeedback(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
-            @NonNull final GiniVisionNetworkApi.Callback<Void, Error> callback) {
+            @NonNull final GiniVisionNetworkCallback<Void, Error> callback) {
         final DocumentTaskManager documentTaskManager = mGiniApi.getDocumentTaskManager();
 
         final net.gini.android.models.Document document = mSingleDocumentAnalyzer.getGiniApiDocument();

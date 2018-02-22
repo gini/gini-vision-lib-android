@@ -12,7 +12,10 @@ uploadArchives {
         mavenDeployer {
             pom.groupId = groupId
             pom.artifactId = artifactId
-            pom.version = version + '.' + versionSuffix
+            pom.version = version
+            if (project.hasProperty('devVersionSuffix')) {
+                pom.version = pom.version + '.' + devVersionSuffix
+            }
 
             pom.project {
                 licenses {

@@ -68,6 +68,7 @@ import net.gini.android.vision.internal.util.FileImportValidator;
 import net.gini.android.vision.internal.util.Size;
 import net.gini.android.vision.network.AnalysisResult;
 import net.gini.android.vision.network.Error;
+import net.gini.android.vision.network.GiniVisionNetworkCallback;
 import net.gini.android.vision.network.GiniVisionNetworkService;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.util.IntentHelper;
@@ -700,7 +701,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             final GiniVisionNetworkService networkService = app.getGiniVisionNetworkService();
             showActivityIndicatorAndDisableInteraction();
             networkService.analyze(qrCodeDocument,
-                    new GiniVisionNetworkService.Callback<AnalysisResult, Error>() {
+                    new GiniVisionNetworkCallback<AnalysisResult, Error>() {
                         @Override
                         public void failure(final Error error) {
                             hideActivityIndicatorAndEnableInteraction();

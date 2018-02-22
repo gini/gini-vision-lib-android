@@ -43,6 +43,7 @@ import net.gini.android.vision.internal.ui.FragmentImplCallback;
 import net.gini.android.vision.internal.util.Size;
 import net.gini.android.vision.network.AnalysisResult;
 import net.gini.android.vision.network.Error;
+import net.gini.android.vision.network.GiniVisionNetworkCallback;
 import net.gini.android.vision.network.GiniVisionNetworkService;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.util.UriHelper;
@@ -396,7 +397,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
                     (GiniVisionApplication) mFragment.getActivity().getApplication();
             final GiniVisionNetworkService networkService = app.getGiniVisionNetworkService();
             networkService.analyze(mDocument,
-                    new GiniVisionNetworkService.Callback<AnalysisResult, Error>() {
+                    new GiniVisionNetworkCallback<AnalysisResult, Error>() {
                         @Override
                         public void failure(final Error error) {
                             stopScanAnimation();

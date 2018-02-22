@@ -47,7 +47,7 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
 
     @Override
     public void analyze(@NonNull final Document document,
-            @NonNull final Callback<AnalysisResult, Error> callback) {
+            @NonNull final GiniVisionNetworkCallback<AnalysisResult, Error> callback) {
         mSingleDocumentAnalyzer.analyzeDocument(document,
                 new DocumentAnalyzer.Listener() {
                     @Override
@@ -67,7 +67,7 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
 
     @Override
     public void upload(@NonNull final Document document,
-            @NonNull final Callback<Result, Error> callback) {
+            @NonNull final GiniVisionNetworkCallback<Result, Error> callback) {
 
     }
 

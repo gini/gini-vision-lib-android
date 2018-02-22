@@ -15,15 +15,5 @@ import java.util.Map;
 public interface GiniVisionNetworkApi {
 
     void sendFeedback(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
-            @NonNull final Callback<Void, Error> callback);
-
-    interface Callback<R, E> {
-
-        void failure(E error);
-
-        void success(R result);
-
-        void cancelled();
-    }
-
+            @NonNull final GiniVisionNetworkCallback<Void, Error> callback);
 }

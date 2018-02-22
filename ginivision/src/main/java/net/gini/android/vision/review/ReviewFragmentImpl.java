@@ -34,6 +34,7 @@ import net.gini.android.vision.internal.camera.photo.PhotoFactoryDocumentAsyncTa
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 import net.gini.android.vision.network.AnalysisResult;
 import net.gini.android.vision.network.Error;
+import net.gini.android.vision.network.GiniVisionNetworkCallback;
 import net.gini.android.vision.network.GiniVisionNetworkService;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
@@ -213,7 +214,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             final Document document = DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto,
                     mDocument);
             networkService.analyze(document,
-                    new GiniVisionNetworkService.Callback<AnalysisResult, Error>() {
+                    new GiniVisionNetworkCallback<AnalysisResult, Error>() {
                         @Override
                         public void failure(final Error error) {
                             // TODO: show error
