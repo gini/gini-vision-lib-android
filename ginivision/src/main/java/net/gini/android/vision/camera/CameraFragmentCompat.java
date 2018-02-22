@@ -44,8 +44,9 @@ import net.gini.android.vision.internal.permission.RuntimePermissions;
  * in your Activity's layout or using the {@link android.support.v4.app.FragmentManager} and one of the {@code createInstance()} methods.
  * </p>
  * <p>
- * Your Activity must implement the {@link CameraFragmentListener} interface to receive events from
- * the Camera Fragment. Failing to do so will throw an exception.
+ *     A {@link CameraFragmentListener} instance must be available until the {@code CameraFragmentCompat} is attached to an activity. Failing to do so will throw an exception.
+ *     The listener instance can be provided either implicitly by making the hosting Activity implement the {@link CameraFragmentListener} interface or explicitly by
+ *     setting the listener using {@link CameraFragmentCompat#setListener(CameraFragmentListener)}.
  * </p>
  * <p>
  * Your Activity is automatically set as the listener in
@@ -61,8 +62,11 @@ import net.gini.android.vision.internal.permission.RuntimePermissions;
 public class CameraFragmentCompat extends Fragment implements CameraFragmentInterface,
         CameraFragmentImplCallback {
 
+    private CameraFragmentListener mListener;
+
     public static CameraFragmentCompat createInstance() {
-        return new CameraFragmentCompat();
+        final CameraFragmentCompat fragment = new CameraFragmentCompat();
+        return fragment;
     }
 
     /**
@@ -90,7 +94,7 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFragmentImpl = createFragmentImpl();
-        CameraFragmentHelper.setListener(mFragmentImpl, getActivity());
+        CameraFragmentHelper.setListener(mFragmentImpl, getActivity(), mListener);
         mFragmentImpl.onCreate(savedInstanceState);
     }
 
@@ -143,6 +147,14 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
         if (!handled) {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+    }
+
+    @Override
+    public void setListener(@NonNull final CameraFragmentListener listener) {
+        if (mFragmentImpl != null) {
+            mFragmentImpl.setListener(listener);
+        }
+        mListener = listener;
     }
 
     @Deprecated

@@ -315,12 +315,9 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         }
     }
 
-    public void setListener(@Nullable final AnalysisFragmentListener listener) {
-        if (listener == null) {
-            mListener = NO_OP_LISTENER;
-        } else {
-            mListener = listener;
-        }
+    @Override
+    public void setListener(@NonNull final AnalysisFragmentListener listener) {
+        mListener = listener;
     }
 
     @VisibleForTesting

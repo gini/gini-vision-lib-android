@@ -120,7 +120,7 @@ public class CameraControllerFake implements CameraInterface {
         return 0;
     }
 
-    public void showImageAsPreview(@NonNull final byte[] image, @NonNull final byte[] imageNV21) {
+    public void showImageAsPreview(@NonNull final byte[] image, @Nullable final byte[] imageNV21) {
         if (mSurfaceHolder == null) {
             return;
         }
@@ -139,7 +139,7 @@ public class CameraControllerFake implements CameraInterface {
                         mSurfaceHolder.getSurfaceFrame().bottom), null);
         mSurfaceHolder.unlockCanvasAndPost(canvas);
 
-        if (mPreviewCallback != null) {
+        if (mPreviewCallback != null && imageNV21 != null) {
             mPreviewCallback.onPreviewFrame(imageNV21, null);
         }
     }
