@@ -52,7 +52,8 @@ import java.util.List;
  *     See the {@link OnboardingActivity} for details.
  * </p>
  */
-public class OnboardingFragmentCompat extends Fragment implements OnboardingFragmentImplCallback, OnboardingFragmentInterface {
+public class OnboardingFragmentCompat extends Fragment implements OnboardingFragmentImplCallback,
+        OnboardingFragmentInterface {
 
     @VisibleForTesting
     OnboardingFragmentImpl mFragmentImpl;

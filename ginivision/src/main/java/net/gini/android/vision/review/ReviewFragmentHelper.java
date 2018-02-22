@@ -8,7 +8,7 @@ import android.support.annotation.Nullable;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 
-final class ReviewFragmentHelper{
+final class ReviewFragmentHelper {
 
     private static final String ARGS_DOCUMENT = "GV_ARGS_DOCUMENT";
 
@@ -33,7 +33,7 @@ final class ReviewFragmentHelper{
             @NonNull final Context context, @Nullable final ReviewFragmentListener listener) {
         if (context instanceof ReviewFragmentListener) {
             fragmentImpl.setListener((ReviewFragmentListener) context);
-        } else if (listener != null){
+        } else if (listener != null) {
             fragmentImpl.setListener(listener);
         } else {
             throw new IllegalStateException(
