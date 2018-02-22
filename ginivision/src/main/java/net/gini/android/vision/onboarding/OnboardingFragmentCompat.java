@@ -39,7 +39,7 @@ import java.util.List;
  * </p>
  * <p>
  *     An {@link OnboardingFragmentListener} instance must be available until the {@code OnboardingFragmentCompat} is attached to an activity. Failing to do so will throw an exception.
- *     The listener instance can be provided either implicitly by having the hosting Activity implement the {@link OnboardingFragmentListener} interface or explicitly by
+ *     The listener instance can be provided either implicitly by making the hosting Activity implement the {@link OnboardingFragmentListener} interface or explicitly by
  *     setting the listener using {@link OnboardingFragmentCompat#setListener(OnboardingFragmentListener)}.
  * </p>
  * <p>

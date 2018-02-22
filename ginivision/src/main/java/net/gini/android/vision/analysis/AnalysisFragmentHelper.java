@@ -47,7 +47,7 @@ final class AnalysisFragmentHelper {
             throw new IllegalStateException(
                     "AnalysisFragmentListener not set. "
                             + "You can set it with AnalysisFragment[Compat,Standard]#setListener() or "
-                            + "by having the host activity implement the AnalysisFragmentListener.");
+                            + "by making the host activity implement the AnalysisFragmentListener.");
         }
     }
 

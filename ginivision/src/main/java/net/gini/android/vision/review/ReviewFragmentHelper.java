@@ -39,7 +39,7 @@ final class ReviewFragmentHelper{
             throw new IllegalStateException(
                     "ReviewFragmentListener not set. "
                             + "You can set it with ReviewFragment[Compat,Standard]#setListener() or "
-                            + "by having the host activity implement the ReviewFragmentListener.");
+                            + "by making the host activity implement the ReviewFragmentListener.");
         }
     }
 
