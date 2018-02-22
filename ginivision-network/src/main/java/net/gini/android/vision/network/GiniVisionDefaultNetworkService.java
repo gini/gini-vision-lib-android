@@ -32,9 +32,9 @@ import bolts.Task;
  * Copyright (c) 2018 Gini GmbH.
  */
 
-public class GiniVisionNetworkHandler implements GiniVisionNetwork {
+public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(GiniVisionNetworkHandler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(GiniVisionDefaultNetworkService.class);
 
     private final SingleDocumentAnalyzer mSingleDocumentAnalyzer;
     private final Gini mGiniApi;
@@ -44,7 +44,7 @@ public class GiniVisionNetworkHandler implements GiniVisionNetwork {
         return new Builder(context);
     }
 
-    GiniVisionNetworkHandler(@NonNull final Gini giniApi,
+    GiniVisionDefaultNetworkService(@NonNull final Gini giniApi,
             @NonNull final SingleDocumentAnalyzer singleDocumentAnalyzer) {
         mGiniApi = giniApi;
         mSingleDocumentAnalyzer = singleDocumentAnalyzer;
@@ -147,7 +147,7 @@ public class GiniVisionNetworkHandler implements GiniVisionNetwork {
         }
 
         @NonNull
-        public GiniVisionNetworkHandler build() {
+        public GiniVisionDefaultNetworkService build() {
             final SdkBuilder sdkBuilder;
             if (mCertificateAssetPaths != null) {
                 sdkBuilder = new SdkBuilder(mContext, mClientId, mClientSecret,
@@ -183,7 +183,7 @@ public class GiniVisionNetworkHandler implements GiniVisionNetwork {
             final Gini giniApi = sdkBuilder.build();
             final SingleDocumentAnalyzer singleDocumentAnalyzer = new SingleDocumentAnalyzer(
                     giniApi);
-            return new GiniVisionNetworkHandler(giniApi, singleDocumentAnalyzer);
+            return new GiniVisionDefaultNetworkService(giniApi, singleDocumentAnalyzer);
         }
 
         @NonNull

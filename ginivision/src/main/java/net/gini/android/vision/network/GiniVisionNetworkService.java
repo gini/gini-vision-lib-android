@@ -13,7 +13,7 @@ import java.util.Map;
  * Copyright (c) 2018 Gini GmbH.
  */
 
-public interface GiniVisionNetwork {
+public interface GiniVisionNetworkService {
 
     void analyze(@NonNull final Document document,
             @NonNull final Callback<AnalysisResult, Error> callback);

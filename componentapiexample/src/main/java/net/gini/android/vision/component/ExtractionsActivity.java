@@ -21,8 +21,7 @@ import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.GiniVisionApplication;
 import net.gini.android.vision.example.BaseExampleApp;
 import net.gini.android.vision.network.Error;
-import net.gini.android.vision.network.GiniVisionNetwork;
-import net.gini.android.vision.network.GiniVisionNetworkHandler;
+import net.gini.android.vision.network.GiniVisionNetworkService;
 import net.gini.android.vision.network.model.GiniVisionExtraction;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
@@ -174,11 +173,11 @@ public class ExtractionsActivity extends AppCompatActivity {
         }
         mExtractionsAdapter.notifyDataSetChanged();
 
-        final GiniVisionNetworkHandler networkHandler =
-                (GiniVisionNetworkHandler) ((GiniVisionApplication) getApplication()).getGiniVisionNetwork();
+        final GiniVisionNetworkService networkService =
+                ((GiniVisionApplication) getApplication()).getGiniVisionNetworkService();
 
         showProgressIndicator();
-        networkHandler.sendFeedback(mExtractions, new GiniVisionNetwork.Callback<Void, Error>() {
+        networkService.sendFeedback(mExtractions, new GiniVisionNetworkService.Callback<Void, Error>() {
             @Override
             public void failure(final Error error) {
                 hideProgressIndicator();

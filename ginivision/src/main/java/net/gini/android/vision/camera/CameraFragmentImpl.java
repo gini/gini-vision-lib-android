@@ -68,7 +68,7 @@ import net.gini.android.vision.internal.util.FileImportValidator;
 import net.gini.android.vision.internal.util.Size;
 import net.gini.android.vision.network.AnalysisResult;
 import net.gini.android.vision.network.Error;
-import net.gini.android.vision.network.GiniVisionNetwork;
+import net.gini.android.vision.network.GiniVisionNetworkService;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.util.IntentHelper;
 import net.gini.android.vision.util.UriHelper;
@@ -556,8 +556,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         if (activity.getApplication() instanceof GiniVisionApplication) {
             final GiniVisionApplication app =
                     (GiniVisionApplication) mFragment.getActivity().getApplication();
-            final GiniVisionNetwork network = app.getGiniVisionNetwork();
-            network.cancel();
+            final GiniVisionNetworkService networkService = app.getGiniVisionNetworkService();
+            networkService.cancel();
         }
     }
 
@@ -697,10 +697,10 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         if (activity.getApplication() instanceof GiniVisionApplication) {
             final GiniVisionApplication app =
                     (GiniVisionApplication) mFragment.getActivity().getApplication();
-            final GiniVisionNetwork networking = app.getGiniVisionNetwork();
+            final GiniVisionNetworkService networkService = app.getGiniVisionNetworkService();
             showActivityIndicatorAndDisableInteraction();
-            networking.analyze(qrCodeDocument,
-                    new GiniVisionNetwork.Callback<AnalysisResult, Error>() {
+            networkService.analyze(qrCodeDocument,
+                    new GiniVisionNetworkService.Callback<AnalysisResult, Error>() {
                         @Override
                         public void failure(final Error error) {
                             hideActivityIndicatorAndEnableInteraction();

@@ -34,7 +34,7 @@ import net.gini.android.vision.internal.camera.photo.PhotoFactoryDocumentAsyncTa
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 import net.gini.android.vision.network.AnalysisResult;
 import net.gini.android.vision.network.Error;
-import net.gini.android.vision.network.GiniVisionNetwork;
+import net.gini.android.vision.network.GiniVisionNetworkService;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
 import org.slf4j.Logger;
@@ -209,11 +209,11 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         if (activity.getApplication() instanceof GiniVisionApplication) {
             final GiniVisionApplication app =
                     (GiniVisionApplication) mFragment.getActivity().getApplication();
-            final GiniVisionNetwork networking = app.getGiniVisionNetwork();
+            final GiniVisionNetworkService networkService = app.getGiniVisionNetworkService();
             final Document document = DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto,
                     mDocument);
-            networking.analyze(document,
-                    new GiniVisionNetwork.Callback<AnalysisResult, Error>() {
+            networkService.analyze(document,
+                    new GiniVisionNetworkService.Callback<AnalysisResult, Error>() {
                         @Override
                         public void failure(final Error error) {
                             // TODO: show error
@@ -471,8 +471,8 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         if (activity.getApplication() instanceof GiniVisionApplication) {
             final GiniVisionApplication app =
                     (GiniVisionApplication) mFragment.getActivity().getApplication();
-            final GiniVisionNetwork network = app.getGiniVisionNetwork();
-            network.cancel();
+            final GiniVisionNetworkService networkService = app.getGiniVisionNetworkService();
+            networkService.cancel();
         }
     }
 

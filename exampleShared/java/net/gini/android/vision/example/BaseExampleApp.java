@@ -7,8 +7,8 @@ import android.text.TextUtils;
 import net.gini.android.Gini;
 import net.gini.android.SdkBuilder;
 import net.gini.android.vision.GiniVisionApplication;
-import net.gini.android.vision.network.GiniVisionNetwork;
-import net.gini.android.vision.network.GiniVisionNetworkHandler;
+import net.gini.android.vision.network.GiniVisionDefaultNetworkService;
+import net.gini.android.vision.network.GiniVisionNetworkService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +39,7 @@ public abstract class BaseExampleApp extends Application implements GiniVisionAp
         return mSingleDocumentAnalyzer;
     }
 
-    private GiniVisionNetworkHandler mGiniVisionNetworkHandler;
+    private GiniVisionNetworkService mGiniVisionNetworkService;
 
     protected abstract String getClientId();
 
@@ -70,7 +70,7 @@ public abstract class BaseExampleApp extends Application implements GiniVisionAp
 
     @NonNull
     @Override
-    public GiniVisionNetwork getGiniVisionNetwork() {
+    public GiniVisionNetworkService getGiniVisionNetworkService() {
         final String clientId = getClientId();
         final String clientSecret = getClientSecret();
         if (TextUtils.isEmpty(clientId) || TextUtils.isEmpty(clientSecret)) {
@@ -79,11 +79,11 @@ public abstract class BaseExampleApp extends Application implements GiniVisionAp
                             + "with clientId and clientSecret properties or pass them in as gradle "
                             + "parameters with -PclientId and -PclientSecret.");
         }
-        if (mGiniVisionNetworkHandler == null) {
-            mGiniVisionNetworkHandler = GiniVisionNetworkHandler.builder(this)
+        if (mGiniVisionNetworkService == null) {
+            mGiniVisionNetworkService = GiniVisionDefaultNetworkService.builder(this)
                     .setClientCredentials(clientId, clientSecret, "example.com")
                     .build();
         }
-        return mGiniVisionNetworkHandler;
+        return mGiniVisionNetworkService;
     }
 }

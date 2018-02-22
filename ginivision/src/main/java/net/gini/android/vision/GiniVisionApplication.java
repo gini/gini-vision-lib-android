@@ -2,7 +2,7 @@ package net.gini.android.vision;
 
 import android.support.annotation.NonNull;
 
-import net.gini.android.vision.network.GiniVisionNetwork;
+import net.gini.android.vision.network.GiniVisionNetworkService;
 
 /**
  * Created by Alpar Szotyori on 29.01.2018.
@@ -13,6 +13,6 @@ import net.gini.android.vision.network.GiniVisionNetwork;
 public interface GiniVisionApplication {
 
     @NonNull
-    GiniVisionNetwork getGiniVisionNetwork();
+    GiniVisionNetworkService getGiniVisionNetworkService();
 
 }
