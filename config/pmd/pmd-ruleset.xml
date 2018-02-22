@@ -57,6 +57,7 @@
         <exclude name="CyclomaticComplexity" />
         <exclude name="NPathComplexity" />
         <exclude name="AvoidCatchingGenericException" />
+        <exclude name="ExcessivePublicCount" />
     </rule>
     <rule ref="category/java/multithreading.xml">
         <exclude name="DoNotUseThreads" />

@@ -2,6 +2,7 @@ package net.gini.android.vision.review;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,9 @@ import net.gini.android.vision.internal.ui.FragmentImplCallback;
  *     Include the {@code ReviewFragmentStandard} into your layout by using the {@link ReviewFragmentStandard#createInstance(Document)} factory method to create an instance and display it using the {@link android.app.FragmentManager}.
  * </p>
  * <p>
- *     Your Activity must implement the {@link ReviewFragmentListener} interface to receive events from the Review Document Fragment. Failing to do so will throw an exception.
+ *     A {@link ReviewFragmentListener} instance must be available until the {@code ReviewFragmentStandard} is attached to an activity. Failing to do so will throw an exception.
+ *     The listener instance can be provided either implicitly by making the hosting Activity implement the {@link ReviewFragmentListener} interface or explicitly by
+ *     setting the listener using {@link ReviewFragmentStandard#setListener(ReviewFragmentListener)}.
  * </p>
  * <p>
  *     Your Activity is automatically set as the listener in {@link ReviewFragmentStandard#onCreate(Bundle)}.
@@ -37,6 +40,7 @@ public class ReviewFragmentStandard extends Fragment implements FragmentImplCall
         ReviewFragmentInterface {
 
     private ReviewFragmentImpl mFragmentImpl;
+    private ReviewFragmentListener mListener;
 
     /**
      * <p>
@@ -61,7 +65,7 @@ public class ReviewFragmentStandard extends Fragment implements FragmentImplCall
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFragmentImpl = ReviewFragmentHelper.createFragmentImpl(this, getArguments());
-        ReviewFragmentHelper.setListener(mFragmentImpl, getActivity());
+        ReviewFragmentHelper.setListener(mFragmentImpl, getActivity(), mListener);
         mFragmentImpl.onCreate(savedInstanceState);
     }
 
@@ -120,5 +124,13 @@ public class ReviewFragmentStandard extends Fragment implements FragmentImplCall
     @Override
     public void onNoExtractionsFound() {
         mFragmentImpl.onNoExtractionsFound();
+    }
+
+    @Override
+    public void setListener(@NonNull final ReviewFragmentListener listener) {
+        if (mFragmentImpl != null) {
+            mFragmentImpl.setListener(listener);
+        }
+        mListener = listener;
     }
 }

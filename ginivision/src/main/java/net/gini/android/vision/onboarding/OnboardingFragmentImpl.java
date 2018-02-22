@@ -1,6 +1,5 @@
 package net.gini.android.vision.onboarding;
 
-import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 import static net.gini.android.vision.internal.util.ContextHelper.isTablet;
 
 import android.animation.Animator;
@@ -8,7 +7,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -29,7 +27,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-class OnboardingFragmentImpl {
+class OnboardingFragmentImpl implements OnboardingFragmentInterface {
 
     private static final Logger LOG = LoggerFactory.getLogger(OnboardingFragmentImpl.class);
 
@@ -51,7 +49,9 @@ class OnboardingFragmentImpl {
 
     private ViewPager mViewPager;
     private LinearLayout mLayoutPageIndicators;
-    private ImageButton mButtonNext;
+
+    @VisibleForTesting
+    ImageButton mButtonNext;
 
     private PageChangeListener mPageChangeListener;
 
@@ -92,16 +92,9 @@ class OnboardingFragmentImpl {
         mPages.add(new OnboardingPage(0, 0, true));
     }
 
-    public void setListener(@Nullable final OnboardingFragmentListener listener) {
-        if (listener == null) {
-            mListener = NO_OP_LISTENER;
-        } else {
-            mListener = listener;
-        }
-    }
-
-    public void onCreate(final Bundle savedInstanceState) {
-        forcePortraitOrientationOnPhones(mFragment.getActivity());
+    @Override
+    public void setListener(@NonNull final OnboardingFragmentListener listener) {
+        mListener = listener;
     }
 
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,

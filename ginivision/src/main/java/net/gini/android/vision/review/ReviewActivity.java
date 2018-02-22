@@ -380,4 +380,11 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
             }
         }
     }
+
+    @Override
+    public void setListener(@NonNull final ReviewFragmentListener listener) {
+        throw new IllegalStateException("ReviewFragmentListener must not be altered in the "
+                + "ReviewActivity. Override listener methods in a ReviewActivity subclass "
+                + "instead.");
+    }
 }

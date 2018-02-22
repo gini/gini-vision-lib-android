@@ -38,31 +38,39 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile deps.appCompatv7
-    compile deps.supportv4
-    compile deps.supportv13
-    compile deps.supportDesign
-    compile deps.commonsImaging
-    compile deps.slf4j
-    compile deps.completableFuture
-    compile deps.playServicesVision
+    api deps.slf4j
+    api deps.appCompatv7
+    api deps.supportv4
+    api deps.supportv13
+    api deps.supportDesign
+    api deps.playServicesVision
 
-    compile fileTree(dir: '${project.rootDir}/tools/doccheck-doclet', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation deps.commonsImaging
+    implementation deps.completableFuture
+    implementation fileTree(dir: '${project.rootDir}/tools/doccheck-doclet', include: ['*.jar'])
 
-    testCompile deps.junit
-    testCompile deps.truth
-    testCompile deps.mockito
+    testImplementation deps.junit
+    testImplementation deps.truth
+    testImplementation deps.mockito
 
-    androidTestCompile deps.supportTestRunner
-    androidTestCompile deps.truth
-    androidTestCompile deps.supportTestRules
-    androidTestCompile deps.supportTestEspressoCore
-    androidTestCompile deps.supportTestEspressoIntents
-    androidTestCompile deps.supportTestUiAutomator
-    androidTestCompile deps.mockito
-    androidTestCompile deps.mockitoAndroid
-    androidTestCompile deps.supportMultidex
+    androidTestImplementation deps.supportTestRunner
+    androidTestImplementation deps.truth
+    androidTestImplementation deps.supportTestRules
+    androidTestImplementation deps.supportTestEspressoCore
+    androidTestImplementation deps.supportTestEspressoIntents
+    androidTestImplementation deps.supportTestUiAutomator
+    androidTestImplementation deps.mockito
+    androidTestImplementation deps.mockitoAndroid
+    androidTestImplementation deps.supportMultidex
+
+    jacocoAnt deps.jacocoAnt
+    jacocoAgent deps.jacocoAgent
+    androidJacocoAgent deps.jacocoAgent
+    androidJacocoAnt deps.jacocoAnt
+    androidJacocoAnt deps.jacocoCore
+    androidJacocoAnt deps.jacocoReport
+    androidJacocoAnt deps.jacocoAgent
 }
 
 apply from: rootProject.file('gradle/codequality.gradle')

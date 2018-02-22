@@ -3,6 +3,7 @@ package net.gini.android.vision.onboarding;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
@@ -37,7 +38,9 @@ import java.util.List;
  *     If you would like to disable the appending of the empty last page, you can use the {@link OnboardingFragmentCompat#createInstanceWithoutEmptyLastPage(ArrayList)} or the {@link OnboardingFragmentCompat#createInstanceWithoutEmptyLastPage()} factory method.
  * </p>
  * <p>
- *     Your Activity must implement the {@link OnboardingFragmentListener} interface to receive events from the Onboarding Fragment. Failing to do so will throw an exception.
+ *     An {@link OnboardingFragmentListener} instance must be available until the {@code OnboardingFragmentCompat} is attached to an activity. Failing to do so will throw an exception.
+ *     The listener instance can be provided either implicitly by making the hosting Activity implement the {@link OnboardingFragmentListener} interface or explicitly by
+ *     setting the listener using {@link OnboardingFragmentCompat#setListener(OnboardingFragmentListener)}.
  * </p>
  * <p>
  *     Your Activity is automatically set as the listener in {@link OnboardingFragmentCompat#onCreate(Bundle)}.
@@ -49,9 +52,12 @@ import java.util.List;
  *     See the {@link OnboardingActivity} for details.
  * </p>
  */
-public class OnboardingFragmentCompat extends Fragment implements OnboardingFragmentImplCallback {
+public class OnboardingFragmentCompat extends Fragment implements OnboardingFragmentImplCallback,
+        OnboardingFragmentInterface {
 
-    private OnboardingFragmentImpl mFragmentImpl;
+    @VisibleForTesting
+    OnboardingFragmentImpl mFragmentImpl;
+    private OnboardingFragmentListener mListener;
 
     /**
      * <p>
@@ -116,8 +122,7 @@ public class OnboardingFragmentCompat extends Fragment implements OnboardingFrag
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFragmentImpl = OnboardingFragmentHelper.createFragmentImpl(this, getArguments());
-        OnboardingFragmentHelper.setListener(mFragmentImpl, getActivity());
-        mFragmentImpl.onCreate(savedInstanceState);
+        OnboardingFragmentHelper.setListener(mFragmentImpl, getActivity(), mListener);
     }
 
     /**
@@ -137,5 +142,13 @@ public class OnboardingFragmentCompat extends Fragment implements OnboardingFrag
     @Override
     public PagerAdapter getViewPagerAdapter(@NonNull final List<OnboardingPage> pages) {
         return new ViewPagerAdapterCompat(getChildFragmentManager(), pages);
+    }
+
+    @Override
+    public void setListener(@NonNull final OnboardingFragmentListener listener) {
+        if (mFragmentImpl != null) {
+            mFragmentImpl.setListener(listener);
+        }
+        mListener = listener;
     }
 }

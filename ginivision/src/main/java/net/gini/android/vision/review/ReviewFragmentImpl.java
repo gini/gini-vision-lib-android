@@ -66,7 +66,8 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
     private FrameLayout mLayoutDocumentContainer;
     private TouchImageView mImageDocument;
-    private ImageButton mButtonRotate;
+    @VisibleForTesting
+    ImageButton mButtonRotate;
     private ImageButton mButtonNext;
     private ProgressBar mActivityIndicator;
 
@@ -101,12 +102,9 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         return mImageDocument;
     }
 
-    public void setListener(@Nullable final ReviewFragmentListener listener) {
-        if (listener == null) {
-            mListener = NO_OP_LISTENER;
-        } else {
-            mListener = listener;
-        }
+    @Override
+    public void setListener(@NonNull final ReviewFragmentListener listener) {
+        mListener = listener;
     }
 
     @Override

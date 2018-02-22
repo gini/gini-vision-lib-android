@@ -365,4 +365,11 @@ public abstract class AnalysisActivity extends AppCompatActivity implements
         getSupportFragmentManager().beginTransaction().add(R.id.gv_fragment_analyze_document,
                 mFragment, ANALYSIS_FRAGMENT).commit();
     }
+
+    @Override
+    public void setListener(@NonNull final AnalysisFragmentListener listener) {
+        throw new IllegalStateException("AnalysisFragmentListener must not be altered in the "
+                + "AnalysisActivity. Override listener methods in an AnalysisActivity subclass "
+                + "instead.");
+    }
 }

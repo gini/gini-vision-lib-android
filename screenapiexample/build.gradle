@@ -65,42 +65,45 @@ repositories {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile deps.appCompatv7
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation deps.appCompatv7
 
-    compile 'com.karumi:dexter:4.2.0'
+    implementation 'com.karumi:dexter:4.2.0'
 
-    compile 'com.github.tony19:logback-android-core:1.1.1-5'
-    compile 'com.github.tony19:logback-android-classic:1.1.1-5'
+    implementation 'com.github.tony19:logback-android-core:1.1.1-6'
+    implementation('com.github.tony19:logback-android-classic:1.1.1-6') {
+        // workaround issue #73
+        exclude group: 'com.google.android', module: 'android'
+    }
 
-    compile('net.gini:gini-android-sdk:1.4.1@aar') {
+    implementation('net.gini:gini-android-sdk:1.4.2@aar') {
         transitive = true
     }
 
     // For testing the local version
-    compile project(path: ':ginivision')
+    implementation project(path: ':ginivision')
     // For testing a released version
-    //compile 'net.gini:gini-vision-lib:2.0.0-alpha.1'
+    //implementation 'net.gini:gini-vision-lib:2.0.0-alpha.1'
 
-    testCompile deps.junit
+    testImplementation deps.junit
 
-    androidTestCompile(deps.supportTestRunner, {
+    androidTestImplementation(deps.supportTestRunner, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    androidTestCompile deps.truth
-    androidTestCompile(deps.supportTestRules, {
+    androidTestImplementation deps.truth
+    androidTestImplementation(deps.supportTestRules, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    androidTestCompile(deps.supportTestEspressoCore, {
+    androidTestImplementation(deps.supportTestEspressoCore, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    androidTestCompile(deps.supportTestEspressoIntents, {
+    androidTestImplementation(deps.supportTestEspressoIntents, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    androidTestCompile deps.supportTestUiAutomator
-    androidTestCompile deps.mockito
-    androidTestCompile deps.mockitoAndroid
-    androidTestCompile deps.supportMultidex
+    androidTestImplementation deps.supportTestUiAutomator
+    androidTestImplementation deps.mockito
+    androidTestImplementation deps.mockitoAndroid
+    androidTestImplementation deps.supportMultidex
 }
 
 apply from: rootProject.file('gradle/codequality.gradle')

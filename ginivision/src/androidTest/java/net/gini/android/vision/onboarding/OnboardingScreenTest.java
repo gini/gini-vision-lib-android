@@ -23,6 +23,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.support.test.uiautomator.UiDevice;
 import android.view.Surface;
 
+import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.test.EspressoMatchers;
 
@@ -32,6 +33,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @RunWith(AndroidJUnit4.class)
 public class OnboardingScreenTest {
@@ -41,11 +43,19 @@ public class OnboardingScreenTest {
     @Rule
     public ActivityTestRule<OnboardingActivity> mActivityTestRule = new ActivityTestRule<>(
             OnboardingActivity.class, true, false);
-
+    @Rule
+    public ActivityTestRule<OnboardingFragmentHostActivityNotListener>
+            mOnboardingFragmentHostActivityNotListenerTR = new ActivityTestRule<>(
+            OnboardingFragmentHostActivityNotListener.class, true, false);
+    @Rule
+    public ActivityTestRule<OnboardingFragmentHostActivity>
+            mOnboardingFragmentHostActivityTR = new ActivityTestRule<>(
+            OnboardingFragmentHostActivity.class, true, false);
 
     @After
     public void tearDown() throws Exception {
         resetDeviceOrientation();
+        OnboardingFragmentHostActivityNotListener.sListener = null;
     }
 
     @Test
@@ -82,7 +92,7 @@ public class OnboardingScreenTest {
 
     @Test
     public void should_finish_whenNextButton_isClicked_onLastPage() throws InterruptedException {
-        OnboardingActivity activity = startOnboardingActivity();
+        final OnboardingActivity activity = startOnboardingActivity();
 
         // Go to the last page by clicking the next button
         final ViewInteraction viewInteraction = Espresso.onView(
@@ -100,7 +110,7 @@ public class OnboardingScreenTest {
 
     @Test
     public void should_finish_whenSwiped_onLastPage() throws InterruptedException {
-        OnboardingActivity activity = startOnboardingActivity();
+        final OnboardingActivity activity = startOnboardingActivity();
 
         // Go to the last page by swiping
         final ViewInteraction viewInteraction = Espresso.onView(
@@ -118,14 +128,14 @@ public class OnboardingScreenTest {
 
     @Test
     public void should_showCustomPages_whenSet() throws InterruptedException {
-        ArrayList<OnboardingPage> customPages = new ArrayList<>(1);
+        final ArrayList<OnboardingPage> customPages = new ArrayList<>(1);
         customPages.add(new OnboardingPage(R.string.gv_title_camera, R.drawable.gv_camera_trigger));
         customPages.add(
                 new OnboardingPage(R.string.gv_title_review, R.drawable.gv_review_button_rotate));
 
-        Intent intent = getOnboardingActivityIntent();
+        final Intent intent = getOnboardingActivityIntent();
         intent.putExtra(OnboardingActivity.EXTRA_ONBOARDING_PAGES, customPages);
-        OnboardingActivity activity = startOnboardingActivity(intent);
+        final OnboardingActivity activity = startOnboardingActivity(intent);
 
         // Give some time for the activity to start
         Thread.sleep(TEST_PAUSE_DURATION);
@@ -167,8 +177,8 @@ public class OnboardingScreenTest {
 
     @Test
     public void should_notShowEmptyLastPage_ifRequested() {
-        OnboardingActivity onboardingActivity = startOnboardingActivity();
-        OnboardingFragmentCompat onboardingFragment =
+        final OnboardingActivity onboardingActivity = startOnboardingActivity();
+        final OnboardingFragmentCompat onboardingFragment =
                 OnboardingFragmentCompat.createInstanceWithoutEmptyLastPage();
         onboardingActivity.showFragment(onboardingFragment);
 
@@ -184,7 +194,8 @@ public class OnboardingScreenTest {
         // Given
         assumeTrue(!isTablet());
 
-        UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        final UiDevice uiDevice = UiDevice.getInstance(
+                InstrumentationRegistry.getInstrumentation());
         uiDevice.setOrientationLeft();
         waitForWindowUpdate(uiDevice);
 
@@ -192,7 +203,8 @@ public class OnboardingScreenTest {
         waitForWindowUpdate(uiDevice);
 
         // Then
-        int rotation = onboardingActivity.getWindowManager().getDefaultDisplay().getRotation();
+        final int rotation =
+                onboardingActivity.getWindowManager().getDefaultDisplay().getRotation();
         assertThat(rotation)
                 .isEqualTo(Surface.ROTATION_0);
     }
@@ -225,4 +237,62 @@ public class OnboardingScreenTest {
         return new Intent(InstrumentationRegistry.getTargetContext(), OnboardingActivity.class);
     }
 
+    @Test(expected = IllegalStateException.class)
+    public void should_throwException_whenListener_wasNotSet() {
+        final ArrayList<OnboardingPage> pages = new ArrayList<>();
+        pages.add(new OnboardingPage(R.string.gv_onboarding_flat,
+                R.drawable.gv_onboarding_flat));
+        final OnboardingFragmentCompat fragment = OnboardingFragmentCompat.createInstance(pages);
+        fragment.onCreate(null);
+    }
+
+    @Test
+    public void should_useExplicitListener_whenActivity_isNotListener() throws Exception {
+        // Given
+        final AtomicBoolean isClosed = new AtomicBoolean();
+        OnboardingFragmentHostActivityNotListener.sListener = new OnboardingFragmentListener() {
+            @Override
+            public void onCloseOnboarding() {
+                isClosed.set(true);
+            }
+
+            @Override
+            public void onError(@NonNull final GiniVisionError error) {
+
+            }
+        };
+        final Intent intent = new Intent(InstrumentationRegistry.getTargetContext(),
+                OnboardingFragmentHostActivityNotListener.class);
+        final OnboardingFragmentHostActivityNotListener activity =
+                mOnboardingFragmentHostActivityNotListenerTR.launchActivity(intent);
+        // When
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                activity.getFragment().mFragmentImpl.mButtonNext.performClick();
+            }
+        });
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+        // Then
+        assertThat(isClosed.get()).isTrue();
+    }
+
+    @Test
+    public void should_useActivity_asListener_whenAvailable() throws Exception {
+        // Given
+        final Intent intent = new Intent(InstrumentationRegistry.getTargetContext(),
+                OnboardingFragmentHostActivity.class);
+        final OnboardingFragmentHostActivity activity =
+                mOnboardingFragmentHostActivityTR.launchActivity(intent);
+        // When
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                activity.getFragment().mFragmentImpl.mButtonNext.performClick();
+            }
+        });
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+        // Then
+        assertThat(activity.isClosed()).isTrue();
+    }
 }

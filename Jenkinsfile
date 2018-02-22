@@ -13,6 +13,11 @@ pipeline {
         SCREEN_API_EXAMPLE_APP_HOCKEYAPP_API_TOKEN = credentials('gini-vision-library-android_screen-api-example-app-hockeyapp-api-token')
     }
     stages {
+        stage('Import Pipeline Libraries') {
+            steps{
+                library 'android-tools'
+            }
+        }
         stage('Build') {
             when {
                 anyOf {
@@ -72,10 +77,10 @@ pipeline {
                 }
             }
             steps {
-                withEnv(["PATH+TOOLS=$ANDROID_HOME/tools", "PATH+TOOLS_BIN=$ANDROID_HOME/tools/bin", "PATH+PLATFORM_TOOLS=$ANDROID_HOME/platform-tools"]) {
-                    sh 'scripts/delete-corrupt-avds.sh'
-                    sh 'scripts/create-avd-for-device.sh api-25-nexus-5x "system-images;android-25;google_apis;x86" "Nexus 5X" || true'
-                    sh 'scripts/create-avd-for-device.sh api-25-nexus-9 "system-images;android-25;google_apis;x86" "Nexus 9" || true'
+                script {
+                    avd.deleteCorrupt()
+                    avd.create("api-25-nexus-5x", "system-images;android-25;google_apis;x86", "Nexus 5X")
+                    avd.create("api-25-nexus-9", "system-images;android-25;google_apis;x86", "Nexus 9")
                 }
             }
         }
@@ -95,21 +100,24 @@ pipeline {
                 }
             }
             steps {
-                withEnv(["PATH+TOOLS=$ANDROID_HOME/tools", "PATH+TOOLS_BIN=$ANDROID_HOME/tools/bin", "PATH+PLATFORM_TOOLS=$ANDROID_HOME/platform-tools"]) {
-                    sh 'scripts/start-emulator-with-skin.sh "api-25-nexus-5x"_$(scripts/get-avd-name.sh) nexus_5x -prop persist.sys.language=en -prop persist.sys.country=US -no-snapshot-load -no-snapshot-save -gpu on -camera-back emulated > emulator_port'
-                    sh 'emulator_port=$(cat emulator_port) && scripts/wait-for-emulator-to-boot.sh emulator-$emulator_port 20'
-                    sh 'emulator_port=$(cat emulator_port) && scripts/change-anim-duration-scale.sh emulator-$emulator_port 0.0'
-                    sh 'emulator_port=$(cat emulator_port) && ./gradlew ginivision:targetedDebugAndroidTest -PpackageName=net.gini.android.vision -PtestTarget=emulator-$emulator_port'
+                script {
+                    def emulatorPort = emulator.start(avd.createName("api-25-nexus-5x"), "nexus_5x", "-prop persist.sys.language=en -prop persist.sys.country=US -gpu on -camera-back emulated")
+                    sh "echo $emulatorPort > emulator_port"
+                    adb.setAnimationDurationScale("emulator-$emulatorPort", 0)
+                    withEnv(["PATH+TOOLS=$ANDROID_HOME/tools", "PATH+TOOLS_BIN=$ANDROID_HOME/tools/bin", "PATH+PLATFORM_TOOLS=$ANDROID_HOME/platform-tools"]) {
+                        sh "./gradlew ginivision:targetedDebugAndroidTest -PpackageName=net.gini.android.vision -PtestTarget=emulator-$emulatorPort"
+                    }
                 }
             }
             post {
                 always {
                     junit allowEmptyResults: true, testResults: 'ginivision/build/outputs/androidTest-results/targeted/*.xml'
-                    withEnv(["PATH+PLATFORM_TOOLS=$ANDROID_HOME/platform-tools"]) {
-                        sh 'emulator_port=$(cat emulator_port) && adb -s emulator-$emulator_port emu kill || true'
-                        sh 'emulator_port=$(cat emulator_port) && scripts/wait-for-emulator-to-stop.sh emulator-$emulator_port 20'
+                    script {
+                        def emulatorPort = sh returnStdout:true, script: 'cat emulator_port'
+                        emulatorPort = emulatorPort.trim().replaceAll("\r", "").replaceAll("\n", "")
+                        emulator.stop(emulatorPort)
+                        sh 'rm emulator_port || true'
                     }
-                    sh 'rm emulator_port || true'
                 }
             }
         }
@@ -129,21 +137,24 @@ pipeline {
                 }
             }
             steps {
-                withEnv(["PATH+TOOLS=$ANDROID_HOME/tools", "PATH+TOOLS_BIN=$ANDROID_HOME/tools/bin", "PATH+PLATFORM_TOOLS=$ANDROID_HOME/platform-tools"]) {
-                    sh 'scripts/start-emulator-with-skin.sh "api-25-nexus-9"_$(scripts/get-avd-name.sh) nexus_9 -prop persist.sys.language=en -prop persist.sys.country=US -no-snapshot-load -no-snapshot-save -gpu on -camera-back emulated > emulator_port'
-                    sh 'emulator_port=$(cat emulator_port) && scripts/wait-for-emulator-to-boot.sh emulator-$emulator_port 20'
-                    sh 'emulator_port=$(cat emulator_port) && scripts/change-anim-duration-scale.sh emulator-$emulator_port 0.0'
-                    sh 'emulator_port=$(cat emulator_port) && ./gradlew ginivision:targetedDebugAndroidTest -PpackageName=net.gini.android.vision -PtestTarget=emulator-$emulator_port'
+                script {
+                    def emulatorPort = emulator.start(avd.createName("api-25-nexus-9"), "nexus_9", "-prop persist.sys.language=en -prop persist.sys.country=US -no-snapshot-load -no-snapshot-save -gpu on -camera-back emulated")
+                    sh "echo $emulatorPort > emulator_port"
+                    adb.setAnimationDurationScale("emulator-$emulatorPort", 0)
+                    withEnv(["PATH+TOOLS=$ANDROID_HOME/tools", "PATH+TOOLS_BIN=$ANDROID_HOME/tools/bin", "PATH+PLATFORM_TOOLS=$ANDROID_HOME/platform-tools"]) {
+                        sh "./gradlew ginivision:targetedDebugAndroidTest -PpackageName=net.gini.android.vision -PtestTarget=emulator-$emulatorPort"
+                    }
                 }
             }
             post {
                 always {
                     junit allowEmptyResults: true, testResults: 'ginivision/build/outputs/androidTest-results/targeted/*.xml'
-                    withEnv(["PATH+PLATFORM_TOOLS=$ANDROID_HOME/platform-tools"]) {
-                        sh 'emulator_port=$(cat emulator_port) && adb -s emulator-$emulator_port emu kill || true'
-                        sh 'emulator_port=$(cat emulator_port) && scripts/wait-for-emulator-to-stop.sh emulator-$emulator_port 20'
+                    script {
+                        def emulatorPort = sh returnStdout:true, script: 'cat emulator_port'
+                        emulatorPort = emulatorPort.trim().replaceAll("\r", "").replaceAll("\n", "")
+                        emulator.stop(emulatorPort)
+                        sh 'rm emulator_port || true'
                     }
-                    sh 'rm emulator_port || true'
                 }
             }
         }
@@ -296,8 +307,8 @@ pipeline {
         }
         stage('Upload Example Apps to Hockeyapp') {
             steps {
-                step([$class: 'HockeyappRecorder', applications: [[apiToken: SCREEN_API_EXAMPLE_APP_HOCKEYAPP_API_TOKEN, downloadAllowed: true, dsymPath: 'screenapiexample/build/outputs/mapping/release/mapping.txt', filePath: 'screenapiexample/build/outputs/apk/screenapiexample-release.apk', mandatory: false, notifyTeam: false, releaseNotesMethod: [$class: 'ChangelogReleaseNotes'], uploadMethod: [$class: 'AppCreation', publicPage: false]]], debugMode: false, failGracefully: false])
-                step([$class: 'HockeyappRecorder', applications: [[apiToken: COMPONENT_API_EXAMPLE_APP_HOCKEYAPP_API_TOKEN, downloadAllowed: true, dsymPath: 'componentapiexample/build/outputs/mapping/release/mapping.txt', filePath: 'componentapiexample/build/outputs/apk/componentapiexample-release.apk', mandatory: false, notifyTeam: false, releaseNotesMethod: [$class: 'ChangelogReleaseNotes'], uploadMethod: [$class: 'AppCreation', publicPage: false]]], debugMode: false, failGracefully: false])
+                step([$class: 'HockeyappRecorder', applications: [[apiToken: SCREEN_API_EXAMPLE_APP_HOCKEYAPP_API_TOKEN, downloadAllowed: true, dsymPath: 'screenapiexample/build/outputs/mapping/release/mapping.txt', filePath: 'screenapiexample/build/outputs/apk/release/screenapiexample-release.apk', mandatory: false, notifyTeam: false, releaseNotesMethod: [$class: 'ChangelogReleaseNotes'], uploadMethod: [$class: 'AppCreation', publicPage: false]]], debugMode: false, failGracefully: false])
+                step([$class: 'HockeyappRecorder', applications: [[apiToken: COMPONENT_API_EXAMPLE_APP_HOCKEYAPP_API_TOKEN, downloadAllowed: true, dsymPath: 'componentapiexample/build/outputs/mapping/release/mapping.txt', filePath: 'componentapiexample/build/outputs/apk/release/componentapiexample-release.apk', mandatory: false, notifyTeam: false, releaseNotesMethod: [$class: 'ChangelogReleaseNotes'], uploadMethod: [$class: 'AppCreation', publicPage: false]]], debugMode: false, failGracefully: false])
             }
         }
         stage('Release Documentation') {

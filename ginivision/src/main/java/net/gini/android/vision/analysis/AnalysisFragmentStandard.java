@@ -28,7 +28,9 @@ import net.gini.android.vision.review.ReviewFragmentListener;
  *     Include the {@code AnalyzeDocumentFragmentStandard} into your layout by using the {@link AnalysisFragmentStandard#createInstance(Document, String)} factory method to create an instance and display it using the {@link android.app.FragmentManager}.
  * </p>
  * <p>
- *     Your Activity must implement the {@link AnalysisFragmentListener} interface to receive events from the Analyze Document Fragment. Failing to do so will throw an exception.
+ *     An {@link AnalysisFragmentListener} instance must be available until the {@code AnalysisFragmentStandard} is attached to an activity. Failing to do so will throw an exception.
+ *     The listener instance can be provided either implicitly by making the hosting Activity implement the {@link AnalysisFragmentListener} interface or explicitly by
+ *     setting the listener using {@link AnalysisFragmentCompat#setListener(AnalysisFragmentListener)}.
  * </p>
  * <p>
  *     Your Activity is automatically set as the listener in {@link AnalysisFragmentStandard#onCreate(Bundle)}.
@@ -44,6 +46,7 @@ public class AnalysisFragmentStandard extends Fragment implements FragmentImplCa
         AnalysisFragmentInterface {
 
     private AnalysisFragmentImpl mFragmentImpl;
+    private AnalysisFragmentListener mListener;
 
     @Override
     public void hideError() {
@@ -59,10 +62,10 @@ public class AnalysisFragmentStandard extends Fragment implements FragmentImplCa
      * @exclude
      */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFragmentImpl = AnalysisFragmentHelper.createFragmentImpl(this, getArguments());
-        AnalysisFragmentHelper.setListener(mFragmentImpl, getActivity());
+        AnalysisFragmentHelper.setListener(mFragmentImpl, getActivity(), mListener);
         mFragmentImpl.onCreate(savedInstanceState);
     }
 
@@ -71,8 +74,8 @@ public class AnalysisFragmentStandard extends Fragment implements FragmentImplCa
      */
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container,
+            @Nullable final Bundle savedInstanceState) {
         return mFragmentImpl.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -109,13 +112,13 @@ public class AnalysisFragmentStandard extends Fragment implements FragmentImplCa
     }
 
     @Override
-    public void showError(@NonNull String message, @NonNull String buttonTitle,
-            @NonNull View.OnClickListener onClickListener) {
+    public void showError(@NonNull final String message, @NonNull final String buttonTitle,
+            @NonNull final View.OnClickListener onClickListener) {
         mFragmentImpl.showError(message, buttonTitle, onClickListener);
     }
 
     @Override
-    public void showError(@NonNull String message, int duration) {
+    public void showError(@NonNull final String message, final int duration) {
         mFragmentImpl.showError(message, duration);
     }
 
@@ -127,6 +130,14 @@ public class AnalysisFragmentStandard extends Fragment implements FragmentImplCa
     @Override
     public void stopScanAnimation() {
         mFragmentImpl.stopScanAnimation();
+    }
+
+    @Override
+    public void setListener(@NonNull final AnalysisFragmentListener listener) {
+        if (mFragmentImpl != null) {
+            mFragmentImpl.setListener(listener);
+        }
+        mListener = listener;
     }
 
     /**
@@ -149,9 +160,9 @@ public class AnalysisFragmentStandard extends Fragment implements FragmentImplCa
      * @param documentAnalysisErrorMessage an optional error message shown to the user
      * @return a new instance of the Fragment
      */
-    public static AnalysisFragmentStandard createInstance(@NonNull Document document,
-            @Nullable String documentAnalysisErrorMessage) {
-        AnalysisFragmentStandard fragment = new AnalysisFragmentStandard();
+    public static AnalysisFragmentStandard createInstance(@NonNull final Document document,
+            @Nullable final String documentAnalysisErrorMessage) {
+        final AnalysisFragmentStandard fragment = new AnalysisFragmentStandard();
         fragment.setArguments(
                 AnalysisFragmentHelper.createArguments(document, documentAnalysisErrorMessage));
         return fragment;

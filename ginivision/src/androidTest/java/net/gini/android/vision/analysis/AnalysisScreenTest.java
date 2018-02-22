@@ -14,6 +14,7 @@ import static org.junit.Assume.assumeTrue;
 
 import android.app.Instrumentation;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
@@ -27,6 +28,8 @@ import android.view.Surface;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import net.gini.android.vision.Document;
+import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.internal.camera.photo.PhotoFactory;
@@ -53,6 +56,14 @@ public class AnalysisScreenTest {
     @Rule
     public ActivityTestRule<AnalysisActivityTestSpy> mActivityTestRule = new ActivityTestRule<>(
             AnalysisActivityTestSpy.class, true, false);
+    @Rule
+    public ActivityTestRule<AnalysisFragmentHostActivityNotListener>
+            mAnalysisFragmentHostActivityNotListenerTR = new ActivityTestRule<>(
+            AnalysisFragmentHostActivityNotListener.class, true, false);
+    @Rule
+    public ActivityTestRule<AnalysisFragmentHostActivity>
+            mAnalysisFragmentHostActivityTR = new ActivityTestRule<>(
+            AnalysisFragmentHostActivity.class, true, false);
 
     @BeforeClass
     public static void setupClass() throws IOException {
@@ -67,6 +78,7 @@ public class AnalysisScreenTest {
     @After
     public void tearDown() throws Exception {
         resetDeviceOrientation();
+        AnalysisFragmentHostActivityNotListener.sListener = null;
     }
 
     @Test
@@ -379,5 +391,50 @@ public class AnalysisScreenTest {
         intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT,
                 createDocument(jpeg, orientation, "portrait", "phone", "camera"));
         return intent;
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void should_throwException_whenListener_wasNotSet() throws Exception {
+        final AnalysisFragmentCompat fragment = AnalysisFragmentCompat.createInstance(
+                createDocument(getTestJpeg(), 0, "portrait", "phone", "camera"), null);
+        fragment.onCreate(null);
+    }
+
+    @Test
+    public void should_useExplicitListener_whenActivity_isNotListener() throws Exception {
+        // Given
+        final AtomicBoolean analysisRequested = new AtomicBoolean();
+        AnalysisFragmentHostActivityNotListener.sListener = new AnalysisFragmentListener() {
+            @Override
+            public void onAnalyzeDocument(@NonNull final Document document) {
+                analysisRequested.set(true);
+            }
+
+            @Override
+            public void onError(@NonNull final GiniVisionError error) {
+
+            }
+        };
+        final Intent intent = new Intent(InstrumentationRegistry.getTargetContext(),
+                AnalysisFragmentHostActivityNotListener.class);
+        final AnalysisFragmentHostActivityNotListener activity =
+                mAnalysisFragmentHostActivityNotListenerTR.launchActivity(intent);
+        // When
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+        // Then
+        assertThat(analysisRequested.get()).isTrue();
+    }
+
+    @Test
+    public void should_useActivity_asListener_whenAvailable() throws Exception {
+        // Given
+        final Intent intent = new Intent(InstrumentationRegistry.getTargetContext(),
+                AnalysisFragmentHostActivity.class);
+        final AnalysisFragmentHostActivity activity =
+                mAnalysisFragmentHostActivityTR.launchActivity(intent);
+        // When
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+        // Then
+        assertThat(activity.isAnalysisRequested()).isTrue();
     }
 }

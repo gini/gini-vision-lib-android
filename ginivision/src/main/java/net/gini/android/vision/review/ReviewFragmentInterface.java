@@ -1,5 +1,7 @@
 package net.gini.android.vision.review;
 
+import android.support.annotation.NonNull;
+
 import net.gini.android.vision.Document;
 import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.analysis.AnalysisFragmentCompat;
@@ -34,4 +36,21 @@ public interface ReviewFragmentInterface {
      * </p>
      */
     void onNoExtractionsFound();
+
+    /**
+     * <p>
+     *     Set a listener for review events.
+     * </p>
+     * <p>
+     *     By default the hosting Activity is expected to implement
+     *     the {@link ReviewFragmentListener}. In case that is not feasible you may set the
+     *     listener using this method.
+     * </p>
+     * <p>
+     *     <b>Note:</b> the listener is expected to be available until the fragment is
+     *     attached to an activity. Make sure to set the listener before that.
+     * </p>
+     * @param listener {@link ReviewFragmentListener} instance
+     */
+    void setListener(@NonNull final ReviewFragmentListener listener);
 }
