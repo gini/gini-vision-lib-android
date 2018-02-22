@@ -6,25 +6,15 @@ import android.text.TextUtils;
 
 import com.android.volley.Cache;
 
-import net.gini.android.DocumentTaskManager;
 import net.gini.android.Gini;
 import net.gini.android.SdkBuilder;
 import net.gini.android.authorization.CredentialsStore;
 import net.gini.android.authorization.SessionManager;
 import net.gini.android.vision.Document;
-import net.gini.android.vision.internal.camera.api.UIExecutor;
-import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.network.model.SpecificExtractionMapper;
-
-import org.json.JSONException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
-import bolts.Continuation;
-import bolts.Task;
 
 /**
  * Created by Alpar Szotyori on 30.01.2018.
@@ -34,11 +24,8 @@ import bolts.Task;
 
 public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(GiniVisionDefaultNetworkService.class);
-
     private final SingleDocumentAnalyzer mSingleDocumentAnalyzer;
     private final Gini mGiniApi;
-    private final UIExecutor mUIExecutor = new UIExecutor();
 
     public static Builder builder(@NonNull final Context context) {
         return new Builder(context);
@@ -48,6 +35,14 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
             @NonNull final SingleDocumentAnalyzer singleDocumentAnalyzer) {
         mGiniApi = giniApi;
         mSingleDocumentAnalyzer = singleDocumentAnalyzer;
+    }
+
+    SingleDocumentAnalyzer getSingleDocumentAnalyzer() {
+        return mSingleDocumentAnalyzer;
+    }
+
+    Gini getGiniApi() {
+        return mGiniApi;
     }
 
     @Override
@@ -79,50 +74,6 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
     @Override
     public void cancel() {
         mSingleDocumentAnalyzer.cancelAnalysis();
-    }
-
-    @Override
-    public void sendFeedback(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
-            @NonNull final Callback<Void, Error> callback) {
-        final DocumentTaskManager documentTaskManager = mGiniApi.getDocumentTaskManager();
-
-        final net.gini.android.models.Document document = mSingleDocumentAnalyzer.getGiniApiDocument();
-
-        // We require the Gini API SDK's net.gini.android.models.Document for sending the feedback
-        if (document != null) {
-            try {
-                documentTaskManager.sendFeedbackForExtractions(document,
-                        SpecificExtractionMapper.mapToApiSdk(extractions))
-                        .continueWith(new Continuation<net.gini.android.models.Document, Object>() {
-                            @Override
-                            public Object then(
-                                    @NonNull final Task<net.gini.android.models.Document> task)
-                                    throws Exception {
-                                mUIExecutor.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        if (task.isFaulted()) {
-                                            LOG.error("Feedback error", task.getError());
-                                            String message = "unknown";
-                                            if (task.getError() != null) {
-                                                message = task.getError().getMessage();
-                                            }
-                                            callback.failure(new Error(message));
-                                        } else {
-                                            callback.success(null);
-                                        }
-                                    }
-                                });
-                                return null;
-                            }
-                        });
-            } catch (final JSONException e) {
-                LOG.error("Feedback not sent", e);
-                callback.failure(new Error(e.getMessage()));
-            }
-        } else {
-            callback.failure(new Error("Feedback not set: no Gini Api Document available"));
-        }
     }
 
     public static class Builder {

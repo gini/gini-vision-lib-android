@@ -21,7 +21,9 @@ import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.GiniVisionApplication;
 import net.gini.android.vision.example.BaseExampleApp;
 import net.gini.android.vision.network.Error;
-import net.gini.android.vision.network.GiniVisionNetworkService;
+import net.gini.android.vision.network.GiniVisionDefaultNetworkApi;
+import net.gini.android.vision.network.GiniVisionDefaultNetworkService;
+import net.gini.android.vision.network.GiniVisionNetworkApi;
 import net.gini.android.vision.network.model.GiniVisionExtraction;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
@@ -60,6 +62,7 @@ public class ExtractionsActivity extends AppCompatActivity {
     private LinearLayout mLayoutProgress;
 
     private ExtractionsAdapter mExtractionsAdapter;
+    private GiniVisionDefaultNetworkApi mGiniVisionNetworkApi;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -173,11 +176,16 @@ public class ExtractionsActivity extends AppCompatActivity {
         }
         mExtractionsAdapter.notifyDataSetChanged();
 
-        final GiniVisionNetworkService networkService =
-                ((GiniVisionApplication) getApplication()).getGiniVisionNetworkService();
+        if (mGiniVisionNetworkApi == null) {
+            final GiniVisionDefaultNetworkService networkService = (GiniVisionDefaultNetworkService)
+                    ((GiniVisionApplication) getApplication()).getGiniVisionNetworkService();
+            mGiniVisionNetworkApi = GiniVisionDefaultNetworkApi.builder()
+                    .withGiniVisionDefaultNetworkService(networkService)
+                    .build();
+        }
 
         showProgressIndicator();
-        networkService.sendFeedback(mExtractions, new GiniVisionNetworkService.Callback<Void, Error>() {
+        mGiniVisionNetworkApi.sendFeedback(mExtractions, new GiniVisionNetworkApi.Callback<Void, Error>() {
             @Override
             public void failure(final Error error) {
                 hideProgressIndicator();
