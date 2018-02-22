@@ -42,7 +42,7 @@ import android.widget.RelativeLayout;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
-import net.gini.android.vision.GiniVisionApplication;
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.R;
@@ -554,10 +554,9 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         if (activity == null) {
             return;
         }
-        if (activity.getApplication() instanceof GiniVisionApplication) {
-            final GiniVisionApplication app =
-                    (GiniVisionApplication) mFragment.getActivity().getApplication();
-            final GiniVisionNetworkService networkService = app.getGiniVisionNetworkService();
+        if (GiniVision.hasInstance()) {
+            final GiniVisionNetworkService networkService = GiniVision.getInstance()
+                    .internal().getGiniVisionNetworkService();
             networkService.cancel();
         }
     }
@@ -695,10 +694,9 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         if (activity == null) {
             return;
         }
-        if (activity.getApplication() instanceof GiniVisionApplication) {
-            final GiniVisionApplication app =
-                    (GiniVisionApplication) mFragment.getActivity().getApplication();
-            final GiniVisionNetworkService networkService = app.getGiniVisionNetworkService();
+        if (GiniVision.hasInstance()) {
+            final GiniVisionNetworkService networkService = GiniVision.getInstance()
+                    .internal().getGiniVisionNetworkService();
             showActivityIndicatorAndDisableInteraction();
             networkService.analyze(qrCodeDocument,
                     new GiniVisionNetworkCallback<AnalysisResult, Error>() {

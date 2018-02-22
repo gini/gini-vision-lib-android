@@ -14,12 +14,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.GiniVisionFileImport;
 import net.gini.android.vision.ImportedFileValidationException;
 import net.gini.android.vision.camera.CameraActivity;
+import net.gini.android.vision.example.BaseExampleApp;
 import net.gini.android.vision.example.RuntimePermissionHandler;
 import net.gini.android.vision.onboarding.DefaultPagesPhone;
 import net.gini.android.vision.onboarding.OnboardingPage;
@@ -193,6 +195,13 @@ public class MainActivity extends AppCompatActivity {
 //            showUnfulfilledRequirementsToast(report);
 //            return;
 //        }
+
+        final BaseExampleApp app = (BaseExampleApp) getApplication();
+        GiniVision.cleanup();
+        GiniVision.newInstance()
+                .setGiniVisionNetworkService(app.getGiniVisionNetworkService())
+                .setGiniVisionNetworkApi(app.getGiniVisionNetworkApi())
+                .build();
 
         final Intent intent = new Intent(this, CameraScreenApiActivity.class);
 

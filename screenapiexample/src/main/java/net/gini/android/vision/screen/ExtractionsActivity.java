@@ -18,11 +18,9 @@ import net.gini.android.DocumentTaskManager;
 import net.gini.android.models.Document;
 import net.gini.android.models.Extraction;
 import net.gini.android.models.SpecificExtraction;
-import net.gini.android.vision.GiniVisionApplication;
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.example.BaseExampleApp;
 import net.gini.android.vision.network.Error;
-import net.gini.android.vision.network.GiniVisionDefaultNetworkApi;
-import net.gini.android.vision.network.GiniVisionDefaultNetworkService;
 import net.gini.android.vision.network.GiniVisionNetworkCallback;
 import net.gini.android.vision.network.model.GiniVisionExtraction;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
@@ -62,7 +60,6 @@ public class ExtractionsActivity extends AppCompatActivity {
     private LinearLayout mLayoutProgress;
 
     private ExtractionsAdapter mExtractionsAdapter;
-    private GiniVisionDefaultNetworkApi mGiniVisionNetworkApi;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -176,16 +173,9 @@ public class ExtractionsActivity extends AppCompatActivity {
         }
         mExtractionsAdapter.notifyDataSetChanged();
 
-        if (mGiniVisionNetworkApi == null) {
-            final GiniVisionDefaultNetworkService networkService = (GiniVisionDefaultNetworkService)
-                    ((GiniVisionApplication) getApplication()).getGiniVisionNetworkService();
-            mGiniVisionNetworkApi = GiniVisionDefaultNetworkApi.builder()
-                    .withGiniVisionDefaultNetworkService(networkService)
-                    .build();
-        }
-
         showProgressIndicator();
-        mGiniVisionNetworkApi.sendFeedback(mExtractions, new GiniVisionNetworkCallback<Void, Error>() {
+        GiniVision.getInstance().getGiniVisionNetworkApi()
+                .sendFeedback(mExtractions, new GiniVisionNetworkCallback<Void, Error>() {
             @Override
             public void failure(final Error error) {
                 hideProgressIndicator();

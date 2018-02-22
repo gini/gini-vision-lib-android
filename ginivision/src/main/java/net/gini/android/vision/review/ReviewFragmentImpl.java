@@ -21,7 +21,7 @@ import android.widget.ProgressBar;
 import com.ortiz.touch.TouchImageView;
 
 import net.gini.android.vision.Document;
-import net.gini.android.vision.GiniVisionApplication;
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.DocumentFactory;
@@ -207,10 +207,9 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         if (activity == null) {
             return;
         }
-        if (activity.getApplication() instanceof GiniVisionApplication) {
-            final GiniVisionApplication app =
-                    (GiniVisionApplication) mFragment.getActivity().getApplication();
-            final GiniVisionNetworkService networkService = app.getGiniVisionNetworkService();
+        if (GiniVision.hasInstance()) {
+            final GiniVisionNetworkService networkService = GiniVision.getInstance()
+                    .internal().getGiniVisionNetworkService();
             final Document document = DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto,
                     mDocument);
             networkService.analyze(document,
@@ -469,10 +468,9 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         if (activity == null) {
             return;
         }
-        if (activity.getApplication() instanceof GiniVisionApplication) {
-            final GiniVisionApplication app =
-                    (GiniVisionApplication) mFragment.getActivity().getApplication();
-            final GiniVisionNetworkService networkService = app.getGiniVisionNetworkService();
+        if (GiniVision.hasInstance()) {
+            final GiniVisionNetworkService networkService = GiniVision.getInstance()
+                    .internal().getGiniVisionNetworkService();
             networkService.cancel();
         }
     }
@@ -523,7 +521,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         }
         final GiniVisionDocument document = DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto,
                 mDocument);
-        if (activity.getApplication() instanceof GiniVisionApplication) {
+        if (GiniVision.hasInstance()) {
             final Map<String, GiniVisionSpecificExtraction> extractions =
                     mAnalysisResult.getExtractions();
             if (extractions.isEmpty()) {

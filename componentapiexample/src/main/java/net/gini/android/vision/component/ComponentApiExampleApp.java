@@ -1,6 +1,5 @@
 package net.gini.android.vision.component;
 
-import net.gini.android.vision.GiniVisionApplication;
 import net.gini.android.vision.example.BaseExampleApp;
 
 /**
@@ -9,7 +8,7 @@ import net.gini.android.vision.example.BaseExampleApp;
  * Copyright (c) 2017 Gini GmbH.
  */
 
-public class ComponentApiExampleApp extends BaseExampleApp implements GiniVisionApplication {
+public class ComponentApiExampleApp extends BaseExampleApp {
 
     @Override
     protected String getClientId() {

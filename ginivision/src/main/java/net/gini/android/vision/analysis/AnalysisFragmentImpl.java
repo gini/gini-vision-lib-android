@@ -30,7 +30,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import net.gini.android.vision.Document;
-import net.gini.android.vision.GiniVisionApplication;
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.GiniVisionDocument;
@@ -196,10 +196,9 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         if (activity == null) {
             return;
         }
-        if (activity.getApplication() instanceof GiniVisionApplication) {
-            final GiniVisionApplication app =
-                    (GiniVisionApplication) mFragment.getActivity().getApplication();
-            final GiniVisionNetworkService networkService = app.getGiniVisionNetworkService();
+        if (GiniVision.hasInstance()) {
+            final GiniVisionNetworkService networkService = GiniVision.getInstance()
+                    .internal().getGiniVisionNetworkService();
             networkService.cancel();
         }
     }
@@ -391,11 +390,10 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         if (activity == null) {
             return;
         }
-        if (activity.getApplication() instanceof GiniVisionApplication) {
+        if (GiniVision.hasInstance()) {
             startScanAnimation();
-            final GiniVisionApplication app =
-                    (GiniVisionApplication) mFragment.getActivity().getApplication();
-            final GiniVisionNetworkService networkService = app.getGiniVisionNetworkService();
+            final GiniVisionNetworkService networkService = GiniVision.getInstance()
+                    .internal().getGiniVisionNetworkService();
             networkService.analyze(mDocument,
                     new GiniVisionNetworkCallback<AnalysisResult, Error>() {
                         @Override

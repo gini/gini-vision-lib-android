@@ -6,8 +6,9 @@ import android.text.TextUtils;
 
 import net.gini.android.Gini;
 import net.gini.android.SdkBuilder;
-import net.gini.android.vision.GiniVisionApplication;
+import net.gini.android.vision.network.GiniVisionDefaultNetworkApi;
 import net.gini.android.vision.network.GiniVisionDefaultNetworkService;
+import net.gini.android.vision.network.GiniVisionNetworkApi;
 import net.gini.android.vision.network.GiniVisionNetworkService;
 
 import org.slf4j.Logger;
@@ -25,12 +26,14 @@ import org.slf4j.LoggerFactory;
  *     only started when the Analysis Screen was shown where the reviewed final document is available.
  * </p>
  */
-public abstract class BaseExampleApp extends Application implements GiniVisionApplication {
+public abstract class BaseExampleApp extends Application {
 
     private static final Logger LOG = LoggerFactory.getLogger(BaseExampleApp.class);
 
     private Gini mGiniApi;
     private SingleDocumentAnalyzer mSingleDocumentAnalyzer;
+    private GiniVisionDefaultNetworkService mGiniVisionNetworkService;
+    private GiniVisionDefaultNetworkApi mGiniVisionNetworkApi;
 
     public SingleDocumentAnalyzer getSingleDocumentAnalyzer() {
         if (mSingleDocumentAnalyzer == null) {
@@ -39,7 +42,7 @@ public abstract class BaseExampleApp extends Application implements GiniVisionAp
         return mSingleDocumentAnalyzer;
     }
 
-    private GiniVisionNetworkService mGiniVisionNetworkService;
+
 
     protected abstract String getClientId();
 
@@ -69,7 +72,6 @@ public abstract class BaseExampleApp extends Application implements GiniVisionAp
     }
 
     @NonNull
-    @Override
     public GiniVisionNetworkService getGiniVisionNetworkService() {
         final String clientId = getClientId();
         final String clientSecret = getClientSecret();
@@ -85,5 +87,15 @@ public abstract class BaseExampleApp extends Application implements GiniVisionAp
                     .build();
         }
         return mGiniVisionNetworkService;
+    }
+
+    @NonNull
+    public GiniVisionNetworkApi getGiniVisionNetworkApi() {
+        if (mGiniVisionNetworkApi == null) {
+            mGiniVisionNetworkApi = GiniVisionDefaultNetworkApi.builder()
+                    .withGiniVisionDefaultNetworkService(mGiniVisionNetworkService)
+                    .build();
+        }
+        return mGiniVisionNetworkApi;
     }
 }
