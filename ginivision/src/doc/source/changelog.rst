@@ -2,6 +2,11 @@
 Changelog
 =========
 
+2.5.1 (2018-02-22)
+==================
+
+- Listeners for Component API fragments may be set explicitly in order to avoid making the hosting Activities implement the listener interfaces.
+
 2.5.0 (2018-01-22)
 ==================
 
