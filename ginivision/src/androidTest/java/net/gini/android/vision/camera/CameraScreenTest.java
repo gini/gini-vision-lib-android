@@ -5,6 +5,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static net.gini.android.vision.OncePerInstallEventStoreHelper.clearOnboardingWasShownPreference;
 import static net.gini.android.vision.OncePerInstallEventStoreHelper.setOnboardingWasShownPreference;
 import static net.gini.android.vision.test.EspressoMatchers.hasComponent;
+import static net.gini.android.vision.test.Helpers.getGiniVisionBuilder;
 import static net.gini.android.vision.test.Helpers.isTablet;
 import static net.gini.android.vision.test.Helpers.loadAsset;
 import static net.gini.android.vision.test.Helpers.prepareLooper;
@@ -44,7 +45,6 @@ import android.support.test.uiautomator.UiSelector;
 import android.view.Surface;
 import android.view.View;
 
-import net.gini.android.vision.Document;
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
@@ -55,13 +55,6 @@ import net.gini.android.vision.document.QRCodeDocumentHelper;
 import net.gini.android.vision.internal.camera.api.CameraControllerFake;
 import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 import net.gini.android.vision.internal.qrcode.PaymentQRCodeData;
-import net.gini.android.vision.network.AnalysisResult;
-import net.gini.android.vision.network.Error;
-import net.gini.android.vision.network.GiniVisionNetworkApi;
-import net.gini.android.vision.network.GiniVisionNetworkCallback;
-import net.gini.android.vision.network.GiniVisionNetworkService;
-import net.gini.android.vision.network.Result;
-import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.review.ReviewActivity;
@@ -81,7 +74,6 @@ import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Map;
 
 @RunWith(AndroidJUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -551,32 +543,6 @@ public class CameraScreenTest {
                         "SOLADES1PFD",
                         "140.40:EUR"),
                 null);
-    }
-
-    private GiniVision.Builder getGiniVisionBuilder() {
-        return GiniVision.newInstance()
-                .setGiniVisionNetworkService(new GiniVisionNetworkService() {
-                    @Override
-                    public void analyze(@NonNull final Document document,
-                            @NonNull final GiniVisionNetworkCallback<AnalysisResult, Error> callback) {
-                    }
-
-                    @Override
-                    public void upload(@NonNull final Document document,
-                            @NonNull final GiniVisionNetworkCallback<Result, Error> callback) {
-                    }
-
-                    @Override
-                    public void cancel() {
-                    }
-                })
-                .setGiniVisionNetworkApi(new GiniVisionNetworkApi() {
-                    @Override
-                    public void sendFeedback(
-                            @NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
-                            @NonNull final GiniVisionNetworkCallback<Void, Error> callback) {
-                    }
-                });
     }
 
     @Test

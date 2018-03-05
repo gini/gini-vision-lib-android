@@ -205,10 +205,13 @@ public class MainActivity extends AppCompatActivity {
                 .setDocumentImportEnabledFileTypes(DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
                 .setFileImportEnabled(true)
                 .setQRCodeScanningEnabled(true)
+                // Uncomment to add an extra page to the Onboarding pages
+//                .setOnboardingPages(getOnboardingPages())
                 .build();
 
         final Intent intent = new Intent(this, CameraScreenApiActivity.class);
 
+        // Deprecated: custom pages added above when creating the GiniVision instance
         // Uncomment to add an extra page to the Onboarding pages
 //        intent.putParcelableArrayListExtra(CameraActivity.EXTRA_IN_ONBOARDING_PAGES, getOnboardingPages());
 

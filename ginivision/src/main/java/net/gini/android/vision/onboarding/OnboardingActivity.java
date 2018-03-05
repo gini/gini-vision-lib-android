@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
@@ -144,6 +145,9 @@ public class OnboardingActivity extends AppCompatActivity implements OnboardingF
 
     /**
      * @exclude
+     *
+     * @deprecated Configuration should be applied by creating a {@link GiniVision} instance using
+     * {@link GiniVision#newInstance()} and the returned {@link GiniVision.Builder}.
      */
     public static final String EXTRA_ONBOARDING_PAGES = "GV_EXTRA_PAGES";
 
@@ -181,9 +185,18 @@ public class OnboardingActivity extends AppCompatActivity implements OnboardingF
     private void createFragment() {
         if (mPages != null) {
             mOnboardingFragment = OnboardingFragmentCompat.createInstance(mPages);
-        } else {
-            mOnboardingFragment = new OnboardingFragmentCompat();
+            return;
         }
+        if (GiniVision.hasInstance()) {
+            final ArrayList<OnboardingPage> onboardingPages =
+                    GiniVision.getInstance().getOnboardingPages();
+            if (onboardingPages != null) {
+                mOnboardingFragment = OnboardingFragmentCompat.createInstance(
+                        onboardingPages);
+                return;
+            }
+        }
+        mOnboardingFragment = new OnboardingFragmentCompat();
     }
 
     private void showFragment() {

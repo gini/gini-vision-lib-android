@@ -5,6 +5,9 @@ import android.support.annotation.Nullable;
 
 import net.gini.android.vision.network.GiniVisionNetworkApi;
 import net.gini.android.vision.network.GiniVisionNetworkService;
+import net.gini.android.vision.onboarding.OnboardingPage;
+
+import java.util.ArrayList;
 
 /**
  * Created by Alpar Szotyori on 22.02.2018.
@@ -21,6 +24,7 @@ public class GiniVision {
     private final DocumentImportEnabledFileTypes mDocumentImportEnabledFileTypes;
     private final boolean mFileImportEnabled;
     private final boolean mQRCodeScanningEnabled;
+    private final ArrayList<OnboardingPage> mOnboardingPages; // NOPMD - ArrayList required (Bundle)
 
     @NonNull
     public static GiniVision getInstance() {
@@ -53,6 +57,7 @@ public class GiniVision {
         mDocumentImportEnabledFileTypes = builder.getDocumentImportEnabledFileTypes();
         mFileImportEnabled = builder.isFileImportEnabled();
         mQRCodeScanningEnabled = builder.isQRCodeScanningEnabled();
+        mOnboardingPages = builder.getOnboardingPages();
         mInternal = new Internal(this);
     }
 
@@ -64,11 +69,6 @@ public class GiniVision {
     @NonNull
     public GiniVisionNetworkApi getGiniVisionNetworkApi() {
         return mGiniVisionNetworkApi;
-    }
-
-    @NonNull
-    GiniVisionNetworkService getGiniVisionNetworkService() {
-        return mGiniVisionNetworkService;
     }
 
     /**
@@ -111,6 +111,16 @@ public class GiniVision {
         return mQRCodeScanningEnabled;
     }
 
+    @Nullable
+    public ArrayList<OnboardingPage> getOnboardingPages() {
+        return mOnboardingPages;
+    }
+
+    @NonNull
+    GiniVisionNetworkService getGiniVisionNetworkService() {
+        return mGiniVisionNetworkService;
+    }
+
     public static class Builder {
 
         private GiniVisionNetworkService mGiniVisionNetworkService;
@@ -119,6 +129,7 @@ public class GiniVision {
                 DocumentImportEnabledFileTypes.NONE;
         private boolean mFileImportEnabled;
         private boolean mQRCodeScanningEnabled;
+        private ArrayList<OnboardingPage> mOnboardingPages; // NOPMD - ArrayList required (Bundle)
 
         public void build() {
             checkRequiredFields();
@@ -136,6 +147,17 @@ public class GiniVision {
                         + "for creating the GiniVision instance. Please provide one with "
                         + "GiniVision.newInstance().setGiniVisionNetworkApi()");
             }
+        }
+
+        @Nullable
+        ArrayList<OnboardingPage> getOnboardingPages() {
+            return mOnboardingPages;
+        }
+
+        @NonNull
+        public Builder setOnboardingPages(@NonNull final ArrayList<OnboardingPage> onboardingPages) {
+            mOnboardingPages = onboardingPages;
+            return this;
         }
 
         @Nullable

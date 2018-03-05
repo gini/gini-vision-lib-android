@@ -325,9 +325,10 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      */
     public static final String EXTRA_IN_ANALYSIS_ACTIVITY = "GV_EXTRA_IN_ANALYSIS_ACTIVITY";
     /**
-     * <p>
      * Optional extra which must contain an {@code ArrayList} with {@link OnboardingPage} objects.
-     * </p>
+     *
+     * @deprecated Configuration should be applied by creating a {@link GiniVision} instance using
+     * {@link GiniVision#newInstance()} and the returned {@link GiniVision.Builder}.
      */
     public static final String EXTRA_IN_ONBOARDING_PAGES = "GV_EXTRA_IN_ONBOARDING_PAGES";
     /**
