@@ -1,5 +1,7 @@
 package net.gini.android.vision.camera;
 
+import static net.gini.android.vision.internal.util.FeatureConfiguration.shouldShowOnboardingAtFirstRun;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -339,6 +341,9 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * <p>
      * Default value is {@code true}.
      * </p>
+     *
+     * @deprecated Configuration should be applied by creating a {@link GiniVision} instance using
+     * {@link GiniVision#newInstance()} and the returned {@link GiniVision.Builder}.
      */
     public static final String EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN =
             "GV_EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN";
@@ -578,7 +583,8 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     private void createGiniVisionCoordinator() {
         mGiniVisionCoordinator = GiniVisionCoordinator.createInstance(this);
         mGiniVisionCoordinator
-                .setShowOnboardingAtFirstRun(mShowOnboardingAtFirstRun)
+                .setShowOnboardingAtFirstRun(
+                        shouldShowOnboardingAtFirstRun(mShowOnboardingAtFirstRun))
                 .setListener(new GiniVisionCoordinator.Listener() {
                     @Override
                     public void onShowOnboarding() {

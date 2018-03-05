@@ -166,7 +166,7 @@ public class OnboardingScreenTest {
                 new OnboardingPage(R.string.gv_title_review, R.drawable.gv_review_button_rotate));
 
         getGiniVisionBuilder()
-                .setOnboardingPages(customPages)
+                .setCustomOnboardingPages(customPages)
                 .build();
 
         final Intent intent = getOnboardingActivityIntent();

@@ -169,6 +169,19 @@ public class CameraScreenTest {
                 .check(ViewAssertions.doesNotExist());
     }
 
+    @Test
+    public void should_notShowOnboarding_onFirstLaunch_ifDisabledUsingGiniVision() {
+        getGiniVisionBuilder()
+                .setShouldShowOnboardingAtFirstRun(false)
+                .build();
+
+        final Intent intent = getCameraActivityIntent();
+        mCameraActivityIntentsTestRule.launchActivity(intent);
+
+        Espresso.onView(ViewMatchers.withId(R.id.gv_onboarding_viewpager))
+                .check(ViewAssertions.doesNotExist());
+    }
+
     @NonNull
     private CameraActivity startCameraActivityWithoutOnboarding() {
         final Intent intent = getCameraActivityIntent();

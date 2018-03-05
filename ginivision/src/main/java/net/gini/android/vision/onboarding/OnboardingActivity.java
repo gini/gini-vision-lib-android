@@ -189,7 +189,7 @@ public class OnboardingActivity extends AppCompatActivity implements OnboardingF
         }
         if (GiniVision.hasInstance()) {
             final ArrayList<OnboardingPage> onboardingPages =
-                    GiniVision.getInstance().getOnboardingPages();
+                    GiniVision.getInstance().getCustomOnboardingPages();
             if (onboardingPages != null) {
                 mOnboardingFragment = OnboardingFragmentCompat.createInstance(
                         onboardingPages);

@@ -38,6 +38,14 @@ public final class FeatureConfiguration {
                 giniVisionFeatureConfiguration.isQRCodeScanningEnabled();
     }
 
+    public static boolean shouldShowOnboardingAtFirstRun(
+            final boolean showOnboardingAtFirstRun) {
+        return GiniVision.hasInstance() ?
+                GiniVision.getInstance().shouldShowOnboardingAtFirstRun() :
+                showOnboardingAtFirstRun;
+    }
+
+
     private FeatureConfiguration() {
     }
 }

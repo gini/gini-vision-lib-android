@@ -24,7 +24,8 @@ public class GiniVision {
     private final DocumentImportEnabledFileTypes mDocumentImportEnabledFileTypes;
     private final boolean mFileImportEnabled;
     private final boolean mQRCodeScanningEnabled;
-    private final ArrayList<OnboardingPage> mOnboardingPages; // NOPMD - ArrayList required (Bundle)
+    private final ArrayList<OnboardingPage> mCustomOnboardingPages; // NOPMD - ArrayList required (Bundle)
+    private final boolean mShouldShowOnboardingAtFirstRun;
 
     @NonNull
     public static GiniVision getInstance() {
@@ -57,7 +58,8 @@ public class GiniVision {
         mDocumentImportEnabledFileTypes = builder.getDocumentImportEnabledFileTypes();
         mFileImportEnabled = builder.isFileImportEnabled();
         mQRCodeScanningEnabled = builder.isQRCodeScanningEnabled();
-        mOnboardingPages = builder.getOnboardingPages();
+        mCustomOnboardingPages = builder.getOnboardingPages();
+        mShouldShowOnboardingAtFirstRun = builder.shouldShowOnboardingAtFirstRun();
         mInternal = new Internal(this);
     }
 
@@ -111,9 +113,23 @@ public class GiniVision {
         return mQRCodeScanningEnabled;
     }
 
+    /**
+     * The custom Onboarding Screen pages, if configured.
+     *
+     * @return list of {@link OnboardingPage}s
+     */
     @Nullable
-    public ArrayList<OnboardingPage> getOnboardingPages() {
-        return mOnboardingPages;
+    public ArrayList<OnboardingPage> getCustomOnboardingPages() {
+        return mCustomOnboardingPages;
+    }
+
+    /**
+     * If set to {@code false}, the Onboarding Screen won't be shown on the first run.
+     *
+     * @return whether to show the Onboarding Screen or not
+     */
+    public boolean shouldShowOnboardingAtFirstRun() {
+        return mShouldShowOnboardingAtFirstRun;
     }
 
     @NonNull
@@ -130,6 +146,7 @@ public class GiniVision {
         private boolean mFileImportEnabled;
         private boolean mQRCodeScanningEnabled;
         private ArrayList<OnboardingPage> mOnboardingPages; // NOPMD - ArrayList required (Bundle)
+        private boolean mShouldShowOnboardingAtFirstRun = true;
 
         public void build() {
             checkRequiredFields();
@@ -149,13 +166,43 @@ public class GiniVision {
             }
         }
 
+        /**
+         * <h3>Screen API Only</h3>
+         *
+         * Set to {@code false} to disable automatically showing the OnboardingActivity the first time the
+         * CameraActivity is launched - we highly recommend letting the Gini Vision Library show the
+         * OnboardingActivity at first run.
+         * <p>
+         * Default value is {@code true}.
+         *
+         * @param shouldShowOnboardingAtFirstRun whether to show the onboarding on first run or not
+         * @return the {@link Builder} instance
+         */
+        @NonNull
+        public Builder setShouldShowOnboardingAtFirstRun(
+                final boolean shouldShowOnboardingAtFirstRun) {
+            mShouldShowOnboardingAtFirstRun = shouldShowOnboardingAtFirstRun;
+            return this;
+        }
+
+        boolean shouldShowOnboardingAtFirstRun() {
+            return mShouldShowOnboardingAtFirstRun;
+        }
+
         @Nullable
         ArrayList<OnboardingPage> getOnboardingPages() {
             return mOnboardingPages;
         }
 
+        /**
+         * Set custom pages to be shown in the Onboarding Screen.
+         *
+         * @param onboardingPages an {@link ArrayList} of {@link OnboardingPage}s
+         * @return the {@link Builder} instance
+         */
         @NonNull
-        public Builder setOnboardingPages(@NonNull final ArrayList<OnboardingPage> onboardingPages) {
+        public Builder setCustomOnboardingPages(
+                @NonNull final ArrayList<OnboardingPage> onboardingPages) {
             mOnboardingPages = onboardingPages;
             return this;
         }

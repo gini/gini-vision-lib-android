@@ -38,6 +38,7 @@
     <string name="review_screen_title">Seite überprüfen</string>
     <string name="review_screen_subtitle">Vollständig, scharf und in Leserichtung?</string>
     <string name="qrcode_error">Could not use the QR Code. Try again or take a picture of your document.</string>
+    <string name="additional_onboarding_page">This is a custom page example.</string>
 
     <!-- String customization examples -->
 

@@ -22,10 +22,13 @@ import net.gini.android.vision.component.camera.compat.CameraExampleAppCompatAct
 import net.gini.android.vision.component.camera.standard.CameraExampleActivity;
 import net.gini.android.vision.example.BaseExampleApp;
 import net.gini.android.vision.example.RuntimePermissionHandler;
+import net.gini.android.vision.onboarding.DefaultPagesPhone;
+import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.requirements.GiniVisionRequirements;
 import net.gini.android.vision.requirements.RequirementReport;
 import net.gini.android.vision.requirements.RequirementsReport;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -78,7 +81,17 @@ public class MainActivity extends AppCompatActivity {
                 .setDocumentImportEnabledFileTypes(DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
                 .setFileImportEnabled(true)
                 .setQRCodeScanningEnabled(true)
+                // Uncomment to add an extra page to the Onboarding pages
+//                .setOnboardingPages(getOnboardingPages())
                 .build();
+    }
+
+    private ArrayList<OnboardingPage> getOnboardingPages() {
+        // Adding a custom page to the default pages
+        final ArrayList<OnboardingPage> pages = DefaultPagesPhone.asArrayList();
+        pages.add(new OnboardingPage(R.string.additional_onboarding_page,
+                R.drawable.additional_onboarding_illustration));
+        return pages;
     }
 
     private void startGiniVisionLibraryForImportedFile(final Intent importedFileIntent) {
