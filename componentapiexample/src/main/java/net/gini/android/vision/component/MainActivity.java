@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.component.camera.compat.CameraExampleAppCompatActivity;
@@ -69,10 +70,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void initGiniVision() {
         final BaseExampleApp app = (BaseExampleApp) getApplication();
+        // Configure the Gini Vision Library
         GiniVision.cleanup();
         GiniVision.newInstance()
                 .setGiniVisionNetworkService(app.getGiniVisionNetworkService())
                 .setGiniVisionNetworkApi(app.getGiniVisionNetworkApi())
+                .setDocumentImportEnabledFileTypes(DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
+                .setFileImportEnabled(true)
+                .setQRCodeScanningEnabled(true)
                 .build();
     }
 

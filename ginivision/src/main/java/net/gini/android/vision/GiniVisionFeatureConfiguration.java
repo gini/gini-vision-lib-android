@@ -6,13 +6,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 /**
+ * Using this class the features of the Gini Vision Library can be configured.
  * <p>
- *     Using this class the features of the Gini Vision Library can be configured.
- * </p>
- * <p>
- *     Use the builder by invoking {@link GiniVisionFeatureConfiguration#buildNewConfiguration()} to
- *     configure and create a new instance.
- * </p>
+ * Use the builder by invoking {@link GiniVisionFeatureConfiguration#buildNewConfiguration()} to
+ * configure and create a new instance.
+ *
+ * @deprecated Use {@link GiniVision#newInstance()} and the returned {@link GiniVision.Builder} instead.
  */
 public class GiniVisionFeatureConfiguration implements Parcelable {
 

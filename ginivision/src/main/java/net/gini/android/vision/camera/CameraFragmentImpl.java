@@ -7,6 +7,8 @@ import static net.gini.android.vision.camera.Util.cameraExceptionToGiniVisionErr
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 import static net.gini.android.vision.internal.util.AndroidHelper.isMarshmallowOrLater;
 import static net.gini.android.vision.internal.util.ContextHelper.getClientApplicationId;
+import static net.gini.android.vision.internal.util.FeatureConfiguration.getDocumentImportEnabledFileTypes;
+import static net.gini.android.vision.internal.util.FeatureConfiguration.isQRCodeScanningEnabled;
 
 import android.Manifest;
 import android.app.Activity;
@@ -308,7 +310,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         }
         initViews();
         initCameraController(activity);
-        if (mGiniVisionFeatureConfiguration.isQRCodeScanningEnabled()) {
+        if (isQRCodeScanningEnabled(mGiniVisionFeatureConfiguration)) {
             mHideQRCodeDetectedPopupRunnable = new HideQRCodeDetectedRunnable();
             initQRCodeReader(activity);
         }
@@ -607,7 +609,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     }
 
     private boolean isDocumentImportEnabled() {
-        return mGiniVisionFeatureConfiguration.getDocumentImportEnabledFileTypes()
+        return getDocumentImportEnabledFileTypes(mGiniVisionFeatureConfiguration)
                 != DocumentImportEnabledFileTypes.NONE;
     }
 
@@ -689,7 +691,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         });
     }
 
-    private void analyzeQRCode(final QRCodeDocument qrCodeDocument) {
+    @VisibleForTesting
+    void analyzeQRCode(final QRCodeDocument qrCodeDocument) {
         final Activity activity = mFragment.getActivity();
         if (activity == null) {
             return;
@@ -806,7 +809,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         }
         final Intent fileChooserIntent = FileChooserActivity.createIntent(activity);
         fileChooserIntent.putExtra(FileChooserActivity.EXTRA_IN_DOCUMENT_IMPORT_FILE_TYPES,
-                mGiniVisionFeatureConfiguration.getDocumentImportEnabledFileTypes());
+                getDocumentImportEnabledFileTypes(mGiniVisionFeatureConfiguration));
         mFragment.startActivityForResult(fileChooserIntent, REQ_CODE_CHOOSE_FILE);
     }
 
@@ -1221,7 +1224,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             LOG.debug("CameraController created");
             mCameraController = createCameraController(activity);
         }
-        if (mGiniVisionFeatureConfiguration.isQRCodeScanningEnabled()) {
+        if (isQRCodeScanningEnabled(mGiniVisionFeatureConfiguration)) {
             final int rotation = mCameraController.getCameraRotation();
             mCameraController.setPreviewCallback(new Camera.PreviewCallback() {
                 @Override

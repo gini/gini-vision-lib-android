@@ -1,6 +1,7 @@
 package net.gini.android.vision;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import net.gini.android.vision.network.GiniVisionNetworkApi;
 import net.gini.android.vision.network.GiniVisionNetworkService;
@@ -17,7 +18,11 @@ public class GiniVision {
     private final GiniVisionNetworkService mGiniVisionNetworkService;
     private final GiniVisionNetworkApi mGiniVisionNetworkApi;
     private final Internal mInternal;
+    private final DocumentImportEnabledFileTypes mDocumentImportEnabledFileTypes;
+    private final boolean mFileImportEnabled;
+    private final boolean mQRCodeScanningEnabled;
 
+    @NonNull
     public static GiniVision getInstance() {
         if (sInstance == null) {
             throw new IllegalStateException("Not instantiated.");
@@ -29,7 +34,12 @@ public class GiniVision {
         return sInstance != null;
     }
 
+    @NonNull
     public static Builder newInstance() {
+        if (sInstance != null) {
+            throw new IllegalStateException("An instance was already created. "
+                    + "Call GiniVision.cleanup() before creating a new instance.");
+        }
         return new Builder();
     }
 
@@ -40,25 +50,75 @@ public class GiniVision {
     private GiniVision(@NonNull final Builder builder) {
         mGiniVisionNetworkService = builder.getGiniVisionNetworkService();
         mGiniVisionNetworkApi = builder.getGiniVisionNetworkApi();
+        mDocumentImportEnabledFileTypes = builder.getDocumentImportEnabledFileTypes();
+        mFileImportEnabled = builder.isFileImportEnabled();
+        mQRCodeScanningEnabled = builder.isQRCodeScanningEnabled();
         mInternal = new Internal(this);
     }
 
+    @NonNull
     public Internal internal() {
         return mInternal;
     }
 
+    @NonNull
     public GiniVisionNetworkApi getGiniVisionNetworkApi() {
         return mGiniVisionNetworkApi;
     }
 
+    @NonNull
     GiniVisionNetworkService getGiniVisionNetworkService() {
         return mGiniVisionNetworkService;
+    }
+
+    /**
+     * <p>
+     *     Retrieve the file types enabled for document import.
+     * </p>
+     * <p>
+     *     Disabled by default.
+     * </p>
+     * @return enabled file types
+     */
+    @NonNull
+    public DocumentImportEnabledFileTypes getDocumentImportEnabledFileTypes() {
+        return mDocumentImportEnabledFileTypes;
+    }
+
+    /**
+     * <p>
+     *     Find out whether file import has been enabled.
+     * </p>
+     * <p>
+     *     Disabled by default.
+     * </p>
+     * @return {@code true} if file import was enabled
+     */
+    public boolean isFileImportEnabled() {
+        return mFileImportEnabled;
+    }
+
+    /**
+     * <p>
+     *     Find out whether QRCode scanning has been enabled.
+     * </p>
+     * <p>
+     *     Disabled by default.
+     * </p>
+     * @return {@code true} if QRCode scanning was enabled
+     */
+    public boolean isQRCodeScanningEnabled() {
+        return mQRCodeScanningEnabled;
     }
 
     public static class Builder {
 
         private GiniVisionNetworkService mGiniVisionNetworkService;
         private GiniVisionNetworkApi mGiniVisionNetworkApi;
+        private DocumentImportEnabledFileTypes mDocumentImportEnabledFileTypes =
+                DocumentImportEnabledFileTypes.NONE;
+        private boolean mFileImportEnabled;
+        private boolean mQRCodeScanningEnabled;
 
         public void build() {
             checkRequiredFields();
@@ -78,23 +138,90 @@ public class GiniVision {
             }
         }
 
+        @Nullable
         GiniVisionNetworkService getGiniVisionNetworkService() {
             return mGiniVisionNetworkService;
         }
 
+        @NonNull
         public Builder setGiniVisionNetworkService(
-                final GiniVisionNetworkService giniVisionNetworkService) {
+                @NonNull final GiniVisionNetworkService giniVisionNetworkService) {
             mGiniVisionNetworkService = giniVisionNetworkService;
             return this;
         }
 
+        @Nullable
         GiniVisionNetworkApi getGiniVisionNetworkApi() {
             return mGiniVisionNetworkApi;
         }
 
+        @NonNull
         public Builder setGiniVisionNetworkApi(
-                final GiniVisionNetworkApi giniVisionNetworkApi) {
+                @NonNull final GiniVisionNetworkApi giniVisionNetworkApi) {
             mGiniVisionNetworkApi = giniVisionNetworkApi;
+            return this;
+        }
+
+        @NonNull
+        DocumentImportEnabledFileTypes getDocumentImportEnabledFileTypes() {
+            return mDocumentImportEnabledFileTypes;
+        }
+
+        /**
+         * <p>
+         *     Enable and configure the document import feature or disable it by passing in
+         *     {@link DocumentImportEnabledFileTypes#NONE}.
+         * </p>
+         * <p>
+         *     Disabled by default.
+         * </p>
+         * @param documentImportEnabledFileTypes file types to be enabled for document import
+         * @return the {@link Builder} instance
+         */
+        @NonNull
+        public Builder setDocumentImportEnabledFileTypes(
+                @NonNull final DocumentImportEnabledFileTypes documentImportEnabledFileTypes) {
+            mDocumentImportEnabledFileTypes = documentImportEnabledFileTypes;
+            return this;
+        }
+
+        boolean isFileImportEnabled() {
+            return mFileImportEnabled;
+        }
+
+        /**
+         * <p>
+         *     Enable/disable the file import feature.
+         * </p>
+         * <p>
+         *     Disabled by default.
+         * </p>
+         * @param fileImportEnabled {@code true} to enable file import
+         * @return the {@link Builder} instance
+         */
+        @NonNull
+        public Builder setFileImportEnabled(final boolean fileImportEnabled) {
+            mFileImportEnabled = fileImportEnabled;
+            return this;
+        }
+
+        boolean isQRCodeScanningEnabled() {
+            return mQRCodeScanningEnabled;
+        }
+
+        /**
+         * <p>
+         *     Enable/disable the QRCode scanning feature.
+         * </p>
+         * <p>
+         *     Disabled by default.
+         * </p>
+         * @param qrCodeScanningEnabled {@code true} to enable QRCode scanning
+         * @return the {@link Builder} instance
+         */
+        @NonNull
+        public Builder setQRCodeScanningEnabled(final boolean qrCodeScanningEnabled) {
+            mQRCodeScanningEnabled = qrCodeScanningEnabled;
             return this;
         }
     }
@@ -103,10 +230,11 @@ public class GiniVision {
 
         private final GiniVision mGiniVision;
 
-        public Internal(final GiniVision giniVision) {
+        public Internal(@NonNull final GiniVision giniVision) {
             mGiniVision = giniVision;
         }
 
+        @NonNull
         public GiniVisionNetworkService getGiniVisionNetworkService() {
             return mGiniVision.getGiniVisionNetworkService();
         }

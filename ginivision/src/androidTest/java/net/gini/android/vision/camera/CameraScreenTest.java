@@ -44,7 +44,9 @@ import android.support.test.uiautomator.UiSelector;
 import android.view.Surface;
 import android.view.View;
 
+import net.gini.android.vision.Document;
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivityTestSpy;
@@ -53,6 +55,13 @@ import net.gini.android.vision.document.QRCodeDocumentHelper;
 import net.gini.android.vision.internal.camera.api.CameraControllerFake;
 import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 import net.gini.android.vision.internal.qrcode.PaymentQRCodeData;
+import net.gini.android.vision.network.AnalysisResult;
+import net.gini.android.vision.network.Error;
+import net.gini.android.vision.network.GiniVisionNetworkApi;
+import net.gini.android.vision.network.GiniVisionNetworkCallback;
+import net.gini.android.vision.network.GiniVisionNetworkService;
+import net.gini.android.vision.network.Result;
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.review.ReviewActivity;
@@ -72,6 +81,7 @@ import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 
 @RunWith(AndroidJUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -101,6 +111,7 @@ public class CameraScreenTest {
         // Wait a little for the camera to close
         Thread.sleep(CLOSE_CAMERA_PAUSE_DURATION);
         resetDeviceOrientation();
+        GiniVision.cleanup();
     }
 
     @Test(expected = IllegalStateException.class)
@@ -469,15 +480,11 @@ public class CameraScreenTest {
     }
 
     private void detectAndCheckQRCode(@NonNull final String jpegFilename,
-            @NonNull final String nv21Filename, @NonNull final PaymentQRCodeData paymentData)
+            @NonNull final String nv21Filename, @NonNull final PaymentQRCodeData paymentData,
+            @Nullable final GiniVisionFeatureConfiguration featureConfiguration)
             throws IOException, InterruptedException {
         // Given
         assumeTrue(!isTablet());
-
-        final GiniVisionFeatureConfiguration featureConfiguration = GiniVisionFeatureConfiguration
-                .buildNewConfiguration()
-                .setQRCodeScanningEnabled(true)
-                .build();
 
         final CameraActivityFake cameraActivityFake = startCameraActivityFakeWithoutOnboarding(
                 featureConfiguration);
@@ -491,8 +498,18 @@ public class CameraScreenTest {
 
         // Then
         final PaymentQRCodeData actualPaymentData = QRCodeDocumentHelper.getPaymentData(
-                mCameraActivityFakeActivityTestRule.getActivity().getQRCodeDocument());
+                mCameraActivityFakeActivityTestRule.getActivity().getCameraFragmentImplFake().getQRCodeDocument());
         assertThat(actualPaymentData).isEqualTo(paymentData);
+    }
+
+    private void detectAndCheckQRCode(@NonNull final String jpegFilename,
+            @NonNull final String nv21Filename, @NonNull final PaymentQRCodeData paymentData)
+            throws IOException, InterruptedException {
+        final GiniVisionFeatureConfiguration featureConfiguration = GiniVisionFeatureConfiguration
+                .buildNewConfiguration()
+                .setQRCodeScanningEnabled(true)
+                .build();
+        detectAndCheckQRCode(jpegFilename, nv21Filename, paymentData, featureConfiguration);
     }
 
     private void detectQRCode(
@@ -517,6 +534,49 @@ public class CameraScreenTest {
                         "DE19690516200000581900",
                         "SOLADES1PFD",
                         "140.40:EUR"));
+    }
+
+    @Test
+    public void should_detectQRCode_whenConfiguredUsingGiniVision()
+            throws IOException, InterruptedException {
+        getGiniVisionBuilder()
+                .setQRCodeScanningEnabled(true)
+                .build();
+        detectAndCheckQRCode("qrcode_epc069_12.jpeg", "qrcode_epc069_12_nv21.bmp",
+                new PaymentQRCodeData(
+                        "BCD\n001\n2\nSCT\nSOLADES1PFD\nGirosolution GmbH\nDE19690516200000581900\nEUR140.4\n\n\nBezahlCode Test",
+                        "Girosolution GmbH",
+                        "BezahlCode Test",
+                        "DE19690516200000581900",
+                        "SOLADES1PFD",
+                        "140.40:EUR"),
+                null);
+    }
+
+    private GiniVision.Builder getGiniVisionBuilder() {
+        return GiniVision.newInstance()
+                .setGiniVisionNetworkService(new GiniVisionNetworkService() {
+                    @Override
+                    public void analyze(@NonNull final Document document,
+                            @NonNull final GiniVisionNetworkCallback<AnalysisResult, Error> callback) {
+                    }
+
+                    @Override
+                    public void upload(@NonNull final Document document,
+                            @NonNull final GiniVisionNetworkCallback<Result, Error> callback) {
+                    }
+
+                    @Override
+                    public void cancel() {
+                    }
+                })
+                .setGiniVisionNetworkApi(new GiniVisionNetworkApi() {
+                    @Override
+                    public void sendFeedback(
+                            @NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
+                            @NonNull final GiniVisionNetworkCallback<Void, Error> callback) {
+                    }
+                });
     }
 
     @Test

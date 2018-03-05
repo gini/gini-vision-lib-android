@@ -2,6 +2,8 @@ package net.gini.android.vision.help;
 
 import static net.gini.android.vision.help.SupportedFormatsAdapter.ItemType.FORMAT_INFO;
 import static net.gini.android.vision.help.SupportedFormatsAdapter.ItemType.HEADER;
+import static net.gini.android.vision.internal.util.FeatureConfiguration.getDocumentImportEnabledFileTypes;
+import static net.gini.android.vision.internal.util.FeatureConfiguration.isFileImportEnabled;
 
 import android.graphics.PorterDuff;
 import android.support.annotation.ColorRes;
@@ -42,12 +44,12 @@ class SupportedFormatsAdapter extends
         final ArrayList<Enum> items = new ArrayList<>();
         items.add(SectionHeader.SUPPORTED_FORMATS);
         items.add(SupportedFormat.PRINTED_INVOICES);
-        if (giniVisionFeatureConfiguration.isFileImportEnabled()
-                || giniVisionFeatureConfiguration.getDocumentImportEnabledFileTypes()
+        if (isFileImportEnabled(giniVisionFeatureConfiguration)
+                || getDocumentImportEnabledFileTypes(giniVisionFeatureConfiguration)
                 == DocumentImportEnabledFileTypes.PDF_AND_IMAGES) {
             items.add(SupportedFormat.SINGLE_PAGE_AS_JPEG_PNG_GIF);
             items.add(SupportedFormat.PDF);
-        } else if (giniVisionFeatureConfiguration.getDocumentImportEnabledFileTypes()
+        } else if (getDocumentImportEnabledFileTypes(giniVisionFeatureConfiguration)
                 == DocumentImportEnabledFileTypes.PDF) {
             items.add(SupportedFormat.PDF);
         }

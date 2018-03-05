@@ -13,6 +13,7 @@ import android.view.MenuItem;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
@@ -366,9 +367,10 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
             "GV_EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY";
 
     /**
-     * <p>
-     *     Optional extra which must contain a {@link GiniVisionFeatureConfiguration} instance.
-     * </p>
+     * Optional extra which must contain a {@link GiniVisionFeatureConfiguration} instance.
+     *
+     * @deprecated Configuration should be applied by creating a {@link GiniVision} instance using
+     * {@link GiniVision#newInstance()} and the returned {@link GiniVision.Builder}.
      */
     public static final String EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION =
             "GV_EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION";

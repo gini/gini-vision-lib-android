@@ -20,10 +20,8 @@ import android.widget.Toast;
 
 import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
-import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
-import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.GiniVisionFileImport;
 import net.gini.android.vision.ImportedFileValidationException;
 import net.gini.android.vision.camera.CameraFragmentInterface;
@@ -66,7 +64,6 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
     private final Activity mActivity;
     private CameraFragmentInterface mCameraFragmentInterface;
     private GiniVisionCoordinator mGiniVisionCoordinator;
-    private GiniVisionFeatureConfiguration mGiniVisionFeatureConfiguration;
     private Menu mMenu;
     private SingleDocumentAnalyzer mSingleDocumentAnalyzer;
 
@@ -205,10 +202,6 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
         return mActivity;
     }
 
-    protected GiniVisionFeatureConfiguration getGiniVisionFeatureConfiguration() {
-        return mGiniVisionFeatureConfiguration;
-    }
-
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         switch (requestCode) {
             case REVIEW_REQUEST:
@@ -237,14 +230,15 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
         configureLogging();
         setupGiniVisionCoordinator(mActivity);
 
+        // Deprecated: configuration applied in MainActivity#initGiniVision()
         // Configure the features you would like to use
-        mGiniVisionFeatureConfiguration =
-                GiniVisionFeatureConfiguration.buildNewConfiguration()
-                        .setDocumentImportEnabledFileTypes(
-                                DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
-                        .setFileImportEnabled(true)
-                        .setQRCodeScanningEnabled(true)
-                        .build();
+//        mGiniVisionFeatureConfiguration =
+//                GiniVisionFeatureConfiguration.buildNewConfiguration()
+//                        .setDocumentImportEnabledFileTypes(
+//                                DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
+//                        .setFileImportEnabled(true)
+//                        .setQRCodeScanningEnabled(true)
+//                        .build();
 
         if (savedInstanceState == null) {
             final Intent intent = mActivity.getIntent();
@@ -392,8 +386,6 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
 
     private void showHelp() {
         final Intent intent = new Intent(mActivity, HelpActivity.class);
-        intent.putExtra(HelpActivity.EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION,
-                mGiniVisionFeatureConfiguration);
         mActivity.startActivity(intent);
     }
 

@@ -17,7 +17,6 @@ import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.GiniVisionError;
-import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.GiniVisionFileImport;
 import net.gini.android.vision.ImportedFileValidationException;
 import net.gini.android.vision.camera.CameraActivity;
@@ -197,10 +196,15 @@ public class MainActivity extends AppCompatActivity {
 //        }
 
         final BaseExampleApp app = (BaseExampleApp) getApplication();
+
+        // Configure the Gini Vision Library
         GiniVision.cleanup();
         GiniVision.newInstance()
                 .setGiniVisionNetworkService(app.getGiniVisionNetworkService())
                 .setGiniVisionNetworkApi(app.getGiniVisionNetworkApi())
+                .setDocumentImportEnabledFileTypes(DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
+                .setFileImportEnabled(true)
+                .setQRCodeScanningEnabled(true)
                 .build();
 
         final Intent intent = new Intent(this, CameraScreenApiActivity.class);
@@ -220,17 +224,18 @@ public class MainActivity extends AppCompatActivity {
         // button from any Activity in the library
         //intent.putExtra(CameraActivity.EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY, true);
 
+        // Deprecated: configuration applied above when creating the GiniVision instance
         // Configure the features you would like to use
-        final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration =
-                GiniVisionFeatureConfiguration.buildNewConfiguration()
-                        .setDocumentImportEnabledFileTypes(
-                                DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
-                        .setFileImportEnabled(true)
-                        .setQRCodeScanningEnabled(true)
-                        .build();
-
-        intent.putExtra(CameraActivity.EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION,
-                giniVisionFeatureConfiguration);
+//        final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration =
+//                GiniVisionFeatureConfiguration.buildNewConfiguration()
+//                        .setDocumentImportEnabledFileTypes(
+//                                DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
+//                        .setFileImportEnabled(true)
+//                        .setQRCodeScanningEnabled(true)
+//                        .build();
+//
+//        intent.putExtra(CameraActivity.EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION,
+//                giniVisionFeatureConfiguration);
 
         // Set your ReviewActivity subclass
         CameraActivity.setReviewActivityExtra(intent, this, ReviewActivity.class);
