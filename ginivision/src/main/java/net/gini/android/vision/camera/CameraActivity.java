@@ -1,5 +1,6 @@
 package net.gini.android.vision.camera;
 
+import static net.gini.android.vision.internal.util.FeatureConfiguration.shouldShowOnboarding;
 import static net.gini.android.vision.internal.util.FeatureConfiguration.shouldShowOnboardingAtFirstRun;
 
 import android.app.Activity;
@@ -355,6 +356,9 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * <p>
      * Default value is {@code false}.
      * </p>
+     *
+     * @deprecated Configuration should be applied by creating a {@link GiniVision} instance using
+     * {@link GiniVision#newInstance()} and the returned {@link GiniVision.Builder}.
      */
     public static final String EXTRA_IN_SHOW_ONBOARDING = "GV_EXTRA_IN_SHOW_ONBOARDING";
 
@@ -366,6 +370,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * <p>
      * Default value is {@code false}.
      * </p>
+     *
      * @deprecated The option to close the library with the back button from any screen will be removed
      * in a future version.
      */
@@ -529,7 +534,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     }
 
     private void showOnboardingIfRequested() {
-        if (mShowOnboarding) {
+        if (shouldShowOnboarding(mShowOnboarding)) {
             startOnboardingActivity();
         }
     }

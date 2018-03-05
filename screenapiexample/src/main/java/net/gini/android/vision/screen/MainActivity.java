@@ -206,11 +206,13 @@ public class MainActivity extends AppCompatActivity {
                 .setFileImportEnabled(true)
                 .setQRCodeScanningEnabled(true)
                 // Uncomment to add an extra page to the Onboarding pages
-//                .setOnboardingPages(getOnboardingPages())
+//                .setCustomOnboardingPages(getOnboardingPages())
                 // Uncomment to disable automatically showing the OnboardingActivity the
                 // first time the CameraActivity is launched - we highly recommend letting the
                 // Gini Vision Library show the OnboardingActivity at first run
 //                .setShouldShowOnboardingAtFirstRun(false)
+                // Uncomment to show the OnboardingActivity every time the CameraActivity starts
+//                .setShouldShowOnboarding(true)
                 .build();
 
         final Intent intent = new Intent(this, CameraScreenApiActivity.class);
@@ -225,6 +227,7 @@ public class MainActivity extends AppCompatActivity {
         // OnboardingActivity at first run
         //intent.putExtra(CameraActivity.EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN, false);
 
+        // Deprecated: configuration applied above when creating the GiniVision instance
         // Set EXTRA_IN_SHOW_ONBOARDING to true, to show the OnboardingActivity when the CameraActivity starts
         //intent.putExtra(CameraActivity.EXTRA_IN_SHOW_ONBOARDING, true);
 

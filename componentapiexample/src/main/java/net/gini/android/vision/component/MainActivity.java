@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 .setFileImportEnabled(true)
                 .setQRCodeScanningEnabled(true)
                 // Uncomment to add an extra page to the Onboarding pages
-//                .setOnboardingPages(getOnboardingPages())
+//                .setCustomOnboardingPages(getOnboardingPages())
                 .build();
     }
 

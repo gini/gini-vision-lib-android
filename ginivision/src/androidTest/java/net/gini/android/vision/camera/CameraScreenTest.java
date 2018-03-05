@@ -211,6 +211,21 @@ public class CameraScreenTest {
     }
 
     @Test
+    public void should_showOnboarding_ifRequested_andWasAlreadyShownOnFirstLaunch_usingGiniVision() {
+        setOnboardingWasShownPreference();
+
+        getGiniVisionBuilder()
+                .setShouldShowOnboarding(true)
+                .build();
+
+        final Intent intent = getCameraActivityIntent();
+        mCameraActivityIntentsTestRule.launchActivity(intent);
+
+        Espresso.onView(ViewMatchers.withId(R.id.gv_onboarding_viewpager))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
+    @Test
     public void should_passCustomOnboardingPages_toOnboardingActivity()
             throws Exception {
         final ArrayList<OnboardingPage> onboardingPages = new ArrayList<>(1);

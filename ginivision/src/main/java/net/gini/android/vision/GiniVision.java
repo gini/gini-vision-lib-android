@@ -24,8 +24,10 @@ public class GiniVision {
     private final DocumentImportEnabledFileTypes mDocumentImportEnabledFileTypes;
     private final boolean mFileImportEnabled;
     private final boolean mQRCodeScanningEnabled;
-    private final ArrayList<OnboardingPage> mCustomOnboardingPages; // NOPMD - ArrayList required (Bundle)
+    private final ArrayList<OnboardingPage> mCustomOnboardingPages;
+            // NOPMD - ArrayList required (Bundle)
     private final boolean mShouldShowOnboardingAtFirstRun;
+    private boolean mShouldShowOnboarding;
 
     @NonNull
     public static GiniVision getInstance() {
@@ -60,6 +62,7 @@ public class GiniVision {
         mQRCodeScanningEnabled = builder.isQRCodeScanningEnabled();
         mCustomOnboardingPages = builder.getOnboardingPages();
         mShouldShowOnboardingAtFirstRun = builder.shouldShowOnboardingAtFirstRun();
+        mShouldShowOnboarding = builder.shouldShowOnboarding();
         mInternal = new Internal(this);
     }
 
@@ -132,6 +135,23 @@ public class GiniVision {
         return mShouldShowOnboardingAtFirstRun;
     }
 
+    public boolean shouldShowOnboarding() {
+        return mShouldShowOnboarding;
+    }
+
+    /**
+     * <h3>Screen API Only</h3>
+     *
+     * Set to {@code true} to show the Onboarding Screen every time the CameraActivity starts.
+     * <p>
+     * Default value is {@code false}.
+     *
+     * @param shouldShowOnboarding whether to show the onboarding on every launch
+     */
+    public void setShouldShowOnboarding(final boolean shouldShowOnboarding) {
+        mShouldShowOnboarding = shouldShowOnboarding;
+    }
+
     @NonNull
     GiniVisionNetworkService getGiniVisionNetworkService() {
         return mGiniVisionNetworkService;
@@ -147,6 +167,7 @@ public class GiniVision {
         private boolean mQRCodeScanningEnabled;
         private ArrayList<OnboardingPage> mOnboardingPages; // NOPMD - ArrayList required (Bundle)
         private boolean mShouldShowOnboardingAtFirstRun = true;
+        private boolean mShouldShowOnboarding;
 
         public void build() {
             checkRequiredFields();
@@ -185,15 +206,6 @@ public class GiniVision {
             return this;
         }
 
-        boolean shouldShowOnboardingAtFirstRun() {
-            return mShouldShowOnboardingAtFirstRun;
-        }
-
-        @Nullable
-        ArrayList<OnboardingPage> getOnboardingPages() {
-            return mOnboardingPages;
-        }
-
         /**
          * Set custom pages to be shown in the Onboarding Screen.
          *
@@ -205,6 +217,31 @@ public class GiniVision {
                 @NonNull final ArrayList<OnboardingPage> onboardingPages) {
             mOnboardingPages = onboardingPages;
             return this;
+        }
+
+        /**
+         * <h3>Screen API Only</h3>
+         *
+         * Set to {@code true} to show the Onboarding Screen every time the CameraActivity starts.
+         * <p>
+         * Default value is {@code false}.
+         *
+         * @param shouldShowOnboarding whether to show the onboarding on every launch
+         * @return the {@link Builder} instance
+         */
+        @NonNull
+        public Builder setShouldShowOnboarding(final boolean shouldShowOnboarding) {
+            mShouldShowOnboarding = shouldShowOnboarding;
+            return this;
+        }
+
+        boolean shouldShowOnboardingAtFirstRun() {
+            return mShouldShowOnboardingAtFirstRun;
+        }
+
+        @Nullable
+        ArrayList<OnboardingPage> getOnboardingPages() {
+            return mOnboardingPages;
         }
 
         @Nullable
@@ -292,6 +329,10 @@ public class GiniVision {
         public Builder setQRCodeScanningEnabled(final boolean qrCodeScanningEnabled) {
             mQRCodeScanningEnabled = qrCodeScanningEnabled;
             return this;
+        }
+
+        boolean shouldShowOnboarding() {
+            return mShouldShowOnboarding;
         }
     }
 

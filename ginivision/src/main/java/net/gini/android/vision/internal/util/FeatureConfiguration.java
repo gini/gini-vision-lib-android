@@ -45,6 +45,12 @@ public final class FeatureConfiguration {
                 showOnboardingAtFirstRun;
     }
 
+    public static boolean shouldShowOnboarding(
+            final boolean showOnboarding) {
+        return GiniVision.hasInstance() ?
+                GiniVision.getInstance().shouldShowOnboarding() :
+                showOnboarding;
+    }
 
     private FeatureConfiguration() {
     }
