@@ -93,7 +93,6 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
     @Override
     public void onDocumentAvailable(@NonNull final Document document) {
         LOG.debug("Document available {}", document);
-        // WIP: networking library poc
         // Cancel analysis to make sure, that the document analysis will start in
         // onShouldAnalyzeDocument()
         getSingleDocumentAnalyzer().cancelAnalysis();
@@ -114,7 +113,6 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
 
     @Override
     public void onQRCodeAvailable(@NonNull final QRCodeDocument qrCodeDocument) {
-        // WIP: networking library poc
         mCameraFragmentInterface.showActivityIndicatorAndDisableInteraction();
         getSingleDocumentAnalyzer().cancelAnalysis();
         getSingleDocumentAnalyzer().analyzeDocument(qrCodeDocument,
@@ -318,7 +316,6 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
 
     private void startGiniVisionLibraryForImportedFile(@NonNull final Intent importedFileIntent) {
         try {
-            // WIP: networking library poc
             getSingleDocumentAnalyzer().cancelAnalysis();
             final Document document = GiniVisionFileImport.createDocumentForImportedFile(
                     importedFileIntent,

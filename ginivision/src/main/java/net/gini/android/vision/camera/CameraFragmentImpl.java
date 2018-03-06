@@ -683,7 +683,6 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 if (mPaymentQRCodeData != null) {
                     final QRCodeDocument qrCodeDocument = QRCodeDocument.fromPaymentQRCodeData(
                             mPaymentQRCodeData);
-                    // WIP: analyse qr code
                     analyzeQRCode(qrCodeDocument);
                     mPaymentQRCodeData = null; // NOPMD
                 }
@@ -706,14 +705,12 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                         @Override
                         public void failure(final Error error) {
                             hideActivityIndicatorAndEnableInteraction();
-                            // TODO: show error
                             showError(error.getMessage(), 3000);
                         }
 
                         @Override
                         public void success(final AnalysisResult result) {
                             hideActivityIndicatorAndEnableInteraction();
-                            // TODO: return extractions
                             mListener.onExtractionsAvailable(result.getExtractions());
                         }
 

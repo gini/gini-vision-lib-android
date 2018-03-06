@@ -43,7 +43,6 @@ public class ReviewActivity extends net.gini.android.vision.review.ReviewActivit
     @Override
     public void onAddDataToResult(@NonNull final Intent result) {
         LOG.debug("Add data to result");
-        // WIP: networking library poc
         // We add the extraction results here to the Intent. The payload format is up to you.
         // For the example we add the extractions as key-value pairs to a Bundle
         // We retrieve them when the CameraActivity has finished in MainActivity#onActivityResult()
@@ -57,7 +56,6 @@ public class ReviewActivity extends net.gini.android.vision.review.ReviewActivit
     public void onShouldAnalyzeDocument(@NonNull final Document document) {
         LOG.debug("Should analyze document");
         GiniVisionDebug.writeDocumentToFile(this, document, "_for_review");
-        // WIP: networking library poc
         // We should start analyzing the document by sending it to the Gini API.
         // If the user did not modify the image we can get the analysis results earlier.
         // The Gini Vision Library does not go to the Analysis Screen, if the results were received in the Review Screen.
@@ -70,7 +68,6 @@ public class ReviewActivity extends net.gini.android.vision.review.ReviewActivit
     public void onDocumentWasRotated(@NonNull final Document document, final int oldRotation, final int newRotation) {
         super.onDocumentWasRotated(document, oldRotation, newRotation);
         LOG.debug("Document was rotated");
-        // WIP: networking library poc
         // We need to cancel the analysis here, we will have to upload the rotated document in the Analysis Screen
         getSingleDocumentAnalyzer().cancelAnalysis();
     }

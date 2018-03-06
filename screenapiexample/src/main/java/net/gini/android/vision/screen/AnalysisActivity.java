@@ -30,7 +30,6 @@ public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisA
     @Override
     public void onAddDataToResult(@NonNull final Intent result) {
         LOG.debug("Add data to result");
-        // WIP: networking library poc
         // We add the extraction results here to the Intent. The payload format is up to you.
         // For the example we add the extractions as key-value pairs to a Bundle
         // We retrieve them when the CameraActivity has finished in MainActivity#onActivityResult()
@@ -41,7 +40,6 @@ public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisA
     @Override
     public void onAnalyzeDocument(@NonNull final Document document) {
         LOG.debug("Analyze document");
-        // WIP: networking library poc
         GiniVisionDebug.writeDocumentToFile(this, document, "_for_analysis");
 
         startScanAnimation();

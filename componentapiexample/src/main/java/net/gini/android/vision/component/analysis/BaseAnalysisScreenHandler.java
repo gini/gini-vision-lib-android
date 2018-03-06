@@ -63,7 +63,6 @@ public abstract class BaseAnalysisScreenHandler implements AnalysisFragmentListe
     @Override
     public void onAnalyzeDocument(@NonNull final Document document) {
         LOG.debug("Analyze document {}", document);
-        // WIP: networking library poc
         GiniVisionDebug.writeDocumentToFile(mActivity, document, "_for_analysis");
 
         mAnalysisFragmentInterface.startScanAnimation();

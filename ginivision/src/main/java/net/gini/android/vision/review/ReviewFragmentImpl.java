@@ -197,7 +197,6 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         } else {
             observeViewTree();
             LOG.info("Should analyze document");
-            // WIP: review screen should analyze document
             shouldAnalyzeDocument();
         }
     }
@@ -216,13 +215,11 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                     new GiniVisionNetworkCallback<AnalysisResult, Error>() {
                         @Override
                         public void failure(final Error error) {
-                            // TODO: show error
                             mDocumentAnalysisErrorMessage = error.getMessage();
                         }
 
                         @Override
                         public void success(final AnalysisResult result) {
-                            // TODO: return extractions
                             mDocumentWasAnalyzed = true;
                             mAnalysisResult = result;
                         }
@@ -260,7 +257,6 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                                 hideActivityIndicatorAndEnableButtons();
                                 observeViewTree();
                                 LOG.info("Should analyze document");
-                                // WIP: review screen should analyze document
                                 shouldAnalyzeDocument();
                             }
 
@@ -442,7 +438,6 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                 if (mStopped) {
                     return;
                 }
-                // WIP: review screen analyse document
                 cancelAnalysis();
                 final GiniVisionDocument document = DocumentFactory.newDocumentFromPhotoAndDocument(
                         photo, mDocument);
@@ -487,7 +482,6 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                 LOG.info("Document reviewed and analyzed");
                 // Photo was not modified and has been analyzed, client should show extraction
                 // results
-                // WIP: review screen analyse document
                 documentReviewedAndAnalyzed();
             }
         } else {

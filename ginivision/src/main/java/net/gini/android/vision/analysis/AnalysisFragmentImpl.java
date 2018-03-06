@@ -374,17 +374,14 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
                     new View.OnClickListener() {
                         @Override
                         public void onClick(final View v) {
-                            // WIP: analysis screen analyse document
                             doAnalyzeDocument();
                         }
                     });
         } else {
-            // WIP: analysis screen analyse document
             doAnalyzeDocument();
         }
     }
 
-    // WIP: analysis screen analyse document
     private void doAnalyzeDocument() {
         final Activity activity = mFragment.getActivity();
         if (activity == null) {
@@ -399,7 +396,6 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
                         @Override
                         public void failure(final Error error) {
                             stopScanAnimation();
-                            // TODO: show error
                             showError(error.getMessage(), mFragment.getActivity().getString(
                                     R.string.gv_document_analysis_error_retry),
                                     new View.OnClickListener() {
@@ -413,7 +409,6 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
                         @Override
                         public void success(final AnalysisResult result) {
                             stopScanAnimation();
-                            // TODO: return extractions
                             final Map<String, GiniVisionSpecificExtraction> extractions =
                                     result.getExtractions();
                             if (extractions.isEmpty()) {

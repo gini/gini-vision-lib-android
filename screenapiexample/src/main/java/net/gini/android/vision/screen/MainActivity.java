@@ -310,7 +310,6 @@ public class MainActivity extends AppCompatActivity {
                     // method
                     // The payload format is up to you. For the example we added all the extractions as key-value pairs to
                     // a Bundle.
-                    // WIP: analyze qr codes
                     Bundle extractionsBundle = data.getBundleExtra(CameraActivity.EXTRA_OUT_EXTRACTIONS);
                     if (extractionsBundle == null) {
                         extractionsBundle = data.getBundleExtra(MainActivity.EXTRA_OUT_EXTRACTIONS);

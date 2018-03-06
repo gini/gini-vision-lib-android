@@ -63,7 +63,6 @@ public abstract class BaseReviewScreenHandler implements ReviewFragmentListener 
     @Override
     public void onShouldAnalyzeDocument(@NonNull final Document document) {
         LOG.debug("Should analyze document in the Review Screen {}", document);
-        // WIP: networking library poc
         GiniVisionDebug.writeDocumentToFile(mActivity, document, "_for_review");
 
         // We should start analyzing the document by sending it to the Gini API.
@@ -132,7 +131,6 @@ public abstract class BaseReviewScreenHandler implements ReviewFragmentListener 
     @Override
     public void onDocumentReviewedAndAnalyzed(@NonNull final Document document) {
         LOG.debug("Reviewed and analyzed document {}", document);
-        // WIP: networking library poc
         // If we have received the extractions while in the Review Screen we don't need to go to
         // the Analysis Screen,
         // we can show the extractions
@@ -176,7 +174,7 @@ public abstract class BaseReviewScreenHandler implements ReviewFragmentListener 
     @Override
     public void onDocumentWasRotated(@NonNull final Document document, final int oldRotation,
             final int newRotation) {
-        // WIP: networking library poc
+        getSingleDocumentAnalyzer().cancelAnalysis();
     }
 
     @Override

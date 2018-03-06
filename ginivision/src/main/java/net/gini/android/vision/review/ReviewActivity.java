@@ -297,7 +297,6 @@ public class ReviewActivity extends AppCompatActivity implements ReviewFragmentL
         onProceedToAnalysisScreen(document, null);
     }
 
-    // WIP: review screen analyse document
     @Override
     public void onProceedToAnalysisScreen(@NonNull final Document document,
             @Nullable final String errorMessage) {

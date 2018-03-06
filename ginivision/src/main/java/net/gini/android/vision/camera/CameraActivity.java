@@ -395,7 +395,10 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      */
     public static final String EXTRA_OUT_ERROR = "GV_EXTRA_OUT_ERROR";
 
-    // WIP: analyse qr code
+    /**
+     * Returned when extractions are available. Contains a Bundle with the extraction labels
+     * as keys and {@link GiniVisionSpecificExtraction} as values.
+     */
     public static final String EXTRA_OUT_EXTRACTIONS = "GV_EXTRA_OUT_EXTRACTIONS";
 
     /**
