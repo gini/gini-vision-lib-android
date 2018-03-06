@@ -3,12 +3,18 @@ package net.gini.android.vision.analysis;
 import android.support.annotation.NonNull;
 import android.view.View;
 
+import net.gini.android.vision.GiniVision;
+import net.gini.android.vision.network.GiniVisionNetworkService;
+
+import java.util.Map;
+
 /**
  * <p>
  * Methods which both Analysis Fragments must implement.
  * </p>
  */
 public interface AnalysisFragmentInterface {
+
     /**
      * <p>
      * Call this method to hide the error shown before with
@@ -23,14 +29,24 @@ public interface AnalysisFragmentInterface {
      * You should call this method after you've received the analysis results from the Gini API
      * without the required extractions.
      * </p>
+     *
+     * @deprecated When a {@link GiniVision} instance is available the document
+     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
+     * implementation.
      */
+    @Deprecated
     void onNoExtractionsFound();
 
     /**
      * <p>
      * You should call this method after you've received the analysis results from the Gini API.
      * </p>
+     *
+     * @deprecated When a {@link GiniVision} instance is available the document
+     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
+     * implementation. The extractions will be returned in {@link AnalysisFragmentListener#onExtractionsAvailable(Map)}.
      */
+    @Deprecated
     void onDocumentAnalyzed();
 
     /**
@@ -61,13 +77,22 @@ public interface AnalysisFragmentInterface {
      * <p>
      * You should call this method when you start the document analysis using the Gini API.
      * </p>
+     *
+     * @deprecated When a {@link GiniVision} instance is available the document
+     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
+     * implementation. The extractions will be returned in {@link AnalysisFragmentListener#onExtractionsAvailable(Map)}.
      */
+    @Deprecated
     void startScanAnimation();
 
     /**
      * <p>
      * You should call this method when the document analysis has finished.
      * </p>
+     * @deprecated When a {@link GiniVision} instance is available the document
+     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
+     * implementation. The extractions will be returned in {@link AnalysisFragmentListener#onExtractionsAvailable(Map)}.
      */
+    @Deprecated
     void stopScanAnimation();
 }

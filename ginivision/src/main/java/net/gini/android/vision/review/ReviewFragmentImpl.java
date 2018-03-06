@@ -536,9 +536,13 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
     private void proceedToAnalysisScreen() {
         LOG.info("Proceed to Analysis Screen");
-        mListener.onProceedToAnalysisScreen(
-                DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto, mDocument),
-                mDocumentAnalysisErrorMessage);
+        final GiniVisionDocument document = DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto,
+                mDocument);
+        if (GiniVision.hasInstance()) {
+            mListener.onProceedToAnalysisScreen(document, mDocumentAnalysisErrorMessage);
+        } else {
+            mListener.onProceedToAnalysisScreen(document);
+        }
     }
 
     private void applyRotationToPhoto(@NonNull final PhotoEdit.PhotoEditCallback callback) {
