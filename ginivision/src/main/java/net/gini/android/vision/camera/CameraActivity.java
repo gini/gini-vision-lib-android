@@ -315,6 +315,11 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * Use the {@link CameraActivity#setReviewActivityExtra(Intent, Context, Class)} helper to set
      * it.
      * </p>
+     *
+     * @deprecated When a {@link GiniVision} instance is available the document
+     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
+     * implementation. The extractions will be returned in the extra called
+     * {@link CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
      */
     public static final String EXTRA_IN_REVIEW_ACTIVITY = "GV_EXTRA_IN_REVIEW_ACTIVITY";
     /**
@@ -326,6 +331,11 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * Use the {@link CameraActivity#setAnalysisActivityExtra(Intent, Context, Class)} helper to set
      * it.
      * </p>
+     *
+     * @deprecated When a {@link GiniVision} instance is available the document
+     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
+     * implementation. The extractions will be returned in the extra called
+     * {@link CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
      */
     public static final String EXTRA_IN_ANALYSIS_ACTIVITY = "GV_EXTRA_IN_ANALYSIS_ACTIVITY";
     /**
@@ -441,7 +451,13 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      *                            ReviewActivity} subclass
      * @param reviewActivityClass class of your {@link ReviewActivity} subclass
      * @param <T>                 type of your {@link ReviewActivity} subclass
+     *
+     * @deprecated When a {@link GiniVision} instance is available the document
+     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
+     * implementation. The extractions will be returned in the extra called
+     * {@link CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
      */
+    @Deprecated
     public static <T extends ReviewActivity> void setReviewActivityExtra(final Intent target,
             final Context context,
             final Class<T> reviewActivityClass) {
@@ -461,7 +477,13 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      *                              AnalysisActivity} subclass
      * @param analysisActivityClass class of your {@link AnalysisActivity} subclass
      * @param <T>                   type of your {@link AnalysisActivity} subclass
+     *
+     * @deprecated When a {@link GiniVision} instance is available the document
+     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
+     * implementation. The extractions will be returned in the extra called
+     * {@link CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
      */
+    @Deprecated
     public static <T extends AnalysisActivity> void setAnalysisActivityExtra(final Intent target,
             final Context context,
             final Class<T> analysisActivityClass) {
@@ -578,14 +600,10 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
 
     private void checkRequiredExtras() {
         if (mReviewDocumentActivityIntent == null) {
-            throw new IllegalStateException(
-                    "CameraActivity requires a ReviewActivity class. Call "
-                            + "setReviewDocumentActivityExtra() to set it.");
+            mReviewDocumentActivityIntent = new Intent(this, ReviewActivity.class);
         }
         if (mAnalyzeDocumentActivityIntent == null) {
-            throw new IllegalStateException(
-                    "CameraActivity requires an AnalyzeDocumentActivity class. Call "
-                            + "setAnalyzeDocumentActivityExtra() to set it.");
+            mAnalyzeDocumentActivityIntent = new Intent(this, AnalysisActivity.class);
         }
     }
 

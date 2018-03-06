@@ -106,30 +106,6 @@ public class CameraScreenTest {
         GiniVision.cleanup();
     }
 
-    @Test(expected = IllegalStateException.class)
-    public void should_throwException_whenReviewActivityClass_wasNotGiven() {
-        final CameraActivity cameraActivity = new CameraActivity();
-
-        final Intent intent = new Intent(Intent.ACTION_MAIN);
-        CameraActivity.setAnalysisActivityExtra(intent, InstrumentationRegistry.getTargetContext(),
-                AnalysisActivityTestSpy.class);
-        cameraActivity.setIntent(intent);
-
-        cameraActivity.readExtras();
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void should_throwException_whenAnalysisActivityClass_wasNotGiven() {
-        final CameraActivity cameraActivity = new CameraActivity();
-
-        final Intent intent = new Intent(Intent.ACTION_MAIN);
-        CameraActivity.setReviewActivityExtra(intent, InstrumentationRegistry.getTargetContext(),
-                ReviewActivityTestSpy.class);
-        cameraActivity.setIntent(intent);
-
-        cameraActivity.readExtras();
-    }
-
     @Test
     public void should_showOnboarding_onFirstLaunch_ifNotDisabled() {
         final Intent intent = getCameraActivityIntent();
