@@ -43,10 +43,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ExtractionsActivity"
-            android:label="@string/title_extractions"
-            android:theme="@style/AppThemeCompat" />
-        <activity
             android:name=".camera.compat.CameraExampleAppCompatActivity"
             android:theme="@style/AppThemeCompat.NoActionBar" />
         <activity
@@ -70,6 +66,9 @@
         <activity
             android:name=".noresults.standard.NoResultsExampleActivity"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name="net.gini.android.vision.component.ExtractionsActivity"
+            android:theme="@style/AppThemeCompat" />
     </application>
 
 </manifest>

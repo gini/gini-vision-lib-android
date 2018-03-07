@@ -5,6 +5,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static net.gini.android.vision.OncePerInstallEventStoreHelper.clearOnboardingWasShownPreference;
 import static net.gini.android.vision.OncePerInstallEventStoreHelper.setOnboardingWasShownPreference;
 import static net.gini.android.vision.test.EspressoMatchers.hasComponent;
+import static net.gini.android.vision.test.Helpers.getGiniVisionBuilder;
 import static net.gini.android.vision.test.Helpers.isTablet;
 import static net.gini.android.vision.test.Helpers.loadAsset;
 import static net.gini.android.vision.test.Helpers.prepareLooper;
@@ -45,6 +46,7 @@ import android.view.Surface;
 import android.view.View;
 
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivityTestSpy;
@@ -101,30 +103,7 @@ public class CameraScreenTest {
         // Wait a little for the camera to close
         Thread.sleep(CLOSE_CAMERA_PAUSE_DURATION);
         resetDeviceOrientation();
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void should_throwException_whenReviewActivityClass_wasNotGiven() {
-        final CameraActivity cameraActivity = new CameraActivity();
-
-        final Intent intent = new Intent(Intent.ACTION_MAIN);
-        CameraActivity.setAnalysisActivityExtra(intent, InstrumentationRegistry.getTargetContext(),
-                AnalysisActivityTestSpy.class);
-        cameraActivity.setIntent(intent);
-
-        cameraActivity.readExtras();
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void should_throwException_whenAnalysisActivityClass_wasNotGiven() {
-        final CameraActivity cameraActivity = new CameraActivity();
-
-        final Intent intent = new Intent(Intent.ACTION_MAIN);
-        CameraActivity.setReviewActivityExtra(intent, InstrumentationRegistry.getTargetContext(),
-                ReviewActivityTestSpy.class);
-        cameraActivity.setIntent(intent);
-
-        cameraActivity.readExtras();
+        GiniVision.cleanup();
     }
 
     @Test
@@ -166,6 +145,19 @@ public class CameraScreenTest {
                 .check(ViewAssertions.doesNotExist());
     }
 
+    @Test
+    public void should_notShowOnboarding_onFirstLaunch_ifDisabledUsingGiniVision() {
+        getGiniVisionBuilder()
+                .setShouldShowOnboardingAtFirstRun(false)
+                .build();
+
+        final Intent intent = getCameraActivityIntent();
+        mCameraActivityIntentsTestRule.launchActivity(intent);
+
+        Espresso.onView(ViewMatchers.withId(R.id.gv_onboarding_viewpager))
+                .check(ViewAssertions.doesNotExist());
+    }
+
     @NonNull
     private CameraActivity startCameraActivityWithoutOnboarding() {
         final Intent intent = getCameraActivityIntent();
@@ -188,6 +180,21 @@ public class CameraScreenTest {
 
         final Intent intent = getCameraActivityIntent();
         intent.putExtra(CameraActivity.EXTRA_IN_SHOW_ONBOARDING, true);
+        mCameraActivityIntentsTestRule.launchActivity(intent);
+
+        Espresso.onView(ViewMatchers.withId(R.id.gv_onboarding_viewpager))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
+    @Test
+    public void should_showOnboarding_ifRequested_andWasAlreadyShownOnFirstLaunch_usingGiniVision() {
+        setOnboardingWasShownPreference();
+
+        getGiniVisionBuilder()
+                .setShouldShowOnboarding(true)
+                .build();
+
+        final Intent intent = getCameraActivityIntent();
         mCameraActivityIntentsTestRule.launchActivity(intent);
 
         Espresso.onView(ViewMatchers.withId(R.id.gv_onboarding_viewpager))
@@ -469,15 +476,11 @@ public class CameraScreenTest {
     }
 
     private void detectAndCheckQRCode(@NonNull final String jpegFilename,
-            @NonNull final String nv21Filename, @NonNull final PaymentQRCodeData paymentData)
+            @NonNull final String nv21Filename, @NonNull final PaymentQRCodeData paymentData,
+            @Nullable final GiniVisionFeatureConfiguration featureConfiguration)
             throws IOException, InterruptedException {
         // Given
         assumeTrue(!isTablet());
-
-        final GiniVisionFeatureConfiguration featureConfiguration = GiniVisionFeatureConfiguration
-                .buildNewConfiguration()
-                .setQRCodeScanningEnabled(true)
-                .build();
 
         final CameraActivityFake cameraActivityFake = startCameraActivityFakeWithoutOnboarding(
                 featureConfiguration);
@@ -491,8 +494,18 @@ public class CameraScreenTest {
 
         // Then
         final PaymentQRCodeData actualPaymentData = QRCodeDocumentHelper.getPaymentData(
-                mCameraActivityFakeActivityTestRule.getActivity().getQRCodeDocument());
+                mCameraActivityFakeActivityTestRule.getActivity().getCameraFragmentImplFake().getQRCodeDocument());
         assertThat(actualPaymentData).isEqualTo(paymentData);
+    }
+
+    private void detectAndCheckQRCode(@NonNull final String jpegFilename,
+            @NonNull final String nv21Filename, @NonNull final PaymentQRCodeData paymentData)
+            throws IOException, InterruptedException {
+        final GiniVisionFeatureConfiguration featureConfiguration = GiniVisionFeatureConfiguration
+                .buildNewConfiguration()
+                .setQRCodeScanningEnabled(true)
+                .build();
+        detectAndCheckQRCode(jpegFilename, nv21Filename, paymentData, featureConfiguration);
     }
 
     private void detectQRCode(
@@ -517,6 +530,23 @@ public class CameraScreenTest {
                         "DE19690516200000581900",
                         "SOLADES1PFD",
                         "140.40:EUR"));
+    }
+
+    @Test
+    public void should_detectQRCode_whenConfiguredUsingGiniVision()
+            throws IOException, InterruptedException {
+        getGiniVisionBuilder()
+                .setQRCodeScanningEnabled(true)
+                .build();
+        detectAndCheckQRCode("qrcode_epc069_12.jpeg", "qrcode_epc069_12_nv21.bmp",
+                new PaymentQRCodeData(
+                        "BCD\n001\n2\nSCT\nSOLADES1PFD\nGirosolution GmbH\nDE19690516200000581900\nEUR140.4\n\n\nBezahlCode Test",
+                        "Girosolution GmbH",
+                        "BezahlCode Test",
+                        "DE19690516200000581900",
+                        "SOLADES1PFD",
+                        "140.40:EUR"),
+                null);
     }
 
     @Test

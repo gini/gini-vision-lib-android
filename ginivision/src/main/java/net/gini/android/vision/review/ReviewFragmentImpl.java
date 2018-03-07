@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,18 +21,27 @@ import android.widget.ProgressBar;
 import com.ortiz.touch.TouchImageView;
 
 import net.gini.android.vision.Document;
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.DocumentFactory;
+import net.gini.android.vision.document.GiniVisionDocument;
 import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.PhotoEdit;
 import net.gini.android.vision.internal.camera.photo.PhotoFactoryDocumentAsyncTask;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
+import net.gini.android.vision.network.AnalysisResult;
+import net.gini.android.vision.network.Error;
+import net.gini.android.vision.network.GiniVisionNetworkCallback;
+import net.gini.android.vision.network.GiniVisionNetworkService;
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Map;
 
 class ReviewFragmentImpl implements ReviewFragmentInterface {
 
@@ -62,6 +72,23 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         @Override
         public void onError(@NonNull final GiniVisionError error) {
         }
+
+        @Override
+        public void onExtractionsAvailable(
+                @NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
+
+        }
+
+        @Override
+        public void onProceedToNoExtractionsScreen(@NonNull final Document document) {
+
+        }
+
+        @Override
+        public void onProceedToAnalysisScreen(@NonNull final Document document,
+                final String errorMessage) {
+
+        }
     };
 
     private FrameLayout mLayoutDocumentContainer;
@@ -79,6 +106,8 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     private int mCurrentRotation;
     private boolean mNextClicked;
     private boolean mStopped;
+    private AnalysisResult mAnalysisResult;
+    private String mDocumentAnalysisErrorMessage;
 
     ReviewFragmentImpl(@NonNull final FragmentImplCallback fragment,
             @NonNull final Document document) {
@@ -168,6 +197,39 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         } else {
             observeViewTree();
             LOG.info("Should analyze document");
+            shouldAnalyzeDocument();
+        }
+    }
+
+    private void shouldAnalyzeDocument() {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
+        }
+        if (GiniVision.hasInstance()) {
+            final GiniVisionNetworkService networkService = GiniVision.getInstance()
+                    .internal().getGiniVisionNetworkService();
+            final Document document = DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto,
+                    mDocument);
+            networkService.analyze(document,
+                    new GiniVisionNetworkCallback<AnalysisResult, Error>() {
+                        @Override
+                        public void failure(final Error error) {
+                            mDocumentAnalysisErrorMessage = error.getMessage();
+                        }
+
+                        @Override
+                        public void success(final AnalysisResult result) {
+                            mDocumentWasAnalyzed = true;
+                            mAnalysisResult = result;
+                        }
+
+                        @Override
+                        public void cancelled() {
+
+                        }
+                    });
+        } else {
             mListener.onShouldAnalyzeDocument(
                     DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto, mDocument));
         }
@@ -195,9 +257,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                                 hideActivityIndicatorAndEnableButtons();
                                 observeViewTree();
                                 LOG.info("Should analyze document");
-                                mListener.onShouldAnalyzeDocument(
-                                        DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto,
-                                                mDocument));
+                                shouldAnalyzeDocument();
                             }
 
                             @Override
@@ -295,6 +355,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     public void onDestroy() {
         mPhoto = null; // NOPMD
         mDocument = null; // NOPMD
+        cancelAnalysis();
     }
 
     private void bindViews(@NonNull final View view) {
@@ -377,8 +438,11 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                 if (mStopped) {
                     return;
                 }
+                cancelAnalysis();
+                final GiniVisionDocument document = DocumentFactory.newDocumentFromPhotoAndDocument(
+                        photo, mDocument);
                 mListener.onDocumentWasRotated(
-                        DocumentFactory.newDocumentFromPhotoAndDocument(photo, mDocument),
+                        document,
                         oldRotation, mCurrentRotation);
             }
 
@@ -394,11 +458,23 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         });
     }
 
+    private void cancelAnalysis() {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
+        }
+        if (GiniVision.hasInstance()) {
+            final GiniVisionNetworkService networkService = GiniVision.getInstance()
+                    .internal().getGiniVisionNetworkService();
+            networkService.cancel();
+        }
+    }
+
     private void onNextClicked() {
         mNextClicked = true;
         if (!mDocumentWasModified) {
             LOG.debug("Document wasn't modified");
-            if (!mDocumentWasAnalyzed) {
+            if (!mDocumentWasAnalyzed || !TextUtils.isEmpty(mDocumentAnalysisErrorMessage)) {
                 LOG.debug("Document wasn't analyzed");
                 proceedToAnalysisScreen();
             } else {
@@ -406,8 +482,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                 LOG.info("Document reviewed and analyzed");
                 // Photo was not modified and has been analyzed, client should show extraction
                 // results
-                mListener.onDocumentReviewedAndAnalyzed(
-                        DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto, mDocument));
+                documentReviewedAndAnalyzed();
             }
         } else {
             LOG.debug("Document was modified");
@@ -433,10 +508,35 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         }
     }
 
+    private void documentReviewedAndAnalyzed() {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
+        }
+        final GiniVisionDocument document = DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto,
+                mDocument);
+        if (GiniVision.hasInstance()) {
+            final Map<String, GiniVisionSpecificExtraction> extractions =
+                    mAnalysisResult.getExtractions();
+            if (extractions.isEmpty()) {
+                mListener.onProceedToNoExtractionsScreen(document);
+            } else {
+                mListener.onExtractionsAvailable(extractions);
+            }
+        } else {
+            mListener.onDocumentReviewedAndAnalyzed(document);
+        }
+    }
+
     private void proceedToAnalysisScreen() {
         LOG.info("Proceed to Analysis Screen");
-        mListener.onProceedToAnalysisScreen(
-                DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto, mDocument));
+        final GiniVisionDocument document = DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto,
+                mDocument);
+        if (GiniVision.hasInstance()) {
+            mListener.onProceedToAnalysisScreen(document, mDocumentAnalysisErrorMessage);
+        } else {
+            mListener.onProceedToAnalysisScreen(document);
+        }
     }
 
     private void applyRotationToPhoto(@NonNull final PhotoEdit.PhotoEditCallback callback) {

@@ -14,12 +14,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.GiniVisionError;
-import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.GiniVisionFileImport;
 import net.gini.android.vision.ImportedFileValidationException;
 import net.gini.android.vision.camera.CameraActivity;
+import net.gini.android.vision.example.BaseExampleApp;
 import net.gini.android.vision.example.RuntimePermissionHandler;
 import net.gini.android.vision.onboarding.DefaultPagesPhone;
 import net.gini.android.vision.onboarding.OnboardingPage;
@@ -194,16 +195,39 @@ public class MainActivity extends AppCompatActivity {
 //            return;
 //        }
 
+        final BaseExampleApp app = (BaseExampleApp) getApplication();
+
+        // Configure the Gini Vision Library
+        GiniVision.cleanup();
+        GiniVision.newInstance()
+                .setGiniVisionNetworkService(app.getGiniVisionNetworkService())
+                .setGiniVisionNetworkApi(app.getGiniVisionNetworkApi())
+                .setDocumentImportEnabledFileTypes(DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
+                .setFileImportEnabled(true)
+                .setQRCodeScanningEnabled(true)
+                // Uncomment to add an extra page to the Onboarding pages
+//                .setCustomOnboardingPages(getOnboardingPages())
+                // Uncomment to disable automatically showing the OnboardingActivity the
+                // first time the CameraActivity is launched - we highly recommend letting the
+                // Gini Vision Library show the OnboardingActivity at first run
+//                .setShouldShowOnboardingAtFirstRun(false)
+                // Uncomment to show the OnboardingActivity every time the CameraActivity starts
+//                .setShouldShowOnboarding(true)
+                .build();
+
         final Intent intent = new Intent(this, CameraScreenApiActivity.class);
 
+        // Deprecated: custom pages added above when creating the GiniVision instance
         // Uncomment to add an extra page to the Onboarding pages
 //        intent.putParcelableArrayListExtra(CameraActivity.EXTRA_IN_ONBOARDING_PAGES, getOnboardingPages());
 
+        // Deprecated: configuration applied above when creating the GiniVision instance
         // Set EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN to false to disable automatically showing the OnboardingActivity the
         // first time the CameraActivity is launched - we highly recommend letting the Gini Vision Library show the
         // OnboardingActivity at first run
         //intent.putExtra(CameraActivity.EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN, false);
 
+        // Deprecated: configuration applied above when creating the GiniVision instance
         // Set EXTRA_IN_SHOW_ONBOARDING to true, to show the OnboardingActivity when the CameraActivity starts
         //intent.putExtra(CameraActivity.EXTRA_IN_SHOW_ONBOARDING, true);
 
@@ -211,17 +235,18 @@ public class MainActivity extends AppCompatActivity {
         // button from any Activity in the library
         //intent.putExtra(CameraActivity.EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY, true);
 
+        // Deprecated: configuration applied above when creating the GiniVision instance
         // Configure the features you would like to use
-        final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration =
-                GiniVisionFeatureConfiguration.buildNewConfiguration()
-                        .setDocumentImportEnabledFileTypes(
-                                DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
-                        .setFileImportEnabled(true)
-                        .setQRCodeScanningEnabled(true)
-                        .build();
-
-        intent.putExtra(CameraActivity.EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION,
-                giniVisionFeatureConfiguration);
+//        final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration =
+//                GiniVisionFeatureConfiguration.buildNewConfiguration()
+//                        .setDocumentImportEnabledFileTypes(
+//                                DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
+//                        .setFileImportEnabled(true)
+//                        .setQRCodeScanningEnabled(true)
+//                        .build();
+//
+//        intent.putExtra(CameraActivity.EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION,
+//                giniVisionFeatureConfiguration);
 
         // Set your ReviewActivity subclass
         CameraActivity.setReviewActivityExtra(intent, this, ReviewActivity.class);
@@ -285,7 +310,10 @@ public class MainActivity extends AppCompatActivity {
                     // method
                     // The payload format is up to you. For the example we added all the extractions as key-value pairs to
                     // a Bundle.
-                    final Bundle extractionsBundle = data.getBundleExtra(EXTRA_OUT_EXTRACTIONS);
+                    Bundle extractionsBundle = data.getBundleExtra(CameraActivity.EXTRA_OUT_EXTRACTIONS);
+                    if (extractionsBundle == null) {
+                        extractionsBundle = data.getBundleExtra(MainActivity.EXTRA_OUT_EXTRACTIONS);
+                    }
                     if (extractionsBundle != null && pay5ExtractionsAvailable(extractionsBundle)) {
                         // We display only the Pay5 extractions: paymentRecipient, iban, bic,
                         // amount and paymentReference

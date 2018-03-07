@@ -15,9 +15,17 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.uiautomator.UiDevice;
 
 import net.gini.android.vision.Document;
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 import net.gini.android.vision.internal.util.ContextHelper;
+import net.gini.android.vision.network.AnalysisResult;
+import net.gini.android.vision.network.Error;
+import net.gini.android.vision.network.GiniVisionNetworkApi;
+import net.gini.android.vision.network.GiniVisionNetworkCallback;
+import net.gini.android.vision.network.GiniVisionNetworkService;
+import net.gini.android.vision.network.Result;
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -25,6 +33,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Map;
 
 public class Helpers {
 
@@ -220,5 +229,32 @@ public class Helpers {
                 index++;
             }
         }
+    }
+
+    @NonNull
+    public static GiniVision.Builder getGiniVisionBuilder() {
+        return GiniVision.newInstance()
+                .setGiniVisionNetworkService(new GiniVisionNetworkService() {
+                    @Override
+                    public void analyze(@NonNull final Document document,
+                            @NonNull final GiniVisionNetworkCallback<AnalysisResult, Error> callback) {
+                    }
+
+                    @Override
+                    public void upload(@NonNull final Document document,
+                            @NonNull final GiniVisionNetworkCallback<Result, Error> callback) {
+                    }
+
+                    @Override
+                    public void cancel() {
+                    }
+                })
+                .setGiniVisionNetworkApi(new GiniVisionNetworkApi() {
+                    @Override
+                    public void sendFeedback(
+                            @NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
+                            @NonNull final GiniVisionNetworkCallback<Void, Error> callback) {
+                    }
+                });
     }
 }

@@ -15,6 +15,16 @@
             android:label="@string/gv_title_camera"
             android:theme="@style/GiniVisionTheme" />
         <activity
+            android:name=".review.ReviewActivity"
+            android:exported="false"
+            android:label="@string/gv_title_review"
+            android:theme="@style/GiniVisionTheme" />
+        <activity
+            android:name=".analysis.AnalysisActivity"
+            android:exported="false"
+            android:label="@string/gv_title_analysis"
+            android:theme="@style/GiniVisionTheme" />
+        <activity
             android:name=".noresults.NoResultsActivity"
             android:exported="false"
             android:theme="@style/GiniVisionTheme" />

@@ -76,8 +76,7 @@ public class CameraScreenHandler extends BaseCameraScreenHandler {
 
     @Override
     protected CameraFragmentInterface createCameraFragment() {
-        mCameraFragment = CameraFragmentStandard.createInstance(
-                getGiniVisionFeatureConfiguration());
+        mCameraFragment = CameraFragmentStandard.createInstance();
         return mCameraFragment;
     }
 

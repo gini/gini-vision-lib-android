@@ -1,10 +1,18 @@
 package net.gini.android.vision.review;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import net.gini.android.vision.Document;
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.analysis.AnalysisActivity;
+import net.gini.android.vision.network.GiniVisionNetworkService;
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
+import net.gini.android.vision.noresults.NoResultsFragmentCompat;
+import net.gini.android.vision.noresults.NoResultsFragmentStandard;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -23,19 +31,27 @@ public interface ReviewFragmentListener {
      *     <b>Note:</b> Call {@link ReviewFragmentStandard#onDocumentAnalyzed()} or {@link ReviewFragmentCompat#onDocumentAnalyzed()} when the analysis is done and your Activity wasn't stopped.
      * </p>
      * @param document contains the original image taken by the camera
+     *
+     * @deprecated When a {@link GiniVision} instance is available the document
+     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
+     * implementation. The extractions will be returned in {@link ReviewFragmentListener#onExtractionsAvailable(Map)}.
      */
+    @Deprecated
     void onShouldAnalyzeDocument(@NonNull Document document);
 
     /**
      * <p>
-     *     Called if you didn't call {@link ReviewFragmentStandard#onDocumentAnalyzed()} or {@link ReviewFragmentCompat#onDocumentAnalyzed()} or the image was changed and the user tapped on the Next button.
+     *     Called if you didn't call {@link ReviewFragmentStandard#onDocumentAnalyzed()} or {@link ReviewFragmentCompat#onDocumentAnalyzed()} (or the image was changed) and the user tapped on the Next button.
      * </p>
      * <p>
      *     You should start your Activity extending {@link AnalysisActivity} and set the document as the {@link AnalysisActivity#EXTRA_IN_DOCUMENT} extra.
      * </p>
      *
      * @param document contains the reviewed image (can be the original one or a modified image)
+     *
+     * @deprecated When a {@link GiniVision} instance is available {@link ReviewFragmentListener#onProceedToAnalysisScreen(Document, String)} is invoked instead.
      */
+    @Deprecated
     void onProceedToAnalysisScreen(@NonNull Document document);
 
     /**
@@ -46,7 +62,12 @@ public interface ReviewFragmentListener {
      *     You should finish your Activity and proceed to handling the results of the analysis.
      * </p>
      * @param document contains the reviewed image (can be the original one or a modified image)
+     *
+     * @deprecated When a {@link GiniVision} instance is available the document
+     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
+     * implementation. The extractions will be returned in {@link ReviewFragmentListener#onExtractionsAvailable(Map)}.
      */
+    @Deprecated
     void onDocumentReviewedAndAnalyzed(@NonNull Document document);
 
     /**
@@ -71,4 +92,35 @@ public interface ReviewFragmentListener {
      * @param error details about what went wrong
      */
     void onError(@NonNull GiniVisionError error);
+
+    /**
+     * Called when the document has been analyzed and extractions are available.
+     *
+     * @param extractions a map of the extractions with the extraction labels as keys
+     */
+    void onExtractionsAvailable(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions);
+
+    /**
+     * Called when the document has been analyzed and no extractions were received.
+     * <p>
+     * You should show the {@link NoResultsFragmentStandard} or {@link NoResultsFragmentCompat}.
+     *
+     * @param document contains the reviewed document
+     */
+    void onProceedToNoExtractionsScreen(@NonNull final Document document);
+
+    /**
+     * Called when the user tapped on the Next button and one of the following conditions apply:
+     * <ul>
+     *  <li>Analysis is in progress</li>
+     *  <li>Analysis completed with an error</li>
+     *  <li>The image was rotated</li>
+     * </ul>
+     * <p>
+     * You should start your Activity extending {@link AnalysisActivity} and set the document as the {@link AnalysisActivity#EXTRA_IN_DOCUMENT} extra.
+     *
+     * @param document contains the reviewed image (can be the original one or a modified image)
+     * @param errorMessage an optional error message to be passed to the Analysis Screen
+     */
+    void onProceedToAnalysisScreen(@NonNull Document document, @Nullable String errorMessage);
 }

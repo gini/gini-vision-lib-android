@@ -45,9 +45,9 @@ dependencies {
     api deps.supportDesign
     api deps.playServicesVision
 
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation deps.commonsImaging
     implementation deps.completableFuture
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation fileTree(dir: '${project.rootDir}/tools/doccheck-doclet', include: ['*.jar'])
 
     testImplementation deps.junit

@@ -182,7 +182,6 @@
                       <STATIC>true</STATIC>
                     </AND>
                   </match>
-                  <order>BY_NAME</order>
                 </rule>
               </section>
               <section>
@@ -195,7 +194,6 @@
                       <STATIC>true</STATIC>
                     </AND>
                   </match>
-                  <order>BY_NAME</order>
                 </rule>
               </section>
               <section>
@@ -208,7 +206,6 @@
                       <STATIC>true</STATIC>
                     </AND>
                   </match>
-                  <order>BY_NAME</order>
                 </rule>
               </section>
               <section>
@@ -221,7 +218,6 @@
                       <STATIC>true</STATIC>
                     </AND>
                   </match>
-                  <order>BY_NAME</order>
                 </rule>
               </section>
               <section>
@@ -233,7 +229,6 @@
                       <STATIC>true</STATIC>
                     </AND>
                   </match>
-                  <order>BY_NAME</order>
                 </rule>
               </section>
               <section>
@@ -245,7 +240,6 @@
                       <STATIC>true</STATIC>
                     </AND>
                   </match>
-                  <order>BY_NAME</order>
                 </rule>
               </section>
               <section>
@@ -257,7 +251,6 @@
                       <STATIC>true</STATIC>
                     </AND>
                   </match>
-                  <order>BY_NAME</order>
                 </rule>
               </section>
               <section>
@@ -269,7 +262,6 @@
                       <STATIC>true</STATIC>
                     </AND>
                   </match>
-                  <order>BY_NAME</order>
                 </rule>
               </section>
               <section>
@@ -291,7 +283,6 @@
                       <PUBLIC>true</PUBLIC>
                     </AND>
                   </match>
-                  <order>BY_NAME</order>
                 </rule>
               </section>
               <section>
@@ -303,7 +294,6 @@
                       <PROTECTED>true</PROTECTED>
                     </AND>
                   </match>
-                  <order>BY_NAME</order>
                 </rule>
               </section>
               <section>
@@ -315,7 +305,6 @@
                       <PACKAGE_PRIVATE>true</PACKAGE_PRIVATE>
                     </AND>
                   </match>
-                  <order>BY_NAME</order>
                 </rule>
               </section>
               <section>
@@ -327,7 +316,6 @@
                       <PRIVATE>true</PRIVATE>
                     </AND>
                   </match>
-                  <order>BY_NAME</order>
                 </rule>
               </section>
               <section>
@@ -338,7 +326,6 @@
                       <PUBLIC>true</PUBLIC>
                     </AND>
                   </match>
-                  <order>BY_NAME</order>
                 </rule>
               </section>
               <section>
@@ -349,7 +336,6 @@
                       <PROTECTED>true</PROTECTED>
                     </AND>
                   </match>
-                  <order>BY_NAME</order>
                 </rule>
               </section>
               <section>
@@ -360,7 +346,6 @@
                       <PACKAGE_PRIVATE>true</PACKAGE_PRIVATE>
                     </AND>
                   </match>
-                  <order>BY_NAME</order>
                 </rule>
               </section>
               <section>
@@ -371,7 +356,6 @@
                       <PRIVATE>true</PRIVATE>
                     </AND>
                   </match>
-                  <order>BY_NAME</order>
                 </rule>
               </section>
               <section>
@@ -379,7 +363,6 @@
                   <match>
                     <FIELD>true</FIELD>
                   </match>
-                  <order>BY_NAME</order>
                 </rule>
               </section>
               <section>
@@ -398,7 +381,6 @@
                       <STATIC>true</STATIC>
                     </AND>
                   </match>
-                  <order>BY_NAME</order>
                 </rule>
               </section>
               <section>
@@ -411,9 +393,11 @@
               <section>
                 <rule>
                   <match>
-                    <OVERRIDDEN />
+                    <AND>
+                      <METHOD>true</METHOD>
+                      <OVERRIDDEN />
+                    </AND>
                   </match>
-                  <order>BY_NAME</order>
                 </rule>
               </section>
               <section>
@@ -424,7 +408,6 @@
                       <PUBLIC>true</PUBLIC>
                     </AND>
                   </match>
-                  <order>BY_NAME</order>
                 </rule>
               </section>
               <section>
@@ -435,7 +418,6 @@
                       <PROTECTED>true</PROTECTED>
                     </AND>
                   </match>
-                  <order>BY_NAME</order>
                 </rule>
               </section>
               <section>
@@ -446,7 +428,6 @@
                       <PACKAGE_PRIVATE>true</PACKAGE_PRIVATE>
                     </AND>
                   </match>
-                  <order>BY_NAME</order>
                 </rule>
               </section>
               <section>
@@ -457,7 +438,6 @@
                       <PRIVATE>true</PRIVATE>
                     </AND>
                   </match>
-                  <order>BY_NAME</order>
                 </rule>
               </section>
               <section>
@@ -465,7 +445,6 @@
                   <match>
                     <ENUM>true</ENUM>
                   </match>
-                  <order>BY_NAME</order>
                 </rule>
               </section>
               <section>
@@ -473,7 +452,6 @@
                   <match>
                     <METHOD>true</METHOD>
                   </match>
-                  <order>BY_NAME</order>
                 </rule>
               </section>
               <section>
@@ -484,7 +462,6 @@
                       <PUBLIC>true</PUBLIC>
                     </AND>
                   </match>
-                  <order>BY_NAME</order>
                 </rule>
               </section>
               <section>
@@ -495,7 +472,6 @@
                       <PRIVATE>true</PRIVATE>
                     </AND>
                   </match>
-                  <order>BY_NAME</order>
                 </rule>
               </section>
               <section>
@@ -506,7 +482,6 @@
                       <STATIC>true</STATIC>
                     </AND>
                   </match>
-                  <order>BY_NAME</order>
                 </rule>
               </section>
               <section>
@@ -514,7 +489,6 @@
                   <match>
                     <CLASS>true</CLASS>
                   </match>
-                  <order>BY_NAME</order>
                 </rule>
               </section>
             </rules>

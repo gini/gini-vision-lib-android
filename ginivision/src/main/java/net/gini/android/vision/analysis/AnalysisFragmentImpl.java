@@ -30,6 +30,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import net.gini.android.vision.Document;
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.GiniVisionDocument;
@@ -40,6 +41,11 @@ import net.gini.android.vision.internal.document.DocumentRendererFactory;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 import net.gini.android.vision.internal.util.Size;
+import net.gini.android.vision.network.AnalysisResult;
+import net.gini.android.vision.network.Error;
+import net.gini.android.vision.network.GiniVisionNetworkCallback;
+import net.gini.android.vision.network.GiniVisionNetworkService;
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.util.UriHelper;
 
 import org.slf4j.Logger;
@@ -47,6 +53,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 class AnalysisFragmentImpl implements AnalysisFragmentInterface {
@@ -60,6 +67,17 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
         @Override
         public void onError(@NonNull final GiniVisionError error) {
+        }
+
+        @Override
+        public void onExtractionsAvailable(
+                @NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
+
+        }
+
+        @Override
+        public void onProceedToNoExtractionsScreen(@NonNull final Document document) {
+
         }
     };
 
@@ -170,6 +188,19 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     public void onDestroy() {
         mImageDocument = null; // NOPMD
         stopScanAnimation();
+        cancelAnalysis();
+    }
+
+    private void cancelAnalysis() {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
+        }
+        if (GiniVision.hasInstance()) {
+            final GiniVisionNetworkService networkService = GiniVision.getInstance()
+                    .internal().getGiniVisionNetworkService();
+            networkService.cancel();
+        }
     }
 
     public void onStart() {
@@ -343,7 +374,53 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
                     new View.OnClickListener() {
                         @Override
                         public void onClick(final View v) {
-                            mListener.onAnalyzeDocument(mDocument);
+                            doAnalyzeDocument();
+                        }
+                    });
+        } else {
+            doAnalyzeDocument();
+        }
+    }
+
+    private void doAnalyzeDocument() {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
+        }
+        if (GiniVision.hasInstance()) {
+            startScanAnimation();
+            final GiniVisionNetworkService networkService = GiniVision.getInstance()
+                    .internal().getGiniVisionNetworkService();
+            networkService.analyze(mDocument,
+                    new GiniVisionNetworkCallback<AnalysisResult, Error>() {
+                        @Override
+                        public void failure(final Error error) {
+                            stopScanAnimation();
+                            showError(error.getMessage(), mFragment.getActivity().getString(
+                                    R.string.gv_document_analysis_error_retry),
+                                    new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(final View v) {
+                                            doAnalyzeDocument();
+                                        }
+                                    });
+                        }
+
+                        @Override
+                        public void success(final AnalysisResult result) {
+                            stopScanAnimation();
+                            final Map<String, GiniVisionSpecificExtraction> extractions =
+                                    result.getExtractions();
+                            if (extractions.isEmpty()) {
+                                mListener.onProceedToNoExtractionsScreen(mDocument);
+                            } else {
+                                mListener.onExtractionsAvailable(extractions);
+                            }
+                        }
+
+                        @Override
+                        public void cancelled() {
+                            stopScanAnimation();
                         }
                     });
         } else {

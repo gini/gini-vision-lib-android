@@ -1,0 +1,50 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 27
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        debug {
+            testCoverageEnabled = true
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    api deps.slf4j
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation deps.supportAnnotations
+    implementation project(path: ':ginivision')
+    implementation('net.gini:gini-android-sdk:1.4.2@aar') {
+        transitive = true
+    }
+
+    testImplementation deps.junit
+    testImplementation deps.truth
+    testImplementation deps.mockito
+
+    androidTestImplementation deps.supportTestRunner
+    androidTestImplementation deps.truth
+    androidTestImplementation deps.supportTestEspressoCore
+    androidTestImplementation deps.mockito
+    androidTestImplementation deps.mockitoAndroid
+}
+
+apply from: rootProject.file('gradle/codequality.gradle')
+apply from: rootProject.file('gradle/maven.gradle')
+apply from: rootProject.file('gradle/targeted_android_tests.gradle')

@@ -9,12 +9,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.camera.CameraActivity;
 import net.gini.android.vision.noresults.NoResultsActivity;
 import net.gini.android.vision.review.ReviewActivity;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <h3>Screen API and Component API</h3>
@@ -87,13 +91,15 @@ import net.gini.android.vision.review.ReviewActivity;
 public class HelpActivity extends AppCompatActivity {
 
     /**
-     * <p>
-     *     Mandatory extra which must contain a {@link GiniVisionFeatureConfiguration} instance.
-     * </p>
+     * Optional extra which must contain a {@link GiniVisionFeatureConfiguration} instance.
+     *
+     * @deprecated Configuration should be applied by creating a {@link GiniVision} instance using
+     * {@link GiniVision#newInstance()} and the returned {@link GiniVision.Builder}.
      */
     public static final String EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION =
             "GV_EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION";
 
+    private static final Logger LOG = LoggerFactory.getLogger(HelpActivity.class);
     private static final int PHOTO_TIPS_REQUEST = 1;
     private GiniVisionFeatureConfiguration mGiniVisionFeatureConfiguration;
 
@@ -122,9 +128,8 @@ public class HelpActivity extends AppCompatActivity {
             mGiniVisionFeatureConfiguration = extras.getParcelable(
                     EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION);
             if (mGiniVisionFeatureConfiguration == null) {
-                throw new IllegalStateException(
-                        "HelpActivity requires a GiniVisionFeatureConfiguration instance. "
-                                + "Pass it in as an extra with the name HelpActivity.EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION.");
+                LOG.warn("No GiniVisionFeatureConfiguration instance available. "
+                        + "Please make sure you have created and configured a GiniVision instance.");
             }
         }
     }
