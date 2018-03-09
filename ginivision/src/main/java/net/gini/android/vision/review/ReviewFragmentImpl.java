@@ -9,9 +9,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
-import android.support.transition.AutoTransition;
+import android.support.transition.ChangeBounds;
+import android.support.transition.Fade;
 import android.support.transition.Transition;
 import android.support.transition.TransitionManager;
+import android.support.transition.TransitionSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -378,13 +380,21 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         }
     }
 
-    private void showAddPageButton(final ViewGroup rootView) {
-        final Transition transition = new AutoTransition();
-        TransitionManager.beginDelayedTransition(rootView, transition);
+    private void showAddPageButton(@NonNull final ViewGroup view) {
+        final TransitionSet transitionSet = new TransitionSet();
+        transitionSet.addTransition(new ChangeBounds());
+
+        final Transition fade = new Fade(Fade.IN);
+        fade.addTarget(R.id.gv_button_add_page);
+        transitionSet.addTransition(fade);
+
+        TransitionManager.beginDelayedTransition(view, transitionSet);
+
         final RelativeLayout.LayoutParams rotateButtonLP =
                 (RelativeLayout.LayoutParams) mButtonRotate.getLayoutParams();
         rotateButtonLP.addRule(RelativeLayout.ABOVE, R.id.gv_button_add_page);
         mButtonRotate.requestLayout();
+
         mButtonAddPage.setVisibility(View.VISIBLE);
         final RelativeLayout.LayoutParams addPageButtonLP =
                 (RelativeLayout.LayoutParams) mButtonAddPage.getLayoutParams();
