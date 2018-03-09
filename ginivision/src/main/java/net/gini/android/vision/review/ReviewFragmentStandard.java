@@ -122,8 +122,4 @@ public class ReviewFragmentStandard extends Fragment implements FragmentImplCall
         mFragmentImpl.onNoExtractionsFound();
     }
 
-    @Override
-    public void addMorePages() {
-        mFragmentImpl.addMorePages();
-    }
 }

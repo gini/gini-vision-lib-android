@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
+import android.support.transition.AutoTransition;
+import android.support.transition.Transition;
+import android.support.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +19,7 @@ import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.ortiz.touch.TouchImageView;
 
@@ -72,6 +76,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     private FrameLayout mLayoutDocumentContainer;
     private TouchImageView mImageDocument;
     private ImageButton mButtonRotate;
+    private ImageButton mButtonAddPage;
     private ImageButton mButtonNext;
     private ProgressBar mActivityIndicator;
 
@@ -124,8 +129,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     public void onNoExtractionsFound() {
     }
 
-    @Override
-    public void addMorePages() {
+    private void addMorePages() {
         mListener.onAddMorePages(
                 DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto, mDocument));
     }
@@ -141,6 +145,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.gv_fragment_review, container, false);
         bindViews(view);
+        mButtonNext.setTag(NextButtonState.CHECKMARK);
         setInputHandlers();
         return view;
     }
@@ -313,6 +318,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         mImageDocument = view.findViewById(R.id.gv_image_document);
         mButtonRotate = view.findViewById(R.id.gv_button_rotate);
         mButtonNext = view.findViewById(R.id.gv_button_next);
+        mButtonAddPage = view.findViewById(R.id.gv_button_add_page);
         mActivityIndicator = view.findViewById(R.id.gv_activity_indicator);
     }
 
@@ -339,12 +345,58 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                 onRotateClicked();
             }
         });
+        mButtonAddPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                addMorePages();
+            }
+        });
         mButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                onNextClicked();
+                final NextButtonState state =
+                        (NextButtonState) mButtonNext.getTag();
+                switch (state) {
+                    case CHECKMARK:
+                        onCheckmarkClicked();
+                        mButtonNext.setTag(NextButtonState.ARROW);
+                        break;
+                    case ARROW:
+                    default:
+                        onNextClicked();
+                        break;
+                }
             }
         });
+    }
+
+    private void onCheckmarkClicked() {
+        final View view = mFragment.getView();
+        if (view != null) {
+            showAddPageButton((ViewGroup) view);
+            mButtonNext.setImageResource(R.drawable.gv_review_fab_next);
+        }
+    }
+
+    private void showAddPageButton(final ViewGroup rootView) {
+        final Transition transition = new AutoTransition();
+        TransitionManager.beginDelayedTransition(rootView, transition);
+        final RelativeLayout.LayoutParams rotateButtonLP =
+                (RelativeLayout.LayoutParams) mButtonRotate.getLayoutParams();
+        rotateButtonLP.addRule(RelativeLayout.ABOVE, R.id.gv_button_add_page);
+        mButtonRotate.requestLayout();
+        mButtonAddPage.setVisibility(View.VISIBLE);
+        final RelativeLayout.LayoutParams addPageButtonLP =
+                (RelativeLayout.LayoutParams) mButtonAddPage.getLayoutParams();
+        addPageButtonLP.addRule(RelativeLayout.ABOVE, R.id.gv_button_next);
+        addPageButtonLP.addRule(RelativeLayout.ALIGN_BOTTOM, 0);
+        mButtonAddPage.requestLayout();
+    }
+
+    private static final int NEXT_BUTTON_STATE = 2018;
+    private enum NextButtonState {
+        CHECKMARK,
+        ARROW
     }
 
     private void observeViewTree() {

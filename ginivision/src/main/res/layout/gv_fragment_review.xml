@@ -48,6 +48,20 @@
         android:src="@drawable/gv_review_button_rotate" />
 
     <ImageButton
+        android:id="@+id/gv_button_add_page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/gv_button_next"
+        android:layout_alignEnd="@+id/gv_button_next"
+        android:layout_alignRight="@+id/gv_button_next"
+        android:layout_marginBottom="@dimen/gv_review_button_rotate_vertical_margin"
+        android:layout_marginEnd="@dimen/gv_review_button_rotate_horizontal_margin"
+        android:layout_marginRight="@dimen/gv_review_button_rotate_horizontal_margin"
+        android:background="@drawable/gv_review_fab_mini_background"
+        android:visibility="invisible"
+        android:src="@drawable/gv_review_fab_add_page" />
+
+    <ImageButton
         android:id="@+id/gv_button_next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -58,7 +72,7 @@
         android:layout_marginEnd="@dimen/gv_fab_horizontal_margin"
         android:layout_marginRight="@dimen/gv_fab_horizontal_margin"
         android:background="@drawable/gv_review_fab_background"
-        android:src="@drawable/gv_review_fab_next" />
+        android:src="@drawable/gv_review_fab_checkmark" />
 
     <LinearLayout
         android:id="@+id/gv_bottom_panel"
