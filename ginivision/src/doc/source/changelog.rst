@@ -2,6 +2,26 @@
 Changelog
 =========
 
+2.6.0-alpha.2 (2018-03-09)
+==================
+
+Configuration
+-------------
+
+- Easier configuration with the new ``GiniVision`` class. It has a builder to create and configure a new instance. The instance is optional and is required only for
+using the multi-page scanning feature.
+- Previous configuration options are now deprecated, but you may continue using them for existing features as we are not planning to remove them anytime soon.
+
+Networking
+----------
+
+- Improved networking integration by introducing the ``GiniVisionNetworkService`` and ``GiniVisionNetworkApi`` interfaces. Desired implementations are set using the ``GiniVision``
+builder. These are optional and are required only for using the multi-page scanning feature.
+- Easier integration with the new default networking implementation ``gini-vision-lib-network``. It offers implementation of the networking interfaces and by wiring it up with the
+``GiniVision`` builder you can start extracting invoice data without the need to implement your own networking layer to communicate with the Gini API.
+- Previous methods used to request networking calls are now deprecated and are only invoked when there is no ``GiniVisionNetworkService`` implementation available. You may continue to
+use the deprecated methods if you don't configure a ``GiniVisionNetworkService``. We are not planning to remove the deprecated methods anytime soon.
+
 2.5.0 (2018-01-22)
 ==================
 
