@@ -48,6 +48,7 @@ public class MultiPageReviewActivity extends AppCompatActivity {
     private RelativeLayout mRootView;
     private RecyclerView mThumbnailsRV;
     private RecyclerView.SmoothScroller mThumbnailsScroller;
+    private ImageButton mButtonNext;
 
     public static Intent createIntent(@NonNull final Context context,
             @NonNull final MultiPageDocument multiPageDocument) {
@@ -62,6 +63,14 @@ public class MultiPageReviewActivity extends AppCompatActivity {
         setContentView(R.layout.gv_activity_multi_page_review);
 
         readExtras();
+
+        mButtonNext = findViewById(R.id.gv_button_next);
+        mButtonNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                finish();
+            }
+        });
 
         mPhotos = new ArrayList<>();
         for (final ImageDocument imageDocument : mMultiPageDocument.getImageDocuments()) {
