@@ -118,6 +118,10 @@ public interface Document extends Parcelable {
         /**
          * The document is a payment QR Code.
          */
-        QRCode
+        QRCode,
+        /**
+         * The document contains multiple images.
+         */
+        MULTI_PAGE
     }
 }

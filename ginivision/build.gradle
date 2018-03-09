@@ -49,6 +49,7 @@ dependencies {
     implementation deps.commonsImaging
     implementation deps.completableFuture
     implementation fileTree(dir: '${project.rootDir}/tools/doccheck-doclet', include: ['*.jar'])
+    implementation deps.supportCardView
 
     testImplementation deps.junit
     testImplementation deps.truth

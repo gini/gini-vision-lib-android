@@ -71,4 +71,6 @@ public interface ReviewFragmentListener {
      * @param error details about what went wrong
      */
     void onError(@NonNull GiniVisionError error);
+
+    void onAddMorePages(@NonNull Document document);
 }

@@ -33,7 +33,7 @@ public class ReviewExampleActivity extends Activity implements
     private ReviewScreenHandler mReviewScreenHandler;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
         mReviewScreenHandler = new ReviewScreenHandler(this);
@@ -71,6 +71,11 @@ public class ReviewExampleActivity extends Activity implements
     @Override
     public void onError(@NonNull final GiniVisionError error) {
         mReviewScreenHandler.onError(error);
+    }
+
+    @Override
+    public void onAddMorePages(@NonNull final Document document) {
+        mReviewScreenHandler.onAddMorePages(document);
     }
 
     public static Intent newInstance(final Document document, final Context context) {

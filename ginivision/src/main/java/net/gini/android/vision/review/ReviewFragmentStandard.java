@@ -121,4 +121,5 @@ public class ReviewFragmentStandard extends Fragment implements FragmentImplCall
     public void onNoExtractionsFound() {
         mFragmentImpl.onNoExtractionsFound();
     }
+
 }
