@@ -2,7 +2,6 @@ package net.gini.android.vision.onboarding;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import static net.gini.android.vision.test.Helpers.getGiniVisionBuilder;
 import static net.gini.android.vision.test.Helpers.isTablet;
 import static net.gini.android.vision.test.Helpers.resetDeviceOrientation;
 import static net.gini.android.vision.test.Helpers.waitForWindowUpdate;
@@ -165,7 +164,7 @@ public class OnboardingScreenTest {
         customPages.add(
                 new OnboardingPage(R.string.gv_title_review, R.drawable.gv_review_button_rotate));
 
-        getGiniVisionBuilder()
+        GiniVision.newInstance()
                 .setCustomOnboardingPages(customPages)
                 .build();
 

@@ -206,32 +206,35 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         if (activity == null) {
             return;
         }
+        final Document document = DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto,
+                mDocument);
         if (GiniVision.hasInstance()) {
             final GiniVisionNetworkService networkService = GiniVision.getInstance()
                     .internal().getGiniVisionNetworkService();
-            final Document document = DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto,
-                    mDocument);
-            networkService.analyze(document,
-                    new GiniVisionNetworkCallback<AnalysisResult, Error>() {
-                        @Override
-                        public void failure(final Error error) {
-                            mDocumentAnalysisErrorMessage = error.getMessage();
-                        }
+            if (networkService != null) {
+                networkService.analyze(document,
+                        new GiniVisionNetworkCallback<AnalysisResult, Error>() {
+                            @Override
+                            public void failure(final Error error) {
+                                mDocumentAnalysisErrorMessage = error.getMessage();
+                            }
 
-                        @Override
-                        public void success(final AnalysisResult result) {
-                            mDocumentWasAnalyzed = true;
-                            mAnalysisResult = result;
-                        }
+                            @Override
+                            public void success(final AnalysisResult result) {
+                                mDocumentWasAnalyzed = true;
+                                mAnalysisResult = result;
+                            }
 
-                        @Override
-                        public void cancelled() {
+                            @Override
+                            public void cancelled() {
 
-                        }
-                    });
+                            }
+                        });
+            } else {
+                mListener.onShouldAnalyzeDocument(document);
+            }
         } else {
-            mListener.onShouldAnalyzeDocument(
-                    DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto, mDocument));
+            mListener.onShouldAnalyzeDocument(document);
         }
     }
 
@@ -466,7 +469,9 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         if (GiniVision.hasInstance()) {
             final GiniVisionNetworkService networkService = GiniVision.getInstance()
                     .internal().getGiniVisionNetworkService();
-            networkService.cancel();
+            if (networkService != null) {
+                networkService.cancel();
+            }
         }
     }
 

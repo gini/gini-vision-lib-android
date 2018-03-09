@@ -5,7 +5,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static net.gini.android.vision.OncePerInstallEventStoreHelper.clearOnboardingWasShownPreference;
 import static net.gini.android.vision.OncePerInstallEventStoreHelper.setOnboardingWasShownPreference;
 import static net.gini.android.vision.test.EspressoMatchers.hasComponent;
-import static net.gini.android.vision.test.Helpers.getGiniVisionBuilder;
 import static net.gini.android.vision.test.Helpers.isTablet;
 import static net.gini.android.vision.test.Helpers.loadAsset;
 import static net.gini.android.vision.test.Helpers.prepareLooper;
@@ -147,7 +146,7 @@ public class CameraScreenTest {
 
     @Test
     public void should_notShowOnboarding_onFirstLaunch_ifDisabledUsingGiniVision() {
-        getGiniVisionBuilder()
+        GiniVision.newInstance()
                 .setShouldShowOnboardingAtFirstRun(false)
                 .build();
 
@@ -190,7 +189,7 @@ public class CameraScreenTest {
     public void should_showOnboarding_ifRequested_andWasAlreadyShownOnFirstLaunch_usingGiniVision() {
         setOnboardingWasShownPreference();
 
-        getGiniVisionBuilder()
+        GiniVision.newInstance()
                 .setShouldShowOnboarding(true)
                 .build();
 
@@ -535,8 +534,9 @@ public class CameraScreenTest {
     @Test
     public void should_detectQRCode_whenConfiguredUsingGiniVision()
             throws IOException, InterruptedException {
-        getGiniVisionBuilder()
+        GiniVision.newInstance()
                 .setQRCodeScanningEnabled(true)
+                .setShouldShowOnboardingAtFirstRun(false)
                 .build();
         detectAndCheckQRCode("qrcode_epc069_12.jpeg", "qrcode_epc069_12_nv21.bmp",
                 new PaymentQRCodeData(

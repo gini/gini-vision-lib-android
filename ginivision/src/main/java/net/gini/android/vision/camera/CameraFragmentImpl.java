@@ -559,7 +559,9 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         if (GiniVision.hasInstance()) {
             final GiniVisionNetworkService networkService = GiniVision.getInstance()
                     .internal().getGiniVisionNetworkService();
-            networkService.cancel();
+            if (networkService != null) {
+                networkService.cancel();
+            }
         }
     }
 
@@ -699,26 +701,30 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         if (GiniVision.hasInstance()) {
             final GiniVisionNetworkService networkService = GiniVision.getInstance()
                     .internal().getGiniVisionNetworkService();
-            showActivityIndicatorAndDisableInteraction();
-            networkService.analyze(qrCodeDocument,
-                    new GiniVisionNetworkCallback<AnalysisResult, Error>() {
-                        @Override
-                        public void failure(final Error error) {
-                            hideActivityIndicatorAndEnableInteraction();
-                            showError(error.getMessage(), 3000);
-                        }
+            if (networkService != null) {
+                showActivityIndicatorAndDisableInteraction();
+                networkService.analyze(qrCodeDocument,
+                        new GiniVisionNetworkCallback<AnalysisResult, Error>() {
+                            @Override
+                            public void failure(final Error error) {
+                                hideActivityIndicatorAndEnableInteraction();
+                                showError(error.getMessage(), 3000);
+                            }
 
-                        @Override
-                        public void success(final AnalysisResult result) {
-                            hideActivityIndicatorAndEnableInteraction();
-                            mListener.onExtractionsAvailable(result.getExtractions());
-                        }
+                            @Override
+                            public void success(final AnalysisResult result) {
+                                hideActivityIndicatorAndEnableInteraction();
+                                mListener.onExtractionsAvailable(result.getExtractions());
+                            }
 
-                        @Override
-                        public void cancelled() {
-                            hideActivityIndicatorAndEnableInteraction();
-                        }
-                    });
+                            @Override
+                            public void cancelled() {
+                                hideActivityIndicatorAndEnableInteraction();
+                            }
+                        });
+            } else {
+                mListener.onQRCodeAvailable(qrCodeDocument);
+            }
         } else {
             mListener.onQRCodeAvailable(qrCodeDocument);
         }

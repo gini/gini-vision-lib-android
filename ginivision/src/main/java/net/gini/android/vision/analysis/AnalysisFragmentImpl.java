@@ -199,7 +199,9 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         if (GiniVision.hasInstance()) {
             final GiniVisionNetworkService networkService = GiniVision.getInstance()
                     .internal().getGiniVisionNetworkService();
-            networkService.cancel();
+            if (networkService != null) {
+                networkService.cancel();
+            }
         }
     }
 
@@ -391,38 +393,42 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
             startScanAnimation();
             final GiniVisionNetworkService networkService = GiniVision.getInstance()
                     .internal().getGiniVisionNetworkService();
-            networkService.analyze(mDocument,
-                    new GiniVisionNetworkCallback<AnalysisResult, Error>() {
-                        @Override
-                        public void failure(final Error error) {
-                            stopScanAnimation();
-                            showError(error.getMessage(), mFragment.getActivity().getString(
-                                    R.string.gv_document_analysis_error_retry),
-                                    new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(final View v) {
-                                            doAnalyzeDocument();
-                                        }
-                                    });
-                        }
-
-                        @Override
-                        public void success(final AnalysisResult result) {
-                            stopScanAnimation();
-                            final Map<String, GiniVisionSpecificExtraction> extractions =
-                                    result.getExtractions();
-                            if (extractions.isEmpty()) {
-                                mListener.onProceedToNoExtractionsScreen(mDocument);
-                            } else {
-                                mListener.onExtractionsAvailable(extractions);
+            if (networkService != null) {
+                networkService.analyze(mDocument,
+                        new GiniVisionNetworkCallback<AnalysisResult, Error>() {
+                            @Override
+                            public void failure(final Error error) {
+                                stopScanAnimation();
+                                showError(error.getMessage(), mFragment.getActivity().getString(
+                                        R.string.gv_document_analysis_error_retry),
+                                        new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(final View v) {
+                                                doAnalyzeDocument();
+                                            }
+                                        });
                             }
-                        }
 
-                        @Override
-                        public void cancelled() {
-                            stopScanAnimation();
-                        }
-                    });
+                            @Override
+                            public void success(final AnalysisResult result) {
+                                stopScanAnimation();
+                                final Map<String, GiniVisionSpecificExtraction> extractions =
+                                        result.getExtractions();
+                                if (extractions.isEmpty()) {
+                                    mListener.onProceedToNoExtractionsScreen(mDocument);
+                                } else {
+                                    mListener.onExtractionsAvailable(extractions);
+                                }
+                            }
+
+                            @Override
+                            public void cancelled() {
+                                stopScanAnimation();
+                            }
+                        });
+            } else {
+                mListener.onAnalyzeDocument(mDocument);
+            }
         } else {
             mListener.onAnalyzeDocument(mDocument);
         }

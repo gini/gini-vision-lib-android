@@ -7,6 +7,9 @@ import net.gini.android.vision.network.GiniVisionNetworkApi;
 import net.gini.android.vision.network.GiniVisionNetworkService;
 import net.gini.android.vision.onboarding.OnboardingPage;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 
 /**
@@ -17,6 +20,7 @@ import java.util.ArrayList;
 
 public class GiniVision {
 
+    private static final Logger LOG = LoggerFactory.getLogger(GiniVision.class);
     private static GiniVision sInstance;
     private final GiniVisionNetworkService mGiniVisionNetworkService;
     private final GiniVisionNetworkApi mGiniVisionNetworkApi;
@@ -71,7 +75,7 @@ public class GiniVision {
         return mInternal;
     }
 
-    @NonNull
+    @Nullable
     public GiniVisionNetworkApi getGiniVisionNetworkApi() {
         return mGiniVisionNetworkApi;
     }
@@ -152,7 +156,7 @@ public class GiniVision {
         mShouldShowOnboarding = shouldShowOnboarding;
     }
 
-    @NonNull
+    @Nullable
     GiniVisionNetworkService getGiniVisionNetworkService() {
         return mGiniVisionNetworkService;
     }
@@ -170,19 +174,21 @@ public class GiniVision {
         private boolean mShouldShowOnboarding;
 
         public void build() {
-            checkRequiredFields();
+            checkNetworkingImplementations();
             sInstance = new GiniVision(this);
         }
 
-        private void checkRequiredFields() {
+        private void checkNetworkingImplementations() {
             if (mGiniVisionNetworkService == null) {
-                throw new IllegalStateException("A GiniVisionNetworkService instance is required"
-                        + " for creating the GiniVision instance. Please provide one with "
+                LOG.warn("GiniVisionNetworkService instance not set. "
+                        + "Relying on client to perform network calls."
+                        + "You may provide a GiniVisionNetworkService instance with "
                         + "GiniVision.newInstance().setGiniVisionNetworkService()");
             }
             if (mGiniVisionNetworkApi == null) {
-                throw new IllegalStateException("A GiniVisionNetworkApi instance is required "
-                        + "for creating the GiniVision instance. Please provide one with "
+                LOG.warn("GiniVisionNetworkApi instance not set. "
+                        + "Relying on client to perform network calls."
+                        + "You may provide a GiniVisionNetworkApi instance with "
                         + "GiniVision.newInstance().setGiniVisionNetworkApi()");
             }
         }
@@ -344,7 +350,7 @@ public class GiniVision {
             mGiniVision = giniVision;
         }
 
-        @NonNull
+        @Nullable
         public GiniVisionNetworkService getGiniVisionNetworkService() {
             return mGiniVision.getGiniVisionNetworkService();
         }
