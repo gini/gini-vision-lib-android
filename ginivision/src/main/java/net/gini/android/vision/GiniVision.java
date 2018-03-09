@@ -28,8 +28,7 @@ public class GiniVision {
     private final DocumentImportEnabledFileTypes mDocumentImportEnabledFileTypes;
     private final boolean mFileImportEnabled;
     private final boolean mQRCodeScanningEnabled;
-    private final ArrayList<OnboardingPage> mCustomOnboardingPages;
-            // NOPMD - ArrayList required (Bundle)
+    private final ArrayList<OnboardingPage> mCustomOnboardingPages; // NOPMD - Bundle req. ArrayList
     private final boolean mShouldShowOnboardingAtFirstRun;
     private boolean mShouldShowOnboarding;
 
@@ -131,6 +130,8 @@ public class GiniVision {
     }
 
     /**
+     *  <h3>Screen API Only</h3>
+     *
      * If set to {@code false}, the Onboarding Screen won't be shown on the first run.
      *
      * @return whether to show the Onboarding Screen or not
@@ -139,6 +140,17 @@ public class GiniVision {
         return mShouldShowOnboardingAtFirstRun;
     }
 
+    /**
+     * <h3>Screen API Only</h3>
+     *
+     * If set to {@code true}, the Onboarding Screen will be shown every every time the CameraActivity starts.
+     * <p>
+     * Default value is {@code false}.
+     * <p>
+     * You can change it on the existing GiniVision instance with {@link GiniVision#setShouldShowOnboarding(boolean)}.
+     *
+     * @return whether to show the Onboarding Screen or not
+     */
     public boolean shouldShowOnboarding() {
         return mShouldShowOnboarding;
     }
