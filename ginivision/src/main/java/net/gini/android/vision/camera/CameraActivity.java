@@ -666,13 +666,6 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         mOnboardingShown = true;
     }
 
-    /**
-     * @deprecated When a {@link GiniVision} instance is available the document
-     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
-     * implementation. The extractions will be returned in the extra called
-     * {@link CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
-     */
-    @Deprecated
     @Override
     public void onDocumentAvailable(@NonNull final Document document) {
         mDocument = document;
@@ -683,13 +676,6 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         }
     }
 
-    /**
-     * @deprecated When a {@link GiniVision} instance is available the document
-     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
-     * implementation. The extractions will be returned in the extra called
-     * {@link CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
-     */
-    @Deprecated
     @Override
     public void onProceedToMultiPageReviewScreen(
             @NonNull final MultiPageDocument multiPageDocument) {

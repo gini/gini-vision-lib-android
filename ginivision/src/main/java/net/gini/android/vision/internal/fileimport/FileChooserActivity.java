@@ -292,6 +292,9 @@ public class FileChooserActivity extends AppCompatActivity {
     private static Intent createImagePickerIntent() {
         final Intent intent = new Intent(ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/*");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        }
         return intent;
     }
 
@@ -312,6 +315,9 @@ public class FileChooserActivity extends AppCompatActivity {
         }
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("image/*");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        }
         return intent;
     }
 

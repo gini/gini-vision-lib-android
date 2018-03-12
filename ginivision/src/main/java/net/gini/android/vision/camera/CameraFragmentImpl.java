@@ -84,6 +84,7 @@ import net.gini.android.vision.util.UriHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -124,7 +125,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         }
 
         @Override
-        public void onExtractionsAvailable(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
+        public void onExtractionsAvailable(
+                @NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
 
         }
     };
@@ -883,57 +885,112 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         if (activity == null) {
             return;
         }
-        final Uri uri = IntentHelper.getUri(data);
-        if (uri == null) {
-            LOG.error("Document import failed: Intent has no Uri");
-            showInvalidFileError(null);
-            return;
-        }
-        if (!UriHelper.isUriInputStreamAvailable(uri, activity)) {
-            LOG.error("Document import failed: InputStream not available for the Uri");
-            showInvalidFileError(null);
-            return;
-        }
-        final FileImportValidator fileImportValidator = new FileImportValidator(activity);
-        if (fileImportValidator.matchesCriteria(data, uri)) {
-            createDocumentAndCallListener(data, activity);
+        if (IntentHelper.hasMultipleUris(data)) {
+            final List<Uri> uris = IntentHelper.getUris(data);
+            if (uris == null) {
+                LOG.error("Document import failed: Intent has no Uris");
+                showInvalidFileError(null);
+                return;
+            }
+            createMultiPageDocumentAndCallListener(activity, data, uris);
         } else {
-            showInvalidFileError(fileImportValidator.getError());
+            final Uri uri = IntentHelper.getUri(data);
+            if (uri == null) {
+                LOG.error("Document import failed: Intent has no Uri");
+                showInvalidFileError(null);
+                return;
+            }
+            if (!UriHelper.isUriInputStreamAvailable(uri, activity)) {
+                LOG.error("Document import failed: InputStream not available for the Uri");
+                showInvalidFileError(null);
+                return;
+            }
+            final FileImportValidator fileImportValidator = new FileImportValidator(activity);
+            if (fileImportValidator.matchesCriteria(data, uri)) {
+                createSinglePageDocumentAndCallListener(data, activity);
+            } else {
+                showInvalidFileError(fileImportValidator.getError());
+            }
         }
     }
 
-    private void createDocumentAndCallListener(final Intent data, final Activity activity) {
+    private void createSinglePageDocumentAndCallListener(final Intent data,
+            final Activity activity) {
         try {
-            showActivityIndicatorAndDisableInteraction();
             final GiniVisionDocument document = DocumentFactory.newDocumentFromIntent(data,
                     activity,
                     DeviceHelper.getDeviceOrientation(activity),
                     DeviceHelper.getDeviceType(activity),
                     "picker");
             LOG.info("Document imported: {}", document);
-            LOG.debug("Requesting document check from client");
-            mListener.onCheckImportedDocument(document,
-                    new CameraFragmentListener.DocumentCheckResultCallback() {
-                        @Override
-                        public void documentAccepted() {
-                            LOG.debug("Client accepted the document");
-                            hideActivityIndicatorAndEnableInteraction();
-                            mListener.onDocumentAvailable(document);
-                        }
-
-                        @Override
-                        public void documentRejected(@NonNull final String messageForUser) {
-                            LOG.debug("Client rejected the document: {}", messageForUser);
-                            hideActivityIndicatorAndEnableInteraction();
-                            showInvalidFileAlert(messageForUser);
-                        }
-                    });
-
+            requestClientDocumentCheck(document);
         } catch (final IllegalArgumentException e) {
             LOG.error("Failed to import selected document", e);
-            hideActivityIndicatorAndEnableInteraction();
             showInvalidFileError(null);
         }
+    }
+
+    private void requestClientDocumentCheck(final GiniVisionDocument document) {
+        showActivityIndicatorAndDisableInteraction();
+        LOG.debug("Requesting document check from client");
+        mListener.onCheckImportedDocument(document,
+                new CameraFragmentListener.DocumentCheckResultCallback() {
+                    @Override
+                    public void documentAccepted() {
+                        LOG.debug("Client accepted the document");
+                        hideActivityIndicatorAndEnableInteraction();
+                        if (document.getType() == Document.Type.MULTI_PAGE) {
+                            mListener.onProceedToMultiPageReviewScreen(
+                                    (MultiPageDocument) document);
+                        } else {
+                            mListener.onDocumentAvailable(document);
+                        }
+                    }
+
+                    @Override
+                    public void documentRejected(@NonNull final String messageForUser) {
+                        LOG.debug("Client rejected the document: {}", messageForUser);
+                        hideActivityIndicatorAndEnableInteraction();
+                        showInvalidFileAlert(messageForUser);
+                    }
+                });
+    }
+
+    private void createMultiPageDocumentAndCallListener(@NonNull final Context context,
+            @NonNull final Intent intent, @NonNull final List<Uri> uris) {
+        final MultiPageDocument multiPageDocument = new MultiPageDocument(true);
+        for (final Uri uri : uris) {
+            if (!UriHelper.isUriInputStreamAvailable(uri, context)) {
+                LOG.error("Document import failed: InputStream not available for the Uri");
+                showInvalidFileError(null);
+                return;
+            }
+            final FileImportValidator fileImportValidator = new FileImportValidator(context);
+            if (fileImportValidator.matchesCriteria(uri)) {
+                if (IntentHelper.hasMimeTypeWithPrefix(uri, context, "image/")) {
+                    try {
+                        final ImageDocument document = DocumentFactory.newImageDocumentFromUri(uri,
+                                intent, context, DeviceHelper.getDeviceOrientation(context),
+                                DeviceHelper.getDeviceType(context), "openwith");
+                        multiPageDocument.addImageDocument(document);
+                    } catch (final IllegalArgumentException e) {
+                        LOG.error("Failed to import selected document", e);
+                        showInvalidFileError(null);
+                        return;
+                    }
+                }
+            } else {
+                showInvalidFileError(fileImportValidator.getError());
+                return;
+            }
+        }
+        if (multiPageDocument.getImageDocuments().isEmpty()) {
+            LOG.error("Document import failed: Intent did not contain images");
+            showInvalidFileError(null);
+            return;
+        }
+        LOG.info("Document imported: {}", multiPageDocument);
+        requestClientDocumentCheck(multiPageDocument);
     }
 
     @Override
@@ -971,7 +1028,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
 
     @Override
     public void startMultiPage(@NonNull final Document document) {
-        if (!(document instanceof  ImageDocument)) {
+        if (!(document instanceof ImageDocument)) {
             return;
         }
         final ImageDocument imageDocument = (ImageDocument) document;
