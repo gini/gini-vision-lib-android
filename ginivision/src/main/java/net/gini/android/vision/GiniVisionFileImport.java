@@ -6,12 +6,14 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import net.gini.android.vision.analysis.AnalysisActivity;
+import net.gini.android.vision.camera.CameraActivity;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.document.MultiPageDocument;
 import net.gini.android.vision.internal.util.ActivityHelper;
 import net.gini.android.vision.internal.util.DeviceHelper;
 import net.gini.android.vision.internal.util.FileImportValidator;
+import net.gini.android.vision.network.GiniVisionNetworkService;
 import net.gini.android.vision.review.MultiPageReviewActivity;
 import net.gini.android.vision.review.ReviewActivity;
 import net.gini.android.vision.util.IntentHelper;
@@ -44,8 +46,14 @@ public final class GiniVisionFileImport {
      * @throws ImportedFileValidationException if the file didn't pass validation
      * @throws IllegalArgumentException        if the Intent's data is not valid or the mime type is not
      *                                         supported
+     *
+     * @deprecated Use {@link GiniVisionFileImport#createDocumentForImportedFile(Intent, Context)} instead
+     * when a {@link GiniVision} instance is available. The document
+     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
+     * implementation. The extractions will be returned in the extra called
+     * {@link CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
      */
-    // TODO: deprecate and create one without activity classes - passing in activity classes not required when using GiniVision
+    @Deprecated
     @NonNull
     public static Intent createIntentForImportedFile(@NonNull final Intent intent,
             @NonNull final Context context,
@@ -74,6 +82,55 @@ public final class GiniVisionFileImport {
                         ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY, context, analysisActivityClass);
             } else {
                 giniVisionIntent = new Intent(context, analysisActivityClass);
+                giniVisionIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, document);
+            }
+        }
+        return giniVisionIntent;
+    }
+
+    /**
+     * <b>Screen API</b>
+     * <p>
+     * When your application receives a file from another application you can use this method to
+     * create an Intent for launching the Gini Vision Library.
+     * <p>
+     *     Start the Intent with {@link android.app.Activity#startActivityForResult(Intent,
+     *     int)} to receive the extractions or a {@link GiniVisionError} in case there was an error.
+     * </p>
+     *
+     * @param intent                the Intent your app received
+     * @param context               Android context subclass
+     * @return an Intent for launching the Gini Vision Library
+     * @throws ImportedFileValidationException if the file didn't pass validation
+     * @throws IllegalArgumentException        if the Intent's data is not valid or the mime type is not
+     *                                         supported
+     */
+    @NonNull
+    public static Intent createIntentForImportedFile(@NonNull final Intent intent,
+            @NonNull final Context context)
+            throws ImportedFileValidationException {
+        final Document document = createDocumentForImportedFile(intent, context);
+        final Intent giniVisionIntent;
+        if (document.getType() == Document.Type.MULTI_PAGE) {
+            final MultiPageDocument multiPageDocument = (MultiPageDocument) document;
+            final List<ImageDocument> imageDocuments = multiPageDocument.getImageDocuments();
+            if (imageDocuments.size() > 1) {
+                giniVisionIntent = MultiPageReviewActivity.createIntent(context, document);
+            } else {
+                giniVisionIntent = new Intent(context, ReviewActivity.class);
+                final ImageDocument imageDocument = imageDocuments.get(0);
+                giniVisionIntent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, imageDocument);
+                ActivityHelper.setActivityExtra(giniVisionIntent,
+                        ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY, context, AnalysisActivity.class);
+            }
+        } else {
+            if (document.isReviewable()) {
+                giniVisionIntent = new Intent(context, ReviewActivity.class);
+                giniVisionIntent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, document);
+                ActivityHelper.setActivityExtra(giniVisionIntent,
+                        ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY, context, AnalysisActivity.class);
+            } else {
+                giniVisionIntent = new Intent(context, AnalysisActivity.class);
                 giniVisionIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, document);
             }
         }
