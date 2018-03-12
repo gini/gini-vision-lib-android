@@ -10,9 +10,11 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.analysis.AnalysisFragmentCompat;
 import net.gini.android.vision.analysis.AnalysisFragmentListener;
-import net.gini.android.vision.component.ExtractionsActivity;
 import net.gini.android.vision.component.R;
 import net.gini.android.vision.component.noresults.compat.NoResultsExampleAppCompatActivity;
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
+
+import java.util.Map;
 
 /**
  * Created by Alpar Szotyori on 04.12.2017.
@@ -43,7 +45,18 @@ public class AnalysisExampleAppCompatActivity extends AppCompatActivity implemen
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onExtractionsAvailable(
+            @NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
+        mAnalysisScreenHandler.onExtractionsAvailable(extractions);
+    }
+
+    @Override
+    public void onProceedToNoExtractionsScreen(@NonNull final Document document) {
+        mAnalysisScreenHandler.onProceedToNoExtractionsScreen(document);
+    }
+
+    @Override
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_analysis_compat);
         mAnalysisScreenHandler = new AnalysisScreenHandlerAppCompat(this);

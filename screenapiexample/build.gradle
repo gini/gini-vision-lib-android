@@ -76,9 +76,15 @@ dependencies {
         exclude group: 'com.google.android', module: 'android'
     }
 
+    // For backward compatibility
     implementation('net.gini:gini-android-sdk:1.4.2@aar') {
         transitive = true
     }
+
+    // For testing the local version
+    implementation project(path: ':ginivision-network')
+    // For testing a released version
+    //implementation 'net.gini:gini-vision-lib-network:2.5.0'
 
     // For testing the local version
     implementation project(path: ':ginivision')

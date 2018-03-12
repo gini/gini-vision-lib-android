@@ -1,5 +1,8 @@
 package net.gini.android.vision.camera;
 
+import static net.gini.android.vision.internal.util.FeatureConfiguration.shouldShowOnboarding;
+import static net.gini.android.vision.internal.util.FeatureConfiguration.shouldShowOnboardingAtFirstRun;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +16,7 @@ import android.view.MenuItem;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
@@ -22,12 +26,15 @@ import net.gini.android.vision.document.MultiPageDocument;
 import net.gini.android.vision.document.QRCodeDocument;
 import net.gini.android.vision.help.HelpActivity;
 import net.gini.android.vision.internal.util.ActivityHelper;
+import net.gini.android.vision.network.GiniVisionNetworkService;
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.review.MultiPageReviewActivity;
 import net.gini.android.vision.review.ReviewActivity;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * <h3>Screen API</h3>
@@ -310,6 +317,11 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * Use the {@link CameraActivity#setReviewActivityExtra(Intent, Context, Class)} helper to set
      * it.
      * </p>
+     *
+     * @deprecated When a {@link GiniVision} instance is available the document
+     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
+     * implementation. The extractions will be returned in the extra called
+     * {@link CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
      */
     public static final String EXTRA_IN_REVIEW_ACTIVITY = "GV_EXTRA_IN_REVIEW_ACTIVITY";
     /**
@@ -321,12 +333,18 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * Use the {@link CameraActivity#setAnalysisActivityExtra(Intent, Context, Class)} helper to set
      * it.
      * </p>
+     *
+     * @deprecated When a {@link GiniVision} instance is available the document
+     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
+     * implementation. The extractions will be returned in the extra called
+     * {@link CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
      */
     public static final String EXTRA_IN_ANALYSIS_ACTIVITY = "GV_EXTRA_IN_ANALYSIS_ACTIVITY";
     /**
-     * <p>
      * Optional extra which must contain an {@code ArrayList} with {@link OnboardingPage} objects.
-     * </p>
+     *
+     * @deprecated Configuration should be applied by creating a {@link GiniVision} instance using
+     * {@link GiniVision#newInstance()} and the returned {@link GiniVision.Builder}.
      */
     public static final String EXTRA_IN_ONBOARDING_PAGES = "GV_EXTRA_IN_ONBOARDING_PAGES";
     /**
@@ -337,6 +355,9 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * <p>
      * Default value is {@code true}.
      * </p>
+     *
+     * @deprecated Configuration should be applied by creating a {@link GiniVision} instance using
+     * {@link GiniVision#newInstance()} and the returned {@link GiniVision.Builder}.
      */
     public static final String EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN =
             "GV_EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN";
@@ -348,6 +369,9 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * <p>
      * Default value is {@code false}.
      * </p>
+     *
+     * @deprecated Configuration should be applied by creating a {@link GiniVision} instance using
+     * {@link GiniVision#newInstance()} and the returned {@link GiniVision.Builder}.
      */
     public static final String EXTRA_IN_SHOW_ONBOARDING = "GV_EXTRA_IN_SHOW_ONBOARDING";
 
@@ -359,6 +383,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * <p>
      * Default value is {@code false}.
      * </p>
+     *
      * @deprecated The option to close the library with the back button from any screen will be removed
      * in a future version.
      */
@@ -366,9 +391,10 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
             "GV_EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY";
 
     /**
-     * <p>
-     *     Optional extra which must contain a {@link GiniVisionFeatureConfiguration} instance.
-     * </p>
+     * Optional extra which must contain a {@link GiniVisionFeatureConfiguration} instance.
+     *
+     * @deprecated Configuration should be applied by creating a {@link GiniVision} instance using
+     * {@link GiniVision#newInstance()} and the returned {@link GiniVision.Builder}.
      */
     public static final String EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION =
             "GV_EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION";
@@ -380,6 +406,12 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * </p>
      */
     public static final String EXTRA_OUT_ERROR = "GV_EXTRA_OUT_ERROR";
+
+    /**
+     * Returned when extractions are available. Contains a Bundle with the extraction labels
+     * as keys and {@link GiniVisionSpecificExtraction} as values.
+     */
+    public static final String EXTRA_OUT_EXTRACTIONS = "GV_EXTRA_OUT_EXTRACTIONS";
 
     /**
      * <p>
@@ -422,7 +454,13 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      *                            ReviewActivity} subclass
      * @param reviewActivityClass class of your {@link ReviewActivity} subclass
      * @param <T>                 type of your {@link ReviewActivity} subclass
+     *
+     * @deprecated When a {@link GiniVision} instance is available the document
+     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
+     * implementation. The extractions will be returned in the extra called
+     * {@link CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
      */
+    @Deprecated
     public static <T extends ReviewActivity> void setReviewActivityExtra(final Intent target,
             final Context context,
             final Class<T> reviewActivityClass) {
@@ -442,7 +480,13 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      *                              AnalysisActivity} subclass
      * @param analysisActivityClass class of your {@link AnalysisActivity} subclass
      * @param <T>                   type of your {@link AnalysisActivity} subclass
+     *
+     * @deprecated When a {@link GiniVision} instance is available the document
+     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
+     * implementation. The extractions will be returned in the extra called
+     * {@link CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
      */
+    @Deprecated
     public static <T extends AnalysisActivity> void setAnalysisActivityExtra(final Intent target,
             final Context context,
             final Class<T> analysisActivityClass) {
@@ -519,7 +563,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     }
 
     private void showOnboardingIfRequested() {
-        if (mShowOnboarding) {
+        if (shouldShowOnboarding(mShowOnboarding)) {
             startOnboardingActivity();
         }
     }
@@ -559,21 +603,18 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
 
     private void checkRequiredExtras() {
         if (mReviewDocumentActivityIntent == null) {
-            throw new IllegalStateException(
-                    "CameraActivity requires a ReviewActivity class. Call "
-                            + "setReviewDocumentActivityExtra() to set it.");
+            mReviewDocumentActivityIntent = new Intent(this, ReviewActivity.class);
         }
         if (mAnalyzeDocumentActivityIntent == null) {
-            throw new IllegalStateException(
-                    "CameraActivity requires an AnalyzeDocumentActivity class. Call "
-                            + "setAnalyzeDocumentActivityExtra() to set it.");
+            mAnalyzeDocumentActivityIntent = new Intent(this, AnalysisActivity.class);
         }
     }
 
     private void createGiniVisionCoordinator() {
         mGiniVisionCoordinator = GiniVisionCoordinator.createInstance(this);
         mGiniVisionCoordinator
-                .setShowOnboardingAtFirstRun(mShowOnboardingAtFirstRun)
+                .setShowOnboardingAtFirstRun(
+                        shouldShowOnboardingAtFirstRun(mShowOnboardingAtFirstRun))
                 .setListener(new GiniVisionCoordinator.Listener() {
                     @Override
                     public void onShowOnboarding() {
@@ -625,6 +666,13 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         mOnboardingShown = true;
     }
 
+    /**
+     * @deprecated When a {@link GiniVision} instance is available the document
+     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
+     * implementation. The extractions will be returned in the extra called
+     * {@link CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
+     */
+    @Deprecated
     @Override
     public void onDocumentAvailable(@NonNull final Document document) {
         mDocument = document;
@@ -635,6 +683,13 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         }
     }
 
+    /**
+     * @deprecated When a {@link GiniVision} instance is available the document
+     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
+     * implementation. The extractions will be returned in the extra called
+     * {@link CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
+     */
+    @Deprecated
     @Override
     public void onProceedToMultiPageReviewScreen(
             @NonNull final MultiPageDocument multiPageDocument) {
@@ -644,7 +699,6 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
 
     @Override
     public void onQRCodeAvailable(@NonNull final QRCodeDocument qrCodeDocument) {
-
     }
 
     @Override
@@ -675,6 +729,18 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         final Intent result = new Intent();
         result.putExtra(EXTRA_OUT_ERROR, error);
         setResult(RESULT_ERROR, result);
+        finish();
+    }
+
+    @Override
+    public void onExtractionsAvailable(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
+        final Intent result = new Intent();
+        final Bundle extractionsBundle = new Bundle();
+        for (final Map.Entry<String, GiniVisionSpecificExtraction> extraction : extractions.entrySet()) {
+            extractionsBundle.putParcelable(extraction.getKey(), extraction.getValue());
+        }
+        result.putExtra(CameraActivity.EXTRA_OUT_EXTRACTIONS, extractionsBundle);
+        setResult(RESULT_OK, result);
         finish();
     }
 

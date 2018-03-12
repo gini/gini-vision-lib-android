@@ -3,9 +3,13 @@ package net.gini.android.vision.review;
 import android.support.annotation.NonNull;
 
 import net.gini.android.vision.Document;
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.analysis.AnalysisFragmentCompat;
 import net.gini.android.vision.analysis.AnalysisFragmentStandard;
+import net.gini.android.vision.network.GiniVisionNetworkService;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -26,7 +30,12 @@ public interface ReviewFragmentInterface {
      * <p>
      *     If the document wasn't analyzed or the image was changed when the user tapped the Next button, {@link ReviewFragmentListener#onProceedToAnalysisScreen(Document)} is called.
      * </p>
+     *
+     * @deprecated When a {@link GiniVision} instance is available the document
+     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
+     * implementation. The extractions will be returned in {@link ReviewFragmentListener#onExtractionsAvailable(Map)}.
      */
+    @Deprecated
     void onDocumentAnalyzed();
 
     /**
@@ -34,7 +43,12 @@ public interface ReviewFragmentInterface {
      * You should call this method after you've received the analysis results from the Gini API
      * without the required extractions.
      * </p>
+     *
+     * @deprecated When a {@link GiniVision} instance is available the document
+     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
+     * implementation.
      */
+    @Deprecated
     void onNoExtractionsFound();
 
     /**

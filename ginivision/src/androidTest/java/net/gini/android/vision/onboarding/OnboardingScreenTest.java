@@ -24,6 +24,7 @@ import android.support.test.uiautomator.UiDevice;
 import android.view.Surface;
 
 import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.R;
 import net.gini.android.vision.test.EspressoMatchers;
 
@@ -55,7 +56,7 @@ public class OnboardingScreenTest {
     @After
     public void tearDown() throws Exception {
         resetDeviceOrientation();
-        OnboardingFragmentHostActivityNotListener.sListener = null;
+        GiniVision.cleanup();
     }
 
     @Test
@@ -166,6 +167,48 @@ public class OnboardingScreenTest {
     }
 
     @Test
+    public void should_showCustomPages_whenSetUsingGiniVision() throws InterruptedException {
+        final ArrayList<OnboardingPage> customPages = new ArrayList<>(1);
+        customPages.add(new OnboardingPage(R.string.gv_title_camera, R.drawable.gv_camera_trigger));
+        customPages.add(
+                new OnboardingPage(R.string.gv_title_review, R.drawable.gv_review_button_rotate));
+
+        GiniVision.newInstance()
+                .setCustomOnboardingPages(customPages)
+                .build();
+
+        final Intent intent = getOnboardingActivityIntent();
+        final OnboardingActivity activity = startOnboardingActivity(intent);
+
+        // Give some time for the activity to start
+        Thread.sleep(TEST_PAUSE_DURATION);
+
+        // Verify the first page
+        Espresso.onView(ViewMatchers.withText(R.string.gv_title_camera))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        // Go to the second page
+        Espresso.onView(ViewMatchers.withId(R.id.gv_button_next))
+                .perform(ViewActions.click());
+
+        // Give some time for paging animation to finish
+        Thread.sleep(TEST_PAUSE_DURATION);
+
+        // Verify the second page
+        Espresso.onView(ViewMatchers.withText(R.string.gv_title_review))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        // Click the next button again to finish
+        Espresso.onView(ViewMatchers.withId(R.id.gv_button_next))
+                .perform(ViewActions.click());
+
+        // Give some time for paging animation to finish
+        Thread.sleep(TEST_PAUSE_DURATION);
+
+        assertThat(activity.isFinishing()).isTrue();
+    }
+
+    @Test
     public void should_showEmptyLastPage_byDefault() {
         startOnboardingActivity();
 
@@ -194,8 +237,7 @@ public class OnboardingScreenTest {
         // Given
         assumeTrue(!isTablet());
 
-        final UiDevice uiDevice = UiDevice.getInstance(
-                InstrumentationRegistry.getInstrumentation());
+        final UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         uiDevice.setOrientationLeft();
         waitForWindowUpdate(uiDevice);
 
@@ -203,8 +245,7 @@ public class OnboardingScreenTest {
         waitForWindowUpdate(uiDevice);
 
         // Then
-        final int rotation =
-                onboardingActivity.getWindowManager().getDefaultDisplay().getRotation();
+        final int rotation = onboardingActivity.getWindowManager().getDefaultDisplay().getRotation();
         assertThat(rotation)
                 .isEqualTo(Surface.ROTATION_0);
     }

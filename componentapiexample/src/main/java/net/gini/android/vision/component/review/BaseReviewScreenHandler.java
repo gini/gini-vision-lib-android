@@ -4,12 +4,14 @@ import static android.app.Activity.RESULT_OK;
 
 import static net.gini.android.vision.component.review.compat.ReviewExampleAppCompatActivity.EXTRA_IN_DOCUMENT;
 import static net.gini.android.vision.example.ExampleUtil.getExtractionsBundle;
+import static net.gini.android.vision.example.ExampleUtil.getLegacyExtractionsBundle;
 import static net.gini.android.vision.example.ExampleUtil.hasNoPay5Extractions;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.widget.Toast;
 
 import net.gini.android.models.SpecificExtraction;
@@ -22,6 +24,7 @@ import net.gini.android.vision.component.R;
 import net.gini.android.vision.example.BaseExampleApp;
 import net.gini.android.vision.example.DocumentAnalyzer;
 import net.gini.android.vision.example.SingleDocumentAnalyzer;
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.review.ReviewFragmentInterface;
 import net.gini.android.vision.review.ReviewFragmentListener;
 
@@ -112,7 +115,13 @@ public abstract class BaseReviewScreenHandler implements ReviewFragmentListener 
 
     @Override
     public void onProceedToAnalysisScreen(@NonNull final Document document) {
-        final Intent intent = getAnalysisActivityIntent(document, mDocumentAnalysisErrorMessage);
+        onProceedToAnalysisScreen(document, null);
+    }
+
+    @Override
+    public void onProceedToAnalysisScreen(@NonNull final Document document,
+            @Nullable final String errorMessage) {
+        final Intent intent = getAnalysisActivityIntent(document, errorMessage);
         mActivity.startActivityForResult(intent, ANALYSIS_REQUEST);
     }
 
@@ -126,32 +135,31 @@ public abstract class BaseReviewScreenHandler implements ReviewFragmentListener 
         // the Analysis Screen,
         // we can show the extractions
         if (mExtractions != null) {
-            showExtractions(getSingleDocumentAnalyzer().getGiniApiDocument(),
-                    mExtractions, document);
+            // If we have no Pay 5 extractions we query the Gini Vision Library
+            // whether we should show the the Gini Vision No Results Screen
+            if (hasNoPay5Extractions(mExtractions.keySet())
+                    && GiniVisionCoordinator.shouldShowGiniVisionNoResultsScreen(document)) {
+                // Show a special screen, if no Pay5 extractions were found to give the user some
+                // hints and tips
+                // for using the Gini Vision Library
+                showNoResultsScreen(document);
+            } else {
+                showExtractions(getSingleDocumentAnalyzer().getGiniApiDocument(),
+                        getLegacyExtractionsBundle(mExtractions));
+
+            }
             mExtractions = null;
         }
     }
 
     private void showExtractions(final net.gini.android.models.Document giniApiDocument,
-            final Map<String, SpecificExtraction> extractions, final Document document) {
+            final Bundle extractionsBundle) {
         LOG.debug("Show extractions");
-        // If we have no Pay 5 extractions we query the Gini Vision Library
-        // whether we should show the the Gini Vision No Results Screen
-        if (hasNoPay5Extractions(extractions.keySet())
-                && GiniVisionCoordinator.shouldShowGiniVisionNoResultsScreen(document)) {
-            // Show a special screen, if no Pay5 extractions were found to give the user some
-            // hints and tips
-            // for using the Gini Vision Library
-            showNoResultsScreen(document);
-        } else {
-            final Intent intent = new Intent(mActivity, ExtractionsActivity.class);
-            intent.putExtra(ExtractionsActivity.EXTRA_IN_DOCUMENT, giniApiDocument);
-            intent.putExtra(ExtractionsActivity.EXTRA_IN_EXTRACTIONS,
-                    getExtractionsBundle(extractions));
-            mActivity.startActivity(intent);
-            mActivity.setResult(RESULT_OK);
-            mActivity.finish();
-        }
+        final Intent intent = new Intent(mActivity, ExtractionsActivity.class);
+        intent.putExtra(ExtractionsActivity.EXTRA_IN_EXTRACTIONS, extractionsBundle);
+        mActivity.startActivity(intent);
+        mActivity.setResult(RESULT_OK);
+        mActivity.finish();
     }
 
     private void showNoResultsScreen(final Document document) {
@@ -166,12 +174,7 @@ public abstract class BaseReviewScreenHandler implements ReviewFragmentListener 
     @Override
     public void onDocumentWasRotated(@NonNull final Document document, final int oldRotation,
             final int newRotation) {
-        // We need to cancel the analysis here, we will have to upload the rotated document in
-        // onAnalyzeDocument() while
-        // the Analysis Fragment is shown
         getSingleDocumentAnalyzer().cancelAnalysis();
-        mDocumentAnalysisErrorMessage = null;
-        mExtractions = null;
     }
 
     @Override
@@ -205,10 +208,10 @@ public abstract class BaseReviewScreenHandler implements ReviewFragmentListener 
         readDocumentFromExtras();
 
         if (savedInstanceState == null) {
-            mReviewFragmentInterface = createReviewFragment();
+            createReviewFragment();
             showReviewFragment();
         } else {
-            mReviewFragmentInterface = retrieveReviewFragment();
+            retrieveReviewFragment();
         }
     }
 
@@ -229,5 +232,16 @@ public abstract class BaseReviewScreenHandler implements ReviewFragmentListener 
     @Override
     public void onAddMorePages(@NonNull final Document document) {
         // TODO: go back to the Camera Screen with document and show image stack
+    }
+
+    @Override
+    public void onExtractionsAvailable(
+            @NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
+        showExtractions(null, getExtractionsBundle(extractions));
+    }
+
+    @Override
+    public void onProceedToNoExtractionsScreen(@NonNull final Document document) {
+        showNoResultsScreen(document);
     }
 }

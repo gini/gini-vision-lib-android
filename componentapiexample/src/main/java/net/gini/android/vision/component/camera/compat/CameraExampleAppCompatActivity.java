@@ -16,8 +16,11 @@ import net.gini.android.vision.component.analysis.compat.AnalysisExampleAppCompa
 import net.gini.android.vision.component.review.compat.ReviewExampleAppCompatActivity;
 import net.gini.android.vision.document.QRCodeDocument;
 import net.gini.android.vision.help.HelpActivity;
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.onboarding.OnboardingFragmentCompat;
 import net.gini.android.vision.onboarding.OnboardingFragmentListener;
+
+import java.util.Map;
 
 /**
  * Created by Alpar Szotyori on 04.12.2017.
@@ -102,5 +105,11 @@ public class CameraExampleAppCompatActivity extends AppCompatActivity implements
     @Override
     public void onError(@NonNull final GiniVisionError error) {
         mCameraScreenHandler.onError(error);
+    }
+
+    @Override
+    public void onExtractionsAvailable(
+            @NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
+        mCameraScreenHandler.onExtractionsAvailable(extractions);
     }
 }

@@ -1,6 +1,6 @@
 package net.gini.android.vision.screen;
 
-import static net.gini.android.vision.example.ExampleUtil.getExtractionsBundle;
+import static net.gini.android.vision.example.ExampleUtil.getLegacyExtractionsBundle;
 import static net.gini.android.vision.example.ExampleUtil.hasNoPay5Extractions;
 
 import android.content.Intent;
@@ -46,7 +46,7 @@ public class ReviewActivity extends net.gini.android.vision.review.ReviewActivit
         // We add the extraction results here to the Intent. The payload format is up to you.
         // For the example we add the extractions as key-value pairs to a Bundle
         // We retrieve them when the CameraActivity has finished in MainActivity#onActivityResult()
-        final Bundle extractionsBundle = getExtractionsBundle(mExtractions);
+        final Bundle extractionsBundle = getLegacyExtractionsBundle(mExtractions);
         if (extractionsBundle != null) {
             result.putExtra(MainActivity.EXTRA_OUT_EXTRACTIONS, extractionsBundle);
         }
@@ -56,7 +56,6 @@ public class ReviewActivity extends net.gini.android.vision.review.ReviewActivit
     public void onShouldAnalyzeDocument(@NonNull final Document document) {
         LOG.debug("Should analyze document");
         GiniVisionDebug.writeDocumentToFile(this, document, "_for_review");
-
         // We should start analyzing the document by sending it to the Gini API.
         // If the user did not modify the image we can get the analysis results earlier.
         // The Gini Vision Library does not go to the Analysis Screen, if the results were received in the Review Screen.

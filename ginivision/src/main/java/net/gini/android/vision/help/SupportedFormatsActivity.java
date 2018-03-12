@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
@@ -93,6 +94,9 @@ public class SupportedFormatsActivity extends AppCompatActivity {
 
     /**
      * @exclude
+     *
+     * @deprecated Configuration should be applied by creating a {@link GiniVision} instance using
+     * {@link GiniVision#newInstance()} and the returned {@link GiniVision.Builder}.
      */
     public static final String EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION =
             "GV_EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION";
@@ -100,7 +104,7 @@ public class SupportedFormatsActivity extends AppCompatActivity {
     private GiniVisionFeatureConfiguration mGiniVisionFeatureConfiguration;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gv_activity_supported_formats);
         readExtras();

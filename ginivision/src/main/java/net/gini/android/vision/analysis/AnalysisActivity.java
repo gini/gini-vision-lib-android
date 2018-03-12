@@ -13,13 +13,18 @@ import android.view.MenuItem;
 import android.view.View;
 
 import net.gini.android.vision.Document;
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.camera.CameraActivity;
+import net.gini.android.vision.network.GiniVisionNetworkService;
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.noresults.NoResultsActivity;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.review.ReviewActivity;
+
+import java.util.Map;
 
 /**
  * <h3>Screen API</h3>
@@ -158,7 +163,7 @@ import net.gini.android.vision.review.ReviewActivity;
  *     </ul>
  * </p>
  */
-public abstract class AnalysisActivity extends AppCompatActivity implements
+public class AnalysisActivity extends AppCompatActivity implements
         AnalysisFragmentListener, AnalysisFragmentInterface {
 
     /**
@@ -203,7 +208,12 @@ public abstract class AnalysisActivity extends AppCompatActivity implements
      * <p>
      *     It will launch the {@link NoResultsActivity}, if the {@link Document}'s type is {@link Document.Type#IMAGE}. For other types it will just finish the {@code AnalysisActivity} with {@code RESULT_OK}.
      * </p>
+     *
+     * @deprecated When a {@link GiniVision} instance is available the document
+     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
+     * implementation.
      */
+    @Deprecated
     @Override
     public void onNoExtractionsFound() {
         if (GiniVisionCoordinator.shouldShowGiniVisionNoResultsScreen(mDocument)) {
@@ -227,9 +237,16 @@ public abstract class AnalysisActivity extends AppCompatActivity implements
      * </p>
      *
      * @param document contains the image taken by the camera (original or modified)
+     *
+     * @deprecated When a {@link GiniVision} instance is available the document
+     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
+     * implementation. The extractions will be returned in the extra called
+     * {@link CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
      */
+    @Deprecated
     @Override
-    public abstract void onAnalyzeDocument(@NonNull Document document);
+    public void onAnalyzeDocument(@NonNull final Document document) {
+    }
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -251,6 +268,13 @@ public abstract class AnalysisActivity extends AppCompatActivity implements
         clearMemory();
     }
 
+    /**
+     * @deprecated When a {@link GiniVision} instance is available the document
+     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
+     * implementation. The extractions will be returned in the extra called
+     * {@link CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
+     */
+    @Deprecated
     @Override
     public void onDocumentAnalyzed() {
         mFragment.onDocumentAnalyzed();
@@ -288,11 +312,25 @@ public abstract class AnalysisActivity extends AppCompatActivity implements
         mFragment.showError(message, duration);
     }
 
+    /**
+     * @deprecated When a {@link GiniVision} instance is available the document
+     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
+     * implementation. The extractions will be returned in the extra called
+     * {@link CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
+     */
+    @Deprecated
     @Override
     public void startScanAnimation() {
         mFragment.startScanAnimation();
     }
 
+    /**
+     * @deprecated When a {@link GiniVision} instance is available the document
+     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
+     * implementation. The extractions will be returned in the extra called
+     * {@link CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
+     */
+    @Deprecated
     @Override
     public void stopScanAnimation() {
         mFragment.stopScanAnimation();
@@ -312,8 +350,15 @@ public abstract class AnalysisActivity extends AppCompatActivity implements
      *     <b>Note:</b> you must call {@link AnalysisActivity#onDocumentAnalyzed()} after you received the analysis results from the Gini API, otherwise this method won't be invoked.
      * </p>
      * @param result the {@link Intent} which will be returned as the result data.
+     *
+     * @deprecated When a {@link GiniVision} instance is available the document
+     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
+     * implementation. The extractions will be returned in the extra called
+     * {@link CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
      */
-    public abstract void onAddDataToResult(Intent result);
+    @Deprecated
+    public void onAddDataToResult(final Intent result) {
+    }
 
     @VisibleForTesting
     AnalysisFragmentCompat getFragment() {
@@ -371,5 +416,32 @@ public abstract class AnalysisActivity extends AppCompatActivity implements
         throw new IllegalStateException("AnalysisFragmentListener must not be altered in the "
                 + "AnalysisActivity. Override listener methods in an AnalysisActivity subclass "
                 + "instead.");
+    }
+
+    @Override
+    public void onExtractionsAvailable(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
+        final Intent result = new Intent();
+        final Bundle extractionsBundle = new Bundle();
+        for (final Map.Entry<String, GiniVisionSpecificExtraction> extraction : extractions.entrySet()) {
+            extractionsBundle.putParcelable(extraction.getKey(), extraction.getValue());
+        }
+        result.putExtra(CameraActivity.EXTRA_OUT_EXTRACTIONS, extractionsBundle);
+        setResult(RESULT_OK, result);
+        finish();
+        clearMemory();
+    }
+
+    @Override
+    public void onProceedToNoExtractionsScreen(@NonNull final Document document) {
+        if (GiniVisionCoordinator.shouldShowGiniVisionNoResultsScreen(mDocument)) {
+            final Intent noResultsActivity = new Intent(this, NoResultsActivity.class);
+            noResultsActivity.putExtra(NoResultsActivity.EXTRA_IN_DOCUMENT, mDocument);
+            startActivity(noResultsActivity);
+            setResult(RESULT_NO_EXTRACTIONS);
+        } else {
+            final Intent result = new Intent();
+            setResult(RESULT_OK, result);
+        }
+        finish();
     }
 }

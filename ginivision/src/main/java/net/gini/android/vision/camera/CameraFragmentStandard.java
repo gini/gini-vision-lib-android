@@ -140,6 +140,15 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
         mFragmentImpl.onStop();
     }
 
+    /**
+     * @exclude
+     */
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mFragmentImpl.onDestroy();
+    }
+
     @Override
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         final boolean handled = mFragmentImpl.onActivityResult(requestCode, resultCode, data);
