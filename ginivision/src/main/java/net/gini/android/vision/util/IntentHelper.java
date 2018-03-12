@@ -78,6 +78,34 @@ public final class IntentHelper {
     }
 
     @Nullable
+    public static List<Uri> getUris(@NonNull final Intent intent) {
+        final ArrayList<Uri> uris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
+        if (uris != null) {
+            return uris;
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            final ClipData clipData = intent.getClipData();
+            if (clipData != null) {
+                final int count = clipData.getItemCount();
+                final ArrayList<Uri> clipDataUris = new ArrayList<>(count);
+                for (int i = 0; i < count; i++) {
+                    clipDataUris.add(clipData.getItemAt(i).getUri());
+                }
+                return clipDataUris;
+            }
+        }
+        return null;
+    }
+
+    @Nullable
+    public static String getMimeType(@NonNull final Uri uri, @NonNull final Context context) {
+        final String type = context.getContentResolver().getType(uri);
+        if (type == null) {
+            return getMimeTypeFromUrl(uri.getPath());
+        }
+        return type;
+    }
+
+    @Nullable
     private static String getMimeTypeFromUrl(@NonNull final String url) {
         final String extension = MimeTypeMap.getFileExtensionFromUrl(url);
         if (extension != null) {
@@ -107,6 +135,12 @@ public final class IntentHelper {
         return false;
     }
 
+    public static boolean hasMimeType(@NonNull final Uri uri,
+            @NonNull final Context context, @NonNull final String mimeType) {
+        final String actualMimeType = getMimeType(uri, context);
+        return actualMimeType != null && actualMimeType.equals(mimeType);
+    }
+
     /**
      * Check whether the Intent has a mime-type starting the provided prefix.
      *
@@ -125,6 +159,12 @@ public final class IntentHelper {
             }
         }
         return false;
+    }
+
+    public static boolean hasMimeTypeWithPrefix(@NonNull final Uri uri,
+            @NonNull final Context context, @NonNull final String prefix) {
+        final String actualMimeType = getMimeType(uri, context);
+        return actualMimeType != null && actualMimeType.startsWith(prefix);
     }
 
     /**
@@ -150,6 +190,11 @@ public final class IntentHelper {
             // Ignore
         }
         return null;
+    }
+
+    public static boolean hasMultipleUris(@NonNull final Intent intent) {
+        final List<Uri> uris = getUris(intent);
+        return uris != null && uris.size() > 1;
     }
 
     private IntentHelper() {

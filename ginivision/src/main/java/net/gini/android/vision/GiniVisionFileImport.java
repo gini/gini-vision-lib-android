@@ -7,12 +7,17 @@ import android.support.annotation.NonNull;
 
 import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.document.DocumentFactory;
+import net.gini.android.vision.document.ImageDocument;
+import net.gini.android.vision.document.MultiPageDocument;
 import net.gini.android.vision.internal.util.ActivityHelper;
 import net.gini.android.vision.internal.util.DeviceHelper;
 import net.gini.android.vision.internal.util.FileImportValidator;
+import net.gini.android.vision.review.MultiPageReviewActivity;
 import net.gini.android.vision.review.ReviewActivity;
 import net.gini.android.vision.util.IntentHelper;
 import net.gini.android.vision.util.UriHelper;
+
+import java.util.List;
 
 /**
  * This class contains methods for preparing launching the Gini Vision Library with a file received
@@ -40,12 +45,16 @@ public final class GiniVisionFileImport {
      * @throws IllegalArgumentException        if the Intent's data is not valid or the mime type is not
      *                                         supported
      */
+    // TODO: deprecate - passing in activity classes not required when using GiniVision
     @NonNull
     public static Intent createIntentForImportedFile(@NonNull final Intent intent,
             @NonNull final Context context,
             @NonNull final Class<? extends ReviewActivity> reviewActivityClass,
             @NonNull final Class<? extends AnalysisActivity> analysisActivityClass)
             throws ImportedFileValidationException {
+        if (IntentHelper.hasMultipleUris(intent)) {
+            return createIntentForImportedFiles(intent, context);
+        }
         final Document document = createDocumentForImportedFile(intent, context);
         final Intent giniVisionIntent;
         if (document.isReviewable()) {
@@ -58,6 +67,25 @@ public final class GiniVisionFileImport {
             giniVisionIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, document);
         }
         return giniVisionIntent;
+    }
+
+    @NonNull
+    private static Intent createIntentForImportedFiles(@NonNull final Intent intent,
+            @NonNull final Context context)
+            throws ImportedFileValidationException {
+        final MultiPageDocument document = createDocumentForImportedFiles(intent, context);
+        final Intent giniVisionIntent;
+        if (document.getImageDocuments().size() > 1) {
+            giniVisionIntent = MultiPageReviewActivity.createIntent(context, document);
+        } else {
+            giniVisionIntent = new Intent(context, ReviewActivity.class);
+            final ImageDocument imageDocument = document.getImageDocuments().get(0);
+            giniVisionIntent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, imageDocument);
+            ActivityHelper.setActivityExtra(giniVisionIntent,
+                    ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY, context, AnalysisActivity.class);
+        }
+        return giniVisionIntent;
+
     }
 
     /**
@@ -102,6 +130,37 @@ public final class GiniVisionFileImport {
         } else {
             throw new ImportedFileValidationException(fileImportValidator.getError());
         }
+    }
+
+    @NonNull
+    private static MultiPageDocument createDocumentForImportedFiles(@NonNull final Intent intent,
+            @NonNull final Context context) throws ImportedFileValidationException {
+        final List<Uri> uris = IntentHelper.getUris(intent);
+        if (uris == null) {
+            throw new ImportedFileValidationException("Intent data did not contain Uris");
+        }
+        final MultiPageDocument multiPageDocument = new MultiPageDocument(true);
+        for (final Uri uri : uris) {
+            if (!UriHelper.isUriInputStreamAvailable(uri, context)) {
+                throw new ImportedFileValidationException(
+                        "InputStream not available for one of the Intent's data Uris");
+            }
+            final FileImportValidator fileImportValidator = new FileImportValidator(context);
+            if (fileImportValidator.matchesCriteria(uri)) {
+                if (IntentHelper.hasMimeTypeWithPrefix(uri, context, "image/")) {
+                    final ImageDocument document = DocumentFactory.newImageDocumentFromUri(uri,
+                            intent, context, DeviceHelper.getDeviceOrientation(context),
+                            DeviceHelper.getDeviceType(context), "openwith");
+                    multiPageDocument.addImageDocument(document);
+                }
+            } else {
+                throw new ImportedFileValidationException(fileImportValidator.getError());
+            }
+        }
+        if (multiPageDocument.getImageDocuments().isEmpty()) {
+            throw new ImportedFileValidationException("Intent did not contain images");
+        }
+        return multiPageDocument;
     }
 
     private GiniVisionFileImport() {

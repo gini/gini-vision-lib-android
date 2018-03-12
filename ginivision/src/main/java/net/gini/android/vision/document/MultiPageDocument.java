@@ -1,7 +1,10 @@
 package net.gini.android.vision.document;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.support.annotation.NonNull;
+
+import net.gini.android.vision.internal.AsyncCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +32,13 @@ public class MultiPageDocument extends GiniVisionDocument {
 
     private final List<ImageDocument> mImageDocuments;
 
+    public MultiPageDocument(final boolean isImported) {
+        super(Type.MULTI_PAGE, null, null, null, true, isImported);
+        mImageDocuments = new ArrayList<>();
+    }
+
     public MultiPageDocument(@NonNull final ImageDocument imageDocument, final boolean isImported) {
-        super(Type.MULTI_PAGE, null, null, true, isImported);
+        super(Type.MULTI_PAGE, null, null, null, true, isImported);
         mImageDocuments = new ArrayList<>();
         mImageDocuments.add(imageDocument);
     }
@@ -69,5 +77,32 @@ public class MultiPageDocument extends GiniVisionDocument {
 
     public void removeImageDocumentAtPosition(final int position) {
         mImageDocuments.remove(position);
+    }
+
+    @Override
+    public void loadData(@NonNull final Context context,
+            @NonNull final AsyncCallback<byte[]> callback) {
+        loadImageDocuments(0, context, callback);
+    }
+
+    private void loadImageDocuments(final int currentIndex,
+            @NonNull final Context context,
+            @NonNull final AsyncCallback<byte[]> callback) {
+        if (currentIndex < mImageDocuments.size()) {
+            final ImageDocument imageDocument = mImageDocuments.get(currentIndex);
+            imageDocument.loadData(context, new AsyncCallback<byte[]>() {
+                @Override
+                public void onSuccess(final byte[] result) {
+                    loadImageDocuments(currentIndex + 1, context, callback);
+                }
+
+                @Override
+                public void onError(final Exception exception) {
+                    loadImageDocuments(currentIndex + 1, context, callback);
+                }
+            });
+        } else {
+            callback.onSuccess(null);
+        }
     }
 }

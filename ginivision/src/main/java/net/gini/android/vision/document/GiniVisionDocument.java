@@ -35,6 +35,7 @@ public class GiniVisionDocument implements Document {
         }
     };
     private final Intent mIntent;
+    private final Uri mUri;
     private final boolean mIsImported;
     private final boolean mIsReviewable;
     private final Type mType;
@@ -43,11 +44,13 @@ public class GiniVisionDocument implements Document {
     GiniVisionDocument(@NonNull final Type type,
             @Nullable final byte[] data,
             @Nullable final Intent intent,
+            @Nullable final Uri uri,
             final boolean isReviewable,
             final boolean isImported) {
         mType = type;
         mData = data;
         mIntent = intent;
+        mUri = uri;
         mIsReviewable = isReviewable;
         mIsImported = isImported;
     }
@@ -62,6 +65,7 @@ public class GiniVisionDocument implements Document {
         }
         mType = (Type) in.readSerializable();
         mIntent = in.readParcelable(Intent.class.getClassLoader());
+        mUri = in.readParcelable(Uri.class.getClassLoader());
         mIsReviewable = in.readInt() == 1;
         mIsImported = in.readInt() == 1;
     }
@@ -89,6 +93,7 @@ public class GiniVisionDocument implements Document {
 
         dest.writeSerializable(mType);
         dest.writeParcelable(mIntent, flags);
+        dest.writeParcelable(mUri, flags);
         dest.writeInt(mIsReviewable ? 1 : 0);
         dest.writeInt(mIsImported ? 1 : 0);
     }
@@ -128,6 +133,12 @@ public class GiniVisionDocument implements Document {
         return mIntent;
     }
 
+    @Nullable
+    @Override
+    public Uri getUri() {
+        return mUri;
+    }
+
     @Override
     public boolean isImported() {
         return mIsImported;
@@ -155,13 +166,16 @@ public class GiniVisionDocument implements Document {
             callback.onSuccess(mData);
             return;
         }
-        if (mIntent == null) {
-            callback.onError(new IllegalStateException("No Intent to load the data from"));
-            return;
-        }
-        final Uri uri = IntentHelper.getUri(mIntent);
+        Uri uri = mUri;
         if (uri == null) {
-            callback.onError(new IllegalStateException("Intent's data must contain a Uri"));
+            if (mIntent == null) {
+                callback.onError(new IllegalStateException("No Intent to load the data from"));
+                return;
+            }
+            uri = IntentHelper.getUri(mIntent);
+        }
+        if (uri == null) {
+            callback.onError(new IllegalStateException("No Uri to load the data from"));
             return;
         }
         final UriReaderAsyncTask asyncTask = new UriReaderAsyncTask(context,

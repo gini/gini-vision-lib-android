@@ -148,7 +148,9 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isIntentActionViewOrSend(@NonNull final Intent intent) {
         final String action = intent.getAction();
-        return Intent.ACTION_VIEW.equals(action) || Intent.ACTION_SEND.equals(action);
+        return Intent.ACTION_VIEW.equals(action)
+                || Intent.ACTION_SEND.equals(action)
+                || Intent.ACTION_SEND_MULTIPLE.equals(action);
     }
 
     private void showVersions() {
@@ -310,7 +312,8 @@ public class MainActivity extends AppCompatActivity {
                     // method
                     // The payload format is up to you. For the example we added all the extractions as key-value pairs to
                     // a Bundle.
-                    Bundle extractionsBundle = data.getBundleExtra(CameraActivity.EXTRA_OUT_EXTRACTIONS);
+                    Bundle extractionsBundle = data.getBundleExtra(
+                            CameraActivity.EXTRA_OUT_EXTRACTIONS);
                     if (extractionsBundle == null) {
                         extractionsBundle = data.getBundleExtra(MainActivity.EXTRA_OUT_EXTRACTIONS);
                     }

@@ -42,6 +42,22 @@ public final class DocumentFactory {
         throw new IllegalArgumentException("Unknown Intent Uri mime type.");
     }
 
+    @NonNull
+    public static ImageDocument newImageDocumentFromUri(@NonNull final Uri uri,
+            @NonNull final Intent intent,
+            @NonNull final Context context,
+            @NonNull final String deviceOrientation,
+            @NonNull final String deviceType,
+            @NonNull final String importMethod) {
+        if (hasMimeType(uri, context, "application/pdf")) {
+            throw new UnsupportedOperationException("Creating a PdfDocument from an Uri is not implemented.");
+        } else if (hasMimeTypeWithPrefix(uri, context, "image/")) {
+            return ImageDocument.fromUri(uri, intent, context, deviceOrientation, deviceType,
+                    importMethod);
+        }
+        throw new IllegalArgumentException("Unknown Intent Uri mime type.");
+    }
+
     public static GiniVisionDocument newDocumentFromPhoto(@NonNull final Photo photo) {
         return ImageDocument.fromPhoto(photo);
     }

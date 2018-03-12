@@ -1,6 +1,7 @@
 package net.gini.android.vision;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -81,6 +82,16 @@ public interface Document extends Parcelable {
      */
     @Nullable
     Intent getIntent();
+
+    /**
+     * <p>
+     *     The {@link Uri} of the imported document.
+     * </p>
+     *
+     * @return {@link Uri}
+     */
+    @Nullable
+    Uri getUri();
 
     /**
      * <p> Document is imported if it was picked from another app from the Camera Screen's document
