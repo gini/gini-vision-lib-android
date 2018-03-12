@@ -1,7 +1,7 @@
 package net.gini.android.vision.example;
 
-import android.app.Application;
 import android.support.annotation.NonNull;
+import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
 
 import net.gini.android.Gini;
@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
  *     only started when the Analysis Screen was shown where the reviewed final document is available.
  * </p>
  */
-public abstract class BaseExampleApp extends Application {
+public abstract class BaseExampleApp extends MultiDexApplication {
 
     private static final Logger LOG = LoggerFactory.getLogger(BaseExampleApp.class);
 
