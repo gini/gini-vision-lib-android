@@ -61,6 +61,7 @@ ext.deps = [
         supportv4                 : "com.android.support:support-v4:$supportLibVersion",
         supportv13                : "com.android.support:support-v13:$supportLibVersion",
         supportDesign             : "com.android.support:design:$supportLibVersion",
+        supportCardView           : "com.android.support:cardview-v7:$supportLibVersion",
         // Google Mobile Vision API
         playServicesVision        : 'com.google.android.gms:play-services-vision:11.6.0',
         // Exif editing library. IMPORTANT: notify backend when the version is changed

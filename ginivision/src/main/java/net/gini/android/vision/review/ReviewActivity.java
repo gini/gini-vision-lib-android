@@ -200,11 +200,21 @@ public abstract class ReviewActivity extends AppCompatActivity implements Review
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        if (handleMenuItemPressedForHomeButton(this, item)) {
-            onBackPressed();
-            return true;
+        if (item.getItemId() == android.R.id.home) {
+            if (handleMenuItemPressedForHomeButton(this, item)) {
+                onBackPressed();
+                return true;
+            }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onAddMorePages(@NonNull final Document document) {
+        final Intent intent = new Intent();
+        intent.putExtra("multipage_first_page", document);
+        setResult(2018, intent);
+        finish();
     }
 
     @Override

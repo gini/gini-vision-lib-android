@@ -40,7 +40,7 @@ public class ReviewExampleAppCompatActivity extends AppCompatActivity implements
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review_compat);
         mReviewScreenHandler = new ReviewScreenHandlerAppCompat(this);
@@ -71,6 +71,11 @@ public class ReviewExampleAppCompatActivity extends AppCompatActivity implements
     @Override
     public void onError(@NonNull final GiniVisionError error) {
         mReviewScreenHandler.onError(error);
+    }
+
+    @Override
+    public void onAddMorePages(@NonNull final Document document) {
+        mReviewScreenHandler.onAddMorePages(document);
     }
 
     public static Intent newInstance(final Document document, final Context context) {

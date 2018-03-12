@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="96dp"
+    android:layout_height="160dp"
+    android:layout_marginBottom="8dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="12dp"
+    app:cardBackgroundColor="#4F4F4F"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="4dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <net.gini.android.vision.review.RotatableImageViewContainer
+            android:id="@+id/gv_thumbnail_container"
+            android:layout_width="match_parent"
+            android:layout_height="126dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"/>
+
+        <RelativeLayout
+            android:id="@+id/gv_handle"
+            android:layout_below="@id/gv_thumbnail_container"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/gv_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/gv_thumbnail_badge_background"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                tools:text="3" />
+
+            <ImageView
+                android:id="@+id/gv_bumps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="4dp"
+                app:srcCompat="@drawable/gv_bumps_icon" />
+
+            <View
+                android:id="@+id/gv_highlight"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_alignParentBottom="true"
+                android:background="#fff" />
+        </RelativeLayout>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

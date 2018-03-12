@@ -14,6 +14,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.graphics.Point;
 import android.hardware.Camera;
 import android.net.Uri;
@@ -47,12 +49,15 @@ import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.GiniVisionDocument;
+import net.gini.android.vision.document.ImageDocument;
+import net.gini.android.vision.document.MultiPageDocument;
 import net.gini.android.vision.document.QRCodeDocument;
 import net.gini.android.vision.internal.camera.api.CameraController;
 import net.gini.android.vision.internal.camera.api.CameraException;
 import net.gini.android.vision.internal.camera.api.CameraInterface;
 import net.gini.android.vision.internal.camera.api.UIExecutor;
 import net.gini.android.vision.internal.camera.photo.Photo;
+import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 import net.gini.android.vision.internal.camera.view.CameraPreviewSurface;
 import net.gini.android.vision.internal.fileimport.FileChooserActivity;
 import net.gini.android.vision.internal.permission.PermissionRequestListener;
@@ -90,6 +95,11 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         }
 
         @Override
+        public void onProceedToMultiPageReviewScreen(
+                @NonNull final MultiPageDocument multiPageDocument) {
+        }
+
+        @Override
         public void onQRCodeAvailable(@NonNull final QRCodeDocument qrCodeDocument) {
 
         }
@@ -113,10 +123,13 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     private HideQRCodeDetectedRunnable mHideQRCodeDetectedPopupRunnable;
 
     private View mImageCorners;
+    private ImageStack mImageStack;
     private boolean mInterfaceHidden;
+    private boolean mIsMultiPage;
     private CameraFragmentListener mListener = NO_OP_LISTENER;
     private final UIExecutor mUIExecutor = new UIExecutor();
     private CameraInterface mCameraController;
+    private MultiPageDocument mMultiPageDocument;
     private PaymentQRCodeReader mPaymentQRCodeReader;
 
     private RelativeLayout mLayoutRoot;
@@ -561,7 +574,9 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 view.findViewById(R.id.gv_activity_indicator_background);
         mActivityIndicator = view.findViewById(R.id.gv_activity_indicator);
         mQRCodeDetectedPopupContainer = view.findViewById(
+
                 R.id.gv_qrcode_detected_popup_container);
+        mImageStack = view.findViewById(R.id.gv_image_stack);
     }
 
     private void initViews() {
@@ -654,6 +669,12 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                     mListener.onQRCodeAvailable(qrCodeDocument);
                     mPaymentQRCodeData = null; // NOPMD
                 }
+            }
+        });
+        mImageStack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                mListener.onProceedToMultiPageReviewScreen(mMultiPageDocument);
             }
         });
     }
@@ -878,6 +899,20 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 duration).show();
     }
 
+    @Override
+    public void startMultiPage(@NonNull final Document document) {
+        if (!(document instanceof  ImageDocument)) {
+            return;
+        }
+        final ImageDocument imageDocument = (ImageDocument) document;
+        final Photo photo = PhotoFactory.newPhotoFromDocument(imageDocument);
+        // TODO: get rid of bitmap rotation -> rotate only the ImageView in the stack
+        final Bitmap rotatedBitmap = getRotatedBitmap(photo);
+        mImageStack.addImage(rotatedBitmap);
+        mIsMultiPage = true;
+        mMultiPageDocument = new MultiPageDocument(imageDocument, false);
+    }
+
     private void enableInteraction() {
         if (mCameraPreview == null
                 || mButtonImportDocument == null
@@ -936,13 +971,29 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         } else {
             if (photo != null) {
                 LOG.info("Picture taken");
-                mListener.onDocumentAvailable(DocumentFactory.newDocumentFromPhoto(photo));
+                if (mIsMultiPage) {
+                    mMultiPageDocument.addImageDocument(
+                            (ImageDocument) DocumentFactory.newDocumentFromPhoto(photo));
+                    final Bitmap rotatedBitmap = getRotatedBitmap(photo);
+                    mImageStack.addImage(rotatedBitmap);
+                    mCameraController.startPreview();
+                } else {
+                    mListener.onDocumentAvailable(DocumentFactory.newDocumentFromPhoto(photo));
+                }
             } else {
                 handleError(GiniVisionError.ErrorCode.CAMERA_SHOT_FAILED,
                         "Failed to take picture: no picture from the camera", null);
                 mCameraController.startPreview();
             }
         }
+    }
+
+    private Bitmap getRotatedBitmap(final Photo photo) {
+        final Bitmap bitmapPreview = photo.getBitmapPreview();
+        final Matrix matrix = new Matrix();
+        matrix.postRotate(photo.getRotationForDisplay());
+        return Bitmap.createBitmap(bitmapPreview, 0, 0,
+                bitmapPreview.getWidth(), bitmapPreview.getHeight(), matrix, false);
     }
 
     private void setSurfaceViewCallback() {
