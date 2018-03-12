@@ -45,47 +45,39 @@ public final class GiniVisionFileImport {
      * @throws IllegalArgumentException        if the Intent's data is not valid or the mime type is not
      *                                         supported
      */
-    // TODO: deprecate - passing in activity classes not required when using GiniVision
+    // TODO: deprecate and create one without activity classes - passing in activity classes not required when using GiniVision
     @NonNull
     public static Intent createIntentForImportedFile(@NonNull final Intent intent,
             @NonNull final Context context,
             @NonNull final Class<? extends ReviewActivity> reviewActivityClass,
             @NonNull final Class<? extends AnalysisActivity> analysisActivityClass)
             throws ImportedFileValidationException {
-        if (IntentHelper.hasMultipleUris(intent)) {
-            return createIntentForImportedFiles(intent, context);
-        }
         final Document document = createDocumentForImportedFile(intent, context);
         final Intent giniVisionIntent;
-        if (document.isReviewable()) {
-            giniVisionIntent = new Intent(context, reviewActivityClass);
-            giniVisionIntent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, document);
-            ActivityHelper.setActivityExtra(giniVisionIntent,
-                    ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY, context, analysisActivityClass);
+        if (document.getType() == Document.Type.MULTI_PAGE) {
+            final MultiPageDocument multiPageDocument = (MultiPageDocument) document;
+            final List<ImageDocument> imageDocuments = multiPageDocument.getImageDocuments();
+            if (imageDocuments.size() > 1) {
+                giniVisionIntent = MultiPageReviewActivity.createIntent(context, document);
+            } else {
+                giniVisionIntent = new Intent(context, ReviewActivity.class);
+                final ImageDocument imageDocument = imageDocuments.get(0);
+                giniVisionIntent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, imageDocument);
+                ActivityHelper.setActivityExtra(giniVisionIntent,
+                        ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY, context, AnalysisActivity.class);
+            }
         } else {
-            giniVisionIntent = new Intent(context, analysisActivityClass);
-            giniVisionIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, document);
+            if (document.isReviewable()) {
+                giniVisionIntent = new Intent(context, reviewActivityClass);
+                giniVisionIntent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, document);
+                ActivityHelper.setActivityExtra(giniVisionIntent,
+                        ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY, context, analysisActivityClass);
+            } else {
+                giniVisionIntent = new Intent(context, analysisActivityClass);
+                giniVisionIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, document);
+            }
         }
         return giniVisionIntent;
-    }
-
-    @NonNull
-    private static Intent createIntentForImportedFiles(@NonNull final Intent intent,
-            @NonNull final Context context)
-            throws ImportedFileValidationException {
-        final MultiPageDocument document = createDocumentForImportedFiles(intent, context);
-        final Intent giniVisionIntent;
-        if (document.getImageDocuments().size() > 1) {
-            giniVisionIntent = MultiPageReviewActivity.createIntent(context, document);
-        } else {
-            giniVisionIntent = new Intent(context, ReviewActivity.class);
-            final ImageDocument imageDocument = document.getImageDocuments().get(0);
-            giniVisionIntent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, imageDocument);
-            ActivityHelper.setActivityExtra(giniVisionIntent,
-                    ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY, context, AnalysisActivity.class);
-        }
-        return giniVisionIntent;
-
     }
 
     /**
@@ -114,6 +106,9 @@ public final class GiniVisionFileImport {
     @NonNull
     public static Document createDocumentForImportedFile(@NonNull final Intent intent,
             @NonNull final Context context) throws ImportedFileValidationException {
+        if (IntentHelper.hasMultipleUris(intent)) {
+            return createDocumentForImportedFiles(intent, context);
+        }
         final Uri uri = IntentHelper.getUri(intent);
         if (uri == null) {
             throw new ImportedFileValidationException("Intent data did not contain a Uri");
@@ -133,7 +128,7 @@ public final class GiniVisionFileImport {
     }
 
     @NonNull
-    private static MultiPageDocument createDocumentForImportedFiles(@NonNull final Intent intent,
+    private static Document createDocumentForImportedFiles(@NonNull final Intent intent,
             @NonNull final Context context) throws ImportedFileValidationException {
         final List<Uri> uris = IntentHelper.getUris(intent);
         if (uris == null) {
