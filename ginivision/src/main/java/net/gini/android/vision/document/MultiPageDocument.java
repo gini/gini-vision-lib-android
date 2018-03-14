@@ -30,23 +30,20 @@ public class MultiPageDocument extends GiniVisionDocument {
                 }
             };
 
-    private final List<ImageDocument> mImageDocuments;
+    private final List<ImageDocument> mImageDocuments = new ArrayList<>();
 
     public MultiPageDocument(final boolean isImported) {
         super(Type.MULTI_PAGE, null, null, null, true, isImported);
-        mImageDocuments = new ArrayList<>();
     }
 
     public MultiPageDocument(@NonNull final ImageDocument imageDocument, final boolean isImported) {
         super(Type.MULTI_PAGE, null, null, null, true, isImported);
-        mImageDocuments = new ArrayList<>();
         mImageDocuments.add(imageDocument);
     }
 
     private MultiPageDocument(final Parcel in) {
         super(in);
         final int size = in.readInt();
-        mImageDocuments = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
             mImageDocuments.add((ImageDocument)
                     in.readParcelable(ImageDocument.class.getClassLoader()));

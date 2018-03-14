@@ -967,7 +967,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             }
             final FileImportValidator fileImportValidator = new FileImportValidator(context);
             if (fileImportValidator.matchesCriteria(uri)) {
-                if (IntentHelper.hasMimeTypeWithPrefix(uri, context, "image/")) {
+                if (IntentHelper.hasMimeTypeWithPrefix(uri, context,
+                        IntentHelper.MimeType.IMAGE_PREFIX.asString())) {
                     try {
                         final ImageDocument document = DocumentFactory.newImageDocumentFromUri(uri,
                                 intent, context, DeviceHelper.getDeviceOrientation(context),

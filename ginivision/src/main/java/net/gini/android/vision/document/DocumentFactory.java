@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.internal.camera.photo.Photo;
+import net.gini.android.vision.util.IntentHelper;
 
 /**
  * @exclude
@@ -33,9 +34,10 @@ public final class DocumentFactory {
         if (data == null) {
             throw new IllegalArgumentException("Intent data must contain a Uri");
         }
-        if (hasMimeType(intent, context, "application/pdf")) {
+        if (hasMimeType(intent, context, IntentHelper.MimeType.PDF.asString())) {
             return PdfDocument.fromIntent(intent);
-        } else if (hasMimeTypeWithPrefix(intent, context, "image/")) {
+        } else if (hasMimeTypeWithPrefix(intent, context,
+                IntentHelper.MimeType.IMAGE_PREFIX.asString())) {
             return ImageDocument.fromIntent(intent, context, deviceOrientation, deviceType,
                     importMethod);
         }
@@ -49,9 +51,11 @@ public final class DocumentFactory {
             @NonNull final String deviceOrientation,
             @NonNull final String deviceType,
             @NonNull final String importMethod) {
-        if (hasMimeType(uri, context, "application/pdf")) {
-            throw new UnsupportedOperationException("Creating a PdfDocument from an Uri is not implemented.");
-        } else if (hasMimeTypeWithPrefix(uri, context, "image/")) {
+        if (hasMimeType(uri, context, IntentHelper.MimeType.PDF.asString())) {
+            throw new UnsupportedOperationException(
+                    "Creating a PdfDocument from an Uri is not implemented.");
+        } else if (hasMimeTypeWithPrefix(uri, context,
+                IntentHelper.MimeType.IMAGE_PREFIX.asString())) {
             return ImageDocument.fromUri(uri, intent, context, deviceOrientation, deviceType,
                     importMethod);
         }

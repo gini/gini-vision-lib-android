@@ -14,6 +14,7 @@ import android.support.annotation.Nullable;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.internal.camera.photo.Photo;
+import net.gini.android.vision.util.IntentHelper;
 
 import java.util.List;
 
@@ -75,7 +76,8 @@ public final class ImageDocument extends GiniVisionDocument {
             @NonNull final String deviceType,
             @NonNull final String importMethod) {
         final List<String> mimeTypes = getMimeTypes(intent, context);
-        if (mimeTypes.isEmpty() || !hasMimeTypeWithPrefix(intent, context, "image/")) {
+        if (mimeTypes.isEmpty() || !hasMimeTypeWithPrefix(intent, context,
+                IntentHelper.MimeType.IMAGE_PREFIX.asString())) {
             throw new IllegalArgumentException("Intent must have a mime type of image/*");
         }
         final String mimeType = mimeTypes.get(0);
@@ -92,7 +94,8 @@ public final class ImageDocument extends GiniVisionDocument {
             @NonNull final String deviceType,
             @NonNull final String importMethod) {
         final String mimeType = getMimeType(uri, context);
-        if (mimeType == null || !hasMimeTypeWithPrefix(uri, context, "image/")) {
+        if (mimeType == null || !hasMimeTypeWithPrefix(uri, context,
+                IntentHelper.MimeType.IMAGE_PREFIX.asString())) {
             throw new IllegalArgumentException("Intent must have a mime type of image/*");
         }
         final String source = getDocumentSource(intent, context);
