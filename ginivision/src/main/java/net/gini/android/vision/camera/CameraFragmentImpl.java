@@ -879,7 +879,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         return false;
     }
 
-    private void importDocumentFromIntent(final Intent data) {
+    private void importDocumentFromIntent(@NonNull final Intent data) {
         final Activity activity = mFragment
                 .getActivity();
         if (activity == null) {
