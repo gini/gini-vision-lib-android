@@ -68,23 +68,30 @@ public final class GiniVisionFileImport {
             if (imageDocuments.size() > 1) {
                 giniVisionIntent = MultiPageReviewActivity.createIntent(context, document);
             } else {
-                giniVisionIntent = new Intent(context, ReviewActivity.class);
                 final ImageDocument imageDocument = imageDocuments.get(0);
-                giniVisionIntent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, imageDocument);
-                ActivityHelper.setActivityExtra(giniVisionIntent,
-                        ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY, context, AnalysisActivity.class);
+                giniVisionIntent = createReviewActivityIntent(context, ReviewActivity.class,
+                        AnalysisActivity.class, imageDocument);
             }
+        } else if (document.isReviewable()) {
+            giniVisionIntent = createReviewActivityIntent(context, reviewActivityClass,
+                    analysisActivityClass, document);
         } else {
-            if (document.isReviewable()) {
-                giniVisionIntent = new Intent(context, reviewActivityClass);
-                giniVisionIntent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, document);
-                ActivityHelper.setActivityExtra(giniVisionIntent,
-                        ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY, context, analysisActivityClass);
-            } else {
-                giniVisionIntent = new Intent(context, analysisActivityClass);
-                giniVisionIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, document);
-            }
+            giniVisionIntent = new Intent(context, analysisActivityClass);
+            giniVisionIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, document);
         }
+        return giniVisionIntent;
+    }
+
+    @NonNull
+    private static Intent createReviewActivityIntent(final @NonNull Context context,
+            @NonNull final Class<? extends ReviewActivity> reviewActivityClass,
+            @NonNull final Class<? extends AnalysisActivity> analysisActivityClass,
+            final Document document) {
+        final Intent giniVisionIntent;
+        giniVisionIntent = new Intent(context, reviewActivityClass);
+        giniVisionIntent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, document);
+        ActivityHelper.setActivityExtra(giniVisionIntent,
+                ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY, context, analysisActivityClass);
         return giniVisionIntent;
     }
 
@@ -117,18 +124,14 @@ public final class GiniVisionFileImport {
             if (imageDocuments.size() > 1) {
                 giniVisionIntent = MultiPageReviewActivity.createIntent(context, document);
             } else {
-                giniVisionIntent = new Intent(context, ReviewActivity.class);
                 final ImageDocument imageDocument = imageDocuments.get(0);
-                giniVisionIntent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, imageDocument);
-                ActivityHelper.setActivityExtra(giniVisionIntent,
-                        ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY, context, AnalysisActivity.class);
+                giniVisionIntent = createReviewActivityIntent(context, ReviewActivity.class,
+                        AnalysisActivity.class, imageDocument);
             }
         } else {
             if (document.isReviewable()) {
-                giniVisionIntent = new Intent(context, ReviewActivity.class);
-                giniVisionIntent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, document);
-                ActivityHelper.setActivityExtra(giniVisionIntent,
-                        ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY, context, AnalysisActivity.class);
+                giniVisionIntent = createReviewActivityIntent(context, ReviewActivity.class,
+                        AnalysisActivity.class, document);
             } else {
                 giniVisionIntent = new Intent(context, AnalysisActivity.class);
                 giniVisionIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, document);
