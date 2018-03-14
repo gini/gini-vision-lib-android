@@ -51,6 +51,7 @@ public class MultiPageReviewActivity extends AppCompatActivity {
     private RecyclerView mThumbnailsRV;
     private RecyclerView.SmoothScroller mThumbnailsScroller;
     private ImageButton mButtonNext;
+    private ImageButton mDeleteButton;
 
     public static Intent createIntent(@NonNull final Context context,
             @NonNull final Document multiPageDocument) {
@@ -75,20 +76,6 @@ public class MultiPageReviewActivity extends AppCompatActivity {
         });
 
         mPhotos = new ArrayList<>();
-        mMultiPageDocument.loadData(this, new AsyncCallback<byte[]>() {
-            @Override
-            public void onSuccess(final byte[] result) {
-                for (final ImageDocument imageDocument : mMultiPageDocument.getImageDocuments()) {
-                    mPhotos.add(PhotoFactory.newPhotoFromDocument(imageDocument));
-                }
-                showPhotos();
-            }
-
-            @Override
-            public void onError(final Exception exception) {
-
-            }
-        });
 
         mImagesPager = findViewById(R.id.gv_view_pager);
 
@@ -134,8 +121,6 @@ public class MultiPageReviewActivity extends AppCompatActivity {
             }
         });
 
-
-
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this,
                 LinearLayoutManager.HORIZONTAL, false);
         mThumbnailsRV.setLayoutManager(layoutManager);
@@ -157,13 +142,9 @@ public class MultiPageReviewActivity extends AppCompatActivity {
             }
         });
 
-        final ImageButton deleteButton = findViewById(R.id.gv_button_delete);
-        if (mPhotos.size() == 1) {
-            deleteButton.setEnabled(false);
-            deleteButton.setAlpha(0.2f);
-        }
+        mDeleteButton = findViewById(R.id.gv_button_delete);
 
-        deleteButton.setOnClickListener(new View.OnClickListener() {
+        mDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 final int deletedItem = mImagesPager.getCurrentItem();
@@ -179,9 +160,24 @@ public class MultiPageReviewActivity extends AppCompatActivity {
                 mThumbnailsScroller.setTargetPosition(newPosition);
                 mThumbnailsRV.getLayoutManager().startSmoothScroll(mThumbnailsScroller);
                 if (mPhotos.size() == 1) {
-                    deleteButton.setEnabled(false);
-                    deleteButton.setAlpha(0.2f);
+                    mDeleteButton.setEnabled(false);
+                    mDeleteButton.setAlpha(0.2f);
                 }
+            }
+        });
+
+        mMultiPageDocument.loadData(this, new AsyncCallback<byte[]>() {
+            @Override
+            public void onSuccess(final byte[] result) {
+                for (final ImageDocument imageDocument : mMultiPageDocument.getImageDocuments()) {
+                    mPhotos.add(PhotoFactory.newPhotoFromDocument(imageDocument));
+                }
+                showPhotos();
+            }
+
+            @Override
+            public void onError(final Exception exception) {
+
             }
         });
     }
@@ -205,6 +201,11 @@ public class MultiPageReviewActivity extends AppCompatActivity {
                 mImagesPager.setCurrentItem(position);
             }
         };
+
+        if (mPhotos.size() == 1) {
+            mDeleteButton.setEnabled(false);
+            mDeleteButton.setAlpha(0.2f);
+        }
 
         mImagesPager.setAdapter(imagesPagerAdapter);
         final ThumbnailsAdapter thumbnailsAdapter = new ThumbnailsAdapter(mPhotos,
