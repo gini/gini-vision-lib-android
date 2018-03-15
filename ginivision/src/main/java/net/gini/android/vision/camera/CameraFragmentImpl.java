@@ -836,8 +836,14 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             return;
         }
         final Intent fileChooserIntent = FileChooserActivity.createIntent(activity);
+        final DocumentImportEnabledFileTypes enabledFileTypes;
+        if (mIsMultiPage) {
+            enabledFileTypes = DocumentImportEnabledFileTypes.IMAGES;
+        } else {
+            enabledFileTypes = getDocumentImportEnabledFileTypes(mGiniVisionFeatureConfiguration);
+        }
         fileChooserIntent.putExtra(FileChooserActivity.EXTRA_IN_DOCUMENT_IMPORT_FILE_TYPES,
-                getDocumentImportEnabledFileTypes(mGiniVisionFeatureConfiguration));
+                enabledFileTypes);
         mFragment.startActivityForResult(fileChooserIntent, REQ_CODE_CHOOSE_FILE);
     }
 

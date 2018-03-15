@@ -235,7 +235,8 @@ public class FileChooserActivity extends AppCompatActivity {
     }
 
     private boolean shouldShowImageProviders() {
-        return mDocImportEnabledFileTypes == DocumentImportEnabledFileTypes.PDF_AND_IMAGES;
+        return mDocImportEnabledFileTypes == DocumentImportEnabledFileTypes.IMAGES
+                || mDocImportEnabledFileTypes == DocumentImportEnabledFileTypes.PDF_AND_IMAGES;
     }
 
     private boolean shouldShowPdfProviders() {
