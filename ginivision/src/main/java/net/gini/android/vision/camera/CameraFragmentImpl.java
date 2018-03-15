@@ -52,6 +52,7 @@ import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.GiniVisionDocument;
+import net.gini.android.vision.document.GiniVisionDocumentError;
 import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.document.ImageMultiPageDocument;
@@ -994,13 +995,17 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                         mMultiPageDocument.addDocument(document);
                     } catch (final IllegalArgumentException e) {
                         LOG.error("Failed to import selected document", e);
-                        showInvalidFileError(null);
-                        return;
+                        addMultiPageDocumentError(context.getString(
+                                R.string.gv_document_import_invalid_document));
                     }
                 }
             } else {
-                showInvalidFileError(fileImportValidator.getError());
-                return;
+                String errorMessage = context.getString(R.string.gv_document_import_invalid_document);
+                final FileImportValidator.Error error = fileImportValidator.getError();
+                if (error != null) {
+                    errorMessage = context.getString(error.getTextResource());
+                }
+                addMultiPageDocumentError(errorMessage);
             }
         }
         if (mMultiPageDocument.getDocuments().isEmpty()) {
@@ -1045,6 +1050,13 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 showInvalidFileError(null);
             }
         });
+    }
+
+    private void addMultiPageDocumentError(final String string) {
+        final ImageDocument document = DocumentFactory.newEmptyImageDocument();
+        mMultiPageDocument.addDocument(document);
+        final GiniVisionDocumentError documentError = new GiniVisionDocumentError(string);
+        mMultiPageDocument.addErrorForDocument(document, documentError);
     }
 
     private Bitmap getBitmap(final ImageDocument imageDocument) {
@@ -1121,8 +1133,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
 
     private void showInvalidFileError(@Nullable final FileImportValidator.Error error) {
         LOG.error("Invalid document {}", error != null ? error.toString() : "");
-        final Activity activity = mFragment
-                .getActivity();
+        final Activity activity = mFragment.getActivity();
         if (activity == null) {
             return;
         }
@@ -1172,8 +1183,12 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         }
     }
 
+    @Nullable
     private Bitmap getRotatedBitmap(final Photo photo) {
         final Bitmap bitmapPreview = photo.getBitmapPreview();
+        if (bitmapPreview == null) {
+            return null;
+        }
         final Matrix matrix = new Matrix();
         matrix.postRotate(photo.getRotationForDisplay());
         return Bitmap.createBitmap(bitmapPreview, 0, 0,

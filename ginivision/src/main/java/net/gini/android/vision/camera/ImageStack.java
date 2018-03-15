@@ -2,6 +2,7 @@ package net.gini.android.vision.camera;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -184,14 +185,32 @@ public class ImageStack extends RelativeLayout {
             }
         }
         if (imageCount > 2) {
-            stackItem3.setImageBitmap(bitmaps.get(0));
-            stackItem2.setImageBitmap(bitmaps.get(1));
-            stackItem1.setImageBitmap(bitmaps.get(2));
+            setBitmapOrBlack(stackItem3, bitmaps.get(0));
+            setBitmapOrBlack(stackItem2, bitmaps.get(1));
+            setBitmapOrBlack(stackItem1, bitmaps.get(2));
         } else if (imageCount > 1) {
-            stackItem2.setImageBitmap(bitmaps.get(0));
-            stackItem1.setImageBitmap(bitmaps.get(1));
+            setBitmapOrBlack(stackItem2, bitmaps.get(0));
+            setBitmapOrBlack(stackItem1, bitmaps.get(1));
         } else if (imageCount > 0) {
-            stackItem1.setImageBitmap(bitmaps.get(0));
+            setBitmapOrBlack(stackItem1, bitmaps.get(0));
+        }
+    }
+
+    private static void setBitmapOrBlack(@NonNull final ImageView imageView, @Nullable final Bitmap bitmap) {
+        if (bitmap != null) {
+            imageView.setImageBitmap(bitmap);
+        } else {
+            imageView.setImageBitmap(null);
+            imageView.setBackgroundColor(Color.BLACK);
+        }
+    }
+
+    private static void setDrawableOrBlack(@NonNull final ImageView imageView, @Nullable final Drawable drawable) {
+        if (drawable != null && drawable.getIntrinsicHeight() > 0) {
+            imageView.setImageDrawable(drawable);
+        } else {
+            imageView.setImageDrawable(null);
+            imageView.setBackgroundColor(Color.BLACK);
         }
     }
 
@@ -220,16 +239,16 @@ public class ImageStack extends RelativeLayout {
             final TextView badge = sceneRoot.findViewById(R.id.gv_badge);
 
             // Show the current images and badge in the image added scene
-            stackItem1View.setImageDrawable(drawable1);
-            stackItem2View.setImageDrawable(drawable2);
-            stackItem3View.setImageDrawable(drawable3);
+            setDrawableOrBlack(stackItem1View, drawable1);
+            setDrawableOrBlack(stackItem2View, drawable2);
+            setDrawableOrBlack(stackItem3View, drawable3);
             if (imageStack.imageCount > 0) {
                 badge.setVisibility(VISIBLE);
                 badge.setText(String.valueOf(imageStack.imageCount));
             }
             // Show the new image
             newImageView.setVisibility(VISIBLE);
-            newImageView.setImageBitmap(newImage);
+            setBitmapOrBlack(newImageView, newImage);
         }
 
         void setDrawable1(final Drawable drawable1) {
@@ -292,9 +311,9 @@ public class ImageStack extends RelativeLayout {
             imageStack.badge = sceneRoot.findViewById(R.id.gv_badge);
 
             // Push the images to the left (remove last image and show image on top)
-            imageStack.stackItem3.setImageDrawable(drawable2);
-            imageStack.stackItem2.setImageDrawable(drawable1);
-            imageStack.stackItem1.setImageBitmap(newImage);
+            setDrawableOrBlack(imageStack.stackItem3, drawable2);
+            setDrawableOrBlack(imageStack.stackItem2, drawable1);
+            setBitmapOrBlack(imageStack.stackItem1, newImage);
 
             // Update the badge
             imageStack.imageCount++;
