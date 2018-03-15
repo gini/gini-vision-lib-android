@@ -9,7 +9,7 @@ import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.camera.CameraActivity;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.ImageDocument;
-import net.gini.android.vision.document.MultiPageDocument;
+import net.gini.android.vision.document.ImageMultiPageDocument;
 import net.gini.android.vision.internal.util.ActivityHelper;
 import net.gini.android.vision.internal.util.DeviceHelper;
 import net.gini.android.vision.internal.util.FileImportValidator;
@@ -62,11 +62,11 @@ public final class GiniVisionFileImport {
             throws ImportedFileValidationException {
         final Document document = createDocumentForImportedFile(intent, context);
         final Intent giniVisionIntent;
-        if (document.getType() == Document.Type.MULTI_PAGE) {
-            final MultiPageDocument multiPageDocument = (MultiPageDocument) document;
-            final List<ImageDocument> imageDocuments = multiPageDocument.getImageDocuments();
+        if (document.getType() == Document.Type.IMAGE_MULTI_PAGE) {
+            final ImageMultiPageDocument multiPageDocument = (ImageMultiPageDocument) document;
+            final List<ImageDocument> imageDocuments = multiPageDocument.getDocuments();
             if (imageDocuments.size() > 1) {
-                giniVisionIntent = MultiPageReviewActivity.createIntent(context, document);
+                giniVisionIntent = MultiPageReviewActivity.createIntent(context, multiPageDocument);
             } else {
                 final ImageDocument imageDocument = imageDocuments.get(0);
                 giniVisionIntent = createReviewActivityIntent(context, ReviewActivity.class,
@@ -118,11 +118,11 @@ public final class GiniVisionFileImport {
             throws ImportedFileValidationException {
         final Document document = createDocumentForImportedFile(intent, context);
         final Intent giniVisionIntent;
-        if (document.getType() == Document.Type.MULTI_PAGE) {
-            final MultiPageDocument multiPageDocument = (MultiPageDocument) document;
-            final List<ImageDocument> imageDocuments = multiPageDocument.getImageDocuments();
+        if (document.getType() == Document.Type.IMAGE_MULTI_PAGE) {
+            final ImageMultiPageDocument multiPageDocument = (ImageMultiPageDocument) document;
+            final List<ImageDocument> imageDocuments = multiPageDocument.getDocuments();
             if (imageDocuments.size() > 1) {
-                giniVisionIntent = MultiPageReviewActivity.createIntent(context, document);
+                giniVisionIntent = MultiPageReviewActivity.createIntent(context, multiPageDocument);
             } else {
                 final ImageDocument imageDocument = imageDocuments.get(0);
                 giniVisionIntent = createReviewActivityIntent(context, ReviewActivity.class,
@@ -194,7 +194,7 @@ public final class GiniVisionFileImport {
         if (uris == null) {
             throw new ImportedFileValidationException("Intent data did not contain Uris");
         }
-        final MultiPageDocument multiPageDocument = new MultiPageDocument(true);
+        final ImageMultiPageDocument multiPageDocument = new ImageMultiPageDocument(true);
         for (final Uri uri : uris) {
             if (!UriHelper.isUriInputStreamAvailable(uri, context)) {
                 throw new ImportedFileValidationException(
@@ -207,13 +207,13 @@ public final class GiniVisionFileImport {
                     final ImageDocument document = DocumentFactory.newImageDocumentFromUri(uri,
                             intent, context, DeviceHelper.getDeviceOrientation(context),
                             DeviceHelper.getDeviceType(context), "openwith");
-                    multiPageDocument.addImageDocument(document);
+                    multiPageDocument.addDocument(document);
                 }
             } else {
                 throw new ImportedFileValidationException(fileImportValidator.getError());
             }
         }
-        if (multiPageDocument.getImageDocuments().isEmpty()) {
+        if (multiPageDocument.getDocuments().isEmpty()) {
             throw new ImportedFileValidationException("Intent did not contain images");
         }
         return multiPageDocument;

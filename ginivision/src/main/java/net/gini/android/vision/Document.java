@@ -133,6 +133,6 @@ public interface Document extends Parcelable {
         /**
          * The document contains multiple images.
          */
-        MULTI_PAGE
+        IMAGE_MULTI_PAGE
     }
 }

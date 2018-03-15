@@ -52,8 +52,9 @@ import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.GiniVisionDocument;
+import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.document.ImageDocument;
-import net.gini.android.vision.document.MultiPageDocument;
+import net.gini.android.vision.document.ImageMultiPageDocument;
 import net.gini.android.vision.document.QRCodeDocument;
 import net.gini.android.vision.internal.camera.api.CameraController;
 import net.gini.android.vision.internal.camera.api.CameraException;
@@ -106,7 +107,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
 
         @Override
         public void onProceedToMultiPageReviewScreen(
-                @NonNull final MultiPageDocument multiPageDocument) {
+                @NonNull final GiniVisionMultiPageDocument multiPageDocument) {
         }
 
         @Override
@@ -145,7 +146,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     private CameraFragmentListener mListener = NO_OP_LISTENER;
     private final UIExecutor mUIExecutor = new UIExecutor();
     private CameraInterface mCameraController;
-    private MultiPageDocument mMultiPageDocument;
+    private ImageMultiPageDocument mMultiPageDocument;
     private PaymentQRCodeReader mPaymentQRCodeReader;
 
     private RelativeLayout mLayoutRoot;
@@ -939,9 +940,9 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                     public void documentAccepted() {
                         LOG.debug("Client accepted the document");
                         hideActivityIndicatorAndEnableInteraction();
-                        if (document.getType() == Document.Type.MULTI_PAGE) {
+                        if (document.getType() == Document.Type.IMAGE_MULTI_PAGE) {
                             mListener.onProceedToMultiPageReviewScreen(
-                                    (MultiPageDocument) document);
+                                    (ImageMultiPageDocument) document);
                         } else {
                             mListener.onDocumentAvailable(document);
                         }
@@ -958,7 +959,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
 
     private void createMultiPageDocumentAndCallListener(@NonNull final Context context,
             @NonNull final Intent intent, @NonNull final List<Uri> uris) {
-        final MultiPageDocument multiPageDocument = new MultiPageDocument(true);
+        final ImageMultiPageDocument multiPageDocument = new ImageMultiPageDocument(true);
         for (final Uri uri : uris) {
             if (!UriHelper.isUriInputStreamAvailable(uri, context)) {
                 LOG.error("Document import failed: InputStream not available for the Uri");
@@ -973,7 +974,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                         final ImageDocument document = DocumentFactory.newImageDocumentFromUri(uri,
                                 intent, context, DeviceHelper.getDeviceOrientation(context),
                                 DeviceHelper.getDeviceType(context), "openwith");
-                        multiPageDocument.addImageDocument(document);
+                        multiPageDocument.addDocument(document);
                     } catch (final IllegalArgumentException e) {
                         LOG.error("Failed to import selected document", e);
                         showInvalidFileError(null);
@@ -985,7 +986,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 return;
             }
         }
-        if (multiPageDocument.getImageDocuments().isEmpty()) {
+        if (multiPageDocument.getDocuments().isEmpty()) {
             LOG.error("Document import failed: Intent did not contain images");
             showInvalidFileError(null);
             return;
@@ -1038,7 +1039,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         final Bitmap rotatedBitmap = getRotatedBitmap(photo);
         mImageStack.addImage(rotatedBitmap);
         mIsMultiPage = true;
-        mMultiPageDocument = new MultiPageDocument(imageDocument, false);
+        mMultiPageDocument = new ImageMultiPageDocument(imageDocument, false);
     }
 
     private void enableInteraction() {
@@ -1100,7 +1101,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             if (photo != null) {
                 LOG.info("Picture taken");
                 if (mIsMultiPage) {
-                    mMultiPageDocument.addImageDocument(
+                    mMultiPageDocument.addDocument(
                             (ImageDocument) DocumentFactory.newDocumentFromPhoto(photo));
                     final Bitmap rotatedBitmap = getRotatedBitmap(photo);
                     mImageStack.addImage(rotatedBitmap);

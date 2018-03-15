@@ -24,10 +24,9 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import net.gini.android.vision.Document;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.ImageDocument;
-import net.gini.android.vision.document.MultiPageDocument;
+import net.gini.android.vision.document.ImageMultiPageDocument;
 import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.PhotoFactory;
@@ -44,7 +43,7 @@ public class MultiPageReviewActivity extends AppCompatActivity {
     public static final String EXTRA_IN_DOCUMENT = "GV_EXTRA_IN_DOCUMENT";
     private ViewPager mImagesPager;
     private ImagesPagerChangeListener mImagesPagerChangeListener;
-    private MultiPageDocument mMultiPageDocument;
+    private ImageMultiPageDocument mMultiPageDocument;
     private TextView mPageIndicator;
     private List<Photo> mPhotos;
     private RelativeLayout mRootView;
@@ -54,7 +53,7 @@ public class MultiPageReviewActivity extends AppCompatActivity {
     private ImageButton mDeleteButton;
 
     public static Intent createIntent(@NonNull final Context context,
-            @NonNull final Document multiPageDocument) {
+            @NonNull final ImageMultiPageDocument multiPageDocument) {
         final Intent intent = new Intent(context, MultiPageReviewActivity.class);
         intent.putExtra(EXTRA_IN_DOCUMENT, multiPageDocument);
         return intent;
@@ -169,7 +168,7 @@ public class MultiPageReviewActivity extends AppCompatActivity {
         mMultiPageDocument.loadData(this, new AsyncCallback<byte[]>() {
             @Override
             public void onSuccess(final byte[] result) {
-                for (final ImageDocument imageDocument : mMultiPageDocument.getImageDocuments()) {
+                for (final ImageDocument imageDocument : mMultiPageDocument.getDocuments()) {
                     mPhotos.add(PhotoFactory.newPhotoFromDocument(imageDocument));
                 }
                 showPhotos();
@@ -248,7 +247,7 @@ public class MultiPageReviewActivity extends AppCompatActivity {
     private void checkRequiredExtras() {
         if (mMultiPageDocument == null) {
             throw new IllegalStateException(
-                    "MultiPageReviewActivity requires a MultiPageDocument. Set it as an extra using the EXTRA_IN_DOCUMENT key.");
+                    "MultiPageReviewActivity requires a GiniVisionMultiPageDocument. Set it as an extra using the EXTRA_IN_DOCUMENT key.");
         }
     }
 

@@ -15,47 +15,48 @@ import java.util.List;
  * Copyright (c) 2018 Gini GmbH.
  */
 
-public class MultiPageDocument extends GiniVisionDocument {
+public class GiniVisionMultiPageDocument<T extends GiniVisionDocument> extends GiniVisionDocument {
 
-    public static final Creator<MultiPageDocument> CREATOR =
-            new Creator<MultiPageDocument>() {
+    public static final Creator<GiniVisionMultiPageDocument> CREATOR =
+            new Creator<GiniVisionMultiPageDocument>() {
                 @Override
-                public MultiPageDocument createFromParcel(final Parcel in) {
-                    return new MultiPageDocument(in);
+                public GiniVisionMultiPageDocument createFromParcel(final Parcel in) {
+                    return new GiniVisionMultiPageDocument(in);
                 }
 
                 @Override
-                public MultiPageDocument[] newArray(final int size) {
-                    return new MultiPageDocument[size];
+                public GiniVisionMultiPageDocument[] newArray(final int size) {
+                    return new GiniVisionMultiPageDocument[size];
                 }
             };
 
-    private final List<ImageDocument> mImageDocuments = new ArrayList<>();
+    private final List<T> mDocuments = new ArrayList<>();
 
-    public MultiPageDocument(final boolean isImported) {
-        super(Type.MULTI_PAGE, null, null, null, true, isImported);
+    public GiniVisionMultiPageDocument(@NonNull final Type type, final boolean isImported) {
+        super(type, null, null, null, true, isImported);
     }
 
-    public MultiPageDocument(@NonNull final ImageDocument imageDocument, final boolean isImported) {
-        super(Type.MULTI_PAGE, null, null, null, true, isImported);
-        mImageDocuments.add(imageDocument);
+    public GiniVisionMultiPageDocument(@NonNull final Type type, @NonNull final T document, final boolean isImported) {
+        super(type, null, null, null, true, isImported);
+        mDocuments.add(document);
     }
 
-    private MultiPageDocument(final Parcel in) {
+    GiniVisionMultiPageDocument(final Parcel in) {
         super(in);
         final int size = in.readInt();
         for (int i = 0; i < size; i++) {
-            mImageDocuments.add((ImageDocument)
-                    in.readParcelable(ImageDocument.class.getClassLoader()));
+            //noinspection unchecked
+            mDocuments.add(
+                    (T) in.readParcelable(ImageDocument.class.getClassLoader()));
         }
     }
 
-    public void addImageDocument(@NonNull final ImageDocument document) {
-        mImageDocuments.add(document);
+    public void addDocument(@NonNull final T document) {
+        mDocuments.add(document);
     }
 
-    public List<ImageDocument> getImageDocuments() {
-        return mImageDocuments;
+    public List<T> getDocuments() {
+        return mDocuments;
     }
 
     @Override
@@ -66,14 +67,14 @@ public class MultiPageDocument extends GiniVisionDocument {
     @Override
     public void writeToParcel(@NonNull final Parcel dest, final int flags) {
         super.writeToParcel(dest, flags);
-        dest.writeInt(mImageDocuments.size());
-        for (final ImageDocument imageDocument : mImageDocuments) {
-            dest.writeParcelable(imageDocument, flags);
+        dest.writeInt(mDocuments.size());
+        for (final T document : mDocuments) {
+            dest.writeParcelable(document, flags);
         }
     }
 
     public void removeImageDocumentAtPosition(final int position) {
-        mImageDocuments.remove(position);
+        mDocuments.remove(position);
     }
 
     @Override
@@ -85,8 +86,8 @@ public class MultiPageDocument extends GiniVisionDocument {
     private void loadImageDocuments(final int currentIndex,
             @NonNull final Context context,
             @NonNull final AsyncCallback<byte[]> callback) {
-        if (currentIndex < mImageDocuments.size()) {
-            final ImageDocument imageDocument = mImageDocuments.get(currentIndex);
+        if (currentIndex < mDocuments.size()) {
+            final T imageDocument = mDocuments.get(currentIndex);
             imageDocument.loadData(context, new AsyncCallback<byte[]>() {
                 @Override
                 public void onSuccess(final byte[] result) {
