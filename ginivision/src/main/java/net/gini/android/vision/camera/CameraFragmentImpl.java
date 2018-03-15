@@ -56,6 +56,7 @@ import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.document.ImageMultiPageDocument;
 import net.gini.android.vision.document.QRCodeDocument;
+import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.camera.api.CameraController;
 import net.gini.android.vision.internal.camera.api.CameraException;
 import net.gini.android.vision.internal.camera.api.CameraInterface;
@@ -85,6 +86,8 @@ import net.gini.android.vision.util.UriHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -893,7 +896,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 showInvalidFileError(null);
                 return;
             }
-            createMultiPageDocumentAndCallListener(activity, data, uris);
+            handleMultiPageDocumentAndCallListener(activity, data, uris);
         } else {
             final Uri uri = IntentHelper.getUri(data);
             if (uri == null) {
@@ -906,11 +909,16 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 showInvalidFileError(null);
                 return;
             }
-            final FileImportValidator fileImportValidator = new FileImportValidator(activity);
-            if (fileImportValidator.matchesCriteria(data, uri)) {
-                createSinglePageDocumentAndCallListener(data, activity);
+            if (mIsMultiPage) {
+                handleMultiPageDocumentAndCallListener(activity, data,
+                        Collections.singletonList(uri));
             } else {
-                showInvalidFileError(fileImportValidator.getError());
+                final FileImportValidator fileImportValidator = new FileImportValidator(activity);
+                if (fileImportValidator.matchesCriteria(data, uri)) {
+                    createSinglePageDocumentAndCallListener(data, activity);
+                } else {
+                    showInvalidFileError(fileImportValidator.getError());
+                }
             }
         }
     }
@@ -957,14 +965,17 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 });
     }
 
-    private void createMultiPageDocumentAndCallListener(@NonNull final Context context,
+    private void handleMultiPageDocumentAndCallListener(@NonNull final Context context,
             @NonNull final Intent intent, @NonNull final List<Uri> uris) {
-        final ImageMultiPageDocument multiPageDocument = new ImageMultiPageDocument(true);
         for (final Uri uri : uris) {
             if (!UriHelper.isUriInputStreamAvailable(uri, context)) {
                 LOG.error("Document import failed: InputStream not available for the Uri");
                 showInvalidFileError(null);
                 return;
+            }
+            if (mMultiPageDocument == null) {
+                mIsMultiPage = true;
+                mMultiPageDocument = new ImageMultiPageDocument(true);
             }
             final FileImportValidator fileImportValidator = new FileImportValidator(context);
             if (fileImportValidator.matchesCriteria(uri)) {
@@ -974,7 +985,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                         final ImageDocument document = DocumentFactory.newImageDocumentFromUri(uri,
                                 intent, context, DeviceHelper.getDeviceOrientation(context),
                                 DeviceHelper.getDeviceType(context), "openwith");
-                        multiPageDocument.addDocument(document);
+                        mMultiPageDocument.addDocument(document);
                     } catch (final IllegalArgumentException e) {
                         LOG.error("Failed to import selected document", e);
                         showInvalidFileError(null);
@@ -986,13 +997,54 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 return;
             }
         }
-        if (multiPageDocument.getDocuments().isEmpty()) {
+        if (mMultiPageDocument.getDocuments().isEmpty()) {
             LOG.error("Document import failed: Intent did not contain images");
             showInvalidFileError(null);
+            mMultiPageDocument = null;
+            mIsMultiPage = false;
             return;
         }
-        LOG.info("Document imported: {}", multiPageDocument);
-        requestClientDocumentCheck(multiPageDocument);
+        LOG.info("Document imported: {}", mMultiPageDocument);
+        showActivityIndicatorAndDisableInteraction();
+        mMultiPageDocument.loadData(context, new AsyncCallback<byte[]>() {
+            @Override
+            public void onSuccess(final byte[] result) {
+                hideActivityIndicatorAndEnableInteraction();
+                final List<ImageDocument> documents = mMultiPageDocument.getDocuments();
+                final List<Bitmap> bitmaps = new ArrayList<>(documents.size());
+                for (int i = 0; i < documents.size() - 1; i++) {
+                    final Bitmap rotatedBitmap = getBitmap(documents.get(i));
+                    bitmaps.add(rotatedBitmap);
+                }
+                mImageStack.removeImages();
+                mImageStack.setImages(bitmaps);
+                final Bitmap rotatedBitmap = getBitmap(documents.get(documents.size() - 1));
+                mImageStack.addImage(rotatedBitmap);
+                final View view = mFragment.getView();
+                if (view == null) {
+                    return;
+                }
+                view.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        requestClientDocumentCheck(mMultiPageDocument);
+                    }
+                }, ImageStack.ADD_IMAGE_TRANSITION_DURATION_MS);
+            }
+
+            @Override
+            public void onError(final Exception exception) {
+                hideActivityIndicatorAndEnableInteraction();
+                LOG.error("Document import failed: could not load images");
+                showInvalidFileError(null);
+            }
+        });
+    }
+
+    private Bitmap getBitmap(final ImageDocument imageDocument) {
+        final Photo photo = PhotoFactory.newPhotoFromDocument(imageDocument);
+        // TODO: get rid of bitmap rotation -> rotate only the ImageView in the stack
+        return getRotatedBitmap(photo);
     }
 
     @Override
@@ -1034,10 +1086,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             return;
         }
         final ImageDocument imageDocument = (ImageDocument) document;
-        final Photo photo = PhotoFactory.newPhotoFromDocument(imageDocument);
-        // TODO: get rid of bitmap rotation -> rotate only the ImageView in the stack
-        final Bitmap rotatedBitmap = getRotatedBitmap(photo);
-        mImageStack.addImage(rotatedBitmap);
+        mImageStack.addImage(getBitmap(imageDocument));
         mIsMultiPage = true;
         mMultiPageDocument = new ImageMultiPageDocument(imageDocument, false);
     }

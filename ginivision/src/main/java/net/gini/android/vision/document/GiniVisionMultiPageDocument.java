@@ -36,7 +36,8 @@ public class GiniVisionMultiPageDocument<T extends GiniVisionDocument> extends G
         super(type, null, null, null, true, isImported);
     }
 
-    public GiniVisionMultiPageDocument(@NonNull final Type type, @NonNull final T document, final boolean isImported) {
+    public GiniVisionMultiPageDocument(@NonNull final Type type, @NonNull final T document,
+            final boolean isImported) {
         super(type, null, null, null, true, isImported);
         mDocuments.add(document);
     }

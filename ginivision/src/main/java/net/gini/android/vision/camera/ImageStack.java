@@ -35,6 +35,8 @@ public class ImageStack extends RelativeLayout {
     private static final long BADGE_TRANSITION_DURATION_MS = 150;
     private static final long TRANSITION_DURATION_MS = 300;
     private static final long TRANSITION_START_DELAY_MS = 150;
+    public static final long ADD_IMAGE_TRANSITION_DURATION_MS =
+            TRANSITION_DURATION_MS + TRANSITION_START_DELAY_MS;
 
     private AddImageTransitionListener addImageTransitionListener;
     private TextView badge;
