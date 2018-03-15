@@ -16,6 +16,7 @@ import net.gini.android.vision.util.UriHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -59,7 +60,16 @@ public class FileImportValidator {
 
     public boolean matchesCriteria(@NonNull final Intent intent, @NonNull final Uri fileUri) {
         final List<String> mimeTypes = IntentHelper.getMimeTypes(intent, mContext);
+        return matchesCriteria(fileUri, mimeTypes);
+    }
 
+    public boolean matchesCriteria(@NonNull final Uri fileUri) {
+        final List<String> mimeTypes = Collections.singletonList(
+                IntentHelper.getMimeType(fileUri, mContext));
+        return matchesCriteria(fileUri, mimeTypes);
+    }
+
+    private boolean matchesCriteria(final @NonNull Uri fileUri, final List<String> mimeTypes) {
         if (!isSupportedFileType(mimeTypes)) {
             mError = Error.TYPE_NOT_SUPPORTED;
             return false;

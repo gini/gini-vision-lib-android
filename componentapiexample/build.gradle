@@ -21,6 +21,8 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode appVersionCode
         versionName appVersionName
+
+        multiDexEnabled true
     }
 
     signingConfigs {
@@ -63,6 +65,7 @@ repositories {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation deps.appCompatv7
+    implementation 'com.android.support:multidex:1.0.3'
 
     implementation 'com.karumi:dexter:4.2.0'
 

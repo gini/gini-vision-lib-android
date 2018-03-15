@@ -26,7 +26,8 @@ import android.widget.TextView;
 
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.ImageDocument;
-import net.gini.android.vision.document.MultiPageDocument;
+import net.gini.android.vision.document.ImageMultiPageDocument;
+import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 
@@ -42,16 +43,17 @@ public class MultiPageReviewActivity extends AppCompatActivity {
     public static final String EXTRA_IN_DOCUMENT = "GV_EXTRA_IN_DOCUMENT";
     private ViewPager mImagesPager;
     private ImagesPagerChangeListener mImagesPagerChangeListener;
-    private MultiPageDocument mMultiPageDocument;
+    private ImageMultiPageDocument mMultiPageDocument;
     private TextView mPageIndicator;
     private List<Photo> mPhotos;
     private RelativeLayout mRootView;
     private RecyclerView mThumbnailsRV;
     private RecyclerView.SmoothScroller mThumbnailsScroller;
     private ImageButton mButtonNext;
+    private ImageButton mDeleteButton;
 
     public static Intent createIntent(@NonNull final Context context,
-            @NonNull final MultiPageDocument multiPageDocument) {
+            @NonNull final ImageMultiPageDocument multiPageDocument) {
         final Intent intent = new Intent(context, MultiPageReviewActivity.class);
         intent.putExtra(EXTRA_IN_DOCUMENT, multiPageDocument);
         return intent;
@@ -73,14 +75,8 @@ public class MultiPageReviewActivity extends AppCompatActivity {
         });
 
         mPhotos = new ArrayList<>();
-        for (final ImageDocument imageDocument : mMultiPageDocument.getImageDocuments()) {
-            mPhotos.add(PhotoFactory.newPhotoFromDocument(imageDocument));
-        }
 
         mImagesPager = findViewById(R.id.gv_view_pager);
-        final ImagesPagerAdapter imagesPagerAdapter = new ImagesPagerAdapter(
-                getSupportFragmentManager(), mPhotos);
-        mImagesPager.setAdapter(imagesPagerAdapter);
 
         mPageIndicator = findViewById(R.id.gv_page_indicator);
         mThumbnailsRV = findViewById(R.id.gv_thumbnails_panel);
@@ -124,6 +120,71 @@ public class MultiPageReviewActivity extends AppCompatActivity {
             }
         });
 
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this,
+                LinearLayoutManager.HORIZONTAL, false);
+        mThumbnailsRV.setLayoutManager(layoutManager);
+
+        findViewById(R.id.gv_button_rotate).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                final int currentItem = mImagesPager.getCurrentItem();
+                final Photo photo = mPhotos.get(currentItem);
+                final int rotationStep = 90;
+                final int degrees = photo.getRotationForDisplay() + rotationStep;
+                final ImagesPagerAdapter imagesPagerAdapter =
+                        (ImagesPagerAdapter) mImagesPager.getAdapter();
+                final ThumbnailsAdapter thumbnailsAdapter =
+                        (ThumbnailsAdapter) mThumbnailsRV.getAdapter();
+                photo.setRotationForDisplay(degrees);
+                imagesPagerAdapter.rotateImageInCurrentItemBy(mImagesPager, rotationStep);
+                thumbnailsAdapter.rotateHighlightedThumbnailBy(rotationStep);
+            }
+        });
+
+        mDeleteButton = findViewById(R.id.gv_button_delete);
+
+        mDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                final int deletedItem = mImagesPager.getCurrentItem();
+                mPhotos.remove(deletedItem);
+                final int newPosition = getNewPositionAfterDeletion(deletedItem, mPhotos.size());
+                updatePageIndicator(newPosition);
+                final ImagesPagerAdapter imagesPagerAdapter =
+                        (ImagesPagerAdapter) mImagesPager.getAdapter();
+                final ThumbnailsAdapter thumbnailsAdapter =
+                        (ThumbnailsAdapter) mThumbnailsRV.getAdapter();
+                imagesPagerAdapter.notifyDataSetChanged();
+                thumbnailsAdapter.removeThumbnail(deletedItem);
+                mThumbnailsScroller.setTargetPosition(newPosition);
+                mThumbnailsRV.getLayoutManager().startSmoothScroll(mThumbnailsScroller);
+                if (mPhotos.size() == 1) {
+                    mDeleteButton.setEnabled(false);
+                    mDeleteButton.setAlpha(0.2f);
+                }
+            }
+        });
+
+        mMultiPageDocument.loadData(this, new AsyncCallback<byte[]>() {
+            @Override
+            public void onSuccess(final byte[] result) {
+                for (final ImageDocument imageDocument : mMultiPageDocument.getDocuments()) {
+                    mPhotos.add(PhotoFactory.newPhotoFromDocument(imageDocument));
+                }
+                showPhotos();
+            }
+
+            @Override
+            public void onError(final Exception exception) {
+
+            }
+        });
+    }
+
+    private void showPhotos() {
+        final ImagesPagerAdapter imagesPagerAdapter = new ImagesPagerAdapter(
+                getSupportFragmentManager(), mPhotos);
+
         final ThumbnailChangeListener thumbnailChangeListener = new ThumbnailChangeListener() {
             @Override
             public void onThumbnailMoved() {
@@ -140,6 +201,12 @@ public class MultiPageReviewActivity extends AppCompatActivity {
             }
         };
 
+        if (mPhotos.size() == 1) {
+            mDeleteButton.setEnabled(false);
+            mDeleteButton.setAlpha(0.2f);
+        }
+
+        mImagesPager.setAdapter(imagesPagerAdapter);
         final ThumbnailsAdapter thumbnailsAdapter = new ThumbnailsAdapter(mPhotos,
                 thumbnailChangeListener);
         mThumbnailsRV.setAdapter(thumbnailsAdapter);
@@ -150,53 +217,11 @@ public class MultiPageReviewActivity extends AppCompatActivity {
         touchHelper.attachToRecyclerView(mThumbnailsRV);
         thumbnailsAdapter.setItemTouchHelper(touchHelper);
 
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(this,
-                LinearLayoutManager.HORIZONTAL, false);
-        mThumbnailsRV.setLayoutManager(layoutManager);
-
         mImagesPager.setCurrentItem(0);
         updatePageIndicator(0);
         thumbnailsAdapter.highlightPosition(0);
         mThumbnailsScroller.setTargetPosition(0);
         mThumbnailsRV.getLayoutManager().startSmoothScroll(mThumbnailsScroller);
-
-
-        findViewById(R.id.gv_button_rotate).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                final int currentItem = mImagesPager.getCurrentItem();
-                final Photo photo = mPhotos.get(currentItem);
-                final int rotationStep = 90;
-                final int degrees = photo.getRotationForDisplay() + rotationStep;
-                photo.setRotationForDisplay(degrees);
-                imagesPagerAdapter.rotateImageInCurrentItemBy(mImagesPager, rotationStep);
-                thumbnailsAdapter.rotateHighlightedThumbnailBy(rotationStep);
-            }
-        });
-
-        final ImageButton deleteButton = findViewById(R.id.gv_button_delete);
-        if (mPhotos.size() == 1) {
-            deleteButton.setEnabled(false);
-            deleteButton.setAlpha(0.2f);
-        }
-
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                final int deletedItem = mImagesPager.getCurrentItem();
-                mPhotos.remove(deletedItem);
-                final int newPosition = getNewPositionAfterDeletion(deletedItem, mPhotos.size());
-                updatePageIndicator(newPosition);
-                imagesPagerAdapter.notifyDataSetChanged();
-                thumbnailsAdapter.removeThumbnail(deletedItem);
-                mThumbnailsScroller.setTargetPosition(newPosition);
-                mThumbnailsRV.getLayoutManager().startSmoothScroll(mThumbnailsScroller);
-                if (mPhotos.size() == 1) {
-                    deleteButton.setEnabled(false);
-                    deleteButton.setAlpha(0.2f);
-                }
-            }
-        });
     }
 
     private static int getNewPositionAfterDeletion(final int deletedPosition, final int newSize) {
@@ -222,7 +247,7 @@ public class MultiPageReviewActivity extends AppCompatActivity {
     private void checkRequiredExtras() {
         if (mMultiPageDocument == null) {
             throw new IllegalStateException(
-                    "MultiPageReviewActivity requires a MultiPageDocument. Set it as an extra using the EXTRA_IN_DOCUMENT key.");
+                    "MultiPageReviewActivity requires a GiniVisionMultiPageDocument. Set it as an extra using the EXTRA_IN_DOCUMENT key.");
         }
     }
 

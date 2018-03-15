@@ -57,7 +57,7 @@ public final class QRCodeDocument extends GiniVisionDocument {
 
     private QRCodeDocument(@NonNull final byte[] data,
             @NonNull final PaymentQRCodeData paymentQRCodeData) {
-        super(Type.QRCode, data, null, false, false);
+        super(Type.QRCode, data, null, null, false, false);
         mPaymentData = paymentQRCodeData;
     }
 

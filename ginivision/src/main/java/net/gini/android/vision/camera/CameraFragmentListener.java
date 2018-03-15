@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionError;
-import net.gini.android.vision.document.MultiPageDocument;
+import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.document.QRCodeDocument;
 import net.gini.android.vision.network.GiniVisionNetworkService;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
@@ -27,7 +27,7 @@ public interface CameraFragmentListener {
      */
     void onDocumentAvailable(@NonNull Document document);
 
-    void onProceedToMultiPageReviewScreen(@NonNull final MultiPageDocument multiPageDocument);
+    void onProceedToMultiPageReviewScreen(@NonNull final GiniVisionMultiPageDocument multiPageDocument);
 
     /**
      * <p>

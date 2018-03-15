@@ -22,7 +22,8 @@ import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
-import net.gini.android.vision.document.MultiPageDocument;
+import net.gini.android.vision.document.GiniVisionMultiPageDocument;
+import net.gini.android.vision.document.ImageMultiPageDocument;
 import net.gini.android.vision.document.QRCodeDocument;
 import net.gini.android.vision.help.HelpActivity;
 import net.gini.android.vision.internal.util.ActivityHelper;
@@ -666,13 +667,6 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         mOnboardingShown = true;
     }
 
-    /**
-     * @deprecated When a {@link GiniVision} instance is available the document
-     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
-     * implementation. The extractions will be returned in the extra called
-     * {@link CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
-     */
-    @Deprecated
     @Override
     public void onDocumentAvailable(@NonNull final Document document) {
         mDocument = document;
@@ -683,18 +677,16 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         }
     }
 
-    /**
-     * @deprecated When a {@link GiniVision} instance is available the document
-     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
-     * implementation. The extractions will be returned in the extra called
-     * {@link CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
-     */
-    @Deprecated
     @Override
     public void onProceedToMultiPageReviewScreen(
-            @NonNull final MultiPageDocument multiPageDocument) {
-        final Intent intent = MultiPageReviewActivity.createIntent(this, multiPageDocument);
-        startActivityForResult(intent, MULTI_PAGE_REVIEW_REQUEST);
+            @NonNull final GiniVisionMultiPageDocument multiPageDocument) {
+        if (multiPageDocument.getType() == Document.Type.IMAGE_MULTI_PAGE) {
+            final Intent intent = MultiPageReviewActivity.createIntent(this,
+                    (ImageMultiPageDocument) multiPageDocument);
+            startActivityForResult(intent, MULTI_PAGE_REVIEW_REQUEST);
+        } else {
+            throw new UnsupportedOperationException("Unsupported multi-page document type.");
+        }
     }
 
     @Override

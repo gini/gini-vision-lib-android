@@ -1,17 +1,20 @@
 package net.gini.android.vision.document;
 
+import static net.gini.android.vision.util.IntentHelper.getMimeType;
 import static net.gini.android.vision.util.IntentHelper.getMimeTypes;
 import static net.gini.android.vision.util.IntentHelper.getSourceAppName;
 import static net.gini.android.vision.util.IntentHelper.hasMimeTypeWithPrefix;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Parcel;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.internal.camera.photo.Photo;
+import net.gini.android.vision.util.IntentHelper;
 
 import java.util.List;
 
@@ -73,12 +76,30 @@ public final class ImageDocument extends GiniVisionDocument {
             @NonNull final String deviceType,
             @NonNull final String importMethod) {
         final List<String> mimeTypes = getMimeTypes(intent, context);
-        if (mimeTypes.isEmpty() || !hasMimeTypeWithPrefix(intent, context, "image/")) {
+        if (mimeTypes.isEmpty() || !hasMimeTypeWithPrefix(intent, context,
+                IntentHelper.MimeType.IMAGE_PREFIX.asString())) {
             throw new IllegalArgumentException("Intent must have a mime type of image/*");
         }
         final String mimeType = mimeTypes.get(0);
         final String source = getDocumentSource(intent, context);
         return new ImageDocument(intent, ImageFormat.fromMimeType(mimeType), deviceOrientation,
+                deviceType, source, importMethod);
+    }
+
+    @NonNull
+    static ImageDocument fromUri(@NonNull final Uri uri,
+            @NonNull final Intent intent,
+            @NonNull final Context context,
+            @NonNull final String deviceOrientation,
+            @NonNull final String deviceType,
+            @NonNull final String importMethod) {
+        final String mimeType = getMimeType(uri, context);
+        if (mimeType == null || !hasMimeTypeWithPrefix(uri, context,
+                IntentHelper.MimeType.IMAGE_PREFIX.asString())) {
+            throw new IllegalArgumentException("Intent must have a mime type of image/*");
+        }
+        final String source = getDocumentSource(intent, context);
+        return new ImageDocument(uri, ImageFormat.fromMimeType(mimeType), deviceOrientation,
                 deviceType, source, importMethod);
     }
 
@@ -99,7 +120,7 @@ public final class ImageDocument extends GiniVisionDocument {
 
     private ImageDocument(@NonNull final Photo photo,
             @Nullable final Intent intent) {
-        super(Type.IMAGE, photo.getData(), intent, true, photo.isImported());
+        super(Type.IMAGE, photo.getData(), intent, null, true, photo.isImported());
         mRotationForDisplay = photo.getRotationForDisplay();
         mFormat = photo.getImageFormat();
         mDeviceOrientation = photo.getDeviceOrientation();
@@ -113,7 +134,21 @@ public final class ImageDocument extends GiniVisionDocument {
             @NonNull final String deviceType,
             @NonNull final String source,
             @NonNull final String importMethod) {
-        super(Type.IMAGE, null, intent, true, true);
+        super(Type.IMAGE, null, intent, null, true, true);
+        mRotationForDisplay = 0;
+        mFormat = format;
+        mDeviceOrientation = deviceOrientation;
+        mDeviceType = deviceType;
+        mSource = source;
+        mImportMethod = importMethod;
+    }
+
+    private ImageDocument(@Nullable final Uri uri, @NonNull final ImageFormat format,
+            @NonNull final String deviceOrientation,
+            @NonNull final String deviceType,
+            @NonNull final String source,
+            @NonNull final String importMethod) {
+        super(Type.IMAGE, null, null, uri, true, true);
         mRotationForDisplay = 0;
         mFormat = format;
         mDeviceOrientation = deviceOrientation;
