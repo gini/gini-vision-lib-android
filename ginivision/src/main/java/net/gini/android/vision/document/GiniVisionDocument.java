@@ -14,6 +14,7 @@ import net.gini.android.vision.internal.util.UriReaderAsyncTask;
 import net.gini.android.vision.util.IntentHelper;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 /**
  * @exclude
@@ -34,6 +35,7 @@ public class GiniVisionDocument implements Document {
             return new GiniVisionDocument[size];
         }
     };
+    private final String mUniqueID;
     private final Intent mIntent;
     private final Uri mUri;
     private final boolean mIsImported;
@@ -47,6 +49,7 @@ public class GiniVisionDocument implements Document {
             @Nullable final Uri uri,
             final boolean isReviewable,
             final boolean isImported) {
+        mUniqueID = UUID.randomUUID().toString();
         mType = type;
         mData = data;
         mIntent = intent;
@@ -56,6 +59,7 @@ public class GiniVisionDocument implements Document {
     }
 
     GiniVisionDocument(final Parcel in) {
+        mUniqueID = in.readString();
         final ParcelableMemoryCache cache = ParcelableMemoryCache.getInstance();
         final ParcelableMemoryCache.Token token = in.readParcelable(
                 ParcelableMemoryCache.Token.class.getClassLoader());
@@ -83,6 +87,7 @@ public class GiniVisionDocument implements Document {
      */
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {
+        dest.writeString(mUniqueID);
         if (mData != null) {
             final ParcelableMemoryCache cache = ParcelableMemoryCache.getInstance();
             final ParcelableMemoryCache.Token token = cache.storeByteArray(mData);
@@ -194,4 +199,47 @@ public class GiniVisionDocument implements Document {
         asyncTask.execute(uri);
     }
 
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        final GiniVisionDocument that = (GiniVisionDocument) o;
+
+        if (mIsImported != that.mIsImported) {
+            return false;
+        }
+        if (mIsReviewable != that.mIsReviewable) {
+            return false;
+        }
+        if (!mUniqueID.equals(that.mUniqueID)) {
+            return false;
+        }
+        if (mIntent != null ? !mIntent.equals(that.mIntent) : that.mIntent != null) {
+            return false;
+        }
+        if (mUri != null ? !mUri.equals(that.mUri) : that.mUri != null) {
+            return false;
+        }
+        if (mType != that.mType) {
+            return false;
+        }
+        return Arrays.equals(mData, that.mData);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mUniqueID.hashCode();
+        result = 31 * result + (mIntent != null ? mIntent.hashCode() : 0);
+        result = 31 * result + (mUri != null ? mUri.hashCode() : 0);
+        result = 31 * result + (mIsImported ? 1 : 0);
+        result = 31 * result + (mIsReviewable ? 1 : 0);
+        result = 31 * result + mType.hashCode();
+        result = 31 * result + Arrays.hashCode(mData);
+        return result;
+    }
 }

@@ -1,4 +1,25 @@
-<net.gini.android.vision.review.RotatableTouchImageViewContainer xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/gv_image_container"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/gv_text_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="16dp"
+        android:gravity="center"
+        android:textColor="@color/gv_snackbar_error_background"
+        android:textSize="14sp"
+        tools:text="Bad image." />
+
+    <net.gini.android.vision.review.RotatableTouchImageViewContainer xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/gv_image_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </net.gini.android.vision.review.RotatableTouchImageViewContainer>
+
+</RelativeLayout>
+

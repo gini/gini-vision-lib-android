@@ -2,10 +2,12 @@ package net.gini.android.vision.review;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import net.gini.android.vision.R;
 import net.gini.android.vision.internal.camera.photo.Photo;
@@ -13,15 +15,20 @@ import net.gini.android.vision.internal.camera.photo.Photo;
 public class ImageFragment extends Fragment {
 
     private static final String ARGS_PHOTO = "GV_ARGS_PHOTO";
+    private static final String ARGS_ERROR_MESSAGE = "GV_ARGS_ERROR_MESSAGE";
 
     private RotatableImageViewContainer mImageViewContainer;
 
-    private Photo photo;
+    private Photo mPhoto;
+    private String mErrorMessage;
+    private TextView mErrorView;
 
-    public static ImageFragment createInstance(@NonNull final Photo photo) {
+    public static ImageFragment createInstance(@Nullable final Photo photo,
+            @Nullable final String errorMessage) {
         final ImageFragment fragment = new ImageFragment();
         final Bundle args = new Bundle();
         args.putParcelable(ARGS_PHOTO, photo);
+        args.putString(ARGS_ERROR_MESSAGE, errorMessage);
         fragment.setArguments(args);
         return fragment;
     }
@@ -32,11 +39,10 @@ public class ImageFragment extends Fragment {
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null && getArguments().getParcelable(ARGS_PHOTO) != null) {
-            photo = getArguments().getParcelable(ARGS_PHOTO);
-        } else {
-            throw new IllegalStateException(
-                    "Missing bitmap argument. Use the factory method to create instances.");
+        final Bundle arguments = getArguments();
+        if (arguments != null) {
+            mErrorMessage = arguments.getString(ARGS_ERROR_MESSAGE);
+            mPhoto = arguments.getParcelable(ARGS_PHOTO);
         }
     }
 
@@ -45,14 +51,18 @@ public class ImageFragment extends Fragment {
             final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.gv_fragment_image, container, false);
         mImageViewContainer = view.findViewById(R.id.gv_image_container);
+        mErrorView = view.findViewById(R.id.gv_text_error);
+        mErrorView.setText(mErrorMessage);
         return view;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        mImageViewContainer.getImageView().setImageBitmap(photo.getBitmapPreview());
-        rotateImageView(photo.getRotationForDisplay(), false);
+        if (mPhoto != null) {
+            mImageViewContainer.getImageView().setImageBitmap(mPhoto.getBitmapPreview());
+            rotateImageView(mPhoto.getRotationForDisplay(), false);
+        }
     }
 
     private void rotateImageView(final int degrees, final boolean animated) {

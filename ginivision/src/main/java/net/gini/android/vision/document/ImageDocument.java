@@ -59,6 +59,11 @@ public final class ImageDocument extends GiniVisionDocument {
     private final ImageFormat mFormat;
 
     @NonNull
+    static ImageDocument empty() {
+        return new ImageDocument();
+    }
+
+    @NonNull
     static ImageDocument fromPhoto(@NonNull final Photo photo) {
         return new ImageDocument(photo);
     }
@@ -107,6 +112,16 @@ public final class ImageDocument extends GiniVisionDocument {
             @NonNull final Context context) {
         final String appName = getSourceAppName(data, context);
         return appName != null ? appName : "external";
+    }
+
+    private ImageDocument() {
+        super(Type.IMAGE,null, null, null, true, false);
+        mRotationForDisplay = 0;
+        mFormat = ImageFormat.JPEG;
+        mDeviceOrientation = "";
+        mDeviceType = "";
+        mSource = "";
+        mImportMethod = "";
     }
 
     private ImageDocument(@NonNull final Photo photo) {

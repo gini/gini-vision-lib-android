@@ -62,6 +62,10 @@ public final class DocumentFactory {
         throw new IllegalArgumentException("Unknown Intent Uri mime type.");
     }
 
+    public static ImageDocument newEmptyImageDocument() {
+        return ImageDocument.empty();
+    }
+
     public static GiniVisionDocument newDocumentFromPhoto(@NonNull final Photo photo) {
         return ImageDocument.fromPhoto(photo);
     }

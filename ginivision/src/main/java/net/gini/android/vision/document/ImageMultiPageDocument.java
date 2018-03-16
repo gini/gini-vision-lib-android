@@ -9,7 +9,7 @@ import android.support.annotation.NonNull;
  * Copyright (c) 2018 Gini GmbH.
  */
 
-public class ImageMultiPageDocument extends GiniVisionMultiPageDocument<ImageDocument> {
+public class ImageMultiPageDocument extends GiniVisionMultiPageDocument<ImageDocument, GiniVisionDocumentError> {
 
     public static final Creator<ImageMultiPageDocument> CREATOR =
             new Creator<ImageMultiPageDocument>() {
