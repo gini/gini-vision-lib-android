@@ -27,19 +27,17 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.GiniVisionDocumentError;
 import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.document.ImageMultiPageDocument;
 import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.camera.photo.Photo;
-import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MultiPageReviewActivity extends AppCompatActivity {
 
@@ -51,7 +49,6 @@ public class MultiPageReviewActivity extends AppCompatActivity {
     private ImagesPagerChangeListener mImagesPagerChangeListener;
     private ImageMultiPageDocument mMultiPageDocument;
     private TextView mPageIndicator;
-    private final Map<ImageDocument, Photo> mDocumentPhotoMap = new HashMap<>();
     private RelativeLayout mRootView;
     private RecyclerView mThumbnailsRV;
     private RecyclerView.SmoothScroller mThumbnailsScroller;
@@ -134,16 +131,29 @@ public class MultiPageReviewActivity extends AppCompatActivity {
                 final int currentItem = mImagesPager.getCurrentItem();
                 final ImageDocument document =
                         mMultiPageDocument.getDocuments().get(currentItem);
-                final Photo photo = mDocumentPhotoMap.get(document);
-                final int rotationStep = 90;
-                final int degrees = photo.getRotationForDisplay() + rotationStep;
-                final ImagesPagerAdapter imagesPagerAdapter =
-                        (ImagesPagerAdapter) mImagesPager.getAdapter();
-                final ThumbnailsAdapter thumbnailsAdapter =
-                        (ThumbnailsAdapter) mThumbnailsRV.getAdapter();
-                photo.setRotationForDisplay(degrees);
-                imagesPagerAdapter.rotateImageInCurrentItemBy(mImagesPager, rotationStep);
-                thumbnailsAdapter.rotateHighlightedThumbnailBy(rotationStep);
+                GiniVision.getInstance().internal().getPhotoMemoryCache()
+                        .getPhoto(MultiPageReviewActivity.this, document, new AsyncCallback<Photo>() {
+                            @Override
+                            public void onSuccess(final Photo photo) {
+                                final int rotationStep = 90;
+                                final int degrees = photo.getRotationForDisplay() + rotationStep;
+                                final ImagesPagerAdapter imagesPagerAdapter =
+                                        (ImagesPagerAdapter) mImagesPager.getAdapter();
+                                final ThumbnailsAdapter thumbnailsAdapter =
+                                        (ThumbnailsAdapter) mThumbnailsRV.getAdapter();
+                                photo.setRotationForDisplay(degrees);
+                                // WIP-MM: update document data
+                                // WIP-MM: write document to disk
+                                // WIP-MM: invalidate cached document data
+                                imagesPagerAdapter.rotateImageInCurrentItemBy(mImagesPager, rotationStep);
+                                thumbnailsAdapter.rotateHighlightedThumbnailBy(rotationStep);
+                            }
+
+                            @Override
+                            public void onError(final Exception exception) {
+
+                            }
+                        });
             }
         });
 
@@ -154,8 +164,11 @@ public class MultiPageReviewActivity extends AppCompatActivity {
             public void onClick(final View v) {
                 final int deletedItem = mImagesPager.getCurrentItem();
                 final List<ImageDocument> documents = mMultiPageDocument.getDocuments();
+                final ImageDocument deletedDocument = documents.get(deletedItem);
                 documents.remove(deletedItem);
-                mDocumentPhotoMap.remove(deletedItem);
+                final GiniVision.Internal gvInternal = GiniVision.getInstance().internal();
+                gvInternal.getDocumentDataMemoryCache().invalidateData(deletedDocument);
+                gvInternal.getPhotoMemoryCache().invalidatePhoto(deletedDocument);
                 final int newPosition = getNewPositionAfterDeletion(deletedItem, documents.size());
                 updatePageIndicator(newPosition);
                 final ImagesPagerAdapter imagesPagerAdapter =
@@ -173,26 +186,12 @@ public class MultiPageReviewActivity extends AppCompatActivity {
             }
         });
 
-        mMultiPageDocument.loadData(this, new AsyncCallback<byte[]>() {
-            @Override
-            public void onSuccess(final byte[] result) {
-                for (final ImageDocument imageDocument : mMultiPageDocument.getDocuments()) {
-                    mDocumentPhotoMap.put(imageDocument,
-                            PhotoFactory.newPhotoFromDocument(imageDocument));
-                }
-                showPhotos();
-            }
-
-            @Override
-            public void onError(final Exception exception) {
-
-            }
-        });
+        showPhotos();
     }
 
     private void showPhotos() {
         final ImagesPagerAdapter imagesPagerAdapter = new ImagesPagerAdapter(
-                getSupportFragmentManager(), mMultiPageDocument, mDocumentPhotoMap);
+                getSupportFragmentManager(), mMultiPageDocument);
 
         final ThumbnailChangeListener thumbnailChangeListener = new ThumbnailChangeListener() {
             @Override
@@ -216,8 +215,7 @@ public class MultiPageReviewActivity extends AppCompatActivity {
         }
 
         mImagesPager.setAdapter(imagesPagerAdapter);
-        final ThumbnailsAdapter thumbnailsAdapter = new ThumbnailsAdapter(mMultiPageDocument,
-                mDocumentPhotoMap, thumbnailChangeListener);
+        final ThumbnailsAdapter thumbnailsAdapter = new ThumbnailsAdapter(this, mMultiPageDocument, thumbnailChangeListener);
         mThumbnailsRV.setAdapter(thumbnailsAdapter);
 
         final ItemTouchHelper.Callback callback =
@@ -283,14 +281,11 @@ public class MultiPageReviewActivity extends AppCompatActivity {
     private static class ImagesPagerAdapter extends FragmentStatePagerAdapter {
 
         private final ImageMultiPageDocument mMultiPageDocument;
-        private final Map<ImageDocument, Photo> mDocumentPhotoMap;
 
         ImagesPagerAdapter(@NonNull final FragmentManager fm,
-                @NonNull final ImageMultiPageDocument multiPageDocument,
-                @NonNull final Map<ImageDocument, Photo> documentPhotoMap) {
+                @NonNull final ImageMultiPageDocument multiPageDocument) {
             super(fm);
             mMultiPageDocument = multiPageDocument;
-            mDocumentPhotoMap = documentPhotoMap;
         }
 
         @Override
@@ -306,16 +301,17 @@ public class MultiPageReviewActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(final int position) {
+            // WIP-MM: load document data using DocumentDataMemoryCache
             final ImageDocument document =
                     mMultiPageDocument.getDocuments().get(position);
-            final Photo photo = mDocumentPhotoMap.get(document);
             final GiniVisionDocumentError documentError =
                     mMultiPageDocument.getErrorForDocument(document);
             String errorMessage = null;
             if (documentError != null) {
                 errorMessage = documentError.getMessage();
             }
-            return ImageFragment.createInstance(photo, errorMessage);
+            // WIP-MM: async load document data and create photo in fragment
+            return ImageFragment.createInstance(document, errorMessage);
         }
 
         void rotateImageInCurrentItemBy(@NonNull final ViewPager viewPager, final int degrees) {
@@ -373,40 +369,30 @@ public class MultiPageReviewActivity extends AppCompatActivity {
     private static class Thumbnail {
 
         @Nullable
-        final Bitmap bitmap;
+        Bitmap bitmap;
         boolean highlighted;
-
-        Thumbnail(@Nullable final Bitmap bitmap, final boolean highlighted) {
-            this.bitmap = bitmap;
-            this.highlighted = highlighted;
-        }
     }
 
     private static class ThumbnailsAdapter extends
             RecyclerView.Adapter<ThumbnailsAdapter.ViewHolder> implements
             ThumbnailsTouchHelperListener {
 
+        private final Context mContext;
         private final ImageMultiPageDocument mMultiPageDocument;
-        private final Map<ImageDocument, Photo> mDocumentPhotoMap;
         private final ThumbnailChangeListener mThumbnailChangeListener;
         private final List<Thumbnail> mThumbnails;
         private ItemTouchHelper mItemTouchHelper;
         private RecyclerView mRecyclerView;
 
-        ThumbnailsAdapter(@NonNull final ImageMultiPageDocument multiPageDocument,
-                @NonNull final Map<ImageDocument, Photo> documentPhotoMap,
+        ThumbnailsAdapter(@NonNull final Context context,
+                @NonNull final ImageMultiPageDocument multiPageDocument,
                 @NonNull final ThumbnailChangeListener thumbnailChangeListener) {
+            mContext = context;
             mMultiPageDocument = multiPageDocument;
-            mDocumentPhotoMap = documentPhotoMap;
             final List<ImageDocument> documents = mMultiPageDocument.getDocuments();
             mThumbnails = new ArrayList<>(documents.size());
             for (final ImageDocument document : documents) {
-                final Photo photo = mDocumentPhotoMap.get(document);
-                Bitmap preview = null;
-                if (photo != null) {
-                    preview = photo.getBitmapPreview();
-                }
-                mThumbnails.add(new Thumbnail(preview, false));
+                mThumbnails.add(new Thumbnail());
             }
             mThumbnailChangeListener = thumbnailChangeListener;
         }
@@ -422,21 +408,48 @@ public class MultiPageReviewActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder,
                 final int position) {
+            // WIP-MM: show loading indicator
+            GiniVision.getInstance().internal().getPhotoMemoryCache()
+                    .getPhoto(mContext, mMultiPageDocument.getDocuments().get(position),
+                            new AsyncCallback<Photo>() {
+                                @Override
+                                public void onSuccess(final Photo result) {
+                                    if (holder.getAdapterPosition() == position) {
+                                        showPhoto(result, position, holder);
+                                    }
+                                }
+
+                                @Override
+                                public void onError(final Exception exception) {
+                                    if (holder.getAdapterPosition() == position) {
+                                        final ImageView imageView =
+                                                holder.thumbnailContainer.getImageView();
+                                        imageView.setBackgroundColor(Color.TRANSPARENT);
+                                        imageView.setImageBitmap(null);
+                                        showPosition(position, holder);
+                                    }
+                                }
+                            });
+        }
+
+        private void showPhoto(@NonNull final Photo photo, final int position,
+                @NonNull final ViewHolder holder) {
+            mThumbnails.get(position).bitmap = photo.getBitmapPreview();
             final ImageView imageView = holder.thumbnailContainer.getImageView();
             final Bitmap bitmap = mThumbnails.get(position).bitmap;
             if (bitmap != null) {
                 imageView.setBackgroundColor(Color.TRANSPARENT);
                 imageView.setImageBitmap(bitmap);
             } else {
-              imageView.setBackgroundColor(Color.BLACK);
-              imageView.setImageBitmap(null);
+                imageView.setBackgroundColor(Color.BLACK);
+                imageView.setImageBitmap(null);
             }
-            final ImageDocument document = mMultiPageDocument.getDocuments().get(position);
-            final Photo photo = mDocumentPhotoMap.get(document);
-            if (photo != null) {
-                holder.thumbnailContainer.rotateImageView(
+            holder.thumbnailContainer.rotateImageView(
                         photo.getRotationForDisplay(), false);
-            }
+            showPosition(position, holder);
+        }
+
+        private void showPosition(final int position, final @NonNull ViewHolder holder) {
             holder.badge.setText(String.valueOf(position + 1));
             holder.highlight.setAlpha(mThumbnails.get(position).highlighted ? 1f : 0f);
             holder.itemView.setOnClickListener(new View.OnClickListener() {

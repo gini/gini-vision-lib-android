@@ -3,6 +3,8 @@ package net.gini.android.vision;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import net.gini.android.vision.internal.document.DocumentDataMemoryCache;
+import net.gini.android.vision.internal.document.PhotoMemoryCache;
 import net.gini.android.vision.network.GiniVisionNetworkApi;
 import net.gini.android.vision.network.GiniVisionNetworkService;
 import net.gini.android.vision.onboarding.OnboardingPage;
@@ -24,6 +26,8 @@ public class GiniVision {
     private static GiniVision sInstance;
     private final GiniVisionNetworkService mGiniVisionNetworkService;
     private final GiniVisionNetworkApi mGiniVisionNetworkApi;
+    private final DocumentDataMemoryCache mDocumentDataMemoryCache;
+    private final PhotoMemoryCache mPhotoMemoryCache;
     private final Internal mInternal;
     private final DocumentImportEnabledFileTypes mDocumentImportEnabledFileTypes;
     private final boolean mFileImportEnabled;
@@ -54,7 +58,12 @@ public class GiniVision {
     }
 
     public static void cleanup() {
-        sInstance = null;
+        // WIP-MM: clear stores and caches
+        if (sInstance != null) {
+            sInstance.mDocumentDataMemoryCache.clear();
+            sInstance.mPhotoMemoryCache.clear();
+            sInstance = null;
+        }
     }
 
     private GiniVision(@NonNull final Builder builder) {
@@ -66,6 +75,8 @@ public class GiniVision {
         mCustomOnboardingPages = builder.getOnboardingPages();
         mShouldShowOnboardingAtFirstRun = builder.shouldShowOnboardingAtFirstRun();
         mShouldShowOnboarding = builder.shouldShowOnboarding();
+        mDocumentDataMemoryCache = new DocumentDataMemoryCache();
+        mPhotoMemoryCache = new PhotoMemoryCache(mDocumentDataMemoryCache);
         mInternal = new Internal(this);
     }
 
@@ -171,6 +182,16 @@ public class GiniVision {
     @Nullable
     GiniVisionNetworkService getGiniVisionNetworkService() {
         return mGiniVisionNetworkService;
+    }
+
+    @NonNull
+    DocumentDataMemoryCache getDocumentDataMemoryCache() {
+        return mDocumentDataMemoryCache;
+    }
+
+    @NonNull
+    PhotoMemoryCache getPhotoMemoryCache() {
+        return mPhotoMemoryCache;
     }
 
     public static class Builder {
@@ -365,6 +386,16 @@ public class GiniVision {
         @Nullable
         public GiniVisionNetworkService getGiniVisionNetworkService() {
             return mGiniVision.getGiniVisionNetworkService();
+        }
+
+        @NonNull
+        public DocumentDataMemoryCache getDocumentDataMemoryCache() {
+            return mGiniVision.getDocumentDataMemoryCache();
+        }
+
+        @NonNull
+        public PhotoMemoryCache getPhotoMemoryCache() {
+            return mGiniVision.getPhotoMemoryCache();
         }
     }
 

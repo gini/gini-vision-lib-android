@@ -1167,8 +1167,13 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             if (photo != null) {
                 LOG.info("Picture taken");
                 if (mIsMultiPage) {
-                    mMultiPageDocument.addDocument(
-                            (ImageDocument) DocumentFactory.newDocumentFromPhoto(photo));
+                    // WIP-MM: DocumentDataStore, DocumentDataMemoryCache, PhotoMemoryCache
+                    // WIP-MM: save document to disk
+                    final ImageDocument document =
+                            (ImageDocument) DocumentFactory.newDocumentFromPhoto(photo);
+                    // WIP-MM: unload document's data
+                    mMultiPageDocument.addDocument(document);
+                    // WIP-MM: rotate imageview in image stack to avoid creating a rotated bitmap
                     final Bitmap rotatedBitmap = getRotatedBitmap(photo);
                     mImageStack.addImage(rotatedBitmap);
                     mCameraController.startPreview();

@@ -165,7 +165,8 @@ public class GiniVisionDocument implements Document {
                 + '}';
     }
 
-    public void loadData(@NonNull final Context context,
+    // WIP-MM: add public method unloadData
+    public synchronized void loadData(@NonNull final Context context,
             @NonNull final AsyncCallback<byte[]> callback) {
         if (mData != null) {
             callback.onSuccess(mData);
@@ -197,6 +198,11 @@ public class GiniVisionDocument implements Document {
                     }
                 });
         asyncTask.execute(uri);
+    }
+
+    public synchronized void unloadData() {
+        // WIP-MM: clear references after writing to disk has been added
+        //mData = null;
     }
 
     @Override
