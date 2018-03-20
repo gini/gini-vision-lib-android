@@ -55,7 +55,7 @@ public final class ImageDocument extends GiniVisionDocument {
         }
     }
 
-    private final int mRotationForDisplay;
+    private int mRotationForDisplay;
     private final ImageFormat mFormat;
 
     @NonNull
@@ -204,6 +204,11 @@ public final class ImageDocument extends GiniVisionDocument {
     @Override
     public int getRotationForDisplay() {
         return mRotationForDisplay;
+    }
+
+    public synchronized void setRotationForDisplay(final int degrees) {
+        // Converts input degrees to degrees between [0,360)
+        mRotationForDisplay = ((degrees % 360) + 360) % 360;
     }
 
     /**

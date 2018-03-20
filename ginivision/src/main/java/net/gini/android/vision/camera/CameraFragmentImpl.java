@@ -138,6 +138,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     };
 
     private static final int REQ_CODE_CHOOSE_FILE = 1;
+    private static final int REQ_CODE_MULTI_PAGE_REVIEW = 2;
     private static final String SHOW_HINT_POP_UP = "SHOW_HINT_POP_UP";
 
     private final CameraFragmentImplCallback mFragment;
@@ -1111,6 +1112,17 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         mMultiPageDocument = new ImageMultiPageDocument(imageDocument, false);
     }
 
+    @Override
+    public void setMultiPageDocument(@NonNull final GiniVisionMultiPageDocument multiPageDocument) {
+        mInMultiPageState = true;
+        if (multiPageDocument instanceof ImageMultiPageDocument) {
+            mMultiPageDocument = (ImageMultiPageDocument) multiPageDocument;
+            // WIP-MM: update/show first 3 images in stack
+        } else {
+            LOG.warn("Only ImageMultiPageDocument accepted");
+        }
+    }
+
     private void enableInteraction() {
         if (mCameraPreview == null
                 || mButtonImportDocument == null
@@ -1178,9 +1190,9 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                         mCameraController.startPreview();
                         return;
                     }
-                    // WIP-MM: unload document's data
-                    document.unloadData();
                     mMultiPageDocument.addDocument(document);
+                    // WIP-MM: unload document's data
+                    mMultiPageDocument.unloadAllDocumentData();
                     // WIP-MM: rotate imageview in image stack to avoid creating a rotated bitmap
                     final Bitmap rotatedBitmap = getRotatedBitmap(photo);
                     mImageStack.addImage(rotatedBitmap);
@@ -1195,8 +1207,6 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                             mCameraController.startPreview();
                             return;
                         }
-                        // WIP-MM: unload document's data
-                        document.unloadData();
                     } else {
                         document = DocumentFactory.newDocumentFromPhoto(photo);
                     }

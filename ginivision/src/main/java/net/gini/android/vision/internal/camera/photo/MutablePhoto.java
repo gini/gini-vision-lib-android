@@ -142,6 +142,7 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
     }
 
     private void initRotationForDisplay(@Nullable final ExifReader exifReader) {
+        // Rotation is unknown only for imported images
         if (mImageDocument != null && mImageDocument.isImported()
                 && exifReader != null) {
             mRotationForDisplay = exifReader.getOrientationAsDegrees();

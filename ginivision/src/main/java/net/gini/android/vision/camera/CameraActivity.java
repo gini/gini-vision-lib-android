@@ -426,7 +426,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     static final int REVIEW_DOCUMENT_REQUEST = 1;
     private static final int ONBOARDING_REQUEST = 2;
     private static final int ANALYSE_DOCUMENT_REQUEST = 3;
-    private static final int MULTI_PAGE_REVIEW_REQUEST = 2;
+    private static final int MULTI_PAGE_REVIEW_REQUEST = 4;
     private static final String CAMERA_FRAGMENT = "CAMERA_FRAGMENT";
     private static final String ONBOARDING_SHOWN_KEY = "ONBOARDING_SHOWN_KEY";
 
@@ -761,6 +761,15 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
                 mOnboardingShown = false;
                 showInterface();
                 break;
+            case MULTI_PAGE_REVIEW_REQUEST:
+                if (data != null) {
+                    final GiniVisionMultiPageDocument multiPageDocument = data.getParcelableExtra(
+                            MultiPageReviewActivity.EXTRA_OUT_DOCUMENT);
+                    if (multiPageDocument != null) {
+                        mFragment.setMultiPageDocument(multiPageDocument);
+                    }
+                }
+                break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);
         }
@@ -821,6 +830,11 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     @Override
     public void startMultiPage(@NonNull final Document document) {
         mFragment.startMultiPage(document);
+    }
+
+    @Override
+    public void setMultiPageDocument(@NonNull final GiniVisionMultiPageDocument multiPageDocument) {
+        mFragment.setMultiPageDocument(multiPageDocument);
     }
 
     private void clearMemory() {

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -34,6 +35,13 @@ import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.document.ImageMultiPageDocument;
 import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.camera.photo.Photo;
+import net.gini.android.vision.internal.camera.photo.PhotoEdit;
+import net.gini.android.vision.internal.document.DocumentDataMemoryCache;
+import net.gini.android.vision.internal.document.ImageDiskStore;
+import net.gini.android.vision.internal.document.PhotoMemoryCache;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,10 +49,10 @@ import java.util.List;
 
 public class MultiPageReviewActivity extends AppCompatActivity {
 
-    /**
-     * @exclude
-     */
+    public static final Logger LOG = LoggerFactory.getLogger(MultiPageReviewActivity.class);
+
     public static final String EXTRA_IN_DOCUMENT = "GV_EXTRA_IN_DOCUMENT";
+    public static final String EXTRA_OUT_DOCUMENT = "GV_EXTRA_OUT_DOCUMENT";
     private ViewPager mImagesPager;
     private ImagesPagerChangeListener mImagesPagerChangeListener;
     private ImageMultiPageDocument mMultiPageDocument;
@@ -131,27 +139,47 @@ public class MultiPageReviewActivity extends AppCompatActivity {
                 final int currentItem = mImagesPager.getCurrentItem();
                 final ImageDocument document =
                         mMultiPageDocument.getDocuments().get(currentItem);
-                GiniVision.getInstance().internal().getPhotoMemoryCache()
+                final ImageDiskStore imageDiskStore  =
+                        GiniVision.getInstance().internal().getImageDiskStore();
+                final PhotoMemoryCache photoMemoryCache =
+                        GiniVision.getInstance().internal().getPhotoMemoryCache();
+                final DocumentDataMemoryCache documentDataMemoryCache =
+                        GiniVision.getInstance().internal().getDocumentDataMemoryCache();
+                photoMemoryCache
                         .getPhoto(MultiPageReviewActivity.this, document, new AsyncCallback<Photo>() {
                             @Override
                             public void onSuccess(final Photo photo) {
                                 final int rotationStep = 90;
-                                final int degrees = photo.getRotationForDisplay() + rotationStep;
+                                final int degrees = document.getRotationForDisplay() + rotationStep;
+                                document.setRotationForDisplay(degrees);
                                 final ImagesPagerAdapter imagesPagerAdapter =
                                         (ImagesPagerAdapter) mImagesPager.getAdapter();
                                 final ThumbnailsAdapter thumbnailsAdapter =
                                         (ThumbnailsAdapter) mThumbnailsRV.getAdapter();
-                                photo.setRotationForDisplay(degrees);
-                                // WIP-MM: update document data
-                                // WIP-MM: write document to disk
-                                // WIP-MM: invalidate cached document data
                                 imagesPagerAdapter.rotateImageInCurrentItemBy(mImagesPager, rotationStep);
                                 thumbnailsAdapter.rotateHighlightedThumbnailBy(rotationStep);
+                                photo.edit().rotateTo(degrees).applyAsync(
+                                        new PhotoEdit.PhotoEditCallback() {
+                                            @Override
+                                            public void onDone(@NonNull final Photo photo) {
+                                                // WIP-MM: write rotated image to disk
+                                                imageDiskStore.update(document.getUri(), photo.getData());
+                                                // WIP-MM: invalidate photo cache
+                                                photoMemoryCache.invalidatePhoto(document);
+                                                // WIP-MM: invalidate document data cache
+                                                documentDataMemoryCache.invalidateData(document);
+                                            }
+
+                                            @Override
+                                            public void onFailed() {
+                                                LOG.error("Failed to rotate the jpeg");
+                                            }
+                                        });
                             }
 
                             @Override
                             public void onError(final Exception exception) {
-
+                                LOG.error("Failed to create Photo from Document", exception);
                             }
                         });
             }
@@ -169,6 +197,10 @@ public class MultiPageReviewActivity extends AppCompatActivity {
                 final GiniVision.Internal gvInternal = GiniVision.getInstance().internal();
                 gvInternal.getDocumentDataMemoryCache().invalidateData(deletedDocument);
                 gvInternal.getPhotoMemoryCache().invalidatePhoto(deletedDocument);
+                final Uri uri = deletedDocument.getUri();
+                if (uri != null) {
+                    gvInternal.getImageDiskStore().delete(uri);
+                }
                 final int newPosition = getNewPositionAfterDeletion(deletedItem, documents.size());
                 updatePageIndicator(newPosition);
                 final ImagesPagerAdapter imagesPagerAdapter =
@@ -187,6 +219,14 @@ public class MultiPageReviewActivity extends AppCompatActivity {
         });
 
         showPhotos();
+    }
+
+    @Override
+    public void onBackPressed() {
+        final Intent data = new Intent();
+        data.putExtra(EXTRA_OUT_DOCUMENT, mMultiPageDocument);
+        setResult(RESULT_CANCELED, data);
+        finish();
     }
 
     private void showPhotos() {
