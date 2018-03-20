@@ -68,6 +68,13 @@ public final class ImageDocument extends GiniVisionDocument {
         return new ImageDocument(photo);
     }
 
+    // WIP-MM: make copy of imported images
+    @NonNull
+    static ImageDocument fromPhoto(@NonNull final Photo photo,
+            @NonNull final Uri storedAtUri) {
+        return new ImageDocument(photo, null, storedAtUri);
+    }
+
     @NonNull
     static ImageDocument fromPhotoAndDocument(@NonNull final Photo photo,
             @NonNull final Document document) {
@@ -125,17 +132,17 @@ public final class ImageDocument extends GiniVisionDocument {
     }
 
     private ImageDocument(@NonNull final Photo photo) {
-        this(photo, (Intent) null);
+        this(photo, null, null);
     }
 
     private ImageDocument(@NonNull final Photo photo,
             @NonNull final Document document) {
-        this(photo, document.getIntent());
+        this(photo, document.getIntent(), document.getUri());
     }
 
     private ImageDocument(@NonNull final Photo photo,
-            @Nullable final Intent intent) {
-        super(Type.IMAGE, photo.getData(), intent, null, true, photo.isImported());
+            @Nullable final Intent intent, @Nullable final Uri uri) {
+        super(Type.IMAGE, photo.getData(), intent, uri, true, photo.isImported());
         mRotationForDisplay = photo.getRotationForDisplay();
         mFormat = photo.getImageFormat();
         mDeviceOrientation = photo.getDeviceOrientation();

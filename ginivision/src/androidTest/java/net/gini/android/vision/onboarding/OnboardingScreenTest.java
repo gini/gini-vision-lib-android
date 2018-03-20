@@ -23,8 +23,8 @@ import android.support.test.runner.AndroidJUnit4;
 import android.support.test.uiautomator.UiDevice;
 import android.view.Surface;
 
-import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.GiniVision;
+import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.test.EspressoMatchers;
 
@@ -56,7 +56,7 @@ public class OnboardingScreenTest {
     @After
     public void tearDown() throws Exception {
         resetDeviceOrientation();
-        GiniVision.cleanup();
+        GiniVision.cleanup(InstrumentationRegistry.getTargetContext());
     }
 
     @Test

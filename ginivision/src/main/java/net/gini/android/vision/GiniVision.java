@@ -1,9 +1,11 @@
 package net.gini.android.vision;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import net.gini.android.vision.internal.document.DocumentDataMemoryCache;
+import net.gini.android.vision.internal.document.ImageDiskStore;
 import net.gini.android.vision.internal.document.PhotoMemoryCache;
 import net.gini.android.vision.network.GiniVisionNetworkApi;
 import net.gini.android.vision.network.GiniVisionNetworkService;
@@ -28,6 +30,7 @@ public class GiniVision {
     private final GiniVisionNetworkApi mGiniVisionNetworkApi;
     private final DocumentDataMemoryCache mDocumentDataMemoryCache;
     private final PhotoMemoryCache mPhotoMemoryCache;
+    private final ImageDiskStore mImageDiskStore;
     private final Internal mInternal;
     private final DocumentImportEnabledFileTypes mDocumentImportEnabledFileTypes;
     private final boolean mFileImportEnabled;
@@ -57,11 +60,12 @@ public class GiniVision {
         return new Builder();
     }
 
-    public static void cleanup() {
+    public static void cleanup(@NonNull final Context context) {
         // WIP-MM: clear stores and caches
         if (sInstance != null) {
             sInstance.mDocumentDataMemoryCache.clear();
             sInstance.mPhotoMemoryCache.clear();
+            sInstance.mImageDiskStore.clear(context);
             sInstance = null;
         }
     }
@@ -77,6 +81,7 @@ public class GiniVision {
         mShouldShowOnboarding = builder.shouldShowOnboarding();
         mDocumentDataMemoryCache = new DocumentDataMemoryCache();
         mPhotoMemoryCache = new PhotoMemoryCache(mDocumentDataMemoryCache);
+        mImageDiskStore = new ImageDiskStore();
         mInternal = new Internal(this);
     }
 
@@ -192,6 +197,11 @@ public class GiniVision {
     @NonNull
     PhotoMemoryCache getPhotoMemoryCache() {
         return mPhotoMemoryCache;
+    }
+
+    @NonNull
+    ImageDiskStore getImageDiskStore() {
+        return mImageDiskStore;
     }
 
     public static class Builder {
@@ -396,6 +406,10 @@ public class GiniVision {
         @NonNull
         public PhotoMemoryCache getPhotoMemoryCache() {
             return mGiniVision.getPhotoMemoryCache();
+        }
+
+        public ImageDiskStore getImageDiskStore() {
+            return mGiniVision.getImageDiskStore();
         }
     }
 

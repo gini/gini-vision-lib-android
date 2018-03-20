@@ -202,7 +202,7 @@ public class GiniVisionDocument implements Document {
 
     public synchronized void unloadData() {
         // WIP-MM: clear references after writing to disk has been added
-        //mData = null;
+        mData = null;
     }
 
     @Override

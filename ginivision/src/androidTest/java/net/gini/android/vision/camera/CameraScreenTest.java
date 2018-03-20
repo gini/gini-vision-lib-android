@@ -46,17 +46,19 @@ import android.view.View;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
-import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.GiniVision;
+import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivityTestSpy;
 import net.gini.android.vision.document.DocumentFactory;
+import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.document.QRCodeDocument;
 import net.gini.android.vision.document.QRCodeDocumentHelper;
 import net.gini.android.vision.internal.camera.api.CameraControllerFake;
 import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 import net.gini.android.vision.internal.qrcode.PaymentQRCodeData;
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.review.ReviewActivity;
@@ -76,6 +78,7 @@ import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @RunWith(AndroidJUnit4.class)
@@ -117,7 +120,7 @@ public class CameraScreenTest {
         // Wait a little for the camera to close
         Thread.sleep(CLOSE_CAMERA_PAUSE_DURATION);
         resetDeviceOrientation();
-        GiniVision.cleanup();
+        GiniVision.cleanup(InstrumentationRegistry.getTargetContext());
     }
 
     @Test
@@ -695,6 +698,12 @@ public class CameraScreenTest {
             }
 
             @Override
+            public void onProceedToMultiPageReviewScreen(
+                    @NonNull final GiniVisionMultiPageDocument multiPageDocument) {
+
+            }
+
+            @Override
             public void onQRCodeAvailable(@NonNull final QRCodeDocument qrCodeDocument) {
 
             }
@@ -707,6 +716,12 @@ public class CameraScreenTest {
 
             @Override
             public void onError(@NonNull final GiniVisionError error) {
+
+            }
+
+            @Override
+            public void onExtractionsAvailable(
+                    @NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
 
             }
         };
