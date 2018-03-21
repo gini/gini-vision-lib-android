@@ -33,6 +33,12 @@ import java.util.List;
 
 public class ImageStack extends RelativeLayout {
 
+    public enum Position {
+        TOP,
+        MIDDLE,
+        BOTTOM
+    }
+
     private static final long BADGE_TRANSITION_DURATION_MS = 150;
     private static final long TRANSITION_DURATION_MS = 300;
     private static final long TRANSITION_START_DELAY_MS = 150;
@@ -152,6 +158,8 @@ public class ImageStack extends RelativeLayout {
         cleanupTransitionListener.setDrawable2(drawable2);
         cleanupTransitionListener.setNewImage(bitmap);
 
+        imageCount++;
+
         // Execute the transition
         transitionManager.transitionTo(imageAddedScene);
     }
@@ -165,8 +173,11 @@ public class ImageStack extends RelativeLayout {
         stackItem1.setImageDrawable(null);
         stackItem1.setClickable(false);
         stackItem1.setFocusable(false);
+        stackItem1.setBackgroundColor(Color.TRANSPARENT);
         stackItem2.setImageDrawable(null);
+        stackItem2.setBackgroundColor(Color.TRANSPARENT);
         stackItem3.setImageDrawable(null);
+        stackItem3.setBackgroundColor(Color.TRANSPARENT);
         badge.setText("");
         badge.setVisibility(INVISIBLE);
         if (bitmaps == null) {
@@ -196,7 +207,33 @@ public class ImageStack extends RelativeLayout {
         }
     }
 
-    private static void setBitmapOrBlack(@NonNull final ImageView imageView, @Nullable final Bitmap bitmap) {
+    public void setImage(@Nullable final Bitmap bitmap, @NonNull final Position position) {
+        switch (position) {
+            case TOP:
+                stackItem1.setClickable(true);
+                stackItem1.setFocusable(true);
+                if (clickListener != null) {
+                    stackItem1.setOnClickListener(clickListener);
+                }
+                setBitmapOrBlack(stackItem1, bitmap);
+                break;
+            case MIDDLE:
+                setBitmapOrBlack(stackItem2, bitmap);
+                break;
+            case BOTTOM:
+                setBitmapOrBlack(stackItem3, bitmap);
+                break;
+        }
+    }
+
+    public void setImageCount(final int count) {
+        imageCount = count;
+        badge.setText(String.valueOf(count));
+        badge.setVisibility(VISIBLE);
+    }
+
+    private static void setBitmapOrBlack(@NonNull final ImageView imageView,
+            @Nullable final Bitmap bitmap) {
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
         } else {
@@ -205,7 +242,8 @@ public class ImageStack extends RelativeLayout {
         }
     }
 
-    private static void setDrawableOrBlack(@NonNull final ImageView imageView, @Nullable final Drawable drawable) {
+    private static void setDrawableOrBlack(@NonNull final ImageView imageView,
+            @Nullable final Drawable drawable) {
         if (drawable != null && drawable.getIntrinsicHeight() > 0) {
             imageView.setImageDrawable(drawable);
         } else {
@@ -239,9 +277,15 @@ public class ImageStack extends RelativeLayout {
             final TextView badge = sceneRoot.findViewById(R.id.gv_badge);
 
             // Show the current images and badge in the image added scene
-            setDrawableOrBlack(stackItem1View, drawable1);
-            setDrawableOrBlack(stackItem2View, drawable2);
-            setDrawableOrBlack(stackItem3View, drawable3);
+            if (imageStack.imageCount >= 2) {
+                setDrawableOrBlack(stackItem1View, drawable1);
+            }
+            if (imageStack.imageCount >= 3) {
+                setDrawableOrBlack(stackItem2View, drawable2);
+            }
+            if (imageStack.imageCount >= 4) {
+                setDrawableOrBlack(stackItem3View, drawable3);
+            }
             if (imageStack.imageCount > 0) {
                 badge.setVisibility(VISIBLE);
                 badge.setText(String.valueOf(imageStack.imageCount));
@@ -311,12 +355,15 @@ public class ImageStack extends RelativeLayout {
             imageStack.badge = sceneRoot.findViewById(R.id.gv_badge);
 
             // Push the images to the left (remove last image and show image on top)
-            setDrawableOrBlack(imageStack.stackItem3, drawable2);
-            setDrawableOrBlack(imageStack.stackItem2, drawable1);
+            if (imageStack.imageCount >= 3) {
+                setDrawableOrBlack(imageStack.stackItem3, drawable2);
+            }
+            if (imageStack.imageCount >= 2) {
+                setDrawableOrBlack(imageStack.stackItem2, drawable1);
+            }
             setBitmapOrBlack(imageStack.stackItem1, newImage);
 
             // Update the badge
-            imageStack.imageCount++;
             imageStack.badge.setText(String.valueOf(imageStack.imageCount));
 
             imageStack.stackItem1.setClickable(true);

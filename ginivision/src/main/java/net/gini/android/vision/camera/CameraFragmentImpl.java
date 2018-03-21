@@ -181,6 +181,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     private boolean mIsTakingPicture;
 
     private boolean mImportDocumentButtonEnabled;
+    private int mImagesLoadedCounter;
+    private int mImagesToLoadCount;
 
     CameraFragmentImpl(@NonNull final CameraFragmentImplCallback fragment) {
         this(fragment, GiniVisionFeatureConfiguration.buildNewConfiguration().build());
@@ -1118,9 +1120,60 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         if (multiPageDocument instanceof ImageMultiPageDocument) {
             mMultiPageDocument = (ImageMultiPageDocument) multiPageDocument;
             // WIP-MM: update/show first 3 images in stack
+            final List<ImageDocument> documents = mMultiPageDocument.getDocuments();
+            if (!documents.isEmpty()) {
+                showActivityIndicatorAndDisableInteraction();
+                mImageStack.removeImages();
+                mImagesLoadedCounter = 0;
+            }
+            final int size = documents.size();
+            if (size >= 3) {
+                mImagesToLoadCount = 3;
+                showImageDocumentInStack(documents.get(size - 3), ImageStack.Position.BOTTOM);
+                showImageDocumentInStack(documents.get(size - 2), ImageStack.Position.MIDDLE);
+                showImageDocumentInStack(documents.get(size - 1), ImageStack.Position.TOP);
+            } else if (size == 2) {
+                mImagesToLoadCount = 2;
+                showImageDocumentInStack(documents.get(size - 2), ImageStack.Position.MIDDLE);
+                showImageDocumentInStack(documents.get(size - 1), ImageStack.Position.TOP);
+            } else if (size == 1) {
+                mImagesToLoadCount = 1;
+                showImageDocumentInStack(documents.get(size - 1), ImageStack.Position.TOP);
+            }
         } else {
             LOG.warn("Only ImageMultiPageDocument accepted");
         }
+    }
+
+    private void showImageDocumentInStack(@NonNull final ImageDocument document,
+            @NonNull final ImageStack.Position position) {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
+        }
+        GiniVision.getInstance().internal().getPhotoMemoryCache()
+                .getPhoto(activity, document, new AsyncCallback<Photo>() {
+                    @Override
+                    public void onSuccess(final Photo result) {
+                        // TODO: get rid of bitmap rotation -> rotate only the ImageView in the stack
+                        mImageStack.setImage(getRotatedBitmap(result), position);
+                        mImagesLoadedCounter++;
+                        if (mImagesToLoadCount == mImagesLoadedCounter) {
+                            mImageStack.setImageCount(mMultiPageDocument.getDocuments().size());
+                            hideActivityIndicatorAndEnableInteraction();
+                        }
+                    }
+
+                    @Override
+                    public void onError(final Exception exception) {
+                        mImageStack.setImage(null, position);
+                        mImagesLoadedCounter++;
+                        if (mImagesToLoadCount == mImagesLoadedCounter) {
+                            mImageStack.setImageCount(mMultiPageDocument.getDocuments().size());
+                            hideActivityIndicatorAndEnableInteraction();
+                        }
+                    }
+                });
     }
 
     private void enableInteraction() {
@@ -1193,7 +1246,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                     mMultiPageDocument.addDocument(document);
                     // WIP-MM: unload document's data
                     mMultiPageDocument.unloadAllDocumentData();
-                    // WIP-MM: rotate imageview in image stack to avoid creating a rotated bitmap
+                    // TODO: get rid of bitmap rotation -> rotate only the ImageView in the stack
                     final Bitmap rotatedBitmap = getRotatedBitmap(photo);
                     mImageStack.addImage(rotatedBitmap);
                     mCameraController.startPreview();
@@ -1226,11 +1279,13 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         if (activity == null) {
             return null;
         }
-        final ImageDiskStore imageDiskStore = GiniVision.getInstance().internal().getImageDiskStore();
+        final ImageDiskStore imageDiskStore =
+                GiniVision.getInstance().internal().getImageDiskStore();
         final Uri savedAtUri = imageDiskStore.save(activity, photo.getData());
         return DocumentFactory.newDocumentFromPhoto(photo, savedAtUri);
     }
 
+    // WIP-MM: rotate imageview in image stack to avoid creating a rotated bitmap
     @Nullable
     private Bitmap getRotatedBitmap(final Photo photo) {
         final Bitmap bitmapPreview = photo.getBitmapPreview();
