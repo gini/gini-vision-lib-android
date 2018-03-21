@@ -1228,8 +1228,6 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                         return;
                     }
                     mMultiPageDocument.addDocument(document);
-                    // WIP-MM: unload document's data
-                    mMultiPageDocument.unloadAllDocumentData();
                     // TODO: get rid of bitmap rotation -> rotate only the ImageView in the stack
                     final Bitmap rotatedBitmap = getRotatedBitmap(photo);
                     mImageStack.addImage(rotatedBitmap);

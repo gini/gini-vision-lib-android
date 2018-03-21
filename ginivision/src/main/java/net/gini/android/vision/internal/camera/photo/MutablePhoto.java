@@ -31,7 +31,6 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
     private String mDeviceType;
     private String mSource;
     private String mImportMethod;
-    private ImageDocument mImageDocument;
 
     MutablePhoto(@NonNull final byte[] data, final int orientation,
             @NonNull final String deviceOrientation,
@@ -51,15 +50,14 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
 
     MutablePhoto(@NonNull final ImageDocument document) {
         super(document);
-        mImageDocument = document;
-        initFieldsFromExif();
+        initFieldsFromExif(document);
     }
 
     private String generateUUID() {
         return UUID.randomUUID().toString();
     }
 
-    private void initFieldsFromExif() {
+    private void initFieldsFromExif(@NonNull final ImageDocument document) {
         final byte[] data = getData();
         if (data == null) {
             return;
@@ -77,11 +75,11 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
         }
         initContentId(userComment);
         initRotationDelta(userComment);
-        initDeviceOrientation(userComment);
-        initDeviceType(userComment);
-        initSource(userComment);
-        initImportMethod(userComment);
-        initRotationForDisplay(exifReader);
+        initDeviceOrientation(userComment, document);
+        initDeviceType(userComment, document);
+        initSource(userComment, document);
+        initImportMethod(userComment, document);
+        initRotationForDisplay(exifReader, document);
     }
 
     private void initContentId(final String userComment) {
@@ -105,46 +103,50 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
         }
     }
 
-    private void initDeviceOrientation(final String userComment) {
+    private void initDeviceOrientation(@NonNull final String userComment,
+            @NonNull final ImageDocument document) {
         mDeviceOrientation =
                 ExifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_DEVICE_ORIENTATION,
                         userComment);
-        if (mDeviceOrientation == null && mImageDocument != null) {
-            mDeviceOrientation = mImageDocument.getDeviceOrientation();
+        if (mDeviceOrientation == null) {
+            mDeviceOrientation = document.getDeviceOrientation();
         }
     }
 
-    private void initDeviceType(final String userComment) {
+    private void initDeviceType(@NonNull final String userComment,
+            @NonNull final ImageDocument document) {
         mDeviceType =
                 ExifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_DEVICE_TYPE,
                         userComment);
-        if (mDeviceType == null && mImageDocument != null) {
-            mDeviceType = mImageDocument.getDeviceType();
+        if (mDeviceType == null) {
+            mDeviceType = document.getDeviceType();
         }
     }
 
-    private void initSource(final String userComment) {
+    private void initSource(@NonNull final String userComment,
+            @NonNull final ImageDocument document) {
         mSource =
                 ExifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_SOURCE,
                         userComment);
-        if (mSource == null && mImageDocument != null) {
-            mSource = mImageDocument.getSource();
+        if (mSource == null) {
+            mSource = document.getSource();
         }
     }
 
-    private void initImportMethod(final String userComment) {
+    private void initImportMethod(@NonNull final String userComment,
+            @NonNull final ImageDocument document) {
         mImportMethod =
                 ExifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_IMPORT_METHOD,
                         userComment);
-        if (mImportMethod == null && mImageDocument != null) {
-            mImportMethod = mImageDocument.getImportMethod();
+        if (mImportMethod == null) {
+            mImportMethod = document.getImportMethod();
         }
     }
 
-    private void initRotationForDisplay(@Nullable final ExifReader exifReader) {
+    private void initRotationForDisplay(@Nullable final ExifReader exifReader,
+            @NonNull final ImageDocument document) {
         // Rotation is unknown only for imported images
-        if (mImageDocument != null && mImageDocument.isImported()
-                && exifReader != null) {
+        if (document.isImported() && exifReader != null) {
             mRotationForDisplay = exifReader.getOrientationAsDegrees();
         }
     }
@@ -341,12 +343,8 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
         if (mSource != null ? !mSource.equals(that.mSource) : that.mSource != null) {
             return false;
         }
-        if (mImportMethod != null ? !mImportMethod.equals(that.mImportMethod)
-                : that.mImportMethod != null) {
-            return false;
-        }
-        return mImageDocument != null ? mImageDocument.equals(that.mImageDocument)
-                : that.mImageDocument == null;
+         return mImportMethod != null ? mImportMethod.equals(that.mImportMethod)
+                : that.mImportMethod == null;
 
     }
 
@@ -360,7 +358,6 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
         result = 31 * result + (mDeviceType != null ? mDeviceType.hashCode() : 0);
         result = 31 * result + (mSource != null ? mSource.hashCode() : 0);
         result = 31 * result + (mImportMethod != null ? mImportMethod.hashCode() : 0);
-        result = 31 * result + (mImageDocument != null ? mImageDocument.hashCode() : 0);
         return result;
     }
 }

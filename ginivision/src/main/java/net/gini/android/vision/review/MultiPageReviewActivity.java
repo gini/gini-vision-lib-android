@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.transition.TransitionManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -408,8 +407,6 @@ public class MultiPageReviewActivity extends AppCompatActivity {
 
     private static class Thumbnail {
 
-        @Nullable
-        Bitmap bitmap;
         boolean highlighted;
     }
 
@@ -474,9 +471,8 @@ public class MultiPageReviewActivity extends AppCompatActivity {
 
         private void showPhoto(@NonNull final Photo photo, final int position,
                 @NonNull final ViewHolder holder) {
-            mThumbnails.get(position).bitmap = photo.getBitmapPreview();
             final ImageView imageView = holder.thumbnailContainer.getImageView();
-            final Bitmap bitmap = mThumbnails.get(position).bitmap;
+            final Bitmap bitmap = photo.getBitmapPreview();
             if (bitmap != null) {
                 imageView.setBackgroundColor(Color.TRANSPARENT);
                 imageView.setImageBitmap(bitmap);
