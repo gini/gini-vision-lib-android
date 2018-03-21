@@ -1,6 +1,7 @@
 package net.gini.android.vision.internal.document;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.util.LruCache;
 
@@ -9,68 +10,100 @@ import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.PhotoFactoryDocumentAsyncTask;
 
+import java.util.List;
+
 /**
  * Created by Alpar Szotyori on 16.03.2018.
  *
  * Copyright (c) 2018 Gini GmbH.
  */
 
-public class PhotoMemoryCache {
+public class PhotoMemoryCache extends MemoryCache<ImageDocument, Photo> {
 
-    private final LruCache<ImageDocument, Photo> mPhotoCache;
+    private static final int RUNNING_WORKERS_LIMIT = 3;
     private final DocumentDataMemoryCache mDocumentDataMemoryCache;
 
     public PhotoMemoryCache(@NonNull final DocumentDataMemoryCache documentDataMemoryCache) {
+        super(RUNNING_WORKERS_LIMIT);
         mDocumentDataMemoryCache = documentDataMemoryCache;
+    }
+
+    @Override
+    protected LruCache<ImageDocument, Photo> createCache() {
         final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
         // Use 1/8th of the available memory for this memory cache.
         final int cacheSize = maxMemory / 8;
-        mPhotoCache = new LruCache<ImageDocument, Photo>(cacheSize) {
+        return new LruCache<ImageDocument, Photo>(cacheSize) {
             @Override
             protected int sizeOf(final ImageDocument key, final Photo value) {
-                return value.getBitmapPreview().getByteCount() / 1024;
+                final Bitmap preview = value.getBitmapPreview();
+                if (preview != null) {
+                    return preview.getByteCount() / 1024;
+                }
+                return 1;
             }
         };
     }
 
-    // WIP-MM: queue for creating photos
-    public void getPhoto(@NonNull final Context context, @NonNull final ImageDocument document,
-            @NonNull final AsyncCallback<Photo> callback) {
-        if (mPhotoCache.get(document) != null) {
-            callback.onSuccess(mPhotoCache.get(document));
-            return;
+    @Override
+    protected Worker<ImageDocument, Photo> createWorker(
+            @NonNull final List<Worker<ImageDocument, Photo>> runningWorkers,
+            @NonNull final ImageDocument subject, @NonNull final AsyncCallback<Photo> callback) {
+        return new PhotoWorker(runningWorkers, subject, mDocumentDataMemoryCache,
+                new AsyncCallback<Photo>() {
+                    @Override
+                    public void onSuccess(final Photo result) {
+                        callback.onSuccess(result);
+                    }
+
+                    @Override
+                    public void onError(final Exception exception) {
+                        callback.onError(exception);
+                    }
+                });
+    }
+
+    private static class PhotoWorker extends MemoryCache.Worker<ImageDocument, Photo> {
+
+        private final DocumentDataMemoryCache mDocumentDataMemoryCache;
+
+        private PhotoWorker(
+                @NonNull final List<Worker<ImageDocument, Photo>> runningWorkers,
+                @NonNull final ImageDocument subject,
+                @NonNull final DocumentDataMemoryCache documentDataMemoryCache,
+                @NonNull final AsyncCallback<Photo> callback) {
+            super(runningWorkers, subject, callback);
+            mDocumentDataMemoryCache = documentDataMemoryCache;
         }
-        mDocumentDataMemoryCache.getData(context, document, new AsyncCallback<byte[]>() {
-            @Override
-            public void onSuccess(final byte[] result) {
-                final PhotoFactoryDocumentAsyncTask asyncTask = new PhotoFactoryDocumentAsyncTask(
-                        new AsyncCallback<Photo>() {
-                            @Override
-                            public void onSuccess(final Photo result) {
-                                mPhotoCache.put(document, result);
-                                callback.onSuccess(result);
-                            }
 
-                            @Override
-                            public void onError(final Exception exception) {
-                                callback.onError(exception);
-                            }
-                        });
-                asyncTask.execute(document);
-            }
+        @Override
+        protected void doExecute(@NonNull final Context context,
+                @NonNull final ImageDocument subject,
+                @NonNull final AsyncCallback<Photo> callback) {
+            mDocumentDataMemoryCache.get(context, subject, new AsyncCallback<byte[]>() {
+                @Override
+                public void onSuccess(final byte[] result) {
+                    final PhotoFactoryDocumentAsyncTask asyncTask =
+                            new PhotoFactoryDocumentAsyncTask(
+                                    new AsyncCallback<Photo>() {
+                                        @Override
+                                        public void onSuccess(final Photo result) {
+                                            callback.onSuccess(result);
+                                        }
 
-            @Override
-            public void onError(final Exception exception) {
-                callback.onError(exception);
-            }
-        });
-    }
+                                        @Override
+                                        public void onError(final Exception exception) {
+                                            callback.onError(exception);
+                                        }
+                                    });
+                    asyncTask.execute(subject);
+                }
 
-    public void clear() {
-        mPhotoCache.evictAll();
-    }
-
-    public void invalidatePhoto(@NonNull final ImageDocument document) {
-        mPhotoCache.remove(document);
+                @Override
+                public void onError(final Exception exception) {
+                    callback.onError(exception);
+                }
+            });
+        }
     }
 }

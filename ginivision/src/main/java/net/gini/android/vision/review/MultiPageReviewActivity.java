@@ -146,7 +146,7 @@ public class MultiPageReviewActivity extends AppCompatActivity {
                 final DocumentDataMemoryCache documentDataMemoryCache =
                         GiniVision.getInstance().internal().getDocumentDataMemoryCache();
                 photoMemoryCache
-                        .getPhoto(MultiPageReviewActivity.this, document, new AsyncCallback<Photo>() {
+                        .get(MultiPageReviewActivity.this, document, new AsyncCallback<Photo>() {
                             @Override
                             public void onSuccess(final Photo photo) {
                                 final int rotationStep = 90;
@@ -165,9 +165,9 @@ public class MultiPageReviewActivity extends AppCompatActivity {
                                                 // WIP-MM: write rotated image to disk
                                                 imageDiskStore.update(document.getUri(), photo.getData());
                                                 // WIP-MM: invalidate photo cache
-                                                photoMemoryCache.invalidatePhoto(document);
+                                                photoMemoryCache.invalidate(document);
                                                 // WIP-MM: invalidate document data cache
-                                                documentDataMemoryCache.invalidateData(document);
+                                                documentDataMemoryCache.invalidate(document);
                                             }
 
                                             @Override
@@ -195,8 +195,8 @@ public class MultiPageReviewActivity extends AppCompatActivity {
                 final ImageDocument deletedDocument = documents.get(deletedItem);
                 documents.remove(deletedItem);
                 final GiniVision.Internal gvInternal = GiniVision.getInstance().internal();
-                gvInternal.getDocumentDataMemoryCache().invalidateData(deletedDocument);
-                gvInternal.getPhotoMemoryCache().invalidatePhoto(deletedDocument);
+                gvInternal.getDocumentDataMemoryCache().invalidate(deletedDocument);
+                gvInternal.getPhotoMemoryCache().invalidate(deletedDocument);
                 final Uri uri = deletedDocument.getUri();
                 if (uri != null) {
                     gvInternal.getImageDiskStore().delete(uri);
@@ -450,7 +450,7 @@ public class MultiPageReviewActivity extends AppCompatActivity {
                 final int position) {
             // WIP-MM: show loading indicator
             GiniVision.getInstance().internal().getPhotoMemoryCache()
-                    .getPhoto(mContext, mMultiPageDocument.getDocuments().get(position),
+                    .get(mContext, mMultiPageDocument.getDocuments().get(position),
                             new AsyncCallback<Photo>() {
                                 @Override
                                 public void onSuccess(final Photo result) {

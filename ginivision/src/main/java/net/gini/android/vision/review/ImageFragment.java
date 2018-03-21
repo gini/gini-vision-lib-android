@@ -72,7 +72,7 @@ public class ImageFragment extends Fragment {
         if (context != null && mDocument != null) {
             // WIP-MM: show loading indicator
             GiniVision.getInstance().internal().getPhotoMemoryCache()
-                    .getPhoto(context, mDocument, new AsyncCallback<Photo>() {
+                    .get(context, mDocument, new AsyncCallback<Photo>() {
                         @Override
                         public void onSuccess(final Photo result) {
                             mImageViewContainer.getImageView().setImageBitmap(

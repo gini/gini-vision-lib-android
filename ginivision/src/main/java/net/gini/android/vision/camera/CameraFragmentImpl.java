@@ -88,7 +88,6 @@ import net.gini.android.vision.util.UriHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -1022,39 +1021,20 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         }
         LOG.info("Document imported: {}", mMultiPageDocument);
         showActivityIndicatorAndDisableInteraction();
-        mMultiPageDocument.loadData(context, new AsyncCallback<byte[]>() {
-            @Override
-            public void onSuccess(final byte[] result) {
-                hideActivityIndicatorAndEnableInteraction();
-                final List<ImageDocument> documents = mMultiPageDocument.getDocuments();
-                final List<Bitmap> bitmaps = new ArrayList<>(documents.size());
-                for (int i = 0; i < documents.size() - 1; i++) {
-                    final Bitmap rotatedBitmap = getBitmap(documents.get(i));
-                    bitmaps.add(rotatedBitmap);
-                }
-                mImageStack.removeImages();
-                mImageStack.setImages(bitmaps);
-                final Bitmap rotatedBitmap = getBitmap(documents.get(documents.size() - 1));
-                mImageStack.addImage(rotatedBitmap);
-                final View view = mFragment.getView();
-                if (view == null) {
-                    return;
-                }
-                view.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        requestClientDocumentCheck(mMultiPageDocument);
-                    }
-                }, ImageStack.ADD_IMAGE_TRANSITION_DURATION_MS);
-            }
 
+        // WIP-MM: update/show first 3 images in stack
+        updateImageStack();
+
+        final View view = mFragment.getView();
+        if (view == null) {
+            return;
+        }
+        view.postDelayed(new Runnable() {
             @Override
-            public void onError(final Exception exception) {
-                hideActivityIndicatorAndEnableInteraction();
-                LOG.error("Document import failed: could not load images");
-                showInvalidFileError(null);
+            public void run() {
+                requestClientDocumentCheck(mMultiPageDocument);
             }
-        });
+        }, ImageStack.ADD_IMAGE_TRANSITION_DURATION_MS);
     }
 
     private void addMultiPageDocumentError(final String string) {
@@ -1120,28 +1100,32 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         if (multiPageDocument instanceof ImageMultiPageDocument) {
             mMultiPageDocument = (ImageMultiPageDocument) multiPageDocument;
             // WIP-MM: update/show first 3 images in stack
-            final List<ImageDocument> documents = mMultiPageDocument.getDocuments();
-            if (!documents.isEmpty()) {
-                showActivityIndicatorAndDisableInteraction();
-                mImageStack.removeImages();
-                mImagesLoadedCounter = 0;
-            }
-            final int size = documents.size();
-            if (size >= 3) {
-                mImagesToLoadCount = 3;
-                showImageDocumentInStack(documents.get(size - 3), ImageStack.Position.BOTTOM);
-                showImageDocumentInStack(documents.get(size - 2), ImageStack.Position.MIDDLE);
-                showImageDocumentInStack(documents.get(size - 1), ImageStack.Position.TOP);
-            } else if (size == 2) {
-                mImagesToLoadCount = 2;
-                showImageDocumentInStack(documents.get(size - 2), ImageStack.Position.MIDDLE);
-                showImageDocumentInStack(documents.get(size - 1), ImageStack.Position.TOP);
-            } else if (size == 1) {
-                mImagesToLoadCount = 1;
-                showImageDocumentInStack(documents.get(size - 1), ImageStack.Position.TOP);
-            }
+            updateImageStack();
         } else {
             LOG.warn("Only ImageMultiPageDocument accepted");
+        }
+    }
+
+    private void updateImageStack() {
+        final List<ImageDocument> documents = mMultiPageDocument.getDocuments();
+        if (!documents.isEmpty()) {
+            showActivityIndicatorAndDisableInteraction();
+            mImageStack.removeImages();
+            mImagesLoadedCounter = 0;
+        }
+        final int size = documents.size();
+        if (size >= 3) {
+            mImagesToLoadCount = 3;
+            showImageDocumentInStack(documents.get(size - 3), ImageStack.Position.BOTTOM);
+            showImageDocumentInStack(documents.get(size - 2), ImageStack.Position.MIDDLE);
+            showImageDocumentInStack(documents.get(size - 1), ImageStack.Position.TOP);
+        } else if (size == 2) {
+            mImagesToLoadCount = 2;
+            showImageDocumentInStack(documents.get(size - 2), ImageStack.Position.MIDDLE);
+            showImageDocumentInStack(documents.get(size - 1), ImageStack.Position.TOP);
+        } else if (size == 1) {
+            mImagesToLoadCount = 1;
+            showImageDocumentInStack(documents.get(size - 1), ImageStack.Position.TOP);
         }
     }
 
@@ -1152,7 +1136,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             return;
         }
         GiniVision.getInstance().internal().getPhotoMemoryCache()
-                .getPhoto(activity, document, new AsyncCallback<Photo>() {
+                .get(activity, document, new AsyncCallback<Photo>() {
                     @Override
                     public void onSuccess(final Photo result) {
                         // TODO: get rid of bitmap rotation -> rotate only the ImageView in the stack
