@@ -34,6 +34,7 @@ import net.gini.android.vision.R;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.review.ReviewActivity;
 
 import org.junit.After;
@@ -44,6 +45,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @RunWith(AndroidJUnit4.class)
@@ -412,6 +414,17 @@ public class AnalysisScreenTest {
 
             @Override
             public void onError(@NonNull final GiniVisionError error) {
+
+            }
+
+            @Override
+            public void onExtractionsAvailable(
+                    @NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
+
+            }
+
+            @Override
+            public void onProceedToNoExtractionsScreen(@NonNull final Document document) {
 
             }
         };

@@ -21,6 +21,7 @@ import static org.mockito.Mockito.verify;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
@@ -35,6 +36,7 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivityTestSpy;
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.test.CurrentActivityTestRule;
 
 import org.junit.After;
@@ -46,6 +48,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -672,6 +675,28 @@ public class ReviewScreenTest {
 
             @Override
             public void onError(@NonNull final GiniVisionError error) {
+
+            }
+
+            @Override
+            public void onAddMorePages(@NonNull final Document document) {
+
+            }
+
+            @Override
+            public void onExtractionsAvailable(
+                    @NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
+
+            }
+
+            @Override
+            public void onProceedToNoExtractionsScreen(@NonNull final Document document) {
+
+            }
+
+            @Override
+            public void onProceedToAnalysisScreen(@NonNull final Document document,
+                    @Nullable final String errorMessage) {
 
             }
         };
