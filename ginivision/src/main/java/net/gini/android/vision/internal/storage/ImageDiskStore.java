@@ -98,7 +98,6 @@ public class ImageDiskStore {
         }
     }
 
-    // WIP-MM: where to call delete?
     public void delete(@NonNull final Uri uri) {
         final File file = new File(uri.getPath());
         //noinspection ResultOfMethodCallIgnored

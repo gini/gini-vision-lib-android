@@ -68,7 +68,6 @@ public final class ImageDocument extends GiniVisionDocument {
         return new ImageDocument(photo);
     }
 
-    // WIP-MM: make copy of imported images
     @NonNull
     static ImageDocument fromPhoto(@NonNull final Photo photo,
             @NonNull final Uri storedAtUri) {

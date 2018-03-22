@@ -906,6 +906,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 showInvalidFileError(null);
                 return;
             }
+            // TODO: make copy of imported images
             handleMultiPageDocumentAndCallListener(activity, data, uris);
         } else {
             final Uri uri = IntentHelper.getUri(data);
@@ -1022,7 +1023,6 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         LOG.info("Document imported: {}", mMultiPageDocument);
         showActivityIndicatorAndDisableInteraction();
 
-        // WIP-MM: update/show first 3 images in stack
         updateImageStack();
 
         final View view = mFragment.getView();
@@ -1099,7 +1099,6 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         mInMultiPageState = true;
         if (multiPageDocument instanceof ImageMultiPageDocument) {
             mMultiPageDocument = (ImageMultiPageDocument) multiPageDocument;
-            // WIP-MM: update/show first 3 images in stack
             updateImageStack();
         } else {
             LOG.warn("Only ImageMultiPageDocument accepted");
@@ -1218,8 +1217,6 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             if (photo != null) {
                 LOG.info("Picture taken");
                 if (mInMultiPageState) {
-                    // WIP-MM: ImageDiskStore, DocumentDataMemoryCache, PhotoMemoryCache
-                    // WIP-MM: save document to disk
                     final ImageDocument document = (ImageDocument) createSavedDocument(photo);
                     if (document == null) {
                         handleError(GiniVisionError.ErrorCode.CAMERA_SHOT_FAILED,
@@ -1267,7 +1264,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         return DocumentFactory.newDocumentFromPhoto(photo, savedAtUri);
     }
 
-    // WIP-MM: rotate imageview in image stack to avoid creating a rotated bitmap
+    // TODO: rotate imageview in image stack to avoid creating a rotated bitmap
     @Nullable
     private Bitmap getRotatedBitmap(final Photo photo) {
         final Bitmap bitmapPreview = photo.getBitmapPreview();

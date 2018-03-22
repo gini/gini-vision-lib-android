@@ -161,11 +161,8 @@ public class MultiPageReviewActivity extends AppCompatActivity {
                                         new PhotoEdit.PhotoEditCallback() {
                                             @Override
                                             public void onDone(@NonNull final Photo photo) {
-                                                // WIP-MM: write rotated image to disk
                                                 imageDiskStore.update(document.getUri(), photo.getData());
-                                                // WIP-MM: invalidate photo cache
                                                 photoMemoryCache.invalidate(document);
-                                                // WIP-MM: invalidate document data cache
                                                 documentDataMemoryCache.invalidate(document);
                                             }
 
@@ -340,7 +337,6 @@ public class MultiPageReviewActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(final int position) {
-            // WIP-MM: load document data using DocumentDataMemoryCache
             final ImageDocument document =
                     mMultiPageDocument.getDocuments().get(position);
             final GiniVisionDocumentError documentError =
@@ -349,7 +345,6 @@ public class MultiPageReviewActivity extends AppCompatActivity {
             if (documentError != null) {
                 errorMessage = documentError.getMessage();
             }
-            // WIP-MM: async load document data and create photo in fragment
             return ImageFragment.createInstance(document, errorMessage);
         }
 
@@ -445,7 +440,7 @@ public class MultiPageReviewActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder,
                 final int position) {
-            // WIP-MM: show loading indicator
+            // TODO: show loading indicator
             GiniVision.getInstance().internal().getPhotoMemoryCache()
                     .get(mContext, mMultiPageDocument.getDocuments().get(position),
                             new AsyncCallback<Photo>() {

@@ -61,7 +61,6 @@ public class GiniVision {
     }
 
     public static void cleanup(@NonNull final Context context) {
-        // WIP-MM: clear stores and caches
         if (sInstance != null) {
             sInstance.mDocumentDataMemoryCache.clear();
             sInstance.mPhotoMemoryCache.clear();

@@ -70,7 +70,7 @@ public class ImageFragment extends Fragment {
         super.onStart();
         final Context context = getContext();
         if (context != null && mDocument != null) {
-            // WIP-MM: show loading indicator
+            // TODO: show loading indicator
             GiniVision.getInstance().internal().getPhotoMemoryCache()
                     .get(context, mDocument, new AsyncCallback<Photo>() {
                         @Override

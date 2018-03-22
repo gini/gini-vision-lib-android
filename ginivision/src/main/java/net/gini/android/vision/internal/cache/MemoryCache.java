@@ -81,7 +81,6 @@ public abstract class MemoryCache<K, V> {
         }
     }
 
-    // WIP-MM: invalidate after photo was altered, document data was updated and written to disk
     public void invalidate(@NonNull final K key) {
         mCache.remove(key);
     }
