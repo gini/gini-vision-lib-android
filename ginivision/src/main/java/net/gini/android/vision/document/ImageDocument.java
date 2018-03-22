@@ -1,9 +1,9 @@
 package net.gini.android.vision.document;
 
-import static net.gini.android.vision.util.IntentHelper.getMimeType;
 import static net.gini.android.vision.util.IntentHelper.getMimeTypes;
 import static net.gini.android.vision.util.IntentHelper.getSourceAppName;
 import static net.gini.android.vision.util.IntentHelper.hasMimeTypeWithPrefix;
+import static net.gini.android.vision.util.UriHelper.getMimeType;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import net.gini.android.vision.Document;
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.util.IntentHelper;
 
@@ -93,12 +94,21 @@ public final class ImageDocument extends GiniVisionDocument {
         }
         final String mimeType = mimeTypes.get(0);
         final String source = getDocumentSource(intent, context);
-        return new ImageDocument(intent, ImageFormat.fromMimeType(mimeType), deviceOrientation,
+        final Uri uri = IntentHelper.getUri(intent);
+        if (uri == null) {
+            throw new IllegalArgumentException("Intent must have a Uri");
+        }
+        final Uri localUri = GiniVision.getInstance().internal().getImageDiskStore()
+                .save(context, uri);
+        if (localUri == null) {
+            throw new IllegalArgumentException("Failed to copy to app storage");
+        }
+        return new ImageDocument(intent, localUri, ImageFormat.fromMimeType(mimeType), deviceOrientation,
                 deviceType, source, importMethod);
     }
 
     @NonNull
-    static ImageDocument fromUri(@NonNull final Uri uri,
+    static ImageDocument fromLocalUri(@NonNull final Uri uri,
             @NonNull final Intent intent,
             @NonNull final Context context,
             @NonNull final String deviceOrientation,
@@ -111,6 +121,28 @@ public final class ImageDocument extends GiniVisionDocument {
         }
         final String source = getDocumentSource(intent, context);
         return new ImageDocument(uri, ImageFormat.fromMimeType(mimeType), deviceOrientation,
+                deviceType, source, importMethod);
+    }
+
+    @NonNull
+    static ImageDocument fromExternalUri(@NonNull final Uri externalUri,
+            @NonNull final Intent intent,
+            @NonNull final Context context,
+            @NonNull final String deviceOrientation,
+            @NonNull final String deviceType,
+            @NonNull final String importMethod) {
+        final String mimeType = getMimeType(externalUri, context);
+        if (mimeType == null || !hasMimeTypeWithPrefix(externalUri, context,
+                IntentHelper.MimeType.IMAGE_PREFIX.asString())) {
+            throw new IllegalArgumentException("Intent must have a mime type of image/*");
+        }
+        final String source = getDocumentSource(intent, context);
+        final Uri localUri = GiniVision.getInstance().internal().getImageDiskStore()
+                .save(context, externalUri);
+        if (localUri == null) {
+            throw new IllegalArgumentException("Failed to copy to app storage");
+        }
+        return new ImageDocument(externalUri, ImageFormat.fromMimeType(mimeType), deviceOrientation,
                 deviceType, source, importMethod);
     }
 
@@ -150,12 +182,13 @@ public final class ImageDocument extends GiniVisionDocument {
         mImportMethod = photo.getImportMethod();
     }
 
-    private ImageDocument(@Nullable final Intent intent, @NonNull final ImageFormat format,
+    private ImageDocument(@Nullable final Intent intent, @Nullable final Uri uri,
+            @NonNull final ImageFormat format,
             @NonNull final String deviceOrientation,
             @NonNull final String deviceType,
             @NonNull final String source,
             @NonNull final String importMethod) {
-        super(Type.IMAGE, null, intent, null, true, true);
+        super(Type.IMAGE, null, intent, uri, true, true);
         mRotationForDisplay = 0;
         mFormat = format;
         mDeviceOrientation = deviceOrientation;

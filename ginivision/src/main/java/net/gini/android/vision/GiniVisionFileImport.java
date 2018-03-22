@@ -204,7 +204,7 @@ public final class GiniVisionFileImport {
             if (fileImportValidator.matchesCriteria(uri)) {
                 if (IntentHelper.hasMimeTypeWithPrefix(uri, context,
                         IntentHelper.MimeType.IMAGE_PREFIX.asString())) {
-                    final ImageDocument document = DocumentFactory.newImageDocumentFromUri(uri,
+                    final ImageDocument document = DocumentFactory.newImageDocumentFromExternalUri(uri,
                             intent, context, DeviceHelper.getDeviceOrientation(context),
                             DeviceHelper.getDeviceType(context), "openwith");
                     multiPageDocument.addDocument(document);
