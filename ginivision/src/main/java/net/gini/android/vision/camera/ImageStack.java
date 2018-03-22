@@ -33,30 +33,17 @@ import java.util.List;
 
 public class ImageStack extends RelativeLayout {
 
-    public enum Position {
-        TOP,
-        MIDDLE,
-        BOTTOM
-    }
-
     private static final long BADGE_TRANSITION_DURATION_MS = 150;
     private static final long TRANSITION_DURATION_MS = 300;
     private static final long TRANSITION_START_DELAY_MS = 150;
     public static final long ADD_IMAGE_TRANSITION_DURATION_MS =
             TRANSITION_DURATION_MS + TRANSITION_START_DELAY_MS;
-
-    private AddImageTransitionListener addImageTransitionListener;
     private TextView badge;
-    private CleanupTransitionListener cleanupTransitionListener;
     private OnClickListener clickListener;
-    private Scene defaultScene;
-    private Scene imageAddedScene;
     private int imageCount;
     private ImageView stackItem1;
     private ImageView stackItem2;
     private ImageView stackItem3;
-    private TransitionManager transitionManager;
-
     public ImageStack(final Context context) {
         super(context, null, 0);
         init(context);
@@ -71,48 +58,6 @@ public class ImageStack extends RelativeLayout {
         stackItem3 = findViewById(R.id.gv_stack_item_3);
         badge = findViewById(R.id.gv_badge);
         badge.setVisibility(INVISIBLE);
-
-        defaultScene = Scene.getSceneForLayout(ImageStack.this,
-                R.layout.gv_image_stack_default, getContext());
-        imageAddedScene = Scene.getSceneForLayout(ImageStack.this,
-                R.layout.gv_image_stack_image_added, getContext());
-
-        addImageTransitionListener =
-                new AddImageTransitionListener(imageAddedScene, this);
-        cleanupTransitionListener =
-                new CleanupTransitionListener(imageAddedScene, this);
-
-        // Set up the add image transitions
-        final TransitionSet addImageTransitions = new TransitionSet();
-        addImageTransitions.setDuration(TRANSITION_DURATION_MS);
-        addImageTransitions.addTransition(new ChangeBounds());
-
-        final Fade fadeOut = new Fade(Fade.OUT);
-        fadeOut.addTarget(R.id.gv_stack_item_3);
-        addImageTransitions.addTransition(fadeOut);
-
-        addImageTransitions.setStartDelay(TRANSITION_START_DELAY_MS);
-
-        addImageTransitions.addListener(addImageTransitionListener);
-
-        // Set up the cleanup transitions
-        final TransitionSet cleanupTransitions = new TransitionSet();
-
-        final Transition changeBounds = new ChangeBounds();
-        changeBounds.setDuration(0);
-        cleanupTransitions.addTransition(changeBounds);
-
-        final Fade fadeIn = new Fade(Fade.IN);
-        fadeIn.addTarget(R.id.gv_badge);
-        fadeIn.setDuration(BADGE_TRANSITION_DURATION_MS);
-        cleanupTransitions.addTransition(fadeIn);
-
-        cleanupTransitions.addListener(cleanupTransitionListener);
-
-        // Set up the transition manager
-        transitionManager = new TransitionManager();
-        transitionManager.setTransition(imageAddedScene, addImageTransitions);
-        transitionManager.setTransition(defaultScene, cleanupTransitions);
     }
 
     public ImageStack(final Context context,
@@ -148,20 +93,60 @@ public class ImageStack extends RelativeLayout {
         final Drawable drawable2 = stackItem2.getDrawable();
         final Drawable drawable3 = stackItem3.getDrawable();
 
-        // Prepare the transition listeners
+        imageCount++;
+
+        final Scene imageAddedScene = Scene.getSceneForLayout(ImageStack.this,
+                R.layout.gv_image_stack_image_added, getContext());
+
+        // Show the current images in the image added scene
+        final AddImageTransitionListener addImageTransitionListener =
+                createAddImageTransitionListener(imageAddedScene, bitmap, drawable1, drawable2,
+                        drawable3);
+
+        // Set up the add image transitions
+        final Transition addImageTransitions = createAddImageTransition(
+                addImageTransitionListener);
+
+        // Execute the transition
+        transitionTo(imageAddedScene, addImageTransitions);
+    }
+
+    @NonNull
+    private Transition createAddImageTransition(
+            final AddImageTransitionListener addImageTransitionListener) {
+        final TransitionSet addImageTransitions = new TransitionSet();
+        addImageTransitions.setDuration(TRANSITION_DURATION_MS);
+        addImageTransitions.addTransition(new ChangeBounds());
+
+        // Bottom stack item has to fade out because the stack is pushed down
+        // when a new image is added
+        final Fade fadeOut = new Fade(Fade.OUT);
+        fadeOut.addTarget(R.id.gv_stack_item_3);
+        addImageTransitions.addTransition(fadeOut);
+
+        addImageTransitions.setStartDelay(TRANSITION_START_DELAY_MS);
+
+        addImageTransitions.addListener(addImageTransitionListener);
+        return addImageTransitions;
+    }
+
+    @NonNull
+    private AddImageTransitionListener createAddImageTransitionListener(final Scene imageAddedScene,
+            final @NonNull Bitmap bitmap, final Drawable drawable1, final Drawable drawable2,
+            final Drawable drawable3) {
+        final AddImageTransitionListener addImageTransitionListener =
+                new AddImageTransitionListener(imageAddedScene, this);
         addImageTransitionListener.setDrawable1(drawable1);
         addImageTransitionListener.setDrawable2(drawable2);
         addImageTransitionListener.setDrawable3(drawable3);
         addImageTransitionListener.setNewImage(bitmap);
+        return addImageTransitionListener;
+    }
 
-        cleanupTransitionListener.setDrawable1(drawable1);
-        cleanupTransitionListener.setDrawable2(drawable2);
-        cleanupTransitionListener.setNewImage(bitmap);
-
-        imageCount++;
-
-        // Execute the transition
-        transitionManager.transitionTo(imageAddedScene);
+    private static void transitionTo(final Scene scene, final Transition transition) {
+        final TransitionManager transitionManager = new TransitionManager();
+        transitionManager.setTransition(scene, transition);
+        transitionManager.transitionTo(scene);
     }
 
     public void removeImages() {
@@ -207,6 +192,16 @@ public class ImageStack extends RelativeLayout {
         }
     }
 
+    private static void setBitmapOrBlack(@NonNull final ImageView imageView,
+            @Nullable final Bitmap bitmap) {
+        if (bitmap != null) {
+            imageView.setImageBitmap(bitmap);
+        } else {
+            imageView.setImageBitmap(null);
+            imageView.setBackgroundColor(Color.BLACK);
+        }
+    }
+
     public void setImage(@Nullable final Bitmap bitmap, @NonNull final Position position) {
         switch (position) {
             case TOP:
@@ -232,16 +227,6 @@ public class ImageStack extends RelativeLayout {
         badge.setVisibility(VISIBLE);
     }
 
-    private static void setBitmapOrBlack(@NonNull final ImageView imageView,
-            @Nullable final Bitmap bitmap) {
-        if (bitmap != null) {
-            imageView.setImageBitmap(bitmap);
-        } else {
-            imageView.setImageBitmap(null);
-            imageView.setBackgroundColor(Color.BLACK);
-        }
-    }
-
     private static void setDrawableOrBlack(@NonNull final ImageView imageView,
             @Nullable final Drawable drawable) {
         if (drawable != null && drawable.getIntrinsicHeight() > 0) {
@@ -252,10 +237,16 @@ public class ImageStack extends RelativeLayout {
         }
     }
 
+    public enum Position {
+        TOP,
+        MIDDLE,
+        BOTTOM
+    }
+
     private static class AddImageTransitionListener extends TransitionListenerAdapter {
 
-        private final Scene imageAddedScene;
         private final ImageStack imageStack;
+        private final Scene imageAddedScene;
         private Drawable drawable1;
         private Drawable drawable2;
         private Drawable drawable3;
@@ -277,12 +268,18 @@ public class ImageStack extends RelativeLayout {
             final TextView badge = sceneRoot.findViewById(R.id.gv_badge);
 
             // Show the current images and badge in the image added scene
+            // Image count was already increased so when we have at least two images it means
+            // there was an image in the top stack item
             if (imageStack.imageCount >= 2) {
                 setDrawableOrBlack(stackItem1View, drawable1);
             }
+            // When we have at least three images it means
+            // there was an image in the middle stack item
             if (imageStack.imageCount >= 3) {
                 setDrawableOrBlack(stackItem2View, drawable2);
             }
+            // When we have at least four images it means
+            // there was an image in the bottom stack item
             if (imageStack.imageCount >= 4) {
                 setDrawableOrBlack(stackItem3View, drawable3);
             }
@@ -314,17 +311,66 @@ public class ImageStack extends RelativeLayout {
         @Override
         public void onTransitionEnd(@NonNull final Transition transition) {
             // Return to the default scene
-            imageStack.cleanupTransitionListener.setDrawable1(drawable1);
-            imageStack.cleanupTransitionListener.setDrawable2(drawable2);
-            imageStack.cleanupTransitionListener.setNewImage(newImage);
-            imageStack.transitionManager.transitionTo(imageStack.defaultScene);
+            final Scene defaultScene = Scene.getSceneForLayout(imageStack,
+                    R.layout.gv_image_stack_default, imageStack.getContext());
+
+            // Pass the new image and the previous top 2 images to the final state
+            final CleanupTransitionListener cleanupTransitionListener =
+                    createCleanupTransitionListener(defaultScene);
+
+            // Set up the cleanup transitions
+            final Transition cleanupTransitions = createCleanupTransition(
+                    cleanupTransitionListener);
+
+            transitionTo(defaultScene, cleanupTransitions);
+
+            cleanUp();
+        }
+
+        @NonNull
+        private Transition createCleanupTransition(
+                final CleanupTransitionListener cleanupTransitionListener) {
+            final TransitionSet cleanupTransitions = new TransitionSet();
+
+            // Instantly move all items to the end position, effectively resetting
+            // the view layout to its original state
+            final Transition changeBounds = new ChangeBounds();
+            changeBounds.setDuration(0);
+            cleanupTransitions.addTransition(changeBounds);
+
+            // Only the badge has to be faded in
+            final Fade fadeIn = new Fade(Fade.IN);
+            fadeIn.addTarget(R.id.gv_badge);
+            fadeIn.setDuration(BADGE_TRANSITION_DURATION_MS);
+            cleanupTransitions.addTransition(fadeIn);
+
+            cleanupTransitions.addListener(cleanupTransitionListener);
+            return cleanupTransitions;
+        }
+
+        @NonNull
+        private CleanupTransitionListener createCleanupTransitionListener(
+                final Scene defaultScene) {
+            final CleanupTransitionListener cleanupTransitionListener =
+                    new CleanupTransitionListener(defaultScene, imageStack);
+            cleanupTransitionListener.setDrawable1(drawable1);
+            cleanupTransitionListener.setDrawable2(drawable2);
+            cleanupTransitionListener.setNewImage(newImage);
+            return cleanupTransitionListener;
+        }
+
+        private void cleanUp() {
+            drawable1 = null;
+            drawable2 = null;
+            drawable3 = null;
+            newImage = null;
         }
     }
 
     private static class CleanupTransitionListener extends TransitionListenerAdapter {
 
-        private final Scene defaultScene;
         private final ImageStack imageStack;
+        private final Scene defaultScene;
         private Drawable drawable1;
         private Drawable drawable2;
         private Bitmap newImage;
@@ -349,15 +395,22 @@ public class ImageStack extends RelativeLayout {
         @Override
         public void onTransitionStart(@NonNull final Transition transition) {
             final ViewGroup sceneRoot = defaultScene.getSceneRoot();
+            // The default scene will be the new view layout so we have to reset our
+            // view fields to point to the new views (also allows the previous default layout to be
+            // garbage collected)
             imageStack.stackItem1 = sceneRoot.findViewById(R.id.gv_stack_item_1);
             imageStack.stackItem2 = sceneRoot.findViewById(R.id.gv_stack_item_2);
             imageStack.stackItem3 = sceneRoot.findViewById(R.id.gv_stack_item_3);
             imageStack.badge = sceneRoot.findViewById(R.id.gv_badge);
 
             // Push the images to the left (remove last image and show image on top)
+            // Image count was already increased so when we have at least 3 images it means
+            // that there was an image in the middle item which can be moved to the bottom item
             if (imageStack.imageCount >= 3) {
                 setDrawableOrBlack(imageStack.stackItem3, drawable2);
             }
+            // WHen we have at least 2 images it means that there was an image in the top
+            // item which can be moved to the middle item
             if (imageStack.imageCount >= 2) {
                 setDrawableOrBlack(imageStack.stackItem2, drawable1);
             }
@@ -366,11 +419,20 @@ public class ImageStack extends RelativeLayout {
             // Update the badge
             imageStack.badge.setText(String.valueOf(imageStack.imageCount));
 
+            // Make the top item clickable
             imageStack.stackItem1.setClickable(true);
             imageStack.stackItem1.setFocusable(true);
             if (imageStack.clickListener != null) {
                 imageStack.stackItem1.setOnClickListener(imageStack.clickListener);
             }
+
+            cleanUp();
+        }
+
+        private void cleanUp() {
+            drawable1 = null;
+            drawable2 = null;
+            newImage = null;
         }
     }
 }
