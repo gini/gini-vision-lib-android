@@ -1,4 +1,4 @@
-package net.gini.android.vision.internal.document;
+package net.gini.android.vision.internal.cache;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

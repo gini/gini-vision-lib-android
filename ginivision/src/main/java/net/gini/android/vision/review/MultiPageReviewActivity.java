@@ -33,11 +33,11 @@ import net.gini.android.vision.document.GiniVisionDocumentError;
 import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.document.ImageMultiPageDocument;
 import net.gini.android.vision.internal.AsyncCallback;
+import net.gini.android.vision.internal.cache.DocumentDataMemoryCache;
+import net.gini.android.vision.internal.cache.PhotoMemoryCache;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.PhotoEdit;
-import net.gini.android.vision.internal.document.DocumentDataMemoryCache;
-import net.gini.android.vision.internal.document.ImageDiskStore;
-import net.gini.android.vision.internal.document.PhotoMemoryCache;
+import net.gini.android.vision.internal.storage.ImageDiskStore;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

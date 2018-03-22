@@ -4,9 +4,9 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import net.gini.android.vision.internal.document.DocumentDataMemoryCache;
-import net.gini.android.vision.internal.document.ImageDiskStore;
-import net.gini.android.vision.internal.document.PhotoMemoryCache;
+import net.gini.android.vision.internal.cache.DocumentDataMemoryCache;
+import net.gini.android.vision.internal.cache.PhotoMemoryCache;
+import net.gini.android.vision.internal.storage.ImageDiskStore;
 import net.gini.android.vision.network.GiniVisionNetworkApi;
 import net.gini.android.vision.network.GiniVisionNetworkService;
 import net.gini.android.vision.onboarding.OnboardingPage;
