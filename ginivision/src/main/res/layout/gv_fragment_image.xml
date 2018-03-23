@@ -21,5 +21,18 @@
 
     </net.gini.android.vision.review.RotatableTouchImageViewContainer>
 
+    <ProgressBar
+        android:id="@+id/gv_activity_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:indeterminateOnly="true"
+        android:indeterminateTint="@color/gv_analysis_activity_indicator"
+        android:indeterminateTintMode="src_in"
+        android:padding="@dimen/gv_review_progressbar_padding"
+        android:visibility="gone"
+        tools:targetApi="lollipop"
+        tools:visibility="visible" />
+
 </RelativeLayout>
 
