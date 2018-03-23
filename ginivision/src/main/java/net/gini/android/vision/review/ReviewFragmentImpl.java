@@ -305,6 +305,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         mActivityIndicator.setVisibility(View.VISIBLE);
         disableNextButton();
         disableRotateButton();
+        disableAddPageButton();
     }
 
     private void hideActivityIndicatorAndEnableButtons() {
@@ -314,6 +315,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         mActivityIndicator.setVisibility(View.GONE);
         enableNextButton();
         enableRotateButton();
+        enableAddPageButton();
     }
 
     private void disableNextButton() {
@@ -346,6 +348,22 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         }
         mButtonRotate.setEnabled(true);
         mButtonRotate.setAlpha(1f);
+    }
+
+    private void disableAddPageButton() {
+        if (mButtonAddPage == null) {
+            return;
+        }
+        mButtonAddPage.setEnabled(false);
+        mButtonAddPage.setAlpha(0.5f);
+    }
+
+    private void enableAddPageButton() {
+        if (mButtonAddPage == null) {
+            return;
+        }
+        mButtonAddPage.setEnabled(true);
+        mButtonAddPage.setAlpha(1f);
     }
 
     private void showDocument() {
