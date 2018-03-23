@@ -55,7 +55,7 @@ public final class ImageDocument extends GiniVisionDocument {
         }
     }
 
-    private final int mRotationForDisplay;
+    private int mRotationForDisplay;
     private final ImageFormat mFormat;
 
     @NonNull
@@ -66,6 +66,12 @@ public final class ImageDocument extends GiniVisionDocument {
     @NonNull
     static ImageDocument fromPhoto(@NonNull final Photo photo) {
         return new ImageDocument(photo);
+    }
+
+    @NonNull
+    static ImageDocument fromPhoto(@NonNull final Photo photo,
+            @NonNull final Uri storedAtUri) {
+        return new ImageDocument(photo, null, storedAtUri);
     }
 
     @NonNull
@@ -125,17 +131,17 @@ public final class ImageDocument extends GiniVisionDocument {
     }
 
     private ImageDocument(@NonNull final Photo photo) {
-        this(photo, (Intent) null);
+        this(photo, null, null);
     }
 
     private ImageDocument(@NonNull final Photo photo,
             @NonNull final Document document) {
-        this(photo, document.getIntent());
+        this(photo, document.getIntent(), document.getUri());
     }
 
     private ImageDocument(@NonNull final Photo photo,
-            @Nullable final Intent intent) {
-        super(Type.IMAGE, photo.getData(), intent, null, true, photo.isImported());
+            @Nullable final Intent intent, @Nullable final Uri uri) {
+        super(Type.IMAGE, photo.getData(), intent, uri, true, photo.isImported());
         mRotationForDisplay = photo.getRotationForDisplay();
         mFormat = photo.getImageFormat();
         mDeviceOrientation = photo.getDeviceOrientation();
@@ -197,6 +203,11 @@ public final class ImageDocument extends GiniVisionDocument {
     @Override
     public int getRotationForDisplay() {
         return mRotationForDisplay;
+    }
+
+    public synchronized void setRotationForDisplay(final int degrees) {
+        // Converts input degrees to degrees between [0,360)
+        mRotationForDisplay = ((degrees % 360) + 360) % 360;
     }
 
     /**

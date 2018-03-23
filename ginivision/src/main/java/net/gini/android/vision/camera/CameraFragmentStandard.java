@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
+import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.internal.permission.PermissionRequestListener;
 import net.gini.android.vision.internal.permission.RuntimePermissions;
 
@@ -246,6 +247,11 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
     @Override
     public void startMultiPage(@NonNull final Document document) {
         mFragmentImpl.startMultiPage(document);
+    }
+
+    @Override
+    public void setMultiPageDocument(@NonNull final GiniVisionMultiPageDocument multiPageDocument) {
+        mFragmentImpl.setMultiPageDocument(multiPageDocument);
     }
 
     @Override

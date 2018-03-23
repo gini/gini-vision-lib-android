@@ -165,7 +165,7 @@ public class GiniVisionDocument implements Document {
                 + '}';
     }
 
-    public void loadData(@NonNull final Context context,
+    public synchronized void loadData(@NonNull final Context context,
             @NonNull final AsyncCallback<byte[]> callback) {
         if (mData != null) {
             callback.onSuccess(mData);
@@ -199,6 +199,10 @@ public class GiniVisionDocument implements Document {
         asyncTask.execute(uri);
     }
 
+    public synchronized void unloadData() {
+        mData = null;
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) {
@@ -225,21 +229,20 @@ public class GiniVisionDocument implements Document {
         if (mUri != null ? !mUri.equals(that.mUri) : that.mUri != null) {
             return false;
         }
-        if (mType != that.mType) {
-            return false;
-        }
-        return Arrays.equals(mData, that.mData);
+        // Mutable mData field omitted to keep the hashCode contract (equal objects have equal hash codes)
+        // and enable usage as keys in maps
+        return mType == that.mType;
     }
 
     @Override
     public int hashCode() {
+        // Mutable mData field omitted to create static hashes allowing usage as keys in maps
         int result = mUniqueID.hashCode();
         result = 31 * result + (mIntent != null ? mIntent.hashCode() : 0);
         result = 31 * result + (mUri != null ? mUri.hashCode() : 0);
         result = 31 * result + (mIsImported ? 1 : 0);
         result = 31 * result + (mIsReviewable ? 1 : 0);
         result = 31 * result + mType.hashCode();
-        result = 31 * result + Arrays.hashCode(mData);
         return result;
     }
 }

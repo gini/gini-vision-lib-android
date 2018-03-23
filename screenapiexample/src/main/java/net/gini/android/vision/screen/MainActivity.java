@@ -200,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
         final BaseExampleApp app = (BaseExampleApp) getApplication();
 
         // Configure the Gini Vision Library
-        GiniVision.cleanup();
+        GiniVision.cleanup(this);
         GiniVision.newInstance()
                 .setGiniVisionNetworkService(app.getGiniVisionNetworkService())
                 .setGiniVisionNetworkApi(app.getGiniVisionNetworkApi())

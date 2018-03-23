@@ -70,6 +70,11 @@ public final class DocumentFactory {
         return ImageDocument.fromPhoto(photo);
     }
 
+    public static GiniVisionDocument newDocumentFromPhoto(@NonNull final Photo photo,
+            @NonNull final Uri storedAtUri) {
+        return ImageDocument.fromPhoto(photo, storedAtUri);
+    }
+
     public static GiniVisionDocument newDocumentFromPhotoAndDocument(@NonNull final Photo photo,
             @NonNull final Document document) {
         return ImageDocument.fromPhotoAndDocument(photo, document);
