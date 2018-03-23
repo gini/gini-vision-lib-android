@@ -119,6 +119,10 @@ public class GiniVisionMultiPageDocument<T extends GiniVisionDocument, E extends
         loadImageDocuments(0, context, callback);
     }
 
+    public void addDocuments(@NonNull final List<T> documents) {
+        mDocuments.addAll(documents);
+    }
+
     private void loadImageDocuments(final int currentIndex,
             @NonNull final Context context,
             @NonNull final AsyncCallback<byte[]> callback) {
