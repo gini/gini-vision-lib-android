@@ -99,7 +99,6 @@ public class MultiPageReviewActivity extends AppCompatActivity {
                         final ThumbnailsAdapter thumbnailsAdapter =
                                 (ThumbnailsAdapter) mThumbnailsRV.getAdapter();
                         thumbnailsAdapter.highlightPosition(position);
-                        thumbnailsAdapter.notifyDataSetChanged();
                         mThumbnailsScroller.setTargetPosition(position);
                         mThumbnailsRV.getLayoutManager().startSmoothScroll(mThumbnailsScroller);
                     }
@@ -451,7 +450,7 @@ public class MultiPageReviewActivity extends AppCompatActivity {
                                 public void onSuccess(final Photo result) {
                                     if (holder.getAdapterPosition() == position) {
                                         holder.hideActivityIndicator();
-                                        showPhoto(result, position, holder);
+                                        showPhoto(result, holder);
                                     }
                                 }
 
@@ -468,8 +467,7 @@ public class MultiPageReviewActivity extends AppCompatActivity {
                             });
         }
 
-        private void showPhoto(@NonNull final Photo photo, final int position,
-                @NonNull final ViewHolder holder) {
+        private void showPhoto(@NonNull final Photo photo, @NonNull final ViewHolder holder) {
             final ImageView imageView = holder.thumbnailContainer.getImageView();
             final Bitmap bitmap = photo.getBitmapPreview();
             if (bitmap != null) {
@@ -492,7 +490,6 @@ public class MultiPageReviewActivity extends AppCompatActivity {
                     final int adapterPosition = holder.getAdapterPosition();
                     highlightPosition(adapterPosition);
                     mThumbnailChangeListener.onThumbnailSelected(adapterPosition);
-                    notifyDataSetChanged();
                 }
             });
             holder.handle.setOnTouchListener(new View.OnTouchListener() {
@@ -569,10 +566,26 @@ public class MultiPageReviewActivity extends AppCompatActivity {
         }
 
         void highlightPosition(final int position) {
-            for (final Thumbnail image : mThumbnails) {
-                image.highlighted = false;
+            for (int i = 0; i < mThumbnails.size(); i++) {
+                final Thumbnail thumbnail = mThumbnails.get(i);
+                thumbnail.highlighted = false;
+                final ThumbnailsAdapter.ViewHolder holder =
+                        (ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(i);
+                if (holder != null) {
+                    holder.highlight.setAlpha(0f);
+                }
             }
             mThumbnails.get(position).highlighted = true;
+            if (mRecyclerView != null) {
+                for (int i = 0; i < mThumbnails.size(); i++) {
+                    final Thumbnail thumbnail = mThumbnails.get(i);
+                    final ThumbnailsAdapter.ViewHolder holder =
+                            (ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(i);
+                    if (holder != null) {
+                        holder.highlight.setAlpha(thumbnail.highlighted ? 1f : 0f);
+                    }
+                }
+            }
         }
 
         void rotateHighlightedThumbnailBy(final int degrees) {
