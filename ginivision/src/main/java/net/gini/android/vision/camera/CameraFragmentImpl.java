@@ -992,17 +992,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 if (IntentHelper.hasMimeTypeWithPrefix(uri, context,
                         IntentHelper.MimeType.IMAGE_PREFIX.asString())) {
                     try {
-                        final Uri localUri = GiniVision.getInstance().internal().getImageDiskStore()
-                                .save(context, uri);
-                        if (localUri == null) {
-                            LOG.error("Failed to import selected document: "
-                                    + "could not copy to app storage");
-                            addMultiPageDocumentError(context.getString(
-                                    R.string.gv_document_import_invalid_document));
-                            break;
-                        }
-                        final ImageDocument document = DocumentFactory.newImageDocumentFromLocalUri(
-                                localUri,
+                        final ImageDocument document = DocumentFactory.newImageDocumentFromUri(uri,
                                 intent, context, DeviceHelper.getDeviceOrientation(context),
                                 DeviceHelper.getDeviceType(context), "openwith");
                         mMultiPageDocument.addDocument(document);

@@ -44,25 +44,14 @@ public final class DocumentFactory {
         throw new IllegalArgumentException("Unknown Intent Uri mime type.");
     }
 
-    @NonNull
-    public static ImageDocument newImageDocumentFromLocalUri(@NonNull final Uri uri,
+   @NonNull
+    public static ImageDocument newImageDocumentFromUri(@NonNull final Uri externalUri,
             @NonNull final Intent intent,
             @NonNull final Context context,
             @NonNull final String deviceOrientation,
             @NonNull final String deviceType,
             @NonNull final String importMethod) {
-        return ImageDocument.fromLocalUri(uri, intent, context, deviceOrientation, deviceType,
-                importMethod);
-    }
-
-    @NonNull
-    public static ImageDocument newImageDocumentFromExternalUri(@NonNull final Uri externalUri,
-            @NonNull final Intent intent,
-            @NonNull final Context context,
-            @NonNull final String deviceOrientation,
-            @NonNull final String deviceType,
-            @NonNull final String importMethod) {
-        return ImageDocument.fromExternalUri(externalUri, intent, context, deviceOrientation, deviceType,
+        return ImageDocument.fromUri(externalUri, intent, context, deviceOrientation, deviceType,
                 importMethod);
     }
 

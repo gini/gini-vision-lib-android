@@ -108,7 +108,7 @@ public final class ImageDocument extends GiniVisionDocument {
     }
 
     @NonNull
-    static ImageDocument fromLocalUri(@NonNull final Uri uri,
+    static ImageDocument fromUri(@NonNull final Uri uri,
             @NonNull final Intent intent,
             @NonNull final Context context,
             @NonNull final String deviceOrientation,
@@ -120,29 +120,12 @@ public final class ImageDocument extends GiniVisionDocument {
             throw new IllegalArgumentException("Intent must have a mime type of image/*");
         }
         final String source = getDocumentSource(intent, context);
-        return new ImageDocument(uri, ImageFormat.fromMimeType(mimeType), deviceOrientation,
-                deviceType, source, importMethod);
-    }
-
-    @NonNull
-    static ImageDocument fromExternalUri(@NonNull final Uri externalUri,
-            @NonNull final Intent intent,
-            @NonNull final Context context,
-            @NonNull final String deviceOrientation,
-            @NonNull final String deviceType,
-            @NonNull final String importMethod) {
-        final String mimeType = getMimeType(externalUri, context);
-        if (mimeType == null || !hasMimeTypeWithPrefix(externalUri, context,
-                IntentHelper.MimeType.IMAGE_PREFIX.asString())) {
-            throw new IllegalArgumentException("Intent must have a mime type of image/*");
-        }
-        final String source = getDocumentSource(intent, context);
         final Uri localUri = GiniVision.getInstance().internal().getImageDiskStore()
-                .save(context, externalUri);
+                .save(context, uri);
         if (localUri == null) {
             throw new IllegalArgumentException("Failed to copy to app storage");
         }
-        return new ImageDocument(externalUri, ImageFormat.fromMimeType(mimeType), deviceOrientation,
+        return new ImageDocument(localUri, ImageFormat.fromMimeType(mimeType), deviceOrientation,
                 deviceType, source, importMethod);
     }
 
