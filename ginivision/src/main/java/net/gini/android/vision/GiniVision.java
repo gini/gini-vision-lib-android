@@ -64,9 +64,9 @@ public class GiniVision {
         if (sInstance != null) {
             sInstance.mDocumentDataMemoryCache.clear();
             sInstance.mPhotoMemoryCache.clear();
-            sInstance.mImageDiskStore.clear(context);
             sInstance = null;
         }
+        ImageDiskStore.clear(context);
     }
 
     private GiniVision(@NonNull final Builder builder) {

@@ -156,7 +156,7 @@ public class ImageDiskStore {
         file.delete();
     }
 
-    public void clear(@NonNull final Context context) {
+    public static void clear(@NonNull final Context context) {
         final String storePath = getStorePath(context);
         final File storeDir = new File(storePath);
         if (!storeDir.isDirectory()) {
@@ -172,7 +172,7 @@ public class ImageDiskStore {
     }
 
     @NonNull
-    private String getStorePath(final @NonNull Context context) {
+    private static String getStorePath(final @NonNull Context context) {
         return context.getFilesDir().getAbsolutePath();
     }
 
