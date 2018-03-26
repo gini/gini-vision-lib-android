@@ -112,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void doStartGiniVisionLibraryForImportedFile(final Intent importedFileIntent) {
         try {
+            // Configure the Gini Vision Library
+            configureGiniVision();
             final Intent giniVisionIntent = GiniVisionFileImport.createIntentForImportedFile(
                     importedFileIntent,
                     this,
@@ -197,25 +199,8 @@ public class MainActivity extends AppCompatActivity {
 //            return;
 //        }
 
-        final BaseExampleApp app = (BaseExampleApp) getApplication();
-
         // Configure the Gini Vision Library
-        GiniVision.cleanup(this);
-        GiniVision.newInstance()
-                .setGiniVisionNetworkService(app.getGiniVisionNetworkService())
-                .setGiniVisionNetworkApi(app.getGiniVisionNetworkApi())
-                .setDocumentImportEnabledFileTypes(DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
-                .setFileImportEnabled(true)
-                .setQRCodeScanningEnabled(true)
-                // Uncomment to add an extra page to the Onboarding pages
-//                .setCustomOnboardingPages(getOnboardingPages())
-                // Uncomment to disable automatically showing the OnboardingActivity the
-                // first time the CameraActivity is launched - we highly recommend letting the
-                // Gini Vision Library show the OnboardingActivity at first run
-//                .setShouldShowOnboardingAtFirstRun(false)
-                // Uncomment to show the OnboardingActivity every time the CameraActivity starts
-//                .setShouldShowOnboarding(true)
-                .build();
+        configureGiniVision();
 
         final Intent intent = new Intent(this, CameraScreenApiActivity.class);
 
@@ -260,6 +245,26 @@ public class MainActivity extends AppCompatActivity {
         // To receive the extractions add it to the result Intent in ReviewActivity#onAddDataToResult(Intent) or
         // AnalysisActivity#onAddDataToResult(Intent) and retrieve them here in onActivityResult()
         startActivityForResult(intent, REQUEST_SCAN);
+    }
+
+    private void configureGiniVision() {
+        final BaseExampleApp app = (BaseExampleApp) getApplication();
+        GiniVision.cleanup(this);
+        GiniVision.newInstance()
+                .setGiniVisionNetworkService(app.getGiniVisionNetworkService())
+                .setGiniVisionNetworkApi(app.getGiniVisionNetworkApi())
+                .setDocumentImportEnabledFileTypes(DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
+                .setFileImportEnabled(true)
+                .setQRCodeScanningEnabled(true)
+                // Uncomment to add an extra page to the Onboarding pages
+//                .setCustomOnboardingPages(getOnboardingPages())
+                // Uncomment to disable automatically showing the OnboardingActivity the
+                // first time the CameraActivity is launched - we highly recommend letting the
+                // Gini Vision Library show the OnboardingActivity at first run
+//                .setShouldShowOnboardingAtFirstRun(false)
+                // Uncomment to show the OnboardingActivity every time the CameraActivity starts
+//                .setShouldShowOnboarding(true)
+                .build();
     }
 
     private void showUnfulfilledRequirementsToast(final RequirementsReport report) {
@@ -307,6 +312,11 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
             switch (resultCode) {
+                case RESULT_CANCELED:
+                    if (isIntentActionViewOrSend(getIntent())) {
+                        finish();
+                    }
+                    break;
                 case RESULT_OK:
                     // Retrieve the extra we set in our ReviewActivity or AnalysisActivity subclasses' onAddDataToResult()
                     // method
