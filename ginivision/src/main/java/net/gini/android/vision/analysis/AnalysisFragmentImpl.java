@@ -38,6 +38,7 @@ import net.gini.android.vision.document.PdfDocument;
 import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.document.DocumentRenderer;
 import net.gini.android.vision.internal.document.DocumentRendererFactory;
+import net.gini.android.vision.internal.storage.ImageDiskStore;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 import net.gini.android.vision.internal.util.Size;
@@ -132,7 +133,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
     @Override
     public void onDocumentAnalyzed() {
-
+        clearSavedImages();
     }
 
     @Override
@@ -416,6 +417,8 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
                                 } else {
                                     mListener.onExtractionsAvailable(extractions);
                                 }
+                                // Remove all stored images
+                                clearSavedImages();
                             }
 
                             @Override
@@ -429,6 +432,14 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         } else {
             mListener.onAnalyzeDocument(mDocument);
         }
+    }
+
+    private void clearSavedImages() {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
+        }
+        ImageDiskStore.clear(activity);
     }
 
     private void bindViews(@NonNull final View view) {
