@@ -98,12 +98,17 @@ public final class ImageDocument extends GiniVisionDocument {
         if (uri == null) {
             throw new IllegalArgumentException("Intent must have a Uri");
         }
-        final Uri localUri = GiniVision.getInstance().internal().getImageDiskStore()
-                .save(context, uri);
-        if (localUri == null) {
-            throw new IllegalArgumentException("Failed to copy to app storage");
+        final Uri imageUri;
+        if (/*multipage enabled*/ true) { // TODO: mutipage feature toggle
+            imageUri = GiniVision.getInstance().internal().getImageDiskStore()
+                    .save(context, uri);
+            if (imageUri == null) {
+                throw new IllegalArgumentException("Failed to copy to app storage");
+            }
+        } else {
+            imageUri = uri;
         }
-        return new ImageDocument(intent, localUri, ImageFormat.fromMimeType(mimeType), deviceOrientation,
+        return new ImageDocument(intent, imageUri, ImageFormat.fromMimeType(mimeType), deviceOrientation,
                 deviceType, source, importMethod);
     }
 
