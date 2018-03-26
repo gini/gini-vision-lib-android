@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -440,13 +441,16 @@ public class MultiPageReviewActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder,
                 final int position) {
-            // TODO: show loading indicator
+            holder.resetImageView();
+            holder.showActivityIndicator();
+            showPosition(position, holder);
             GiniVision.getInstance().internal().getPhotoMemoryCache()
                     .get(mContext, mMultiPageDocument.getDocuments().get(position),
                             new AsyncCallback<Photo>() {
                                 @Override
                                 public void onSuccess(final Photo result) {
                                     if (holder.getAdapterPosition() == position) {
+                                        holder.hideActivityIndicator();
                                         showPhoto(result, position, holder);
                                     }
                                 }
@@ -454,11 +458,11 @@ public class MultiPageReviewActivity extends AppCompatActivity {
                                 @Override
                                 public void onError(final Exception exception) {
                                     if (holder.getAdapterPosition() == position) {
+                                        holder.hideActivityIndicator();
                                         final ImageView imageView =
                                                 holder.thumbnailContainer.getImageView();
                                         imageView.setBackgroundColor(Color.TRANSPARENT);
                                         imageView.setImageBitmap(null);
-                                        showPosition(position, holder);
                                     }
                                 }
                             });
@@ -477,7 +481,6 @@ public class MultiPageReviewActivity extends AppCompatActivity {
             }
             holder.thumbnailContainer.rotateImageView(
                         photo.getRotationForDisplay(), false);
-            showPosition(position, holder);
         }
 
         private void showPosition(final int position, final @NonNull ViewHolder holder) {
@@ -600,6 +603,7 @@ public class MultiPageReviewActivity extends AppCompatActivity {
             final View handle;
             final View highlight;
             final RotatableImageViewContainer thumbnailContainer;
+            final ProgressBar activityIndicator;
 
             ViewHolder(final View itemView) {
                 super(itemView);
@@ -607,6 +611,20 @@ public class MultiPageReviewActivity extends AppCompatActivity {
                 badge = itemView.findViewById(R.id.gv_badge);
                 highlight = itemView.findViewById(R.id.gv_highlight);
                 handle = itemView.findViewById(R.id.gv_handle);
+                activityIndicator = itemView.findViewById(R.id.gv_activity_indicator);
+            }
+
+            void showActivityIndicator() {
+                activityIndicator.setVisibility(View.VISIBLE);
+            }
+
+            void hideActivityIndicator() {
+                activityIndicator.setVisibility(View.INVISIBLE);
+            }
+
+            void resetImageView() {
+                thumbnailContainer.rotateImageView(0, false);
+                thumbnailContainer.getImageView().setImageDrawable(null);
             }
         }
 
