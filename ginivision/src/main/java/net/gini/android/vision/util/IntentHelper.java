@@ -23,21 +23,6 @@ import java.util.List;
  */
 public final class IntentHelper {
 
-    public enum MimeType {
-        IMAGE_PREFIX("image/"),
-        PDF("application/pdf");
-
-        private final String mMimeType;
-
-        MimeType(final String mimeType) {
-            mMimeType = mimeType;
-        }
-
-        public String asString() {
-            return mMimeType;
-        }
-    }
-
     /**
      * Retrieves the Uri from the Intent.
      *

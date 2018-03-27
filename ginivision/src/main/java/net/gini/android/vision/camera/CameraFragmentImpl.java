@@ -76,6 +76,7 @@ import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.internal.ui.ViewStubSafeInflater;
 import net.gini.android.vision.internal.util.DeviceHelper;
 import net.gini.android.vision.internal.util.FileImportValidator;
+import net.gini.android.vision.internal.util.MimeType;
 import net.gini.android.vision.internal.util.Size;
 import net.gini.android.vision.network.AnalysisResult;
 import net.gini.android.vision.network.Error;
@@ -990,7 +991,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             final FileImportValidator fileImportValidator = new FileImportValidator(context);
             if (fileImportValidator.matchesCriteria(uri)) {
                 if (IntentHelper.hasMimeTypeWithPrefix(uri, context,
-                        IntentHelper.MimeType.IMAGE_PREFIX.asString())) {
+                        MimeType.IMAGE_PREFIX.asString())) {
                     try {
                         final ImageDocument document = DocumentFactory.newImageDocumentFromUri(uri,
                                 intent, context, DeviceHelper.getDeviceOrientation(context),

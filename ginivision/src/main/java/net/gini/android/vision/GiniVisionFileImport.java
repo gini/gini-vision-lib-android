@@ -13,6 +13,7 @@ import net.gini.android.vision.document.ImageMultiPageDocument;
 import net.gini.android.vision.internal.util.ActivityHelper;
 import net.gini.android.vision.internal.util.DeviceHelper;
 import net.gini.android.vision.internal.util.FileImportValidator;
+import net.gini.android.vision.internal.util.MimeType;
 import net.gini.android.vision.network.GiniVisionNetworkService;
 import net.gini.android.vision.review.MultiPageReviewActivity;
 import net.gini.android.vision.review.ReviewActivity;
@@ -203,7 +204,7 @@ public final class GiniVisionFileImport {
             final FileImportValidator fileImportValidator = new FileImportValidator(context);
             if (fileImportValidator.matchesCriteria(uri)) {
                 if (IntentHelper.hasMimeTypeWithPrefix(uri, context,
-                        IntentHelper.MimeType.IMAGE_PREFIX.asString())) {
+                        MimeType.IMAGE_PREFIX.asString())) {
                     final ImageDocument document = DocumentFactory.newImageDocumentFromUri(uri,
                             intent, context, DeviceHelper.getDeviceOrientation(context),
                             DeviceHelper.getDeviceType(context), "openwith");

@@ -15,6 +15,7 @@ import android.support.annotation.Nullable;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.internal.camera.photo.Photo;
+import net.gini.android.vision.internal.util.MimeType;
 import net.gini.android.vision.util.IntentHelper;
 
 import java.util.List;
@@ -43,12 +44,12 @@ public final class ImageDocument extends GiniVisionDocument {
         GIF;
 
         static ImageFormat fromMimeType(@NonNull final String mimeType) {
-            switch (mimeType) {
-                case "image/jpeg":
+            switch (MimeType.fromString(mimeType)) {
+                case IMAGE_JPEG:
                     return JPEG;
-                case "image/png":
+                case IMAGE_PNG:
                     return PNG;
-                case "image/gif":
+                case IMAGE_GIF:
                     return GIF;
                 default:
                     throw new IllegalArgumentException("Unknown mime type: " + mimeType);
@@ -89,7 +90,7 @@ public final class ImageDocument extends GiniVisionDocument {
             @NonNull final String importMethod) {
         final List<String> mimeTypes = getMimeTypes(intent, context);
         if (mimeTypes.isEmpty() || !hasMimeTypeWithPrefix(intent, context,
-                IntentHelper.MimeType.IMAGE_PREFIX.asString())) {
+                MimeType.IMAGE_PREFIX.asString())) {
             throw new IllegalArgumentException("Intent must have a mime type of image/*");
         }
         final String mimeType = mimeTypes.get(0);
@@ -121,7 +122,7 @@ public final class ImageDocument extends GiniVisionDocument {
             @NonNull final String importMethod) {
         final String mimeType = getMimeType(uri, context);
         if (mimeType == null || !hasMimeTypeWithPrefix(uri, context,
-                IntentHelper.MimeType.IMAGE_PREFIX.asString())) {
+                MimeType.IMAGE_PREFIX.asString())) {
             throw new IllegalArgumentException("Intent must have a mime type of image/*");
         }
         final String source = getDocumentSource(intent, context);
