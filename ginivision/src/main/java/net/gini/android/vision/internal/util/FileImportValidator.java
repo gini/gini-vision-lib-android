@@ -1,6 +1,8 @@
 package net.gini.android.vision.internal.util;
 
 
+import static net.gini.android.vision.util.UriHelper.getMimeType;
+
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -64,8 +66,7 @@ public class FileImportValidator {
     }
 
     public boolean matchesCriteria(@NonNull final Uri fileUri) {
-        final List<String> mimeTypes = Collections.singletonList(
-                IntentHelper.getMimeType(fileUri, mContext));
+        final List<String> mimeTypes = Collections.singletonList(getMimeType(fileUri, mContext));
         return matchesCriteria(fileUri, mimeTypes);
     }
 

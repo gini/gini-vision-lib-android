@@ -1,5 +1,8 @@
 package net.gini.android.vision.util;
 
+import static net.gini.android.vision.util.UriHelper.getMimeType;
+import static net.gini.android.vision.util.UriHelper.getMimeTypeFromUrl;
+
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.ComponentName;
@@ -11,7 +14,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.webkit.MimeTypeMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,25 +113,6 @@ public final class IntentHelper {
         return null;
     }
 
-    @Nullable
-    public static String getMimeType(@NonNull final Uri uri, @NonNull final Context context) {
-        final String type = context.getContentResolver().getType(uri);
-        if (type == null) {
-            return getMimeTypeFromUrl(uri.getPath());
-        }
-        return type;
-    }
-
-    @Nullable
-    private static String getMimeTypeFromUrl(@NonNull final String url) {
-        final String extension = MimeTypeMap.getFileExtensionFromUrl(url);
-        if (extension != null) {
-            final MimeTypeMap mime = MimeTypeMap.getSingleton();
-            return mime.getMimeTypeFromExtension(extension);
-        }
-        return null;
-    }
-
     /**
      * Check whether the Intent has a specific mime-type.
      *
@@ -148,12 +131,6 @@ public final class IntentHelper {
             }
         }
         return false;
-    }
-
-    public static boolean hasMimeType(@NonNull final Uri uri,
-            @NonNull final Context context, @NonNull final String mimeType) {
-        final String actualMimeType = getMimeType(uri, context);
-        return actualMimeType != null && actualMimeType.equals(mimeType);
     }
 
     /**

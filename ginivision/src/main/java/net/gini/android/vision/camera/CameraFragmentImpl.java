@@ -906,7 +906,6 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 showInvalidFileError(null);
                 return;
             }
-            // TODO: make copy of imported images
             handleMultiPageDocumentAndCallListener(activity, data, uris);
         } else {
             final Uri uri = IntentHelper.getUri(data);
