@@ -64,14 +64,7 @@ public abstract class MemoryCache<K, V> {
                     public void onSuccess(final V result) {
                         mLog.debug("Worker finished with result {}", getNameForLog(result));
                         mCache.put(key, result);
-                        final List<AsyncCallback<V>> callbacks = mWaitingCallbacks.get(key);
-                        if (callbacks != null) {
-                            for (final AsyncCallback<V> waitingCallback : callbacks) {
-                                mLog.debug("Invoke callback {} for key {}",
-                                        getNameForLog(waitingCallback), getNameForLog(key));
-                                waitingCallback.onSuccess(result);
-                            }
-                        }
+                        callOnSuccessForWaitingCallbacks(key, result);
                         mLog.debug("Remove callbacks for key {}", getNameForLog(key));
                         mWaitingCallbacks.remove(key);
                         executeNextWorker(context);
@@ -80,14 +73,7 @@ public abstract class MemoryCache<K, V> {
                     @Override
                     public void onError(final Exception exception) {
                         mLog.error("Worker finished with error", exception);
-                        final List<AsyncCallback<V>> callbacks = mWaitingCallbacks.get(key);
-                        if (callbacks != null) {
-                            for (final AsyncCallback<V> waitingCallback : callbacks) {
-                                mLog.debug("Invoke callback {} for key {}",
-                                        getNameForLog(waitingCallback), getNameForLog(key));
-                                waitingCallback.onError(exception);
-                            }
-                        }
+                        callOnErrorForWaitingCallbacks(key, exception);
                         mLog.debug("Remove callbacks for key {}", getNameForLog(key));
                         mWaitingCallbacks.remove(key);
                         executeNextWorker(context);
@@ -117,6 +103,28 @@ public abstract class MemoryCache<K, V> {
             mWorkerQueue.add(worker);
         } else {
             mLog.debug("Worker already queued for key {}", getNameForLog(key));
+        }
+    }
+
+    private void callOnSuccessForWaitingCallbacks(final K key, final V result) {
+        final List<AsyncCallback<V>> callbacks = mWaitingCallbacks.get(key);
+        if (callbacks != null) {
+            for (final AsyncCallback<V> waitingCallback : callbacks) {
+                mLog.debug("Invoke callback {} for key {}",
+                        getNameForLog(waitingCallback), getNameForLog(key));
+                waitingCallback.onSuccess(result);
+            }
+        }
+    }
+
+    private void callOnErrorForWaitingCallbacks(final K key, final Exception exception) {
+        final List<AsyncCallback<V>> callbacks = mWaitingCallbacks.get(key);
+        if (callbacks != null) {
+            for (final AsyncCallback<V> waitingCallback : callbacks) {
+                mLog.debug("Invoke callback {} for key {}",
+                        getNameForLog(waitingCallback), getNameForLog(key));
+                waitingCallback.onError(exception);
+            }
         }
     }
 
