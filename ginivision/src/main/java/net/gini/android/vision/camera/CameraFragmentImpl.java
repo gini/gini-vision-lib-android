@@ -889,7 +889,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                     message = "Document import failed: unknown result code " + resultCode;
                 }
                 LOG.error(message);
-                showInvalidFileError(null);
+                showGenericInvalidFileError();
             }
             return true;
         }
@@ -906,7 +906,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             final List<Uri> uris = IntentHelper.getUris(data);
             if (uris == null) {
                 LOG.error("Document import failed: Intent has no Uris");
-                showInvalidFileError(null);
+                showGenericInvalidFileError();
                 return;
             }
             handleMultiPageDocumentAndCallListener(activity, data, uris);
@@ -914,12 +914,12 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             final Uri uri = IntentHelper.getUri(data);
             if (uri == null) {
                 LOG.error("Document import failed: Intent has no Uri");
-                showInvalidFileError(null);
+                showGenericInvalidFileError();
                 return;
             }
             if (!UriHelper.isUriInputStreamAvailable(uri, activity)) {
                 LOG.error("Document import failed: InputStream not available for the Uri");
-                showInvalidFileError(null);
+                showGenericInvalidFileError();
                 return;
             }
             if (mInMultiPageState) {
@@ -930,7 +930,12 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 if (fileImportValidator.matchesCriteria(data, uri)) {
                     createSinglePageDocumentAndCallListener(data, activity);
                 } else {
-                    showInvalidFileError(fileImportValidator.getError());
+                    final FileImportValidator.Error error = fileImportValidator.getError();
+                    if (error != null) {
+                        showInvalidFileError(error);
+                    } else {
+                        showGenericInvalidFileError();
+                    }
                 }
             }
         }
@@ -948,7 +953,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             requestClientDocumentCheck(document);
         } catch (final IllegalArgumentException e) {
             LOG.error("Failed to import selected document", e);
-            showInvalidFileError(null);
+            showGenericInvalidFileError();
         }
     }
 
@@ -998,7 +1003,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 mMultiPageDocument.addDocuments(multiPageDocument.getDocuments());
                 if (mMultiPageDocument.getDocuments().isEmpty()) {
                     LOG.error("Document import failed: Intent did not contain images");
-                    showInvalidFileError(null);
+                    showGenericInvalidFileError();
                     mMultiPageDocument = null;
                     mInMultiPageState = false;
                     return;
@@ -1023,7 +1028,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             public void onError(final Exception exception) {
                 LOG.error("Document import failed", exception);
                 hideActivityIndicatorAndEnableInteraction();
-                showInvalidFileError(null);
+                showGenericInvalidFileError();
             }
         });
         mImportUrisAsyncTask.execute(uris);
@@ -1166,17 +1171,23 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         mButtonCameraTrigger.setEnabled(false);
     }
 
-    private void showInvalidFileError(@Nullable final FileImportValidator.Error error) {
-        LOG.error("Invalid document {}", error != null ? error.toString() : "");
+    private void showInvalidFileError(@NonNull final FileImportValidator.Error error) {
+        LOG.error("Invalid document {}", error.toString());
         final Activity activity = mFragment.getActivity();
         if (activity == null) {
             return;
         }
-        int messageRes = R.string.gv_document_import_invalid_document;
-        if (error != null) {
-            messageRes = error.getTextResource();
+        showInvalidFileAlert(activity.getString(error.getTextResource()));
+    }
+
+    private void showGenericInvalidFileError() {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
         }
-        showInvalidFileAlert(activity.getString(messageRes));
+        final String message = activity.getString(R.string.gv_document_import_invalid_document);
+        LOG.error("Invalid document {}", message);
+        showInvalidFileAlert(message);
     }
 
     private void showInvalidFileAlert(final String message) {
