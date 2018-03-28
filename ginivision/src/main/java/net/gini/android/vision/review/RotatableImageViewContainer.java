@@ -90,7 +90,7 @@ public class RotatableImageViewContainer extends FrameLayout {
     }
 
     void rotateImageView(final int degrees, final boolean animated) {
-        if (degrees == 0 || isRotating) {
+        if (degrees == mImageView.getRotation() || isRotating) {
             return;
         }
 

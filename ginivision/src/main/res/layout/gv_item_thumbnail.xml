@@ -18,19 +18,34 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ProgressBar
+            android:id="@+id/gv_activity_indicator"
+            android:layout_width="64dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@id/gv_handle"
+            android:indeterminateOnly="true"
+            android:indeterminateTint="@color/gv_analysis_activity_indicator"
+            android:indeterminateTintMode="src_in"
+            android:padding="@dimen/gv_review_progressbar_padding"
+            android:visibility="invisible"
+            tools:targetApi="lollipop"
+            tools:visibility="visible" />
+
         <net.gini.android.vision.review.RotatableImageViewContainer
             android:id="@+id/gv_thumbnail_container"
             android:layout_width="match_parent"
-            android:layout_height="126dp"
+            android:layout_height="match_parent"
+            android:layout_above="@id/gv_handle"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"/>
 
         <RelativeLayout
             android:id="@+id/gv_handle"
-            android:layout_below="@id/gv_thumbnail_container"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="32dp">
 
             <TextView
                 android:id="@+id/gv_badge"

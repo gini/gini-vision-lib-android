@@ -22,6 +22,7 @@ import com.ortiz.touch.TouchImageView;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
+import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.DocumentFactory;
@@ -221,6 +222,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             final GiniVisionNetworkService networkService = GiniVision.getInstance()
                     .internal().getGiniVisionNetworkService();
             if (networkService != null) {
+                GiniVisionDebug.writeDocumentToFile(activity, document, "_for_review");
                 networkService.analyze(document,
                         new GiniVisionNetworkCallback<AnalysisResult, Error>() {
                             @Override
@@ -305,6 +307,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         mActivityIndicator.setVisibility(View.VISIBLE);
         disableNextButton();
         disableRotateButton();
+        disableAddPageButton();
     }
 
     private void hideActivityIndicatorAndEnableButtons() {
@@ -314,6 +317,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         mActivityIndicator.setVisibility(View.GONE);
         enableNextButton();
         enableRotateButton();
+        enableAddPageButton();
     }
 
     private void disableNextButton() {
@@ -346,6 +350,22 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         }
         mButtonRotate.setEnabled(true);
         mButtonRotate.setAlpha(1f);
+    }
+
+    private void disableAddPageButton() {
+        if (mButtonAddPage == null) {
+            return;
+        }
+        mButtonAddPage.setEnabled(false);
+        mButtonAddPage.setAlpha(0.5f);
+    }
+
+    private void enableAddPageButton() {
+        if (mButtonAddPage == null) {
+            return;
+        }
+        mButtonAddPage.setEnabled(true);
+        mButtonAddPage.setAlpha(1f);
     }
 
     private void showDocument() {

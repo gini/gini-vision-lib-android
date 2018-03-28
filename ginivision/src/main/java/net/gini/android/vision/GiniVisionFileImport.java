@@ -9,6 +9,7 @@ import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.camera.CameraActivity;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.ImageDocument;
+import net.gini.android.vision.document.ImageDocument.ImportMethod;
 import net.gini.android.vision.document.ImageMultiPageDocument;
 import net.gini.android.vision.internal.util.ActivityHelper;
 import net.gini.android.vision.internal.util.DeviceHelper;
@@ -182,7 +183,7 @@ public final class GiniVisionFileImport {
         if (fileImportValidator.matchesCriteria(intent, uri)) {
             return DocumentFactory.newDocumentFromIntent(intent, context,
                     DeviceHelper.getDeviceOrientation(context), DeviceHelper.getDeviceType(context),
-                    "openwith");
+                    ImportMethod.OPEN_WITH);
         } else {
             throw new ImportedFileValidationException(fileImportValidator.getError());
         }
@@ -207,7 +208,7 @@ public final class GiniVisionFileImport {
                         MimeType.IMAGE_PREFIX.asString())) {
                     final ImageDocument document = DocumentFactory.newImageDocumentFromUri(uri,
                             intent, context, DeviceHelper.getDeviceOrientation(context),
-                            DeviceHelper.getDeviceType(context), "openwith");
+                            DeviceHelper.getDeviceType(context), ImportMethod.OPEN_WITH);
                     multiPageDocument.addDocument(document);
                 }
             } else {
