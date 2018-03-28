@@ -22,6 +22,7 @@ import com.ortiz.touch.TouchImageView;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
+import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.DocumentFactory;
@@ -221,6 +222,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             final GiniVisionNetworkService networkService = GiniVision.getInstance()
                     .internal().getGiniVisionNetworkService();
             if (networkService != null) {
+                GiniVisionDebug.writeDocumentToFile(activity, document, "_for_review");
                 networkService.analyze(document,
                         new GiniVisionNetworkCallback<AnalysisResult, Error>() {
                             @Override

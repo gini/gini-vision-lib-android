@@ -4,6 +4,8 @@ import android.graphics.Bitmap;
 import android.os.Parcelable;
 
 import net.gini.android.vision.document.ImageDocument;
+import net.gini.android.vision.document.ImageDocument.ImportMethod;
+import net.gini.android.vision.document.ImageDocument.Source;
 
 import java.io.File;
 
@@ -26,9 +28,9 @@ public interface Photo extends Parcelable {
 
     String getDeviceType();
 
-    String getSource();
+    Source getSource();
 
-    String getImportMethod();
+    ImportMethod getImportMethod();
 
     Bitmap getBitmapPreview();
 

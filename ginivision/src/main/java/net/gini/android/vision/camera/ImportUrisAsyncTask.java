@@ -10,6 +10,7 @@ import net.gini.android.vision.R;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.GiniVisionDocumentError;
 import net.gini.android.vision.document.ImageDocument;
+import net.gini.android.vision.document.ImageDocument.ImportMethod;
 import net.gini.android.vision.document.ImageMultiPageDocument;
 import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.storage.ImageDiskStore;
@@ -79,7 +80,7 @@ class ImportUrisAsyncTask extends AsyncTask<List<Uri>, Void, ImageMultiPageDocum
                         final ImageDocument document = DocumentFactory.newImageDocumentFromUri(
                                 localUri,
                                 mIntent, mContext, DeviceHelper.getDeviceOrientation(mContext),
-                                DeviceHelper.getDeviceType(mContext), "openwith");
+                                DeviceHelper.getDeviceType(mContext), ImportMethod.OPEN_WITH);
                         multiPageDocument.addDocument(document);
                     } catch (final IllegalArgumentException e) {
                         LOG.error("Failed to import selected document", e);

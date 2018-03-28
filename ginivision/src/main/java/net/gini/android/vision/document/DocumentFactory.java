@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import net.gini.android.vision.Document;
+import net.gini.android.vision.document.ImageDocument.ImportMethod;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.util.IntentHelper;
 
@@ -29,7 +30,7 @@ public final class DocumentFactory {
             @NonNull final Context context,
             @NonNull final String deviceOrientation,
             @NonNull final String deviceType,
-            @NonNull final String importMethod) {
+            @NonNull final ImportMethod importMethod) {
         final Uri data = getUri(intent);
         if (data == null) {
             throw new IllegalArgumentException("Intent data must contain a Uri");
@@ -50,7 +51,7 @@ public final class DocumentFactory {
             @NonNull final Context context,
             @NonNull final String deviceOrientation,
             @NonNull final String deviceType,
-            @NonNull final String importMethod) {
+            @NonNull final ImportMethod importMethod) {
         return ImageDocument.fromUri(externalUri, intent, context, deviceOrientation, deviceType,
                 importMethod);
     }

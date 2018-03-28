@@ -31,6 +31,7 @@ import android.widget.TextView;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
+import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.GiniVisionDocument;
@@ -392,6 +393,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
             final GiniVisionNetworkService networkService = GiniVision.getInstance()
                     .internal().getGiniVisionNetworkService();
             if (networkService != null) {
+                GiniVisionDebug.writeDocumentToFile(activity, mDocument, "_for_analysis");
                 networkService.analyze(mDocument,
                         new GiniVisionNetworkCallback<AnalysisResult, Error>() {
                             @Override

@@ -9,6 +9,8 @@ import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import net.gini.android.vision.document.ImageDocument;
+import net.gini.android.vision.document.ImageDocument.ImportMethod;
+import net.gini.android.vision.document.ImageDocument.Source;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -129,12 +131,12 @@ class ImmutablePhoto implements Photo {
     }
 
     @Override
-    public String getSource() {
+    public Source getSource() {
         return null;
     }
 
     @Override
-    public String getImportMethod() {
+    public ImportMethod getImportMethod() {
         return null;
     }
 

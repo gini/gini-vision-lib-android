@@ -4,6 +4,7 @@ import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 import static net.gini.android.vision.camera.Util.cameraExceptionToGiniVisionError;
+import static net.gini.android.vision.document.ImageDocument.ImportMethod;
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 import static net.gini.android.vision.internal.util.AndroidHelper.isMarshmallowOrLater;
 import static net.gini.android.vision.internal.util.ContextHelper.getClientApplicationId;
@@ -948,7 +949,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                     activity,
                     DeviceHelper.getDeviceOrientation(activity),
                     DeviceHelper.getDeviceType(activity),
-                    "picker");
+                    ImportMethod.PICKER);
             LOG.info("Document imported: {}", document);
             requestClientDocumentCheck(document);
         } catch (final IllegalArgumentException e) {
