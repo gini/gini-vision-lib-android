@@ -12,7 +12,7 @@ import android.support.annotation.NonNull;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.document.ImageDocument.ImportMethod;
 import net.gini.android.vision.internal.camera.photo.Photo;
-import net.gini.android.vision.util.IntentHelper;
+import net.gini.android.vision.internal.util.MimeType;
 
 /**
  * @exclude
@@ -35,10 +35,10 @@ public final class DocumentFactory {
         if (data == null) {
             throw new IllegalArgumentException("Intent data must contain a Uri");
         }
-        if (hasMimeType(intent, context, IntentHelper.MimeType.PDF.asString())) {
+        if (hasMimeType(intent, context, MimeType.APPLICATION_PDF.asString())) {
             return PdfDocument.fromIntent(intent);
         } else if (hasMimeTypeWithPrefix(intent, context,
-                IntentHelper.MimeType.IMAGE_PREFIX.asString())) {
+                MimeType.IMAGE_PREFIX.asString())) {
             return ImageDocument.fromIntent(intent, context, deviceOrientation, deviceType,
                     importMethod);
         }

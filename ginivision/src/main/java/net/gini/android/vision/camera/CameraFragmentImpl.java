@@ -88,10 +88,12 @@ import net.gini.android.vision.util.UriHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import jersey.repackaged.jsr166e.CompletableFuture;
 
@@ -137,7 +139,6 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     };
 
     private static final int REQ_CODE_CHOOSE_FILE = 1;
-    private static final int REQ_CODE_MULTI_PAGE_REVIEW = 2;
     private static final String SHOW_HINT_POP_UP = "SHOW_HINT_POP_UP";
 
     private final CameraFragmentImplCallback mFragment;
@@ -180,8 +181,6 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     private boolean mIsTakingPicture;
 
     private boolean mImportDocumentButtonEnabled;
-    private int mImagesLoadedCounter;
-    private int mImagesToLoadCount;
     private ImportUrisAsyncTask mImportUrisAsyncTask;
 
     CameraFragmentImpl(@NonNull final CameraFragmentImplCallback fragment) {
@@ -1101,53 +1100,73 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         if (!documents.isEmpty()) {
             showActivityIndicatorAndDisableInteraction();
             mImageStack.removeImages();
-            mImagesLoadedCounter = 0;
         }
         final int size = documents.size();
         if (size >= 3) {
-            mImagesToLoadCount = 3;
-            showImageDocumentInStack(documents.get(size - 3), ImageStack.Position.BOTTOM);
-            showImageDocumentInStack(documents.get(size - 2), ImageStack.Position.MIDDLE);
-            showImageDocumentInStack(documents.get(size - 1), ImageStack.Position.TOP);
+            showImageDocumentInStack(
+                    Arrays.asList(
+                            documents.get(size - 1),
+                            documents.get(size - 2),
+                            documents.get(size - 3)),
+                    Arrays.asList(
+                            ImageStack.Position.TOP,
+                            ImageStack.Position.MIDDLE,
+                            ImageStack.Position.BOTTOM));
         } else if (size == 2) {
-            mImagesToLoadCount = 2;
-            showImageDocumentInStack(documents.get(size - 2), ImageStack.Position.MIDDLE);
-            showImageDocumentInStack(documents.get(size - 1), ImageStack.Position.TOP);
+            showImageDocumentInStack(
+                    Arrays.asList(
+                            documents.get(size - 1),
+                            documents.get(size - 2)),
+                    Arrays.asList(
+                            ImageStack.Position.TOP,
+                            ImageStack.Position.MIDDLE));
         } else if (size == 1) {
-            mImagesToLoadCount = 1;
-            showImageDocumentInStack(documents.get(size - 1), ImageStack.Position.TOP);
+            showImageDocumentInStack(
+                    Collections.singletonList(
+                            documents.get(size - 1)),
+                    Collections.singletonList(
+                            ImageStack.Position.TOP));
         }
     }
 
-    private void showImageDocumentInStack(@NonNull final ImageDocument document,
-            @NonNull final ImageStack.Position position) {
+    private void showImageDocumentInStack(@NonNull final List<ImageDocument> documents,
+            @NonNull final List<ImageStack.Position> positions) {
+        if (documents.size() != positions.size()) {
+            return;
+        }
         final Activity activity = mFragment.getActivity();
         if (activity == null) {
             return;
         }
-        GiniVision.getInstance().internal().getPhotoMemoryCache()
-                .get(activity, document, new AsyncCallback<Photo>() {
-                    @Override
-                    public void onSuccess(final Photo result) {
-                        // TODO: get rid of bitmap rotation -> rotate only the ImageView in the stack
-                        mImageStack.setImage(getRotatedBitmap(result), position);
-                        mImagesLoadedCounter++;
-                        if (mImagesToLoadCount == mImagesLoadedCounter) {
-                            mImageStack.setImageCount(mMultiPageDocument.getDocuments().size());
-                            hideActivityIndicatorAndEnableInteraction();
+        final int imagesToLoadCount = documents.size();
+        final AtomicInteger imagesLoadedCounter = new AtomicInteger();
+        for (int i = 0; i < documents.size(); i++) {
+            final ImageDocument document = documents.get(i);
+            final ImageStack.Position position = positions.get(i);
+            GiniVision.getInstance().internal().getPhotoMemoryCache()
+                    .get(activity, document, new AsyncCallback<Photo>() {
+                        @Override
+                        public void onSuccess(final Photo result) {
+                            // TODO: get rid of bitmap rotation -> rotate only the ImageView in the stack
+                            mImageStack.setImage(getRotatedBitmap(result), position);
+                            imagesLoadedCounter.incrementAndGet();
+                            if (imagesToLoadCount == imagesLoadedCounter.get()) {
+                                mImageStack.setImageCount(mMultiPageDocument.getDocuments().size());
+                                hideActivityIndicatorAndEnableInteraction();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onError(final Exception exception) {
-                        mImageStack.setImage(null, position);
-                        mImagesLoadedCounter++;
-                        if (mImagesToLoadCount == mImagesLoadedCounter) {
-                            mImageStack.setImageCount(mMultiPageDocument.getDocuments().size());
-                            hideActivityIndicatorAndEnableInteraction();
+                        @Override
+                        public void onError(final Exception exception) {
+                            mImageStack.setImage(null, position);
+                            imagesLoadedCounter.incrementAndGet();
+                            if (imagesToLoadCount == imagesLoadedCounter.get()) {
+                                mImageStack.setImageCount(mMultiPageDocument.getDocuments().size());
+                                hideActivityIndicatorAndEnableInteraction();
+                            }
                         }
-                    }
-                });
+                    });
+        }
     }
 
     private void enableInteraction() {

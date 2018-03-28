@@ -34,6 +34,7 @@ import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersItem
 import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersSectionItem;
 import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersSeparatorItem;
 import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersSpanSizeLookup;
+import net.gini.android.vision.internal.util.MimeType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -292,7 +293,7 @@ public class FileChooserActivity extends AppCompatActivity {
     @NonNull
     private static Intent createImagePickerIntent() {
         final Intent intent = new Intent(ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        intent.setType("image/*");
+        intent.setType(MimeType.IMAGE_WILDCARD.asString());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         }
@@ -315,7 +316,7 @@ public class FileChooserActivity extends AppCompatActivity {
             intent = new Intent(ACTION_GET_CONTENT);
         }
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("image/*");
+        intent.setType(MimeType.IMAGE_WILDCARD.asString());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         }
@@ -338,7 +339,7 @@ public class FileChooserActivity extends AppCompatActivity {
             intent = new Intent(ACTION_GET_CONTENT);
         }
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("application/pdf");
+        intent.setType(MimeType.APPLICATION_PDF.asString());
         return intent;
     }
 }

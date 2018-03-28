@@ -16,6 +16,7 @@ import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.storage.ImageDiskStore;
 import net.gini.android.vision.internal.util.DeviceHelper;
 import net.gini.android.vision.internal.util.FileImportValidator;
+import net.gini.android.vision.internal.util.MimeType;
 import net.gini.android.vision.util.IntentHelper;
 import net.gini.android.vision.util.UriHelper;
 
@@ -66,7 +67,7 @@ class ImportUrisAsyncTask extends AsyncTask<List<Uri>, Void, ImageMultiPageDocum
             final FileImportValidator fileImportValidator = new FileImportValidator(mContext);
             if (fileImportValidator.matchesCriteria(uri)) {
                 if (IntentHelper.hasMimeTypeWithPrefix(uri, mContext,
-                        IntentHelper.MimeType.IMAGE_PREFIX.asString())) {
+                        MimeType.IMAGE_PREFIX.asString())) {
                     try {
                         final Uri localUri = mImageDiskStore.save(mContext, uri);
                         if (localUri == null) {
