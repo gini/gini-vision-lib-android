@@ -32,6 +32,7 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.DocumentFactory;
+import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
@@ -95,7 +96,7 @@ public class AnalysisScreenTest {
         assertAbout(document()).that(activity.analyzeDocument).isEqualToDocument(
                 DocumentFactory.newDocumentFromPhoto(
                         PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "phone",
-                                "camera")));
+                                ImageDocument.Source.newCameraSource())));
     }
 
     @Test
@@ -352,7 +353,7 @@ public class AnalysisScreenTest {
         assertAbout(document()).that(activity.analyzeDocument)
                 .isEqualToDocument(DocumentFactory.newDocumentFromPhoto(
                         PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "phone",
-                                "camera")));
+                                ImageDocument.Source.newCameraSource())));
     }
 
     @Test
@@ -378,7 +379,7 @@ public class AnalysisScreenTest {
             final int orientation) {
         final Intent intent = getAnalysisActivityIntent();
         intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, DocumentFactory.newDocumentFromPhoto(
-                PhotoFactory.newPhotoFromJpeg(jpeg, orientation, "portrait", "phone", "camera")));
+                PhotoFactory.newPhotoFromJpeg(jpeg, orientation, "portrait", "phone", ImageDocument.Source.newCameraSource())));
         return mActivityTestRule.launchActivity(intent);
     }
 
@@ -391,14 +392,14 @@ public class AnalysisScreenTest {
         final Intent intent = new Intent(InstrumentationRegistry.getTargetContext(),
                 AnalysisActivityTestSpy.class);
         intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT,
-                createDocument(jpeg, orientation, "portrait", "phone", "camera"));
+                createDocument(jpeg, orientation, "portrait", "phone", ImageDocument.Source.newCameraSource()));
         return intent;
     }
 
     @Test(expected = IllegalStateException.class)
     public void should_throwException_whenListener_wasNotSet() throws Exception {
         final AnalysisFragmentCompat fragment = AnalysisFragmentCompat.createInstance(
-                createDocument(getTestJpeg(), 0, "portrait", "phone", "camera"), null);
+                createDocument(getTestJpeg(), 0, "portrait", "phone", ImageDocument.Source.newCameraSource()), null);
         fragment.onCreate(null);
     }
 

@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.view.SurfaceHolder;
 import android.view.View;
 
+import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 import net.gini.android.vision.internal.util.Size;
@@ -125,7 +126,7 @@ public class CameraControllerFake implements CameraInterface {
             return;
         }
         mPhoto = PhotoFactory.newPhotoFromJpeg(image, 0, "portrait", "photo",
-                "camera");
+                ImageDocument.Source.newCameraSource());
 
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;

@@ -36,6 +36,7 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivityTestSpy;
+import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.test.CurrentActivityTestRule;
 
@@ -123,7 +124,7 @@ public class ReviewScreenTest {
         final Intent intent = new Intent(InstrumentationRegistry.getTargetContext(),
                 ReviewActivityTestSpy.class);
         intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT,
-                createDocument(jpeg, orientation, "portrait", "phone", "camera"));
+                createDocument(jpeg, orientation, "portrait", "phone", ImageDocument.Source.newCameraSource()));
         intent.putExtra(ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY,
                 new Intent(InstrumentationRegistry.getTargetContext(),
                         AnalysisActivityTestSpy.class));
@@ -643,7 +644,7 @@ public class ReviewScreenTest {
     @Test(expected = IllegalStateException.class)
     public void should_throwException_whenListener_wasNotSet() throws Exception {
         final ReviewFragmentCompat fragment = ReviewFragmentCompat.createInstance(
-                createDocument(getTestJpeg(), 0, "portrait", "phone", "camera"));
+                createDocument(getTestJpeg(), 0, "portrait", "phone", ImageDocument.Source.newCameraSource()));
         fragment.onCreate(null);
     }
 

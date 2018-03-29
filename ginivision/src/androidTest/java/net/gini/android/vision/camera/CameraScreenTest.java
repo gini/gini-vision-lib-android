@@ -53,6 +53,7 @@ import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivityTestSpy;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.GiniVisionMultiPageDocument;
+import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.document.QRCodeDocument;
 import net.gini.android.vision.document.QRCodeDocumentHelper;
 import net.gini.android.vision.internal.camera.api.CameraControllerFake;
@@ -395,7 +396,7 @@ public class CameraScreenTest {
         doNothing().when(cameraActivitySpy).startActivityForResult(any(Intent.class), anyInt());
         // Fake taking of a picture, which will cause the ReviewActivity to be launched
         cameraActivitySpy.onDocumentAvailable(DocumentFactory.newDocumentFromPhoto(
-                PhotoFactory.newPhotoFromJpeg(new byte[]{}, 0, "portrait", "phone", "camera")));
+                PhotoFactory.newPhotoFromJpeg(new byte[]{}, 0, "portrait", "phone", ImageDocument.Source.newCameraSource())));
 
         // Check that the extra was passed on to the ReviewActivity
         verify(cameraActivitySpy).startActivityForResult(argThat(

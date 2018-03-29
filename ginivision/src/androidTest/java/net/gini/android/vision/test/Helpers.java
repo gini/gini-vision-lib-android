@@ -16,6 +16,7 @@ import android.support.test.uiautomator.UiDevice;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.document.DocumentFactory;
+import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 import net.gini.android.vision.internal.util.ContextHelper;
 
@@ -77,7 +78,7 @@ public class Helpers {
 
     public static Document createDocument(final byte[] jpeg, final int orientation,
             final String deviceOrientation,
-            final String deviceType, final String source) {
+            final String deviceType, final ImageDocument.Source source) {
         return DocumentFactory.newDocumentFromPhoto(
                 PhotoFactory.newPhotoFromJpeg(jpeg, orientation, deviceOrientation, deviceType,
                         source));
