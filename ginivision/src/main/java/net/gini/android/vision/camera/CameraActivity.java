@@ -2,6 +2,7 @@ package net.gini.android.vision.camera;
 
 import static net.gini.android.vision.internal.util.FeatureConfiguration.shouldShowOnboarding;
 import static net.gini.android.vision.internal.util.FeatureConfiguration.shouldShowOnboardingAtFirstRun;
+import static net.gini.android.vision.review.MultiPageReviewActivity.RESULT_MULTI_PAGE_DOCUMENT;
 
 import android.app.Activity;
 import android.content.Context;
@@ -762,12 +763,20 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
                 showInterface();
                 break;
             case MULTI_PAGE_REVIEW_REQUEST:
-                if (data != null) {
-                    final GiniVisionMultiPageDocument multiPageDocument = data.getParcelableExtra(
-                            MultiPageReviewActivity.EXTRA_OUT_DOCUMENT);
-                    if (multiPageDocument != null) {
-                        mFragment.setMultiPageDocument(multiPageDocument);
+                if (resultCode == RESULT_MULTI_PAGE_DOCUMENT) {
+                    if (data != null) {
+                        final GiniVisionMultiPageDocument multiPageDocument =
+                                data.getParcelableExtra(
+                                        MultiPageReviewActivity.EXTRA_OUT_DOCUMENT);
+                        if (multiPageDocument != null) {
+                            mFragment.setMultiPageDocument(multiPageDocument);
+                        }
                     }
+                } else if (resultCode != Activity.RESULT_CANCELED
+                        && resultCode != AnalysisActivity.RESULT_NO_EXTRACTIONS) {
+                    setResult(resultCode, data);
+                    finish();
+                    clearMemory();
                 }
                 break;
             default:

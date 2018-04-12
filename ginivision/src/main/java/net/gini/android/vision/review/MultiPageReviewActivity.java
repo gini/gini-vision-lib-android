@@ -1,5 +1,9 @@
 package net.gini.android.vision.review;
 
+import static net.gini.android.vision.analysis.AnalysisActivity.RESULT_NO_EXTRACTIONS;
+import static net.gini.android.vision.review.ReviewActivity.ANALYSE_DOCUMENT_REQUEST;
+
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -30,6 +34,7 @@ import android.widget.TextView;
 
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.R;
+import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.document.GiniVisionDocumentError;
 import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.document.ImageMultiPageDocument;
@@ -63,6 +68,8 @@ public class MultiPageReviewActivity extends AppCompatActivity {
     private ImageButton mButtonNext;
     private ImageButton mDeleteButton;
 
+    public static final int RESULT_MULTI_PAGE_DOCUMENT = RESULT_FIRST_USER + 1;
+
     public static Intent createIntent(@NonNull final Context context,
             @NonNull final ImageMultiPageDocument multiPageDocument) {
         final Intent intent = new Intent(context, MultiPageReviewActivity.class);
@@ -81,7 +88,7 @@ public class MultiPageReviewActivity extends AppCompatActivity {
         mButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                finish();
+                proceedToAnalysisScreen();
             }
         });
 
@@ -217,11 +224,48 @@ public class MultiPageReviewActivity extends AppCompatActivity {
         showPhotos();
     }
 
+    private void proceedToAnalysisScreen() {
+        final DocumentDataMemoryCache documentDataMemoryCache =
+                GiniVision.getInstance().internal().getDocumentDataMemoryCache();
+        final List<ImageDocument> documents = mMultiPageDocument.getDocuments();
+        if (documents.size() == 0) {
+            return;
+        }
+
+        documentDataMemoryCache.get(this, documents.get(0), new AsyncCallback<byte[]>() {
+
+            @Override
+            public void onSuccess(final byte[] result) {
+                final Intent intent = new Intent(MultiPageReviewActivity.this, AnalysisActivity.class);
+                intent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, documents.get(0));
+                startActivityForResult(intent, ANALYSE_DOCUMENT_REQUEST);
+            }
+
+            @Override
+            public void onError(final Exception exception) {
+
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode,
+            final Intent data) {
+        if (requestCode == ANALYSE_DOCUMENT_REQUEST) {
+            if (resultCode == RESULT_NO_EXTRACTIONS) {
+                finish();
+            } else if (resultCode != Activity.RESULT_CANCELED) {
+                setResult(resultCode, data);
+                finish();
+            }
+        }
+    }
+
     @Override
     public void onBackPressed() {
         final Intent data = new Intent();
         data.putExtra(EXTRA_OUT_DOCUMENT, mMultiPageDocument);
-        setResult(RESULT_CANCELED, data);
+        setResult(RESULT_MULTI_PAGE_DOCUMENT, data);
         finish();
     }
 
