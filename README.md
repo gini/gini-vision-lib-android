@@ -91,7 +91,7 @@ build.gradle:
 ```
 repositories {
     maven {
-        url 'https://repo.gini.net/nexus/content/repositories/open'
+        url 'https://repo.gini.net/nexus/content/repositories/open
     }
 }
 ```
@@ -100,7 +100,7 @@ app/build.gradle:
 
 ```
 dependencies {
-    compile 'net.gini:gini-vision-lib:2.6.0-alpha.3'
+    compile 'net.gini:gini-vision-lib:2.6.0-alpha.4'
 }
 ```
 

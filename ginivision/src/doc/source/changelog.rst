@@ -2,6 +2,11 @@
 Changelog
 =========
 
+2.6.0-alpha.4 (2018-04-12)
+==================
+
+- Analyzing the first page of multi-page documents
+
 2.6.0-alpha.3 (2018-04-11)
 ==================
 
