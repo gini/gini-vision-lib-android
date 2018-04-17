@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
@@ -225,7 +226,12 @@ public final class ImageDocument extends GiniVisionDocument {
     }
 
     private ImageDocument() {
-        super(Type.IMAGE,null, null, null, true, false);
+        this((byte[]) null);
+    }
+
+    @VisibleForTesting
+    ImageDocument(@Nullable final byte[] data) {
+        super(Type.IMAGE,data, null, null, true, false);
         mRotationForDisplay = 0;
         mFormat = ImageFormat.JPEG;
         mDeviceOrientation = "";
