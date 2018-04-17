@@ -11,7 +11,6 @@ import android.support.annotation.NonNull;
 import net.gini.android.vision.document.GiniVisionDocument;
 import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.document.ImageDocument;
-import net.gini.android.vision.document.ImageMultiPageDocument;
 import net.gini.android.vision.network.AnalysisResult;
 import net.gini.android.vision.network.Error;
 import net.gini.android.vision.network.GiniVisionNetworkCallback;
@@ -36,7 +35,7 @@ public class NetworkRequestManager {
             mDocumentUploadFutureMap;
     private final Map<GiniVisionDocument, CompletableFuture<NetworkRequestResult<GiniVisionDocument>>>
             mDocumentDeleteFutureMap;
-    private final Map<GiniVisionDocument, CompletableFuture<NetworkRequestResult<GiniVisionMultiPageDocument>>>
+    private final Map<GiniVisionDocument, CompletableFuture<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>>>
             mDocumentAnalyzeFutureMap;
 
     private final GiniVisionNetworkService mGiniVisionNetworkService;
@@ -147,23 +146,20 @@ public class NetworkRequestManager {
         return future;
     }
 
-    public CompletableFuture<NetworkRequestResult<GiniVisionMultiPageDocument>> analyze(
+    public CompletableFuture<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>> analyze(
             @NonNull final GiniVisionMultiPageDocument multiPageDocument) {
-        final CompletableFuture<NetworkRequestResult<GiniVisionMultiPageDocument>>
+        final CompletableFuture<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>>
                 documentAnalyzeFuture =
                 mDocumentAnalyzeFutureMap.get(multiPageDocument);
         if (documentAnalyzeFuture != null) {
             return documentAnalyzeFuture;
         }
 
-        if (multiPageDocument instanceof ImageMultiPageDocument) {
-            final ImageMultiPageDocument imageMultiPageDocument =
-                    (ImageMultiPageDocument) multiPageDocument;
-
             final List<CompletableFuture> documentFutures = new ArrayList<>();
-            for (final ImageDocument imageDocument : imageMultiPageDocument.getDocuments()) {
+            for (final Object document : multiPageDocument.getDocuments()) {
+                final GiniVisionDocument giniVisionDocument = (GiniVisionDocument) document;
                 final CompletableFuture documentFuture = mDocumentUploadFutureMap.get(
-                        imageDocument);
+                        giniVisionDocument);
                 if (documentFuture != null) {
                     documentFutures.add(documentFuture);
                 }
@@ -172,30 +168,35 @@ public class NetworkRequestManager {
             return CompletableFuture
                     .allOf(documentFutures.toArray(new CompletableFuture[documentFutures.size()]))
                     .thenCompose(
-                            new CompletableFuture.Fun<Void, CompletableFuture<NetworkRequestResult<GiniVisionMultiPageDocument>>>() {
+                            new CompletableFuture.Fun<Void, CompletableFuture<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>>>() {
                                 @Override
-                                public CompletableFuture<NetworkRequestResult<GiniVisionMultiPageDocument>> apply(
+                                public CompletableFuture<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>> apply(
                                         final Void aVoid) {
-                                    final CompletableFuture<NetworkRequestResult<GiniVisionMultiPageDocument>>
+                                    final CompletableFuture<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>>
                                             documentAnalyzeFuture =
                                             mDocumentAnalyzeFutureMap.get(multiPageDocument);
                                     if (documentAnalyzeFuture != null) {
                                         return documentAnalyzeFuture;
                                     }
 
-                                    final CompletableFuture<NetworkRequestResult<GiniVisionMultiPageDocument>>
+                                    final CompletableFuture<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>>
                                             future =
                                             new CompletableFuture<>();
                                     mDocumentAnalyzeFutureMap.put(multiPageDocument, future);
 
                                     final LinkedHashMap<String, Integer> apiDocumentIdRotationMap =
                                             new LinkedHashMap<>();
-                                    for (final ImageDocument imageDocument : imageMultiPageDocument.getDocuments()) {
+                                    for (final Object document : multiPageDocument.getDocuments()) {
+                                        final GiniVisionDocument giniVisionDocument = (GiniVisionDocument) document;
                                         final String apiDocumentId = mDocumentApiDocumentIdMap.get(
-                                                imageDocument);
+                                                giniVisionDocument);
                                         if (apiDocumentId != null) {
-                                            apiDocumentIdRotationMap.put(apiDocumentId,
-                                                    imageDocument.getRotationForDisplay());
+                                            int rotationForDisplay = 0;
+                                            if (giniVisionDocument instanceof ImageDocument) {
+                                                rotationForDisplay =
+                                                        ((ImageDocument) giniVisionDocument).getRotationForDisplay();
+                                            }
+                                            apiDocumentIdRotationMap.put(apiDocumentId, rotationForDisplay);
                                         } else {
                                             throw new IllegalStateException(
                                                     "Missing partial document id. All page documents of a multi-page document have to be uploaded before analyzing the multi-page document.");
@@ -213,9 +214,10 @@ public class NetworkRequestManager {
 
                                                 @Override
                                                 public void success(final AnalysisResult result) {
-                                                    future.complete(new NetworkRequestResult<>(
+                                                    future.complete(new AnalysisNetworkRequestResult<>(
                                                             multiPageDocument,
-                                                            result.getDocumentId()));
+                                                            result.getDocumentId(),
+                                                            result));
                                                 }
 
                                                 @Override
@@ -240,13 +242,6 @@ public class NetworkRequestManager {
                                     return future;
                                 }
                             });
-        } else {
-            final CompletableFuture<NetworkRequestResult<GiniVisionMultiPageDocument>> future =
-                    new CompletableFuture<>();
-            future.completeExceptionally(
-                    new UnsupportedOperationException("Unknown multi-page document type."));
-            return future;
-        }
     }
 
     public void cancel(@NonNull final GiniVisionDocument document) {

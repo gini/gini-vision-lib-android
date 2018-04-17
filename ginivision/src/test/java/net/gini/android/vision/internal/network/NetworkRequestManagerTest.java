@@ -244,10 +244,13 @@ public class NetworkRequestManagerTest {
         // Given
         final NetworkRequestManager networkRequestManager =
                 new NetworkRequestManager(mGiniVisionNetworkService);
-        final GiniVisionMultiPageDocument multiPageDocument =
+        final ImageMultiPageDocument multiPageDocument =
                 GiniVisionDocumentHelper.newMultiPageDocument();
+        for (final ImageDocument imageDocument : multiPageDocument.getDocuments()) {
+            networkRequestManager.upload(imageDocument);
+        }
         // When
-        final NetworkRequestResult<GiniVisionMultiPageDocument>
+        final AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>
                 requestResult = networkRequestManager.analyze(
                 multiPageDocument).get();
         // Then

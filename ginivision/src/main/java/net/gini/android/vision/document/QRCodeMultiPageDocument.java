@@ -1,0 +1,50 @@
+package net.gini.android.vision.document;
+
+import android.os.Parcel;
+import android.support.annotation.NonNull;
+
+/**
+ * Created by Alpar Szotyori on 17.04.2018.
+ *
+ * Copyright (c) 2018 Gini GmbH.
+ */
+
+public class QRCodeMultiPageDocument extends GiniVisionMultiPageDocument<QRCodeDocument, GiniVisionDocumentError> {
+
+    public static final Creator<QRCodeMultiPageDocument> CREATOR =
+            new Creator<QRCodeMultiPageDocument>() {
+                @Override
+                public QRCodeMultiPageDocument createFromParcel(final Parcel in) {
+                    return new QRCodeMultiPageDocument(in);
+                }
+
+                @Override
+                public QRCodeMultiPageDocument[] newArray(final int size) {
+                    return new QRCodeMultiPageDocument[size];
+                }
+            };
+
+    public QRCodeMultiPageDocument(final boolean isImported) {
+        super(Type.QR_CODE_MULTI_PAGE, isImported);
+    }
+
+    public QRCodeMultiPageDocument(
+            @NonNull final QRCodeDocument document,
+            final boolean isImported) {
+        super(Type.QR_CODE_MULTI_PAGE, document, isImported);
+    }
+
+    private QRCodeMultiPageDocument(final Parcel in) {
+        super(in);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull final Parcel dest, final int flags) {
+        super.writeToParcel(dest, flags);
+    }
+}

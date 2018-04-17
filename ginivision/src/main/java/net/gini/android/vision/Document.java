@@ -133,6 +133,14 @@ public interface Document extends Parcelable {
         /**
          * The document contains multiple images.
          */
-        IMAGE_MULTI_PAGE
+        IMAGE_MULTI_PAGE,
+        /**
+         * The document contains multiple QR Codes.
+         */
+        QR_CODE_MULTI_PAGE,
+        /**
+         * The document contains multiple PDFs.
+         */
+        PDF_MULTI_PAGE
     }
 }
