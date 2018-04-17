@@ -2,7 +2,6 @@ package net.gini.android.vision.network;
 
 import android.content.Context;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
@@ -35,7 +34,6 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
     private final SingleDocumentAnalyzer mSingleDocumentAnalyzer;
     private final Gini mGiniApi;
     private final Handler mHandler;
-    private final int mLastId = 0;
 
     public static Builder builder(@NonNull final Context context) {
         return new Builder(context);
@@ -45,9 +43,7 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
             @NonNull final SingleDocumentAnalyzer singleDocumentAnalyzer) {
         mGiniApi = giniApi;
         mSingleDocumentAnalyzer = singleDocumentAnalyzer;
-        final HandlerThread handlerThread = new HandlerThread("FakeNetworkCalls");
-        handlerThread.start();
-        mHandler = new Handler(handlerThread.getLooper());
+        mHandler = new Handler();
     }
 
     SingleDocumentAnalyzer getSingleDocumentAnalyzer() {
@@ -86,7 +82,7 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
             public void run() {
                 callback.success(new Result(generateDocumentId()));
             }
-        }, 500 + Math.round(Math.random() * 10000));
+        }, 500 + Math.round(Math.random() * 1000));
     }
 
     private String generateDocumentId() {
@@ -102,7 +98,7 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
             public void run() {
                 callback.success(new Result(generateDocumentId()));
             }
-        }, 500 + Math.round(Math.random() * 10000));
+        }, 500 + Math.round(Math.random() * 1000));
     }
 
     @Override
@@ -119,7 +115,7 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                                         Collections.<GiniVisionExtraction>emptyList())));
                 callback.success(analysisResult);
             }
-        }, 500 + Math.round(Math.random() * 10000));
+        }, 500 + Math.round(Math.random() * 1000));
     }
 
     @Override
