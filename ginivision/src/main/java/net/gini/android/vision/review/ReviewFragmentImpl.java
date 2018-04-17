@@ -33,10 +33,10 @@ import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.PhotoEdit;
 import net.gini.android.vision.internal.camera.photo.PhotoFactoryDocumentAsyncTask;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
-import net.gini.android.vision.network.AnalysisResult;
 import net.gini.android.vision.network.Error;
 import net.gini.android.vision.network.GiniVisionNetworkCallback;
 import net.gini.android.vision.network.GiniVisionNetworkService;
+import net.gini.android.vision.network.Result;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
 import org.slf4j.Logger;
@@ -109,12 +109,12 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     private Photo mPhoto;
     private ImageDocument mDocument;
     private ReviewFragmentListener mListener = NO_OP_LISTENER;
-    private boolean mDocumentWasAnalyzed;
+    private boolean mDocumentWasUploaded;
     private boolean mDocumentWasModified;
     private int mCurrentRotation;
     private boolean mNextClicked;
     private boolean mStopped;
-    private AnalysisResult mAnalysisResult;
+    private String mUploadedDocumentId;
     private String mDocumentAnalysisErrorMessage;
 
     ReviewFragmentImpl(@NonNull final FragmentImplCallback fragment,
@@ -146,7 +146,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     @Override
     public void onDocumentAnalyzed() {
         LOG.info("Document was analyzed");
-        mDocumentWasAnalyzed = true;
+        mDocumentWasUploaded = true;
     }
 
     @Override
@@ -223,17 +223,17 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                     .internal().getGiniVisionNetworkService();
             if (networkService != null) {
                 GiniVisionDebug.writeDocumentToFile(activity, document, "_for_review");
-                networkService.analyze(document,
-                        new GiniVisionNetworkCallback<AnalysisResult, Error>() {
+                networkService.upload(document,
+                        new GiniVisionNetworkCallback<Result, Error>() {
                             @Override
                             public void failure(final Error error) {
                                 mDocumentAnalysisErrorMessage = error.getMessage();
                             }
 
                             @Override
-                            public void success(final AnalysisResult result) {
-                                mDocumentWasAnalyzed = true;
-                                mAnalysisResult = result;
+                            public void success(final Result result) {
+                                mDocumentWasUploaded = true;
+                                mUploadedDocumentId = result.getDocumentId();
                             }
 
                             @Override
@@ -477,7 +477,8 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                 if (mStopped) {
                     return;
                 }
-                cancelAnalysis();
+                // WIP-MPA: don't cancel analysis, but save rotation
+                // cancelAnalysis();
                 final GiniVisionDocument document = DocumentFactory.newDocumentFromPhotoAndDocument(
                         photo, mDocument);
                 mListener.onDocumentWasRotated(
@@ -506,7 +507,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             final GiniVisionNetworkService networkService = GiniVision.getInstance()
                     .internal().getGiniVisionNetworkService();
             if (networkService != null) {
-                networkService.cancel();
+                networkService.cancelAll();
             }
         }
     }
@@ -515,7 +516,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         mNextClicked = true;
         if (!mDocumentWasModified) {
             LOG.debug("Document wasn't modified");
-            if (!mDocumentWasAnalyzed || !TextUtils.isEmpty(mDocumentAnalysisErrorMessage)) {
+            if (!mDocumentWasUploaded || !TextUtils.isEmpty(mDocumentAnalysisErrorMessage)) {
                 LOG.debug("Document wasn't analyzed");
                 proceedToAnalysisScreen();
             } else {
@@ -523,7 +524,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                 LOG.info("Document reviewed and analyzed");
                 // Photo was not modified and has been analyzed, client should show extraction
                 // results
-                documentReviewedAndAnalyzed();
+                documentReviewedAndUploaded();
             }
         } else {
             LOG.debug("Document was modified");
@@ -549,7 +550,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         }
     }
 
-    private void documentReviewedAndAnalyzed() {
+    private void documentReviewedAndUploaded() {
         final Activity activity = mFragment.getActivity();
         if (activity == null) {
             return;
@@ -557,13 +558,14 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         final GiniVisionDocument document = DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto,
                 mDocument);
         if (GiniVision.hasInstance()) {
-            final Map<String, GiniVisionSpecificExtraction> extractions =
-                    mAnalysisResult.getExtractions();
-            if (extractions.isEmpty()) {
-                mListener.onProceedToNoExtractionsScreen(document);
-            } else {
-                mListener.onExtractionsAvailable(extractions);
-            }
+            // WIP-MPA: analyze document OR send uploaded document id to the Analysis Screen in the GiniVisionDocument
+//            final Map<String, GiniVisionSpecificExtraction> extractions =
+//                    mUploadedDocumentId.getExtractions();
+//            if (extractions.isEmpty()) {
+//                mListener.onProceedToNoExtractionsScreen(document);
+//            } else {
+//                mListener.onExtractionsAvailable(extractions);
+//            }
         } else {
             mListener.onDocumentReviewedAndAnalyzed(document);
         }

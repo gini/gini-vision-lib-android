@@ -1,6 +1,8 @@
 package net.gini.android.vision.network;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
@@ -11,9 +13,15 @@ import net.gini.android.SdkBuilder;
 import net.gini.android.authorization.CredentialsStore;
 import net.gini.android.authorization.SessionManager;
 import net.gini.android.vision.Document;
+import net.gini.android.vision.network.model.GiniVisionBox;
+import net.gini.android.vision.network.model.GiniVisionExtraction;
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.network.model.SpecificExtractionMapper;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -26,6 +34,8 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
 
     private final SingleDocumentAnalyzer mSingleDocumentAnalyzer;
     private final Gini mGiniApi;
+    private final Handler mHandler;
+    private final int mLastId = 0;
 
     public static Builder builder(@NonNull final Context context) {
         return new Builder(context);
@@ -35,6 +45,9 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
             @NonNull final SingleDocumentAnalyzer singleDocumentAnalyzer) {
         mGiniApi = giniApi;
         mSingleDocumentAnalyzer = singleDocumentAnalyzer;
+        final HandlerThread handlerThread = new HandlerThread("FakeNetworkCalls");
+        handlerThread.start();
+        mHandler = new Handler(handlerThread.getLooper());
     }
 
     SingleDocumentAnalyzer getSingleDocumentAnalyzer() {
@@ -45,7 +58,7 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
         return mGiniApi;
     }
 
-    @Override
+    @Deprecated
     public void analyze(@NonNull final Document document,
             @NonNull final GiniVisionNetworkCallback<AnalysisResult, Error> callback) {
         mSingleDocumentAnalyzer.analyzeDocument(document,
@@ -68,10 +81,58 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
     @Override
     public void upload(@NonNull final Document document,
             @NonNull final GiniVisionNetworkCallback<Result, Error> callback) {
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                callback.success(new Result(generateDocumentId()));
+            }
+        }, 500 + Math.round(Math.random() * 10000));
+    }
 
+    private String generateDocumentId() {
+        return UUID.randomUUID().toString();
     }
 
     @Override
+    @Deprecated
+    public void delete(@NonNull final String documentId,
+            @NonNull final GiniVisionNetworkCallback<Result, Error> callback) {
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                callback.success(new Result(generateDocumentId()));
+            }
+        }, 500 + Math.round(Math.random() * 10000));
+    }
+
+    @Override
+    public void analyze(@NonNull final LinkedHashMap<String, Integer> documentIdRotationMap,
+            @NonNull final GiniVisionNetworkCallback<AnalysisResult, Error> callback) {
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                final AnalysisResult analysisResult = new AnalysisResult(generateDocumentId(),
+                        Collections.singletonMap("amountToPay",
+                                new GiniVisionSpecificExtraction("amountToPay",
+                                        "1:00EUR", "amountToPay",
+                                        new GiniVisionBox(1, 0,0,0,0),
+                                        Collections.<GiniVisionExtraction>emptyList())));
+                callback.success(analysisResult);
+            }
+        }, 500 + Math.round(Math.random() * 10000));
+    }
+
+    @Override
+    public void cancel(@NonNull final Document document) {
+        mSingleDocumentAnalyzer.cancelAnalysis();
+    }
+
+    @Override
+    public void cancelAll() {
+        mSingleDocumentAnalyzer.cancelAnalysis();
+    }
+
+    @Deprecated
     public void cancel() {
         mSingleDocumentAnalyzer.cancelAnalysis();
     }
@@ -82,7 +143,6 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
         private String mClientId;
         private String mClientSecret;
         private String mEmailDomain;
-        private String[] mCertificateAssetPaths;
         private SessionManager mSessionManager;
         private String mBaseUrl;
         private String mUserCenterBaseUrl;
@@ -100,10 +160,7 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
         @NonNull
         public GiniVisionDefaultNetworkService build() {
             final SdkBuilder sdkBuilder;
-            if (mCertificateAssetPaths != null) {
-                sdkBuilder = new SdkBuilder(mContext, mClientId, mClientSecret,
-                        mEmailDomain, mCertificateAssetPaths);
-            } else if (mSessionManager != null) {
+            if (mSessionManager != null) {
                 sdkBuilder = new SdkBuilder(mContext, mSessionManager);
             } else {
                 sdkBuilder = new SdkBuilder(mContext, mClientId, mClientSecret, mEmailDomain);
@@ -143,12 +200,6 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
             mClientId = clientId;
             mClientSecret = clientSecret;
             mEmailDomain = emailDomain;
-            return this;
-        }
-
-        @NonNull
-        public Builder setCertificateAssetPaths(@NonNull final String[] certificateAssetPaths) {
-            mCertificateAssetPaths = certificateAssetPaths;
             return this;
         }
 

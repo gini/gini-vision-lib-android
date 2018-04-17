@@ -81,6 +81,7 @@ import net.gini.android.vision.network.AnalysisResult;
 import net.gini.android.vision.network.Error;
 import net.gini.android.vision.network.GiniVisionNetworkCallback;
 import net.gini.android.vision.network.GiniVisionNetworkService;
+import net.gini.android.vision.network.Result;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.util.IntentHelper;
 import net.gini.android.vision.util.UriHelper;
@@ -90,6 +91,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -584,7 +586,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             final GiniVisionNetworkService networkService = GiniVision.getInstance()
                     .internal().getGiniVisionNetworkService();
             if (networkService != null) {
-                networkService.cancel();
+                networkService.cancelAll();
             }
         }
     }
@@ -735,8 +737,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                     .internal().getGiniVisionNetworkService();
             if (networkService != null) {
                 showActivityIndicatorAndDisableInteraction();
-                networkService.analyze(qrCodeDocument,
-                        new GiniVisionNetworkCallback<AnalysisResult, Error>() {
+                networkService.upload(qrCodeDocument,
+                        new GiniVisionNetworkCallback<Result, Error>() {
                             @Override
                             public void failure(final Error error) {
                                 hideActivityIndicatorAndEnableInteraction();
@@ -744,9 +746,29 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                             }
 
                             @Override
-                            public void success(final AnalysisResult result) {
-                                hideActivityIndicatorAndEnableInteraction();
-                                mListener.onExtractionsAvailable(result.getExtractions());
+                            public void success(final Result result) {
+                                final LinkedHashMap<String, Integer> documentIdRotationMap =
+                                        new LinkedHashMap<>();
+                                documentIdRotationMap.put(result.getDocumentId(), 0);
+                                networkService.analyze(documentIdRotationMap,
+                                        new GiniVisionNetworkCallback<AnalysisResult, Error>() {
+                                            @Override
+                                            public void failure(final Error error) {
+                                                hideActivityIndicatorAndEnableInteraction();
+                                                showError(error.getMessage(), 3000);
+                                            }
+
+                                            @Override
+                                            public void success(final AnalysisResult result) {
+                                                hideActivityIndicatorAndEnableInteraction();
+                                                mListener.onExtractionsAvailable(result.getExtractions());
+                                            }
+
+                                            @Override
+                                            public void cancelled() {
+                                                hideActivityIndicatorAndEnableInteraction();
+                                            }
+                                        });
                             }
 
                             @Override
