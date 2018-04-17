@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 
 import net.gini.android.vision.internal.cache.DocumentDataMemoryCache;
 import net.gini.android.vision.internal.cache.PhotoMemoryCache;
+import net.gini.android.vision.internal.network.NetworkRequestManager;
 import net.gini.android.vision.internal.storage.ImageDiskStore;
 import net.gini.android.vision.network.GiniVisionNetworkApi;
 import net.gini.android.vision.network.GiniVisionNetworkService;
@@ -28,6 +29,7 @@ public class GiniVision {
     private static GiniVision sInstance;
     private final GiniVisionNetworkService mGiniVisionNetworkService;
     private final GiniVisionNetworkApi mGiniVisionNetworkApi;
+    private final NetworkRequestManager mNetworkRequestManager;
     private final DocumentDataMemoryCache mDocumentDataMemoryCache;
     private final PhotoMemoryCache mPhotoMemoryCache;
     private final ImageDiskStore mImageDiskStore;
@@ -64,6 +66,9 @@ public class GiniVision {
         if (sInstance != null) {
             sInstance.mDocumentDataMemoryCache.clear();
             sInstance.mPhotoMemoryCache.clear();
+            if (sInstance.mNetworkRequestManager != null) {
+                sInstance.mNetworkRequestManager.cancelAll();
+            }
             sInstance = null;
         }
         ImageDiskStore.clear(context);
@@ -72,6 +77,8 @@ public class GiniVision {
     private GiniVision(@NonNull final Builder builder) {
         mGiniVisionNetworkService = builder.getGiniVisionNetworkService();
         mGiniVisionNetworkApi = builder.getGiniVisionNetworkApi();
+        mNetworkRequestManager = mGiniVisionNetworkService != null ?
+                new NetworkRequestManager(mGiniVisionNetworkService) : null;
         mDocumentImportEnabledFileTypes = builder.getDocumentImportEnabledFileTypes();
         mFileImportEnabled = builder.isFileImportEnabled();
         mQRCodeScanningEnabled = builder.isQRCodeScanningEnabled();
@@ -186,6 +193,11 @@ public class GiniVision {
     @Nullable
     GiniVisionNetworkService getGiniVisionNetworkService() {
         return mGiniVisionNetworkService;
+    }
+
+    @Nullable
+    NetworkRequestManager getNetworkRequestManager() {
+        return mNetworkRequestManager;
     }
 
     @NonNull
@@ -395,6 +407,11 @@ public class GiniVision {
         @Nullable
         public GiniVisionNetworkService getGiniVisionNetworkService() {
             return mGiniVision.getGiniVisionNetworkService();
+        }
+
+        @Nullable
+        public NetworkRequestManager getNetworkRequestManager() {
+            return mGiniVision.getNetworkRequestManager();
         }
 
         @NonNull
