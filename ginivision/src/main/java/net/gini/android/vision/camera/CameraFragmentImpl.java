@@ -57,6 +57,7 @@ import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.document.ImageMultiPageDocument;
 import net.gini.android.vision.document.QRCodeDocument;
+import net.gini.android.vision.document.QRCodeMultiPageDocument;
 import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.camera.api.CameraController;
 import net.gini.android.vision.internal.camera.api.CameraException;
@@ -66,6 +67,9 @@ import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 import net.gini.android.vision.internal.camera.view.CameraPreviewSurface;
 import net.gini.android.vision.internal.fileimport.FileChooserActivity;
+import net.gini.android.vision.internal.network.AnalysisNetworkRequestResult;
+import net.gini.android.vision.internal.network.NetworkRequestManager;
+import net.gini.android.vision.internal.network.NetworkRequestResult;
 import net.gini.android.vision.internal.permission.PermissionRequestListener;
 import net.gini.android.vision.internal.qrcode.PaymentQRCodeData;
 import net.gini.android.vision.internal.qrcode.PaymentQRCodeReader;
@@ -77,11 +81,7 @@ import net.gini.android.vision.internal.ui.ViewStubSafeInflater;
 import net.gini.android.vision.internal.util.DeviceHelper;
 import net.gini.android.vision.internal.util.FileImportValidator;
 import net.gini.android.vision.internal.util.Size;
-import net.gini.android.vision.network.AnalysisResult;
-import net.gini.android.vision.network.Error;
-import net.gini.android.vision.network.GiniVisionNetworkCallback;
 import net.gini.android.vision.network.GiniVisionNetworkService;
-import net.gini.android.vision.network.Result;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.util.IntentHelper;
 import net.gini.android.vision.util.UriHelper;
@@ -91,9 +91,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -733,47 +733,54 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             return;
         }
         if (GiniVision.hasInstance()) {
-            final GiniVisionNetworkService networkService = GiniVision.getInstance()
-                    .internal().getGiniVisionNetworkService();
-            if (networkService != null) {
+            final NetworkRequestManager networkRequestManager =
+                    GiniVision.getInstance().internal().getNetworkRequestManager();
+            if (networkRequestManager != null) {
                 showActivityIndicatorAndDisableInteraction();
-                networkService.upload(qrCodeDocument,
-                        new GiniVisionNetworkCallback<Result, Error>() {
+                networkRequestManager
+                        .upload(qrCodeDocument)
+                        .handle(new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, NetworkRequestResult<GiniVisionDocument>>() {
                             @Override
-                            public void failure(final Error error) {
-                                hideActivityIndicatorAndEnableInteraction();
-                                showError(error.getMessage(), 3000);
+                            public NetworkRequestResult<GiniVisionDocument> apply(
+                                    final NetworkRequestResult<GiniVisionDocument> requestResult,
+                                    final Throwable throwable) {
+                                if (throwable != null) {
+                                    hideActivityIndicatorAndEnableInteraction();
+                                    if (!(throwable instanceof CancellationException)) {
+                                        showError(throwable.getCause().getMessage(), 3000);
+                                    }
+                                }
+                                return requestResult;
                             }
-
+                        })
+                        .thenCompose(
+                                new CompletableFuture.Fun<NetworkRequestResult<GiniVisionDocument>, CompletableFuture<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>>>() {
+                                    @Override
+                                    public CompletableFuture<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>> apply(
+                                            final NetworkRequestResult<GiniVisionDocument> requestResult) {
+                                        if (requestResult != null) {
+                                            final GiniVisionMultiPageDocument multiPageDocument =
+                                                    new QRCodeMultiPageDocument(qrCodeDocument,
+                                                            false);
+                                            return networkRequestManager.analyze(multiPageDocument);
+                                        }
+                                        return CompletableFuture.completedFuture(null);
+                                    }
+                                })
+                        .handle(new CompletableFuture.BiFun<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>, Throwable, Void>() {
                             @Override
-                            public void success(final Result result) {
-                                final LinkedHashMap<String, Integer> documentIdRotationMap =
-                                        new LinkedHashMap<>();
-                                documentIdRotationMap.put(result.getDocumentId(), 0);
-                                networkService.analyze(documentIdRotationMap,
-                                        new GiniVisionNetworkCallback<AnalysisResult, Error>() {
-                                            @Override
-                                            public void failure(final Error error) {
-                                                hideActivityIndicatorAndEnableInteraction();
-                                                showError(error.getMessage(), 3000);
-                                            }
-
-                                            @Override
-                                            public void success(final AnalysisResult result) {
-                                                hideActivityIndicatorAndEnableInteraction();
-                                                mListener.onExtractionsAvailable(result.getExtractions());
-                                            }
-
-                                            @Override
-                                            public void cancelled() {
-                                                hideActivityIndicatorAndEnableInteraction();
-                                            }
-                                        });
-                            }
-
-                            @Override
-                            public void cancelled() {
+                            public Void apply(
+                                    final AnalysisNetworkRequestResult<GiniVisionMultiPageDocument> requestResult,
+                                    final Throwable throwable) {
                                 hideActivityIndicatorAndEnableInteraction();
+                                if (throwable != null
+                                        && !(throwable instanceof CancellationException)) {
+                                    showError(throwable.getCause().getMessage(), 3000);
+                                } else if (requestResult != null) {
+                                    mListener.onExtractionsAvailable(
+                                            requestResult.getAnalysisResult().getExtractions());
+                                }
+                                return null;
                             }
                         });
             } else {
