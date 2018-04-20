@@ -250,8 +250,8 @@ public final class ImageDocument extends GiniVisionDocument {
         mFormat = photo.getImageFormat();
         mDeviceOrientation = photo.getDeviceOrientation();
         mDeviceType = photo.getDeviceType();
-        mSource = photo.getSource();
-        mImportMethod = photo.getImportMethod();
+        mSource = photo.getSource() != null ? photo.getSource() : Source.newUnknownSource();
+        mImportMethod = photo.getImportMethod() != null ? photo.getImportMethod() : ImportMethod.NONE;
     }
 
     private ImageDocument(@Nullable final Intent intent, @Nullable final Uri uri,
