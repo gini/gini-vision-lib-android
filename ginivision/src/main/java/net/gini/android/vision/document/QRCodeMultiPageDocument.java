@@ -29,9 +29,8 @@ public class QRCodeMultiPageDocument extends GiniVisionMultiPageDocument<QRCodeD
     }
 
     public QRCodeMultiPageDocument(
-            @NonNull final QRCodeDocument document,
-            final boolean isImported) {
-        super(Type.QR_CODE_MULTI_PAGE, document, isImported);
+            @NonNull final QRCodeDocument document) {
+        super(Type.QR_CODE_MULTI_PAGE, document);
     }
 
     private QRCodeMultiPageDocument(final Parcel in) {

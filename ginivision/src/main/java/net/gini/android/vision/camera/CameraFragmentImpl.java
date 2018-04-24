@@ -5,6 +5,8 @@ import static android.app.Activity.RESULT_OK;
 
 import static net.gini.android.vision.camera.Util.cameraExceptionToGiniVisionError;
 import static net.gini.android.vision.document.ImageDocument.ImportMethod;
+import static net.gini.android.vision.internal.network.NetworkRequestsManager.getErrorMessage;
+import static net.gini.android.vision.internal.network.NetworkRequestsManager.isCancellation;
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 import static net.gini.android.vision.internal.util.AndroidHelper.isMarshmallowOrLater;
 import static net.gini.android.vision.internal.util.ContextHelper.getClientApplicationId;
@@ -57,7 +59,6 @@ import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.document.ImageMultiPageDocument;
 import net.gini.android.vision.document.QRCodeDocument;
-import net.gini.android.vision.document.QRCodeMultiPageDocument;
 import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.camera.api.CameraController;
 import net.gini.android.vision.internal.camera.api.CameraException;
@@ -68,8 +69,8 @@ import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 import net.gini.android.vision.internal.camera.view.CameraPreviewSurface;
 import net.gini.android.vision.internal.fileimport.FileChooserActivity;
 import net.gini.android.vision.internal.network.AnalysisNetworkRequestResult;
-import net.gini.android.vision.internal.network.NetworkRequestManager;
 import net.gini.android.vision.internal.network.NetworkRequestResult;
+import net.gini.android.vision.internal.network.NetworkRequestsManager;
 import net.gini.android.vision.internal.permission.PermissionRequestListener;
 import net.gini.android.vision.internal.qrcode.PaymentQRCodeData;
 import net.gini.android.vision.internal.qrcode.PaymentQRCodeReader;
@@ -93,7 +94,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -733,11 +733,11 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             return;
         }
         if (GiniVision.hasInstance()) {
-            final NetworkRequestManager networkRequestManager =
-                    GiniVision.getInstance().internal().getNetworkRequestManager();
-            if (networkRequestManager != null) {
+            final NetworkRequestsManager networkRequestsManager =
+                    GiniVision.getInstance().internal().getNetworkRequestsManager();
+            if (networkRequestsManager != null) {
                 showActivityIndicatorAndDisableInteraction();
-                networkRequestManager
+                networkRequestsManager
                         .upload(qrCodeDocument)
                         .handle(new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, NetworkRequestResult<GiniVisionDocument>>() {
                             @Override
@@ -746,8 +746,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                                     final Throwable throwable) {
                                 if (throwable != null) {
                                     hideActivityIndicatorAndEnableInteraction();
-                                    if (!(throwable instanceof CancellationException)) {
-                                        showError(throwable.getCause().getMessage(), 3000);
+                                    if (!isCancellation(throwable)) {
+                                        showError(getErrorMessage(throwable), 3000);
                                     }
                                 }
                                 return requestResult;
@@ -760,9 +760,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                                             final NetworkRequestResult<GiniVisionDocument> requestResult) {
                                         if (requestResult != null) {
                                             final GiniVisionMultiPageDocument multiPageDocument =
-                                                    new QRCodeMultiPageDocument(qrCodeDocument,
-                                                            false);
-                                            return networkRequestManager.analyze(multiPageDocument);
+                                                    DocumentFactory.newMultiPageDocument(qrCodeDocument);
+                                            return networkRequestsManager.analyze(multiPageDocument);
                                         }
                                         return CompletableFuture.completedFuture(null);
                                     }
@@ -774,8 +773,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                                     final Throwable throwable) {
                                 hideActivityIndicatorAndEnableInteraction();
                                 if (throwable != null
-                                        && !(throwable instanceof CancellationException)) {
-                                    showError(throwable.getCause().getMessage(), 3000);
+                                        && !isCancellation(throwable)) {
+                                    showError(getErrorMessage(throwable), 3000);
                                 } else if (requestResult != null) {
                                     mListener.onExtractionsAvailable(
                                             requestResult.getAnalysisResult().getExtractions());
@@ -1110,7 +1109,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         final ImageDocument imageDocument = (ImageDocument) document;
         mImageStack.addImage(getBitmap(imageDocument));
         mInMultiPageState = true;
-        mMultiPageDocument = new ImageMultiPageDocument(imageDocument, false);
+        mMultiPageDocument = new ImageMultiPageDocument(imageDocument);
     }
 
     @Override

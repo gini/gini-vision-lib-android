@@ -45,7 +45,7 @@ public final class DocumentFactory {
         throw new IllegalArgumentException("Unknown Intent Uri mime type.");
     }
 
-   @NonNull
+    @NonNull
     public static ImageDocument newImageDocumentFromUri(@NonNull final Uri externalUri,
             @NonNull final Intent intent,
             @NonNull final Context context,
@@ -70,8 +70,32 @@ public final class DocumentFactory {
     }
 
     public static GiniVisionDocument newDocumentFromPhotoAndDocument(@NonNull final Photo photo,
-            @NonNull final Document document) {
+            @NonNull final GiniVisionDocument document) {
         return ImageDocument.fromPhotoAndDocument(photo, document);
+    }
+
+    public static GiniVisionMultiPageDocument newMultiPageDocument(
+            @NonNull final GiniVisionDocument document) {
+        switch (document.getType()) {
+            case IMAGE:
+                final ImageDocument imageDocument = (ImageDocument) document;
+                final ImageMultiPageDocument imageMultiPageDocument = new ImageMultiPageDocument(
+                        imageDocument);
+                return imageMultiPageDocument;
+            case PDF:
+                final PdfDocument pdfDocument = (PdfDocument) document;
+                final PdfMultiPageDocument pdfMultiPageDocument = new PdfMultiPageDocument(
+                        pdfDocument);
+                return pdfMultiPageDocument;
+            case QRCode:
+                final QRCodeDocument qrCodeDocument = (QRCodeDocument) document;
+                final QRCodeMultiPageDocument qrCodeMultiPageDocument = new QRCodeMultiPageDocument(
+                        qrCodeDocument);
+                return qrCodeMultiPageDocument;
+            default:
+                throw new IllegalArgumentException(
+                        "Unsupported document type for multi-page: " + document.getType());
+        }
     }
 
     private DocumentFactory() {

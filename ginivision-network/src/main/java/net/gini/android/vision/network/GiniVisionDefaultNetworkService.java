@@ -80,7 +80,11 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                callback.success(new Result(generateDocumentId()));
+                if (Math.random() >= 0.3) {
+                    callback.failure(new Error("Upload failed."));
+                } else {
+                    callback.success(new Result(generateDocumentId()));
+                }
             }
         }, 500 + Math.round(Math.random() * 1000));
     }
@@ -113,7 +117,11 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                                         "1:00EUR", "amountToPay",
                                         new GiniVisionBox(1, 0,0,0,0),
                                         Collections.<GiniVisionExtraction>emptyList())));
-                callback.success(analysisResult);
+                if (Math.random() >= 0.3) {
+                    callback.failure(new Error("Analysis failed."));
+                } else {
+                    callback.success(analysisResult);
+                }
             }
         }, 500 + Math.round(Math.random() * 1000));
     }

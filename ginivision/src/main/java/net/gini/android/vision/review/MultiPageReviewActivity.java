@@ -151,6 +151,7 @@ public class MultiPageReviewActivity extends AppCompatActivity {
                                 final int rotationStep = 90;
                                 final int degrees = document.getRotationForDisplay() + rotationStep;
                                 document.setRotationForDisplay(degrees);
+                                document.updateRotationDeltaBy(rotationStep);
                                 final ImagesPagerAdapter imagesPagerAdapter =
                                         (ImagesPagerAdapter) mImagesPager.getAdapter();
                                 final ThumbnailsAdapter thumbnailsAdapter =

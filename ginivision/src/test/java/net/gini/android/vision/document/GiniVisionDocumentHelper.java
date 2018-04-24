@@ -37,7 +37,7 @@ public class GiniVisionDocumentHelper {
             throw new IllegalArgumentException("Empty image documents list.");
         }
         final ImageMultiPageDocument multiPageDocument = new ImageMultiPageDocument(
-                imageDocuments.get(0), false);
+                imageDocuments.get(0));
         for (int i = 1; i < imageDocuments.size(); i++) {
             multiPageDocument.addDocument(imageDocuments.get(i));
         }

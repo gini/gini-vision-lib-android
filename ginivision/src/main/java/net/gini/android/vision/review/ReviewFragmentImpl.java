@@ -1,5 +1,7 @@
 package net.gini.android.vision.review;
 
+import static net.gini.android.vision.internal.network.NetworkRequestsManager.getErrorMessage;
+import static net.gini.android.vision.internal.network.NetworkRequestsManager.isCancellation;
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 
 import android.animation.ObjectAnimator;
@@ -22,7 +24,6 @@ import com.ortiz.touch.TouchImageView;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
-import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.DocumentFactory;
@@ -32,17 +33,17 @@ import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.PhotoEdit;
 import net.gini.android.vision.internal.camera.photo.PhotoFactoryDocumentAsyncTask;
+import net.gini.android.vision.internal.network.NetworkRequestResult;
+import net.gini.android.vision.internal.network.NetworkRequestsManager;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
-import net.gini.android.vision.network.Error;
-import net.gini.android.vision.network.GiniVisionNetworkCallback;
-import net.gini.android.vision.network.GiniVisionNetworkService;
-import net.gini.android.vision.network.Result;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Map;
+
+import jersey.repackaged.jsr166e.CompletableFuture;
 
 class ReviewFragmentImpl implements ReviewFragmentInterface {
 
@@ -114,7 +115,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     private int mCurrentRotation;
     private boolean mNextClicked;
     private boolean mStopped;
-    private String mUploadedDocumentId;
+    private String mApiDocumentId;
     private String mDocumentAnalysisErrorMessage;
 
     ReviewFragmentImpl(@NonNull final FragmentImplCallback fragment,
@@ -216,29 +217,26 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         if (activity == null) {
             return;
         }
-        final Document document = DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto,
+        final GiniVisionDocument document = DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto,
                 mDocument);
         if (GiniVision.hasInstance()) {
-            final GiniVisionNetworkService networkService = GiniVision.getInstance()
-                    .internal().getGiniVisionNetworkService();
-            if (networkService != null) {
-                GiniVisionDebug.writeDocumentToFile(activity, document, "_for_review");
-                networkService.upload(document,
-                        new GiniVisionNetworkCallback<Result, Error>() {
+            final NetworkRequestsManager networkRequestsManager = GiniVision.getInstance()
+                    .internal().getNetworkRequestsManager();
+            if (networkRequestsManager != null) {
+                networkRequestsManager.upload(document)
+                        .handle(new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, Void>() {
                             @Override
-                            public void failure(final Error error) {
-                                mDocumentAnalysisErrorMessage = error.getMessage();
-                            }
-
-                            @Override
-                            public void success(final Result result) {
-                                mDocumentWasUploaded = true;
-                                mUploadedDocumentId = result.getDocumentId();
-                            }
-
-                            @Override
-                            public void cancelled() {
-
+                            public Void apply(
+                                    final NetworkRequestResult<GiniVisionDocument> requestResult,
+                                    final Throwable throwable) {
+                                if (throwable != null
+                                        && !isCancellation(throwable)) {
+                                    mDocumentAnalysisErrorMessage = getErrorMessage(throwable);
+                                } else if (requestResult != null) {
+                                    mDocumentWasUploaded = true;
+                                    mApiDocumentId = requestResult.getApiDocumentId();
+                                }
+                                return null;
                             }
                         });
             } else {
@@ -477,8 +475,6 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                 if (mStopped) {
                     return;
                 }
-                // WIP-MPA: don't cancel analysis, but save rotation
-                // cancelAnalysis();
                 final GiniVisionDocument document = DocumentFactory.newDocumentFromPhotoAndDocument(
                         photo, mDocument);
                 mListener.onDocumentWasRotated(
@@ -504,10 +500,10 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             return;
         }
         if (GiniVision.hasInstance()) {
-            final GiniVisionNetworkService networkService = GiniVision.getInstance()
-                    .internal().getGiniVisionNetworkService();
-            if (networkService != null) {
-                networkService.cancelAll();
+            final NetworkRequestsManager networkRequestsManager = GiniVision.getInstance()
+                    .internal().getNetworkRequestsManager();
+            if (networkRequestsManager != null) {
+                networkRequestsManager.cancelAll();
             }
         }
     }
@@ -558,14 +554,13 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         final GiniVisionDocument document = DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto,
                 mDocument);
         if (GiniVision.hasInstance()) {
-            // WIP-MPA: analyze document OR send uploaded document id to the Analysis Screen in the GiniVisionDocument
-//            final Map<String, GiniVisionSpecificExtraction> extractions =
-//                    mUploadedDocumentId.getExtractions();
-//            if (extractions.isEmpty()) {
-//                mListener.onProceedToNoExtractionsScreen(document);
-//            } else {
-//                mListener.onExtractionsAvailable(extractions);
-//            }
+            final NetworkRequestsManager networkRequestsManager =
+                    GiniVision.getInstance().internal().getNetworkRequestsManager();
+            if (networkRequestsManager != null) {
+                mListener.onProceedToAnalysisScreen(document, mDocumentAnalysisErrorMessage);
+            } else {
+                mListener.onDocumentReviewedAndAnalyzed(document);
+            }
         } else {
             mListener.onDocumentReviewedAndAnalyzed(document);
         }

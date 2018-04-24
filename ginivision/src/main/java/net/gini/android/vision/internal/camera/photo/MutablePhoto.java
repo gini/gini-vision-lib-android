@@ -183,8 +183,8 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
         super.mData = data;
     }
 
-    @VisibleForTesting
-    synchronized int getRotationDelta() {
+    @Override
+    public synchronized int getRotationDelta() {
         return mRotationDelta;
     }
 

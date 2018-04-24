@@ -22,6 +22,8 @@ public interface Photo extends Parcelable {
 
     int getRotationForDisplay();
 
+    int getRotationDelta();
+
     void setRotationForDisplay(int rotationDegrees);
 
     String getDeviceOrientation();

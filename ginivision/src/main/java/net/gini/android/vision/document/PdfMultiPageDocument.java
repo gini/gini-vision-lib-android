@@ -25,13 +25,12 @@ public class PdfMultiPageDocument extends GiniVisionMultiPageDocument<PdfDocumen
             };
 
     public PdfMultiPageDocument(final boolean isImported) {
-        super(Type.QR_CODE_MULTI_PAGE, isImported);
+        super(Type.PDF_MULTI_PAGE, isImported);
     }
 
     public PdfMultiPageDocument(
-            @NonNull final PdfDocument document,
-            final boolean isImported) {
-        super(Type.QR_CODE_MULTI_PAGE, document, isImported);
+            @NonNull final PdfDocument document) {
+        super(Type.PDF_MULTI_PAGE, document);
     }
 
     private PdfMultiPageDocument(final Parcel in) {

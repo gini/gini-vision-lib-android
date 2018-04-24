@@ -13,7 +13,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
-import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.util.MimeType;
@@ -59,6 +58,7 @@ public final class ImageDocument extends GiniVisionDocument {
      * @exclude
      */
     public static class Source {
+
         private final String mName;
 
         public static Source newCameraSource() {
@@ -109,7 +109,9 @@ public final class ImageDocument extends GiniVisionDocument {
      * @exclude
      */
     public enum ImportMethod {
-        OPEN_WITH("openwith"), PICKER("picker"), NONE("");
+        OPEN_WITH("openwith"),
+        PICKER("picker"),
+        NONE("");
 
         private static final Map<String, ImportMethod> sLookup = new HashMap<>();
 
@@ -142,6 +144,7 @@ public final class ImageDocument extends GiniVisionDocument {
     private final Source mSource;
     private final ImportMethod mImportMethod;
     private int mRotationForDisplay;
+    private int mRotationDelta;
     private final ImageFormat mFormat;
 
     @NonNull
@@ -157,12 +160,12 @@ public final class ImageDocument extends GiniVisionDocument {
     @NonNull
     static ImageDocument fromPhoto(@NonNull final Photo photo,
             @NonNull final Uri storedAtUri) {
-        return new ImageDocument(photo, null, storedAtUri);
+        return new ImageDocument(photo, null, null, storedAtUri);
     }
 
     @NonNull
     static ImageDocument fromPhotoAndDocument(@NonNull final Photo photo,
-            @NonNull final Document document) {
+            @NonNull final GiniVisionDocument document) {
         return new ImageDocument(photo, document);
     }
 
@@ -193,7 +196,8 @@ public final class ImageDocument extends GiniVisionDocument {
         } else {
             imageUri = uri;
         }
-        return new ImageDocument(intent, imageUri, ImageFormat.fromMimeType(mimeType), deviceOrientation,
+        return new ImageDocument(intent, imageUri, ImageFormat.fromMimeType(mimeType),
+                deviceOrientation,
                 deviceType, source, importMethod);
     }
 
@@ -231,7 +235,7 @@ public final class ImageDocument extends GiniVisionDocument {
 
     @VisibleForTesting
     ImageDocument(@Nullable final byte[] data) {
-        super(Type.IMAGE,data, null, null, true, false);
+        super(Type.IMAGE, data, null, null, true, false);
         mRotationForDisplay = 0;
         mFormat = ImageFormat.JPEG;
         mDeviceOrientation = "";
@@ -241,18 +245,19 @@ public final class ImageDocument extends GiniVisionDocument {
     }
 
     private ImageDocument(@NonNull final Photo photo) {
-        this(photo, null, null);
+        this(photo, null, null, null);
     }
 
     private ImageDocument(@NonNull final Photo photo,
-            @NonNull final Document document) {
-        this(photo, document.getIntent(), document.getUri());
+            @NonNull final GiniVisionDocument document) {
+        this(photo, document.getId(), document.getIntent(), document.getUri());
     }
 
-    private ImageDocument(@NonNull final Photo photo,
+    private ImageDocument(@NonNull final Photo photo, @Nullable final String uniqueId,
             @Nullable final Intent intent, @Nullable final Uri uri) {
-        super(Type.IMAGE, photo.getData(), intent, uri, true, photo.isImported());
+        super(uniqueId, Type.IMAGE, photo.getData(), intent, uri, true, photo.isImported());
         mRotationForDisplay = photo.getRotationForDisplay();
+        mRotationDelta = photo.getRotationDelta();
         mFormat = photo.getImageFormat();
         mDeviceOrientation = photo.getDeviceOrientation();
         mDeviceType = photo.getDeviceType();
@@ -316,9 +321,18 @@ public final class ImageDocument extends GiniVisionDocument {
         return mRotationForDisplay;
     }
 
-    public synchronized void setRotationForDisplay(final int degrees) {
+    public void setRotationForDisplay(final int degrees) {
         // Converts input degrees to degrees between [0,360)
         mRotationForDisplay = ((degrees % 360) + 360) % 360;
+    }
+
+    public int getRotationDelta() {
+        return mRotationDelta;
+    }
+
+    public void updateRotationDeltaBy(final int degrees) {
+        // Converts input degrees to degrees between [0,360)
+        mRotationDelta = ((mRotationDelta + degrees % 360) + 360) % 360;
     }
 
     /**
@@ -364,6 +378,7 @@ public final class ImageDocument extends GiniVisionDocument {
     public void writeToParcel(final Parcel dest, final int flags) {
         super.writeToParcel(dest, flags);
         dest.writeInt(mRotationForDisplay);
+        dest.writeInt(mRotationDelta);
         dest.writeSerializable(mFormat);
         dest.writeString(mDeviceOrientation);
         dest.writeString(mDeviceType);
@@ -389,6 +404,7 @@ public final class ImageDocument extends GiniVisionDocument {
     private ImageDocument(final Parcel in) {
         super(in);
         mRotationForDisplay = in.readInt();
+        mRotationDelta = in.readInt();
         mFormat = (ImageFormat) in.readSerializable();
         mDeviceOrientation = in.readString();
         mDeviceType = in.readString();

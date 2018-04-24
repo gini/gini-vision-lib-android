@@ -35,7 +35,7 @@ public class GiniVisionDocument implements Document {
             return new GiniVisionDocument[size];
         }
     };
-    private final String mUniqueID;
+    private final String mUniqueId;
     private final Intent mIntent;
     private final Uri mUri;
     private final boolean mIsImported;
@@ -49,7 +49,18 @@ public class GiniVisionDocument implements Document {
             @Nullable final Uri uri,
             final boolean isReviewable,
             final boolean isImported) {
-        mUniqueID = UUID.randomUUID().toString();
+        this(generateUniqueId(), type, data, intent, uri, isReviewable, isImported);
+    }
+
+    GiniVisionDocument(
+            @Nullable final String uniqueId,
+            @NonNull final Type type,
+            @Nullable final byte[] data,
+            @Nullable final Intent intent,
+            @Nullable final Uri uri,
+            final boolean isReviewable,
+            final boolean isImported) {
+        mUniqueId = uniqueId != null ? uniqueId : generateUniqueId();
         mType = type;
         mData = data;
         mIntent = intent;
@@ -58,8 +69,12 @@ public class GiniVisionDocument implements Document {
         mIsImported = isImported;
     }
 
+    private static String generateUniqueId() {
+        return UUID.randomUUID().toString();
+    }
+
     GiniVisionDocument(final Parcel in) {
-        mUniqueID = in.readString();
+        mUniqueId = in.readString();
         final ParcelableMemoryCache cache = ParcelableMemoryCache.getInstance();
         final ParcelableMemoryCache.Token token = in.readParcelable(
                 ParcelableMemoryCache.Token.class.getClassLoader());
@@ -72,6 +87,11 @@ public class GiniVisionDocument implements Document {
         mUri = in.readParcelable(Uri.class.getClassLoader());
         mIsReviewable = in.readInt() == 1;
         mIsImported = in.readInt() == 1;
+    }
+
+    @NonNull
+    public String getId() {
+        return mUniqueId;
     }
 
     /**
@@ -87,7 +107,7 @@ public class GiniVisionDocument implements Document {
      */
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {
-        dest.writeString(mUniqueID);
+        dest.writeString(mUniqueId);
         if (mData != null) {
             final ParcelableMemoryCache cache = ParcelableMemoryCache.getInstance();
             final ParcelableMemoryCache.Token token = cache.storeByteArray(mData);
@@ -220,7 +240,7 @@ public class GiniVisionDocument implements Document {
         if (mIsReviewable != that.mIsReviewable) {
             return false;
         }
-        if (!mUniqueID.equals(that.mUniqueID)) {
+        if (!mUniqueId.equals(that.mUniqueId)) {
             return false;
         }
         if (mIntent != null ? !mIntent.equals(that.mIntent) : that.mIntent != null) {
@@ -237,7 +257,7 @@ public class GiniVisionDocument implements Document {
     @Override
     public int hashCode() {
         // Mutable mData field omitted to create static hashes allowing usage as keys in maps
-        int result = mUniqueID.hashCode();
+        int result = mUniqueId.hashCode();
         result = 31 * result + (mIntent != null ? mIntent.hashCode() : 0);
         result = 31 * result + (mUri != null ? mUri.hashCode() : 0);
         result = 31 * result + (mIsImported ? 1 : 0);

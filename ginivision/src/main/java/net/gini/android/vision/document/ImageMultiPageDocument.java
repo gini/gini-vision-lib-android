@@ -29,9 +29,8 @@ public class ImageMultiPageDocument extends GiniVisionMultiPageDocument<ImageDoc
     }
 
     public ImageMultiPageDocument(
-            @NonNull final ImageDocument document,
-            final boolean isImported) {
-        super(Type.IMAGE_MULTI_PAGE, document, isImported);
+            @NonNull final ImageDocument document) {
+        super(Type.IMAGE_MULTI_PAGE, document);
     }
 
     private ImageMultiPageDocument(final Parcel in) {

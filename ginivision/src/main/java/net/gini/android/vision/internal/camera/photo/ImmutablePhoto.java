@@ -116,6 +116,11 @@ class ImmutablePhoto implements Photo {
     }
 
     @Override
+    public int getRotationDelta() {
+        return 0;
+    }
+
+    @Override
     public void setRotationForDisplay(final int rotationDegrees) {
         mRotationForDisplay = rotationDegrees;
     }
