@@ -35,6 +35,7 @@ import android.widget.TextView;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
+import net.gini.android.vision.document.GiniVisionDocument;
 import net.gini.android.vision.document.GiniVisionDocumentError;
 import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.document.ImageMultiPageDocument;
@@ -43,6 +44,8 @@ import net.gini.android.vision.internal.cache.DocumentDataMemoryCache;
 import net.gini.android.vision.internal.cache.PhotoMemoryCache;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.PhotoEdit;
+import net.gini.android.vision.internal.network.NetworkRequestResult;
+import net.gini.android.vision.internal.network.NetworkRequestsManager;
 import net.gini.android.vision.internal.storage.ImageDiskStore;
 
 import org.slf4j.Logger;
@@ -51,6 +54,8 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import jersey.repackaged.jsr166e.CompletableFuture;
 
 public class MultiPageReviewActivity extends AppCompatActivity {
 
@@ -145,7 +150,7 @@ public class MultiPageReviewActivity extends AppCompatActivity {
                 final int currentItem = mImagesPager.getCurrentItem();
                 final ImageDocument document =
                         mMultiPageDocument.getDocuments().get(currentItem);
-                final ImageDiskStore imageDiskStore  =
+                final ImageDiskStore imageDiskStore =
                         GiniVision.getInstance().internal().getImageDiskStore();
                 final PhotoMemoryCache photoMemoryCache =
                         GiniVision.getInstance().internal().getPhotoMemoryCache();
@@ -163,13 +168,15 @@ public class MultiPageReviewActivity extends AppCompatActivity {
                                         (ImagesPagerAdapter) mImagesPager.getAdapter();
                                 final ThumbnailsAdapter thumbnailsAdapter =
                                         (ThumbnailsAdapter) mThumbnailsRV.getAdapter();
-                                imagesPagerAdapter.rotateImageInCurrentItemBy(mImagesPager, rotationStep);
+                                imagesPagerAdapter.rotateImageInCurrentItemBy(mImagesPager,
+                                        rotationStep);
                                 thumbnailsAdapter.rotateHighlightedThumbnailBy(rotationStep);
                                 photo.edit().rotateTo(degrees).applyAsync(
                                         new PhotoEdit.PhotoEditCallback() {
                                             @Override
                                             public void onDone(@NonNull final Photo photo) {
-                                                imageDiskStore.update(document.getUri(), photo.getData());
+                                                imageDiskStore.update(document.getUri(),
+                                                        photo.getData());
                                                 photoMemoryCache.invalidate(document);
                                                 documentDataMemoryCache.invalidate(document);
                                             }
@@ -205,6 +212,11 @@ public class MultiPageReviewActivity extends AppCompatActivity {
                 if (uri != null) {
                     gvInternal.getImageDiskStore().delete(uri);
                 }
+                final NetworkRequestsManager networkRequestsManager =
+                        gvInternal.getNetworkRequestsManager();
+                if (networkRequestsManager != null) {
+                    networkRequestsManager.delete(deletedDocument);
+                }
                 final int newPosition = getNewPositionAfterDeletion(deletedItem, documents.size());
                 updatePageIndicator(newPosition);
                 final ImagesPagerAdapter imagesPagerAdapter =
@@ -226,27 +238,13 @@ public class MultiPageReviewActivity extends AppCompatActivity {
     }
 
     private void proceedToAnalysisScreen() {
-        final DocumentDataMemoryCache documentDataMemoryCache =
-                GiniVision.getInstance().internal().getDocumentDataMemoryCache();
         final List<ImageDocument> documents = mMultiPageDocument.getDocuments();
         if (documents.size() == 0) {
             return;
         }
-
-        documentDataMemoryCache.get(this, documents.get(0), new AsyncCallback<byte[]>() {
-
-            @Override
-            public void onSuccess(final byte[] result) {
-                final Intent intent = new Intent(MultiPageReviewActivity.this, AnalysisActivity.class);
-                intent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, documents.get(0));
-                startActivityForResult(intent, ANALYSE_DOCUMENT_REQUEST);
-            }
-
-            @Override
-            public void onError(final Exception exception) {
-
-            }
-        });
+        final Intent intent = new Intent(MultiPageReviewActivity.this, AnalysisActivity.class);
+        intent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, mMultiPageDocument);
+        startActivityForResult(intent, ANALYSE_DOCUMENT_REQUEST);
     }
 
     @Override
@@ -258,6 +256,37 @@ public class MultiPageReviewActivity extends AppCompatActivity {
             } else if (resultCode != Activity.RESULT_CANCELED) {
                 setResult(resultCode, data);
                 finish();
+            }
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (GiniVision.hasInstance()) {
+            final NetworkRequestsManager networkRequestsManager =
+                    GiniVision.getInstance().internal().getNetworkRequestsManager();
+            if (networkRequestsManager != null) {
+                for (final ImageDocument imageDocument : mMultiPageDocument.getDocuments()) {
+                    // WIP-MPA: start activity indicator for imageDocument
+                    networkRequestsManager.upload(imageDocument)
+                            .handle(new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, Void>() {
+                                @Override
+                                public Void apply(
+                                        final NetworkRequestResult<GiniVisionDocument> requestResult,
+                                        final Throwable throwable) {
+                                    // WIP-MPA: stop activity indicator for imageDocument
+                                    if (throwable != null &&
+                                            !NetworkRequestsManager.isCancellation(throwable)) {
+                                        // WIP-MPA: show error for imageDocument on ViewPager page
+                                        // WIP-MPA: show upload failure for imageDocument
+                                    } else if (requestResult != null) {
+                                        // WIP-MPA: show upload success for imageDocument
+                                    }
+                                    return null;
+                                }
+                            });
+                }
             }
         }
     }
@@ -296,7 +325,8 @@ public class MultiPageReviewActivity extends AppCompatActivity {
         }
 
         mImagesPager.setAdapter(imagesPagerAdapter);
-        final ThumbnailsAdapter thumbnailsAdapter = new ThumbnailsAdapter(this, mMultiPageDocument, thumbnailChangeListener);
+        final ThumbnailsAdapter thumbnailsAdapter = new ThumbnailsAdapter(this, mMultiPageDocument,
+                thumbnailChangeListener);
         mThumbnailsRV.setAdapter(thumbnailsAdapter);
 
         final ItemTouchHelper.Callback callback =
@@ -523,7 +553,7 @@ public class MultiPageReviewActivity extends AppCompatActivity {
                 imageView.setImageBitmap(null);
             }
             holder.thumbnailContainer.rotateImageView(
-                        photo.getRotationForDisplay(), false);
+                    photo.getRotationForDisplay(), false);
         }
 
         private void showPosition(final int position, final @NonNull ViewHolder holder) {

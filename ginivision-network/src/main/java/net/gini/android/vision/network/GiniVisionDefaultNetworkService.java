@@ -94,13 +94,16 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
     }
 
     @Override
-    @Deprecated
     public void delete(@NonNull final String documentId,
             @NonNull final GiniVisionNetworkCallback<Result, Error> callback) {
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                callback.success(new Result(generateDocumentId()));
+                if (Math.random() >= 0.3) {
+                    callback.failure(new Error("Upload failed."));
+                } else {
+                    callback.success(new Result(documentId));
+                }
             }
         }, 500 + Math.round(Math.random() * 1000));
     }
