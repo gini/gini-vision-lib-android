@@ -2,6 +2,25 @@
 Changelog
 =========
 
+2.6.0-alpha.5 (2018-04-20)
+==================
+
+- Bugfix for non-JPEG imported images.
+
+2.6.0-alpha.4 (2018-04-12)
+==================
+
+- Analyzing the first page of multi-page documents.
+
+2.6.0-alpha.3 (2018-04-11)
+==================
+
+- UI for multi-page documents.
+- Create multi-page document with file import or "open with".
+- Add pictures to the multi-page document with file import.
+- Disk based image caching for minimizing the library's memory footprint even for multi-page documents with many pictures.
+- Imported images are copied to app internal storage.
+
 2.6.0-alpha.2 (2018-03-09)
 ==================
 
