@@ -39,13 +39,17 @@ public class GiniVisionNetworkServiceStub implements GiniVisionNetworkService {
     @Override
     public void analyze(@NonNull final LinkedHashMap<String, Integer> documentIdRotationMap,
             @NonNull final GiniVisionNetworkCallback<AnalysisResult, Error> callback) {
-        final AnalysisResult analysisResult = new AnalysisResult(DEFAULT_DOCUMENT_ID,
+        callback.success(createAnalysisResult());
+    }
+
+    @NonNull
+    protected AnalysisResult createAnalysisResult() {
+        return new AnalysisResult(DEFAULT_DOCUMENT_ID,
                 Collections.singletonMap("amountToPay",
                         new GiniVisionSpecificExtraction("amountToPay",
                                 "1:00EUR", "amountToPay",
                                 new GiniVisionBox(1, 0,0,0,0),
                                 Collections.<GiniVisionExtraction>emptyList())));
-        callback.success(analysisResult);
     }
 
     @Override

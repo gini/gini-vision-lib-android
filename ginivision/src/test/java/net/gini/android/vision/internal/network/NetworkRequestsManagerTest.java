@@ -240,6 +240,87 @@ public class NetworkRequestsManagerTest {
     }
 
     @Test
+    public void should_waitForDocumentRequests_toComplete_beforeDeletingDocument()
+            throws Exception {
+        // Given
+        final Queue<Runnable> uploadCompletionRunnables = new ConcurrentLinkedQueue<>();
+        // Simulate upload delays and queue completion to be executed on the main thread
+        final GiniVisionNetworkService networkService = spy(new GiniVisionNetworkServiceStub() {
+            @Override
+            public void upload(@NonNull final Document document,
+                    @NonNull final GiniVisionNetworkCallback<Result, Error> callback) {
+                final Thread delayThread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep((long) (200 + Math.random() * 300));
+                            uploadCompletionRunnables.add(new Runnable() {
+                                @Override
+                                public void run() {
+                                    callback.success(new Result(DEFAULT_DOCUMENT_ID));
+                                }
+                            });
+                        } catch (final InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                delayThread.start();
+            }
+        });
+        final NetworkRequestsManager networkRequestsManager =
+                new NetworkRequestsManager(networkService);
+        final GiniVisionDocument document = GiniVisionDocumentHelper.newEmptyImageDocument();
+        networkRequestsManager.upload(document);
+        // When
+        // Wait for completion on a secondary thread
+        final AtomicReference<NetworkRequestResult<GiniVisionDocument>> requestResult =
+                new AtomicReference<>();
+        final Thread waitThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    requestResult.set(networkRequestsManager.delete(document).get());
+                } catch (InterruptedException | ExecutionException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        waitThread.start();
+        // Run the upload completion runnables on the main thread
+        while (waitThread.isAlive()) {
+            final Runnable runnable = uploadCompletionRunnables.poll();
+            if (runnable != null) {
+                runnable.run();
+            }
+        }
+        // Then
+        assertThat(requestResult.get()).isNotNull();
+        assertThat(requestResult.get().getApiDocumentId()).isEqualTo(DEFAULT_DOCUMENT_ID);
+        assertThat(requestResult.get().getGiniVisionDocument()).isEqualTo(document);
+        verify(networkService).upload(any(Document.class),
+                any(GiniVisionNetworkCallback.class));
+        verify(networkService).delete(eq(DEFAULT_DOCUMENT_ID), any(GiniVisionNetworkCallback.class));
+    }
+
+    @Test
+    public void should_completeDocumentDeletionSuccessfully_whenApiDocumentId_isNotAvailable()
+            throws Exception {
+        // Given
+        final NetworkRequestsManager networkRequestsManager =
+                new NetworkRequestsManager(mGiniVisionNetworkService);
+        final ImageMultiPageDocument multiPageDocument =
+                GiniVisionDocumentHelper.newMultiPageDocument();
+        // When
+        final NetworkRequestResult<GiniVisionDocument> requestResult =
+                networkRequestsManager.delete(multiPageDocument).get();
+        // Then
+        assertThat(requestResult).isNotNull();
+        assertThat(requestResult.getApiDocumentId()).isEqualTo("");
+        assertThat(requestResult.getGiniVisionDocument()).isEqualTo(multiPageDocument);
+    }
+
+    @Test
     public void should_analyzeMultiPageDocument() throws Exception {
         // Given
         final NetworkRequestsManager networkRequestsManager =
