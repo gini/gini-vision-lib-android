@@ -38,6 +38,7 @@ import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.GiniVisionDocument;
+import net.gini.android.vision.document.GiniVisionDocumentError;
 import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.document.PdfDocument;
 import net.gini.android.vision.internal.AsyncCallback;
@@ -178,8 +179,22 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
             return;
         }
         forcePortraitOrientationOnPhones(activity);
-        mDocumentRenderer = DocumentRendererFactory.fromDocument(mDocument, activity);
+        final GiniVisionDocument documentToRender = getDocumentToRender();
+        if (documentToRender != null) {
+            mDocumentRenderer = DocumentRendererFactory.fromDocument(documentToRender, activity);
+        }
         mHints = generateRandomHintsList();
+    }
+
+    private GiniVisionDocument getDocumentToRender() {
+        if (mDocument instanceof GiniVisionMultiPageDocument) {
+            //noinspection unchecked
+            final GiniVisionMultiPageDocument<GiniVisionDocument, GiniVisionDocumentError> multiPageDocument =
+                    (GiniVisionMultiPageDocument) mDocument;
+            final List<GiniVisionDocument> documents = multiPageDocument.getDocuments();
+            return documents.size() > 0 ? documents.get(0) : null;
+        }
+        return mDocument;
     }
 
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
@@ -532,7 +547,8 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     private void showPdfInfoForPdfDocument() {
-        if (mDocument instanceof PdfDocument) {
+        final GiniVisionDocument documentToRender = getDocumentToRender();
+        if (documentToRender instanceof PdfDocument) {
             final Activity activity = mFragment.getActivity();
             if (activity == null) {
                 return;
@@ -541,7 +557,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
             mAnalysisOverlay.setBackgroundColor(Color.TRANSPARENT);
             mAnalysisMessageTextView.setText("");
 
-            final PdfDocument pdfDocument = (PdfDocument) mDocument;
+            final PdfDocument pdfDocument = (PdfDocument) documentToRender;
             final String filename = getPdfFilename(activity, pdfDocument);
             if (filename != null) {
                 mPdfTitleTextView.setText(filename);
