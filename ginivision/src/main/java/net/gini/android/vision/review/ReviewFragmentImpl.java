@@ -117,6 +117,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     private boolean mStopped;
     private String mApiDocumentId;
     private String mDocumentAnalysisErrorMessage;
+    private boolean mWillAddMorePages;
 
     ReviewFragmentImpl(@NonNull final FragmentImplCallback fragment,
             @NonNull final Document document) {
@@ -155,6 +156,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     }
 
     private void addMorePages() {
+        mWillAddMorePages = true;
         mListener.onAddMorePages(
                 DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto, mDocument));
     }
@@ -385,7 +387,9 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     public void onDestroy() {
         mPhoto = null; // NOPMD
         mDocument = null; // NOPMD
-        cancelAnalysis();
+        if (!mWillAddMorePages) {
+            deleteUploadedDocument();
+        }
     }
 
     private void bindViews(@NonNull final View view) {
@@ -494,7 +498,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         });
     }
 
-    private void cancelAnalysis() {
+    private void deleteUploadedDocument() {
         final Activity activity = mFragment.getActivity();
         if (activity == null) {
             return;
@@ -503,7 +507,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             final NetworkRequestsManager networkRequestsManager = GiniVision.getInstance()
                     .internal().getNetworkRequestsManager();
             if (networkRequestsManager != null) {
-                networkRequestsManager.cancelAll();
+                networkRequestsManager.delete(mDocument);
             }
         }
     }
