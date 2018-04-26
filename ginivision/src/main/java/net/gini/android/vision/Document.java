@@ -20,6 +20,10 @@ import android.support.annotation.Nullable;
  */
 public interface Document extends Parcelable {
 
+
+    @NonNull
+    String getId();
+
     /**
      * The image of a document as a JPEG.
      *

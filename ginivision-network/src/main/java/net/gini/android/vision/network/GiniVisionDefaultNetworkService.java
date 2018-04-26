@@ -2,6 +2,7 @@ package net.gini.android.vision.network;
 
 import android.content.Context;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
@@ -75,9 +76,10 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
     }
 
     @Override
-    public void upload(@NonNull final Document document,
+    public CancellationToken upload(@NonNull final Document document,
             @NonNull final GiniVisionNetworkCallback<Result, Error> callback) {
-        mHandler.postDelayed(new Runnable() {
+        final String token = UUID.randomUUID().toString();
+        mHandler.postAtTime(new Runnable() {
             @Override
             public void run() {
                 if (Math.random() >= 0.3) {
@@ -86,7 +88,15 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                     callback.success(new Result(generateDocumentId()));
                 }
             }
-        }, 500 + Math.round(Math.random() * 1000));
+        }, token, SystemClock.uptimeMillis() + 500 + Math.round(Math.random() * 1000));
+        return new CancellationToken() {
+            @Override
+            public void cancel() {
+                mHandler.removeCallbacksAndMessages(token);
+                mSingleDocumentAnalyzer.cancelAnalysis();
+                callback.cancelled();
+            }
+        };
     }
 
     private String generateDocumentId() {
@@ -94,9 +104,10 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
     }
 
     @Override
-    public void delete(@NonNull final String documentId,
+    public CancellationToken delete(@NonNull final String documentId,
             @NonNull final GiniVisionNetworkCallback<Result, Error> callback) {
-        mHandler.postDelayed(new Runnable() {
+        final String token = UUID.randomUUID().toString();
+        mHandler.postAtTime(new Runnable() {
             @Override
             public void run() {
                 if (Math.random() >= 0.3) {
@@ -105,13 +116,22 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                     callback.success(new Result(documentId));
                 }
             }
-        }, 500 + Math.round(Math.random() * 1000));
+        }, token, SystemClock.uptimeMillis() + 500 + Math.round(Math.random() * 1000));
+        return new CancellationToken() {
+            @Override
+            public void cancel() {
+                mHandler.removeCallbacksAndMessages(token);
+                mSingleDocumentAnalyzer.cancelAnalysis();
+                callback.cancelled();
+            }
+        };
     }
 
     @Override
-    public void analyze(@NonNull final LinkedHashMap<String, Integer> documentIdRotationMap,
+    public CancellationToken analyze(@NonNull final LinkedHashMap<String, Integer> documentIdRotationMap,
             @NonNull final GiniVisionNetworkCallback<AnalysisResult, Error> callback) {
-        mHandler.postDelayed(new Runnable() {
+        final String token = UUID.randomUUID().toString();
+        mHandler.postAtTime(new Runnable() {
             @Override
             public void run() {
                 final AnalysisResult analysisResult = new AnalysisResult(generateDocumentId(),
@@ -126,17 +146,15 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                     callback.success(analysisResult);
                 }
             }
-        }, 500 + Math.round(Math.random() * 1000));
-    }
-
-    @Override
-    public void cancel(@NonNull final Document document) {
-        mSingleDocumentAnalyzer.cancelAnalysis();
-    }
-
-    @Override
-    public void cancelAll() {
-        mSingleDocumentAnalyzer.cancelAnalysis();
+        }, token, SystemClock.uptimeMillis() + 500 + Math.round(Math.random() * 1000));
+        return new CancellationToken() {
+            @Override
+            public void cancel() {
+                mHandler.removeCallbacksAndMessages(token);
+                mSingleDocumentAnalyzer.cancelAnalysis();
+                callback.cancelled();
+            }
+        };
     }
 
     @Deprecated

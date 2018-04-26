@@ -385,11 +385,12 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     }
 
     public void onDestroy() {
-        mPhoto = null; // NOPMD
-        mDocument = null; // NOPMD
-        if (!mWillAddMorePages) {
+        if (!mWillAddMorePages
+                && !mNextClicked) {
             deleteUploadedDocument();
         }
+        mPhoto = null; // NOPMD
+        mDocument = null; // NOPMD
     }
 
     private void bindViews(@NonNull final View view) {
@@ -507,6 +508,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             final NetworkRequestsManager networkRequestsManager = GiniVision.getInstance()
                     .internal().getNetworkRequestsManager();
             if (networkRequestsManager != null) {
+                networkRequestsManager.cancel(mDocument);
                 networkRequestsManager.delete(mDocument);
             }
         }

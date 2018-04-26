@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.network.AnalysisResult;
+import net.gini.android.vision.network.CancellationToken;
 import net.gini.android.vision.network.Error;
 import net.gini.android.vision.network.GiniVisionNetworkCallback;
 import net.gini.android.vision.network.GiniVisionNetworkService;
@@ -25,21 +26,24 @@ public class GiniVisionNetworkServiceStub implements GiniVisionNetworkService {
     public static final String DEFAULT_DOCUMENT_ID = "ABCD-EFGH";
 
     @Override
-    public void upload(@NonNull final Document document,
+    public CancellationToken upload(@NonNull final Document document,
             @NonNull final GiniVisionNetworkCallback<Result, Error> callback) {
         callback.success(new Result(DEFAULT_DOCUMENT_ID));
+        return new CallbackCancellationToken(callback);
     }
 
     @Override
-    public void delete(@NonNull final String documentId,
+    public CancellationToken delete(@NonNull final String documentId,
             @NonNull final GiniVisionNetworkCallback<Result, Error> callback) {
         callback.success(new Result(DEFAULT_DOCUMENT_ID));
+        return new CallbackCancellationToken(callback);
     }
 
     @Override
-    public void analyze(@NonNull final LinkedHashMap<String, Integer> documentIdRotationMap,
+    public CancellationToken analyze(@NonNull final LinkedHashMap<String, Integer> documentIdRotationMap,
             @NonNull final GiniVisionNetworkCallback<AnalysisResult, Error> callback) {
         callback.success(createAnalysisResult());
+        return new CallbackCancellationToken(callback);
     }
 
     @NonNull
@@ -52,13 +56,18 @@ public class GiniVisionNetworkServiceStub implements GiniVisionNetworkService {
                                 Collections.<GiniVisionExtraction>emptyList())));
     }
 
-    @Override
-    public void cancel(@NonNull final Document document) {
+    public class CallbackCancellationToken implements CancellationToken {
 
-    }
+        private final GiniVisionNetworkCallback mCallback;
 
-    @Override
-    public void cancelAll() {
+        public CallbackCancellationToken(
+                final GiniVisionNetworkCallback callback) {
+            mCallback = callback;
+        }
 
+        @Override
+        public void cancel() {
+            mCallback.cancelled();
+        }
     }
 }

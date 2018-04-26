@@ -45,6 +45,7 @@ import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.document.DocumentRenderer;
 import net.gini.android.vision.internal.document.DocumentRendererFactory;
 import net.gini.android.vision.internal.network.AnalysisNetworkRequestResult;
+import net.gini.android.vision.internal.network.NetworkRequestResult;
 import net.gini.android.vision.internal.network.NetworkRequestsManager;
 import net.gini.android.vision.internal.storage.ImageDiskStore;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
@@ -115,6 +116,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     private static final int HINT_START_DELAY = 5000;
     private static final int HINT_CYCLE_INTERVAL = 4000;
     private boolean mStopped;
+    private boolean mAnalysisCompleted;
 
 
     AnalysisFragmentImpl(final FragmentImplCallback fragment, final Document document,
@@ -139,6 +141,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
     @Override
     public void onDocumentAnalyzed() {
+        mAnalysisCompleted = true;
         clearSavedImages();
     }
 
@@ -189,7 +192,8 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     private GiniVisionDocument getDocumentToRender() {
         if (mDocument instanceof GiniVisionMultiPageDocument) {
             //noinspection unchecked
-            final GiniVisionMultiPageDocument<GiniVisionDocument, GiniVisionDocumentError> multiPageDocument =
+            final GiniVisionMultiPageDocument<GiniVisionDocument, GiniVisionDocumentError>
+                    multiPageDocument =
                     (GiniVisionMultiPageDocument) mDocument;
             final List<GiniVisionDocument> documents = multiPageDocument.getDocuments();
             return documents.size() > 0 ? documents.get(0) : null;
@@ -209,10 +213,12 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     public void onDestroy() {
         mImageDocument = null; // NOPMD
         stopScanAnimation();
-        cancelAnalysis();
+        if (!mAnalysisCompleted) {
+            deleteUploadedDocuments();
+        }
     }
 
-    private void cancelAnalysis() {
+    private void deleteUploadedDocuments() {
         final Activity activity = mFragment.getActivity();
         if (activity == null) {
             return;
@@ -221,7 +227,26 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
             final NetworkRequestsManager networkRequestsManager = GiniVision.getInstance()
                     .internal().getNetworkRequestsManager();
             if (networkRequestsManager != null) {
-                networkRequestsManager.cancelAll();
+                networkRequestsManager.cancel(mDocument);
+                networkRequestsManager.delete(mDocument)
+                        .handle(new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, Void>() {
+                            @Override
+                            public Void apply(
+                                    final NetworkRequestResult<GiniVisionDocument> requestResult,
+                                    final Throwable throwable) {
+                                if (mDocument instanceof GiniVisionMultiPageDocument) {
+                                    final GiniVisionMultiPageDocument multiPageDocument =
+                                            (GiniVisionMultiPageDocument) mDocument;
+                                    for (final Object document : multiPageDocument.getDocuments()) {
+                                        final GiniVisionDocument giniVisionDocument =
+                                                (GiniVisionDocument) document;
+                                        networkRequestsManager.cancel(giniVisionDocument);
+                                        networkRequestsManager.delete(giniVisionDocument);
+                                    }
+                                }
+                                return null;
+                            }
+                        });
             }
         }
     }
@@ -442,6 +467,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
                                                 }
                                             });
                                 } else if (requestResult != null) {
+                                    mAnalysisCompleted = true;
                                     final Map<String, GiniVisionSpecificExtraction> extractions =
                                             requestResult.getAnalysisResult().getExtractions();
                                     if (extractions.isEmpty()) {

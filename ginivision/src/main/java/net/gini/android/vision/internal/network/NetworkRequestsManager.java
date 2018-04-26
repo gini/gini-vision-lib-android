@@ -7,11 +7,13 @@ package net.gini.android.vision.internal.network;
  */
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import net.gini.android.vision.document.GiniVisionDocument;
 import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.network.AnalysisResult;
+import net.gini.android.vision.network.CancellationToken;
 import net.gini.android.vision.network.Error;
 import net.gini.android.vision.network.GiniVisionNetworkCallback;
 import net.gini.android.vision.network.GiniVisionNetworkService;
@@ -74,7 +76,8 @@ public class NetworkRequestsManager {
                 new CompletableFuture<>();
         mDocumentUploadFutures.put(document.getId(), future);
 
-        mGiniVisionNetworkService.upload(document, new GiniVisionNetworkCallback<Result, Error>() {
+        final CancellationToken cancellationToken =
+                mGiniVisionNetworkService.upload(document, new GiniVisionNetworkCallback<Result, Error>() {
             @Override
             public void failure(final Error error) {
                 future.completeExceptionally(new RuntimeException(error.getMessage()));
@@ -99,6 +102,9 @@ public class NetworkRequestsManager {
                             final NetworkRequestResult<GiniVisionDocument> networkRequestResult,
                             final Throwable throwable) {
                         if (throwable != null) {
+                            if (isCancellation(throwable)) {
+                                cancellationToken.cancel();
+                            }
                             mDocumentUploadFutures.remove(document.getId());
                         }
                         return networkRequestResult;
@@ -177,7 +183,8 @@ public class NetworkRequestsManager {
                                     return future;
                                 }
 
-                                mGiniVisionNetworkService.delete(apiDocumentId,
+                                final CancellationToken cancellationToken =
+                                        mGiniVisionNetworkService.delete(apiDocumentId,
                                         new GiniVisionNetworkCallback<Result, Error>() {
                                             @Override
                                             public void failure(final Error error) {
@@ -206,6 +213,9 @@ public class NetworkRequestsManager {
                                                     final NetworkRequestResult<GiniVisionDocument> networkRequestResult,
                                                     final Throwable throwable) {
                                                 if (throwable != null) {
+                                                    if (isCancellation(throwable)) {
+                                                        cancellationToken.cancel();
+                                                    }
                                                     mDocumentDeleteFutures.remove(document.getId());
                                                 }
                                                 return networkRequestResult;
@@ -275,7 +285,8 @@ public class NetworkRequestsManager {
                                     }
                                 }
 
-                                mGiniVisionNetworkService.analyze(documentRotationDeltas,
+                                final CancellationToken cancellationToken =
+                                        mGiniVisionNetworkService.analyze(documentRotationDeltas,
                                         new GiniVisionNetworkCallback<AnalysisResult, Error>() {
                                             @Override
                                             public void failure(final Error error) {
@@ -306,6 +317,9 @@ public class NetworkRequestsManager {
                                                     final NetworkRequestResult<GiniVisionMultiPageDocument> networkRequestResult,
                                                     final Throwable throwable) {
                                                 if (throwable != null) {
+                                                    if (isCancellation(throwable)) {
+                                                        cancellationToken.cancel();
+                                                    }
                                                     mDocumentAnalyzeFutures.remove(
                                                             multiPageDocument.getId());
                                                 }
@@ -318,17 +332,31 @@ public class NetworkRequestsManager {
     }
 
     public void cancel(@NonNull final GiniVisionDocument document) {
-        mGiniVisionNetworkService.cancel(document);
-        mDocumentUploadFutures.remove(document.getId());
-        mDocumentAnalyzeFutures.remove(document.getId());
-        mDocumentDeleteFutures.remove(document.getId());
+        cancelFuture(mDocumentUploadFutures.get(document.getId()));
+        cancelFuture(mDocumentAnalyzeFutures.get(document.getId()));
+        cancelFuture(mDocumentDeleteFutures.get(document.getId()));
+    }
+
+    private void cancelFuture(@Nullable final CompletableFuture future) {
+        if (future != null) {
+            future.cancel(false);
+        }
     }
 
     public void cancelAll() {
-        mGiniVisionNetworkService.cancelAll();
-        mDocumentUploadFutures.clear();
-        mDocumentAnalyzeFutures.clear();
-        mDocumentDeleteFutures.clear();
+        for (final CompletableFuture future : mDocumentUploadFutures.values()) {
+            cancelFuture(future);
+        }
+        for (final CompletableFuture future : mDocumentAnalyzeFutures.values()) {
+            cancelFuture(future);
+        }
+        for (final CompletableFuture future : mDocumentDeleteFutures.values()) {
+            cancelFuture(future);
+        }
+    }
+
+    public void reset() {
+        cancelAll();
         mApiDocumentIds.clear();
     }
 

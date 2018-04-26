@@ -19,6 +19,7 @@ import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.document.ImageMultiPageDocument;
 import net.gini.android.vision.network.AnalysisResult;
+import net.gini.android.vision.network.CancellationToken;
 import net.gini.android.vision.network.Error;
 import net.gini.android.vision.network.GiniVisionNetworkCallback;
 import net.gini.android.vision.network.GiniVisionNetworkService;
@@ -72,9 +73,10 @@ public class NetworkRequestsManagerTest {
         final String errorMessage = "Something went wrong.";
         final GiniVisionNetworkService networkService = new GiniVisionNetworkServiceStub() {
             @Override
-            public void upload(@NonNull final Document document,
+            public CancellationToken upload(@NonNull final Document document,
                     @NonNull final GiniVisionNetworkCallback<Result, Error> callback) {
                 callback.failure(new Error(errorMessage));
+                return new CallbackCancellationToken(callback);
             }
         };
         final NetworkRequestsManager networkRequestsManager =
@@ -99,7 +101,7 @@ public class NetworkRequestsManagerTest {
             int counter = 0;
 
             @Override
-            public void upload(@NonNull final Document document,
+            public CancellationToken upload(@NonNull final Document document,
                     @NonNull final GiniVisionNetworkCallback<Result, Error> callback) {
                 counter++;
                 if (counter == 1) {
@@ -107,6 +109,7 @@ public class NetworkRequestsManagerTest {
                 } else {
                     super.upload(document, callback);
                 }
+                return new CallbackCancellationToken(callback);
             }
         };
         final NetworkRequestsManager networkRequestsManager =
@@ -164,9 +167,10 @@ public class NetworkRequestsManagerTest {
         final String errorMessage = "Something went wrong.";
         final GiniVisionNetworkService networkService = new GiniVisionNetworkServiceStub() {
             @Override
-            public void delete(@NonNull final String documentId,
+            public CancellationToken delete(@NonNull final String documentId,
                     @NonNull final GiniVisionNetworkCallback<Result, Error> callback) {
                 callback.failure(new Error(errorMessage));
+                return new CallbackCancellationToken(callback);
             }
         };
         final NetworkRequestsManager networkRequestsManager =
@@ -192,7 +196,7 @@ public class NetworkRequestsManagerTest {
             int counter = 0;
 
             @Override
-            public void delete(@NonNull final String documentId,
+            public CancellationToken delete(@NonNull final String documentId,
                     @NonNull final GiniVisionNetworkCallback<Result, Error> callback) {
                 counter++;
                 if (counter == 1) {
@@ -200,6 +204,7 @@ public class NetworkRequestsManagerTest {
                 } else {
                     super.delete(documentId, callback);
                 }
+                return new CallbackCancellationToken(callback);
             }
         };
         final NetworkRequestsManager networkRequestsManager =
@@ -247,7 +252,7 @@ public class NetworkRequestsManagerTest {
         // Simulate upload delays and queue completion to be executed on the main thread
         final GiniVisionNetworkService networkService = spy(new GiniVisionNetworkServiceStub() {
             @Override
-            public void upload(@NonNull final Document document,
+            public CancellationToken upload(@NonNull final Document document,
                     @NonNull final GiniVisionNetworkCallback<Result, Error> callback) {
                 final Thread delayThread = new Thread(new Runnable() {
                     @Override
@@ -266,6 +271,7 @@ public class NetworkRequestsManagerTest {
                     }
                 });
                 delayThread.start();
+                return new CallbackCancellationToken(callback);
             }
         });
         final NetworkRequestsManager networkRequestsManager =
@@ -369,7 +375,7 @@ public class NetworkRequestsManagerTest {
         // Simulate upload delays and queue completion to be executed on the main thread
         final GiniVisionNetworkService networkService = spy(new GiniVisionNetworkServiceStub() {
             @Override
-            public void upload(@NonNull final Document document,
+            public CancellationToken upload(@NonNull final Document document,
                     @NonNull final GiniVisionNetworkCallback<Result, Error> callback) {
                 final Thread delayThread = new Thread(new Runnable() {
                     @Override
@@ -388,6 +394,7 @@ public class NetworkRequestsManagerTest {
                     }
                 });
                 delayThread.start();
+                return new CallbackCancellationToken(callback);
             }
         });
         final NetworkRequestsManager networkRequestsManager =
@@ -432,13 +439,26 @@ public class NetworkRequestsManagerTest {
     @Test
     public void should_cancelDocumentRequests() throws Exception {
         // Given
+        final AtomicReference<CancellationToken> cancellationToken =
+                new AtomicReference<>();
+        final GiniVisionNetworkService networkService = spy(new GiniVisionNetworkServiceStub() {
+            @Override
+            public CancellationToken upload(@NonNull final Document document,
+                    @NonNull final GiniVisionNetworkCallback<Result, Error> callback) {
+                final CancellationToken token = spy(new CallbackCancellationToken(callback));
+                cancellationToken.set(token);
+                return token;
+            }
+        });
         final NetworkRequestsManager networkRequestsManager =
-                new NetworkRequestsManager(mGiniVisionNetworkService);
+                new NetworkRequestsManager(networkService);
         final ImageDocument document = GiniVisionDocumentHelper.newEmptyImageDocument();
         // When
+        networkRequestsManager.upload(document);
         networkRequestsManager.cancel(document);
         // Then
-        verify(mGiniVisionNetworkService).cancel(document);
+        assertThat(cancellationToken.get()).isNotNull();
+        verify(cancellationToken.get()).cancel();
     }
 
     @Test
@@ -446,10 +466,9 @@ public class NetworkRequestsManagerTest {
         // Given
         final GiniVisionNetworkService networkService = spy(new GiniVisionNetworkServiceStub() {
             @Override
-            public void upload(@NonNull final Document document,
+            public CancellationToken upload(@NonNull final Document document,
                     @NonNull final GiniVisionNetworkCallback<Result, Error> callback) {
-                // Cancellation
-                callback.cancelled();
+                return new CallbackCancellationToken(callback);
             }
         });
         final NetworkRequestsManager networkRequestsManager =
@@ -469,10 +488,14 @@ public class NetworkRequestsManagerTest {
         // Given
         final GiniVisionNetworkService networkService = spy(new GiniVisionNetworkServiceStub() {
             @Override
-            public void delete(@NonNull final String documentId,
+            public CancellationToken delete(@NonNull final String documentId,
                     @NonNull final GiniVisionNetworkCallback<Result, Error> callback) {
-                // Cancellation
-                callback.cancelled();
+                return new CancellationToken() {
+                    @Override
+                    public void cancel() {
+                        callback.cancelled();
+                    }
+                };
             }
         });
         final NetworkRequestsManager networkRequestsManager =
@@ -493,10 +516,10 @@ public class NetworkRequestsManagerTest {
         // Given
         final GiniVisionNetworkService networkService = spy(new GiniVisionNetworkServiceStub() {
             @Override
-            public void analyze(@NonNull final LinkedHashMap<String, Integer> documentIdRotationMap,
+            public CancellationToken analyze(@NonNull final LinkedHashMap<String, Integer> documentIdRotationMap,
                     @NonNull final GiniVisionNetworkCallback<AnalysisResult, Error> callback) {
                 // Cancellation
-                callback.cancelled();
+                return new CallbackCancellationToken(callback);
             }
         });
         final NetworkRequestsManager networkRequestsManager =

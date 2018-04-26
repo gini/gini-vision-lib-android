@@ -14,17 +14,13 @@ import java.util.LinkedHashMap;
 
 public interface GiniVisionNetworkService {
 
-    void upload(@NonNull final Document document,
+    CancellationToken upload(@NonNull final Document document,
             @NonNull final GiniVisionNetworkCallback<Result, Error> callback);
 
-    void delete(@NonNull final String documentId,
+    CancellationToken delete(@NonNull final String documentId,
             @NonNull final GiniVisionNetworkCallback<Result, Error> callback);
 
-    void analyze(@NonNull final LinkedHashMap<String, Integer> documentIdRotationMap,
+    CancellationToken analyze(@NonNull final LinkedHashMap<String, Integer> documentIdRotationMap,
             @NonNull final GiniVisionNetworkCallback<AnalysisResult, Error> callback);
-
-    void cancel(@NonNull final Document document);
-
-    void cancelAll();
 
 }
