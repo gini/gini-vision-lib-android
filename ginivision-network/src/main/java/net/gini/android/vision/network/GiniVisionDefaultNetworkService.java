@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import bolts.Continuation;
@@ -53,19 +54,12 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
             @NonNull final GiniVisionNetworkCallback<Result, Error> callback) {
         if (document.getData() == null) {
             callback.failure(new Error("Document has no data. Did you forget to load it?"));
-            return new CancellationToken() {
-                @Override
-                public void cancel() {
-                }
-            };
+            return new NoOpCancellationToken();
         }
         if (document instanceof GiniVisionMultiPageDocument) {
-            callback.failure(new Error("Multi-page document cannot be uploaded. You have to upload each of its page documents separately."));
-            return new CancellationToken() {
-                @Override
-                public void cancel() {
-                }
-            };
+            callback.failure(new Error(
+                    "Multi-page document cannot be uploaded. You have to upload each of its page documents separately."));
+            return new NoOpCancellationToken();
         }
         mGiniApi.getDocumentTaskManager()
                 .createPartialDocument(document.getData(), document.getMimeType(), null, null)
@@ -80,20 +74,12 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                             mApiDocuments.put(apiDocument.getId(), apiDocument);
                             callback.success(new Result(apiDocument.getId()));
                         } else {
-                            // WIP-MPA: call cancelled only here after API SDK supports cancellation
                             callback.cancelled();
                         }
                         return null;
                     }
                 });
-        return new CancellationToken() {
-            @Override
-            public void cancel() {
-                // WIP-MPA: how to cancel a task in the API SDK?
-                // WIP-MPA: don't call cancelled here after API SDK supports cancellation
-                callback.cancelled();
-            }
-        };
+        return new NoOpCancellationToken();
     }
 
     @Override
@@ -108,20 +94,12 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                         } else if (task.getResult() != null) {
                             callback.success(new Result(documentId));
                         } else {
-                            // WIP-MPA: call cancelled only here after API SDK supports cancellation
                             callback.cancelled();
                         }
                         return null;
                     }
                 });
-        return new CancellationToken() {
-            @Override
-            public void cancel() {
-                // WIP-MPA: how to cancel a task in the API SDK?
-                // WIP-MPA: don't call cancelled here after API SDK supports cancellation
-                callback.cancelled();
-            }
-        };
+        return new NoOpCancellationToken();
     }
 
     @Override
@@ -134,14 +112,11 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
             final net.gini.android.models.Document document = mApiDocuments.get(entry.getKey());
             if (document == null) {
                 callback.failure(new Error("Missing partial document."));
-                return new CancellationToken() {
-                    @Override
-                    public void cancel() {
-                    }
-                };
+                return new NoOpCancellationToken();
             }
             documentRotationMap.put(document, entry.getValue());
         }
+        final AtomicBoolean isCancelled = new AtomicBoolean();
         final AtomicReference<net.gini.android.models.Document> compositeDocument =
                 new AtomicReference<>();
         mGiniApi.getDocumentTaskManager().createCompositeDocument(documentRotationMap, null)
@@ -151,6 +126,9 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                             public Task<net.gini.android.models.Document> then(
                                     final Task<net.gini.android.models.Document> task)
                                     throws Exception {
+                                if (isCancelled.get()) {
+                                    return Task.cancelled();
+                                }
                                 final net.gini.android.models.Document giniDocument =
                                         task.getResult();
                                 if (task.isCancelled()) {
@@ -169,6 +147,9 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                             public Task<Map<String, SpecificExtraction>> then(
                                     final Task<net.gini.android.models.Document> task)
                                     throws Exception {
+                                if (isCancelled.get()) {
+                                    return Task.cancelled();
+                                }
                                 final net.gini.android.models.Document giniDocument =
                                         task.getResult();
                                 if (task.isCancelled()) {
@@ -193,7 +174,6 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                                             new AnalysisResult(compositeDocument.get().getId(),
                                                     extractions));
                                 } else {
-                                    // WIP-MPA: call cancelled only here after API SDK supports cancellation
                                     callback.cancelled();
                                 }
                                 return null;
@@ -202,9 +182,11 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
         return new CancellationToken() {
             @Override
             public void cancel() {
-                // WIP-MPA: how to cancel a task in the API SDK?
-                // WIP-MPA: don't call cancelled here after API SDK supports cancellation
-                callback.cancelled();
+                isCancelled.set(true);
+                if (compositeDocument.get() != null) {
+                    mGiniApi.getDocumentTaskManager().cancelDocumentPolling(
+                            compositeDocument.get());
+                }
             }
         };
 
@@ -326,6 +308,13 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
         public Builder setBackoffMultiplier(final float backoffMultiplier) {
             mBackoffMultiplier = backoffMultiplier;
             return this;
+        }
+    }
+
+    private static class NoOpCancellationToken implements CancellationToken {
+
+        @Override
+        public void cancel() {
         }
     }
 
