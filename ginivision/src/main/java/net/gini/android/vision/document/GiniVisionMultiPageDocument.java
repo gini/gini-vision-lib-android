@@ -36,12 +36,14 @@ public class GiniVisionMultiPageDocument<T extends GiniVisionDocument, E extends
     private final List<T> mDocuments = new ArrayList<>();
     private final Map<T,E> mDocumentErrorMap = new HashMap<>();
 
-    public GiniVisionMultiPageDocument(@NonNull final Type type, final boolean isImported) {
-        super(type, null, null, null, true, isImported);
+    public GiniVisionMultiPageDocument(@NonNull final Type type, @NonNull final String mimeType,
+            final boolean isImported) {
+        super(type, mimeType, null, null, null, true, isImported);
     }
 
-    public GiniVisionMultiPageDocument(@NonNull final Type type, @NonNull final T document) {
-        super(type, null, null, null, document.isReviewable(), document.isImported());
+    public GiniVisionMultiPageDocument(@NonNull final Type type, @NonNull final String mimeType,
+            @NonNull final T document) {
+        super(type, mimeType, null, null, null, document.isReviewable(), document.isImported());
         mDocuments.add(document);
     }
 

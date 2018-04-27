@@ -61,6 +61,8 @@ public interface Document extends Parcelable {
      */
     Type getType();
 
+    String getMimeType();
+
     /**
      * <p>
      * The contents of a document, if the document was loaded into memory.

@@ -3,13 +3,16 @@ package net.gini.android.vision.document;
 import android.os.Parcel;
 import android.support.annotation.NonNull;
 
+import net.gini.android.vision.internal.util.MimeType;
+
 /**
  * Created by Alpar Szotyori on 17.04.2018.
  *
  * Copyright (c) 2018 Gini GmbH.
  */
 
-public class QRCodeMultiPageDocument extends GiniVisionMultiPageDocument<QRCodeDocument, GiniVisionDocumentError> {
+public class QRCodeMultiPageDocument extends
+        GiniVisionMultiPageDocument<QRCodeDocument, GiniVisionDocumentError> {
 
     public static final Creator<QRCodeMultiPageDocument> CREATOR =
             new Creator<QRCodeMultiPageDocument>() {
@@ -25,12 +28,12 @@ public class QRCodeMultiPageDocument extends GiniVisionMultiPageDocument<QRCodeD
             };
 
     public QRCodeMultiPageDocument(final boolean isImported) {
-        super(Type.QR_CODE_MULTI_PAGE, isImported);
+        super(Type.QR_CODE_MULTI_PAGE, MimeType.APPLICATION_JSON.asString(), isImported);
     }
 
     public QRCodeMultiPageDocument(
             @NonNull final QRCodeDocument document) {
-        super(Type.QR_CODE_MULTI_PAGE, document);
+        super(Type.QR_CODE_MULTI_PAGE, MimeType.APPLICATION_JSON.asString(), document);
     }
 
     private QRCodeMultiPageDocument(final Parcel in) {

@@ -7,6 +7,7 @@ import android.support.annotation.VisibleForTesting;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.internal.qrcode.PaymentQRCodeData;
+import net.gini.android.vision.internal.util.MimeType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +58,7 @@ public final class QRCodeDocument extends GiniVisionDocument {
 
     private QRCodeDocument(@NonNull final byte[] data,
             @NonNull final PaymentQRCodeData paymentQRCodeData) {
-        super(Type.QRCode, data, null, null, false, false);
+        super(Type.QRCode, MimeType.APPLICATION_JSON.asString(), data, null, null, false, false);
         mPaymentData = paymentQRCodeData;
     }
 

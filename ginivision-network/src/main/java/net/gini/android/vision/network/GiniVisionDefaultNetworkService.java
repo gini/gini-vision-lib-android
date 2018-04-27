@@ -12,7 +12,7 @@ import net.gini.android.authorization.CredentialsStore;
 import net.gini.android.authorization.SessionManager;
 import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
-import net.gini.android.vision.internal.util.MimeType;
+import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.network.model.SpecificExtractionMapper;
 
@@ -59,25 +59,16 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                 }
             };
         }
-        final String contentType;
-        switch (document.getType()) {
-            case IMAGE:
-                // WIP-MPA: add image file type to document
-                contentType = MimeType.IMAGE_JPEG.asString();
-                break;
-            case PDF:
-                contentType = MimeType.APPLICATION_PDF.asString();
-                break;
-            case QRCode:
-                // WIP-MPA: create and use a content type enum
-                contentType = "application/json";
-                break;
-            default:
-                throw new IllegalArgumentException(
-                        "Unsupported document type " + document.getType());
+        if (document instanceof GiniVisionMultiPageDocument) {
+            callback.failure(new Error("Multi-page document cannot be uploaded. You have to upload each of its page documents separately."));
+            return new CancellationToken() {
+                @Override
+                public void cancel() {
+                }
+            };
         }
         mGiniApi.getDocumentTaskManager()
-                .createPartialDocument(document.getData(), contentType, null, null)
+                .createPartialDocument(document.getData(), document.getMimeType(), null, null)
                 .continueWith(new Continuation<net.gini.android.models.Document, Void>() {
                     @Override
                     public Void then(final Task<net.gini.android.models.Document> task)

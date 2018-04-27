@@ -18,6 +18,7 @@ public enum MimeType {
     IMAGE_PNG("image/png"),
     IMAGE_GIF("image/gif"),
     APPLICATION_PDF("application/pdf"),
+    APPLICATION_JSON("application/json"),
     UNKNOWN("");
 
     private static final Map<String, MimeType> sLookup = new HashMap<>();

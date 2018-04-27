@@ -3,7 +3,6 @@ package net.gini.android.vision.document;
 import static net.gini.android.vision.util.IntentHelper.getMimeTypes;
 import static net.gini.android.vision.util.IntentHelper.getSourceAppName;
 import static net.gini.android.vision.util.IntentHelper.hasMimeTypeWithPrefix;
-import static net.gini.android.vision.util.UriHelper.getMimeType;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +16,7 @@ import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.util.MimeType;
 import net.gini.android.vision.util.IntentHelper;
+import net.gini.android.vision.util.UriHelper;
 
 import java.util.HashMap;
 import java.util.List;
@@ -208,7 +208,7 @@ public final class ImageDocument extends GiniVisionDocument {
             @NonNull final String deviceOrientation,
             @NonNull final String deviceType,
             @NonNull final ImportMethod importMethod) {
-        final String mimeType = getMimeType(uri, context);
+        final String mimeType = UriHelper.getMimeType(uri, context);
         if (mimeType == null || !hasMimeTypeWithPrefix(uri, context,
                 MimeType.IMAGE_PREFIX.asString())) {
             throw new IllegalArgumentException("Intent must have a mime type of image/*");
@@ -235,7 +235,7 @@ public final class ImageDocument extends GiniVisionDocument {
 
     @VisibleForTesting
     ImageDocument(@Nullable final byte[] data) {
-        super(Type.IMAGE, data, null, null, true, false);
+        super(Type.IMAGE, MimeType.IMAGE_JPEG.asString(), data, null, null, true, false);
         mRotationForDisplay = 0;
         mFormat = ImageFormat.JPEG;
         mDeviceOrientation = "";
@@ -255,14 +255,16 @@ public final class ImageDocument extends GiniVisionDocument {
 
     private ImageDocument(@NonNull final Photo photo, @Nullable final String uniqueId,
             @Nullable final Intent intent, @Nullable final Uri uri) {
-        super(uniqueId, Type.IMAGE, photo.getData(), intent, uri, true, photo.isImported());
+        super(uniqueId, Type.IMAGE, mimeTypeFromFormat(photo.getImageFormat()), photo.getData(),
+                intent, uri, true, photo.isImported());
         mRotationForDisplay = photo.getRotationForDisplay();
         mRotationDelta = photo.getRotationDelta();
         mFormat = photo.getImageFormat();
         mDeviceOrientation = photo.getDeviceOrientation();
         mDeviceType = photo.getDeviceType();
         mSource = photo.getSource() != null ? photo.getSource() : Source.newUnknownSource();
-        mImportMethod = photo.getImportMethod() != null ? photo.getImportMethod() : ImportMethod.NONE;
+        mImportMethod =
+                photo.getImportMethod() != null ? photo.getImportMethod() : ImportMethod.NONE;
     }
 
     private ImageDocument(@Nullable final Intent intent, @Nullable final Uri uri,
@@ -271,7 +273,7 @@ public final class ImageDocument extends GiniVisionDocument {
             @NonNull final String deviceType,
             @NonNull final Source source,
             @NonNull final ImportMethod importMethod) {
-        super(Type.IMAGE, null, intent, uri, true, true);
+        super(Type.IMAGE, mimeTypeFromFormat(format), null, intent, uri, true, true);
         mRotationForDisplay = 0;
         mFormat = format;
         mDeviceOrientation = deviceOrientation;
@@ -285,13 +287,26 @@ public final class ImageDocument extends GiniVisionDocument {
             @NonNull final String deviceType,
             @NonNull final Source source,
             @NonNull final ImportMethod importMethod) {
-        super(Type.IMAGE, null, null, uri, true, true);
+        super(Type.IMAGE, mimeTypeFromFormat(format), null, null, uri, true, true);
         mRotationForDisplay = 0;
         mFormat = format;
         mDeviceOrientation = deviceOrientation;
         mDeviceType = deviceType;
         mSource = source;
         mImportMethod = importMethod;
+    }
+
+    private static String mimeTypeFromFormat(@NonNull final ImageFormat format) {
+        switch (format) {
+            case JPEG:
+                return MimeType.IMAGE_JPEG.asString();
+            case PNG:
+                return MimeType.IMAGE_PNG.asString();
+            case GIF:
+                return MimeType.IMAGE_GIF.asString();
+            default:
+                throw new IllegalArgumentException("Unknown image format " + format);
+        }
     }
 
     /**

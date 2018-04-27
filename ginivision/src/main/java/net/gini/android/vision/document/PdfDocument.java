@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.support.annotation.NonNull;
 
+import net.gini.android.vision.internal.util.MimeType;
 import net.gini.android.vision.util.IntentHelper;
 
 /**
@@ -38,7 +39,7 @@ public final class PdfDocument extends GiniVisionDocument {
      * @throws IllegalArgumentException if the Intent's data is null
      */
     private PdfDocument(@NonNull final Intent intent, @NonNull final Uri uri) {
-        super(Type.PDF, null, intent, uri, false, true);
+        super(Type.PDF, MimeType.APPLICATION_PDF.asString(), null, intent, uri, false, true);
     }
 
     /**
