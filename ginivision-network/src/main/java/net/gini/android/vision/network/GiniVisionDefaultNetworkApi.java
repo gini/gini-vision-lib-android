@@ -27,7 +27,6 @@ public class GiniVisionDefaultNetworkApi implements GiniVisionNetworkApi {
 
     private static final Logger LOG = LoggerFactory.getLogger(GiniVisionDefaultNetworkApi.class);
 
-    private final SingleDocumentAnalyzer mSingleDocumentAnalyzer;
     private final Gini mGiniApi;
     private final UIExecutor mUIExecutor = new UIExecutor();
 
@@ -35,19 +34,20 @@ public class GiniVisionDefaultNetworkApi implements GiniVisionNetworkApi {
         return new Builder();
     }
 
+    // WIP-MPA: add default network service field
     GiniVisionDefaultNetworkApi(
-            @NonNull final Gini giniApi,
-            @NonNull final SingleDocumentAnalyzer singleDocumentAnalyzer) {
-        mSingleDocumentAnalyzer = singleDocumentAnalyzer;
+            @NonNull final Gini giniApi) {
         mGiniApi = giniApi;
     }
 
+    // WIP-MPA: add documentId parameter
     @Override
     public void sendFeedback(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
             @NonNull final GiniVisionNetworkCallback<Void, Error> callback) {
         final DocumentTaskManager documentTaskManager = mGiniApi.getDocumentTaskManager();
 
-        final net.gini.android.models.Document document = mSingleDocumentAnalyzer.getGiniApiDocument();
+        // WIP-MPA: get document for the new documentId argument from the default network service
+        final net.gini.android.models.Document document = null;
 
         // We require the Gini API SDK's net.gini.android.models.Document for sending the feedback
         if (document != null) {
@@ -87,7 +87,6 @@ public class GiniVisionDefaultNetworkApi implements GiniVisionNetworkApi {
     }
 
     public static class Builder {
-        private SingleDocumentAnalyzer mSingleDocumentAnalyzer;
         private Gini mGiniApi;
 
         Builder() {
@@ -95,16 +94,15 @@ public class GiniVisionDefaultNetworkApi implements GiniVisionNetworkApi {
 
         public Builder withGiniVisionDefaultNetworkService(
                 @NonNull final GiniVisionDefaultNetworkService networkService) {
-            mSingleDocumentAnalyzer = networkService.getSingleDocumentAnalyzer();
             mGiniApi = networkService.getGiniApi();
             return this;
         }
 
         public GiniVisionDefaultNetworkApi build() {
-            if (mGiniApi == null || mSingleDocumentAnalyzer == null) {
-                throw new IllegalStateException("Building requires a Gini and a SingleDocumentAnalyzer instance.");
+            if (mGiniApi == null) {
+                throw new IllegalStateException("GiniVisionDefaultNetworkApi requires a Gini API SDK instance.");
             }
-            return new GiniVisionDefaultNetworkApi(mGiniApi, mSingleDocumentAnalyzer);
+            return new GiniVisionDefaultNetworkApi(mGiniApi);
         }
     }
 }

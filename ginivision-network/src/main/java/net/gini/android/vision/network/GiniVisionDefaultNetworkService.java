@@ -1,8 +1,6 @@
 package net.gini.android.vision.network;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
@@ -12,17 +10,20 @@ import net.gini.android.Gini;
 import net.gini.android.SdkBuilder;
 import net.gini.android.authorization.CredentialsStore;
 import net.gini.android.authorization.SessionManager;
+import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
-import net.gini.android.vision.network.model.GiniVisionBox;
-import net.gini.android.vision.network.model.GiniVisionExtraction;
+import net.gini.android.vision.internal.util.MimeType;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.network.model.SpecificExtractionMapper;
 
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
+
+import bolts.Continuation;
+import bolts.Task;
 
 /**
  * Created by Alpar Szotyori on 30.01.2018.
@@ -32,134 +33,190 @@ import java.util.concurrent.TimeUnit;
 
 public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService {
 
-    private final SingleDocumentAnalyzer mSingleDocumentAnalyzer;
     private final Gini mGiniApi;
-    private final Handler mHandler;
+    private final Map<String, net.gini.android.models.Document> mApiDocuments = new HashMap<>();
 
     public static Builder builder(@NonNull final Context context) {
         return new Builder(context);
     }
 
-    GiniVisionDefaultNetworkService(@NonNull final Gini giniApi,
-            @NonNull final SingleDocumentAnalyzer singleDocumentAnalyzer) {
+    GiniVisionDefaultNetworkService(@NonNull final Gini giniApi) {
         mGiniApi = giniApi;
-        mSingleDocumentAnalyzer = singleDocumentAnalyzer;
-        mHandler = new Handler();
-    }
-
-    SingleDocumentAnalyzer getSingleDocumentAnalyzer() {
-        return mSingleDocumentAnalyzer;
     }
 
     Gini getGiniApi() {
         return mGiniApi;
     }
 
-    @Deprecated
-    public void analyze(@NonNull final Document document,
-            @NonNull final GiniVisionNetworkCallback<AnalysisResult, Error> callback) {
-        mSingleDocumentAnalyzer.analyzeDocument(document,
-                new DocumentAnalyzer.Listener() {
-                    @Override
-                    public void onException(final Exception exception) {
-                        callback.failure(new Error(exception.getMessage()));
-                    }
-
-                    @Override
-                    public void onExtractionsReceived(
-                            final Map<String, net.gini.android.models.SpecificExtraction> extractions) {
-                        callback.success(new AnalysisResult(
-                                mSingleDocumentAnalyzer.getGiniApiDocument().getId(),
-                                SpecificExtractionMapper.mapToGVL(extractions)));
-                    }
-                });
-    }
-
     @Override
     public CancellationToken upload(@NonNull final Document document,
             @NonNull final GiniVisionNetworkCallback<Result, Error> callback) {
-        final String token = UUID.randomUUID().toString();
-        mHandler.postAtTime(new Runnable() {
-            @Override
-            public void run() {
-                if (Math.random() >= 0.3) {
-                    callback.failure(new Error("Upload failed."));
-                } else {
-                    callback.success(new Result(generateDocumentId()));
+        if (document.getData() == null) {
+            callback.failure(new Error("Document has no data. Did you forget to load it?"));
+            return new CancellationToken() {
+                @Override
+                public void cancel() {
                 }
-            }
-        }, token, SystemClock.uptimeMillis() + 500 + Math.round(Math.random() * 1000));
+            };
+        }
+        final String contentType;
+        switch (document.getType()) {
+            case IMAGE:
+                // WIP-MPA: add image file type to document
+                contentType = MimeType.IMAGE_JPEG.asString();
+                break;
+            case PDF:
+                contentType = MimeType.APPLICATION_PDF.asString();
+                break;
+            case QRCode:
+                // WIP-MPA: create and use a content type enum
+                contentType = "application/json";
+                break;
+            default:
+                throw new IllegalArgumentException(
+                        "Unsupported document type " + document.getType());
+        }
+        mGiniApi.getDocumentTaskManager()
+                .createPartialDocument(document.getData(), contentType, null, null)
+                .continueWith(new Continuation<net.gini.android.models.Document, Void>() {
+                    @Override
+                    public Void then(final Task<net.gini.android.models.Document> task)
+                            throws Exception {
+                        if (task.isFaulted()) {
+                            callback.failure(new Error(task.getError().getMessage()));
+                        } else if (task.getResult() != null) {
+                            final net.gini.android.models.Document apiDocument = task.getResult();
+                            mApiDocuments.put(apiDocument.getId(), apiDocument);
+                            callback.success(new Result(apiDocument.getId()));
+                        } else {
+                            // WIP-MPA: call cancelled only here after API SDK supports cancellation
+                            callback.cancelled();
+                        }
+                        return null;
+                    }
+                });
         return new CancellationToken() {
             @Override
             public void cancel() {
-                mHandler.removeCallbacksAndMessages(token);
-                mSingleDocumentAnalyzer.cancelAnalysis();
+                // WIP-MPA: how to cancel a task in the API SDK?
+                // WIP-MPA: don't call cancelled here after API SDK supports cancellation
                 callback.cancelled();
             }
         };
-    }
-
-    private String generateDocumentId() {
-        return UUID.randomUUID().toString();
     }
 
     @Override
     public CancellationToken delete(@NonNull final String documentId,
             @NonNull final GiniVisionNetworkCallback<Result, Error> callback) {
-        final String token = UUID.randomUUID().toString();
-        mHandler.postAtTime(new Runnable() {
-            @Override
-            public void run() {
-                if (Math.random() >= 0.3) {
-                    callback.failure(new Error("Upload failed."));
-                } else {
-                    callback.success(new Result(documentId));
-                }
-            }
-        }, token, SystemClock.uptimeMillis() + 500 + Math.round(Math.random() * 1000));
+        mGiniApi.getDocumentTaskManager().deletePartialDocumentAndParents(documentId)
+                .continueWith(new Continuation<String, Void>() {
+                    @Override
+                    public Void then(final Task<String> task) throws Exception {
+                        if (task.isFaulted()) {
+                            callback.failure(new Error(task.getError().getMessage()));
+                        } else if (task.getResult() != null) {
+                            callback.success(new Result(documentId));
+                        } else {
+                            // WIP-MPA: call cancelled only here after API SDK supports cancellation
+                            callback.cancelled();
+                        }
+                        return null;
+                    }
+                });
         return new CancellationToken() {
             @Override
             public void cancel() {
-                mHandler.removeCallbacksAndMessages(token);
-                mSingleDocumentAnalyzer.cancelAnalysis();
+                // WIP-MPA: how to cancel a task in the API SDK?
+                // WIP-MPA: don't call cancelled here after API SDK supports cancellation
                 callback.cancelled();
             }
         };
     }
 
     @Override
-    public CancellationToken analyze(@NonNull final LinkedHashMap<String, Integer> documentIdRotationMap,
+    public CancellationToken analyze(
+            @NonNull final LinkedHashMap<String, Integer> documentIdRotationMap,
             @NonNull final GiniVisionNetworkCallback<AnalysisResult, Error> callback) {
-        final String token = UUID.randomUUID().toString();
-        mHandler.postAtTime(new Runnable() {
-            @Override
-            public void run() {
-                final AnalysisResult analysisResult = new AnalysisResult(generateDocumentId(),
-                        Collections.singletonMap("amountToPay",
-                                new GiniVisionSpecificExtraction("amountToPay",
-                                        "1:00EUR", "amountToPay",
-                                        new GiniVisionBox(1, 0,0,0,0),
-                                        Collections.<GiniVisionExtraction>emptyList())));
-                if (Math.random() >= 0.3) {
-                    callback.failure(new Error("Analysis failed."));
-                } else {
-                    callback.success(analysisResult);
-                }
+        final LinkedHashMap<net.gini.android.models.Document, Integer> documentRotationMap =
+                new LinkedHashMap<>();
+        for (final Map.Entry<String, Integer> entry : documentIdRotationMap.entrySet()) {
+            final net.gini.android.models.Document document = mApiDocuments.get(entry.getKey());
+            if (document == null) {
+                callback.failure(new Error("Missing partial document."));
+                return new CancellationToken() {
+                    @Override
+                    public void cancel() {
+                    }
+                };
             }
-        }, token, SystemClock.uptimeMillis() + 500 + Math.round(Math.random() * 1000));
+            documentRotationMap.put(document, entry.getValue());
+        }
+        final AtomicReference<net.gini.android.models.Document> compositeDocument =
+                new AtomicReference<>();
+        mGiniApi.getDocumentTaskManager().createCompositeDocument(documentRotationMap, null)
+                .onSuccessTask(
+                        new Continuation<net.gini.android.models.Document, Task<net.gini.android.models.Document>>() {
+                            @Override
+                            public Task<net.gini.android.models.Document> then(
+                                    final Task<net.gini.android.models.Document> task)
+                                    throws Exception {
+                                final net.gini.android.models.Document giniDocument =
+                                        task.getResult();
+                                if (task.isCancelled()) {
+                                    return task;
+                                }
+                                final net.gini.android.models.Document apiDocument =
+                                        task.getResult();
+                                compositeDocument.set(apiDocument);
+                                mApiDocuments.put(apiDocument.getId(), apiDocument);
+                                return mGiniApi.getDocumentTaskManager().pollDocument(giniDocument);
+                            }
+                        })
+                .onSuccessTask(
+                        new Continuation<net.gini.android.models.Document, Task<Map<String, SpecificExtraction>>>() {
+                            @Override
+                            public Task<Map<String, SpecificExtraction>> then(
+                                    final Task<net.gini.android.models.Document> task)
+                                    throws Exception {
+                                final net.gini.android.models.Document giniDocument =
+                                        task.getResult();
+                                if (task.isCancelled()) {
+                                    return Task.cancelled();
+                                }
+                                return mGiniApi.getDocumentTaskManager().getExtractions(
+                                        giniDocument);
+                            }
+                        })
+                .continueWith(
+                        new Continuation<Map<String, SpecificExtraction>, Void>() {
+                            @Override
+                            public Void then(
+                                    final Task<Map<String, SpecificExtraction>> task)
+                                    throws Exception {
+                                if (task.isFaulted()) {
+                                    callback.failure(new Error(task.getError().getMessage()));
+                                } else if (task.getResult() != null) {
+                                    final Map<String, GiniVisionSpecificExtraction> extractions =
+                                            SpecificExtractionMapper.mapToGVL(task.getResult());
+                                    callback.success(
+                                            new AnalysisResult(compositeDocument.get().getId(),
+                                                    extractions));
+                                } else {
+                                    // WIP-MPA: call cancelled only here after API SDK supports cancellation
+                                    callback.cancelled();
+                                }
+                                return null;
+                            }
+                        });
         return new CancellationToken() {
             @Override
             public void cancel() {
-                mHandler.removeCallbacksAndMessages(token);
-                mSingleDocumentAnalyzer.cancelAnalysis();
+                // WIP-MPA: how to cancel a task in the API SDK?
+                // WIP-MPA: don't call cancelled here after API SDK supports cancellation
                 callback.cancelled();
             }
         };
-    }
 
-    @Deprecated
-    public void cancel() {
-        mSingleDocumentAnalyzer.cancelAnalysis();
     }
 
     public static class Builder {
@@ -214,9 +271,7 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                 sdkBuilder.setConnectionBackOffMultiplier(mBackoffMultiplier);
             }
             final Gini giniApi = sdkBuilder.build();
-            final SingleDocumentAnalyzer singleDocumentAnalyzer = new SingleDocumentAnalyzer(
-                    giniApi);
-            return new GiniVisionDefaultNetworkService(giniApi, singleDocumentAnalyzer);
+            return new GiniVisionDefaultNetworkService(giniApi);
         }
 
         @NonNull
