@@ -194,7 +194,6 @@ public class NetworkRequestsManager {
 
                                             @Override
                                             public void success(final Result result) {
-                                                mApiDocumentIds.remove(document.getId());
                                                 future.complete(
                                                         new NetworkRequestResult<>(document,
                                                                 result.getDocumentId()));
@@ -210,15 +209,19 @@ public class NetworkRequestsManager {
                                         new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, NetworkRequestResult<GiniVisionDocument>>() {
                                             @Override
                                             public NetworkRequestResult<GiniVisionDocument> apply(
-                                                    final NetworkRequestResult<GiniVisionDocument> networkRequestResult,
+                                                    final NetworkRequestResult<GiniVisionDocument> requestResult,
                                                     final Throwable throwable) {
                                                 if (throwable != null) {
                                                     if (isCancellation(throwable)) {
                                                         cancellationToken.cancel();
                                                     }
-                                                    mDocumentDeleteFutures.remove(document.getId());
+                                                } else if (requestResult != null) {
+                                                    mDocumentUploadFutures.remove(document.getId());
+                                                    mDocumentAnalyzeFutures.remove(document.getId());
+                                                    mApiDocumentIds.remove(document.getId());
                                                 }
-                                                return networkRequestResult;
+                                                mDocumentDeleteFutures.remove(document.getId());
+                                                return requestResult;
                                             }
                                         });
 
