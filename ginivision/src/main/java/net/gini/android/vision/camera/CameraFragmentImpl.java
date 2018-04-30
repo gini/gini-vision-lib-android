@@ -183,7 +183,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
 
     private boolean mImportDocumentButtonEnabled;
     private ImportUrisAsyncTask mImportUrisAsyncTask;
-    private boolean mImageStackClicked;
+    private boolean mProceededToMultiPageReview;
     private boolean mQRCodeAnalysisCompleted;
     private QRCodeDocument mQRCodeDocument;
 
@@ -333,7 +333,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         if (activity == null) {
             return;
         }
-        mImageStackClicked = false;
+        mProceededToMultiPageReview = false;
         initViews();
         initCameraController(activity);
         if (isQRCodeScanningEnabled(mGiniVisionFeatureConfiguration)) {
@@ -577,7 +577,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         if (mImportUrisAsyncTask != null) {
             mImportUrisAsyncTask.cancel(true);
         }
-        if (!mImageStackClicked) {
+
+        if (!mProceededToMultiPageReview) {
             deleteUploadedMultiPageDocuments();
         }
         if (!mQRCodeAnalysisCompleted) {
@@ -593,6 +594,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         if (mMultiPageDocument == null) {
             return;
         }
+
         if (GiniVision.hasInstance()) {
             final NetworkRequestsManager networkRequestsManager = GiniVision.getInstance()
                     .internal().getNetworkRequestsManager();
@@ -765,7 +767,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         mImageStack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                mImageStackClicked = true;
+                mProceededToMultiPageReview = true;
                 mListener.onProceedToMultiPageReviewScreen(mMultiPageDocument);
             }
         });
@@ -1044,6 +1046,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                         LOG.debug("Client accepted the document");
                         hideActivityIndicatorAndEnableInteraction();
                         if (document.getType() == Document.Type.IMAGE_MULTI_PAGE) {
+                            mProceededToMultiPageReview = true;
                             mListener.onProceedToMultiPageReviewScreen(
                                     (ImageMultiPageDocument) document);
                         } else {

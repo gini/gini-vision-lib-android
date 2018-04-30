@@ -73,6 +73,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        GiniVision.cleanup(this);
+    }
+
     private void createRuntimePermissionsHandler() {
         mRuntimePermissionHandler = RuntimePermissionHandler
                 .forActivity(this)
@@ -305,7 +311,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(final int requestCode, final int resultCode,
             final Intent data) {
         if (requestCode == REQUEST_SCAN) {
-            GiniVision.cleanup(this);
             if (data == null) {
                 if (isIntentActionViewOrSend(getIntent())) {
                     finish();
