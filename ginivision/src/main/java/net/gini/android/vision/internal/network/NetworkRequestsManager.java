@@ -19,6 +19,9 @@ import net.gini.android.vision.network.GiniVisionNetworkCallback;
 import net.gini.android.vision.network.GiniVisionNetworkService;
 import net.gini.android.vision.network.Result;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -33,6 +36,8 @@ import jersey.repackaged.jsr166e.CompletionException;
  * @exclude
  */
 public class NetworkRequestsManager {
+
+    private static final Logger LOG = LoggerFactory.getLogger(NetworkRequestsManager.class);
 
     private final Map<String, String> mApiDocumentIds;
     private final Map<String, CompletableFuture<NetworkRequestResult<GiniVisionDocument>>>
@@ -66,9 +71,11 @@ public class NetworkRequestsManager {
 
     public CompletableFuture<NetworkRequestResult<GiniVisionDocument>> upload(
             @NonNull final GiniVisionDocument document) {
+        LOG.debug("Upload document {}", document.getId());
         final CompletableFuture<NetworkRequestResult<GiniVisionDocument>> documentUploadFuture =
                 mDocumentUploadFutures.get(document.getId());
         if (documentUploadFuture != null) {
+            LOG.debug("Document upload already requested for {}", document.getId());
             return documentUploadFuture;
         }
 
@@ -77,23 +84,31 @@ public class NetworkRequestsManager {
         mDocumentUploadFutures.put(document.getId(), future);
 
         final CancellationToken cancellationToken =
-                mGiniVisionNetworkService.upload(document, new GiniVisionNetworkCallback<Result, Error>() {
-            @Override
-            public void failure(final Error error) {
-                future.completeExceptionally(new RuntimeException(error.getMessage()));
-            }
+                mGiniVisionNetworkService.upload(document,
+                        new GiniVisionNetworkCallback<Result, Error>() {
+                            @Override
+                            public void failure(final Error error) {
+                                LOG.error("Document upload failed for {}: {}", document.getId(),
+                                        error.getMessage());
+                                future.completeExceptionally(
+                                        new RuntimeException(error.getMessage()));
+                            }
 
-            @Override
-            public void success(final Result result) {
-                mApiDocumentIds.put(document.getId(), result.getDocumentId());
-                future.complete(new NetworkRequestResult<>(document, result.getDocumentId()));
-            }
+                            @Override
+                            public void success(final Result result) {
+                                LOG.debug("Document upload success for {}: {}", document.getId(),
+                                        result);
+                                mApiDocumentIds.put(document.getId(), result.getDocumentId());
+                                future.complete(new NetworkRequestResult<>(document,
+                                        result.getDocumentId()));
+                            }
 
-            @Override
-            public void cancelled() {
-                future.cancel(false);
-            }
-        });
+                            @Override
+                            public void cancelled() {
+                                LOG.debug("Document upload cancelled for {}", document.getId());
+                                future.cancel(false);
+                            }
+                        });
 
         future.handle(
                 new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, NetworkRequestResult<GiniVisionDocument>>() {
@@ -115,12 +130,15 @@ public class NetworkRequestsManager {
 
     public CompletableFuture<NetworkRequestResult<GiniVisionDocument>> delete(
             @NonNull final GiniVisionDocument document) {
+        LOG.debug("Delete document {}", document.getId());
         final CompletableFuture<NetworkRequestResult<GiniVisionDocument>> documentDeleteFuture =
                 mDocumentDeleteFutures.get(document.getId());
         if (documentDeleteFuture != null) {
+            LOG.debug("Document deletion already requested for {}", document.getId());
             return documentDeleteFuture;
         }
 
+        // Collect futures related to this document or its partial documents
         final List<CompletableFuture> documentFutures = new ArrayList<>();
         final CompletableFuture<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>>
                 analyzeFuture = mDocumentAnalyzeFutures.get(document.getId());
@@ -162,48 +180,68 @@ public class NetworkRequestsManager {
                             @Override
                             public CompletableFuture<NetworkRequestResult<GiniVisionDocument>> apply(
                                     final Boolean success) {
-                                final CompletableFuture<NetworkRequestResult<GiniVisionDocument>> documentDeleteFuture =
+                                final CompletableFuture<NetworkRequestResult<GiniVisionDocument>>
+                                        documentDeleteFuture =
                                         mDocumentDeleteFutures.get(document.getId());
                                 if (documentDeleteFuture != null) {
+                                    LOG.debug("Document deletion already requested for {}",
+                                            document.getId());
                                     return documentDeleteFuture;
                                 }
 
                                 final CompletableFuture<NetworkRequestResult<GiniVisionDocument>>
                                         future = new CompletableFuture<>();
-                                mDocumentDeleteFutures.put(document.getId(), future);
 
                                 final String apiDocumentId = mApiDocumentIds.get(document.getId());
                                 if (apiDocumentId == null) {
-                                    future.complete(new NetworkRequestResult<>(document, ""));
+                                    LOG.debug(
+                                            "Document deletion cancelled for {}: no API document id found",
+                                            document.getId());
+                                    future.cancel(false);
                                     return future;
                                 }
                                 if (!success) {
-                                    future.complete(
-                                            new NetworkRequestResult<>(document, apiDocumentId));
+                                    LOG.debug(
+                                            "Document deletion cancelled for {}: there was an error with a previous request",
+                                            document.getId());
+                                    future.cancel(false);
                                     return future;
                                 }
 
+                                mDocumentDeleteFutures.put(document.getId(), future);
+
                                 final CancellationToken cancellationToken =
                                         mGiniVisionNetworkService.delete(apiDocumentId,
-                                        new GiniVisionNetworkCallback<Result, Error>() {
-                                            @Override
-                                            public void failure(final Error error) {
-                                                future.completeExceptionally(
-                                                        new RuntimeException(error.getMessage()));
-                                            }
+                                                new GiniVisionNetworkCallback<Result, Error>() {
+                                                    @Override
+                                                    public void failure(final Error error) {
+                                                        LOG.error(
+                                                                "Document deletion failed for {}: {}",
+                                                                document.getId(),
+                                                                error.getMessage());
+                                                        future.completeExceptionally(
+                                                                new RuntimeException(
+                                                                        error.getMessage()));
+                                                    }
 
-                                            @Override
-                                            public void success(final Result result) {
-                                                future.complete(
-                                                        new NetworkRequestResult<>(document,
-                                                                result.getDocumentId()));
-                                            }
+                                                    @Override
+                                                    public void success(final Result result) {
+                                                        LOG.debug(
+                                                                "Document deletion success for {}",
+                                                                document.getId());
+                                                        future.complete(
+                                                                new NetworkRequestResult<>(document,
+                                                                        result.getDocumentId()));
+                                                    }
 
-                                            @Override
-                                            public void cancelled() {
-                                                future.cancel(false);
-                                            }
-                                        });
+                                                    @Override
+                                                    public void cancelled() {
+                                                        LOG.debug(
+                                                                "Document deletion cancelled for {}",
+                                                                document.getId());
+                                                        future.cancel(false);
+                                                    }
+                                                });
 
                                 future.handle(
                                         new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, NetworkRequestResult<GiniVisionDocument>>() {
@@ -217,7 +255,8 @@ public class NetworkRequestsManager {
                                                     }
                                                 } else if (requestResult != null) {
                                                     mDocumentUploadFutures.remove(document.getId());
-                                                    mDocumentAnalyzeFutures.remove(document.getId());
+                                                    mDocumentAnalyzeFutures.remove(
+                                                            document.getId());
                                                     mApiDocumentIds.remove(document.getId());
                                                 }
                                                 mDocumentDeleteFutures.remove(document.getId());
@@ -232,10 +271,12 @@ public class NetworkRequestsManager {
 
     public CompletableFuture<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>> analyze(
             @NonNull final GiniVisionMultiPageDocument multiPageDocument) {
+        LOG.debug("Analyze document {}", multiPageDocument.getId());
         final CompletableFuture<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>>
                 documentAnalyzeFuture =
                 mDocumentAnalyzeFutures.get(multiPageDocument.getId());
         if (documentAnalyzeFuture != null) {
+            LOG.debug("Document analysis already requested for {}", multiPageDocument.getId());
             return documentAnalyzeFuture;
         }
 
@@ -260,13 +301,14 @@ public class NetworkRequestsManager {
                                         documentAnalyzeFuture =
                                         mDocumentAnalyzeFutures.get(multiPageDocument.getId());
                                 if (documentAnalyzeFuture != null) {
+                                    LOG.debug("Document analysis already requested for {}",
+                                            multiPageDocument.getId());
                                     return documentAnalyzeFuture;
                                 }
 
                                 final CompletableFuture<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>>
                                         future =
                                         new CompletableFuture<>();
-                                mDocumentAnalyzeFutures.put(multiPageDocument.getId(), future);
 
                                 final LinkedHashMap<String, Integer> documentRotationDeltas =
                                         new LinkedHashMap<>();
@@ -283,35 +325,56 @@ public class NetworkRequestsManager {
                                         }
                                         documentRotationDeltas.put(apiDocumentId, rotationDelta);
                                     } else {
-                                        throw new IllegalStateException(
-                                                "Missing partial document id. All page documents of a multi-page document have to be uploaded before analysis.");
+                                        LOG.error(
+                                                "Document analysis failed for {}: missing partial document id for {}",
+                                                multiPageDocument.getId(),
+                                                ((GiniVisionDocument) document).getId());
+                                        future.completeExceptionally(new IllegalStateException(
+                                                "Missing partial document id. All page documents of a multi-page document have to be uploaded before analysis."));
+                                        return future;
                                     }
                                 }
 
+                                mDocumentAnalyzeFutures.put(multiPageDocument.getId(), future);
+
                                 final CancellationToken cancellationToken =
                                         mGiniVisionNetworkService.analyze(documentRotationDeltas,
-                                        new GiniVisionNetworkCallback<AnalysisResult, Error>() {
-                                            @Override
-                                            public void failure(final Error error) {
-                                                future.completeExceptionally(
-                                                        new RuntimeException(
-                                                                error.getMessage()));
-                                            }
+                                                new GiniVisionNetworkCallback<AnalysisResult, Error>() {
+                                                    @Override
+                                                    public void failure(final Error error) {
+                                                        LOG.error(
+                                                                "Document analysis failed for {}: {}",
+                                                                multiPageDocument.getId(),
+                                                                error.getMessage());
+                                                        future.completeExceptionally(
+                                                                new RuntimeException(
+                                                                        error.getMessage()));
+                                                    }
 
-                                            @Override
-                                            public void success(final AnalysisResult result) {
-                                                mApiDocumentIds.put(multiPageDocument.getId(), result.getDocumentId());
-                                                future.complete(new AnalysisNetworkRequestResult<>(
-                                                        multiPageDocument,
-                                                        result.getDocumentId(),
-                                                        result));
-                                            }
+                                                    @Override
+                                                    public void success(
+                                                            final AnalysisResult result) {
+                                                        LOG.debug(
+                                                                "Document analysis success for {}: {}",
+                                                                multiPageDocument.getId(), result);
+                                                        mApiDocumentIds.put(
+                                                                multiPageDocument.getId(),
+                                                                result.getDocumentId());
+                                                        future.complete(
+                                                                new AnalysisNetworkRequestResult<>(
+                                                                        multiPageDocument,
+                                                                        result.getDocumentId(),
+                                                                        result));
+                                                    }
 
-                                            @Override
-                                            public void cancelled() {
-                                                future.cancel(false);
-                                            }
-                                        });
+                                                    @Override
+                                                    public void cancelled() {
+                                                        LOG.debug(
+                                                                "Document analysis canceleld for {}",
+                                                                multiPageDocument.getId());
+                                                        future.cancel(false);
+                                                    }
+                                                });
 
                                 future.handle(
                                         new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionMultiPageDocument>, Throwable, NetworkRequestResult<GiniVisionMultiPageDocument>>() {
