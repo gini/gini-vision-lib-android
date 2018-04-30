@@ -78,7 +78,7 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                         }
                         return null;
                     }
-                });
+                }, Task.UI_THREAD_EXECUTOR);
         return new NoOpCancellationToken();
     }
 
@@ -98,7 +98,7 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                         }
                         return null;
                     }
-                });
+                }, Task.UI_THREAD_EXECUTOR);
         return new NoOpCancellationToken();
     }
 
@@ -178,7 +178,7 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                                 }
                                 return null;
                             }
-                        });
+                        }, Task.UI_THREAD_EXECUTOR);
         return new CancellationToken() {
             @Override
             public void cancel() {
