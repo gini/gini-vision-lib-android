@@ -269,7 +269,7 @@ public class MultiPageReviewActivity extends AppCompatActivity {
             if (networkRequestsManager != null) {
                 for (final ImageDocument imageDocument : mMultiPageDocument.getDocuments()) {
                     // WIP-MPA: start activity indicator for imageDocument
-                    networkRequestsManager.upload(imageDocument)
+                    networkRequestsManager.upload(this, imageDocument)
                             .handle(new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, Void>() {
                                 @Override
                                 public Void apply(

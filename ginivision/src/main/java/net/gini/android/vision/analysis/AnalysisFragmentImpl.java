@@ -446,7 +446,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
                 }
                 for (final Object document : multiPageDocument.getDocuments()) {
                     final GiniVisionDocument giniVisionDocument = (GiniVisionDocument) document;
-                    networkRequestsManager.upload(giniVisionDocument);
+                    networkRequestsManager.upload(activity, giniVisionDocument);
                 }
                 networkRequestsManager.analyze(multiPageDocument)
                         .handle(new CompletableFuture.BiFun<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>, Throwable, Void>() {

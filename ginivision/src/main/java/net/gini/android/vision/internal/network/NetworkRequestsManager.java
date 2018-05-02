@@ -6,12 +6,15 @@ package net.gini.android.vision.internal.network;
  * Copyright (c) 2018 Gini GmbH.
  */
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import net.gini.android.vision.document.GiniVisionDocument;
 import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.document.ImageDocument;
+import net.gini.android.vision.internal.AsyncCallback;
+import net.gini.android.vision.internal.cache.DocumentDataMemoryCache;
 import net.gini.android.vision.network.AnalysisResult;
 import net.gini.android.vision.network.CancellationToken;
 import net.gini.android.vision.network.Error;
@@ -48,6 +51,7 @@ public class NetworkRequestsManager {
             mDocumentAnalyzeFutures;
 
     private final GiniVisionNetworkService mGiniVisionNetworkService;
+    private final DocumentDataMemoryCache mDocumentDataMemoryCache;
 
     public static String getErrorMessage(@NonNull final Throwable throwable) {
         if (throwable instanceof CompletionException) {
@@ -60,9 +64,10 @@ public class NetworkRequestsManager {
         return throwable instanceof CancellationException;
     }
 
-    public NetworkRequestsManager(
-            final GiniVisionNetworkService giniVisionNetworkService) {
+    public NetworkRequestsManager(@NonNull final GiniVisionNetworkService giniVisionNetworkService,
+            @NonNull final DocumentDataMemoryCache documentDataMemoryCache) {
         mGiniVisionNetworkService = giniVisionNetworkService;
+        mDocumentDataMemoryCache = documentDataMemoryCache;
         mApiDocumentIds = new HashMap<>();
         mDocumentUploadFutures = new HashMap<>();
         mDocumentDeleteFutures = new HashMap<>();
@@ -70,6 +75,7 @@ public class NetworkRequestsManager {
     }
 
     public CompletableFuture<NetworkRequestResult<GiniVisionDocument>> upload(
+            @NonNull final Context context,
             @NonNull final GiniVisionDocument document) {
         LOG.debug("Upload document {}", document.getId());
         final CompletableFuture<NetworkRequestResult<GiniVisionDocument>> documentUploadFuture =
@@ -83,48 +89,62 @@ public class NetworkRequestsManager {
                 new CompletableFuture<>();
         mDocumentUploadFutures.put(document.getId(), future);
 
-        final CancellationToken cancellationToken =
-                mGiniVisionNetworkService.upload(document,
-                        new GiniVisionNetworkCallback<Result, Error>() {
-                            @Override
-                            public void failure(final Error error) {
-                                LOG.error("Document upload failed for {}: {}", document.getId(),
-                                        error.getMessage());
-                                future.completeExceptionally(
-                                        new RuntimeException(error.getMessage()));
-                            }
+        LOG.debug("Load document data for {}", document.getId());
+        mDocumentDataMemoryCache.get(context, document, new AsyncCallback<byte[]>() {
+            @Override
+            public void onSuccess(final byte[] result) {
+                LOG.debug("Document data loaded for {}", document.getId());
+                final CancellationToken cancellationToken =
+                        mGiniVisionNetworkService.upload(document,
+                                new GiniVisionNetworkCallback<Result, Error>() {
+                                    @Override
+                                    public void failure(final Error error) {
+                                        LOG.error("Document upload failed for {}: {}", document.getId(),
+                                                error.getMessage());
+                                        future.completeExceptionally(
+                                                new RuntimeException(error.getMessage()));
+                                    }
 
-                            @Override
-                            public void success(final Result result) {
-                                LOG.debug("Document upload success for {}: {}", document.getId(),
-                                        result);
-                                mApiDocumentIds.put(document.getId(), result.getDocumentId());
-                                future.complete(new NetworkRequestResult<>(document,
-                                        result.getDocumentId()));
-                            }
+                                    @Override
+                                    public void success(final Result result) {
+                                        LOG.debug("Document upload success for {}: {}", document.getId(),
+                                                result);
+                                        mApiDocumentIds.put(document.getId(), result.getDocumentId());
+                                        future.complete(new NetworkRequestResult<>(document,
+                                                result.getDocumentId()));
+                                    }
 
+                                    @Override
+                                    public void cancelled() {
+                                        LOG.debug("Document upload cancelled for {}", document.getId());
+                                        future.cancel(false);
+                                    }
+                                });
+
+                future.handle(
+                        new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, NetworkRequestResult<GiniVisionDocument>>() {
                             @Override
-                            public void cancelled() {
-                                LOG.debug("Document upload cancelled for {}", document.getId());
-                                future.cancel(false);
+                            public NetworkRequestResult<GiniVisionDocument> apply(
+                                    final NetworkRequestResult<GiniVisionDocument> networkRequestResult,
+                                    final Throwable throwable) {
+                                if (throwable != null) {
+                                    if (isCancellation(throwable)) {
+                                        cancellationToken.cancel();
+                                    }
+                                    mDocumentUploadFutures.remove(document.getId());
+                                }
+                                return networkRequestResult;
                             }
                         });
+            }
 
-        future.handle(
-                new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, NetworkRequestResult<GiniVisionDocument>>() {
-                    @Override
-                    public NetworkRequestResult<GiniVisionDocument> apply(
-                            final NetworkRequestResult<GiniVisionDocument> networkRequestResult,
-                            final Throwable throwable) {
-                        if (throwable != null) {
-                            if (isCancellation(throwable)) {
-                                cancellationToken.cancel();
-                            }
-                            mDocumentUploadFutures.remove(document.getId());
-                        }
-                        return networkRequestResult;
-                    }
-                });
+            @Override
+            public void onError(final Exception exception) {
+                LOG.error("Document data loading failed for {}: {}", document.getId(), exception.getMessage());
+                future.completeExceptionally(exception);
+            }
+        });
+
         return future;
     }
 

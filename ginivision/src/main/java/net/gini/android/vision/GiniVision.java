@@ -77,8 +77,6 @@ public class GiniVision {
     private GiniVision(@NonNull final Builder builder) {
         mGiniVisionNetworkService = builder.getGiniVisionNetworkService();
         mGiniVisionNetworkApi = builder.getGiniVisionNetworkApi();
-        mNetworkRequestsManager = mGiniVisionNetworkService != null ?
-                new NetworkRequestsManager(mGiniVisionNetworkService) : null;
         mDocumentImportEnabledFileTypes = builder.getDocumentImportEnabledFileTypes();
         mFileImportEnabled = builder.isFileImportEnabled();
         mQRCodeScanningEnabled = builder.isQRCodeScanningEnabled();
@@ -88,6 +86,8 @@ public class GiniVision {
         mDocumentDataMemoryCache = new DocumentDataMemoryCache();
         mPhotoMemoryCache = new PhotoMemoryCache(mDocumentDataMemoryCache);
         mImageDiskStore = new ImageDiskStore();
+        mNetworkRequestsManager = mGiniVisionNetworkService != null ? new NetworkRequestsManager(
+                mGiniVisionNetworkService, mDocumentDataMemoryCache) : null;
         mInternal = new Internal(this);
     }
 

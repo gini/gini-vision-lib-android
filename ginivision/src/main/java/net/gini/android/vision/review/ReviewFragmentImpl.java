@@ -225,7 +225,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             final NetworkRequestsManager networkRequestsManager = GiniVision.getInstance()
                     .internal().getNetworkRequestsManager();
             if (networkRequestsManager != null) {
-                networkRequestsManager.upload(document)
+                networkRequestsManager.upload(activity, document)
                         .handle(new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, Void>() {
                             @Override
                             public Void apply(

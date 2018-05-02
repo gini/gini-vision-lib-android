@@ -786,7 +786,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             if (networkRequestsManager != null) {
                 showActivityIndicatorAndDisableInteraction();
                 networkRequestsManager
-                        .upload(qrCodeDocument)
+                        .upload(activity, qrCodeDocument)
                         .handle(new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, NetworkRequestResult<GiniVisionDocument>>() {
                             @Override
                             public NetworkRequestResult<GiniVisionDocument> apply(
