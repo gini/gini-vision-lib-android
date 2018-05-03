@@ -2,6 +2,7 @@ package net.gini.android.vision.network;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.android.volley.Cache;
@@ -42,6 +43,7 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
 
     private final Gini mGiniApi;
     private final Map<String, net.gini.android.models.Document> mApiDocuments = new HashMap<>();
+    private net.gini.android.models.Document mAnalyzedApiDocument;
 
     public static Builder builder(@NonNull final Context context) {
         return new Builder(context);
@@ -49,6 +51,11 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
 
     GiniVisionDefaultNetworkService(@NonNull final Gini giniApi) {
         mGiniApi = giniApi;
+    }
+
+    @Nullable
+    net.gini.android.models.Document getAnalyzedApiDocument() {
+        return mAnalyzedApiDocument;
     }
 
     Gini getGiniApi() {
@@ -151,6 +158,7 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
             }
             documentRotationMap.put(document, entry.getValue());
         }
+        mAnalyzedApiDocument = null;
         final AtomicBoolean isCancelled = new AtomicBoolean();
         final AtomicReference<net.gini.android.models.Document> compositeDocument =
                 new AtomicReference<>();
@@ -167,8 +175,6 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                                             documentIdRotationMap);
                                     return Task.cancelled();
                                 }
-                                final net.gini.android.models.Document giniDocument =
-                                        task.getResult();
                                 if (task.isCancelled()) {
                                     LOG.debug(
                                             "Composite document creation cancelled for documents {}",
@@ -179,7 +185,7 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                                         task.getResult();
                                 compositeDocument.set(apiDocument);
                                 mApiDocuments.put(apiDocument.getId(), apiDocument);
-                                return mGiniApi.getDocumentTaskManager().pollDocument(giniDocument);
+                                return mGiniApi.getDocumentTaskManager().pollDocument(apiDocument);
                             }
                         })
                 .onSuccessTask(
@@ -218,6 +224,7 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                                             documentIdRotationMap, error.getMessage());
                                     callback.failure(error);
                                 } else if (task.getResult() != null) {
+                                    mAnalyzedApiDocument = compositeDocument.get();
                                     final Map<String, GiniVisionSpecificExtraction> extractions =
                                             SpecificExtractionMapper.mapToGVL(task.getResult());
                                     LOG.debug("Document analysis success for documents {}: {}",
@@ -299,8 +306,6 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
             if (mBackoffMultiplier >= 0) {
                 sdkBuilder.setConnectionBackOffMultiplier(mBackoffMultiplier);
             }
-            sdkBuilder.setApiBaseUrl("http://10.162.82.53:3140");
-            sdkBuilder.setUserCenterApiBaseUrl("http://10.162.82.53:3200");
             final Gini giniApi = sdkBuilder.build();
             return new GiniVisionDefaultNetworkService(giniApi);
         }

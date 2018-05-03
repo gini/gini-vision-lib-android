@@ -3,7 +3,6 @@ package net.gini.android.vision.network;
 import android.support.annotation.NonNull;
 
 import net.gini.android.DocumentTaskManager;
-import net.gini.android.Gini;
 import net.gini.android.vision.internal.camera.api.UIExecutor;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.network.model.SpecificExtractionMapper;
@@ -27,30 +26,27 @@ public class GiniVisionDefaultNetworkApi implements GiniVisionNetworkApi {
 
     private static final Logger LOG = LoggerFactory.getLogger(GiniVisionDefaultNetworkApi.class);
 
-    private final Gini mGiniApi;
+    private final GiniVisionDefaultNetworkService mDefaultNetworkService;
     private final UIExecutor mUIExecutor = new UIExecutor();
 
     public static Builder builder() {
         return new Builder();
     }
 
-    // WIP-MPA: add default network service field
     GiniVisionDefaultNetworkApi(
-            @NonNull final Gini giniApi) {
-        mGiniApi = giniApi;
+            @NonNull final GiniVisionDefaultNetworkService defaultNetworkService) {
+        mDefaultNetworkService = defaultNetworkService;
     }
 
-    // WIP-MPA: add documentId parameter
     @Override
     public void sendFeedback(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
             @NonNull final GiniVisionNetworkCallback<Void, Error> callback) {
-        final DocumentTaskManager documentTaskManager = mGiniApi.getDocumentTaskManager();
-
-        // WIP-MPA: get document for the new documentId argument from the default network service
-        final net.gini.android.models.Document document = null;
-
+        final DocumentTaskManager documentTaskManager = mDefaultNetworkService.getGiniApi()
+                .getDocumentTaskManager();
+        final net.gini.android.models.Document document = mDefaultNetworkService.getAnalyzedApiDocument();
         // We require the Gini API SDK's net.gini.android.models.Document for sending the feedback
         if (document != null) {
+            LOG.debug("Send feedback for api document {} using extractions {}", document.getId(), extractions);
             try {
                 documentTaskManager.sendFeedbackForExtractions(document,
                         SpecificExtractionMapper.mapToApiSdk(extractions))
@@ -63,13 +59,14 @@ public class GiniVisionDefaultNetworkApi implements GiniVisionNetworkApi {
                                     @Override
                                     public void run() {
                                         if (task.isFaulted()) {
-                                            LOG.error("Feedback error", task.getError());
+                                            LOG.error("Send feedback failed for api document {}: {}", document.getId(), task.getError());
                                             String message = "unknown";
                                             if (task.getError() != null) {
                                                 message = task.getError().getMessage();
                                             }
                                             callback.failure(new Error(message));
                                         } else {
+                                            LOG.debug("Send feedback success for api document {}", document.getId());
                                             callback.success(null);
                                         }
                                     }
@@ -78,31 +75,34 @@ public class GiniVisionDefaultNetworkApi implements GiniVisionNetworkApi {
                             }
                         });
             } catch (final JSONException e) {
-                LOG.error("Feedback not sent", e);
+                LOG.error("Send feedback failed for api document {}: {}", document.getId(), e);
                 callback.failure(new Error(e.getMessage()));
             }
         } else {
+            LOG.error("Send feedback failed: no Gini Api Document available");
             callback.failure(new Error("Feedback not set: no Gini Api Document available"));
         }
     }
 
     public static class Builder {
-        private Gini mGiniApi;
+
+        private GiniVisionDefaultNetworkService mDefaultNetworkService;
 
         Builder() {
         }
 
         public Builder withGiniVisionDefaultNetworkService(
                 @NonNull final GiniVisionDefaultNetworkService networkService) {
-            mGiniApi = networkService.getGiniApi();
+            mDefaultNetworkService = networkService;
             return this;
         }
 
         public GiniVisionDefaultNetworkApi build() {
-            if (mGiniApi == null) {
-                throw new IllegalStateException("GiniVisionDefaultNetworkApi requires a Gini API SDK instance.");
+            if (mDefaultNetworkService == null) {
+                throw new IllegalStateException(
+                        "GiniVisionDefaultNetworkApi requires a GiniVisionDefaultNetworkService instance.");
             }
-            return new GiniVisionDefaultNetworkApi(mGiniApi);
+            return new GiniVisionDefaultNetworkApi(mDefaultNetworkService);
         }
     }
 }

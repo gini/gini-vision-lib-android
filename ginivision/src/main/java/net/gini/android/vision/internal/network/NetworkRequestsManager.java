@@ -441,9 +441,12 @@ public class NetworkRequestsManager {
         }
     }
 
-    public void reset() {
+    public void cleanup() {
         cancelAll();
         mApiDocumentIds.clear();
+        mDocumentUploadFutures.clear();
+        mDocumentAnalyzeFutures.clear();
+        mDocumentDeleteFutures.clear();
     }
 
 }

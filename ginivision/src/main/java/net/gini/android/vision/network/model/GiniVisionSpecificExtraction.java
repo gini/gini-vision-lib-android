@@ -64,4 +64,13 @@ public class GiniVisionSpecificExtraction extends GiniVisionExtraction {
     public List<GiniVisionExtraction> getCandidate() {
         return mCandidates;
     }
+
+
+    @Override
+    public String toString() {
+        return "GiniVisionSpecificExtraction{" +
+                "mName='" + mName + '\'' +
+                ", mCandidates=" + mCandidates +
+                "} " + super.toString();
+    }
 }

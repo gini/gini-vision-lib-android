@@ -95,4 +95,14 @@ public class GiniVisionExtraction implements Parcelable {
     public void setIsDirty(final boolean isDirty) {
         mIsDirty = isDirty;
     }
+
+    @Override
+    public String toString() {
+        return "GiniVisionExtraction{" +
+                "mEntity='" + mEntity + '\'' +
+                ", mValue='" + mValue + '\'' +
+                ", mGiniVisionBox=" + mGiniVisionBox +
+                ", mIsDirty=" + mIsDirty +
+                '}';
+    }
 }

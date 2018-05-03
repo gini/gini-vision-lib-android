@@ -67,7 +67,7 @@ public class GiniVision {
             sInstance.mDocumentDataMemoryCache.clear();
             sInstance.mPhotoMemoryCache.clear();
             if (sInstance.mNetworkRequestsManager != null) {
-                sInstance.mNetworkRequestsManager.cancelAll();
+                sInstance.mNetworkRequestsManager.cleanup();
             }
             sInstance = null;
         }
