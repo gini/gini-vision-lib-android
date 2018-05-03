@@ -63,14 +63,6 @@ dependencies {
     androidTestImplementation deps.mockito
     androidTestImplementation deps.mockitoAndroid
     androidTestImplementation deps.supportMultidex
-
-    jacocoAnt deps.jacocoAnt
-    jacocoAgent deps.jacocoAgent
-    androidJacocoAgent deps.jacocoAgent
-    androidJacocoAnt deps.jacocoAnt
-    androidJacocoAnt deps.jacocoCore
-    androidJacocoAnt deps.jacocoReport
-    androidJacocoAnt deps.jacocoAgent
 }
 
 apply from: rootProject.file('gradle/codequality.gradle')
