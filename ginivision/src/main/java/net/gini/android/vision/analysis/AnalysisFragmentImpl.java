@@ -455,8 +455,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
                                     final AnalysisNetworkRequestResult<GiniVisionMultiPageDocument> requestResult,
                                     final Throwable throwable) {
                                 stopScanAnimation();
-                                if (throwable != null
-                                        && !isCancellation(throwable)) {
+                                if (throwable != null && !isCancellation(throwable)) {
                                     showError(getErrorMessage(throwable),
                                             mFragment.getActivity().getString(
                                                     R.string.gv_document_analysis_error_retry),

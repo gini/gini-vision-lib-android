@@ -231,8 +231,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                             public Void apply(
                                     final NetworkRequestResult<GiniVisionDocument> requestResult,
                                     final Throwable throwable) {
-                                if (throwable != null
-                                        && !isCancellation(throwable)) {
+                                if (throwable != null && !isCancellation(throwable)) {
                                     mDocumentAnalysisErrorMessage = getErrorMessage(throwable);
                                 } else if (requestResult != null) {
                                     mDocumentWasUploaded = true;
