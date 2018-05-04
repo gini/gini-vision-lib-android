@@ -157,8 +157,32 @@ public class NetworkRequestsManager {
             LOG.debug("Document deletion already requested for {}", document.getId());
             return documentDeleteFuture;
         }
-
         // Collect futures related to this document or its partial documents
+        final List<CompletableFuture> documentFutures = collectRelatedFutures(document);
+        return CompletableFuture
+                .allOf(documentFutures.toArray(new CompletableFuture[documentFutures.size()]))
+                .handle(new CompletableFuture.BiFun<Void, Throwable, Boolean>() {
+                    @Override
+                    public Boolean apply(final Void aVoid, final Throwable throwable) {
+                        if (throwable != null) {
+                            return false;
+                        }
+                        return true;
+                    }
+                })
+                .thenCompose(
+                        new CompletableFuture.Fun<Boolean, CompletableFuture<NetworkRequestResult<GiniVisionDocument>>>() {
+                            @Override
+                            public CompletableFuture<NetworkRequestResult<GiniVisionDocument>> apply(
+                                    final Boolean relatedFuturesSucceeded) {
+                                return deleteDocument(document, relatedFuturesSucceeded);
+                            }
+                        });
+    }
+
+    @NonNull
+    private List<CompletableFuture> collectRelatedFutures(
+            final @NonNull GiniVisionDocument document) {
         final List<CompletableFuture> documentFutures = new ArrayList<>();
         final CompletableFuture<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>>
                 analyzeFuture = mDocumentAnalyzeFutures.get(document.getId());
@@ -183,110 +207,97 @@ public class NetworkRequestsManager {
                 documentFutures.add(uploadFuture);
             }
         }
+        return documentFutures;
+    }
 
-        return CompletableFuture
-                .allOf(documentFutures.toArray(new CompletableFuture[documentFutures.size()]))
-                .handle(new CompletableFuture.BiFun<Void, Throwable, Boolean>() {
-                    @Override
-                    public Boolean apply(final Void aVoid, final Throwable throwable) {
-                        if (throwable != null) {
-                            return false;
-                        }
-                        return true;
-                    }
-                })
-                .thenCompose(
-                        new CompletableFuture.Fun<Boolean, CompletableFuture<NetworkRequestResult<GiniVisionDocument>>>() {
+    @NonNull
+    private CompletableFuture<NetworkRequestResult<GiniVisionDocument>> deleteDocument(
+            final @NonNull GiniVisionDocument document, final Boolean relatedFuturesSucceeded) {
+        final CompletableFuture<NetworkRequestResult<GiniVisionDocument>>
+                documentDeleteFuture =
+                mDocumentDeleteFutures.get(document.getId());
+        if (documentDeleteFuture != null) {
+            LOG.debug("Document deletion already requested for {}",
+                    document.getId());
+            return documentDeleteFuture;
+        }
+
+        final CompletableFuture<NetworkRequestResult<GiniVisionDocument>>
+                future = new CompletableFuture<>();
+
+        final String apiDocumentId = mApiDocumentIds.get(document.getId());
+        if (apiDocumentId == null) {
+            LOG.debug(
+                    "Document deletion cancelled for {}: no API document id found",
+                    document.getId());
+            future.cancel(false);
+            return future;
+        }
+        if (!relatedFuturesSucceeded) {
+            LOG.debug(
+                    "Document deletion cancelled for {}: there was an error with a previous request",
+                    document.getId());
+            future.cancel(false);
+            return future;
+        }
+
+        mDocumentDeleteFutures.put(document.getId(), future);
+
+        final CancellationToken cancellationToken =
+                mGiniVisionNetworkService.delete(apiDocumentId,
+                        new GiniVisionNetworkCallback<Result, Error>() {
                             @Override
-                            public CompletableFuture<NetworkRequestResult<GiniVisionDocument>> apply(
-                                    final Boolean success) {
-                                final CompletableFuture<NetworkRequestResult<GiniVisionDocument>>
-                                        documentDeleteFuture =
-                                        mDocumentDeleteFutures.get(document.getId());
-                                if (documentDeleteFuture != null) {
-                                    LOG.debug("Document deletion already requested for {}",
-                                            document.getId());
-                                    return documentDeleteFuture;
-                                }
+                            public void failure(final Error error) {
+                                LOG.error(
+                                        "Document deletion failed for {}: {}",
+                                        document.getId(),
+                                        error.getMessage());
+                                future.completeExceptionally(
+                                        new RuntimeException(
+                                                error.getMessage()));
+                            }
 
-                                final CompletableFuture<NetworkRequestResult<GiniVisionDocument>>
-                                        future = new CompletableFuture<>();
+                            @Override
+                            public void success(final Result result) {
+                                LOG.debug(
+                                        "Document deletion success for {}",
+                                        document.getId());
+                                future.complete(
+                                        new NetworkRequestResult<>(document,
+                                                result.getDocumentId()));
+                            }
 
-                                final String apiDocumentId = mApiDocumentIds.get(document.getId());
-                                if (apiDocumentId == null) {
-                                    LOG.debug(
-                                            "Document deletion cancelled for {}: no API document id found",
-                                            document.getId());
-                                    future.cancel(false);
-                                    return future;
-                                }
-                                if (!success) {
-                                    LOG.debug(
-                                            "Document deletion cancelled for {}: there was an error with a previous request",
-                                            document.getId());
-                                    future.cancel(false);
-                                    return future;
-                                }
-
-                                mDocumentDeleteFutures.put(document.getId(), future);
-
-                                final CancellationToken cancellationToken =
-                                        mGiniVisionNetworkService.delete(apiDocumentId,
-                                                new GiniVisionNetworkCallback<Result, Error>() {
-                                                    @Override
-                                                    public void failure(final Error error) {
-                                                        LOG.error(
-                                                                "Document deletion failed for {}: {}",
-                                                                document.getId(),
-                                                                error.getMessage());
-                                                        future.completeExceptionally(
-                                                                new RuntimeException(
-                                                                        error.getMessage()));
-                                                    }
-
-                                                    @Override
-                                                    public void success(final Result result) {
-                                                        LOG.debug(
-                                                                "Document deletion success for {}",
-                                                                document.getId());
-                                                        future.complete(
-                                                                new NetworkRequestResult<>(document,
-                                                                        result.getDocumentId()));
-                                                    }
-
-                                                    @Override
-                                                    public void cancelled() {
-                                                        LOG.debug(
-                                                                "Document deletion cancelled for {}",
-                                                                document.getId());
-                                                        future.cancel(false);
-                                                    }
-                                                });
-
-                                future.handle(
-                                        new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, NetworkRequestResult<GiniVisionDocument>>() {
-                                            @Override
-                                            public NetworkRequestResult<GiniVisionDocument> apply(
-                                                    final NetworkRequestResult<GiniVisionDocument> requestResult,
-                                                    final Throwable throwable) {
-                                                if (throwable != null) {
-                                                    if (isCancellation(throwable)) {
-                                                        cancellationToken.cancel();
-                                                    }
-                                                } else if (requestResult != null) {
-                                                    mDocumentUploadFutures.remove(document.getId());
-                                                    mDocumentAnalyzeFutures.remove(
-                                                            document.getId());
-                                                    mApiDocumentIds.remove(document.getId());
-                                                }
-                                                mDocumentDeleteFutures.remove(document.getId());
-                                                return requestResult;
-                                            }
-                                        });
-
-                                return future;
+                            @Override
+                            public void cancelled() {
+                                LOG.debug(
+                                        "Document deletion cancelled for {}",
+                                        document.getId());
+                                future.cancel(false);
                             }
                         });
+
+        future.handle(
+                new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, NetworkRequestResult<GiniVisionDocument>>() {
+                    @Override
+                    public NetworkRequestResult<GiniVisionDocument> apply(
+                            final NetworkRequestResult<GiniVisionDocument> requestResult,
+                            final Throwable throwable) {
+                        if (throwable != null) {
+                            if (isCancellation(throwable)) {
+                                cancellationToken.cancel();
+                            }
+                        } else if (requestResult != null) {
+                            mDocumentUploadFutures.remove(document.getId());
+                            mDocumentAnalyzeFutures.remove(
+                                    document.getId());
+                            mApiDocumentIds.remove(document.getId());
+                        }
+                        mDocumentDeleteFutures.remove(document.getId());
+                        return requestResult;
+                    }
+                });
+
+        return future;
     }
 
     public CompletableFuture<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>> analyze(
