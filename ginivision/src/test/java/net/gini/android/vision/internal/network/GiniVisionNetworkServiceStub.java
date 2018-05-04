@@ -33,14 +33,14 @@ public class GiniVisionNetworkServiceStub implements GiniVisionNetworkService {
     }
 
     @Override
-    public CancellationToken delete(@NonNull final String documentId,
+    public CancellationToken delete(@NonNull final String giniApiDocumentId,
             @NonNull final GiniVisionNetworkCallback<Result, Error> callback) {
         callback.success(new Result(DEFAULT_DOCUMENT_ID));
         return new CallbackCancellationToken(callback);
     }
 
     @Override
-    public CancellationToken analyze(@NonNull final LinkedHashMap<String, Integer> documentIdRotationMap,
+    public CancellationToken analyze(@NonNull final LinkedHashMap<String, Integer> giniApiDocumentIdRotationMap,
             @NonNull final GiniVisionNetworkCallback<AnalysisResult, Error> callback) {
         callback.success(createAnalysisResult());
         return new CallbackCancellationToken(callback);

@@ -167,7 +167,7 @@ public class NetworkRequestsManagerTest {
         final String errorMessage = "Something went wrong.";
         final GiniVisionNetworkService networkService = new GiniVisionNetworkServiceStub() {
             @Override
-            public CancellationToken delete(@NonNull final String documentId,
+            public CancellationToken delete(@NonNull final String giniApiDocumentId,
                     @NonNull final GiniVisionNetworkCallback<Result, Error> callback) {
                 callback.failure(new Error(errorMessage));
                 return new CallbackCancellationToken(callback);
@@ -196,13 +196,13 @@ public class NetworkRequestsManagerTest {
             int counter = 0;
 
             @Override
-            public CancellationToken delete(@NonNull final String documentId,
+            public CancellationToken delete(@NonNull final String giniApiDocumentId,
                     @NonNull final GiniVisionNetworkCallback<Result, Error> callback) {
                 counter++;
                 if (counter == 1) {
                     callback.failure(new Error("Something went wrong."));
                 } else {
-                    super.delete(documentId, callback);
+                    super.delete(giniApiDocumentId, callback);
                 }
                 return new CallbackCancellationToken(callback);
             }
@@ -488,7 +488,7 @@ public class NetworkRequestsManagerTest {
         // Given
         final GiniVisionNetworkService networkService = spy(new GiniVisionNetworkServiceStub() {
             @Override
-            public CancellationToken delete(@NonNull final String documentId,
+            public CancellationToken delete(@NonNull final String giniApiDocumentId,
                     @NonNull final GiniVisionNetworkCallback<Result, Error> callback) {
                 return new CancellationToken() {
                     @Override
@@ -516,7 +516,7 @@ public class NetworkRequestsManagerTest {
         // Given
         final GiniVisionNetworkService networkService = spy(new GiniVisionNetworkServiceStub() {
             @Override
-            public CancellationToken analyze(@NonNull final LinkedHashMap<String, Integer> documentIdRotationMap,
+            public CancellationToken analyze(@NonNull final LinkedHashMap<String, Integer> giniApiDocumentIdRotationMap,
                     @NonNull final GiniVisionNetworkCallback<AnalysisResult, Error> callback) {
                 // Cancellation
                 return new CallbackCancellationToken(callback);

@@ -43,7 +43,7 @@ public class GiniVisionDefaultNetworkApi implements GiniVisionNetworkApi {
             @NonNull final GiniVisionNetworkCallback<Void, Error> callback) {
         final DocumentTaskManager documentTaskManager = mDefaultNetworkService.getGiniApi()
                 .getDocumentTaskManager();
-        final net.gini.android.models.Document document = mDefaultNetworkService.getAnalyzedApiDocument();
+        final net.gini.android.models.Document document = mDefaultNetworkService.getAnalyzedGiniApiDocument();
         // We require the Gini API SDK's net.gini.android.models.Document for sending the feedback
         if (document != null) {
             LOG.debug("Send feedback for api document {} using extractions {}", document.getId(), extractions);
