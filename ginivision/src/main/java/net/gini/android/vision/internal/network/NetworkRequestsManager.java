@@ -99,7 +99,8 @@ public class NetworkRequestsManager {
                                 new GiniVisionNetworkCallback<Result, Error>() {
                                     @Override
                                     public void failure(final Error error) {
-                                        LOG.error("Document upload failed for {}: {}", document.getId(),
+                                        LOG.error("Document upload failed for {}: {}",
+                                                document.getId(),
                                                 error.getMessage());
                                         future.completeExceptionally(
                                                 new RuntimeException(error.getMessage()));
@@ -107,16 +108,19 @@ public class NetworkRequestsManager {
 
                                     @Override
                                     public void success(final Result result) {
-                                        LOG.debug("Document upload success for {}: {}", document.getId(),
+                                        LOG.debug("Document upload success for {}: {}",
+                                                document.getId(),
                                                 result);
-                                        mApiDocumentIds.put(document.getId(), result.getDocumentId());
+                                        mApiDocumentIds.put(document.getId(),
+                                                result.getDocumentId());
                                         future.complete(new NetworkRequestResult<>(document,
                                                 result.getDocumentId()));
                                     }
 
                                     @Override
                                     public void cancelled() {
-                                        LOG.debug("Document upload cancelled for {}", document.getId());
+                                        LOG.debug("Document upload cancelled for {}",
+                                                document.getId());
                                         future.cancel(false);
                                     }
                                 });
@@ -140,7 +144,8 @@ public class NetworkRequestsManager {
 
             @Override
             public void onError(final Exception exception) {
-                LOG.error("Document data loading failed for {}: {}", document.getId(), exception.getMessage());
+                LOG.error("Document data loading failed for {}: {}", document.getId(),
+                        exception.getMessage());
                 future.completeExceptionally(exception);
             }
         });
@@ -311,6 +316,127 @@ public class NetworkRequestsManager {
             return documentAnalyzeFuture;
         }
 
+        final List<CompletableFuture> documentFutures = collectRelatedUploadFutures(
+                multiPageDocument);
+
+        return CompletableFuture
+                .allOf(documentFutures.toArray(new CompletableFuture[documentFutures.size()]))
+                .thenCompose(
+                        new CompletableFuture.Fun<Void, CompletableFuture<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>>>() {
+                            @Override
+                            public CompletableFuture<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>> apply(
+                                    final Void aVoid) {
+                                return analyzeDocument(multiPageDocument);
+                            }
+                        });
+    }
+
+    @NonNull
+    private CompletableFuture<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>> analyzeDocument(
+            final @NonNull GiniVisionMultiPageDocument multiPageDocument) {
+        final CompletableFuture<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>>
+                documentAnalyzeFuture = mDocumentAnalyzeFutures.get(multiPageDocument.getId());
+        if (documentAnalyzeFuture != null) {
+            LOG.debug("Document analysis already requested for {}", multiPageDocument.getId());
+            return documentAnalyzeFuture;
+        }
+
+        final CompletableFuture<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>> future =
+                new CompletableFuture<>();
+
+        final LinkedHashMap<String, Integer>
+                giniApiDocumentIdRotationDeltas =
+                new LinkedHashMap<>();
+        final boolean success = collectGiniApiDocumentIds(giniApiDocumentIdRotationDeltas,
+                multiPageDocument);
+        if (!success) {
+            future.completeExceptionally(new IllegalStateException(
+                    "Missing partial document id. All page documents of a multi-page document have to be uploaded before analysis."));
+            return future;
+        }
+
+        mDocumentAnalyzeFutures.put(multiPageDocument.getId(), future);
+
+        final CancellationToken cancellationToken =
+                mGiniVisionNetworkService.analyze(
+                        giniApiDocumentIdRotationDeltas,
+                        new GiniVisionNetworkCallback<AnalysisResult, Error>() {
+                            @Override
+                            public void failure(final Error error) {
+                                LOG.error("Document analysis failed for {}: {}",
+                                        multiPageDocument.getId(), error.getMessage());
+                                future.completeExceptionally(
+                                        new RuntimeException(error.getMessage()));
+                            }
+
+                            @Override
+                            public void success(
+                                    final AnalysisResult result) {
+                                LOG.debug("Document analysis success for {}: {}",
+                                        multiPageDocument.getId(), result);
+                                mApiDocumentIds.put(multiPageDocument.getId(),
+                                        result.getDocumentId());
+                                future.complete(
+                                        new AnalysisNetworkRequestResult<>(multiPageDocument,
+                                                result.getDocumentId(), result));
+                            }
+
+                            @Override
+                            public void cancelled() {
+                                LOG.debug("Document analysis canceleld for {}",
+                                        multiPageDocument.getId());
+                                future.cancel(false);
+                            }
+                        });
+
+        future.handle(
+                new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionMultiPageDocument>, Throwable, NetworkRequestResult<GiniVisionMultiPageDocument>>() {
+                    @Override
+                    public NetworkRequestResult<GiniVisionMultiPageDocument> apply(
+                            final NetworkRequestResult<GiniVisionMultiPageDocument> networkRequestResult,
+                            final Throwable throwable) {
+                        if (throwable != null) {
+                            if (isCancellation(throwable)) {
+                                cancellationToken.cancel();
+                            }
+                            mDocumentAnalyzeFutures.remove(
+                                    multiPageDocument.getId());
+                        }
+                        return networkRequestResult;
+                    }
+                });
+        return future;
+    }
+
+    private boolean collectGiniApiDocumentIds(
+            final LinkedHashMap<String, Integer> giniApiDocumentIdRotationDeltas,
+            final GiniVisionMultiPageDocument multiPageDocument) {
+        for (final Object document : multiPageDocument.getDocuments()) {
+            final GiniVisionDocument giniVisionDocument =
+                    (GiniVisionDocument) document;
+            final String apiDocumentId = mApiDocumentIds.get(
+                    giniVisionDocument.getId());
+            if (apiDocumentId != null) {
+                int rotationDelta = 0;
+                if (giniVisionDocument instanceof ImageDocument) {
+                    rotationDelta =
+                            ((ImageDocument) giniVisionDocument).getRotationDelta();
+                }
+                giniApiDocumentIdRotationDeltas.put(apiDocumentId, rotationDelta);
+            } else {
+                LOG.error(
+                        "Document analysis failed for {}: missing partial document id for {}",
+                        multiPageDocument.getId(),
+                        ((GiniVisionDocument) document).getId());
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @NonNull
+    private List<CompletableFuture> collectRelatedUploadFutures(
+            final @NonNull GiniVisionMultiPageDocument multiPageDocument) {
         final List<CompletableFuture> documentFutures = new ArrayList<>();
         for (final Object document : multiPageDocument.getDocuments()) {
             final GiniVisionDocument giniVisionDocument = (GiniVisionDocument) document;
@@ -320,112 +446,7 @@ public class NetworkRequestsManager {
                 documentFutures.add(documentFuture);
             }
         }
-
-        return CompletableFuture
-                .allOf(documentFutures.toArray(new CompletableFuture[documentFutures.size()]))
-                .thenCompose(
-                        new CompletableFuture.Fun<Void, CompletableFuture<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>>>() {
-                            @Override
-                            public CompletableFuture<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>> apply(
-                                    final Void aVoid) {
-                                final CompletableFuture<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>>
-                                        documentAnalyzeFuture =
-                                        mDocumentAnalyzeFutures.get(multiPageDocument.getId());
-                                if (documentAnalyzeFuture != null) {
-                                    LOG.debug("Document analysis already requested for {}",
-                                            multiPageDocument.getId());
-                                    return documentAnalyzeFuture;
-                                }
-
-                                final CompletableFuture<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>>
-                                        future =
-                                        new CompletableFuture<>();
-
-                                final LinkedHashMap<String, Integer> documentRotationDeltas =
-                                        new LinkedHashMap<>();
-                                for (final Object document : multiPageDocument.getDocuments()) {
-                                    final GiniVisionDocument giniVisionDocument =
-                                            (GiniVisionDocument) document;
-                                    final String apiDocumentId = mApiDocumentIds.get(
-                                            giniVisionDocument.getId());
-                                    if (apiDocumentId != null) {
-                                        int rotationDelta = 0;
-                                        if (giniVisionDocument instanceof ImageDocument) {
-                                            rotationDelta =
-                                                    ((ImageDocument) giniVisionDocument).getRotationDelta();
-                                        }
-                                        documentRotationDeltas.put(apiDocumentId, rotationDelta);
-                                    } else {
-                                        LOG.error(
-                                                "Document analysis failed for {}: missing partial document id for {}",
-                                                multiPageDocument.getId(),
-                                                ((GiniVisionDocument) document).getId());
-                                        future.completeExceptionally(new IllegalStateException(
-                                                "Missing partial document id. All page documents of a multi-page document have to be uploaded before analysis."));
-                                        return future;
-                                    }
-                                }
-
-                                mDocumentAnalyzeFutures.put(multiPageDocument.getId(), future);
-
-                                final CancellationToken cancellationToken =
-                                        mGiniVisionNetworkService.analyze(documentRotationDeltas,
-                                                new GiniVisionNetworkCallback<AnalysisResult, Error>() {
-                                                    @Override
-                                                    public void failure(final Error error) {
-                                                        LOG.error(
-                                                                "Document analysis failed for {}: {}",
-                                                                multiPageDocument.getId(),
-                                                                error.getMessage());
-                                                        future.completeExceptionally(
-                                                                new RuntimeException(
-                                                                        error.getMessage()));
-                                                    }
-
-                                                    @Override
-                                                    public void success(
-                                                            final AnalysisResult result) {
-                                                        LOG.debug(
-                                                                "Document analysis success for {}: {}",
-                                                                multiPageDocument.getId(), result);
-                                                        mApiDocumentIds.put(
-                                                                multiPageDocument.getId(),
-                                                                result.getDocumentId());
-                                                        future.complete(
-                                                                new AnalysisNetworkRequestResult<>(
-                                                                        multiPageDocument,
-                                                                        result.getDocumentId(),
-                                                                        result));
-                                                    }
-
-                                                    @Override
-                                                    public void cancelled() {
-                                                        LOG.debug(
-                                                                "Document analysis canceleld for {}",
-                                                                multiPageDocument.getId());
-                                                        future.cancel(false);
-                                                    }
-                                                });
-
-                                future.handle(
-                                        new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionMultiPageDocument>, Throwable, NetworkRequestResult<GiniVisionMultiPageDocument>>() {
-                                            @Override
-                                            public NetworkRequestResult<GiniVisionMultiPageDocument> apply(
-                                                    final NetworkRequestResult<GiniVisionMultiPageDocument> networkRequestResult,
-                                                    final Throwable throwable) {
-                                                if (throwable != null) {
-                                                    if (isCancellation(throwable)) {
-                                                        cancellationToken.cancel();
-                                                    }
-                                                    mDocumentAnalyzeFutures.remove(
-                                                            multiPageDocument.getId());
-                                                }
-                                                return networkRequestResult;
-                                            }
-                                        });
-                                return future;
-                            }
-                        });
+        return documentFutures;
     }
 
     public void cancel(@NonNull final GiniVisionDocument document) {
