@@ -23,7 +23,7 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.View;
 
-import net.gini.android.vision.document.ImageDocument.Source;
+import net.gini.android.vision.Document;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 import net.gini.android.vision.internal.util.Size;
@@ -366,7 +366,7 @@ public class CameraController implements CameraInterface {
                                 getDisplayOrientationForCamera(mActivity),
                                 getDeviceOrientation(mActivity),
                                 getDeviceType(mActivity),
-                                Source.newCameraSource());
+                                Document.Source.newCameraSource());
                         LOG.info("Picture taken");
                         pictureTaken.complete(photo);
                     }

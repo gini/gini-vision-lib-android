@@ -27,8 +27,10 @@ public class ImageMultiPageDocument extends
                 }
             };
 
-    public ImageMultiPageDocument(final boolean isImported) {
-        super(Type.IMAGE_MULTI_PAGE, MimeType.IMAGE_WILDCARD.asString(), isImported);
+    public ImageMultiPageDocument(@NonNull final Source source,
+            @NonNull final ImportMethod importMethod) {
+        super(Type.IMAGE_MULTI_PAGE, source, importMethod, MimeType.IMAGE_WILDCARD.asString(),
+                true);
     }
 
     public ImageMultiPageDocument(

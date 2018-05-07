@@ -9,7 +9,6 @@ import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.camera.CameraActivity;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.ImageDocument;
-import net.gini.android.vision.document.ImageDocument.ImportMethod;
 import net.gini.android.vision.document.ImageMultiPageDocument;
 import net.gini.android.vision.internal.util.ActivityHelper;
 import net.gini.android.vision.internal.util.DeviceHelper;
@@ -183,7 +182,7 @@ public final class GiniVisionFileImport {
         if (fileImportValidator.matchesCriteria(intent, uri)) {
             return DocumentFactory.newDocumentFromIntent(intent, context,
                     DeviceHelper.getDeviceOrientation(context), DeviceHelper.getDeviceType(context),
-                    ImportMethod.OPEN_WITH);
+                    Document.ImportMethod.OPEN_WITH);
         } else {
             throw new ImportedFileValidationException(fileImportValidator.getError());
         }
@@ -196,7 +195,8 @@ public final class GiniVisionFileImport {
         if (uris == null) {
             throw new ImportedFileValidationException("Intent data did not contain Uris");
         }
-        final ImageMultiPageDocument multiPageDocument = new ImageMultiPageDocument(true);
+        final ImageMultiPageDocument multiPageDocument = new ImageMultiPageDocument(
+                Document.Source.newExternalSource(), Document.ImportMethod.OPEN_WITH);
         for (final Uri uri : uris) {
             if (!UriHelper.isUriInputStreamAvailable(uri, context)) {
                 throw new ImportedFileValidationException(
@@ -208,7 +208,7 @@ public final class GiniVisionFileImport {
                         MimeType.IMAGE_PREFIX.asString())) {
                     final ImageDocument document = DocumentFactory.newImageDocumentFromUri(uri,
                             intent, context, DeviceHelper.getDeviceOrientation(context),
-                            DeviceHelper.getDeviceType(context), ImportMethod.OPEN_WITH);
+                            DeviceHelper.getDeviceType(context), Document.ImportMethod.OPEN_WITH);
                     multiPageDocument.addDocument(document);
                 }
             } else {

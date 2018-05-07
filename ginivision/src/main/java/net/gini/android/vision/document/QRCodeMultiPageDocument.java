@@ -27,8 +27,9 @@ public class QRCodeMultiPageDocument extends
                 }
             };
 
-    public QRCodeMultiPageDocument(final boolean isImported) {
-        super(Type.QR_CODE_MULTI_PAGE, MimeType.APPLICATION_JSON.asString(), isImported);
+    public QRCodeMultiPageDocument(@NonNull final Source source,
+            @NonNull final ImportMethod importMethod) {
+        super(Type.QR_CODE_MULTI_PAGE, source, importMethod, MimeType.APPLICATION_JSON.asString(), false);
     }
 
     public QRCodeMultiPageDocument(

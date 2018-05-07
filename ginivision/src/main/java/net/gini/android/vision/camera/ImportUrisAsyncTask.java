@@ -6,11 +6,11 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
+import net.gini.android.vision.Document;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.GiniVisionDocumentError;
 import net.gini.android.vision.document.ImageDocument;
-import net.gini.android.vision.document.ImageDocument.ImportMethod;
 import net.gini.android.vision.document.ImageMultiPageDocument;
 import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.storage.ImageDiskStore;
@@ -39,21 +39,28 @@ class ImportUrisAsyncTask extends AsyncTask<List<Uri>, Void, ImageMultiPageDocum
     private final Intent mIntent;
     private final AsyncCallback<ImageMultiPageDocument> mListener;
     private final ImageDiskStore mImageDiskStore;
+    private final Document.Source mSource;
+    private final Document.ImportMethod mImportMethod;
 
     ImportUrisAsyncTask(@NonNull final Context context,
             @NonNull final Intent intent,
             @NonNull final ImageDiskStore imageDiskStore,
+            final Document.Source source,
+            final Document.ImportMethod importMethod,
             @NonNull final AsyncCallback<ImageMultiPageDocument> listener) {
         mContext = context;
         mIntent = intent;
         mImageDiskStore = imageDiskStore;
+        mSource = source;
+        mImportMethod = importMethod;
         mListener = listener;
     }
 
     @Override
     protected ImageMultiPageDocument doInBackground(final List<Uri>[] urisList) {
         final List<Uri> uris = urisList[0];
-        final ImageMultiPageDocument multiPageDocument = new ImageMultiPageDocument(true);
+        final ImageMultiPageDocument multiPageDocument = new ImageMultiPageDocument(
+                mSource, mImportMethod);
         for (final Uri uri : uris) {
             if (isCancelled()) {
                 return multiPageDocument;
@@ -81,7 +88,7 @@ class ImportUrisAsyncTask extends AsyncTask<List<Uri>, Void, ImageMultiPageDocum
                         final ImageDocument document = DocumentFactory.newImageDocumentFromUri(
                                 localUri,
                                 mIntent, mContext, DeviceHelper.getDeviceOrientation(mContext),
-                                DeviceHelper.getDeviceType(mContext), ImportMethod.OPEN_WITH);
+                                DeviceHelper.getDeviceType(mContext), mImportMethod);
                         multiPageDocument.addDocument(document);
                     } catch (final IllegalArgumentException e) {
                         LOG.error("Failed to import selected document", e);

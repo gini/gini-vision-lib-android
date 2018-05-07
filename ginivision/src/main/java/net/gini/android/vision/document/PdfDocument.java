@@ -25,12 +25,13 @@ public final class PdfDocument extends GiniVisionDocument {
      * @throws IllegalArgumentException if the Intent's data is null
      */
     @NonNull
-    static PdfDocument fromIntent(final Intent intent) {
+    static PdfDocument fromIntent(@NonNull final Intent intent,
+            @NonNull final ImportMethod importMethod) {
         final Uri uri = IntentHelper.getUri(intent);
         if (uri == null) {
             throw new IllegalArgumentException("Intent data must contain a Uri");
         }
-        return new PdfDocument(intent, uri);
+        return new PdfDocument(intent, uri, Source.newExternalSource(), importMethod);
     }
 
     /**
@@ -38,8 +39,10 @@ public final class PdfDocument extends GiniVisionDocument {
      * @param intent an Intent that must point to a PDF
      * @throws IllegalArgumentException if the Intent's data is null
      */
-    private PdfDocument(@NonNull final Intent intent, @NonNull final Uri uri) {
-        super(Type.PDF, MimeType.APPLICATION_PDF.asString(), null, intent, uri, false, true);
+    private PdfDocument(@NonNull final Intent intent, @NonNull final Uri uri,
+            @NonNull final Source source, @NonNull final ImportMethod importMethod) {
+        super(Type.PDF, source, importMethod, MimeType.APPLICATION_PDF.asString(), null, intent,
+                uri, false);
     }
 
     /**

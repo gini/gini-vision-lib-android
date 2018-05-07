@@ -51,14 +51,17 @@ public final class QRCodeDocument extends GiniVisionDocument {
         } catch (final UnsupportedEncodingException e) {
             LOG.error("UTF-8 encoding not available", e);
         }
-        return new QRCodeDocument(jsonBytes, paymentQRCodeData);
+        return new QRCodeDocument(jsonBytes, paymentQRCodeData, Source.newCameraSource(),
+                ImportMethod.NONE);
     }
 
     private final PaymentQRCodeData mPaymentData;
 
     private QRCodeDocument(@NonNull final byte[] data,
-            @NonNull final PaymentQRCodeData paymentQRCodeData) {
-        super(Type.QRCode, MimeType.APPLICATION_JSON.asString(), data, null, null, false, false);
+            @NonNull final PaymentQRCodeData paymentQRCodeData,
+            @NonNull final Source source, @NonNull final ImportMethod importMethod) {
+        super(Type.QRCode, source, importMethod, MimeType.APPLICATION_JSON.asString(), data, null,
+                null, false);
         mPaymentData = paymentQRCodeData;
     }
 

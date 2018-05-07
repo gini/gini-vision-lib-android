@@ -18,9 +18,7 @@ import net.gini.android.vision.internal.util.MimeType;
 import net.gini.android.vision.util.IntentHelper;
 import net.gini.android.vision.util.UriHelper;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -54,95 +52,8 @@ public final class ImageDocument extends GiniVisionDocument {
         }
     }
 
-    /**
-     * @exclude
-     */
-    public static class Source {
-
-        private final String mName;
-
-        public static Source newCameraSource() {
-            return new Source("camera");
-        }
-
-        public static Source newExternalSource() {
-            return new Source("external");
-        }
-
-        public static Source newSource(@NonNull final String name) {
-            return new Source(name);
-        }
-
-        public static Source newUnknownSource() {
-            return new Source("");
-        }
-
-        private Source(@NonNull final String name) {
-            mName = name;
-        }
-
-        public String getName() {
-            return mName;
-        }
-
-        @Override
-        public boolean equals(final Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass()) {
-                return false;
-            }
-
-            final Source that = (Source) o;
-
-            return mName.equals(that.mName);
-        }
-
-        @Override
-        public int hashCode() {
-            return mName.hashCode();
-        }
-    }
-
-    /**
-     * @exclude
-     */
-    public enum ImportMethod {
-        OPEN_WITH("openwith"),
-        PICKER("picker"),
-        NONE("");
-
-        private static final Map<String, ImportMethod> sLookup = new HashMap<>();
-
-        static {
-            for (final ImportMethod importMethod : ImportMethod.values()) {
-                sLookup.put(importMethod.asString(), importMethod);
-            }
-        }
-
-        public static ImportMethod forName(@NonNull final String name) {
-            if (sLookup.containsKey(name)) {
-                return sLookup.get(name);
-            }
-            return ImportMethod.NONE;
-        }
-
-        private final String mName;
-
-        ImportMethod(final String name) {
-            mName = name;
-        }
-
-        public String asString() {
-            return mName;
-        }
-    }
-
     private final String mDeviceOrientation;
     private final String mDeviceType;
-    private final Source mSource;
-    private final ImportMethod mImportMethod;
     private int mRotationForDisplay;
     private int mRotationDelta;
     private final ImageFormat mFormat;
@@ -235,13 +146,11 @@ public final class ImageDocument extends GiniVisionDocument {
 
     @VisibleForTesting
     ImageDocument(@Nullable final byte[] data) {
-        super(Type.IMAGE, MimeType.IMAGE_JPEG.asString(), data, null, null, true, false);
+        super(Type.IMAGE, Source.newUnknownSource(), ImportMethod.NONE, MimeType.IMAGE_JPEG.asString(), data, null, null, true);
         mRotationForDisplay = 0;
         mFormat = ImageFormat.JPEG;
         mDeviceOrientation = "";
         mDeviceType = "";
-        mSource = Source.newUnknownSource();
-        mImportMethod = ImportMethod.NONE;
     }
 
     private ImageDocument(@NonNull final Photo photo) {
@@ -255,16 +164,12 @@ public final class ImageDocument extends GiniVisionDocument {
 
     private ImageDocument(@NonNull final Photo photo, @Nullable final String uniqueId,
             @Nullable final Intent intent, @Nullable final Uri uri) {
-        super(uniqueId, Type.IMAGE, mimeTypeFromFormat(photo.getImageFormat()), photo.getData(),
-                intent, uri, true, photo.isImported());
+        super(uniqueId, Type.IMAGE, photo.getSource() != null ? photo.getSource() : Source.newUnknownSource(), photo.getImportMethod() != null ? photo.getImportMethod() : ImportMethod.NONE, mimeTypeFromFormat(photo.getImageFormat()), photo.getData(), intent, uri, true);
         mRotationForDisplay = photo.getRotationForDisplay();
         mRotationDelta = photo.getRotationDelta();
         mFormat = photo.getImageFormat();
         mDeviceOrientation = photo.getDeviceOrientation();
         mDeviceType = photo.getDeviceType();
-        mSource = photo.getSource() != null ? photo.getSource() : Source.newUnknownSource();
-        mImportMethod =
-                photo.getImportMethod() != null ? photo.getImportMethod() : ImportMethod.NONE;
     }
 
     private ImageDocument(@Nullable final Intent intent, @Nullable final Uri uri,
@@ -273,13 +178,11 @@ public final class ImageDocument extends GiniVisionDocument {
             @NonNull final String deviceType,
             @NonNull final Source source,
             @NonNull final ImportMethod importMethod) {
-        super(Type.IMAGE, mimeTypeFromFormat(format), null, intent, uri, true, true);
+        super(Type.IMAGE, source, importMethod, mimeTypeFromFormat(format), null, intent, uri, true);
         mRotationForDisplay = 0;
         mFormat = format;
         mDeviceOrientation = deviceOrientation;
         mDeviceType = deviceType;
-        mSource = source;
-        mImportMethod = importMethod;
     }
 
     private ImageDocument(@Nullable final Uri uri, @NonNull final ImageFormat format,
@@ -287,13 +190,11 @@ public final class ImageDocument extends GiniVisionDocument {
             @NonNull final String deviceType,
             @NonNull final Source source,
             @NonNull final ImportMethod importMethod) {
-        super(Type.IMAGE, mimeTypeFromFormat(format), null, null, uri, true, true);
+        super(Type.IMAGE, source, importMethod, mimeTypeFromFormat(format), null, null, uri, true);
         mRotationForDisplay = 0;
         mFormat = format;
         mDeviceOrientation = deviceOrientation;
         mDeviceType = deviceType;
-        mSource = source;
-        mImportMethod = importMethod;
     }
 
     private static String mimeTypeFromFormat(@NonNull final ImageFormat format) {
@@ -367,20 +268,6 @@ public final class ImageDocument extends GiniVisionDocument {
     /**
      * @exclude
      */
-    public Source getSource() {
-        return mSource;
-    }
-
-    /**
-     * @exclude
-     */
-    public ImportMethod getImportMethod() {
-        return mImportMethod;
-    }
-
-    /**
-     * @exclude
-     */
     @Override
     public int describeContents() {
         return 0;
@@ -397,8 +284,6 @@ public final class ImageDocument extends GiniVisionDocument {
         dest.writeSerializable(mFormat);
         dest.writeString(mDeviceOrientation);
         dest.writeString(mDeviceType);
-        dest.writeString(mSource.getName());
-        dest.writeString(mImportMethod.asString());
     }
 
     /**
@@ -423,7 +308,5 @@ public final class ImageDocument extends GiniVisionDocument {
         mFormat = (ImageFormat) in.readSerializable();
         mDeviceOrientation = in.readString();
         mDeviceType = in.readString();
-        mSource = Source.newSource(in.readString());
-        mImportMethod = ImportMethod.forName(in.readString());
     }
 }

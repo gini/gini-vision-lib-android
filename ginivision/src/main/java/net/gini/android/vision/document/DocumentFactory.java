@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import net.gini.android.vision.Document;
-import net.gini.android.vision.document.ImageDocument.ImportMethod;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.util.MimeType;
 
@@ -30,13 +29,13 @@ public final class DocumentFactory {
             @NonNull final Context context,
             @NonNull final String deviceOrientation,
             @NonNull final String deviceType,
-            @NonNull final ImportMethod importMethod) {
+            @NonNull final Document.ImportMethod importMethod) {
         final Uri data = getUri(intent);
         if (data == null) {
             throw new IllegalArgumentException("Intent data must contain a Uri");
         }
         if (hasMimeType(intent, context, MimeType.APPLICATION_PDF.asString())) {
-            return PdfDocument.fromIntent(intent);
+            return PdfDocument.fromIntent(intent, importMethod);
         } else if (hasMimeTypeWithPrefix(intent, context,
                 MimeType.IMAGE_PREFIX.asString())) {
             return ImageDocument.fromIntent(intent, context, deviceOrientation, deviceType,
@@ -51,7 +50,7 @@ public final class DocumentFactory {
             @NonNull final Context context,
             @NonNull final String deviceOrientation,
             @NonNull final String deviceType,
-            @NonNull final ImportMethod importMethod) {
+            @NonNull final Document.ImportMethod importMethod) {
         return ImageDocument.fromUri(externalUri, intent, context, deviceOrientation, deviceType,
                 importMethod);
     }

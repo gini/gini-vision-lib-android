@@ -13,6 +13,7 @@ import net.gini.android.vision.internal.camera.photo.ParcelableMemoryCache;
 import net.gini.android.vision.internal.util.UriReaderAsyncTask;
 import net.gini.android.vision.util.IntentHelper;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 /**
@@ -37,39 +38,44 @@ public class GiniVisionDocument implements Document {
     private final String mUniqueId;
     private final Intent mIntent;
     private final Uri mUri;
-    private final boolean mIsImported;
     private final boolean mIsReviewable;
     private final Type mType;
+    private final Source mSource;
+    private final ImportMethod mImportMethod;
     private final String mMimeType;
     private byte[] mData;
 
     GiniVisionDocument(@NonNull final Type type,
+            @NonNull final Source source,
+            @NonNull final ImportMethod importMethod,
             @NonNull final String mimeType,
             @Nullable final byte[] data,
             @Nullable final Intent intent,
             @Nullable final Uri uri,
-            final boolean isReviewable,
-            final boolean isImported) {
-        this(generateUniqueId(), type, mimeType, data, intent, uri, isReviewable, isImported);
+            final boolean isReviewable) {
+        this(generateUniqueId(), type, source, importMethod, mimeType, data, intent, uri,
+                isReviewable);
     }
 
     GiniVisionDocument(
             @Nullable final String uniqueId,
             @NonNull final Type type,
+            @NonNull final Source source,
+            @NonNull final ImportMethod importMethod,
             @NonNull final String mimeType,
             @Nullable final byte[] data,
             @Nullable final Intent intent,
             @Nullable final Uri uri,
-            final boolean isReviewable,
-            final boolean isImported) {
+            final boolean isReviewable) {
         mUniqueId = uniqueId != null ? uniqueId : generateUniqueId();
         mType = type;
+        mSource = source;
+        mImportMethod = importMethod;
         mMimeType = mimeType;
         mData = data;
         mIntent = intent;
         mUri = uri;
         mIsReviewable = isReviewable;
-        mIsImported = isImported;
     }
 
     private static String generateUniqueId() {
@@ -86,11 +92,12 @@ public class GiniVisionDocument implements Document {
             cache.removeByteArray(token);
         }
         mType = (Type) in.readSerializable();
+        mSource = in.readParcelable(getClass().getClassLoader());
+        mImportMethod = (ImportMethod) in.readSerializable();
         mMimeType = in.readString();
         mIntent = in.readParcelable(Intent.class.getClassLoader());
         mUri = in.readParcelable(Uri.class.getClassLoader());
         mIsReviewable = in.readInt() == 1;
-        mIsImported = in.readInt() == 1;
     }
 
     @Override
@@ -122,11 +129,12 @@ public class GiniVisionDocument implements Document {
         }
 
         dest.writeSerializable(mType);
+        dest.writeParcelable(mSource, flags);
+        dest.writeSerializable(mImportMethod);
         dest.writeString(mMimeType);
         dest.writeParcelable(mIntent, flags);
         dest.writeParcelable(mUri, flags);
         dest.writeInt(mIsReviewable ? 1 : 0);
-        dest.writeInt(mIsImported ? 1 : 0);
     }
 
     @Deprecated
@@ -177,7 +185,17 @@ public class GiniVisionDocument implements Document {
 
     @Override
     public boolean isImported() {
-        return mIsImported;
+        return mImportMethod != null && mImportMethod != ImportMethod.NONE;
+    }
+
+    @Override
+    public ImportMethod getImportMethod() {
+        return mImportMethod;
+    }
+
+    @Override
+    public Source getSource() {
+        return mSource;
     }
 
     @Override
@@ -191,11 +209,12 @@ public class GiniVisionDocument implements Document {
                 "mUniqueId='" + mUniqueId + '\'' +
                 ", mIntent=" + mIntent +
                 ", mUri=" + mUri +
-                ", mIsImported=" + mIsImported +
                 ", mIsReviewable=" + mIsReviewable +
                 ", mType=" + mType +
+                ", mSource=" + mSource +
+                ", mImportMethod=" + mImportMethod +
                 ", mMimeType='" + mMimeType + '\'' +
-                ", mData=" + mData +
+                ", mData=" + Arrays.toString(mData) +
                 '}';
     }
 
@@ -248,9 +267,6 @@ public class GiniVisionDocument implements Document {
 
         final GiniVisionDocument that = (GiniVisionDocument) o;
 
-        if (mIsImported != that.mIsImported) {
-            return false;
-        }
         if (mIsReviewable != that.mIsReviewable) {
             return false;
         }
@@ -266,6 +282,12 @@ public class GiniVisionDocument implements Document {
         if (mType != that.mType) {
             return false;
         }
+        if (!mSource.equals(that.mSource)) {
+            return false;
+        }
+        if (mImportMethod != that.mImportMethod) {
+            return false;
+        }
         return mMimeType.equals(that.mMimeType);
     }
 
@@ -274,9 +296,10 @@ public class GiniVisionDocument implements Document {
         int result = mUniqueId.hashCode();
         result = 31 * result + (mIntent != null ? mIntent.hashCode() : 0);
         result = 31 * result + (mUri != null ? mUri.hashCode() : 0);
-        result = 31 * result + (mIsImported ? 1 : 0);
         result = 31 * result + (mIsReviewable ? 1 : 0);
         result = 31 * result + mType.hashCode();
+        result = 31 * result + mSource.hashCode();
+        result = 31 * result + mImportMethod.hashCode();
         result = 31 * result + mMimeType.hashCode();
         return result;
     }

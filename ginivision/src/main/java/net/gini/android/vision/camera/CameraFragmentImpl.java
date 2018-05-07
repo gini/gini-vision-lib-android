@@ -757,8 +757,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             public void onClick(final View v) {
                 hideQRCodeDetectedPopup(null);
                 if (mPaymentQRCodeData != null) {
-                    mQRCodeDocument = QRCodeDocument.fromPaymentQRCodeData(
-                            mPaymentQRCodeData);
+                    mQRCodeDocument = QRCodeDocument.fromPaymentQRCodeData(mPaymentQRCodeData);
                     analyzeQRCode(mQRCodeDocument);
                     mPaymentQRCodeData = null; // NOPMD
                 }
@@ -1072,45 +1071,49 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         final ImageDiskStore imageDiskStore = GiniVision.getInstance().internal()
                 .getImageDiskStore();
         mImportUrisAsyncTask = new ImportUrisAsyncTask(
-                context, intent, imageDiskStore, new AsyncCallback<ImageMultiPageDocument>() {
-            @Override
-            public void onSuccess(final ImageMultiPageDocument multiPageDocument) {
-                hideActivityIndicatorAndEnableInteraction();
-                if (mMultiPageDocument == null) {
-                    mInMultiPageState = true;
-                    mMultiPageDocument = new ImageMultiPageDocument(true);
-                }
-                mMultiPageDocument.addDocuments(multiPageDocument.getDocuments());
-                if (mMultiPageDocument.getDocuments().isEmpty()) {
-                    LOG.error("Document import failed: Intent did not contain images");
-                    showGenericInvalidFileError();
-                    mMultiPageDocument = null;
-                    mInMultiPageState = false;
-                    return;
-                }
-                LOG.info("Document imported: {}", mMultiPageDocument);
-
-                updateImageStack();
-
-                final View view = mFragment.getView();
-                if (view == null) {
-                    return;
-                }
-                view.postDelayed(new Runnable() {
+                context, intent, imageDiskStore,
+                Document.Source.newExternalSource(), ImportMethod.PICKER,
+                new AsyncCallback<ImageMultiPageDocument>() {
                     @Override
-                    public void run() {
-                        requestClientDocumentCheck(mMultiPageDocument);
-                    }
-                }, ImageStack.ADD_IMAGE_TRANSITION_DURATION_MS);
-            }
+                    public void onSuccess(final ImageMultiPageDocument multiPageDocument) {
+                        hideActivityIndicatorAndEnableInteraction();
+                        if (mMultiPageDocument == null) {
+                            mInMultiPageState = true;
+                            mMultiPageDocument = new ImageMultiPageDocument(
+                                    multiPageDocument.getSource(),
+                                    multiPageDocument.getImportMethod());
+                        }
+                        mMultiPageDocument.addDocuments(multiPageDocument.getDocuments());
+                        if (mMultiPageDocument.getDocuments().isEmpty()) {
+                            LOG.error("Document import failed: Intent did not contain images");
+                            showGenericInvalidFileError();
+                            mMultiPageDocument = null;
+                            mInMultiPageState = false;
+                            return;
+                        }
+                        LOG.info("Document imported: {}", mMultiPageDocument);
 
-            @Override
-            public void onError(final Exception exception) {
-                LOG.error("Document import failed", exception);
-                hideActivityIndicatorAndEnableInteraction();
-                showGenericInvalidFileError();
-            }
-        });
+                        updateImageStack();
+
+                        final View view = mFragment.getView();
+                        if (view == null) {
+                            return;
+                        }
+                        view.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                requestClientDocumentCheck(mMultiPageDocument);
+                            }
+                        }, ImageStack.ADD_IMAGE_TRANSITION_DURATION_MS);
+                    }
+
+                    @Override
+                    public void onError(final Exception exception) {
+                        LOG.error("Document import failed", exception);
+                        hideActivityIndicatorAndEnableInteraction();
+                        showGenericInvalidFileError();
+                    }
+                });
         mImportUrisAsyncTask.execute(uris);
     }
 
