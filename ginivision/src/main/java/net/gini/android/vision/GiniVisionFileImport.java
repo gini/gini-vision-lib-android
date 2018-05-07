@@ -48,7 +48,7 @@ public final class GiniVisionFileImport {
      * @throws IllegalArgumentException        if the Intent's data is not valid or the mime type is not
      *                                         supported
      *
-     * @deprecated Use {@link GiniVisionFileImport#createDocumentForImportedFile(Intent, Context)} instead
+     * @deprecated Use {@link GiniVisionFileImport#createIntentForImportedFile(Intent, Context)} instead
      * when a {@link GiniVision} instance is available. The document
      * is analyzed internally by using the configured {@link GiniVisionNetworkService}
      * implementation. The extractions will be returned in the extra called
