@@ -115,7 +115,6 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     private int mCurrentRotation;
     private boolean mNextClicked;
     private boolean mStopped;
-    private String mApiDocumentId;
     private String mDocumentAnalysisErrorMessage;
     private boolean mWillAddMorePages;
 
@@ -235,7 +234,6 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                                     mDocumentAnalysisErrorMessage = getErrorMessage(throwable);
                                 } else if (requestResult != null) {
                                     mDocumentWasUploaded = true;
-                                    mApiDocumentId = requestResult.getApiDocumentId();
                                 }
                                 return null;
                             }
