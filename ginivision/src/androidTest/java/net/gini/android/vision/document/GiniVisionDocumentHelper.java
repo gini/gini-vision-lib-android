@@ -13,20 +13,16 @@ import java.util.List;
 
 public class GiniVisionDocumentHelper {
 
-    public static ImageDocument newEmptyImageDocument() {
-        return ImageDocument.empty();
-    }
-
-    public static ImageDocument newImageDocument(@NonNull final byte[] data) {
-        return new ImageDocument(data);
+    public static ImageDocument newImageDocument() {
+        final int random = (int) (1 + Math.round(Math.random() * 5));
+        return new ImageDocument(new byte[]{
+                (byte) ((random + 1) * 5), (byte) ((random + 2) * 5), (byte) ((random + 3) * 5)});
     }
 
     public static ImageMultiPageDocument newMultiPageDocument() {
         final List<ImageDocument> imageDocuments = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            final ImageDocument imageDocument = GiniVisionDocumentHelper.newImageDocument(
-                    new byte[]{
-                            (byte) ((i + 1) * 5), (byte) ((i + 2) * 5), (byte) ((i + 3) * 5)});
+            final ImageDocument imageDocument = GiniVisionDocumentHelper.newImageDocument();
             imageDocuments.add(imageDocument);
         }
         return GiniVisionDocumentHelper.newMultiPageDocument(imageDocuments);
