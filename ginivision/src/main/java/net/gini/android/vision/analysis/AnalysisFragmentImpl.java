@@ -242,10 +242,10 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
                             public Void apply(
                                     final NetworkRequestResult<GiniVisionDocument> requestResult,
                                     final Throwable throwable) {
-                                if (mDocument instanceof GiniVisionMultiPageDocument) {
-                                    final GiniVisionMultiPageDocument multiPageDocument =
-                                            (GiniVisionMultiPageDocument) mDocument;
-                                    for (final Object document : multiPageDocument.getDocuments()) {
+                                // Delete PDF partial documents here because the Camera Screen
+                                // doesn't keep references to them
+                                if (mDocument.getType() == Document.Type.PDF_MULTI_PAGE) {
+                                    for (final Object document : mDocument.getDocuments()) {
                                         final GiniVisionDocument giniVisionDocument =
                                                 (GiniVisionDocument) document;
                                         networkRequestsManager.cancel(giniVisionDocument);

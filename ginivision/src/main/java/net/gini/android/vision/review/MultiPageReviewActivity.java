@@ -32,6 +32,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
@@ -73,7 +74,8 @@ public class MultiPageReviewActivity extends AppCompatActivity {
     private ImageButton mButtonNext;
     private ImageButton mDeleteButton;
 
-    public static final int RESULT_MULTI_PAGE_DOCUMENT = RESULT_FIRST_USER + 1;
+    public static final int RESULT_MULTI_PAGE_DOCUMENT = RESULT_FIRST_USER + 1001;
+    private boolean mNextClicked;
 
     public static Intent createIntent(@NonNull final Context context,
             @NonNull final ImageMultiPageDocument multiPageDocument) {
@@ -93,6 +95,7 @@ public class MultiPageReviewActivity extends AppCompatActivity {
         mButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
+                mNextClicked = true;
                 proceedToAnalysisScreen();
             }
         });
@@ -261,6 +264,12 @@ public class MultiPageReviewActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        mNextClicked = false;
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         if (GiniVision.hasInstance()) {
@@ -287,6 +296,42 @@ public class MultiPageReviewActivity extends AppCompatActivity {
                                 }
                             });
                 }
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (!mNextClicked
+                && mMultiPageDocument.getImportMethod() == Document.ImportMethod.OPEN_WITH) {
+            // Delete documents imported using "open with" because the
+            // Camera Screen is not launched for "open with"
+            deleteUploadedDocuments();
+        }
+    }
+
+    private void deleteUploadedDocuments() {
+        if (GiniVision.hasInstance()) {
+            final NetworkRequestsManager networkRequestsManager = GiniVision.getInstance()
+                    .internal().getNetworkRequestsManager();
+            if (networkRequestsManager != null) {
+                networkRequestsManager.cancel(mMultiPageDocument);
+                networkRequestsManager.delete(mMultiPageDocument)
+                        .handle(new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, Void>() {
+                            @Override
+                            public Void apply(
+                                    final NetworkRequestResult<GiniVisionDocument> requestResult,
+                                    final Throwable throwable) {
+                                for (final Object document : mMultiPageDocument.getDocuments()) {
+                                    final GiniVisionDocument giniVisionDocument =
+                                            (GiniVisionDocument) document;
+                                    networkRequestsManager.cancel(giniVisionDocument);
+                                    networkRequestsManager.delete(giniVisionDocument);
+                                }
+                                return null;
+                            }
+                        });
             }
         }
     }
