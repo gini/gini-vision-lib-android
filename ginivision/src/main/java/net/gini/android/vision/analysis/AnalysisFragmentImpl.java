@@ -100,7 +100,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     private TextView mHintHeadlineTextView;
     private List<AnalysisHint> mHints;
     private DocumentRenderer mDocumentRenderer;
-    private final GiniVisionDocument mDocument;
+    private final GiniVisionMultiPageDocument mDocument;
     private final String mDocumentAnalysisErrorMessage;
     private ImageView mImageDocument;
     private RelativeLayout mLayoutRoot;
@@ -122,8 +122,16 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     AnalysisFragmentImpl(final FragmentImplCallback fragment, final Document document,
             final String documentAnalysisErrorMessage) {
         mFragment = fragment;
-        mDocument = (GiniVisionDocument) document;
+        mDocument = asMultiPageDocument(document);
         mDocumentAnalysisErrorMessage = documentAnalysisErrorMessage;
+    }
+
+    private GiniVisionMultiPageDocument asMultiPageDocument(@NonNull final Document document) {
+        if (!(document instanceof GiniVisionMultiPageDocument)) {
+            return DocumentFactory.newMultiPageDocument((GiniVisionDocument) document);
+        } else {
+            return (GiniVisionMultiPageDocument) document;
+        }
     }
 
     @Override
@@ -438,17 +446,11 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
             if (networkRequestsManager != null) {
                 startScanAnimation();
                 GiniVisionDebug.writeDocumentToFile(activity, mDocument, "_for_analysis");
-                final GiniVisionMultiPageDocument multiPageDocument;
-                if (mDocument instanceof GiniVisionMultiPageDocument) {
-                    multiPageDocument = (GiniVisionMultiPageDocument) mDocument;
-                } else {
-                    multiPageDocument = DocumentFactory.newMultiPageDocument(mDocument);
-                }
-                for (final Object document : multiPageDocument.getDocuments()) {
+                for (final Object document : mDocument.getDocuments()) {
                     final GiniVisionDocument giniVisionDocument = (GiniVisionDocument) document;
                     networkRequestsManager.upload(activity, giniVisionDocument);
                 }
-                networkRequestsManager.analyze(multiPageDocument)
+                networkRequestsManager.analyze(mDocument)
                         .handle(new CompletableFuture.BiFun<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>, Throwable, Void>() {
                             @Override
                             public Void apply(
