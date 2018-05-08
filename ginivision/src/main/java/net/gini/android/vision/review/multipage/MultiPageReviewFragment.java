@@ -491,6 +491,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         }
     }
 
+    @NonNull
     @Override
     public GiniVisionMultiPageDocument getMultiPageDocument() {
         return mMultiPageDocument;

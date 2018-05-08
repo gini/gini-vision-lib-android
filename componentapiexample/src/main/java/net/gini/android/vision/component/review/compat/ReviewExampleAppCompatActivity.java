@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.component.ExtractionsActivity;
 import net.gini.android.vision.component.R;
 import net.gini.android.vision.component.analysis.compat.AnalysisExampleAppCompatActivity;
 import net.gini.android.vision.component.noresults.compat.NoResultsExampleAppCompatActivity;
@@ -33,6 +34,9 @@ public class ReviewExampleAppCompatActivity extends AppCompatActivity implements
         ReviewFragmentListener {
 
     public static final String EXTRA_IN_DOCUMENT = "EXTRA_IN_DOCUMENT";
+    public static final int RESULT_ADD_MORE_PAGES = RESULT_FIRST_USER + 3001;
+    public static final String EXTRA_OUT_MULTI_PAGE_FIRST_PAGE = "EXTRA_OUT_MULTI_PAGE_FIRST_PAGE";
+
     private ReviewScreenHandlerAppCompat mReviewScreenHandler;
 
     @Override

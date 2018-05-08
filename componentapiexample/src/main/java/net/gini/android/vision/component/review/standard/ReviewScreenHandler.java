@@ -78,6 +78,6 @@ public class ReviewScreenHandler extends BaseReviewScreenHandler {
 
     @Override
     public void onAddMorePages(@NonNull final Document document) {
-
+        // Only available for compat (using the support library)
     }
 }

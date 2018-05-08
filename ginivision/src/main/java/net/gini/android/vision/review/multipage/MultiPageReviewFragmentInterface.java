@@ -11,6 +11,7 @@ import net.gini.android.vision.document.GiniVisionMultiPageDocument;
  */
 public interface MultiPageReviewFragmentInterface {
 
+    @NonNull
     GiniVisionMultiPageDocument getMultiPageDocument();
 
     void setListener(@NonNull final MultiPageReviewFragmentListener listener);

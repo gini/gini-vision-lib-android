@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
-import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.document.ImageMultiPageDocument;
 
 import java.util.List;
@@ -116,7 +115,7 @@ public class MultiPageReviewActivity extends AppCompatActivity implements
 
     @Override
     public void onProceedToAnalysisScreen(@NonNull final Document document) {
-        final List<ImageDocument> documents = mFragment.getMultiPageDocument().getDocuments();
+        final List documents = mFragment.getMultiPageDocument().getDocuments();
         if (documents.size() == 0) {
             return;
         }

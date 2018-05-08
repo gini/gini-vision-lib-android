@@ -230,11 +230,6 @@ public abstract class BaseReviewScreenHandler implements ReviewFragmentListener 
     protected abstract void setUpActionBar();
 
     @Override
-    public void onAddMorePages(@NonNull final Document document) {
-        // TODO: go back to the Camera Screen with document and show image stack
-    }
-
-    @Override
     public void onExtractionsAvailable(
             @NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
         showExtractions(null, getExtractionsBundle(extractions));

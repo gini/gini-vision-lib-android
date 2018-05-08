@@ -55,6 +55,9 @@
             android:name=".review.standard.ReviewExampleActivity"
             android:theme="@style/AppTheme" />
         <activity
+            android:name=".review.multipage.MultiPageReviewExampleActivity"
+            android:theme="@style/AppThemeCompat.NoActionBar" />
+        <activity
             android:name=".analysis.compat.AnalysisExampleAppCompatActivity"
             android:theme="@style/AppThemeCompat.NoActionBar" />
         <activity

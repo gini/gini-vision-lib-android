@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.component.ExtractionsActivity;
 import net.gini.android.vision.component.R;
 import net.gini.android.vision.component.analysis.standard.AnalysisExampleActivity;
 import net.gini.android.vision.component.noresults.standard.NoResultsExampleActivity;

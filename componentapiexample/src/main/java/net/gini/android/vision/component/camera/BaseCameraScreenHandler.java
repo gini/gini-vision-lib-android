@@ -59,7 +59,7 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
     // Set to true to allow execution of the custom code check
     private static final boolean DO_CUSTOM_DOCUMENT_CHECK = false;
     private static final Logger LOG = LoggerFactory.getLogger(BaseCameraScreenHandler.class);
-    private static final int REVIEW_REQUEST = 1;
+    public static final int REVIEW_REQUEST = 1;
     private static final int ANALYSIS_REQUEST = 2;
     private final Activity mActivity;
     private CameraFragmentInterface mCameraFragmentInterface;

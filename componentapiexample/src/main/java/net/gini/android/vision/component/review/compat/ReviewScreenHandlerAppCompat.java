@@ -1,7 +1,11 @@
 package net.gini.android.vision.component.review.compat;
 
+import static net.gini.android.vision.component.review.compat.ReviewExampleAppCompatActivity.EXTRA_OUT_MULTI_PAGE_FIRST_PAGE;
+import static net.gini.android.vision.component.review.compat.ReviewExampleAppCompatActivity.RESULT_ADD_MORE_PAGES;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -52,7 +56,6 @@ public class ReviewScreenHandlerAppCompat extends BaseReviewScreenHandler {
 
     @Override
     protected void showReviewFragment() {
-        mReviewFragment = ReviewFragmentCompat.createInstance(getDocument());
         mAppCompatActivity.getSupportFragmentManager().beginTransaction()
                 .replace(R.id.review_screen_container, mReviewFragment)
                 .commit();
@@ -80,5 +83,13 @@ public class ReviewScreenHandlerAppCompat extends BaseReviewScreenHandler {
     protected void setUpActionBar() {
         mAppCompatActivity.setSupportActionBar(
                 (Toolbar) mAppCompatActivity.findViewById(R.id.toolbar));
+    }
+
+    @Override
+    public void onAddMorePages(@NonNull final Document document) {
+        final Intent intent = new Intent();
+        intent.putExtra(EXTRA_OUT_MULTI_PAGE_FIRST_PAGE, document);
+        mAppCompatActivity.setResult(RESULT_ADD_MORE_PAGES, intent);
+        mAppCompatActivity.finish();
     }
 }

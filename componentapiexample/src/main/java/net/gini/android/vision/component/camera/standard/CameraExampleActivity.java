@@ -14,6 +14,7 @@ import net.gini.android.vision.camera.CameraFragmentStandard;
 import net.gini.android.vision.component.R;
 import net.gini.android.vision.component.analysis.standard.AnalysisExampleActivity;
 import net.gini.android.vision.component.review.standard.ReviewExampleActivity;
+import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.document.QRCodeDocument;
 import net.gini.android.vision.help.HelpActivity;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
@@ -88,6 +89,12 @@ public class CameraExampleActivity extends Activity implements CameraFragmentLis
     @Override
     public void onDocumentAvailable(@NonNull final Document document) {
         mCameraScreenHandler.onDocumentAvailable(document);
+    }
+
+    @Override
+    public void onProceedToMultiPageReviewScreen(
+            @NonNull final GiniVisionMultiPageDocument multiPageDocument) {
+        mCameraScreenHandler.onProceedToMultiPageReviewScreen(multiPageDocument);
     }
 
     @Override
