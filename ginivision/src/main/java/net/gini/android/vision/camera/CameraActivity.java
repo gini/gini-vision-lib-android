@@ -2,7 +2,7 @@ package net.gini.android.vision.camera;
 
 import static net.gini.android.vision.internal.util.FeatureConfiguration.shouldShowOnboarding;
 import static net.gini.android.vision.internal.util.FeatureConfiguration.shouldShowOnboardingAtFirstRun;
-import static net.gini.android.vision.review.MultiPageReviewActivity.RESULT_MULTI_PAGE_DOCUMENT;
+import static net.gini.android.vision.review.multipage.MultiPageReviewActivity.RESULT_MULTI_PAGE_DOCUMENT;
 
 import android.app.Activity;
 import android.content.Context;
@@ -32,8 +32,8 @@ import net.gini.android.vision.network.GiniVisionNetworkService;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
-import net.gini.android.vision.review.MultiPageReviewActivity;
 import net.gini.android.vision.review.ReviewActivity;
+import net.gini.android.vision.review.multipage.MultiPageReviewActivity;
 
 import java.util.ArrayList;
 import java.util.Map;

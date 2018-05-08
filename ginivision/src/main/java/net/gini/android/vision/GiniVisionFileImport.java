@@ -15,8 +15,8 @@ import net.gini.android.vision.internal.util.DeviceHelper;
 import net.gini.android.vision.internal.util.FileImportValidator;
 import net.gini.android.vision.internal.util.MimeType;
 import net.gini.android.vision.network.GiniVisionNetworkService;
-import net.gini.android.vision.review.MultiPageReviewActivity;
 import net.gini.android.vision.review.ReviewActivity;
+import net.gini.android.vision.review.multipage.MultiPageReviewActivity;
 import net.gini.android.vision.util.IntentHelper;
 import net.gini.android.vision.util.UriHelper;
 

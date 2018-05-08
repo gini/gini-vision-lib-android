@@ -85,11 +85,11 @@ public class RotatableImageViewContainer extends FrameLayout {
         return mImageView;
     }
 
-    void rotateImageViewBy(final int degrees, final boolean animated) {
+    public void rotateImageViewBy(final int degrees, final boolean animated) {
         rotateImageView((int) (mImageView.getRotation() + degrees), animated);
     }
 
-    void rotateImageView(final int degrees, final boolean animated) {
+    public void rotateImageView(final int degrees, final boolean animated) {
         if (degrees == mImageView.getRotation() || isRotating) {
             return;
         }
