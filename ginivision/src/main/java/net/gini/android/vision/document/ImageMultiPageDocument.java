@@ -3,13 +3,16 @@ package net.gini.android.vision.document;
 import android.os.Parcel;
 import android.support.annotation.NonNull;
 
+import net.gini.android.vision.internal.util.MimeType;
+
 /**
  * Created by Alpar Szotyori on 14.03.2018.
  *
  * Copyright (c) 2018 Gini GmbH.
  */
 
-public class ImageMultiPageDocument extends GiniVisionMultiPageDocument<ImageDocument, GiniVisionDocumentError> {
+public class ImageMultiPageDocument extends
+        GiniVisionMultiPageDocument<ImageDocument, GiniVisionDocumentError> {
 
     public static final Creator<ImageMultiPageDocument> CREATOR =
             new Creator<ImageMultiPageDocument>() {
@@ -24,14 +27,15 @@ public class ImageMultiPageDocument extends GiniVisionMultiPageDocument<ImageDoc
                 }
             };
 
-    public ImageMultiPageDocument(final boolean isImported) {
-        super(Type.IMAGE_MULTI_PAGE, isImported);
+    public ImageMultiPageDocument(@NonNull final Source source,
+            @NonNull final ImportMethod importMethod) {
+        super(Type.IMAGE_MULTI_PAGE, source, importMethod, MimeType.IMAGE_WILDCARD.asString(),
+                true);
     }
 
     public ImageMultiPageDocument(
-            @NonNull final ImageDocument document,
-            final boolean isImported) {
-        super(Type.IMAGE_MULTI_PAGE, document, isImported);
+            @NonNull final ImageDocument document) {
+        super(Type.IMAGE_MULTI_PAGE, MimeType.IMAGE_WILDCARD.asString(), document);
     }
 
     private ImageMultiPageDocument(final Parcel in) {

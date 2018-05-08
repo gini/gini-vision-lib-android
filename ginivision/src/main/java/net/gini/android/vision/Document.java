@@ -2,9 +2,13 @@ package net.gini.android.vision;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -19,6 +23,10 @@ import android.support.annotation.Nullable;
  * to memory leaks.
  */
 public interface Document extends Parcelable {
+
+
+    @NonNull
+    String getId();
 
     /**
      * The image of a document as a JPEG.
@@ -56,6 +64,8 @@ public interface Document extends Parcelable {
      * @return the document type
      */
     Type getType();
+
+    String getMimeType();
 
     /**
      * <p>
@@ -102,6 +112,10 @@ public interface Document extends Parcelable {
      */
     boolean isImported();
 
+    ImportMethod getImportMethod();
+
+    Source getSource();
+
     /**
      * <p>
      * Documents like PDFs are not reviewable and can be passed directly to the Analysis Screen.
@@ -133,6 +147,125 @@ public interface Document extends Parcelable {
         /**
          * The document contains multiple images.
          */
-        IMAGE_MULTI_PAGE
+        IMAGE_MULTI_PAGE,
+        /**
+         * The document contains multiple QR Codes.
+         */
+        QR_CODE_MULTI_PAGE,
+        /**
+         * The document contains multiple PDFs.
+         */
+        PDF_MULTI_PAGE
+    }
+
+    /**
+     * @exclude
+     */
+    enum ImportMethod {
+        OPEN_WITH("openwith"),
+        PICKER("picker"),
+        NONE("");
+
+        private static final Map<String, ImportMethod> sLookup = new HashMap<>();
+
+        static {
+            for (final ImportMethod importMethod : ImportMethod.values()) {
+                sLookup.put(importMethod.asString(), importMethod);
+            }
+        }
+
+        public static ImportMethod forName(@NonNull final String name) {
+            if (sLookup.containsKey(name)) {
+                return sLookup.get(name);
+            }
+            return ImportMethod.NONE;
+        }
+
+        private final String mName;
+
+        ImportMethod(final String name) {
+            mName = name;
+        }
+
+        public String asString() {
+            return mName;
+        }
+    }
+
+    /**
+     * @exclude
+     */
+    class Source implements Parcelable {
+
+        private final String mName;
+
+        public static Source newCameraSource() {
+            return new Source("camera");
+        }
+
+        public static Source newExternalSource() {
+            return new Source("external");
+        }
+
+        public static Source newSource(@NonNull final String name) {
+            return new Source(name);
+        }
+
+        public static Source newUnknownSource() {
+            return new Source("");
+        }
+
+        private Source(@NonNull final String name) {
+            mName = name;
+        }
+
+        protected Source(final Parcel in) {
+            mName = in.readString();
+        }
+
+        public String getName() {
+            return mName;
+        }
+
+        @Override
+        public boolean equals(final Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+
+            final Source that = (Source) o;
+
+            return mName.equals(that.mName);
+        }
+
+        @Override
+        public int hashCode() {
+            return mName.hashCode();
+        }
+
+        public static final Creator<Source> CREATOR = new Creator<Source>() {
+            @Override
+            public Source createFromParcel(final Parcel in) {
+                return new Source(in);
+            }
+
+            @Override
+            public Source[] newArray(final int size) {
+                return new Source[size];
+            }
+        };
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(@NonNull final Parcel dest, final int flags) {
+            dest.writeString(mName);
+        }
     }
 }

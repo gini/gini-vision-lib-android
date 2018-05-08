@@ -3,9 +3,8 @@ package net.gini.android.vision.internal.camera.photo;
 import android.graphics.Bitmap;
 import android.os.Parcelable;
 
+import net.gini.android.vision.Document;
 import net.gini.android.vision.document.ImageDocument;
-import net.gini.android.vision.document.ImageDocument.ImportMethod;
-import net.gini.android.vision.document.ImageDocument.Source;
 
 import java.io.File;
 
@@ -22,15 +21,17 @@ public interface Photo extends Parcelable {
 
     int getRotationForDisplay();
 
+    int getRotationDelta();
+
     void setRotationForDisplay(int rotationDegrees);
 
     String getDeviceOrientation();
 
     String getDeviceType();
 
-    Source getSource();
+    Document.Source getSource();
 
-    ImportMethod getImportMethod();
+    Document.ImportMethod getImportMethod();
 
     Bitmap getBitmapPreview();
 

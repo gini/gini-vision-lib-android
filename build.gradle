@@ -6,8 +6,8 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
-        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.1'
+        classpath 'com.android.tools.build:gradle:3.1.2'
+        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.3'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -43,17 +43,16 @@ task printLibraryVersion {
 ext {
     compileSdkVersion = 27
     buildToolsVersion = '27.0.3'
-    minSdkVersion = 14
+    minSdkVersion = 15
     targetSdkVersion = 27
     versionCode = libVersionCode
     versionName = libVersionName
 }
 
-def supportLibVersion = '27.0.2'
+def supportLibVersion = '27.1.1'
 def mockitoVersion = '2.6.3'
 def testSupportLibVersion = '1.0.1'
 def espressoVersion = '3.0.1'
-def jacocoVersion = '0.7.4.201502262128'
 
 ext.deps = [
         // Android
@@ -64,7 +63,7 @@ ext.deps = [
         supportCardView           : "com.android.support:cardview-v7:$supportLibVersion",
         supportAnnotations        : "com.android.support:support-annotations:$supportLibVersion",
         // Google Mobile Vision API
-        playServicesVision        : 'com.google.android.gms:play-services-vision:11.6.0',
+        playServicesVision        : 'com.google.android.gms:play-services-vision:15.0.0',
         // Exif editing library. IMPORTANT: notify backend when the version is changed
         commonsImaging            : 'org.apache.commons:commons-imaging:1.0.0gini',
         // Logging
@@ -81,11 +80,6 @@ ext.deps = [
         supportTestEspressoCore   : "com.android.support.test.espresso:espresso-core:$espressoVersion",
         supportTestEspressoIntents: "com.android.support.test.espresso:espresso-intents:$espressoVersion",
         supportTestUiAutomator    : 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2',
-        supportMultidex           : 'com.android.support:multidex:1.0.1',
-        // Jacoco for test coverage reports
-        jacocoAnt                 : "org.jacoco:org.jacoco.ant:$jacocoVersion",
-        jacocoAgent               : "org.jacoco:org.jacoco.agent:$jacocoVersion",
-        jacocoCore                : "org.jacoco:org.jacoco.core:$jacocoVersion",
-        jacocoReport              : "org.jacoco:org.jacoco.report:$jacocoVersion"
+        supportMultidex           : 'com.android.support:multidex:1.0.1'
 
 ]

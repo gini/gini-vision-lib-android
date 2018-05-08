@@ -57,6 +57,8 @@ android {
 
 // For testing a released version
 repositories {
+    // Use repo on filesystem for using local builds
+    mavenLocal()
     maven {
         url 'https://repo.gini.net/nexus/content/repositories/open'
     }
@@ -76,7 +78,7 @@ dependencies {
     }
 
     // For backward compatibility
-    implementation('net.gini:gini-android-sdk:1.4.2@aar') {
+    implementation('net.gini:gini-android-sdk:2.0.0-beta.3@aar') {
         transitive = true
     }
 

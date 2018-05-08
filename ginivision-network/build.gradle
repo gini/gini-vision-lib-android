@@ -24,13 +24,18 @@ android {
 
 }
 
+repositories {
+    // Use repo on filesystem for using local builds
+    mavenLocal()
+}
+
 dependencies {
     api deps.slf4j
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation deps.supportAnnotations
     implementation project(path: ':ginivision')
-    implementation('net.gini:gini-android-sdk:1.4.2@aar') {
+    implementation('net.gini:gini-android-sdk:2.0.0-beta.3@aar') {
         transitive = true
     }
 

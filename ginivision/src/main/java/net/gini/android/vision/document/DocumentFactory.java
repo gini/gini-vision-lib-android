@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import net.gini.android.vision.Document;
-import net.gini.android.vision.document.ImageDocument.ImportMethod;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.util.MimeType;
 
@@ -30,13 +29,13 @@ public final class DocumentFactory {
             @NonNull final Context context,
             @NonNull final String deviceOrientation,
             @NonNull final String deviceType,
-            @NonNull final ImportMethod importMethod) {
+            @NonNull final Document.ImportMethod importMethod) {
         final Uri data = getUri(intent);
         if (data == null) {
             throw new IllegalArgumentException("Intent data must contain a Uri");
         }
         if (hasMimeType(intent, context, MimeType.APPLICATION_PDF.asString())) {
-            return PdfDocument.fromIntent(intent);
+            return PdfDocument.fromIntent(intent, importMethod);
         } else if (hasMimeTypeWithPrefix(intent, context,
                 MimeType.IMAGE_PREFIX.asString())) {
             return ImageDocument.fromIntent(intent, context, deviceOrientation, deviceType,
@@ -45,13 +44,13 @@ public final class DocumentFactory {
         throw new IllegalArgumentException("Unknown Intent Uri mime type.");
     }
 
-   @NonNull
+    @NonNull
     public static ImageDocument newImageDocumentFromUri(@NonNull final Uri externalUri,
             @NonNull final Intent intent,
             @NonNull final Context context,
             @NonNull final String deviceOrientation,
             @NonNull final String deviceType,
-            @NonNull final ImportMethod importMethod) {
+            @NonNull final Document.ImportMethod importMethod) {
         return ImageDocument.fromUri(externalUri, intent, context, deviceOrientation, deviceType,
                 importMethod);
     }
@@ -70,8 +69,32 @@ public final class DocumentFactory {
     }
 
     public static GiniVisionDocument newDocumentFromPhotoAndDocument(@NonNull final Photo photo,
-            @NonNull final Document document) {
+            @NonNull final GiniVisionDocument document) {
         return ImageDocument.fromPhotoAndDocument(photo, document);
+    }
+
+    public static GiniVisionMultiPageDocument newMultiPageDocument(
+            @NonNull final GiniVisionDocument document) {
+        switch (document.getType()) {
+            case IMAGE:
+                final ImageDocument imageDocument = (ImageDocument) document;
+                final ImageMultiPageDocument imageMultiPageDocument = new ImageMultiPageDocument(
+                        imageDocument);
+                return imageMultiPageDocument;
+            case PDF:
+                final PdfDocument pdfDocument = (PdfDocument) document;
+                final PdfMultiPageDocument pdfMultiPageDocument = new PdfMultiPageDocument(
+                        pdfDocument);
+                return pdfMultiPageDocument;
+            case QRCode:
+                final QRCodeDocument qrCodeDocument = (QRCodeDocument) document;
+                final QRCodeMultiPageDocument qrCodeMultiPageDocument = new QRCodeMultiPageDocument(
+                        qrCodeDocument);
+                return qrCodeMultiPageDocument;
+            default:
+                throw new IllegalArgumentException(
+                        "Unsupported document type for multi-page: " + document.getType());
+        }
     }
 
     private DocumentFactory() {

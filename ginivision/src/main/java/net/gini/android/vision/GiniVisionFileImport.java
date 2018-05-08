@@ -9,7 +9,6 @@ import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.camera.CameraActivity;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.ImageDocument;
-import net.gini.android.vision.document.ImageDocument.ImportMethod;
 import net.gini.android.vision.document.ImageMultiPageDocument;
 import net.gini.android.vision.internal.util.ActivityHelper;
 import net.gini.android.vision.internal.util.DeviceHelper;
@@ -49,7 +48,7 @@ public final class GiniVisionFileImport {
      * @throws IllegalArgumentException        if the Intent's data is not valid or the mime type is not
      *                                         supported
      *
-     * @deprecated Use {@link GiniVisionFileImport#createDocumentForImportedFile(Intent, Context)} instead
+     * @deprecated Use {@link GiniVisionFileImport#createIntentForImportedFile(Intent, Context)} instead
      * when a {@link GiniVision} instance is available. The document
      * is analyzed internally by using the configured {@link GiniVisionNetworkService}
      * implementation. The extractions will be returned in the extra called
@@ -183,7 +182,7 @@ public final class GiniVisionFileImport {
         if (fileImportValidator.matchesCriteria(intent, uri)) {
             return DocumentFactory.newDocumentFromIntent(intent, context,
                     DeviceHelper.getDeviceOrientation(context), DeviceHelper.getDeviceType(context),
-                    ImportMethod.OPEN_WITH);
+                    Document.ImportMethod.OPEN_WITH);
         } else {
             throw new ImportedFileValidationException(fileImportValidator.getError());
         }
@@ -196,7 +195,8 @@ public final class GiniVisionFileImport {
         if (uris == null) {
             throw new ImportedFileValidationException("Intent data did not contain Uris");
         }
-        final ImageMultiPageDocument multiPageDocument = new ImageMultiPageDocument(true);
+        final ImageMultiPageDocument multiPageDocument = new ImageMultiPageDocument(
+                Document.Source.newExternalSource(), Document.ImportMethod.OPEN_WITH);
         for (final Uri uri : uris) {
             if (!UriHelper.isUriInputStreamAvailable(uri, context)) {
                 throw new ImportedFileValidationException(
@@ -208,7 +208,7 @@ public final class GiniVisionFileImport {
                         MimeType.IMAGE_PREFIX.asString())) {
                     final ImageDocument document = DocumentFactory.newImageDocumentFromUri(uri,
                             intent, context, DeviceHelper.getDeviceOrientation(context),
-                            DeviceHelper.getDeviceType(context), ImportMethod.OPEN_WITH);
+                            DeviceHelper.getDeviceType(context), Document.ImportMethod.OPEN_WITH);
                     multiPageDocument.addDocument(document);
                 }
             } else {

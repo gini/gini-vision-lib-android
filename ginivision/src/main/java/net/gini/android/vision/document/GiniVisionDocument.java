@@ -35,31 +35,55 @@ public class GiniVisionDocument implements Document {
             return new GiniVisionDocument[size];
         }
     };
-    private final String mUniqueID;
+    private final String mUniqueId;
     private final Intent mIntent;
     private final Uri mUri;
-    private final boolean mIsImported;
     private final boolean mIsReviewable;
     private final Type mType;
+    private final Source mSource;
+    private final ImportMethod mImportMethod;
+    private final String mMimeType;
     private byte[] mData;
 
     GiniVisionDocument(@NonNull final Type type,
+            @NonNull final Source source,
+            @NonNull final ImportMethod importMethod,
+            @NonNull final String mimeType,
             @Nullable final byte[] data,
             @Nullable final Intent intent,
             @Nullable final Uri uri,
-            final boolean isReviewable,
-            final boolean isImported) {
-        mUniqueID = UUID.randomUUID().toString();
+            final boolean isReviewable) {
+        this(generateUniqueId(), type, source, importMethod, mimeType, data, intent, uri,
+                isReviewable);
+    }
+
+    GiniVisionDocument(
+            @Nullable final String uniqueId,
+            @NonNull final Type type,
+            @NonNull final Source source,
+            @NonNull final ImportMethod importMethod,
+            @NonNull final String mimeType,
+            @Nullable final byte[] data,
+            @Nullable final Intent intent,
+            @Nullable final Uri uri,
+            final boolean isReviewable) {
+        mUniqueId = uniqueId != null ? uniqueId : generateUniqueId();
         mType = type;
+        mSource = source;
+        mImportMethod = importMethod;
+        mMimeType = mimeType;
         mData = data;
         mIntent = intent;
         mUri = uri;
         mIsReviewable = isReviewable;
-        mIsImported = isImported;
+    }
+
+    private static String generateUniqueId() {
+        return UUID.randomUUID().toString();
     }
 
     GiniVisionDocument(final Parcel in) {
-        mUniqueID = in.readString();
+        mUniqueId = in.readString();
         final ParcelableMemoryCache cache = ParcelableMemoryCache.getInstance();
         final ParcelableMemoryCache.Token token = in.readParcelable(
                 ParcelableMemoryCache.Token.class.getClassLoader());
@@ -68,10 +92,18 @@ public class GiniVisionDocument implements Document {
             cache.removeByteArray(token);
         }
         mType = (Type) in.readSerializable();
+        mSource = in.readParcelable(getClass().getClassLoader());
+        mImportMethod = (ImportMethod) in.readSerializable();
+        mMimeType = in.readString();
         mIntent = in.readParcelable(Intent.class.getClassLoader());
         mUri = in.readParcelable(Uri.class.getClassLoader());
         mIsReviewable = in.readInt() == 1;
-        mIsImported = in.readInt() == 1;
+    }
+
+    @Override
+    @NonNull
+    public String getId() {
+        return mUniqueId;
     }
 
     /**
@@ -87,7 +119,7 @@ public class GiniVisionDocument implements Document {
      */
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {
-        dest.writeString(mUniqueID);
+        dest.writeString(mUniqueId);
         if (mData != null) {
             final ParcelableMemoryCache cache = ParcelableMemoryCache.getInstance();
             final ParcelableMemoryCache.Token token = cache.storeByteArray(mData);
@@ -97,10 +129,12 @@ public class GiniVisionDocument implements Document {
         }
 
         dest.writeSerializable(mType);
+        dest.writeParcelable(mSource, flags);
+        dest.writeSerializable(mImportMethod);
+        dest.writeString(mMimeType);
         dest.writeParcelable(mIntent, flags);
         dest.writeParcelable(mUri, flags);
         dest.writeInt(mIsReviewable ? 1 : 0);
-        dest.writeInt(mIsImported ? 1 : 0);
     }
 
     @Deprecated
@@ -120,6 +154,11 @@ public class GiniVisionDocument implements Document {
     @Override
     public Type getType() {
         return mType;
+    }
+
+    @Override
+    public String getMimeType() {
+        return mMimeType;
     }
 
     @Nullable
@@ -146,7 +185,17 @@ public class GiniVisionDocument implements Document {
 
     @Override
     public boolean isImported() {
-        return mIsImported;
+        return mImportMethod != null && mImportMethod != ImportMethod.NONE;
+    }
+
+    @Override
+    public ImportMethod getImportMethod() {
+        return mImportMethod;
+    }
+
+    @Override
+    public Source getSource() {
+        return mSource;
     }
 
     @Override
@@ -156,13 +205,17 @@ public class GiniVisionDocument implements Document {
 
     @Override
     public String toString() {
-        return "GiniVisionDocument{"
-                + "mType=" + mType
-                + ", mData=" + Arrays.toString(mData)
-                + ", mIsReviewable=" + mIsReviewable
-                + ", mIsImported=" + mIsImported
-                + ", mIntent=" + mIntent
-                + '}';
+        return "GiniVisionDocument{" +
+                "mUniqueId='" + mUniqueId + '\'' +
+                ", mIntent=" + mIntent +
+                ", mUri=" + mUri +
+                ", mIsReviewable=" + mIsReviewable +
+                ", mType=" + mType +
+                ", mSource=" + mSource +
+                ", mImportMethod=" + mImportMethod +
+                ", mMimeType='" + mMimeType + '\'' +
+                ", mData=" + Arrays.toString(mData) +
+                '}';
     }
 
     public synchronized void loadData(@NonNull final Context context,
@@ -214,13 +267,10 @@ public class GiniVisionDocument implements Document {
 
         final GiniVisionDocument that = (GiniVisionDocument) o;
 
-        if (mIsImported != that.mIsImported) {
-            return false;
-        }
         if (mIsReviewable != that.mIsReviewable) {
             return false;
         }
-        if (!mUniqueID.equals(that.mUniqueID)) {
+        if (!mUniqueId.equals(that.mUniqueId)) {
             return false;
         }
         if (mIntent != null ? !mIntent.equals(that.mIntent) : that.mIntent != null) {
@@ -229,20 +279,28 @@ public class GiniVisionDocument implements Document {
         if (mUri != null ? !mUri.equals(that.mUri) : that.mUri != null) {
             return false;
         }
-        // Mutable mData field omitted to keep the hashCode contract (equal objects have equal hash codes)
-        // and enable usage as keys in maps
-        return mType == that.mType;
+        if (mType != that.mType) {
+            return false;
+        }
+        if (!mSource.equals(that.mSource)) {
+            return false;
+        }
+        if (mImportMethod != that.mImportMethod) {
+            return false;
+        }
+        return mMimeType.equals(that.mMimeType);
     }
 
     @Override
     public int hashCode() {
-        // Mutable mData field omitted to create static hashes allowing usage as keys in maps
-        int result = mUniqueID.hashCode();
+        int result = mUniqueId.hashCode();
         result = 31 * result + (mIntent != null ? mIntent.hashCode() : 0);
         result = 31 * result + (mUri != null ? mUri.hashCode() : 0);
-        result = 31 * result + (mIsImported ? 1 : 0);
         result = 31 * result + (mIsReviewable ? 1 : 0);
         result = 31 * result + mType.hashCode();
+        result = 31 * result + mSource.hashCode();
+        result = 31 * result + mImportMethod.hashCode();
+        result = 31 * result + mMimeType.hashCode();
         return result;
     }
 }

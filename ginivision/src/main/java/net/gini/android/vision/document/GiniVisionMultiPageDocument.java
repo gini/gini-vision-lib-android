@@ -18,7 +18,8 @@ import java.util.Map;
  * Copyright (c) 2018 Gini GmbH.
  */
 
-public class GiniVisionMultiPageDocument<T extends GiniVisionDocument, E extends GiniVisionDocumentError> extends GiniVisionDocument {
+public class GiniVisionMultiPageDocument<T extends GiniVisionDocument, E extends GiniVisionDocumentError> extends
+        GiniVisionDocument {
 
     public static final Creator<GiniVisionMultiPageDocument> CREATOR =
             new Creator<GiniVisionMultiPageDocument>() {
@@ -34,15 +35,17 @@ public class GiniVisionMultiPageDocument<T extends GiniVisionDocument, E extends
             };
 
     private final List<T> mDocuments = new ArrayList<>();
-    private final Map<T,E> mDocumentErrorMap = new HashMap<>();
+    private final Map<T, E> mDocumentErrorMap = new HashMap<>();
 
-    public GiniVisionMultiPageDocument(@NonNull final Type type, final boolean isImported) {
-        super(type, null, null, null, true, isImported);
+    public GiniVisionMultiPageDocument(@NonNull final Type type, @NonNull final Source source,
+            @NonNull final ImportMethod importMethod, @NonNull final String mimeType,
+            @NonNull final boolean isReviewable) {
+        super(type, source, importMethod, mimeType, null, null, null, isReviewable);
     }
 
-    public GiniVisionMultiPageDocument(@NonNull final Type type, @NonNull final T document,
-            final boolean isImported) {
-        super(type, null, null, null, true, isImported);
+    public GiniVisionMultiPageDocument(@NonNull final Type type, @NonNull final String mimeType,
+            @NonNull final T document) {
+        super(type, document.getSource(), document.getImportMethod(), mimeType, null, null, null, document.isReviewable());
         mDocuments.add(document);
     }
 
@@ -77,7 +80,8 @@ public class GiniVisionMultiPageDocument<T extends GiniVisionDocument, E extends
         if (mDocuments.contains(document)) {
             mDocumentErrorMap.put(document, error);
         } else {
-            throw new IllegalStateException("Document not found. Did you add it with addDocument()?");
+            throw new IllegalStateException(
+                    "Document not found. Did you add it with addDocument()?");
         }
     }
 

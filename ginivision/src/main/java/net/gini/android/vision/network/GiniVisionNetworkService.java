@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 
 import net.gini.android.vision.Document;
 
+import java.util.LinkedHashMap;
+
 /**
  * Created by Alpar Szotyori on 29.01.2018.
  *
@@ -12,12 +14,13 @@ import net.gini.android.vision.Document;
 
 public interface GiniVisionNetworkService {
 
-    void analyze(@NonNull final Document document,
-            @NonNull final GiniVisionNetworkCallback<AnalysisResult, Error> callback);
-
-    void upload(@NonNull final Document document,
+    CancellationToken upload(@NonNull final Document document,
             @NonNull final GiniVisionNetworkCallback<Result, Error> callback);
 
-    void cancel();
+    CancellationToken delete(@NonNull final String giniApiDocumentId,
+            @NonNull final GiniVisionNetworkCallback<Result, Error> callback);
+
+    CancellationToken analyze(@NonNull final LinkedHashMap<String, Integer> giniApiDocumentIdRotationMap,
+            @NonNull final GiniVisionNetworkCallback<AnalysisResult, Error> callback);
 
 }

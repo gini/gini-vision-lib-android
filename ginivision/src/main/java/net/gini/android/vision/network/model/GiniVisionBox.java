@@ -72,4 +72,15 @@ public class GiniVisionBox implements Parcelable {
     public double getHeight() {
         return mHeight;
     }
+
+    @Override
+    public String toString() {
+        return "GiniVisionBox{" +
+                "mPageNumber=" + mPageNumber +
+                ", mLeft=" + mLeft +
+                ", mTop=" + mTop +
+                ", mWidth=" + mWidth +
+                ", mHeight=" + mHeight +
+                '}';
+    }
 }

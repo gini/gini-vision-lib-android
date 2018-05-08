@@ -73,6 +73,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
     private void createRuntimePermissionsHandler() {
         mRuntimePermissionHandler = RuntimePermissionHandler
                 .forActivity(this)
@@ -305,7 +310,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(final int requestCode, final int resultCode,
             final Intent data) {
         if (requestCode == REQUEST_SCAN) {
-            GiniVision.cleanup(this);
             if (data == null) {
                 if (isIntentActionViewOrSend(getIntent())) {
                     finish();
@@ -314,9 +318,6 @@ public class MainActivity extends AppCompatActivity {
             }
             switch (resultCode) {
                 case RESULT_CANCELED:
-                    if (isIntentActionViewOrSend(getIntent())) {
-                        finish();
-                    }
                     break;
                 case RESULT_OK:
                     // Retrieve the extra we set in our ReviewActivity or AnalysisActivity subclasses' onAddDataToResult()
@@ -328,7 +329,13 @@ public class MainActivity extends AppCompatActivity {
                     if (extractionsBundle == null) {
                         extractionsBundle = data.getBundleExtra(MainActivity.EXTRA_OUT_EXTRACTIONS);
                     }
-                    if (extractionsBundle != null && pay5ExtractionsAvailable(extractionsBundle)) {
+                    if (extractionsBundle == null) {
+                        if (isIntentActionViewOrSend(getIntent())) {
+                            finish();
+                        }
+                        return;
+                    }
+                    if (pay5ExtractionsAvailable(extractionsBundle)) {
                         // We display only the Pay5 extractions: paymentRecipient, iban, bic,
                         // amount and paymentReference
                         startExtractionsActivity(extractionsBundle);
@@ -337,9 +344,6 @@ public class MainActivity extends AppCompatActivity {
                         // the user some hints and tips
                         // for using the Gini Vision Library
                         startNoExtractionsActivity();
-                    }
-                    if (isIntentActionViewOrSend(getIntent())) {
-                        finish();
                     }
                     break;
                 case CameraActivity.RESULT_ERROR:
@@ -353,6 +357,9 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.LENGTH_LONG).show();
                     }
                     break;
+            }
+            if (isIntentActionViewOrSend(getIntent())) {
+                finish();
             }
         } else if (requestCode == REQUEST_NO_EXTRACTIONS) {
             // The NoExtractionsActivity has a button for taking another picture which causes the activity to finish
