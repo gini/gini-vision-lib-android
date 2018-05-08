@@ -1,7 +1,6 @@
 package net.gini.android.vision.review;
 
 import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
-import static net.gini.android.vision.internal.util.ActivityHelper.handleMenuItemPressedForHomeButton;
 
 import android.app.Activity;
 import android.content.Context;
@@ -206,10 +205,8 @@ public class ReviewActivity extends AppCompatActivity implements ReviewFragmentL
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            if (handleMenuItemPressedForHomeButton(this, item)) {
-                onBackPressed();
-                return true;
-            }
+            onBackPressed();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -304,7 +301,7 @@ public class ReviewActivity extends AppCompatActivity implements ReviewFragmentL
 
     @Override
     public void onProceedToAnalysisScreen(@NonNull final Document document) {
-        onProceedToAnalysisScreen(document, null);
+        onProceedToAnalysisScreen(document, mDocumentAnalysisErrorMessage);
     }
 
     @Override
