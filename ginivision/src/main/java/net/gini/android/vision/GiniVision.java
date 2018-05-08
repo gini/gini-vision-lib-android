@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 
 import net.gini.android.vision.internal.cache.DocumentDataMemoryCache;
 import net.gini.android.vision.internal.cache.PhotoMemoryCache;
+import net.gini.android.vision.internal.document.ImageMultiPageDocumentMemoryStore;
 import net.gini.android.vision.internal.network.NetworkRequestsManager;
 import net.gini.android.vision.internal.storage.ImageDiskStore;
 import net.gini.android.vision.network.GiniVisionNetworkApi;
@@ -33,6 +34,7 @@ public class GiniVision {
     private final DocumentDataMemoryCache mDocumentDataMemoryCache;
     private final PhotoMemoryCache mPhotoMemoryCache;
     private final ImageDiskStore mImageDiskStore;
+    private final ImageMultiPageDocumentMemoryStore mImageMultiPageDocumentMemoryStore;
     private final Internal mInternal;
     private final DocumentImportEnabledFileTypes mDocumentImportEnabledFileTypes;
     private final boolean mFileImportEnabled;
@@ -69,6 +71,7 @@ public class GiniVision {
             if (sInstance.mNetworkRequestsManager != null) {
                 sInstance.mNetworkRequestsManager.cleanup();
             }
+            sInstance.mImageMultiPageDocumentMemoryStore.clear();
             sInstance = null;
         }
         ImageDiskStore.clear(context);
@@ -88,7 +91,13 @@ public class GiniVision {
         mImageDiskStore = new ImageDiskStore();
         mNetworkRequestsManager = mGiniVisionNetworkService != null ? new NetworkRequestsManager(
                 mGiniVisionNetworkService, mDocumentDataMemoryCache) : null;
+        mImageMultiPageDocumentMemoryStore = new ImageMultiPageDocumentMemoryStore();
         mInternal = new Internal(this);
+    }
+
+    @NonNull
+    ImageMultiPageDocumentMemoryStore getImageMultiPageDocumentMemoryStore() {
+        return mImageMultiPageDocumentMemoryStore;
     }
 
     @NonNull
@@ -426,6 +435,10 @@ public class GiniVision {
 
         public ImageDiskStore getImageDiskStore() {
             return mGiniVision.getImageDiskStore();
+        }
+
+        public ImageMultiPageDocumentMemoryStore getImageMultiPageDocumentMemoryStore() {
+            return mGiniVision.getImageMultiPageDocumentMemoryStore();
         }
     }
 

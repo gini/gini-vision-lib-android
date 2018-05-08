@@ -15,7 +15,9 @@ public final class ExampleUtil {
 
     public static boolean isIntentActionViewOrSend(@NonNull final Intent intent) {
         final String action = intent.getAction();
-        return Intent.ACTION_VIEW.equals(action) || Intent.ACTION_SEND.equals(action);
+        return Intent.ACTION_VIEW.equals(action)
+                || Intent.ACTION_SEND.equals(action)
+                || Intent.ACTION_SEND_MULTIPLE.equals(action);
     }
 
     public static boolean hasNoPay5Extractions(final Set<String> extractionNames) {

@@ -373,6 +373,26 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                         return null;
                     }
                 });
+
+        initMultiPageDocument();
+    }
+
+    private void initMultiPageDocument() {
+        if (GiniVision.hasInstance()) {
+            final ImageMultiPageDocument multiPageDocument =
+                    GiniVision.getInstance().internal()
+                            .getImageMultiPageDocumentMemoryStore().getMultiPageDocument();
+            if (mInMultiPageState) {
+                mMultiPageDocument = multiPageDocument;
+                updateImageStack();
+            } else {
+                if (multiPageDocument != null && multiPageDocument.getDocuments().size() > 0) {
+                    mImageStack.addImage(getBitmap(multiPageDocument.getDocuments().get(0)));
+                    mInMultiPageState = true;
+                    mMultiPageDocument = multiPageDocument;
+                }
+            }
+        }
     }
 
     private void initQRCodeReader(final Activity activity) {
@@ -1046,8 +1066,13 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                         hideActivityIndicatorAndEnableInteraction();
                         if (document.getType() == Document.Type.IMAGE_MULTI_PAGE) {
                             mProceededToMultiPageReview = true;
+                            final ImageMultiPageDocument multiPageDocument =
+                                    (ImageMultiPageDocument) document;
+                            GiniVision.getInstance().internal()
+                                    .getImageMultiPageDocumentMemoryStore()
+                                    .setMultiPageDocument(multiPageDocument);
                             mListener.onProceedToMultiPageReviewScreen(
-                                    (ImageMultiPageDocument) document);
+                                    multiPageDocument);
                         } else {
                             mListener.onDocumentAvailable(document);
                         }
@@ -1154,28 +1179,6 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         }
         ErrorSnackbar.make(mFragment.getActivity(), mLayoutRoot, message, null, null,
                 duration).show();
-    }
-
-    @Override
-    public void startMultiPage(@NonNull final Document document) {
-        if (!(document instanceof ImageDocument)) {
-            return;
-        }
-        final ImageDocument imageDocument = (ImageDocument) document;
-        mImageStack.addImage(getBitmap(imageDocument));
-        mInMultiPageState = true;
-        mMultiPageDocument = new ImageMultiPageDocument(imageDocument);
-    }
-
-    @Override
-    public void setMultiPageDocument(@NonNull final GiniVisionMultiPageDocument multiPageDocument) {
-        if (multiPageDocument instanceof ImageMultiPageDocument) {
-            mInMultiPageState = true;
-            mMultiPageDocument = (ImageMultiPageDocument) multiPageDocument;
-            updateImageStack();
-        } else {
-            LOG.warn("Only ImageMultiPageDocument accepted");
-        }
     }
 
     private void updateImageStack() {

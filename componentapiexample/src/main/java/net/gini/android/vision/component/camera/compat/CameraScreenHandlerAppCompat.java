@@ -2,7 +2,6 @@ package net.gini.android.vision.component.camera.compat;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -15,10 +14,7 @@ import net.gini.android.vision.component.R;
 import net.gini.android.vision.component.analysis.standard.AnalysisExampleActivity;
 import net.gini.android.vision.component.camera.BaseCameraScreenHandler;
 import net.gini.android.vision.component.review.compat.ReviewExampleAppCompatActivity;
-import net.gini.android.vision.component.review.multipage.MultiPageReviewExampleActivity;
-import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.onboarding.OnboardingFragmentCompat;
-import net.gini.android.vision.review.multipage.MultiPageReviewActivity;
 
 /**
  * Created by Alpar Szotyori on 04.12.2017.
@@ -30,8 +26,6 @@ import net.gini.android.vision.review.multipage.MultiPageReviewActivity;
  * Creates compatibility library fragments and activities for the Camera Screen.
  */
 public class CameraScreenHandlerAppCompat extends BaseCameraScreenHandler {
-
-    private static final int MULTI_PAGE_REVIEW_REQUEST = 101;
 
     private final AppCompatActivity mAppCompatActivity;
     private CameraFragmentCompat mCameraFragment;
@@ -122,43 +116,5 @@ public class CameraScreenHandlerAppCompat extends BaseCameraScreenHandler {
         }
         actionBar.setTitle("");
         actionBar.setSubtitle("");
-    }
-
-    @Override
-    public void onProceedToMultiPageReviewScreen(
-            @NonNull final GiniVisionMultiPageDocument multiPageDocument) {
-        final Intent intent = MultiPageReviewExampleActivity.newInstance(multiPageDocument,
-                mAppCompatActivity);
-        mAppCompatActivity.startActivityForResult(intent, MULTI_PAGE_REVIEW_REQUEST);
-    }
-
-    @Override
-    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REVIEW_REQUEST:
-                if (resultCode == ReviewExampleAppCompatActivity.RESULT_ADD_MORE_PAGES) {
-                    if (data != null) {
-                        final Document document = data.getParcelableExtra(
-                                ReviewExampleAppCompatActivity.EXTRA_OUT_MULTI_PAGE_FIRST_PAGE);
-                        if (document != null) {
-                            mCameraFragment.startMultiPage(document);
-                        }
-                    }
-                }
-                break;
-            case MULTI_PAGE_REVIEW_REQUEST:
-                if (resultCode == MultiPageReviewExampleActivity.RESULT_MULTI_PAGE_DOCUMENT) {
-                    if (data != null) {
-                        final GiniVisionMultiPageDocument multiPageDocument =
-                                data.getParcelableExtra(
-                                        MultiPageReviewActivity.EXTRA_OUT_DOCUMENT);
-                        if (multiPageDocument != null) {
-                            mCameraFragment.setMultiPageDocument(multiPageDocument);
-                        }
-                    }
-                    break;
-                }
-        }
     }
 }

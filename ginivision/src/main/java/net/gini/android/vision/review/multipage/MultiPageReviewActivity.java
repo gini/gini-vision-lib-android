@@ -11,60 +11,34 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import net.gini.android.vision.Document;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
-import net.gini.android.vision.document.ImageMultiPageDocument;
+import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 
 import java.util.List;
 
 public class MultiPageReviewActivity extends AppCompatActivity implements
         MultiPageReviewFragmentListener {
 
-    public static final int RESULT_MULTI_PAGE_DOCUMENT = RESULT_FIRST_USER + 1001;
-
-    public static final String EXTRA_IN_DOCUMENT = "GV_EXTRA_IN_DOCUMENT";
-    public static final String EXTRA_OUT_DOCUMENT = "GV_EXTRA_OUT_DOCUMENT";
-
     private static final String MP_REVIEW_FRAGMENT = "MP_REVIEW_FRAGMENT";
     private static final int ANALYSE_DOCUMENT_REQUEST = 1;
 
     private MultiPageReviewFragment mFragment;
-    private ImageMultiPageDocument mMultiPageDocument;
 
-    public static Intent createIntent(@NonNull final Context context,
-            @NonNull final ImageMultiPageDocument multiPageDocument) {
-        final Intent intent = new Intent(context, MultiPageReviewActivity.class);
-        intent.putExtra(EXTRA_IN_DOCUMENT, multiPageDocument);
-        return intent;
+    public static Intent createIntent(@NonNull final Context context) {
+        return new Intent(context, MultiPageReviewActivity.class);
     }
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gv_activity_multi_page_review);
-        readExtras();
         if (savedInstanceState == null) {
             initFragment();
         } else {
             retainFragment();
         }
         enableHomeAsUp(this);
-    }
-
-    private void readExtras() {
-        final Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            mMultiPageDocument = extras.getParcelable(EXTRA_IN_DOCUMENT);
-        }
-        checkRequiredExtras();
-    }
-
-    private void checkRequiredExtras() {
-        if (mMultiPageDocument == null) {
-            throw new IllegalStateException(
-                    "MultiPageReviewActivity requires a GiniVisionMultiPageDocument. Set it as an extra using the EXTRA_IN_DOCUMENT key.");
-        }
     }
 
     private void initFragment() {
@@ -79,7 +53,7 @@ public class MultiPageReviewActivity extends AppCompatActivity implements
     }
 
     private void createFragment() {
-        mFragment = MultiPageReviewFragment.createInstance(mMultiPageDocument);
+        mFragment = MultiPageReviewFragment.createInstance();
     }
 
     private void showFragment() {
@@ -109,18 +83,13 @@ public class MultiPageReviewActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onAddMorePages(@NonNull final Document document) {
-        onBackPressed();
-    }
-
-    @Override
-    public void onProceedToAnalysisScreen(@NonNull final Document document) {
-        final List documents = mFragment.getMultiPageDocument().getDocuments();
+    public void onProceedToAnalysisScreen(@NonNull final GiniVisionMultiPageDocument multiPageDocument) {
+        final List documents = multiPageDocument.getDocuments();
         if (documents.size() == 0) {
             return;
         }
         final Intent intent = new Intent(this, AnalysisActivity.class);
-        intent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, mFragment.getMultiPageDocument());
+        intent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, multiPageDocument);
         startActivityForResult(intent, ANALYSE_DOCUMENT_REQUEST);
     }
 
@@ -135,14 +104,6 @@ public class MultiPageReviewActivity extends AppCompatActivity implements
                 finish();
             }
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        final Intent data = new Intent();
-        data.putExtra(EXTRA_OUT_DOCUMENT, mFragment.getMultiPageDocument());
-        setResult(RESULT_MULTI_PAGE_DOCUMENT, data);
-        super.onBackPressed();
     }
 
 }

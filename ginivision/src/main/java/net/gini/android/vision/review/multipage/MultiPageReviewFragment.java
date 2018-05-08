@@ -28,7 +28,6 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.GiniVisionDocument;
-import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.document.ImageMultiPageDocument;
 import net.gini.android.vision.internal.AsyncCallback;
@@ -60,8 +59,6 @@ import jersey.repackaged.jsr166e.CompletableFuture;
  */
 public class MultiPageReviewFragment extends Fragment implements MultiPageReviewFragmentInterface {
 
-    private static final String ARGS_MP_DOCUMENT = "ARGS_MP_DOCUMENT";
-
     private static final Logger LOG = LoggerFactory.getLogger(MultiPageReviewFragment.class);
     private static final String MP_DOCUMENT_KEY = "MP_DOCUMENT_KEY";
 
@@ -85,17 +82,8 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     private boolean mNextClicked;
     private boolean mPreviewsShown;
 
-    public static MultiPageReviewFragment createInstance(
-            @NonNull final GiniVisionMultiPageDocument document) {
-        final MultiPageReviewFragment fragment = new MultiPageReviewFragment();
-        fragment.setArguments(createArguments(document));
-        return fragment;
-    }
-
-    private static Bundle createArguments(final GiniVisionMultiPageDocument document) {
-        final Bundle arguments = new Bundle();
-        arguments.putParcelable(ARGS_MP_DOCUMENT, document);
-        return arguments;
+    public static MultiPageReviewFragment createInstance() {
+        return new MultiPageReviewFragment();
     }
 
     /**
@@ -105,10 +93,21 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         forcePortraitOrientationOnPhones(getActivity());
-        readArguments();
+        initMultiPageDocument();
         initListener();
         if (savedInstanceState != null) {
             restoreSavedState(savedInstanceState);
+        }
+    }
+
+    private void initMultiPageDocument() {
+        if (GiniVision.hasInstance()) {
+            mMultiPageDocument = GiniVision.getInstance().internal()
+                    .getImageMultiPageDocumentMemoryStore().getMultiPageDocument();
+        }
+        if (mMultiPageDocument == null) {
+            throw new IllegalStateException(
+                    "MultiPageReviewFragment requires an ImageMultiPageDocuments.");
         }
     }
 
@@ -121,21 +120,6 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         if (mMultiPageDocument == null) {
             throw new IllegalStateException(
                     "Missing required instances for restoring saved instance state.");
-        }
-    }
-
-    private void readArguments() {
-        final Bundle arguments = getArguments();
-        if (arguments == null) {
-            throw new IllegalStateException(
-                    "MultiPageReviewFragment requires a GiniVisionMultiPageDocument. Use the createInstance() method for instantiating.");
-        }
-        final GiniVisionMultiPageDocument document = arguments.getParcelable(ARGS_MP_DOCUMENT);
-        if (document != null && document instanceof ImageMultiPageDocument) {
-            mMultiPageDocument = (ImageMultiPageDocument) document;
-        } else {
-            throw new IllegalStateException(
-                    "MultiPageReviewFragment requires an ImageMultiPageDocuments. Use the createInstance() method for instantiating.");
         }
     }
 
@@ -373,6 +357,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     @Override
     public void onStart() {
         super.onStart();
+        initMultiPageDocument();
         mNextClicked = false;
         if (!mPreviewsShown) {
             observeViewTree();
@@ -406,6 +391,15 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
                             });
                 }
             }
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (GiniVision.hasInstance()) {
+            GiniVision.getInstance().internal().getImageMultiPageDocumentMemoryStore()
+                    .setMultiPageDocument(mMultiPageDocument);
         }
     }
 
@@ -491,15 +485,9 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         }
     }
 
-    @NonNull
-    @Override
-    public GiniVisionMultiPageDocument getMultiPageDocument() {
-        return mMultiPageDocument;
-    }
-
     @Override
     public void setListener(@NonNull final MultiPageReviewFragmentListener listener) {
-
+        mListener = listener;
     }
 
 }

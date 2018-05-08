@@ -81,8 +81,8 @@ public class ReviewExampleAppCompatActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onAddMorePages(@NonNull final Document document) {
-        mReviewScreenHandler.onAddMorePages(document);
+    public void onGoBackToCameraScreen() {
+        mReviewScreenHandler.onGoBackToCameraScreen();
     }
 
     @Override

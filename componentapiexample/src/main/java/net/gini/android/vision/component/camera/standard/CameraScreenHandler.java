@@ -4,7 +4,6 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.camera.CameraFragmentInterface;
@@ -13,7 +12,6 @@ import net.gini.android.vision.component.R;
 import net.gini.android.vision.component.analysis.standard.AnalysisExampleActivity;
 import net.gini.android.vision.component.camera.BaseCameraScreenHandler;
 import net.gini.android.vision.component.review.standard.ReviewExampleActivity;
-import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.onboarding.OnboardingFragmentStandard;
 
 /**
@@ -113,11 +111,5 @@ public class CameraScreenHandler extends BaseCameraScreenHandler {
         }
         actionBar.setTitle("");
         actionBar.setSubtitle("");
-    }
-
-    @Override
-    public void onProceedToMultiPageReviewScreen(
-            @NonNull final GiniVisionMultiPageDocument multiPageDocument) {
-        // Only available for compat (using the support library)
     }
 }

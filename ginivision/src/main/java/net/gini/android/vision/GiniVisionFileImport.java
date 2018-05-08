@@ -67,7 +67,7 @@ public final class GiniVisionFileImport {
             final ImageMultiPageDocument multiPageDocument = (ImageMultiPageDocument) document;
             final List<ImageDocument> imageDocuments = multiPageDocument.getDocuments();
             if (imageDocuments.size() > 1) {
-                giniVisionIntent = MultiPageReviewActivity.createIntent(context, multiPageDocument);
+                giniVisionIntent = MultiPageReviewActivity.createIntent(context);
             } else {
                 final ImageDocument imageDocument = imageDocuments.get(0);
                 giniVisionIntent = createReviewActivityIntent(context, ReviewActivity.class,
@@ -123,7 +123,7 @@ public final class GiniVisionFileImport {
             final ImageMultiPageDocument multiPageDocument = (ImageMultiPageDocument) document;
             final List<ImageDocument> imageDocuments = multiPageDocument.getDocuments();
             if (imageDocuments.size() > 1) {
-                giniVisionIntent = MultiPageReviewActivity.createIntent(context, multiPageDocument);
+                giniVisionIntent = MultiPageReviewActivity.createIntent(context);
             } else {
                 final ImageDocument imageDocument = imageDocuments.get(0);
                 giniVisionIntent = createReviewActivityIntent(context, ReviewActivity.class,
@@ -218,6 +218,8 @@ public final class GiniVisionFileImport {
         if (multiPageDocument.getDocuments().isEmpty()) {
             throw new ImportedFileValidationException("Intent did not contain images");
         }
+        GiniVision.getInstance().internal().getImageMultiPageDocumentMemoryStore()
+                .setMultiPageDocument(multiPageDocument);
         return multiPageDocument;
     }
 

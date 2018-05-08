@@ -239,4 +239,9 @@ public abstract class BaseReviewScreenHandler implements ReviewFragmentListener 
     public void onProceedToNoExtractionsScreen(@NonNull final Document document) {
         showNoResultsScreen(document);
     }
+
+    @Override
+    public void onGoBackToCameraScreen() {
+        mActivity.finish();
+    }
 }

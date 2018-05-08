@@ -212,10 +212,7 @@ public class ReviewActivity extends AppCompatActivity implements ReviewFragmentL
     }
 
     @Override
-    public void onAddMorePages(@NonNull final Document document) {
-        final Intent intent = new Intent();
-        intent.putExtra("multipage_first_page", document);
-        setResult(2018, intent);
+    public void onGoBackToCameraScreen() {
         finish();
     }
 

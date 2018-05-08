@@ -2,7 +2,7 @@ package net.gini.android.vision.review.multipage;
 
 import android.support.annotation.NonNull;
 
-import net.gini.android.vision.Document;
+import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 
 /**
  * Created by Alpar Szotyori on 07.05.2018.
@@ -11,7 +11,5 @@ import net.gini.android.vision.Document;
  */
 public interface MultiPageReviewFragmentListener {
 
-    void onAddMorePages(@NonNull Document document);
-
-    void onProceedToAnalysisScreen(@NonNull Document document);
+    void onProceedToAnalysisScreen(@NonNull GiniVisionMultiPageDocument document);
 }

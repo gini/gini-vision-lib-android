@@ -8,8 +8,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import net.gini.android.vision.Document;
-import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.component.R;
 import net.gini.android.vision.component.analysis.compat.AnalysisExampleAppCompatActivity;
 import net.gini.android.vision.document.GiniVisionMultiPageDocument;
@@ -24,30 +22,17 @@ import net.gini.android.vision.review.multipage.MultiPageReviewFragmentListener;
 public class MultiPageReviewExampleActivity extends AppCompatActivity implements
         MultiPageReviewFragmentListener {
 
-    public static final String EXTRA_IN_DOCUMENT = "GV_EXTRA_IN_DOCUMENT";
-    public static final int RESULT_MULTI_PAGE_DOCUMENT = RESULT_FIRST_USER + 2001;
-    public static final String EXTRA_OUT_DOCUMENT = "GV_EXTRA_OUT_DOCUMENT";
-
     private static final int ANALYSIS_REQUEST = 1;
-    private GiniVisionMultiPageDocument mMultiPageDocument;
     private MultiPageReviewFragment mMultiPageReviewFragment;
 
-    public static Intent newInstance(final GiniVisionMultiPageDocument document, final Context context) {
-        final Intent intent = new Intent(context, MultiPageReviewExampleActivity.class);
-        intent.putExtra(MultiPageReviewExampleActivity.EXTRA_IN_DOCUMENT, document);
-        return intent;
+    public static Intent newInstance(final Context context) {
+        return new Intent(context, MultiPageReviewExampleActivity.class);
     }
 
     @Override
-    public void onAddMorePages(@NonNull final Document document) {
-        onBackPressed();
-    }
-
-    @Override
-    public void onProceedToAnalysisScreen(@NonNull final Document document) {
+    public void onProceedToAnalysisScreen(@NonNull final GiniVisionMultiPageDocument document) {
         final Intent intent = AnalysisExampleAppCompatActivity.newInstance(document, null,
                 this);
-        intent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, mMultiPageDocument);
         startActivityForResult(intent, ANALYSIS_REQUEST);
     }
 
@@ -66,20 +51,11 @@ public class MultiPageReviewExampleActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onBackPressed() {
-        final Intent data = new Intent();
-        data.putExtra(EXTRA_OUT_DOCUMENT, mMultiPageReviewFragment.getMultiPageDocument());
-        setResult(RESULT_MULTI_PAGE_DOCUMENT, data);
-        super.onBackPressed();
-    }
-
-    @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multi_page_review);
         setUpActionBar();
         setTitles();
-        readDocumentFromExtras();
 
         if (savedInstanceState == null) {
             createMultiPageReviewFragment();
@@ -102,12 +78,8 @@ public class MultiPageReviewExampleActivity extends AppCompatActivity implements
         actionBar.setSubtitle(getString(R.string.multi_page_review_screen_subtitle));
     }
 
-    private void readDocumentFromExtras() {
-        mMultiPageDocument = getIntent().getParcelableExtra(EXTRA_IN_DOCUMENT);
-    }
-
     private void createMultiPageReviewFragment() {
-        mMultiPageReviewFragment = MultiPageReviewFragment.createInstance(mMultiPageDocument);
+        mMultiPageReviewFragment = MultiPageReviewFragment.createInstance();
     }
 
     private void showMultiPageReviewFragment() {
