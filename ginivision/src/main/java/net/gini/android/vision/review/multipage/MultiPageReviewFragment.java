@@ -160,14 +160,22 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
                     public void onPageSelected(final int position) {
                         updatePageIndicator(position);
                         if (!mThumbnailsAdapter.isThumbnailHighlighted(position)) {
-                            mThumbnailsAdapter.highlightPosition(position);
-                            mThumbnailsScroller.setTargetPosition(position);
-                            mThumbnailsRecycler.getLayoutManager().startSmoothScroll(
-                                    mThumbnailsScroller);
+                            highlightThumbnail(position);
                         }
                     }
                 });
         mPreviewsPager.addOnPageChangeListener(mPreviewsPageChangeHandler);
+    }
+
+    private void highlightThumbnail(final int position) {
+        mThumbnailsAdapter.highlightPosition(position);
+        scrollToThumbnail(position);
+    }
+
+    private void scrollToThumbnail(final int position) {
+        mThumbnailsScroller.setTargetPosition(position);
+        mThumbnailsRecycler.getLayoutManager().startSmoothScroll(
+                mThumbnailsScroller);
     }
 
     private void setupThumbnailsRecyclerView() {
@@ -248,30 +256,61 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
 
     private void onDeleteButtonClicked() {
         final int deletedItem = mPreviewsPager.getCurrentItem();
-        final List<ImageDocument> documents = mMultiPageDocument.getDocuments();
-        final ImageDocument deletedDocument = documents.get(deletedItem);
-        documents.remove(deletedItem);
-        final GiniVision.Internal gvInternal = GiniVision.getInstance().internal();
-        gvInternal.getDocumentDataMemoryCache().invalidate(deletedDocument);
-        gvInternal.getPhotoMemoryCache().invalidate(deletedDocument);
-        final Uri uri = deletedDocument.getUri();
-        if (uri != null) {
-            gvInternal.getImageDiskStore().delete(uri);
-        }
-        final NetworkRequestsManager networkRequestsManager =
-                gvInternal.getNetworkRequestsManager();
-        if (networkRequestsManager != null) {
-            networkRequestsManager.delete(deletedDocument);
-        }
-        final int newPosition = getNewPositionAfterDeletion(deletedItem, documents.size());
+        deleteDocument(deletedItem);
+
+        final int nrOfDocuments = mMultiPageDocument.getDocuments().size();
+        final int newPosition = getNewPositionAfterDeletion(deletedItem, nrOfDocuments);
         updatePageIndicator(newPosition);
+
         mPreviewsAdapter.notifyDataSetChanged();
         mThumbnailsAdapter.removeThumbnail(deletedItem);
-        mThumbnailsScroller.setTargetPosition(newPosition);
-        mThumbnailsRecycler.getLayoutManager().startSmoothScroll(mThumbnailsScroller);
-        if (documents.size() == 1) {
+        scrollToThumbnail(newPosition);
+
+        if (nrOfDocuments == 1) {
             mDeleteButton.setEnabled(false);
             mDeleteButton.setAlpha(0.2f);
+        }
+    }
+
+    private void deleteDocument(final int position) {
+        final ImageDocument deletedDocument = getAndRemoveDocument(position);
+        deleteFromCaches(deletedDocument);
+        deleteFromDisk(deletedDocument);
+        deleteFromGiniApi(deletedDocument);
+    }
+
+    private void deleteFromGiniApi(final ImageDocument document) {
+        if (GiniVision.hasInstance()) {
+            final NetworkRequestsManager networkRequestsManager =
+            GiniVision.getInstance().internal().getNetworkRequestsManager();
+            if (networkRequestsManager != null) {
+                networkRequestsManager.delete(document);
+            }
+        }
+    }
+
+    private void deleteFromDisk(final ImageDocument document) {
+        if (GiniVision.hasInstance()) {
+            final Uri uri = document.getUri();
+            if (uri != null) {
+                GiniVision.getInstance().internal().getImageDiskStore().delete(uri);
+            }
+        }
+    }
+
+    private ImageDocument getAndRemoveDocument(final int index) {
+        final List<ImageDocument> documents = mMultiPageDocument.getDocuments();
+        final ImageDocument removedDocument = documents.get(index);
+        documents.remove(index);
+        return removedDocument;
+    }
+
+    @NonNull
+    private void deleteFromCaches(final ImageDocument document) {
+        if (GiniVision.hasInstance()) {
+            final GiniVision.Internal gvInternal = GiniVision.getInstance().internal();
+            gvInternal.getDocumentDataMemoryCache().invalidate(document);
+            gvInternal.getPhotoMemoryCache().invalidate(document);
         }
     }
 
@@ -439,9 +478,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
 
         mPreviewsPager.setCurrentItem(0);
         updatePageIndicator(0);
-        mThumbnailsAdapter.highlightPosition(0);
-        mThumbnailsScroller.setTargetPosition(0);
-        mThumbnailsRecycler.getLayoutManager().startSmoothScroll(mThumbnailsScroller);
+        highlightThumbnail(0);
     }
 
     @Override
