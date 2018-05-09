@@ -198,6 +198,12 @@
         <item name="gvCustomFont"/>
     </style>
 
+    <style name="Root.GiniVisionTheme.Review.MultiPage.ReorderPagesTip.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/gv_multi_page_review_reorder_pages_tip_text</item>
+        <item name="gvCustomFont"/>
+    </style>
+
     <!-- Text styles used in the layouts which are overridable for customization -->
 
     <style name="GiniVisionTheme.Camera.Error.NoPermission.TextStyle" parent="Root.GiniVisionTheme.Camera.Error.NoPermission.TextStyle"/>
@@ -249,5 +255,7 @@
     <style name="GiniVisionTheme.Help.FileImport.Section.Title.TextStyle" parent="Root.GiniVisionTheme.Help.FileImport.Section.Title.TextStyle" />
 
     <style name="GiniVisionTheme.Help.FileImport.Section.Body.TextStyle" parent="Root.GiniVisionTheme.Help.FileImport.Section.Body.TextStyle" />
+
+    <style name="GiniVisionTheme.Review.MultiPage.ReorderPagesTip.TextStyle" parent="Root.GiniVisionTheme.Review.MultiPage.ReorderPagesTip.TextStyle"/>
 
 </resources>
