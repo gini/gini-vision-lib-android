@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.transition.TransitionManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -76,7 +75,6 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     private ThumbnailChangeListener mThumbnailChangeListener;
     private ImageButton mButtonNext;
     private ImageButton mRotateButton;
-    private ImageButton mReorderButton;
     private ImageButton mDeleteButton;
 
     private boolean mNextClicked;
@@ -222,7 +220,6 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         mPreviewsPager = view.findViewById(R.id.gv_view_pager);
         mPageIndicator = view.findViewById(R.id.gv_page_indicator);
         mThumbnailsRecycler = view.findViewById(R.id.gv_thumbnails_panel);
-        mReorderButton = view.findViewById(R.id.gv_button_reorder);
         mRotateButton = view.findViewById(R.id.gv_button_rotate);
         mDeleteButton = view.findViewById(R.id.gv_button_delete);
     }
@@ -232,12 +229,6 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
             @Override
             public void onClick(final View v) {
                 onNextButtonClicked();
-            }
-        });
-        mReorderButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                onReorderButtonClicked(v);
             }
         });
         mRotateButton.setOnClickListener(new View.OnClickListener() {
@@ -369,23 +360,6 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
                         LOG.error("Failed to create Photo from Document", exception);
                     }
                 });
-    }
-
-    private void onReorderButtonClicked(final View v) {
-        final boolean isSelected = !v.isSelected();
-        v.setSelected(isSelected);
-
-        TransitionManager.beginDelayedTransition(mRootView);
-        final RelativeLayout.LayoutParams layoutParams =
-                (RelativeLayout.LayoutParams) mThumbnailsRecycler.getLayoutParams();
-        if (isSelected) {
-            layoutParams.addRule(RelativeLayout.ALIGN_TOP, 0);
-            layoutParams.addRule(RelativeLayout.ABOVE, R.id.gv_toolbar);
-        } else {
-            layoutParams.addRule(RelativeLayout.ALIGN_TOP, R.id.gv_toolbar);
-            layoutParams.addRule(RelativeLayout.ABOVE, 0);
-        }
-        mThumbnailsRecycler.requestLayout();
     }
 
     private void onNextButtonClicked() {
