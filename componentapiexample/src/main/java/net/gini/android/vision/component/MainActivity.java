@@ -24,6 +24,7 @@ import net.gini.android.vision.example.BaseExampleApp;
 import net.gini.android.vision.example.RuntimePermissionHandler;
 import net.gini.android.vision.onboarding.DefaultPagesPhone;
 import net.gini.android.vision.onboarding.OnboardingPage;
+import net.gini.android.vision.requirements.GiniVisionRequirements;
 import net.gini.android.vision.requirements.RequirementReport;
 import net.gini.android.vision.requirements.RequirementsReport;
 
@@ -174,12 +175,13 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void permissionGranted() {
                         // NOTE: on Android 6.0 and later the camera permission is required before checking the requirements
-//                        final RequirementsReport report = GiniVisionRequirements.checkRequirements(
-//                                MainActivity.this);
-//                        if (!report.isFulfilled()) {
-//                            showUnfulfilledRequirementsToast(report);
-//                            return;
-//                        }
+                        final RequirementsReport report = GiniVisionRequirements.checkRequirements(
+                                MainActivity.this);
+                        if (!report.isFulfilled()) {
+                            // In production apps you should not launch GVL if requirements were not fulfilled
+                            // We make an exception here to allow running the app on emulators
+                            showUnfulfilledRequirementsToast(report);
+                        }
                         final Intent intent = new Intent(MainActivity.this,
                                 CameraExampleAppCompatActivity.class);
                         startActivity(intent);
@@ -204,12 +206,13 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void permissionGranted() {
                         // NOTE: on Android 6.0 and later the camera permission is required before checking the requirements
-//                        final RequirementsReport report = GiniVisionRequirements.checkRequirements(
-//                                MainActivity.this);
-//                        if (!report.isFulfilled()) {
-//                            showUnfulfilledRequirementsToast(report);
-//                            return;
-//                        }
+                        final RequirementsReport report = GiniVisionRequirements.checkRequirements(
+                                MainActivity.this);
+                        if (!report.isFulfilled()) {
+                            // In production apps you should not launch GVL if requirements were not fulfilled
+                            // We make an exception here to allow running the app on emulators
+                            showUnfulfilledRequirementsToast(report);
+                        }
                         final Intent intent = new Intent(MainActivity.this,
                                 CameraExampleActivity.class);
                         startActivity(intent);
