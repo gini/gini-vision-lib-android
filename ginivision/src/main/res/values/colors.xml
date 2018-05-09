@@ -47,6 +47,7 @@
     <color name="gv_review_bottom_panel_text">#fff</color>
 
     <color name="gv_multi_page_review_reorder_pages_tip_text">#fff</color>
+    <color name="gv_multi_page_review_add_pages_text">#fff</color>
 
     <color name="gv_analysis_activity_background">@android:color/transparent</color>
     <color name="gv_analysis_fragment_background">@color/gv_background</color>

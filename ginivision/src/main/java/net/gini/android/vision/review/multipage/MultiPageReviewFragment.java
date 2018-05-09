@@ -40,9 +40,9 @@ import net.gini.android.vision.internal.storage.ImageDiskStore;
 import net.gini.android.vision.review.multipage.previews.PreviewsAdapter;
 import net.gini.android.vision.review.multipage.previews.PreviewsPageChangeHandler;
 import net.gini.android.vision.review.multipage.previews.PreviewsPageChangeListener;
-import net.gini.android.vision.review.multipage.thumbnails.ThumbnailChangeListener;
 import net.gini.android.vision.review.multipage.thumbnails.ThumbnailsAdapter;
 import net.gini.android.vision.review.multipage.thumbnails.ThumbnailsTouchHelperCallback;
+import net.gini.android.vision.review.multipage.thumbnails.ThumnailsAdapterListener;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,7 +72,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     private RecyclerView mThumbnailsRecycler;
     private ThumbnailsAdapter mThumbnailsAdapter;
     private RecyclerView.SmoothScroller mThumbnailsScroller;
-    private ThumbnailChangeListener mThumbnailChangeListener;
+    private ThumnailsAdapterListener mThumnailsAdapterListener;
     private ImageButton mButtonNext;
     private ImageButton mRotateButton;
     private ImageButton mDeleteButton;
@@ -187,7 +187,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
                 LinearLayoutManager.HORIZONTAL, false);
         mThumbnailsRecycler.setLayoutManager(layoutManager);
 
-        mThumbnailChangeListener = new ThumbnailChangeListener() {
+        mThumnailsAdapterListener = new ThumnailsAdapterListener() {
             @Override
             public void onThumbnailMoved() {
                 final PagerAdapter adapter = mPreviewsPager.getAdapter();
@@ -200,10 +200,15 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
             public void onThumbnailSelected(final int position) {
                 mPreviewsPager.setCurrentItem(position);
             }
+
+            @Override
+            public void onPlusButtonClicked() {
+                activity.finish();
+            }
         };
 
         mThumbnailsAdapter = new ThumbnailsAdapter(activity, mMultiPageDocument,
-                mThumbnailChangeListener);
+                mThumnailsAdapterListener);
         mThumbnailsRecycler.setAdapter(mThumbnailsAdapter);
 
         mThumbnailsScroller = new LinearSmoothScroller(activity);
