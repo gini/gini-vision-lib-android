@@ -382,14 +382,13 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             final ImageMultiPageDocument multiPageDocument =
                     GiniVision.getInstance().internal()
                             .getImageMultiPageDocumentMemoryStore().getMultiPageDocument();
-            if (mInMultiPageState) {
+            if (multiPageDocument != null && multiPageDocument.getDocuments().size() > 0) {
                 mMultiPageDocument = multiPageDocument;
-                updateImageStack();
-            } else {
-                if (multiPageDocument != null && multiPageDocument.getDocuments().size() > 0) {
-                    mImageStack.addImage(getBitmap(multiPageDocument.getDocuments().get(0)));
+                if (mInMultiPageState) {
+                    updateImageStack();
+                } else {
                     mInMultiPageState = true;
-                    mMultiPageDocument = multiPageDocument;
+                    mImageStack.addImage(getBitmap(multiPageDocument.getDocuments().get(0)));
                 }
             }
         }
