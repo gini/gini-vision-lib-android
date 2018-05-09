@@ -14,6 +14,7 @@ import net.gini.android.vision.camera.CameraFragmentListener;
 import net.gini.android.vision.component.R;
 import net.gini.android.vision.component.analysis.compat.AnalysisExampleAppCompatActivity;
 import net.gini.android.vision.component.review.compat.ReviewExampleAppCompatActivity;
+import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.document.QRCodeDocument;
 import net.gini.android.vision.help.HelpActivity;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
@@ -89,6 +90,12 @@ public class CameraExampleAppCompatActivity extends AppCompatActivity implements
     @Override
     public void onDocumentAvailable(@NonNull final Document document) {
         mCameraScreenHandler.onDocumentAvailable(document);
+    }
+
+    @Override
+    public void onProceedToMultiPageReviewScreen(
+            @NonNull final GiniVisionMultiPageDocument multiPageDocument) {
+        mCameraScreenHandler.onProceedToMultiPageReviewScreen(multiPageDocument);
     }
 
     @Override

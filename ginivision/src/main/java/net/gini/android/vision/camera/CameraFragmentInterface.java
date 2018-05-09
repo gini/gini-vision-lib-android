@@ -2,9 +2,6 @@ package net.gini.android.vision.camera;
 
 import android.support.annotation.NonNull;
 
-import net.gini.android.vision.Document;
-import net.gini.android.vision.document.GiniVisionMultiPageDocument;
-
 /**
  * <p>
  *     Methods which both Camera Fragments must implement.
@@ -128,7 +125,4 @@ public interface CameraFragmentInterface {
      */
     void showError(@NonNull String message, int duration);
 
-    void startMultiPage(@NonNull final Document document);
-
-    void setMultiPageDocument(@NonNull final GiniVisionMultiPageDocument multiPageDocument);
 }

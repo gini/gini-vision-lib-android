@@ -223,6 +223,9 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         stopScanAnimation();
         if (!mAnalysisCompleted) {
             deleteUploadedDocuments();
+        } else if (GiniVision.hasInstance()) {
+            GiniVision.getInstance().internal().getImageMultiPageDocumentMemoryStore()
+                    .clear();
         }
     }
 

@@ -93,7 +93,7 @@ public interface ReviewFragmentListener {
      */
     void onError(@NonNull GiniVisionError error);
 
-    void onAddMorePages(@NonNull Document document);
+    void onGoBackToCameraScreen();
 
     /**
      * Called when the document has been analyzed and extractions are available.

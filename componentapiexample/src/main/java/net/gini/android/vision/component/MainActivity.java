@@ -178,8 +178,9 @@ public class MainActivity extends AppCompatActivity {
                         final RequirementsReport report = GiniVisionRequirements.checkRequirements(
                                 MainActivity.this);
                         if (!report.isFulfilled()) {
+                            // In production apps you should not launch GVL if requirements were not fulfilled
+                            // We make an exception here to allow running the app on emulators
                             showUnfulfilledRequirementsToast(report);
-                            return;
                         }
                         final Intent intent = new Intent(MainActivity.this,
                                 CameraExampleAppCompatActivity.class);
@@ -208,8 +209,9 @@ public class MainActivity extends AppCompatActivity {
                         final RequirementsReport report = GiniVisionRequirements.checkRequirements(
                                 MainActivity.this);
                         if (!report.isFulfilled()) {
+                            // In production apps you should not launch GVL if requirements were not fulfilled
+                            // We make an exception here to allow running the app on emulators
                             showUnfulfilledRequirementsToast(report);
-                            return;
                         }
                         final Intent intent = new Intent(MainActivity.this,
                                 CameraExampleActivity.class);

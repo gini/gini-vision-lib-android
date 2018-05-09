@@ -2,7 +2,6 @@ package net.gini.android.vision.camera;
 
 import static net.gini.android.vision.internal.util.FeatureConfiguration.shouldShowOnboarding;
 import static net.gini.android.vision.internal.util.FeatureConfiguration.shouldShowOnboardingAtFirstRun;
-import static net.gini.android.vision.review.MultiPageReviewActivity.RESULT_MULTI_PAGE_DOCUMENT;
 
 import android.app.Activity;
 import android.content.Context;
@@ -24,7 +23,6 @@ import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.document.GiniVisionMultiPageDocument;
-import net.gini.android.vision.document.ImageMultiPageDocument;
 import net.gini.android.vision.document.QRCodeDocument;
 import net.gini.android.vision.help.HelpActivity;
 import net.gini.android.vision.internal.util.ActivityHelper;
@@ -32,8 +30,8 @@ import net.gini.android.vision.network.GiniVisionNetworkService;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
-import net.gini.android.vision.review.MultiPageReviewActivity;
 import net.gini.android.vision.review.ReviewActivity;
+import net.gini.android.vision.review.multipage.MultiPageReviewActivity;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -682,8 +680,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     public void onProceedToMultiPageReviewScreen(
             @NonNull final GiniVisionMultiPageDocument multiPageDocument) {
         if (multiPageDocument.getType() == Document.Type.IMAGE_MULTI_PAGE) {
-            final Intent intent = MultiPageReviewActivity.createIntent(this,
-                    (ImageMultiPageDocument) multiPageDocument);
+            final Intent intent = MultiPageReviewActivity.createIntent(this);
             startActivityForResult(intent, MULTI_PAGE_REVIEW_REQUEST);
         } else {
             throw new UnsupportedOperationException("Unsupported multi-page document type.");
@@ -726,7 +723,8 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     }
 
     @Override
-    public void onExtractionsAvailable(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
+    public void onExtractionsAvailable(
+            @NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
         final Intent result = new Intent();
         final Bundle extractionsBundle = new Bundle();
         for (final Map.Entry<String, GiniVisionSpecificExtraction> extraction : extractions.entrySet()) {
@@ -743,13 +741,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         switch (requestCode) {
             case REVIEW_DOCUMENT_REQUEST:
             case ANALYSE_DOCUMENT_REQUEST:
-                if (resultCode == 2018) {
-                    final Document document = data.getParcelableExtra(
-                            "multipage_first_page");
-                    if (document != null) {
-                        mFragment.startMultiPage(document);
-                    }
-                } else if (mBackButtonShouldCloseLibrary
+                if (mBackButtonShouldCloseLibrary
                         || (resultCode != Activity.RESULT_CANCELED
                         && resultCode != AnalysisActivity.RESULT_NO_EXTRACTIONS
                         && resultCode != ReviewActivity.RESULT_NO_EXTRACTIONS)) {
@@ -763,16 +755,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
                 showInterface();
                 break;
             case MULTI_PAGE_REVIEW_REQUEST:
-                if (resultCode == RESULT_MULTI_PAGE_DOCUMENT) {
-                    if (data != null) {
-                        final GiniVisionMultiPageDocument multiPageDocument =
-                                data.getParcelableExtra(
-                                        MultiPageReviewActivity.EXTRA_OUT_DOCUMENT);
-                        if (multiPageDocument != null) {
-                            mFragment.setMultiPageDocument(multiPageDocument);
-                        }
-                    }
-                } else if (resultCode != Activity.RESULT_CANCELED
+                if (resultCode != Activity.RESULT_CANCELED
                         && resultCode != AnalysisActivity.RESULT_NO_EXTRACTIONS) {
                     setResult(resultCode, data);
                     finish();
@@ -836,17 +819,11 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         mFragment.showError(message, duration);
     }
 
-    @Override
-    public void startMultiPage(@NonNull final Document document) {
-        mFragment.startMultiPage(document);
-    }
-
-    @Override
-    public void setMultiPageDocument(@NonNull final GiniVisionMultiPageDocument multiPageDocument) {
-        mFragment.setMultiPageDocument(multiPageDocument);
-    }
-
     private void clearMemory() {
         mDocument = null; // NOPMD
+        if (GiniVision.hasInstance()) {
+            GiniVision.getInstance().internal()
+                    .getImageMultiPageDocumentMemoryStore().clear();
+        }
     }
 }

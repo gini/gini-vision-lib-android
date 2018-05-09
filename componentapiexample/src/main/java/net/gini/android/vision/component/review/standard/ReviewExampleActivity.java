@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.component.ExtractionsActivity;
 import net.gini.android.vision.component.R;
 import net.gini.android.vision.component.analysis.standard.AnalysisExampleActivity;
 import net.gini.android.vision.component.noresults.standard.NoResultsExampleActivity;
@@ -77,8 +78,8 @@ public class ReviewExampleActivity extends Activity implements
     }
 
     @Override
-    public void onAddMorePages(@NonNull final Document document) {
-        mReviewScreenHandler.onAddMorePages(document);
+    public void onGoBackToCameraScreen() {
+        mReviewScreenHandler.onGoBackToCameraScreen();
     }
 
     @Override

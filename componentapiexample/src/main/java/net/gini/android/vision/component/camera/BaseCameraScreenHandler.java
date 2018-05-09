@@ -28,6 +28,8 @@ import net.gini.android.vision.camera.CameraFragmentInterface;
 import net.gini.android.vision.camera.CameraFragmentListener;
 import net.gini.android.vision.component.ExtractionsActivity;
 import net.gini.android.vision.component.R;
+import net.gini.android.vision.component.review.multipage.MultiPageReviewExampleActivity;
+import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.document.QRCodeDocument;
 import net.gini.android.vision.example.BaseExampleApp;
 import net.gini.android.vision.example.DocumentAnalyzer;
@@ -60,7 +62,8 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
     private static final boolean DO_CUSTOM_DOCUMENT_CHECK = false;
     private static final Logger LOG = LoggerFactory.getLogger(BaseCameraScreenHandler.class);
     private static final int REVIEW_REQUEST = 1;
-    private static final int ANALYSIS_REQUEST = 2;
+    private static final int MULTI_PAGE_REVIEW_REQUEST = 2;
+    private static final int ANALYSIS_REQUEST = 3;
     private final Activity mActivity;
     private CameraFragmentInterface mCameraFragmentInterface;
     private GiniVisionCoordinator mGiniVisionCoordinator;
@@ -203,6 +206,7 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         switch (requestCode) {
             case REVIEW_REQUEST:
+            case MULTI_PAGE_REVIEW_REQUEST:
             case ANALYSIS_REQUEST:
                 if (resultCode == RESULT_OK) {
                     mActivity.finish();
@@ -320,7 +324,9 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
             final Document document = GiniVisionFileImport.createDocumentForImportedFile(
                     importedFileIntent,
                     mActivity);
-            if (document.isReviewable()) {
+            if (document.getType() == Document.Type.IMAGE_MULTI_PAGE) {
+                launchMultiPageReviewScreen();
+            } else if (document.isReviewable()) {
                 launchReviewScreen(document);
             } else {
                 launchAnalysisScreen(document);
@@ -355,6 +361,11 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
                     })
                     .show();
         }
+    }
+
+    private void launchMultiPageReviewScreen() {
+        final Intent intent = MultiPageReviewExampleActivity.newInstance(mActivity);
+        mActivity.startActivityForResult(intent, MULTI_PAGE_REVIEW_REQUEST);
     }
 
     public boolean onCreateOptionsMenu(final Menu menu) {
@@ -393,5 +404,12 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
         mActivity.startActivity(intent);
         mActivity.setResult(Activity.RESULT_OK);
         mActivity.finish();
+    }
+
+    @Override
+    public void onProceedToMultiPageReviewScreen(
+            @NonNull final GiniVisionMultiPageDocument multiPageDocument) {
+        // Only compat version available (which uses the support library)
+        launchMultiPageReviewScreen();
     }
 }

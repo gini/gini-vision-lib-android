@@ -29,6 +29,7 @@ import net.gini.android.vision.R;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.GiniVisionDocument;
 import net.gini.android.vision.document.ImageDocument;
+import net.gini.android.vision.document.ImageMultiPageDocument;
 import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.PhotoEdit;
@@ -76,7 +77,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         }
 
         @Override
-        public void onAddMorePages(@NonNull final Document document) {
+        public void onGoBackToCameraScreen() {
 
         }
 
@@ -156,8 +157,15 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
     private void addMorePages() {
         mWillAddMorePages = true;
-        mListener.onAddMorePages(
-                DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto, mDocument));
+        if (GiniVision.hasInstance()) {
+            final ImageDocument document =
+                    (ImageDocument) DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto,
+                            mDocument);
+            final ImageMultiPageDocument multiPageDocument = new ImageMultiPageDocument(document);
+            GiniVision.getInstance().internal().getImageMultiPageDocumentMemoryStore()
+                    .setMultiPageDocument(multiPageDocument);
+            mListener.onGoBackToCameraScreen();
+        }
     }
 
     public void onCreate(@Nullable final Bundle savedInstanceState) {

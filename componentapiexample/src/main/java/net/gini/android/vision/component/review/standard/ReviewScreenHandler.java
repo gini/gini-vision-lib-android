@@ -3,7 +3,6 @@ package net.gini.android.vision.component.review.standard;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.component.R;
@@ -76,8 +75,4 @@ public class ReviewScreenHandler extends BaseReviewScreenHandler {
 
     }
 
-    @Override
-    public void onAddMorePages(@NonNull final Document document) {
-
-    }
 }

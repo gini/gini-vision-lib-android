@@ -1,7 +1,6 @@
 package net.gini.android.vision.analysis;
 
 import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
-import static net.gini.android.vision.internal.util.ActivityHelper.handleMenuItemPressedForHomeButton;
 
 import android.content.Context;
 import android.content.Intent;
@@ -294,7 +293,7 @@ public class AnalysisActivity extends AppCompatActivity implements
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        if (handleMenuItemPressedForHomeButton(this, item)) {
+        if (item.getItemId() == android.R.id.home) {
             onBackPressed();
             return true;
         }

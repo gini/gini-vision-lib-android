@@ -1,4 +1,4 @@
-package net.gini.android.vision.review;
+package net.gini.android.vision.review.multipage.previews;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -17,13 +17,14 @@ import net.gini.android.vision.R;
 import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.camera.photo.Photo;
+import net.gini.android.vision.review.RotatableImageViewContainer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ImageFragment extends Fragment {
+public class PreviewFragment extends Fragment {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ImageFragment.class);
+    private static final Logger LOG = LoggerFactory.getLogger(PreviewFragment.class);
 
     private static final String ARGS_DOCUMENT = "GV_ARGS_DOCUMENT";
     private static final String ARGS_ERROR_MESSAGE = "GV_ARGS_ERROR_MESSAGE";
@@ -36,9 +37,9 @@ public class ImageFragment extends Fragment {
     private ProgressBar mActivityIndicator;
     private boolean mStopped = true;
 
-    public static ImageFragment createInstance(@Nullable final ImageDocument document,
+    public static PreviewFragment createInstance(@Nullable final ImageDocument document,
             @Nullable final String errorMessage) {
-        final ImageFragment fragment = new ImageFragment();
+        final PreviewFragment fragment = new PreviewFragment();
         final Bundle args = new Bundle();
         args.putParcelable(ARGS_DOCUMENT, document);
         args.putString(ARGS_ERROR_MESSAGE, errorMessage);
@@ -46,7 +47,7 @@ public class ImageFragment extends Fragment {
         return fragment;
     }
 
-    public ImageFragment() {
+    public PreviewFragment() {
     }
 
     @Override
@@ -62,7 +63,8 @@ public class ImageFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, final ViewGroup container,
             final Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.gv_fragment_image, container, false);
+        final View view = inflater.inflate(R.layout.gv_item_multi_page_preview, container,
+                false);
         mImageViewContainer = view.findViewById(R.id.gv_image_container);
         mActivityIndicator = view.findViewById(R.id.gv_activity_indicator);
         mErrorView = view.findViewById(R.id.gv_text_error);
@@ -136,7 +138,7 @@ public class ImageFragment extends Fragment {
         mImageViewContainer.rotateImageView(degrees, animated);
     }
 
-    void rotateImageViewBy(final int degrees, final boolean animated) {
+    public void rotateImageViewBy(final int degrees, final boolean animated) {
         mImageViewContainer.rotateImageViewBy(degrees, animated);
     }
 }

@@ -58,7 +58,7 @@
             android:label="@string/gv_title_file_import"
             android:theme="@style/GiniVisionTheme" />
         <activity
-            android:name=".review.MultiPageReviewActivity"
+            android:name=".review.multipage.MultiPageReviewActivity"
             android:exported="false"
             android:label="@string/gv_title_multi_page_review"
             android:theme="@style/GiniVisionTheme" />
