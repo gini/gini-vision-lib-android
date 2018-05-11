@@ -76,6 +76,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     private ImageButton mButtonNext;
     private ImageButton mRotateButton;
     private ImageButton mDeleteButton;
+    private TextView mReorderPagesTip;
 
     private boolean mNextClicked;
     private boolean mPreviewsShown;
@@ -222,6 +223,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         mThumbnailsRecycler = view.findViewById(R.id.gv_thumbnails_panel);
         mRotateButton = view.findViewById(R.id.gv_button_rotate);
         mDeleteButton = view.findViewById(R.id.gv_button_delete);
+        mReorderPagesTip = view.findViewById(R.id.gv_reorder_pages_tip);
     }
 
     private void setInputHandlers() {
@@ -252,6 +254,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         final int nrOfDocuments = mMultiPageDocument.getDocuments().size();
         final int newPosition = getNewPositionAfterDeletion(deletedItem, nrOfDocuments);
         updatePageIndicator(newPosition);
+        updateReorderPagesTip();
 
         mPreviewsAdapter.notifyDataSetChanged();
         mThumbnailsAdapter.removeThumbnail(deletedItem);
@@ -450,9 +453,19 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
             mDeleteButton.setAlpha(0.2f);
         }
 
+        updateReorderPagesTip();
+
         mPreviewsPager.setCurrentItem(0);
         updatePageIndicator(0);
         highlightThumbnail(0);
+    }
+
+    private void updateReorderPagesTip() {
+        if (mMultiPageDocument.getDocuments().size() > 1) {
+            mReorderPagesTip.setText(getText(R.string.gv_multi_page_review_reorder_pages_tip));
+        } else {
+            mReorderPagesTip.setText("");
+        }
     }
 
     @Override
