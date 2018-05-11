@@ -49,8 +49,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/gv_thumbnails_panel"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:layout_alignTop="@id/gv_toolbar"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/gv_toolbar"
         android:background="#262626"
         android:clipToPadding="false"
         android:paddingEnd="8dp"
@@ -58,58 +58,37 @@
         android:paddingRight="8dp"
         android:paddingStart="8dp" />
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/gv_toolbar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="#262626"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <android.support.v4.widget.Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
+        android:background="#262626">
 
         <ImageButton
             android:id="@+id/gv_button_rotate"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
             android:background="@drawable/gv_toolbar_button_background"
             app:srcCompat="@drawable/gv_rotate_icon" />
-
-        <android.support.v4.widget.Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2" />
-
-        <ImageButton
-            android:id="@+id/gv_button_reorder"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@drawable/gv_toolbar_button_background"
-            app:srcCompat="@drawable/gv_reorder_icon" />
-
-        <android.support.v4.widget.Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2" />
 
         <ImageButton
             android:id="@+id/gv_button_delete"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
             android:background="@drawable/gv_toolbar_button_background"
             app:srcCompat="@drawable/gv_delete_icon" />
 
-        <android.support.v4.widget.Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-    </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>
