@@ -37,6 +37,7 @@ import net.gini.android.vision.internal.camera.photo.PhotoEdit;
 import net.gini.android.vision.internal.network.NetworkRequestResult;
 import net.gini.android.vision.internal.network.NetworkRequestsManager;
 import net.gini.android.vision.internal.storage.ImageDiskStore;
+import net.gini.android.vision.review.multipage.previews.PreviewFragmentListener;
 import net.gini.android.vision.review.multipage.previews.PreviewsAdapter;
 import net.gini.android.vision.review.multipage.previews.PreviewsPageChangeHandler;
 import net.gini.android.vision.review.multipage.previews.PreviewsPageChangeListener;
@@ -58,7 +59,8 @@ import jersey.repackaged.jsr166e.CompletableFuture;
  *
  * Copyright (c) 2018 Gini GmbH.
  */
-public class MultiPageReviewFragment extends Fragment implements MultiPageReviewFragmentInterface {
+public class MultiPageReviewFragment extends Fragment implements MultiPageReviewFragmentInterface,
+        PreviewFragmentListener {
 
     private static final Logger LOG = LoggerFactory.getLogger(MultiPageReviewFragment.class);
     private static final String MP_DOCUMENT_KEY = "MP_DOCUMENT_KEY";
@@ -415,46 +417,52 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     }
 
     private void uploadDocuments() {
-        if (GiniVision.hasInstance()) {
-            final NetworkRequestsManager networkRequestsManager =
-                    GiniVision.getInstance().internal().getNetworkRequestsManager();
-            if (networkRequestsManager != null) {
-                final Activity activity = getActivity();
-                if (activity == null) {
-                    return;
-                }
-                for (final ImageDocument imageDocument : mMultiPageDocument.getDocuments()) {
-                    // WIP-MPA: start activity indicator for imageDocument
-                    mThumbnailsAdapter.setUploadState(ThumbnailsAdapter.UploadState.IN_PROGRESS,
-                            imageDocument);
-                    mDocumentUploadResults.put(imageDocument.getId(), false);
-                    networkRequestsManager.upload(activity, imageDocument)
-                            .handle(new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, Void>() {
-                                @Override
-                                public Void apply(
-                                        final NetworkRequestResult<GiniVisionDocument> requestResult,
-                                        final Throwable throwable) {
-                                    if (throwable != null &&
-                                            !NetworkRequestsManager.isCancellation(throwable)) {
-                                        final String errorMessage = getString(
-                                                R.string.gv_multi_page_review_upload_error);
-                                        showErrorOnPreview(errorMessage, imageDocument);
-                                        mThumbnailsAdapter.setUploadState(
-                                                ThumbnailsAdapter.UploadState.FAILED,
-                                                imageDocument);
-                                    } else if (requestResult != null) {
-                                        mDocumentUploadResults.put(imageDocument.getId(), true);
-                                        mThumbnailsAdapter.setUploadState(
-                                                ThumbnailsAdapter.UploadState.COMPLETED,
-                                                imageDocument);
-                                    }
-                                    updateNextButtonVisibility();
-                                    return null;
-                                }
-                            });
-                }
-            }
+        for (final ImageDocument imageDocument : mMultiPageDocument.getDocuments()) {
+            uploadDocument(imageDocument);
         }
+    }
+
+    private void uploadDocument(final ImageDocument document) {
+        if (!GiniVision.hasInstance()) {
+            return;
+        }
+        final NetworkRequestsManager networkRequestsManager =
+                GiniVision.getInstance().internal().getNetworkRequestsManager();
+        if (networkRequestsManager == null) {
+            return;
+        }
+        final Activity activity = getActivity();
+        if (activity == null) {
+            return;
+        }
+
+        mThumbnailsAdapter.setUploadState(ThumbnailsAdapter.UploadState.IN_PROGRESS,
+                document);
+        mDocumentUploadResults.put(document.getId(), false);
+        networkRequestsManager.upload(activity, document)
+                .handle(new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, Void>() {
+                    @Override
+                    public Void apply(
+                            final NetworkRequestResult<GiniVisionDocument> requestResult,
+                            final Throwable throwable) {
+                        if (throwable != null &&
+                                !NetworkRequestsManager.isCancellation(throwable)) {
+                            final String errorMessage = getString(
+                                    R.string.gv_multi_page_review_upload_error);
+                            showErrorOnPreview(errorMessage, document);
+                            mThumbnailsAdapter.setUploadState(
+                                    ThumbnailsAdapter.UploadState.FAILED,
+                                    document);
+                        } else if (requestResult != null) {
+                            mDocumentUploadResults.put(document.getId(), true);
+                            mThumbnailsAdapter.setUploadState(
+                                    ThumbnailsAdapter.UploadState.COMPLETED,
+                                    document);
+                        }
+                        updateNextButtonVisibility();
+                        return null;
+                    }
+                });
     }
 
     private void showErrorOnPreview(final String errorMessage, final ImageDocument imageDocument) {
@@ -552,6 +560,11 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
                         });
             }
         }
+    }
+
+    @Override
+    public void onRetryUpload(@NonNull final ImageDocument document) {
+        uploadDocument(document);
     }
 
     @Override

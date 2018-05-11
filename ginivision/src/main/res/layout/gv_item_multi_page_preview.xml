@@ -23,16 +23,5 @@
         tools:targetApi="lollipop"
         tools:visibility="visible" />
 
-    <TextView
-        android:id="@+id/gv_text_error"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_margin="16dp"
-        android:gravity="center"
-        android:textColor="@color/gv_snackbar_error_background"
-        android:textSize="14sp"
-        tools:text="Bad image." />
-
 </RelativeLayout>
 

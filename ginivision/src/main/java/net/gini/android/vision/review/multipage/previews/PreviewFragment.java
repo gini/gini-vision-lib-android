@@ -5,17 +5,19 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.RelativeLayout;
 
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.camera.photo.Photo;
+import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.review.RotatableImageViewContainer;
 
 import org.slf4j.Logger;
@@ -32,7 +34,6 @@ public class PreviewFragment extends Fragment {
 
     private ImageDocument mDocument;
     private String mErrorMessage;
-    private TextView mErrorView;
     private ProgressBar mActivityIndicator;
     private boolean mStopped = true;
 
@@ -66,8 +67,6 @@ public class PreviewFragment extends Fragment {
                 false);
         mImageViewContainer = view.findViewById(R.id.gv_image_container);
         mActivityIndicator = view.findViewById(R.id.gv_activity_indicator);
-        mErrorView = view.findViewById(R.id.gv_text_error);
-        mErrorView.setText(mErrorMessage);
         return view;
     }
 
@@ -77,7 +76,10 @@ public class PreviewFragment extends Fragment {
         mStopped = false;
         LOG.debug("Started ({})", this);
         final Context context = getContext();
-        if (context != null && shouldShowPreviewImage()) {
+        if (context == null) {
+            return;
+        }
+        if (shouldShowPreviewImage()) {
             LOG.debug("Loading preview bitmap ({})", this);
             showActivityIndicator();
             GiniVision.getInstance().internal().getPhotoMemoryCache()
@@ -106,10 +108,52 @@ public class PreviewFragment extends Fragment {
                             }
                             hideActivityIndicator();
                             LOG.debug("Showing error ({})", this);
-                            mErrorView.setText(R.string.gv_multi_page_review_image_preview_error);
+                            showPreviewError(context);
                         }
                     });
         }
+        if (!TextUtils.isEmpty(mErrorMessage)) {
+            showErrorMessage(context);
+        }
+    }
+
+    private void showPreviewError(final Context context) {
+        final View view = getView();
+        if (view == null) {
+            return;
+        }
+        ErrorSnackbar.make(context, (RelativeLayout) view, ErrorSnackbar.Position.TOP,
+                context.getString(R.string.gv_multi_page_review_image_preview_error),
+                null, null, ErrorSnackbar.LENGTH_INDEFINITE)
+                .showWithoutAnimation();
+    }
+
+    private void showErrorMessage(final Context context) {
+        final View view = getView();
+        if (view == null) {
+            return;
+        }
+        ErrorSnackbar.make(context, (RelativeLayout) view, ErrorSnackbar.Position.TOP,
+                mErrorMessage,
+                context.getString(R.string.gv_document_analysis_error_retry),
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View v) {
+                        final PreviewFragmentListener listener = getListener();
+                        if (listener != null) {
+                            listener.onRetryUpload(mDocument);
+                        }
+                    }
+                }, ErrorSnackbar.LENGTH_INDEFINITE)
+                .showWithoutAnimation();
+    }
+
+    @Nullable
+    private PreviewFragmentListener getListener() {
+        if (getParentFragment() instanceof PreviewFragmentListener) {
+            return (PreviewFragmentListener) getParentFragment();
+        }
+        return null;
     }
 
     private boolean shouldShowPreviewImage() {
