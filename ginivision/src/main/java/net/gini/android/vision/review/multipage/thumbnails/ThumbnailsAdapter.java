@@ -254,8 +254,11 @@ public class ThumbnailsAdapter extends
     }
 
     @Override
-    public void onItemMove(final RecyclerView.ViewHolder viewHolder, final int fromPos,
+    public boolean onItemMove(final RecyclerView.ViewHolder viewHolder, final int fromPos,
             final RecyclerView.ViewHolder target, final int toPos) {
+        if (toPos >= mThumbnails.size()) {
+            return false;
+        }
         Collections.swap(mThumbnails, fromPos, toPos);
         Collections.swap(mMultiPageDocument.getDocuments(), fromPos, toPos);
         notifyItemMoved(fromPos, toPos);
@@ -264,6 +267,7 @@ public class ThumbnailsAdapter extends
         setHighlightedThumbnail(toPos);
         mListener.onThumbnailMoved();
         mListener.onThumbnailSelected(toPos);
+        return true;
     }
 
     public boolean isThumbnailHighlighted(final int position) {
