@@ -36,16 +36,21 @@ public class ThumbnailsAdapter extends
         RecyclerView.Adapter<ThumbnailsAdapter.ViewHolder> implements
         ThumbnailsTouchHelperListener {
 
+    enum ViewType {
+        THUMBNAIL,
+        PLUS_BUTTON
+    }
+
     private final Context mContext;
     private final ImageMultiPageDocument mMultiPageDocument;
-    private final ThumbnailChangeListener mThumbnailChangeListener;
+    private final ThumbnailsAdapterListener mListener;
     private final List<Thumbnail> mThumbnails;
     private ItemTouchHelper mItemTouchHelper;
     private RecyclerView mRecyclerView;
 
     public ThumbnailsAdapter(@NonNull final Context context,
             @NonNull final ImageMultiPageDocument multiPageDocument,
-            @NonNull final ThumbnailChangeListener thumbnailChangeListener) {
+            @NonNull final ThumbnailsAdapterListener listener) {
         mContext = context;
         mMultiPageDocument = multiPageDocument;
         final List<ImageDocument> documents = mMultiPageDocument.getDocuments();
@@ -53,21 +58,53 @@ public class ThumbnailsAdapter extends
         for (final ImageDocument document : documents) {
             mThumbnails.add(new Thumbnail());
         }
-        mThumbnailChangeListener = thumbnailChangeListener;
+        mListener = listener;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(
             @NonNull final ViewGroup parent, final int viewType) {
-        final View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.gv_item_multi_page_thumbnail, parent, false);
-        return new ViewHolder(view);
+        final ViewType type = ViewType.values()[viewType];
+        final View view;
+        switch (type) {
+            case THUMBNAIL:
+                view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.gv_item_multi_page_thumbnail, parent, false);
+                break;
+            case PLUS_BUTTON:
+                view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.gv_item_multi_page_plus_button, parent, false);
+                break;
+            default:
+                throw new IllegalStateException("Unknown view type " + type);
+        }
+        return new ViewHolder(view, type);
+    }
+
+    @Override
+    public int getItemViewType(final int position) {
+        return position < mThumbnails.size() ? ViewType.THUMBNAIL.ordinal()
+                : ViewType.PLUS_BUTTON.ordinal();
     }
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder,
             @SuppressLint("RecyclerView") final int position) {
+        switch (holder.mViewType) {
+            case THUMBNAIL:
+                bindThumbnail(holder, position);
+                break;
+            case PLUS_BUTTON:
+                bindPlusButton(holder);
+                break;
+                default:
+                    throw new IllegalStateException("Unknown view type " + holder.mViewType);
+        }
+    }
+
+    private void bindThumbnail(final @NonNull ViewHolder holder,
+            final @SuppressLint("RecyclerView") int position) {
         holder.resetImageView();
         holder.showActivityIndicator();
         showPosition(position, holder);
@@ -99,6 +136,15 @@ public class ThumbnailsAdapter extends
                         });
     }
 
+    private void bindPlusButton(final @NonNull ViewHolder holder) {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                mListener.onPlusButtonClicked();
+            }
+        });
+    }
+
     private void showPhoto(@NonNull final Photo photo,
             @NonNull final ViewHolder holder) {
         final ImageView imageView = holder.thumbnailContainer.getImageView();
@@ -123,7 +169,7 @@ public class ThumbnailsAdapter extends
             public void onClick(final View v) {
                 final int adapterPosition = holder.getAdapterPosition();
                 highlightPosition(adapterPosition);
-                mThumbnailChangeListener.onThumbnailSelected(adapterPosition);
+                mListener.onThumbnailSelected(adapterPosition);
             }
         });
         holder.handle.setOnTouchListener(new View.OnTouchListener() {
@@ -133,7 +179,7 @@ public class ThumbnailsAdapter extends
                     final int adapterPosition = holder.getAdapterPosition();
                     holder.highlight.setAlpha(0.5f);
                     highlightPosition(adapterPosition);
-                    mThumbnailChangeListener.onThumbnailSelected(adapterPosition);
+                    mListener.onThumbnailSelected(adapterPosition);
                     if (mItemTouchHelper != null) {
                         mItemTouchHelper.startDrag(holder);
                     }
@@ -169,7 +215,8 @@ public class ThumbnailsAdapter extends
 
     @Override
     public int getItemCount() {
-        return mThumbnails.size();
+        // Plus button is always shown at the end
+        return mThumbnails.size() + 1;
     }
 
     @Override
@@ -209,8 +256,8 @@ public class ThumbnailsAdapter extends
         ((ViewHolder) viewHolder).badge.setText(String.valueOf(toPos + 1));
         ((ViewHolder) target).badge.setText(String.valueOf(fromPos + 1));
         highlightPosition(toPos);
-        mThumbnailChangeListener.onThumbnailMoved();
-        mThumbnailChangeListener.onThumbnailSelected(toPos);
+        mListener.onThumbnailMoved();
+        mListener.onThumbnailSelected(toPos);
     }
 
     public void removeThumbnail(final int deletedPosition) {
@@ -269,27 +316,42 @@ public class ThumbnailsAdapter extends
         final View highlight;
         final RotatableImageViewContainer thumbnailContainer;
         final ProgressBar activityIndicator;
+        final ViewType mViewType;
 
-        ViewHolder(final View itemView) {
+        ViewHolder(@NonNull final View itemView, @NonNull final ViewType viewType) {
             super(itemView);
             thumbnailContainer = itemView.findViewById(R.id.gv_thumbnail_container);
             badge = itemView.findViewById(R.id.gv_badge);
             highlight = itemView.findViewById(R.id.gv_highlight);
             handle = itemView.findViewById(R.id.gv_handle);
             activityIndicator = itemView.findViewById(R.id.gv_activity_indicator);
+            mViewType = viewType;
         }
 
         void showActivityIndicator() {
+            if (activityIndicator == null) {
+                return;
+            }
             activityIndicator.setVisibility(View.VISIBLE);
         }
 
         void hideActivityIndicator() {
+            if (activityIndicator == null) {
+                return;
+            }
             activityIndicator.setVisibility(View.INVISIBLE);
         }
 
         void resetImageView() {
+            if (thumbnailContainer == null) {
+                return;
+            }
             thumbnailContainer.rotateImageView(0, false);
             thumbnailContainer.getImageView().setImageDrawable(null);
+        }
+
+        boolean isDragAllowed() {
+            return mViewType == ViewType.THUMBNAIL;
         }
     }
 

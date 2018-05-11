@@ -40,8 +40,8 @@ import net.gini.android.vision.internal.storage.ImageDiskStore;
 import net.gini.android.vision.review.multipage.previews.PreviewsAdapter;
 import net.gini.android.vision.review.multipage.previews.PreviewsPageChangeHandler;
 import net.gini.android.vision.review.multipage.previews.PreviewsPageChangeListener;
-import net.gini.android.vision.review.multipage.thumbnails.ThumbnailChangeListener;
 import net.gini.android.vision.review.multipage.thumbnails.ThumbnailsAdapter;
+import net.gini.android.vision.review.multipage.thumbnails.ThumbnailsAdapterListener;
 import net.gini.android.vision.review.multipage.thumbnails.ThumbnailsTouchHelperCallback;
 
 import org.slf4j.Logger;
@@ -72,7 +72,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     private RecyclerView mThumbnailsRecycler;
     private ThumbnailsAdapter mThumbnailsAdapter;
     private RecyclerView.SmoothScroller mThumbnailsScroller;
-    private ThumbnailChangeListener mThumbnailChangeListener;
+    private ThumbnailsAdapterListener mThumbnailsAdapterListener;
     private ImageButton mButtonNext;
     private ImageButton mRotateButton;
     private ImageButton mDeleteButton;
@@ -187,7 +187,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
                 LinearLayoutManager.HORIZONTAL, false);
         mThumbnailsRecycler.setLayoutManager(layoutManager);
 
-        mThumbnailChangeListener = new ThumbnailChangeListener() {
+        mThumbnailsAdapterListener = new ThumbnailsAdapterListener() {
             @Override
             public void onThumbnailMoved() {
                 final PagerAdapter adapter = mPreviewsPager.getAdapter();
@@ -200,10 +200,15 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
             public void onThumbnailSelected(final int position) {
                 mPreviewsPager.setCurrentItem(position);
             }
+
+            @Override
+            public void onPlusButtonClicked() {
+                activity.finish();
+            }
         };
 
         mThumbnailsAdapter = new ThumbnailsAdapter(activity, mMultiPageDocument,
-                mThumbnailChangeListener);
+                mThumbnailsAdapterListener);
         mThumbnailsRecycler.setAdapter(mThumbnailsAdapter);
 
         mThumbnailsScroller = new LinearSmoothScroller(activity);

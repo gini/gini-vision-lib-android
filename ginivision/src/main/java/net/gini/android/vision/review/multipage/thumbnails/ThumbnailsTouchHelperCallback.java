@@ -20,8 +20,18 @@ public class ThumbnailsTouchHelperCallback extends ItemTouchHelper.Callback {
     @Override
     public int getMovementFlags(final RecyclerView recyclerView,
             final RecyclerView.ViewHolder viewHolder) {
-        return makeMovementFlags(ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT,
-                0);
+        if (viewHolder instanceof ThumbnailsAdapter.ViewHolder) {
+            final ThumbnailsAdapter.ViewHolder adapterViewHolder =
+                    (ThumbnailsAdapter.ViewHolder) viewHolder;
+            if (adapterViewHolder.isDragAllowed()) {
+                return makeMovementFlags(ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT,
+                        0);
+            } else {
+                return makeMovementFlags(0, 0);
+            }
+        } else {
+            throw new IllegalStateException("Unkown ViewHolder type" + viewHolder);
+        }
     }
 
     @Override
