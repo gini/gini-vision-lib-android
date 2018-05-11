@@ -171,12 +171,6 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         scrollToThumbnail(position);
     }
 
-    private void scrollToThumbnail(final int position) {
-        mThumbnailsScroller.setTargetPosition(position);
-        mThumbnailsRecycler.getLayoutManager().startSmoothScroll(
-                mThumbnailsScroller);
-    }
-
     private void setupThumbnailsRecyclerView() {
         final Activity activity = getActivity();
         if (activity == null) {
@@ -271,6 +265,12 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         }
     }
 
+    private void scrollToThumbnail(final int position) {
+        final int scrollTargetPosition = mThumbnailsAdapter.getScrollTargetPosition(position);
+        mThumbnailsScroller.setTargetPosition(scrollTargetPosition);
+        mThumbnailsRecycler.getLayoutManager().startSmoothScroll(mThumbnailsScroller);
+    }
+
     private void deleteDocument(final int position) {
         final ImageDocument deletedDocument = getAndRemoveDocument(position);
         deleteFromCaches(deletedDocument);
@@ -281,7 +281,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     private void deleteFromGiniApi(final ImageDocument document) {
         if (GiniVision.hasInstance()) {
             final NetworkRequestsManager networkRequestsManager =
-            GiniVision.getInstance().internal().getNetworkRequestsManager();
+                    GiniVision.getInstance().internal().getNetworkRequestsManager();
             if (networkRequestsManager != null) {
                 networkRequestsManager.delete(document);
             }
@@ -316,6 +316,14 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     private void updatePageIndicator(final int position) {
         mPageIndicator.setText(String.format("%d von %d", position + 1,
                 mMultiPageDocument.getDocuments().size()));
+    }
+
+    private void updateReorderPagesTip() {
+        if (mMultiPageDocument.getDocuments().size() > 1) {
+            mReorderPagesTip.setText(getText(R.string.gv_multi_page_review_reorder_pages_tip));
+        } else {
+            mReorderPagesTip.setText("");
+        }
     }
 
     private void onRotateButtonClicked() {
@@ -383,6 +391,10 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         if (!mPreviewsShown) {
             observeViewTree();
         }
+        uploadDocuments();
+    }
+
+    private void uploadDocuments() {
         if (GiniVision.hasInstance()) {
             final NetworkRequestsManager networkRequestsManager =
                     GiniVision.getInstance().internal().getNetworkRequestsManager();
@@ -393,34 +405,30 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
                 }
                 for (final ImageDocument imageDocument : mMultiPageDocument.getDocuments()) {
                     // WIP-MPA: start activity indicator for imageDocument
+                    mThumbnailsAdapter.setUploadState(ThumbnailsAdapter.UploadState.IN_PROGRESS,
+                            imageDocument);
                     networkRequestsManager.upload(activity, imageDocument)
                             .handle(new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, Void>() {
                                 @Override
                                 public Void apply(
                                         final NetworkRequestResult<GiniVisionDocument> requestResult,
                                         final Throwable throwable) {
-                                    // WIP-MPA: stop activity indicator for imageDocument
                                     if (throwable != null &&
                                             !NetworkRequestsManager.isCancellation(throwable)) {
                                         // WIP-MPA: show error for imageDocument on ViewPager page
-                                        // WIP-MPA: show upload failure for imageDocument
+                                        mThumbnailsAdapter.setUploadState(
+                                                ThumbnailsAdapter.UploadState.FAILED,
+                                                imageDocument);
                                     } else if (requestResult != null) {
-                                        // WIP-MPA: show upload success for imageDocument
+                                        mThumbnailsAdapter.setUploadState(
+                                                ThumbnailsAdapter.UploadState.COMPLETED,
+                                                imageDocument);
                                     }
                                     return null;
                                 }
                             });
                 }
             }
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (GiniVision.hasInstance()) {
-            GiniVision.getInstance().internal().getImageMultiPageDocumentMemoryStore()
-                    .setMultiPageDocument(mMultiPageDocument);
         }
     }
 
@@ -465,17 +473,18 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         highlightThumbnail(0);
     }
 
-    private void updateReorderPagesTip() {
-        if (mMultiPageDocument.getDocuments().size() > 1) {
-            mReorderPagesTip.setText(getText(R.string.gv_multi_page_review_reorder_pages_tip));
-        } else {
-            mReorderPagesTip.setText("");
-        }
-    }
-
     @Override
     public void onSaveInstanceState(final Bundle outState) {
         outState.putParcelable(MP_DOCUMENT_KEY, mMultiPageDocument);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (GiniVision.hasInstance()) {
+            GiniVision.getInstance().internal().getImageMultiPageDocumentMemoryStore()
+                    .setMultiPageDocument(mMultiPageDocument);
+        }
     }
 
     @Override

@@ -36,11 +36,6 @@ public class ThumbnailsAdapter extends
         RecyclerView.Adapter<ThumbnailsAdapter.ViewHolder> implements
         ThumbnailsTouchHelperListener {
 
-    enum ViewType {
-        THUMBNAIL,
-        PLUS_BUTTON
-    }
-
     private final Context mContext;
     private final ImageMultiPageDocument mMultiPageDocument;
     private final ThumbnailsAdapterListener mListener;
@@ -83,30 +78,47 @@ public class ThumbnailsAdapter extends
     }
 
     @Override
-    public int getItemViewType(final int position) {
-        return position < mThumbnails.size() ? ViewType.THUMBNAIL.ordinal()
-                : ViewType.PLUS_BUTTON.ordinal();
-    }
-
-    @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder,
             @SuppressLint("RecyclerView") final int position) {
-        switch (holder.mViewType) {
+        switch (holder.viewType) {
             case THUMBNAIL:
                 bindThumbnail(holder, position);
                 break;
             case PLUS_BUTTON:
                 bindPlusButton(holder);
                 break;
-                default:
-                    throw new IllegalStateException("Unknown view type " + holder.mViewType);
+            default:
+                throw new IllegalStateException("Unknown view type " + holder.viewType);
         }
+    }
+
+    @Override
+    public int getItemViewType(final int position) {
+        return position < mThumbnails.size() ? ViewType.THUMBNAIL.ordinal()
+                : ViewType.PLUS_BUTTON.ordinal();
+    }
+
+    @Override
+    public int getItemCount() {
+        // Plus button is always shown at the end
+        return mThumbnails.size() + 1;
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(final RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        mRecyclerView = recyclerView;
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(final RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        mRecyclerView = null;
     }
 
     private void bindThumbnail(final @NonNull ViewHolder holder,
             final @SuppressLint("RecyclerView") int position) {
         holder.resetImageView();
-        holder.showActivityIndicator();
         showPosition(position, holder);
         GiniVision.getInstance().internal().getPhotoMemoryCache()
                 .get(mContext, mMultiPageDocument.getDocuments().get(position),
@@ -116,7 +128,6 @@ public class ThumbnailsAdapter extends
                                 // Only update if the holder still points to the position for
                                 // which the Photo was loaded
                                 if (holder.getAdapterPosition() == position) {
-                                    holder.hideActivityIndicator();
                                     showPhoto(result, holder);
                                 }
                             }
@@ -126,7 +137,6 @@ public class ThumbnailsAdapter extends
                                 // Only update if the holder still points to the position for
                                 // which the Photo was loaded
                                 if (holder.getAdapterPosition() == position) {
-                                    holder.hideActivityIndicator();
                                     final ImageView imageView =
                                             holder.thumbnailContainer.getImageView();
                                     imageView.setBackgroundColor(Color.TRANSPARENT);
@@ -134,15 +144,6 @@ public class ThumbnailsAdapter extends
                                 }
                             }
                         });
-    }
-
-    private void bindPlusButton(final @NonNull ViewHolder holder) {
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                mListener.onPlusButtonClicked();
-            }
-        });
     }
 
     private void showPhoto(@NonNull final Photo photo,
@@ -163,7 +164,9 @@ public class ThumbnailsAdapter extends
     private void showPosition(final int position,
             final @NonNull ViewHolder holder) {
         holder.badge.setText(String.valueOf(position + 1));
-        holder.highlight.setAlpha(mThumbnails.get(position).highlighted ? 1f : 0f);
+        final Thumbnail thumbnail = mThumbnails.get(position);
+        holder.highlight.setAlpha(thumbnail.highlighted ? 1f : 0f);
+        showUploadState(holder, thumbnail);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -189,8 +192,23 @@ public class ThumbnailsAdapter extends
         });
     }
 
-    public boolean isThumbnailHighlighted(final int position) {
-        return mThumbnails.get(position).highlighted;
+    private void showUploadState(final @NonNull ViewHolder holder,
+            final Thumbnail thumbnail) {
+        // WIP-UP: show progress indicator and result icons
+        switch (thumbnail.uploadState) {
+            case NOT_STARTED:
+                holder.hideUploadIndicators();
+                break;
+            case IN_PROGRESS:
+                holder.showActivityIndicator();
+                break;
+            case COMPLETED:
+                holder.showUploadSuccess();
+                break;
+            case FAILED:
+                holder.showUploadFailure();
+                break;
+        }
     }
 
     public void highlightPosition(final int position) {
@@ -213,22 +231,13 @@ public class ThumbnailsAdapter extends
         }
     }
 
-    @Override
-    public int getItemCount() {
-        // Plus button is always shown at the end
-        return mThumbnails.size() + 1;
-    }
-
-    @Override
-    public void onAttachedToRecyclerView(final RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-        mRecyclerView = recyclerView;
-    }
-
-    @Override
-    public void onDetachedFromRecyclerView(final RecyclerView recyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView);
-        mRecyclerView = null;
+    private void bindPlusButton(final @NonNull ViewHolder holder) {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                mListener.onPlusButtonClicked();
+            }
+        });
     }
 
     @Override
@@ -258,6 +267,19 @@ public class ThumbnailsAdapter extends
         highlightPosition(toPos);
         mListener.onThumbnailMoved();
         mListener.onThumbnailSelected(toPos);
+    }
+
+    public int getScrollTargetPosition(final int position) {
+        // When scrolling to the last thumbnail scroll to the plus button item instead
+        if (position == mThumbnails.size() - 1) {
+            return position + 1;
+        } else {
+            return position;
+        }
+    }
+
+    public boolean isThumbnailHighlighted(final int position) {
+        return mThumbnails.get(position).highlighted;
     }
 
     public void removeThumbnail(final int deletedPosition) {
@@ -304,9 +326,35 @@ public class ThumbnailsAdapter extends
         mItemTouchHelper = itemTouchHelper;
     }
 
+    public void setUploadState(final UploadState uploadState,
+            @NonNull final ImageDocument document) {
+        for (int i = 0; i < mMultiPageDocument.getDocuments().size(); i++) {
+            final ImageDocument imageDocument = mMultiPageDocument.getDocuments().get(i);
+            if (imageDocument.equals(document)) {
+                final Thumbnail thumbnail = mThumbnails.get(i);
+                thumbnail.uploadState = uploadState;
+                notifyItemChanged(i);
+                break;
+            }
+        }
+    }
+
+    enum ViewType {
+        THUMBNAIL,
+        PLUS_BUTTON
+    }
+
+    public enum UploadState {
+        NOT_STARTED,
+        IN_PROGRESS,
+        COMPLETED,
+        FAILED
+    }
+
     private static class Thumbnail {
 
         boolean highlighted;
+        UploadState uploadState = UploadState.NOT_STARTED;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
@@ -316,7 +364,9 @@ public class ThumbnailsAdapter extends
         final View highlight;
         final RotatableImageViewContainer thumbnailContainer;
         final ProgressBar activityIndicator;
-        final ViewType mViewType;
+        final ViewType viewType;
+        final ImageView uploadResultIconBackground;
+        final ImageView uploadResultIconForeground;
 
         ViewHolder(@NonNull final View itemView, @NonNull final ViewType viewType) {
             super(itemView);
@@ -325,7 +375,11 @@ public class ThumbnailsAdapter extends
             highlight = itemView.findViewById(R.id.gv_highlight);
             handle = itemView.findViewById(R.id.gv_handle);
             activityIndicator = itemView.findViewById(R.id.gv_activity_indicator);
-            mViewType = viewType;
+            this.viewType = viewType;
+            uploadResultIconBackground = itemView.findViewById(
+                    R.id.gv_upload_result_icon_background);
+            uploadResultIconForeground = itemView.findViewById(
+                    R.id.gv_upload_result_icon_foreground);
         }
 
         void showActivityIndicator() {
@@ -335,6 +389,20 @@ public class ThumbnailsAdapter extends
             activityIndicator.setVisibility(View.VISIBLE);
         }
 
+        void resetImageView() {
+            if (thumbnailContainer == null) {
+                return;
+            }
+            thumbnailContainer.rotateImageView(0, false);
+            thumbnailContainer.getImageView().setImageDrawable(null);
+            hideUploadIndicators();
+        }
+
+        private void hideUploadIndicators() {
+            hideActivityIndicator();
+            hideUploadIcon();
+        }
+
         void hideActivityIndicator() {
             if (activityIndicator == null) {
                 return;
@@ -342,16 +410,43 @@ public class ThumbnailsAdapter extends
             activityIndicator.setVisibility(View.INVISIBLE);
         }
 
-        void resetImageView() {
-            if (thumbnailContainer == null) {
+        void hideUploadIcon() {
+            if (uploadResultIconBackground == null
+                    || uploadResultIconForeground == null) {
                 return;
             }
-            thumbnailContainer.rotateImageView(0, false);
-            thumbnailContainer.getImageView().setImageDrawable(null);
+            uploadResultIconBackground.setVisibility(View.INVISIBLE);
+            uploadResultIconForeground.setVisibility(View.INVISIBLE);
         }
 
         boolean isDragAllowed() {
-            return mViewType == ViewType.THUMBNAIL;
+            return viewType == ViewType.THUMBNAIL;
+        }
+
+        void showUploadSuccess() {
+            if (uploadResultIconBackground == null
+                    || uploadResultIconForeground == null) {
+                return;
+            }
+            uploadResultIconBackground.setVisibility(View.VISIBLE);
+            uploadResultIconBackground.setImageResource(
+                    R.drawable.gv_multi_page_upload_success_icon_background);
+            uploadResultIconForeground.setVisibility(View.VISIBLE);
+            uploadResultIconForeground.setImageResource(
+                    R.drawable.gv_multi_page_upload_success_icon_foreground);
+        }
+
+        void showUploadFailure() {
+            if (uploadResultIconBackground == null
+                    || uploadResultIconForeground == null) {
+                return;
+            }
+            uploadResultIconBackground.setVisibility(View.VISIBLE);
+            uploadResultIconBackground.setImageResource(
+                    R.drawable.gv_multi_page_upload_failure_icon_background);
+            uploadResultIconForeground.setVisibility(View.VISIBLE);
+            uploadResultIconForeground.setImageResource(
+                    R.drawable.gv_multi_page_upload_failure_icon_foreground);
         }
     }
 
