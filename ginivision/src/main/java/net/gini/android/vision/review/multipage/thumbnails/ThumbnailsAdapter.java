@@ -43,14 +43,14 @@ public class ThumbnailsAdapter extends
 
     private final Context mContext;
     private final ImageMultiPageDocument mMultiPageDocument;
-    private final ThumnailsAdapterListener mListener;
+    private final ThumbnailsAdapterListener mListener;
     private final List<Thumbnail> mThumbnails;
     private ItemTouchHelper mItemTouchHelper;
     private RecyclerView mRecyclerView;
 
     public ThumbnailsAdapter(@NonNull final Context context,
             @NonNull final ImageMultiPageDocument multiPageDocument,
-            @NonNull final ThumnailsAdapterListener listener) {
+            @NonNull final ThumbnailsAdapterListener listener) {
         mContext = context;
         mMultiPageDocument = multiPageDocument;
         final List<ImageDocument> documents = mMultiPageDocument.getDocuments();

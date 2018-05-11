@@ -5,7 +5,7 @@ package net.gini.android.vision.review.multipage.thumbnails;
  *
  * Copyright (c) 2018 Gini GmbH.
  */
-public interface ThumnailsAdapterListener {
+public interface ThumbnailsAdapterListener {
 
     void onThumbnailMoved();
 
