@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="96dp"
-    android:layout_height="160dp"
+    android:layout_height="164dp"
     android:layout_marginTop="8dp"
     android:layout_marginEnd="16dp"
     android:layout_marginLeft="16dp"
@@ -45,15 +45,13 @@
             android:id="@+id/gv_handle"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
-            android:layout_height="32dp">
+            android:layout_height="36dp">
 
             <TextView
                 android:id="@+id/gv_badge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="4dp"
+                android:layout_centerInParent="true"
                 android:background="@drawable/gv_thumbnail_badge_background"
                 android:gravity="center"
                 android:textColor="@android:color/white"
@@ -63,10 +61,9 @@
                 android:id="@+id/gv_bumps"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginBottom="4dp"
+                android:layout_centerVertical="true"
                 app:srcCompat="@drawable/gv_bumps_icon" />
 
             <View
