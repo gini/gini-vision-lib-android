@@ -20,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import net.gini.android.vision.Document;
@@ -48,7 +47,9 @@ import net.gini.android.vision.review.multipage.thumbnails.ThumbnailsTouchHelper
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import jersey.repackaged.jsr166e.CompletableFuture;
 
@@ -61,11 +62,9 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
 
     private static final Logger LOG = LoggerFactory.getLogger(MultiPageReviewFragment.class);
     private static final String MP_DOCUMENT_KEY = "MP_DOCUMENT_KEY";
-
+    private final Map<String, Boolean> mDocumentUploadResults = new HashMap<>();
     private ImageMultiPageDocument mMultiPageDocument;
     private MultiPageReviewFragmentListener mListener;
-
-    private RelativeLayout mRootView;
     private ViewPager mPreviewsPager;
     private PreviewsAdapter mPreviewsAdapter;
     private PreviewsPageChangeHandler mPreviewsPageChangeHandler;
@@ -78,7 +77,6 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     private ImageButton mRotateButton;
     private ImageButton mDeleteButton;
     private TextView mReorderPagesTip;
-
     private boolean mNextClicked;
     private boolean mPreviewsShown;
 
@@ -108,6 +106,13 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         if (mMultiPageDocument == null) {
             throw new IllegalStateException(
                     "MultiPageReviewFragment requires an ImageMultiPageDocuments.");
+        }
+        initUploadResults();
+    }
+
+    private void initUploadResults() {
+        for (final ImageDocument imageDocument : mMultiPageDocument.getDocuments()) {
+            mDocumentUploadResults.put(imageDocument.getId(), false);
         }
     }
 
@@ -143,6 +148,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         setInputHandlers();
         setupPreviewsViewPager();
         setupThumbnailsRecyclerView();
+        updateNextButtonVisibility();
         return view;
     }
 
@@ -216,7 +222,6 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     }
 
     private void bindViews(final View view) {
-        mRootView = view.findViewById(R.id.root_view);
         mButtonNext = view.findViewById(R.id.gv_button_next);
         mPreviewsPager = view.findViewById(R.id.gv_view_pager);
         mPageIndicator = view.findViewById(R.id.gv_page_indicator);
@@ -264,6 +269,8 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
             mDeleteButton.setEnabled(false);
             mDeleteButton.setAlpha(0.2f);
         }
+
+        updateNextButtonVisibility();
     }
 
     private void scrollToThumbnail(final int position) {
@@ -277,6 +284,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         deleteFromCaches(deletedDocument);
         deleteFromDisk(deletedDocument);
         deleteFromGiniApi(deletedDocument);
+        mDocumentUploadResults.remove(deletedDocument.getId());
     }
 
     private void deleteFromGiniApi(final ImageDocument document) {
@@ -325,6 +333,17 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         } else {
             mReorderPagesTip.setText("");
         }
+    }
+
+    private void updateNextButtonVisibility() {
+        boolean uploadFailed = false;
+        for (final Boolean uploadSuccess : mDocumentUploadResults.values()) {
+            if (!uploadSuccess) {
+                uploadFailed = true;
+                break;
+            }
+        }
+        mButtonNext.setVisibility(uploadFailed ? View.INVISIBLE : View.VISIBLE);
     }
 
     private void onRotateButtonClicked() {
@@ -408,6 +427,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
                     // WIP-MPA: start activity indicator for imageDocument
                     mThumbnailsAdapter.setUploadState(ThumbnailsAdapter.UploadState.IN_PROGRESS,
                             imageDocument);
+                    mDocumentUploadResults.put(imageDocument.getId(), false);
                     networkRequestsManager.upload(activity, imageDocument)
                             .handle(new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, Void>() {
                                 @Override
@@ -423,10 +443,12 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
                                                 ThumbnailsAdapter.UploadState.FAILED,
                                                 imageDocument);
                                     } else if (requestResult != null) {
+                                        mDocumentUploadResults.put(imageDocument.getId(), true);
                                         mThumbnailsAdapter.setUploadState(
                                                 ThumbnailsAdapter.UploadState.COMPLETED,
                                                 imageDocument);
                                     }
+                                    updateNextButtonVisibility();
                                     return null;
                                 }
                             });
