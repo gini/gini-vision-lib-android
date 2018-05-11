@@ -76,7 +76,7 @@ public class GiniVisionMultiPageDocument<T extends GiniVisionDocument, E extends
         }
     }
 
-    public void addErrorForDocument(@NonNull final T document, @NonNull final E error) {
+    public void setErrorForDocument(@NonNull final T document, @NonNull final E error) {
         if (mDocuments.contains(document)) {
             mDocumentErrorMap.put(document, error);
         } else {

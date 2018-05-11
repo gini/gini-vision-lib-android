@@ -27,6 +27,7 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.GiniVisionDocument;
+import net.gini.android.vision.document.GiniVisionDocumentError;
 import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.document.ImageMultiPageDocument;
 import net.gini.android.vision.internal.AsyncCallback;
@@ -415,7 +416,9 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
                                         final Throwable throwable) {
                                     if (throwable != null &&
                                             !NetworkRequestsManager.isCancellation(throwable)) {
-                                        // WIP-MPA: show error for imageDocument on ViewPager page
+                                        final String errorMessage = getString(
+                                                R.string.gv_multi_page_review_upload_error);
+                                        showErrorOnPreview(errorMessage, imageDocument);
                                         mThumbnailsAdapter.setUploadState(
                                                 ThumbnailsAdapter.UploadState.FAILED,
                                                 imageDocument);
@@ -430,6 +433,12 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
                 }
             }
         }
+    }
+
+    private void showErrorOnPreview(final String errorMessage, final ImageDocument imageDocument) {
+        mMultiPageDocument.setErrorForDocument(imageDocument,
+                new GiniVisionDocumentError(errorMessage));
+        mPreviewsAdapter.notifyDataSetChanged();
     }
 
     private void observeViewTree() {
