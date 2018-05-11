@@ -36,18 +36,12 @@ public class ThumbnailsAdapter extends
         RecyclerView.Adapter<ThumbnailsAdapter.ViewHolder> implements
         ThumbnailsTouchHelperListener {
 
-    enum ViewType {
-        THUMBNAIL,
-        PLUS_BUTTON
-    }
-
     private final Context mContext;
     private final ImageMultiPageDocument mMultiPageDocument;
     private final ThumbnailsAdapterListener mListener;
     private final List<Thumbnail> mThumbnails;
     private ItemTouchHelper mItemTouchHelper;
     private RecyclerView mRecyclerView;
-
     public ThumbnailsAdapter(@NonNull final Context context,
             @NonNull final ImageMultiPageDocument multiPageDocument,
             @NonNull final ThumbnailsAdapterListener listener) {
@@ -83,12 +77,6 @@ public class ThumbnailsAdapter extends
     }
 
     @Override
-    public int getItemViewType(final int position) {
-        return position < mThumbnails.size() ? ViewType.THUMBNAIL.ordinal()
-                : ViewType.PLUS_BUTTON.ordinal();
-    }
-
-    @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder,
             @SuppressLint("RecyclerView") final int position) {
         switch (holder.mViewType) {
@@ -98,16 +86,40 @@ public class ThumbnailsAdapter extends
             case PLUS_BUTTON:
                 bindPlusButton(holder);
                 break;
-                default:
-                    throw new IllegalStateException("Unknown view type " + holder.mViewType);
+            default:
+                throw new IllegalStateException("Unknown view type " + holder.mViewType);
         }
+    }
+
+    @Override
+    public int getItemViewType(final int position) {
+        return position < mThumbnails.size() ? ViewType.THUMBNAIL.ordinal()
+                : ViewType.PLUS_BUTTON.ordinal();
+    }
+
+    @Override
+    public int getItemCount() {
+        // Plus button is always shown at the end
+        return mThumbnails.size() + 1;
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(final RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        mRecyclerView = recyclerView;
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(final RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        mRecyclerView = null;
     }
 
     private void bindThumbnail(final @NonNull ViewHolder holder,
             final @SuppressLint("RecyclerView") int position) {
         holder.resetImageView();
         holder.showActivityIndicator();
-        showPosition(position, holder);
+        updateThumbnail(position, holder);
         GiniVision.getInstance().internal().getPhotoMemoryCache()
                 .get(mContext, mMultiPageDocument.getDocuments().get(position),
                         new AsyncCallback<Photo>() {
@@ -136,15 +148,6 @@ public class ThumbnailsAdapter extends
                         });
     }
 
-    private void bindPlusButton(final @NonNull ViewHolder holder) {
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                mListener.onPlusButtonClicked();
-            }
-        });
-    }
-
     private void showPhoto(@NonNull final Photo photo,
             @NonNull final ViewHolder holder) {
         final ImageView imageView = holder.thumbnailContainer.getImageView();
@@ -160,8 +163,7 @@ public class ThumbnailsAdapter extends
                 photo.getRotationForDisplay(), false);
     }
 
-    private void showPosition(final int position,
-            final @NonNull ViewHolder holder) {
+    private void updateThumbnail(final int position, final @NonNull ViewHolder holder) {
         holder.badge.setText(String.valueOf(position + 1));
         holder.highlight.setAlpha(mThumbnails.get(position).highlighted ? 1f : 0f);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -177,58 +179,62 @@ public class ThumbnailsAdapter extends
             public boolean onTouch(final View v, final MotionEvent event) {
                 if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
                     final int adapterPosition = holder.getAdapterPosition();
-                    holder.highlight.setAlpha(0.5f);
-                    highlightPosition(adapterPosition);
+                    setHighlightedThumbnail(adapterPosition);
                     mListener.onThumbnailSelected(adapterPosition);
                     if (mItemTouchHelper != null) {
                         mItemTouchHelper.startDrag(holder);
                     }
                 }
-                return false;
+                return true;
             }
         });
     }
 
-    public boolean isThumbnailHighlighted(final int position) {
-        return mThumbnails.get(position).highlighted;
-    }
-
     public void highlightPosition(final int position) {
+        if (mThumbnails.get(position).highlighted) {
+            return;
+        }
         for (int i = 0; i < mThumbnails.size(); i++) {
             final Thumbnail thumbnail = mThumbnails.get(i);
             if (thumbnail.highlighted) {
                 thumbnail.highlighted = false;
                 notifyItemChanged(i);
             }
-            final ViewHolder holder =
-                    (ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(
-                            i);
-            if (holder != null) {
-                holder.highlight.setAlpha(0f);
+        }
+        mThumbnails.get(position).highlighted = true;
+        notifyItemChanged(position);
+    }
+
+    private void setHighlightedThumbnail(final int position) {
+        if (mThumbnails.get(position).highlighted) {
+            return;
+        }
+        for (int i = 0; i < mThumbnails.size(); i++) {
+            final Thumbnail thumbnail = mThumbnails.get(i);
+            if (thumbnail.highlighted) {
+                thumbnail.highlighted = false;
             }
+            setHighlightAlpha(i, 0f);
         }
-        if (!mThumbnails.get(position).highlighted) {
-            mThumbnails.get(position).highlighted = true;
-            notifyItemChanged(position);
+        mThumbnails.get(position).highlighted = true;
+        setHighlightAlpha(position, 1.0f);
+    }
+
+    private void setHighlightAlpha(final int position, final float alpha) {
+        final ViewHolder holder =
+                (ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
+        if (holder != null) {
+            holder.highlight.setAlpha(alpha);
         }
     }
 
-    @Override
-    public int getItemCount() {
-        // Plus button is always shown at the end
-        return mThumbnails.size() + 1;
-    }
-
-    @Override
-    public void onAttachedToRecyclerView(final RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-        mRecyclerView = recyclerView;
-    }
-
-    @Override
-    public void onDetachedFromRecyclerView(final RecyclerView recyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView);
-        mRecyclerView = null;
+    private void bindPlusButton(final @NonNull ViewHolder holder) {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                mListener.onPlusButtonClicked();
+            }
+        });
     }
 
     @Override
@@ -255,9 +261,13 @@ public class ThumbnailsAdapter extends
         notifyItemMoved(fromPos, toPos);
         ((ViewHolder) viewHolder).badge.setText(String.valueOf(toPos + 1));
         ((ViewHolder) target).badge.setText(String.valueOf(fromPos + 1));
-        highlightPosition(toPos);
+        setHighlightedThumbnail(toPos);
         mListener.onThumbnailMoved();
         mListener.onThumbnailSelected(toPos);
+    }
+
+    public boolean isThumbnailHighlighted(final int position) {
+        return mThumbnails.get(position).highlighted;
     }
 
     public void removeThumbnail(final int deletedPosition) {
@@ -267,7 +277,6 @@ public class ThumbnailsAdapter extends
                 mThumbnails.size());
         highlightPosition(newPosition);
         notifyItemChanged(newPosition);
-        notifyDataSetChanged();
     }
 
     public static int getNewPositionAfterDeletion(final int deletedPosition, final int newSize) {
@@ -302,6 +311,11 @@ public class ThumbnailsAdapter extends
 
     public void setItemTouchHelper(final ItemTouchHelper itemTouchHelper) {
         mItemTouchHelper = itemTouchHelper;
+    }
+
+    enum ViewType {
+        THUMBNAIL,
+        PLUS_BUTTON
     }
 
     private static class Thumbnail {

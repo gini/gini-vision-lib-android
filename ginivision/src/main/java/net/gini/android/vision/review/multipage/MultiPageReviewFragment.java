@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
@@ -171,12 +172,6 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         scrollToThumbnail(position);
     }
 
-    private void scrollToThumbnail(final int position) {
-        mThumbnailsScroller.setTargetPosition(position);
-        mThumbnailsRecycler.getLayoutManager().startSmoothScroll(
-                mThumbnailsScroller);
-    }
-
     private void setupThumbnailsRecyclerView() {
         final Activity activity = getActivity();
         if (activity == null) {
@@ -218,6 +213,11 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         final ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(mThumbnailsRecycler);
         mThumbnailsAdapter.setItemTouchHelper(touchHelper);
+
+        // Disable item change animations to remove flickering when highlighting a thumbnail
+        final RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        itemAnimator.setChangeDuration(0);
+        mThumbnailsRecycler.setItemAnimator(itemAnimator);
     }
 
     private void bindViews(final View view) {
@@ -271,6 +271,12 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         }
     }
 
+    private void scrollToThumbnail(final int position) {
+        mThumbnailsScroller.setTargetPosition(position);
+        mThumbnailsRecycler.getLayoutManager().startSmoothScroll(
+                mThumbnailsScroller);
+    }
+
     private void deleteDocument(final int position) {
         final ImageDocument deletedDocument = getAndRemoveDocument(position);
         deleteFromCaches(deletedDocument);
@@ -281,7 +287,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     private void deleteFromGiniApi(final ImageDocument document) {
         if (GiniVision.hasInstance()) {
             final NetworkRequestsManager networkRequestsManager =
-            GiniVision.getInstance().internal().getNetworkRequestsManager();
+                    GiniVision.getInstance().internal().getNetworkRequestsManager();
             if (networkRequestsManager != null) {
                 networkRequestsManager.delete(document);
             }
@@ -316,6 +322,14 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     private void updatePageIndicator(final int position) {
         mPageIndicator.setText(String.format("%d von %d", position + 1,
                 mMultiPageDocument.getDocuments().size()));
+    }
+
+    private void updateReorderPagesTip() {
+        if (mMultiPageDocument.getDocuments().size() > 1) {
+            mReorderPagesTip.setText(getText(R.string.gv_multi_page_review_reorder_pages_tip));
+        } else {
+            mReorderPagesTip.setText("");
+        }
     }
 
     private void onRotateButtonClicked() {
@@ -415,15 +429,6 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         }
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (GiniVision.hasInstance()) {
-            GiniVision.getInstance().internal().getImageMultiPageDocumentMemoryStore()
-                    .setMultiPageDocument(mMultiPageDocument);
-        }
-    }
-
     private void observeViewTree() {
         final View view = getView();
         if (view == null) {
@@ -465,17 +470,18 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         highlightThumbnail(0);
     }
 
-    private void updateReorderPagesTip() {
-        if (mMultiPageDocument.getDocuments().size() > 1) {
-            mReorderPagesTip.setText(getText(R.string.gv_multi_page_review_reorder_pages_tip));
-        } else {
-            mReorderPagesTip.setText("");
-        }
-    }
-
     @Override
     public void onSaveInstanceState(final Bundle outState) {
         outState.putParcelable(MP_DOCUMENT_KEY, mMultiPageDocument);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (GiniVision.hasInstance()) {
+            GiniVision.getInstance().internal().getImageMultiPageDocumentMemoryStore()
+                    .setMultiPageDocument(mMultiPageDocument);
+        }
     }
 
     @Override
