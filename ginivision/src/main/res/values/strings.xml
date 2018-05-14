@@ -14,6 +14,8 @@
 
     <string name="gv_camera_error_no_permission">Um Dokumente zu fotografieren, erlaube Gini Pay den Zugriff auf die Kamera.</string>
     <string name="gv_camera_error_no_permission_button_title">Zugriff erlauben</string>
+    <string name="gv_camera_image_stack_subtitle">Seiten</string>
+    <string name="gv_camera_document_import_subtitle">Datei Laden</string>
 
     <string name="gv_qrcode_detected_popup_message_1">QR verwenden?</string>
     <string name="gv_qrcode_detected_popup_message_2">Hier geht’s weiter.</string>

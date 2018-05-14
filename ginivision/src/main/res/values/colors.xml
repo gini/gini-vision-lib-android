@@ -17,6 +17,9 @@
     <color name="gv_camera_error_no_permission_button_title">#fff</color>
     <color name="gv_camera_error_no_permission_button_title_pressed">#ddd</color>
 
+    <color name="gv_camera_document_import_subtitle_text">#fff</color>
+    <color name="gv_camera_image_stack_subtitle_text">#fff</color>
+
     <color name="gv_qrcode_detected_popup_background">#eeffffff</color>
     <color name="gv_qrcode_detected_popup_message_1">#000</color>
     <color name="gv_qrcode_detected_popup_message_2">#009edc</color>
