@@ -79,7 +79,7 @@ public class Helpers {
     public static Document createDocument(final byte[] jpeg, final int orientation,
             final String deviceOrientation,
             final String deviceType, final ImageDocument.Source source) {
-        return DocumentFactory.newDocumentFromPhoto(
+        return DocumentFactory.newImageDocumentFromPhoto(
                 PhotoFactory.newPhotoFromJpeg(jpeg, orientation, deviceOrientation, deviceType,
                         source));
     }

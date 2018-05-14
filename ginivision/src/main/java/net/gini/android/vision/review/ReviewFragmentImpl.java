@@ -205,7 +205,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         if (activity == null) {
             return;
         }
-        final GiniVisionDocument document = DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto,
+        final GiniVisionDocument document = DocumentFactory.newImageDocumentFromPhotoAndDocument(mPhoto,
                 mDocument);
         if (GiniVision.hasInstance()) {
             final NetworkRequestsManager networkRequestsManager = GiniVision.getInstance()
@@ -438,7 +438,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                 if (mStopped) {
                     return;
                 }
-                final GiniVisionDocument document = DocumentFactory.newDocumentFromPhotoAndDocument(
+                final GiniVisionDocument document = DocumentFactory.newImageDocumentFromPhotoAndDocument(
                         photo, mDocument);
                 mListener.onDocumentWasRotated(
                         document,
@@ -515,7 +515,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         if (activity == null) {
             return;
         }
-        final GiniVisionDocument document = DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto,
+        final GiniVisionDocument document = DocumentFactory.newImageDocumentFromPhotoAndDocument(mPhoto,
                 mDocument);
         if (GiniVision.hasInstance()) {
             final NetworkRequestsManager networkRequestsManager =
@@ -532,7 +532,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
     private void proceedToAnalysisScreen() {
         LOG.info("Proceed to Analysis Screen");
-        final GiniVisionDocument document = DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto,
+        final GiniVisionDocument document = DocumentFactory.newImageDocumentFromPhotoAndDocument(mPhoto,
                 mDocument);
         if (GiniVision.hasInstance()) {
             mListener.onProceedToAnalysisScreen(document, mDocumentAnalysisErrorMessage);
