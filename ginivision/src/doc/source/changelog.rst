@@ -2,6 +2,13 @@
 Changelog
 =========
 
+2.6.0-beta.1 (2018-05-14)
+==================
+
+- Integrated multi-page related network requests.
+- Added Component API support for multi-page.
+- UI and UX updates.
+
 2.6.0-alpha.5 (2018-04-20)
 ==================
 
