@@ -45,7 +45,8 @@ public class GiniVisionMultiPageDocument<T extends GiniVisionDocument, E extends
 
     public GiniVisionMultiPageDocument(@NonNull final Type type, @NonNull final String mimeType,
             @NonNull final T document) {
-        super(type, document.getSource(), document.getImportMethod(), mimeType, null, null, null, document.isReviewable());
+        super(type, document.getSource(), document.getImportMethod(), mimeType, null, null, null,
+                document.isReviewable());
         mDocuments.add(document);
     }
 
@@ -64,6 +65,31 @@ public class GiniVisionMultiPageDocument<T extends GiniVisionDocument, E extends
                     (E) in.readParcelable(getClass().getClassLoader())
             );
         }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull final Parcel dest, final int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeInt(mDocuments.size());
+        for (final T document : mDocuments) {
+            dest.writeParcelable(document, flags);
+        }
+        dest.writeInt(mDocumentErrorMap.size());
+        for (final Map.Entry<T, E> entry : mDocumentErrorMap.entrySet()) {
+            dest.writeParcelable(entry.getKey(), flags);
+            dest.writeParcelable(entry.getValue(), flags);
+        }
+    }
+
+    @Override
+    public void loadData(@NonNull final Context context,
+            @NonNull final AsyncCallback<byte[]> callback) {
+        loadImageDocuments(0, context, callback);
     }
 
     public void addDocument(@NonNull final T document) {
@@ -94,37 +120,16 @@ public class GiniVisionMultiPageDocument<T extends GiniVisionDocument, E extends
         return mDocuments;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(@NonNull final Parcel dest, final int flags) {
-        super.writeToParcel(dest, flags);
-        dest.writeInt(mDocuments.size());
-        for (final T document : mDocuments) {
-            dest.writeParcelable(document, flags);
-        }
-        dest.writeInt(mDocumentErrorMap.size());
-        for (final Map.Entry<T, E> entry : mDocumentErrorMap.entrySet()) {
-            dest.writeParcelable(entry.getKey(), flags);
-            dest.writeParcelable(entry.getValue(), flags);
-        }
-    }
-
     public void removeImageDocumentAtPosition(final int position) {
         mDocuments.remove(position);
     }
 
-    @Override
-    public void loadData(@NonNull final Context context,
-            @NonNull final AsyncCallback<byte[]> callback) {
-        loadImageDocuments(0, context, callback);
-    }
-
     public void addDocuments(@NonNull final List<T> documents) {
         mDocuments.addAll(documents);
+    }
+
+    public boolean hasDocumentError(final ImageDocument imageDocument) {
+        return mDocumentErrorMap.containsKey(imageDocument);
     }
 
     private void loadImageDocuments(final int currentIndex,

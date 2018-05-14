@@ -116,9 +116,10 @@ class ImportUrisAsyncTask extends AsyncTask<List<Uri>, Void, ImageMultiPageDocum
 
     private void addMultiPageDocumentError(@NonNull final String string,
             @NonNull final ImageMultiPageDocument multiPageDocument) {
-        final ImageDocument document = DocumentFactory.newEmptyImageDocument();
+        final ImageDocument document = DocumentFactory.newEmptyImageDocument(mSource, mImportMethod);
         multiPageDocument.addDocument(document);
-        final GiniVisionDocumentError documentError = new GiniVisionDocumentError(string);
+        final GiniVisionDocumentError documentError = new GiniVisionDocumentError(string,
+                GiniVisionDocumentError.ErrorCode.FILE_VALIDATION_FAILED);
         multiPageDocument.setErrorForDocument(document, documentError);
     }
 }

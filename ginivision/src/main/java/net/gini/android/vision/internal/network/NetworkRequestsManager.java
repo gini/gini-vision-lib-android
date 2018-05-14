@@ -60,10 +60,6 @@ public class NetworkRequestsManager {
         return throwable.getMessage();
     }
 
-    public static boolean isCancellation(@NonNull final Throwable throwable) {
-        return throwable instanceof CancellationException;
-    }
-
     public NetworkRequestsManager(@NonNull final GiniVisionNetworkService giniVisionNetworkService,
             @NonNull final DocumentDataMemoryCache documentDataMemoryCache) {
         mGiniVisionNetworkService = giniVisionNetworkService;
@@ -151,6 +147,10 @@ public class NetworkRequestsManager {
         });
 
         return future;
+    }
+
+    public static boolean isCancellation(@NonNull final Throwable throwable) {
+        return throwable instanceof CancellationException;
     }
 
     public CompletableFuture<NetworkRequestResult<GiniVisionDocument>> delete(
@@ -461,24 +461,28 @@ public class NetworkRequestsManager {
         }
     }
 
-    public void cancelAll() {
-        for (final CompletableFuture future : mDocumentUploadFutures.values()) {
-            cancelFuture(future);
-        }
-        for (final CompletableFuture future : mDocumentAnalyzeFutures.values()) {
-            cancelFuture(future);
-        }
-        for (final CompletableFuture future : mDocumentDeleteFutures.values()) {
-            cancelFuture(future);
-        }
-    }
-
     public void cleanup() {
         cancelAll();
         mApiDocumentIds.clear();
         mDocumentUploadFutures.clear();
         mDocumentAnalyzeFutures.clear();
         mDocumentDeleteFutures.clear();
+    }
+
+    public void cancelAll() {
+        cancelFutures(mDocumentUploadFutures);
+        cancelFutures(mDocumentAnalyzeFutures);
+        cancelFutures(mDocumentDeleteFutures);
+    }
+
+    private <T extends CompletableFuture> void cancelFutures(
+            @NonNull final Map<String, T> futures) {
+        // Iterate with a copy of the map because the original map can be altered as the result
+        // of the cancellation
+        final Map<String, T> copy = new HashMap<>(futures);
+        for (final T future : copy.values()) {
+            cancelFuture(future);
+        }
     }
 
 }

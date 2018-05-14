@@ -29,6 +29,7 @@ public class PreviewFragment extends Fragment {
 
     private static final String ARGS_DOCUMENT = "GV_ARGS_DOCUMENT";
     private static final String ARGS_ERROR_MESSAGE = "GV_ARGS_ERROR_MESSAGE";
+    private static final String ARGS_ERROR_BUTTON_ACTION = "ARGS_ERROR_BUTTON_ACTION";
 
     private RotatableImageViewContainer mImageViewContainer;
 
@@ -36,13 +37,16 @@ public class PreviewFragment extends Fragment {
     private String mErrorMessage;
     private ProgressBar mActivityIndicator;
     private boolean mStopped = true;
+    private ErrorButtonAction mErrorButtonAction;
 
     public static PreviewFragment createInstance(@Nullable final ImageDocument document,
-            @Nullable final String errorMessage) {
+            @Nullable final String errorMessage,
+            @Nullable final ErrorButtonAction errorButtonAction) {
         final PreviewFragment fragment = new PreviewFragment();
         final Bundle args = new Bundle();
         args.putParcelable(ARGS_DOCUMENT, document);
         args.putString(ARGS_ERROR_MESSAGE, errorMessage);
+        args.putSerializable(ARGS_ERROR_BUTTON_ACTION, errorButtonAction);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,6 +61,8 @@ public class PreviewFragment extends Fragment {
         if (arguments != null) {
             mErrorMessage = arguments.getString(ARGS_ERROR_MESSAGE);
             mDocument = arguments.getParcelable(ARGS_DOCUMENT);
+            mErrorButtonAction = (ErrorButtonAction) arguments.getSerializable(
+                    ARGS_ERROR_BUTTON_ACTION);
         }
     }
 
@@ -133,19 +139,37 @@ public class PreviewFragment extends Fragment {
         if (view == null) {
             return;
         }
+        final String buttonTitle = getErrorButtonTitle(context);
         ErrorSnackbar.make(context, (RelativeLayout) view, ErrorSnackbar.Position.TOP,
                 mErrorMessage,
-                context.getString(R.string.gv_document_analysis_error_retry),
+                buttonTitle,
                 new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
                         final PreviewFragmentListener listener = getListener();
-                        if (listener != null) {
-                            listener.onRetryUpload(mDocument);
+                        if (listener != null && mErrorButtonAction != null) {
+                            switch (mErrorButtonAction) {
+                                case RETRY:
+                                    listener.onRetryUpload(mDocument);
+                                    break;
+                                case DELETE:
+                                    listener.onDeleteDocument(mDocument);
+                                    break;
+                            }
                         }
                     }
                 }, ErrorSnackbar.LENGTH_INDEFINITE)
                 .showWithoutAnimation();
+    }
+
+    private String getErrorButtonTitle(@NonNull final Context context) {
+        switch (mErrorButtonAction) {
+            case RETRY:
+                return context.getString(R.string.gv_multi_page_review_upload_error_retry);
+            case DELETE:
+                return context.getString(R.string.gv_multi_page_review_delete_invalid_document);
+        }
+        return null;
     }
 
     @Nullable
@@ -182,5 +206,10 @@ public class PreviewFragment extends Fragment {
 
     public void rotateImageViewBy(final int degrees, final boolean animated) {
         mImageViewContainer.rotateImageViewBy(degrees, animated);
+    }
+
+    public enum ErrorButtonAction {
+        RETRY,
+        DELETE
     }
 }

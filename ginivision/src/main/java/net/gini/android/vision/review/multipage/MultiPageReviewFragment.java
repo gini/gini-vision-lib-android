@@ -38,8 +38,10 @@ import net.gini.android.vision.internal.camera.photo.PhotoEdit;
 import net.gini.android.vision.internal.network.NetworkRequestResult;
 import net.gini.android.vision.internal.network.NetworkRequestsManager;
 import net.gini.android.vision.internal.storage.ImageDiskStore;
+import net.gini.android.vision.review.multipage.previews.PreviewFragment;
 import net.gini.android.vision.review.multipage.previews.PreviewFragmentListener;
 import net.gini.android.vision.review.multipage.previews.PreviewsAdapter;
+import net.gini.android.vision.review.multipage.previews.PreviewsAdapterListener;
 import net.gini.android.vision.review.multipage.previews.PreviewsPageChangeHandler;
 import net.gini.android.vision.review.multipage.previews.PreviewsPageChangeListener;
 import net.gini.android.vision.review.multipage.thumbnails.ThumbnailsAdapter;
@@ -70,6 +72,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     private MultiPageReviewFragmentListener mListener;
     private ViewPager mPreviewsPager;
     private PreviewsAdapter mPreviewsAdapter;
+    private PreviewsAdapterListener mPreviewsAdapterListener;
     private PreviewsPageChangeHandler mPreviewsPageChangeHandler;
     private TextView mPageIndicator;
     private RecyclerView mThumbnailsRecycler;
@@ -160,7 +163,23 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         if (activity == null) {
             return;
         }
-        mPreviewsAdapter = new PreviewsAdapter(getChildFragmentManager(), mMultiPageDocument);
+
+        mPreviewsAdapterListener = new PreviewsAdapterListener() {
+            @Override
+            public PreviewFragment.ErrorButtonAction getErrorButtonAction(
+                    @NonNull final GiniVisionDocumentError documentError) {
+                switch (documentError.getErrorCode()) {
+                    case UPLOAD_FAILED:
+                        return PreviewFragment.ErrorButtonAction.RETRY;
+                    case FILE_VALIDATION_FAILED:
+                        return PreviewFragment.ErrorButtonAction.DELETE;
+                }
+                return null;
+            }
+        };
+
+        mPreviewsAdapter = new PreviewsAdapter(getChildFragmentManager(), mMultiPageDocument,
+                mPreviewsAdapterListener);
         mPreviewsPager.setAdapter(mPreviewsAdapter);
 
         mPreviewsPageChangeHandler = new PreviewsPageChangeHandler(
@@ -262,15 +281,27 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
 
     private void onDeleteButtonClicked() {
         final int deletedItem = mPreviewsPager.getCurrentItem();
-        deleteDocument(deletedItem);
+        deleteDocumentAndUpdateUI(deletedItem);
+
+    }
+
+    private void deleteDocumentAndUpdateUI(final int position) {
+        final ImageDocument document = mMultiPageDocument.getDocuments().get(position);
+        deleteDocumentAndUpdateUI(document);
+    }
+
+    private void deleteDocumentAndUpdateUI(@NonNull final ImageDocument document) {
+        final int deletedPosition = mMultiPageDocument.getDocuments().indexOf(document);
+
+        deleteDocument(document);
 
         final int nrOfDocuments = mMultiPageDocument.getDocuments().size();
-        final int newPosition = getNewPositionAfterDeletion(deletedItem, nrOfDocuments);
+        final int newPosition = getNewPositionAfterDeletion(deletedPosition, nrOfDocuments);
         updatePageIndicator(newPosition);
         updateReorderPagesTip();
 
         mPreviewsAdapter.notifyDataSetChanged();
-        mThumbnailsAdapter.removeThumbnail(deletedItem);
+        mThumbnailsAdapter.removeThumbnail(deletedPosition);
         scrollToThumbnail(newPosition);
 
         if (nrOfDocuments == 1) {
@@ -287,12 +318,12 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         mThumbnailsRecycler.getLayoutManager().startSmoothScroll(mThumbnailsScroller);
     }
 
-    private void deleteDocument(final int position) {
-        final ImageDocument deletedDocument = getAndRemoveDocument(position);
-        deleteFromCaches(deletedDocument);
-        deleteFromDisk(deletedDocument);
-        deleteFromGiniApi(deletedDocument);
-        mDocumentUploadResults.remove(deletedDocument.getId());
+    private void deleteDocument(@NonNull final ImageDocument document) {
+        mMultiPageDocument.getDocuments().remove(document);
+        deleteFromCaches(document);
+        deleteFromDisk(document);
+        deleteFromGiniApi(document);
+        mDocumentUploadResults.remove(document.getId());
     }
 
     private void deleteFromGiniApi(final ImageDocument document) {
@@ -312,13 +343,6 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
                 GiniVision.getInstance().internal().getImageDiskStore().delete(uri);
             }
         }
-    }
-
-    private ImageDocument getAndRemoveDocument(final int index) {
-        final List<ImageDocument> documents = mMultiPageDocument.getDocuments();
-        final ImageDocument removedDocument = documents.get(index);
-        documents.remove(index);
-        return removedDocument;
     }
 
     @NonNull
@@ -424,8 +448,18 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
 
     private void uploadDocuments() {
         for (final ImageDocument imageDocument : mMultiPageDocument.getDocuments()) {
-            uploadDocument(imageDocument);
+            if (shouldUploadOnStart(imageDocument)) {
+                uploadDocument(imageDocument);
+            }
         }
+    }
+
+    private boolean shouldUploadOnStart(final ImageDocument imageDocument) {
+        // Imported documents with a file validation error should not be uploaded
+        final GiniVisionDocumentError error = mMultiPageDocument.getErrorForDocument(imageDocument);
+        final boolean hasNoFileValidationError = error == null ||
+                error.getErrorCode() != GiniVisionDocumentError.ErrorCode.FILE_VALIDATION_FAILED;
+        return !imageDocument.isImported() || hasNoFileValidationError;
     }
 
     private void uploadDocument(final ImageDocument document) {
@@ -473,7 +507,8 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
 
     private void showErrorOnPreview(final String errorMessage, final ImageDocument imageDocument) {
         mMultiPageDocument.setErrorForDocument(imageDocument,
-                new GiniVisionDocumentError(errorMessage));
+                new GiniVisionDocumentError(errorMessage,
+                        GiniVisionDocumentError.ErrorCode.UPLOAD_FAILED));
         mPreviewsAdapter.notifyDataSetChanged();
     }
 
@@ -574,8 +609,20 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     }
 
     @Override
+    public void onDeleteDocument(@NonNull final ImageDocument document) {
+        deleteDocumentAndUpdateUI(document);
+    }
+
+    @Override
     public void setListener(@NonNull final MultiPageReviewFragmentListener listener) {
         mListener = listener;
+    }
+
+    private ImageDocument getAndRemoveDocument(final int index) {
+        final List<ImageDocument> documents = mMultiPageDocument.getDocuments();
+        final ImageDocument removedDocument = documents.get(index);
+        documents.remove(index);
+        return removedDocument;
     }
 
 }

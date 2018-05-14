@@ -18,11 +18,14 @@ import net.gini.android.vision.document.ImageMultiPageDocument;
 public class PreviewsAdapter extends FragmentStatePagerAdapter {
 
     private final ImageMultiPageDocument mMultiPageDocument;
+    private final PreviewsAdapterListener mListener;
 
     public PreviewsAdapter(@NonNull final FragmentManager fm,
-            @NonNull final ImageMultiPageDocument multiPageDocument) {
+            @NonNull final ImageMultiPageDocument multiPageDocument,
+            @NonNull final PreviewsAdapterListener listener) {
         super(fm);
         mMultiPageDocument = multiPageDocument;
+        mListener = listener;
     }
 
     @Override
@@ -43,10 +46,12 @@ public class PreviewsAdapter extends FragmentStatePagerAdapter {
         final GiniVisionDocumentError documentError =
                 mMultiPageDocument.getErrorForDocument(document);
         String errorMessage = null;
+        PreviewFragment.ErrorButtonAction errorButtonAction = null;
         if (documentError != null) {
             errorMessage = documentError.getMessage();
+            errorButtonAction = mListener.getErrorButtonAction(documentError);
         }
-        return PreviewFragment.createInstance(document, errorMessage);
+        return PreviewFragment.createInstance(document, errorMessage, errorButtonAction);
     }
 
     public void rotateImageInCurrentItemBy(@NonNull final ViewPager viewPager, final int degrees) {

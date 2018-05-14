@@ -12,30 +12,6 @@ import android.support.annotation.NonNull;
 
 public class GiniVisionDocumentError implements Parcelable {
 
-    private final String mMessage;
-
-    public GiniVisionDocumentError(@NonNull final String message) {
-        mMessage = message;
-    }
-
-    public String getMessage() {
-        return mMessage;
-    }
-
-    GiniVisionDocumentError(final Parcel in) {
-        mMessage = in.readString();
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(@NonNull final Parcel dest, final int flags) {
-        dest.writeString(mMessage);
-    }
-
     public static final Creator<GiniVisionDocumentError> CREATOR =
             new Creator<GiniVisionDocumentError>() {
                 @Override
@@ -48,4 +24,44 @@ public class GiniVisionDocumentError implements Parcelable {
                     return new GiniVisionDocumentError[size];
                 }
             };
+    private final String mMessage;
+    private final ErrorCode mErrorCode;
+
+
+    public GiniVisionDocumentError(@NonNull final String message,
+            @NonNull final ErrorCode errorCode) {
+        mMessage = message;
+        mErrorCode = errorCode;
+    }
+
+    GiniVisionDocumentError(final Parcel in) {
+        mMessage = in.readString();
+        mErrorCode = (ErrorCode) in.readSerializable();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull final Parcel dest, final int flags) {
+        dest.writeString(mMessage);
+        dest.writeSerializable(mErrorCode);
+    }
+
+    @NonNull
+    public String getMessage() {
+        return mMessage;
+    }
+
+    @NonNull
+    public ErrorCode getErrorCode() {
+        return mErrorCode;
+    }
+
+    public enum ErrorCode {
+        UPLOAD_FAILED,
+        FILE_VALIDATION_FAILED
+    }
 }
