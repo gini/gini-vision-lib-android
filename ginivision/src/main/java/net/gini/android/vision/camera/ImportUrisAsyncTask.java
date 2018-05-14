@@ -119,6 +119,6 @@ class ImportUrisAsyncTask extends AsyncTask<List<Uri>, Void, ImageMultiPageDocum
         final ImageDocument document = DocumentFactory.newEmptyImageDocument();
         multiPageDocument.addDocument(document);
         final GiniVisionDocumentError documentError = new GiniVisionDocumentError(string);
-        multiPageDocument.addErrorForDocument(document, documentError);
+        multiPageDocument.setErrorForDocument(document, documentError);
     }
 }

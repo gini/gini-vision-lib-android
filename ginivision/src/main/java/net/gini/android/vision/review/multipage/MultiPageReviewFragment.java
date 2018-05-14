@@ -272,9 +272,9 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     }
 
     private void scrollToThumbnail(final int position) {
-        mThumbnailsScroller.setTargetPosition(position);
-        mThumbnailsRecycler.getLayoutManager().startSmoothScroll(
-                mThumbnailsScroller);
+        final int scrollTargetPosition = mThumbnailsAdapter.getScrollTargetPosition(position);
+        mThumbnailsScroller.setTargetPosition(scrollTargetPosition);
+        mThumbnailsRecycler.getLayoutManager().startSmoothScroll(mThumbnailsScroller);
     }
 
     private void deleteDocument(final int position) {
@@ -397,6 +397,10 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         if (!mPreviewsShown) {
             observeViewTree();
         }
+        uploadDocuments();
+    }
+
+    private void uploadDocuments() {
         if (GiniVision.hasInstance()) {
             final NetworkRequestsManager networkRequestsManager =
                     GiniVision.getInstance().internal().getNetworkRequestsManager();
@@ -407,19 +411,24 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
                 }
                 for (final ImageDocument imageDocument : mMultiPageDocument.getDocuments()) {
                     // WIP-MPA: start activity indicator for imageDocument
+                    mThumbnailsAdapter.setUploadState(ThumbnailsAdapter.UploadState.IN_PROGRESS,
+                            imageDocument);
                     networkRequestsManager.upload(activity, imageDocument)
                             .handle(new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, Void>() {
                                 @Override
                                 public Void apply(
                                         final NetworkRequestResult<GiniVisionDocument> requestResult,
                                         final Throwable throwable) {
-                                    // WIP-MPA: stop activity indicator for imageDocument
                                     if (throwable != null &&
                                             !NetworkRequestsManager.isCancellation(throwable)) {
                                         // WIP-MPA: show error for imageDocument on ViewPager page
-                                        // WIP-MPA: show upload failure for imageDocument
+                                        mThumbnailsAdapter.setUploadState(
+                                                ThumbnailsAdapter.UploadState.FAILED,
+                                                imageDocument);
                                     } else if (requestResult != null) {
-                                        // WIP-MPA: show upload success for imageDocument
+                                        mThumbnailsAdapter.setUploadState(
+                                                ThumbnailsAdapter.UploadState.COMPLETED,
+                                                imageDocument);
                                     }
                                     return null;
                                 }
