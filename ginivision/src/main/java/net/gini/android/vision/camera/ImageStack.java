@@ -166,34 +166,32 @@ public class ImageStack extends RelativeLayout {
         stackItem2.setBackgroundColor(Color.TRANSPARENT);
         stackItem3.setImageDrawable(null);
         stackItem3.setBackgroundColor(Color.TRANSPARENT);
-        badge.setText("");
-        badge.setVisibility(INVISIBLE);
-        subtitle.setVisibility(INVISIBLE);
-        if (bitmaps == null) {
-            return;
-        }
-        imageCount = bitmaps.size();
-        if (imageCount > 0) {
+        if (bitmaps == null || bitmaps.size() == 0) {
+            badge.setText("");
+            badge.setVisibility(INVISIBLE);
+            subtitle.setVisibility(INVISIBLE);
+        } else {
+            imageCount = bitmaps.size();
             badge.setVisibility(VISIBLE);
             badge.setText(String.valueOf(imageCount));
             subtitle.setVisibility(VISIBLE);
-        }
-        if (imageCount > 0) {
+
             stackItem1.setClickable(true);
             stackItem1.setFocusable(true);
             if (clickListener != null) {
                 stackItem1.setOnClickListener(clickListener);
             }
-        }
-        if (imageCount > 2) {
-            setBitmapOrBlack(stackItem3, bitmaps.get(0));
-            setBitmapOrBlack(stackItem2, bitmaps.get(1));
-            setBitmapOrBlack(stackItem1, bitmaps.get(2));
-        } else if (imageCount > 1) {
-            setBitmapOrBlack(stackItem2, bitmaps.get(0));
-            setBitmapOrBlack(stackItem1, bitmaps.get(1));
-        } else if (imageCount > 0) {
-            setBitmapOrBlack(stackItem1, bitmaps.get(0));
+
+            if (imageCount > 2) {
+                setBitmapOrBlack(stackItem3, bitmaps.get(0));
+                setBitmapOrBlack(stackItem2, bitmaps.get(1));
+                setBitmapOrBlack(stackItem1, bitmaps.get(2));
+            } else if (imageCount > 1) {
+                setBitmapOrBlack(stackItem2, bitmaps.get(0));
+                setBitmapOrBlack(stackItem1, bitmaps.get(1));
+            } else {
+                setBitmapOrBlack(stackItem1, bitmaps.get(0));
+            }
         }
     }
 
