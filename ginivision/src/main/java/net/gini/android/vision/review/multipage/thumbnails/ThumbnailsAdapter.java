@@ -213,7 +213,8 @@ public class ThumbnailsAdapter extends
     }
 
     public void highlightPosition(final int position) {
-        if (mThumbnails.get(position).highlighted) {
+        if (mThumbnails.size() == 0 ||
+                mThumbnails.get(position).highlighted) {
             return;
         }
         for (int i = 0; i < mThumbnails.size(); i++) {
@@ -318,7 +319,7 @@ public class ThumbnailsAdapter extends
         final int newPosition;
         if (deletedPosition == newSize) {
             // Last item was removed, highlight the new last item
-            newPosition = deletedPosition - 1;
+            newPosition = Math.max(0, deletedPosition - 1);
         } else {
             // Non-last item deletion moves the right neighbour to the same position
             newPosition = deletedPosition;

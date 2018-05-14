@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -308,12 +309,17 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         mThumbnailsAdapter.removeThumbnail(deletedPosition);
         scrollToThumbnail(newPosition);
 
-        if (nrOfDocuments == 1) {
-            mDeleteButton.setEnabled(false);
-            mDeleteButton.setAlpha(0.2f);
-        }
-
         updateNextButtonVisibility();
+
+        updateDeleteButtonVisibility();
+        updateRotateButtonVisibility();
+
+        if (mMultiPageDocument.getDocuments().size() == 0) {
+            final FragmentActivity activity = getActivity();
+            if (activity != null) {
+                activity.finish();
+            }
+        }
     }
 
     private void scrollToThumbnail(final int position) {
@@ -323,11 +329,19 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     }
 
     private void deleteDocument(@NonNull final ImageDocument document) {
-        mMultiPageDocument.getDocuments().remove(document);
+        deleteFromMultiPageDocument(document);
         deleteFromCaches(document);
         deleteFromDisk(document);
         deleteFromGiniApi(document);
         mDocumentUploadResults.remove(document.getId());
+    }
+
+    private void deleteFromMultiPageDocument(final @NonNull ImageDocument document) {
+        mMultiPageDocument.getDocuments().remove(document);
+        if (mMultiPageDocument.getDocuments().size() == 0
+                && GiniVision.hasInstance()) {
+            GiniVision.getInstance().internal().getImageMultiPageDocumentMemoryStore().clear();
+        }
     }
 
     private void deleteFromGiniApi(final ImageDocument document) {
@@ -359,8 +373,12 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     }
 
     private void updatePageIndicator(final int position) {
-        mPageIndicator.setText(String.format("%d von %d", position + 1,
-                mMultiPageDocument.getDocuments().size()));
+        final int nrOfDocuments = mMultiPageDocument.getDocuments().size();
+        String text = null;
+        if (nrOfDocuments > 0) {
+            text = String.format("%d von %d", position + 1, nrOfDocuments);
+        }
+        mPageIndicator.setText(text);
     }
 
     private void updateReorderPagesTip() {
@@ -372,6 +390,11 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     }
 
     private void updateNextButtonVisibility() {
+        if (mMultiPageDocument.getDocuments().size() == 0) {
+            mButtonNext.setVisibility(View.INVISIBLE);
+            return;
+        }
+
         boolean uploadFailed = false;
         for (final Boolean uploadSuccess : mDocumentUploadResults.values()) {
             if (!uploadSuccess) {
@@ -380,6 +403,20 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
             }
         }
         mButtonNext.setVisibility(uploadFailed ? View.INVISIBLE : View.VISIBLE);
+    }
+
+    private void updateRotateButtonVisibility() {
+        if (mMultiPageDocument.getDocuments().size() == 0) {
+            mRotateButton.setEnabled(false);
+            mRotateButton.setAlpha(0.2f);
+        }
+    }
+
+    private void updateDeleteButtonVisibility() {
+        if (mMultiPageDocument.getDocuments().size() == 0) {
+            mDeleteButton.setEnabled(false);
+            mDeleteButton.setAlpha(0.2f);
+        }
     }
 
     private void onRotateButtonClicked() {
@@ -545,12 +582,10 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         }
         mPreviewsShown = true;
 
-        if (mMultiPageDocument.getDocuments().size() == 1) {
-            mDeleteButton.setEnabled(false);
-            mDeleteButton.setAlpha(0.2f);
-        }
-
         updateReorderPagesTip();
+
+        updateDeleteButtonVisibility();
+        updateRotateButtonVisibility();
 
         mPreviewsPager.setCurrentItem(0);
         updatePageIndicator(0);

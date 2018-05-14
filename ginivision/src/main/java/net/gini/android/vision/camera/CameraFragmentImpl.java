@@ -391,6 +391,9 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                     mInMultiPageState = true;
                     mImageStack.addImage(getBitmap(multiPageDocument.getDocuments().get(0)));
                 }
+            } else {
+                mInMultiPageState = false;
+                mImageStack.removeImages();
             }
         }
     }
