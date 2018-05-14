@@ -212,11 +212,6 @@ public class ReviewActivity extends AppCompatActivity implements ReviewFragmentL
     }
 
     @Override
-    public void onGoBackToCameraScreen() {
-        finish();
-    }
-
-    @Override
     protected void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(NO_EXTRACTIONS_FOUND_KEY, mNoExtractionsFound);
