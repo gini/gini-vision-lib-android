@@ -40,14 +40,17 @@ public class ThumbnailsAdapter extends
     private final ImageMultiPageDocument mMultiPageDocument;
     private final ThumbnailsAdapterListener mListener;
     private final List<Thumbnail> mThumbnails;
+    private final boolean mShowPlusButton;
     private ItemTouchHelper mItemTouchHelper;
     private RecyclerView mRecyclerView;
 
     public ThumbnailsAdapter(@NonNull final Context context,
             @NonNull final ImageMultiPageDocument multiPageDocument,
-            @NonNull final ThumbnailsAdapterListener listener) {
+            @NonNull final ThumbnailsAdapterListener listener,
+            final boolean showPlusButton) {
         mContext = context;
         mMultiPageDocument = multiPageDocument;
+        mShowPlusButton = showPlusButton;
         final List<ImageDocument> documents = mMultiPageDocument.getDocuments();
         mThumbnails = new ArrayList<>(documents.size());
         for (final ImageDocument document : documents) {
@@ -100,8 +103,7 @@ public class ThumbnailsAdapter extends
 
     @Override
     public int getItemCount() {
-        // Plus button is always shown at the end
-        return mThumbnails.size() + 1;
+        return mThumbnails.size() + (mShowPlusButton ? 1 : 0);
     }
 
     @Override
@@ -292,7 +294,7 @@ public class ThumbnailsAdapter extends
 
     public int getScrollTargetPosition(final int position) {
         // When scrolling to the last thumbnail scroll to the plus button item instead
-        if (position == mThumbnails.size() - 1) {
+        if (mShowPlusButton && position == mThumbnails.size() - 1) {
             return position + 1;
         } else {
             return position;

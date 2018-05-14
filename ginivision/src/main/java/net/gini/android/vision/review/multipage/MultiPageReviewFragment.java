@@ -231,7 +231,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         };
 
         mThumbnailsAdapter = new ThumbnailsAdapter(activity, mMultiPageDocument,
-                mThumbnailsAdapterListener);
+                mThumbnailsAdapterListener, shouldShowPlusButton());
         mThumbnailsRecycler.setAdapter(mThumbnailsAdapter);
 
         mThumbnailsScroller = new LinearSmoothScroller(activity);
@@ -246,6 +246,10 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         final RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         itemAnimator.setChangeDuration(0);
         mThumbnailsRecycler.setItemAnimator(itemAnimator);
+    }
+
+    private boolean shouldShowPlusButton() {
+        return mMultiPageDocument.getImportMethod() != Document.ImportMethod.OPEN_WITH;
     }
 
     private void bindViews(final View view) {
