@@ -15,7 +15,6 @@ import android.support.transition.TransitionManager;
 import android.support.transition.TransitionSet;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -44,6 +43,8 @@ public class ImageStack extends RelativeLayout {
     private ImageView stackItem1;
     private ImageView stackItem2;
     private ImageView stackItem3;
+    private TextView subtitle;
+
     public ImageStack(final Context context) {
         super(context, null, 0);
         init(context);
@@ -58,6 +59,8 @@ public class ImageStack extends RelativeLayout {
         stackItem3 = findViewById(R.id.gv_stack_item_3);
         badge = findViewById(R.id.gv_badge);
         badge.setVisibility(INVISIBLE);
+        subtitle = findViewById(R.id.gv_stack_subtitle);
+        subtitle.setVisibility(INVISIBLE);
     }
 
     public ImageStack(final Context context,
@@ -165,13 +168,15 @@ public class ImageStack extends RelativeLayout {
         stackItem3.setBackgroundColor(Color.TRANSPARENT);
         badge.setText("");
         badge.setVisibility(INVISIBLE);
+        subtitle.setVisibility(INVISIBLE);
         if (bitmaps == null) {
             return;
         }
         imageCount = bitmaps.size();
         if (imageCount > 0) {
-            badge.setVisibility(View.VISIBLE);
+            badge.setVisibility(VISIBLE);
             badge.setText(String.valueOf(imageCount));
+            subtitle.setVisibility(VISIBLE);
         }
         if (imageCount > 0) {
             stackItem1.setClickable(true);
@@ -225,6 +230,7 @@ public class ImageStack extends RelativeLayout {
         imageCount = count;
         badge.setText(String.valueOf(count));
         badge.setVisibility(VISIBLE);
+        subtitle.setVisibility(VISIBLE);
     }
 
     private static void setDrawableOrBlack(@NonNull final ImageView imageView,
@@ -266,6 +272,7 @@ public class ImageStack extends RelativeLayout {
             final ImageView stackItem3View = sceneRoot.findViewById(R.id.gv_stack_item_3);
             final ImageView newImageView = sceneRoot.findViewById(R.id.gv_new_photo);
             final TextView badge = sceneRoot.findViewById(R.id.gv_badge);
+            final TextView subtitle = sceneRoot.findViewById(R.id.gv_stack_subtitle);
 
             // Show the current images and badge in the image added scene
             // Image count was already increased so when we have at least two images it means
@@ -286,6 +293,7 @@ public class ImageStack extends RelativeLayout {
             if (imageStack.imageCount > 0) {
                 badge.setVisibility(VISIBLE);
                 badge.setText(String.valueOf(imageStack.imageCount));
+                subtitle.setVisibility(VISIBLE);
             }
             // Show the new image
             newImageView.setVisibility(VISIBLE);

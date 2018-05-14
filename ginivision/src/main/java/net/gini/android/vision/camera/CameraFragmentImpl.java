@@ -186,6 +186,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     private boolean mProceededToMultiPageReview;
     private boolean mQRCodeAnalysisCompleted;
     private QRCodeDocument mQRCodeDocument;
+    private LinearLayout mImportButtonContainer;
 
     CameraFragmentImpl(@NonNull final CameraFragmentImplCallback fragment) {
         this(fragment, GiniVisionFeatureConfiguration.buildNewConfiguration().build());
@@ -678,6 +679,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         final ViewStub stubNoPermission = view.findViewById(R.id.gv_stub_camera_no_permission);
         mViewStubInflater = new ViewStubSafeInflater(stubNoPermission);
         mButtonImportDocument = view.findViewById(R.id.gv_button_import_document);
+        mImportButtonContainer = view.findViewById(R.id.gv_document_import_button_container);
         mUploadHintContainer = view.findViewById(R.id.gv_document_import_hint_container);
         mUploadHintContainerArrow = view.findViewById(R.id.gv_document_import_hint_container_arrow);
         mUploadHintCloseButton = view.findViewById(R.id.gv_document_import_hint_close_button);
@@ -698,7 +700,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         }
         if (isDocumentImportEnabled() && FileChooserActivity.canChooseFiles(activity)) {
             mImportDocumentButtonEnabled = true;
-            mButtonImportDocument.setVisibility(View.VISIBLE);
+            mImportButtonContainer.setVisibility(View.VISIBLE);
             showImportDocumentButtonAnimated();
         }
     }
@@ -1356,6 +1358,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                                 photo);
                         mListener.onDocumentAvailable(document);
                     }
+                    mCameraController.startPreview();
                 }
             } else {
                 handleError(GiniVisionError.ErrorCode.CAMERA_SHOT_FAILED,
@@ -1485,7 +1488,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     }
 
     private void showImportDocumentButtonAnimated() {
-        mButtonImportDocument.animate().alpha(1.0f);
+        mImportButtonContainer.animate().alpha(1.0f);
         mButtonImportDocument.setEnabled(true);
     }
 
@@ -1508,7 +1511,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     }
 
     private void hideImportDocumentButtonAnimated() {
-        mButtonImportDocument.animate().alpha(0.0f);
+        mImportButtonContainer.animate().alpha(0.0f);
         mButtonImportDocument.setEnabled(false);
     }
 

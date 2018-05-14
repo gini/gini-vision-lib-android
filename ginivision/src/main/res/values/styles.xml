@@ -70,6 +70,18 @@
         <item name="gvCustomFont" />
     </style>
 
+    <style name="Root.GiniVisionTheme.Camera.DocumentImportSubtitle.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/gv_camera_document_import_subtitle_text</item>
+        <item name="gvCustomFont" />
+    </style>
+
+    <style name="Root.GiniVisionTheme.Camera.ImageStackSubtitle.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/gv_camera_image_stack_subtitle_text</item>
+        <item name="gvCustomFont" />
+    </style>
+
     <style name="Root.GiniVisionTheme.Review.BottomPanel.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">14sp</item>
@@ -221,6 +233,10 @@
     <style name="GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle" parent="Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle" />
 
     <style name="GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle" parent="Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle" />
+
+    <style name="GiniVisionTheme.Camera.DocumentImportSubtitle.TextStyle" parent="Root.GiniVisionTheme.Camera.DocumentImportSubtitle.TextStyle" />
+
+    <style name="GiniVisionTheme.Camera.ImageStackSubtitle.TextStyle" parent="Root.GiniVisionTheme.Camera.ImageStackSubtitle.TextStyle" />
 
     <style name="GiniVisionTheme.Review.BottomPanel.TextStyle" parent="Root.GiniVisionTheme.Review.BottomPanel.TextStyle"/>
 
