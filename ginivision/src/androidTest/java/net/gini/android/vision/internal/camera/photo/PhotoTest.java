@@ -56,7 +56,7 @@ public class PhotoTest {
         // When
         final MutablePhoto fromDocument =
                 (MutablePhoto) PhotoFactory.newPhotoFromDocument(
-                        (ImageDocument) DocumentFactory.newDocumentFromPhoto(photo));
+                        (ImageDocument) DocumentFactory.newImageDocumentFromPhoto(photo));
         // Then
         assertAbout(photo()).that(photo).hasSameUserCommentAs(fromDocument);
     }
@@ -69,7 +69,7 @@ public class PhotoTest {
         // When
         final MutablePhoto fromDocument =
                 (MutablePhoto) PhotoFactory.newPhotoFromDocument(
-                        (ImageDocument) DocumentFactory.newDocumentFromPhoto(photo));
+                        (ImageDocument) DocumentFactory.newImageDocumentFromPhoto(photo));
         // Then
         assertThat(photo.getContentId()).isEqualTo(fromDocument.getContentId());
     }
@@ -84,7 +84,7 @@ public class PhotoTest {
         photo.edit().rotateTo(90).apply();
         final MutablePhoto fromDocument =
                 (MutablePhoto) PhotoFactory.newPhotoFromDocument(
-                        (ImageDocument) DocumentFactory.newDocumentFromPhoto(photo));
+                        (ImageDocument) DocumentFactory.newImageDocumentFromPhoto(photo));
         // Then
         assertThat(photo.getRotationDelta()).isEqualTo(fromDocument.getRotationDelta());
     }

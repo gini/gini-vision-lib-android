@@ -29,7 +29,6 @@ import net.gini.android.vision.R;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.GiniVisionDocument;
 import net.gini.android.vision.document.ImageDocument;
-import net.gini.android.vision.document.ImageMultiPageDocument;
 import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.PhotoEdit;
@@ -77,11 +76,6 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         }
 
         @Override
-        public void onGoBackToCameraScreen() {
-
-        }
-
-        @Override
         public void onExtractionsAvailable(
                 @NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
 
@@ -103,7 +97,6 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     private TouchImageView mImageDocument;
     @VisibleForTesting
     ImageButton mButtonRotate;
-    private ImageButton mButtonAddPage;
     private ImageButton mButtonNext;
     private ProgressBar mActivityIndicator;
 
@@ -117,7 +110,6 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     private boolean mNextClicked;
     private boolean mStopped;
     private String mDocumentAnalysisErrorMessage;
-    private boolean mWillAddMorePages;
 
     ReviewFragmentImpl(@NonNull final FragmentImplCallback fragment,
             @NonNull final Document document) {
@@ -153,19 +145,6 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
     @Override
     public void onNoExtractionsFound() {
-    }
-
-    private void addMorePages() {
-        mWillAddMorePages = true;
-        if (GiniVision.hasInstance()) {
-            final ImageDocument document =
-                    (ImageDocument) DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto,
-                            mDocument);
-            final ImageMultiPageDocument multiPageDocument = new ImageMultiPageDocument(document);
-            GiniVision.getInstance().internal().getImageMultiPageDocumentMemoryStore()
-                    .setMultiPageDocument(multiPageDocument);
-            mListener.onGoBackToCameraScreen();
-        }
     }
 
     public void onCreate(@Nullable final Bundle savedInstanceState) {
@@ -226,7 +205,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         if (activity == null) {
             return;
         }
-        final GiniVisionDocument document = DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto,
+        final GiniVisionDocument document = DocumentFactory.newImageDocumentFromPhotoAndDocument(mPhoto,
                 mDocument);
         if (GiniVision.hasInstance()) {
             final NetworkRequestsManager networkRequestsManager = GiniVision.getInstance()
@@ -312,7 +291,6 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         mActivityIndicator.setVisibility(View.VISIBLE);
         disableNextButton();
         disableRotateButton();
-        disableAddPageButton();
     }
 
     private void hideActivityIndicatorAndEnableButtons() {
@@ -322,7 +300,6 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         mActivityIndicator.setVisibility(View.GONE);
         enableNextButton();
         enableRotateButton();
-        enableAddPageButton();
     }
 
     private void disableNextButton() {
@@ -357,22 +334,6 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         mButtonRotate.setAlpha(1f);
     }
 
-    private void disableAddPageButton() {
-        if (mButtonAddPage == null) {
-            return;
-        }
-        mButtonAddPage.setEnabled(false);
-        mButtonAddPage.setAlpha(0.5f);
-    }
-
-    private void enableAddPageButton() {
-        if (mButtonAddPage == null) {
-            return;
-        }
-        mButtonAddPage.setEnabled(true);
-        mButtonAddPage.setAlpha(1f);
-    }
-
     private void showDocument() {
         if (mPhoto == null) {
             return;
@@ -390,8 +351,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     }
 
     public void onDestroy() {
-        if (!mWillAddMorePages
-                && !mNextClicked) {
+        if (!mNextClicked) {
             deleteUploadedDocument();
         }
         mPhoto = null; // NOPMD
@@ -403,7 +363,6 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         mImageDocument = view.findViewById(R.id.gv_image_document);
         mButtonRotate = view.findViewById(R.id.gv_button_rotate);
         mButtonNext = view.findViewById(R.id.gv_button_next);
-        mButtonAddPage = view.findViewById(R.id.gv_button_add_page);
         mActivityIndicator = view.findViewById(R.id.gv_activity_indicator);
     }
 
@@ -428,12 +387,6 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             @Override
             public void onClick(final View v) {
                 onRotateClicked();
-            }
-        });
-        mButtonAddPage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                addMorePages();
             }
         });
         mButtonNext.setOnClickListener(new View.OnClickListener() {
@@ -485,7 +438,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                 if (mStopped) {
                     return;
                 }
-                final GiniVisionDocument document = DocumentFactory.newDocumentFromPhotoAndDocument(
+                final GiniVisionDocument document = DocumentFactory.newImageDocumentFromPhotoAndDocument(
                         photo, mDocument);
                 mListener.onDocumentWasRotated(
                         document,
@@ -562,7 +515,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         if (activity == null) {
             return;
         }
-        final GiniVisionDocument document = DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto,
+        final GiniVisionDocument document = DocumentFactory.newImageDocumentFromPhotoAndDocument(mPhoto,
                 mDocument);
         if (GiniVision.hasInstance()) {
             final NetworkRequestsManager networkRequestsManager =
@@ -579,7 +532,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
     private void proceedToAnalysisScreen() {
         LOG.info("Proceed to Analysis Screen");
-        final GiniVisionDocument document = DocumentFactory.newDocumentFromPhotoAndDocument(mPhoto,
+        final GiniVisionDocument document = DocumentFactory.newImageDocumentFromPhotoAndDocument(mPhoto,
                 mDocument);
         if (GiniVision.hasInstance()) {
             mListener.onProceedToAnalysisScreen(document, mDocumentAnalysisErrorMessage);

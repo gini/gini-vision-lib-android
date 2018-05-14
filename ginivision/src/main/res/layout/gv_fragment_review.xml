@@ -38,19 +38,6 @@
         android:id="@+id/gv_button_rotate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/gv_button_add_page"
-        android:layout_alignEnd="@+id/gv_button_next"
-        android:layout_alignRight="@+id/gv_button_next"
-        android:layout_marginBottom="@dimen/gv_review_button_rotate_vertical_margin"
-        android:layout_marginEnd="@dimen/gv_review_button_rotate_horizontal_margin"
-        android:layout_marginRight="@dimen/gv_review_button_rotate_horizontal_margin"
-        android:background="@drawable/gv_review_fab_mini_background"
-        android:src="@drawable/gv_review_button_rotate" />
-
-    <ImageButton
-        android:id="@+id/gv_button_add_page"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_above="@+id/gv_button_next"
         android:layout_alignEnd="@+id/gv_button_next"
         android:layout_alignRight="@+id/gv_button_next"
@@ -58,7 +45,7 @@
         android:layout_marginEnd="@dimen/gv_review_button_rotate_horizontal_margin"
         android:layout_marginRight="@dimen/gv_review_button_rotate_horizontal_margin"
         android:background="@drawable/gv_review_fab_mini_background"
-        android:src="@drawable/gv_review_fab_add_page" />
+        android:src="@drawable/gv_review_button_rotate" />
 
     <ImageButton
         android:id="@+id/gv_button_next"

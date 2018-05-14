@@ -60,16 +60,16 @@ public final class DocumentFactory {
         return ImageDocument.empty(source, importMethod);
     }
 
-    public static GiniVisionDocument newDocumentFromPhoto(@NonNull final Photo photo) {
+    public static ImageDocument newImageDocumentFromPhoto(@NonNull final Photo photo) {
         return ImageDocument.fromPhoto(photo);
     }
 
-    public static GiniVisionDocument newDocumentFromPhoto(@NonNull final Photo photo,
+    public static ImageDocument newImageDocumentFromPhoto(@NonNull final Photo photo,
             @NonNull final Uri storedAtUri) {
         return ImageDocument.fromPhoto(photo, storedAtUri);
     }
 
-    public static GiniVisionDocument newDocumentFromPhotoAndDocument(@NonNull final Photo photo,
+    public static ImageDocument newImageDocumentFromPhotoAndDocument(@NonNull final Photo photo,
             @NonNull final GiniVisionDocument document) {
         return ImageDocument.fromPhotoAndDocument(photo, document);
     }
