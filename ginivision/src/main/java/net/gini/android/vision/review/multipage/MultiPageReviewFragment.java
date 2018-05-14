@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
@@ -221,6 +222,11 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         final ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(mThumbnailsRecycler);
         mThumbnailsAdapter.setItemTouchHelper(touchHelper);
+
+        // Disable item change animations to remove flickering when highlighting a thumbnail
+        final RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        itemAnimator.setChangeDuration(0);
+        mThumbnailsRecycler.setItemAnimator(itemAnimator);
     }
 
     private void bindViews(final View view) {

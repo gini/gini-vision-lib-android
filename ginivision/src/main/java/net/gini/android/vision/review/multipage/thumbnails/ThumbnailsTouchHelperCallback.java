@@ -38,9 +38,8 @@ public class ThumbnailsTouchHelperCallback extends ItemTouchHelper.Callback {
     public boolean onMove(final RecyclerView recyclerView,
             final RecyclerView.ViewHolder viewHolder,
             final RecyclerView.ViewHolder target) {
-        mListener.onItemMove(viewHolder, viewHolder.getAdapterPosition(), target,
+        return mListener.onItemMove(viewHolder, viewHolder.getAdapterPosition(), target,
                 target.getAdapterPosition());
-        return true;
     }
 
     @Override

@@ -119,7 +119,8 @@ public class ThumbnailsAdapter extends
     private void bindThumbnail(final @NonNull ViewHolder holder,
             final @SuppressLint("RecyclerView") int position) {
         holder.resetImageView();
-        showPosition(position, holder);
+        holder.showActivityIndicator();
+        updateThumbnail(position, holder);
         GiniVision.getInstance().internal().getPhotoMemoryCache()
                 .get(mContext, mMultiPageDocument.getDocuments().get(position),
                         new AsyncCallback<Photo>() {
@@ -161,8 +162,7 @@ public class ThumbnailsAdapter extends
                 photo.getRotationForDisplay(), false);
     }
 
-    private void showPosition(final int position,
-            final @NonNull ViewHolder holder) {
+    private void updateThumbnail(final int position, final @NonNull ViewHolder holder) {
         holder.badge.setText(String.valueOf(position + 1));
         final Thumbnail thumbnail = mThumbnails.get(position);
         holder.highlight.setAlpha(thumbnail.highlighted ? 1f : 0f);
@@ -180,14 +180,13 @@ public class ThumbnailsAdapter extends
             public boolean onTouch(final View v, final MotionEvent event) {
                 if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
                     final int adapterPosition = holder.getAdapterPosition();
-                    holder.highlight.setAlpha(0.5f);
-                    highlightPosition(adapterPosition);
+                    setHighlightedThumbnail(adapterPosition);
                     mListener.onThumbnailSelected(adapterPosition);
                     if (mItemTouchHelper != null) {
                         mItemTouchHelper.startDrag(holder);
                     }
                 }
-                return false;
+                return true;
             }
         });
     }
@@ -212,22 +211,40 @@ public class ThumbnailsAdapter extends
     }
 
     public void highlightPosition(final int position) {
+        if (mThumbnails.get(position).highlighted) {
+            return;
+        }
         for (int i = 0; i < mThumbnails.size(); i++) {
             final Thumbnail thumbnail = mThumbnails.get(i);
             if (thumbnail.highlighted) {
                 thumbnail.highlighted = false;
                 notifyItemChanged(i);
             }
-            final ViewHolder holder =
-                    (ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(
-                            i);
-            if (holder != null) {
-                holder.highlight.setAlpha(0f);
-            }
         }
-        if (!mThumbnails.get(position).highlighted) {
-            mThumbnails.get(position).highlighted = true;
-            notifyItemChanged(position);
+        mThumbnails.get(position).highlighted = true;
+        notifyItemChanged(position);
+    }
+
+    private void setHighlightedThumbnail(final int position) {
+        if (mThumbnails.get(position).highlighted) {
+            return;
+        }
+        for (int i = 0; i < mThumbnails.size(); i++) {
+            final Thumbnail thumbnail = mThumbnails.get(i);
+            if (thumbnail.highlighted) {
+                thumbnail.highlighted = false;
+            }
+            setHighlightAlpha(i, 0f);
+        }
+        mThumbnails.get(position).highlighted = true;
+        setHighlightAlpha(position, 1.0f);
+    }
+
+    private void setHighlightAlpha(final int position, final float alpha) {
+        final ViewHolder holder =
+                (ViewHolder) mRecyclerView.findViewHolderForAdapterPosition(position);
+        if (holder != null) {
+            holder.highlight.setAlpha(alpha);
         }
     }
 
@@ -257,16 +274,20 @@ public class ThumbnailsAdapter extends
     }
 
     @Override
-    public void onItemMove(final RecyclerView.ViewHolder viewHolder, final int fromPos,
+    public boolean onItemMove(final RecyclerView.ViewHolder viewHolder, final int fromPos,
             final RecyclerView.ViewHolder target, final int toPos) {
+        if (toPos >= mThumbnails.size()) {
+            return false;
+        }
         Collections.swap(mThumbnails, fromPos, toPos);
         Collections.swap(mMultiPageDocument.getDocuments(), fromPos, toPos);
         notifyItemMoved(fromPos, toPos);
         ((ViewHolder) viewHolder).badge.setText(String.valueOf(toPos + 1));
         ((ViewHolder) target).badge.setText(String.valueOf(fromPos + 1));
-        highlightPosition(toPos);
+        setHighlightedThumbnail(toPos);
         mListener.onThumbnailMoved();
         mListener.onThumbnailSelected(toPos);
+        return true;
     }
 
     public int getScrollTargetPosition(final int position) {
@@ -289,7 +310,6 @@ public class ThumbnailsAdapter extends
                 mThumbnails.size());
         highlightPosition(newPosition);
         notifyItemChanged(newPosition);
-        notifyDataSetChanged();
     }
 
     public static int getNewPositionAfterDeletion(final int deletedPosition, final int newSize) {

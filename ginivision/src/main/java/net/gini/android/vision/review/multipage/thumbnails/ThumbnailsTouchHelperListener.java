@@ -11,6 +11,6 @@ public interface ThumbnailsTouchHelperListener {
 
     void onDragFinished();
 
-    void onItemMove(final RecyclerView.ViewHolder viewHolder, final int fromPos,
+    boolean onItemMove(final RecyclerView.ViewHolder viewHolder, final int fromPos,
             final RecyclerView.ViewHolder target, final int toPos);
 }
