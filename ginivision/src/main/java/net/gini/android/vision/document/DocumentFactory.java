@@ -55,8 +55,9 @@ public final class DocumentFactory {
                 importMethod);
     }
 
-    public static ImageDocument newEmptyImageDocument() {
-        return ImageDocument.empty();
+    public static ImageDocument newEmptyImageDocument(@NonNull final Document.Source source,
+            @NonNull final Document.ImportMethod importMethod) {
+        return ImageDocument.empty(source, importMethod);
     }
 
     public static GiniVisionDocument newDocumentFromPhoto(@NonNull final Photo photo) {

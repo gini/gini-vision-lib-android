@@ -1103,11 +1103,10 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                         hideActivityIndicatorAndEnableInteraction();
                         if (mMultiPageDocument == null) {
                             mInMultiPageState = true;
-                            mMultiPageDocument = new ImageMultiPageDocument(
-                                    multiPageDocument.getSource(),
-                                    multiPageDocument.getImportMethod());
+                            mMultiPageDocument = multiPageDocument;
+                        } else {
+                            mMultiPageDocument.addDocuments(multiPageDocument.getDocuments());
                         }
-                        mMultiPageDocument.addDocuments(multiPageDocument.getDocuments());
                         if (mMultiPageDocument.getDocuments().isEmpty()) {
                             LOG.error("Document import failed: Intent did not contain images");
                             showGenericInvalidFileError();

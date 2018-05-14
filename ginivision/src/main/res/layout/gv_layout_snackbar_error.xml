@@ -4,7 +4,6 @@
     android:id="@+id/gv_layout_error"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true"
     android:background="@color/gv_snackbar_error_background">
 
     <net.gini.android.vision.internal.ui.CustomFontTextView

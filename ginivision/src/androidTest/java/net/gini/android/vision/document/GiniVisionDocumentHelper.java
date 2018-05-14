@@ -2,6 +2,8 @@ package net.gini.android.vision.document;
 
 import android.support.annotation.NonNull;
 
+import net.gini.android.vision.Document;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +18,8 @@ public class GiniVisionDocumentHelper {
     public static ImageDocument newImageDocument() {
         final int random = (int) (1 + Math.round(Math.random() * 5));
         return new ImageDocument(new byte[]{
-                (byte) ((random + 1) * 5), (byte) ((random + 2) * 5), (byte) ((random + 3) * 5)});
+                (byte) ((random + 1) * 5), (byte) ((random + 2) * 5), (byte) ((random + 3) * 5)},
+                Document.Source.newUnknownSource(), Document.ImportMethod.NONE);
     }
 
     public static ImageMultiPageDocument newMultiPageDocument() {

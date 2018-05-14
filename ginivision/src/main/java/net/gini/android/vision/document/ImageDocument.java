@@ -59,8 +59,9 @@ public final class ImageDocument extends GiniVisionDocument {
     private final ImageFormat mFormat;
 
     @NonNull
-    static ImageDocument empty() {
-        return new ImageDocument();
+    static ImageDocument empty(@NonNull final Source source,
+            @NonNull final ImportMethod importMethod) {
+        return new ImageDocument(source, importMethod);
     }
 
     @NonNull
@@ -140,13 +141,15 @@ public final class ImageDocument extends GiniVisionDocument {
         return appName != null ? Source.newSource(appName) : Source.newExternalSource();
     }
 
-    private ImageDocument() {
-        this((byte[]) null);
+    private ImageDocument(@NonNull final Source source,
+            @NonNull final ImportMethod importMethod) {
+        this((byte[]) null, source, importMethod);
     }
 
     @VisibleForTesting
-    ImageDocument(@Nullable final byte[] data) {
-        super(Type.IMAGE, Source.newUnknownSource(), ImportMethod.NONE, MimeType.IMAGE_JPEG.asString(), data, null, null, true);
+    ImageDocument(@Nullable final byte[] data, @NonNull final Source source,
+            @NonNull final ImportMethod importMethod) {
+        super(Type.IMAGE, source, importMethod, MimeType.IMAGE_JPEG.asString(), data, null, null, true);
         mRotationForDisplay = 0;
         mFormat = ImageFormat.JPEG;
         mDeviceOrientation = "";
