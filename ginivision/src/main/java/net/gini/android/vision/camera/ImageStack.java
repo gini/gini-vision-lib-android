@@ -408,6 +408,7 @@ public class ImageStack extends RelativeLayout {
             imageStack.stackItem2 = sceneRoot.findViewById(R.id.gv_stack_item_2);
             imageStack.stackItem3 = sceneRoot.findViewById(R.id.gv_stack_item_3);
             imageStack.badge = sceneRoot.findViewById(R.id.gv_badge);
+            imageStack.subtitle = sceneRoot.findViewById(R.id.gv_stack_subtitle);
 
             // Push the images to the left (remove last image and show image on top)
             // Image count was already increased so when we have at least 3 images it means
