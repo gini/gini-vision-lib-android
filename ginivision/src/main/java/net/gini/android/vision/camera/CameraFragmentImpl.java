@@ -1028,7 +1028,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 return;
             }
 
-            if (/*multipage enabled*/ true) { // TODO: mutipage feature toggle
+            if (GiniVision.hasInstance() && GiniVision.getInstance().isMultiPageEnabled()) {
                 handleMultiPageDocumentAndCallListener(activity, data,
                         Collections.singletonList(uri));
             } else {
@@ -1339,8 +1339,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                     mImageStack.addImage(rotatedBitmap);
                     mCameraController.startPreview();
                 } else {
-                    if (/*multipage enabled*/ true
-                            && GiniVision.hasInstance()) { // TODO: mutipage feature toggle
+                    if (GiniVision.hasInstance() && GiniVision.getInstance().isMultiPageEnabled()) {
                         final ImageDocument document = createSavedDocument(photo);
                         if (document == null) {
                             handleError(GiniVisionError.ErrorCode.CAMERA_SHOT_FAILED,

@@ -167,7 +167,7 @@ public final class GiniVisionFileImport {
     @NonNull
     public static Document createDocumentForImportedFile(@NonNull final Intent intent,
             @NonNull final Context context) throws ImportedFileValidationException {
-        if (IntentHelper.hasMultipleUris(intent)) {
+        if (isMultiPageEnabled() && IntentHelper.hasMultipleUris(intent)) {
             return createDocumentForImportedFiles(intent, context);
         }
         final Uri uri = IntentHelper.getUri(intent);
@@ -186,6 +186,10 @@ public final class GiniVisionFileImport {
         } else {
             throw new ImportedFileValidationException(fileImportValidator.getError());
         }
+    }
+
+    private static boolean isMultiPageEnabled() {
+        return GiniVision.hasInstance() && GiniVision.getInstance().isMultiPageEnabled();
     }
 
     @NonNull

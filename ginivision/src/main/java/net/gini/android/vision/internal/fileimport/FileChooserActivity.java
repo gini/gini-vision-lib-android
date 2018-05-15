@@ -25,6 +25,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersAdapter;
@@ -294,10 +295,15 @@ public class FileChooserActivity extends AppCompatActivity {
     private static Intent createImagePickerIntent() {
         final Intent intent = new Intent(ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType(MimeType.IMAGE_WILDCARD.asString());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+        if (isMultiPageEnabled() &&
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         }
         return intent;
+    }
+
+    private static boolean isMultiPageEnabled() {
+        return GiniVision.hasInstance() && GiniVision.getInstance().isMultiPageEnabled();
     }
 
     @NonNull
@@ -317,7 +323,8 @@ public class FileChooserActivity extends AppCompatActivity {
         }
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType(MimeType.IMAGE_WILDCARD.asString());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+        if (isMultiPageEnabled() &&
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         }
         return intent;
