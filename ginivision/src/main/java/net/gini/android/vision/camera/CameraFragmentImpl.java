@@ -482,7 +482,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     }
 
     private boolean shouldShowHintPopUp() {
-        if (!isDocumentImportEnabled()) {
+        if (!isDocumentImportEnabled() || mInterfaceHidden) {
             return false;
         }
         final Context context = mFragment.getActivity();
@@ -703,7 +703,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         if (activity == null) {
             return;
         }
-        if (isDocumentImportEnabled() && FileChooserActivity.canChooseFiles(activity)) {
+        if (!mInterfaceHidden
+                && isDocumentImportEnabled() && FileChooserActivity.canChooseFiles(activity)) {
             mImportDocumentButtonEnabled = true;
             mImportButtonContainer.setVisibility(View.VISIBLE);
             showImportDocumentButtonAnimated();
@@ -1554,7 +1555,9 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
 
     private void hideNoPermissionView() {
         showCameraPreviewAnimated();
-        showInterfaceAnimated();
+        if (!mInterfaceHidden) {
+            showInterfaceAnimated();
+        }
         if (mLayoutNoPermission != null) {
             mLayoutNoPermission.setVisibility(View.GONE);
         }
