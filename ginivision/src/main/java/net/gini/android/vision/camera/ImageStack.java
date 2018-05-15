@@ -15,6 +15,7 @@ import android.support.transition.TransitionManager;
 import android.support.transition.TransitionSet;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -85,9 +86,22 @@ public class ImageStack extends RelativeLayout {
     @Override
     public void setOnClickListener(@Nullable final OnClickListener clickListener) {
         this.clickListener = clickListener;
-        if (clickListener != null && imageCount > 0) {
-            stackItem1.setOnClickListener(clickListener);
+        if (imageCount > 0) {
+            addClickListener();
         }
+    }
+
+    private void addClickListener() {
+        addClickListener(stackItem1);
+        addClickListener(stackItem2);
+        addClickListener(stackItem3);
+    }
+
+    private void addClickListener(@NonNull final View view) {
+        final boolean clickable = clickListener != null;
+        view.setClickable(clickable);
+        view.setFocusable(clickable);
+        view.setOnClickListener(clickListener);
     }
 
     public void addImage(@NonNull final Bitmap bitmap) {
@@ -176,11 +190,7 @@ public class ImageStack extends RelativeLayout {
             badge.setText(String.valueOf(imageCount));
             subtitle.setVisibility(VISIBLE);
 
-            stackItem1.setClickable(true);
-            stackItem1.setFocusable(true);
-            if (clickListener != null) {
-                stackItem1.setOnClickListener(clickListener);
-            }
+            addClickListener();
 
             if (imageCount > 2) {
                 setBitmapOrBlack(stackItem3, bitmaps.get(0));
@@ -206,13 +216,9 @@ public class ImageStack extends RelativeLayout {
     }
 
     public void setImage(@Nullable final Bitmap bitmap, @NonNull final Position position) {
+        addClickListener();
         switch (position) {
             case TOP:
-                stackItem1.setClickable(true);
-                stackItem1.setFocusable(true);
-                if (clickListener != null) {
-                    stackItem1.setOnClickListener(clickListener);
-                }
                 setBitmapOrBlack(stackItem1, bitmap);
                 break;
             case MIDDLE:
@@ -410,6 +416,7 @@ public class ImageStack extends RelativeLayout {
             imageStack.badge = sceneRoot.findViewById(R.id.gv_badge);
             imageStack.subtitle = sceneRoot.findViewById(R.id.gv_stack_subtitle);
 
+
             // Push the images to the left (remove last image and show image on top)
             // Image count was already increased so when we have at least 3 images it means
             // that there was an image in the middle item which can be moved to the bottom item
@@ -426,12 +433,8 @@ public class ImageStack extends RelativeLayout {
             // Update the badge
             imageStack.badge.setText(String.valueOf(imageStack.imageCount));
 
-            // Make the top item clickable
-            imageStack.stackItem1.setClickable(true);
-            imageStack.stackItem1.setFocusable(true);
-            if (imageStack.clickListener != null) {
-                imageStack.stackItem1.setOnClickListener(imageStack.clickListener);
-            }
+            // Make stack items clickable
+            imageStack.addClickListener();
 
             cleanUp();
         }

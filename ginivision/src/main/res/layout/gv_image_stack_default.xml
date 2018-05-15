@@ -2,9 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:ignore="UnusedAttribute">
-
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/gv_stack_item_3"
@@ -73,6 +71,7 @@
         android:gravity="center"
         android:textColor="@android:color/white"
         android:textSize="12sp"
+        tools:ignore="UnusedAttribute"
         tools:text="3" />
 
     <net.gini.android.vision.internal.ui.CustomFontTextView
