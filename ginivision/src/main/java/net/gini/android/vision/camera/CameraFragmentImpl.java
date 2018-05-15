@@ -1486,10 +1486,15 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     private void showInterfaceAnimated() {
         showCameraTriggerButtonAnimated();
         showDocumentCornerGuidesAnimated();
+        showImageStackAnimated();
         if (mImportDocumentButtonEnabled) {
             showUploadHintPopUpOnFirstExecution();
             showImportDocumentButtonAnimated();
         }
+    }
+
+    private void showImageStackAnimated() {
+        mImageStack.animate().alpha(1.0f).start();
     }
 
     private void showImportDocumentButtonAnimated() {
@@ -1509,10 +1514,15 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     private void hideInterfaceAnimated() {
         hideCameraTriggerButtonAnimated();
         hideDocumentCornerGuidesAnimated();
+        hideImageStackAnimated();
         if (mImportDocumentButtonEnabled) {
             hideUploadHintPopUp(null);
             hideImportDocumentButtonAnimated();
         }
+    }
+
+    private void hideImageStackAnimated() {
+        mImageStack.animate().alpha(0.0f).start();
     }
 
     private void hideImportDocumentButtonAnimated() {
