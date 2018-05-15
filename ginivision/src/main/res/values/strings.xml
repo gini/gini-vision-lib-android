@@ -27,6 +27,7 @@
 
     <string name="gv_review_bottom_panel_text">Dokument vollständig, scharf und in Leserichtung fotografiert?\n\nDoppeltippen um Schärfe zu prüfen.</string>
 
+    <string name="gv_multi_page_review_page_indicator">%1$d von %2$d</string>
     <string name="gv_multi_page_review_reorder_pages_tip"><![CDATA[Stimmt die Seitenreihenfolge? Mit Drag & Drop verschieben.]]></string>
     <string name="gv_multi_page_review_add_pages">Seiten hinzufügen</string>
     <string name="gv_multi_page_review_image_preview_error">Vorschaubild leider nicht verfügbar.</string>

@@ -396,7 +396,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         final int nrOfDocuments = mMultiPageDocument.getDocuments().size();
         String text = null;
         if (nrOfDocuments > 0) {
-            text = String.format("%d von %d", position + 1, nrOfDocuments);
+            text = getString(R.string.gv_multi_page_review_page_indicator, position + 1, nrOfDocuments);
         }
         mPageIndicator.setText(text);
     }
@@ -411,7 +411,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
 
     private void updateNextButtonVisibility() {
         if (mMultiPageDocument.getDocuments().size() == 0) {
-            mButtonNext.setVisibility(View.INVISIBLE);
+            setNextButtonEnabled(false);
             return;
         }
 
@@ -422,7 +422,16 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
                 break;
             }
         }
-        mButtonNext.setVisibility(uploadFailed ? View.INVISIBLE : View.VISIBLE);
+        setNextButtonEnabled(!uploadFailed);
+    }
+
+    private void setNextButtonEnabled(final boolean enabled) {
+        mButtonNext.setEnabled(enabled);
+        if (enabled) {
+            mButtonNext.animate().alpha(1.0f).start();
+        } else {
+            mButtonNext.animate().alpha(0.5f).start();
+        }
     }
 
     private void updateRotateButtonVisibility() {
