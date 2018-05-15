@@ -4,6 +4,7 @@ import static net.gini.android.vision.internal.util.ActivityHelper.forcePortrait
 import static net.gini.android.vision.review.multipage.thumbnails.ThumbnailsAdapter.getNewPositionAfterDeletion;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,6 +13,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
@@ -287,7 +289,6 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     private void onDeleteButtonClicked() {
         final int deletedItem = mPreviewsPager.getCurrentItem();
         deleteDocumentAndUpdateUI(deletedItem);
-
     }
 
     private void deleteDocumentAndUpdateUI(final int position) {
@@ -296,6 +297,32 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     }
 
     private void deleteDocumentAndUpdateUI(@NonNull final ImageDocument document) {
+        if (mMultiPageDocument.getDocuments().size() == 1) {
+            final FragmentActivity activity = getActivity();
+            if (activity == null) {
+                return;
+            }
+            if (mMultiPageDocument.getImportMethod() == Document.ImportMethod.OPEN_WITH) {
+                new AlertDialog.Builder(activity)
+                        .setMessage(R.string.gv_multi_page_review_file_import_delete_last_page_dialog_message)
+                        .setPositiveButton(R.string.gv_multi_page_review_file_import_delete_last_page_dialog_positive_button, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(final DialogInterface dialog, final int which) {
+                                activity.finish();
+                            }
+                        })
+                        .setNegativeButton(R.string.gv_multi_page_review_file_import_delete_last_page_dialog_negative_button, null)
+                        .create().show();
+            } else {
+                doDeleteDocumentAndUpdateUI(document);
+                activity.finish();
+            }
+        } else {
+            doDeleteDocumentAndUpdateUI(document);
+        }
+    }
+
+    private void doDeleteDocumentAndUpdateUI(final @NonNull ImageDocument document) {
         final int deletedPosition = mMultiPageDocument.getDocuments().indexOf(document);
 
         deleteDocument(document);
@@ -313,13 +340,6 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
 
         updateDeleteButtonVisibility();
         updateRotateButtonVisibility();
-
-        if (mMultiPageDocument.getDocuments().size() == 0) {
-            final FragmentActivity activity = getActivity();
-            if (activity != null) {
-                activity.finish();
-            }
-        }
     }
 
     private void scrollToThumbnail(final int position) {

@@ -33,6 +33,9 @@
     <string name="gv_multi_page_review_upload_error">Ein Fehler ist aufgetreten.</string>
     <string name="gv_multi_page_review_upload_error_retry">Wiederholen</string>
     <string name="gv_multi_page_review_delete_invalid_document">Löschen</string>
+    <string name="gv_multi_page_review_file_import_delete_last_page_dialog_message">Möchten Sie das letzte Bild löschen?</string>
+    <string name="gv_multi_page_review_file_import_delete_last_page_dialog_positive_button">Löschen</string>
+    <string name="gv_multi_page_review_file_import_delete_last_page_dialog_negative_button">Abbrechen</string>
 
     <string name="gv_document_analysis_error_retry">Wiederholen</string>
     <string name="gv_analysis_activity_indicator_message">Dokument wird analysiert</string>
