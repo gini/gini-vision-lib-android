@@ -4,13 +4,16 @@ import static net.gini.android.vision.internal.util.ActivityHelper.forcePortrait
 import static net.gini.android.vision.review.multipage.thumbnails.ThumbnailsAdapter.getNewPositionAfterDeletion;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSmoothScroller;
@@ -286,7 +289,6 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     private void onDeleteButtonClicked() {
         final int deletedItem = mPreviewsPager.getCurrentItem();
         deleteDocumentAndUpdateUI(deletedItem);
-
     }
 
     private void deleteDocumentAndUpdateUI(final int position) {
@@ -295,6 +297,32 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     }
 
     private void deleteDocumentAndUpdateUI(@NonNull final ImageDocument document) {
+        if (mMultiPageDocument.getDocuments().size() == 1) {
+            final FragmentActivity activity = getActivity();
+            if (activity == null) {
+                return;
+            }
+            if (mMultiPageDocument.getImportMethod() == Document.ImportMethod.OPEN_WITH) {
+                new AlertDialog.Builder(activity)
+                        .setMessage(R.string.gv_multi_page_review_file_import_delete_last_page_dialog_message)
+                        .setPositiveButton(R.string.gv_multi_page_review_file_import_delete_last_page_dialog_positive_button, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(final DialogInterface dialog, final int which) {
+                                activity.finish();
+                            }
+                        })
+                        .setNegativeButton(R.string.gv_multi_page_review_file_import_delete_last_page_dialog_negative_button, null)
+                        .create().show();
+            } else {
+                doDeleteDocumentAndUpdateUI(document);
+                activity.finish();
+            }
+        } else {
+            doDeleteDocumentAndUpdateUI(document);
+        }
+    }
+
+    private void doDeleteDocumentAndUpdateUI(final @NonNull ImageDocument document) {
         final int deletedPosition = mMultiPageDocument.getDocuments().indexOf(document);
 
         deleteDocument(document);
@@ -308,12 +336,10 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         mThumbnailsAdapter.removeThumbnail(deletedPosition);
         scrollToThumbnail(newPosition);
 
-        if (nrOfDocuments == 1) {
-            mDeleteButton.setEnabled(false);
-            mDeleteButton.setAlpha(0.2f);
-        }
-
         updateNextButtonVisibility();
+
+        updateDeleteButtonVisibility();
+        updateRotateButtonVisibility();
     }
 
     private void scrollToThumbnail(final int position) {
@@ -323,11 +349,19 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     }
 
     private void deleteDocument(@NonNull final ImageDocument document) {
-        mMultiPageDocument.getDocuments().remove(document);
+        deleteFromMultiPageDocument(document);
         deleteFromCaches(document);
         deleteFromDisk(document);
         deleteFromGiniApi(document);
         mDocumentUploadResults.remove(document.getId());
+    }
+
+    private void deleteFromMultiPageDocument(final @NonNull ImageDocument document) {
+        mMultiPageDocument.getDocuments().remove(document);
+        if (mMultiPageDocument.getDocuments().size() == 0
+                && GiniVision.hasInstance()) {
+            GiniVision.getInstance().internal().getImageMultiPageDocumentMemoryStore().clear();
+        }
     }
 
     private void deleteFromGiniApi(final ImageDocument document) {
@@ -359,8 +393,12 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     }
 
     private void updatePageIndicator(final int position) {
-        mPageIndicator.setText(String.format("%d von %d", position + 1,
-                mMultiPageDocument.getDocuments().size()));
+        final int nrOfDocuments = mMultiPageDocument.getDocuments().size();
+        String text = null;
+        if (nrOfDocuments > 0) {
+            text = getString(R.string.gv_multi_page_review_page_indicator, position + 1, nrOfDocuments);
+        }
+        mPageIndicator.setText(text);
     }
 
     private void updateReorderPagesTip() {
@@ -372,6 +410,11 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     }
 
     private void updateNextButtonVisibility() {
+        if (mMultiPageDocument.getDocuments().size() == 0) {
+            setNextButtonEnabled(false);
+            return;
+        }
+
         boolean uploadFailed = false;
         for (final Boolean uploadSuccess : mDocumentUploadResults.values()) {
             if (!uploadSuccess) {
@@ -379,7 +422,30 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
                 break;
             }
         }
-        mButtonNext.setVisibility(uploadFailed ? View.INVISIBLE : View.VISIBLE);
+        setNextButtonEnabled(!uploadFailed);
+    }
+
+    private void setNextButtonEnabled(final boolean enabled) {
+        mButtonNext.setEnabled(enabled);
+        if (enabled) {
+            mButtonNext.animate().alpha(1.0f).start();
+        } else {
+            mButtonNext.animate().alpha(0.5f).start();
+        }
+    }
+
+    private void updateRotateButtonVisibility() {
+        if (mMultiPageDocument.getDocuments().size() == 0) {
+            mRotateButton.setEnabled(false);
+            mRotateButton.setAlpha(0.2f);
+        }
+    }
+
+    private void updateDeleteButtonVisibility() {
+        if (mMultiPageDocument.getDocuments().size() == 0) {
+            mDeleteButton.setEnabled(false);
+            mDeleteButton.setAlpha(0.2f);
+        }
     }
 
     private void onRotateButtonClicked() {
@@ -545,12 +611,10 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         }
         mPreviewsShown = true;
 
-        if (mMultiPageDocument.getDocuments().size() == 1) {
-            mDeleteButton.setEnabled(false);
-            mDeleteButton.setAlpha(0.2f);
-        }
-
         updateReorderPagesTip();
+
+        updateDeleteButtonVisibility();
+        updateRotateButtonVisibility();
 
         mPreviewsPager.setCurrentItem(0);
         updatePageIndicator(0);
