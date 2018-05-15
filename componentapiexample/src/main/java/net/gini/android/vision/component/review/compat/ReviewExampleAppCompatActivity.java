@@ -81,11 +81,6 @@ public class ReviewExampleAppCompatActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onGoBackToCameraScreen() {
-        mReviewScreenHandler.onGoBackToCameraScreen();
-    }
-
-    @Override
     public void onExtractionsAvailable(
             @NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
         mReviewScreenHandler.onExtractionsAvailable(extractions);
