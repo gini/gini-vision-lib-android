@@ -195,7 +195,6 @@ public class ThumbnailsAdapter extends
 
     private void showUploadState(final @NonNull ViewHolder holder,
             final Thumbnail thumbnail) {
-        // WIP-UP: show progress indicator and result icons
         switch (thumbnail.uploadState) {
             case NOT_STARTED:
                 holder.hideUploadIndicators();

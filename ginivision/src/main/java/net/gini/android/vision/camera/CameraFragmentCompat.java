@@ -125,6 +125,15 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
      * @exclude
      */
     @Override
+    public void onResume() {
+        super.onResume();
+        mFragmentImpl.onResume();
+    }
+
+    /**
+     * @exclude
+     */
+    @Override
     public void onStop() {
         super.onStop();
         mFragmentImpl.onStop();

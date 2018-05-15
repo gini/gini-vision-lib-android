@@ -134,6 +134,15 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
      * @exclude
      */
     @Override
+    public void onResume() {
+        super.onResume();
+        mFragmentImpl.onResume();
+    }
+
+    /**
+     * @exclude
+     */
+    @Override
     public void onStop() {
         super.onStop();
         mFragmentImpl.onStop();

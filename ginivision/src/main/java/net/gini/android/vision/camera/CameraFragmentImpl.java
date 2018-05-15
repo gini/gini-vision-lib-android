@@ -374,7 +374,9 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                         return null;
                     }
                 });
+    }
 
+    public void onResume() {
         initMultiPageDocument();
     }
 
