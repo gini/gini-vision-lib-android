@@ -2,6 +2,13 @@
 Changelog
 =========
 
+2.6.0-beta.2 (2018-05-16)
+==================
+
+- Tablet support.
+- Updated UX when deleting the last page.
+- Bugfixes.
+
 2.6.0-beta.1 (2018-05-14)
 ==================
 
