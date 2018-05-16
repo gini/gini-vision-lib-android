@@ -821,9 +821,5 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
 
     private void clearMemory() {
         mDocument = null; // NOPMD
-        if (GiniVision.hasInstance()) {
-            GiniVision.getInstance().internal()
-                    .getImageMultiPageDocumentMemoryStore().clear();
-        }
     }
 }

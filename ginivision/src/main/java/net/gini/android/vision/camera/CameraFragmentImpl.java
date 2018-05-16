@@ -143,6 +143,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
 
     private static final int REQ_CODE_CHOOSE_FILE = 1;
     private static final String SHOW_HINT_POP_UP = "SHOW_HINT_POP_UP";
+    private static final String IN_MULTI_PAGE_STATE_KEY = "IN_MULTI_PAGE_STATE_KEY";
 
     private final CameraFragmentImplCallback mFragment;
     private final GiniVisionFeatureConfiguration mGiniVisionFeatureConfiguration;
@@ -189,6 +190,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     private boolean mQRCodeAnalysisCompleted;
     private QRCodeDocument mQRCodeDocument;
     private LinearLayout mImportButtonContainer;
+    private boolean mInstanceStateSaved;
 
     CameraFragmentImpl(@NonNull final CameraFragmentImplCallback fragment) {
         this(fragment, GiniVisionFeatureConfiguration.buildNewConfiguration().build());
@@ -320,6 +322,13 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             return;
         }
         forcePortraitOrientationOnPhones(activity);
+        if (savedInstanceState != null) {
+            restoreSavedState(savedInstanceState);
+        }
+    }
+
+    private void restoreSavedState(@NonNull final Bundle savedInstanceState) {
+        mInMultiPageState = savedInstanceState.getBoolean(IN_MULTI_PAGE_STATE_KEY);
     }
 
     View onCreateView(final LayoutInflater inflater, final ViewGroup container,
@@ -336,6 +345,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         if (activity == null) {
             return;
         }
+        mInstanceStateSaved = false;
         mProceededToMultiPageReview = false;
         initViews();
         initCameraController(activity);
@@ -594,6 +604,11 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         }
     }
 
+    void onSaveInstanceState(@NonNull final Bundle outState) {
+        mInstanceStateSaved = true;
+        outState.putBoolean(IN_MULTI_PAGE_STATE_KEY, mInMultiPageState);
+    }
+
     void onStop() {
         closeCamera();
         clearUploadHintPopUpAnimations();
@@ -605,11 +620,22 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             mImportUrisAsyncTask.cancel(true);
         }
 
-        if (!mProceededToMultiPageReview) {
-            deleteUploadedMultiPageDocuments();
+        if (!mInstanceStateSaved) {
+            if (!mProceededToMultiPageReview) {
+                deleteUploadedMultiPageDocuments();
+                clearMultiPageDocument();
+            }
+            if (!mQRCodeAnalysisCompleted) {
+                deleteUploadedQRCodeDocument();
+            }
         }
-        if (!mQRCodeAnalysisCompleted) {
-            deleteUploadedQRCodeDocument();
+    }
+
+    private void clearMultiPageDocument() {
+        if (GiniVision.hasInstance()) {
+            mMultiPageDocument = null;
+            GiniVision.getInstance().internal()
+                    .getImageMultiPageDocumentMemoryStore().clear();
         }
     }
 

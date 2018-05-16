@@ -143,6 +143,15 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
      * @exclude
      */
     @Override
+    public void onSaveInstanceState(@NonNull final Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mFragmentImpl.onSaveInstanceState(outState);
+    }
+
+    /**
+     * @exclude
+     */
+    @Override
     public void onDestroy() {
         super.onDestroy();
         mFragmentImpl.onDestroy();

@@ -152,6 +152,15 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
      * @exclude
      */
     @Override
+    public void onSaveInstanceState(@NonNull final Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mFragmentImpl.onSaveInstanceState(outState);
+    }
+
+    /**
+     * @exclude
+     */
+    @Override
     public void onDestroy() {
         super.onDestroy();
         mFragmentImpl.onDestroy();

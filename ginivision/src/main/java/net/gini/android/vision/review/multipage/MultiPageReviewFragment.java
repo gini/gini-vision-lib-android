@@ -633,8 +633,8 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
         if (GiniVision.hasInstance()) {
             GiniVision.getInstance().internal().getImageMultiPageDocumentMemoryStore()
                     .setMultiPageDocument(mMultiPageDocument);
