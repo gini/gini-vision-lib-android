@@ -123,30 +123,32 @@ public class ThumbnailsAdapter extends
         holder.resetImageView();
         holder.showActivityIndicator();
         updateThumbnail(position, holder);
-        GiniVision.getInstance().internal().getPhotoMemoryCache()
-                .get(mContext, mMultiPageDocument.getDocuments().get(position),
-                        new AsyncCallback<Photo>() {
-                            @Override
-                            public void onSuccess(final Photo result) {
-                                // Only update if the holder still points to the position for
-                                // which the Photo was loaded
-                                if (holder.getAdapterPosition() == position) {
-                                    showPhoto(result, holder);
+        if (GiniVision.hasInstance()) {
+            GiniVision.getInstance().internal().getPhotoMemoryCache()
+                    .get(mContext, mMultiPageDocument.getDocuments().get(position),
+                            new AsyncCallback<Photo>() {
+                                @Override
+                                public void onSuccess(final Photo result) {
+                                    // Only update if the holder still points to the position for
+                                    // which the Photo was loaded
+                                    if (holder.getAdapterPosition() == position) {
+                                        showPhoto(result, holder);
+                                    }
                                 }
-                            }
 
-                            @Override
-                            public void onError(final Exception exception) {
-                                // Only update if the holder still points to the position for
-                                // which the Photo was loaded
-                                if (holder.getAdapterPosition() == position) {
-                                    final ImageView imageView =
-                                            holder.thumbnailContainer.getImageView();
-                                    imageView.setBackgroundColor(Color.TRANSPARENT);
-                                    imageView.setImageBitmap(null);
+                                @Override
+                                public void onError(final Exception exception) {
+                                    // Only update if the holder still points to the position for
+                                    // which the Photo was loaded
+                                    if (holder.getAdapterPosition() == position) {
+                                        final ImageView imageView =
+                                                holder.thumbnailContainer.getImageView();
+                                        imageView.setBackgroundColor(Color.TRANSPARENT);
+                                        imageView.setImageBitmap(null);
+                                    }
                                 }
-                            }
-                        });
+                            });
+        }
     }
 
     private void showPhoto(@NonNull final Photo photo,

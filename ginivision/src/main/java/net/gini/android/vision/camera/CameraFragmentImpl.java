@@ -11,6 +11,7 @@ import static net.gini.android.vision.internal.util.ActivityHelper.forcePortrait
 import static net.gini.android.vision.internal.util.AndroidHelper.isMarshmallowOrLater;
 import static net.gini.android.vision.internal.util.ContextHelper.getClientApplicationId;
 import static net.gini.android.vision.internal.util.FeatureConfiguration.getDocumentImportEnabledFileTypes;
+import static net.gini.android.vision.internal.util.FeatureConfiguration.isMultiPageEnabled;
 import static net.gini.android.vision.internal.util.FeatureConfiguration.isQRCodeScanningEnabled;
 
 import android.Manifest;
@@ -1028,7 +1029,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 return;
             }
 
-            if (GiniVision.hasInstance() && GiniVision.getInstance().isMultiPageEnabled()) {
+            if (isMultiPageEnabled()) {
                 handleMultiPageDocumentAndCallListener(activity, data,
                         Collections.singletonList(uri));
             } else {
@@ -1076,9 +1077,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                             mProceededToMultiPageReview = true;
                             final ImageMultiPageDocument multiPageDocument =
                                     (ImageMultiPageDocument) document;
-                            GiniVision.getInstance().internal()
-                                    .getImageMultiPageDocumentMemoryStore()
-                                    .setMultiPageDocument(multiPageDocument);
+                            addToMultiPageDocumentMemoryStore(multiPageDocument);
                             mListener.onProceedToMultiPageReviewScreen(
                                     multiPageDocument);
                         } else {
@@ -1095,11 +1094,24 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 });
     }
 
+    private void addToMultiPageDocumentMemoryStore(final ImageMultiPageDocument multiPageDocument) {
+        if (GiniVision.hasInstance()) {
+            GiniVision.getInstance().internal()
+                    .getImageMultiPageDocumentMemoryStore()
+                    .setMultiPageDocument(multiPageDocument);
+        }
+    }
+
+
     private void handleMultiPageDocumentAndCallListener(@NonNull final Context context,
             @NonNull final Intent intent, @NonNull final List<Uri> uris) {
         showActivityIndicatorAndDisableInteraction();
         if (mImportUrisAsyncTask != null) {
             mImportUrisAsyncTask.cancel(true);
+        }
+        if (!GiniVision.hasInstance()) {
+            LOG.error("Cannot import multi-page document. GiniVision instance not available. Create it with GiniVision.newInstance().");
+            return;
         }
         final ImageDiskStore imageDiskStore = GiniVision.getInstance().internal()
                 .getImageDiskStore();
@@ -1224,6 +1236,9 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
 
     private void showImageDocumentInStack(@NonNull final List<ImageDocument> documents,
             @NonNull final List<ImageStack.Position> positions) {
+        if (!GiniVision.hasInstance()) {
+            LOG.error("Cannot show images in stack. GiniVision instance not available. Create it with GiniVision.newInstance().");
+        }
         if (documents.size() != positions.size()) {
             return;
         }
@@ -1339,7 +1354,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                     mImageStack.addImage(rotatedBitmap);
                     mCameraController.startPreview();
                 } else {
-                    if (GiniVision.hasInstance() && GiniVision.getInstance().isMultiPageEnabled()) {
+                    if (isMultiPageEnabled()) {
                         final ImageDocument document = createSavedDocument(photo);
                         if (document == null) {
                             handleError(GiniVisionError.ErrorCode.CAMERA_SHOT_FAILED,
@@ -1375,6 +1390,9 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
 
     @Nullable
     private ImageDocument createSavedDocument(@NonNull final Photo photo) {
+        if (!GiniVision.hasInstance()) {
+            LOG.error("Cannot save document. GiniVision instance not available. Create it with GiniVision.newInstance().");
+        }
         final Activity activity = mFragment.getActivity();
         if (activity == null) {
             return null;

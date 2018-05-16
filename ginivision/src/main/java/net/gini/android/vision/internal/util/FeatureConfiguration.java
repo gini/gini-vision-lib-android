@@ -52,6 +52,10 @@ public final class FeatureConfiguration {
                 showOnboarding;
     }
 
+    public static boolean isMultiPageEnabled() {
+        return GiniVision.hasInstance() && GiniVision.getInstance().isMultiPageEnabled();
+    }
+
     private FeatureConfiguration() {
     }
 }

@@ -6,6 +6,7 @@ import static android.content.Intent.ACTION_PICK;
 
 import static net.gini.android.vision.GiniVisionError.ErrorCode.DOCUMENT_IMPORT;
 import static net.gini.android.vision.internal.util.ContextHelper.isTablet;
+import static net.gini.android.vision.internal.util.FeatureConfiguration.isMultiPageEnabled;
 
 import android.content.Context;
 import android.content.Intent;
@@ -25,7 +26,6 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
-import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersAdapter;
@@ -300,10 +300,6 @@ public class FileChooserActivity extends AppCompatActivity {
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         }
         return intent;
-    }
-
-    private static boolean isMultiPageEnabled() {
-        return GiniVision.hasInstance() && GiniVision.getInstance().isMultiPageEnabled();
     }
 
     @NonNull

@@ -1,5 +1,7 @@
 package net.gini.android.vision;
 
+import static net.gini.android.vision.internal.util.FeatureConfiguration.isMultiPageEnabled;
+
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -188,13 +190,13 @@ public final class GiniVisionFileImport {
         }
     }
 
-    private static boolean isMultiPageEnabled() {
-        return GiniVision.hasInstance() && GiniVision.getInstance().isMultiPageEnabled();
-    }
-
     @NonNull
     private static Document createDocumentForImportedFiles(@NonNull final Intent intent,
             @NonNull final Context context) throws ImportedFileValidationException {
+        if (!GiniVision.hasInstance()) {
+            throw new IllegalStateException(
+                    "Cannot import files. GiniVision instance not available. Create it with GiniVision.newInstance().");
+        }
         final List<Uri> uris = IntentHelper.getUris(intent);
         if (uris == null) {
             throw new ImportedFileValidationException("Intent data did not contain Uris");

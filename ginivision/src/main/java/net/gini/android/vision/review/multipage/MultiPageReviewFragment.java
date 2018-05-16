@@ -449,6 +449,11 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     }
 
     private void onRotateButtonClicked() {
+        if (!GiniVision.hasInstance()) {
+            LOG.error(
+                    "Cannot rotate document. GiniVision instance not available. Create it with GiniVision.newInstance().");
+            return;
+        }
         final Activity activity = getActivity();
         if (activity == null) {
             return;
