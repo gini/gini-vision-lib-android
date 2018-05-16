@@ -116,6 +116,10 @@ public class GiniVisionMultiPageDocument<T extends GiniVisionDocument, E extends
         return mDocumentErrorMap.get(document);
     }
 
+    public void removeErrorForDocument(@NonNull final T document) {
+        mDocumentErrorMap.remove(document);
+    }
+
     public List<T> getDocuments() {
         return mDocuments;
     }

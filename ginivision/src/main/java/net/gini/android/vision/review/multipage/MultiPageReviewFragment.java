@@ -548,6 +548,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
 
         mThumbnailsAdapter.setUploadState(ThumbnailsAdapter.UploadState.IN_PROGRESS,
                 document);
+        mMultiPageDocument.removeErrorForDocument(document);
         mDocumentUploadResults.put(document.getId(), false);
         networkRequestsManager.upload(activity, document)
                 .handle(new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, Void>() {
