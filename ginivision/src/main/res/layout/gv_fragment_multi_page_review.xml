@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/gv_thumbnails_panel"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="@dimen/gv_multi_page_review_page_indicator_bottom_margin"
         android:background="@drawable/gv_page_indicator_background"
         android:gravity="center"
         android:paddingBottom="4dp"
@@ -53,10 +53,10 @@
         android:layout_above="@id/gv_reorder_pages_tip"
         android:background="#262626"
         android:clipToPadding="false"
-        android:paddingEnd="8dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:paddingStart="8dp" />
+        android:paddingEnd="@dimen/gv_multi_page_review_thumbnail_cards_container_horizontal_padding"
+        android:paddingLeft="@dimen/gv_multi_page_review_thumbnail_cards_container_horizontal_padding"
+        android:paddingRight="@dimen/gv_multi_page_review_thumbnail_cards_container_horizontal_padding"
+        android:paddingStart="@dimen/gv_multi_page_review_thumbnail_cards_container_horizontal_padding"/>
 
     <net.gini.android.vision.internal.ui.CustomFontTextView
         android:id="@+id/gv_reorder_pages_tip"
@@ -72,7 +72,7 @@
     <RelativeLayout
         android:id="@+id/gv_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="@dimen/gv_multi_page_review_bottom_toolbar_height"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:background="#262626">

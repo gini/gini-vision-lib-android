@@ -12,6 +12,14 @@
     <dimen name="gv_onboarding_message_horizontal_margin">64dp</dimen>
     <dimen name="gv_onboarding_vertical_margin">50dp</dimen>
 
+    <dimen name="gv_multi_page_review_page_indicator_bottom_margin">32dp</dimen>
+    <dimen name="gv_multi_page_review_bottom_toolbar_height">56dp</dimen>
+    <dimen name="gv_multi_page_review_thumbnail_cards_container_horizontal_padding">16dp</dimen>
+    <dimen name="gv_multi_page_review_thumbnail_card_height">246dp</dimen>
+    <dimen name="gv_multi_page_review_thumbnail_card_width">144dp</dimen>
+    <dimen name="gv_multi_page_review_thumbnail_card_vertical_margin">16dp</dimen>
+    <dimen name="gv_multi_page_review_plus_button_subtitle_padding">16dp</dimen>
+
     <dimen name="gv_analysis_hint_container_bottom_margin">48dp</dimen>
     <dimen name="gv_analysis_hint_container_width">400dp</dimen>
     <dimen name="gv_analysis_hint_container_height">64dp</dimen>
