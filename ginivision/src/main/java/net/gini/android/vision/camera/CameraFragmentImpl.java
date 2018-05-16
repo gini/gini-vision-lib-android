@@ -82,6 +82,7 @@ import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.internal.ui.ViewStubSafeInflater;
 import net.gini.android.vision.internal.util.DeviceHelper;
 import net.gini.android.vision.internal.util.FileImportValidator;
+import net.gini.android.vision.internal.util.MimeType;
 import net.gini.android.vision.internal.util.Size;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.util.IntentHelper;
@@ -1029,7 +1030,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 return;
             }
 
-            if (isMultiPageEnabled()) {
+            if (isMultiPageEnabled() && isImage(data, activity)) {
                 handleMultiPageDocumentAndCallListener(activity, data,
                         Collections.singletonList(uri));
             } else {
@@ -1046,6 +1047,11 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 }
             }
         }
+    }
+
+    private boolean isImage(@NonNull final Intent data, @NonNull final Activity activity) {
+        return IntentHelper.hasMimeTypeWithPrefix(data, activity,
+        MimeType.IMAGE_PREFIX.asString());
     }
 
     private void createSinglePageDocumentAndCallListener(final Intent data,
