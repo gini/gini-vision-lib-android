@@ -20,7 +20,10 @@ public interface GiniVisionNetworkService {
     CancellationToken delete(@NonNull final String giniApiDocumentId,
             @NonNull final GiniVisionNetworkCallback<Result, Error> callback);
 
-    CancellationToken analyze(@NonNull final LinkedHashMap<String, Integer> giniApiDocumentIdRotationMap,
+    CancellationToken analyze(
+            @NonNull final LinkedHashMap<String, Integer> giniApiDocumentIdRotationMap,
             @NonNull final GiniVisionNetworkCallback<AnalysisResult, Error> callback);
+
+    void cleanup();
 
 }

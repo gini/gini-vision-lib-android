@@ -467,6 +467,7 @@ public class NetworkRequestsManager {
         mDocumentUploadFutures.clear();
         mDocumentAnalyzeFutures.clear();
         mDocumentDeleteFutures.clear();
+        mGiniVisionNetworkService.cleanup();
     }
 
     public void cancelAll() {

@@ -53,15 +53,6 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
         mGiniApi = giniApi;
     }
 
-    @Nullable
-    net.gini.android.models.Document getAnalyzedGiniApiDocument() {
-        return mAnalyzedGiniApiDocument;
-    }
-
-    Gini getGiniApi() {
-        return mGiniApi;
-    }
-
     @Override
     public CancellationToken upload(@NonNull final Document document,
             @NonNull final GiniVisionNetworkCallback<Result, Error> callback) {
@@ -182,7 +173,8 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                                 // Composite document needed to create the AnalysisResult later
                                 compositeDocument.set(giniApiDocument);
                                 mGiniApiDocuments.put(giniApiDocument.getId(), giniApiDocument);
-                                return mGiniApi.getDocumentTaskManager().pollDocument(giniApiDocument);
+                                return mGiniApi.getDocumentTaskManager().pollDocument(
+                                        giniApiDocument);
                             }
                         })
                 .onSuccessTask(
@@ -252,6 +244,12 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
 
     }
 
+    @Override
+    public void cleanup() {
+        mAnalyzedGiniApiDocument = null;
+        mGiniApiDocuments.clear();
+    }
+
     private boolean collectGiniApiDocuments(
             @NonNull final LinkedHashMap<net.gini.android.models.Document, Integer> giniApiDocumentRotationMap,
             @NonNull final LinkedHashMap<String, Integer> giniApiDocumentIdRotationMap,
@@ -260,7 +258,8 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
             final net.gini.android.models.Document document = mGiniApiDocuments.get(entry.getKey());
             if (document == null) {
                 final Error error = new Error("Missing partial document.");
-                LOG.error("Document analysis failed for documents {}: {}", giniApiDocumentIdRotationMap,
+                LOG.error("Document analysis failed for documents {}: {}",
+                        giniApiDocumentIdRotationMap,
                         error.getMessage());
                 callback.failure(error);
                 return false;
@@ -268,6 +267,15 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
             giniApiDocumentRotationMap.put(document, entry.getValue());
         }
         return true;
+    }
+
+    @Nullable
+    net.gini.android.models.Document getAnalyzedGiniApiDocument() {
+        return mAnalyzedGiniApiDocument;
+    }
+
+    Gini getGiniApi() {
+        return mGiniApi;
     }
 
     public static class Builder {
