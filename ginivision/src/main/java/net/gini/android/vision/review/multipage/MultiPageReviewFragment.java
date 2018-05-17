@@ -33,14 +33,8 @@ import net.gini.android.vision.document.GiniVisionDocument;
 import net.gini.android.vision.document.GiniVisionDocumentError;
 import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.document.ImageMultiPageDocument;
-import net.gini.android.vision.internal.AsyncCallback;
-import net.gini.android.vision.internal.cache.DocumentDataMemoryCache;
-import net.gini.android.vision.internal.cache.PhotoMemoryCache;
-import net.gini.android.vision.internal.camera.photo.Photo;
-import net.gini.android.vision.internal.camera.photo.PhotoEdit;
 import net.gini.android.vision.internal.network.NetworkRequestResult;
 import net.gini.android.vision.internal.network.NetworkRequestsManager;
-import net.gini.android.vision.internal.storage.ImageDiskStore;
 import net.gini.android.vision.review.multipage.previews.PreviewFragment;
 import net.gini.android.vision.review.multipage.previews.PreviewFragmentListener;
 import net.gini.android.vision.review.multipage.previews.PreviewsAdapter;
@@ -461,48 +455,12 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         final int currentItem = mPreviewsPager.getCurrentItem();
         final ImageDocument document =
                 mMultiPageDocument.getDocuments().get(currentItem);
-        final ImageDiskStore imageDiskStore =
-                GiniVision.getInstance().internal().getImageDiskStore();
-        final PhotoMemoryCache photoMemoryCache =
-                GiniVision.getInstance().internal().getPhotoMemoryCache();
-        final DocumentDataMemoryCache documentDataMemoryCache =
-                GiniVision.getInstance().internal().getDocumentDataMemoryCache();
-        photoMemoryCache
-                .get(activity, document, new AsyncCallback<Photo>() {
-                    @Override
-                    public void onSuccess(final Photo photo) {
-                        final int rotationStep = 90;
-                        final int degrees = document.getRotationForDisplay() + rotationStep;
-                        document.setRotationForDisplay(degrees);
-                        document.updateRotationDeltaBy(rotationStep);
-                        final PreviewsAdapter previewsAdapter =
-                                (PreviewsAdapter) mPreviewsPager.getAdapter();
-                        final ThumbnailsAdapter thumbnailsAdapter =
-                                (ThumbnailsAdapter) mThumbnailsRecycler.getAdapter();
-                        previewsAdapter.rotateImageInCurrentItemBy(mPreviewsPager, rotationStep);
-                        thumbnailsAdapter.rotateHighlightedThumbnailBy(rotationStep);
-                        photo.edit().rotateTo(degrees).applyAsync(
-                                new PhotoEdit.PhotoEditCallback() {
-                                    @Override
-                                    public void onDone(@NonNull final Photo photo) {
-                                        imageDiskStore.update(document.getUri(),
-                                                photo.getData());
-                                        photoMemoryCache.invalidate(document);
-                                        documentDataMemoryCache.invalidate(document);
-                                    }
-
-                                    @Override
-                                    public void onFailed() {
-                                        LOG.error("Failed to rotate the jpeg");
-                                    }
-                                });
-                    }
-
-                    @Override
-                    public void onError(final Exception exception) {
-                        LOG.error("Failed to create Photo from Document", exception);
-                    }
-                });
+        final int rotationStep = 90;
+        final int degrees = document.getRotationForDisplay() + rotationStep;
+        document.setRotationForDisplay(degrees);
+        document.updateRotationDeltaBy(rotationStep);
+        mPreviewsAdapter.rotateImageInCurrentItemBy(mPreviewsPager, rotationStep);
+        mThumbnailsAdapter.rotateHighlightedThumbnailBy(rotationStep);
     }
 
     private void onNextButtonClicked() {
@@ -523,18 +481,11 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
 
     private void uploadDocuments() {
         for (final ImageDocument imageDocument : mMultiPageDocument.getDocuments()) {
-            if (shouldUploadOnStart(imageDocument)) {
+            if (!mMultiPageDocument.hasDocumentError(imageDocument)) {
+                // Documents with a an error should not be uploaded automatically
                 uploadDocument(imageDocument);
             }
         }
-    }
-
-    private boolean shouldUploadOnStart(final ImageDocument imageDocument) {
-        // Imported documents with a file validation error should not be uploaded
-        final GiniVisionDocumentError error = mMultiPageDocument.getErrorForDocument(imageDocument);
-        final boolean hasNoFileValidationError = error == null ||
-                error.getErrorCode() != GiniVisionDocumentError.ErrorCode.FILE_VALIDATION_FAILED;
-        return !imageDocument.isImported() || hasNoFileValidationError;
     }
 
     private void uploadDocument(final ImageDocument document) {
