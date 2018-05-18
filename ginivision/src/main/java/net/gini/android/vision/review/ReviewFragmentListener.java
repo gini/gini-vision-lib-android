@@ -82,6 +82,10 @@ public interface ReviewFragmentListener {
      * @param document contains the modified image
      * @param oldRotation the previous rotation in degrees
      * @param newRotation the new rotation in degrees
+     *
+     * @deprecated When a {@link GiniVision} and a {@link GiniVisionNetworkService} instance is available rotation is handled internally.
+     * The document is analyzed by using the configured {@link GiniVisionNetworkService}
+     * implementation. The extractions will be returned in {@link ReviewFragmentListener#onExtractionsAvailable(Map)}.
      */
     void onDocumentWasRotated(@NonNull Document document, int oldRotation, int newRotation);
 

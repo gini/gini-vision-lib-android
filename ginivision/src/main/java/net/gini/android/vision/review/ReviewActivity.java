@@ -354,6 +354,23 @@ public class ReviewActivity extends AppCompatActivity implements ReviewFragmentL
     public void onAddDataToResult(@NonNull final Intent result) {
     }
 
+    /**
+     * <p>
+     *      Called when the user rotated the image.
+     * </p>
+     * <p>
+     *     In case you started the document analysis in {@link ReviewFragmentListener#onShouldAnalyzeDocument(Document)}
+     *     you should cancel it here as the original image is not valid anymore.
+     * </p>
+     *
+     * @param document contains the modified image
+     * @param oldRotation the previous rotation in degrees
+     * @param newRotation the new rotation in degrees
+     *
+     * @deprecated When a {@link GiniVision} and a {@link GiniVisionNetworkService} instance is available rotation is handled internally.
+     * The document is analyzed by using the configured {@link GiniVisionNetworkService}
+     * implementation. The extractions will be returned in {@link ReviewFragmentListener#onExtractionsAvailable(Map)}.
+     */
     @Override
     public void onDocumentWasRotated(@NonNull final Document document, final int oldRotation,
             final int newRotation) {
