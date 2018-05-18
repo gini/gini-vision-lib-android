@@ -196,7 +196,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         forcePortraitOrientationOnPhones(activity);
         final GiniVisionDocument documentToRender = getFirstDocument();
         if (documentToRender != null) {
-            mDocumentRenderer = DocumentRendererFactory.fromDocument(documentToRender, activity);
+            mDocumentRenderer = DocumentRendererFactory.fromDocument(documentToRender);
         }
         mHints = generateRandomHintsList();
     }
@@ -559,9 +559,13 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     private void showDocument() {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
+        }
         LOG.debug("Rendering the document");
         final Size previewSize = new Size(mImageDocument.getWidth(), mImageDocument.getHeight());
-        mDocumentRenderer.toBitmap(previewSize, new DocumentRenderer.Callback() {
+        mDocumentRenderer.toBitmap(activity, previewSize, new DocumentRenderer.Callback() {
             @Override
             public void onBitmapReady(@Nullable final Bitmap bitmap, final int rotationForDisplay) {
                 LOG.debug("Document rendered");
@@ -594,7 +598,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
             mPdfPageCountTextView.setVisibility(View.VISIBLE);
             mPdfPageCountTextView.setText("");
 
-            mDocumentRenderer.getPageCount(new AsyncCallback<Integer>() {
+            mDocumentRenderer.getPageCount(activity, new AsyncCallback<Integer>() {
                 @Override
                 public void onSuccess(final Integer result) {
                     if (result > 0) {

@@ -167,7 +167,7 @@ public class GiniVisionDocument implements Document {
         return mData;
     }
 
-    private synchronized void setData(final byte[] data) {
+    public synchronized void setData(final byte[] data) {
         mData = data;
     }
 

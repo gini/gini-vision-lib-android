@@ -27,6 +27,7 @@ import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.requirements.GiniVisionRequirements;
 import net.gini.android.vision.requirements.RequirementReport;
 import net.gini.android.vision.requirements.RequirementsReport;
+import net.gini.android.vision.util.CancellationToken;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private RuntimePermissionHandler mRuntimePermissionHandler;
     private TextView mTextGiniVisionLibVersion;
     private TextView mTextAppVersion;
+    private CancellationToken mFileImportCancellationToken;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -77,6 +79,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (mFileImportCancellationToken != null) {
+            mFileImportCancellationToken.cancel();
+            mFileImportCancellationToken = null;
+        }
     }
 
     private void createRuntimePermissionsHandler() {
@@ -117,41 +123,71 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void doStartGiniVisionLibraryForImportedFile(final Intent importedFileIntent) {
-        try {
-            // Configure the Gini Vision Library
-            configureGiniVision();
-            final Intent giniVisionIntent = GiniVisionFileImport.createIntentForImportedFile(
-                    importedFileIntent,
-                    this,
-                    ReviewActivity.class,
-                    AnalysisActivity.class);
-            startActivityForResult(giniVisionIntent, REQUEST_SCAN);
-        } catch (final ImportedFileValidationException e) {
-            e.printStackTrace();
-            String message = "File cannot be analyzed";
-            if (e.getValidationError() != null) {
-                switch (e.getValidationError()) {
-                    case TYPE_NOT_SUPPORTED:
-                        message = "File type not supported.";
-                        break;
-                    case SIZE_TOO_LARGE:
-                        message = "File too large, must be less than 10 MB.";
-                        break;
-                    case TOO_MANY_PDF_PAGES:
-                        message = "Pdf must have less than 10 pages.";
-                        break;
-                }
-            }
-            new AlertDialog.Builder(this)
-                    .setMessage(message)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        // Configure the Gini Vision Library
+        configureGiniVision();
+        if (GiniVision.hasInstance() && GiniVision.getInstance().isMultiPageEnabled()) {
+            mFileImportCancellationToken = GiniVisionFileImport.createIntentForImportedFiles(importedFileIntent, this,
+                    new GiniVisionFileImport.Callback<Intent>() {
                         @Override
-                        public void onClick(final DialogInterface dialogInterface, final int i) {
-                            finish();
+                        public void onDone(@NonNull final Intent result) {
+                            mFileImportCancellationToken = null;
+                            startActivityForResult(result, REQUEST_SCAN);
                         }
-                    })
-                    .show();
+
+                        @Override
+                        public void onFailed(
+                                @NonNull final ImportedFileValidationException exception) {
+                            mFileImportCancellationToken = null;
+                            handleFileImportError(exception);
+                        }
+
+                        @Override
+                        public void onCancelled() {
+                            mFileImportCancellationToken = null;
+                        }
+                    });
+        } else {
+            try {
+                final Intent giniVisionIntent =
+                        GiniVisionFileImport.createIntentForImportedFile(
+                                importedFileIntent,
+                                this,
+                                ReviewActivity.class,
+                                AnalysisActivity.class);
+                startActivityForResult(giniVisionIntent, REQUEST_SCAN);
+
+            } catch (final ImportedFileValidationException e) {
+                e.printStackTrace();
+              handleFileImportError(e);
+            }
         }
+    }
+
+    private void handleFileImportError(final ImportedFileValidationException exception) {
+        String message = "File cannot be analyzed";
+        if (exception.getValidationError() != null) {
+            switch (exception.getValidationError()) {
+                case TYPE_NOT_SUPPORTED:
+                    message = "File type not supported.";
+                    break;
+                case SIZE_TOO_LARGE:
+                    message = "File too large, must be less than 10 MB.";
+                    break;
+                case TOO_MANY_PDF_PAGES:
+                    message = "Pdf must have less than 10 pages.";
+                    break;
+            }
+        }
+        new AlertDialog.Builder(this)
+                .setMessage(message)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialogInterface,
+                            final int i) {
+                        finish();
+                    }
+                })
+                .show();
     }
 
     private boolean isIntentActionViewOrSend(@NonNull final Intent intent) {

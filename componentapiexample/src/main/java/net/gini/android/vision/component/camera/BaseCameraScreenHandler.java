@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.GiniVisionFileImport;
@@ -37,6 +38,7 @@ import net.gini.android.vision.example.SingleDocumentAnalyzer;
 import net.gini.android.vision.help.HelpActivity;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.onboarding.OnboardingFragmentListener;
+import net.gini.android.vision.util.CancellationToken;
 import net.gini.android.vision.util.IntentHelper;
 import net.gini.android.vision.util.UriHelper;
 
@@ -69,6 +71,7 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
     private GiniVisionCoordinator mGiniVisionCoordinator;
     private Menu mMenu;
     private SingleDocumentAnalyzer mSingleDocumentAnalyzer;
+    private CancellationToken mFileImportCancellationToken;
 
     protected BaseCameraScreenHandler(final Activity activity) {
         mActivity = activity;
@@ -123,7 +126,8 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
                     @Override
                     public void onException(final Exception exception) {
                         mCameraFragmentInterface.hideActivityIndicatorAndEnableInteraction();
-                        mCameraFragmentInterface.showError(mActivity.getString(R.string.qrcode_error), 4000);
+                        mCameraFragmentInterface.showError(
+                                mActivity.getString(R.string.qrcode_error), 4000);
                     }
 
                     @Override
@@ -219,6 +223,10 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
         if (isOnboardingVisible()) {
             removeOnboarding();
             return true;
+        }
+        if (mFileImportCancellationToken != null) {
+            mFileImportCancellationToken.cancel();
+            mFileImportCancellationToken = null;
         }
         return false;
     }
@@ -319,48 +327,78 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
     protected abstract void setTitlesForOnboarding();
 
     private void startGiniVisionLibraryForImportedFile(@NonNull final Intent importedFileIntent) {
-        try {
-            getSingleDocumentAnalyzer().cancelAnalysis();
-            final Document document = GiniVisionFileImport.createDocumentForImportedFile(
-                    importedFileIntent,
-                    mActivity);
-            if (document.getType() == Document.Type.IMAGE_MULTI_PAGE) {
-                launchMultiPageReviewScreen();
-            } else if (document.isReviewable()) {
-                launchReviewScreen(document);
-            } else {
-                launchAnalysisScreen(document);
-            }
-            mActivity.finish();
-        } catch (final ImportedFileValidationException e) {
-            e.printStackTrace();
-            String message = mActivity.getString(R.string.gv_document_import_invalid_document);
-            if (e.getValidationError() != null) {
-                switch (e.getValidationError()) {
-                    case TYPE_NOT_SUPPORTED:
-                        message = mActivity.getString(
-                                R.string.gv_document_import_error_type_not_supported);
-                        break;
-                    case SIZE_TOO_LARGE:
-                        message = mActivity.getString(
-                                R.string.gv_document_import_error_size_too_large);
-                        break;
-                    case TOO_MANY_PDF_PAGES:
-                        message = mActivity.getString(
-                                R.string.gv_document_import_error_too_many_pdf_pages);
-                        break;
-                }
-            }
-            new AlertDialog.Builder(mActivity)
-                    .setMessage(message)
-                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+        getSingleDocumentAnalyzer().cancelAnalysis();
+        if (GiniVision.hasInstance() && GiniVision.getInstance().isMultiPageEnabled()) {
+            mFileImportCancellationToken = GiniVisionFileImport.createDocumentForImportedFiles(
+                    importedFileIntent, mActivity,
+                    new GiniVisionFileImport.Callback<Document>() {
                         @Override
-                        public void onClick(final DialogInterface dialogInterface, final int i) {
+                        public void onDone(@NonNull final Document result) {
+                            if (result.getType() == Document.Type.IMAGE_MULTI_PAGE) {
+                                launchMultiPageReviewScreen();
+                            } else {
+                                launchAnalysisScreen(result);
+                            }
                             mActivity.finish();
                         }
-                    })
-                    .show();
+
+                        @Override
+                        public void onFailed(
+                                @NonNull final ImportedFileValidationException exception) {
+                            handleFileImportError(exception);
+                        }
+
+                        @Override
+                        public void onCancelled() {
+
+                        }
+                    });
+        } else {
+            try {
+                final Document document = GiniVisionFileImport.createDocumentForImportedFile(
+                        importedFileIntent,
+                        mActivity);
+                if (document.isReviewable()) {
+                    launchReviewScreen(document);
+                } else {
+                    launchAnalysisScreen(document);
+                }
+                mActivity.finish();
+
+            } catch (final ImportedFileValidationException e) {
+                e.printStackTrace();
+                handleFileImportError(e);
+            }
         }
+    }
+
+    private void handleFileImportError(final ImportedFileValidationException e) {
+        String message = mActivity.getString(R.string.gv_document_import_invalid_document);
+        if (e.getValidationError() != null) {
+            switch (e.getValidationError()) {
+                case TYPE_NOT_SUPPORTED:
+                    message = mActivity.getString(
+                            R.string.gv_document_import_error_type_not_supported);
+                    break;
+                case SIZE_TOO_LARGE:
+                    message = mActivity.getString(
+                            R.string.gv_document_import_error_size_too_large);
+                    break;
+                case TOO_MANY_PDF_PAGES:
+                    message = mActivity.getString(
+                            R.string.gv_document_import_error_too_many_pdf_pages);
+                    break;
+            }
+        }
+        new AlertDialog.Builder(mActivity)
+                .setMessage(message)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialogInterface, final int i) {
+                        mActivity.finish();
+                    }
+                })
+                .show();
     }
 
     private void launchMultiPageReviewScreen() {
@@ -398,9 +436,11 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
     }
 
     @Override
-    public void onExtractionsAvailable(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
+    public void onExtractionsAvailable(
+            @NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
         final Intent intent = new Intent(mActivity, ExtractionsActivity.class);
-        intent.putExtra(ExtractionsActivity.EXTRA_IN_EXTRACTIONS, getExtractionsBundle(extractions));
+        intent.putExtra(ExtractionsActivity.EXTRA_IN_EXTRACTIONS,
+                getExtractionsBundle(extractions));
         mActivity.startActivity(intent);
         mActivity.setResult(Activity.RESULT_OK);
         mActivity.finish();

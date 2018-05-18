@@ -10,17 +10,18 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.document.GiniVisionDocument;
 import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.cache.DocumentDataMemoryCache;
 import net.gini.android.vision.network.AnalysisResult;
-import net.gini.android.vision.network.CancellationToken;
 import net.gini.android.vision.network.Error;
 import net.gini.android.vision.network.GiniVisionNetworkCallback;
 import net.gini.android.vision.network.GiniVisionNetworkService;
 import net.gini.android.vision.network.Result;
+import net.gini.android.vision.util.CancellationToken;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,6 +91,7 @@ public class NetworkRequestsManager {
             @Override
             public void onSuccess(final byte[] result) {
                 LOG.debug("Document data loaded for {}", document.getId());
+                GiniVisionDebug.writeDocumentToFile(context, document, "-upload");
                 final CancellationToken cancellationToken =
                         mGiniVisionNetworkService.upload(document,
                                 new GiniVisionNetworkCallback<Result, Error>() {

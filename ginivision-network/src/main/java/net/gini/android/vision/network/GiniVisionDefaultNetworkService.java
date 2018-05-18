@@ -17,6 +17,7 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.network.model.GiniVisionExtraction;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
+import net.gini.android.vision.util.CancellationToken;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
