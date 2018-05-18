@@ -32,6 +32,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
 import android.support.annotation.VisibleForTesting;
+import android.support.transition.Transition;
+import android.support.transition.TransitionListenerAdapter;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorCompat;
 import android.support.v4.view.ViewPropertyAnimatorListener;
@@ -66,7 +68,6 @@ import net.gini.android.vision.internal.camera.api.CameraException;
 import net.gini.android.vision.internal.camera.api.CameraInterface;
 import net.gini.android.vision.internal.camera.api.UIExecutor;
 import net.gini.android.vision.internal.camera.photo.Photo;
-import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 import net.gini.android.vision.internal.camera.view.CameraPreviewSurface;
 import net.gini.android.vision.internal.fileimport.FileChooserActivity;
 import net.gini.android.vision.internal.network.AnalysisNetworkRequestResult;
@@ -399,12 +400,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                             .getImageMultiPageDocumentMemoryStore().getMultiPageDocument();
             if (multiPageDocument != null && multiPageDocument.getDocuments().size() > 0) {
                 mMultiPageDocument = multiPageDocument;
-                if (mInMultiPageState) {
-                    updateImageStack();
-                } else {
-                    mInMultiPageState = true;
-                    mImageStack.addImage(getBitmap(multiPageDocument.getDocuments().get(0)));
-                }
+                mInMultiPageState = true;
+                updateImageStack();
             } else {
                 mInMultiPageState = false;
                 mImageStack.removeImages();
@@ -765,7 +762,6 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                                 mUIExecutor.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        mIsTakingPicture = false;
                                         onPictureTaken(photo, throwable);
                                     }
                                 });
@@ -1077,7 +1073,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
 
     private boolean isImage(@NonNull final Intent data, @NonNull final Activity activity) {
         return IntentHelper.hasMimeTypeWithPrefix(data, activity,
-        MimeType.IMAGE_PREFIX.asString());
+                MimeType.IMAGE_PREFIX.asString());
     }
 
     private void createSinglePageDocumentAndCallListener(final Intent data,
@@ -1142,7 +1138,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             mImportUrisAsyncTask.cancel(true);
         }
         if (!GiniVision.hasInstance()) {
-            LOG.error("Cannot import multi-page document. GiniVision instance not available. Create it with GiniVision.newInstance().");
+            LOG.error(
+                    "Cannot import multi-page document. GiniVision instance not available. Create it with GiniVision.newInstance().");
             return;
         }
         final ImageDiskStore imageDiskStore = GiniVision.getInstance().internal()
@@ -1168,19 +1165,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                             return;
                         }
                         LOG.info("Document imported: {}", mMultiPageDocument);
-
                         updateImageStack();
-
-                        final View view = mFragment.getView();
-                        if (view == null) {
-                            return;
-                        }
-                        view.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                requestClientDocumentCheck(mMultiPageDocument);
-                            }
-                        }, ImageStack.ADD_IMAGE_TRANSITION_DURATION_MS);
+                        requestClientDocumentCheck(mMultiPageDocument);
                     }
 
                     @Override
@@ -1191,12 +1177,6 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                     }
                 });
         mImportUrisAsyncTask.execute(uris);
-    }
-
-    private Bitmap getBitmap(final ImageDocument imageDocument) {
-        final Photo photo = PhotoFactory.newPhotoFromDocument(imageDocument);
-        // TODO: get rid of bitmap rotation -> rotate only the ImageView in the stack
-        return getRotatedBitmap(photo);
     }
 
     @Override
@@ -1240,7 +1220,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         }
         final int size = documents.size();
         if (size >= 3) {
-            showImageDocumentInStack(
+            showImageDocumentsInStack(
                     Arrays.asList(
                             documents.get(size - 1),
                             documents.get(size - 2),
@@ -1250,7 +1230,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                             ImageStack.Position.MIDDLE,
                             ImageStack.Position.BOTTOM));
         } else if (size == 2) {
-            showImageDocumentInStack(
+            showImageDocumentsInStack(
                     Arrays.asList(
                             documents.get(size - 1),
                             documents.get(size - 2)),
@@ -1258,7 +1238,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                             ImageStack.Position.TOP,
                             ImageStack.Position.MIDDLE));
         } else if (size == 1) {
-            showImageDocumentInStack(
+            showImageDocumentsInStack(
                     Collections.singletonList(
                             documents.get(size - 1)),
                     Collections.singletonList(
@@ -1266,10 +1246,11 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         }
     }
 
-    private void showImageDocumentInStack(@NonNull final List<ImageDocument> documents,
+    private void showImageDocumentsInStack(@NonNull final List<ImageDocument> documents,
             @NonNull final List<ImageStack.Position> positions) {
         if (!GiniVision.hasInstance()) {
-            LOG.error("Cannot show images in stack. GiniVision instance not available. Create it with GiniVision.newInstance().");
+            LOG.error(
+                    "Cannot show images in stack. GiniVision instance not available. Create it with GiniVision.newInstance().");
         }
         if (documents.size() != positions.size()) {
             return;
@@ -1287,8 +1268,9 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                     .get(activity, document, new AsyncCallback<Photo>() {
                         @Override
                         public void onSuccess(final Photo result) {
-                            // TODO: get rid of bitmap rotation -> rotate only the ImageView in the stack
-                            mImageStack.setImage(getRotatedBitmap(result), position);
+                            mImageStack.setImage(
+                                    new ImageStack.StackBitmap(result.getBitmapPreview(),
+                                            document.getRotationForDisplay()), position);
                             imagesLoadedCounter.incrementAndGet();
                             if (imagesToLoadCount == imagesLoadedCounter.get()) {
                                 mImageStack.setImageCount(mMultiPageDocument.getDocuments().size());
@@ -1369,6 +1351,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             handleError(GiniVisionError.ErrorCode.CAMERA_SHOT_FAILED, "Failed to take picture",
                     throwable);
             mCameraController.startPreview();
+            mIsTakingPicture = false;
         } else {
             if (photo != null) {
                 LOG.info("Picture taken");
@@ -1378,12 +1361,17 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                         handleError(GiniVisionError.ErrorCode.CAMERA_SHOT_FAILED,
                                 "Failed to take picture: could not save picture to disk", null);
                         mCameraController.startPreview();
+                        mIsTakingPicture = false;
                         return;
                     }
                     mMultiPageDocument.addDocument(document);
-                    // TODO: get rid of bitmap rotation -> rotate only the ImageView in the stack
-                    final Bitmap rotatedBitmap = getRotatedBitmap(photo);
-                    mImageStack.addImage(rotatedBitmap);
+                    mImageStack.addImage(new ImageStack.StackBitmap(photo.getBitmapPreview(),
+                            document.getRotationForDisplay()), new TransitionListenerAdapter() {
+                        @Override
+                        public void onTransitionEnd(@NonNull final Transition transition) {
+                            mIsTakingPicture = false;
+                        }
+                    });
                     mCameraController.startPreview();
                 } else {
                     if (isMultiPageEnabled()) {
@@ -1392,6 +1380,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                             handleError(GiniVisionError.ErrorCode.CAMERA_SHOT_FAILED,
                                     "Failed to take picture: could not save picture to disk", null);
                             mCameraController.startPreview();
+                            mIsTakingPicture = false;
                             return;
                         }
                         mInMultiPageState = true;
@@ -1401,14 +1390,19 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                                 .getImageMultiPageDocumentMemoryStore().setMultiPageDocument(
                                 mMultiPageDocument);
                         mMultiPageDocument.addDocument(document);
-                        final Bitmap rotatedBitmap = getRotatedBitmap(photo);
-                        // TODO: get rid of bitmap rotation -> rotate only the ImageView in the stack
-                        mImageStack.setImages(Collections.singletonList(rotatedBitmap));
-                        mListener.onProceedToMultiPageReviewScreen(mMultiPageDocument);
+                        mImageStack.addImage(new ImageStack.StackBitmap(photo.getBitmapPreview(),
+                                document.getRotationForDisplay()), new TransitionListenerAdapter() {
+                            @Override
+                            public void onTransitionEnd(@NonNull final Transition transition) {
+                                mListener.onProceedToMultiPageReviewScreen(mMultiPageDocument);
+                                mIsTakingPicture = false;
+                            }
+                        });
                     } else {
                         final ImageDocument document = DocumentFactory.newImageDocumentFromPhoto(
                                 photo);
                         mListener.onDocumentAvailable(document);
+                        mIsTakingPicture = false;
                     }
                     mCameraController.startPreview();
                 }
@@ -1416,6 +1410,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 handleError(GiniVisionError.ErrorCode.CAMERA_SHOT_FAILED,
                         "Failed to take picture: no picture from the camera", null);
                 mCameraController.startPreview();
+                mIsTakingPicture = false;
             }
         }
     }
@@ -1423,7 +1418,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     @Nullable
     private ImageDocument createSavedDocument(@NonNull final Photo photo) {
         if (!GiniVision.hasInstance()) {
-            LOG.error("Cannot save document. GiniVision instance not available. Create it with GiniVision.newInstance().");
+            LOG.error(
+                    "Cannot save document. GiniVision instance not available. Create it with GiniVision.newInstance().");
         }
         final Activity activity = mFragment.getActivity();
         if (activity == null) {
