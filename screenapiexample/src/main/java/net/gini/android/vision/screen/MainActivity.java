@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         // Configure the Gini Vision Library
         configureGiniVision();
         if (GiniVision.hasInstance() && GiniVision.getInstance().isMultiPageEnabled()) {
-            mFileImportCancellationToken = GiniVisionFileImport.createIntentForImportedFiles(importedFileIntent, this,
+            mFileImportCancellationToken = GiniVision.getInstance().createIntentForImportedFiles(importedFileIntent, this,
                     new GiniVisionFileImport.Callback<Intent>() {
                         @Override
                         public void onDone(@NonNull final Intent result) {

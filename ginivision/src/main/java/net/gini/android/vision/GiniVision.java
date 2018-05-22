@@ -1,9 +1,12 @@
 package net.gini.android.vision;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import net.gini.android.vision.analysis.AnalysisActivity;
+import net.gini.android.vision.document.ImageMultiPageDocument;
 import net.gini.android.vision.internal.cache.DocumentDataMemoryCache;
 import net.gini.android.vision.internal.cache.PhotoMemoryCache;
 import net.gini.android.vision.internal.document.ImageMultiPageDocumentMemoryStore;
@@ -12,6 +15,8 @@ import net.gini.android.vision.internal.storage.ImageDiskStore;
 import net.gini.android.vision.network.GiniVisionNetworkApi;
 import net.gini.android.vision.network.GiniVisionNetworkService;
 import net.gini.android.vision.onboarding.OnboardingPage;
+import net.gini.android.vision.review.ReviewActivity;
+import net.gini.android.vision.util.CancellationToken;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +40,7 @@ public class GiniVision {
     private final PhotoMemoryCache mPhotoMemoryCache;
     private final ImageDiskStore mImageDiskStore;
     private final ImageMultiPageDocumentMemoryStore mImageMultiPageDocumentMemoryStore;
+    private final GiniVisionFileImport mGiniVisionFileImport;
     private final Internal mInternal;
     private final DocumentImportEnabledFileTypes mDocumentImportEnabledFileTypes;
     private final boolean mFileImportEnabled;
@@ -93,6 +99,7 @@ public class GiniVision {
         mNetworkRequestsManager = mGiniVisionNetworkService != null ? new NetworkRequestsManager(
                 mGiniVisionNetworkService, mDocumentDataMemoryCache) : null;
         mImageMultiPageDocumentMemoryStore = new ImageMultiPageDocumentMemoryStore();
+        mGiniVisionFileImport = new GiniVisionFileImport(this);
         mInternal = new Internal(this);
         mMultiPageEnabled = builder.isMultiPageEnabled();
     }
@@ -198,6 +205,34 @@ public class GiniVision {
      */
     public void setShouldShowOnboarding(final boolean shouldShowOnboarding) {
         mShouldShowOnboarding = shouldShowOnboarding;
+    }
+
+    @NonNull
+    public CancellationToken createIntentForImportedFiles(@NonNull final Intent intent,
+            @NonNull final Context context,
+            @NonNull final GiniVisionFileImport.Callback<Intent> callback) {
+        return mGiniVisionFileImport.createIntentForImportedFiles(intent, context, callback);
+    }
+
+    @NonNull
+    public CancellationToken createDocumentForImportedFiles(@NonNull final Intent intent,
+            @NonNull final Context context, @NonNull final GiniVisionFileImport.Callback<ImageMultiPageDocument> callback) {
+        return mGiniVisionFileImport.createDocumentForImportedFiles(intent, context, callback);
+    }
+
+    @NonNull
+    public static Intent createIntentForImportedFile(@NonNull final Intent intent,
+            @NonNull final Context context,
+            @NonNull final Class<? extends ReviewActivity> reviewActivityClass,
+            @NonNull final Class<? extends AnalysisActivity> analysisActivityClass)
+            throws ImportedFileValidationException {
+        return GiniVisionFileImport.createIntentForImportedFile(intent, context, reviewActivityClass, analysisActivityClass);
+    }
+
+    @NonNull
+    public static Document createDocumentForImportedFile(@NonNull final Intent intent,
+            @NonNull final Context context) throws ImportedFileValidationException {
+        return GiniVisionFileImport.createDocumentForImportedFile(intent, context);
     }
 
     @NonNull
