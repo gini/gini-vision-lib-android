@@ -48,7 +48,10 @@ public final class GiniVisionFileImport {
      * @throws ImportedFileValidationException if the file didn't pass validation
      * @throws IllegalArgumentException        if the Intent's data is not valid or the mime type is not
      *                                         supported
+     *
+     * @deprecated Use {@link GiniVision#createIntentForImportedFile(Intent, Context, Class, Class)} instead.
      */
+    @Deprecated
     @NonNull
     public static Intent createIntentForImportedFile(@NonNull final Intent intent,
             @NonNull final Context context,
@@ -100,7 +103,10 @@ public final class GiniVisionFileImport {
      * @return a Document for launching one of the Gini Vision Library's Review Fragments or
      * Analysis Fragments
      * @throws ImportedFileValidationException if the file didn't pass validation
+     *
+     * @deprecated Use {@link GiniVision#createDocumentForImportedFile(Intent, Context)} instead.
      */
+    @Deprecated
     @NonNull
     public static Document createDocumentForImportedFile(@NonNull final Intent intent,
             @NonNull final Context context) throws ImportedFileValidationException {
@@ -122,20 +128,10 @@ public final class GiniVisionFileImport {
         }
     }
 
-    /**
-     * <b>Screen API</b>
-     * <p>
-     * When your application receives a file from another application you can use this method to
-     * create an Intent for launching the Gini Vision Library.
-     * <p>
-     *     Start the Intent with {@link android.app.Activity#startActivityForResult(Intent,
-     *     int)} to receive the extractions or a {@link GiniVisionError} in case there was an error.
-     * </p>
-     *
-     * @param intent                the Intent your app received
-     * @param context               Android context subclass
-     * @throws ImportedFileValidationException if the file didn't pass validation
-     */
+    GiniVisionFileImport(@NonNull final GiniVision giniVision) {
+        mGiniVision = giniVision;
+    }
+
     CancellationToken createIntentForImportedFiles(@NonNull final Intent intent,
             @NonNull final Context context,
             @NonNull final Callback<Intent> callback) {
@@ -206,23 +202,23 @@ public final class GiniVisionFileImport {
         }
         final ImportFilesAsyncTask asyncTask = new ImportFilesAsyncTask(context, intent,
                 mGiniVision, new Callback<ImageMultiPageDocument>() {
-                    @Override
-                    public void onDone(@NonNull final ImageMultiPageDocument result) {
-                        mGiniVision.internal().getImageMultiPageDocumentMemoryStore()
-                                .setMultiPageDocument(result);
-                        callback.onDone(result);
-                    }
+            @Override
+            public void onDone(@NonNull final ImageMultiPageDocument result) {
+                mGiniVision.internal().getImageMultiPageDocumentMemoryStore()
+                        .setMultiPageDocument(result);
+                callback.onDone(result);
+            }
 
-                    @Override
-                    public void onFailed(@NonNull final ImportedFileValidationException exception) {
-                        callback.onFailed(exception);
-                    }
+            @Override
+            public void onFailed(@NonNull final ImportedFileValidationException exception) {
+                callback.onFailed(exception);
+            }
 
-                    @Override
-                    public void onCancelled() {
-                        callback.onCancelled();
-                    }
-                });
+            @Override
+            public void onCancelled() {
+                callback.onCancelled();
+            }
+        });
         asyncTask.execute(uris.toArray(new Uri[uris.size()]));
         return new CancellationToken() {
             @Override
@@ -230,10 +226,6 @@ public final class GiniVisionFileImport {
                 asyncTask.cancel(false);
             }
         };
-    }
-
-    GiniVisionFileImport(@NonNull final GiniVision giniVision) {
-        mGiniVision = giniVision;
     }
 
     public interface Callback<T> {
