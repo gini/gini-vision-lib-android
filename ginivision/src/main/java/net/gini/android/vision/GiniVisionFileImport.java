@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.document.DocumentFactory;
@@ -72,15 +73,27 @@ public final class GiniVisionFileImport {
 
     @NonNull
     private static Intent createReviewActivityIntent(final @NonNull Context context,
-            @NonNull final Class<? extends ReviewActivity> reviewActivityClass,
-            @NonNull final Class<? extends AnalysisActivity> analysisActivityClass,
+            @Nullable final Class<? extends ReviewActivity> reviewActivityClass,
+            @Nullable final Class<? extends AnalysisActivity> analysisActivityClass,
             final Document document) {
         final Intent giniVisionIntent;
-        giniVisionIntent = new Intent(context, reviewActivityClass);
+        giniVisionIntent = new Intent(context, getReviewActivityClass(reviewActivityClass));
         giniVisionIntent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, document);
         ActivityHelper.setActivityExtra(giniVisionIntent,
-                ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY, context, analysisActivityClass);
+                ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY, context, getAnalysisActivityClass(analysisActivityClass));
         return giniVisionIntent;
+    }
+
+    @NonNull
+    private static Class<? extends ReviewActivity> getReviewActivityClass(
+            final @Nullable Class<? extends ReviewActivity> reviewActivityClass) {
+        return reviewActivityClass == null ? ReviewActivity.class : reviewActivityClass;
+    }
+
+    @NonNull
+    private static Class<? extends AnalysisActivity> getAnalysisActivityClass(
+            final @Nullable Class<? extends AnalysisActivity> analysisActivityClass) {
+        return analysisActivityClass == null ? AnalysisActivity.class : analysisActivityClass;
     }
 
     /**
