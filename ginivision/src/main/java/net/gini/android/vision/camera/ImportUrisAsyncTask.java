@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
 import net.gini.android.vision.Document;
-import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.GiniVisionDocumentError;
@@ -116,8 +115,7 @@ class ImportUrisAsyncTask extends AsyncTask<List<Uri>, Void, ImageMultiPageDocum
                         return null;
                     }
                     // Save to local storage
-                    final Uri localUri = GiniVision.getInstance().internal().getImageDiskStore()
-                            .save(mContext, photo.getData());
+                    final Uri localUri = mImageDiskStore.save(mContext, photo.getData());
                     if (localUri == null) {
                         LOG.error("Failed to import selected document: "
                                 + "could not copy to app storage");
