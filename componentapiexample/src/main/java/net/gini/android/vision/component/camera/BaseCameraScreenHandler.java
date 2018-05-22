@@ -329,7 +329,7 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
     private void startGiniVisionLibraryForImportedFile(@NonNull final Intent importedFileIntent) {
         getSingleDocumentAnalyzer().cancelAnalysis();
         if (GiniVision.hasInstance() && GiniVision.getInstance().isMultiPageEnabled()) {
-            mFileImportCancellationToken = GiniVisionFileImport.createDocumentForImportedFiles(
+            mFileImportCancellationToken = GiniVision.getInstance().createDocumentForImportedFiles(
                     importedFileIntent, mActivity,
                     new GiniVisionFileImport.Callback<Document>() {
                         @Override
