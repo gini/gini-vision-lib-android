@@ -88,35 +88,40 @@ public class PreviewFragment extends Fragment {
         if (shouldShowPreviewImage()) {
             LOG.debug("Loading preview bitmap ({})", this);
             showActivityIndicator();
-            GiniVision.getInstance().internal().getPhotoMemoryCache()
-                    .get(context, mDocument, new AsyncCallback<Photo>() {
-                        @Override
-                        public void onSuccess(final Photo result) {
-                            LOG.debug("Preview bitmap received ({})", this);
-                            if (mStopped) {
-                                LOG.debug("Stopped: preview discarded ({})", this);
-                                return;
+            if (GiniVision.hasInstance()) {
+                GiniVision.getInstance().internal().getPhotoMemoryCache()
+                        .get(context, mDocument, new AsyncCallback<Photo>() {
+                            @Override
+                            public void onSuccess(final Photo result) {
+                                LOG.debug("Preview bitmap received ({})", this);
+                                if (mStopped) {
+                                    LOG.debug("Stopped: preview discarded ({})", this);
+                                    return;
+                                }
+                                hideActivityIndicator();
+                                LOG.debug("Showing preview ({})", this);
+                                mImageViewContainer.getImageView().setImageBitmap(
+                                        result.getBitmapPreview());
+                                LOG.debug("Applying rotation ({})", this);
+                                rotateImageView(mDocument.getRotationForDisplay(), false);
                             }
-                            hideActivityIndicator();
-                            LOG.debug("Showing preview ({})", this);
-                            mImageViewContainer.getImageView().setImageBitmap(
-                                    result.getBitmapPreview());
-                            LOG.debug("Applying rotation ({})", this);
-                            rotateImageView(mDocument.getRotationForDisplay(), false);
-                        }
 
-                        @Override
-                        public void onError(final Exception exception) {
-                            LOG.error("Failed to create preview bitmap ({})", this, exception);
-                            if (mStopped) {
-                                LOG.debug("Stopped: ignoring error ({})", this);
-                                return;
+                            @Override
+                            public void onError(final Exception exception) {
+                                LOG.error("Failed to create preview bitmap ({})", this, exception);
+                                if (mStopped) {
+                                    LOG.debug("Stopped: ignoring error ({})", this);
+                                    return;
+                                }
+                                hideActivityIndicator();
+                                LOG.debug("Showing error ({})", this);
+                                showPreviewError(context);
                             }
-                            hideActivityIndicator();
-                            LOG.debug("Showing error ({})", this);
-                            showPreviewError(context);
-                        }
-                    });
+                        });
+            } else {
+                LOG.error(
+                        "Cannot show preview. GiniVision instance not available. Create it with GiniVision.newInstance().");
+            }
         }
         if (!TextUtils.isEmpty(mErrorMessage)) {
             showErrorMessage(context);

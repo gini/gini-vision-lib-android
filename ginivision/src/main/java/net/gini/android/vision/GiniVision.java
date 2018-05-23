@@ -41,6 +41,7 @@ public class GiniVision {
     private final boolean mQRCodeScanningEnabled;
     private final ArrayList<OnboardingPage> mCustomOnboardingPages; // NOPMD - Bundle req. ArrayList
     private final boolean mShouldShowOnboardingAtFirstRun;
+    private final boolean mMultiPageEnabled;
     private boolean mShouldShowOnboarding;
 
     @NonNull
@@ -93,11 +94,7 @@ public class GiniVision {
                 mGiniVisionNetworkService, mDocumentDataMemoryCache) : null;
         mImageMultiPageDocumentMemoryStore = new ImageMultiPageDocumentMemoryStore();
         mInternal = new Internal(this);
-    }
-
-    @NonNull
-    ImageMultiPageDocumentMemoryStore getImageMultiPageDocumentMemoryStore() {
-        return mImageMultiPageDocumentMemoryStore;
+        mMultiPageEnabled = builder.isMultiPageEnabled();
     }
 
     @NonNull
@@ -150,6 +147,10 @@ public class GiniVision {
         return mQRCodeScanningEnabled;
     }
 
+    public boolean isMultiPageEnabled() {
+        return mMultiPageEnabled;
+    }
+
     /**
      * The custom Onboarding Screen pages, if configured.
      *
@@ -199,6 +200,11 @@ public class GiniVision {
         mShouldShowOnboarding = shouldShowOnboarding;
     }
 
+    @NonNull
+    ImageMultiPageDocumentMemoryStore getImageMultiPageDocumentMemoryStore() {
+        return mImageMultiPageDocumentMemoryStore;
+    }
+
     @Nullable
     GiniVisionNetworkService getGiniVisionNetworkService() {
         return mGiniVisionNetworkService;
@@ -235,6 +241,7 @@ public class GiniVision {
         private ArrayList<OnboardingPage> mOnboardingPages; // NOPMD - ArrayList required (Bundle)
         private boolean mShouldShowOnboardingAtFirstRun = true;
         private boolean mShouldShowOnboarding;
+        private boolean mMultiPageEnabled;
 
         public void build() {
             checkNetworkingImplementations();
@@ -301,6 +308,25 @@ public class GiniVision {
         @NonNull
         public Builder setShouldShowOnboarding(final boolean shouldShowOnboarding) {
             mShouldShowOnboarding = shouldShowOnboarding;
+            return this;
+        }
+
+        boolean isMultiPageEnabled() {
+            return mMultiPageEnabled;
+        }
+
+        /**
+         * <p>
+         *     Enable/disable the multi-page feature.
+         * </p>
+         * <p>
+         *     Disabled by default.
+         * </p>
+         * @param multiPageEnabled {@code true} to enable multi-page
+         * @return the {@link Builder} instance
+         */
+        public Builder setMultiPageEnabled(final boolean multiPageEnabled) {
+            mMultiPageEnabled = multiPageEnabled;
             return this;
         }
 

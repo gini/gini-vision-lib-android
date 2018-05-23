@@ -6,6 +6,7 @@ import static android.content.Intent.ACTION_PICK;
 
 import static net.gini.android.vision.GiniVisionError.ErrorCode.DOCUMENT_IMPORT;
 import static net.gini.android.vision.internal.util.ContextHelper.isTablet;
+import static net.gini.android.vision.internal.util.FeatureConfiguration.isMultiPageEnabled;
 
 import android.content.Context;
 import android.content.Intent;
@@ -294,7 +295,8 @@ public class FileChooserActivity extends AppCompatActivity {
     private static Intent createImagePickerIntent() {
         final Intent intent = new Intent(ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType(MimeType.IMAGE_WILDCARD.asString());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+        if (isMultiPageEnabled() &&
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         }
         return intent;
@@ -317,7 +319,8 @@ public class FileChooserActivity extends AppCompatActivity {
         }
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType(MimeType.IMAGE_WILDCARD.asString());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+        if (isMultiPageEnabled() &&
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         }
         return intent;

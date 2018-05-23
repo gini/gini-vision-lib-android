@@ -1,5 +1,6 @@
 package net.gini.android.vision.document;
 
+import static net.gini.android.vision.internal.util.FeatureConfiguration.isMultiPageEnabled;
 import static net.gini.android.vision.util.IntentHelper.getMimeTypes;
 import static net.gini.android.vision.util.IntentHelper.getSourceAppName;
 import static net.gini.android.vision.util.IntentHelper.hasMimeTypeWithPrefix;
@@ -99,7 +100,7 @@ public final class ImageDocument extends GiniVisionDocument {
             throw new IllegalArgumentException("Intent must have a Uri");
         }
         final Uri imageUri;
-        if (/*multipage enabled*/ true) { // TODO: mutipage feature toggle
+        if (isMultiPageEnabled()) {
             imageUri = GiniVision.getInstance().internal().getImageDiskStore()
                     .save(context, uri);
             if (imageUri == null) {
@@ -120,6 +121,10 @@ public final class ImageDocument extends GiniVisionDocument {
             @NonNull final String deviceOrientation,
             @NonNull final String deviceType,
             @NonNull final ImportMethod importMethod) {
+        if (!GiniVision.hasInstance()) {
+            throw new IllegalStateException(
+                    "Cannot create ImageDocument from Uri. GiniVision instance not available. Create it with GiniVision.newInstance().");
+        }
         final String mimeType = UriHelper.getMimeType(uri, context);
         if (mimeType == null || !hasMimeTypeWithPrefix(uri, context,
                 MimeType.IMAGE_PREFIX.asString())) {

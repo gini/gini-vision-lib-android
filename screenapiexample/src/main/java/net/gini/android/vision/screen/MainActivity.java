@@ -263,6 +263,7 @@ public class MainActivity extends AppCompatActivity {
                 .setDocumentImportEnabledFileTypes(DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
                 .setFileImportEnabled(true)
                 .setQRCodeScanningEnabled(true)
+                .setMultiPageEnabled(true)
                 // Uncomment to add an extra page to the Onboarding pages
 //                .setCustomOnboardingPages(getOnboardingPages())
                 // Uncomment to disable automatically showing the OnboardingActivity the
