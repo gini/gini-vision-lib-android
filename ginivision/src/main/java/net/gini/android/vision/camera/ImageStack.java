@@ -59,9 +59,11 @@ public class ImageStack extends RelativeLayout {
         stackItem2 = findViewById(R.id.gv_stack_item_2);
         stackItem3 = findViewById(R.id.gv_stack_item_3);
         badge = findViewById(R.id.gv_badge);
-        badge.setVisibility(INVISIBLE);
         subtitle = findViewById(R.id.gv_stack_subtitle);
-        subtitle.setVisibility(INVISIBLE);
+        if (!isInEditMode()) {
+            badge.setVisibility(INVISIBLE);
+            subtitle.setVisibility(INVISIBLE);
+        }
     }
 
     public ImageStack(final Context context,
