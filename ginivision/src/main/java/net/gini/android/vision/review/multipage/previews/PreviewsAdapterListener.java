@@ -9,6 +9,10 @@ import net.gini.android.vision.document.GiniVisionDocumentError;
  *
  * Copyright (c) 2018 Gini GmbH.
  */
+
+/**
+ * @exclude
+ */
 public interface PreviewsAdapterListener {
 
     PreviewFragment.ErrorButtonAction getErrorButtonAction(

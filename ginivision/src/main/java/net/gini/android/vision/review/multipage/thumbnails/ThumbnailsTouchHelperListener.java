@@ -7,6 +7,10 @@ import android.support.v7.widget.RecyclerView;
  *
  * Copyright (c) 2018 Gini GmbH.
  */
+
+/**
+ * @exclude
+ */
 public interface ThumbnailsTouchHelperListener {
 
     void onDragFinished();

@@ -8,6 +8,10 @@ import android.support.v7.widget.helper.ItemTouchHelper;
  *
  * Copyright (c) 2018 Gini GmbH.
  */
+
+/**
+ * @exclude
+ */
 public class ThumbnailsTouchHelperCallback extends ItemTouchHelper.Callback {
 
     private final ThumbnailsTouchHelperListener mListener;

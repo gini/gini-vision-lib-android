@@ -23,6 +23,9 @@ import net.gini.android.vision.review.RotatableImageViewContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * @exclude
+ */
 public class PreviewFragment extends Fragment {
 
     private static final Logger LOG = LoggerFactory.getLogger(PreviewFragment.class);

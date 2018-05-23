@@ -46,6 +46,9 @@ import java.util.Map;
 
 import jersey.repackaged.jsr166e.CompletableFuture;
 
+/**
+ * @exclude
+ */
 class ReviewFragmentImpl implements ReviewFragmentInterface {
 
     private static final String PHOTO_KEY = "PHOTO_KEY";

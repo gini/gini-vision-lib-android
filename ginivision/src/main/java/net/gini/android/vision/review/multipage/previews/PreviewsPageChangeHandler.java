@@ -7,6 +7,10 @@ import android.support.v4.view.ViewPager;
  *
  * Copyright (c) 2018 Gini GmbH.
  */
+
+/**
+ * @exclude
+ */
 public class PreviewsPageChangeHandler implements ViewPager.OnPageChangeListener {
 
     private final PreviewsPageChangeListener mListener;

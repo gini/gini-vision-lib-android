@@ -25,6 +25,10 @@ import java.io.IOException;
  *
  * Copyright (c) 2018 Gini GmbH.
  */
+
+/**
+ * @exclude
+ */
 class ImportFilesAsyncTask extends AsyncTask<Uri, Void, ImageMultiPageDocument> {
 
     @SuppressLint("StaticFieldLeak")

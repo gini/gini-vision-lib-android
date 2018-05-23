@@ -32,6 +32,10 @@ import java.util.List;
  *
  * Copyright (c) 2018 Gini GmbH.
  */
+
+/**
+ * @exclude
+ */
 public class ThumbnailsAdapter extends
         RecyclerView.Adapter<ThumbnailsAdapter.ViewHolder> implements
         ThumbnailsTouchHelperListener {
