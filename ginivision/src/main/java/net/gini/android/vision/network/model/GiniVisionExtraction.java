@@ -5,21 +5,30 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+/**
+ * Contains a Gini API <a href="http://developer.gini.net/gini-api/html/document_extractions.html#extractions">extraction</a>.
+ *
+ * <p> An extraction contains an entity describing the general semantic type of the extraction (e.g.
+ * a date), which also determines the format of the value containing the information as text.
+ * Optionally there may be a box describing the position of the extraction value on the document. In
+ * most instances, extractions without a bounding box are meta information (e.g. doctype).
+ */
 public class GiniVisionExtraction implements Parcelable {
 
-    public static final Creator<GiniVisionExtraction> CREATOR = new Creator<GiniVisionExtraction>() {
+    public static final Creator<GiniVisionExtraction> CREATOR =
+            new Creator<GiniVisionExtraction>() {
 
-        @Override
-        public GiniVisionExtraction createFromParcel(final Parcel in) {
-            return new GiniVisionExtraction(in);
-        }
+                @Override
+                public GiniVisionExtraction createFromParcel(final Parcel in) {
+                    return new GiniVisionExtraction(in);
+                }
 
-        @Override
-        public GiniVisionExtraction[] newArray(final int size) {
-            return new GiniVisionExtraction[size];
-        }
+                @Override
+                public GiniVisionExtraction[] newArray(final int size) {
+                    return new GiniVisionExtraction[size];
+                }
 
-    };
+            };
 
     private final String mEntity;
     private String mValue;
@@ -29,10 +38,15 @@ public class GiniVisionExtraction implements Parcelable {
     /**
      * Value object for an extraction from the Gini API.
      *
-     * @param value         The extraction's value. Changing this value marks the extraction as dirty.
-     * @param entity        The extraction's entity.
-     * @param box           Optional the box where the extraction is found. Only available on some extractions. Changing
-     *                      this value marks the extraction as dirty.
+     * @param value  normalized textual representation of the text/information provided by the
+     *               extraction value (e. g. bank number without spaces between the digits).
+     *               Changing this value marks the extraction as dirty
+     * @param entity key (primary identification) of an entity type (e.g. banknumber). See <a
+     *               href="http://developer.gini.net/gini-api/html/document_extractions.html#available-extraction-entities">Extraction
+     *               Entities</a> for a full list
+     * @param box    (optional) bounding box containing the position of the extraction value on the
+     *               document. Only available for some extractions. Changing this value marks the
+     *               extraction as dirty
      */
     public GiniVisionExtraction(@NonNull final String value, @NonNull final String entity,
             @Nullable final GiniVisionBox box) {
@@ -62,36 +76,63 @@ public class GiniVisionExtraction implements Parcelable {
         dest.writeInt(mIsDirty ? 1 : 0);
     }
 
+    /**
+     * @return normalized textual representation of the text/information provided by the extraction
+     * value (e.g. bank number without spaces between the digits)
+     */
     @NonNull
     public synchronized String getValue() {
         return mValue;
     }
 
-
+    /**
+     * Set a new value for this extraction. Marks the extraction as dirty.
+     *
+     * @param newValue new value
+     */
     public synchronized void setValue(final @NonNull String newValue) {
         mValue = newValue;
         mIsDirty = true;
     }
 
+    /**
+     * @return key (primary identification) of an entity type (e.g. banknumber). See <a
+     * href="http://developer.gini.net/gini-api/html/document_extractions.html#available-extraction-entities">Extraction
+     * Entities</a> for a full list
+     */
     @NonNull
     public synchronized String getEntity() {
         return mEntity;
     }
 
+    /**
+     * @return bounding box containing the position of the extraction value on the document
+     */
     @Nullable
     public synchronized GiniVisionBox getBox() {
         return mGiniVisionBox;
     }
 
+    /**
+     * Set a new bounding box. Marks the extraction as dirty.
+     *
+     * @param newBox new bounding box
+     */
     public synchronized void setBox(@Nullable final GiniVisionBox newBox) {
         mGiniVisionBox = newBox;
         mIsDirty = true;
     }
 
+    /**
+     * @return {@code true} if the value or the bounding box has been changed
+     */
     public synchronized boolean isDirty() {
         return mIsDirty;
     }
 
+    /**
+     * @param isDirty pass {@code true} to mark the extraction as dirty
+     */
     public void setIsDirty(final boolean isDirty) {
         mIsDirty = isDirty;
     }

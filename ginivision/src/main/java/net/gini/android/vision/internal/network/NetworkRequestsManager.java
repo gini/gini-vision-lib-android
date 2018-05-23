@@ -110,9 +110,9 @@ public class NetworkRequestsManager {
                                                 document.getId(),
                                                 result);
                                         mApiDocumentIds.put(document.getId(),
-                                                result.getDocumentId());
+                                                result.getGiniApiDocumentId());
                                         future.complete(new NetworkRequestResult<>(document,
-                                                result.getDocumentId()));
+                                                result.getGiniApiDocumentId()));
                                     }
 
                                     @Override
@@ -271,7 +271,7 @@ public class NetworkRequestsManager {
                                         document.getId());
                                 future.complete(
                                         new NetworkRequestResult<>(document,
-                                                result.getDocumentId()));
+                                                result.getGiniApiDocumentId()));
                             }
 
                             @Override
@@ -377,10 +377,10 @@ public class NetworkRequestsManager {
                                 LOG.debug("Document analysis success for {}: {}",
                                         multiPageDocument.getId(), result);
                                 mApiDocumentIds.put(multiPageDocument.getId(),
-                                        result.getDocumentId());
+                                        result.getGiniApiDocumentId());
                                 future.complete(
                                         new AnalysisNetworkRequestResult<>(multiPageDocument,
-                                                result.getDocumentId(), result));
+                                                result.getGiniApiDocumentId(), result));
                             }
 
                             @Override
