@@ -100,7 +100,7 @@ app/build.gradle:
 
 ```
 dependencies {
-    compile 'net.gini:gini-vision-lib:2.5.1'
+    compile 'net.gini:gini-vision-lib:2.5.3'
 }
 ```
 
