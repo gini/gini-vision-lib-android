@@ -7,6 +7,11 @@ Changelog
 
 - Fixed a bug caused by Indian IFSC QRCodes and improved our QRCode parsers.
 
+2.5.2 (2018-05-03)
+==================
+
+- Updated Android Support Library to 27.1.1 and Google Play Services Vision to 15.0.0.
+
 2.5.1 (2018-02-22)
 ==================
 
