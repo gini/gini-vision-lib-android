@@ -2,6 +2,11 @@
 Changelog
 =========
 
+2.5.3 (2018-05-24)
+==================
+
+- Fixed a bug caused by Indian IFSC QRCodes and improved our QRCode parsers.
+
 2.5.2 (2018-05-03)
 ==================
 
