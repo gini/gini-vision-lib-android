@@ -31,7 +31,7 @@ class ImageDocumentRenderer implements DocumentRenderer {
                         public void onSuccess(final Photo result) {
                             mPhoto = result;
                             callback.onBitmapReady(mPhoto.getBitmapPreview(),
-                                    mPhoto.getRotationForDisplay());
+                                    mImageDocument.getRotationForDisplay());
                         }
 
                         @Override
@@ -41,7 +41,7 @@ class ImageDocumentRenderer implements DocumentRenderer {
                     });
             asyncTask.execute(mImageDocument);
         } else {
-            callback.onBitmapReady(mPhoto.getBitmapPreview(), mPhoto.getRotationForDisplay());
+            callback.onBitmapReady(mPhoto.getBitmapPreview(), mImageDocument.getRotationForDisplay());
         }
     }
 

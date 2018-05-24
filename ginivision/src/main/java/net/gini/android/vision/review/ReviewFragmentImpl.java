@@ -244,7 +244,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                             return;
                         }
                         mPhoto = result;
-                        mCurrentRotation = mPhoto.getRotationForDisplay();
+                        mCurrentRotation = mDocument.getRotationForDisplay();
                         applyCompressionToPhoto(new PhotoEdit.PhotoEditCallback() {
                             @Override
                             public void onDone(@NonNull final Photo photo) {
@@ -377,9 +377,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             throw new IllegalStateException(
                     "Missing required instances for restoring saved instance state.");
         }
-        if (mPhoto != null) {
-            mCurrentRotation = mPhoto.getRotationForDisplay();
-        }
+        mCurrentRotation = mDocument.getRotationForDisplay();
     }
 
     private void setInputHandlers() {
@@ -421,16 +419,21 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     }
 
     private void rotateDocumentForDisplay() {
-        if (mPhoto == null) {
-            return;
-        }
-        rotateImageView(mPhoto.getRotationForDisplay(), false);
+        rotateImageView(mDocument.getRotationForDisplay(), false);
     }
 
     private void onRotateClicked() {
         final int oldRotation = mCurrentRotation;
         mCurrentRotation += 90;
         rotateImageView(mCurrentRotation, true);
+        if (GiniVision.hasInstance() && GiniVision.getInstance().internal().getNetworkRequestsManager() != null) {
+            LOG.debug("Only the preview was rotated");
+            mDocument.setRotationForDisplay(mCurrentRotation);
+            mDocument.updateRotationDeltaBy(90);
+            mPhoto.setRotationForDisplay(mCurrentRotation);
+            mPhoto.updateRotationDeltaBy(90);
+            return;
+        }
         mDocumentWasModified = true;
         applyRotationToPhoto(new PhotoEdit.PhotoEditCallback() {
             @Override
@@ -438,6 +441,8 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                 if (mStopped) {
                     return;
                 }
+                mDocument.setRotationForDisplay(mCurrentRotation);
+                mDocument.updateRotationDeltaBy(90);
                 final GiniVisionDocument document = DocumentFactory.newImageDocumentFromPhotoAndDocument(
                         photo, mDocument);
                 mListener.onDocumentWasRotated(
