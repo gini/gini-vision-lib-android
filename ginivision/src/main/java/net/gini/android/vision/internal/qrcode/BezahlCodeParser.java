@@ -56,7 +56,7 @@ class BezahlCodeParser implements QRCodeParser<PaymentQRCodeData> {
             return uri.getQueryParameter(key);
         } catch (final UnsupportedOperationException e) {
             throw new IllegalArgumentException(
-                    "QRCode content does not conform to the BerzahlCode format: "
+                    "QRCode content does not conform to the BezahlCode format: "
                             + e.getMessage(), e);
         }
     }
