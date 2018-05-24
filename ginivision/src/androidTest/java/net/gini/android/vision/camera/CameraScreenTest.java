@@ -535,6 +535,26 @@ public class CameraScreenTest {
     }
 
     @Test
+    public void should_ignoreUnsupported_IFSC_QRCode() throws Exception {
+        // Given
+        assumeTrue(!isTablet());
+        final GiniVisionFeatureConfiguration featureConfiguration = GiniVisionFeatureConfiguration
+                .buildNewConfiguration()
+                .setQRCodeScanningEnabled(true)
+                .build();
+
+        final CameraActivityFake cameraActivityFake = startCameraActivityFakeWithoutOnboarding(
+                featureConfiguration);
+
+        detectQRCode(cameraActivityFake, "qrcode_unsupported_ifsc.jpeg", "qrcode_unsupported_ifsc_nv21.bmp");
+
+        // Then
+        Thread.sleep(PAUSE_DURATION);
+        Espresso.onView(ViewMatchers.withId(R.id.gv_qrcode_detected_popup_container))
+                .check(ViewAssertions.matches(Matchers.not(ViewMatchers.isDisplayed())));
+    }
+
+    @Test
     public void should_hidePaymentDataDetectedPopup_afterSomeDelay()
             throws IOException, InterruptedException {
         // Given
