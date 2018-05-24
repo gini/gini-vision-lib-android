@@ -18,6 +18,7 @@ import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.network.model.GiniVisionExtraction;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.util.CancellationToken;
+import net.gini.android.vision.util.NoOpCancellationToken;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -458,13 +459,6 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
         public Builder setBackoffMultiplier(final float backoffMultiplier) {
             mBackoffMultiplier = backoffMultiplier;
             return this;
-        }
-    }
-
-    private static class NoOpCancellationToken implements CancellationToken {
-
-        @Override
-        public void cancel() {
         }
     }
 

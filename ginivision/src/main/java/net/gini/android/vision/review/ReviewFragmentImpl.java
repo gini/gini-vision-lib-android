@@ -316,7 +316,6 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                 .applyAsync(callback);
     }
 
-
     private void photoCreationFailed() {
         if (mNextClicked || mStopped) {
             return;
