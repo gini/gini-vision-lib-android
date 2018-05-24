@@ -13,8 +13,20 @@ import java.util.Map;
  * Copyright (c) 2018 Gini GmbH.
  */
 
+/**
+ * Helper class to map the {@link SpecificExtraction} from the Gini API SDK to the Gini Vision
+ * Library's {@link GiniVisionSpecificExtraction} and vice versa.
+ */
 public final class SpecificExtractionMapper {
 
+    /**
+     * Convert a map of {@link SpecificExtraction}s from the Gini API SDK to a map of Gini Vision
+     * Library {@link GiniVisionSpecificExtraction}s.
+     *
+     * @param sourceMap map of Gini API SDK {@link SpecificExtraction}s
+     *
+     * @return map of Gini Vision Library {@link GiniVisionSpecificExtraction}s
+     */
     @NonNull
     public static Map<String, GiniVisionSpecificExtraction> mapToGVL(
             @NonNull final Map<String, SpecificExtraction> sourceMap) {
@@ -25,14 +37,31 @@ public final class SpecificExtractionMapper {
         return targetMap;
     }
 
+    /**
+     * Map a {@link SpecificExtraction} from the Gini API SDK to the Gini Vision Library's {@link
+     * GiniVisionSpecificExtraction}.
+     *
+     * @param source Gini API SDK {@link SpecificExtraction}
+     *
+     * @return a Gini Vision Library {@link GiniVisionSpecificExtraction}
+     */
     @NonNull
     public static GiniVisionSpecificExtraction map(
             @NonNull final SpecificExtraction source) {
         return new GiniVisionSpecificExtraction(source.getName(), source.getValue(),
                 source.getEntity(),
-                BoxMapper.map(source.getBox()), ExtractionMapper.mapToGVL(source.getCandidate()));
+                BoxMapper.map(source.getBox()),
+                ExtractionMapper.mapListToGVL(source.getCandidate()));
     }
 
+    /**
+     * Convert a map of {@link GiniVisionSpecificExtraction}s from the Gini Vision Library to a map
+     * of Gini API SDK {@link SpecificExtraction}s.
+     *
+     * @param sourceMap map of Gini Vision Library {@link GiniVisionSpecificExtraction}s
+     *
+     * @return map of Gini API SDK {@link SpecificExtraction}s
+     */
     @NonNull
     public static Map<String, SpecificExtraction> mapToApiSdk(
             @NonNull final Map<String, GiniVisionSpecificExtraction> sourceMap) {
@@ -43,12 +72,20 @@ public final class SpecificExtractionMapper {
         return targetMap;
     }
 
+    /**
+     * Map a {@link GiniVisionSpecificExtraction} from the Gini Vision Library to the Gini API SDK's
+     * {@link SpecificExtraction}.
+     *
+     * @param source Gini Vision Library {@link GiniVisionSpecificExtraction}
+     *
+     * @return Gini API SDK {@link SpecificExtraction}
+     */
     @NonNull
     public static SpecificExtraction map(
             @NonNull final GiniVisionSpecificExtraction source) {
         return new SpecificExtraction(source.getName(), source.getValue(), source.getEntity(),
                 BoxMapper.map(source.getBox()),
-                ExtractionMapper.mapToApiSdk(source.getCandidate()));
+                ExtractionMapper.mapListToApiSdk(source.getCandidate()));
     }
 
     private SpecificExtractionMapper() {

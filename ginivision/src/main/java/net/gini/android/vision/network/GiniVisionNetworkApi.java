@@ -2,6 +2,7 @@ package net.gini.android.vision.network;
 
 import android.support.annotation.NonNull;
 
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
 import java.util.Map;
@@ -15,6 +16,11 @@ import java.util.Map;
 /**
  * Interface specifying network calls which can be performed manually from outside the Gini Vision
  * Library (e.g. for sending feedback).
+ *
+ * * <p> In order to easily access your implementation pass an instance of it to {@link
+ * GiniVision.Builder#setGiniVisionNetworkApi(GiniVisionNetworkApi)} when creating a {@link
+ * GiniVision} instance. You can then get the instance in your app with {@link
+ * GiniVision#getGiniVisionNetworkApi()}.
  */
 public interface GiniVisionNetworkApi {
 
