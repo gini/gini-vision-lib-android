@@ -35,19 +35,29 @@ class BezahlCodeParser implements QRCodeParser<PaymentQRCodeData> {
             throw new IllegalArgumentException(
                     "QRCode content does not conform to the BezahlCode format.");
         }
-        final String paymentRecipient = uri.getQueryParameter("name");
-        final String paymentReference = uri.getQueryParameter("reason");
-        final String iban = uri.getQueryParameter("iban");
+        final String paymentRecipient = getQueryParameter(uri, "name");
+        final String paymentReference = getQueryParameter(uri, "reason");
+        final String iban = getQueryParameter(uri, "iban");
         try {
             mIBANValidator.validate(iban);
         } catch (final IBANValidator.IllegalIBANException e) {
             throw new IllegalArgumentException("Invalid IBAN in QRCode. " + e.getMessage(), e);
         }
-        final String bic = uri.getQueryParameter("bic");
-        String currency = normalizeCurrency(uri.getQueryParameter("currency"));
+        final String bic = getQueryParameter(uri, "bic");
+        String currency = normalizeCurrency(getQueryParameter(uri, "currency"));
         currency = TextUtils.isEmpty(currency) ? "EUR" : currency;
-        final String amount = normalizeAmount(uri.getQueryParameter("amount"), currency);
+        final String amount = normalizeAmount(getQueryParameter(uri, "amount"), currency);
         return new PaymentQRCodeData(qrCodeContent, paymentRecipient, paymentReference, iban, bic,
                 amount);
+    }
+
+    private String getQueryParameter(@NonNull final Uri uri, @NonNull final String key) {
+        try {
+            return uri.getQueryParameter(key);
+        } catch (final UnsupportedOperationException e) {
+            throw new IllegalArgumentException(
+                    "QRCode content does not conform to the BerzahlCode format: "
+                            + e.getMessage(), e);
+        }
     }
 }
