@@ -14,7 +14,6 @@ import net.gini.android.vision.internal.util.Size;
 /**
  * @exclude
  */
-
 class ImageDocumentRenderer implements DocumentRenderer {
 
     private final ImageDocument mImageDocument;

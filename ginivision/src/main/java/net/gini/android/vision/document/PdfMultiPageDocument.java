@@ -11,6 +11,9 @@ import net.gini.android.vision.internal.util.MimeType;
  * Copyright (c) 2018 Gini GmbH.
  */
 
+/**
+ * A document consisting of multiple pdf documents.
+ */
 public class PdfMultiPageDocument extends
         GiniVisionMultiPageDocument<PdfDocument, GiniVisionDocumentError> {
 

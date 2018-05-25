@@ -24,6 +24,9 @@ import java.util.Queue;
  * Copyright (c) 2018 Gini GmbH.
  */
 
+/**
+ * @exclude
+ */
 public abstract class MemoryCache<K, V> {
 
     private static final boolean DEBUG = false;

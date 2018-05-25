@@ -15,6 +15,9 @@ import java.util.List;
  * Copyright (c) 2018 Gini GmbH.
  */
 
+/**
+ * @exclude
+ */
 public class DocumentDataMemoryCache extends MemoryCache<GiniVisionDocument, byte[]> {
 
     private static final int RUNNING_WORKERS_LIMIT = 3;

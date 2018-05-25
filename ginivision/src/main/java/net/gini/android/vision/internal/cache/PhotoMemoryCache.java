@@ -18,6 +18,9 @@ import java.util.List;
  * Copyright (c) 2018 Gini GmbH.
  */
 
+/**
+ * @exclude
+ */
 public class PhotoMemoryCache extends MemoryCache<ImageDocument, Photo> {
 
     private static final int RUNNING_WORKERS_LIMIT = 3;

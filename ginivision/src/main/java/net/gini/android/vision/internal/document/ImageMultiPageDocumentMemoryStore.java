@@ -10,6 +10,10 @@ import net.gini.android.vision.document.ImageMultiPageDocument;
  *
  * Copyright (c) 2018 Gini GmbH.
  */
+
+/**
+ * @exclude
+ */
 public class ImageMultiPageDocumentMemoryStore {
 
     private ImageMultiPageDocument mMultiPageDocument;

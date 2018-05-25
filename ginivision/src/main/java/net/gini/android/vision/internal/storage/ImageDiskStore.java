@@ -24,6 +24,9 @@ import java.io.OutputStream;
  * Copyright (c) 2018 Gini GmbH.
  */
 
+/**
+ * @exclude
+ */
 public class ImageDiskStore {
 
     private static final Logger LOG = LoggerFactory.getLogger(ImageDiskStore.class);
@@ -88,7 +91,6 @@ public class ImageDiskStore {
         final File file = new File(uri.getPath());
         if (!file.exists()) {
             try {
-                //noinspection ResultOfMethodCallIgnored
                 file.createNewFile();
             } catch (final IOException e) {
                 LOG.error("Failed to create file", e);
@@ -152,7 +154,6 @@ public class ImageDiskStore {
 
     public void delete(@NonNull final Uri uri) {
         final File file = new File(uri.getPath());
-        //noinspection ResultOfMethodCallIgnored
         file.delete();
     }
 
@@ -165,7 +166,6 @@ public class ImageDiskStore {
         final File[] files = storeDir.listFiles();
         if (files != null) {
             for (final File file : files) {
-                //noinspection ResultOfMethodCallIgnored
                 file.delete();
             }
         }

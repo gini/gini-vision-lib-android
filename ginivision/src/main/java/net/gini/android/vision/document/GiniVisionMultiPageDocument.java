@@ -18,6 +18,9 @@ import java.util.Map;
  * Copyright (c) 2018 Gini GmbH.
  */
 
+/**
+ * @exclude
+ */
 public class GiniVisionMultiPageDocument<T extends GiniVisionDocument, E extends GiniVisionDocumentError> extends
         GiniVisionDocument {
 
@@ -54,12 +57,10 @@ public class GiniVisionMultiPageDocument<T extends GiniVisionDocument, E extends
         super(in);
         final int size = in.readInt();
         for (int i = 0; i < size; i++) {
-            //noinspection unchecked
             mDocuments.add((T) in.readParcelable(getClass().getClassLoader()));
         }
         final int mapSize = in.readInt();
         for (int i = 0; i < mapSize; i++) {
-            //noinspection unchecked
             mDocumentErrorMap.put(
                     (T) in.readParcelable(getClass().getClassLoader()),
                     (E) in.readParcelable(getClass().getClassLoader())

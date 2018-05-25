@@ -10,6 +10,9 @@ import android.support.annotation.NonNull;
  * Copyright (c) 2018 Gini GmbH.
  */
 
+/**
+ * @exclude
+ */
 public class GiniVisionDocumentError implements Parcelable {
 
     public static final Creator<GiniVisionDocumentError> CREATOR =
