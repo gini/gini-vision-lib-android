@@ -1073,8 +1073,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     }
 
     private boolean isImage(@NonNull final Intent data, @NonNull final Activity activity) {
-        return IntentHelper.hasMimeTypeWithPrefix(data, activity,
-                MimeType.IMAGE_PREFIX.asString());
+        return IntentHelper.hasMimeTypeWithPrefix(data, activity, MimeType.IMAGE_PREFIX.asString());
     }
 
     private void createSinglePageDocumentAndCallListener(final Intent data,
@@ -1130,7 +1129,6 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                     .setMultiPageDocument(multiPageDocument);
         }
     }
-
 
     private void handleMultiPageDocumentAndCallListener(@NonNull final Context context,
             @NonNull final Intent intent, @NonNull final List<Uri> uris) {
