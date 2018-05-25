@@ -108,5 +108,16 @@
     <color name="gv_file_import_section_number_background">#e8e8e8</color>
     <color name="gv_file_import_section_title">#000</color>
     <color name="gv_file_import_section_body">#8e9193</color>
+    <color name="gv_multi_page_review_thumbnails_panel_background">#262626</color>
+    <color name="gv_multi_page_review_thumbnail_card_background">#4F4F4F</color>
+    <color name="gv_multi_page_thumbnail_badge_text">#fff</color>
+    <color name="gv_multi_page_thumbnail_badge_background_border">#C1C1C1</color>
+    <color name="gv_multi_page_thumbnail_highlight_strip">#fff</color>
+    <color name="gv_multi_page_thumbnail_upload_success_icon_background">#b8e986</color>
+    <color name="gv_multi_page_thumbnail_upload_success_icon_foreground">#fff</color>
+    <color name="gv_multi_page_thumbnail_upload_failure_icon_background">#ff4f65</color>
+    <color name="gv_multi_page_thumbnail_upload_failure_icon_foreground">#fff</color>
+    <color name="gv_multi_page_review_page_indicator_text">#fff</color>
+    <color name="gv_multi_page_review_page_indicator_background">#82000000</color>
 
 </resources>

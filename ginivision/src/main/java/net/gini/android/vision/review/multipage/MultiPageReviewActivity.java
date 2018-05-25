@@ -52,40 +52,118 @@ import java.util.List;
  *
  * <ul>
  *
- * <li><b>Rotate button icon:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code
- * gv_review_button_rotate.png}
+ * <li> <b>Page indicator text style:</b> via overriding the style named {@code
+ * GiniVisionTheme.Review.MultiPage.PageIndicator.TextStyle}
  *
- * <li><b>Rotate button color:</b>  via the color resources named {@code gv_review_fab_mini} and
- * {@code gv_review_fab_mini_pressed}
+ * <li> <b>Page indicator font:</b> via overriding the style named {@code
+ * GiniVisionTheme.Review.MultiPage.PageIndicator.TextStyle} and setting an item named {@code
+ * gvCustomFont} with the path to the font file in your {@code assets} folder
+ *
+ * <li><b>Page indicator background color:</b> via the color resource named {@code
+ * gv_multi_page_review_page_indicator_background}
  *
  * <li><b>Next button icon:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code
- * gv_review_fab_next.png}
+ * gv_review_fab_checkmark.png}
  *
  * <li><b>Next button color:</b> via the color resources named {@code gv_review_fab} and {@code
  * gv_review_fab_pressed}
  *
- * <li><b>Bottom advice text:</b> via the string resource named {@code gv_review_bottom_panel_text}
+ * <li><b>Thumbnails panel background color:</b> via the color resource named {@code
+ * gv_multi_page_review_thumbnails_panel_background}
  *
- * <li><b>Bottom text color:</b> via the color resource named {@code gv_review_bottom_panel_text}
+ * <li><b>Thumbnail card background color:</b> via the color resource named {@code
+ * gv_multi_page_review_thumbnail_card_background}
  *
- * <li><b>Bottom text font:</b> via overriding the style named {@code
- * GiniVisionTheme.Review.BottomPanel.TextStyle} and setting an item named {@code gvCustomFont} with
- * the path to the font file in your {@code assets} folder
+ * <li> <b>Thumbnail badge text style:</b> via overriding the style named {@code
+ * GiniVisionTheme.Review.MultiPage.ThumbnailBadge.TextStyle}
  *
- * <li><b>Bottom text style:</b> via overriding the style named {@code
- * GiniVisionTheme.Review.BottomPanel.TextStyle} and setting an item named {@code android:textStyle}
- * to {@code normal}, {@code bold} or {@code italic}
+ * <li> <b>Thumbbnail badge font:</b> via overriding the style named {@code
+ * GiniVisionTheme.Review.MultiPage.ThumbnailBadge.TextStyle} and setting an item named {@code
+ * gvCustomFont} with the path to the font file in your {@code assets} folder
  *
- * <li><b>Bottom text size:</b> via overriding the style named {@code
- * GiniVisionTheme.Review.BottomPanel.TextStyle} and setting an item named {@code android:textSize}
- * to the desired {@code sp} size
+ * <li><b>Thumbnail badge background border color:</b> via the color resource named {@code
+ * gv_multi_page_thumbnail_badge_background_border}
  *
- * <li><b>Bottom panel background color:</b> via the color resource named {@code
- * gv_review_bottom_panel_background}
+ * <li><b>Thumbnail drag indicator bumps icon:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi
+ * named {@code gv_bumps_icon.png}
  *
- * <li><b>Background color:</b> via the color resource named {@code gv_background}. <b>Note:</b>
- * this color resource is global to all Activities ({@link CameraActivity}, {@link
- * OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity})
+ * <li><b>Thumbnail highlight strip color:</b> via the color resource named {@code
+ * gv_multi_page_thumbnail_highlight_strip}
+ *
+ * <li> <b>Thumbnail activity indicator color:</b> via the color resource named {@code
+ * gv_analysis_activity_indicator}
+ *
+ * <li> <b>Thumbnail upload success background circle color:</b> via the color resource named {@code
+ * gv_multi_page_thumbnail_upload_success_icon_background}
+ *
+ * <li> <b>Thumbnail upload success foreground tick color:</b> via the color resource named {@code
+ * gv_multi_page_thumbnail_upload_success_icon_foreground}
+ *
+ * <li> <b>Thumbnail upload failure background circle color:</b> via the color resource named {@code
+ * gv_multi_page_thumbnail_upload_failure_icon_background}
+ *
+ * <li> <b>Thumbnail upload failure foreground cross color:</b> via the color resource named {@code
+ * gv_multi_page_thumbnail_upload_failure_icon_foreground}
+ *
+ * <li><b>Add page icon:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code
+ * gv_multi_page_add_page_icon.png}
+ *
+ * <li> <b>Add page icon subtitle text:</b> via the string resource named {@code
+ * gv_multi_page_review_add_pages_subtitle}
+ *
+ * <li> <b>Add page icon subtitle text style:</b> via overriding the style named {@code
+ * GiniVisionTheme.Review.MultiPage.AddPagesSubtitle.TextStyle}
+ *
+ * <li> <b>Add page icon subtitle font:</b> via overriding the style named {@code
+ * GiniVisionTheme.Review.MultiPage.AddPagesSubtitle.TextStyle} and setting an item named {@code
+ * gvCustomFont} with the path to the font file in your {@code assets} folder
+ *
+ * <li> <b>Reorder pages tip text:</b> via the string resource named {@code
+ * gv_multi_page_review_reorder_pages_tip}
+ *
+ * <li> <b>Reorder pages tip text style:</b> via overriding the style named {@code
+ * GiniVisionTheme.Review.MultiPage.ReorderPagesTip.TextStyle}
+ *
+ * <li> <b>Reorder pages tip font:</b> via overriding the style named {@code
+ * GiniVisionTheme.Review.MultiPage.ReorderPagesTip.TextStyle} and setting an item named {@code
+ * gvCustomFont} with the path to the font file in your {@code assets} folder
+ *
+ * <li> <b>Image error message text style:</b> via overriding the style named {@code
+ * GiniVisionTheme.Snackbar.Error.TextStyle} and setting an item named {@code android:textStyle} to
+ * {@code normal}, {@code bold} or {@code italic}
+ *
+ * <li> <b>Image error message font:</b> via overriding the style named {@code
+ * GiniVisionTheme.Snackbar.Error.TextStyle} and setting an item named {@code gvCustomFont} with the
+ * path to the font file in your {@code assets} folder
+ *
+ * <li> <b>Image error message button text style:</b> via overriding the style named {@code
+ * GiniVisionTheme.Snackbar.Error.Button.TextStyle} and setting an item named {@code
+ * android:textStyle} to {@code normal}, {@code bold} or {@code italic}
+ *
+ * <li> <b>Image error message button font:</b> via overriding the style named {@code
+ * GiniVisionTheme.Snackbar.Error.Button.TextStyle} and setting an item named {@code gvCustomFont}
+ * with the path to the font file in your {@code assets} folder
+ *
+ * <li> <b>Image error message background color:</b> via the color resource named {@code
+ * gv_snackbar_error_background}
+ *
+ * <li> <b>Image analysis error message retry button text:</b> via the string resource named {@code
+ * gv_document_analysis_error_retry}
+ *
+ * <li> <b>Imported image error message delete button text:</b> via the string resource named {@code
+ * gv_multi_page_review_delete_invalid_document}
+ *
+ * <li> <b>Imported image delete last page dialog message:</b> via the string resource named {@code
+ * gv_multi_page_review_file_import_delete_last_page_dialog_message}
+ *
+ * <li> <b>Imported image delete last page dialog positive button text:</b> via the string resource
+ * named {@code gv_multi_page_review_file_import_delete_last_page_dialog_positive_button}
+ *
+ * <li> <b>Imported image delete last page dialog negative button text:</b> via the string resource
+ * named {@code gv_multi_page_review_file_import_delete_last_page_dialog_negative_button}
+ *
+ * <li> <b>Imported image delete last page dialog button color:</b> via the color resource named
+ * {@code gv_accent}
  *
  * </ul>
  *

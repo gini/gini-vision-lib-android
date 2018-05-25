@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
@@ -469,6 +471,10 @@ public class ThumbnailsAdapter extends
             uploadResultIconForeground.setVisibility(View.VISIBLE);
             uploadResultIconForeground.setImageResource(
                     R.drawable.gv_multi_page_upload_success_icon_foreground);
+            final int tintColor = ContextCompat.getColor(
+                    itemView.getContext(),
+                    R.color.gv_multi_page_thumbnail_upload_success_icon_foreground);
+            uploadResultIconForeground.setColorFilter(tintColor, PorterDuff.Mode.MULTIPLY);
         }
 
         void showUploadFailure() {
@@ -482,6 +488,10 @@ public class ThumbnailsAdapter extends
             uploadResultIconForeground.setVisibility(View.VISIBLE);
             uploadResultIconForeground.setImageResource(
                     R.drawable.gv_multi_page_upload_failure_icon_foreground);
+            final int tintColor = ContextCompat.getColor(
+                    itemView.getContext(),
+                    R.color.gv_multi_page_thumbnail_upload_failure_icon_foreground);
+            uploadResultIconForeground.setColorFilter(tintColor, PorterDuff.Mode.MULTIPLY);
         }
     }
 

@@ -4,6 +4,6 @@
     <size
         android:width="64dp"
         android:height="24dp" />
-    <solid android:color="#82000000" />
+    <solid android:color="@color/gv_multi_page_review_page_indicator_background" />
     <corners android:radius="2dp" />
 </shape>

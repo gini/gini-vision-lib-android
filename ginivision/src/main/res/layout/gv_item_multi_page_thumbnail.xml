@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="@dimen/gv_multi_page_review_thumbnail_card_width"
     android:layout_height="@dimen/gv_multi_page_review_thumbnail_card_height"
-    android:layout_marginTop="@dimen/gv_multi_page_review_thumbnail_card_vertical_margin"
+    android:layout_marginBottom="@dimen/gv_multi_page_review_thumbnail_card_vertical_margin"
     android:layout_marginEnd="@dimen/gv_multi_page_review_thumbnail_card_horizontal_margin"
     android:layout_marginLeft="@dimen/gv_multi_page_review_thumbnail_card_horizontal_margin"
     android:layout_marginRight="@dimen/gv_multi_page_review_thumbnail_card_horizontal_margin"
     android:layout_marginStart="@dimen/gv_multi_page_review_thumbnail_card_horizontal_margin"
-    android:layout_marginBottom="@dimen/gv_multi_page_review_thumbnail_card_vertical_margin"
-    app:cardBackgroundColor="#4F4F4F"
+    android:layout_marginTop="@dimen/gv_multi_page_review_thumbnail_card_vertical_margin"
+    app:cardBackgroundColor="@color/gv_multi_page_review_thumbnail_card_background"
     app:cardCornerRadius="5dp"
     app:cardElevation="4dp">
 
@@ -23,24 +23,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/gv_handle"
-            android:foreground="#33000000"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:foreground="#33000000" />
 
         <RelativeLayout
             android:id="@+id/gv_handle"
-            android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/gv_multi_page_review_thumbnail_card_handle_height">
+            android:layout_height="@dimen/gv_multi_page_review_thumbnail_card_handle_height"
+            android:layout_alignParentBottom="true">
 
-            <TextView
+            <net.gini.android.vision.internal.ui.CustomFontTextView
                 android:id="@+id/gv_badge"
+                style="@style/GiniVisionTheme.Review.MultiPage.ThumbnailBadge.TextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:background="@drawable/gv_thumbnail_badge_background"
                 android:gravity="center"
-                android:textColor="@android:color/white"
                 tools:text="3" />
 
             <ImageView
@@ -57,16 +57,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/gv_multi_page_review_thumbnail_card_highlight_height"
                 android:layout_alignParentBottom="true"
-                android:background="#fff" />
+                android:background="@color/gv_multi_page_thumbnail_highlight_strip" />
         </RelativeLayout>
 
         <ProgressBar
             android:id="@+id/gv_activity_indicator"
             android:layout_width="64dp"
             android:layout_height="match_parent"
+            android:layout_above="@id/gv_handle"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_above="@id/gv_handle"
             android:indeterminateOnly="true"
             android:indeterminateTint="@color/gv_analysis_activity_indicator"
             android:indeterminateTintMode="src_in"
@@ -89,7 +89,7 @@
                 android:layout_centerInParent="true"
                 android:src="@drawable/gv_multi_page_upload_success_icon_background"
                 android:visibility="invisible"
-                tools:visibility="visible"/>
+                tools:visibility="visible" />
 
             <ImageView
                 android:id="@+id/gv_upload_result_icon_foreground"
@@ -98,7 +98,7 @@
                 android:layout_centerInParent="true"
                 android:src="@drawable/gv_multi_page_upload_success_icon_foreground"
                 android:visibility="invisible"
-                tools:visibility="visible"/>
+                tools:visibility="visible" />
 
         </RelativeLayout>
     </RelativeLayout>
