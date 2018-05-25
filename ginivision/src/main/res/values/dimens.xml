@@ -14,6 +14,7 @@
     <dimen name="gv_camera_image_stack_right_margin">40dp</dimen>
     <dimen name="gv_camera_image_stack_left_margin">40dp</dimen>
     <dimen name="gv_camera_image_stack_bottom_margin">0dp</dimen>
+    <dimen name="gv_camera_image_stack_badge_size">20dp</dimen>
     <dimen name="gv_camera_activity_indicator_padding">16dp</dimen>
     <dimen name="gv_camera_qrcode_detected_popup_horizontal_margin">24dp</dimen>
     <dimen name="gv_camera_qrcode_detected_popup_vertical_margin">16dp</dimen>

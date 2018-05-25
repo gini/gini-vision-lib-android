@@ -56,6 +56,7 @@
 
     <TextView
         android:id="@+id/gv_badge"
+        style="@style/GiniVisionTheme.Camera.ImageStackBadge.TextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -65,8 +66,6 @@
         android:background="@drawable/gv_image_stack_badge_background"
         android:elevation="2dp"
         android:gravity="center"
-        android:textColor="@android:color/white"
-        android:textSize="12sp"
         tools:text="3" />
 
     <net.gini.android.vision.internal.ui.CustomFontTextView

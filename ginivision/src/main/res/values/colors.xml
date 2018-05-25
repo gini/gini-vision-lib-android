@@ -19,6 +19,9 @@
 
     <color name="gv_camera_document_import_subtitle_text">#fff</color>
     <color name="gv_camera_image_stack_subtitle_text">#fff</color>
+    <color name="gv_camera_image_stack_badge_text">#fff</color>
+    <color name="gv_camera_image_stack_badge_background">#000</color>
+    <color name="gv_camera_image_stack_badge_background_border">#fff</color>
 
     <color name="gv_qrcode_detected_popup_background">#eeffffff</color>
     <color name="gv_qrcode_detected_popup_message_1">#000</color>
