@@ -13,7 +13,7 @@ import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.GiniVisionDocumentError;
 import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.document.ImageMultiPageDocument;
-import net.gini.android.vision.internal.fileimport.AbstractImportUrisAsyncTask;
+import net.gini.android.vision.internal.fileimport.AbstractImportImageUrisAsyncTask;
 
 /**
  * Created by Alpar Szotyori on 23.03.2018.
@@ -21,9 +21,9 @@ import net.gini.android.vision.internal.fileimport.AbstractImportUrisAsyncTask;
  * Copyright (c) 2018 Gini GmbH.
  */
 
-class ImportDocumentUrisAsyncTask extends AbstractImportUrisAsyncTask {
+class ImportImageDocumentUrisAsyncTask extends AbstractImportImageUrisAsyncTask {
 
-    ImportDocumentUrisAsyncTask(@NonNull final Context context,
+    ImportImageDocumentUrisAsyncTask(@NonNull final Context context,
             @NonNull final Intent intent, @NonNull final GiniVision giniVision,
             @NonNull final Document.Source source,
             @NonNull final Document.ImportMethod importMethod,

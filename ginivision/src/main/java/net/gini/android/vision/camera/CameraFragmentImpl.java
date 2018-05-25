@@ -188,7 +188,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     private boolean mIsTakingPicture;
 
     private boolean mImportDocumentButtonEnabled;
-    private ImportDocumentUrisAsyncTask mImportUrisAsyncTask;
+    private ImportImageDocumentUrisAsyncTask mImportUrisAsyncTask;
     private boolean mProceededToMultiPageReview;
     private boolean mQRCodeAnalysisCompleted;
     private QRCodeDocument mQRCodeDocument;
@@ -1144,7 +1144,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         }
         final ImageDiskStore imageDiskStore = GiniVision.getInstance().internal()
                 .getImageDiskStore();
-        mImportUrisAsyncTask = new ImportDocumentUrisAsyncTask(
+        mImportUrisAsyncTask = new ImportImageDocumentUrisAsyncTask(
                 context, intent, GiniVision.getInstance(),
                 Document.Source.newExternalSource(), ImportMethod.PICKER,
                 new AsyncCallback<ImageMultiPageDocument, ImportedFileValidationException>() {

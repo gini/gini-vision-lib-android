@@ -5,18 +5,18 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import net.gini.android.vision.document.ImageMultiPageDocument;
-import net.gini.android.vision.internal.fileimport.AbstractImportUrisAsyncTask;
+import net.gini.android.vision.internal.fileimport.AbstractImportImageUrisAsyncTask;
 
 /**
  * Created by Alpar Szotyori on 22.05.2018.
  *
  * Copyright (c) 2018 Gini GmbH.
  */
-class ImportFileUrisAsyncTask extends AbstractImportUrisAsyncTask {
+class ImportImageFileUrisAsyncTask extends AbstractImportImageUrisAsyncTask {
 
     private ImportedFileValidationException mException;
 
-    protected ImportFileUrisAsyncTask(@NonNull final Context context,
+    protected ImportImageFileUrisAsyncTask(@NonNull final Context context,
             @NonNull final Intent intent, @NonNull final GiniVision giniVision,
             @NonNull final Document.Source source,
             @NonNull final Document.ImportMethod importMethod,

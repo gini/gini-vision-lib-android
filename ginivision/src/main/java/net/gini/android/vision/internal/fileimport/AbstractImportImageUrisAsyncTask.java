@@ -35,10 +35,10 @@ import java.io.IOException;
 /**
  * @exclude
  */
-public abstract class AbstractImportUrisAsyncTask extends
+public abstract class AbstractImportImageUrisAsyncTask extends
         AsyncTask<Uri, Integer, ImageMultiPageDocument> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractImportUrisAsyncTask.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractImportImageUrisAsyncTask.class);
 
     private final Context mContext;
     private final Intent mIntent;
@@ -47,7 +47,7 @@ public abstract class AbstractImportUrisAsyncTask extends
     private final Document.Source mSource;
     private final Document.ImportMethod mImportMethod;
 
-    protected AbstractImportUrisAsyncTask(@NonNull final Context context,
+    protected AbstractImportImageUrisAsyncTask(@NonNull final Context context,
             @NonNull final Intent intent,
             @NonNull final GiniVision giniVision,
             @NonNull final Document.Source source,

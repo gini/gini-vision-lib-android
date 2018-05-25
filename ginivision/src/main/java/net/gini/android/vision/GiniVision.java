@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import net.gini.android.vision.analysis.AnalysisActivity;
-import net.gini.android.vision.document.ImageMultiPageDocument;
 import net.gini.android.vision.internal.cache.DocumentDataMemoryCache;
 import net.gini.android.vision.internal.cache.PhotoMemoryCache;
 import net.gini.android.vision.internal.document.ImageMultiPageDocumentMemoryStore;
@@ -216,7 +215,7 @@ public class GiniVision {
 
     @NonNull
     public CancellationToken createDocumentForImportedFiles(@NonNull final Intent intent,
-            @NonNull final Context context, @NonNull final AsyncCallback<ImageMultiPageDocument, ImportedFileValidationException> callback) {
+            @NonNull final Context context, @NonNull final AsyncCallback<Document, ImportedFileValidationException> callback) {
         return mGiniVisionFileImport.createDocumentForImportedFiles(intent, context, callback);
     }
 

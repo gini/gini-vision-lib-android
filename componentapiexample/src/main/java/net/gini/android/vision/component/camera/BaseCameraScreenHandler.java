@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import net.gini.android.models.SpecificExtraction;
+import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionCoordinator;
@@ -331,9 +332,9 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
         if (GiniVision.hasInstance() && GiniVision.getInstance().isMultiPageEnabled()) {
             mFileImportCancellationToken = GiniVision.getInstance().createDocumentForImportedFiles(
                     importedFileIntent, mActivity,
-                    new GiniVisionFileImport.Callback<Document>() {
+                    new AsyncCallback<Document, ImportedFileValidationException>() {
                         @Override
-                        public void onDone(@NonNull final Document result) {
+                        public void onSuccess(@NonNull final Document result) {
                             if (result.getType() == Document.Type.IMAGE_MULTI_PAGE) {
                                 launchMultiPageReviewScreen();
                             } else {
@@ -343,7 +344,7 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
                         }
 
                         @Override
-                        public void onFailed(
+                        public void onError(
                                 @NonNull final ImportedFileValidationException exception) {
                             handleFileImportError(exception);
                         }
