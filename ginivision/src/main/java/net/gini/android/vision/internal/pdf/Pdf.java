@@ -8,8 +8,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
+import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.document.PdfDocument;
-import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.util.Size;
 
 /**
@@ -37,12 +37,12 @@ public final class Pdf implements Parcelable {
     }
 
     public void toBitmap(@NonNull final Size targetSize, @NonNull final Context context,
-            @NonNull final AsyncCallback<Bitmap> asyncCallback) {
+            @NonNull final AsyncCallback<Bitmap, Exception> asyncCallback) {
         getRenderer(context).toBitmap(targetSize, asyncCallback);
     }
 
     public void getPageCount(@NonNull final Context context,
-            @NonNull final AsyncCallback<Integer> asyncCallback) {
+            @NonNull final AsyncCallback<Integer, Exception> asyncCallback) {
         getRenderer(context).getPageCount(asyncCallback);
     }
 

@@ -12,10 +12,10 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
+import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.ImageDocument;
-import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.review.RotatableImageViewContainer;
@@ -90,7 +90,7 @@ public class PreviewFragment extends Fragment {
             showActivityIndicator();
             if (GiniVision.hasInstance()) {
                 GiniVision.getInstance().internal().getPhotoMemoryCache()
-                        .get(context, mDocument, new AsyncCallback<Photo>() {
+                        .get(context, mDocument, new AsyncCallback<Photo, Exception>() {
                             @Override
                             public void onSuccess(final Photo result) {
                                 LOG.debug("Preview bitmap received ({})", this);
@@ -116,6 +116,11 @@ public class PreviewFragment extends Fragment {
                                 hideActivityIndicator();
                                 LOG.debug("Showing error ({})", this);
                                 showPreviewError(context);
+                            }
+
+                            @Override
+                            public void onCancelled() {
+                                // Not used
                             }
                         });
             } else {

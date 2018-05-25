@@ -5,7 +5,7 @@ import android.os.Parcel;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import net.gini.android.vision.internal.AsyncCallback;
+import net.gini.android.vision.AsyncCallback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,12 +54,10 @@ public class GiniVisionMultiPageDocument<T extends GiniVisionDocument, E extends
         super(in);
         final int size = in.readInt();
         for (int i = 0; i < size; i++) {
-            //noinspection unchecked
             mDocuments.add((T) in.readParcelable(getClass().getClassLoader()));
         }
         final int mapSize = in.readInt();
         for (int i = 0; i < mapSize; i++) {
-            //noinspection unchecked
             mDocumentErrorMap.put(
                     (T) in.readParcelable(getClass().getClassLoader()),
                     (E) in.readParcelable(getClass().getClassLoader())
@@ -88,7 +86,7 @@ public class GiniVisionMultiPageDocument<T extends GiniVisionDocument, E extends
 
     @Override
     public void loadData(@NonNull final Context context,
-            @NonNull final AsyncCallback<byte[]> callback) {
+            @NonNull final AsyncCallback<byte[], Exception> callback) {
         loadImageDocuments(0, context, callback);
     }
 
@@ -138,10 +136,10 @@ public class GiniVisionMultiPageDocument<T extends GiniVisionDocument, E extends
 
     private void loadImageDocuments(final int currentIndex,
             @NonNull final Context context,
-            @NonNull final AsyncCallback<byte[]> callback) {
+            @NonNull final AsyncCallback<byte[], Exception> callback) {
         if (currentIndex < mDocuments.size()) {
             final T imageDocument = mDocuments.get(currentIndex);
-            imageDocument.loadData(context, new AsyncCallback<byte[]>() {
+            imageDocument.loadData(context, new AsyncCallback<byte[], Exception>() {
                 @Override
                 public void onSuccess(final byte[] result) {
                     loadImageDocuments(currentIndex + 1, context, callback);
@@ -149,6 +147,11 @@ public class GiniVisionMultiPageDocument<T extends GiniVisionDocument, E extends
 
                 @Override
                 public void onError(final Exception exception) {
+                    loadImageDocuments(currentIndex + 1, context, callback);
+                }
+
+                @Override
+                public void onCancelled() {
                     loadImageDocuments(currentIndex + 1, context, callback);
                 }
             });

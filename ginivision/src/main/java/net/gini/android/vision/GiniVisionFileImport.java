@@ -142,27 +142,26 @@ public final class GiniVisionFileImport {
      */
     CancellationToken createIntentForImportedFiles(@NonNull final Intent intent,
             @NonNull final Context context,
-            @NonNull final Callback<Intent> callback) {
+            @NonNull final AsyncCallback<Intent, ImportedFileValidationException> callback) {
         final CancellationToken cancellationToken =
                 createDocumentForImportedFiles(intent, context,
-                        new Callback<ImageMultiPageDocument>() {
+                        new AsyncCallback<ImageMultiPageDocument, ImportedFileValidationException>() {
                             @Override
-                            public void onDone(@NonNull final ImageMultiPageDocument result) {
+                            public void onSuccess(final ImageMultiPageDocument result) {
                                 // The new ImageMultiPageDocument was already added to the memory store
                                 final Intent giniVisionIntent =
                                         MultiPageReviewActivity.createIntent(context);
-                                callback.onDone(giniVisionIntent);
+                                callback.onSuccess(giniVisionIntent);
                             }
 
                             @Override
-                            public void onFailed(
-                                    @NonNull final ImportedFileValidationException exception) {
-                                callback.onFailed(exception);
+                            public void onError(final ImportedFileValidationException exception) {
+callback.onError(exception);
                             }
 
                             @Override
                             public void onCancelled() {
-                                callback.onCancelled();
+callback.onCancelled();
                             }
                         });
         return new CancellationToken() {
@@ -175,40 +174,41 @@ public final class GiniVisionFileImport {
 
     public CancellationToken createDocumentForImportedFiles(@NonNull final Intent intent,
             @NonNull final Context context,
-            @NonNull final Callback<ImageMultiPageDocument> callback) {
+            @NonNull final AsyncCallback<ImageMultiPageDocument, ImportedFileValidationException> callback) {
         if (!GiniVision.hasInstance()) {
-            callback.onFailed(createNoGiniVisionFileValidationException());
+            callback.onError(createNoGiniVisionFileValidationException());
             return new NoOpCancellationToken();
         }
         final List<Uri> uris = IntentHelper.getUris(intent);
         if (uris == null) {
-            callback.onFailed(
+            callback.onError(
                     new ImportedFileValidationException("Intent data did not contain Uris"));
             return new NoOpCancellationToken();
         }
-        final ImportFilesAsyncTask asyncTask = new ImportFilesAsyncTask(context, intent,
-                mGiniVision, new Callback<ImageMultiPageDocument>() {
-            @Override
-            public void onDone(@NonNull final ImageMultiPageDocument result) {
-                if (!GiniVision.hasInstance()) {
-                    callback.onFailed(createNoGiniVisionFileValidationException());
-                    return;
-                }
-                GiniVision.getInstance().internal().getImageMultiPageDocumentMemoryStore()
-                        .setMultiPageDocument(result);
-                callback.onDone(result);
-            }
+        final ImportFileUrisAsyncTask asyncTask = new ImportFileUrisAsyncTask(context, intent,
+                mGiniVision, Document.Source.newExternalSource(), Document.ImportMethod.OPEN_WITH,
+                new AsyncCallback<ImageMultiPageDocument, ImportedFileValidationException>() {
+                    @Override
+                    public void onSuccess(final ImageMultiPageDocument result) {
+                        if (!GiniVision.hasInstance()) {
+                            callback.onError(createNoGiniVisionFileValidationException());
+                            return;
+                        }
+                        GiniVision.getInstance().internal().getImageMultiPageDocumentMemoryStore()
+                                .setMultiPageDocument(result);
+                        callback.onSuccess(result);
+                    }
 
-            @Override
-            public void onFailed(@NonNull final ImportedFileValidationException exception) {
-                callback.onFailed(exception);
-            }
+                    @Override
+                    public void onError(final ImportedFileValidationException exception) {
+                        callback.onError(exception);
+                    }
 
-            @Override
-            public void onCancelled() {
-                callback.onCancelled();
-            }
-        });
+                    @Override
+                    public void onCancelled() {
+                        callback.onCancelled();
+                    }
+                });
         asyncTask.execute(uris.toArray(new Uri[uris.size()]));
         return new CancellationToken() {
             @Override
@@ -222,15 +222,6 @@ public final class GiniVisionFileImport {
     private static ImportedFileValidationException createNoGiniVisionFileValidationException() {
         return new ImportedFileValidationException(
                 "Cannot import files. GiniVision instance not available. Create it with GiniVision.newInstance().");
-    }
-
-    public interface Callback<T> {
-
-        void onDone(@NonNull final T result);
-
-        void onFailed(@NonNull final ImportedFileValidationException exception);
-
-        void onCancelled();
     }
 
 }

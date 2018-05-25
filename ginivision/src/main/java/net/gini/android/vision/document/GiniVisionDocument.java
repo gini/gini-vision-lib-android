@@ -7,8 +7,8 @@ import android.os.Parcel;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.Document;
-import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.camera.photo.ParcelableMemoryCache;
 import net.gini.android.vision.internal.util.UriReaderAsyncTask;
 import net.gini.android.vision.util.IntentHelper;
@@ -219,7 +219,7 @@ public class GiniVisionDocument implements Document {
     }
 
     public synchronized void loadData(@NonNull final Context context,
-            @NonNull final AsyncCallback<byte[]> callback) {
+            @NonNull final AsyncCallback<byte[], Exception> callback) {
         if (mData != null) {
             callback.onSuccess(mData);
             return;
@@ -237,7 +237,7 @@ public class GiniVisionDocument implements Document {
             return;
         }
         final UriReaderAsyncTask asyncTask = new UriReaderAsyncTask(context,
-                new AsyncCallback<byte[]>() {
+                new AsyncCallback<byte[], Exception>() {
                     @Override
                     public void onSuccess(final byte[] result) {
                         setData(result);
@@ -247,6 +247,11 @@ public class GiniVisionDocument implements Document {
                     @Override
                     public void onError(final Exception exception) {
                         callback.onError(exception);
+                    }
+
+                    @Override
+                    public void onCancelled() {
+                        callback.onCancelled();
                     }
                 });
         asyncTask.execute(uri);

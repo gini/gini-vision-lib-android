@@ -31,6 +31,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionDebug;
@@ -41,7 +42,6 @@ import net.gini.android.vision.document.GiniVisionDocument;
 import net.gini.android.vision.document.GiniVisionDocumentError;
 import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.document.PdfDocument;
-import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.document.DocumentRenderer;
 import net.gini.android.vision.internal.document.DocumentRendererFactory;
 import net.gini.android.vision.internal.network.AnalysisNetworkRequestResult;
@@ -130,10 +130,8 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     private GiniVisionMultiPageDocument<GiniVisionDocument, GiniVisionDocumentError> asMultiPageDocument(
             @NonNull final Document document) {
         if (!(document instanceof GiniVisionMultiPageDocument)) {
-            //noinspection unchecked
             return DocumentFactory.newMultiPageDocument((GiniVisionDocument) document);
         } else {
-            //noinspection unchecked
             return (GiniVisionMultiPageDocument) document;
         }
     }
@@ -268,7 +266,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         startScanAnimation();
         LOG.debug("Loading document data");
         mMultiPageDocument.loadData(activity,
-                new AsyncCallback<byte[]>() {
+                new AsyncCallback<byte[], Exception>() {
                     @Override
                     public void onSuccess(final byte[] result) {
                         LOG.debug("Document data loaded");
@@ -286,6 +284,11 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
                         }
                         mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.ANALYSIS,
                                 "An error occurred while loading the document."));
+                    }
+
+                    @Override
+                    public void onCancelled() {
+                        // Not used
                     }
                 });
         if (getFirstDocument().getType() == Document.Type.IMAGE) {
@@ -598,7 +601,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
             mPdfPageCountTextView.setVisibility(View.VISIBLE);
             mPdfPageCountTextView.setText("");
 
-            mDocumentRenderer.getPageCount(activity, new AsyncCallback<Integer>() {
+            mDocumentRenderer.getPageCount(activity, new AsyncCallback<Integer, Exception>() {
                 @Override
                 public void onSuccess(final Integer result) {
                     if (result > 0) {
@@ -614,6 +617,11 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
                 @Override
                 public void onError(final Exception exception) {
                     mPdfPageCountTextView.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onCancelled() {
+                    // Not used
                 }
             });
         }

@@ -210,13 +210,13 @@ public class GiniVision {
     @NonNull
     public CancellationToken createIntentForImportedFiles(@NonNull final Intent intent,
             @NonNull final Context context,
-            @NonNull final GiniVisionFileImport.Callback<Intent> callback) {
+            @NonNull final AsyncCallback<Intent, ImportedFileValidationException> callback) {
         return mGiniVisionFileImport.createIntentForImportedFiles(intent, context, callback);
     }
 
     @NonNull
     public CancellationToken createDocumentForImportedFiles(@NonNull final Intent intent,
-            @NonNull final Context context, @NonNull final GiniVisionFileImport.Callback<ImageMultiPageDocument> callback) {
+            @NonNull final Context context, @NonNull final AsyncCallback<ImageMultiPageDocument, ImportedFileValidationException> callback) {
         return mGiniVisionFileImport.createDocumentForImportedFiles(intent, context, callback);
     }
 

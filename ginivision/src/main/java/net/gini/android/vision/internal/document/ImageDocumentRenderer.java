@@ -3,9 +3,9 @@ package net.gini.android.vision.internal.document;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.document.ImageDocument;
-import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.cache.PhotoMemoryCache;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.PhotoFactoryDocumentAsyncTask;
@@ -29,7 +29,7 @@ class ImageDocumentRenderer implements DocumentRenderer {
             @NonNull final Callback callback) {
         if (GiniVision.hasInstance()) {
             getFromCache(context, callback);
-        } else if (mPhoto == null)  {
+        } else if (mPhoto == null) {
             createWithAsyncTask(callback);
         } else {
             callback.onBitmapReady(mPhoto.getBitmapPreview(),
@@ -39,7 +39,7 @@ class ImageDocumentRenderer implements DocumentRenderer {
 
     private void createWithAsyncTask(final @NonNull Callback callback) {
         final PhotoFactoryDocumentAsyncTask asyncTask = new PhotoFactoryDocumentAsyncTask(
-                new AsyncCallback<Photo>() {
+                new AsyncCallback<Photo, Exception>() {
                     @Override
                     public void onSuccess(final Photo result) {
                         mPhoto = result;
@@ -51,6 +51,11 @@ class ImageDocumentRenderer implements DocumentRenderer {
                     public void onError(final Exception exception) {
                         callback.onBitmapReady(null, 0);
                     }
+
+                    @Override
+                    public void onCancelled() {
+                        callback.onBitmapReady(null, 0);
+                    }
                 });
         asyncTask.execute(mImageDocument);
     }
@@ -59,7 +64,7 @@ class ImageDocumentRenderer implements DocumentRenderer {
             @NonNull final Callback callback) {
         final PhotoMemoryCache photoMemoryCache =
                 GiniVision.getInstance().internal().getPhotoMemoryCache();
-        photoMemoryCache.get(context, mImageDocument, new AsyncCallback<Photo>() {
+        photoMemoryCache.get(context, mImageDocument, new AsyncCallback<Photo, Exception>() {
             @Override
             public void onSuccess(final Photo result) {
                 callback.onBitmapReady(result.getBitmapPreview(),
@@ -70,11 +75,17 @@ class ImageDocumentRenderer implements DocumentRenderer {
             public void onError(final Exception exception) {
                 callback.onBitmapReady(null, 0);
             }
+
+            @Override
+            public void onCancelled() {
+                callback.onBitmapReady(null, 0);
+            }
         });
     }
 
     @Override
-    public void getPageCount(@NonNull final Context context, @NonNull final AsyncCallback<Integer> asyncCallback) {
+    public void getPageCount(@NonNull final Context context,
+            @NonNull final AsyncCallback<Integer, Exception> asyncCallback) {
         asyncCallback.onSuccess(1);
     }
 }

@@ -4,8 +4,8 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.LruCache;
 
+import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.document.GiniVisionDocument;
-import net.gini.android.vision.internal.AsyncCallback;
 
 import java.util.List;
 
@@ -49,18 +49,24 @@ public class DocumentDataMemoryCache extends MemoryCache<GiniVisionDocument, byt
     protected MemoryCache.Worker<GiniVisionDocument, byte[]> createWorker(
             @NonNull final List<MemoryCache.Worker<GiniVisionDocument, byte[]>> runningWorkers,
             @NonNull final GiniVisionDocument subject,
-            @NonNull final AsyncCallback<byte[]> callback) {
-        return new DocumentDataWorker(runningWorkers, subject, new AsyncCallback<byte[]>() {
-            @Override
-            public void onSuccess(final byte[] result) {
-                callback.onSuccess(result);
-            }
+            @NonNull final AsyncCallback<byte[], Exception> callback) {
+        return new DocumentDataWorker(runningWorkers, subject,
+                new AsyncCallback<byte[], Exception>() {
+                    @Override
+                    public void onSuccess(final byte[] result) {
+                        callback.onSuccess(result);
+                    }
 
-            @Override
-            public void onError(final Exception exception) {
-                callback.onError(exception);
-            }
-        });
+                    @Override
+                    public void onError(final Exception exception) {
+                        callback.onError(exception);
+                    }
+
+                    @Override
+                    public void onCancelled() {
+                        callback.onCancelled();
+                    }
+                });
     }
 
     private static class DocumentDataWorker extends MemoryCache.Worker<GiniVisionDocument, byte[]> {
@@ -68,15 +74,15 @@ public class DocumentDataMemoryCache extends MemoryCache<GiniVisionDocument, byt
         private DocumentDataWorker(
                 @NonNull final List<MemoryCache.Worker<GiniVisionDocument, byte[]>> runningWorkers,
                 @NonNull final GiniVisionDocument subject,
-                @NonNull final AsyncCallback<byte[]> callback) {
+                @NonNull final AsyncCallback<byte[], Exception> callback) {
             super(runningWorkers, subject, callback);
         }
 
         @Override
         protected void doExecute(@NonNull final Context context,
                 @NonNull final GiniVisionDocument subject,
-                @NonNull final AsyncCallback<byte[]> callback) {
-            subject.loadData(context, new AsyncCallback<byte[]>() {
+                @NonNull final AsyncCallback<byte[], Exception> callback) {
+            subject.loadData(context, new AsyncCallback<byte[], Exception>() {
                 @Override
                 public void onSuccess(final byte[] result) {
                     callback.onSuccess(result);
@@ -85,6 +91,11 @@ public class DocumentDataMemoryCache extends MemoryCache<GiniVisionDocument, byt
                 @Override
                 public void onError(final Exception exception) {
                     callback.onError(exception);
+                }
+
+                @Override
+                public void onCancelled() {
+                    callback.onCancelled();
                 }
             });
         }
