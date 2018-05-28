@@ -17,11 +17,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.document.ImageMultiPageDocument;
-import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.review.RotatableImageViewContainer;
 
@@ -137,7 +137,7 @@ public class ThumbnailsAdapter extends
         if (GiniVision.hasInstance()) {
             GiniVision.getInstance().internal().getPhotoMemoryCache()
                     .get(mContext, mMultiPageDocument.getDocuments().get(position),
-                            new AsyncCallback<Photo>() {
+                            new AsyncCallback<Photo, Exception>() {
                                 @Override
                                 public void onSuccess(final Photo result) {
                                     // Only update if the holder still points to the position for
@@ -157,6 +157,11 @@ public class ThumbnailsAdapter extends
                                         imageView.setBackgroundColor(Color.TRANSPARENT);
                                         imageView.setImageBitmap(null);
                                     }
+                                }
+
+                                @Override
+                                public void onCancelled() {
+                                    // Not used
                                 }
                             });
         }

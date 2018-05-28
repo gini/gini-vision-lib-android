@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import net.gini.android.vision.internal.AsyncCallback;
+import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.internal.util.Size;
 
 /**
@@ -15,7 +15,7 @@ public interface DocumentRenderer {
 
     void toBitmap(@NonNull final Context context, @NonNull final Size targetSize, @NonNull final Callback callback);
 
-    void getPageCount(@NonNull final Context context, @NonNull final AsyncCallback<Integer> asyncCallback);
+    void getPageCount(@NonNull final Context context, @NonNull final AsyncCallback<Integer, Exception> asyncCallback);
 
     /**
      * @exclude

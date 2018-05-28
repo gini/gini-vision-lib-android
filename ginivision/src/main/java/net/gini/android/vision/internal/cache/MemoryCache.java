@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.LruCache;
 
-import net.gini.android.vision.internal.AsyncCallback;
+import net.gini.android.vision.AsyncCallback;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +35,7 @@ public abstract class MemoryCache<K, V> {
     private final Queue<Worker<K, V>> mWorkerQueue = new LinkedList<>();
     private final List<Worker<K, V>> mRunningWorkers;
     private final int mRunningWorkersLimit;
-    private final Map<K, List<AsyncCallback<V>>> mWaitingCallbacks = new HashMap<>();
+    private final Map<K, List<AsyncCallback<V, Exception>>> mWaitingCallbacks = new HashMap<>();
 
     public MemoryCache(final int runningWorkersLimit) {
         mRunningWorkersLimit = runningWorkersLimit;
@@ -51,7 +51,7 @@ public abstract class MemoryCache<K, V> {
     protected abstract LruCache<K, V> createCache();
 
     public void get(@NonNull final Context context, @NonNull final K key,
-            @NonNull final AsyncCallback<V> callback) {
+            @NonNull final AsyncCallback<V, Exception> callback) {
         mLog.debug("Get for key {}", getNameForLog(key));
         if (mCache.get(key) != null) {
             final V value = mCache.get(key);
@@ -62,7 +62,7 @@ public abstract class MemoryCache<K, V> {
 
         mLog.debug("Create worker");
         final Worker<K, V> worker = createWorker(mRunningWorkers, key,
-                new AsyncCallback<V>() {
+                new AsyncCallback<V, Exception>() {
                     @Override
                     public void onSuccess(final V result) {
                         mLog.debug("Worker finished with result {}", getNameForLog(result));
@@ -81,9 +81,18 @@ public abstract class MemoryCache<K, V> {
                         mWaitingCallbacks.remove(key);
                         executeNextWorker(context);
                     }
+
+                    @Override
+                    public void onCancelled() {
+                        mLog.error("Worker was cancelled");
+                        callOnCancelledForWaitingCallbacks(key);
+                        mLog.debug("Remove callbacks for key {}", getNameForLog(key));
+                        mWaitingCallbacks.remove(key);
+                        executeNextWorker(context);
+                    }
                 });
 
-        List<AsyncCallback<V>> callbacks = mWaitingCallbacks.get(key);
+        List<AsyncCallback<V, Exception>> callbacks = mWaitingCallbacks.get(key);
         if (callbacks == null) {
             mLog.debug("First callback {} registered for key {}", getNameForLog(callback),
                     getNameForLog(key));
@@ -110,9 +119,9 @@ public abstract class MemoryCache<K, V> {
     }
 
     private void callOnSuccessForWaitingCallbacks(final K key, final V result) {
-        final List<AsyncCallback<V>> callbacks = mWaitingCallbacks.get(key);
+        final List<AsyncCallback<V, Exception>> callbacks = mWaitingCallbacks.get(key);
         if (callbacks != null) {
-            for (final AsyncCallback<V> waitingCallback : callbacks) {
+            for (final AsyncCallback<V, Exception> waitingCallback : callbacks) {
                 mLog.debug("Invoke callback {} for key {}",
                         getNameForLog(waitingCallback), getNameForLog(key));
                 waitingCallback.onSuccess(result);
@@ -121,12 +130,23 @@ public abstract class MemoryCache<K, V> {
     }
 
     private void callOnErrorForWaitingCallbacks(final K key, final Exception exception) {
-        final List<AsyncCallback<V>> callbacks = mWaitingCallbacks.get(key);
+        final List<AsyncCallback<V, Exception>> callbacks = mWaitingCallbacks.get(key);
         if (callbacks != null) {
-            for (final AsyncCallback<V> waitingCallback : callbacks) {
+            for (final AsyncCallback<V, Exception> waitingCallback : callbacks) {
                 mLog.debug("Invoke callback {} for key {}",
                         getNameForLog(waitingCallback), getNameForLog(key));
                 waitingCallback.onError(exception);
+            }
+        }
+    }
+
+    private void callOnCancelledForWaitingCallbacks(final K key) {
+        final List<AsyncCallback<V, Exception>> callbacks = mWaitingCallbacks.get(key);
+        if (callbacks != null) {
+            for (final AsyncCallback<V, Exception> waitingCallback : callbacks) {
+                mLog.debug("Invoke callback {} for key {}",
+                        getNameForLog(waitingCallback), getNameForLog(key));
+                waitingCallback.onCancelled();
             }
         }
     }
@@ -139,7 +159,7 @@ public abstract class MemoryCache<K, V> {
     protected abstract Worker<K, V> createWorker(
             @NonNull final List<Worker<K, V>> runningWorkers,
             @NonNull final K subject,
-            @NonNull final AsyncCallback<V> callback);
+            @NonNull final AsyncCallback<V, Exception> callback);
 
 
     private void executeNextWorker(@NonNull final Context context) {
@@ -168,8 +188,8 @@ public abstract class MemoryCache<K, V> {
     }
 
     private void logDanglingCallbacks() {
-        for (final Map.Entry<K, List<AsyncCallback<V>>> entry : mWaitingCallbacks.entrySet()) {
-            for (final AsyncCallback<V> waitingCallback : entry.getValue()) {
+        for (final Map.Entry<K, List<AsyncCallback<V, Exception>>> entry : mWaitingCallbacks.entrySet()) {
+            for (final AsyncCallback<V, Exception> waitingCallback : entry.getValue()) {
                 mLog.error("Dangling callback {} for key {}", getNameForLog(waitingCallback),
                         getNameForLog(entry.getKey()));
             }
@@ -189,11 +209,11 @@ public abstract class MemoryCache<K, V> {
         private final Logger mLog;
         private final List<Worker<S, V>> mRunningWorkers;
         private final S mSubject;
-        private final AsyncCallback<V> mCallback;
+        private final AsyncCallback<V, Exception> mCallback;
 
         Worker(@NonNull final List<Worker<S, V>> runningWorkers,
                 @NonNull final S subject,
-                @NonNull final AsyncCallback<V> callback) {
+                @NonNull final AsyncCallback<V, Exception> callback) {
             mRunningWorkers = runningWorkers;
             mSubject = subject;
             mCallback = callback;
@@ -229,7 +249,7 @@ public abstract class MemoryCache<K, V> {
 
         public void execute(@NonNull final Context context) {
             mLog.debug("Execute");
-            doExecute(context, mSubject, new AsyncCallback<V>() {
+            doExecute(context, mSubject, new AsyncCallback<V, Exception>() {
                 @Override
                 public void onSuccess(final V result) {
                     mLog.debug("Succeded");
@@ -245,10 +265,18 @@ public abstract class MemoryCache<K, V> {
                     mRunningWorkers.remove(Worker.this);
                     mCallback.onError(exception);
                 }
+
+                @Override
+                public void onCancelled() {
+                    mLog.debug("Cancelled");
+                    mLog.debug("Remove self from running workers");
+                    mRunningWorkers.remove(Worker.this);
+                    mCallback.onCancelled();
+                }
             });
         }
 
         protected abstract void doExecute(@NonNull final Context context, @NonNull final S subject,
-                @NonNull final AsyncCallback<V> callback);
+                @NonNull final AsyncCallback<V, Exception> callback);
     }
 }

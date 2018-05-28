@@ -266,20 +266,20 @@ public class GiniVision {
      * <p> Importing the files is executed on a secondary thread as it can take several seconds for
      * the process to complete. The callback methods are invoked on the main thread.
      *
-     * <p> In your callback's {@code onDone(Intent)} method start the Intent with {@link
+     * <p> In your callback's {@code onSuccess(Intent)} method start the Intent with {@link
      * android.app.Activity#startActivityForResult(Intent, int)} to receive the extractions or a
      * {@link GiniVisionError} in case there was an error.
      *
      * @param intent   the Intent your app received
      * @param context  Android context
-     * @param callback A {@link GiniVisionFileImport.Callback} implementation
+     * @param callback A {@link AsyncCallback} implementation
      *
      * @return a {@link CancellationToken} for cancelling the import process
      */
     @NonNull
     public CancellationToken createIntentForImportedFiles(@NonNull final Intent intent,
             @NonNull final Context context,
-            @NonNull final GiniVisionFileImport.Callback<Intent> callback) {
+            @NonNull final AsyncCallback<Intent, ImportedFileValidationException> callback) {
         return mGiniVisionFileImport.createIntentForImportedFiles(intent, context, callback);
     }
 
@@ -302,14 +302,14 @@ public class GiniVision {
      *
      * @param intent   the Intent your app received
      * @param context  Android context
-     * @param callback A {@link GiniVisionFileImport.Callback} implementation
+     * @param callback A {@link AsyncCallback} implementation
      *
      * @return a {@link CancellationToken} for cancelling the import process
      */
     @NonNull
     public CancellationToken createDocumentForImportedFiles(@NonNull final Intent intent,
             @NonNull final Context context,
-            @NonNull final GiniVisionFileImport.Callback<Document> callback) {
+            @NonNull final AsyncCallback<Document, ImportedFileValidationException> callback) {
         return mGiniVisionFileImport.createDocumentForImportedFiles(intent, context, callback);
     }
 

@@ -22,6 +22,7 @@ import android.widget.ProgressBar;
 
 import com.ortiz.touch.TouchImageView;
 
+import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionError;
@@ -29,7 +30,6 @@ import net.gini.android.vision.R;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.GiniVisionDocument;
 import net.gini.android.vision.document.ImageDocument;
-import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.cache.PhotoMemoryCache;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.PhotoEdit;
@@ -174,7 +174,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             }
             showActivityIndicatorAndDisableButtons();
             LOG.debug("Loading document data");
-            mDocument.loadData(activity, new AsyncCallback<byte[]>() {
+            mDocument.loadData(activity, new AsyncCallback<byte[], Exception>() {
                 @Override
                 public void onSuccess(final byte[] result) {
                     LOG.debug("Document data loaded");
@@ -193,6 +193,11 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                     hideActivityIndicatorAndEnableButtons();
                     mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW,
                             "An error occurred while loading the document."));
+                }
+
+                @Override
+                public void onCancelled() {
+                    // Not used
                 }
             });
         } else {
@@ -245,7 +250,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             LOG.debug("Loading Photo from memory cache");
             final PhotoMemoryCache photoMemoryCache =
                     GiniVision.getInstance().internal().getPhotoMemoryCache();
-            photoMemoryCache.get(activity, mDocument, new AsyncCallback<Photo>() {
+            photoMemoryCache.get(activity, mDocument, new AsyncCallback<Photo, Exception>() {
                 @Override
                 public void onSuccess(final Photo result) {
                     LOG.debug("Photo loaded");
@@ -257,11 +262,16 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                     LOG.error("Failed to load a Photo for the ImageDocument");
                     photoCreationFailed();
                 }
+
+                @Override
+                public void onCancelled() {
+                    // Not used
+                }
             });
         } else {
             LOG.debug("Instantiating a Photo from the Document");
             final PhotoFactoryDocumentAsyncTask asyncTask = new PhotoFactoryDocumentAsyncTask(
-                    new AsyncCallback<Photo>() {
+                    new AsyncCallback<Photo, Exception>() {
                         @Override
                         public void onSuccess(final Photo result) {
                             LOG.debug("Photo instantiated");
@@ -272,6 +282,11 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                         public void onError(final Exception exception) {
                             LOG.error("Failed to instantiate a Photo from the ImageDocument");
                             photoCreationFailed();
+                        }
+
+                        @Override
+                        public void onCancelled() {
+                            // Not used
                         }
                     });
             asyncTask.execute(mDocument);
@@ -318,7 +333,6 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                 .compressByDefault()
                 .applyAsync(callback);
     }
-
 
     private void photoCreationFailed() {
         if (mNextClicked || mStopped) {

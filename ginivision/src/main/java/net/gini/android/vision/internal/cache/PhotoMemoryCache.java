@@ -5,8 +5,8 @@ import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.util.LruCache;
 
+import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.document.ImageDocument;
-import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.PhotoFactoryDocumentAsyncTask;
 
@@ -51,9 +51,10 @@ public class PhotoMemoryCache extends MemoryCache<ImageDocument, Photo> {
     @Override
     protected Worker<ImageDocument, Photo> createWorker(
             @NonNull final List<Worker<ImageDocument, Photo>> runningWorkers,
-            @NonNull final ImageDocument subject, @NonNull final AsyncCallback<Photo> callback) {
+            @NonNull final ImageDocument subject,
+            @NonNull final AsyncCallback<Photo, Exception> callback) {
         return new PhotoWorker(runningWorkers, subject, mDocumentDataMemoryCache,
-                new AsyncCallback<Photo>() {
+                new AsyncCallback<Photo, Exception>() {
                     @Override
                     public void onSuccess(final Photo result) {
                         callback.onSuccess(result);
@@ -62,6 +63,11 @@ public class PhotoMemoryCache extends MemoryCache<ImageDocument, Photo> {
                     @Override
                     public void onError(final Exception exception) {
                         callback.onError(exception);
+                    }
+
+                    @Override
+                    public void onCancelled() {
+                        callback.onCancelled();
                     }
                 });
     }
@@ -74,7 +80,7 @@ public class PhotoMemoryCache extends MemoryCache<ImageDocument, Photo> {
                 @NonNull final List<Worker<ImageDocument, Photo>> runningWorkers,
                 @NonNull final ImageDocument subject,
                 @NonNull final DocumentDataMemoryCache documentDataMemoryCache,
-                @NonNull final AsyncCallback<Photo> callback) {
+                @NonNull final AsyncCallback<Photo, Exception> callback) {
             super(runningWorkers, subject, callback);
             mDocumentDataMemoryCache = documentDataMemoryCache;
         }
@@ -82,13 +88,13 @@ public class PhotoMemoryCache extends MemoryCache<ImageDocument, Photo> {
         @Override
         protected void doExecute(@NonNull final Context context,
                 @NonNull final ImageDocument subject,
-                @NonNull final AsyncCallback<Photo> callback) {
-            mDocumentDataMemoryCache.get(context, subject, new AsyncCallback<byte[]>() {
+                @NonNull final AsyncCallback<Photo, Exception> callback) {
+            mDocumentDataMemoryCache.get(context, subject, new AsyncCallback<byte[], Exception>() {
                 @Override
                 public void onSuccess(final byte[] result) {
                     final PhotoFactoryDocumentAsyncTask asyncTask =
                             new PhotoFactoryDocumentAsyncTask(
-                                    new AsyncCallback<Photo>() {
+                                    new AsyncCallback<Photo, Exception>() {
                                         @Override
                                         public void onSuccess(final Photo result) {
                                             callback.onSuccess(result);
@@ -98,6 +104,11 @@ public class PhotoMemoryCache extends MemoryCache<ImageDocument, Photo> {
                                         public void onError(final Exception exception) {
                                             callback.onError(exception);
                                         }
+
+                                        @Override
+                                        public void onCancelled() {
+                                            callback.onCancelled();
+                                        }
                                     });
                     asyncTask.execute(subject);
                 }
@@ -105,6 +116,11 @@ public class PhotoMemoryCache extends MemoryCache<ImageDocument, Photo> {
                 @Override
                 public void onError(final Exception exception) {
                     callback.onError(exception);
+                }
+
+                @Override
+                public void onCancelled() {
+                    callback.onCancelled();
                 }
             });
         }
