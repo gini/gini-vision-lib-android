@@ -1,4 +1,4 @@
-package net.gini.android.vision.network;
+package net.gini.android.vision.util;
 
 /**
  * Created by Alpar Szotyori on 26.04.2018.

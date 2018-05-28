@@ -33,11 +33,9 @@ import java.util.List;
 
 public class ImageStack extends RelativeLayout {
 
-    private static final long BADGE_TRANSITION_DURATION_MS = 150;
-    private static final long TRANSITION_DURATION_MS = 300;
-    private static final long TRANSITION_START_DELAY_MS = 150;
-    public static final long ADD_IMAGE_TRANSITION_DURATION_MS =
-            TRANSITION_DURATION_MS + TRANSITION_START_DELAY_MS;
+    private static final long BADGE_TRANSITION_DURATION_MS = 600;
+    private static final long TRANSITION_DURATION_MS = 600;
+    private static final long TRANSITION_START_DELAY_MS = 500;
     private TextView badge;
     private OnClickListener clickListener;
     private int imageCount;
@@ -106,11 +104,16 @@ public class ImageStack extends RelativeLayout {
         view.setOnClickListener(clickListener);
     }
 
-    public void addImage(@NonNull final Bitmap bitmap) {
+    public void addImage(@NonNull final StackBitmap bitmap) {
+        addImage(bitmap, null);
+    }
+
+    public void addImage(@NonNull final StackBitmap bitmap,
+            @Nullable final Transition.TransitionListener transitionListener) {
         // Get the current images visible in the stack
-        final Drawable drawable1 = stackItem1.getDrawable();
-        final Drawable drawable2 = stackItem2.getDrawable();
-        final Drawable drawable3 = stackItem3.getDrawable();
+        final StackDrawable stackDrawable1 = new StackDrawable(stackItem1);
+        final StackDrawable stackDrawable2 = new StackDrawable(stackItem2);
+        final StackDrawable stackDrawable3 = new StackDrawable(stackItem3);
 
         imageCount++;
 
@@ -119,8 +122,10 @@ public class ImageStack extends RelativeLayout {
 
         // Show the current images in the image added scene
         final AddImageTransitionListener addImageTransitionListener =
-                createAddImageTransitionListener(imageAddedScene, bitmap, drawable1, drawable2,
-                        drawable3);
+                createAddImageTransitionListener(imageAddedScene, bitmap, stackDrawable1,
+                        stackDrawable2,
+                        stackDrawable3,
+                        transitionListener);
 
         // Set up the add image transitions
         final Transition addImageTransitions = createAddImageTransition(
@@ -143,6 +148,13 @@ public class ImageStack extends RelativeLayout {
         fadeOut.addTarget(R.id.gv_stack_item_3);
         addImageTransitions.addTransition(fadeOut);
 
+        // Badge and subtitle have to be faded in
+        final Fade fadeIn = new Fade(Fade.IN);
+        fadeIn.addTarget(R.id.gv_badge);
+        fadeIn.addTarget(R.id.gv_stack_subtitle);
+        fadeIn.setDuration(BADGE_TRANSITION_DURATION_MS);
+        addImageTransitions.addTransition(fadeIn);
+
         addImageTransitions.setStartDelay(TRANSITION_START_DELAY_MS);
 
         addImageTransitions.addListener(addImageTransitionListener);
@@ -151,14 +163,15 @@ public class ImageStack extends RelativeLayout {
 
     @NonNull
     private AddImageTransitionListener createAddImageTransitionListener(final Scene imageAddedScene,
-            final @NonNull Bitmap bitmap, final Drawable drawable1, final Drawable drawable2,
-            final Drawable drawable3) {
+            final @NonNull StackBitmap bitmap, final StackDrawable drawable1,
+            final StackDrawable drawable2, final StackDrawable drawable3,
+            @Nullable final Transition.TransitionListener transitionListener) {
         final AddImageTransitionListener addImageTransitionListener =
-                new AddImageTransitionListener(imageAddedScene, this);
-        addImageTransitionListener.setDrawable1(drawable1);
-        addImageTransitionListener.setDrawable2(drawable2);
-        addImageTransitionListener.setDrawable3(drawable3);
-        addImageTransitionListener.setNewImage(bitmap);
+                new AddImageTransitionListener(imageAddedScene, this, transitionListener);
+        addImageTransitionListener.setStackDrawable1(drawable1);
+        addImageTransitionListener.setStackDrawable2(drawable2);
+        addImageTransitionListener.setStackDrawable3(drawable3);
+        addImageTransitionListener.setNewStackBitmap(bitmap);
         return addImageTransitionListener;
     }
 
@@ -172,16 +185,9 @@ public class ImageStack extends RelativeLayout {
         setImages(null);
     }
 
-    public void setImages(@Nullable final List<Bitmap> bitmaps) {
+    public void setImages(@Nullable final List<StackBitmap> bitmaps) {
         imageCount = 0;
-        stackItem1.setImageDrawable(null);
-        stackItem1.setClickable(false);
-        stackItem1.setFocusable(false);
-        stackItem1.setBackgroundColor(Color.TRANSPARENT);
-        stackItem2.setImageDrawable(null);
-        stackItem2.setBackgroundColor(Color.TRANSPARENT);
-        stackItem3.setImageDrawable(null);
-        stackItem3.setBackgroundColor(Color.TRANSPARENT);
+        resetImageViewContainers();
         if (bitmaps == null || bitmaps.size() == 0) {
             badge.setText("");
             badge.setVisibility(INVISIBLE);
@@ -207,27 +213,54 @@ public class ImageStack extends RelativeLayout {
         }
     }
 
+    private void resetImageViewContainers() {
+        resetImageView(stackItem1);
+        resetImageView(stackItem2);
+        resetImageView(stackItem3);
+    }
+
+    private void resetImageView(@NonNull final ImageView imageView) {
+        imageView.setImageDrawable(null);
+        imageView.setBackgroundColor(Color.TRANSPARENT);
+        rotateImageView(imageView, 0);
+        removeClickListener(imageView);
+    }
+
+    private void removeClickListener(
+            @NonNull final ImageView imageView) {
+        imageView.setClickable(false);
+        imageView.setFocusable(false);
+        imageView.setOnClickListener(null);
+    }
+
+    private static void rotateImageView(final ImageView imageView, final int rotation) {
+        imageView.setRotation(rotation);
+    }
+
     private static void setBitmapOrBlack(@NonNull final ImageView imageView,
-            @Nullable final Bitmap bitmap) {
-        if (bitmap != null) {
-            imageView.setImageBitmap(bitmap);
+            @Nullable final StackBitmap stackBitmap) {
+        if (stackBitmap != null) {
+            imageView.setImageBitmap(stackBitmap.bitmap);
+            rotateImageView(imageView, stackBitmap.rotation);
         } else {
             imageView.setImageBitmap(null);
             imageView.setBackgroundColor(Color.BLACK);
+            rotateImageView(imageView, 0);
         }
     }
 
-    public void setImage(@Nullable final Bitmap bitmap, @NonNull final Position position) {
+    public void setImage(@Nullable final StackBitmap stackBitmap,
+            @NonNull final Position position) {
         addClickListener();
         switch (position) {
             case TOP:
-                setBitmapOrBlack(stackItem1, bitmap);
+                setBitmapOrBlack(stackItem1, stackBitmap);
                 break;
             case MIDDLE:
-                setBitmapOrBlack(stackItem2, bitmap);
+                setBitmapOrBlack(stackItem2, stackBitmap);
                 break;
             case BOTTOM:
-                setBitmapOrBlack(stackItem3, bitmap);
+                setBitmapOrBlack(stackItem3, stackBitmap);
                 break;
         }
     }
@@ -240,12 +273,14 @@ public class ImageStack extends RelativeLayout {
     }
 
     private static void setDrawableOrBlack(@NonNull final ImageView imageView,
-            @Nullable final Drawable drawable) {
-        if (drawable != null && drawable.getIntrinsicHeight() > 0) {
-            imageView.setImageDrawable(drawable);
+            @Nullable final StackDrawable stackDrawable) {
+        if (stackDrawable != null && stackDrawable.drawable.getIntrinsicHeight() > 0) {
+            imageView.setImageDrawable(stackDrawable.drawable);
+            rotateImageView(imageView, stackDrawable.rotation);
         } else {
             imageView.setImageDrawable(null);
             imageView.setBackgroundColor(Color.BLACK);
+            rotateImageView(imageView, 0);
         }
     }
 
@@ -255,19 +290,44 @@ public class ImageStack extends RelativeLayout {
         BOTTOM
     }
 
+    private static class StackDrawable {
+
+        Drawable drawable;
+        int rotation;
+
+        StackDrawable(@NonNull final ImageView imageView) {
+            drawable = imageView.getDrawable();
+            rotation = (int) imageView.getRotation();
+        }
+    }
+
+    public static class StackBitmap {
+
+        Bitmap bitmap;
+        int rotation;
+
+        public StackBitmap(final Bitmap bitmap, final int rotation) {
+            this.bitmap = bitmap;
+            this.rotation = rotation;
+        }
+    }
+
     private static class AddImageTransitionListener extends TransitionListenerAdapter {
 
         private final ImageStack imageStack;
         private final Scene imageAddedScene;
-        private Drawable drawable1;
-        private Drawable drawable2;
-        private Drawable drawable3;
-        private Bitmap newImage;
+        private final Transition.TransitionListener transitionListener;
+        private StackDrawable stackDrawable1;
+        private StackDrawable stackDrawable2;
+        private StackDrawable stackDrawable3;
+        private StackBitmap newStackBitmap;
 
         private AddImageTransitionListener(final Scene imageAddedScene,
-                final ImageStack imageStack) {
+                final ImageStack imageStack,
+                @Nullable final Transition.TransitionListener transitionListener) {
             this.imageAddedScene = imageAddedScene;
             this.imageStack = imageStack;
+            this.transitionListener = transitionListener;
         }
 
         @Override
@@ -284,42 +344,46 @@ public class ImageStack extends RelativeLayout {
             // Image count was already increased so when we have at least two images it means
             // there was an image in the top stack item
             if (imageStack.imageCount >= 2) {
-                setDrawableOrBlack(stackItem1View, drawable1);
+                setDrawableOrBlack(stackItem1View, stackDrawable1);
             }
             // When we have at least three images it means
             // there was an image in the middle stack item
             if (imageStack.imageCount >= 3) {
-                setDrawableOrBlack(stackItem2View, drawable2);
+                setDrawableOrBlack(stackItem2View, stackDrawable2);
             }
             // When we have at least four images it means
             // there was an image in the bottom stack item
             if (imageStack.imageCount >= 4) {
-                setDrawableOrBlack(stackItem3View, drawable3);
+                setDrawableOrBlack(stackItem3View, stackDrawable3);
             }
-            if (imageStack.imageCount > 0) {
+            if (imageStack.imageCount > 1) {
                 badge.setVisibility(VISIBLE);
-                badge.setText(String.valueOf(imageStack.imageCount));
                 subtitle.setVisibility(VISIBLE);
             }
+            badge.setText(String.valueOf(imageStack.imageCount));
+
             // Show the new image
-            newImageView.setVisibility(VISIBLE);
-            setBitmapOrBlack(newImageView, newImage);
+            setBitmapOrBlack(newImageView, newStackBitmap);
+
+            if (transitionListener != null) {
+                transitionListener.onTransitionStart(transition);
+            }
         }
 
-        void setDrawable1(final Drawable drawable1) {
-            this.drawable1 = drawable1;
+        void setStackDrawable1(final StackDrawable stackDrawable1) {
+            this.stackDrawable1 = stackDrawable1;
         }
 
-        void setDrawable2(final Drawable drawable2) {
-            this.drawable2 = drawable2;
+        void setStackDrawable2(final StackDrawable stackDrawable2) {
+            this.stackDrawable2 = stackDrawable2;
         }
 
-        void setDrawable3(final Drawable drawable3) {
-            this.drawable3 = drawable3;
+        void setStackDrawable3(final StackDrawable stackDrawable3) {
+            this.stackDrawable3 = stackDrawable3;
         }
 
-        void setNewImage(final Bitmap newImage) {
-            this.newImage = newImage;
+        void setNewStackBitmap(final StackBitmap newStackBitmap) {
+            this.newStackBitmap = newStackBitmap;
         }
 
         @Override
@@ -330,7 +394,7 @@ public class ImageStack extends RelativeLayout {
 
             // Pass the new image and the previous top 2 images to the final state
             final CleanupTransitionListener cleanupTransitionListener =
-                    createCleanupTransitionListener(defaultScene);
+                    createCleanupTransitionListener(defaultScene, transitionListener);
 
             // Set up the cleanup transitions
             final Transition cleanupTransitions = createCleanupTransition(
@@ -352,32 +416,26 @@ public class ImageStack extends RelativeLayout {
             changeBounds.setDuration(0);
             cleanupTransitions.addTransition(changeBounds);
 
-            // Only the badge has to be faded in
-            final Fade fadeIn = new Fade(Fade.IN);
-            fadeIn.addTarget(R.id.gv_badge);
-            fadeIn.setDuration(BADGE_TRANSITION_DURATION_MS);
-            cleanupTransitions.addTransition(fadeIn);
-
             cleanupTransitions.addListener(cleanupTransitionListener);
             return cleanupTransitions;
         }
 
         @NonNull
         private CleanupTransitionListener createCleanupTransitionListener(
-                final Scene defaultScene) {
+                final Scene defaultScene, @Nullable final Transition.TransitionListener transitionListener) {
             final CleanupTransitionListener cleanupTransitionListener =
-                    new CleanupTransitionListener(defaultScene, imageStack);
-            cleanupTransitionListener.setDrawable1(drawable1);
-            cleanupTransitionListener.setDrawable2(drawable2);
-            cleanupTransitionListener.setNewImage(newImage);
+                    new CleanupTransitionListener(defaultScene, imageStack, transitionListener);
+            cleanupTransitionListener.setStackDrawable1(stackDrawable1);
+            cleanupTransitionListener.setStackDrawable2(stackDrawable2);
+            cleanupTransitionListener.setNewStackBitmap(newStackBitmap);
             return cleanupTransitionListener;
         }
 
         private void cleanUp() {
-            drawable1 = null;
-            drawable2 = null;
-            drawable3 = null;
-            newImage = null;
+            stackDrawable1 = null;
+            stackDrawable2 = null;
+            stackDrawable3 = null;
+            newStackBitmap = null;
         }
     }
 
@@ -385,25 +443,28 @@ public class ImageStack extends RelativeLayout {
 
         private final ImageStack imageStack;
         private final Scene defaultScene;
-        private Drawable drawable1;
-        private Drawable drawable2;
-        private Bitmap newImage;
+        private final Transition.TransitionListener transitionListener;
+        private StackDrawable stackDrawable1;
+        private StackDrawable stackDrawable2;
+        private StackBitmap newStackBitmap;
 
-        private CleanupTransitionListener(final Scene defaultScene, final ImageStack imageStack) {
+        private CleanupTransitionListener(final Scene defaultScene, final ImageStack imageStack, @Nullable final
+                Transition.TransitionListener transitionListener) {
             this.defaultScene = defaultScene;
             this.imageStack = imageStack;
+            this.transitionListener = transitionListener;
         }
 
-        void setDrawable1(final Drawable drawable1) {
-            this.drawable1 = drawable1;
+        void setStackDrawable1(final StackDrawable stackDrawable1) {
+            this.stackDrawable1 = stackDrawable1;
         }
 
-        void setDrawable2(final Drawable drawable2) {
-            this.drawable2 = drawable2;
+        void setStackDrawable2(final StackDrawable stackDrawable2) {
+            this.stackDrawable2 = stackDrawable2;
         }
 
-        void setNewImage(final Bitmap newImage) {
-            this.newImage = newImage;
+        void setNewStackBitmap(final StackBitmap newStackBitmap) {
+            this.newStackBitmap = newStackBitmap;
         }
 
         @Override
@@ -418,22 +479,23 @@ public class ImageStack extends RelativeLayout {
             imageStack.badge = sceneRoot.findViewById(R.id.gv_badge);
             imageStack.subtitle = sceneRoot.findViewById(R.id.gv_stack_subtitle);
 
-
             // Push the images to the left (remove last image and show image on top)
             // Image count was already increased so when we have at least 3 images it means
             // that there was an image in the middle item which can be moved to the bottom item
             if (imageStack.imageCount >= 3) {
-                setDrawableOrBlack(imageStack.stackItem3, drawable2);
+                setDrawableOrBlack(imageStack.stackItem3, stackDrawable2);
             }
             // WHen we have at least 2 images it means that there was an image in the top
             // item which can be moved to the middle item
             if (imageStack.imageCount >= 2) {
-                setDrawableOrBlack(imageStack.stackItem2, drawable1);
+                setDrawableOrBlack(imageStack.stackItem2, stackDrawable1);
             }
-            setBitmapOrBlack(imageStack.stackItem1, newImage);
+            setBitmapOrBlack(imageStack.stackItem1, newStackBitmap);
 
             // Update the badge
+            imageStack.badge.setVisibility(VISIBLE);
             imageStack.badge.setText(String.valueOf(imageStack.imageCount));
+            imageStack.subtitle.setVisibility(VISIBLE);
 
             // Make stack items clickable
             imageStack.addClickListener();
@@ -441,10 +503,17 @@ public class ImageStack extends RelativeLayout {
             cleanUp();
         }
 
+        @Override
+        public void onTransitionEnd(@NonNull final Transition transition) {
+            if (transitionListener != null) {
+                transitionListener.onTransitionEnd(transition);
+            }
+        }
+
         private void cleanUp() {
-            drawable1 = null;
-            drawable2 = null;
-            newImage = null;
+            stackDrawable1 = null;
+            stackDrawable2 = null;
+            newStackBitmap = null;
         }
     }
 }

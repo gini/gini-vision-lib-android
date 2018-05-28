@@ -30,6 +30,7 @@ import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.GiniVisionDocument;
 import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.internal.AsyncCallback;
+import net.gini.android.vision.internal.cache.PhotoMemoryCache;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.PhotoEdit;
 import net.gini.android.vision.internal.camera.photo.PhotoFactoryDocumentAsyncTask;
@@ -50,8 +51,6 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     private static final String PHOTO_KEY = "PHOTO_KEY";
     private static final String DOCUMENT_KEY = "DOCUMENT_KEY";
     private static final Logger LOG = LoggerFactory.getLogger(ReviewFragmentImpl.class);
-
-    private static final int JPEG_COMPRESSION_QUALITY_FOR_UPLOAD = 50;
 
     private static final ReviewFragmentListener NO_OP_LISTENER = new ReviewFragmentListener() {
         @Override
@@ -179,7 +178,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                     if (mNextClicked || mStopped) {
                         return;
                     }
-                    createAndCompressPhoto();
+                    createPhoto();
                 }
 
                 @Override
@@ -205,7 +204,8 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         if (activity == null) {
             return;
         }
-        final GiniVisionDocument document = DocumentFactory.newImageDocumentFromPhotoAndDocument(mPhoto,
+        final GiniVisionDocument document = DocumentFactory.newImageDocumentFromPhotoAndDocument(
+                mPhoto,
                 mDocument);
         if (GiniVision.hasInstance()) {
             final NetworkRequestsManager networkRequestsManager = GiniVision.getInstance()
@@ -233,55 +233,105 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         }
     }
 
-    private void createAndCompressPhoto() {
-        LOG.debug("Instantiating a Photo from the Document");
-        final PhotoFactoryDocumentAsyncTask asyncTask = new PhotoFactoryDocumentAsyncTask(
-                new AsyncCallback<Photo>() {
-                    @Override
-                    public void onSuccess(final Photo result) {
-                        LOG.debug("Photo instantiated");
-                        if (mNextClicked || mStopped) {
-                            return;
-                        }
-                        mPhoto = result;
-                        mCurrentRotation = mPhoto.getRotationForDisplay();
-                        applyCompressionToPhoto(new PhotoEdit.PhotoEditCallback() {
-                            @Override
-                            public void onDone(@NonNull final Photo photo) {
-                                LOG.debug("Photo compressed");
-                                if (mNextClicked || mStopped) {
-                                    return;
-                                }
-                                hideActivityIndicatorAndEnableButtons();
-                                observeViewTree();
-                                LOG.info("Should analyze document");
-                                shouldAnalyzeDocument();
-                            }
+    private void createPhoto() {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
+        }
+        if (GiniVision.hasInstance()) {
+            LOG.debug("Loading Photo from memory cache");
+            final PhotoMemoryCache photoMemoryCache =
+                    GiniVision.getInstance().internal().getPhotoMemoryCache();
+            photoMemoryCache.get(activity, mDocument, new AsyncCallback<Photo>() {
+                @Override
+                public void onSuccess(final Photo result) {
+                    LOG.debug("Photo loaded");
+                    photoCreated(result);
+                }
 
-                            @Override
-                            public void onFailed() {
-                                LOG.error("Failed to compress the Photo");
-                                if (mNextClicked || mStopped) {
-                                    return;
-                                }
-                                mListener.onError(
-                                        new GiniVisionError(GiniVisionError.ErrorCode.REVIEW,
-                                                "An error occurred while compressing the jpeg."));
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onError(final Exception exception) {
-                        LOG.error("Failed to instantiate a Photo from the ImageDocument");
-                        if (mNextClicked || mStopped) {
-                            return;
+                @Override
+                public void onError(final Exception exception) {
+                    LOG.error("Failed to load a Photo for the ImageDocument");
+                    photoCreationFailed();
+                }
+            });
+        } else {
+            LOG.debug("Instantiating a Photo from the Document");
+            final PhotoFactoryDocumentAsyncTask asyncTask = new PhotoFactoryDocumentAsyncTask(
+                    new AsyncCallback<Photo>() {
+                        @Override
+                        public void onSuccess(final Photo result) {
+                            LOG.debug("Photo instantiated");
+                            photoCreated(result);
                         }
-                        mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW,
-                                "An error occurred while instantiating a Photo from the ImageDocument."));
+
+                        @Override
+                        public void onError(final Exception exception) {
+                            LOG.error("Failed to instantiate a Photo from the ImageDocument");
+                            photoCreationFailed();
+                        }
+                    });
+            asyncTask.execute(mDocument);
+        }
+    }
+
+    private void photoCreated(final Photo result) {
+        if (mNextClicked || mStopped) {
+            return;
+        }
+        mPhoto = result;
+        mCurrentRotation = mDocument.getRotationForDisplay();
+        if (!mDocument.getSource().equals(Document.Source.newCameraSource())) {
+            LOG.debug("Compressing Photo");
+            applyCompressionToPhoto(new PhotoEdit.PhotoEditCallback() {
+                @Override
+                public void onDone(@NonNull final Photo photo) {
+                    LOG.debug("Photo compressed");
+                    photoReady();
+                }
+
+                @Override
+                public void onFailed() {
+                    LOG.error("Failed to compress the Photo");
+                    if (mNextClicked || mStopped) {
+                        return;
                     }
-                });
-        asyncTask.execute(mDocument);
+                    mListener.onError(
+                            new GiniVisionError(GiniVisionError.ErrorCode.REVIEW,
+                                    "An error occurred while compressing the jpeg."));
+                }
+            });
+        } else {
+            photoReady();
+        }
+    }
+
+    private void applyCompressionToPhoto(@NonNull final PhotoEdit.PhotoEditCallback callback) {
+        if (mPhoto == null) {
+            return;
+        }
+        LOG.debug("Compressing the Photo");
+        mPhoto.edit()
+                .compressByDefault()
+                .applyAsync(callback);
+    }
+
+    private void photoCreationFailed() {
+        if (mNextClicked || mStopped) {
+            return;
+        }
+        mListener.onError(new GiniVisionError(GiniVisionError.ErrorCode.REVIEW,
+                "An error occurred while instantiating a Photo from the ImageDocument."));
+    }
+
+    private void photoReady() {
+        if (mNextClicked || mStopped) {
+            return;
+        }
+        hideActivityIndicatorAndEnableButtons();
+        observeViewTree();
+        LOG.info("Should analyze document");
+        shouldAnalyzeDocument();
     }
 
     private void showActivityIndicatorAndDisableButtons() {
@@ -377,9 +427,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             throw new IllegalStateException(
                     "Missing required instances for restoring saved instance state.");
         }
-        if (mPhoto != null) {
-            mCurrentRotation = mPhoto.getRotationForDisplay();
-        }
+        mCurrentRotation = mDocument.getRotationForDisplay();
     }
 
     private void setInputHandlers() {
@@ -421,16 +469,22 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     }
 
     private void rotateDocumentForDisplay() {
-        if (mPhoto == null) {
-            return;
-        }
-        rotateImageView(mPhoto.getRotationForDisplay(), false);
+        rotateImageView(mDocument.getRotationForDisplay(), false);
     }
 
     private void onRotateClicked() {
         final int oldRotation = mCurrentRotation;
         mCurrentRotation += 90;
         rotateImageView(mCurrentRotation, true);
+        if (GiniVision.hasInstance()
+                && GiniVision.getInstance().internal().getNetworkRequestsManager() != null) {
+            LOG.debug("Only the preview was rotated");
+            mDocument.setRotationForDisplay(mCurrentRotation);
+            mDocument.updateRotationDeltaBy(90);
+            mPhoto.setRotationForDisplay(mCurrentRotation);
+            mPhoto.updateRotationDeltaBy(90);
+            return;
+        }
         mDocumentWasModified = true;
         applyRotationToPhoto(new PhotoEdit.PhotoEditCallback() {
             @Override
@@ -438,8 +492,11 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                 if (mStopped) {
                     return;
                 }
-                final GiniVisionDocument document = DocumentFactory.newImageDocumentFromPhotoAndDocument(
-                        photo, mDocument);
+                mDocument.setRotationForDisplay(mCurrentRotation);
+                mDocument.updateRotationDeltaBy(90);
+                final GiniVisionDocument document =
+                        DocumentFactory.newImageDocumentFromPhotoAndDocument(
+                                photo, mDocument);
                 mListener.onDocumentWasRotated(
                         document,
                         oldRotation, mCurrentRotation);
@@ -515,7 +572,8 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         if (activity == null) {
             return;
         }
-        final GiniVisionDocument document = DocumentFactory.newImageDocumentFromPhotoAndDocument(mPhoto,
+        final GiniVisionDocument document = DocumentFactory.newImageDocumentFromPhotoAndDocument(
+                mPhoto,
                 mDocument);
         if (GiniVision.hasInstance()) {
             final NetworkRequestsManager networkRequestsManager =
@@ -532,7 +590,8 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
     private void proceedToAnalysisScreen() {
         LOG.info("Proceed to Analysis Screen");
-        final GiniVisionDocument document = DocumentFactory.newImageDocumentFromPhotoAndDocument(mPhoto,
+        final GiniVisionDocument document = DocumentFactory.newImageDocumentFromPhotoAndDocument(
+                mPhoto,
                 mDocument);
         if (GiniVision.hasInstance()) {
             mListener.onProceedToAnalysisScreen(document, mDocumentAnalysisErrorMessage);
@@ -548,16 +607,6 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         LOG.debug("Rotating the Photo {} degrees", mCurrentRotation);
         mPhoto.edit()
                 .rotateTo(mCurrentRotation)
-                .applyAsync(callback);
-    }
-
-    private void applyCompressionToPhoto(@NonNull final PhotoEdit.PhotoEditCallback callback) {
-        if (mPhoto == null) {
-            return;
-        }
-        LOG.debug("Compressing the Photo to quality {}", JPEG_COMPRESSION_QUALITY_FOR_UPLOAD);
-        mPhoto.edit()
-                .compressBy(JPEG_COMPRESSION_QUALITY_FOR_UPLOAD)
                 .applyAsync(callback);
     }
 

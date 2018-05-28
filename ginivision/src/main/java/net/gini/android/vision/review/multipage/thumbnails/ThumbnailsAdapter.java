@@ -54,7 +54,12 @@ public class ThumbnailsAdapter extends
         final List<ImageDocument> documents = mMultiPageDocument.getDocuments();
         mThumbnails = new ArrayList<>(documents.size());
         for (final ImageDocument document : documents) {
-            mThumbnails.add(new Thumbnail());
+            final Thumbnail thumbnail = new Thumbnail();
+            thumbnail.rotation = document.getRotationForDisplay();
+            if (multiPageDocument.hasDocumentError(document)) {
+                thumbnail.uploadState = UploadState.FAILED;
+            }
+            mThumbnails.add(thumbnail);
         }
         mListener = listener;
     }
@@ -162,14 +167,13 @@ public class ThumbnailsAdapter extends
             imageView.setBackgroundColor(Color.BLACK);
             imageView.setImageBitmap(null);
         }
-        holder.thumbnailContainer.rotateImageView(
-                photo.getRotationForDisplay(), false);
     }
 
     private void updateThumbnail(final int position, final @NonNull ViewHolder holder) {
         holder.badge.setText(String.valueOf(position + 1));
         final Thumbnail thumbnail = mThumbnails.get(position);
         holder.highlight.setAlpha(thumbnail.highlighted ? 1f : 0f);
+        holder.thumbnailContainer.rotateImageView(thumbnail.rotation, false);
         showUploadState(holder, thumbnail);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -331,7 +335,9 @@ public class ThumbnailsAdapter extends
     public void rotateHighlightedThumbnailBy(final int degrees) {
         int highlightedPosition = -1;
         for (int i = 0; i < mThumbnails.size(); i++) {
-            if (mThumbnails.get(i).highlighted) {
+            final Thumbnail thumbnail = mThumbnails.get(i);
+            if (thumbnail.highlighted) {
+                thumbnail.rotation += degrees;
                 highlightedPosition = i;
                 break;
             }
@@ -379,6 +385,7 @@ public class ThumbnailsAdapter extends
 
         boolean highlighted;
         UploadState uploadState = UploadState.NOT_STARTED;
+        int rotation;
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {

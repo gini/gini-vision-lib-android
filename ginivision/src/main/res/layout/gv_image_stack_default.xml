@@ -50,10 +50,10 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginBottom="112dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginBottom="96dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
         android:visibility="invisible"
         tools:background="#529474"
         tools:visibility="visible" />
@@ -71,8 +71,10 @@
         android:gravity="center"
         android:textColor="@android:color/white"
         android:textSize="12sp"
+        android:visibility="invisible"
         tools:ignore="UnusedAttribute"
-        tools:text="3" />
+        tools:text="3"
+        tools:visibility="visible" />
 
     <net.gini.android.vision.internal.ui.CustomFontTextView
         android:id="@+id/gv_stack_subtitle"
@@ -85,6 +87,8 @@
         android:gravity="center"
         android:paddingBottom="4dp"
         android:paddingTop="4dp"
-        android:text="@string/gv_camera_image_stack_subtitle" />
+        android:text="@string/gv_camera_image_stack_subtitle"
+        android:visibility="invisible"
+        tools:visibility="visible" />
 
 </RelativeLayout>

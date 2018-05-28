@@ -13,6 +13,8 @@ import net.gini.android.vision.document.GiniVisionDocumentError;
 import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.document.ImageMultiPageDocument;
 import net.gini.android.vision.internal.AsyncCallback;
+import net.gini.android.vision.internal.camera.photo.Photo;
+import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 import net.gini.android.vision.internal.storage.ImageDiskStore;
 import net.gini.android.vision.internal.util.DeviceHelper;
 import net.gini.android.vision.internal.util.FileImportValidator;
@@ -23,6 +25,7 @@ import net.gini.android.vision.util.UriHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -71,30 +74,63 @@ class ImportUrisAsyncTask extends AsyncTask<List<Uri>, Void, ImageMultiPageDocum
                         R.string.gv_document_import_invalid_document), multiPageDocument);
                 break;
             }
+
             final FileImportValidator fileImportValidator = new FileImportValidator(mContext);
             if (fileImportValidator.matchesCriteria(uri)) {
+                if (isCancelled()) {
+                    return null;
+                }
                 if (IntentHelper.hasMimeTypeWithPrefix(uri, mContext,
                         MimeType.IMAGE_PREFIX.asString())) {
+                    final String deviceOrientation = DeviceHelper.getDeviceOrientation(
+                            mContext);
+                    final String deviceType = DeviceHelper.getDeviceType(mContext);
+                    // Create Document
+                    final ImageDocument document = DocumentFactory.newImageDocumentFromUri(uri,
+                            mIntent, mContext, deviceOrientation,
+                            deviceType, Document.ImportMethod.PICKER);
                     try {
-                        final Uri localUri = mImageDiskStore.save(mContext, uri);
-                        if (localUri == null) {
-                            LOG.error("Failed to import selected document: "
-                                    + "could not copy to app storage");
-                            addMultiPageDocumentError(mContext.getString(
-                                    R.string.gv_document_import_invalid_document),
-                                    multiPageDocument);
-                            break;
-                        }
-                        final ImageDocument document = DocumentFactory.newImageDocumentFromUri(
-                                localUri,
-                                mIntent, mContext, DeviceHelper.getDeviceOrientation(mContext),
-                                DeviceHelper.getDeviceType(mContext), mImportMethod);
-                        multiPageDocument.addDocument(document);
-                    } catch (final IllegalArgumentException e) {
-                        LOG.error("Failed to import selected document", e);
+                        // Load uri into memory
+                        final byte[] bytesFromUri = UriHelper.getBytesFromUri(uri, mContext);
+                        document.setData(bytesFromUri);
+                    } catch (final IOException e) {
+                        LOG.error("Failed to import selected document: "
+                                + "could not read file into memory");
                         addMultiPageDocumentError(mContext.getString(
-                                R.string.gv_document_import_invalid_document), multiPageDocument);
+                                R.string.gv_document_import_invalid_document),
+                                multiPageDocument);
+                        break;
                     }
+                    if (isCancelled()) {
+                        return null;
+                    }
+                    // Create Photo
+                    final Photo photo = PhotoFactory.newPhotoFromDocument(document);
+                    if (isCancelled()) {
+                        return null;
+                    }
+                    // Compress Photo
+                    photo.edit().compressByDefault().apply();
+                    if (isCancelled()) {
+                        return null;
+                    }
+                    // Save to local storage
+                    final Uri localUri = mImageDiskStore.save(mContext, photo.getData());
+                    if (localUri == null) {
+                        LOG.error("Failed to import selected document: "
+                                + "could not copy to app storage");
+                        addMultiPageDocumentError(mContext.getString(
+                                R.string.gv_document_import_invalid_document),
+                                multiPageDocument);
+                        break;
+                    }
+                    if (isCancelled()) {
+                        return null;
+                    }
+                    // Create compressed Document
+                    final ImageDocument compressedDocument =
+                            DocumentFactory.newImageDocumentFromPhoto(photo, localUri);
+                    multiPageDocument.addDocument(compressedDocument);
                 }
             } else {
                 String errorMessage = mContext.getString(

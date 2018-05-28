@@ -13,6 +13,7 @@
         android:layout_above="@id/gv_stack_subtitle"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:layout_marginBottom="-2dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:visibility="invisible"
@@ -25,7 +26,6 @@
         android:layout_above="@id/gv_stack_subtitle"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="2dp"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         tools:background="#6daf70" />
@@ -37,7 +37,7 @@
         android:layout_above="@id/gv_stack_subtitle"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="2dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         tools:background="#56769c" />
@@ -49,10 +49,10 @@
         android:layout_above="@id/gv_stack_subtitle"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="6dp"
+        android:layout_marginBottom="4dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        tools:background="#529474" />
+        tools:background="#bab676" />
 
     <TextView
         android:id="@+id/gv_badge"

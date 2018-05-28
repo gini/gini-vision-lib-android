@@ -3,6 +3,7 @@ package net.gini.android.vision.network;
 import android.support.annotation.NonNull;
 
 import net.gini.android.vision.Document;
+import net.gini.android.vision.util.CancellationToken;
 
 import java.util.LinkedHashMap;
 
