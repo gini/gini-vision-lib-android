@@ -5,7 +5,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
-import net.gini.android.vision.internal.AsyncCallback;
+import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.util.UriHelper;
 
 import java.io.IOException;
@@ -16,11 +16,11 @@ import java.io.IOException;
 public class UriReaderAsyncTask extends AsyncTask<Uri, Void, byte[]> {
 
     private final Context mContext;
-    private final AsyncCallback<byte[]> mListener;
+    private final AsyncCallback<byte[], Exception> mListener;
     private Exception mException;
 
     public UriReaderAsyncTask(@NonNull final Context context,
-            @NonNull final AsyncCallback<byte[]> listener) {
+            @NonNull final AsyncCallback<byte[], Exception> listener) {
         mContext = context;
         mListener = listener;
     }
@@ -29,7 +29,7 @@ public class UriReaderAsyncTask extends AsyncTask<Uri, Void, byte[]> {
     protected byte[] doInBackground(final Uri... uris) {
         try {
             return UriHelper.getBytesFromUri(uris[0], mContext);
-        } catch (IOException e) {
+        } catch (final IOException e) {
             mException = e;
         }
         return null;

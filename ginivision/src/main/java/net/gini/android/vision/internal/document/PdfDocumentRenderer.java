@@ -4,8 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 
+import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.document.PdfDocument;
-import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.pdf.Pdf;
 import net.gini.android.vision.internal.util.Size;
 
@@ -28,7 +28,7 @@ class PdfDocumentRenderer implements DocumentRenderer {
             @NonNull final Callback callback) {
         final Pdf pdf = getPdf();
         if (mBitmap == null) {
-            pdf.toBitmap(targetSize, context, new AsyncCallback<Bitmap>() {
+            pdf.toBitmap(targetSize, context, new AsyncCallback<Bitmap, Exception>() {
                 @Override
                 public void onSuccess(final Bitmap result) {
                     mBitmap = result;
@@ -37,6 +37,11 @@ class PdfDocumentRenderer implements DocumentRenderer {
 
                 @Override
                 public void onError(final Exception exception) {
+                    callback.onBitmapReady(null, 0);
+                }
+
+                @Override
+                public void onCancelled() {
                     callback.onBitmapReady(null, 0);
                 }
             });
@@ -54,10 +59,10 @@ class PdfDocumentRenderer implements DocumentRenderer {
     }
 
     @Override
-    public void getPageCount(@NonNull final Context context, @NonNull final AsyncCallback<Integer> asyncCallback) {
+    public void getPageCount(@NonNull final Context context, @NonNull final AsyncCallback<Integer, Exception> asyncCallback) {
         final Pdf pdf = getPdf();
         if (mPageCount == -1) {
-            pdf.getPageCount(context, new AsyncCallback<Integer>() {
+            pdf.getPageCount(context, new AsyncCallback<Integer, Exception>() {
                 @Override
                 public void onSuccess(final Integer result) {
                     mPageCount = result;
@@ -67,6 +72,11 @@ class PdfDocumentRenderer implements DocumentRenderer {
                 @Override
                 public void onError(final Exception exception) {
                     asyncCallback.onError(exception);
+                }
+
+                @Override
+                public void onCancelled() {
+                    asyncCallback.onCancelled();
                 }
             });
         } else {

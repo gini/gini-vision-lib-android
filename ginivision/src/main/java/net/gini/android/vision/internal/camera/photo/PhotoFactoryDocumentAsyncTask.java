@@ -3,18 +3,18 @@ package net.gini.android.vision.internal.camera.photo;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
+import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.document.ImageDocument;
-import net.gini.android.vision.internal.AsyncCallback;
 
 /**
  * @exclude
  */
 public class PhotoFactoryDocumentAsyncTask extends AsyncTask<ImageDocument, Void, Photo> {
 
-    private final AsyncCallback<Photo> mListener;
+    private final AsyncCallback<Photo, Exception> mListener;
     private Exception mException;
 
-    public PhotoFactoryDocumentAsyncTask(@NonNull final AsyncCallback<Photo> listener) {
+    public PhotoFactoryDocumentAsyncTask(@NonNull final AsyncCallback<Photo, Exception> listener) {
         mListener = listener;
     }
 
@@ -22,7 +22,7 @@ public class PhotoFactoryDocumentAsyncTask extends AsyncTask<ImageDocument, Void
     protected Photo doInBackground(final ImageDocument... imageDocuments) {
         try {
             return PhotoFactory.newPhotoFromDocument(imageDocuments[0]);
-        } catch (Exception e) {
+        } catch (final Exception e) {
             mException = e;
             return null;
         }

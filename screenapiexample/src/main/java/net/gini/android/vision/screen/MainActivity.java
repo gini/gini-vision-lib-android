@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionDebug;
@@ -126,17 +127,17 @@ public class MainActivity extends AppCompatActivity {
         // Configure the Gini Vision Library
         configureGiniVision();
         if (GiniVision.hasInstance() && GiniVision.getInstance().isMultiPageEnabled()) {
-            mFileImportCancellationToken = GiniVisionFileImport.createIntentForImportedFiles(importedFileIntent, this,
-                    new GiniVisionFileImport.Callback<Intent>() {
+            mFileImportCancellationToken = GiniVision.getInstance().createIntentForImportedFiles(
+                    importedFileIntent, this,
+                    new AsyncCallback<Intent, ImportedFileValidationException>() {
                         @Override
-                        public void onDone(@NonNull final Intent result) {
+                        public void onSuccess(final Intent result) {
                             mFileImportCancellationToken = null;
                             startActivityForResult(result, REQUEST_SCAN);
                         }
 
                         @Override
-                        public void onFailed(
-                                @NonNull final ImportedFileValidationException exception) {
+                        public void onError(final ImportedFileValidationException exception) {
                             mFileImportCancellationToken = null;
                             handleFileImportError(exception);
                         }
@@ -158,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
 
             } catch (final ImportedFileValidationException e) {
                 e.printStackTrace();
-              handleFileImportError(e);
+                handleFileImportError(e);
             }
         }
     }
