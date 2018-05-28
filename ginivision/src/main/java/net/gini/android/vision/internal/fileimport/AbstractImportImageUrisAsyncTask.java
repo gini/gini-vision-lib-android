@@ -179,7 +179,7 @@ public abstract class AbstractImportImageUrisAsyncTask extends
         final String deviceType = DeviceHelper.getDeviceType(mContext);
         return DocumentFactory.newImageDocumentFromUri(uri,
                 mIntent, mContext, deviceOrientation,
-                deviceType, Document.ImportMethod.OPEN_WITH);
+                deviceType, mImportMethod);
     }
 
     private boolean isImage(final Uri uri) {
