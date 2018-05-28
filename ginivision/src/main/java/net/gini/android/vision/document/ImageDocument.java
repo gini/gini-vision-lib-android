@@ -131,12 +131,7 @@ public final class ImageDocument extends GiniVisionDocument {
             throw new IllegalArgumentException("Intent must have a mime type of image/*");
         }
         final Source source = getDocumentSource(intent, context);
-        final Uri localUri = GiniVision.getInstance().internal().getImageDiskStore()
-                .save(context, uri);
-        if (localUri == null) {
-            throw new IllegalArgumentException("Failed to copy to app storage");
-        }
-        return new ImageDocument(localUri, ImageFormat.fromMimeType(mimeType), deviceOrientation,
+        return new ImageDocument(uri, ImageFormat.fromMimeType(mimeType), deviceOrientation,
                 deviceType, source, importMethod);
     }
 

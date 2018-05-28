@@ -13,6 +13,8 @@ import java.util.List;
  */
 public class PhotoEdit {
 
+    private static final int DEFAULT_JPEG_COMPRESSION_QUALITY = 50;
+
     private final Photo mPhoto;
     @VisibleForTesting
     List<PhotoModifier> mPhotoModifiers;
@@ -43,6 +45,16 @@ public class PhotoEdit {
     public PhotoEdit compressBy(final int quality) {
         removeCompressionModifier();
         final PhotoCompressionModifier compressionModifier = new PhotoCompressionModifier(quality,
+                mPhoto);
+        getPhotoModifiers().add(compressionModifier);
+        return this;
+    }
+
+    @NonNull
+    public PhotoEdit compressByDefault() {
+        removeCompressionModifier();
+        final PhotoCompressionModifier compressionModifier = new PhotoCompressionModifier(
+                DEFAULT_JPEG_COMPRESSION_QUALITY,
                 mPhoto);
         getPhotoModifiers().add(compressionModifier);
         return this;
@@ -128,6 +140,7 @@ public class PhotoEdit {
      * @exclude
      */
     public interface PhotoEditCallback {
+
         void onDone(@NonNull Photo photo);
 
         void onFailed();

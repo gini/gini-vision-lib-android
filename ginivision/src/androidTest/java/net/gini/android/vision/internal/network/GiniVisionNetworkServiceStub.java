@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.network.AnalysisResult;
-import net.gini.android.vision.network.CancellationToken;
+import net.gini.android.vision.util.CancellationToken;
 import net.gini.android.vision.network.Error;
 import net.gini.android.vision.network.GiniVisionNetworkCallback;
 import net.gini.android.vision.network.GiniVisionNetworkService;
