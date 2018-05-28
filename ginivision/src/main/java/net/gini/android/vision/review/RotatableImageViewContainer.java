@@ -20,6 +20,9 @@ import android.widget.ImageView;
  * Copyright (c) 2018 Gini GmbH.
  */
 
+/**
+ * @exclude
+ */
 public class RotatableImageViewContainer extends FrameLayout {
 
     private boolean isRotating;

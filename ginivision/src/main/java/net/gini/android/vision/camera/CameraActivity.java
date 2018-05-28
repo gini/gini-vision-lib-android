@@ -39,305 +39,316 @@ import java.util.Map;
 /**
  * <h3>Screen API</h3>
  *
- * <p>
- *     {@code CameraActivity} is the main entry point to the Gini Vision Library when using the Screen
- *     API.
- * </p>
- * <p>
- *     It shows a camera preview with tap-to-focus functionality and a trigger button. The camera
- *     preview also shows document corner guides to which the user should align the document.
- * </p>
- * <p>
- *     On tablets in landscape orientation the camera trigger button is shown on the right side of the
- *     screen for easier access.
- * </p>
- * <p>
- *     If {@link CameraActivity#EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION} was set and {@link DocumentImportEnabledFileTypes} is not equal to {@link DocumentImportEnabledFileTypes#NONE}
- *     then a button for importing documents is shown next to the trigger button. A hint popup is displayed the first time the Gini Vision Library is used to inform the user about document importing.
- * </p>
- * <p>
- *     For importing documents {@code READ_EXTERNAL_STORAGE} permission is required and if the permission is not granted the Gini Vision Library will prompt the user to grant the permission. See {@code Customizing the Camera Screen} on how to override the message and button titles for the rationale and on permission denial alerts.
- * </p>
- * <p>
- *     Start the {@code CameraActivity} with {@link android.app.Activity#startActivityForResult(Intent,
- *     int)} to receive the {@link GiniVisionError} in case there was an error.
- * </p>
- * <p>
- *     These extras are mandatory:
+ * <p> {@code CameraActivity} is the main entry point to the Gini Vision Library when using the
+ * Screen API.
+ *
+ * <p> It shows a camera preview with tap-to-focus functionality and a trigger button. The camera
+ * preview also shows document corner guides to which the user should align the document.
+ *
+ * <p> On tablets in landscape orientation the camera trigger button is shown on the right side of
+ * the screen for easier access.
+ *
+ * <p> If you enabled document import with {@link GiniVision.Builder#setDocumentImportEnabledFileTypes(DocumentImportEnabledFileTypes)}
+ * then a button for importing documents is shown next to the trigger button. A hint popup is
+ * displayed the first time the Gini Vision Library is used to inform the user about document
+ * importing.
+ *
+ * <p> For importing documents {@code READ_EXTERNAL_STORAGE} permission is required and if the
+ * permission is not granted the Gini Vision Library will prompt the user to grant the permission.
+ * See {@code Customizing the Camera Screen} on how to override the message and button titles for
+ * the rationale and on permission denial alerts.
+ *
+ * <p> Start the {@code CameraActivity} with {@link android.app.Activity#startActivityForResult(Intent,
+ * int)} to receive the extractions or a {@link GiniVisionError} in case there was an error.
+ *
+ * <p> These formerly mandatory extras have been deprecated. Still required if {@link GiniVision} is
+ * not used:
+ *
  * <ul>
- *     <li>{@link CameraActivity#EXTRA_IN_REVIEW_ACTIVITY} - use the {@link
- *         CameraActivity#setReviewActivityExtra(Intent, Context, Class)} helper to set it. Must contain an
- *         explicit Intent to the {@link ReviewActivity} subclass from your application</li>
- *     <li>{@link CameraActivity#EXTRA_IN_ANALYSIS_ACTIVITY} - use the {@link
- *         CameraActivity#setAnalysisActivityExtra(Intent, Context, Class)} helper to set it. Must contain
- *         an explicit Intent to the {@link AnalysisActivity} subclass from your application</li>
+ *
+ * <li>{@link CameraActivity#EXTRA_IN_REVIEW_ACTIVITY} - use the {@link
+ * CameraActivity#setReviewActivityExtra(Intent, Context, Class)} helper to set it. Must contain an
+ * explicit Intent to the {@link ReviewActivity} subclass from your application
+ *
+ * <li>{@link CameraActivity#EXTRA_IN_ANALYSIS_ACTIVITY} - use the {@link
+ * CameraActivity#setAnalysisActivityExtra(Intent, Context, Class)} helper to set it. Must contain
+ * an explicit Intent to the {@link AnalysisActivity} subclass from your application
+ *
  * </ul>
- * </p>
- * <p>
- *     Optional extras are:
+ *
+ * <p> These optional extras have been deprecated. Should be set only if {@link GiniVision} is not
+ * used:
+ *
  * <ul>
- *     <li>{@link CameraActivity#EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN} - the Onboarding Screen is shown
- *         by default the first time the Gini Vision Library is started. You may disable it by setting this
- *         extra to {@code false} - we highly recommend keeping the default behavior</li>
- *     <li>{@link CameraActivity#EXTRA_IN_SHOW_ONBOARDING} - if set to {@code true} the Onboarding
- *         Screen is shown when the Gini Vision Library is started</li>
- *     <li>{@link CameraActivity#EXTRA_IN_ONBOARDING_PAGES} - custom pages for the Onboarding Screen as
- *         an {@link ArrayList} containing {@link OnboardingPage} objects</li>
- *     <li><b>Deprecated</b> {@link CameraActivity#EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY} - if set to {@code true} the
- *         back button closes the Gini Vision Library from any of its activities with result code {@link
- *         CameraActivity#RESULT_CANCELED}</li>
- *     <li>{@link CameraActivity#EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION} - must contain a {@link GiniVisionFeatureConfiguration} instance to apply the feature configuration</li>
+ *
+ * <li>{@link CameraActivity#EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN} - the Onboarding Screen is shown
+ * by default the first time the Gini Vision Library is started. You may disable it by setting this
+ * extra to {@code false} - we highly recommend keeping the default behavior
+ *
+ * <li>{@link CameraActivity#EXTRA_IN_SHOW_ONBOARDING} - if set to {@code true} the Onboarding
+ * Screen is shown when the Gini Vision Library is started
+ *
+ * <li>{@link CameraActivity#EXTRA_IN_ONBOARDING_PAGES} - custom pages for the Onboarding Screen as
+ * an {@link ArrayList} containing {@link OnboardingPage} objects
+ *
+ * <li><b>Deprecated</b> {@link CameraActivity#EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY} - if set
+ * to {@code true} the back button closes the Gini Vision Library from any of its activities with
+ * result code {@link CameraActivity#RESULT_CANCELED}
+ *
+ * <li>{@link CameraActivity#EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION} - must contain a {@link
+ * GiniVisionFeatureConfiguration} instance to apply the feature configuration
+ *
  * </ul>
- * </p>
- * <p>
- *     The following result codes need to be handled:
+ *
+ * <p> The following result codes need to be handled:
+ *
  * <ul>
- *     <li>{@link CameraActivity#RESULT_OK} - image of a document was taken, reviewed and analyzed</li>
- *     <li>{@link CameraActivity#RESULT_CANCELED} - image of document was not taken, user canceled the
- *         Gini Vision Library</li>
- *     <li>{@link CameraActivity#RESULT_ERROR} - an error occured</li>
+ *
+ * <li>{@link CameraActivity#RESULT_OK} - image of a document was taken, reviewed and analyzed
+ *
+ * <li>{@link CameraActivity#RESULT_CANCELED} - image of document was not taken, user canceled the
+ * Gini Vision Library
+ *
+ * <li>{@link CameraActivity#RESULT_ERROR} - an error occured
+ *
  * </ul>
- * </p>
- * <p>
- *     Result extra returned by the {@code CameraActivity}:
+ *
+ * <p> Result extra returned by the {@code CameraActivity}:
+ *
  * <ul>
- *     <li>{@link CameraActivity#EXTRA_OUT_ERROR} - set when result is {@link
- *         CameraActivity#RESULT_ERROR}, contains a {@link GiniVisionError} object detailing what went
- *         wrong</li>
+ *
+ * <li>{@link CameraActivity#EXTRA_OUT_EXTRACTIONS} - set when result is {@link
+ * CameraActivity#RESULT_OK}, contains a Bundle with the extraction labels as keys and {@link
+ * GiniVisionSpecificExtraction} as values.
+ *
+ * <li>{@link CameraActivity#EXTRA_OUT_ERROR} - set when result is {@link
+ * CameraActivity#RESULT_ERROR}, contains a {@link GiniVisionError} object detailing what went
+ * wrong
+ *
  * </ul>
- * </p>
- * <p>
- *     <b>Note:</b> For returning the extractions from the Gini API you can add your own extras in
- *     {@link ReviewActivity#onAddDataToResult(Intent)} or
- *     {@link AnalysisActivity#onAddDataToResult(Intent)}.
- * </p>
- * <p>
- *     If the camera could not be opened due to missing permissions, the content of the Camera Screen is
- *     replaced with a no-camera icon, a short message and an optional button. The button is shown only
- *     on Android 6.0+ and tapping the button leads the user to the Application Details page in the
- *     Settings. If these are shown on Android 5.0 and earlier means that the camera permission was not
- *     declared in your manifest.
- * </p>
+ *
+ * <p> <b>Note:</b> For returning the extractions from the Gini API you can add your own extras in
+ * {@link ReviewActivity#onAddDataToResult(Intent)} or {@link AnalysisActivity#onAddDataToResult(Intent)}.
+ *
+ * <p> If the camera could not be opened due to missing permissions, the content of the Camera
+ * Screen is replaced with a no-camera icon, a short message and an optional button. The button is
+ * shown only on Android 6.0+ and tapping the button leads the user to the Application Details page
+ * in the Settings. If these are shown on Android 5.0 and earlier means that the camera permission
+ * was not declared in your manifest.
  *
  * <h3>Customizing the Camera Screen</h3>
  *
- * <p>
- *     Customizing the look of the Camera Screen is done via overriding of app resources.
- * </p>
- * <p>
- *     The following items are customizable:
- * <ul>
- *     <li>
- *         <b>Document corner guides:</b> via the color resource named {@code gv_camera_preview_corners}
- *     </li>
- *     <li>
- *         <b>Camera trigger button:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code
- *         gv_camera_trigger_default.png} and {@code gv_camera_trigger_pressed.png}
- *     </li>
- *     <li>
- *         <b>Document import button:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_document_import_icon.png}
- *     </li>
- *     <li>
- *         <b>Document import hint background:</b> via the color resource named {@code gv_document_import_hint_background}
- *     </li>
- *     <li>
- *         <b>Document import hint close icon color:</b> via the color resource name {@code gv_hint_close}
- *     </li>
- *     <li>
- *         <b>Document import hint text:</b> via the string resource named {@code gv_document_import_hint_text}
- *     </li>
- *     <li>
- *         <b>Document import hint text size:</b>  via overriding the style named {@code
- *         GiniVisionTheme.Camera.DocumentImportHint.TextStyle} and setting an item named {@code
- *         android:textSize} with the desired {@code sp} size
- *     </li>
- *     <li>
- *         <b>Document import hint text color:</b> via the color resource name {@code gv_document_import_hint_text}
- *     </li>
- *     <li>
- *         <b>Document import hint font:</b>  via overriding the style named {@code
- *         GiniVisionTheme.Camera.DocumentImportHint.TextStyle} and setting an item named {@code
- *         gvCustomFont} with the path to the font file in your {@code assets} folder
- *     </li>
- *     <li>
- *         <b>QRCode detected popup background:</b> via the color resource named {@code gv_qrcode_detected_popup_background}
- *     </li>
- *     <li>
- *         <b>QRCode detected popup texts:</b> via the string resources named {@code gv_qrcode_detected_popup_message_1} and
- *         {@code gv_qrcode_detected_popup_message_2}
- *     </li>
- *     <li>
- *         <b>QRCode detected popup text sizes:</b>  via overriding the styles named {@code
- *         GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle} and {@code
- *         GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle} and setting an item named {@code
- *         android:textSize} with the desired {@code sp} size
- *     </li>
- *     <li>
- *         <b>QRCode detected popup text colors:</b> via the color resource name {@code gv_qrcode_detected_popup_message_1} and
- *         {@code gv_qrcode_detected_popup_message_2}
- *     </li>
- *     <li>
- *         <b>QRCode detected popup fonts:</b>  via overriding the styles named {@code
- *         GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle} and {@code
- *         GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle} and setting an item named {@code
- *         gvCustomFont} with the path to the font file in your {@code assets} folder
- *     </li>
- *     <li>
- *         <b>Read storage permission rationale text:</b> via the string resource named {@code gv_storage_permission_rationale}
- *     </li>
- *     <li>
- *         <b>Read storage permission rationale positive button text:</b> via the string resource named {@code gv_storage_permission_rationale_positive_button}
- *     </li>
- *     <li>
- *         <b>Read storage permission rationale negative button text:</b> via the string resource named {@code gv_storage_permission_rationale_negative_button}
- *     </li>
- *     <li>
- *         <b>Read storage permission rationale button color:</b> via the color resource named {@code gv_accent}
- *     </li>
- *     <li>
- *         <b>Read storage permission denied text:</b> via the string resource named {@code gv_storage_permission_denied}
- *     </li>
- *     <li>
- *         <b>Read storage permission denied positive button text:</b> via the string resource named {@code gv_storage_permission_denied_positive_button}
- *     </li>
- *     <li>
- *         <b>Read storage permission denied negative button text:</b> via the string resource named {@code gv_storage_permission_denied_negative_button}
- *     </li>
- *     <li>
- *         <b>Read storage permission denied button color:</b> via the color resource named {@code gv_accent}
- *     </li>
- *     <li>
- *         <b>Tap-to-focus indicator:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code
- *         gv_camera_focus_indicator.png}
- *     </li>
- *     <li>
- *         <b>Help menu item icon:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code
- *         gv_help_icon.png}
- *     </li>
- *     <li>
- *         <b>Onboarding menu item title:</b> via the string resource named {@code gv_show_onboarding}
- *     </li>
- *     <li>
- *         <b>Background color:</b> via the color resource named {@code gv_background}. <b>Note:</b> this
- *         color resource is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity},
- *         {@link ReviewActivity}, {@link AnalysisActivity})
- *     </li>
- *     <li>
- *         <b>No-camera icon:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code
- *         gv_no_camera.png}
- *     </li>
- *     <li>
- *         <b>No camera permission text:</b> via the string resource named {@code
- *         gv_camera_error_no_permission}
- *     </li>
- *     <li>
- *         <b>No camera permission text color:</b> via the color resource named {@code
- *         gv_camera_error_no_permission}
- *     </li>
- *     <li>
- *         <b>No camera permission font:</b> via overriding the style named {@code
- *         GiniVisionTheme.Camera.Error.NoPermission.TextStyle} and setting an item named {@code
- *         gvCustomFont} with the path to the font file in your {@code assets} folder
- *     </li>
- *     <li>
- *         <b>No camera permission text style:</b> via overriding the style named {@code
- *         GiniVisionTheme.Camera.Error.NoPermission.TextStyle} and setting an item named {@code
- *         android:textStyle} to {@code normal}, {@code bold} or {@code italic}
- *     </li>
- *     <li>
- *         <b>No camera permission text size:</b> via overriding the style named {@code
- *         GiniVisionTheme.Camera.Error.NoPermission.TextStyle} and setting an item named {@code
- *         android:textSize} to the desired {@code sp} size
- *     </li>
- *     <li>
- *         <b>No camera permission button title:</b> via the string resource named {@code
- *         gv_camera_error_no_permission_button_title}
- *     </li>
- *     <li>
- *         <b>No camera permission button title color:</b> via the color resources named {@code
- *         gv_camera_error_no_permission_button_title} and {@code
- *         gv_camera_error_no_permission_button_title_pressed}
- *     </li>
- *     <li>
- *         <b>No camera permission button font:</b> via overriding the style named {@code
- *         GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle} and setting an item named {@code
- *         gvCustomFont} with the path to the font file in your {@code assets} folder
- *     </li>
- *     <li>
- *         <b>No camera permission button text style:</b> via overriding the style named {@code
- *         GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle} and setting an item named {@code
- *         android:textStyle} to {@code normal}, {@code bold} or {@code italic}
- *     </li>
- *     <li>
- *         <b>No camera permission button text size:</b> via overriding the style named {@code
- *         GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle} and setting an item named {@code
- *         android:textSize} to the desired {@code sp} size
- *     </li>
- * </ul>
- * </p>
+ * <p> Customizing the look of the Camera Screen is done via overriding of app resources.
  *
- * <p>
- *     <b>Important:</b> All overriden styles must have their respective {@code Root.} prefixed style as
- *     their parent. Ex.: the parent of {@code GiniVisionTheme.Camera.Error.NoPermission.TextStyle} must
- *     be {@code Root.GiniVisionTheme.Camera.Error.NoPermission.TextStyle}.
- * </p>
+ * <p> The following items are customizable:
+ *
+ * <ul>
+ *
+ * <li> <b>Document corner guides:</b> via the color resource named {@code
+ * gv_camera_preview_corners}
+ *
+ * <li> <b>Camera trigger button:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code
+ * gv_camera_trigger_default.png} and {@code gv_camera_trigger_pressed.png}
+ *
+ * <li> <b>Document import button:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named
+ * {@code gv_document_import_icon.png}
+ *
+ * <li> <b>Document import button subtitle text:</b> via the string resource named {@code
+ * gv_camera_document_import_subtitle}
+ *
+ * <li> <b>Document import button subtitle text style:</b> via overriding the style named {@code
+ * GiniVisionTheme.Camera.DocumentImportSubtitle.TextStyle}
+ *
+ * <li> <b>Document import button subtitle font:</b> via overriding the style named {@code
+ * GiniVisionTheme.Camera.DocumentImportSubtitle.TextStyle} and setting an item named {@code
+ * gvCustomFont} with the path to the font file in your {@code assets} folder
+ *
+ * <li> <b>Document import hint background:</b> via the color resource named {@code
+ * gv_document_import_hint_background}
+ *
+ * <li> <b>Document import hint close icon color:</b> via the color resource name {@code
+ * gv_hint_close}
+ *
+ * <li> <b>Document import hint text:</b> via the string resource named {@code
+ * gv_document_import_hint_text}
+ *
+ * <li> <b>Document import hint text size:</b>  via overriding the style named {@code
+ * GiniVisionTheme.Camera.DocumentImportHint.TextStyle} and setting an item named {@code
+ * android:textSize} with the desired {@code sp} size
+ *
+ * <li> <b>Document import hint text color:</b> via the color resource name {@code
+ * gv_document_import_hint_text}
+ *
+ * <li> <b>Document import hint font:</b> via overriding the style named {@code
+ * GiniVisionTheme.Camera.DocumentImportHint.TextStyle} and setting an item named {@code
+ * gvCustomFont} with the path to the font file in your {@code assets} folder
+ *
+ * <li> <b>Images stack badge text style:</b> via overriding the style named {@code
+ * GiniVisionTheme.Camera.ImageStackBadge.TextStyle}
+ *
+ * <li> <b>Images stack badge font:</b> via overriding the style named {@code
+ * GiniVisionTheme.Camera.ImageStackBadge.TextStyle} and setting an item named {@code gvCustomFont}
+ * with the path to the font file in your {@code assets} folder
+ *
+ * <li> <b>Images stack badge background colors:</b> via the color resources named {@code
+ * gv_camera_image_stack_badge_background} and {@code gv_camera_image_stack_badge_background_border}
+ *
+ * <li> <b>Images stack badge background size:</b> via the dimension resource named {@code
+ * gv_camera_image_stack_badge_size}
+ *
+ * <li> <b>Images stack subtitle text:</b> via the string resource named {@code
+ * gv_camera_image_stack_subtitle}
+ *
+ * <li> <b>Images stack subtitle text style:</b> via overriding the style named {@code
+ * GiniVisionTheme.Camera.ImageStackSubtitle.TextStyle}
+ *
+ * <li> <b>Images stack subtitle font:</b> via overriding the style named {@code
+ * GiniVisionTheme.Camera.ImageStackSubtitle.TextStyle} and setting an item named {@code
+ * gvCustomFont} with the path to the font file in your {@code assets} folder
+ *
+ * <li> <b>QRCode detected popup background:</b> via the color resource named {@code
+ * gv_qrcode_detected_popup_background}
+ *
+ * <li> <b>QRCode detected popup texts:</b> via the string resources named {@code
+ * gv_qrcode_detected_popup_message_1} and {@code gv_qrcode_detected_popup_message_2}
+ *
+ * <li> <b>QRCode detected popup text sizes:</b>  via overriding the styles named {@code
+ * GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle} and {@code
+ * GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle} and setting an item named {@code
+ * android:textSize} with the desired {@code sp} size
+ *
+ * <li> <b>QRCode detected popup text colors:</b> via the color resource name {@code
+ * gv_qrcode_detected_popup_message_1} and {@code gv_qrcode_detected_popup_message_2}
+ *
+ * <li> <b>QRCode detected popup fonts:</b>  via overriding the styles named {@code
+ * GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle} and {@code
+ * GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle} and setting an item named {@code
+ * gvCustomFont} with the path to the font file in your {@code assets} folder
+ *
+ * <li> <b>Read storage permission rationale text:</b> via the string resource named {@code
+ * gv_storage_permission_rationale}
+ *
+ * <li> <b>Read storage permission rationale positive button text:</b> via the string resource named
+ * {@code gv_storage_permission_rationale_positive_button}
+ *
+ * <li> <b>Read storage permission rationale negative button text:</b> via the string resource named
+ * {@code gv_storage_permission_rationale_negative_button}
+ *
+ * <li> <b>Read storage permission rationale button color:</b> via the color resource named {@code
+ * gv_accent}
+ *
+ * <li> <b>Read storage permission denied text:</b> via the string resource named {@code
+ * gv_storage_permission_denied}
+ *
+ * <li> <b>Read storage permission denied positive button text:</b> via the string resource named
+ * {@code gv_storage_permission_denied_positive_button}
+ *
+ * <li> <b>Read storage permission denied negative button text:</b> via the string resource named
+ * {@code gv_storage_permission_denied_negative_button}
+ *
+ * <li> <b>Read storage permission denied button color:</b> via the color resource named {@code
+ * gv_accent}
+ *
+ * <li> <b>Tap-to-focus indicator:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named
+ * {@code gv_camera_focus_indicator.png}
+ *
+ * <li> <b>Help menu item icon:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code
+ * gv_help_icon.png}
+ *
+ * <li> <b>Onboarding menu item title:</b> via the string resource named {@code gv_show_onboarding}
+ *
+ * <li> <b>Background color:</b> via the color resource named {@code gv_background}. <b>Note:</b>
+ * this color resource is global to all Activities ({@link CameraActivity}, {@link
+ * OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity})
+ *
+ * <li> <b>No-camera icon:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code
+ * gv_no_camera.png}
+ *
+ * <li> <b>No camera permission text:</b> via the string resource named {@code
+ * gv_camera_error_no_permission}
+ *
+ * <li> <b>No camera permission text color:</b> via the color resource named {@code
+ * gv_camera_error_no_permission}
+ *
+ * <li> <b>No camera permission font:</b> via overriding the style named {@code
+ * GiniVisionTheme.Camera.Error.NoPermission.TextStyle} and setting an item named {@code
+ * gvCustomFont} with the path to the font file in your {@code assets} folder
+ *
+ * <li> <b>No camera permission text style:</b> via overriding the style named {@code
+ * GiniVisionTheme.Camera.Error.NoPermission.TextStyle} and setting an item named {@code
+ * android:textStyle} to {@code normal}, {@code bold} or {@code italic}
+ *
+ * <li> <b>No camera permission text size:</b> via overriding the style named {@code
+ * GiniVisionTheme.Camera.Error.NoPermission.TextStyle} and setting an item named {@code
+ * android:textSize} to the desired {@code sp} size
+ *
+ * <li> <b>No camera permission button title:</b> via the string resource named {@code
+ * gv_camera_error_no_permission_button_title}
+ *
+ * <li> <b>No camera permission button title color:</b> via the color resources named {@code
+ * gv_camera_error_no_permission_button_title} and {@code gv_camera_error_no_permission_button_title_pressed}
+ *
+ * <li> <b>No camera permission button font:</b> via overriding the style named {@code
+ * GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle} and setting an item named {@code
+ * gvCustomFont} with the path to the font file in your {@code assets} folder
+ *
+ * <li> <b>No camera permission button text style:</b> via overriding the style named {@code
+ * GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle} and setting an item named {@code
+ * android:textStyle} to {@code normal}, {@code bold} or {@code italic}
+ *
+ * <li> <b>No camera permission button text size:</b> via overriding the style named {@code
+ * GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle} and setting an item named {@code
+ * android:textSize} to the desired {@code sp} size
+ *
+ * </ul>
+ *
+ * <p> <b>Important:</b> All overriden styles must have their respective {@code Root.} prefixed
+ * style as their parent. Ex.: the parent of {@code GiniVisionTheme.Camera.Error.NoPermission.TextStyle}
+ * must be {@code Root.GiniVisionTheme.Camera.Error.NoPermission.TextStyle}.
  *
  * <h3>Customizing the Action Bar</h3>
  *
- * <p>
- *     Customizing the Action Bar is also done via overriding of app resources and each one - except the
- *     title string resource - is global to all Activities ({@link CameraActivity}, {@link
- *     OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity}).
- * </p>
- * <p>
- *     The following items are customizable:
+ * <p> Customizing the Action Bar is also done via overriding of app resources and each one - except
+ * the title string resource - is global to all Activities ({@link CameraActivity}, {@link
+ * OnboardingActivity}, {@link ReviewActivity}, {@link MultiPageReviewActivity}, {@link
+ * AnalysisActivity}).
+ *
+ * <p> The following items are customizable:
+ *
  * <ul>
- *     <li>
- *         <b>Background color:</b> via the color resource named {@code gv_action_bar} (highly recommended
- *         for Android 5+: customize the status bar color via {@code gv_status_bar})
- *     </li>
- *     <li>
- *         <b>Title:</b> via the string resource name {@code gv_title_camera}
- *     </li>
- *     <li>
- *         <b>Title color:</b> via the color resource named {@code gv_action_bar_title}
- *     </li>
+ *
+ * <li> <b>Background color:</b> via the color resource named {@code gv_action_bar} (highly
+ * recommended for Android 5+: customize the status bar color via {@code gv_status_bar})
+ *
+ * <li> <b>Title:</b> via the string resource name {@code gv_title_camera}
+ *
+ * <li> <b>Title color:</b> via the color resource named {@code gv_action_bar_title}
+ *
  * </ul>
- * </p>
  **/
 public class CameraActivity extends AppCompatActivity implements CameraFragmentListener,
         CameraFragmentInterface {
 
     /**
-     * <p>
-     * Mandatory extra which must contain an explicit Intent to the {@link ReviewActivity} subclass
-     * from your application.
-     * </p>
-     * <p>
-     * Use the {@link CameraActivity#setReviewActivityExtra(Intent, Context, Class)} helper to set
-     * it.
-     * </p>
+     * <p> Mandatory extra which must contain an explicit Intent to the {@link ReviewActivity}
+     * subclass from your application. </p> <p> Use the {@link CameraActivity#setReviewActivityExtra(Intent,
+     * Context, Class)} helper to set it. </p>
      *
-     * @deprecated When a {@link GiniVision} instance is available the document
-     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
-     * implementation. The extractions will be returned in the extra called
-     * {@link CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
+     * @deprecated When a {@link GiniVision} instance is available the document is analyzed
+     * internally by using the configured {@link GiniVisionNetworkService} implementation. The
+     * extractions will be returned in the extra called {@link CameraActivity#EXTRA_OUT_EXTRACTIONS}
+     * of the {@link CameraActivity}'s result Intent.
      */
     public static final String EXTRA_IN_REVIEW_ACTIVITY = "GV_EXTRA_IN_REVIEW_ACTIVITY";
     /**
-     * <p>
-     * Mandatory extra which must contain an explicit Intent to the {@link AnalysisActivity}
-     * subclass from your application.
-     * </p>
-     * <p>
-     * Use the {@link CameraActivity#setAnalysisActivityExtra(Intent, Context, Class)} helper to set
-     * it.
-     * </p>
+     * <p> Mandatory extra which must contain an explicit Intent to the {@link AnalysisActivity}
+     * subclass from your application. </p> <p> Use the {@link CameraActivity#setAnalysisActivityExtra(Intent,
+     * Context, Class)} helper to set it. </p>
      *
-     * @deprecated When a {@link GiniVision} instance is available the document
-     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
-     * implementation. The extractions will be returned in the extra called
-     * {@link CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
+     * @deprecated When a {@link GiniVision} instance is available the document is analyzed
+     * internally by using the configured {@link GiniVisionNetworkService} implementation. The
+     * extractions will be returned in the extra called {@link CameraActivity#EXTRA_OUT_EXTRACTIONS}
+     * of the {@link CameraActivity}'s result Intent.
      */
     public static final String EXTRA_IN_ANALYSIS_ACTIVITY = "GV_EXTRA_IN_ANALYSIS_ACTIVITY";
     /**
@@ -348,13 +359,9 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      */
     public static final String EXTRA_IN_ONBOARDING_PAGES = "GV_EXTRA_IN_ONBOARDING_PAGES";
     /**
-     * <p>
-     * Optional extra which must contain a boolean and indicates whether the Onboarding Screen
-     * should be shown when the Gini Vision Library is started for the first time.
-     * </p>
-     * <p>
-     * Default value is {@code true}.
-     * </p>
+     * <p> Optional extra which must contain a boolean and indicates whether the Onboarding Screen
+     * should be shown when the Gini Vision Library is started for the first time. </p> <p> Default
+     * value is {@code true}. </p>
      *
      * @deprecated Configuration should be applied by creating a {@link GiniVision} instance using
      * {@link GiniVision#newInstance()} and the returned {@link GiniVision.Builder}.
@@ -362,13 +369,9 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     public static final String EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN =
             "GV_EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN";
     /**
-     * <p>
-     * Optional extra which must contain a boolean and indicates whether the Onboarding Screen
-     * should be shown when the Gini Vision Library is started.
-     * </p>
-     * <p>
-     * Default value is {@code false}.
-     * </p>
+     * <p> Optional extra which must contain a boolean and indicates whether the Onboarding Screen
+     * should be shown when the Gini Vision Library is started. </p> <p> Default value is {@code
+     * false}. </p>
      *
      * @deprecated Configuration should be applied by creating a {@link GiniVision} instance using
      * {@link GiniVision#newInstance()} and the returned {@link GiniVision.Builder}.
@@ -376,16 +379,11 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     public static final String EXTRA_IN_SHOW_ONBOARDING = "GV_EXTRA_IN_SHOW_ONBOARDING";
 
     /**
-     * <p>
-     * Optional extra wich must contain a boolean and indicates whether the back button should close
-     * the Gini Vision Library.
-     * </p>
-     * <p>
-     * Default value is {@code false}.
-     * </p>
+     * <p> Optional extra wich must contain a boolean and indicates whether the back button should
+     * close the Gini Vision Library. </p> <p> Default value is {@code false}. </p>
      *
-     * @deprecated The option to close the library with the back button from any screen will be removed
-     * in a future version.
+     * @deprecated The option to close the library with the back button from any screen will be
+     * removed in a future version.
      */
     public static final String EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY =
             "GV_EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY";
@@ -400,24 +398,20 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
             "GV_EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION";
 
     /**
-     * <p>
-     * Returned when the result code is {@link CameraActivity#RESULT_ERROR} and contains a {@link
-     * GiniVisionError} object detailing what went wrong.
-     * </p>
+     * <p> Returned when the result code is {@link CameraActivity#RESULT_ERROR} and contains a
+     * {@link GiniVisionError} object detailing what went wrong. </p>
      */
     public static final String EXTRA_OUT_ERROR = "GV_EXTRA_OUT_ERROR";
 
     /**
-     * Returned when extractions are available. Contains a Bundle with the extraction labels
-     * as keys and {@link GiniVisionSpecificExtraction} as values.
+     * Returned when extractions are available. Contains a Bundle with the extraction labels as keys
+     * and {@link GiniVisionSpecificExtraction} as values.
      */
     public static final String EXTRA_OUT_EXTRACTIONS = "GV_EXTRA_OUT_EXTRACTIONS";
 
     /**
-     * <p>
-     * Returned result code in case something went wrong. You should retrieve the {@link
-     * CameraActivity#EXTRA_OUT_ERROR} extra to find out what went wrong.
-     * </p>
+     * <p> Returned result code in case something went wrong. You should retrieve the {@link
+     * CameraActivity#EXTRA_OUT_ERROR} extra to find out what went wrong. </p>
      */
     public static final int RESULT_ERROR = RESULT_FIRST_USER + 1;
 
@@ -443,22 +437,19 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     private CameraFragmentCompat mFragment;
 
     /**
-     * <p>
-     * Helper for setting the {@link CameraActivity#EXTRA_IN_REVIEW_ACTIVITY}.
-     * </p>
+     * <p> Helper for setting the {@link CameraActivity#EXTRA_IN_REVIEW_ACTIVITY}. </p>
      *
      * @param target              your explicit {@link Intent} used to start the {@link
      *                            CameraActivity}
      * @param context             {@link Context} used to create the explicit {@link Intent} for
-     *                            your {@link
-     *                            ReviewActivity} subclass
+     *                            your {@link ReviewActivity} subclass
      * @param reviewActivityClass class of your {@link ReviewActivity} subclass
      * @param <T>                 type of your {@link ReviewActivity} subclass
      *
-     * @deprecated When a {@link GiniVision} instance is available the document
-     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
-     * implementation. The extractions will be returned in the extra called
-     * {@link CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
+     * @deprecated When a {@link GiniVision} instance is available the document is analyzed
+     * internally by using the configured {@link GiniVisionNetworkService} implementation. The
+     * extractions will be returned in the extra called {@link CameraActivity#EXTRA_OUT_EXTRACTIONS}
+     * of the {@link CameraActivity}'s result Intent.
      */
     @Deprecated
     public static <T extends ReviewActivity> void setReviewActivityExtra(final Intent target,
@@ -469,22 +460,19 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     }
 
     /**
-     * <p>
-     * Helper for setting the {@link CameraActivity#EXTRA_IN_ANALYSIS_ACTIVITY}.
-     * </p>
+     * <p> Helper for setting the {@link CameraActivity#EXTRA_IN_ANALYSIS_ACTIVITY}. </p>
      *
      * @param target                your explicit {@link Intent} used to start the {@link
      *                              CameraActivity}
      * @param context               {@link Context} used to create the explicit {@link Intent} for
-     *                              your {@link
-     *                              AnalysisActivity} subclass
+     *                              your {@link AnalysisActivity} subclass
      * @param analysisActivityClass class of your {@link AnalysisActivity} subclass
      * @param <T>                   type of your {@link AnalysisActivity} subclass
      *
-     * @deprecated When a {@link GiniVision} instance is available the document
-     * is analyzed internally by using the configured {@link GiniVisionNetworkService}
-     * implementation. The extractions will be returned in the extra called
-     * {@link CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
+     * @deprecated When a {@link GiniVision} instance is available the document is analyzed
+     * internally by using the configured {@link GiniVisionNetworkService} implementation. The
+     * extractions will be returned in the extra called {@link CameraActivity#EXTRA_OUT_EXTRACTIONS}
+     * of the {@link CameraActivity}'s result Intent.
      */
     @Deprecated
     public static <T extends AnalysisActivity> void setAnalysisActivityExtra(final Intent target,

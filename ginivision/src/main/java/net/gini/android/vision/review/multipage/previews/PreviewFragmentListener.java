@@ -9,6 +9,10 @@ import net.gini.android.vision.document.ImageDocument;
  *
  * Copyright (c) 2018 Gini GmbH.
  */
+
+/**
+ * @exclude
+ */
 public interface PreviewFragmentListener {
 
     void onRetryUpload(@NonNull final ImageDocument document);

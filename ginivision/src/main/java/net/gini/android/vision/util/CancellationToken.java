@@ -5,6 +5,11 @@ package net.gini.android.vision.util;
  *
  * Copyright (c) 2018 Gini GmbH.
  */
+
+/**
+ * Used to allow requesting cancellation of asynchronous tasks.
+ */
 public interface CancellationToken {
+
     void cancel();
 }

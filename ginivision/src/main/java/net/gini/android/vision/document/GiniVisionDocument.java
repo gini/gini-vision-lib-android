@@ -188,11 +188,13 @@ public class GiniVisionDocument implements Document {
         return mImportMethod != null && mImportMethod != ImportMethod.NONE;
     }
 
+    @NonNull
     @Override
     public ImportMethod getImportMethod() {
         return mImportMethod;
     }
 
+    @NonNull
     @Override
     public Source getSource() {
         return mSource;

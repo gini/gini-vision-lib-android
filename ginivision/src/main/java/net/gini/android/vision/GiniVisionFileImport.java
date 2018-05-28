@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.document.DocumentFactory;
@@ -31,25 +32,29 @@ public final class GiniVisionFileImport {
     private final GiniVision mGiniVision;
 
     /**
-     * <b>Screen API</b>
-     * <p>
-     * When your application receives a file from another application you can use this method to
+     * Screen API
+     *
+     * <p> When your application receives a file from another application you can use this method to
      * create an Intent for launching the Gini Vision Library.
-     * <p>
-     *     Start the Intent with {@link android.app.Activity#startActivityForResult(Intent,
-     *     int)} to receive the {@link GiniVisionError} in case there was an error.
-     * </p>
+     *
+     * <p> Start the Intent with {@link android.app.Activity#startActivityForResult(Intent, int)} to
+     * receive the {@link GiniVisionError} in case there was an error.
      *
      * @param intent                the Intent your app received
      * @param context               Android context
      * @param reviewActivityClass   the class of your application's {@link ReviewActivity} subclass
      * @param analysisActivityClass the class of your application's {@link AnalysisActivity}
      *                              subclass
+     *
      * @return an Intent for launching the Gini Vision Library
+     *
      * @throws ImportedFileValidationException if the file didn't pass validation
-     * @throws IllegalArgumentException        if the Intent's data is not valid or the mime type is not
-     *                                         supported
+     * @throws IllegalArgumentException        if the Intent's data is not valid or the mime type is
+     *                                         not supported
+     * @deprecated Use {@link GiniVision#createIntentForImportedFile(Intent, Context, Class, Class)}
+     * instead.
      */
+    @Deprecated
     @NonNull
     public static Intent createIntentForImportedFile(@NonNull final Intent intent,
             @NonNull final Context context,
@@ -79,38 +84,55 @@ public final class GiniVisionFileImport {
 
     @NonNull
     private static Intent createReviewActivityIntent(final @NonNull Context context,
-            @NonNull final Class<? extends ReviewActivity> reviewActivityClass,
-            @NonNull final Class<? extends AnalysisActivity> analysisActivityClass,
+            @Nullable final Class<? extends ReviewActivity> reviewActivityClass,
+            @Nullable final Class<? extends AnalysisActivity> analysisActivityClass,
             final Document document) {
         final Intent giniVisionIntent;
-        giniVisionIntent = new Intent(context, reviewActivityClass);
+        giniVisionIntent = new Intent(context, getReviewActivityClass(reviewActivityClass));
         giniVisionIntent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, document);
         ActivityHelper.setActivityExtra(giniVisionIntent,
-                ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY, context, analysisActivityClass);
+                ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY, context,
+                getAnalysisActivityClass(analysisActivityClass));
         return giniVisionIntent;
     }
 
+    @NonNull
+    private static Class<? extends ReviewActivity> getReviewActivityClass(
+            final @Nullable Class<? extends ReviewActivity> reviewActivityClass) {
+        return reviewActivityClass == null ? ReviewActivity.class : reviewActivityClass;
+    }
+
+    @NonNull
+    private static Class<? extends AnalysisActivity> getAnalysisActivityClass(
+            final @Nullable Class<? extends AnalysisActivity> analysisActivityClass) {
+        return analysisActivityClass == null ? AnalysisActivity.class : analysisActivityClass;
+    }
+
     /**
-     * <b>Component API</b>
-     * <p>
-     * When your application receives a file from another application you can use this method to
+     * Component API
+     *
+     * <p> When your application receives a file from another application you can use this method to
      * create a Document for launching one of the Gini Vision Library's Review Fragments or Analysis
      * Fragments.
-     * <p>
-     * If the Document can be reviewed ({@link Document#isReviewable()}) launch one of the Review
-     * Fragments ({@link net.gini.android.vision.review.ReviewFragmentCompat} or {@link
+     *
+     * <p> If the Document can be reviewed ({@link Document#isReviewable()}) launch one of the
+     * Review Fragments ({@link net.gini.android.vision.review.ReviewFragmentCompat} or {@link
      * net.gini.android.vision.review.ReviewFragmentStandard}).
-     * <p>
-     * If the Document cannot be reviewed you must launch one of the Analysis Fragments ({@link
+     *
+     * <p> If the Document cannot be reviewed you must launch one of the Analysis Fragments ({@link
      * net.gini.android.vision.analysis.AnalysisFragmentCompat} or {@link
      * net.gini.android.vision.analysis.AnalysisFragmentStandard}).
      *
      * @param intent  the Intent your app received
      * @param context Android context
+     *
      * @return a Document for launching one of the Gini Vision Library's Review Fragments or
      * Analysis Fragments
+     *
      * @throws ImportedFileValidationException if the file didn't pass validation
+     * @deprecated Use {@link GiniVision#createDocumentForImportedFile(Intent, Context)} instead.
      */
+    @Deprecated
     @NonNull
     public static Document createDocumentForImportedFile(@NonNull final Intent intent,
             @NonNull final Context context) throws ImportedFileValidationException {
@@ -136,20 +158,6 @@ public final class GiniVisionFileImport {
         mGiniVision = giniVision;
     }
 
-    /**
-     * <b>Screen API</b>
-     * <p>
-     * When your application receives a file from another application you can use this method to
-     * create an Intent for launching the Gini Vision Library.
-     * <p>
-     *     Start the Intent with {@link android.app.Activity#startActivityForResult(Intent,
-     *     int)} to receive the extractions or a {@link GiniVisionError} in case there was an error.
-     * </p>
-     *
-     * @param intent                the Intent your app received
-     * @param context               Android context subclass
-     * @throws ImportedFileValidationException if the file didn't pass validation
-     */
     CancellationToken createIntentForImportedFiles(@NonNull final Intent intent,
             @NonNull final Context context,
             @NonNull final AsyncCallback<Intent, ImportedFileValidationException> callback) {
@@ -189,7 +197,7 @@ public final class GiniVisionFileImport {
         };
     }
 
-    public CancellationToken createDocumentForImportedFiles(@NonNull final Intent intent,
+    CancellationToken createDocumentForImportedFiles(@NonNull final Intent intent,
             @NonNull final Context context,
             @NonNull final AsyncCallback<Document, ImportedFileValidationException> callback) {
         if (!GiniVision.hasInstance()) {
@@ -243,7 +251,6 @@ public final class GiniVisionFileImport {
             return new CancellationToken() {
                 @Override
                 public void cancel() {
-                    asyncTask.cancel(false);
                 }
             };
         }

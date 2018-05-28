@@ -13,6 +13,9 @@ import net.gini.android.vision.AsyncCallback;
  * Copyright (c) 2018 Gini GmbH.
  */
 
+/**
+ * @exclude
+ */
 public class SaveUriAsyncTask extends AsyncTask<Uri, Void, Uri> {
 
     private final Context mContext;

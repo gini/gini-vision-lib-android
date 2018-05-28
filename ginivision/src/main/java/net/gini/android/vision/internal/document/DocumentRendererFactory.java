@@ -10,6 +10,9 @@ import net.gini.android.vision.document.PdfDocument;
  * @exclude
  */
 
+/**
+ * @exclude
+ */
 public final class DocumentRendererFactory {
 
     public static DocumentRenderer fromDocument(@NonNull final Document document) {

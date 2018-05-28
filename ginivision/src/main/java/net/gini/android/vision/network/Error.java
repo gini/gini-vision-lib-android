@@ -6,14 +6,28 @@ package net.gini.android.vision.network;
  * Copyright (c) 2018 Gini GmbH.
  */
 
+import android.support.annotation.NonNull;
+
+/**
+ * Used by the {@link GiniVisionNetworkService} and {@link GiniVisionNetworkApi} to return error
+ * messages.
+ */
 public class Error {
 
     private final String mMessage;
 
-    public Error(final String message) {
+    /**
+     * Create a new error.
+     *
+     * @param message error message
+     */
+    public Error(@NonNull final String message) {
         mMessage = message;
     }
 
+    /**
+     * @return error message
+     */
     public String getMessage() {
         return mMessage;
     }
