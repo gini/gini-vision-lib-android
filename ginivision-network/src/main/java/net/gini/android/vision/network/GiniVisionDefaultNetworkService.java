@@ -134,6 +134,7 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
         return errorMessage != null ? errorMessage : task.getError().toString();
     }
 
+
     @Override
     public CancellationToken delete(@NonNull final String giniApiDocumentId,
             @NonNull final GiniVisionNetworkCallback<Result, Error> callback) {
@@ -443,9 +444,9 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
         }
 
         /**
-         * Set the credentials store which is used by the Gini API SDK to store user credentials. If no
-         * credentials store is set, the {@link SharedPreferencesCredentialsStore} from the Gini API SDK
-         * is used by default.
+         * Set the credentials store which is used by the Gini API SDK to store user credentials. If
+         * no credentials store is set, the {@link SharedPreferencesCredentialsStore} from the Gini
+         * API SDK is used by default.
          *
          * @param credentialsStore a credentials store instance (specified by the CredentialsStore
          *                         interface)

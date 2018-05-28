@@ -259,6 +259,63 @@ public class GiniVision {
     /**
      * Screen API
      *
+     * <p> If you have enabled the multi-page feature and your application receives one or multiple
+     * files from another application you can use this method to create an Intent for launching the
+     * Gini Vision Library.
+     *
+     * <p> Importing the files is executed on a secondary thread as it can take several seconds for
+     * the process to complete. The callback methods are invoked on the main thread.
+     *
+     * <p> In your callback's {@code onSuccess(Intent)} method start the Intent with {@link
+     * android.app.Activity#startActivityForResult(Intent, int)} to receive the extractions or a
+     * {@link GiniVisionError} in case there was an error.
+     *
+     * @param intent   the Intent your app received
+     * @param context  Android context
+     * @param callback A {@link AsyncCallback} implementation
+     *
+     * @return a {@link CancellationToken} for cancelling the import process
+     */
+    @NonNull
+    public CancellationToken createIntentForImportedFiles(@NonNull final Intent intent,
+            @NonNull final Context context,
+            @NonNull final AsyncCallback<Intent, ImportedFileValidationException> callback) {
+        return mGiniVisionFileImport.createIntentForImportedFiles(intent, context, callback);
+    }
+
+    /**
+     * Component API
+     *
+     * <p> If you have enabled the multi-page feature and your application receives one or multiple
+     * files from another application you can use this method to create a Document for launching the
+     * Gini Vision Library's {@link MultiPageReviewFragment} or one of the Analysis Fragments.
+     *
+     * <p> Importing the files is executed on a secondary thread as it can take several seconds for
+     * the process to complete. The callback methods are invoked on the main thread.
+     *
+     * <p> If the Document can be reviewed ({@link Document#isReviewable()}) launch the {@link
+     * MultiPageReviewFragment}.
+     *
+     * <p> If the Document cannot be reviewed you must launch one of the Analysis Fragments ({@link
+     * net.gini.android.vision.analysis.AnalysisFragmentCompat} or {@link
+     * net.gini.android.vision.analysis.AnalysisFragmentStandard}).
+     *
+     * @param intent   the Intent your app received
+     * @param context  Android context
+     * @param callback A {@link AsyncCallback} implementation
+     *
+     * @return a {@link CancellationToken} for cancelling the import process
+     */
+    @NonNull
+    public CancellationToken createDocumentForImportedFiles(@NonNull final Intent intent,
+            @NonNull final Context context,
+            @NonNull final AsyncCallback<Document, ImportedFileValidationException> callback) {
+        return mGiniVisionFileImport.createDocumentForImportedFiles(intent, context, callback);
+    }
+
+    /**
+     * Screen API
+     *
      * <p> When your application receives a file from another application you can use this method to
      * create an Intent for launching the Gini Vision Library.
      *
@@ -315,62 +372,6 @@ public class GiniVision {
     public static Document createDocumentForImportedFile(@NonNull final Intent intent,
             @NonNull final Context context) throws ImportedFileValidationException {
         return GiniVisionFileImport.createDocumentForImportedFile(intent, context);
-    }
-
-    /**
-     * Screen API
-     *
-     * <p> If you have enabled the multi-page feature and your application receives one or multiple
-     * files from another application you can use this method to create an Intent for launching the
-     * Gini Vision Library.
-     *
-     * <p> Importing the files is executed on a secondary thread as it can take several seconds for
-     * the process to complete. The callback methods are invoked on the main thread.
-     *
-     * <p> In your callback's {@code onSuccess(Intent)} method start the Intent with {@link
-     * android.app.Activity#startActivityForResult(Intent, int)} to receive the extractions or a
-     * {@link GiniVisionError} in case there was an error.
-     *
-     * @param intent   the Intent your app received
-     * @param context  Android context
-     * @param callback An {@link AsyncCallback} implementation
-     *
-     * @return a {@link CancellationToken} for cancelling the import process
-     */
-    @NonNull
-    public CancellationToken createIntentForImportedFiles(@NonNull final Intent intent,
-            @NonNull final Context context,
-            @NonNull final AsyncCallback<Intent, ImportedFileValidationException> callback) {
-        return mGiniVisionFileImport.createIntentForImportedFiles(intent, context, callback);
-    }
-
-    /**
-     * Component API
-     *
-     * <p> If you have enabled the multi-page feature and your application receives one or multiple
-     * files from another application you can use this method to create a Document for launching the
-     * Gini Vision Library's {@link MultiPageReviewFragment} or one of the Analysis Fragments.
-     *
-     * <p> Importing the files is executed on a secondary thread as it can take several seconds for
-     * the process to complete. The callback methods are invoked on the main thread.
-     *
-     * <p> If the Document can be reviewed ({@link Document#isReviewable()}) launch the {@link
-     * MultiPageReviewFragment}.
-     *
-     * <p> If the Document cannot be reviewed you must launch one of the Analysis Fragments ({@link
-     * net.gini.android.vision.analysis.AnalysisFragmentCompat} or {@link
-     * net.gini.android.vision.analysis.AnalysisFragmentStandard}).
-     *
-     * @param intent   the Intent your app received
-     * @param context  Android context
-     * @param callback A {@link AsyncCallback} implementation
-     *
-     * @return a {@link CancellationToken} for cancelling the import process
-     */
-    @NonNull
-    public CancellationToken createDocumentForImportedFiles(@NonNull final Intent intent,
-            @NonNull final Context context, @NonNull final AsyncCallback<Document, ImportedFileValidationException> callback) {
-        return mGiniVisionFileImport.createDocumentForImportedFiles(intent, context, callback);
     }
 
     @NonNull
