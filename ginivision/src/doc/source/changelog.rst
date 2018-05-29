@@ -2,6 +2,12 @@
 Changelog
 =========
 
+2.6.0-beta.3 (2018-05-16)
+==================
+
+- Javadoc.
+- Various improvements and bugfixes.
+
 2.6.0-beta.2 (2018-05-16)
 ==================
 
