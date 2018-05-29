@@ -1142,8 +1142,6 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                     "Cannot import multi-page document. GiniVision instance not available. Create it with GiniVision.newInstance().");
             return;
         }
-        final ImageDiskStore imageDiskStore = GiniVision.getInstance().internal()
-                .getImageDiskStore();
         mImportUrisAsyncTask = new ImportImageDocumentUrisAsyncTask(
                 context, intent, GiniVision.getInstance(),
                 Document.Source.newExternalSource(), ImportMethod.PICKER,
@@ -1165,8 +1163,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                         }
                         LOG.info("Document imported: {}", mMultiPageDocument);
                         updateImageStack();
-                        requestClientDocumentCheck(mMultiPageDocument);
                         hideActivityIndicatorAndEnableInteraction();
+                        requestClientDocumentCheck(mMultiPageDocument);
                     }
 
                     @Override
