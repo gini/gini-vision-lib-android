@@ -13,11 +13,11 @@ public class ImportedFileValidationException extends Exception {
 
     private final FileImportValidator.Error mError;
 
-    ImportedFileValidationException(final FileImportValidator.Error error) {
+    public ImportedFileValidationException(final FileImportValidator.Error error) {
         mError = error;
     }
 
-    ImportedFileValidationException(final String message) {
+    public ImportedFileValidationException(final String message) {
         super(message);
         mError = null;
     }

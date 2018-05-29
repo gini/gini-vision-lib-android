@@ -10,11 +10,11 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.document.GiniVisionDocument;
 import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.document.ImageDocument;
-import net.gini.android.vision.internal.AsyncCallback;
 import net.gini.android.vision.internal.cache.DocumentDataMemoryCache;
 import net.gini.android.vision.network.AnalysisResult;
 import net.gini.android.vision.network.Error;
@@ -87,7 +87,7 @@ public class NetworkRequestsManager {
         mDocumentUploadFutures.put(document.getId(), future);
 
         LOG.debug("Load document data for {}", document.getId());
-        mDocumentDataMemoryCache.get(context, document, new AsyncCallback<byte[]>() {
+        mDocumentDataMemoryCache.get(context, document, new AsyncCallback<byte[], Exception>() {
             @Override
             public void onSuccess(final byte[] result) {
                 LOG.debug("Document data loaded for {}", document.getId());
@@ -145,6 +145,11 @@ public class NetworkRequestsManager {
                 LOG.error("Document data loading failed for {}: {}", document.getId(),
                         exception.getMessage());
                 future.completeExceptionally(exception);
+            }
+
+            @Override
+            public void onCancelled() {
+                // Not used
             }
         });
 
