@@ -3,7 +3,7 @@ task sourcesJar(type: Jar, dependsOn: 'assembleRelease') {
     from android.sourceSets.main.java.srcDirs
 }
 
-task javadocJar(type: Jar, dependsOn: GenerateJavadoc) {
+task javadocJar(type: Jar, dependsOn: generateJavadoc) {
     classifier = 'javadoc'
     from destinationDir
 }
