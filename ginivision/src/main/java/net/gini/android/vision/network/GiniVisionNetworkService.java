@@ -22,7 +22,7 @@ import java.util.LinkedHashMap;
  * Interface specifying network related tasks required by the Gini Vision Library in order to
  * communicate with the Gini API.
  *
- * <p> The easiest way to get started is to use the Gini Vision Library Network package which
+ * <p> The easiest way to get started is to use the Gini Vision Network Library package which
  * provides a default implementation.
  *
  * <p> You can also create your own implementation and communicate directly with the Gini API or

@@ -11,7 +11,7 @@
  * <p> The {@link net.gini.android.vision.network.GiniVisionNetworkApi} can be implemented and used
  * to perform network calls manually outside of the Gini Vision Library (e.g. for sending feedback).
  *
- * <p> The easiest way to get started is to use the Gini Vision Library Network package which
+ * <p> The easiest way to get started is to use the Gini Vision Network Library package which
  * provides a default implementation of both interfaces.
  */
 package net.gini.android.vision.network;

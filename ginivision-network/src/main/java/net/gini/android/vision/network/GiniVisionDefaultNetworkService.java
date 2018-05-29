@@ -308,6 +308,9 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
         return mGiniApi;
     }
 
+    /**
+     * Builder for configuring a new instance of the {@link GiniVisionDefaultNetworkService}.
+     */
     public static class Builder {
 
         private final Context mContext;
