@@ -41,8 +41,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:padding="@dimen/gv_multi_page_review_plus_button_subtitle_padding"
-                android:text="@string/gv_multi_page_review_add_pages"
-                style="@style/GiniVisionTheme.Review.MultiPage.AddPages.TextStyle"/>
+                android:text="@string/gv_multi_page_review_add_pages_subtitle"
+                style="@style/GiniVisionTheme.Review.MultiPage.AddPagesSubtitle.TextStyle"/>
         </LinearLayout>
 
         <View

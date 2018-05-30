@@ -15,6 +15,7 @@ import net.gini.android.vision.network.GiniVisionNetworkApi;
 import net.gini.android.vision.network.GiniVisionNetworkService;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.review.ReviewActivity;
+import net.gini.android.vision.review.multipage.MultiPageReviewFragment;
 import net.gini.android.vision.util.CancellationToken;
 
 import org.slf4j.Logger;
@@ -28,6 +29,19 @@ import java.util.ArrayList;
  * Copyright (c) 2018 Gini GmbH.
  */
 
+/**
+ * Single entry point for the Gini Vision Library for configuration and interaction.
+ *
+ * <p> This class is preferred over the previous methods of configuration and interaction. It is
+ * only mandatory for new features. You can continue using features from previous releases without
+ * any modification.
+ *
+ * <p> To create and configure an instance use the {@link #newInstance()} method and the returned
+ * {@link Builder}.
+ *
+ * <p> After you are done using the Gini Vision Library use the {@link #cleanup(Context)} method.
+ * This will free up resources used by the library.
+ */
 public class GiniVision {
 
     private static final Logger LOG = LoggerFactory.getLogger(GiniVision.class);
@@ -49,6 +63,13 @@ public class GiniVision {
     private final boolean mMultiPageEnabled;
     private boolean mShouldShowOnboarding;
 
+    /**
+     * Retrieve the current instance.
+     *
+     * @return {@link GiniVision} instance
+     *
+     * @throws IllegalStateException when there is no instance
+     */
     @NonNull
     public static GiniVision getInstance() {
         if (sInstance == null) {
@@ -57,10 +78,23 @@ public class GiniVision {
         return sInstance;
     }
 
+    /**
+     * Check whether an instance exists.
+     *
+     * @return {@code true} if there is an instance
+     */
     public static boolean hasInstance() {
         return sInstance != null;
     }
 
+    /**
+     * Configure and create a new instance using the returned {@link Builder}.
+     *
+     * @return a new {@link Builder}
+     *
+     * @throws IllegalStateException when an instance already exists. Call {@link #cleanup(Context)}
+     *                               before trying to create a new instance
+     */
     @NonNull
     public static Builder newInstance() {
         if (sInstance != null) {
@@ -70,6 +104,11 @@ public class GiniVision {
         return new Builder();
     }
 
+    /**
+     * Destroys the {@link GiniVision} instance and frees up used resources.
+     *
+     * @param context Android context
+     */
     public static void cleanup(@NonNull final Context context) {
         if (sInstance != null) {
             sInstance.mDocumentDataMemoryCache.clear();
@@ -103,23 +142,29 @@ public class GiniVision {
         mMultiPageEnabled = builder.isMultiPageEnabled();
     }
 
+    /**
+     * @exclude
+     */
     @NonNull
     public Internal internal() {
         return mInternal;
     }
 
+    /**
+     * Retrieve the {@link GiniVisionNetworkApi} instance, if available.
+     *
+     * @return {@link GiniVisionNetworkApi} instance or {@code null}
+     */
     @Nullable
     public GiniVisionNetworkApi getGiniVisionNetworkApi() {
         return mGiniVisionNetworkApi;
     }
 
     /**
-     * <p>
-     *     Retrieve the file types enabled for document import.
-     * </p>
-     * <p>
-     *     Disabled by default.
-     * </p>
+     * Retrieve the file types enabled for document import.
+     *
+     * <p> Disabled by default.
+     *
      * @return enabled file types
      */
     @NonNull
@@ -128,12 +173,10 @@ public class GiniVision {
     }
 
     /**
-     * <p>
-     *     Find out whether file import has been enabled.
-     * </p>
-     * <p>
-     *     Disabled by default.
-     * </p>
+     * Find out whether file import has been enabled.
+     *
+     * <p> Disabled by default.
+     *
      * @return {@code true} if file import was enabled
      */
     public boolean isFileImportEnabled() {
@@ -141,18 +184,23 @@ public class GiniVision {
     }
 
     /**
-     * <p>
-     *     Find out whether QRCode scanning has been enabled.
-     * </p>
-     * <p>
-     *     Disabled by default.
-     * </p>
+     * Find out whether QRCode scanning has been enabled.
+     *
+     * <p> Disabled by default.
+     *
      * @return {@code true} if QRCode scanning was enabled
      */
     public boolean isQRCodeScanningEnabled() {
         return mQRCodeScanningEnabled;
     }
 
+    /**
+     * Find out whether scanning multi-page documents has been enabled.
+     *
+     * <p> Disabled by default
+     *
+     * @return {@code true} if multi-page is enabled
+     */
     public boolean isMultiPageEnabled() {
         return mMultiPageEnabled;
     }
@@ -168,9 +216,9 @@ public class GiniVision {
     }
 
     /**
-     *  <h3>Screen API Only</h3>
+     * Screen API only
      *
-     * If set to {@code false}, the Onboarding Screen won't be shown on the first run.
+     * <p> If set to {@code false}, the Onboarding Screen won't be shown on the first run.
      *
      * @return whether to show the Onboarding Screen or not
      */
@@ -179,13 +227,15 @@ public class GiniVision {
     }
 
     /**
-     * <h3>Screen API Only</h3>
+     * Screen API only
      *
-     * If set to {@code true}, the Onboarding Screen will be shown every every time the CameraActivity starts.
-     * <p>
-     * Default value is {@code false}.
-     * <p>
-     * You can change it on the existing GiniVision instance with {@link GiniVision#setShouldShowOnboarding(boolean)}.
+     * <p> If set to {@code true}, the Onboarding Screen will be shown every every time the
+     * CameraActivity starts.
+     *
+     * <p> Default value is {@code false}.
+     *
+     * <p> You can change it on the existing GiniVision instance with {@link
+     * GiniVision#setShouldShowOnboarding(boolean)}.
      *
      * @return whether to show the Onboarding Screen or not
      */
@@ -194,11 +244,11 @@ public class GiniVision {
     }
 
     /**
-     * <h3>Screen API Only</h3>
+     * Screen API only
      *
-     * Set to {@code true} to show the Onboarding Screen every time the CameraActivity starts.
-     * <p>
-     * Default value is {@code false}.
+     * <p> Set to {@code true} to show the Onboarding Screen every time the CameraActivity starts.
+     *
+     * <p> Default value is {@code false}.
      *
      * @param shouldShowOnboarding whether to show the onboarding on every launch
      */
@@ -206,6 +256,26 @@ public class GiniVision {
         mShouldShowOnboarding = shouldShowOnboarding;
     }
 
+    /**
+     * Screen API
+     *
+     * <p> If you have enabled the multi-page feature and your application receives one or multiple
+     * files from another application you can use this method to create an Intent for launching the
+     * Gini Vision Library.
+     *
+     * <p> Importing the files is executed on a secondary thread as it can take several seconds for
+     * the process to complete. The callback methods are invoked on the main thread.
+     *
+     * <p> In your callback's {@code onSuccess(Intent)} method start the Intent with {@link
+     * android.app.Activity#startActivityForResult(Intent, int)} to receive the extractions or a
+     * {@link GiniVisionError} in case there was an error.
+     *
+     * @param intent   the Intent your app received
+     * @param context  Android context
+     * @param callback A {@link AsyncCallback} implementation
+     *
+     * @return a {@link CancellationToken} for cancelling the import process
+     */
     @NonNull
     public CancellationToken createIntentForImportedFiles(@NonNull final Intent intent,
             @NonNull final Context context,
@@ -213,21 +283,91 @@ public class GiniVision {
         return mGiniVisionFileImport.createIntentForImportedFiles(intent, context, callback);
     }
 
+    /**
+     * Component API
+     *
+     * <p> If you have enabled the multi-page feature and your application receives one or multiple
+     * files from another application you can use this method to create a Document for launching the
+     * Gini Vision Library's {@link MultiPageReviewFragment} or one of the Analysis Fragments.
+     *
+     * <p> Importing the files is executed on a secondary thread as it can take several seconds for
+     * the process to complete. The callback methods are invoked on the main thread.
+     *
+     * <p> If the Document can be reviewed ({@link Document#isReviewable()}) launch the {@link
+     * MultiPageReviewFragment}.
+     *
+     * <p> If the Document cannot be reviewed you must launch one of the Analysis Fragments ({@link
+     * net.gini.android.vision.analysis.AnalysisFragmentCompat} or {@link
+     * net.gini.android.vision.analysis.AnalysisFragmentStandard}).
+     *
+     * @param intent   the Intent your app received
+     * @param context  Android context
+     * @param callback A {@link AsyncCallback} implementation
+     *
+     * @return a {@link CancellationToken} for cancelling the import process
+     */
     @NonNull
     public CancellationToken createDocumentForImportedFiles(@NonNull final Intent intent,
-            @NonNull final Context context, @NonNull final AsyncCallback<Document, ImportedFileValidationException> callback) {
+            @NonNull final Context context,
+            @NonNull final AsyncCallback<Document, ImportedFileValidationException> callback) {
         return mGiniVisionFileImport.createDocumentForImportedFiles(intent, context, callback);
     }
 
+    /**
+     * Screen API
+     *
+     * <p> When your application receives a file from another application you can use this method to
+     * create an Intent for launching the Gini Vision Library.
+     *
+     * <p> Start the Intent with {@link android.app.Activity#startActivityForResult(Intent, int)} to
+     * receive the extractions or a {@link GiniVisionError} in case there was an error.
+     *
+     * @param intent                the Intent your app received
+     * @param context               Android context
+     * @param reviewActivityClass   (optional) the class of your application's {@link
+     *                              ReviewActivity} subclass
+     * @param analysisActivityClass (optional) the class of your application's {@link
+     *                              AnalysisActivity} subclass
+     *
+     * @return an Intent for launching the Gini Vision Library
+     *
+     * @throws ImportedFileValidationException if the file didn't pass validation
+     * @throws IllegalArgumentException        if the Intent's data is not valid or the mime type is
+     *                                         not supported
+     **/
     @NonNull
     public static Intent createIntentForImportedFile(@NonNull final Intent intent,
             @NonNull final Context context,
-            @NonNull final Class<? extends ReviewActivity> reviewActivityClass,
-            @NonNull final Class<? extends AnalysisActivity> analysisActivityClass)
+            @Nullable final Class<? extends ReviewActivity> reviewActivityClass,
+            @Nullable final Class<? extends AnalysisActivity> analysisActivityClass)
             throws ImportedFileValidationException {
-        return GiniVisionFileImport.createIntentForImportedFile(intent, context, reviewActivityClass, analysisActivityClass);
+        return GiniVisionFileImport.createIntentForImportedFile(intent, context,
+                reviewActivityClass, analysisActivityClass);
     }
 
+    /**
+     * Component API
+     *
+     * <p> When your application receives a file from another application you can use this method to
+     * create a Document for launching one of the Gini Vision Library's Review Fragments or Analysis
+     * Fragments.
+     *
+     * <p> If the Document can be reviewed ({@link Document#isReviewable()}) launch one of the
+     * Review Fragments ({@link net.gini.android.vision.review.ReviewFragmentCompat} or {@link
+     * net.gini.android.vision.review.ReviewFragmentStandard}).
+     *
+     * <p> If the Document cannot be reviewed you must launch one of the Analysis Fragments ({@link
+     * net.gini.android.vision.analysis.AnalysisFragmentCompat} or {@link
+     * net.gini.android.vision.analysis.AnalysisFragmentStandard}).
+     *
+     * @param intent  the Intent your app received
+     * @param context Android context
+     *
+     * @return a Document for launching one of the Gini Vision Library's Review Fragments or
+     * Analysis Fragments
+     *
+     * @throws ImportedFileValidationException if the file didn't pass validation
+     */
     @NonNull
     public static Document createDocumentForImportedFile(@NonNull final Intent intent,
             @NonNull final Context context) throws ImportedFileValidationException {
@@ -264,6 +404,9 @@ public class GiniVision {
         return mImageDiskStore;
     }
 
+    /**
+     * Builder for {@link GiniVision}. To get an instance call {@link #newInstance()}.
+     */
     public static class Builder {
 
         private GiniVisionNetworkService mGiniVisionNetworkService;
@@ -277,6 +420,9 @@ public class GiniVision {
         private boolean mShouldShowOnboarding;
         private boolean mMultiPageEnabled;
 
+        /**
+         * Create a new {@link GiniVision} instance.
+         */
         public void build() {
             checkNetworkingImplementations();
             sInstance = new GiniVision(this);
@@ -298,15 +444,16 @@ public class GiniVision {
         }
 
         /**
-         * <h3>Screen API Only</h3>
+         * Screen API only
          *
-         * Set to {@code false} to disable automatically showing the OnboardingActivity the first time the
-         * CameraActivity is launched - we highly recommend letting the Gini Vision Library show the
-         * OnboardingActivity at first run.
-         * <p>
-         * Default value is {@code true}.
+         * <p> Set to {@code false} to disable automatically showing the OnboardingActivity the
+         * first time the CameraActivity is launched - we highly recommend letting the Gini Vision
+         * Library show the OnboardingActivity at first run.
+         *
+         * <p> Default value is {@code true}.
          *
          * @param shouldShowOnboardingAtFirstRun whether to show the onboarding on first run or not
+         *
          * @return the {@link Builder} instance
          */
         @NonNull
@@ -320,6 +467,7 @@ public class GiniVision {
          * Set custom pages to be shown in the Onboarding Screen.
          *
          * @param onboardingPages an {@link ArrayList} of {@link OnboardingPage}s
+         *
          * @return the {@link Builder} instance
          */
         @NonNull
@@ -330,13 +478,15 @@ public class GiniVision {
         }
 
         /**
-         * <h3>Screen API Only</h3>
+         * Screen API only
          *
-         * Set to {@code true} to show the Onboarding Screen every time the CameraActivity starts.
-         * <p>
-         * Default value is {@code false}.
+         * <p> Set to {@code true} to show the Onboarding Screen every time the CameraActivity
+         * starts.
+         *
+         * <p> Default value is {@code false}.
          *
          * @param shouldShowOnboarding whether to show the onboarding on every launch
+         *
          * @return the {@link Builder} instance
          */
         @NonNull
@@ -350,13 +500,12 @@ public class GiniVision {
         }
 
         /**
-         * <p>
-         *     Enable/disable the multi-page feature.
-         * </p>
-         * <p>
-         *     Disabled by default.
-         * </p>
+         * Enable/disable the multi-page feature.
+         *
+         * <p> Disabled by default.
+         *
          * @param multiPageEnabled {@code true} to enable multi-page
+         *
          * @return the {@link Builder} instance
          */
         public Builder setMultiPageEnabled(final boolean multiPageEnabled) {
@@ -378,6 +527,14 @@ public class GiniVision {
             return mGiniVisionNetworkService;
         }
 
+        /**
+         * Set the {@link GiniVisionNetworkService} instance which will be used by the library to
+         * request document related network calls (e.g. upload, analysis or deletion).
+         *
+         * @param giniVisionNetworkService a {@link GiniVisionNetworkService} instance
+         *
+         * @return the {@link Builder} instance
+         */
         @NonNull
         public Builder setGiniVisionNetworkService(
                 @NonNull final GiniVisionNetworkService giniVisionNetworkService) {
@@ -390,6 +547,14 @@ public class GiniVision {
             return mGiniVisionNetworkApi;
         }
 
+        /**
+         * Set the {@link GiniVisionNetworkApi} instance which clients can use to request network
+         * calls (e.g. for sending feedback).
+         *
+         * @param giniVisionNetworkApi a {@link GiniVisionNetworkApi} instance
+         *
+         * @return the {@link Builder} instance
+         */
         @NonNull
         public Builder setGiniVisionNetworkApi(
                 @NonNull final GiniVisionNetworkApi giniVisionNetworkApi) {
@@ -403,14 +568,13 @@ public class GiniVision {
         }
 
         /**
-         * <p>
-         *     Enable and configure the document import feature or disable it by passing in
-         *     {@link DocumentImportEnabledFileTypes#NONE}.
-         * </p>
-         * <p>
-         *     Disabled by default.
-         * </p>
+         * Enable and configure the document import feature or disable it by passing in {@link
+         * DocumentImportEnabledFileTypes#NONE}.
+         *
+         * <p> Disabled by default.
+         *
          * @param documentImportEnabledFileTypes file types to be enabled for document import
+         *
          * @return the {@link Builder} instance
          */
         @NonNull
@@ -425,13 +589,12 @@ public class GiniVision {
         }
 
         /**
-         * <p>
-         *     Enable/disable the file import feature.
-         * </p>
-         * <p>
-         *     Disabled by default.
-         * </p>
+         * Enable/disable the file import feature.
+         *
+         * <p> Disabled by default.
+         *
          * @param fileImportEnabled {@code true} to enable file import
+         *
          * @return the {@link Builder} instance
          */
         @NonNull
@@ -445,13 +608,12 @@ public class GiniVision {
         }
 
         /**
-         * <p>
-         *     Enable/disable the QRCode scanning feature.
-         * </p>
-         * <p>
-         *     Disabled by default.
-         * </p>
+         * Enable/disable the QRCode scanning feature.
+         *
+         * <p> Disabled by default.
+         *
          * @param qrCodeScanningEnabled {@code true} to enable QRCode scanning
+         *
          * @return the {@link Builder} instance
          */
         @NonNull

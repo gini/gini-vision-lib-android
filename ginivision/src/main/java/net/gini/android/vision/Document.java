@@ -24,7 +24,11 @@ import java.util.Map;
  */
 public interface Document extends Parcelable {
 
-
+    /**
+     * Retrieve the document's unique id.
+     *
+     * @return a unique id
+     */
     @NonNull
     String getId();
 
@@ -65,6 +69,11 @@ public interface Document extends Parcelable {
      */
     Type getType();
 
+    /**
+     * Retrieve the document's mime type (media type).
+     *
+     * @return mime type string
+     */
     String getMimeType();
 
     /**
@@ -112,8 +121,20 @@ public interface Document extends Parcelable {
      */
     boolean isImported();
 
+    /**
+     * Retrieve with which method the document has been imported.
+     *
+     * @return the document's {@link ImportMethod}
+     */
+    @NonNull
     ImportMethod getImportMethod();
 
+    /**
+     * Retrieve from which source the document originates from.
+     *
+     * @return the document's {@link Source}
+     */
+    @NonNull
     Source getSource();
 
     /**
@@ -159,11 +180,20 @@ public interface Document extends Parcelable {
     }
 
     /**
-     * @exclude
+     * Enum of supported methods for importing documents.
      */
     enum ImportMethod {
+        /**
+         * Document was sent from another app. It was "opened with" the app containing the Gini Vision Library.
+         */
         OPEN_WITH("openwith"),
+        /**
+         * Document was picked by using the document import button in the Camera Screen.
+         */
         PICKER("picker"),
+        /**
+         * Document was not imported.
+         */
         NONE("");
 
         private static final Map<String, ImportMethod> sLookup = new HashMap<>();
@@ -193,24 +223,44 @@ public interface Document extends Parcelable {
     }
 
     /**
-     * @exclude
+     * Source of the document (e.g. camera or external).
      */
     class Source implements Parcelable {
 
         private final String mName;
 
+        /**
+         * Create a new camera source.
+         *
+         * @return a camera {@link Source} instance
+         */
         public static Source newCameraSource() {
             return new Source("camera");
         }
 
+        /**
+         * Create a new external source.
+         *
+         * @return an external {@link Source} instance
+         */
         public static Source newExternalSource() {
             return new Source("external");
         }
 
+        /**
+         * Create a new custom source.
+         *
+         * @return a custom {@link Source} instance
+         */
         public static Source newSource(@NonNull final String name) {
             return new Source(name);
         }
 
+        /**
+         * Create a new unknown source.
+         *
+         * @return an unknown {@link Source} instance
+         */
         public static Source newUnknownSource() {
             return new Source("");
         }

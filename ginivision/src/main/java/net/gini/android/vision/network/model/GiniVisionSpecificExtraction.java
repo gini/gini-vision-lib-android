@@ -8,6 +8,17 @@ import android.support.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Contains a Gini API <a href="http://developer.gini.net/gini-api/html/document_extractions.html#specific-extractions">specific
+ * extraction</a>.
+ *
+ * <p> A specific extraction assings a semantic property to an extraction and it may contain a list
+ * of extraction candidates.
+ *
+ * <p> The <a href="http://developer.gini.net/gini-api/html/document_extractions.html#available-extraction-candidates">extraction
+ * candidates</a> are other suggestions for this specific extraction (e.g. all amounts on the
+ * document). Candidates are of the same entity as the found extraction.
+ */
 public class GiniVisionSpecificExtraction extends GiniVisionExtraction {
 
     public static final Parcelable.Creator<GiniVisionSpecificExtraction> CREATOR =
@@ -27,9 +38,28 @@ public class GiniVisionSpecificExtraction extends GiniVisionExtraction {
     private final String mName;
     private final List<GiniVisionExtraction> mCandidates;
 
+    /**
+     * Value object for a specific extraction from the Gini API.
+     *
+     * @param name       The specific extraction's name, e.g. "amountToPay". See <a
+     *                   href="http://developer.gini.net/gini-api/html/document_extractions.html#available-specific-extractions">Available
+     *                   Specific Extractions</a> for a full list
+     * @param value      normalized textual representation of the text/information provided by the
+     *                   extraction value (e. g. bank number without spaces between the digits).
+     *                   Changing this value marks the extraction as dirty
+     * @param entity     key (primary identification) of an entity type (e.g. banknumber). See <a
+     *                   href="http://developer.gini.net/gini-api/html/document_extractions.html#available-extraction-entities">Extraction
+     *                   Entities</a> for a full list
+     * @param box        (optional) bounding box containing the position of the extraction value on
+     *                   the document. Only available for some extractions. Changing this value
+     *                   marks the extraction as dirty
+     * @param candidates A list containing other candidates for this specific extraction. Candidates
+     *                   are of the same entity as the found extraction
+     */
     public GiniVisionSpecificExtraction(@NonNull final String name, @NonNull final String value,
             final @NonNull String entity,
-            @Nullable final GiniVisionBox box, @NonNull final List<GiniVisionExtraction> candidates) {
+            @Nullable final GiniVisionBox box,
+            @NonNull final List<GiniVisionExtraction> candidates) {
         super(value, entity, box);
         mName = name;
         mCandidates = candidates;
@@ -55,11 +85,18 @@ public class GiniVisionSpecificExtraction extends GiniVisionExtraction {
         dest.writeTypedList(mCandidates);
     }
 
+    /**
+     * @return the specific extraction's name. See <a href="http://developer.gini.net/gini-api/html/document_extractions.html#available-specific-extractions">Available
+     * Specific Extractions</a> for a full list
+     */
     @NonNull
     public String getName() {
         return mName;
     }
 
+    /**
+     * @return a list containing other candidates for this specific extraction
+     */
     @NonNull
     public List<GiniVisionExtraction> getCandidate() {
         return mCandidates;

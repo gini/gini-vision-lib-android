@@ -59,6 +59,43 @@ import jersey.repackaged.jsr166e.CompletableFuture;
  *
  * Copyright (c) 2018 Gini GmbH.
  */
+
+/**
+ * <h3>Component API</h3>
+ *
+ * <p> When you use the Compontent API and have enabled the multi-page feature, the {@code
+ * MultiPageReviewFragment} displays the photographed or imported images and allows the user to
+ * review them by checking the order, sharpness, quality and orientation of the images. The user can
+ * correct the order by dragging the thumbnails of the images and can also correct the orientation
+ * by rotating the images.
+ *
+ * <p> <b>Important:</b>
+ *
+ * <ul>
+ *
+ * <li> A {@link GiniVision} instance is required to use the {@code MultiPageReviewFragment}
+ *
+ * <li> Your Activity hosting this Fragment must extend the {@link android.support.v7.app.AppCompatActivity}
+ * and use an AppCompat Theme.
+ *
+ * </ul>
+ *
+ * <p> Include the {@code MultiPageReviewFragment} into your layout by using the {@link
+ * MultiPageReviewFragment#createInstance()} factory method to create an instance and display it
+ * using the {@link android.support.v4.app.FragmentManager}.
+ *
+ * <p> A {@link MultiPageReviewFragmentListener} instance must be available until the {@code
+ * MultiPageReviewFragment} is attached to an activity. Failing to do so will throw an exception.
+ * The listener instance can be provided either implicitly by making the hosting Activity implement
+ * the {@link MultiPageReviewFragmentListener} interface or explicitly by setting the listener using
+ * {@link MultiPageReviewFragment#setListener(MultiPageReviewFragmentListener)}.
+ *
+ * <p> Your Activity is automatically set as the listener in {@link MultiPageReviewFragment#onCreate(Bundle)}.
+ *
+ * <h3>Customizing the Multi-Page Review Screen</h3>
+ *
+ * See the {@link MultiPageReviewActivity} for details.
+ */
 public class MultiPageReviewFragment extends Fragment implements MultiPageReviewFragmentInterface,
         PreviewFragmentListener {
 
@@ -298,14 +335,20 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
             }
             if (mMultiPageDocument.getImportMethod() == Document.ImportMethod.OPEN_WITH) {
                 new AlertDialog.Builder(activity)
-                        .setMessage(R.string.gv_multi_page_review_file_import_delete_last_page_dialog_message)
-                        .setPositiveButton(R.string.gv_multi_page_review_file_import_delete_last_page_dialog_positive_button, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog, final int which) {
-                                activity.finish();
-                            }
-                        })
-                        .setNegativeButton(R.string.gv_multi_page_review_file_import_delete_last_page_dialog_negative_button, null)
+                        .setMessage(
+                                R.string.gv_multi_page_review_file_import_delete_last_page_dialog_message)
+                        .setPositiveButton(
+                                R.string.gv_multi_page_review_file_import_delete_last_page_dialog_positive_button,
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(final DialogInterface dialog,
+                                            final int which) {
+                                        activity.finish();
+                                    }
+                                })
+                        .setNegativeButton(
+                                R.string.gv_multi_page_review_file_import_delete_last_page_dialog_negative_button,
+                                null)
                         .create().show();
             } else {
                 doDeleteDocumentAndUpdateUI(document);
@@ -390,7 +433,8 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         final int nrOfDocuments = mMultiPageDocument.getDocuments().size();
         String text = null;
         if (nrOfDocuments > 0) {
-            text = getString(R.string.gv_multi_page_review_page_indicator, position + 1, nrOfDocuments);
+            text = getString(R.string.gv_multi_page_review_page_indicator, position + 1,
+                    nrOfDocuments);
         }
         mPageIndicator.setText(text);
     }

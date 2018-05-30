@@ -11,6 +11,9 @@ import java.util.Map;
  * Copyright (c) 2018 Gini GmbH.
  */
 
+/**
+ * @exclude
+ */
 public enum MimeType {
     IMAGE_PREFIX("image/"),
     IMAGE_WILDCARD("image/*"),

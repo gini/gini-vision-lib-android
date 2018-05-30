@@ -9,6 +9,10 @@ import net.gini.android.vision.document.GiniVisionDocument;
  *
  * Copyright (c) 2018 Gini GmbH.
  */
+
+/**
+ * @exclude
+ */
 public class NetworkRequestResult<T extends GiniVisionDocument> {
 
     private final T mGiniVisionDocument;

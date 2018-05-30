@@ -13,7 +13,6 @@ task printVersion {
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         applicationId "net.gini.android.vision.componentapiexample"

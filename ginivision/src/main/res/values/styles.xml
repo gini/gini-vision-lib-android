@@ -76,6 +76,12 @@
         <item name="gvCustomFont" />
     </style>
 
+    <style name="Root.GiniVisionTheme.Camera.ImageStackBadge.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/gv_camera_image_stack_badge_text</item>
+        <item name="gvCustomFont" />
+    </style>
+
     <style name="Root.GiniVisionTheme.Camera.ImageStackSubtitle.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/gv_camera_image_stack_subtitle_text</item>
@@ -216,9 +222,20 @@
         <item name="gvCustomFont"/>
     </style>
 
-    <style name="Root.GiniVisionTheme.Review.MultiPage.AddPages.TextStyle" parent="TextAppearance.AppCompat">
+    <style name="Root.GiniVisionTheme.Review.MultiPage.AddPagesSubtitle.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/gv_multi_page_review_add_pages_text</item>
+        <item name="gvCustomFont"/>
+    </style>
+
+    <style name="Root.GiniVisionTheme.Review.MultiPage.ThumbnailBadge.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/gv_multi_page_thumbnail_badge_text</item>
+        <item name="gvCustomFont"/>
+    </style>
+
+    <style name="Root.GiniVisionTheme.Review.MultiPage.PageIndicator.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gv_multi_page_review_page_indicator_text</item>
         <item name="gvCustomFont"/>
     </style>
 
@@ -235,6 +252,8 @@
     <style name="GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle" parent="Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle" />
 
     <style name="GiniVisionTheme.Camera.DocumentImportSubtitle.TextStyle" parent="Root.GiniVisionTheme.Camera.DocumentImportSubtitle.TextStyle" />
+
+    <style name="GiniVisionTheme.Camera.ImageStackBadge.TextStyle" parent="Root.GiniVisionTheme.Camera.ImageStackBadge.TextStyle" />
 
     <style name="GiniVisionTheme.Camera.ImageStackSubtitle.TextStyle" parent="Root.GiniVisionTheme.Camera.ImageStackSubtitle.TextStyle" />
 
@@ -280,6 +299,10 @@
 
     <style name="GiniVisionTheme.Review.MultiPage.ReorderPagesTip.TextStyle" parent="Root.GiniVisionTheme.Review.MultiPage.ReorderPagesTip.TextStyle"/>
 
-    <style name="GiniVisionTheme.Review.MultiPage.AddPages.TextStyle" parent="Root.GiniVisionTheme.Review.MultiPage.AddPages.TextStyle"/>
+    <style name="GiniVisionTheme.Review.MultiPage.AddPagesSubtitle.TextStyle" parent="Root.GiniVisionTheme.Review.MultiPage.AddPagesSubtitle.TextStyle"/>
+
+    <style name="GiniVisionTheme.Review.MultiPage.ThumbnailBadge.TextStyle" parent="Root.GiniVisionTheme.Review.MultiPage.ThumbnailBadge.TextStyle"/>
+
+    <style name="GiniVisionTheme.Review.MultiPage.PageIndicator.TextStyle" parent="Root.GiniVisionTheme.Review.MultiPage.PageIndicator.TextStyle"/>
 
 </resources>

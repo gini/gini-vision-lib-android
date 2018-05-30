@@ -14,6 +14,9 @@ import com.ortiz.touch.TouchImageView;
  * Copyright (c) 2018 Gini GmbH.
  */
 
+/**
+ * @exclude
+ */
 public class RotatableTouchImageViewContainer extends RotatableImageViewContainer {
 
     private TouchImageView mTouchImageView;

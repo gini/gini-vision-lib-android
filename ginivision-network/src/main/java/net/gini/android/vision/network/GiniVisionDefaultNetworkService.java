@@ -11,8 +11,10 @@ import net.gini.android.Gini;
 import net.gini.android.SdkBuilder;
 import net.gini.android.authorization.CredentialsStore;
 import net.gini.android.authorization.SessionManager;
+import net.gini.android.authorization.SharedPreferencesCredentialsStore;
 import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.network.model.SpecificExtractionMapper;
@@ -38,6 +40,23 @@ import bolts.Task;
  * Copyright (c) 2018 Gini GmbH.
  */
 
+/**
+ * Default implementation of the network related tasks required by the Gini Vision Library.
+ *
+ * <p> Relies on the <a href="http://developer.gini.net/gini-sdk-android/">Gini API SDK</a> for
+ * executing the requests, which implements communication with the Gini API using generated
+ * anonymous Gini users.
+ *
+ * <p><b>Important:</b> Access to the Gini User Center API is required which is restricted to
+ * selected clients only. Contact Gini if you require access.
+ *
+ * <p> To create an instance use the {@link GiniVisionDefaultNetworkService.Builder} returned by the
+ * {@link #builder(Context)} method.
+ *
+ * <p> In order for the Gini Vision Library to use this implementation pass an instance of it to
+ * {@link GiniVision.Builder#setGiniVisionNetworkService(GiniVisionNetworkService)} when creating a
+ * {@link GiniVision} instance.
+ */
 public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService {
 
     private static final Logger LOG = LoggerFactory.getLogger(
@@ -47,6 +66,14 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
     private final Map<String, net.gini.android.models.Document> mGiniApiDocuments = new HashMap<>();
     private net.gini.android.models.Document mAnalyzedGiniApiDocument;
 
+    /**
+     * Creates a new {@link GiniVisionDefaultNetworkService.Builder} to configure and create a new
+     * instance.
+     *
+     * @param context Android context
+     *
+     * @return a new {@link GiniVisionDefaultNetworkService.Builder}
+     */
     public static Builder builder(@NonNull final Context context) {
         return new Builder(context);
     }
@@ -106,6 +133,7 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
         final String errorMessage = task.getError().getMessage();
         return errorMessage != null ? errorMessage : task.getError().toString();
     }
+
 
     @Override
     public CancellationToken delete(@NonNull final String giniApiDocumentId,
@@ -280,6 +308,9 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
         return mGiniApi;
     }
 
+    /**
+     * Builder for configuring a new instance of the {@link GiniVisionDefaultNetworkService}.
+     */
     public static class Builder {
 
         private final Context mContext;
@@ -300,6 +331,11 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
             mContext = context;
         }
 
+        /**
+         * Create a new instance of the {@link GiniVisionDefaultNetworkService}.
+         *
+         * @return new {@link GiniVisionDefaultNetworkService} instance
+         */
         @NonNull
         public GiniVisionDefaultNetworkService build() {
             final SdkBuilder sdkBuilder;
@@ -335,6 +371,16 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
             return new GiniVisionDefaultNetworkService(giniApi);
         }
 
+        /**
+         * Set your Gini API client ID and secret. The email domain is used when generating
+         * anonymous Gini users in the form of {@code UUID@your-email-domain}.
+         *
+         * @param clientId     your application's client ID for the Gini API
+         * @param clientSecret your application's client secret for the Gini API
+         * @param emailDomain  the email domain which is used for created Gini users
+         *
+         * @return the {@link Builder} instance
+         */
         @NonNull
         public Builder setClientCredentials(@NonNull final String clientId,
                 @NonNull final String clientSecret, @NonNull final String emailDomain) {
@@ -344,54 +390,124 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
             return this;
         }
 
+        /**
+         * Set a custom {@link SessionManager} implementation for handling sessions.
+         *
+         * @param sessionManager the {@link SessionManager} to use
+         *
+         * @return the {@link Builder} instance
+         */
         @NonNull
         public Builder setSessionManager(@NonNull final SessionManager sessionManager) {
             mSessionManager = sessionManager;
             return this;
         }
 
+        /**
+         * Set the base URL of the Gini API.
+         *
+         * @param baseUrl custom Gini API base URL
+         *
+         * @return the {@link Builder} instance
+         */
         @NonNull
         public Builder setBaseUrl(@NonNull final String baseUrl) {
             mBaseUrl = baseUrl;
             return this;
         }
 
+        /**
+         * Set the base URL of the Gini User Center API.
+         *
+         * @param userCenterBaseUrl custom Gini API base URL
+         *
+         * @return the {@link Builder} instance
+         */
         @NonNull
         public Builder setUserCenterBaseUrl(@NonNull final String userCenterBaseUrl) {
             mUserCenterBaseUrl = userCenterBaseUrl;
             return this;
         }
 
+        /**
+         * Set the cache implementation to use with Volley. If no cache is set, the default Volley
+         * cache will be used.
+         *
+         * @param cache a cache instance (specified by the com.android.volley.Cache interface)
+         *
+         * @return the {@link Builder} instance
+         */
         @NonNull
         public Builder setCache(@NonNull final Cache cache) {
             mCache = cache;
             return this;
         }
 
+        /**
+         * Set the credentials store which is used by the Gini API SDK to store user credentials. If
+         * no credentials store is set, the {@link SharedPreferencesCredentialsStore} from the Gini
+         * API SDK is used by default.
+         *
+         * @param credentialsStore a credentials store instance (specified by the CredentialsStore
+         *                         interface)
+         *
+         * @return the {@link Builder} instance
+         */
         @NonNull
         public Builder setCredentialsStore(@NonNull final CredentialsStore credentialsStore) {
             mCredentialsStore = credentialsStore;
             return this;
         }
 
+        /**
+         * Set the (initial) timeout for each request. A timeout error will occur if nothing is
+         * received from the underlying socket in the given time span. The initial timeout will be
+         * altered depending on the backoff multiplier and failed retries.
+         *
+         * @param connectionTimeout initial timeout
+         *
+         * @return the {@link Builder} instance
+         */
         @NonNull
         public Builder setConnectionTimeout(final long connectionTimeout) {
             mConnectionTimeout = connectionTimeout;
             return this;
         }
 
+        /**
+         * Set the connection timeout's time unit.
+         *
+         * @param connectionTimeoutUnit the time unit
+         *
+         * @return the {@link Builder} instance
+         */
         @NonNull
         public Builder setConnectionTimeoutUnit(@NonNull final TimeUnit connectionTimeoutUnit) {
             mConnectionTimeoutUnit = connectionTimeoutUnit;
             return this;
         }
 
+        /**
+         * Set the maximal number of retries for each network request.
+         *
+         * @param maxNumberOfRetries maximal number of retries
+         *
+         * @return the {@link Builder} instance
+         */
         @NonNull
         public Builder setMaxNumberOfRetries(final int maxNumberOfRetries) {
             mMaxNumberOfRetries = maxNumberOfRetries;
             return this;
         }
 
+        /**
+         * Sets the backoff multiplication factor for connection retries. In case of failed retries
+         * the timeout of the last request attempt is multiplied by this factor.
+         *
+         * @param backoffMultiplier the backoff multiplication factor
+         *
+         * @return the {@link Builder} instance
+         */
         @NonNull
         public Builder setBackoffMultiplier(final float backoffMultiplier) {
             mBackoffMultiplier = backoffMultiplier;

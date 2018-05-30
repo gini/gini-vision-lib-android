@@ -8,6 +8,9 @@ import android.support.annotation.Nullable;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 
+/**
+ * @exclude
+ */
 final class ReviewFragmentHelper {
 
     private static final String ARGS_DOCUMENT = "GV_ARGS_DOCUMENT";

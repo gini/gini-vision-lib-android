@@ -11,6 +11,9 @@ import net.gini.android.vision.internal.util.MimeType;
  * Copyright (c) 2018 Gini GmbH.
  */
 
+/**
+ * A document consisting of multiple QRCode documents.
+ */
 public class QRCodeMultiPageDocument extends
         GiniVisionMultiPageDocument<QRCodeDocument, GiniVisionDocumentError> {
 

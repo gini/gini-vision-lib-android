@@ -34,7 +34,7 @@ pipeline {
                 }
             }
             steps {
-                sh './gradlew ginivision:clean ginivision:assembleDebug ginivision:assembleRelease ginivision-network:assemble'
+                sh './gradlew clean ginivision:assembleDebug ginivision:assembleRelease ginivision-network:assembleDebug ginivision-network:assembleRelease'
             }
         }
         stage('Release Library') {

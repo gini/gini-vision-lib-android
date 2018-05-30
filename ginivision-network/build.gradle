@@ -4,10 +4,10 @@ android {
     compileSdkVersion 27
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -53,3 +53,23 @@ dependencies {
 apply from: rootProject.file('gradle/codequality.gradle')
 apply from: rootProject.file('gradle/maven.gradle')
 apply from: rootProject.file('gradle/targeted_android_tests.gradle')
+
+task generateJavadoc(type: GenerateJavadoc) {
+    projectTitle = "Gini Vision Network Library for Android"
+    source += project(":ginivision").fileTree("src/main/java/net/gini/android/vision/network").files.grep { it.name.endsWith('.java') && it.name != "package-info.java"}
+}
+
+task sourcesJar(type: Jar, dependsOn: 'assembleRelease') {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+task javadocJar(type: Jar, dependsOn: generateJavadoc) {
+    classifier = 'javadoc'
+    from destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}

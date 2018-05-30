@@ -18,6 +18,9 @@ import java.util.Map;
  * Copyright (c) 2018 Gini GmbH.
  */
 
+/**
+ * @exclude
+ */
 public class GiniVisionMultiPageDocument<T extends GiniVisionDocument, E extends GiniVisionDocumentError> extends
         GiniVisionDocument {
 

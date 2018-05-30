@@ -6,15 +6,26 @@ package net.gini.android.vision.network;
  * Copyright (c) 2018 Gini GmbH.
  */
 
+/**
+ * Used by the {@link GiniVisionNetworkService} to return network call results.
+ */
 public class Result {
 
-    private final String documentId;
+    private final String giniApiDocumentId;
 
-    public Result(final String documentId) {
-        this.documentId = documentId;
+    /**
+     * Create a new result with a Gini API document id.
+     *
+     * @param giniApiDocumentId the id of a document in the Gini API
+     */
+    public Result(final String giniApiDocumentId) {
+        this.giniApiDocumentId = giniApiDocumentId;
     }
 
-    public String getDocumentId() {
-        return documentId;
+    /**
+     * @return document's id in the Gini API
+     */
+    public String getGiniApiDocumentId() {
+        return giniApiDocumentId;
     }
 }
