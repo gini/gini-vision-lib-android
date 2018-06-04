@@ -26,6 +26,13 @@ scanning.
 The multi-page feature requires the new API. Existing features will continue to work without any
 changes, but new features we add in the future will require the new API.
 
+.. Note::
+
+    To easily compare the old API to the new one check out the `Gini Vision Library Android Example App
+    <https://github.com/gini/gini-vision-lib-android-example>`_. There we've set up a ``legacy`` and
+    a ``newest`` flavor. ``legacy`` shows how integration was performed in previous versions and
+    ``newest`` shows how integration should be performed using the new API.
+
 Configuration
 ^^^^
 
