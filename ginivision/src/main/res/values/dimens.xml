@@ -5,7 +5,9 @@
     <dimen name="gv_camera_upload_hint_container_top_margin">0dp</dimen>
     <dimen name="gv_camera_upload_hint_container_horizontal_margin">24dp</dimen>
     <dimen name="gv_camera_upload_hint_container_padding">24dp</dimen>
-    <dimen name="gv_camera_upload_hint_text_right_margin">16dp</dimen>
+    <dimen name="gv_camera_upload_hint_container_padding_right">16dp</dimen>
+    <dimen name="gv_camera_upload_hint_container_close_button_padding">8dp</dimen>
+    <dimen name="gv_camera_upload_hint_text_right_margin">8dp</dimen>
     <dimen name="gv_camera_upload_button_size">48dp</dimen>
     <dimen name="gv_camera_upload_button_left_margin">40dp</dimen>
     <dimen name="gv_camera_upload_button_top_margin">0dp</dimen>
