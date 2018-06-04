@@ -356,7 +356,7 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
                     });
         } else {
             try {
-                final Document document = GiniVisionFileImport.createDocumentForImportedFile(
+                final Document document = GiniVision.createDocumentForImportedFile(
                         importedFileIntent,
                         mActivity);
                 if (document.isReviewable()) {
