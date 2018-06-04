@@ -24,7 +24,6 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
-import net.gini.android.vision.GiniVisionFileImport;
 import net.gini.android.vision.ImportedFileValidationException;
 import net.gini.android.vision.camera.CameraFragmentInterface;
 import net.gini.android.vision.camera.CameraFragmentListener;
@@ -335,7 +334,7 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
                     new AsyncCallback<Document, ImportedFileValidationException>() {
                         @Override
                         public void onSuccess(@NonNull final Document result) {
-                            if (result.getType() == Document.Type.IMAGE_MULTI_PAGE) {
+                            if (result.isReviewable()) {
                                 launchMultiPageReviewScreen();
                             } else {
                                 launchAnalysisScreen(result);
