@@ -507,7 +507,7 @@ Checking whether the Intent has the required action:
 Using the Screen API, create an Intent for launching the Gini Vision Library with
 ``GiniVisionFileImport.createIntentForImportedFiles()``. This method requires a callback with which
 it will notify your app about the outcome of the import process. Since importing multiple files can
-take some seconds (images are processed and compressed) you should show an activity indicator until
+take some seconds (images are processed and compressed), you should show an activity indicator until
 one of the callback methods is invoked.
 
 .. code-block:: java

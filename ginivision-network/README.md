@@ -9,7 +9,7 @@ Gini Vision Network Library for Android
 Adding this library along with the Gini Vision Library to your application is the quickest way to
 integrate invoice scanning.
 
-In order for the Gini Vision Library to use the default implementations pass the instances to the
+In order for the Gini Vision Library to use the default implementations, pass the instances to the
 `GiniVision.Builder` when creating a new `GiniVision`.
 
 Example

@@ -6,13 +6,13 @@ Gini Vision Library for Android
 The Gini Vision Library provides Activities and Fragments for capturing, reviewing and analyzing
 photos of invoices and remittance slips.
 
-By integrating this library into your application you can allow your users to easily take a pictures
-of documents, review it and - by implementing the necessary networking interfaces - upload the
+By integrating this library into your application you can allow your users to easily take pictures
+of documents, review them and - by implementing the necessary networking interfaces - upload the
 document to the Gini API for analysis.
 
-Communication with the Gini API is not part of the Gini Vision Library to allow clients the freedom
-of using a networking implementation of their chossing. The quickest way to add networking is to use
-the [Gini Vision Network
+Communication with the Gini API is not part of the Gini Vision Library in order to allow clients the
+freedom to use a networking implementation of their own choosing. The quickest way to add networking
+is to use the [Gini Vision Network
 Library](https://github.com/gini/gini-vision-lib-android/tree/master/ginivision-network). You may
 also use the [Gini API SDK](https://github.com/gini/gini-sdk-android) for Android or implement
 communication with the Gini API yourself.
@@ -68,7 +68,7 @@ Architecture
 
 The Gini Vision Library consists of four main screens:
 
-* Onboading: Provides useful hints to the user on how to take a perfect photo of a document.
+* Onboarding: Provides useful hints to the user on how to take a perfect photo of a document.
 * Camera: The actual camera screen to capture the image of the document.
 * Review: Offers the opportunity to the user to check the sharpness of the image and to rotate it
   into reading direction, if necessary.
@@ -95,7 +95,7 @@ and the Gini Vision Library Theme.
 
 To allow usage even if you aren't using the Android Support Library, we have been providing a
 Standard and a Compat version of Fragments in previous versions. We still provide them for backwards
-compatibility, but for new Fragments we add we will only provide versions using the Android Support
+compatibility, but for new Fragments we will only provide versions using the Android Support
 Library. 
 
 Example
