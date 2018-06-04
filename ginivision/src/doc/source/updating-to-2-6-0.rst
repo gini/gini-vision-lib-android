@@ -33,12 +33,23 @@ changes, but new features we add in the future will require the new API.
     a ``newest`` flavor. ``legacy`` shows how integration was performed in previous versions and
     ``newest`` shows how integration should be performed using the new API.
 
+GiniVision Singleton
+^^^^
+
+We introduced the ``GiniVision`` class as the single entry-point for configuring and interacting
+with the Gini Vision Library.
+
+To configure and create a new instance use the ``GiniVision.Builder`` returned by
+``GiniVision.newInstance()``. The builder creates a new ``GiniVision`` singleton which you
+can later destroy with ``GiniVision.getInstance().cleanup()``. This will also free up any resources used
+by the Gini Vision Library. You should call ``cleanup()`` after the Gini Vision Library returned
+control to your application and your app is not using it anymore.
+
 Configuration
 ^^^^
 
-We introduced the ``GiniVision`` class as the single entry-point for configuring the Gini Vision
-Library. Previously configuration was done by setting Activity extras and using the
-``GiniVisionFeatureConfiguration``.
+Configuration is performed when building a new ``GiniVision`` instance. Previously configuration was
+done by setting Activity extras and using the ``GiniVisionFeatureConfiguration``.
 
 Set Custom Onboarding Pages
 ~~~~~
