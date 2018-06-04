@@ -16,14 +16,12 @@ Table of contents
 -----------------
 
 .. toctree::
-   :maxdepth: 2
+    :maxdepth: 3
 
-   Javadoc <http://developer.gini.net/gini-vision-lib-android/javadoc/index.html>
-   updating-to-2-5-0
-   updating-to-2-4-0
-   guide-for-open-with
-   changelog
-   license
-
-
-.. todolist::
+    Javadoc <http://developer.gini.net/gini-vision-lib-android/javadoc/index.html>
+    updating-to-2-6-0
+    updating-to-2-5-0
+    updating-to-2-4-0
+    guide-for-open-with
+    changelog
+    license
