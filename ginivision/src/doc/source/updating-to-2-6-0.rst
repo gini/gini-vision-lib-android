@@ -399,6 +399,12 @@ thumbnails. When all uploads were successfull the user can proceed to the Analys
 uploads failed, then red crosses are shown on the image thumbnails and users may retry or delete the
 failed images.
 
+.. Note::
+
+    There is no Standard Fragment for the Multi-Page Review Screen. From this version on we only
+    provide Android Support Library Fragments to simplify the UI code and we are confident, that
+    today the Android Support Library is a must-have for every Android application.
+
 Customizing the UI
 ~~~~
 
