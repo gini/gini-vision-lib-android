@@ -18,7 +18,7 @@ Table of contents
 .. toctree::
     :maxdepth: 3
 
-    Javadoc <http://developer.gini.net/gini-vision-lib-android/javadoc/index.html>
+    Gini Vision Javadoc <http://developer.gini.net/gini-vision-lib-android/javadoc/index.html>
     Network Library Javadoc <http://developer.gini.net/gini-vision-lib-android/network/javadoc/index.html>
     updating-to-2-6-0
     updating-to-2-5-0
