@@ -1,4 +1,4 @@
-![Gini Vision Library for Android](GiniVision_Logo.png)
+![Gini Vision Library for Android](../GiniVision_Logo.png)
 
 Gini Vision Network Library for Android
 ===============================
