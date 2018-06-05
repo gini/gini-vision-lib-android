@@ -40,3 +40,6 @@ checkstyle-idea.xml
 
 # Project Specific AVDs
 /avd
+
+# Visual Studio Code
+.vscode

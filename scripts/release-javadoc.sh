@@ -23,10 +23,13 @@ rm -rf gh-pages
 git clone -b gh-pages https://"$git_user":"$git_password"@github.com/gini/gini-vision-lib-android.git gh-pages
 
 rm -rf gh-pages/javadoc
+rm -rf gh-pages/network/javadoc
+mkdir gh-pages/network
 cp -a ginivision/build/docs/javadoc gh-pages/
+cp -a ginivision-network/build/docs/javadoc gh-pages/network/
 cd gh-pages
 touch .nojekyll
 git add -u
 git add .
-git diff --quiet --exit-code --cached || git commit -a -m 'Gini Vision Library Javadoc'
+git diff --quiet --exit-code --cached || git commit -a -m 'Gini Vision Library and Gini Vision Network Library Javadoc'
 git push

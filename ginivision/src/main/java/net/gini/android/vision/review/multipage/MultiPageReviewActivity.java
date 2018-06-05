@@ -77,7 +77,7 @@ import java.util.List;
  * <li> <b>Thumbnail badge text style:</b> via overriding the style named {@code
  * GiniVisionTheme.Review.MultiPage.ThumbnailBadge.TextStyle}
  *
- * <li> <b>Thumbbnail badge font:</b> via overriding the style named {@code
+ * <li> <b>Thumbnail badge font:</b> via overriding the style named {@code
  * GiniVisionTheme.Review.MultiPage.ThumbnailBadge.TextStyle} and setting an item named {@code
  * gvCustomFont} with the path to the font file in your {@code assets} folder
  *
