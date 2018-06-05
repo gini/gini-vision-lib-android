@@ -58,6 +58,20 @@ abstract class AbstractPermissionRequest<T> implements PermissionRequest<T> {
         }
     }
 
+    @Override
+    public void requestPermissionWithoutRationale(@NonNull final T context) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            mListener.permissionGranted();
+            return;
+        }
+        if (checkSelfPermission(context)) {
+            mListener.permissionGranted();
+            return;
+        }
+
+        doRequestPermission(context);
+    }
+
     protected abstract boolean checkSelfPermission(@NonNull final T context);
 
     protected abstract boolean shouldShowRequestRationale(@NonNull final T context);
