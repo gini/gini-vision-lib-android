@@ -16,8 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
-import net.gini.android.vision.internal.permission.PermissionRequestListener;
-import net.gini.android.vision.internal.permission.RuntimePermissions;
 
 /**
  * <h3>Component API</h3>
@@ -77,7 +75,6 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
     }
 
     private CameraFragmentImpl mFragmentImpl;
-    private final RuntimePermissions mRuntimePermissions = new RuntimePermissions();
 
     /**
      * @exclude
@@ -175,17 +172,6 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
     }
 
     @Override
-    public void onRequestPermissionsResult(final int requestCode,
-            @NonNull final String[] permissions, @NonNull final int[] grantResults) {
-        final boolean handled = mRuntimePermissions.onRequestPermissionsResult(requestCode,
-                permissions,
-                grantResults);
-        if (!handled) {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-    }
-
-    @Override
     public void setListener(@NonNull final CameraFragmentListener listener) {
         if (mFragmentImpl != null) {
             mFragmentImpl.setListener(listener);
@@ -258,12 +244,6 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
     @Override
     public void showError(@NonNull final String message, final int duration) {
         mFragmentImpl.showError(message, duration);
-    }
-
-    @Override
-    public void requestPermission(@NonNull final String permission,
-            @NonNull final PermissionRequestListener listener) {
-        mRuntimePermissions.requestPermission(this, permission, listener);
     }
 
     @Override

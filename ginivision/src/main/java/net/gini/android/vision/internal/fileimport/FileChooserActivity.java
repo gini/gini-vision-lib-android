@@ -8,17 +8,22 @@ import static net.gini.android.vision.GiniVisionError.ErrorCode.DOCUMENT_IMPORT;
 import static net.gini.android.vision.internal.util.ContextHelper.isTablet;
 import static net.gini.android.vision.internal.util.FeatureConfiguration.isMultiPageEnabled;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.transition.AutoTransition;
 import android.support.transition.Transition;
 import android.support.transition.TransitionListenerAdapter;
 import android.support.transition.TransitionManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,7 +40,12 @@ import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersItem
 import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersSectionItem;
 import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersSeparatorItem;
 import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersSpanSizeLookup;
+import net.gini.android.vision.internal.permission.PermissionRequestListener;
+import net.gini.android.vision.internal.permission.RuntimePermissions;
 import net.gini.android.vision.internal.util.MimeType;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +54,8 @@ import java.util.List;
  * @exclude
  */
 public class FileChooserActivity extends AppCompatActivity {
+
+    private static final Logger LOG = LoggerFactory.getLogger(FileChooserActivity.class);
 
     private static final int REQ_CODE_CHOOSE_FILE = 1;
 
@@ -63,6 +75,8 @@ public class FileChooserActivity extends AppCompatActivity {
     private RecyclerView mFileProvidersView;
     private DocumentImportEnabledFileTypes mDocImportEnabledFileTypes =
             DocumentImportEnabledFileTypes.NONE;
+
+    private final RuntimePermissions mRuntimePermissions = new RuntimePermissions();
 
     public static boolean canChooseFiles(@NonNull final Context context) {
         final List<ResolveInfo> imagePickerResolveInfos = queryImagePickers(context);
@@ -227,13 +241,100 @@ public class FileChooserActivity extends AppCompatActivity {
                 new ProvidersAppItemSelectedListener() {
                     @Override
                     public void onItemSelected(@NonNull final ProvidersAppItem item) {
-                        final Intent intent = item.getIntent();
-                        intent.setClassName(
-                                item.getResolveInfo().activityInfo.packageName,
-                                item.getResolveInfo().activityInfo.name);
-                        startActivityForResult(intent, REQ_CODE_CHOOSE_FILE);
+                        LOG.info("Requesting read storage permission");
+                        requestStoragePermission(new PermissionRequestListener() {
+                            @Override
+                            public void permissionGranted() {
+                                LOG.info("Read storage permission granted");
+                                launchApp(item);
+                            }
+
+                            @Override
+                            public void permissionDenied() {
+                                LOG.info("Read storage permission denied");
+                                showStoragePermissionDeniedDialog();
+                            }
+
+                            @Override
+                            public void shouldShowRequestPermissionRationale(
+                                    @NonNull final RationaleResponse response) {
+                                LOG.info("Show read storage permission rationale");
+                                showStoragePermissionRationale(response);
+                            }
+                        });
+
+
                     }
                 }));
+    }
+
+    private void launchApp(final @NonNull ProvidersAppItem item) {
+        final Intent intent = item.getIntent();
+        intent.setClassName(
+                item.getResolveInfo().activityInfo.packageName,
+                item.getResolveInfo().activityInfo.name);
+        startActivityForResult(intent, REQ_CODE_CHOOSE_FILE);
+    }
+
+    private void showStoragePermissionDeniedDialog() {
+        final AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setMessage(R.string.gv_storage_permission_denied)
+                .setPositiveButton(R.string.gv_storage_permission_denied_positive_button,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(final DialogInterface dialog, final int which) {
+                                LOG.info("Open app details in Settings app");
+                                showAppDetailsSettingsScreen();
+                            }
+                        })
+                .setNegativeButton(R.string.gv_storage_permission_rationale_negative_button, null)
+                .create();
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.show();
+    }
+
+    private void showStoragePermissionRationale(
+            @NonNull final PermissionRequestListener.RationaleResponse response) {
+        final AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setMessage(R.string.gv_storage_permission_rationale)
+                .setPositiveButton(R.string.gv_storage_permission_rationale_positive_button,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(final DialogInterface dialog, final int which) {
+                                LOG.info("Requesting storage permission from rationale");
+                                response.requestPermission();
+                            }
+                        })
+                .setNegativeButton(R.string.gv_storage_permission_denied_negative_button, null)
+                .create();
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.show();
+    }
+
+    private void showAppDetailsSettingsScreen() {
+        final Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        final Uri uri = Uri.fromParts("package", getPackageName(), null);
+        intent.setData(uri);
+        startActivity(intent);
+    }
+
+    private void requestStoragePermission(@NonNull final PermissionRequestListener listener) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            mRuntimePermissions.requestPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE, listener);
+        } else {
+            listener.permissionGranted();
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(final int requestCode,
+            @NonNull final String[] permissions, @NonNull final int[] grantResults) {
+        final boolean handled = mRuntimePermissions.onRequestPermissionsResult(requestCode,
+                permissions, grantResults);
+        if (!handled) {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
     private boolean shouldShowImageProviders() {
@@ -246,7 +347,6 @@ public class FileChooserActivity extends AppCompatActivity {
                 || mDocImportEnabledFileTypes == DocumentImportEnabledFileTypes.PDF_AND_IMAGES;
     }
 
-    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     private List<ProvidersItem> getImageProviderItems(
             final List<ResolveInfo> imagePickerResolveInfos,
             final List<ResolveInfo> imageProviderResolveInfos) {
@@ -268,7 +368,6 @@ public class FileChooserActivity extends AppCompatActivity {
         return providerItems;
     }
 
-    @SuppressWarnings("PMD.AvoidInstantiatingObjectsInLoops")
     private List<ProvidersItem> getPdfProviderItems(
             final List<ResolveInfo> pdfProviderResolveInfos) {
         final List<ProvidersItem> providerItems = new ArrayList<>();
