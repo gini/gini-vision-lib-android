@@ -451,7 +451,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
 
     @VisibleForTesting
     void showUploadHintPopUp() {
-        mButtonCameraTrigger.setEnabled(false);
+        disableCameraTriggerButtonAnimated(0.3f);
         mUploadHintContainer.setVisibility(View.VISIBLE);
         mUploadHintContainerArrow.setVisibility(View.VISIBLE);
         mCameraPreviewShade.setVisibility(View.VISIBLE);
@@ -905,7 +905,9 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
 
     private void hideUploadHintPopUp(@Nullable final ViewPropertyAnimatorListenerAdapter
             animatorListener) {
-        mButtonCameraTrigger.setEnabled(true);
+        if (!mInterfaceHidden) {
+            enableCameraTriggerButtonAnimated();
+        }
         clearUploadHintPopUpAnimations();
         mUploadHintContainerAnimation = ViewCompat.animate(mUploadHintContainer)
                 .alpha(0)
@@ -1533,8 +1535,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     }
 
     private void showCameraTriggerButtonAnimated() {
-        mButtonCameraTrigger.animate().alpha(1.0f);
-        mButtonCameraTrigger.setEnabled(true);
+        enableCameraTriggerButtonAnimated();
     }
 
     @Deprecated
@@ -1547,8 +1548,19 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     }
 
     private void hideCameraTriggerButtonAnimated() {
-        mButtonCameraTrigger.animate().alpha(0.0f);
+        disableCameraTriggerButtonAnimated(0.0f);
+    }
+
+    private void disableCameraTriggerButtonAnimated(final float alpha) {
+        mButtonCameraTrigger.clearAnimation();
+        mButtonCameraTrigger.animate().alpha(alpha).start();
         mButtonCameraTrigger.setEnabled(false);
+    }
+
+    private void enableCameraTriggerButtonAnimated() {
+        mButtonCameraTrigger.clearAnimation();
+        mButtonCameraTrigger.animate().alpha(1.0f).start();
+        mButtonCameraTrigger.setEnabled(true);
     }
 
     @Override
