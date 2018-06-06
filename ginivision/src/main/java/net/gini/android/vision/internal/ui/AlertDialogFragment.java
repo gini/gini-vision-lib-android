@@ -30,8 +30,11 @@ public class AlertDialogFragment extends DialogFragment {
 
     @StringRes
     private int mTitle;
+    @StringRes
     private int mMessage;
+    @StringRes
     private int mPositiveButtonTitle;
+    @StringRes
     private int mNegativeButtonTitle;
     private int mDialogId;
     private boolean mDisableCancelOnTouchOutside;
