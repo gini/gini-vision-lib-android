@@ -2,7 +2,15 @@
 Changelog
 =========
 
-2.6.0-beta.3 (2018-05-16)
+2.6.0-beta.4 (2018-06-06)
+==================
+
+- Migration and integration guide for the multi-page feature.
+- Renamed ``gini-vision-lib-network`` to ``gini-vision-network-lib``.
+- Onboarding background is almost completely opaque.
+- Various improvements and bugfixes.
+
+2.6.0-beta.3 (2018-05-29)
 ==================
 
 - Javadoc.
