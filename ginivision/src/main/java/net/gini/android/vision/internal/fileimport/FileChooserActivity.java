@@ -89,6 +89,9 @@ public class FileChooserActivity extends AppCompatActivity implements AlertDialo
     private final RuntimePermissions mRuntimePermissions = new RuntimePermissions();
     private ProvidersAppItem mSelectedAppItem;
 
+    // Used to prevent fragment transactions after instance state has been save
+    private boolean mInstanceStateSaved = false;
+
     public static boolean canChooseFiles(@NonNull final Context context) {
         final List<ResolveInfo> imagePickerResolveInfos = queryImagePickers(context);
         final List<ResolveInfo> imageProviderResolveInfos = queryImageProviders(context);
@@ -117,6 +120,7 @@ public class FileChooserActivity extends AppCompatActivity implements AlertDialo
     @Override
     protected void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
+        mInstanceStateSaved = true;
         outState.putParcelable(SELECTED_APP_ITEM_KEY, mSelectedAppItem);
     }
 
@@ -195,6 +199,9 @@ public class FileChooserActivity extends AppCompatActivity implements AlertDialo
         super.onResume();
         populateFileProviders();
         showFileProviders();
+        // Sometimes onRestoreInstanceState() is not called after onSaveInstanceState() - seen on
+        // a Galaxy S5 Neo with Android 6.0.1
+        mInstanceStateSaved = false;
     }
 
     private void showFileProviders() {
@@ -346,6 +353,9 @@ public class FileChooserActivity extends AppCompatActivity implements AlertDialo
     }
 
     private void showPermissionDialog(final AlertDialogFragment dialogFragment) {
+        if (mInstanceStateSaved) {
+            return;
+        }
         final FragmentTransaction transaction =
                 getSupportFragmentManager().beginTransaction();
         final Fragment previous = getSupportFragmentManager().findFragmentByTag(PERMISSION_DIALOG);
