@@ -139,7 +139,7 @@ public class FileChooserActivity extends AppCompatActivity implements AlertDialo
                 break;
             case PERMISSION_RATIONALE_DIALOG:
                 if (mSelectedAppItem != null) {
-                    requestStoragePermissionForAppItem(mSelectedAppItem, false);
+                    requestStoragePermissionWithoutRationale();
                 }
                 break;
         }
@@ -289,18 +289,37 @@ public class FileChooserActivity extends AppCompatActivity implements AlertDialo
                 new ProvidersAppItemSelectedListener() {
                     @Override
                     public void onItemSelected(@NonNull final ProvidersAppItem item) {
-                        requestStoragePermissionForAppItem(item, true);
+                        // Store the selected item, it is needed for requesting permission
+                        // after showing the rationale
+                        mSelectedAppItem = item;
+                        requestStoragePermission();
                     }
                 }));
     }
 
-    private void requestStoragePermissionForAppItem(final ProvidersAppItem item,
-            final boolean allowRationale) {
-        // Store the selected item, it is needed for requesting permission
-        // after showing the rationale
-        mSelectedAppItem = item;
-        LOG.info("Requesting read storage permission");
-        final PermissionRequestListener listener = new PermissionRequestListener() {
+    private void requestStoragePermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            LOG.info("Requesting read storage permission");
+            mRuntimePermissions.requestPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE,
+                    createPermissionRequestListener());
+        } else {
+            storagePermissionGranted();
+        }
+    }
+
+    private void requestStoragePermissionWithoutRationale() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            LOG.info("Requesting read storage permission without rationale");
+            mRuntimePermissions.requestPermissionWithoutRationale(this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE, createPermissionRequestListener());
+        } else {
+            storagePermissionGranted();
+        }
+    }
+
+    @NonNull
+    private PermissionRequestListener createPermissionRequestListener() {
+        return new PermissionRequestListener() {
             @Override
             public void permissionGranted() {
                 storagePermissionGranted();
@@ -318,17 +337,6 @@ public class FileChooserActivity extends AppCompatActivity implements AlertDialo
                 showStoragePermissionRationale();
             }
         };
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (allowRationale) {
-                mRuntimePermissions.requestPermission(this,
-                        Manifest.permission.READ_EXTERNAL_STORAGE, listener);
-            } else {
-                mRuntimePermissions.requestPermissionWithoutRationale(this,
-                        Manifest.permission.READ_EXTERNAL_STORAGE, listener);
-            }
-        } else {
-            listener.permissionGranted();
-        }
     }
 
     private void storagePermissionGranted() {
