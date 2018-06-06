@@ -32,12 +32,13 @@ import java.util.ArrayList;
 /**
  * Single entry point for the Gini Vision Library for configuration and interaction.
  *
- * <p> This class is preferred over the previous methods of configuration and interaction. It is
- * only mandatory for new features. You can continue using features from previous releases without
- * any modification.
+ * <p> This singleton class is preferred over the previous methods of configuration and interaction.
+ * It is only mandatory for new features. You can continue using features from previous releases
+ * without any modification.
  *
- * <p> To create and configure an instance use the {@link #newInstance()} method and the returned
- * {@link Builder}.
+ * <p> To create and configure a singleton instance use the {@link #newInstance()} method and the
+ * returned {@link Builder}. If an instance is already available you need to call {@link
+ * #cleanup(Context)} before creating a new instance. Failing to do so will throw an exception.
  *
  * <p> After you are done using the Gini Vision Library use the {@link #cleanup(Context)} method.
  * This will free up resources used by the library.

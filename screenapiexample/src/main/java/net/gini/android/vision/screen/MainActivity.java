@@ -18,7 +18,6 @@ import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.GiniVisionError;
-import net.gini.android.vision.GiniVisionFileImport;
 import net.gini.android.vision.ImportedFileValidationException;
 import net.gini.android.vision.camera.CameraActivity;
 import net.gini.android.vision.example.BaseExampleApp;
@@ -150,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             try {
                 final Intent giniVisionIntent =
-                        GiniVisionFileImport.createIntentForImportedFile(
+                        GiniVision.createIntentForImportedFile(
                                 importedFileIntent,
                                 this,
                                 ReviewActivity.class,

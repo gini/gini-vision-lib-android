@@ -14,18 +14,14 @@ import static net.gini.android.vision.internal.util.FeatureConfiguration.getDocu
 import static net.gini.android.vision.internal.util.FeatureConfiguration.isMultiPageEnabled;
 import static net.gini.android.vision.internal.util.FeatureConfiguration.isQRCodeScanningEnabled;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.Matrix;
 import android.graphics.Point;
 import android.hardware.Camera;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -75,7 +71,6 @@ import net.gini.android.vision.internal.fileimport.FileChooserActivity;
 import net.gini.android.vision.internal.network.AnalysisNetworkRequestResult;
 import net.gini.android.vision.internal.network.NetworkRequestResult;
 import net.gini.android.vision.internal.network.NetworkRequestsManager;
-import net.gini.android.vision.internal.permission.PermissionRequestListener;
 import net.gini.android.vision.internal.qrcode.PaymentQRCodeData;
 import net.gini.android.vision.internal.qrcode.PaymentQRCodeReader;
 import net.gini.android.vision.internal.qrcode.QRCodeDetectorTask;
@@ -451,7 +446,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
 
     @VisibleForTesting
     void showUploadHintPopUp() {
-        mButtonCameraTrigger.setEnabled(false);
+        disableCameraTriggerButtonAnimated(0.3f);
         mUploadHintContainer.setVisibility(View.VISIBLE);
         mUploadHintContainerArrow.setVisibility(View.VISIBLE);
         mCameraPreviewShade.setVisibility(View.VISIBLE);
@@ -776,27 +771,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             @Override
             public void onClick(final View view) {
                 closeUploadHintPopUp();
-                LOG.info("Requesting read storage permission");
-                requestStoragePermission(new PermissionRequestListener() {
-                    @Override
-                    public void permissionGranted() {
-                        LOG.info("Read storage permission granted");
-                        showFileChooser();
-                    }
-
-                    @Override
-                    public void permissionDenied() {
-                        LOG.info("Read storage permission denied");
-                        showStoragePermissionDeniedDialog();
-                    }
-
-                    @Override
-                    public void shouldShowRequestPermissionRationale(
-                            @NonNull final RationaleResponse response) {
-                        LOG.info("Show read storage permission rationale");
-                        showStoragePermissionRationale(response);
-                    }
-                });
+                showFileChooser();
             }
         });
         mUploadHintCloseButton.setOnClickListener(new View.OnClickListener() {
@@ -905,7 +880,9 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
 
     private void hideUploadHintPopUp(@Nullable final ViewPropertyAnimatorListenerAdapter
             animatorListener) {
-        mButtonCameraTrigger.setEnabled(true);
+        if (!mInterfaceHidden) {
+            enableCameraTriggerButtonAnimated();
+        }
         clearUploadHintPopUpAnimations();
         mUploadHintContainerAnimation = ViewCompat.animate(mUploadHintContainer)
                 .alpha(0)
@@ -939,34 +916,6 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         gvSharedPrefs.edit().putBoolean(SHOW_HINT_POP_UP, false).apply();
     }
 
-    private void showStoragePermissionRationale(
-            @NonNull final PermissionRequestListener.RationaleResponse response) {
-        mFragment.showAlertDialog(R.string.gv_storage_permission_rationale,
-                R.string.gv_storage_permission_rationale_positive_button,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(final DialogInterface dialogInterface,
-                            final int i) {
-                        LOG.info("Requesting storage permission from rationale");
-                        response.requestPermission();
-                    }
-                }, R.string.gv_storage_permission_denied_negative_button);
-    }
-
-    private void showStoragePermissionDeniedDialog() {
-        mFragment.showAlertDialog(R.string.gv_storage_permission_denied,
-                R.string.gv_storage_permission_denied_positive_button,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(
-                            final DialogInterface dialogInterface,
-                            final int i) {
-                        LOG.info("Open app details in Settings app");
-                        showAppDetailsSettingsScreen();
-                    }
-                }, R.string.gv_storage_permission_rationale_negative_button);
-    }
-
     private void showFileChooser() {
         LOG.info("Importing document");
         final Activity activity = mFragment.getActivity();
@@ -983,27 +932,6 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         fileChooserIntent.putExtra(FileChooserActivity.EXTRA_IN_DOCUMENT_IMPORT_FILE_TYPES,
                 enabledFileTypes);
         mFragment.startActivityForResult(fileChooserIntent, REQ_CODE_CHOOSE_FILE);
-    }
-
-    private void showAppDetailsSettingsScreen() {
-        final Activity activity = mFragment.getActivity();
-        if (activity == null) {
-            return;
-        }
-        final Intent intent = new Intent(
-                Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        final Uri uri = Uri.fromParts("package",
-                activity.getPackageName(), null);
-        intent.setData(uri);
-        activity.startActivity(intent);
-    }
-
-    private void requestStoragePermission(@NonNull final PermissionRequestListener listener) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            mFragment.requestPermission(Manifest.permission.READ_EXTERNAL_STORAGE, listener);
-        } else {
-            listener.permissionGranted();
-        }
     }
 
     boolean onActivityResult(final int requestCode, final int resultCode, final Intent data) {
@@ -1462,19 +1390,6 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         return DocumentFactory.newImageDocumentFromPhoto(photo, savedAtUri);
     }
 
-    // TODO: rotate imageview in image stack to avoid creating a rotated bitmap
-    @Nullable
-    private Bitmap getRotatedBitmap(final Photo photo) {
-        final Bitmap bitmapPreview = photo.getBitmapPreview();
-        if (bitmapPreview == null) {
-            return null;
-        }
-        final Matrix matrix = new Matrix();
-        matrix.postRotate(photo.getRotationForDisplay());
-        return Bitmap.createBitmap(bitmapPreview, 0, 0,
-                bitmapPreview.getWidth(), bitmapPreview.getHeight(), matrix, false);
-    }
-
     private void setSurfaceViewCallback() {
         mCameraPreview.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
@@ -1533,8 +1448,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     }
 
     private void showCameraTriggerButtonAnimated() {
-        mButtonCameraTrigger.animate().alpha(1.0f);
-        mButtonCameraTrigger.setEnabled(true);
+        enableCameraTriggerButtonAnimated();
     }
 
     @Deprecated
@@ -1547,8 +1461,19 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     }
 
     private void hideCameraTriggerButtonAnimated() {
-        mButtonCameraTrigger.animate().alpha(0.0f);
+        disableCameraTriggerButtonAnimated(0.0f);
+    }
+
+    private void disableCameraTriggerButtonAnimated(final float alpha) {
+        mButtonCameraTrigger.clearAnimation();
+        mButtonCameraTrigger.animate().alpha(alpha).start();
         mButtonCameraTrigger.setEnabled(false);
+    }
+
+    private void enableCameraTriggerButtonAnimated() {
+        mButtonCameraTrigger.clearAnimation();
+        mButtonCameraTrigger.animate().alpha(1.0f).start();
+        mButtonCameraTrigger.setEnabled(true);
     }
 
     @Override

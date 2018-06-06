@@ -82,7 +82,12 @@
         android:layout_marginRight="@dimen/gv_camera_upload_hint_container_horizontal_margin"
         android:alpha="0"
         android:background="@color/gv_document_import_hint_background"
-        android:padding="@dimen/gv_camera_upload_hint_container_padding"
+        android:paddingBottom="@dimen/gv_camera_upload_hint_container_padding"
+        android:paddingEnd="@dimen/gv_camera_upload_hint_container_padding_right"
+        android:paddingLeft="@dimen/gv_camera_upload_hint_container_padding"
+        android:paddingRight="@dimen/gv_camera_upload_hint_container_padding_right"
+        android:paddingStart="@dimen/gv_camera_upload_hint_container_padding"
+        android:paddingTop="@dimen/gv_camera_upload_hint_container_padding"
         android:visibility="gone"
         tools:alpha="1"
         tools:visibility="visible">
@@ -107,6 +112,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:padding="@dimen/gv_camera_upload_hint_container_close_button_padding"
             android:src="@drawable/gv_hint_close"
             android:tint="@color/gv_hint_close" />
 
