@@ -29,6 +29,19 @@ public class RuntimePermissions {
         }
     }
 
+    public void requestPermissionWithoutRationale(@NonNull final Activity activity,
+            @NonNull final String permission, @NonNull final PermissionRequestListener listener) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            final int requestCode = getNextRequestCode();
+            final PermissionRequestActivity request = new PermissionRequestActivity(permission,
+                    requestCode, listener);
+            mPermissionRequests.put(requestCode, request);
+            request.requestPermissionWithoutRationale(activity);
+        } else {
+            listener.permissionGranted();
+        }
+    }
+
     public boolean onRequestPermissionsResult(final int requestCode,
             @NonNull final String[] permissions,
             @NonNull final int[] grantResults) {

@@ -12,6 +12,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
@@ -23,7 +24,8 @@ import android.support.transition.AutoTransition;
 import android.support.transition.Transition;
 import android.support.transition.TransitionListenerAdapter;
 import android.support.transition.TransitionManager;
-import android.support.v7.app.AlertDialog;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -42,6 +44,8 @@ import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersSepa
 import net.gini.android.vision.internal.fileimport.providerchooser.ProvidersSpanSizeLookup;
 import net.gini.android.vision.internal.permission.PermissionRequestListener;
 import net.gini.android.vision.internal.permission.RuntimePermissions;
+import net.gini.android.vision.internal.ui.AlertDialogFragment;
+import net.gini.android.vision.internal.ui.AlertDialogFragmentListener;
 import net.gini.android.vision.internal.util.MimeType;
 
 import org.slf4j.Logger;
@@ -53,7 +57,7 @@ import java.util.List;
 /**
  * @exclude
  */
-public class FileChooserActivity extends AppCompatActivity {
+public class FileChooserActivity extends AppCompatActivity implements AlertDialogFragmentListener {
 
     private static final Logger LOG = LoggerFactory.getLogger(FileChooserActivity.class);
 
@@ -71,12 +75,22 @@ public class FileChooserActivity extends AppCompatActivity {
     private static final int ANIM_DURATION = 200;
     private static final int SHOW_ANIM_DELAY = 300;
 
+    private static final String PERMISSION_DIALOG = "PERMISSION_DIALOG";
+    private static final int PERMISSION_DENIED_DIALOG = 1;
+    private static final int PERMISSION_RATIONALE_DIALOG = 2;
+
+    private static final String SELECTED_APP_ITEM_KEY = "SELECTED_APP_ITEM_KEY";
+
     private RelativeLayout mLayoutRoot;
     private RecyclerView mFileProvidersView;
     private DocumentImportEnabledFileTypes mDocImportEnabledFileTypes =
             DocumentImportEnabledFileTypes.NONE;
 
     private final RuntimePermissions mRuntimePermissions = new RuntimePermissions();
+    private ProvidersAppItem mSelectedAppItem;
+
+    // Used to prevent fragment transactions after instance state has been save
+    private boolean mInstanceStateSaved = false;
 
     public static boolean canChooseFiles(@NonNull final Context context) {
         final List<ResolveInfo> imagePickerResolveInfos = queryImagePickers(context);
@@ -101,6 +115,38 @@ public class FileChooserActivity extends AppCompatActivity {
         readExtras();
         setupFileProvidersView();
         overridePendingTransition(0, 0);
+    }
+
+    @Override
+    protected void onSaveInstanceState(final Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mInstanceStateSaved = true;
+        outState.putParcelable(SELECTED_APP_ITEM_KEY, mSelectedAppItem);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(final Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mSelectedAppItem = savedInstanceState.getParcelable(SELECTED_APP_ITEM_KEY);
+    }
+
+    @Override
+    public void onPositiveButtonClicked(@NonNull final DialogInterface dialog, final int dialogId) {
+        switch (dialogId) {
+            case PERMISSION_DENIED_DIALOG:
+                LOG.info("Open app details in Settings app");
+                showAppDetailsSettingsScreen();
+                break;
+            case PERMISSION_RATIONALE_DIALOG:
+                if (mSelectedAppItem != null) {
+                    requestStoragePermissionForAppItem(mSelectedAppItem, false);
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onNegativeButtonClicked(@NonNull final DialogInterface dialog, final int dialogId) {
     }
 
     private void bindViews() {
@@ -153,6 +199,9 @@ public class FileChooserActivity extends AppCompatActivity {
         super.onResume();
         populateFileProviders();
         showFileProviders();
+        // Sometimes onRestoreInstanceState() is not called after onSaveInstanceState() - seen on
+        // a Galaxy S5 Neo with Android 6.0.1
+        mInstanceStateSaved = false;
     }
 
     private void showFileProviders() {
@@ -181,7 +230,6 @@ public class FileChooserActivity extends AppCompatActivity {
                 FileChooserActivity.super.onBackPressed();
             }
         });
-
     }
 
     private void hideFileProviders(
@@ -241,31 +289,58 @@ public class FileChooserActivity extends AppCompatActivity {
                 new ProvidersAppItemSelectedListener() {
                     @Override
                     public void onItemSelected(@NonNull final ProvidersAppItem item) {
-                        LOG.info("Requesting read storage permission");
-                        requestStoragePermission(new PermissionRequestListener() {
-                            @Override
-                            public void permissionGranted() {
-                                LOG.info("Read storage permission granted");
-                                launchApp(item);
-                            }
-
-                            @Override
-                            public void permissionDenied() {
-                                LOG.info("Read storage permission denied");
-                                showStoragePermissionDeniedDialog();
-                            }
-
-                            @Override
-                            public void shouldShowRequestPermissionRationale(
-                                    @NonNull final RationaleResponse response) {
-                                LOG.info("Show read storage permission rationale");
-                                showStoragePermissionRationale(response);
-                            }
-                        });
-
-
+                        requestStoragePermissionForAppItem(item, true);
                     }
                 }));
+    }
+
+    private void requestStoragePermissionForAppItem(final ProvidersAppItem item,
+            final boolean allowRationale) {
+        // Store the selected item, it is needed for requesting permission
+        // after showing the rationale
+        mSelectedAppItem = item;
+        LOG.info("Requesting read storage permission");
+        final PermissionRequestListener listener = new PermissionRequestListener() {
+            @Override
+            public void permissionGranted() {
+                storagePermissionGranted();
+            }
+
+            @Override
+            public void permissionDenied() {
+                storagePermisionDenied();
+            }
+
+            @Override
+            public void shouldShowRequestPermissionRationale(
+                    @NonNull final RationaleResponse response) {
+                LOG.info("Show read storage permission rationale");
+                showStoragePermissionRationale();
+            }
+        };
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (allowRationale) {
+                mRuntimePermissions.requestPermission(this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE, listener);
+            } else {
+                mRuntimePermissions.requestPermissionWithoutRationale(this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE, listener);
+            }
+        } else {
+            listener.permissionGranted();
+        }
+    }
+
+    private void storagePermissionGranted() {
+        LOG.info("Read storage permission granted");
+        if (mSelectedAppItem != null) {
+            launchApp(mSelectedAppItem);
+        }
+    }
+
+    private void storagePermisionDenied() {
+        LOG.info("Read storage permission denied");
+        showStoragePermissionDeniedDialog();
     }
 
     private void launchApp(final @NonNull ProvidersAppItem item) {
@@ -277,38 +352,39 @@ public class FileChooserActivity extends AppCompatActivity {
     }
 
     private void showStoragePermissionDeniedDialog() {
-        final AlertDialog alertDialog = new AlertDialog.Builder(this)
+        final AlertDialogFragment dialogFragment = new AlertDialogFragment.Builder()
                 .setMessage(R.string.gv_storage_permission_denied)
-                .setPositiveButton(R.string.gv_storage_permission_denied_positive_button,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog, final int which) {
-                                LOG.info("Open app details in Settings app");
-                                showAppDetailsSettingsScreen();
-                            }
-                        })
-                .setNegativeButton(R.string.gv_storage_permission_rationale_negative_button, null)
+                .setPositiveButton(R.string.gv_storage_permission_denied_positive_button)
+                .setNegativeButton(R.string.gv_storage_permission_denied_negative_button)
+                .setDialogId(PERMISSION_DENIED_DIALOG)
+                .disableCancelOnTouchOutside()
                 .create();
-        alertDialog.setCanceledOnTouchOutside(false);
-        alertDialog.show();
+        showPermissionDialog(dialogFragment);
     }
 
-    private void showStoragePermissionRationale(
-            @NonNull final PermissionRequestListener.RationaleResponse response) {
-        final AlertDialog alertDialog = new AlertDialog.Builder(this)
+    private void showPermissionDialog(final AlertDialogFragment dialogFragment) {
+        if (mInstanceStateSaved) {
+            return;
+        }
+        final FragmentTransaction transaction =
+                getSupportFragmentManager().beginTransaction();
+        final Fragment previous = getSupportFragmentManager().findFragmentByTag(PERMISSION_DIALOG);
+        if (previous != null) {
+            transaction.remove(previous);
+        }
+        transaction.addToBackStack(null);
+        dialogFragment.show(transaction, PERMISSION_DIALOG);
+    }
+
+    private void showStoragePermissionRationale() {
+        final AlertDialogFragment dialogFragment = new AlertDialogFragment.Builder()
                 .setMessage(R.string.gv_storage_permission_rationale)
-                .setPositiveButton(R.string.gv_storage_permission_rationale_positive_button,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(final DialogInterface dialog, final int which) {
-                                LOG.info("Requesting storage permission from rationale");
-                                response.requestPermission();
-                            }
-                        })
-                .setNegativeButton(R.string.gv_storage_permission_denied_negative_button, null)
+                .setPositiveButton(R.string.gv_storage_permission_rationale_positive_button)
+                .setNegativeButton(R.string.gv_storage_permission_rationale_negative_button)
+                .setDialogId(PERMISSION_RATIONALE_DIALOG)
+                .disableCancelOnTouchOutside()
                 .create();
-        alertDialog.setCanceledOnTouchOutside(false);
-        alertDialog.show();
+        showPermissionDialog(dialogFragment);
     }
 
     private void showAppDetailsSettingsScreen() {
@@ -318,23 +394,29 @@ public class FileChooserActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void requestStoragePermission(@NonNull final PermissionRequestListener listener) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            mRuntimePermissions.requestPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE, listener);
-        } else {
-            listener.permissionGranted();
-        }
-    }
-
-
     @Override
     public void onRequestPermissionsResult(final int requestCode,
             @NonNull final String[] permissions, @NonNull final int[] grantResults) {
         final boolean handled = mRuntimePermissions.onRequestPermissionsResult(requestCode,
                 permissions, grantResults);
-        if (!handled) {
+        if (!handled && isReadExternalStoragePermission(permissions)) {
+            if (isPermissionGranted(grantResults)) {
+                storagePermissionGranted();
+            } else {
+                storagePermisionDenied();
+            }
+        } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+    }
+
+    private boolean isReadExternalStoragePermission(final @NonNull String[] permissions) {
+        return permissions.length == 1
+                && permissions[0].equals(Manifest.permission.READ_EXTERNAL_STORAGE);
+    }
+
+    private boolean isPermissionGranted(final @NonNull int[] grantResults) {
+        return grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
     }
 
     private boolean shouldShowImageProviders() {
