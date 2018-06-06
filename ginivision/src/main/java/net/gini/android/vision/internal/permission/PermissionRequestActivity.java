@@ -18,7 +18,7 @@ class PermissionRequestActivity extends AbstractPermissionRequest<Activity> {
     }
 
     @Override
-    protected Boolean checkSelfPermission(@NonNull final Activity activity) {
+    protected boolean checkSelfPermission(@NonNull final Activity activity) {
         return ContextCompat.checkSelfPermission(activity, getPermission())
                 == PackageManager.PERMISSION_GRANTED;
     }
