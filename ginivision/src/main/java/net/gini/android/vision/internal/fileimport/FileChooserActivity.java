@@ -303,14 +303,12 @@ public class FileChooserActivity extends AppCompatActivity implements AlertDialo
         final PermissionRequestListener listener = new PermissionRequestListener() {
             @Override
             public void permissionGranted() {
-                LOG.info("Read storage permission granted");
-                launchApp(mSelectedAppItem);
+                storagePermissionGranted();
             }
 
             @Override
             public void permissionDenied() {
-                LOG.info("Read storage permission denied");
-                showStoragePermissionDeniedDialog();
+                storagePermisionDenied();
             }
 
             @Override
@@ -331,6 +329,18 @@ public class FileChooserActivity extends AppCompatActivity implements AlertDialo
         } else {
             listener.permissionGranted();
         }
+    }
+
+    private void storagePermissionGranted() {
+        LOG.info("Read storage permission granted");
+        if (mSelectedAppItem != null) {
+            launchApp(mSelectedAppItem);
+        }
+    }
+
+    private void storagePermisionDenied() {
+        LOG.info("Read storage permission denied");
+        showStoragePermissionDeniedDialog();
     }
 
     private void launchApp(final @NonNull ProvidersAppItem item) {
@@ -389,22 +399,24 @@ public class FileChooserActivity extends AppCompatActivity implements AlertDialo
             @NonNull final String[] permissions, @NonNull final int[] grantResults) {
         final boolean handled = mRuntimePermissions.onRequestPermissionsResult(requestCode,
                 permissions, grantResults);
-        // On activity restart mRuntimePermissions is cleared and handled is false
-        // so we need to check the permission request result here
-        if (!handled && permissions.length == 1
-                && permissions[0].equals(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                LOG.info("Read storage permission granted");
-                if (mSelectedAppItem != null) {
-                    launchApp(mSelectedAppItem);
-                }
+        if (!handled && isReadExternalStoragePermission(permissions)) {
+            if (isPermissionGranted(grantResults)) {
+                storagePermissionGranted();
             } else {
-                LOG.info("Read storage permission denied");
-                showStoragePermissionDeniedDialog();
+                storagePermisionDenied();
             }
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+    }
+
+    private boolean isReadExternalStoragePermission(final @NonNull String[] permissions) {
+        return permissions.length == 1
+                && permissions[0].equals(Manifest.permission.READ_EXTERNAL_STORAGE);
+    }
+
+    private boolean isPermissionGranted(final @NonNull int[] grantResults) {
+        return grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
     }
 
     private boolean shouldShowImageProviders() {
