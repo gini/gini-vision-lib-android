@@ -335,11 +335,17 @@ public class FileChooserActivity extends AppCompatActivity implements AlertDialo
     }
 
     private void showStoragePermissionDeniedDialog() {
-        final AlertDialogFragment dialogFragment = AlertDialogFragment.createInstance(0,
-                R.string.gv_storage_permission_denied,
-                R.string.gv_storage_permission_denied_positive_button,
-                R.string.gv_storage_permission_denied_negative_button, PERMISSION_DENIED_DIALOG);
+        final AlertDialogFragment dialogFragment = new AlertDialogFragment.Builder()
+                .setMessage(R.string.gv_storage_permission_denied)
+                .setPositiveButton(R.string.gv_storage_permission_denied_positive_button)
+                .setNegativeButton(R.string.gv_storage_permission_denied_negative_button)
+                .setDialogId(PERMISSION_DENIED_DIALOG)
+                .disableCancelOnTouchOutside()
+                .create();
+        showPermissionDialog(dialogFragment);
+    }
 
+    private void showPermissionDialog(final AlertDialogFragment dialogFragment) {
         final FragmentTransaction transaction =
                 getSupportFragmentManager().beginTransaction();
         final Fragment previous = getSupportFragmentManager().findFragmentByTag(PERMISSION_DIALOG);
@@ -351,20 +357,14 @@ public class FileChooserActivity extends AppCompatActivity implements AlertDialo
     }
 
     private void showStoragePermissionRationale() {
-        final AlertDialogFragment dialogFragment = AlertDialogFragment.createInstance(0,
-                R.string.gv_storage_permission_rationale,
-                R.string.gv_storage_permission_rationale_positive_button,
-                R.string.gv_storage_permission_rationale_negative_button,
-                PERMISSION_RATIONALE_DIALOG);
-
-        final FragmentTransaction transaction =
-                getSupportFragmentManager().beginTransaction();
-        final Fragment previous = getSupportFragmentManager().findFragmentByTag(PERMISSION_DIALOG);
-        if (previous != null) {
-            transaction.remove(previous);
-        }
-        transaction.addToBackStack(null);
-        dialogFragment.show(transaction, PERMISSION_DIALOG);
+        final AlertDialogFragment dialogFragment = new AlertDialogFragment.Builder()
+                .setMessage(R.string.gv_storage_permission_rationale)
+                .setPositiveButton(R.string.gv_storage_permission_rationale_positive_button)
+                .setNegativeButton(R.string.gv_storage_permission_rationale_negative_button)
+                .setDialogId(PERMISSION_RATIONALE_DIALOG)
+                .disableCancelOnTouchOutside()
+                .create();
+        showPermissionDialog(dialogFragment);
     }
 
     private void showAppDetailsSettingsScreen() {

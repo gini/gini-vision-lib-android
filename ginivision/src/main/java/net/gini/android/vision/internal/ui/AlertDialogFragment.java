@@ -26,6 +26,7 @@ public class AlertDialogFragment extends DialogFragment {
     private static final String ARG_POSITIVE_BUTTON_TITLE = "ARG_POSITIVE_BUTTON_TITLE";
     private static final String ARG_NEGATIVE_BUTTON_TITLE = "ARG_NEGATIVE_BUTTON_TITLE";
     private static final String ARG_DIALOG_ID = "ARG_DIALOG_ID";
+    private static final String ARG_DISABLE_CANCEL_ON_TOUCH_OUTSIDE = "ARG_CANCELED_ON_TOUCH_OUTSIDE";
 
     @StringRes
     private int mTitle;
@@ -33,20 +34,7 @@ public class AlertDialogFragment extends DialogFragment {
     private int mPositiveButtonTitle;
     private int mNegativeButtonTitle;
     private int mDialogId;
-
-    public static AlertDialogFragment createInstance(@StringRes final int title,
-            @StringRes final int message, @StringRes final int positiveButtonTitle,
-            @StringRes final int negativeButtonTitle, @StringRes final int dialogId) {
-        final Bundle args = new Bundle();
-        args.putInt(ARG_TITLE, title);
-        args.putInt(ARG_MESSAGE, message);
-        args.putInt(ARG_POSITIVE_BUTTON_TITLE, positiveButtonTitle);
-        args.putInt(ARG_NEGATIVE_BUTTON_TITLE, negativeButtonTitle);
-        args.putInt(ARG_DIALOG_ID, dialogId);
-        final AlertDialogFragment fragment = new AlertDialogFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private boolean mDisableCancelOnTouchOutside;
 
     @Override
     public void onCreate(@Nullable final Bundle savedInstanceState) {
@@ -55,15 +43,16 @@ public class AlertDialogFragment extends DialogFragment {
     }
 
     private void readArguments() {
-        final Bundle arguments = getArguments();
-        if (arguments == null) {
+        final Bundle args = getArguments();
+        if (args == null) {
             return;
         }
-        mTitle = arguments.getInt(ARG_TITLE);
-        mMessage = arguments.getInt(ARG_MESSAGE);
-        mPositiveButtonTitle = arguments.getInt(ARG_POSITIVE_BUTTON_TITLE);
-        mNegativeButtonTitle = arguments.getInt(ARG_NEGATIVE_BUTTON_TITLE);
-        mDialogId = arguments.getInt(ARG_DIALOG_ID);
+        mTitle = args.getInt(ARG_TITLE);
+        mMessage = args.getInt(ARG_MESSAGE);
+        mPositiveButtonTitle = args.getInt(ARG_POSITIVE_BUTTON_TITLE);
+        mNegativeButtonTitle = args.getInt(ARG_NEGATIVE_BUTTON_TITLE);
+        mDialogId = args.getInt(ARG_DIALOG_ID);
+        mDisableCancelOnTouchOutside = args.getBoolean(ARG_DISABLE_CANCEL_ON_TOUCH_OUTSIDE);
     }
 
     @NonNull
@@ -101,7 +90,50 @@ public class AlertDialogFragment extends DialogFragment {
             });
         }
         final AlertDialog alertDialog = builder.create();
-        alertDialog.setCanceledOnTouchOutside(false);
+        if (mDisableCancelOnTouchOutside) {
+            alertDialog.setCanceledOnTouchOutside(false);
+        }
         return alertDialog;
+    }
+
+    public static class Builder {
+
+        private final Bundle args = new Bundle();
+
+        public Builder setTitle(@StringRes final int title) {
+            args.putInt(ARG_TITLE, title);
+            return this;
+        }
+
+        public Builder setMessage(@StringRes final int message) {
+            args.putInt(ARG_MESSAGE, message);
+            return this;
+        }
+
+        public Builder setPositiveButton(@StringRes final int positiveButtonTitle) {
+            args.putInt(ARG_POSITIVE_BUTTON_TITLE, positiveButtonTitle);
+            return this;
+        }
+
+        public Builder setNegativeButton(@StringRes final int negativeButtonTitle) {
+            args.putInt(ARG_NEGATIVE_BUTTON_TITLE, negativeButtonTitle);
+            return this;
+        }
+
+        public Builder setDialogId(final int dialogId) {
+            args.putInt(ARG_DIALOG_ID, dialogId);
+            return this;
+        }
+
+        public Builder disableCancelOnTouchOutside() {
+            args.putBoolean(ARG_DISABLE_CANCEL_ON_TOUCH_OUTSIDE, true);
+            return this;
+        }
+
+        public AlertDialogFragment create() {
+            final AlertDialogFragment fragment = new AlertDialogFragment();
+            fragment.setArguments(args);
+            return fragment;
+        }
     }
 }
