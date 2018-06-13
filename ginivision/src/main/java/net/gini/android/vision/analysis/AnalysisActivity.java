@@ -98,6 +98,13 @@ import java.util.Map;
  * <li> <b>Activity indicator message:</b> via the string resource named {@code
  * gv_analysis_activity_indicator_message}
  *
+ * <li> <b>Activity indicator message text style:</b> via overriding the style named {@code
+ * GiniVisionTheme.Analysis.AnalysingMessage.TextStyle}
+ *
+ * <li> <b>Activity indicator message font:</b> via overriding the style named {@code
+ * GiniVisionTheme.Analysis.AnalysingMessage.TextStyle} and setting an item named {@code
+ * gvCustomFont} with the path to the font file in your {@code assets} folder
+ *
  * <li> <b>PDF info panel background:</b> via the color resource named {@code
  * gv_analysis_pdf_info_background}
  *
