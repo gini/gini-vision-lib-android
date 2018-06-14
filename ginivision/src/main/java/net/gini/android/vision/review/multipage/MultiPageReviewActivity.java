@@ -128,6 +128,12 @@ import java.util.List;
  * GiniVisionTheme.Review.MultiPage.ReorderPagesTip.TextStyle} and setting an item named {@code
  * gvCustomFont} with the path to the font file in your {@code assets} folder
  *
+ * <li><b>Rotate icon:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code
+ * gv_rotate_icon.png}
+ *
+ * <li><b>Delete icon:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code
+ * gv_delete_icon.png}
+ *
  * <li> <b>Image error message text style:</b> via overriding the style named {@code
  * GiniVisionTheme.Snackbar.Error.TextStyle} and setting an item named {@code android:textStyle} to
  * {@code normal}, {@code bold} or {@code italic}
