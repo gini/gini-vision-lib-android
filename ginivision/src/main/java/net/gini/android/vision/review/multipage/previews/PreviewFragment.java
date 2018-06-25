@@ -178,7 +178,7 @@ public class PreviewFragment extends Fragment {
     private String getErrorButtonTitle(@NonNull final Context context) {
         switch (mErrorButtonAction) {
             case RETRY:
-                return context.getString(R.string.gv_multi_page_review_upload_error_retry);
+                return context.getString(R.string.gv_document_analysis_error_retry);
             case DELETE:
                 return context.getString(R.string.gv_multi_page_review_delete_invalid_document);
         }

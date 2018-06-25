@@ -1,6 +1,5 @@
 package net.gini.android.vision.analysis;
 
-import static net.gini.android.vision.internal.network.NetworkRequestsManager.getErrorMessage;
 import static net.gini.android.vision.internal.network.NetworkRequestsManager.isCancellation;
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 
@@ -461,15 +460,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
                                     final Throwable throwable) {
                                 stopScanAnimation();
                                 if (throwable != null && !isCancellation(throwable)) {
-                                    showError(getErrorMessage(throwable),
-                                            mFragment.getActivity().getString(
-                                                    R.string.gv_document_analysis_error_retry),
-                                            new View.OnClickListener() {
-                                                @Override
-                                                public void onClick(final View v) {
-                                                    doAnalyzeDocument();
-                                                }
-                                            });
+                                    handleAnalysisError();
                                 } else if (requestResult != null) {
                                     mAnalysisCompleted = true;
                                     final Map<String, GiniVisionSpecificExtraction> extractions =
@@ -492,6 +483,21 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         } else {
             mListener.onAnalyzeDocument(getFirstDocument());
         }
+    }
+
+    private void handleAnalysisError() {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
+        }
+        showError(activity.getString(R.string.gv_document_analysis_error),
+                activity.getString(R.string.gv_document_analysis_error_retry),
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View v) {
+                        doAnalyzeDocument();
+                    }
+                });
     }
 
     private void clearSavedImages() {

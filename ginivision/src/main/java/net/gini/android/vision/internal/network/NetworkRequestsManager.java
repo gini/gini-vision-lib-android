@@ -34,7 +34,6 @@ import java.util.Map;
 import java.util.concurrent.CancellationException;
 
 import jersey.repackaged.jsr166e.CompletableFuture;
-import jersey.repackaged.jsr166e.CompletionException;
 
 /**
  * @exclude
@@ -53,13 +52,6 @@ public class NetworkRequestsManager {
 
     private final GiniVisionNetworkService mGiniVisionNetworkService;
     private final DocumentDataMemoryCache mDocumentDataMemoryCache;
-
-    public static String getErrorMessage(@NonNull final Throwable throwable) {
-        if (throwable instanceof CompletionException) {
-            return throwable.getCause().getMessage();
-        }
-        return throwable.getMessage();
-    }
 
     public NetworkRequestsManager(@NonNull final GiniVisionNetworkService giniVisionNetworkService,
             @NonNull final DocumentDataMemoryCache documentDataMemoryCache) {

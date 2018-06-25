@@ -559,7 +559,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
                         if (throwable != null &&
                                 !NetworkRequestsManager.isCancellation(throwable)) {
                             final String errorMessage = getString(
-                                    R.string.gv_multi_page_review_upload_error);
+                                    R.string.gv_document_analysis_error);
                             showErrorOnPreview(errorMessage, document);
                             mThumbnailsAdapter.setUploadState(
                                     ThumbnailsAdapter.UploadState.FAILED,

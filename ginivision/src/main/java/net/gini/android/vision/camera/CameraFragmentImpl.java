@@ -5,7 +5,6 @@ import static android.app.Activity.RESULT_OK;
 
 import static net.gini.android.vision.camera.Util.cameraExceptionToGiniVisionError;
 import static net.gini.android.vision.document.ImageDocument.ImportMethod;
-import static net.gini.android.vision.internal.network.NetworkRequestsManager.getErrorMessage;
 import static net.gini.android.vision.internal.network.NetworkRequestsManager.isCancellation;
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 import static net.gini.android.vision.internal.util.AndroidHelper.isMarshmallowOrLater;
@@ -822,7 +821,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                                 if (throwable != null) {
                                     hideActivityIndicatorAndEnableInteraction();
                                     if (!isCancellation(throwable)) {
-                                        showError(getErrorMessage(throwable), 3000);
+                                        handleAnalysisError();
                                     }
                                 }
                                 return requestResult;
@@ -851,7 +850,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                                 hideActivityIndicatorAndEnableInteraction();
                                 if (throwable != null
                                         && !isCancellation(throwable)) {
-                                    showError(getErrorMessage(throwable), 3000);
+                                    handleAnalysisError();
                                 } else if (requestResult != null) {
                                     mQRCodeAnalysisCompleted = true;
                                     mListener.onExtractionsAvailable(
@@ -866,6 +865,14 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         } else {
             mListener.onQRCodeAvailable(qrCodeDocument);
         }
+    }
+
+    private void handleAnalysisError() {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
+        }
+        showError(activity.getString(R.string.gv_document_analysis_error), 3000);
     }
 
     private void closeUploadHintPopUp() {

@@ -1,6 +1,5 @@
 package net.gini.android.vision.review;
 
-import static net.gini.android.vision.internal.network.NetworkRequestsManager.getErrorMessage;
 import static net.gini.android.vision.internal.network.NetworkRequestsManager.isCancellation;
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 
@@ -226,7 +225,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                                     final NetworkRequestResult<GiniVisionDocument> requestResult,
                                     final Throwable throwable) {
                                 if (throwable != null && !isCancellation(throwable)) {
-                                    mDocumentAnalysisErrorMessage = getErrorMessage(throwable);
+                                    handleAnalysisError();
                                 } else if (requestResult != null) {
                                     mDocumentWasUploaded = true;
                                 }
@@ -239,6 +238,14 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         } else {
             mListener.onShouldAnalyzeDocument(document);
         }
+    }
+
+    private void handleAnalysisError() {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
+        }
+        mDocumentAnalysisErrorMessage = activity.getString(R.string.gv_document_analysis_error);
     }
 
     private void createPhoto() {
