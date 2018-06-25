@@ -2,6 +2,34 @@
 Changelog
 =========
 
+2.6.0-beta.4 (2018-06-06)
+==================
+
+- Migration and integration guide for the multi-page feature.
+- Renamed ``gini-vision-lib-network`` to ``gini-vision-network-lib``.
+- Onboarding background is almost completely opaque.
+- Various improvements and bugfixes.
+
+2.6.0-beta.3 (2018-05-29)
+==================
+
+- Javadoc.
+- Various improvements and bugfixes.
+
+2.6.0-beta.2 (2018-05-16)
+==================
+
+- Tablet support.
+- Updated UX when deleting the last page.
+- Bugfixes.
+
+2.6.0-beta.1 (2018-05-14)
+==================
+
+- Integrated multi-page related network requests.
+- Added Component API support for multi-page.
+- UI and UX updates.
+
 2.6.0-alpha.5 (2018-04-20)
 ==================
 
