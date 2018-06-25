@@ -2,6 +2,11 @@
 Changelog
 =========
 
+2.6.0-beta.5 (2018-06-25)
+==================
+
+- Generic analysis error message shown on all screens.
+
 2.6.0-beta.4 (2018-06-06)
 ==================
 
