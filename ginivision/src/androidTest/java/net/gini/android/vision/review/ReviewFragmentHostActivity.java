@@ -51,11 +51,6 @@ public class ReviewFragmentHostActivity extends
     }
 
     @Override
-    public void onAddMorePages(@NonNull final Document document) {
-
-    }
-
-    @Override
     public void onExtractionsAvailable(
             @NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
 

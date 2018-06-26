@@ -116,15 +116,23 @@ public class ReviewScreenTest {
     }
 
     private ReviewActivityTestSpy startReviewActivity(final byte[] jpeg, final int orientation) {
-        final Intent intent = getReviewActivityIntent(jpeg, orientation);
+        return startReviewActivity(jpeg, orientation, ImageDocument.Source.newCameraSource());
+    }
+
+    private ReviewActivityTestSpy startReviewActivity(final byte[] jpeg, final int orientation, @NonNull final ImageDocument.Source source) {
+        final Intent intent = getReviewActivityIntent(jpeg, orientation, source);
         return mActivityTestRule.launchActivity(intent);
     }
 
     private Intent getReviewActivityIntent(final byte[] jpeg, final int orientation) {
+        return getReviewActivityIntent(jpeg, orientation, ImageDocument.Source.newCameraSource());
+    }
+
+    private Intent getReviewActivityIntent(final byte[] jpeg, final int orientation, @NonNull final ImageDocument.Source source) {
         final Intent intent = new Intent(InstrumentationRegistry.getTargetContext(),
                 ReviewActivityTestSpy.class);
         intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT,
-                createDocument(jpeg, orientation, "portrait", "phone", ImageDocument.Source.newCameraSource()));
+                createDocument(jpeg, orientation, "portrait", "phone", source));
         intent.putExtra(ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY,
                 new Intent(InstrumentationRegistry.getTargetContext(),
                         AnalysisActivityTestSpy.class));
@@ -168,7 +176,28 @@ public class ReviewScreenTest {
     }
 
     @Test
-    public void should_compressJpeg_beforeAnalyzeDocument_isInvoked()
+    public void should_compressJpeg_beforeAnalyzeDocument_isInvoked_forExternalImages()
+            throws IOException, InterruptedException {
+        final ReviewActivityTestSpy activity = startReviewActivity(TEST_JPEG, 90, ImageDocument.Source.newExternalSource());
+
+        final AtomicReference<Document> documentToAnalyze = new AtomicReference<>();
+
+        activity.setListenerHook(new ReviewActivityTestSpy.ListenerHook() {
+            @Override
+            public void onShouldAnalyzeDocument(@NonNull final Document document) {
+                documentToAnalyze.set(document);
+            }
+        });
+
+        // Allow the activity to run a little for listeners to be invoked
+        Thread.sleep(PAUSE_DURATION_LONG);
+
+        assertThat(documentToAnalyze.get()).isNotNull();
+        assertThat(documentToAnalyze.get().getJpeg().length).isLessThan(TEST_JPEG.length);
+    }
+
+    @Test
+    public void should_NotCompressJpeg_beforeAnalyzeDocument_isInvoked_forCameraImages()
             throws IOException, InterruptedException {
         final ReviewActivityTestSpy activity = startReviewActivity(TEST_JPEG, 90);
 
@@ -185,7 +214,7 @@ public class ReviewScreenTest {
         Thread.sleep(PAUSE_DURATION_LONG);
 
         assertThat(documentToAnalyze.get()).isNotNull();
-        assertThat(documentToAnalyze.get().getJpeg().length).isLessThan(TEST_JPEG.length);
+        assertThat(documentToAnalyze.get().getJpeg().length).isEqualTo(TEST_JPEG.length);
     }
 
     @Test
@@ -676,11 +705,6 @@ public class ReviewScreenTest {
 
             @Override
             public void onError(@NonNull final GiniVisionError error) {
-
-            }
-
-            @Override
-            public void onAddMorePages(@NonNull final Document document) {
 
             }
 

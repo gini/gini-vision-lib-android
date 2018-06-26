@@ -740,7 +740,7 @@ public class CameraScreenTest {
                         .getCameraFragmentImplFake().mButtonCameraTrigger.performClick();
             }
         });
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+        Thread.sleep(PAUSE_DURATION);
         // Then
         assertThat(isDocumentAvailable.get()).isTrue();
     }
@@ -762,7 +762,7 @@ public class CameraScreenTest {
                         .getCameraFragmentImplFake().mButtonCameraTrigger.performClick();
             }
         });
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+        Thread.sleep(PAUSE_DURATION);
         // Then
         assertThat(activity.hasDocument()).isTrue();
     }
