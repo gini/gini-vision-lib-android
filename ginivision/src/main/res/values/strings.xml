@@ -4,7 +4,7 @@
     <string name="gv_title_review">Foto überprüfen</string>
     <string name="gv_title_help">Hilfe</string>
     <string name="gv_title_photo_tips">Tipps für Fotos</string>
-    <string name="gv_title_supported_formats">Unterstütze Formate</string>
+    <string name="gv_title_supported_formats">Unterstützte Formate</string>
     <string name="gv_title_file_import">Dokumente aus anderen Apps öffnen</string>
     <string name="gv_title_analysis" />
     <string name="gv_title_multi_page_review">Fotos überprüfen</string>
@@ -15,7 +15,7 @@
     <string name="gv_camera_error_no_permission">Um Dokumente zu fotografieren, erlaube Gini Pay den Zugriff auf die Kamera.</string>
     <string name="gv_camera_error_no_permission_button_title">Zugriff erlauben</string>
     <string name="gv_camera_image_stack_subtitle">Seiten</string>
-    <string name="gv_camera_document_import_subtitle">Datei Laden</string>
+    <string name="gv_camera_document_import_subtitle">Importieren</string>
 
     <string name="gv_qrcode_detected_popup_message_1">QR verwenden?</string>
     <string name="gv_qrcode_detected_popup_message_2">Hier geht’s weiter.</string>
@@ -79,7 +79,7 @@
     <string name="gv_file_chooser_pdfs_section_header">PDFs</string>
     <string name="gv_help_item_photo_tips_title">Tipps für beste Ergebnisse aus Fotos</string>
     <string name="gv_help_item_file_import_guide_title">Dokumente aus anderen Apps öffnen</string>
-    <string name="gv_help_item_supported_formats_title">Unterstütze Formate</string>
+    <string name="gv_help_item_supported_formats_title">Unterstützte Formate</string>
 
     <string name="gv_photo_tips_headline">Zur Erkennung aller Daten bitte folgende Tipps beim Abfotografieren beachten:</string>
     <string name="gv_photo_tips_camera_button">Zur Kamera</string>
