@@ -44,7 +44,8 @@ public interface AnalysisFragmentListener {
      *
      * @param extractions a map of the extractions with the extraction labels as keys
      */
-    void onExtractionsAvailable(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions);
+    void onExtractionsAvailable(
+            @NonNull final Map<String, GiniVisionSpecificExtraction> extractions);
 
     /**
      * Called when the document has been analyzed and no extractions were received.

@@ -126,8 +126,9 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         mDocumentAnalysisErrorMessage = documentAnalysisErrorMessage;
     }
 
-    private GiniVisionMultiPageDocument<GiniVisionDocument, GiniVisionDocumentError> asMultiPageDocument(
-            @NonNull final Document document) {
+    @SuppressWarnings("unchecked")
+    private GiniVisionMultiPageDocument<GiniVisionDocument,
+            GiniVisionDocumentError> asMultiPageDocument(@NonNull final Document document) {
         if (!(document instanceof GiniVisionMultiPageDocument)) {
             return DocumentFactory.newMultiPageDocument((GiniVisionDocument) document);
         } else {
@@ -234,7 +235,8 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
             if (networkRequestsManager != null) {
                 networkRequestsManager.cancel(mMultiPageDocument);
                 networkRequestsManager.delete(mMultiPageDocument)
-                        .handle(new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, Void>() {
+                        .handle(new CompletableFuture.BiFun<NetworkRequestResult<
+                                GiniVisionDocument>, Throwable, Void>() {
                             @Override
                             public Void apply(
                                     final NetworkRequestResult<GiniVisionDocument> requestResult,
@@ -242,7 +244,8 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
                                 // Delete PDF partial documents here because the Camera Screen
                                 // doesn't keep references to them
                                 if (mMultiPageDocument.getType() == Document.Type.PDF_MULTI_PAGE) {
-                                    for (final Object document : mMultiPageDocument.getDocuments()) {
+                                    for (final Object document
+                                            : mMultiPageDocument.getDocuments()) {
                                         final GiniVisionDocument giniVisionDocument =
                                                 (GiniVisionDocument) document;
                                         networkRequestsManager.cancel(giniVisionDocument);
@@ -453,10 +456,12 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
                     networkRequestsManager.upload(activity, giniVisionDocument);
                 }
                 networkRequestsManager.analyze(mMultiPageDocument)
-                        .handle(new CompletableFuture.BiFun<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>, Throwable, Void>() {
+                        .handle(new CompletableFuture.BiFun<AnalysisNetworkRequestResult<
+                                GiniVisionMultiPageDocument>, Throwable, Void>() {
                             @Override
                             public Void apply(
-                                    final AnalysisNetworkRequestResult<GiniVisionMultiPageDocument> requestResult,
+                                    final AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>
+                                            requestResult,
                                     final Throwable throwable) {
                                 stopScanAnimation();
                                 if (throwable != null && !isCancellation(throwable)) {

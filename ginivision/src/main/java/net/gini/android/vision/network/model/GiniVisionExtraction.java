@@ -90,7 +90,7 @@ public class GiniVisionExtraction implements Parcelable {
      *
      * @param newValue new value
      */
-    public synchronized void setValue(final @NonNull String newValue) {
+    public synchronized void setValue(@NonNull final String newValue) {
         mValue = newValue;
         mIsDirty = true;
     }
@@ -139,11 +139,11 @@ public class GiniVisionExtraction implements Parcelable {
 
     @Override
     public String toString() {
-        return "GiniVisionExtraction{" +
-                "mEntity='" + mEntity + '\'' +
-                ", mValue='" + mValue + '\'' +
-                ", mGiniVisionBox=" + mGiniVisionBox +
-                ", mIsDirty=" + mIsDirty +
-                '}';
+        return "GiniVisionExtraction{"
+                + "mEntity='" + mEntity + '\''
+                + ", mValue='" + mValue + '\''
+                + ", mGiniVisionBox=" + mGiniVisionBox
+                + ", mIsDirty=" + mIsDirty
+                + '}';
     }
 }

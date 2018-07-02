@@ -47,8 +47,8 @@ public class NetworkRequestsManager {
             mDocumentUploadFutures;
     private final Map<String, CompletableFuture<NetworkRequestResult<GiniVisionDocument>>>
             mDocumentDeleteFutures;
-    private final Map<String, CompletableFuture<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>>>
-            mDocumentAnalyzeFutures;
+    private final Map<String, CompletableFuture<
+            AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>>> mDocumentAnalyzeFutures;
 
     private final GiniVisionNetworkService mGiniVisionNetworkService;
     private final DocumentDataMemoryCache mDocumentDataMemoryCache;
@@ -116,10 +116,12 @@ public class NetworkRequestsManager {
                                 });
 
                 future.handle(
-                        new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, NetworkRequestResult<GiniVisionDocument>>() {
+                        new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>,
+                                Throwable, NetworkRequestResult<GiniVisionDocument>>() {
                             @Override
                             public NetworkRequestResult<GiniVisionDocument> apply(
-                                    final NetworkRequestResult<GiniVisionDocument> networkRequestResult,
+                                    final NetworkRequestResult<GiniVisionDocument>
+                                            networkRequestResult,
                                     final Throwable throwable) {
                                 if (throwable != null) {
                                     if (isCancellation(throwable)) {
@@ -175,9 +177,11 @@ public class NetworkRequestsManager {
                     }
                 })
                 .thenCompose(
-                        new CompletableFuture.Fun<Boolean, CompletableFuture<NetworkRequestResult<GiniVisionDocument>>>() {
+                        new CompletableFuture.Fun<Boolean,
+                                CompletableFuture<NetworkRequestResult<GiniVisionDocument>>>() {
                             @Override
-                            public CompletableFuture<NetworkRequestResult<GiniVisionDocument>> apply(
+                            public CompletableFuture<NetworkRequestResult<
+                                    GiniVisionDocument>> apply(
                                     final Boolean relatedFuturesSucceeded) {
                                 return deleteDocument(document, relatedFuturesSucceeded);
                             }
@@ -186,7 +190,7 @@ public class NetworkRequestsManager {
 
     @NonNull
     private List<CompletableFuture> collectRelatedFutures(
-            final @NonNull GiniVisionDocument document) {
+            @NonNull final GiniVisionDocument document) {
         final List<CompletableFuture> documentFutures = new ArrayList<>();
         final CompletableFuture<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>>
                 analyzeFuture = mDocumentAnalyzeFutures.get(document.getId());
@@ -216,7 +220,7 @@ public class NetworkRequestsManager {
 
     @NonNull
     private CompletableFuture<NetworkRequestResult<GiniVisionDocument>> deleteDocument(
-            final @NonNull GiniVisionDocument document, final Boolean relatedFuturesSucceeded) {
+            @NonNull final GiniVisionDocument document, final Boolean relatedFuturesSucceeded) {
         final CompletableFuture<NetworkRequestResult<GiniVisionDocument>>
                 documentDeleteFuture =
                 mDocumentDeleteFutures.get(document.getId());
@@ -239,7 +243,8 @@ public class NetworkRequestsManager {
         }
         if (!relatedFuturesSucceeded) {
             LOG.debug(
-                    "Document deletion cancelled for {}: there was an error with a previous request",
+                    "Document deletion cancelled for {}: "
+                            + "there was an error with a previous request",
                     document.getId());
             future.cancel(false);
             return future;
@@ -281,7 +286,8 @@ public class NetworkRequestsManager {
                         });
 
         future.handle(
-                new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, NetworkRequestResult<GiniVisionDocument>>() {
+                new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>,
+                        Throwable, NetworkRequestResult<GiniVisionDocument>>() {
                     @Override
                     public NetworkRequestResult<GiniVisionDocument> apply(
                             final NetworkRequestResult<GiniVisionDocument> requestResult,
@@ -321,9 +327,11 @@ public class NetworkRequestsManager {
         return CompletableFuture
                 .allOf(documentFutures.toArray(new CompletableFuture[documentFutures.size()]))
                 .thenCompose(
-                        new CompletableFuture.Fun<Void, CompletableFuture<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>>>() {
+                        new CompletableFuture.Fun<Void, CompletableFuture<
+                                AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>>>() {
                             @Override
-                            public CompletableFuture<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>> apply(
+                            public CompletableFuture<AnalysisNetworkRequestResult<
+                                    GiniVisionMultiPageDocument>> apply(
                                     final Void aVoid) {
                                 return analyzeDocument(multiPageDocument);
                             }
@@ -331,8 +339,9 @@ public class NetworkRequestsManager {
     }
 
     @NonNull
-    private CompletableFuture<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>> analyzeDocument(
-            final @NonNull GiniVisionMultiPageDocument multiPageDocument) {
+    private CompletableFuture<AnalysisNetworkRequestResult<
+            GiniVisionMultiPageDocument>> analyzeDocument(
+            @NonNull final GiniVisionMultiPageDocument multiPageDocument) {
         final CompletableFuture<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>>
                 documentAnalyzeFuture = mDocumentAnalyzeFutures.get(multiPageDocument.getId());
         if (documentAnalyzeFuture != null) {
@@ -350,7 +359,8 @@ public class NetworkRequestsManager {
                 multiPageDocument);
         if (!success) {
             future.completeExceptionally(new IllegalStateException(
-                    "Missing partial document id. All page documents of a multi-page document have to be uploaded before analysis."));
+                    "Missing partial document id. All page documents of a multi-page document "
+                            + "have to be uploaded before analysis."));
             return future;
         }
 
@@ -389,10 +399,12 @@ public class NetworkRequestsManager {
                         });
 
         future.handle(
-                new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionMultiPageDocument>, Throwable, NetworkRequestResult<GiniVisionMultiPageDocument>>() {
+                new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionMultiPageDocument>,
+                        Throwable, NetworkRequestResult<GiniVisionMultiPageDocument>>() {
                     @Override
                     public NetworkRequestResult<GiniVisionMultiPageDocument> apply(
-                            final NetworkRequestResult<GiniVisionMultiPageDocument> networkRequestResult,
+                            final NetworkRequestResult<GiniVisionMultiPageDocument>
+                                    networkRequestResult,
                             final Throwable throwable) {
                         if (throwable != null) {
                             if (isCancellation(throwable)) {
@@ -435,7 +447,7 @@ public class NetworkRequestsManager {
 
     @NonNull
     private List<CompletableFuture> collectRelatedUploadFutures(
-            final @NonNull GiniVisionMultiPageDocument multiPageDocument) {
+            @NonNull final GiniVisionMultiPageDocument multiPageDocument) {
         final List<CompletableFuture> documentFutures = new ArrayList<>();
         for (final Object document : multiPageDocument.getDocuments()) {
             final GiniVisionDocument giniVisionDocument = (GiniVisionDocument) document;

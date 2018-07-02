@@ -149,7 +149,8 @@ public final class ImageDocument extends GiniVisionDocument {
     @VisibleForTesting
     ImageDocument(@Nullable final byte[] data, @NonNull final Source source,
             @NonNull final ImportMethod importMethod) {
-        super(Type.IMAGE, source, importMethod, MimeType.IMAGE_JPEG.asString(), data, null, null, true);
+        super(Type.IMAGE, source, importMethod, MimeType.IMAGE_JPEG.asString(),
+                data, null, null, true);
         mRotationForDisplay = 0;
         mFormat = ImageFormat.JPEG;
         mDeviceOrientation = "";
@@ -167,7 +168,10 @@ public final class ImageDocument extends GiniVisionDocument {
 
     private ImageDocument(@NonNull final Photo photo, @Nullable final String uniqueId,
             @Nullable final Intent intent, @Nullable final Uri uri) {
-        super(uniqueId, Type.IMAGE, photo.getSource() != null ? photo.getSource() : Source.newUnknownSource(), photo.getImportMethod() != null ? photo.getImportMethod() : ImportMethod.NONE, mimeTypeFromFormat(photo.getImageFormat()), photo.getData(), intent, uri, true);
+        super(uniqueId, Type.IMAGE,
+                photo.getSource() != null ? photo.getSource() : Source.newUnknownSource(),
+                photo.getImportMethod() != null ? photo.getImportMethod() : ImportMethod.NONE,
+                mimeTypeFromFormat(photo.getImageFormat()), photo.getData(), intent, uri, true);
         mRotationForDisplay = photo.getRotationForDisplay();
         mRotationDelta = photo.getRotationDelta();
         mFormat = photo.getImageFormat();
@@ -181,7 +185,8 @@ public final class ImageDocument extends GiniVisionDocument {
             @NonNull final String deviceType,
             @NonNull final Source source,
             @NonNull final ImportMethod importMethod) {
-        super(Type.IMAGE, source, importMethod, mimeTypeFromFormat(format), null, intent, uri, true);
+        super(Type.IMAGE, source, importMethod, mimeTypeFromFormat(format),
+                null, intent, uri, true);
         mRotationForDisplay = 0;
         mFormat = format;
         mDeviceOrientation = deviceOrientation;

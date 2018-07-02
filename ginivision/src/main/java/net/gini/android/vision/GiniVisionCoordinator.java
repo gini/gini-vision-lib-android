@@ -96,7 +96,8 @@ public class GiniVisionCoordinator {
      * @param showOnboardingAtFirstRun if {@code true} the Onboarding Screen is shown the first time the Camera Screen is started
      * @return the {@link GiniVisionCoordinator} instance for a fluid api
      */
-    public GiniVisionCoordinator setShowOnboardingAtFirstRun(final boolean showOnboardingAtFirstRun) {
+    public GiniVisionCoordinator setShowOnboardingAtFirstRun(
+            final boolean showOnboardingAtFirstRun) {
         mShowOnboardingAtFirstRun = showOnboardingAtFirstRun;
         return this;
     }

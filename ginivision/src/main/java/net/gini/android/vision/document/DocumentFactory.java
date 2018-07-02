@@ -21,7 +21,9 @@ public final class DocumentFactory {
     /**
      * @param intent  an {@link Intent} containing an image or a pdf {@link Uri}
      * @param context Android context
+     *
      * @return new {@link Document} instance with the contents of the Intent's Uri
+     *
      * @throws IllegalArgumentException if the Intent's data is null or the mime type is unknown
      */
     @NonNull
@@ -78,20 +80,11 @@ public final class DocumentFactory {
             @NonNull final GiniVisionDocument document) {
         switch (document.getType()) {
             case IMAGE:
-                final ImageDocument imageDocument = (ImageDocument) document;
-                final ImageMultiPageDocument imageMultiPageDocument = new ImageMultiPageDocument(
-                        imageDocument);
-                return imageMultiPageDocument;
+                return new ImageMultiPageDocument((ImageDocument) document);
             case PDF:
-                final PdfDocument pdfDocument = (PdfDocument) document;
-                final PdfMultiPageDocument pdfMultiPageDocument = new PdfMultiPageDocument(
-                        pdfDocument);
-                return pdfMultiPageDocument;
+                return new PdfMultiPageDocument((PdfDocument) document);
             case QRCode:
-                final QRCodeDocument qrCodeDocument = (QRCodeDocument) document;
-                final QRCodeMultiPageDocument qrCodeMultiPageDocument = new QRCodeMultiPageDocument(
-                        qrCodeDocument);
-                return qrCodeMultiPageDocument;
+                return new QRCodeMultiPageDocument((QRCodeDocument) document);
             default:
                 throw new IllegalArgumentException(
                         "Unsupported document type for multi-page: " + document.getType());

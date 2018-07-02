@@ -163,7 +163,7 @@ public class ImageStack extends RelativeLayout {
 
     @NonNull
     private AddImageTransitionListener createAddImageTransitionListener(final Scene imageAddedScene,
-            final @NonNull StackBitmap bitmap, final StackDrawable drawable1,
+            @NonNull final StackBitmap bitmap, final StackDrawable drawable1,
             final StackDrawable drawable2, final StackDrawable drawable3,
             @Nullable final Transition.TransitionListener transitionListener) {
         final AddImageTransitionListener addImageTransitionListener =
@@ -284,7 +284,7 @@ public class ImageStack extends RelativeLayout {
         }
     }
 
-    public enum Position {
+    enum Position {
         TOP,
         MIDDLE,
         BOTTOM
@@ -301,12 +301,12 @@ public class ImageStack extends RelativeLayout {
         }
     }
 
-    public static class StackBitmap {
+    static class StackBitmap {
 
         Bitmap bitmap;
         int rotation;
 
-        public StackBitmap(final Bitmap bitmap, final int rotation) {
+        StackBitmap(final Bitmap bitmap, final int rotation) {
             this.bitmap = bitmap;
             this.rotation = rotation;
         }
@@ -422,7 +422,8 @@ public class ImageStack extends RelativeLayout {
 
         @NonNull
         private CleanupTransitionListener createCleanupTransitionListener(
-                final Scene defaultScene, @Nullable final Transition.TransitionListener transitionListener) {
+                final Scene defaultScene,
+                @Nullable final Transition.TransitionListener transitionListener) {
             final CleanupTransitionListener cleanupTransitionListener =
                     new CleanupTransitionListener(defaultScene, imageStack, transitionListener);
             cleanupTransitionListener.setStackDrawable1(stackDrawable1);
@@ -448,8 +449,8 @@ public class ImageStack extends RelativeLayout {
         private StackDrawable stackDrawable2;
         private StackBitmap newStackBitmap;
 
-        private CleanupTransitionListener(final Scene defaultScene, final ImageStack imageStack, @Nullable final
-                Transition.TransitionListener transitionListener) {
+        private CleanupTransitionListener(final Scene defaultScene, final ImageStack imageStack,
+                @Nullable final Transition.TransitionListener transitionListener) {
             this.defaultScene = defaultScene;
             this.imageStack = imageStack;
             this.transitionListener = transitionListener;

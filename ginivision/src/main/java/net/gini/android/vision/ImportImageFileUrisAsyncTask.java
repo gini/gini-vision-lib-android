@@ -20,7 +20,8 @@ class ImportImageFileUrisAsyncTask extends AbstractImportImageUrisAsyncTask {
             @NonNull final Intent intent, @NonNull final GiniVision giniVision,
             @NonNull final Document.Source source,
             @NonNull final Document.ImportMethod importMethod,
-            @NonNull final AsyncCallback<ImageMultiPageDocument, ImportedFileValidationException> callback) {
+            @NonNull final AsyncCallback<ImageMultiPageDocument, ImportedFileValidationException>
+                    callback) {
         super(context, intent, giniVision, source, importMethod, callback);
     }
 

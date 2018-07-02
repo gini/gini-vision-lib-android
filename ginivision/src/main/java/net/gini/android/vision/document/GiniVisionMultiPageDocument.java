@@ -21,8 +21,8 @@ import java.util.Map;
 /**
  * @exclude
  */
-public class GiniVisionMultiPageDocument<T extends GiniVisionDocument, E extends GiniVisionDocumentError> extends
-        GiniVisionDocument {
+public class GiniVisionMultiPageDocument<T extends GiniVisionDocument,
+        E extends GiniVisionDocumentError> extends GiniVisionDocument {
 
     public static final Creator<GiniVisionMultiPageDocument> CREATOR =
             new Creator<GiniVisionMultiPageDocument>() {

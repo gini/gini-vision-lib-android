@@ -59,7 +59,8 @@ class PdfDocumentRenderer implements DocumentRenderer {
     }
 
     @Override
-    public void getPageCount(@NonNull final Context context, @NonNull final AsyncCallback<Integer, Exception> asyncCallback) {
+    public void getPageCount(@NonNull final Context context,
+            @NonNull final AsyncCallback<Integer, Exception> asyncCallback) {
         final Pdf pdf = getPdf();
         if (mPageCount == -1) {
             pdf.getPageCount(context, new AsyncCallback<Integer, Exception>() {

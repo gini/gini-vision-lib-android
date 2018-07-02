@@ -14,7 +14,8 @@ import net.gini.android.vision.network.AnalysisResult;
 /**
  * @exclude
  */
-public class AnalysisNetworkRequestResult<T extends GiniVisionDocument>  extends NetworkRequestResult<T> {
+public class AnalysisNetworkRequestResult<T extends GiniVisionDocument>
+        extends NetworkRequestResult<T> {
 
     private final AnalysisResult mAnalysisResult;
 

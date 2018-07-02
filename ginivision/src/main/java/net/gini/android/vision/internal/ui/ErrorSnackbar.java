@@ -45,6 +45,9 @@ public class ErrorSnackbar extends RelativeLayout {
         HIDDEN
     }
 
+    /**
+     * @exclude
+     */
     public enum Position {
         TOP,
         BOTTOM

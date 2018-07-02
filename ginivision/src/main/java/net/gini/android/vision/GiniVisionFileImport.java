@@ -67,9 +67,9 @@ public final class GiniVisionFileImport {
     }
 
     @NonNull
-    private static Intent createIntentForSingleDocument(final @NonNull Context context,
-            final @NonNull Class<? extends ReviewActivity> reviewActivityClass,
-            final @NonNull Class<? extends AnalysisActivity> analysisActivityClass,
+    private static Intent createIntentForSingleDocument(@NonNull final Context context,
+            @NonNull final Class<? extends ReviewActivity> reviewActivityClass,
+            @NonNull final Class<? extends AnalysisActivity> analysisActivityClass,
             final Document document) {
         final Intent giniVisionIntent;
         if (document.isReviewable()) {
@@ -83,7 +83,7 @@ public final class GiniVisionFileImport {
     }
 
     @NonNull
-    private static Intent createReviewActivityIntent(final @NonNull Context context,
+    private static Intent createReviewActivityIntent(@NonNull final Context context,
             @Nullable final Class<? extends ReviewActivity> reviewActivityClass,
             @Nullable final Class<? extends AnalysisActivity> analysisActivityClass,
             final Document document) {
@@ -98,13 +98,13 @@ public final class GiniVisionFileImport {
 
     @NonNull
     private static Class<? extends ReviewActivity> getReviewActivityClass(
-            final @Nullable Class<? extends ReviewActivity> reviewActivityClass) {
+            @Nullable final Class<? extends ReviewActivity> reviewActivityClass) {
         return reviewActivityClass == null ? ReviewActivity.class : reviewActivityClass;
     }
 
     @NonNull
     private static Class<? extends AnalysisActivity> getAnalysisActivityClass(
-            final @Nullable Class<? extends AnalysisActivity> analysisActivityClass) {
+            @Nullable final Class<? extends AnalysisActivity> analysisActivityClass) {
         return analysisActivityClass == null ? AnalysisActivity.class : analysisActivityClass;
     }
 
@@ -232,7 +232,8 @@ public final class GiniVisionFileImport {
                                 callback.onError(createNoGiniVisionFileValidationException());
                                 return;
                             }
-                            GiniVision.getInstance().internal().getImageMultiPageDocumentMemoryStore()
+                            GiniVision.getInstance().internal()
+                                    .getImageMultiPageDocumentMemoryStore()
                                     .setMultiPageDocument(result);
                             callback.onSuccess(result);
                         }

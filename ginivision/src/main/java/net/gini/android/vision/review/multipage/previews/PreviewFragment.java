@@ -221,6 +221,9 @@ public class PreviewFragment extends Fragment {
         mImageViewContainer.rotateImageViewBy(degrees, animated);
     }
 
+    /**
+     * @exclude
+     */
     public enum ErrorButtonAction {
         RETRY,
         DELETE

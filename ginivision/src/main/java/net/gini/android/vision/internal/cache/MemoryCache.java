@@ -37,7 +37,7 @@ public abstract class MemoryCache<K, V> {
     private final int mRunningWorkersLimit;
     private final Map<K, List<AsyncCallback<V, Exception>>> mWaitingCallbacks = new HashMap<>();
 
-    public MemoryCache(final int runningWorkersLimit) {
+    MemoryCache(final int runningWorkersLimit) {
         mRunningWorkersLimit = runningWorkersLimit;
         mRunningWorkers = new ArrayList<>(runningWorkersLimit);
         mCache = createCache();
@@ -188,7 +188,8 @@ public abstract class MemoryCache<K, V> {
     }
 
     private void logDanglingCallbacks() {
-        for (final Map.Entry<K, List<AsyncCallback<V, Exception>>> entry : mWaitingCallbacks.entrySet()) {
+        for (final Map.Entry<K, List<AsyncCallback<V, Exception>>> entry
+                : mWaitingCallbacks.entrySet()) {
             for (final AsyncCallback<V, Exception> waitingCallback : entry.getValue()) {
                 mLog.error("Dangling callback {} for key {}", getNameForLog(waitingCallback),
                         getNameForLog(entry.getKey()));
@@ -204,7 +205,7 @@ public abstract class MemoryCache<K, V> {
         mCache.evictAll();
     }
 
-    protected static abstract class Worker<S, V> {
+    protected abstract static class Worker<S, V> {
 
         private final Logger mLog;
         private final List<Worker<S, V>> mRunningWorkers;

@@ -347,7 +347,7 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
         if (mSource != null ? !mSource.equals(that.mSource) : that.mSource != null) {
             return false;
         }
-         return mImportMethod != null ? mImportMethod.equals(that.mImportMethod)
+        return mImportMethod != null ? mImportMethod.equals(that.mImportMethod)
                 : that.mImportMethod == null;
 
     }

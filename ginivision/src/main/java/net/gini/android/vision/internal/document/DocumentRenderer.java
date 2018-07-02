@@ -13,9 +13,11 @@ import net.gini.android.vision.internal.util.Size;
  */
 public interface DocumentRenderer {
 
-    void toBitmap(@NonNull final Context context, @NonNull final Size targetSize, @NonNull final Callback callback);
+    void toBitmap(@NonNull final Context context,
+            @NonNull final Size targetSize, @NonNull final Callback callback);
 
-    void getPageCount(@NonNull final Context context, @NonNull final AsyncCallback<Integer, Exception> asyncCallback);
+    void getPageCount(@NonNull final Context context,
+            @NonNull final AsyncCallback<Integer, Exception> asyncCallback);
 
     /**
      * @exclude

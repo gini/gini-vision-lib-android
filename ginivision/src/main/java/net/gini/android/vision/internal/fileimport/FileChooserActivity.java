@@ -351,7 +351,7 @@ public class FileChooserActivity extends AppCompatActivity implements AlertDialo
         showStoragePermissionDeniedDialog();
     }
 
-    private void launchApp(final @NonNull ProvidersAppItem item) {
+    private void launchApp(@NonNull final ProvidersAppItem item) {
         final Intent intent = item.getIntent();
         intent.setClassName(
                 item.getResolveInfo().activityInfo.packageName,
@@ -418,12 +418,12 @@ public class FileChooserActivity extends AppCompatActivity implements AlertDialo
         }
     }
 
-    private boolean isReadExternalStoragePermission(final @NonNull String[] permissions) {
+    private boolean isReadExternalStoragePermission(@NonNull final String[] permissions) {
         return permissions.length == 1
                 && permissions[0].equals(Manifest.permission.READ_EXTERNAL_STORAGE);
     }
 
-    private boolean isPermissionGranted(final @NonNull int[] grantResults) {
+    private boolean isPermissionGranted(@NonNull final int[] grantResults) {
         return grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED;
     }
 
@@ -484,8 +484,8 @@ public class FileChooserActivity extends AppCompatActivity implements AlertDialo
     private static Intent createImagePickerIntent() {
         final Intent intent = new Intent(ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType(MimeType.IMAGE_WILDCARD.asString());
-        if (isMultiPageEnabled() &&
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+        if (isMultiPageEnabled()
+                && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         }
         return intent;
@@ -508,8 +508,8 @@ public class FileChooserActivity extends AppCompatActivity implements AlertDialo
         }
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType(MimeType.IMAGE_WILDCARD.asString());
-        if (isMultiPageEnabled() &&
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+        if (isMultiPageEnabled()
+                && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         }
         return intent;

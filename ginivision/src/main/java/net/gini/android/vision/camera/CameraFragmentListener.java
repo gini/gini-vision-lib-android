@@ -27,7 +27,8 @@ public interface CameraFragmentListener {
      */
     void onDocumentAvailable(@NonNull Document document);
 
-    void onProceedToMultiPageReviewScreen(@NonNull final GiniVisionMultiPageDocument multiPageDocument);
+    void onProceedToMultiPageReviewScreen(
+            @NonNull final GiniVisionMultiPageDocument multiPageDocument);
 
     /**
      * <p>
@@ -77,7 +78,8 @@ public interface CameraFragmentListener {
      *
      * @param extractions a map of the extractions with the extraction labels as keys
      */
-    void onExtractionsAvailable(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions);
+    void onExtractionsAvailable(
+            @NonNull final Map<String, GiniVisionSpecificExtraction> extractions);
 
     /**
      * <p>

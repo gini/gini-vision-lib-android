@@ -207,17 +207,17 @@ public class GiniVisionDocument implements Document {
 
     @Override
     public String toString() {
-        return "GiniVisionDocument{" +
-                "mUniqueId='" + mUniqueId + '\'' +
-                ", mIntent=" + mIntent +
-                ", mUri=" + mUri +
-                ", mIsReviewable=" + mIsReviewable +
-                ", mType=" + mType +
-                ", mSource=" + mSource +
-                ", mImportMethod=" + mImportMethod +
-                ", mMimeType='" + mMimeType + '\'' +
-                ", mData=" + Arrays.toString(mData) +
-                '}';
+        return "GiniVisionDocument{"
+                + "mUniqueId='" + mUniqueId + '\''
+                + ", mIntent=" + mIntent
+                + ", mUri=" + mUri
+                + ", mIsReviewable=" + mIsReviewable
+                + ", mType=" + mType
+                + ", mSource=" + mSource
+                + ", mImportMethod=" + mImportMethod
+                + ", mMimeType='" + mMimeType + '\''
+                + ", mData=" + Arrays.toString(mData)
+                + '}';
     }
 
     public synchronized void loadData(@NonNull final Context context,

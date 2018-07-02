@@ -32,7 +32,8 @@ public class QRCodeMultiPageDocument extends
 
     public QRCodeMultiPageDocument(@NonNull final Source source,
             @NonNull final ImportMethod importMethod) {
-        super(Type.QR_CODE_MULTI_PAGE, source, importMethod, MimeType.APPLICATION_JSON.asString(), false);
+        super(Type.QR_CODE_MULTI_PAGE, source, importMethod,
+                MimeType.APPLICATION_JSON.asString(), false);
     }
 
     public QRCodeMultiPageDocument(

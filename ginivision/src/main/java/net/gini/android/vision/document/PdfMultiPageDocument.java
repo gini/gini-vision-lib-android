@@ -32,7 +32,8 @@ public class PdfMultiPageDocument extends
 
     public PdfMultiPageDocument(@NonNull final Source source,
             @NonNull final ImportMethod importMethod) {
-        super(Type.PDF_MULTI_PAGE, source, importMethod, MimeType.APPLICATION_PDF.asString(), false);
+        super(Type.PDF_MULTI_PAGE, source, importMethod,
+                MimeType.APPLICATION_PDF.asString(), false);
     }
 
     public PdfMultiPageDocument(

@@ -129,8 +129,8 @@ public class ThumbnailsAdapter extends
         mRecyclerView = null;
     }
 
-    private void bindThumbnail(final @NonNull ViewHolder holder,
-            final @SuppressLint("RecyclerView") int position) {
+    private void bindThumbnail(@NonNull final ViewHolder holder,
+            @SuppressLint("RecyclerView") final int position) {
         holder.resetImageView();
         holder.showActivityIndicator();
         updateThumbnail(position, holder);
@@ -180,7 +180,7 @@ public class ThumbnailsAdapter extends
         }
     }
 
-    private void updateThumbnail(final int position, final @NonNull ViewHolder holder) {
+    private void updateThumbnail(final int position, @NonNull final ViewHolder holder) {
         holder.badge.setText(String.valueOf(position + 1));
         final Thumbnail thumbnail = mThumbnails.get(position);
         holder.highlight.setAlpha(thumbnail.highlighted ? 1f : 0f);
@@ -210,7 +210,7 @@ public class ThumbnailsAdapter extends
         });
     }
 
-    private void showUploadState(final @NonNull ViewHolder holder,
+    private void showUploadState(@NonNull final ViewHolder holder,
             final Thumbnail thumbnail) {
         switch (thumbnail.uploadState) {
             case NOT_STARTED:
@@ -229,8 +229,8 @@ public class ThumbnailsAdapter extends
     }
 
     public void highlightPosition(final int position) {
-        if (mThumbnails.size() == 0 ||
-                mThumbnails.get(position).highlighted) {
+        if (mThumbnails.size() == 0
+                || mThumbnails.get(position).highlighted) {
             return;
         }
         for (int i = 0; i < mThumbnails.size(); i++) {
@@ -267,7 +267,7 @@ public class ThumbnailsAdapter extends
         }
     }
 
-    private void bindPlusButton(final @NonNull ViewHolder holder) {
+    private void bindPlusButton(@NonNull final ViewHolder holder) {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -385,6 +385,9 @@ public class ThumbnailsAdapter extends
         PLUS_BUTTON
     }
 
+    /**
+     * @exclude
+     */
     public enum UploadState {
         NOT_STARTED,
         IN_PROGRESS,

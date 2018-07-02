@@ -57,7 +57,7 @@ public class GiniVisionSpecificExtraction extends GiniVisionExtraction {
      *                   are of the same entity as the found extraction
      */
     public GiniVisionSpecificExtraction(@NonNull final String name, @NonNull final String value,
-            final @NonNull String entity,
+            @NonNull final String entity,
             @Nullable final GiniVisionBox box,
             @NonNull final List<GiniVisionExtraction> candidates) {
         super(value, entity, box);
@@ -105,9 +105,9 @@ public class GiniVisionSpecificExtraction extends GiniVisionExtraction {
 
     @Override
     public String toString() {
-        return "GiniVisionSpecificExtraction{" +
-                "mName='" + mName + '\'' +
-                ", mCandidates=" + mCandidates +
-                "} " + super.toString();
+        return "GiniVisionSpecificExtraction{"
+                + "mName='" + mName + '\''
+                + ", mCandidates=" + mCandidates
+                + "} " + super.toString();
     }
 }

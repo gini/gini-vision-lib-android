@@ -63,6 +63,9 @@ public class GiniVisionDocumentError implements Parcelable {
         return mErrorCode;
     }
 
+    /**
+     * @exclude
+     */
     public enum ErrorCode {
         UPLOAD_FAILED,
         FILE_VALIDATION_FAILED

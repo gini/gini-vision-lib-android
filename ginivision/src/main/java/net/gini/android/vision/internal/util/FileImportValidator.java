@@ -70,7 +70,7 @@ public class FileImportValidator {
         return matchesCriteria(fileUri, mimeTypes);
     }
 
-    private boolean matchesCriteria(final @NonNull Uri fileUri, final List<String> mimeTypes) {
+    private boolean matchesCriteria(@NonNull final Uri fileUri, final List<String> mimeTypes) {
         if (!isSupportedFileType(mimeTypes)) {
             mError = Error.TYPE_NOT_SUPPORTED;
             return false;

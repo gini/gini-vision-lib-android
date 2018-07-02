@@ -359,7 +359,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         }
     }
 
-    private void doDeleteDocumentAndUpdateUI(final @NonNull ImageDocument document) {
+    private void doDeleteDocumentAndUpdateUI(@NonNull final ImageDocument document) {
         final int deletedPosition = mMultiPageDocument.getDocuments().indexOf(document);
 
         deleteDocument(document);
@@ -393,7 +393,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         mDocumentUploadResults.remove(document.getId());
     }
 
-    private void deleteFromMultiPageDocument(final @NonNull ImageDocument document) {
+    private void deleteFromMultiPageDocument(@NonNull final ImageDocument document) {
         mMultiPageDocument.getDocuments().remove(document);
         if (mMultiPageDocument.getDocuments().size() == 0
                 && GiniVision.hasInstance()) {
@@ -551,13 +551,14 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         mMultiPageDocument.removeErrorForDocument(document);
         mDocumentUploadResults.put(document.getId(), false);
         networkRequestsManager.upload(activity, document)
-                .handle(new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, Void>() {
+                .handle(new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>,
+                        Throwable, Void>() {
                     @Override
                     public Void apply(
                             final NetworkRequestResult<GiniVisionDocument> requestResult,
                             final Throwable throwable) {
-                        if (throwable != null &&
-                                !NetworkRequestsManager.isCancellation(throwable)) {
+                        if (throwable != null
+                                && !NetworkRequestsManager.isCancellation(throwable)) {
                             final String errorMessage = getString(
                                     R.string.gv_document_analysis_error);
                             showErrorOnPreview(errorMessage, document);
@@ -654,7 +655,8 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
             if (networkRequestsManager != null) {
                 networkRequestsManager.cancel(mMultiPageDocument);
                 networkRequestsManager.delete(mMultiPageDocument)
-                        .handle(new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, Void>() {
+                        .handle(new CompletableFuture.BiFun<NetworkRequestResult<
+                                GiniVisionDocument>, Throwable, Void>() {
                             @Override
                             public Void apply(
                                     final NetworkRequestResult<GiniVisionDocument> requestResult,

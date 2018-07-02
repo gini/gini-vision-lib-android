@@ -30,12 +30,14 @@ public class RotatableTouchImageViewContainer extends RotatableImageViewContaine
         super(context, attrs);
     }
 
-    public RotatableTouchImageViewContainer(final Context context, @Nullable final AttributeSet attrs,
+    public RotatableTouchImageViewContainer(final Context context,
+            @Nullable final AttributeSet attrs,
             final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public RotatableTouchImageViewContainer(final Context context, @Nullable final AttributeSet attrs,
+    public RotatableTouchImageViewContainer(final Context context,
+            @Nullable final AttributeSet attrs,
             final int defStyleAttr, final int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }

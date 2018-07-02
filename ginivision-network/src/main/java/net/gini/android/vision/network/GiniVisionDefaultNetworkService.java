@@ -181,7 +181,8 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                 new AtomicReference<>();
         mGiniApi.getDocumentTaskManager().createCompositeDocument(giniApiDocumentRotationMap, null)
                 .onSuccessTask(
-                        new Continuation<net.gini.android.models.Document, Task<net.gini.android.models.Document>>() {
+                        new Continuation<net.gini.android.models.Document,
+                                Task<net.gini.android.models.Document>>() {
                             @Override
                             public Task<net.gini.android.models.Document> then(
                                     final Task<net.gini.android.models.Document> task)
@@ -208,7 +209,8 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                             }
                         })
                 .onSuccessTask(
-                        new Continuation<net.gini.android.models.Document, Task<Map<String, SpecificExtraction>>>() {
+                        new Continuation<net.gini.android.models.Document,
+                                Task<Map<String, SpecificExtraction>>>() {
                             @Override
                             public Task<Map<String, SpecificExtraction>> then(
                                     final Task<net.gini.android.models.Document> task)
@@ -281,7 +283,8 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
     }
 
     private boolean collectGiniApiDocuments(
-            @NonNull final LinkedHashMap<net.gini.android.models.Document, Integer> giniApiDocumentRotationMap,
+            @NonNull final LinkedHashMap<net.gini.android.models.Document, Integer>
+                    giniApiDocumentRotationMap,
             @NonNull final LinkedHashMap<String, Integer> giniApiDocumentIdRotationMap,
             @NonNull final GiniVisionNetworkCallback<AnalysisResult, Error> callback) {
         for (final Map.Entry<String, Integer> entry : giniApiDocumentIdRotationMap.entrySet()) {

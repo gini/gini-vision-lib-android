@@ -26,7 +26,8 @@ public class AlertDialogFragment extends DialogFragment {
     private static final String ARG_POSITIVE_BUTTON_TITLE = "ARG_POSITIVE_BUTTON_TITLE";
     private static final String ARG_NEGATIVE_BUTTON_TITLE = "ARG_NEGATIVE_BUTTON_TITLE";
     private static final String ARG_DIALOG_ID = "ARG_DIALOG_ID";
-    private static final String ARG_DISABLE_CANCEL_ON_TOUCH_OUTSIDE = "ARG_CANCELED_ON_TOUCH_OUTSIDE";
+    private static final String ARG_DISABLE_CANCEL_ON_TOUCH_OUTSIDE
+            = "ARG_CANCELED_ON_TOUCH_OUTSIDE";
 
     @StringRes
     private int mTitle;
@@ -99,6 +100,9 @@ public class AlertDialogFragment extends DialogFragment {
         return alertDialog;
     }
 
+    /**
+     * @exclude
+     */
     public static class Builder {
 
         private final Bundle args = new Bundle();

@@ -36,7 +36,7 @@ class ImageDocumentRenderer implements DocumentRenderer {
         }
     }
 
-    private void createWithAsyncTask(final @NonNull Callback callback) {
+    private void createWithAsyncTask(@NonNull final Callback callback) {
         final PhotoFactoryDocumentAsyncTask asyncTask = new PhotoFactoryDocumentAsyncTask(
                 new AsyncCallback<Photo, Exception>() {
                     @Override

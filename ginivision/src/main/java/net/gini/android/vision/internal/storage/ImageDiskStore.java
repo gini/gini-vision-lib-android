@@ -81,7 +81,8 @@ public class ImageDiskStore {
 
     @NonNull
     private Uri generateUri(@NonNull final Context context, @Nullable final String extension) {
-        final String filename = System.currentTimeMillis() + (extension != null ? "." + extension : "");
+        final String filename =
+                System.currentTimeMillis() + (extension != null ? "." + extension : "");
         final String storePath = getStorePath(context);
         return new Uri.Builder().scheme("file").path(storePath).appendPath(filename).build();
     }
@@ -124,7 +125,7 @@ public class ImageDiskStore {
             outputStream = new BufferedOutputStream(new FileOutputStream(file), 65536);
             final byte[] buffer = new byte[8192];
             int read;
-            while((read = inputStream.read(buffer)) != -1) {
+            while ((read = inputStream.read(buffer)) != -1) {
                 outputStream.write(buffer, 0, read);
             }
             outputStream.flush();
@@ -172,7 +173,7 @@ public class ImageDiskStore {
     }
 
     @NonNull
-    private static String getStorePath(final @NonNull Context context) {
+    private static String getStorePath(@NonNull final Context context) {
         return context.getFilesDir().getAbsolutePath();
     }
 

@@ -19,37 +19,37 @@ public final class FeatureConfiguration {
 
     public static DocumentImportEnabledFileTypes getDocumentImportEnabledFileTypes(
             @NonNull final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration) {
-        return GiniVision.hasInstance() ?
-                GiniVision.getInstance().getDocumentImportEnabledFileTypes() :
-                giniVisionFeatureConfiguration.getDocumentImportEnabledFileTypes();
+        return GiniVision.hasInstance()
+                ? GiniVision.getInstance().getDocumentImportEnabledFileTypes()
+                : giniVisionFeatureConfiguration.getDocumentImportEnabledFileTypes();
     }
 
     public static boolean isFileImportEnabled(
             @NonNull final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration) {
-        return GiniVision.hasInstance() ?
-                GiniVision.getInstance().isFileImportEnabled() :
-                giniVisionFeatureConfiguration.isFileImportEnabled();
+        return GiniVision.hasInstance()
+                ? GiniVision.getInstance().isFileImportEnabled()
+                : giniVisionFeatureConfiguration.isFileImportEnabled();
     }
 
     public static boolean isQRCodeScanningEnabled(
             @NonNull final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration) {
-        return GiniVision.hasInstance() ?
-                GiniVision.getInstance().isQRCodeScanningEnabled() :
-                giniVisionFeatureConfiguration.isQRCodeScanningEnabled();
+        return GiniVision.hasInstance()
+                ? GiniVision.getInstance().isQRCodeScanningEnabled()
+                : giniVisionFeatureConfiguration.isQRCodeScanningEnabled();
     }
 
     public static boolean shouldShowOnboardingAtFirstRun(
             final boolean showOnboardingAtFirstRun) {
-        return GiniVision.hasInstance() ?
-                GiniVision.getInstance().shouldShowOnboardingAtFirstRun() :
-                showOnboardingAtFirstRun;
+        return GiniVision.hasInstance()
+                ? GiniVision.getInstance().shouldShowOnboardingAtFirstRun()
+                : showOnboardingAtFirstRun;
     }
 
     public static boolean shouldShowOnboarding(
             final boolean showOnboarding) {
-        return GiniVision.hasInstance() ?
-                GiniVision.getInstance().shouldShowOnboarding() :
-                showOnboarding;
+        return GiniVision.hasInstance()
+                ? GiniVision.getInstance().shouldShowOnboarding()
+                : showOnboarding;
     }
 
     public static boolean isMultiPageEnabled() {

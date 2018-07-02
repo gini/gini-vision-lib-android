@@ -647,7 +647,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             if (networkRequestsManager != null) {
                 networkRequestsManager.cancel(mMultiPageDocument);
                 networkRequestsManager.delete(mMultiPageDocument)
-                        .handle(new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, Void>() {
+                        .handle(new CompletableFuture.BiFun<NetworkRequestResult<
+                                GiniVisionDocument>, Throwable, Void>() {
                             @Override
                             public Void apply(
                                     final NetworkRequestResult<GiniVisionDocument> requestResult,
@@ -813,7 +814,9 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 showActivityIndicatorAndDisableInteraction();
                 networkRequestsManager
                         .upload(activity, qrCodeDocument)
-                        .handle(new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, NetworkRequestResult<GiniVisionDocument>>() {
+                        .handle(new CompletableFuture.BiFun<NetworkRequestResult<
+                                GiniVisionDocument>, Throwable,
+                                NetworkRequestResult<GiniVisionDocument>>() {
                             @Override
                             public NetworkRequestResult<GiniVisionDocument> apply(
                                     final NetworkRequestResult<GiniVisionDocument> requestResult,
@@ -828,10 +831,14 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                             }
                         })
                         .thenCompose(
-                                new CompletableFuture.Fun<NetworkRequestResult<GiniVisionDocument>, CompletableFuture<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>>>() {
+                                new CompletableFuture.Fun<NetworkRequestResult<GiniVisionDocument>,
+                                        CompletableFuture<AnalysisNetworkRequestResult<
+                                                GiniVisionMultiPageDocument>>>() {
                                     @Override
-                                    public CompletableFuture<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>> apply(
-                                            final NetworkRequestResult<GiniVisionDocument> requestResult) {
+                                    public CompletableFuture<AnalysisNetworkRequestResult<
+                                            GiniVisionMultiPageDocument>> apply(
+                                            final NetworkRequestResult<GiniVisionDocument>
+                                                    requestResult) {
                                         if (requestResult != null) {
                                             final GiniVisionMultiPageDocument multiPageDocument =
                                                     DocumentFactory.newMultiPageDocument(
@@ -842,10 +849,12 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                                         return CompletableFuture.completedFuture(null);
                                     }
                                 })
-                        .handle(new CompletableFuture.BiFun<AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>, Throwable, Void>() {
+                        .handle(new CompletableFuture.BiFun<AnalysisNetworkRequestResult<
+                                GiniVisionMultiPageDocument>, Throwable, Void>() {
                             @Override
                             public Void apply(
-                                    final AnalysisNetworkRequestResult<GiniVisionMultiPageDocument> requestResult,
+                                    final AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>
+                                            requestResult,
                                     final Throwable throwable) {
                                 hideActivityIndicatorAndEnableInteraction();
                                 if (throwable != null
@@ -1337,8 +1346,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                                 mMultiPageDocument = new ImageMultiPageDocument(
                                         Document.Source.newCameraSource(), ImportMethod.NONE);
                                 GiniVision.getInstance().internal()
-                                        .getImageMultiPageDocumentMemoryStore().setMultiPageDocument(
-                                        mMultiPageDocument);
+                                        .getImageMultiPageDocumentMemoryStore()
+                                        .setMultiPageDocument(mMultiPageDocument);
                                 mMultiPageDocument.addDocument(document);
                                 mImageStack.addImage(
                                         new ImageStack.StackBitmap(result.getBitmapPreview(),

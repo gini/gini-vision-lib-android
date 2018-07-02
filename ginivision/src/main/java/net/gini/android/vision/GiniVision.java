@@ -628,6 +628,9 @@ public class GiniVision {
         }
     }
 
+    /**
+     * @exclude
+     */
     public static class Internal {
 
         private final GiniVision mGiniVision;

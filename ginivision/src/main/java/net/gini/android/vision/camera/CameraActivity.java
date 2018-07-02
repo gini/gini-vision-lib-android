@@ -715,7 +715,8 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
             @NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
         final Intent result = new Intent();
         final Bundle extractionsBundle = new Bundle();
-        for (final Map.Entry<String, GiniVisionSpecificExtraction> extraction : extractions.entrySet()) {
+        for (final Map.Entry<String, GiniVisionSpecificExtraction> extraction
+                : extractions.entrySet()) {
             extractionsBundle.putParcelable(extraction.getKey(), extraction.getValue());
         }
         result.putExtra(CameraActivity.EXTRA_OUT_EXTRACTIONS, extractionsBundle);
