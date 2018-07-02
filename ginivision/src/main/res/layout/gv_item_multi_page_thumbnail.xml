@@ -41,6 +41,7 @@
                 android:layout_centerInParent="true"
                 android:background="@drawable/gv_thumbnail_badge_background"
                 android:gravity="center"
+                tools:ignore="RelativeOverlap"
                 tools:text="3" />
 
             <ImageView

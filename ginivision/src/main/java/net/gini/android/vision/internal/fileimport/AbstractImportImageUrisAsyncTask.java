@@ -1,5 +1,6 @@
 package net.gini.android.vision.internal.fileimport;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -41,6 +42,7 @@ public abstract class AbstractImportImageUrisAsyncTask extends
     private static final Logger LOG = LoggerFactory.getLogger(
             AbstractImportImageUrisAsyncTask.class);
 
+    @SuppressLint("StaticFieldLeak")
     private final Context mContext;
     private final Intent mIntent;
     private final AsyncCallback<ImageMultiPageDocument, ImportedFileValidationException> mCallback;

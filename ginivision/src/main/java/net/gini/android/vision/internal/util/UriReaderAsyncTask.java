@@ -1,5 +1,6 @@
 package net.gini.android.vision.internal.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -15,6 +16,7 @@ import java.io.IOException;
  */
 public class UriReaderAsyncTask extends AsyncTask<Uri, Void, byte[]> {
 
+    @SuppressLint("StaticFieldLeak")
     private final Context mContext;
     private final AsyncCallback<byte[], Exception> mListener;
     private Exception mException;
