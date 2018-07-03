@@ -61,7 +61,7 @@ public class GiniVisionNetworkServiceStub implements GiniVisionNetworkService {
                                 Collections.<GiniVisionExtraction>emptyList())));
     }
 
-    public class CallbackCancellationToken implements CancellationToken {
+    public static class CallbackCancellationToken implements CancellationToken {
 
         private final GiniVisionNetworkCallback mCallback;
 

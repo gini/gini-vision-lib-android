@@ -37,7 +37,7 @@ task findbugs(type: FindBugs, dependsOn: 'assembleDebug') {
     ignoreFailures = true
     effort = "max"
     excludeFilter = new File("${project.rootDir}/config/findbugs/findbugs-filter.xml")
-    classes = files("${project.rootDir}/ginivision/build/intermediates/classes")
+    classes = files("${project.projectDir}/build/intermediates/classes")
 
     source 'src'
     include '**/*.java'

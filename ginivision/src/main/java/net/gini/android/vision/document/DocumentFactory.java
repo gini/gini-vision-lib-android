@@ -78,16 +78,15 @@ public final class DocumentFactory {
 
     public static GiniVisionMultiPageDocument newMultiPageDocument(
             @NonNull final GiniVisionDocument document) {
-        switch (document.getType()) {
-            case IMAGE:
-                return new ImageMultiPageDocument((ImageDocument) document);
-            case PDF:
-                return new PdfMultiPageDocument((PdfDocument) document);
-            case QRCode:
-                return new QRCodeMultiPageDocument((QRCodeDocument) document);
-            default:
-                throw new IllegalArgumentException(
-                        "Unsupported document type for multi-page: " + document.getType());
+        if (document instanceof ImageDocument) {
+            return new ImageMultiPageDocument((ImageDocument) document);
+        } else if (document instanceof PdfDocument) {
+            return new PdfMultiPageDocument((PdfDocument) document);
+        } else if (document instanceof QRCodeDocument) {
+            return new QRCodeMultiPageDocument((QRCodeDocument) document);
+        } else {
+            throw new IllegalArgumentException(
+                    "Unsupported document type for multi-page: " + document.getType());
         }
     }
 

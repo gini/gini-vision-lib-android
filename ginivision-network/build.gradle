@@ -57,7 +57,8 @@ apply from: rootProject.file('gradle/targeted_android_tests.gradle')
 
 task generateJavadoc(type: GenerateJavadoc) {
     projectTitle = "Gini Vision Network Library for Android"
-    source += project(":ginivision").fileTree("src/main/java/net/gini/android/vision/network").files.grep { it.name.endsWith('.java') && it.name != "package-info.java"}
+    source += project(":ginivision").fileTree("src/main/java/net/gini/android/vision/network")
+            .files.grep { it.name.endsWith('.java') && it.name != "package-info.java"}
 }
 
 task sourcesJar(type: Jar, dependsOn: 'assembleRelease') {

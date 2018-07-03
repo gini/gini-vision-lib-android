@@ -45,12 +45,23 @@
     </Match>
     <Match>
         <Class name="net.gini.android.vision.document.GiniVisionDocument"/>
-        <Method name="getData"/>
-        <Bug pattern="EI_EXPOSE_REP" />
+        <Or>
+            <Method name="getData"/>
+            <Method name="setData"/>
+        </Or>
+        <Bug pattern="EI_EXPOSE_REP,EI_EXPOSE_REP2" />
     </Match>
     <Match>
         <Class name="net.gini.android.vision.test.PermissionsHelper"/>
         <Method name="executeShellCommand"/>
         <Bug pattern="DM_DEFAULT_ENCODING" />
+    </Match>
+    <Match>
+        <Class name="net.gini.android.vision.internal.storage.ImageDiskStore"/>
+        <Or>
+            <Method name="delete"/>
+            <Method name="clear"/>
+        </Or>
+        <Bug pattern="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE" />
     </Match>
 </FindBugsFilter>

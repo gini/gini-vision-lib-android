@@ -155,6 +155,7 @@ public class ImageDiskStore {
 
     public void delete(@NonNull final Uri uri) {
         final File file = new File(uri.getPath());
+        //noinspection ResultOfMethodCallIgnored
         file.delete();
     }
 
@@ -167,6 +168,7 @@ public class ImageDiskStore {
         final File[] files = storeDir.listFiles();
         if (files != null) {
             for (final File file : files) {
+                //noinspection ResultOfMethodCallIgnored
                 file.delete();
             }
         }

@@ -49,7 +49,7 @@ public enum MimeType {
         return mMimeType;
     }
 
-    public boolean equals(@NonNull final String mimeType) {
+    public boolean equals(final String mimeType) {
         return mMimeType.equals(mimeType);
     }
 }

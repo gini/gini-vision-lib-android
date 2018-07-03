@@ -142,6 +142,8 @@ public class FileChooserActivity extends AppCompatActivity implements AlertDialo
                     requestStoragePermissionWithoutRationale();
                 }
                 break;
+            default:
+                break;
         }
     }
 

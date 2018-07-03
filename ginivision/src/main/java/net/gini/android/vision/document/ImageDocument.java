@@ -317,4 +317,44 @@ public final class ImageDocument extends GiniVisionDocument {
         mDeviceOrientation = in.readString();
         mDeviceType = in.readString();
     }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        final ImageDocument that = (ImageDocument) o;
+
+        if (mRotationForDisplay != that.mRotationForDisplay) {
+            return false;
+        }
+        if (mRotationDelta != that.mRotationDelta) {
+            return false;
+        }
+        if (!mDeviceOrientation.equals(that.mDeviceOrientation)) {
+            return false;
+        }
+        if (!mDeviceType.equals(that.mDeviceType)) {
+            return false;
+        }
+        return mFormat == that.mFormat;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + mDeviceOrientation.hashCode();
+        result = 31 * result + mDeviceType.hashCode();
+        result = 31 * result + mRotationForDisplay;
+        result = 31 * result + mRotationDelta;
+        result = 31 * result + mFormat.hashCode();
+        return result;
+    }
 }

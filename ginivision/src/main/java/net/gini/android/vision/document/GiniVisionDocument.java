@@ -120,14 +120,15 @@ public class GiniVisionDocument implements Document {
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeString(mUniqueId);
-        if (mData != null) {
-            final ParcelableMemoryCache cache = ParcelableMemoryCache.getInstance();
-            final ParcelableMemoryCache.Token token = cache.storeByteArray(mData);
-            dest.writeParcelable(token, flags);
-        } else {
-            dest.writeParcelable(null, flags);
+        synchronized (this) {
+            if (mData != null) {
+                final ParcelableMemoryCache cache = ParcelableMemoryCache.getInstance();
+                final ParcelableMemoryCache.Token token = cache.storeByteArray(mData);
+                dest.writeParcelable(token, flags);
+            } else {
+                dest.writeParcelable(null, flags);
+            }
         }
-
         dest.writeSerializable(mType);
         dest.writeParcelable(mSource, flags);
         dest.writeSerializable(mImportMethod);

@@ -71,9 +71,9 @@ public class GiniVisionExtraction implements Parcelable {
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeString(mEntity);
-        dest.writeString(mValue);
-        dest.writeParcelable(mGiniVisionBox, flags);
-        dest.writeInt(mIsDirty ? 1 : 0);
+        dest.writeString(getValue());
+        dest.writeParcelable(getBox(), flags);
+        dest.writeInt(isDirty() ? 1 : 0);
     }
 
     /**
@@ -133,7 +133,7 @@ public class GiniVisionExtraction implements Parcelable {
     /**
      * @param isDirty pass {@code true} to mark the extraction as dirty
      */
-    public void setIsDirty(final boolean isDirty) {
+    public synchronized void setIsDirty(final boolean isDirty) {
         mIsDirty = isDirty;
     }
 

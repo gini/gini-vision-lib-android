@@ -109,4 +109,28 @@ public final class QRCodeDocument extends GiniVisionDocument {
     PaymentQRCodeData getPaymentData() {
         return mPaymentData;
     }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        final QRCodeDocument that = (QRCodeDocument) o;
+
+        return mPaymentData.equals(that.mPaymentData);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + mPaymentData.hashCode();
+        return result;
+    }
 }
