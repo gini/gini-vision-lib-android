@@ -22,17 +22,12 @@ import net.gini.android.vision.util.UriHelper;
 import java.util.List;
 
 /**
- * <p>
- *     A document containing an image.
- * </p>
- *
+ * A document containing an image.
  */
 public final class ImageDocument extends GiniVisionDocument {
 
     /**
-     * <p>
-     *     Supported image formats.
-     * </p>
+     * Supported image formats.
      */
     public enum ImageFormat {
         JPEG,
@@ -219,9 +214,7 @@ public final class ImageDocument extends GiniVisionDocument {
     }
 
     /**
-     * <p>
-     *     Retrieve the format of the image.
-     * </p>
+     * Retrieve the format of the image.
      *
      * @return image format
      */
@@ -231,12 +224,9 @@ public final class ImageDocument extends GiniVisionDocument {
     }
 
     /**
-     * <p>
      * The amount of clockwise rotation needed to display the image in the correct orientation.
-     * </p>
-     * <p>
-     * Degrees are positive and multiples of 90.
-     * </p>
+     *
+     * <p> Degrees are positive and multiples of 90.
      *
      * @return degrees by which the image should be rotated clockwise before displaying
      */
@@ -332,16 +322,12 @@ public final class ImageDocument extends GiniVisionDocument {
 
         final ImageDocument that = (ImageDocument) o;
 
-        if (mRotationForDisplay != that.mRotationForDisplay) {
+        if (mDeviceOrientation != null ? !mDeviceOrientation.equals(that.mDeviceOrientation)
+                : that.mDeviceOrientation != null) {
             return false;
         }
-        if (mRotationDelta != that.mRotationDelta) {
-            return false;
-        }
-        if (!mDeviceOrientation.equals(that.mDeviceOrientation)) {
-            return false;
-        }
-        if (!mDeviceType.equals(that.mDeviceType)) {
+        if (mDeviceType != null ? !mDeviceType.equals(that.mDeviceType)
+                : that.mDeviceType != null) {
             return false;
         }
         return mFormat == that.mFormat;
@@ -350,10 +336,8 @@ public final class ImageDocument extends GiniVisionDocument {
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + mDeviceOrientation.hashCode();
-        result = 31 * result + mDeviceType.hashCode();
-        result = 31 * result + mRotationForDisplay;
-        result = 31 * result + mRotationDelta;
+        result = 31 * result + (mDeviceOrientation != null ? mDeviceOrientation.hashCode() : 0);
+        result = 31 * result + (mDeviceType != null ? mDeviceType.hashCode() : 0);
         result = 31 * result + mFormat.hashCode();
         return result;
     }
