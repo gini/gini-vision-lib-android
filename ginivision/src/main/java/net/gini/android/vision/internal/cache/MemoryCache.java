@@ -30,7 +30,7 @@ import java.util.Queue;
 public abstract class MemoryCache<K, V> {
 
     private static final boolean DEBUG = false;
-    private final Logger mLog;
+    private final Logger mLog; // NOPMD
     private final LruCache<K, V> mCache;
     private final Queue<Worker<K, V>> mWorkerQueue = new LinkedList<>();
     private final List<Worker<K, V>> mRunningWorkers;
@@ -207,7 +207,7 @@ public abstract class MemoryCache<K, V> {
 
     protected abstract static class Worker<S, V> {
 
-        private final Logger mLog;
+        private final Logger mLog; // NOPMD
         private final List<Worker<S, V>> mRunningWorkers;
         private final S mSubject;
         private final AsyncCallback<V, Exception> mCallback;

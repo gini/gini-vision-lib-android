@@ -420,7 +420,7 @@ public class NetworkRequestsManager {
     }
 
     private boolean collectGiniApiDocumentIds(
-            final LinkedHashMap<String, Integer> giniApiDocumentIdRotationDeltas,
+            final LinkedHashMap<String, Integer> giniApiDocumentIdRotationDeltas, // NOPMD
             final GiniVisionMultiPageDocument multiPageDocument) {
         for (final Object document : multiPageDocument.getDocuments()) {
             final GiniVisionDocument giniVisionDocument =

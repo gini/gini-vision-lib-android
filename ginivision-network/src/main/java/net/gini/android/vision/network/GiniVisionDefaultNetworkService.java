@@ -163,6 +163,7 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
         return new NoOpCancellationToken();
     }
 
+    @SuppressWarnings("PMD.ExcessiveMethodLength")
     @Override
     public CancellationToken analyze(
             @NonNull final LinkedHashMap<String, Integer> giniApiDocumentIdRotationMap,
@@ -175,7 +176,7 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
         if (!success) {
             return new NoOpCancellationToken();
         }
-        mAnalyzedGiniApiDocument = null;
+        mAnalyzedGiniApiDocument = null; // NOPMD
         final AtomicBoolean isCancelled = new AtomicBoolean();
         final AtomicReference<net.gini.android.models.Document> compositeDocument =
                 new AtomicReference<>();
@@ -278,19 +279,19 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
 
     @Override
     public void cleanup() {
-        mAnalyzedGiniApiDocument = null;
+        mAnalyzedGiniApiDocument = null; // NOPMD
         mGiniApiDocuments.clear();
     }
 
     private boolean collectGiniApiDocuments(
-            @NonNull final LinkedHashMap<net.gini.android.models.Document, Integer>
+            @NonNull final LinkedHashMap<net.gini.android.models.Document, Integer> // NOPMD
                     giniApiDocumentRotationMap,
-            @NonNull final LinkedHashMap<String, Integer> giniApiDocumentIdRotationMap,
+            @NonNull final LinkedHashMap<String, Integer> giniApiDocumentIdRotationMap, // NOPMD
             @NonNull final GiniVisionNetworkCallback<AnalysisResult, Error> callback) {
         for (final Map.Entry<String, Integer> entry : giniApiDocumentIdRotationMap.entrySet()) {
             final net.gini.android.models.Document document = mGiniApiDocuments.get(entry.getKey());
             if (document == null) {
-                final Error error = new Error("Missing partial document.");
+                final Error error = new Error("Missing partial document."); // NOPMD
                 LOG.error("Document analysis failed for documents {}: {}",
                         giniApiDocumentIdRotationMap,
                         error.getMessage());

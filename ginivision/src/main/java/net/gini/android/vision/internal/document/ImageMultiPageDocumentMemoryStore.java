@@ -28,6 +28,6 @@ public class ImageMultiPageDocumentMemoryStore {
     }
 
     public void clear() {
-        mMultiPageDocument = null;
+        mMultiPageDocument = null; // NOPMD
     }
 }

@@ -1,6 +1,10 @@
 package net.gini.android.vision.review.multipage;
 
+import static net.gini.android.vision.document.GiniVisionDocumentError.ErrorCode.FILE_VALIDATION_FAILED;
+import static net.gini.android.vision.document.GiniVisionDocumentError.ErrorCode.UPLOAD_FAILED;
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
+import static net.gini.android.vision.review.multipage.previews.PreviewFragment.ErrorButtonAction.DELETE;
+import static net.gini.android.vision.review.multipage.previews.PreviewFragment.ErrorButtonAction.RETRY;
 import static net.gini.android.vision.review.multipage.thumbnails.ThumbnailsAdapter.getNewPositionAfterDeletion;
 
 import android.app.Activity;
@@ -49,7 +53,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import jersey.repackaged.jsr166e.CompletableFuture;
@@ -106,13 +109,10 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     private MultiPageReviewFragmentListener mListener;
     private ViewPager mPreviewsPager;
     private PreviewsAdapter mPreviewsAdapter;
-    private PreviewsAdapterListener mPreviewsAdapterListener;
-    private PreviewsPageChangeHandler mPreviewsPageChangeHandler;
     private TextView mPageIndicator;
     private RecyclerView mThumbnailsRecycler;
     private ThumbnailsAdapter mThumbnailsAdapter;
     private RecyclerView.SmoothScroller mThumbnailsScroller;
-    private ThumbnailsAdapterListener mThumbnailsAdapterListener;
     private ImageButton mButtonNext;
     private ImageButton mRotateButton;
     private ImageButton mDeleteButton;
@@ -198,25 +198,24 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
             return;
         }
 
-        mPreviewsAdapterListener = new PreviewsAdapterListener() {
+        final PreviewsAdapterListener previewsAdapterListener = new PreviewsAdapterListener() {
             @Override
             public PreviewFragment.ErrorButtonAction getErrorButtonAction(
                     @NonNull final GiniVisionDocumentError documentError) {
-                switch (documentError.getErrorCode()) {
-                    case UPLOAD_FAILED:
-                        return PreviewFragment.ErrorButtonAction.RETRY;
-                    case FILE_VALIDATION_FAILED:
-                        return PreviewFragment.ErrorButtonAction.DELETE;
+                if (documentError.getErrorCode() == UPLOAD_FAILED) {
+                    return RETRY;
+                } else if (documentError.getErrorCode() == FILE_VALIDATION_FAILED) {
+                    return DELETE;
                 }
                 return null;
             }
         };
 
         mPreviewsAdapter = new PreviewsAdapter(getChildFragmentManager(), mMultiPageDocument,
-                mPreviewsAdapterListener);
+                previewsAdapterListener);
         mPreviewsPager.setAdapter(mPreviewsAdapter);
 
-        mPreviewsPageChangeHandler = new PreviewsPageChangeHandler(
+        final PreviewsPageChangeHandler previewsPageChangeHandler = new PreviewsPageChangeHandler(
                 new PreviewsPageChangeListener() {
                     @Override
                     public void onPageSelected(final int position) {
@@ -226,7 +225,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
                         }
                     }
                 });
-        mPreviewsPager.addOnPageChangeListener(mPreviewsPageChangeHandler);
+        mPreviewsPager.addOnPageChangeListener(previewsPageChangeHandler);
     }
 
     private void highlightThumbnail(final int position) {
@@ -244,28 +243,29 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
                 LinearLayoutManager.HORIZONTAL, false);
         mThumbnailsRecycler.setLayoutManager(layoutManager);
 
-        mThumbnailsAdapterListener = new ThumbnailsAdapterListener() {
-            @Override
-            public void onThumbnailMoved() {
-                final PagerAdapter adapter = mPreviewsPager.getAdapter();
-                if (adapter != null) {
-                    adapter.notifyDataSetChanged();
-                }
-            }
+        final ThumbnailsAdapterListener thumbnailsAdapterListener =
+                new ThumbnailsAdapterListener() {
+                    @Override
+                    public void onThumbnailMoved() {
+                        final PagerAdapter adapter = mPreviewsPager.getAdapter();
+                        if (adapter != null) {
+                            adapter.notifyDataSetChanged();
+                        }
+                    }
 
-            @Override
-            public void onThumbnailSelected(final int position) {
-                mPreviewsPager.setCurrentItem(position);
-            }
+                    @Override
+                    public void onThumbnailSelected(final int position) {
+                        mPreviewsPager.setCurrentItem(position);
+                    }
 
-            @Override
-            public void onPlusButtonClicked() {
-                activity.finish();
-            }
-        };
+                    @Override
+                    public void onPlusButtonClicked() {
+                        activity.finish();
+                    }
+                };
 
         mThumbnailsAdapter = new ThumbnailsAdapter(activity, mMultiPageDocument,
-                mThumbnailsAdapterListener, shouldShowPlusButton());
+                thumbnailsAdapterListener, shouldShowPlusButton());
         mThumbnailsRecycler.setAdapter(mThumbnailsAdapter);
 
         mThumbnailsScroller = new LinearSmoothScroller(activity);
@@ -580,7 +580,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     private void showErrorOnPreview(final String errorMessage, final ImageDocument imageDocument) {
         mMultiPageDocument.setErrorForDocument(imageDocument,
                 new GiniVisionDocumentError(errorMessage,
-                        GiniVisionDocumentError.ErrorCode.UPLOAD_FAILED));
+                        UPLOAD_FAILED));
         mPreviewsAdapter.notifyDataSetChanged();
     }
 
@@ -687,13 +687,6 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     @Override
     public void setListener(@NonNull final MultiPageReviewFragmentListener listener) {
         mListener = listener;
-    }
-
-    private ImageDocument getAndRemoveDocument(final int index) {
-        final List<ImageDocument> documents = mMultiPageDocument.getDocuments();
-        final ImageDocument removedDocument = documents.get(index);
-        documents.remove(index);
-        return removedDocument;
     }
 
 }

@@ -238,13 +238,14 @@ class Exif {
         @NonNull
         public Builder setOrientationFromDegrees(final int degrees) {
             try {
-                final short orientation = rotationToExifOrientation(degrees);
+                final short orientation = rotationToExifOrientation(degrees); // NOPMD
                 final byte[] bytes = FieldType.SHORT.writeData(orientation,
                         mTiffOutputSet.byteOrder);
                 final TiffOutputField orientationOutputField = new TiffOutputField(
                         TiffTagConstants.TIFF_TAG_ORIENTATION, FieldType.SHORT, 1, bytes);
                 mIfd0Directory.add(orientationOutputField);
             } catch (final ImageWriteException ignore) {
+                // Ignored
             }
             return this;
         }
@@ -275,8 +276,8 @@ class Exif {
             outputDirectory.add(outputField);
         }
 
-        private static short rotationToExifOrientation(final int degrees) {
-            final short exifOrientation;
+        private static short rotationToExifOrientation(final int degrees) { // NOPMD
+            final short exifOrientation; // NOPMD
             switch (degrees) {
                 case 0:
                     exifOrientation = 1; // 0CW

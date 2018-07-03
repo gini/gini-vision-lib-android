@@ -79,7 +79,7 @@ public interface GiniVisionNetworkService {
      * @return a {@link CancellationToken} to be used for requesting analysis cancellation
      */
     CancellationToken analyze(
-            @NonNull final LinkedHashMap<String, Integer> giniApiDocumentIdRotationMap,
+            @NonNull final LinkedHashMap<String, Integer> giniApiDocumentIdRotationMap, // NOPMD
             @NonNull final GiniVisionNetworkCallback<AnalysisResult, Error> callback);
 
     /**

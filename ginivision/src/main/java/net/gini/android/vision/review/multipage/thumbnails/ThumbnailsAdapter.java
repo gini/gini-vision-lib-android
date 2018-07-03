@@ -60,7 +60,7 @@ public class ThumbnailsAdapter extends
         final List<ImageDocument> documents = mMultiPageDocument.getDocuments();
         mThumbnails = new ArrayList<>(documents.size());
         for (final ImageDocument document : documents) {
-            final Thumbnail thumbnail = new Thumbnail();
+            final Thumbnail thumbnail = new Thumbnail(); // NOPMD
             thumbnail.rotation = document.getRotationForDisplay();
             if (multiPageDocument.hasDocumentError(document)) {
                 thumbnail.uploadState = UploadState.FAILED;
@@ -126,7 +126,7 @@ public class ThumbnailsAdapter extends
     @Override
     public void onDetachedFromRecyclerView(final RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
-        mRecyclerView = null;
+        mRecyclerView = null; // NOPMD
     }
 
     private void bindThumbnail(@NonNull final ViewHolder holder,
@@ -225,11 +225,14 @@ public class ThumbnailsAdapter extends
             case FAILED:
                 holder.showUploadFailure();
                 break;
+            default:
+                holder.hideUploadIndicators();
+                break;
         }
     }
 
     public void highlightPosition(final int position) {
-        if (mThumbnails.size() == 0
+        if (mThumbnails.isEmpty()
                 || mThumbnails.get(position).highlighted) {
             return;
         }

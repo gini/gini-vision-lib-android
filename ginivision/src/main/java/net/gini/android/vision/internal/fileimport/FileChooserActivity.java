@@ -89,8 +89,8 @@ public class FileChooserActivity extends AppCompatActivity implements AlertDialo
     private final RuntimePermissions mRuntimePermissions = new RuntimePermissions();
     private ProvidersAppItem mSelectedAppItem;
 
-    // Used to prevent fragment transactions after instance state has been save
-    private boolean mInstanceStateSaved = false;
+    // Used to prevent fragment transactions after instance state has been saved
+    private boolean mInstanceStateSaved;
 
     public static boolean canChooseFiles(@NonNull final Context context) {
         final List<ResolveInfo> imagePickerResolveInfos = queryImagePickers(context);
@@ -449,12 +449,12 @@ public class FileChooserActivity extends AppCompatActivity implements AlertDialo
                     getString(R.string.gv_file_chooser_fotos_section_header)));
             final Intent imagePickerIntent = createImagePickerIntent();
             for (final ResolveInfo imagePickerResolveInfo : imagePickerResolveInfos) {
-                providerItems.add(new ProvidersAppItem(imagePickerIntent, imagePickerResolveInfo));
+                providerItems.add(new ProvidersAppItem(imagePickerIntent, imagePickerResolveInfo)); // NOPMD
             }
             final Intent getImageDocumentIntent = createGetImageDocumentIntent();
             for (final ResolveInfo imageProviderResolveInfo : imageProviderResolveInfos) {
                 providerItems.add(
-                        new ProvidersAppItem(getImageDocumentIntent, imageProviderResolveInfo));
+                        new ProvidersAppItem(getImageDocumentIntent, imageProviderResolveInfo)); // NOPMD
             }
         }
         return providerItems;
@@ -469,7 +469,7 @@ public class FileChooserActivity extends AppCompatActivity implements AlertDialo
             final Intent getPdfDocumentIntent = createGetPdfDocumentIntent();
             for (final ResolveInfo pdfProviderResolveInfo : pdfProviderResolveInfos) {
                 providerItems.add(
-                        new ProvidersAppItem(getPdfDocumentIntent, pdfProviderResolveInfo));
+                        new ProvidersAppItem(getPdfDocumentIntent, pdfProviderResolveInfo)); // NOPMD
             }
         }
         return providerItems;

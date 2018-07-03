@@ -261,7 +261,7 @@ public class GiniVisionDocument implements Document {
     }
 
     public synchronized void unloadData() {
-        mData = null;
+        mData = null; // NOPMD
     }
 
     @Override

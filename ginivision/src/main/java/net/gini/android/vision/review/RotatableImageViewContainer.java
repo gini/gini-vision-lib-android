@@ -31,7 +31,7 @@ public class RotatableImageViewContainer extends FrameLayout {
 
     public RotatableImageViewContainer(final Context context) {
         super(context);
-        init(context);
+        init(context); // NOPMD - ImageView intended to be creatable by subclasses
     }
 
     private void init(final Context context) {
@@ -54,20 +54,20 @@ public class RotatableImageViewContainer extends FrameLayout {
     public RotatableImageViewContainer(final Context context,
             @Nullable final AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        init(context); // NOPMD - ImageView intended to be creatable by subclasses
     }
 
     public RotatableImageViewContainer(final Context context, @Nullable final AttributeSet attrs,
             final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context);
+        init(context); // NOPMD - ImageView intended to be creatable by subclasses
     }
 
     public RotatableImageViewContainer(final Context context, @Nullable final AttributeSet attrs,
             final int defStyleAttr,
-            final int defStyleRes) {
+            final int defStyleRes) { // NOPMD
         super(context, attrs, defStyleAttr);
-        init(context);
+        init(context); // NOPMD - ImageView intended to be creatable by subclasses
     }
 
     @Override

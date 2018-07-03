@@ -72,7 +72,7 @@ public class GiniVision {
      * @throws IllegalStateException when there is no instance
      */
     @NonNull
-    public static GiniVision getInstance() {
+    public static synchronized GiniVision getInstance() {
         if (sInstance == null) {
             throw new IllegalStateException("Not instantiated.");
         }
@@ -84,7 +84,7 @@ public class GiniVision {
      *
      * @return {@code true} if there is an instance
      */
-    public static boolean hasInstance() {
+    public static synchronized boolean hasInstance() {
         return sInstance != null;
     }
 
@@ -97,7 +97,7 @@ public class GiniVision {
      *                               before trying to create a new instance
      */
     @NonNull
-    public static Builder newInstance() {
+    public static synchronized Builder newInstance() {
         if (sInstance != null) {
             throw new IllegalStateException("An instance was already created. "
                     + "Call GiniVision.cleanup() before creating a new instance.");
@@ -110,7 +110,7 @@ public class GiniVision {
      *
      * @param context Android context
      */
-    public static void cleanup(@NonNull final Context context) {
+    public static synchronized void cleanup(@NonNull final Context context) {
         if (sInstance != null) {
             sInstance.mDocumentDataMemoryCache.clear();
             sInstance.mPhotoMemoryCache.clear();
@@ -118,9 +118,13 @@ public class GiniVision {
                 sInstance.mNetworkRequestsManager.cleanup();
             }
             sInstance.mImageMultiPageDocumentMemoryStore.clear();
-            sInstance = null;
+            sInstance = null; // NOPMD
         }
         ImageDiskStore.clear(context);
+    }
+
+    private static synchronized void createInstance(@NonNull final Builder builder) {
+        sInstance = new GiniVision(builder);
     }
 
     private GiniVision(@NonNull final Builder builder) {
@@ -212,7 +216,7 @@ public class GiniVision {
      * @return list of {@link OnboardingPage}s
      */
     @Nullable
-    public ArrayList<OnboardingPage> getCustomOnboardingPages() {
+    public ArrayList<OnboardingPage> getCustomOnboardingPages() { // NOPMD - ArrayList required (Bundle)
         return mCustomOnboardingPages;
     }
 
@@ -426,7 +430,7 @@ public class GiniVision {
          */
         public void build() {
             checkNetworkingImplementations();
-            sInstance = new GiniVision(this);
+            createInstance(this);
         }
 
         private void checkNetworkingImplementations() {
@@ -473,7 +477,7 @@ public class GiniVision {
          */
         @NonNull
         public Builder setCustomOnboardingPages(
-                @NonNull final ArrayList<OnboardingPage> onboardingPages) {
+                @NonNull final ArrayList<OnboardingPage> onboardingPages) { // NOPMD - ArrayList required (Bundle)
             mOnboardingPages = onboardingPages;
             return this;
         }
@@ -519,7 +523,7 @@ public class GiniVision {
         }
 
         @Nullable
-        ArrayList<OnboardingPage> getOnboardingPages() {
+        ArrayList<OnboardingPage> getOnboardingPages() { // NOPMD - ArrayList required (Bundle)
             return mOnboardingPages;
         }
 

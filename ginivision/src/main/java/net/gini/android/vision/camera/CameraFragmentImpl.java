@@ -626,7 +626,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
 
     private void clearMultiPageDocument() {
         if (GiniVision.hasInstance()) {
-            mMultiPageDocument = null;
+            mMultiPageDocument = null; // NOPMD
             GiniVision.getInstance().internal()
                     .getImageMultiPageDocumentMemoryStore().clear();
         }
@@ -1101,7 +1101,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                         if (mMultiPageDocument.getDocuments().isEmpty()) {
                             LOG.error("Document import failed: Intent did not contain images");
                             showGenericInvalidFileError();
-                            mMultiPageDocument = null;
+                            mMultiPageDocument = null; // NOPMD
                             mInMultiPageState = false;
                             return;
                         }
@@ -1211,7 +1211,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             final ImageDocument document = documents.get(i);
             final ImageStack.Position position = positions.get(i);
             GiniVision.getInstance().internal().getPhotoMemoryCache()
-                    .get(activity, document, new AsyncCallback<Photo, Exception>() {
+                    .get(activity, document, new AsyncCallback<Photo, Exception>() { // NOPMD
                         @Override
                         public void onSuccess(final Photo result) {
                             mImageStack.setImage(

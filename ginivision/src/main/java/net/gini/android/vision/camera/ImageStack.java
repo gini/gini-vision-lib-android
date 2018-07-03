@@ -78,7 +78,7 @@ public class ImageStack extends RelativeLayout {
 
     public ImageStack(final Context context, @Nullable final AttributeSet attrs,
             final int defStyleAttr,
-            final int defStyleRes) {
+            final int defStyleRes) { // NOPMD
         super(context, attrs, defStyleAttr);
         init(context);
     }
@@ -188,7 +188,7 @@ public class ImageStack extends RelativeLayout {
     public void setImages(@Nullable final List<StackBitmap> bitmaps) {
         imageCount = 0;
         resetImageViewContainers();
-        if (bitmaps == null || bitmaps.size() == 0) {
+        if (bitmaps == null || bitmaps.isEmpty()) {
             badge.setText("");
             badge.setVisibility(INVISIBLE);
             subtitle.setVisibility(INVISIBLE);
@@ -262,6 +262,8 @@ public class ImageStack extends RelativeLayout {
             case BOTTOM:
                 setBitmapOrBlack(stackItem3, stackBitmap);
                 break;
+            default:
+                throw new UnsupportedOperationException("Unknown position: " + position);
         }
     }
 
@@ -433,10 +435,10 @@ public class ImageStack extends RelativeLayout {
         }
 
         private void cleanUp() {
-            stackDrawable1 = null;
-            stackDrawable2 = null;
-            stackDrawable3 = null;
-            newStackBitmap = null;
+            stackDrawable1 = null; // NOPMD
+            stackDrawable2 = null; // NOPMD
+            stackDrawable3 = null; // NOPMD
+            newStackBitmap = null; // NOPMD
         }
     }
 
@@ -512,9 +514,9 @@ public class ImageStack extends RelativeLayout {
         }
 
         private void cleanUp() {
-            stackDrawable1 = null;
-            stackDrawable2 = null;
-            newStackBitmap = null;
+            stackDrawable1 = null; // NOPMD
+            stackDrawable2 = null; // NOPMD
+            newStackBitmap = null; // NOPMD
         }
     }
 }

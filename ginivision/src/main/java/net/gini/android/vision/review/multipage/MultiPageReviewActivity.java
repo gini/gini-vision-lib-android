@@ -253,11 +253,6 @@ public class MultiPageReviewActivity extends AppCompatActivity implements
     }
 
     @Override
-    protected void onSaveInstanceState(final Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             onBackPressed();
@@ -270,7 +265,7 @@ public class MultiPageReviewActivity extends AppCompatActivity implements
     public void onProceedToAnalysisScreen(
             @NonNull final GiniVisionMultiPageDocument multiPageDocument) {
         final List documents = multiPageDocument.getDocuments();
-        if (documents.size() == 0) {
+        if (documents.isEmpty()) {
             return;
         }
         final Intent intent = new Intent(this, AnalysisActivity.class);

@@ -79,14 +79,14 @@ public abstract class AbstractImportImageUrisAsyncTask extends
             }
             if (!UriHelper.isUriInputStreamAvailable(uri, mContext)) {
                 LOG.error("Uri input stream not available for uri {}", uri);
-                if (shouldHaltOnError(multiPageDocument, new ImportedFileValidationException(
+                if (shouldHaltOnError(multiPageDocument, new ImportedFileValidationException( // NOPMD
                         "InputStream not available for one of the Intent's data Uris"))) {
                     LOG.debug("Halt on error for uri {}", uri);
                     return null;
                 }
                 continue;
             }
-            final FileImportValidator fileImportValidator = new FileImportValidator(mContext);
+            final FileImportValidator fileImportValidator = new FileImportValidator(mContext); // NOPMD
             if (fileImportValidator.matchesCriteria(uri)) {
                 if (isCancelled()) {
                     LOG.debug("Import cancelled for uri {}", uri);
@@ -104,7 +104,7 @@ public abstract class AbstractImportImageUrisAsyncTask extends
                 LOG.error("File validation failed for uri {} with error {}", uri,
                         fileImportValidator.getError());
                 if (shouldHaltOnError(multiPageDocument,
-                        new ImportedFileValidationException(fileImportValidator.getError()))) {
+                        new ImportedFileValidationException(fileImportValidator.getError()))) { // NOPMD
                     LOG.debug("Halt on error for uri {}", uri);
                     return null;
                 }

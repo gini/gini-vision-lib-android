@@ -32,10 +32,12 @@
         <exclude name="MethodReturnsInternalArray" />
         <exclude name="AccessorClassGeneration" />
         <exclude name="UseVarargs" />
+        <exclude name="GuardLogStatement" />
     </rule>
     <rule ref="category/java/performance.xml">
         <exclude name="UseStringBufferForStringAppends" />
         <exclude name="AvoidFileStream" />
+        <exclude name="OptimizableToArrayCall" />
     </rule>
     <rule ref="category/java/errorprone.xml">
         <exclude name="BeanMembersShouldSerialize" />
@@ -45,6 +47,8 @@
         <exclude name="MissingBreakInSwitch" />
         <exclude name="AvoidDuplicateLiterals" />
         <exclude name="ReturnEmptyArrayRatherThanNull" />
+        <exclude name="EmptyCatchBlock" />
+        <exclude name="AssignmentInOperand" />
     </rule>
     <rule ref="category/java/design.xml">
         <exclude name="LawOfDemeter" />
@@ -62,5 +66,6 @@
     <rule ref="category/java/multithreading.xml">
         <exclude name="DoNotUseThreads" />
         <exclude name="AvoidSynchronizedAtMethodLevel" />
+        <exclude name="UseConcurrentHashMap" />
     </rule>
 </ruleset>

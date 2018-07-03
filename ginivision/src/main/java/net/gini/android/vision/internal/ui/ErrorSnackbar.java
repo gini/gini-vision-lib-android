@@ -1,5 +1,8 @@
 package net.gini.android.vision.internal.ui;
 
+import static net.gini.android.vision.internal.ui.ErrorSnackbar.Position.BOTTOM;
+import static net.gini.android.vision.internal.ui.ErrorSnackbar.Position.TOP;
+
 import android.animation.Animator;
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -36,7 +39,6 @@ public class ErrorSnackbar extends RelativeLayout {
     static final int ANIM_DURATION = 250;
     private static final String TAG_SNACKBAR_ERROR = "GV_SNACKBAR_ERROR";
     private Position mPosition;
-    private boolean mShownWithAnimation;
 
     private enum State {
         SHOWING,
@@ -75,7 +77,7 @@ public class ErrorSnackbar extends RelativeLayout {
             @Nullable final String buttonTitle,
             @Nullable final OnClickListener onClickListener,
             final int duration) {
-        return make(context, parentView, Position.BOTTOM, message, buttonTitle, onClickListener,
+        return make(context, parentView, BOTTOM, message, buttonTitle, onClickListener,
                 duration);
     }
 
@@ -198,13 +200,12 @@ public class ErrorSnackbar extends RelativeLayout {
 
     private void setParentAlignment() {
         final LayoutParams layoutParams = getOrMakeLayoutParams();
-        switch (mPosition) {
-            case TOP:
-                layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, TRUE);
-                break;
-            case BOTTOM:
-                layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, TRUE);
-                break;
+        if (mPosition == TOP) {
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, TRUE);
+        } else if (mPosition == BOTTOM) {
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, TRUE);
+        } else {
+            throw new UnsupportedOperationException("Unknown position: " + mPosition);
         }
         setLayoutParams(layoutParams);
     }
@@ -291,19 +292,15 @@ public class ErrorSnackbar extends RelativeLayout {
             @Override
             public void run() {
                 if (animated) {
-                    switch (mPosition) {
-                        case BOTTOM:
-                            setTranslationY(getHeight());
-                            break;
-                        case TOP:
-                            setTranslationY(-getHeight());
-                            break;
+                    if (mPosition == BOTTOM) {
+                        setTranslationY(getHeight());
+                    } else if (mPosition == TOP) {
+                        setTranslationY(-getHeight());
                     }
                 }
                 setVisibility(View.VISIBLE);
 
                 if (animated) {
-                    mShownWithAnimation = true;
                     animate()
                             .setStartDelay(mWaitForExisting ? ANIM_DURATION : 0)
                             .setDuration(ANIM_DURATION)
@@ -315,7 +312,6 @@ public class ErrorSnackbar extends RelativeLayout {
                                 }
                             });
                 } else {
-                    mShownWithAnimation = false;
                     setStateToShown();
                 }
             }
@@ -356,13 +352,10 @@ public class ErrorSnackbar extends RelativeLayout {
         removeHandlerCallbacks(mHideRunnable);
 
         int translationY = 0;
-        switch (mPosition) {
-            case BOTTOM:
-                translationY = getHeight();
-                break;
-            case TOP:
-                translationY = -getHeight();
-                break;
+        if (mPosition == BOTTOM) {
+            translationY = getHeight();
+        } else if (mPosition == TOP) {
+            translationY = -getHeight();
         }
 
         animate()

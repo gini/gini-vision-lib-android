@@ -161,13 +161,10 @@ public class PreviewFragment extends Fragment {
                     public void onClick(final View v) {
                         final PreviewFragmentListener listener = getListener();
                         if (listener != null && mErrorButtonAction != null) {
-                            switch (mErrorButtonAction) {
-                                case RETRY:
-                                    listener.onRetryUpload(mDocument);
-                                    break;
-                                case DELETE:
-                                    listener.onDeleteDocument(mDocument);
-                                    break;
+                            if (mErrorButtonAction == ErrorButtonAction.RETRY) {
+                                listener.onRetryUpload(mDocument);
+                            } else if (mErrorButtonAction == ErrorButtonAction.DELETE) {
+                                listener.onDeleteDocument(mDocument);
                             }
                         }
                     }
@@ -176,11 +173,10 @@ public class PreviewFragment extends Fragment {
     }
 
     private String getErrorButtonTitle(@NonNull final Context context) {
-        switch (mErrorButtonAction) {
-            case RETRY:
-                return context.getString(R.string.gv_document_analysis_error_retry);
-            case DELETE:
-                return context.getString(R.string.gv_multi_page_review_delete_invalid_document);
+        if (mErrorButtonAction == ErrorButtonAction.RETRY) {
+            return context.getString(R.string.gv_document_analysis_error_retry);
+        } else if (mErrorButtonAction == ErrorButtonAction.DELETE) {
+            return context.getString(R.string.gv_multi_page_review_delete_invalid_document);
         }
         return null;
     }
