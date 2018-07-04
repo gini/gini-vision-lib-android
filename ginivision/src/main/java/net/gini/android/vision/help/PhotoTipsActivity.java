@@ -9,6 +9,7 @@ import android.view.View;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.camera.CameraActivity;
+import net.gini.android.vision.internal.util.FeatureConfiguration;
 import net.gini.android.vision.noresults.NoResultsActivity;
 import net.gini.android.vision.review.ReviewActivity;
 
@@ -98,9 +99,13 @@ public class PhotoTipsActivity extends AppCompatActivity {
     static final int RESULT_SHOW_CAMERA_SCREEN = RESULT_FIRST_USER + 1;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.gv_activity_photo_tips);
+        if (FeatureConfiguration.isMultiPageEnabled()) {
+            setContentView(R.layout.gv_activity_photo_tips_with_multipage);
+        } else {
+            setContentView(R.layout.gv_activity_photo_tips);
+        }
         findViewById(R.id.gv_button_photo_tips_camera).setOnClickListener(
                 new View.OnClickListener() {
                     @Override

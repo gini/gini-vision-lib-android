@@ -26,6 +26,7 @@
     <string name="gv_onboarding_flat">Seite glatt streichen</string>
     <string name="gv_onboarding_parallel">Gerät parallel über die Seite halten</string>
     <string name="gv_onboarding_align">Seite vollständig in den angezeigten Rahmen einpassen</string>
+    <string name="gv_onboarding_multi_page">Jetzt ist es möglich, eine Rechnung mit mehreren Seiten zu analysieren</string>
 
     <string name="gv_review_bottom_panel_text">Dokument vollständig, scharf und in Leserichtung fotografiert?\n\nDoppeltippen um Schärfe zu prüfen.</string>
 
@@ -43,6 +44,7 @@
     <string name="gv_analysis_activity_indicator_message">Dokument wird analysiert</string>
 
     <string name="gv_photo_tip_align">Seite vollständig in den angezeigten Rahmen einpassen</string>
+    <string name="gv_photo_tip_multipage">Jetzt ist es möglich, eine Rechnung mit mehreren Seiten zu analysieren</string>
     <string name="gv_photo_tip_lighting">Auf gute Beleuchtung achten</string>
     <string name="gv_photo_tip_parallel">Gerät parallel über die Seite halten</string>
     <string name="gv_photo_tip_flat">Seite glatt streichen</string>

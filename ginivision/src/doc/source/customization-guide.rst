@@ -139,6 +139,18 @@ All Action Bar customizations except the title are global to all Activities.
 
         Via the string resource named ``gv_onboarding_align``.
 
+    - **Fourth Page**
+
+      Visible only if the multi-page feature has been enabled.
+
+      - **Image**
+
+        Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named ``gv_onboarding_multipage.png``.
+
+      - **Text**
+
+        Via the string resource named ``gv_onboarding_multipage``.
+
     :ref:`Back to screenshot. <onboarding>`
 
   - **Tablet**
@@ -186,6 +198,18 @@ All Action Bar customizations except the title are global to all Activities.
       - **Text**
 
         Via the string resource named ``gv_onboarding_align``.
+
+    - **Fifth Page**
+
+      Visible only if the multi-page feature has been enabled.
+
+      - **Image**
+
+        Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named ``gv_onboarding_multipage.png``.
+
+      - **Text**
+
+        Via the string resource named ``gv_onboarding_multipage``.
 
     :ref:`Back to screenshot. <onboarding>`
 
@@ -1321,16 +1345,22 @@ Photo Tips Screen
 
     <map id="photo-tips-map" name="photo-tips-map">
         <area shape="rect" alt="" title="Action Bar" coords="136,25,166,56" href="customization-guide.html#photo-tips-1" target="" />
-        <area shape="rect" alt="" title="Background" coords="46,432,76,462" href="customization-guide.html#photo-tips-2" target="" />
+        <area shape="rect" alt="" title="Background" coords="275,251,306,281" href="customization-guide.html#photo-tips-2" target="" />
         <area shape="rect" alt="" title="Header" coords="277,71,308,103" href="customization-guide.html#photo-tips-3" target="" />
         <area shape="rect" alt="" title="Tip" coords="227,138,257,171" href="customization-guide.html#photo-tips-4" target="" />
         <area shape="rect" alt="" title="Good Lighting" coords="5,124,29,145" href="customization-guide.html#photo-tips-4-1" target="" />
         <area shape="rect" alt="" title="Document Should be Flat" coords="4,198,27,220" href="customization-guide.html#photo-tips-4-2" target="" />
         <area shape="rect" alt="" title="Device Parallel to Document" coords="2,269,26,292" href="customization-guide.html#photo-tips-4-3" target="" />
         <area shape="rect" alt="" title="Document Aligned with Corner Guides" coords="5,344,28,367" href="customization-guide.html#photo-tips-4-4" target="" />
+        <area shape="rect" alt="" title="Document with Multiple Pages" coords="5,420,29,441" href="customization-guide.html#photo-tips-4-5" target="" />
         <area shape="rect" alt="" title="Back To Camera Button" coords="81,489,116,520" href="customization-guide.html#photo-tips-5" target="" />
         <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
     </map>
+
+    <map id="imgmap201874183930" name="imgmap201874183930">
+    <area shape="rect" alt="" title="" coords="275,251,306,281" href="" target="" />
+    <area shape="rect" alt="" title="" coords="5,420,29,441" href="" target="" />
+    <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) --></map>
 
 .. _photo-tips-1:
 
@@ -1445,6 +1475,17 @@ All Action Bar customizations except the title are global to all Activities.
 - **Icon**
 
   Via images for mdpi, hdpi, xhdpi,xxhdpi, xxxhdpi named ``gv_photo_tip_align.png``.
+
+:ref:`Back to screenshot. <photo-tips>`
+
+.. _photo-tips-4-5:
+
+4.5 Document with Multiple Pages
+~~~~~
+
+- **Icon**
+
+  Via images for mdpi, hdpi, xhdpi,xxhdpi, xxxhdpi named ``gv_photo_tip_multipage.png``.
 
 :ref:`Back to screenshot. <photo-tips>`
 

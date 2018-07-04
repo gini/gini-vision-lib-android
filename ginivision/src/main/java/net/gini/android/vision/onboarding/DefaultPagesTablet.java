@@ -3,6 +3,7 @@ package net.gini.android.vision.onboarding;
 import android.support.annotation.VisibleForTesting;
 
 import net.gini.android.vision.R;
+import net.gini.android.vision.internal.util.FeatureConfiguration;
 
 import java.util.ArrayList;
 
@@ -33,6 +34,9 @@ public enum DefaultPagesTablet {
         final ArrayList<OnboardingPage> arrayList = new ArrayList<>(values().length);
         for (final DefaultPagesTablet pages : values()) {
             arrayList.add(pages.getPage());
+        }
+        if (FeatureConfiguration.isMultiPageEnabled()) {
+            arrayList.add(ConditionalPages.MULTI_PAGE.getPage());
         }
         return arrayList;
     }
