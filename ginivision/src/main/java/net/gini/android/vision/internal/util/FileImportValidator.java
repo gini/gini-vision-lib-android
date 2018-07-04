@@ -26,8 +26,15 @@ import java.util.List;
  */
 public class FileImportValidator {
 
-    private static final int FILE_SIZE_LIMIT = 10485760; // 10MB
     private static final Logger LOG = LoggerFactory.getLogger(FileImportValidator.class);
+
+    private static final int FILE_SIZE_LIMIT = 10485760; // 10MB
+    private static final int PDF_PAGE_LIMIT = 10;
+    /**
+     * @exclude
+     */
+    public static final int DOCUMENT_PAGE_LIMIT = 10;
+
 
     /**
      * File validation errors.
@@ -35,7 +42,8 @@ public class FileImportValidator {
     public enum Error {
         TYPE_NOT_SUPPORTED(R.string.gv_document_import_error_type_not_supported),
         SIZE_TOO_LARGE(R.string.gv_document_import_error_size_too_large),
-        TOO_MANY_PDF_PAGES(R.string.gv_document_import_error_too_many_pdf_pages);
+        TOO_MANY_PDF_PAGES(R.string.gv_document_import_error_too_many_pdf_pages),
+        TOO_MANY_DOCUMENT_PAGES(R.string.gv_document_error_too_many_pages);
 
         public int getTextResource() {
             return mTextResource;
@@ -68,6 +76,14 @@ public class FileImportValidator {
     public boolean matchesCriteria(@NonNull final Uri fileUri) {
         final List<String> mimeTypes = Collections.singletonList(getMimeType(fileUri, mContext));
         return matchesCriteria(fileUri, mimeTypes);
+    }
+
+    public boolean matchesCriteria(@NonNull final Uri[] fileUris) {
+        if (fileUris.length > DOCUMENT_PAGE_LIMIT) {
+            mError = Error.TOO_MANY_DOCUMENT_PAGES;
+            return false;
+        }
+        return true;
     }
 
     private boolean matchesCriteria(@NonNull final Uri fileUri, final List<String> mimeTypes) {
@@ -117,7 +133,7 @@ public class FileImportValidator {
     private boolean matchesPdfCriteria(final Uri fileUri) {
         final Pdf pdf = Pdf.fromUri(fileUri);
         final int pageCount = pdf.getPageCount(mContext);
-        return pageCount <= 10;
+        return pageCount <= PDF_PAGE_LIMIT;
     }
 
     private boolean matchesSizeCriteria(final Uri fileUri) {

@@ -743,6 +743,10 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             @Override
             public void onClick(final View v) {
                 LOG.info("Taking picture");
+                if (exceedsMultiPageLimit()) {
+                    showMultiPageLimitError();
+                    return;
+                }
                 if (!mCameraController.isPreviewRunning()) {
                     LOG.info("Will not take picture: preview must be running");
                     return;
@@ -934,6 +938,10 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
 
     private void showFileChooser() {
         LOG.info("Importing document");
+        if (exceedsMultiPageLimit()) {
+            showMultiPageLimitError();
+            return;
+        }
         final Activity activity = mFragment.getActivity();
         if (activity == null) {
             return;
@@ -1086,6 +1094,11 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                     "Cannot import multi-page document. GiniVision instance not available. Create it with GiniVision.newInstance().");
             return;
         }
+        if (exceedsMultiPageLimit()) {
+            hideActivityIndicatorAndEnableInteraction();
+            showMultiPageLimitError();
+            return;
+        }
         mImportUrisAsyncTask = new ImportImageDocumentUrisAsyncTask(
                 context, intent, GiniVision.getInstance(),
                 Document.Source.newExternalSource(), ImportMethod.PICKER,
@@ -1115,7 +1128,12 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                     public void onError(final ImportedFileValidationException exception) {
                         LOG.error("Document import failed", exception);
                         hideActivityIndicatorAndEnableInteraction();
-                        showGenericInvalidFileError();
+                        final FileImportValidator.Error error = exception.getValidationError();
+                        if (error != null) {
+                            showInvalidFileError(error);
+                        } else {
+                            showGenericInvalidFileError();
+                        }
                     }
 
                     @Override
@@ -1124,6 +1142,10 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                     }
                 });
         mImportUrisAsyncTask.execute(uris.toArray(new Uri[uris.size()]));
+    }
+
+    private boolean exceedsMultiPageLimit() {
+        return mInMultiPageState && mMultiPageDocument.getDocuments().size() >= FileImportValidator.DOCUMENT_PAGE_LIMIT;
     }
 
     @Override
@@ -1388,6 +1410,20 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 mIsTakingPicture = false;
             }
         }
+    }
+
+    private void showMultiPageLimitError() {
+        mFragment.showAlertDialog(R.string.gv_document_error_too_many_pages,
+                R.string.gv_document_error_multi_page_limit_review_pages_button,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(
+                            final DialogInterface dialogInterface,
+                            final int i) {
+                        mProceededToMultiPageReview = true;
+                        mListener.onProceedToMultiPageReviewScreen(mMultiPageDocument);
+                    }
+                }, R.string.gv_document_error_multi_page_limit_cancel_button);
     }
 
     @Nullable

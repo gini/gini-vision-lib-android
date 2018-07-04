@@ -164,19 +164,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void handleFileImportError(final ImportedFileValidationException exception) {
-        String message = "File cannot be analyzed";
+        String message = exception.getMessage();
         if (exception.getValidationError() != null) {
-            switch (exception.getValidationError()) {
-                case TYPE_NOT_SUPPORTED:
-                    message = "File type not supported.";
-                    break;
-                case SIZE_TOO_LARGE:
-                    message = "File too large, must be less than 10 MB.";
-                    break;
-                case TOO_MANY_PDF_PAGES:
-                    message = "Pdf must have less than 10 pages.";
-                    break;
-            }
+            message = getString(exception.getValidationError().getTextResource());
         }
         new AlertDialog.Builder(this)
                 .setMessage(message)

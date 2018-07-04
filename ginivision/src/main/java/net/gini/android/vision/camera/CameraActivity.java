@@ -206,6 +206,18 @@ import java.util.Map;
  * GiniVisionTheme.Camera.ImageStackSubtitle.TextStyle} and setting an item named {@code
  * gvCustomFont} with the path to the font file in your {@code assets} folder
  *
+ * <li> <b>Multi-page document page limit exceeded alert message:</b> via the string resource named {@code
+ * gv_document_error_too_many_pages}
+ *
+ * <li> <b>Multi-page document page limit exceeded alert positive button text:</b> via the string resource named
+ * {@code gv_document_error_multi_page_limit_review_pages_button}
+ *
+ * <li> <b>Multi-page document page limit exceeded alert cancel button text:</b> via the string resource named
+ * {@code gv_document_error_multi_page_limit_cancel_button}
+ *
+ * <li> <b>Read storage permission denied button color:</b> via the color resource named {@code
+ * gv_accent}
+ *
  * <li> <b>QRCode detected popup background:</b> via the color resource named {@code
  * gv_qrcode_detected_popup_background}
  *

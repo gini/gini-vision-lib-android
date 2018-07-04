@@ -372,23 +372,10 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
         }
     }
 
-    private void handleFileImportError(final ImportedFileValidationException e) {
-        String message = mActivity.getString(R.string.gv_document_import_invalid_document);
-        if (e.getValidationError() != null) {
-            switch (e.getValidationError()) {
-                case TYPE_NOT_SUPPORTED:
-                    message = mActivity.getString(
-                            R.string.gv_document_import_error_type_not_supported);
-                    break;
-                case SIZE_TOO_LARGE:
-                    message = mActivity.getString(
-                            R.string.gv_document_import_error_size_too_large);
-                    break;
-                case TOO_MANY_PDF_PAGES:
-                    message = mActivity.getString(
-                            R.string.gv_document_import_error_too_many_pdf_pages);
-                    break;
-            }
+    private void handleFileImportError(final ImportedFileValidationException exception) {
+        String message = exception.getMessage();
+        if (exception.getValidationError() != null) {
+            message = mActivity.getString(exception.getValidationError().getTextResource());
         }
         new AlertDialog.Builder(mActivity)
                 .setMessage(message)

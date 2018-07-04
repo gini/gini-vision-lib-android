@@ -23,6 +23,8 @@ import net.gini.android.vision.internal.fileimport.AbstractImportImageUrisAsyncT
 
 class ImportImageDocumentUrisAsyncTask extends AbstractImportImageUrisAsyncTask {
 
+    private ImportedFileValidationException mException;
+
     ImportImageDocumentUrisAsyncTask(@NonNull final Context context,
             @NonNull final Intent intent, @NonNull final GiniVision giniVision,
             @NonNull final Document.Source source,
@@ -33,8 +35,19 @@ class ImportImageDocumentUrisAsyncTask extends AbstractImportImageUrisAsyncTask 
     }
 
     @Override
+    protected void onHaltingError(@NonNull final ImportedFileValidationException exception) {
+        mException = exception;
+    }
+
+    @Override
     protected void onPostExecute(final ImageMultiPageDocument multiPageDocument) {
-        getCallback().onSuccess(multiPageDocument);
+        if (multiPageDocument != null) {
+            getCallback().onSuccess(multiPageDocument);
+        } else if (mException != null) {
+            getCallback().onError(mException);
+        } else {
+            getCallback().onCancelled();
+        }
     }
 
     @Override

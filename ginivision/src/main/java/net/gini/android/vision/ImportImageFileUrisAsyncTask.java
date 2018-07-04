@@ -26,6 +26,11 @@ class ImportImageFileUrisAsyncTask extends AbstractImportImageUrisAsyncTask {
     }
 
     @Override
+    protected void onHaltingError(@NonNull final ImportedFileValidationException exception) {
+        mException = exception;
+    }
+
+    @Override
     protected void onError(@NonNull final ImageMultiPageDocument multiPageDocument,
             @NonNull final ImportedFileValidationException exception) {
         mException = exception;

@@ -16,6 +16,8 @@
     <string name="gv_camera_error_no_permission_button_title">Zugriff erlauben</string>
     <string name="gv_camera_image_stack_subtitle">Seiten</string>
     <string name="gv_camera_document_import_subtitle">Importieren</string>
+    <string name="gv_document_error_multi_page_limit_review_pages_button">Seitenübersicht</string>
+    <string name="gv_document_error_multi_page_limit_cancel_button">Abbrechen</string>
 
     <string name="gv_qrcode_detected_popup_message_1">QR verwenden?</string>
     <string name="gv_qrcode_detected_popup_message_2">Hier geht’s weiter.</string>
@@ -71,8 +73,9 @@
     <string name="gv_document_import_error_type_not_supported">Nur Dateien vom Format jpg, png, gif oder pdf können analysiert werden.</string>
     <string name="gv_document_import_error_size_too_large">Diese Datei ist leider zu groß.</string>
     <string name="gv_document_import_error_too_many_pdf_pages">Das Dokument darf nicht mehr als 10 Seiten haben.</string>
+    <string name="gv_document_error_too_many_pages">Das Dokument darf nicht mehr als 10 Seiten haben.</string>
 
-    <string name="gv_document_import_pick_another_document">Andere Datei wählen</string>
+    <string name="gv_document_import_pick_another_document">Auswahl ändern</string>
     <string name="gv_document_import_close_error">Abbrechen</string>
 
     <string name="gv_file_chooser_fotos_section_header">Fotos</string>

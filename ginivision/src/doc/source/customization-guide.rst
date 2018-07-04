@@ -265,6 +265,15 @@ Camera Screen
         <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
     </map>
 
+.. raw:: html
+
+  <img src="_static/customization/Camera Multi-Page Limit Alert.png" usemap="#camera-map-5" width="324" height="576">
+
+    <map id="camera-map-5" name="camera-map-5">
+      <area shape="rect" alt="" title="Multi-Page Limit Alert" coords="10,266,38,295" href="customization-guide.html#camera-13" target="" />
+      <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
+    </map>
+
 .. _camera-1:
 
 1. Action Bar
@@ -580,6 +589,29 @@ All Action Bar customizations except the title are global to all Activities.
     Via overriding the style named ``GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle`` (with
     parent style ``Root.GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle``) and setting an
     item named ``gvCustomFont`` with the path to the font file in your assets folder.
+
+:ref:`Back to screenshots. <camera>`
+
+.. _camera-13:
+
+13. Multi-Page Limit Alert
+^^^^
+
+- **Message**
+
+   Via the string resource named ``gv_document_error_too_many_pages``.
+
+ - **Positive Button Text**
+
+  Via the string resource named ``gv_document_error_multi_page_limit_review_pages_button``.
+
+  - **Negative Button Text**
+
+  Via the string resource named ``gv_document_error_multi_page_limit_cancel_button``.
+
+  - **Button Color**
+
+  Via the color resource named ``gv_accent``. **Note**: this color resource is global.
 
 :ref:`Back to screenshots. <camera>`
 

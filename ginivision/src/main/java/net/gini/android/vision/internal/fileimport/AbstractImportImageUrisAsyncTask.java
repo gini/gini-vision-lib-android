@@ -71,6 +71,11 @@ public abstract class AbstractImportImageUrisAsyncTask extends
                 mImportMethod);
         final ImageMultiPageDocument multiPageDocument = new ImageMultiPageDocument(mSource,
                 mImportMethod);
+        FileImportValidator fileImportValidator = new FileImportValidator(mContext);
+        if (!fileImportValidator.matchesCriteria(uris)) {
+            onHaltingError(new ImportedFileValidationException(fileImportValidator.getError()));
+            return null;
+        }
         for (final Uri uri : uris) {
             LOG.debug("Importing from uri {}", uri);
             if (isCancelled()) {
@@ -86,7 +91,7 @@ public abstract class AbstractImportImageUrisAsyncTask extends
                 }
                 continue;
             }
-            final FileImportValidator fileImportValidator = new FileImportValidator(mContext); // NOPMD
+            fileImportValidator = new FileImportValidator(mContext); // NOPMD
             if (fileImportValidator.matchesCriteria(uri)) {
                 if (isCancelled()) {
                     LOG.debug("Import cancelled for uri {}", uri);
@@ -200,6 +205,9 @@ public abstract class AbstractImportImageUrisAsyncTask extends
     private boolean isImage(final Uri uri) {
         return IntentHelper.hasMimeTypeWithPrefix(uri, mContext, MimeType.IMAGE_PREFIX.asString());
     }
+
+    protected abstract void onHaltingError(
+            @NonNull final ImportedFileValidationException exception);
 
     protected abstract void onError(@NonNull ImageMultiPageDocument multiPageDocument,
             @NonNull final ImportedFileValidationException exception);
