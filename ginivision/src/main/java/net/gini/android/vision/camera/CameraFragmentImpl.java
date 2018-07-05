@@ -771,7 +771,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                         });
             }
         });
-        mButtonImportDocument.setOnClickListener(new View.OnClickListener() {
+        mImportButtonContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
                 closeUploadHintPopUp();

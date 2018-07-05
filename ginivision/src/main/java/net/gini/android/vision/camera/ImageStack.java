@@ -95,6 +95,7 @@ public class ImageStack extends RelativeLayout {
         addClickListener(stackItem1);
         addClickListener(stackItem2);
         addClickListener(stackItem3);
+        addClickListener(subtitle);
     }
 
     private void addClickListener(@NonNull final View view) {
@@ -182,7 +183,22 @@ public class ImageStack extends RelativeLayout {
     }
 
     public void removeImages() {
+        removeClickListeners();
         setImages(null);
+    }
+
+    private void removeClickListeners() {
+        removeClickListener(stackItem1);
+        removeClickListener(stackItem2);
+        removeClickListener(stackItem3);
+        removeClickListener(subtitle);
+    }
+
+    private void removeClickListener(
+            @NonNull final View view) {
+        view.setClickable(false);
+        view.setFocusable(false);
+        view.setOnClickListener(null);
     }
 
     public void setImages(@Nullable final List<StackBitmap> bitmaps) {
@@ -223,14 +239,6 @@ public class ImageStack extends RelativeLayout {
         imageView.setImageDrawable(null);
         imageView.setBackgroundColor(Color.TRANSPARENT);
         rotateImageView(imageView, 0);
-        removeClickListener(imageView);
-    }
-
-    private void removeClickListener(
-            @NonNull final ImageView imageView) {
-        imageView.setClickable(false);
-        imageView.setFocusable(false);
-        imageView.setOnClickListener(null);
     }
 
     private static void rotateImageView(final ImageView imageView, final int rotation) {

@@ -217,6 +217,7 @@
             android:layout_width="@dimen/gv_camera_upload_button_size"
             android:layout_height="@dimen/gv_camera_upload_button_size"
             android:background="@null"
+            android:clickable="false"
             android:scaleType="centerInside"
             android:src="@drawable/gv_document_import_icon" />
 
