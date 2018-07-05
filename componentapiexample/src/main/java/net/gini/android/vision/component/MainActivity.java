@@ -279,4 +279,10 @@ public class MainActivity extends AppCompatActivity {
                 "Gini Vision Library v" + net.gini.android.vision.BuildConfig.VERSION_NAME);
         mTextAppVersion.setText("v" + BuildConfig.VERSION_NAME);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        GiniVision.cleanup(this);
+    }
 }
