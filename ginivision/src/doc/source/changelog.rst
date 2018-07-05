@@ -2,6 +2,14 @@
 Changelog
 =========
 
+3.0.0-rc.1 (2018-07-05)
+==================
+
+- Added an onboarding page for the multi-page feature.
+- Added a multi-page tip to the Photo Tips screen.
+- Limiting multi-page documents to 10 pages.
+- Various bugfixes and improvements.
+
 2.6.0-beta.5 (2018-06-25)
 ==================
 
