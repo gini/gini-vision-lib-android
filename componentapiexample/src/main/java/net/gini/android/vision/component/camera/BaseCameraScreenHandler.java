@@ -3,6 +3,7 @@ package net.gini.android.vision.component.camera;
 import static android.app.Activity.RESULT_OK;
 
 import static net.gini.android.vision.example.ExampleUtil.getExtractionsBundle;
+import static net.gini.android.vision.example.ExampleUtil.getLegacyExtractionsBundle;
 import static net.gini.android.vision.example.ExampleUtil.isIntentActionViewOrSend;
 
 import android.app.Activity;
@@ -18,23 +19,26 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import net.gini.android.models.SpecificExtraction;
+import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.Document;
-import net.gini.android.vision.DocumentImportEnabledFileTypes;
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
-import net.gini.android.vision.GiniVisionFeatureConfiguration;
-import net.gini.android.vision.GiniVisionFileImport;
 import net.gini.android.vision.ImportedFileValidationException;
 import net.gini.android.vision.camera.CameraFragmentInterface;
 import net.gini.android.vision.camera.CameraFragmentListener;
 import net.gini.android.vision.component.ExtractionsActivity;
 import net.gini.android.vision.component.R;
+import net.gini.android.vision.component.review.multipage.MultiPageReviewExampleActivity;
+import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.document.QRCodeDocument;
 import net.gini.android.vision.example.BaseExampleApp;
 import net.gini.android.vision.example.DocumentAnalyzer;
 import net.gini.android.vision.example.SingleDocumentAnalyzer;
 import net.gini.android.vision.help.HelpActivity;
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.onboarding.OnboardingFragmentListener;
+import net.gini.android.vision.util.CancellationToken;
 import net.gini.android.vision.util.IntentHelper;
 import net.gini.android.vision.util.UriHelper;
 
@@ -60,13 +64,14 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
     private static final boolean DO_CUSTOM_DOCUMENT_CHECK = false;
     private static final Logger LOG = LoggerFactory.getLogger(BaseCameraScreenHandler.class);
     private static final int REVIEW_REQUEST = 1;
-    private static final int ANALYSIS_REQUEST = 2;
+    private static final int MULTI_PAGE_REVIEW_REQUEST = 2;
+    private static final int ANALYSIS_REQUEST = 3;
     private final Activity mActivity;
     private CameraFragmentInterface mCameraFragmentInterface;
     private GiniVisionCoordinator mGiniVisionCoordinator;
-    private GiniVisionFeatureConfiguration mGiniVisionFeatureConfiguration;
     private Menu mMenu;
     private SingleDocumentAnalyzer mSingleDocumentAnalyzer;
+    private CancellationToken mFileImportCancellationToken;
 
     protected BaseCameraScreenHandler(final Activity activity) {
         mActivity = activity;
@@ -121,7 +126,8 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
                     @Override
                     public void onException(final Exception exception) {
                         mCameraFragmentInterface.hideActivityIndicatorAndEnableInteraction();
-                        mCameraFragmentInterface.showError(mActivity.getString(R.string.qrcode_error), 4000);
+                        mCameraFragmentInterface.showError(
+                                mActivity.getString(R.string.qrcode_error), 4000);
                     }
 
                     @Override
@@ -130,8 +136,7 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
                         mCameraFragmentInterface.hideActivityIndicatorAndEnableInteraction();
                         final Intent intent = new Intent(mActivity, ExtractionsActivity.class);
                         intent.putExtra(ExtractionsActivity.EXTRA_IN_EXTRACTIONS,
-                                getExtractionsBundle(extractions));
-                        intent.putExtra(ExtractionsActivity.EXTRA_IN_DOCUMENT, getSingleDocumentAnalyzer().getGiniApiDocument());
+                                getLegacyExtractionsBundle(extractions));
                         mActivity.startActivity(intent);
                         mActivity.setResult(Activity.RESULT_OK);
                         mActivity.finish();
@@ -202,13 +207,10 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
         return mActivity;
     }
 
-    protected GiniVisionFeatureConfiguration getGiniVisionFeatureConfiguration() {
-        return mGiniVisionFeatureConfiguration;
-    }
-
     public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         switch (requestCode) {
             case REVIEW_REQUEST:
+            case MULTI_PAGE_REVIEW_REQUEST:
             case ANALYSIS_REQUEST:
                 if (resultCode == RESULT_OK) {
                     mActivity.finish();
@@ -222,6 +224,10 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
             removeOnboarding();
             return true;
         }
+        if (mFileImportCancellationToken != null) {
+            mFileImportCancellationToken.cancel();
+            mFileImportCancellationToken = null;
+        }
         return false;
     }
 
@@ -234,14 +240,15 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
         configureLogging();
         setupGiniVisionCoordinator(mActivity);
 
+        // Deprecated: configuration applied in MainActivity#initGiniVision()
         // Configure the features you would like to use
-        mGiniVisionFeatureConfiguration =
-                GiniVisionFeatureConfiguration.buildNewConfiguration()
-                        .setDocumentImportEnabledFileTypes(
-                                DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
-                        .setFileImportEnabled(true)
-                        .setQRCodeScanningEnabled(true)
-                        .build();
+//        mGiniVisionFeatureConfiguration =
+//                GiniVisionFeatureConfiguration.buildNewConfiguration()
+//                        .setDocumentImportEnabledFileTypes(
+//                                DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
+//                        .setFileImportEnabled(true)
+//                        .setQRCodeScanningEnabled(true)
+//                        .build();
 
         if (savedInstanceState == null) {
             final Intent intent = mActivity.getIntent();
@@ -320,46 +327,70 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
     protected abstract void setTitlesForOnboarding();
 
     private void startGiniVisionLibraryForImportedFile(@NonNull final Intent importedFileIntent) {
-        try {
-            getSingleDocumentAnalyzer().cancelAnalysis();
-            final Document document = GiniVisionFileImport.createDocumentForImportedFile(
-                    importedFileIntent,
-                    mActivity);
-            if (document.isReviewable()) {
-                launchReviewScreen(document);
-            } else {
-                launchAnalysisScreen(document);
-            }
-            mActivity.finish();
-        } catch (final ImportedFileValidationException e) {
-            e.printStackTrace();
-            String message = mActivity.getString(R.string.gv_document_import_invalid_document);
-            if (e.getValidationError() != null) {
-                switch (e.getValidationError()) {
-                    case TYPE_NOT_SUPPORTED:
-                        message = mActivity.getString(
-                                R.string.gv_document_import_error_type_not_supported);
-                        break;
-                    case SIZE_TOO_LARGE:
-                        message = mActivity.getString(
-                                R.string.gv_document_import_error_size_too_large);
-                        break;
-                    case TOO_MANY_PDF_PAGES:
-                        message = mActivity.getString(
-                                R.string.gv_document_import_error_too_many_pdf_pages);
-                        break;
-                }
-            }
-            new AlertDialog.Builder(mActivity)
-                    .setMessage(message)
-                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+        getSingleDocumentAnalyzer().cancelAnalysis();
+        if (GiniVision.hasInstance() && GiniVision.getInstance().isMultiPageEnabled()) {
+            mFileImportCancellationToken = GiniVision.getInstance().createDocumentForImportedFiles(
+                    importedFileIntent, mActivity,
+                    new AsyncCallback<Document, ImportedFileValidationException>() {
                         @Override
-                        public void onClick(final DialogInterface dialogInterface, final int i) {
+                        public void onSuccess(@NonNull final Document result) {
+                            if (result.isReviewable()) {
+                                launchMultiPageReviewScreen();
+                            } else {
+                                launchAnalysisScreen(result);
+                            }
                             mActivity.finish();
                         }
-                    })
-                    .show();
+
+                        @Override
+                        public void onError(
+                                @NonNull final ImportedFileValidationException exception) {
+                            handleFileImportError(exception);
+                        }
+
+                        @Override
+                        public void onCancelled() {
+
+                        }
+                    });
+        } else {
+            try {
+                final Document document = GiniVision.createDocumentForImportedFile(
+                        importedFileIntent,
+                        mActivity);
+                if (document.isReviewable()) {
+                    launchReviewScreen(document);
+                } else {
+                    launchAnalysisScreen(document);
+                }
+                mActivity.finish();
+
+            } catch (final ImportedFileValidationException e) {
+                e.printStackTrace();
+                handleFileImportError(e);
+            }
         }
+    }
+
+    private void handleFileImportError(final ImportedFileValidationException exception) {
+        String message = exception.getMessage();
+        if (exception.getValidationError() != null) {
+            message = mActivity.getString(exception.getValidationError().getTextResource());
+        }
+        new AlertDialog.Builder(mActivity)
+                .setMessage(message)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialogInterface, final int i) {
+                        mActivity.finish();
+                    }
+                })
+                .show();
+    }
+
+    private void launchMultiPageReviewScreen() {
+        final Intent intent = MultiPageReviewExampleActivity.newInstance(mActivity);
+        mActivity.startActivityForResult(intent, MULTI_PAGE_REVIEW_REQUEST);
     }
 
     public boolean onCreateOptionsMenu(final Menu menu) {
@@ -388,8 +419,24 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
 
     private void showHelp() {
         final Intent intent = new Intent(mActivity, HelpActivity.class);
-        intent.putExtra(HelpActivity.EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION,
-                mGiniVisionFeatureConfiguration);
         mActivity.startActivity(intent);
+    }
+
+    @Override
+    public void onExtractionsAvailable(
+            @NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
+        final Intent intent = new Intent(mActivity, ExtractionsActivity.class);
+        intent.putExtra(ExtractionsActivity.EXTRA_IN_EXTRACTIONS,
+                getExtractionsBundle(extractions));
+        mActivity.startActivity(intent);
+        mActivity.setResult(Activity.RESULT_OK);
+        mActivity.finish();
+    }
+
+    @Override
+    public void onProceedToMultiPageReviewScreen(
+            @NonNull final GiniVisionMultiPageDocument multiPageDocument) {
+        // Only compat version available (which uses the support library)
+        launchMultiPageReviewScreen();
     }
 }

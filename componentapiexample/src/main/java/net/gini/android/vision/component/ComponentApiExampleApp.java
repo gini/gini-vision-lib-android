@@ -12,11 +12,11 @@ public class ComponentApiExampleApp extends BaseExampleApp {
 
     @Override
     protected String getClientId() {
-        return this.getString(R.string.gini_api_client_id);
+        return getString(R.string.gini_api_client_id);
     }
 
     @Override
     protected String getClientSecret() {
-        return this.getString(R.string.gini_api_client_secret);
+        return getString(R.string.gini_api_client_secret);
     }
 }

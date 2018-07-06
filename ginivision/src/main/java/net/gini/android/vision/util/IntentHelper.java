@@ -1,5 +1,8 @@
 package net.gini.android.vision.util;
 
+import static net.gini.android.vision.util.UriHelper.getMimeType;
+import static net.gini.android.vision.util.UriHelper.getMimeTypeFromUrl;
+
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.ComponentName;
@@ -11,7 +14,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.webkit.MimeTypeMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,11 +80,20 @@ public final class IntentHelper {
     }
 
     @Nullable
-    private static String getMimeTypeFromUrl(@NonNull final String url) {
-        final String extension = MimeTypeMap.getFileExtensionFromUrl(url);
-        if (extension != null) {
-            final MimeTypeMap mime = MimeTypeMap.getSingleton();
-            return mime.getMimeTypeFromExtension(extension);
+    public static List<Uri> getUris(@NonNull final Intent intent) {
+        final ArrayList<Uri> uris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
+        if (uris != null) {
+            return uris;
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            final ClipData clipData = intent.getClipData();
+            if (clipData != null) {
+                final int count = clipData.getItemCount();
+                final ArrayList<Uri> clipDataUris = new ArrayList<>(count);
+                for (int i = 0; i < count; i++) {
+                    clipDataUris.add(clipData.getItemAt(i).getUri());
+                }
+                return clipDataUris;
+            }
         }
         return null;
     }
@@ -127,6 +138,12 @@ public final class IntentHelper {
         return false;
     }
 
+    public static boolean hasMimeTypeWithPrefix(@NonNull final Uri uri,
+            @NonNull final Context context, @NonNull final String prefix) {
+        final String actualMimeType = getMimeType(uri, context);
+        return actualMimeType != null && actualMimeType.startsWith(prefix);
+    }
+
     /**
      * Retrieve the name of the app from which the Intent was received.
      *
@@ -150,6 +167,11 @@ public final class IntentHelper {
             // Ignore
         }
         return null;
+    }
+
+    public static boolean hasMultipleUris(@NonNull final Intent intent) {
+        final List<Uri> uris = getUris(intent);
+        return uris != null && uris.size() > 1;
     }
 
     private IntentHelper() {

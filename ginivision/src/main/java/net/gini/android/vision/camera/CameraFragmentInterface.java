@@ -124,4 +124,5 @@ public interface CameraFragmentInterface {
      * @param duration how long should the error message be shown in ms
      */
     void showError(@NonNull String message, int duration);
+
 }

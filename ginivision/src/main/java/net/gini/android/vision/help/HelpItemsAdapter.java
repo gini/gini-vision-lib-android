@@ -1,5 +1,7 @@
 package net.gini.android.vision.help;
 
+import static net.gini.android.vision.internal.util.FeatureConfiguration.isFileImportEnabled;
+
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
@@ -34,7 +36,7 @@ class HelpItemsAdapter extends Adapter<HelpItemsAdapter.HelpItemsViewHolder> {
             @NonNull final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration) {
         final ArrayList<HelpItem> items = new ArrayList<>();
         items.add(HelpItem.PHOTO_TIPS);
-        if (giniVisionFeatureConfiguration.isFileImportEnabled()) {
+        if (isFileImportEnabled(giniVisionFeatureConfiguration)) {
             items.add(HelpItem.FILE_IMPORT_GUIDE);
         }
         items.add(HelpItem.SUPPORTED_FORMATS);

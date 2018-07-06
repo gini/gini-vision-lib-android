@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
+import net.gini.android.vision.Document;
 import net.gini.android.vision.document.ImageDocument;
 
 import org.slf4j.Logger;
@@ -114,6 +115,11 @@ class ImmutablePhoto implements Photo {
     }
 
     @Override
+    public int getRotationDelta() {
+        return 0;
+    }
+
+    @Override
     public void setRotationForDisplay(final int rotationDegrees) {
         mRotationForDisplay = rotationDegrees;
     }
@@ -129,12 +135,12 @@ class ImmutablePhoto implements Photo {
     }
 
     @Override
-    public String getSource() {
+    public Document.Source getSource() {
         return null;
     }
 
     @Override
-    public String getImportMethod() {
+    public Document.ImportMethod getImportMethod() {
         return null;
     }
 

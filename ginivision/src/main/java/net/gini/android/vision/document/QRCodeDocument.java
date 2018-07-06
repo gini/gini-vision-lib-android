@@ -7,6 +7,7 @@ import android.support.annotation.VisibleForTesting;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.internal.qrcode.PaymentQRCodeData;
+import net.gini.android.vision.internal.util.MimeType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,14 +51,17 @@ public final class QRCodeDocument extends GiniVisionDocument {
         } catch (final UnsupportedEncodingException e) {
             LOG.error("UTF-8 encoding not available", e);
         }
-        return new QRCodeDocument(jsonBytes, paymentQRCodeData);
+        return new QRCodeDocument(jsonBytes, paymentQRCodeData, Source.newCameraSource(),
+                ImportMethod.NONE);
     }
 
     private final PaymentQRCodeData mPaymentData;
 
     private QRCodeDocument(@NonNull final byte[] data,
-            @NonNull final PaymentQRCodeData paymentQRCodeData) {
-        super(Type.QRCode, data, null, false, false);
+            @NonNull final PaymentQRCodeData paymentQRCodeData,
+            @NonNull final Source source, @NonNull final ImportMethod importMethod) {
+        super(Type.QRCode, source, importMethod, MimeType.APPLICATION_JSON.asString(), data, null,
+                null, false);
         mPaymentData = paymentQRCodeData;
     }
 
@@ -104,5 +108,29 @@ public final class QRCodeDocument extends GiniVisionDocument {
     @VisibleForTesting
     PaymentQRCodeData getPaymentData() {
         return mPaymentData;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
+
+        final QRCodeDocument that = (QRCodeDocument) o;
+
+        return mPaymentData.equals(that.mPaymentData);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + mPaymentData.hashCode();
+        return result;
     }
 }

@@ -40,7 +40,7 @@
         </module>
         <module name="LineLength">
             <property name="max" value="100"/>
-            <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://|^\s+\*|^\s+//|^\s+&quot;|^\s+\+ &quot;"/>
+            <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://|^\s+\*|^\s+//|^\s+&quot;|^\s+\+ &quot;|^.*//.+$|R\.[a-z]+?\..+"/>
         </module>
         <module name="AvoidStarImport"/>
         <module name="OneTopLevelClass"/>

@@ -11,6 +11,8 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.test.runner.AndroidJUnit4;
 
+import net.gini.android.vision.document.ImageDocument;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -63,7 +65,7 @@ public class PhotoEditTest {
 
     private Photo getPhoto() throws IOException {
         final byte[] jpeg = getTestJpeg();
-        return PhotoFactory.newPhotoFromJpeg(jpeg, 0, "portrait", "phone", "camera");
+        return PhotoFactory.newPhotoFromJpeg(jpeg, 0, "portrait", "phone", ImageDocument.Source.newCameraSource());
     }
 
     @Test

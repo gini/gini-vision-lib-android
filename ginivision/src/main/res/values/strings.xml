@@ -1,18 +1,23 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="gv_title_camera">Dokument fotografieren</string>
     <string name="gv_title_onboarding">Anleitung</string>
     <string name="gv_title_review">Foto überprüfen</string>
     <string name="gv_title_help">Hilfe</string>
     <string name="gv_title_photo_tips">Tipps für Fotos</string>
-    <string name="gv_title_supported_formats">Unterstütze Formate</string>
+    <string name="gv_title_supported_formats">Unterstützte Formate</string>
     <string name="gv_title_file_import">Dokumente aus anderen Apps öffnen</string>
     <string name="gv_title_analysis" />
+    <string name="gv_title_multi_page_review">Fotos überprüfen</string>
 
     <string name="gv_show_onboarding">Hilfe</string>
     <string name="gv_select_from_camera_roll">Eigenes Bild auswählen</string>
 
     <string name="gv_camera_error_no_permission">Um Dokumente zu fotografieren, erlaube Gini Pay den Zugriff auf die Kamera.</string>
     <string name="gv_camera_error_no_permission_button_title">Zugriff erlauben</string>
+    <string name="gv_camera_image_stack_subtitle">Seiten</string>
+    <string name="gv_camera_document_import_subtitle">Importieren</string>
+    <string name="gv_document_error_multi_page_limit_review_pages_button">Seitenübersicht</string>
+    <string name="gv_document_error_multi_page_limit_cancel_button">Abbrechen</string>
 
     <string name="gv_qrcode_detected_popup_message_1">QR verwenden?</string>
     <string name="gv_qrcode_detected_popup_message_2">Hier geht’s weiter.</string>
@@ -21,13 +26,25 @@
     <string name="gv_onboarding_flat">Seite glatt streichen</string>
     <string name="gv_onboarding_parallel">Gerät parallel über die Seite halten</string>
     <string name="gv_onboarding_align">Seite vollständig in den angezeigten Rahmen einpassen</string>
+    <string name="gv_onboarding_multi_page">Jetzt ist es möglich, eine Rechnung mit mehreren Seiten zu analysieren</string>
 
     <string name="gv_review_bottom_panel_text">Dokument vollständig, scharf und in Leserichtung fotografiert?\n\nDoppeltippen um Schärfe zu prüfen.</string>
 
+    <string name="gv_multi_page_review_page_indicator" tools:ignore="PluralsCandidate">%1$d von %2$d</string>
+    <string name="gv_multi_page_review_reorder_pages_tip"><![CDATA[Stimmt die Seitenreihenfolge? Mit Drag & Drop verschieben.]]></string>
+    <string name="gv_multi_page_review_add_pages_subtitle">Seiten hinzufügen</string>
+    <string name="gv_multi_page_review_image_preview_error">Vorschaubild leider nicht verfügbar.</string>
+    <string name="gv_multi_page_review_delete_invalid_document">Löschen</string>
+    <string name="gv_multi_page_review_file_import_delete_last_page_dialog_message">Möchten Sie das letzte Bild löschen?</string>
+    <string name="gv_multi_page_review_file_import_delete_last_page_dialog_positive_button">Löschen</string>
+    <string name="gv_multi_page_review_file_import_delete_last_page_dialog_negative_button">Abbrechen</string>
+
+    <string name="gv_document_analysis_error">Ein Fehler ist aufgetreten.</string>
     <string name="gv_document_analysis_error_retry">Wiederholen</string>
     <string name="gv_analysis_activity_indicator_message">Dokument wird analysiert</string>
 
     <string name="gv_photo_tip_align">Seite vollständig in den angezeigten Rahmen einpassen</string>
+    <string name="gv_photo_tip_multipage">Jetzt ist es möglich, eine Rechnung mit mehreren Seiten zu analysieren</string>
     <string name="gv_photo_tip_lighting">Auf gute Beleuchtung achten</string>
     <string name="gv_photo_tip_parallel">Gerät parallel über die Seite halten</string>
     <string name="gv_photo_tip_flat">Seite glatt streichen</string>
@@ -58,15 +75,16 @@
     <string name="gv_document_import_error_type_not_supported">Nur Dateien vom Format jpg, png, gif oder pdf können analysiert werden.</string>
     <string name="gv_document_import_error_size_too_large">Diese Datei ist leider zu groß.</string>
     <string name="gv_document_import_error_too_many_pdf_pages">Das Dokument darf nicht mehr als 10 Seiten haben.</string>
+    <string name="gv_document_error_too_many_pages">Das Dokument darf nicht mehr als 10 Seiten haben.</string>
 
-    <string name="gv_document_import_pick_another_document">Andere Datei wählen</string>
+    <string name="gv_document_import_pick_another_document">Auswahl ändern</string>
     <string name="gv_document_import_close_error">Abbrechen</string>
 
     <string name="gv_file_chooser_fotos_section_header">Fotos</string>
     <string name="gv_file_chooser_pdfs_section_header">PDFs</string>
     <string name="gv_help_item_photo_tips_title">Tipps für beste Ergebnisse aus Fotos</string>
     <string name="gv_help_item_file_import_guide_title">Dokumente aus anderen Apps öffnen</string>
-    <string name="gv_help_item_supported_formats_title">Unterstütze Formate</string>
+    <string name="gv_help_item_supported_formats_title">Unterstützte Formate</string>
 
     <string name="gv_photo_tips_headline">Zur Erkennung aller Daten bitte folgende Tipps beim Abfotografieren beachten:</string>
     <string name="gv_photo_tips_camera_button">Zur Kamera</string>
@@ -86,5 +104,6 @@
     <string name="gv_file_import_section_2_body"><![CDATA[Um die Datei an die <Banking App Name> weiterzuleiten, verwenden Sie eine Funktion wie “Öffnen mit...”, “Datei senden...”, oder “Teilen”. Die “Teilen”-Funktion wird oft grafisch als drei Punkte, die mit zwei Linien verbunden sind, dargestellt.\n\nDiese Funktionen können üblicherweise entweder im Overflow-Menü (drei Punkte oben rechts) oder in einer Funktionsleiste am unteren App-Rand gefunden werden. In manchen Email-Apps wird die Funktion in der Nähe des PDF-Anhangs vor dem Öffnen der Datei angezeigt.]]></string>
     <string name="gv_file_import_section_3_title"><![CDATA[Wählen Sie die <Banking App Name> als Ziel aus]]></string>
     <string name="gv_file_import_section_3_body"><![CDATA[Beim Aktivieren dieser Funktionen werden Apps angezeigt, an die eine PDF-Datei weitergeleitet werden kann. Bitte wählen Sie die <Banking App Name> aus der Liste aus, um den Analyse- und Überweisungsprozess zu starten.]]></string>
+    <string name="gv_add_pages">Seiten Hinzufügen</string>
 
 </resources>

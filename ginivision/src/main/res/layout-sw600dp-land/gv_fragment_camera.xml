@@ -51,17 +51,17 @@
         android:id="@+id/gv_document_import_hint_container_arrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/gv_button_import_document"
-        android:layout_alignTop="@+id/gv_button_import_document"
-        android:layout_toLeftOf="@id/gv_button_import_document"
-        android:layout_toStartOf="@id/gv_button_import_document"
+        android:layout_alignBottom="@+id/gv_document_import_button_container"
+        android:layout_alignTop="@+id/gv_document_import_button_container"
+        android:layout_toLeftOf="@id/gv_document_import_button_container"
+        android:layout_toStartOf="@id/gv_document_import_button_container"
         android:alpha="0"
         android:scaleType="centerInside"
         android:src="@drawable/gv_hint_arrow_right"
         android:tint="@color/gv_document_import_hint_background"
         android:visibility="gone"
         tools:alpha="1"
-        tools:visibility="invisible" />
+        tools:visibility="visible" />
 
     <RelativeLayout
         android:id="@+id/gv_document_import_hint_container"
@@ -73,10 +73,15 @@
         android:layout_toStartOf="@+id/gv_document_import_hint_container_arrow"
         android:alpha="0"
         android:background="@color/gv_document_import_hint_background"
-        android:padding="@dimen/gv_camera_upload_hint_container_padding"
+        android:paddingBottom="@dimen/gv_camera_upload_hint_container_padding"
+        android:paddingEnd="@dimen/gv_camera_upload_hint_container_padding_right"
+        android:paddingLeft="@dimen/gv_camera_upload_hint_container_padding"
+        android:paddingRight="@dimen/gv_camera_upload_hint_container_padding_right"
+        android:paddingStart="@dimen/gv_camera_upload_hint_container_padding"
+        android:paddingTop="@dimen/gv_camera_upload_hint_container_padding"
         android:visibility="gone"
         tools:alpha="1"
-        tools:visibility="invisible">
+        tools:visibility="visible">
 
         <net.gini.android.vision.internal.ui.CustomFontTextView
             style="@style/GiniVisionTheme.Camera.DocumentImportHint.TextStyle"
@@ -85,8 +90,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/gv_camera_document_import_hint_text_right_margin"
-            android:layout_marginRight="@dimen/gv_camera_document_import_hint_text_right_margin"
+            android:layout_marginEnd="@dimen/gv_camera_upload_hint_text_right_margin"
+            android:layout_marginRight="@dimen/gv_camera_upload_hint_text_right_margin"
             android:layout_toLeftOf="@+id/gv_document_import_hint_close_button"
             android:layout_toStartOf="@+id/gv_document_import_hint_close_button"
             android:text="@string/gv_document_import_hint_text" />
@@ -98,6 +103,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:padding="@dimen/gv_camera_upload_hint_container_close_button_padding"
             android:src="@drawable/gv_hint_close"
             android:tint="@color/gv_hint_close" />
 
@@ -107,11 +113,11 @@
         android:id="@+id/gv_qrcode_detected_popup_container"
         android:layout_width="@dimen/gv_camera_qrcode_detected_popup_width"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/gv_camera_qrcode_detected_popup_vertical_margin"
         android:layout_marginEnd="@dimen/gv_camera_qrcode_detected_popup_horizontal_margin"
         android:layout_marginRight="@dimen/gv_camera_qrcode_detected_popup_horizontal_margin"
-        android:layout_marginBottom="@dimen/gv_camera_qrcode_detected_popup_vertical_margin"
         android:alpha="0"
         android:background="@color/gv_qrcode_detected_popup_background"
         android:paddingBottom="@dimen/gv_camera_qrcode_detected_popup_vertical_padding"
@@ -137,13 +143,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="@dimen/gv_camera_qrcode_detected_popup_text_horizontal_margin"
-            android:layout_marginLeft="@dimen/gv_camera_qrcode_detected_popup_text_horizontal_margin"
             android:layout_marginEnd="@dimen/gv_camera_qrcode_detected_popup_text_horizontal_margin"
+            android:layout_marginLeft="@dimen/gv_camera_qrcode_detected_popup_text_horizontal_margin"
             android:layout_marginRight="@dimen/gv_camera_qrcode_detected_popup_text_horizontal_margin"
-            android:layout_toRightOf="@id/gv_camera_qrcode_detected_popup_icon"
+            android:layout_marginStart="@dimen/gv_camera_qrcode_detected_popup_text_horizontal_margin"
             android:layout_toEndOf="@id/gv_camera_qrcode_detected_popup_icon"
             android:layout_toLeftOf="@+id/gv_camera_qrcode_detected_popup_message_2"
+            android:layout_toRightOf="@id/gv_camera_qrcode_detected_popup_icon"
             android:layout_toStartOf="@+id/gv_camera_qrcode_detected_popup_message_2"
             android:text="@string/gv_qrcode_detected_popup_message_1" />
 
@@ -152,28 +158,72 @@
             style="@style/GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:text="@string/gv_qrcode_detected_popup_message_2" />
 
     </RelativeLayout>
 
-    <ImageButton
-        android:id="@+id/gv_button_import_document"
-        android:layout_width="@dimen/gv_camera_upload_button_size"
-        android:layout_height="@dimen/gv_camera_upload_button_size"
+    <View
+        android:id="@+id/gv_image_stack_placeholder"
+        android:layout_width="wrap_content"
+        android:layout_height="96dp"
+        android:layout_alignEnd="@id/gv_button_camera_trigger"
+        android:layout_alignLeft="@+id/gv_button_camera_trigger"
+        android:layout_alignRight="@id/gv_button_camera_trigger"
+        android:layout_alignStart="@+id/gv_button_camera_trigger"
+        android:layout_below="@id/gv_document_import_button_container"
+        android:layout_marginEnd="@dimen/gv_camera_image_stack_right_margin"
+        android:layout_marginRight="@dimen/gv_camera_image_stack_right_margin"
+        android:layout_marginTop="@dimen/gv_camera_image_stack_top_margin"
+        android:visibility="invisible" />
+
+    <net.gini.android.vision.camera.ImageStack
+        android:id="@+id/gv_image_stack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/gv_image_stack_placeholder"
+        android:layout_alignEnd="@id/gv_image_stack_placeholder"
+        android:layout_alignRight="@id/gv_image_stack_placeholder"
+        android:layout_marginLeft="@dimen/gv_camera_image_stack_left_margin"
+        android:layout_marginStart="@dimen/gv_camera_image_stack_left_margin"
+        android:layout_marginTop="@dimen/gv_camera_image_stack_top_margin"
+        tools:visibility="visible" />
+
+    <LinearLayout
+        android:id="@+id/gv_document_import_button_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignEnd="@id/gv_button_camera_trigger"
         android:layout_alignLeft="@+id/gv_button_camera_trigger"
         android:layout_alignRight="@id/gv_button_camera_trigger"
         android:layout_alignStart="@+id/gv_button_camera_trigger"
         android:layout_below="@id/gv_button_camera_trigger"
         android:layout_marginTop="@dimen/gv_camera_upload_button_top_margin"
-        android:background="@null"
-        android:scaleType="centerInside"
-        android:src="@drawable/gv_document_import_icon"
+        android:gravity="center"
+        android:orientation="vertical"
         android:visibility="gone"
-        tools:visibility="visible" />
+        tools:visibility="visible">
+
+        <ImageButton
+            android:id="@+id/gv_button_import_document"
+            android:layout_width="@dimen/gv_camera_upload_button_size"
+            android:layout_height="@dimen/gv_camera_upload_button_size"
+            android:background="@null"
+            android:clickable="false"
+            android:scaleType="centerInside"
+            android:src="@drawable/gv_document_import_icon" />
+
+        <net.gini.android.vision.internal.ui.CustomFontTextView
+            style="@style/GiniVisionTheme.Camera.DocumentImportSubtitle.TextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="@dimen/gv_camera_upload_button_subtitle_bottom_padding"
+            android:text="@string/gv_camera_document_import_subtitle" />
+
+    </LinearLayout>
 
     <ImageButton
         android:id="@+id/gv_button_camera_trigger"

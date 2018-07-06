@@ -13,18 +13,21 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.GiniVisionError;
-import net.gini.android.vision.GiniVisionFeatureConfiguration;
-import net.gini.android.vision.GiniVisionFileImport;
 import net.gini.android.vision.ImportedFileValidationException;
 import net.gini.android.vision.camera.CameraActivity;
+import net.gini.android.vision.example.BaseExampleApp;
 import net.gini.android.vision.example.RuntimePermissionHandler;
 import net.gini.android.vision.onboarding.DefaultPagesPhone;
 import net.gini.android.vision.onboarding.OnboardingPage;
+import net.gini.android.vision.requirements.GiniVisionRequirements;
 import net.gini.android.vision.requirements.RequirementReport;
 import net.gini.android.vision.requirements.RequirementsReport;
+import net.gini.android.vision.util.CancellationToken;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private RuntimePermissionHandler mRuntimePermissionHandler;
     private TextView mTextGiniVisionLibVersion;
     private TextView mTextAppVersion;
+    private CancellationToken mFileImportCancellationToken;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -70,6 +74,16 @@ public class MainActivity extends AppCompatActivity {
                 startGiniVisionLibraryForImportedFile(intent);
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mFileImportCancellationToken != null) {
+            mFileImportCancellationToken.cancel();
+            mFileImportCancellationToken = null;
+        }
+        GiniVision.cleanup(this);
     }
 
     private void createRuntimePermissionsHandler() {
@@ -110,44 +124,68 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void doStartGiniVisionLibraryForImportedFile(final Intent importedFileIntent) {
-        try {
-            final Intent giniVisionIntent = GiniVisionFileImport.createIntentForImportedFile(
-                    importedFileIntent,
-                    this,
-                    ReviewActivity.class,
-                    AnalysisActivity.class);
-            startActivityForResult(giniVisionIntent, REQUEST_SCAN);
-        } catch (final ImportedFileValidationException e) {
-            e.printStackTrace();
-            String message = "File cannot be analyzed";
-            if (e.getValidationError() != null) {
-                switch (e.getValidationError()) {
-                    case TYPE_NOT_SUPPORTED:
-                        message = "File type not supported.";
-                        break;
-                    case SIZE_TOO_LARGE:
-                        message = "File too large, must be less than 10 MB.";
-                        break;
-                    case TOO_MANY_PDF_PAGES:
-                        message = "Pdf must have less than 10 pages.";
-                        break;
-                }
-            }
-            new AlertDialog.Builder(this)
-                    .setMessage(message)
-                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        // Configure the Gini Vision Library
+        configureGiniVision();
+        if (GiniVision.hasInstance() && GiniVision.getInstance().isMultiPageEnabled()) {
+            mFileImportCancellationToken = GiniVision.getInstance().createIntentForImportedFiles(
+                    importedFileIntent, this,
+                    new AsyncCallback<Intent, ImportedFileValidationException>() {
                         @Override
-                        public void onClick(final DialogInterface dialogInterface, final int i) {
-                            finish();
+                        public void onSuccess(final Intent result) {
+                            mFileImportCancellationToken = null;
+                            startActivityForResult(result, REQUEST_SCAN);
                         }
-                    })
-                    .show();
+
+                        @Override
+                        public void onError(final ImportedFileValidationException exception) {
+                            mFileImportCancellationToken = null;
+                            handleFileImportError(exception);
+                        }
+
+                        @Override
+                        public void onCancelled() {
+                            mFileImportCancellationToken = null;
+                        }
+                    });
+        } else {
+            try {
+                final Intent giniVisionIntent =
+                        GiniVision.createIntentForImportedFile(
+                                importedFileIntent,
+                                this,
+                                ReviewActivity.class,
+                                AnalysisActivity.class);
+                startActivityForResult(giniVisionIntent, REQUEST_SCAN);
+
+            } catch (final ImportedFileValidationException e) {
+                e.printStackTrace();
+                handleFileImportError(e);
+            }
         }
+    }
+
+    private void handleFileImportError(final ImportedFileValidationException exception) {
+        String message = exception.getMessage();
+        if (exception.getValidationError() != null) {
+            message = getString(exception.getValidationError().getTextResource());
+        }
+        new AlertDialog.Builder(this)
+                .setMessage(message)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialogInterface,
+                            final int i) {
+                        finish();
+                    }
+                })
+                .show();
     }
 
     private boolean isIntentActionViewOrSend(@NonNull final Intent intent) {
         final String action = intent.getAction();
-        return Intent.ACTION_VIEW.equals(action) || Intent.ACTION_SEND.equals(action);
+        return Intent.ACTION_VIEW.equals(action)
+                || Intent.ACTION_SEND.equals(action)
+                || Intent.ACTION_SEND_MULTIPLE.equals(action);
     }
 
     private void showVersions() {
@@ -188,22 +226,29 @@ public class MainActivity extends AppCompatActivity {
 
     private void doStartGiniVisionLibrary() {
         // NOTE: on Android 6.0 and later the camera permission is required before checking the requirements
-//        RequirementsReport report = GiniVisionRequirements.checkRequirements(this);
-//        if (!report.isFulfilled()) {
-//            showUnfulfilledRequirementsToast(report);
-//            return;
-//        }
+        final RequirementsReport report = GiniVisionRequirements.checkRequirements(this);
+        if (!report.isFulfilled()) {
+            // In production apps you should not launch GVL if requirements were not fulfilled
+            // We make an exception here to allow running the app on emulators
+            showUnfulfilledRequirementsToast(report);
+        }
+
+        // Configure the Gini Vision Library
+        configureGiniVision();
 
         final Intent intent = new Intent(this, CameraScreenApiActivity.class);
 
+        // Deprecated: custom pages added above when creating the GiniVision instance
         // Uncomment to add an extra page to the Onboarding pages
 //        intent.putParcelableArrayListExtra(CameraActivity.EXTRA_IN_ONBOARDING_PAGES, getOnboardingPages());
 
+        // Deprecated: configuration applied above when creating the GiniVision instance
         // Set EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN to false to disable automatically showing the OnboardingActivity the
         // first time the CameraActivity is launched - we highly recommend letting the Gini Vision Library show the
         // OnboardingActivity at first run
         //intent.putExtra(CameraActivity.EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN, false);
 
+        // Deprecated: configuration applied above when creating the GiniVision instance
         // Set EXTRA_IN_SHOW_ONBOARDING to true, to show the OnboardingActivity when the CameraActivity starts
         //intent.putExtra(CameraActivity.EXTRA_IN_SHOW_ONBOARDING, true);
 
@@ -211,17 +256,18 @@ public class MainActivity extends AppCompatActivity {
         // button from any Activity in the library
         //intent.putExtra(CameraActivity.EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY, true);
 
+        // Deprecated: configuration applied above when creating the GiniVision instance
         // Configure the features you would like to use
-        final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration =
-                GiniVisionFeatureConfiguration.buildNewConfiguration()
-                        .setDocumentImportEnabledFileTypes(
-                                DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
-                        .setFileImportEnabled(true)
-                        .setQRCodeScanningEnabled(true)
-                        .build();
-
-        intent.putExtra(CameraActivity.EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION,
-                giniVisionFeatureConfiguration);
+//        final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration =
+//                GiniVisionFeatureConfiguration.buildNewConfiguration()
+//                        .setDocumentImportEnabledFileTypes(
+//                                DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
+//                        .setFileImportEnabled(true)
+//                        .setQRCodeScanningEnabled(true)
+//                        .build();
+//
+//        intent.putExtra(CameraActivity.EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION,
+//                giniVisionFeatureConfiguration);
 
         // Set your ReviewActivity subclass
         CameraActivity.setReviewActivityExtra(intent, this, ReviewActivity.class);
@@ -233,6 +279,27 @@ public class MainActivity extends AppCompatActivity {
         // To receive the extractions add it to the result Intent in ReviewActivity#onAddDataToResult(Intent) or
         // AnalysisActivity#onAddDataToResult(Intent) and retrieve them here in onActivityResult()
         startActivityForResult(intent, REQUEST_SCAN);
+    }
+
+    private void configureGiniVision() {
+        final BaseExampleApp app = (BaseExampleApp) getApplication();
+        GiniVision.cleanup(this);
+        GiniVision.newInstance()
+                .setGiniVisionNetworkService(app.getGiniVisionNetworkService())
+                .setGiniVisionNetworkApi(app.getGiniVisionNetworkApi())
+                .setDocumentImportEnabledFileTypes(DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
+                .setFileImportEnabled(true)
+                .setQRCodeScanningEnabled(true)
+                .setMultiPageEnabled(true)
+                // Uncomment to add an extra page to the Onboarding pages
+//                .setCustomOnboardingPages(getOnboardingPages())
+                // Uncomment to disable automatically showing the OnboardingActivity the
+                // first time the CameraActivity is launched - we highly recommend letting the
+                // Gini Vision Library show the OnboardingActivity at first run
+//                .setShouldShowOnboardingAtFirstRun(false)
+                // Uncomment to show the OnboardingActivity every time the CameraActivity starts
+//                .setShouldShowOnboarding(true)
+                .build();
     }
 
     private void showUnfulfilledRequirementsToast(final RequirementsReport report) {
@@ -280,13 +347,25 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
             switch (resultCode) {
+                case RESULT_CANCELED:
+                    break;
                 case RESULT_OK:
                     // Retrieve the extra we set in our ReviewActivity or AnalysisActivity subclasses' onAddDataToResult()
                     // method
                     // The payload format is up to you. For the example we added all the extractions as key-value pairs to
                     // a Bundle.
-                    final Bundle extractionsBundle = data.getBundleExtra(EXTRA_OUT_EXTRACTIONS);
-                    if (extractionsBundle != null && pay5ExtractionsAvailable(extractionsBundle)) {
+                    Bundle extractionsBundle = data.getBundleExtra(
+                            CameraActivity.EXTRA_OUT_EXTRACTIONS);
+                    if (extractionsBundle == null) {
+                        extractionsBundle = data.getBundleExtra(MainActivity.EXTRA_OUT_EXTRACTIONS);
+                    }
+                    if (extractionsBundle == null) {
+                        if (isIntentActionViewOrSend(getIntent())) {
+                            finish();
+                        }
+                        return;
+                    }
+                    if (pay5ExtractionsAvailable(extractionsBundle)) {
                         // We display only the Pay5 extractions: paymentRecipient, iban, bic,
                         // amount and paymentReference
                         startExtractionsActivity(extractionsBundle);
@@ -295,9 +374,6 @@ public class MainActivity extends AppCompatActivity {
                         // the user some hints and tips
                         // for using the Gini Vision Library
                         startNoExtractionsActivity();
-                    }
-                    if (isIntentActionViewOrSend(getIntent())) {
-                        finish();
                     }
                     break;
                 case CameraActivity.RESULT_ERROR:
@@ -311,6 +387,9 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.LENGTH_LONG).show();
                     }
                     break;
+            }
+            if (isIntentActionViewOrSend(getIntent())) {
+                finish();
             }
         } else if (requestCode == REQUEST_NO_EXTRACTIONS) {
             // The NoExtractionsActivity has a button for taking another picture which causes the activity to finish

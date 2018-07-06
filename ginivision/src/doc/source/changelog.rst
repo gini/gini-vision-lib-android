@@ -2,6 +2,86 @@
 Changelog
 =========
 
+3.0.0-rc.1 (2018-07-05)
+==================
+
+- Added an onboarding page for the multi-page feature.
+- Added a multi-page tip to the Photo Tips screen.
+- Limiting multi-page documents to 10 pages.
+- Various bugfixes and improvements.
+
+2.6.0-beta.5 (2018-06-25)
+==================
+
+- Generic analysis error message shown on all screens.
+
+2.6.0-beta.4 (2018-06-06)
+==================
+
+- Migration and integration guide for the multi-page feature.
+- Renamed ``gini-vision-lib-network`` to ``gini-vision-network-lib``.
+- Onboarding background is almost completely opaque.
+- Various improvements and bugfixes.
+
+2.6.0-beta.3 (2018-05-29)
+==================
+
+- Javadoc.
+- Various improvements and bugfixes.
+
+2.6.0-beta.2 (2018-05-16)
+==================
+
+- Tablet support.
+- Updated UX when deleting the last page.
+- Bugfixes.
+
+2.6.0-beta.1 (2018-05-14)
+==================
+
+- Integrated multi-page related network requests.
+- Added Component API support for multi-page.
+- UI and UX updates.
+
+2.6.0-alpha.5 (2018-04-20)
+==================
+
+- Bugfix for non-JPEG imported images.
+
+2.6.0-alpha.4 (2018-04-12)
+==================
+
+- Analyzing the first page of multi-page documents.
+
+2.6.0-alpha.3 (2018-04-11)
+==================
+
+- UI for multi-page documents.
+- Create multi-page document with file import or "open with".
+- Add pictures to the multi-page document with file import.
+- Disk based image caching for minimizing the library's memory footprint even for multi-page documents with many pictures.
+- Imported images are copied to app internal storage.
+
+2.6.0-alpha.2 (2018-03-09)
+==================
+
+Configuration
+-------------
+
+- Easier configuration with the new ``GiniVision`` class. It has a builder to create and configure a new instance. The instance is optional and is required only for
+using the multi-page scanning feature.
+- Previous configuration options are now deprecated, but you may continue using them for existing features as we are not planning to remove them anytime soon.
+
+Networking
+----------
+
+- Improved networking integration by introducing the ``GiniVisionNetworkService`` and ``GiniVisionNetworkApi`` interfaces. Desired implementations are set using the ``GiniVision``
+builder. These are optional and are required only for using the multi-page scanning feature.
+- Easier integration with the new default networking implementation ``gini-vision-lib-network``. It offers implementation of the networking interfaces and by wiring it up with the
+``GiniVision`` builder you can start extracting invoice data without the need to implement your own networking layer to communicate with the Gini API.
+- Previous methods used to request networking calls are now deprecated and are only invoked when there is no ``GiniVisionNetworkService`` implementation available. You may continue to
+use the deprecated methods if you don't configure a ``GiniVisionNetworkService``. We are not planning to remove the deprecated methods anytime soon.
+
 2.5.3 (2018-05-24)
 ==================
 

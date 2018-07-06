@@ -15,14 +15,20 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import net.gini.android.vision.DocumentImportEnabledFileTypes;
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.component.camera.compat.CameraExampleAppCompatActivity;
 import net.gini.android.vision.component.camera.standard.CameraExampleActivity;
+import net.gini.android.vision.example.BaseExampleApp;
 import net.gini.android.vision.example.RuntimePermissionHandler;
+import net.gini.android.vision.onboarding.DefaultPagesPhone;
+import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.requirements.GiniVisionRequirements;
 import net.gini.android.vision.requirements.RequirementReport;
 import net.gini.android.vision.requirements.RequirementsReport;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView mTextGiniVisionLibVersion;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bindViews();
@@ -65,7 +71,32 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void initGiniVision() {
+        final BaseExampleApp app = (BaseExampleApp) getApplication();
+        // Configure the Gini Vision Library
+        GiniVision.cleanup(this);
+        GiniVision.newInstance()
+                .setGiniVisionNetworkService(app.getGiniVisionNetworkService())
+                .setGiniVisionNetworkApi(app.getGiniVisionNetworkApi())
+                .setDocumentImportEnabledFileTypes(DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
+                .setFileImportEnabled(true)
+                .setQRCodeScanningEnabled(true)
+                .setMultiPageEnabled(true)
+                // Uncomment to add an extra page to the Onboarding pages
+//                .setCustomOnboardingPages(getOnboardingPages())
+                .build();
+    }
+
+    private ArrayList<OnboardingPage> getOnboardingPages() {
+        // Adding a custom page to the default pages
+        final ArrayList<OnboardingPage> pages = DefaultPagesPhone.asArrayList();
+        pages.add(new OnboardingPage(R.string.additional_onboarding_page,
+                R.drawable.additional_onboarding_illustration));
+        return pages;
+    }
+
     private void startGiniVisionLibraryForImportedFile(final Intent importedFileIntent) {
+        initGiniVision();
         new AlertDialog.Builder(this)
                 .setMessage(R.string.open_file_standard_or_compat)
                 .setPositiveButton("Compat", new DialogInterface.OnClickListener() {
@@ -126,19 +157,20 @@ public class MainActivity extends AppCompatActivity {
     private void addInputHandlers() {
         mButtonStartGiniVisionStandard.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 startGiniVisionStandard();
             }
         });
         mButtonStartGiniVisionCompat.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 startGiniVisionCompat();
             }
         });
     }
 
     private void startGiniVisionCompat() {
+        initGiniVision();
         mRuntimePermissionHandler.requestCameraPermission(
                 new RuntimePermissionHandler.Listener() {
                     @Override
@@ -147,8 +179,9 @@ public class MainActivity extends AppCompatActivity {
                         final RequirementsReport report = GiniVisionRequirements.checkRequirements(
                                 MainActivity.this);
                         if (!report.isFulfilled()) {
+                            // In production apps you should not launch GVL if requirements were not fulfilled
+                            // We make an exception here to allow running the app on emulators
                             showUnfulfilledRequirementsToast(report);
-                            return;
                         }
                         final Intent intent = new Intent(MainActivity.this,
                                 CameraExampleAppCompatActivity.class);
@@ -168,6 +201,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT).show();
             return;
         }
+        initGiniVision();
         mRuntimePermissionHandler.requestCameraPermission(
                 new RuntimePermissionHandler.Listener() {
                     @Override
@@ -176,8 +210,9 @@ public class MainActivity extends AppCompatActivity {
                         final RequirementsReport report = GiniVisionRequirements.checkRequirements(
                                 MainActivity.this);
                         if (!report.isFulfilled()) {
+                            // In production apps you should not launch GVL if requirements were not fulfilled
+                            // We make an exception here to allow running the app on emulators
                             showUnfulfilledRequirementsToast(report);
-                            return;
                         }
                         final Intent intent = new Intent(MainActivity.this,
                                 CameraExampleActivity.class);
@@ -191,11 +226,11 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    private void showUnfulfilledRequirementsToast(RequirementsReport report) {
-        StringBuilder stringBuilder = new StringBuilder();
-        List<RequirementReport> requirementReports = report.getRequirementReports();
+    private void showUnfulfilledRequirementsToast(final RequirementsReport report) {
+        final StringBuilder stringBuilder = new StringBuilder();
+        final List<RequirementReport> requirementReports = report.getRequirementReports();
         for (int i = 0; i < requirementReports.size(); i++) {
-            RequirementReport requirementReport = requirementReports.get(i);
+            final RequirementReport requirementReport = requirementReports.get(i);
             if (!requirementReport.isFulfilled()) {
                 if (stringBuilder.length() > 0) {
                     stringBuilder.append("\n");
@@ -243,5 +278,11 @@ public class MainActivity extends AppCompatActivity {
         mTextGiniVisionLibVersion.setText(
                 "Gini Vision Library v" + net.gini.android.vision.BuildConfig.VERSION_NAME);
         mTextAppVersion.setText("v" + BuildConfig.VERSION_NAME);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        GiniVision.cleanup(this);
     }
 }

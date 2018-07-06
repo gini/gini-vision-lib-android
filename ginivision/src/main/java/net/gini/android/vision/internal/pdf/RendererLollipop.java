@@ -17,7 +17,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 
-import net.gini.android.vision.internal.AsyncCallback;
+import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.internal.util.Size;
 
 import org.slf4j.Logger;
@@ -84,10 +84,10 @@ class RendererLollipop implements Renderer {
 
     @Override
     public void toBitmap(@NonNull final Size targetSize,
-            @NonNull final AsyncCallback<Bitmap> asyncCallback) {
+            @NonNull final AsyncCallback<Bitmap, Exception> asyncCallback) {
         final RenderAsyncTask asyncTask = new RenderAsyncTask(this,
                 targetSize,
-                new AsyncCallback<Bitmap>() {
+                new AsyncCallback<Bitmap, Exception>() {
                     @Override
                     public void onSuccess(final Bitmap result) {
                         asyncCallback.onSuccess(result);
@@ -97,14 +97,19 @@ class RendererLollipop implements Renderer {
                     public void onError(final Exception exception) {
                         asyncCallback.onError(exception);
                     }
+
+                    @Override
+                    public void onCancelled() {
+                        asyncCallback.onCancelled();
+                    }
                 });
         asyncTask.execute();
     }
 
     @Override
-    public void getPageCount(@NonNull final AsyncCallback<Integer> asyncCallback) {
+    public void getPageCount(@NonNull final AsyncCallback<Integer, Exception> asyncCallback) {
         final PageCountAsyncTask asyncTask = new PageCountAsyncTask(this,
-                new AsyncCallback<Integer>() {
+                new AsyncCallback<Integer, Exception>() {
                     @Override
                     public void onSuccess(final Integer result) {
                         asyncCallback.onSuccess(result);
@@ -113,6 +118,11 @@ class RendererLollipop implements Renderer {
                     @Override
                     public void onError(final Exception exception) {
                         asyncCallback.onError(exception);
+                    }
+
+                    @Override
+                    public void onCancelled() {
+                        asyncCallback.onCancelled();
                     }
                 });
         asyncTask.execute();
@@ -174,11 +184,11 @@ class RendererLollipop implements Renderer {
 
         private final RendererLollipop mRendererLollipop;
         private final Size mTargetSize;
-        private final AsyncCallback<Bitmap> mCallback;
+        private final AsyncCallback<Bitmap, Exception> mCallback;
 
         private RenderAsyncTask(final RendererLollipop rendererLollipop,
                 final Size targetSize,
-                final AsyncCallback<Bitmap> callback) {
+                final AsyncCallback<Bitmap, Exception> callback) {
             mRendererLollipop = rendererLollipop;
             mTargetSize = targetSize;
             mCallback = callback;
@@ -199,10 +209,10 @@ class RendererLollipop implements Renderer {
     private static class PageCountAsyncTask extends AsyncTask<Void, Void, Integer> {
 
         private final RendererLollipop mRendererLollipop;
-        private final AsyncCallback<Integer> mCallback;
+        private final AsyncCallback<Integer, Exception> mCallback;
 
         private PageCountAsyncTask(final RendererLollipop rendererLollipop,
-                final AsyncCallback<Integer> callback) {
+                final AsyncCallback<Integer, Exception> callback) {
             mRendererLollipop = rendererLollipop;
             mCallback = callback;
         }

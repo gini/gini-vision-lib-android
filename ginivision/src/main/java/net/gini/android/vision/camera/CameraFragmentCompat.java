@@ -15,8 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
-import net.gini.android.vision.internal.permission.PermissionRequestListener;
-import net.gini.android.vision.internal.permission.RuntimePermissions;
 
 /**
  * <h3>Component API</h3>
@@ -85,7 +83,6 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
     }
 
     private CameraFragmentImpl mFragmentImpl;
-    private final RuntimePermissions mRuntimePermissions = new RuntimePermissions();
 
     /**
      * @exclude
@@ -125,9 +122,36 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
      * @exclude
      */
     @Override
+    public void onResume() {
+        super.onResume();
+        mFragmentImpl.onResume();
+    }
+
+    /**
+     * @exclude
+     */
+    @Override
     public void onStop() {
         super.onStop();
         mFragmentImpl.onStop();
+    }
+
+    /**
+     * @exclude
+     */
+    @Override
+    public void onSaveInstanceState(@NonNull final Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mFragmentImpl.onSaveInstanceState(outState);
+    }
+
+    /**
+     * @exclude
+     */
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mFragmentImpl.onDestroy();
     }
 
     @Override
@@ -135,17 +159,6 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
         final boolean handled = mFragmentImpl.onActivityResult(requestCode, resultCode, data);
         if (!handled) {
             super.onActivityResult(requestCode, resultCode, data);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(final int requestCode,
-            @NonNull final String[] permissions, @NonNull final int[] grantResults) {
-        final boolean handled = mRuntimePermissions.onRequestPermissionsResult(requestCode,
-                permissions,
-                grantResults);
-        if (!handled) {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
@@ -222,12 +235,6 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
     @Override
     public void showError(@NonNull final String message, final int duration) {
         mFragmentImpl.showError(message, duration);
-    }
-
-    @Override
-    public void requestPermission(@NonNull final String permission,
-            @NonNull final PermissionRequestListener listener) {
-        mRuntimePermissions.requestPermission(this, permission, listener);
     }
 
     @Override
