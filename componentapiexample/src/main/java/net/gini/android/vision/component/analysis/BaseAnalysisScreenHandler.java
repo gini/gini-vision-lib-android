@@ -5,6 +5,7 @@ import static android.app.Activity.RESULT_OK;
 import static net.gini.android.vision.component.analysis.compat.AnalysisExampleAppCompatActivity.EXTRA_IN_DOCUMENT;
 import static net.gini.android.vision.component.analysis.compat.AnalysisExampleAppCompatActivity.EXTRA_IN_ERROR_MESSAGE;
 import static net.gini.android.vision.example.ExampleUtil.getExtractionsBundle;
+import static net.gini.android.vision.example.ExampleUtil.getLegacyExtractionsBundle;
 import static net.gini.android.vision.example.ExampleUtil.hasNoPay5Extractions;
 
 import android.app.Activity;
@@ -26,6 +27,7 @@ import net.gini.android.vision.component.R;
 import net.gini.android.vision.example.BaseExampleApp;
 import net.gini.android.vision.example.DocumentAnalyzer;
 import net.gini.android.vision.example.SingleDocumentAnalyzer;
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,8 +103,19 @@ public abstract class BaseAnalysisScreenHandler implements AnalysisFragmentListe
                         // analysis has completed successfully
                         mAnalysisFragmentInterface.onDocumentAnalyzed();
                         mAnalysisFragmentInterface.stopScanAnimation();
-                        showExtractions(getSingleDocumentAnalyzer().getGiniApiDocument(),
-                                extractions, document);
+                        // If we have no Pay 5 extractions we query the Gini Vision Library
+                        // whether we should show the the Gini Vision No Results Screen
+                        if (hasNoPay5Extractions(extractions.keySet())
+                                && GiniVisionCoordinator.shouldShowGiniVisionNoResultsScreen(document)) {
+                            // Show a special screen, if no Pay5 extractions were found to give the user some
+                            // hints and tips
+                            // for using the Gini Vision Library
+                            showNoResultsScreen(document);
+                        } else {
+                            showExtractions(getSingleDocumentAnalyzer().getGiniApiDocument(),
+                                    getLegacyExtractionsBundle(extractions));
+
+                        }
                     }
                 });
     }
@@ -116,25 +129,13 @@ public abstract class BaseAnalysisScreenHandler implements AnalysisFragmentListe
     }
 
     private void showExtractions(final net.gini.android.models.Document giniApiDocument,
-            final Map<String, SpecificExtraction> extractions, final Document document) {
+            final Bundle extractionsBundle) {
         LOG.debug("Show extractions");
-        // If we have no Pay 5 extractions we query the Gini Vision Library
-        // whether we should show the the Gini Vision No Results Screen
-        if (hasNoPay5Extractions(extractions.keySet())
-                && GiniVisionCoordinator.shouldShowGiniVisionNoResultsScreen(document)) {
-            // Show a special screen, if no Pay5 extractions were found to give the user some
-            // hints and tips
-            // for using the Gini Vision Library
-            showNoResultsScreen(document);
-        } else {
-            final Intent intent = new Intent(mActivity, ExtractionsActivity.class);
-            intent.putExtra(ExtractionsActivity.EXTRA_IN_DOCUMENT, giniApiDocument);
-            intent.putExtra(ExtractionsActivity.EXTRA_IN_EXTRACTIONS,
-                    getExtractionsBundle(extractions));
-            mActivity.startActivity(intent);
-            mActivity.setResult(Activity.RESULT_OK);
-            mActivity.finish();
-        }
+        final Intent intent = new Intent(mActivity, ExtractionsActivity.class);
+        intent.putExtra(ExtractionsActivity.EXTRA_IN_EXTRACTIONS, extractionsBundle);
+        mActivity.startActivity(intent);
+        mActivity.setResult(RESULT_OK);
+        mActivity.finish();
     }
 
     private void showNoResultsScreen(final Document document) {
@@ -193,4 +194,13 @@ public abstract class BaseAnalysisScreenHandler implements AnalysisFragmentListe
 
     protected abstract void setUpActionBar();
 
+    @Override
+    public void onExtractionsAvailable(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
+        showExtractions(null, getExtractionsBundle(extractions));
+    }
+
+    @Override
+    public void onProceedToNoExtractionsScreen(@NonNull final Document document) {
+        showNoResultsScreen(document);
+    }
 }

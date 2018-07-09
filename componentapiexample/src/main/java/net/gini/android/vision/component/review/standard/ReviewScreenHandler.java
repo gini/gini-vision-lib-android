@@ -74,4 +74,5 @@ public class ReviewScreenHandler extends BaseReviewScreenHandler {
     protected void setUpActionBar() {
 
     }
+
 }

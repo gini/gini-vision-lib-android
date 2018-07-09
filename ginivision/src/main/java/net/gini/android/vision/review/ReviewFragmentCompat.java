@@ -16,29 +16,29 @@ import net.gini.android.vision.internal.ui.FragmentImplCallback;
 /**
  * <h3>Component API</h3>
  *
- * <p>
- *     When you use the Compontent API with the Android Support Library, the {@code ReviewFragmentCompat} displays the photographed document and allows the user to review it by checking the sharpness, quality and orientation of the image. The user can correct the orientation by rotating the image.
- * </p>
- * <p>
- *     <b>Note:</b> Your Activity hosting this Fragment must extend the {@link android.support.v7.app.AppCompatActivity} and use an AppCompat Theme.
- * </p>
- * <p>
- *     Include the {@code ReviewFragmentCompat} into your layout by using the {@link ReviewFragmentCompat#createInstance(Document)} factory method to create an instance and display it using the {@link android.support.v4.app.FragmentManager}.
- * </p>
- * <p>
- *     A {@link ReviewFragmentListener} instance must be available until the {@code ReviewFragmentCompat} is attached to an activity. Failing to do so will throw an exception.
- *     The listener instance can be provided either implicitly by making the hosting Activity implement the {@link ReviewFragmentListener} interface or explicitly by
- *     setting the listener using {@link ReviewFragmentCompat#setListener(ReviewFragmentListener)}.
- * </p>
- * <p>
- *     Your Activity is automatically set as the listener in {@link ReviewFragmentCompat#onCreate(Bundle)}.
- * </p>
+ * <p> When you use the Compontent API with the Android Support Library, the {@code
+ * ReviewFragmentCompat} displays the photographed or imported image and allows the user to review
+ * it by checking the sharpness, quality and orientation of the image. The user can correct the
+ * orientation by rotating the image.
+ *
+ * <p> <b>Note:</b> Your Activity hosting this Fragment must extend the {@link
+ * android.support.v7.app.AppCompatActivity} and use an AppCompat Theme.
+ *
+ * <p> Include the {@code ReviewFragmentCompat} into your layout by using the {@link
+ * ReviewFragmentCompat#createInstance(Document)} factory method to create an instance and display
+ * it using the {@link android.support.v4.app.FragmentManager}.
+ *
+ * <p> A {@link ReviewFragmentListener} instance must be available until the {@code
+ * ReviewFragmentCompat} is attached to an activity. Failing to do so will throw an exception. The
+ * listener instance can be provided either implicitly by making the hosting Activity implement the
+ * {@link ReviewFragmentListener} interface or explicitly by setting the listener using {@link
+ * ReviewFragmentCompat#setListener(ReviewFragmentListener)}.
+ *
+ * <p> Your Activity is automatically set as the listener in {@link ReviewFragmentCompat#onCreate(Bundle)}.
  *
  * <h3>Customizing the Review Screen</h3>
  *
- * <p>
- *     See the {@link ReviewActivity} for details.
- * </p>
+ * See the {@link ReviewActivity} for details.
  */
 public class ReviewFragmentCompat extends Fragment implements FragmentImplCallback,
         ReviewFragmentInterface {
@@ -48,13 +48,13 @@ public class ReviewFragmentCompat extends Fragment implements FragmentImplCallba
     private ReviewFragmentListener mListener;
 
     /**
-     * <p>
-     *     Factory method for creating a new instance of the Fragment using the provided document.
-     * </p>
-     * <p>
-     *     <b>Note:</b> Always use this method to create new instances. Document is required and an exception is thrown if it's missing.
-     * </p>
+     * <p> Factory method for creating a new instance of the Fragment using the provided document.
+     *
+     * <p> <b>Note:</b> Always use this method to create new instances. Document is required and an
+     * exception is thrown if it's missing.
+     *
      * @param document must be the {@link Document} from {@link CameraFragmentListener#onDocumentAvailable(Document)}
+     *
      * @return a new instance of the Fragment
      */
     public static ReviewFragmentCompat createInstance(@NonNull final Document document) {

@@ -21,6 +21,7 @@ import static org.mockito.Mockito.verify;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.action.ViewActions;
@@ -35,6 +36,8 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivityTestSpy;
+import net.gini.android.vision.document.ImageDocument;
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.test.CurrentActivityTestRule;
 
 import org.junit.After;
@@ -46,6 +49,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -112,15 +116,23 @@ public class ReviewScreenTest {
     }
 
     private ReviewActivityTestSpy startReviewActivity(final byte[] jpeg, final int orientation) {
-        final Intent intent = getReviewActivityIntent(jpeg, orientation);
+        return startReviewActivity(jpeg, orientation, ImageDocument.Source.newCameraSource());
+    }
+
+    private ReviewActivityTestSpy startReviewActivity(final byte[] jpeg, final int orientation, @NonNull final ImageDocument.Source source) {
+        final Intent intent = getReviewActivityIntent(jpeg, orientation, source);
         return mActivityTestRule.launchActivity(intent);
     }
 
     private Intent getReviewActivityIntent(final byte[] jpeg, final int orientation) {
+        return getReviewActivityIntent(jpeg, orientation, ImageDocument.Source.newCameraSource());
+    }
+
+    private Intent getReviewActivityIntent(final byte[] jpeg, final int orientation, @NonNull final ImageDocument.Source source) {
         final Intent intent = new Intent(InstrumentationRegistry.getTargetContext(),
                 ReviewActivityTestSpy.class);
         intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT,
-                createDocument(jpeg, orientation, "portrait", "phone", "camera"));
+                createDocument(jpeg, orientation, "portrait", "phone", source));
         intent.putExtra(ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY,
                 new Intent(InstrumentationRegistry.getTargetContext(),
                         AnalysisActivityTestSpy.class));
@@ -164,7 +176,28 @@ public class ReviewScreenTest {
     }
 
     @Test
-    public void should_compressJpeg_beforeAnalyzeDocument_isInvoked()
+    public void should_compressJpeg_beforeAnalyzeDocument_isInvoked_forExternalImages()
+            throws IOException, InterruptedException {
+        final ReviewActivityTestSpy activity = startReviewActivity(TEST_JPEG, 90, ImageDocument.Source.newExternalSource());
+
+        final AtomicReference<Document> documentToAnalyze = new AtomicReference<>();
+
+        activity.setListenerHook(new ReviewActivityTestSpy.ListenerHook() {
+            @Override
+            public void onShouldAnalyzeDocument(@NonNull final Document document) {
+                documentToAnalyze.set(document);
+            }
+        });
+
+        // Allow the activity to run a little for listeners to be invoked
+        Thread.sleep(PAUSE_DURATION_LONG);
+
+        assertThat(documentToAnalyze.get()).isNotNull();
+        assertThat(documentToAnalyze.get().getJpeg().length).isLessThan(TEST_JPEG.length);
+    }
+
+    @Test
+    public void should_NotCompressJpeg_beforeAnalyzeDocument_isInvoked_forCameraImages()
             throws IOException, InterruptedException {
         final ReviewActivityTestSpy activity = startReviewActivity(TEST_JPEG, 90);
 
@@ -181,7 +214,7 @@ public class ReviewScreenTest {
         Thread.sleep(PAUSE_DURATION_LONG);
 
         assertThat(documentToAnalyze.get()).isNotNull();
-        assertThat(documentToAnalyze.get().getJpeg().length).isLessThan(TEST_JPEG.length);
+        assertThat(documentToAnalyze.get().getJpeg().length).isEqualTo(TEST_JPEG.length);
     }
 
     @Test
@@ -640,18 +673,18 @@ public class ReviewScreenTest {
     @Test(expected = IllegalStateException.class)
     public void should_throwException_whenListener_wasNotSet() throws Exception {
         final ReviewFragmentCompat fragment = ReviewFragmentCompat.createInstance(
-                createDocument(getTestJpeg(), 0, "portrait", "phone", "camera"));
+                createDocument(getTestJpeg(), 0, "portrait", "phone", ImageDocument.Source.newCameraSource()));
         fragment.onCreate(null);
     }
 
     @Test
     public void should_useExplicitListener_whenActivity_isNotListener() throws Exception {
         // Given
-        final AtomicBoolean isRotated = new AtomicBoolean();
+        final AtomicBoolean shouldAnalyzeDoc = new AtomicBoolean();
         ReviewFragmentHostActivityNotListener.sListener = new ReviewFragmentListener() {
             @Override
             public void onShouldAnalyzeDocument(@NonNull final Document document) {
-
+                shouldAnalyzeDoc.set(true);
             }
 
             @Override
@@ -667,29 +700,38 @@ public class ReviewScreenTest {
             @Override
             public void onDocumentWasRotated(@NonNull final Document document,
                     final int oldRotation, final int newRotation) {
-                isRotated.set(true);
             }
 
             @Override
             public void onError(@NonNull final GiniVisionError error) {
 
             }
+
+            @Override
+            public void onExtractionsAvailable(
+                    @NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
+
+            }
+
+            @Override
+            public void onProceedToNoExtractionsScreen(@NonNull final Document document) {
+
+            }
+
+            @Override
+            public void onProceedToAnalysisScreen(@NonNull final Document document,
+                    @Nullable final String errorMessage) {
+
+            }
         };
         final Intent intent = new Intent(InstrumentationRegistry.getTargetContext(),
                 ReviewFragmentHostActivityNotListener.class);
-        final ReviewFragmentHostActivityNotListener activity =
                 mReviewFragmentHostActivityNotListenerTR.launchActivity(intent);
-        // When
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                activity.getFragment().mFragmentImpl.mButtonRotate.performClick();
-            }
-        });
-        // Give some time for the rotation animation to finish
+        // Wait for the activity to start
         Thread.sleep(PAUSE_DURATION);
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
         // Then
-        assertThat(isRotated.get()).isTrue();
+        assertThat(shouldAnalyzeDoc.get()).isTrue();
     }
 
     @Test
@@ -708,7 +750,8 @@ public class ReviewScreenTest {
         });
         // Give some time for the rotation animation to finish
         Thread.sleep(PAUSE_DURATION);
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
         // Then
-        assertThat(activity.isRotated()).isTrue();
+        assertThat(activity.shouldAnalyzeDocument()).isTrue();
     }
 }

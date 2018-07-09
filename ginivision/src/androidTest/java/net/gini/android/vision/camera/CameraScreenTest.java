@@ -46,16 +46,20 @@ import android.view.View;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivityTestSpy;
 import net.gini.android.vision.document.DocumentFactory;
+import net.gini.android.vision.document.GiniVisionMultiPageDocument;
+import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.document.QRCodeDocument;
 import net.gini.android.vision.document.QRCodeDocumentHelper;
 import net.gini.android.vision.internal.camera.api.CameraControllerFake;
 import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 import net.gini.android.vision.internal.qrcode.PaymentQRCodeData;
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.review.ReviewActivity;
@@ -75,6 +79,7 @@ import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @RunWith(AndroidJUnit4.class)
@@ -116,30 +121,7 @@ public class CameraScreenTest {
         // Wait a little for the camera to close
         Thread.sleep(CLOSE_CAMERA_PAUSE_DURATION);
         resetDeviceOrientation();
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void should_throwException_whenReviewActivityClass_wasNotGiven() {
-        final CameraActivity cameraActivity = new CameraActivity();
-
-        final Intent intent = new Intent(Intent.ACTION_MAIN);
-        CameraActivity.setAnalysisActivityExtra(intent, InstrumentationRegistry.getTargetContext(),
-                AnalysisActivityTestSpy.class);
-        cameraActivity.setIntent(intent);
-
-        cameraActivity.readExtras();
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void should_throwException_whenAnalysisActivityClass_wasNotGiven() {
-        final CameraActivity cameraActivity = new CameraActivity();
-
-        final Intent intent = new Intent(Intent.ACTION_MAIN);
-        CameraActivity.setReviewActivityExtra(intent, InstrumentationRegistry.getTargetContext(),
-                ReviewActivityTestSpy.class);
-        cameraActivity.setIntent(intent);
-
-        cameraActivity.readExtras();
+        GiniVision.cleanup(InstrumentationRegistry.getTargetContext());
     }
 
     @Test
@@ -181,6 +163,19 @@ public class CameraScreenTest {
                 .check(ViewAssertions.doesNotExist());
     }
 
+    @Test
+    public void should_notShowOnboarding_onFirstLaunch_ifDisabledUsingGiniVision() {
+        GiniVision.newInstance()
+                .setShouldShowOnboardingAtFirstRun(false)
+                .build();
+
+        final Intent intent = getCameraActivityIntent();
+        mCameraActivityIntentsTestRule.launchActivity(intent);
+
+        Espresso.onView(ViewMatchers.withId(R.id.gv_onboarding_viewpager))
+                .check(ViewAssertions.doesNotExist());
+    }
+
     @NonNull
     private CameraActivity startCameraActivityWithoutOnboarding() {
         final Intent intent = getCameraActivityIntent();
@@ -203,6 +198,21 @@ public class CameraScreenTest {
 
         final Intent intent = getCameraActivityIntent();
         intent.putExtra(CameraActivity.EXTRA_IN_SHOW_ONBOARDING, true);
+        mCameraActivityIntentsTestRule.launchActivity(intent);
+
+        Espresso.onView(ViewMatchers.withId(R.id.gv_onboarding_viewpager))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
+    @Test
+    public void should_showOnboarding_ifRequested_andWasAlreadyShownOnFirstLaunch_usingGiniVision() {
+        setOnboardingWasShownPreference();
+
+        GiniVision.newInstance()
+                .setShouldShowOnboarding(true)
+                .build();
+
+        final Intent intent = getCameraActivityIntent();
         mCameraActivityIntentsTestRule.launchActivity(intent);
 
         Espresso.onView(ViewMatchers.withId(R.id.gv_onboarding_viewpager))
@@ -385,8 +395,8 @@ public class CameraScreenTest {
         // Prevent really starting the ReviewActivity
         doNothing().when(cameraActivitySpy).startActivityForResult(any(Intent.class), anyInt());
         // Fake taking of a picture, which will cause the ReviewActivity to be launched
-        cameraActivitySpy.onDocumentAvailable(DocumentFactory.newDocumentFromPhoto(
-                PhotoFactory.newPhotoFromJpeg(new byte[]{}, 0, "portrait", "phone", "camera")));
+        cameraActivitySpy.onDocumentAvailable(DocumentFactory.newImageDocumentFromPhoto(
+                PhotoFactory.newPhotoFromJpeg(new byte[]{}, 0, "portrait", "phone", ImageDocument.Source.newCameraSource())));
 
         // Check that the extra was passed on to the ReviewActivity
         verify(cameraActivitySpy).startActivityForResult(argThat(
@@ -484,15 +494,11 @@ public class CameraScreenTest {
     }
 
     private void detectAndCheckQRCode(@NonNull final String jpegFilename,
-            @NonNull final String nv21Filename, @NonNull final PaymentQRCodeData paymentData)
+            @NonNull final String nv21Filename, @NonNull final PaymentQRCodeData paymentData,
+            @Nullable final GiniVisionFeatureConfiguration featureConfiguration)
             throws IOException, InterruptedException {
         // Given
         assumeTrue(!isTablet());
-
-        final GiniVisionFeatureConfiguration featureConfiguration = GiniVisionFeatureConfiguration
-                .buildNewConfiguration()
-                .setQRCodeScanningEnabled(true)
-                .build();
 
         final CameraActivityFake cameraActivityFake = startCameraActivityFakeWithoutOnboarding(
                 featureConfiguration);
@@ -506,8 +512,18 @@ public class CameraScreenTest {
 
         // Then
         final PaymentQRCodeData actualPaymentData = QRCodeDocumentHelper.getPaymentData(
-                mCameraActivityFakeActivityTestRule.getActivity().getQRCodeDocument());
+                mCameraActivityFakeActivityTestRule.getActivity().getCameraFragmentImplFake().getQRCodeDocument());
         assertThat(actualPaymentData).isEqualTo(paymentData);
+    }
+
+    private void detectAndCheckQRCode(@NonNull final String jpegFilename,
+            @NonNull final String nv21Filename, @NonNull final PaymentQRCodeData paymentData)
+            throws IOException, InterruptedException {
+        final GiniVisionFeatureConfiguration featureConfiguration = GiniVisionFeatureConfiguration
+                .buildNewConfiguration()
+                .setQRCodeScanningEnabled(true)
+                .build();
+        detectAndCheckQRCode(jpegFilename, nv21Filename, paymentData, featureConfiguration);
     }
 
     private void detectQRCode(
@@ -552,6 +568,24 @@ public class CameraScreenTest {
         Thread.sleep(PAUSE_DURATION);
         Espresso.onView(ViewMatchers.withId(R.id.gv_qrcode_detected_popup_container))
                 .check(ViewAssertions.matches(Matchers.not(ViewMatchers.isDisplayed())));
+    }
+
+    @Test
+    public void should_detectQRCode_whenConfiguredUsingGiniVision()
+            throws IOException, InterruptedException {
+        GiniVision.newInstance()
+                .setQRCodeScanningEnabled(true)
+                .setShouldShowOnboardingAtFirstRun(false)
+                .build();
+        detectAndCheckQRCode("qrcode_epc069_12.jpeg", "qrcode_epc069_12_nv21.bmp",
+                new PaymentQRCodeData(
+                        "BCD\n001\n2\nSCT\nSOLADES1PFD\nGirosolution GmbH\nDE19690516200000581900\nEUR140.4\n\n\nBezahlCode Test",
+                        "Girosolution GmbH",
+                        "BezahlCode Test",
+                        "DE19690516200000581900",
+                        "SOLADES1PFD",
+                        "140.40:EUR"),
+                null);
     }
 
     @Test
@@ -685,6 +719,12 @@ public class CameraScreenTest {
             }
 
             @Override
+            public void onProceedToMultiPageReviewScreen(
+                    @NonNull final GiniVisionMultiPageDocument multiPageDocument) {
+
+            }
+
+            @Override
             public void onQRCodeAvailable(@NonNull final QRCodeDocument qrCodeDocument) {
 
             }
@@ -697,6 +737,12 @@ public class CameraScreenTest {
 
             @Override
             public void onError(@NonNull final GiniVisionError error) {
+
+            }
+
+            @Override
+            public void onExtractionsAvailable(
+                    @NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
 
             }
         };
@@ -714,7 +760,7 @@ public class CameraScreenTest {
                         .getCameraFragmentImplFake().mButtonCameraTrigger.performClick();
             }
         });
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+        Thread.sleep(PAUSE_DURATION);
         // Then
         assertThat(isDocumentAvailable.get()).isTrue();
     }
@@ -736,7 +782,7 @@ public class CameraScreenTest {
                         .getCameraFragmentImplFake().mButtonCameraTrigger.performClick();
             }
         });
-        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+        Thread.sleep(PAUSE_DURATION);
         // Then
         assertThat(activity.hasDocument()).isTrue();
     }

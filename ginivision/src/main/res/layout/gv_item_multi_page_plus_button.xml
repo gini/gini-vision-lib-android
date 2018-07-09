@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/gv_multi_page_review_thumbnail_card_width"
+    android:layout_height="@dimen/gv_multi_page_review_thumbnail_card_height"
+    android:layout_marginTop="@dimen/gv_multi_page_review_thumbnail_card_vertical_margin"
+    android:layout_marginEnd="@dimen/gv_multi_page_review_thumbnail_card_horizontal_margin"
+    android:layout_marginLeft="@dimen/gv_multi_page_review_thumbnail_card_horizontal_margin"
+    android:layout_marginRight="@dimen/gv_multi_page_review_thumbnail_card_horizontal_margin"
+    android:layout_marginStart="@dimen/gv_multi_page_review_thumbnail_card_horizontal_margin"
+    android:layout_marginBottom="@dimen/gv_multi_page_review_thumbnail_card_vertical_margin"
+    app:cardBackgroundColor="#4F4F4F"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="0dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/gv_multi_page_card_inner_shadow" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/gv_add_page_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/gv_multi_page_add_page_icon" />
+
+            <net.gini.android.vision.internal.ui.CustomFontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/gv_multi_page_review_plus_button_subtitle_padding"
+                android:text="@string/gv_multi_page_review_add_pages_subtitle"
+                style="@style/GiniVisionTheme.Review.MultiPage.AddPagesSubtitle.TextStyle"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?android:attr/selectableItemBackground"/>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

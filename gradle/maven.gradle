@@ -1,18 +1,21 @@
 apply plugin: 'maven'
 
-// In order to upload to the repo, you need a file ~/.gradle/gradle.properties with
+// In order to upload to the repo, you can create a file ~/.gradle/gradle.properties with
 //
 // repoUser=<your user name>
 // repoPassword=<your password>
 // mavenSnapshotsRepoUrl=<url for snapshots>
-// mavenReleasesRepoUrl=<url for releases>
-// mavenOpenRepoUrl=<url for open releases>
+// mavenRepoUrl=<url for releases>
+// mavenLocalRepoUrl=<url for local releases>
 uploadArchives {
     repositories {
         mavenDeployer {
             pom.groupId = groupId
             pom.artifactId = artifactId
             pom.version = version
+            if (project.hasProperty('devVersionSuffix')) {
+                pom.version = pom.version + '.' + devVersionSuffix
+            }
 
             pom.project {
                 licenses {
@@ -28,6 +31,14 @@ uploadArchives {
                 }
             }
 
+            pom.whenConfigured { pom ->
+                pom.dependencies.forEach { dep ->
+                    if (dep.getArtifactId().startsWith("gini-")) {
+                        dep.setGroupId(groupId)
+                    }
+                }
+            }
+
             if (project.hasProperty('mavenSnapshotsRepoUrl')) {
                 repository(url: mavenSnapshotsRepoUrl) {
                     authentication(
@@ -38,8 +49,8 @@ uploadArchives {
                 }
             }
 
-            if (project.hasProperty('mavenReleasesRepoUrl')) {
-                repository(url: mavenReleasesRepoUrl) {
+            if (project.hasProperty('mavenRepoUrl')) {
+                repository(url: mavenRepoUrl) {
                     authentication(
                             userName: project.hasProperty('repoUser') ? repoUser : 'invalidUserName',
                             password: project.hasProperty('repoPassword') ? repoPassword : 'invalidPassword'
@@ -47,12 +58,13 @@ uploadArchives {
                 }
             }
 
-            if (project.hasProperty('mavenOpenRepoUrl')) {
-                repository(url: mavenOpenRepoUrl) {
+            if (project.hasProperty('mavenLocalRepoUrl')) {
+                repository(url: mavenLocalRepoUrl) {
                     authentication(
                             userName: project.hasProperty('repoUser') ? repoUser : 'invalidUserName',
                             password: project.hasProperty('repoPassword') ? repoPassword : 'invalidPassword'
                     )
+                    uniqueVersion = false
                 }
             }
         }

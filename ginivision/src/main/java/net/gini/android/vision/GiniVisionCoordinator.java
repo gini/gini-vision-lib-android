@@ -25,7 +25,8 @@ public class GiniVisionCoordinator {
     private static final Logger LOG = LoggerFactory.getLogger(GiniVisionCoordinator.class);
 
     public static boolean shouldShowGiniVisionNoResultsScreen(final Document document) {
-        return document.getType() == Document.Type.IMAGE;
+        return document.getType() == Document.Type.IMAGE
+                || document.getType() == Document.Type.IMAGE_MULTI_PAGE;
     }
 
     /**
@@ -65,11 +66,11 @@ public class GiniVisionCoordinator {
      * @param context a {@link Context} used by the new instance to provide the default behavior
      * @return a new instance of {@link GiniVisionCoordinator}
      */
-    public static GiniVisionCoordinator createInstance(Context context) {
+    public static GiniVisionCoordinator createInstance(final Context context) {
         return new GiniVisionCoordinator(new OncePerInstallEventStore(context));
     }
 
-    GiniVisionCoordinator(OncePerInstallEventStore oncePerInstallEventStore) {
+    GiniVisionCoordinator(final OncePerInstallEventStore oncePerInstallEventStore) {
         mOncePerInstallEventStore = oncePerInstallEventStore;
     }
 
@@ -80,7 +81,7 @@ public class GiniVisionCoordinator {
      * @param listener your implementation of the {@link GiniVisionCoordinator.Listener}
      * @return the {@link GiniVisionCoordinator} instance for a fluid api
      */
-    public GiniVisionCoordinator setListener(Listener listener) {
+    public GiniVisionCoordinator setListener(final Listener listener) {
         mListener = listener;
         return this;
     }
@@ -95,7 +96,8 @@ public class GiniVisionCoordinator {
      * @param showOnboardingAtFirstRun if {@code true} the Onboarding Screen is shown the first time the Camera Screen is started
      * @return the {@link GiniVisionCoordinator} instance for a fluid api
      */
-    public GiniVisionCoordinator setShowOnboardingAtFirstRun(boolean showOnboardingAtFirstRun) {
+    public GiniVisionCoordinator setShowOnboardingAtFirstRun(
+            final boolean showOnboardingAtFirstRun) {
         mShowOnboardingAtFirstRun = showOnboardingAtFirstRun;
         return this;
     }

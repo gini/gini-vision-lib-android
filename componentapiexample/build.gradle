@@ -13,7 +13,6 @@ task printVersion {
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         applicationId "net.gini.android.vision.componentapiexample"
@@ -21,6 +20,8 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode appVersionCode
         versionName appVersionName
+
+        multiDexEnabled true
     }
 
     signingConfigs {
@@ -55,6 +56,8 @@ android {
 
 // For testing a released version
 repositories {
+    // Use repo on filesystem for using local builds
+    mavenLocal()
     maven {
         url 'https://repo.gini.net/nexus/content/repositories/open'
     }
@@ -63,6 +66,7 @@ repositories {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation deps.appCompatv7
+    implementation 'com.android.support:multidex:1.0.3'
 
     implementation 'com.karumi:dexter:4.2.0'
 
@@ -72,9 +76,15 @@ dependencies {
         exclude group: 'com.google.android', module: 'android'
     }
 
-    implementation('net.gini:gini-android-sdk:1.4.2@aar') {
+    // For backward compatibility
+    implementation('net.gini:gini-android-sdk:2.0.0@aar') {
         transitive = true
     }
+
+    // For testing the local version
+    implementation project(path: ':ginivision-network')
+    // For testing a released version
+    //implementation 'net.gini:gini-vision-network-lib:2.5.0'
 
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation deps.junit

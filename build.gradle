@@ -6,7 +6,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.2'
+        classpath 'com.android.tools.build:gradle:3.1.3'
         classpath 'com.dicedmelon.gradle:jacoco-android:0.1.3'
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -42,8 +42,7 @@ task printLibraryVersion {
 
 ext {
     compileSdkVersion = 27
-    buildToolsVersion = '27.0.3'
-    minSdkVersion = 14
+    minSdkVersion = 15
     targetSdkVersion = 27
     versionCode = libVersionCode
     versionName = libVersionName
@@ -60,6 +59,8 @@ ext.deps = [
         supportv4                 : "com.android.support:support-v4:$supportLibVersion",
         supportv13                : "com.android.support:support-v13:$supportLibVersion",
         supportDesign             : "com.android.support:design:$supportLibVersion",
+        supportCardView           : "com.android.support:cardview-v7:$supportLibVersion",
+        supportAnnotations        : "com.android.support:support-annotations:$supportLibVersion",
         // Google Mobile Vision API
         playServicesVision        : 'com.google.android.gms:play-services-vision:15.0.0',
         // Exif editing library. IMPORTANT: notify backend when the version is changed

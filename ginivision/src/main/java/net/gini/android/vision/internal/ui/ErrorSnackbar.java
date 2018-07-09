@@ -1,5 +1,8 @@
 package net.gini.android.vision.internal.ui;
 
+import static net.gini.android.vision.internal.ui.ErrorSnackbar.Position.BOTTOM;
+import static net.gini.android.vision.internal.ui.ErrorSnackbar.Position.TOP;
+
 import android.animation.Animator;
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -8,6 +11,7 @@ import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -34,12 +38,21 @@ public class ErrorSnackbar extends RelativeLayout {
     @VisibleForTesting
     static final int ANIM_DURATION = 250;
     private static final String TAG_SNACKBAR_ERROR = "GV_SNACKBAR_ERROR";
+    private Position mPosition;
 
     private enum State {
         SHOWING,
         SHOWN,
         HIDING,
         HIDDEN
+    }
+
+    /**
+     * @exclude
+     */
+    public enum Position {
+        TOP,
+        BOTTOM
     }
 
     private final Runnable mHideRunnable = new Runnable() {
@@ -64,8 +77,20 @@ public class ErrorSnackbar extends RelativeLayout {
             @Nullable final String buttonTitle,
             @Nullable final OnClickListener onClickListener,
             final int duration) {
+        return make(context, parentView, BOTTOM, message, buttonTitle, onClickListener,
+                duration);
+    }
+
+    public static ErrorSnackbar make(@NonNull final Context context,
+            @NonNull final RelativeLayout parentView,
+            @NonNull final Position position,
+            @NonNull final String message,
+            @Nullable final String buttonTitle,
+            @Nullable final OnClickListener onClickListener,
+            final int duration) {
         final ErrorSnackbar errorSnackbar = new ErrorSnackbar(context);
         errorSnackbar.setParentView(parentView);
+        errorSnackbar.setPosition(position);
         errorSnackbar.setMessage(message);
         errorSnackbar.setButtonTitle(buttonTitle);
         errorSnackbar.setButtonOnClickListener(onClickListener);
@@ -159,13 +184,41 @@ public class ErrorSnackbar extends RelativeLayout {
         mWaitForExisting = removed > 0;
     }
 
+    private void setPosition(final Position position) {
+        mPosition = position;
+    }
+
     private void addToParentView() {
         if (mParentView != null) {
+            setParentAlignment();
             mParentView.addView(this);
             LOG.debug("Added to parent view {}", mParentView);
         } else {
             LOG.warn("No parent view to add to");
         }
+    }
+
+    private void setParentAlignment() {
+        final LayoutParams layoutParams = getOrMakeLayoutParams();
+        if (mPosition == TOP) {
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, TRUE);
+        } else if (mPosition == BOTTOM) {
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, TRUE);
+        } else {
+            throw new UnsupportedOperationException("Unknown position: " + mPosition);
+        }
+        setLayoutParams(layoutParams);
+    }
+
+    @NonNull
+    private LayoutParams getOrMakeLayoutParams() {
+        LayoutParams layoutParams =
+                (LayoutParams) getLayoutParams();
+        if (layoutParams == null) {
+            layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
+        return layoutParams;
     }
 
     private void removeFromParentView() {
@@ -217,6 +270,14 @@ public class ErrorSnackbar extends RelativeLayout {
     }
 
     public void show() {
+        doShow(true);
+    }
+
+    public void showWithoutAnimation() {
+        doShow(false);
+    }
+
+    private void doShow(final boolean animated) {
         if (mState == State.SHOWING || mState == State.SHOWN) {
             LOG.debug("Already showing or shown");
             return;
@@ -230,23 +291,37 @@ public class ErrorSnackbar extends RelativeLayout {
         post(new Runnable() {
             @Override
             public void run() {
-                setTranslationY(getHeight());
+                if (animated) {
+                    if (mPosition == BOTTOM) {
+                        setTranslationY(getHeight());
+                    } else if (mPosition == TOP) {
+                        setTranslationY(-getHeight());
+                    }
+                }
                 setVisibility(View.VISIBLE);
 
-                animate()
-                        .setStartDelay(mWaitForExisting ? ANIM_DURATION : 0)
-                        .setDuration(ANIM_DURATION)
-                        .translationY(0)
-                        .setListener(new AnimatorListenerNoOp() {
-                            @Override
-                            public void onAnimationEnd(final Animator animation) {
-                                mState = State.SHOWN;
-                                LOG.debug("Shown");
-                                postHideRunnable();
-                            }
-                        });
+                if (animated) {
+                    animate()
+                            .setStartDelay(mWaitForExisting ? ANIM_DURATION : 0)
+                            .setDuration(ANIM_DURATION)
+                            .translationY(0)
+                            .setListener(new AnimatorListenerNoOp() {
+                                @Override
+                                public void onAnimationEnd(final Animator animation) {
+                                    setStateToShown();
+                                }
+                            });
+                } else {
+                    setStateToShown();
+                }
             }
         });
+    }
+
+    private void setStateToShown() {
+        mState = State.SHOWN;
+        LOG.debug("Shown");
+        postHideRunnable();
     }
 
     private void postHideRunnable() {
@@ -276,9 +351,16 @@ public class ErrorSnackbar extends RelativeLayout {
 
         removeHandlerCallbacks(mHideRunnable);
 
+        int translationY = 0;
+        if (mPosition == BOTTOM) {
+            translationY = getHeight();
+        } else if (mPosition == TOP) {
+            translationY = -getHeight();
+        }
+
         animate()
                 .setDuration(ANIM_DURATION)
-                .translationY(getHeight())
+                .translationY(translationY)
                 .setListener(new AnimatorListenerNoOp() {
                     @Override
                     public void onAnimationEnd(final Animator animation) {

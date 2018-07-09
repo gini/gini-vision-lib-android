@@ -5,8 +5,8 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
-import android.text.TextUtils;
 
+import net.gini.android.vision.Document;
 import net.gini.android.vision.document.ImageDocument;
 
 import org.apache.commons.imaging.ImageReadException;
@@ -29,15 +29,14 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
     private int mRotationDelta;
     private String mDeviceOrientation;
     private String mDeviceType;
-    private String mSource;
-    private String mImportMethod;
-    private ImageDocument mImageDocument;
+    private Document.Source mSource;
+    private Document.ImportMethod mImportMethod;
 
     MutablePhoto(@NonNull final byte[] data, final int orientation,
             @NonNull final String deviceOrientation,
             @NonNull final String deviceType,
-            @NonNull final String source,
-            @NonNull final String importMethod,
+            @NonNull final Document.Source source,
+            @NonNull final Document.ImportMethod importMethod,
             @NonNull final ImageDocument.ImageFormat format, final boolean isImported) {
         super(data, orientation, format, isImported);
         mContentId = generateUUID();
@@ -51,15 +50,14 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
 
     MutablePhoto(@NonNull final ImageDocument document) {
         super(document);
-        mImageDocument = document;
-        initFieldsFromExif();
+        initFieldsFromExif(document);
     }
 
     private String generateUUID() {
         return UUID.randomUUID().toString();
     }
 
-    private void initFieldsFromExif() {
+    private void initFieldsFromExif(@NonNull final ImageDocument document) {
         final byte[] data = getData();
         if (data == null) {
             return;
@@ -77,11 +75,11 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
         }
         initContentId(userComment);
         initRotationDelta(userComment);
-        initDeviceOrientation(userComment);
-        initDeviceType(userComment);
-        initSource(userComment);
-        initImportMethod(userComment);
-        initRotationForDisplay(exifReader);
+        initDeviceOrientation(userComment, document);
+        initDeviceType(userComment, document);
+        initSource(userComment, document);
+        initImportMethod(userComment, document);
+        initRotationForDisplay(exifReader, document);
     }
 
     private void initContentId(final String userComment) {
@@ -105,45 +103,54 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
         }
     }
 
-    private void initDeviceOrientation(final String userComment) {
+    private void initDeviceOrientation(@NonNull final String userComment,
+            @NonNull final ImageDocument document) {
         mDeviceOrientation =
                 ExifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_DEVICE_ORIENTATION,
                         userComment);
-        if (mDeviceOrientation == null && mImageDocument != null) {
-            mDeviceOrientation = mImageDocument.getDeviceOrientation();
+        if (mDeviceOrientation == null) {
+            mDeviceOrientation = document.getDeviceOrientation();
         }
     }
 
-    private void initDeviceType(final String userComment) {
+    private void initDeviceType(@NonNull final String userComment,
+            @NonNull final ImageDocument document) {
         mDeviceType =
                 ExifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_DEVICE_TYPE,
                         userComment);
-        if (mDeviceType == null && mImageDocument != null) {
-            mDeviceType = mImageDocument.getDeviceType();
+        if (mDeviceType == null) {
+            mDeviceType = document.getDeviceType();
         }
     }
 
-    private void initSource(final String userComment) {
-        mSource =
+    private void initSource(@NonNull final String userComment,
+            @NonNull final ImageDocument document) {
+        final String sourceName =
                 ExifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_SOURCE,
                         userComment);
-        if (mSource == null && mImageDocument != null) {
-            mSource = mImageDocument.getSource();
+        if (sourceName != null) {
+            mSource = Document.Source.newSource(sourceName);
+        } else {
+            mSource = document.getSource();
         }
     }
 
-    private void initImportMethod(final String userComment) {
-        mImportMethod =
+    private void initImportMethod(@NonNull final String userComment,
+            @NonNull final ImageDocument document) {
+        final String importMethodName =
                 ExifReader.getValueForKeyFromUserComment(Exif.USER_COMMENT_IMPORT_METHOD,
                         userComment);
-        if (mImportMethod == null && mImageDocument != null) {
-            mImportMethod = mImageDocument.getImportMethod();
+        if (importMethodName != null) {
+            mImportMethod = Document.ImportMethod.forName(importMethodName);
+        } else {
+            mImportMethod = document.getImportMethod();
         }
     }
 
-    private void initRotationForDisplay(@Nullable final ExifReader exifReader) {
-        if (mImageDocument != null && mImageDocument.isImported()
-                && exifReader != null) {
+    private void initRotationForDisplay(@Nullable final ExifReader exifReader,
+            @NonNull final ImageDocument document) {
+        // Rotation is unknown only for imported images
+        if (document.isImported() && exifReader != null) {
             mRotationForDisplay = exifReader.getOrientationAsDegrees();
         }
     }
@@ -175,8 +182,8 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
         super.mData = data;
     }
 
-    @VisibleForTesting
-    synchronized int getRotationDelta() {
+    @Override
+    public synchronized int getRotationDelta() {
         return mRotationDelta;
     }
 
@@ -191,12 +198,12 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
     }
 
     @Override
-    public String getSource() {
+    public Document.Source getSource() {
         return mSource;
     }
 
     @Override
-    public String getImportMethod() {
+    public Document.ImportMethod getImportMethod() {
         return mImportMethod;
     }
 
@@ -243,9 +250,9 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
                     .setRotationDelta(mRotationDelta)
                     .setDeviceType(mDeviceType)
                     .setDeviceOrientation(mDeviceOrientation)
-                    .setSource(mSource);
-            if (!TextUtils.isEmpty(mImportMethod)) {
-                builder.setImportMethod(mImportMethod);
+                    .setSource(mSource.getName());
+            if (mImportMethod != Document.ImportMethod.NONE) {
+                builder.setImportMethod(mImportMethod.asString());
             }
 
             final String userComment = builder.build();
@@ -277,8 +284,8 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
         dest.writeInt(mRotationDelta);
         dest.writeString(mDeviceOrientation);
         dest.writeString(mDeviceType);
-        dest.writeString(mSource);
-        dest.writeString(mImportMethod);
+        dest.writeString(mSource.getName());
+        dest.writeString(mImportMethod.asString());
     }
 
     public static final Creator<MutablePhoto> CREATOR = new Creator<MutablePhoto>() {
@@ -299,8 +306,8 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
         mRotationDelta = in.readInt();
         mDeviceOrientation = in.readString();
         mDeviceType = in.readString();
-        mSource = in.readString();
-        mImportMethod = in.readString();
+        mSource = Document.Source.newSource(in.readString());
+        mImportMethod = Document.ImportMethod.forName(in.readString());
 
         readRequiredTags();
     }
@@ -340,12 +347,8 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
         if (mSource != null ? !mSource.equals(that.mSource) : that.mSource != null) {
             return false;
         }
-        if (mImportMethod != null ? !mImportMethod.equals(that.mImportMethod)
-                : that.mImportMethod != null) {
-            return false;
-        }
-        return mImageDocument != null ? mImageDocument.equals(that.mImageDocument)
-                : that.mImageDocument == null;
+        return mImportMethod != null ? mImportMethod.equals(that.mImportMethod)
+                : that.mImportMethod == null;
 
     }
 
@@ -359,7 +362,6 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
         result = 31 * result + (mDeviceType != null ? mDeviceType.hashCode() : 0);
         result = 31 * result + (mSource != null ? mSource.hashCode() : 0);
         result = 31 * result + (mImportMethod != null ? mImportMethod.hashCode() : 0);
-        result = 31 * result + (mImageDocument != null ? mImageDocument.hashCode() : 0);
         return result;
     }
 }

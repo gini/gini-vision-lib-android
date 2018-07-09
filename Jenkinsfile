@@ -34,7 +34,7 @@ pipeline {
                 }
             }
             steps {
-                sh './gradlew ginivision:clean ginivision:assembleDebug ginivision:assembleRelease'
+                sh './gradlew clean ginivision:assembleDebug ginivision:assembleRelease ginivision-network:assembleDebug ginivision-network:assembleRelease'
             }
         }
         stage('Unit Tests') {
@@ -101,7 +101,7 @@ pipeline {
             }
             steps {
                 script {
-                    def emulatorPort = emulator.start(avd.createName("api-25-nexus-5x"), "nexus_5x", "-prop persist.sys.language=en -prop persist.sys.country=US -gpu on -camera-back emulated")
+                    def emulatorPort = emulator.start(avd.createName("api-25-nexus-5x"), "nexus_5x", "-prop persist.sys.language=en -prop persist.sys.country=US -gpu on -camera-back emulated -no-snapshot")
                     sh "echo $emulatorPort > emulator_port"
                     adb.setAnimationDurationScale("emulator-$emulatorPort", 0)
                     withEnv(["PATH+TOOLS=$ANDROID_HOME/tools", "PATH+TOOLS_BIN=$ANDROID_HOME/tools/bin", "PATH+PLATFORM_TOOLS=$ANDROID_HOME/platform-tools"]) {
@@ -138,7 +138,7 @@ pipeline {
             }
             steps {
                 script {
-                    def emulatorPort = emulator.start(avd.createName("api-25-nexus-9"), "nexus_9", "-prop persist.sys.language=en -prop persist.sys.country=US -no-snapshot-load -no-snapshot-save -gpu on -camera-back emulated")
+                    def emulatorPort = emulator.start(avd.createName("api-25-nexus-9"), "nexus_9", "-prop persist.sys.language=en -prop persist.sys.country=US -no-snapshot-load -no-snapshot-save -gpu on -camera-back emulated -no-snapshot")
                     sh "echo $emulatorPort > emulator_port"
                     adb.setAnimationDurationScale("emulator-$emulatorPort", 0)
                     withEnv(["PATH+TOOLS=$ANDROID_HOME/tools", "PATH+TOOLS_BIN=$ANDROID_HOME/tools/bin", "PATH+PLATFORM_TOOLS=$ANDROID_HOME/platform-tools"]) {
@@ -194,8 +194,9 @@ pipeline {
                 }
             }
             steps {
-                sh './gradlew ginivision:generateJavadocCoverage'
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision/build/reports/javadoc-coverage', reportFiles: 'index.html', reportName: 'Javadoc Coverage Report', reportTitles: ''])
+                sh './gradlew generateJavadocCoverage'
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision/build/reports/javadoc-coverage', reportFiles: 'index.html', reportName: 'GVL Javadoc Coverage Report', reportTitles: ''])
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision-network/build/reports/javadoc-coverage', reportFiles: 'index.html', reportName: 'GVL Network Javadoc Coverage Report', reportTitles: ''])
             }
         }
         stage('Code Analysis') {
@@ -215,10 +216,15 @@ pipeline {
             }
             steps {
                 sh './gradlew ginivision:lint ginivision:checkstyle ginivision:findbugs ginivision:pmd'
+                sh './gradlew ginivision-network:lint ginivision-network:checkstyle ginivision-network:findbugs ginivision-network:pmd'
                 androidLint canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'ginivision/build/reports/lint-results.xml', unHealthy: ''
+                androidLint canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'ginivision-network/build/reports/lint-results.xml', unHealthy: ''
                 checkstyle canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'ginivision/build/reports/checkstyle/checkstyle.xml', unHealthy: ''
+                checkstyle canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'ginivision-network/build/reports/checkstyle/checkstyle.xml', unHealthy: ''
                 findbugs canComputeNew: false, defaultEncoding: '', excludePattern: '', healthy: '', includePattern: '', pattern: 'ginivision/build/reports/findbugs/findbugs.xml', unHealthy: ''
+                findbugs canComputeNew: false, defaultEncoding: '', excludePattern: '', healthy: '', includePattern: '', pattern: 'ginivision-network/build/reports/findbugs/findbugs.xml', unHealthy: ''
                 pmd canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'ginivision/build/reports/pmd/pmd.xml', unHealthy: ''
+                pmd canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'ginivision-network/build/reports/pmd/pmd.xml', unHealthy: ''
             }
         }
         stage('Build Documentation') {
@@ -259,8 +265,9 @@ pipeline {
                 }
             }
             steps {
-                sh './gradlew ginivision:generateJavadoc'
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision/build/docs/javadoc', reportFiles: 'index.html', reportName: 'Javadoc', reportTitles: ''])
+                sh './gradlew generateJavadoc'
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision/build/docs/javadoc', reportFiles: 'index.html', reportName: 'GVL Javadoc', reportTitles: ''])
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision-network/build/docs/javadoc', reportFiles: 'index.html', reportName: 'GVL Network Javadoc', reportTitles: ''])
             }
         }
         stage('Archive Artifacts') {
@@ -313,7 +320,6 @@ pipeline {
         }
         stage('Release Documentation') {
             when {
-                branch 'master'
                 expression {
                     def tag = sh(returnStdout: true, script: 'git tag --contains $(git rev-parse HEAD)').trim()
                     return !tag.isEmpty()
@@ -338,7 +344,6 @@ pipeline {
         }
         stage('Release Library') {
             when {
-                branch 'master'
                 expression {
                     def tag = sh(returnStdout: true, script: 'git tag --contains $(git rev-parse HEAD)').trim()
                     return !tag.isEmpty()
@@ -357,7 +362,7 @@ pipeline {
                 }
             }
             steps {
-                sh './gradlew ginivision:uploadArchives -PmavenOpenRepoUrl=https://repo.gini.net/nexus/content/repositories/open -PrepoUser=$NEXUS_MAVEN_USR -PrepoPassword=$NEXUS_MAVEN_PSW'
+                sh './gradlew ginivision:uploadArchives ginivision-network:uploadArchives -PmavenRepoUrl=https://repo.gini.net/nexus/content/repositories/open -PrepoUser=$NEXUS_MAVEN_USR -PrepoPassword=$NEXUS_MAVEN_PSW'
             }
         }
     }

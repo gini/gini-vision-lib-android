@@ -3,6 +3,7 @@ package net.gini.android.vision.analysis;
 import static net.gini.android.vision.test.Helpers.createDocument;
 import static net.gini.android.vision.test.Helpers.getTestJpeg;
 
+import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.test.FragmentHostActivity;
 
 import java.io.IOException;
@@ -29,7 +30,7 @@ public class AnalysisFragmentHostActivityNotListener extends
     protected AnalysisFragmentCompat createFragment() {
         try {
             return AnalysisFragmentCompat.createInstance(
-                    createDocument(getTestJpeg(), 0, "portrait", "phone", "camera"), null);
+                    createDocument(getTestJpeg(), 0, "portrait", "phone", ImageDocument.Source.newCameraSource()), null);
         } catch (final IOException e) {
             throw new RuntimeException(e);
         }

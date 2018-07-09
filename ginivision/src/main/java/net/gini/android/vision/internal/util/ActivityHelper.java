@@ -9,31 +9,22 @@ import android.content.pm.ActivityInfo;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 
 /**
  * @exclude
  */
 public final class ActivityHelper {
 
-    public static void enableHomeAsUp(AppCompatActivity activity) {
-        ActionBar actionBar = activity.getSupportActionBar();
+    public static void enableHomeAsUp(final AppCompatActivity activity) {
+        final ActionBar actionBar = activity.getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
 
-    public static boolean handleMenuItemPressedForHomeButton(AppCompatActivity activity,
-            MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            activity.finish();
-            return true;
-        }
-        return false;
-    }
-
-    public static <T> void setActivityExtra(Intent target, String extraKey, Context context,
-            Class<T> activityClass) {
+    public static <T> void setActivityExtra(
+            final Intent target, final String extraKey, final Context context,
+            final Class<T> activityClass) {
         target.putExtra(extraKey, new Intent(context, activityClass));
     }
 

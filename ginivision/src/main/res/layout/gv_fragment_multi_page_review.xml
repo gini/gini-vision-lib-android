@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    tools:context=".review.multipage.MultiPageReviewActivity">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/gv_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/gv_thumbnails_panel" />
+
+    <net.gini.android.vision.internal.ui.CustomFontTextView
+        android:id="@+id/gv_page_indicator"
+        style="@style/GiniVisionTheme.Review.MultiPage.PageIndicator.TextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/gv_thumbnails_panel"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/gv_multi_page_review_page_indicator_bottom_margin"
+        android:background="@drawable/gv_page_indicator_background"
+        android:gravity="center"
+        android:paddingBottom="4dp"
+        android:paddingEnd="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingStart="8dp"
+        android:paddingTop="4dp"
+        tools:text="2 von 4" />
+
+    <ImageButton
+        android:id="@+id/gv_button_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/gv_thumbnails_panel"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="@dimen/gv_fab_vertical_margin"
+        android:layout_marginEnd="@dimen/gv_fab_horizontal_margin"
+        android:layout_marginRight="@dimen/gv_fab_horizontal_margin"
+        android:background="@drawable/gv_review_fab_background"
+        android:src="@drawable/gv_review_fab_checkmark" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/gv_thumbnails_panel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/gv_reorder_pages_tip"
+        android:background="@color/gv_multi_page_review_thumbnails_panel_background"
+        android:clipToPadding="false"
+        android:paddingEnd="@dimen/gv_multi_page_review_thumbnail_cards_container_horizontal_padding"
+        android:paddingLeft="@dimen/gv_multi_page_review_thumbnail_cards_container_horizontal_padding"
+        android:paddingRight="@dimen/gv_multi_page_review_thumbnail_cards_container_horizontal_padding"
+        android:paddingStart="@dimen/gv_multi_page_review_thumbnail_cards_container_horizontal_padding" />
+
+    <net.gini.android.vision.internal.ui.CustomFontTextView
+        android:id="@+id/gv_reorder_pages_tip"
+        style="@style/GiniVisionTheme.Review.MultiPage.ReorderPagesTip.TextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/gv_toolbar"
+        android:layout_centerHorizontal="true"
+        android:background="@color/gv_multi_page_review_thumbnails_panel_background"
+        android:gravity="center"
+        tools:text="@string/gv_multi_page_review_reorder_pages_tip" />
+
+    <LinearLayout
+        android:id="@+id/gv_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/gv_multi_page_review_bottom_toolbar_height"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@color/gv_multi_page_review_thumbnails_panel_background"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/gv_button_rotate"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/gv_toolbar_button_background"
+            app:srcCompat="@drawable/gv_rotate_icon" />
+
+        <ImageButton
+            android:id="@+id/gv_button_delete"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/gv_toolbar_button_background"
+            app:srcCompat="@drawable/gv_delete_icon" />
+
+    </LinearLayout>
+</RelativeLayout>

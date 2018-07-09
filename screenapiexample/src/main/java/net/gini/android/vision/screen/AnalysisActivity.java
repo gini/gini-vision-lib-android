@@ -1,6 +1,6 @@
 package net.gini.android.vision.screen;
 
-import static net.gini.android.vision.example.ExampleUtil.getExtractionsBundle;
+import static net.gini.android.vision.example.ExampleUtil.getLegacyExtractionsBundle;
 import static net.gini.android.vision.example.ExampleUtil.hasNoPay5Extractions;
 
 import android.content.Intent;
@@ -11,7 +11,6 @@ import android.view.View;
 import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionDebug;
-import net.gini.android.vision.R;
 import net.gini.android.vision.example.BaseExampleApp;
 import net.gini.android.vision.example.DocumentAnalyzer;
 import net.gini.android.vision.example.SingleDocumentAnalyzer;
@@ -34,7 +33,7 @@ public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisA
         // We add the extraction results here to the Intent. The payload format is up to you.
         // For the example we add the extractions as key-value pairs to a Bundle
         // We retrieve them when the CameraActivity has finished in MainActivity#onActivityResult()
-        final Bundle extractionsBundle = getExtractionsBundle(mExtractions);
+        final Bundle extractionsBundle = getLegacyExtractionsBundle(mExtractions);
         result.putExtra(MainActivity.EXTRA_OUT_EXTRACTIONS, extractionsBundle);
     }
 
@@ -55,7 +54,7 @@ public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisA
                             message += exception.getMessage();
                         }
                         final DocumentAnalyzer.Listener listener = this;
-                        showError(message, getString(R.string.gv_document_analysis_error_retry),
+                        showError(message, getString(net.gini.android.vision.R.string.gv_document_analysis_error_retry),
                                 new View.OnClickListener() {
                                     @Override
                                     public void onClick(final View v) {
@@ -93,4 +92,5 @@ public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisA
         super.onDestroy();
         ((BaseExampleApp) getApplication()).getSingleDocumentAnalyzer().cancelAnalysis();
     }
+
 }

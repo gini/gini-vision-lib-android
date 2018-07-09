@@ -14,10 +14,14 @@ import net.gini.android.vision.camera.CameraFragmentStandard;
 import net.gini.android.vision.component.R;
 import net.gini.android.vision.component.analysis.standard.AnalysisExampleActivity;
 import net.gini.android.vision.component.review.standard.ReviewExampleActivity;
+import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.document.QRCodeDocument;
 import net.gini.android.vision.help.HelpActivity;
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.onboarding.OnboardingFragmentListener;
 import net.gini.android.vision.onboarding.OnboardingFragmentStandard;
+
+import java.util.Map;
 
 /**
  * Created by Alpar Szotyori on 04.12.2017.
@@ -88,6 +92,12 @@ public class CameraExampleActivity extends Activity implements CameraFragmentLis
     }
 
     @Override
+    public void onProceedToMultiPageReviewScreen(
+            @NonNull final GiniVisionMultiPageDocument multiPageDocument) {
+        mCameraScreenHandler.onProceedToMultiPageReviewScreen(multiPageDocument);
+    }
+
+    @Override
     public void onQRCodeAvailable(@NonNull final QRCodeDocument qrCodeDocument) {
         mCameraScreenHandler.onQRCodeAvailable(qrCodeDocument);
     }
@@ -101,5 +111,10 @@ public class CameraExampleActivity extends Activity implements CameraFragmentLis
     @Override
     public void onError(@NonNull final GiniVisionError error) {
         mCameraScreenHandler.onError(error);
+    }
+
+    @Override
+    public void onExtractionsAvailable(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
+        mCameraScreenHandler.onExtractionsAvailable(extractions);
     }
 }

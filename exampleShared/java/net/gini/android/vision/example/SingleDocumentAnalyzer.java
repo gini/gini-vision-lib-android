@@ -17,39 +17,23 @@ import java.util.Map;
  * </p>
  */
 public class SingleDocumentAnalyzer {
+
+    private final Gini mGiniApi;
     private DocumentAnalyzer mAnalyzer;
-    private Gini mGiniApi;
 
-    public SingleDocumentAnalyzer(Gini giniApi) {
+    SingleDocumentAnalyzer(final Gini giniApi) {
         mGiniApi = giniApi;
-    }
-
-    public net.gini.android.models.Document getGiniApiDocument() {
-        Log.d("gini-api", "Getting Gini Api Document");
-        if (mAnalyzer != null) {
-            if (mAnalyzer.isCompleted()) {
-                if (mAnalyzer.getGiniApiDocument() == null) {
-                    Log.d("gini-api", "No Gini Api Document Available: analysis failed");
-                }
-                return mAnalyzer.getGiniApiDocument();
-            } else {
-                Log.d("gini-api", "No Gini Api Document Available: analysis in progress");
-            }
-        } else {
-            Log.d("gini-api", "No Gini Api Document Available: no analysis started");
-        }
-        return null;
     }
 
     /**
      * <p>
-     *     Analyzes a new document only, if there was no previous analysis or the previous one was cancelled.
+     *     Analyzes a new document only, if there was no previous analysis or the previous one was completed or cancelled.
      * </p>
      */
-    public void analyzeDocument(Document document, final DocumentAnalyzer.Listener listener) {
+    public void analyzeDocument(final Document document, final DocumentAnalyzer.Listener listener) {
         Log.d("gini-api", "Start analyzing document");
         if (mAnalyzer != null) {
-            if (!mAnalyzer.isCancelled()) {
+            if (!mAnalyzer.isCompleted() && !mAnalyzer.isCancelled()) {
                 Log.d("gini-api", "Analysis in progress, only changing the listener");
                 setListener(listener);
                 return;
@@ -68,13 +52,14 @@ public class SingleDocumentAnalyzer {
         if (mAnalyzer != null) {
             mAnalyzer.setListener(new DocumentAnalyzer.Listener() {
                 @Override
-                public void onException(Exception exception) {
+                public void onException(final Exception exception) {
                     Log.e("gini-api", "Analysis failed", exception);
                     listener.onException(exception);
                 }
 
                 @Override
-                public void onExtractionsReceived(Map<String, SpecificExtraction> extractions) {
+                public void onExtractionsReceived(
+                        final Map<String, SpecificExtraction> extractions) {
                     logExtractions(extractions);
                     listener.onExtractionsReceived(extractions);
                 }
@@ -85,11 +70,11 @@ public class SingleDocumentAnalyzer {
         }
     }
 
-    private void logExtractions(Map<String, SpecificExtraction> extractions) {
+    private void logExtractions(final Map<String, SpecificExtraction> extractions) {
         Log.d("gini-api", "Extractions received:");
-        StringBuilder stringBuilder = new StringBuilder();
+        final StringBuilder stringBuilder = new StringBuilder();
         boolean first = true;
-        for (String extraction : extractions.keySet()) {
+        for (final String extraction : extractions.keySet()) {
             if (!first) {
                 stringBuilder.append("\n");
             }
@@ -119,6 +104,23 @@ public class SingleDocumentAnalyzer {
         } else {
             Log.d("gini-api", "No running analysis to remove listener from");
         }
+    }
+
+    public net.gini.android.models.Document getGiniApiDocument() {
+        Log.d("gini-api", "Getting Gini Api Document");
+        if (mAnalyzer != null) {
+            if (mAnalyzer.isCompleted()) {
+                if (mAnalyzer.getGiniApiDocument() == null) {
+                    Log.d("gini-api", "No Gini Api Document Available: analysis failed");
+                }
+                return mAnalyzer.getGiniApiDocument();
+            } else {
+                Log.d("gini-api", "No Gini Api Document Available: analysis in progress");
+            }
+        } else {
+            Log.d("gini-api", "No Gini Api Document Available: no analysis started");
+        }
+        return null;
     }
 
 }

@@ -18,12 +18,12 @@ import net.gini.android.vision.R;
 public class FrameView extends View {
 
     private static final int INITIAL_OFFSET = 20;
-    private static final int LINE_LENGTH = 70;
+    private static final int LINE_LENGTH = 76;
     private static final int LINE_WIDTH = 1;
 
     private int mHeight;
     private float mLineLength;
-    private Paint mPaintLine;
+    private final Paint mPaintLine;
     private int mWallOffsetSide;
     private int mWallOffsetTop;
     private int mWallOffsetBottom;
@@ -76,7 +76,7 @@ public class FrameView extends View {
         mWidth = MeasureSpec.getSize(widthMeasureSpec);
         mHeight = MeasureSpec.getSize(heightMeasureSpec);
 
-        boolean portrait = mWidth < mHeight;
+        final boolean portrait = mWidth < mHeight;
 
         if (portrait) {
             measurePortrait();
@@ -170,7 +170,7 @@ public class FrameView extends View {
     }
 
     private void drawShadowRectangles(final Canvas canvas) {
-        Paint paintRectangle;
+        final Paint paintRectangle;
         paintRectangle = new Paint();
         paintRectangle.setStyle(Paint.Style.FILL);
         paintRectangle.setColor(Color.BLACK);

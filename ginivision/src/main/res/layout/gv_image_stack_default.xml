@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/gv_stack_item_3"
+        android:layout_width="32dp"
+        android:layout_height="40dp"
+        android:layout_above="@id/gv_stack_subtitle"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        tools:background="#c2af79" />
+
+    <ImageView
+        android:id="@+id/gv_stack_item_2"
+        android:layout_width="32dp"
+        android:layout_height="40dp"
+        android:layout_above="@id/gv_stack_subtitle"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="2dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        tools:background="#6daf70" />
+
+    <ImageView
+        android:id="@+id/gv_stack_item_1"
+        android:layout_width="32dp"
+        android:layout_height="40dp"
+        android:layout_above="@id/gv_stack_subtitle"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        tools:background="#56769c" />
+
+    <ImageView
+        android:id="@+id/gv_new_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="96dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:visibility="invisible"
+        tools:background="#529474"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/gv_badge"
+        style="@style/GiniVisionTheme.Camera.ImageStackBadge.TextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="54dp"
+        android:background="@drawable/gv_image_stack_badge_background"
+        android:elevation="2dp"
+        android:gravity="center"
+        android:visibility="invisible"
+        tools:ignore="UnusedAttribute"
+        tools:text="3"
+        tools:visibility="visible" />
+
+    <net.gini.android.vision.internal.ui.CustomFontTextView
+        android:id="@+id/gv_stack_subtitle"
+        style="@style/GiniVisionTheme.Camera.ImageStackSubtitle.TextStyle"
+        android:layout_width="56dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
+        android:text="@string/gv_camera_image_stack_subtitle"
+        android:visibility="invisible"
+        tools:visibility="visible" />
+
+</RelativeLayout>

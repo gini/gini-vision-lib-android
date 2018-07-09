@@ -52,7 +52,6 @@ public class ReviewScreenHandlerAppCompat extends BaseReviewScreenHandler {
 
     @Override
     protected void showReviewFragment() {
-        mReviewFragment = ReviewFragmentCompat.createInstance(getDocument());
         mAppCompatActivity.getSupportFragmentManager().beginTransaction()
                 .replace(R.id.review_screen_container, mReviewFragment)
                 .commit();

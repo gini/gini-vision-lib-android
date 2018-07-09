@@ -1,8 +1,8 @@
 package net.gini.android.vision.internal.permission;
 
+import android.app.Activity;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.util.SparseArray;
 
 /**
@@ -16,30 +16,27 @@ public class RuntimePermissions {
     public RuntimePermissions() {
     }
 
-    public void requestPermission(@NonNull final android.app.Fragment fragment,
+    public void requestPermission(@NonNull final Activity activity,
             @NonNull final String permission, @NonNull final PermissionRequestListener listener) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             final int requestCode = getNextRequestCode();
-            final PermissionRequestFragmentStandard request = new PermissionRequestFragmentStandard(
-                    permission, requestCode,
-                    listener);
+            final PermissionRequestActivity request = new PermissionRequestActivity(permission,
+                    requestCode, listener);
             mPermissionRequests.put(requestCode, request);
-            request.requestPermission(fragment);
+            request.requestPermission(activity);
         } else {
             listener.permissionGranted();
         }
     }
 
-    public void requestPermission(@NonNull final Fragment fragment,
-            @NonNull final String permission,
-            @NonNull final PermissionRequestListener listener) {
+    public void requestPermissionWithoutRationale(@NonNull final Activity activity,
+            @NonNull final String permission, @NonNull final PermissionRequestListener listener) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             final int requestCode = getNextRequestCode();
-            final PermissionRequestFragmentCompat request = new PermissionRequestFragmentCompat(
-                    permission, requestCode,
-                    listener);
+            final PermissionRequestActivity request = new PermissionRequestActivity(permission,
+                    requestCode, listener);
             mPermissionRequests.put(requestCode, request);
-            request.requestPermission(fragment);
+            request.requestPermissionWithoutRationale(activity);
         } else {
             listener.permissionGranted();
         }

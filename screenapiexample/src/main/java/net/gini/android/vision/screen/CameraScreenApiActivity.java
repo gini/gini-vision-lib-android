@@ -1,6 +1,6 @@
 package net.gini.android.vision.screen;
 
-import static net.gini.android.vision.example.ExampleUtil.getExtractionsBundle;
+import static net.gini.android.vision.example.ExampleUtil.getLegacyExtractionsBundle;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -190,7 +190,7 @@ public class CameraScreenApiActivity extends CameraActivity {
                             final Map<String, SpecificExtraction> extractions) {
                         hideActivityIndicatorAndEnableInteraction();
                         final Intent result = new Intent();
-                        final Bundle extractionsBundle = getExtractionsBundle(extractions);
+                        final Bundle extractionsBundle = getLegacyExtractionsBundle(extractions);
                         result.putExtra(MainActivity.EXTRA_OUT_EXTRACTIONS, extractionsBundle);
                         setResult(RESULT_OK, result);
                         finish();

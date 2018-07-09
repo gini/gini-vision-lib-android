@@ -9,6 +9,7 @@ import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.webkit.MimeTypeMap;
 
 import java.io.File;
 import java.io.IOException;
@@ -148,6 +149,41 @@ public final class UriHelper {
             return (int) file.length();
         }
         return -1;
+    }
+
+    @Nullable
+    public static String getMimeType(@NonNull final Uri uri, @NonNull final Context context) {
+        final String type = context.getContentResolver().getType(uri);
+        if (type == null) {
+            return getMimeTypeFromUrl(uri.getPath());
+        }
+        return type;
+    }
+
+    @Nullable
+    public static String getMimeTypeFromUrl(@NonNull final String url) {
+        final String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+        if (extension != null) {
+            final MimeTypeMap mime = MimeTypeMap.getSingleton();
+            return mime.getMimeTypeFromExtension(extension);
+        }
+        return null;
+    }
+
+    @Nullable
+    public static String getFileExtension(@NonNull final Uri uri, @NonNull final Context context) {
+        final String type = getMimeType(uri, context);
+        if (type != null) {
+            final MimeTypeMap mime = MimeTypeMap.getSingleton();
+            return mime.getExtensionFromMimeType(type);
+        }
+        return null;
+    }
+
+    public static boolean hasMimeType(@NonNull final Uri uri,
+            @NonNull final Context context, @NonNull final String mimeType) {
+        final String actualMimeType = getMimeType(uri, context);
+        return actualMimeType != null && actualMimeType.equals(mimeType);
     }
 
     private UriHelper() {

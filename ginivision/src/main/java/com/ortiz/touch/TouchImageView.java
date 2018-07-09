@@ -11,7 +11,6 @@
  */
 
 package com.ortiz.touch;
-
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -89,7 +88,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
     //
     // Size of view and previous view size (ie before rotation)
     //
-    private int viewWidth, viewHeight, prevViewWidth, prevViewHeight;
+    private int prevViewWidth, prevViewHeight;
 
     //
     // Size of image when it is stretched to fit view. Before and After rotation.
@@ -224,7 +223,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
             throw new UnsupportedOperationException("getZoomedRect() not supported with FIT_XY");
         }
         final PointF topLeft = transformCoordTouchToBitmap(0, 0, true);
-        final PointF bottomRight = transformCoordTouchToBitmap(viewWidth, viewHeight, true);
+        final PointF bottomRight = transformCoordTouchToBitmap(getWidth(), getHeight(), true);
 
         final float w = getDrawable().getIntrinsicWidth();
         final float h = getDrawable().getIntrinsicHeight();
@@ -236,13 +235,13 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
      * in the prevMatrix and prevView variables.
      */
     private void savePreviousImageValues() {
-        if (matrix != null && viewHeight != 0 && viewWidth != 0) {
+        if (matrix != null && getHeight() != 0 && getWidth()!= 0) {
             matrix.getValues(m);
             prevMatrix.setValues(m);
             prevMatchViewHeight = matchViewHeight;
             prevMatchViewWidth = matchViewWidth;
-            prevViewHeight = viewHeight;
-            prevViewWidth = viewWidth;
+            prevViewHeight = getHeight();
+            prevViewWidth = getWidth();
         }
     }
 
@@ -253,8 +252,8 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
         bundle.putFloat("saveScale", normalizedScale);
         bundle.putFloat("matchViewHeight", matchViewHeight);
         bundle.putFloat("matchViewWidth", matchViewWidth);
-        bundle.putInt("viewWidth", viewWidth);
-        bundle.putInt("viewHeight", viewHeight);
+        bundle.putInt("viewWidth", getWidth());
+        bundle.putInt("viewHeight", getHeight());
         matrix.getValues(m);
         bundle.putFloatArray("matrix", m);
         return bundle;
@@ -392,10 +391,10 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
             setScaleType(scaleType);
         }
         resetZoom();
-        scaleImage(scale, viewWidth / 2f, viewHeight / 2f, true);
+        scaleImage(scale, getWidth() / 2f, getHeight() / 2f, true);
         matrix.getValues(m);
-        m[Matrix.MTRANS_X] = -((focusX * getImageWidth()) - (viewWidth * 0.5f));
-        m[Matrix.MTRANS_Y] = -((focusY * getImageHeight()) - (viewHeight * 0.5f));
+        m[Matrix.MTRANS_X] = -((focusX * getImageWidth()) - (getWidth() * 0.5f));
+        m[Matrix.MTRANS_Y] = -((focusY * getImageHeight()) - (getHeight() * 0.5f));
         matrix.setValues(m);
         fixTrans();
         setImageMatrix(matrix);
@@ -404,7 +403,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
     /**
      * Set zoom parameters equal to another TouchImageView. Including scale, position,
      * and ScaleType.
-     * @param TouchImageView
+     * @param img
      */
     public void setZoom(final TouchImageView img) {
         final PointF center = img.getScrollPosition();
@@ -426,7 +425,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
         final int drawableWidth = drawable.getIntrinsicWidth();
         final int drawableHeight = drawable.getIntrinsicHeight();
 
-        final PointF point = transformCoordTouchToBitmap(viewWidth / 2f, viewHeight / 2f, true);
+        final PointF point = transformCoordTouchToBitmap(getWidth() / 2f, getHeight() / 2f, true);
         point.x /= drawableWidth;
         point.y /= drawableHeight;
         return point;
@@ -451,8 +450,8 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
         final float transX = m[Matrix.MTRANS_X];
         final float transY = m[Matrix.MTRANS_Y];
 
-        final float fixTransX = getFixTrans(transX, viewWidth, getImageWidth());
-        final float fixTransY = getFixTrans(transY, viewHeight, getImageHeight());
+        final float fixTransX = getFixTrans(transX, getWidth(), getImageWidth());
+        final float fixTransY = getFixTrans(transY, getHeight(), getImageHeight());
 
         if (fixTransX != 0 || fixTransY != 0) {
             matrix.postTranslate(fixTransX, fixTransY);
@@ -469,12 +468,12 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
     private void fixScaleTrans() {
         fixTrans();
         matrix.getValues(m);
-        if (getImageWidth() < viewWidth) {
-            m[Matrix.MTRANS_X] = (viewWidth - getImageWidth()) / 2;
+        if (getImageWidth() < getWidth()) {
+            m[Matrix.MTRANS_X] = (getWidth() - getImageWidth()) / 2;
         }
 
-        if (getImageHeight() < viewHeight) {
-            m[Matrix.MTRANS_Y] = (viewHeight - getImageHeight()) / 2;
+        if (getImageHeight() < getHeight()) {
+            m[Matrix.MTRANS_Y] = (getHeight() - getImageHeight()) / 2;
         }
         matrix.setValues(m);
     }
@@ -518,6 +517,8 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
 
     @Override
     protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
         final Drawable drawable = getDrawable();
         if (drawable == null || drawable.getIntrinsicWidth() == 0
                 || drawable.getIntrinsicHeight() == 0) {
@@ -531,8 +532,8 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
         final int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         final int heightSize = MeasureSpec.getSize(heightMeasureSpec);
         final int heightMode = MeasureSpec.getMode(heightMeasureSpec);
-        viewWidth = setViewSize(widthMode, widthSize, drawableWidth);
-        viewHeight = setViewSize(heightMode, heightSize, drawableHeight);
+        final int viewWidth = setViewSize(widthMode, widthSize, drawableWidth);
+        final int viewHeight = setViewSize(heightMode, heightSize, drawableHeight);
 
         //
         // Set view dimensions
@@ -543,6 +544,13 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
         // Fit content within view
         //
         fitImageToView();
+    }
+
+    @Override
+    protected boolean setFrame(final int l, final int t, final int r, final int b) {
+        final boolean changed = super.setFrame(l, t, r, b);
+        fitImageToView();
+        return changed;
     }
 
     /**
@@ -566,8 +574,8 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
         //
         // Scale image for view
         //
-        float scaleX = (float) viewWidth / drawableWidth;
-        float scaleY = (float) viewHeight / drawableHeight;
+        float scaleX = (float) getWidth() / drawableWidth;
+        float scaleY = (float) getHeight() / drawableHeight;
 
         switch (mScaleType) {
             case CENTER:
@@ -600,10 +608,10 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
         //
         // Center the image
         //
-        final float redundantXSpace = viewWidth - (scaleX * drawableWidth);
-        final float redundantYSpace = viewHeight - (scaleY * drawableHeight);
-        matchViewWidth = viewWidth - redundantXSpace;
-        matchViewHeight = viewHeight - redundantYSpace;
+        final float redundantXSpace = getWidth() - (scaleX * drawableWidth);
+        final float redundantYSpace = getHeight() - (scaleY * drawableHeight);
+        matchViewWidth = getWidth() - redundantXSpace;
+        matchViewHeight = getHeight() - redundantYSpace;
         if (!isZoomed()) {
             //
             // Stretch and center image to fit view
@@ -642,7 +650,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
             final float prevActualWidth = prevMatchViewWidth * normalizedScale;
             final float actualWidth = getImageWidth();
             translateMatrixAfterRotate(Matrix.MTRANS_X, transX, prevActualWidth, actualWidth,
-                    prevViewWidth, viewWidth, drawableWidth);
+                    prevViewWidth, getWidth(), drawableWidth);
 
             //
             // Height
@@ -650,7 +658,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
             final float prevActualHeight = prevMatchViewHeight * normalizedScale;
             final float actualHeight = getImageHeight();
             translateMatrixAfterRotate(Matrix.MTRANS_Y, transY, prevActualHeight, actualHeight,
-                    prevViewHeight, viewHeight, drawableHeight);
+                    prevViewHeight, getHeight(), drawableHeight);
 
             //
             // Set the matrix to the adjusted scale and translate values.
@@ -741,13 +749,13 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
         matrix.getValues(m);
         final float x = m[Matrix.MTRANS_X];
 
-        if (getImageWidth() < viewWidth) {
+        if (getImageWidth() < getWidth()) {
             return false;
 
         } else if (x >= -1 && direction < 0) {
             return false;
 
-        } else if (Math.abs(x) + viewWidth + 1 >= getImageWidth() && direction > 0) {
+        } else if (Math.abs(x) + getWidth() + 1 >= getImageWidth() && direction > 0) {
             return false;
         }
 
@@ -852,8 +860,8 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
                         if (state == State.DRAG) {
                             final float deltaX = curr.x - last.x;
                             final float deltaY = curr.y - last.y;
-                            final float fixTransX = getFixDragTrans(deltaX, viewWidth, getImageWidth());
-                            final float fixTransY = getFixDragTrans(deltaY, viewHeight, getImageHeight());
+                            final float fixTransX = getFixDragTrans(deltaX, getWidth(), getImageWidth());
+                            final float fixTransY = getFixDragTrans(deltaY, getHeight(), getImageHeight());
                             matrix.postTranslate(fixTransX, fixTransY);
                             fixTrans();
                             last.set(curr.x, curr.y);
@@ -933,8 +941,8 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
             }
 
             if (animateToZoomBoundary) {
-                final DoubleTapZoom doubleTap = new DoubleTapZoom(targetZoom, viewWidth / 2f,
-                        viewHeight / 2f, true);
+                final DoubleTapZoom doubleTap = new DoubleTapZoom(targetZoom, getWidth() / 2f,
+                        getHeight() / 2f, true);
                 compatPostOnAnimation(doubleTap);
             }
         }
@@ -1002,7 +1010,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
             // Used for translating image during scaling
             //
             startTouch = transformCoordBitmapToTouch(bitmapX, bitmapY);
-            endTouch = new PointF(viewWidth / 2f, viewHeight / 2f);
+            endTouch = new PointF(getWidth() / 2f, getHeight() / 2f);
         }
 
         @Override
@@ -1140,16 +1148,16 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
             final int minY;
             final int maxY;
 
-            if (getImageWidth() > viewWidth) {
-                minX = viewWidth - (int) getImageWidth();
+            if (getImageWidth() > getWidth()) {
+                minX = getWidth() - (int) getImageWidth();
                 maxX = 0;
 
             } else {
                 minX = maxX = startX;
             }
 
-            if (getImageHeight() > viewHeight) {
-                minY = viewHeight - (int) getImageHeight();
+            if (getImageHeight() > getHeight()) {
+                minY = getHeight() - (int) getImageHeight();
                 maxY = 0;
 
             } else {

@@ -13,6 +13,10 @@ public enum DocumentImportEnabledFileTypes {
      */
     PDF,
     /**
+     * Only images (jpeg, png and gif) can be imported.
+     */
+    IMAGES,
+    /**
      * PDFs and images (jpeg, png and gif) can be imported.
      */
     PDF_AND_IMAGES
