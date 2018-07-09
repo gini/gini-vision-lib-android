@@ -1,0 +1,1904 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Customization Guide &mdash; Gini Vision Library for Android 2.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,400italic,600italic|Source+Code+Pro|Roboto+Slab:400,700" rel="stylesheet" type="text/css" />
+
+  
+  
+
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:'./',
+        VERSION:'2.0',
+        COLLAPSE_INDEX:false,
+        FILE_SUFFIX:'.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+    <script type="text/javascript">
+        jQuery(function () {
+            SphinxRtdTheme.StickyNav.enable();
+        });
+    </script>
+  
+
+  
+    <link rel="top" title="Gini Vision Library for Android 2.0 documentation" href="index.html"/>
+        <link rel="next" title="Updating to 3.0.0" href="updating-to-3-0-0.html"/>
+        <link rel="prev" title="Gini Vision Library for Android" href="index.html"/> 
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="index.html" id="gini-logo">gini API</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+        
+            <ul class="current">
+<li class="toctree-l1"><a class="reference external" href="http://developer.gini.net/gini-vision-lib-android/javadoc/index.html">Gini Vision Javadoc</a></li>
+<li class="toctree-l1"><a class="reference external" href="http://developer.gini.net/gini-vision-lib-android/network/javadoc/index.html">Network Library Javadoc</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Customization Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#onboarding-screen">Onboarding Screen</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#action-bar">1. Action Bar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#next-button">2. Next Button</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#page-indicators">3. Page Indicators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#onboarding-message">4. Onboarding Message</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#onboarding-pages">5. Onboarding Pages</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#camera-screen">Camera Screen</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#camera-1">1. Action Bar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#document-corner-guides">2. Document Corner Guides</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#camera-trigger-button">3. Camera Trigger Button</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tap-to-focus-indicator">4. Tap to Focus Indicator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#help-menu-item">5. Help Menu Item</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#background">6. Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#document-import-button">7. Document Import Button</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#document-import-hint">8. Document Import Hint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#images-stack">9. Images Stack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#qrcode-detected-popup">10. QRCode Detected Popup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#read-storage-permission-dialogs">11. Read Storage Permission Dialogs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#no-camera-permission">12. No Camera Permission</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multi-page-limit-alert">13. Multi-Page Limit Alert</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#review-screen">Review Screen</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#review-1">1. Action Bar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#review-2">2. Next Button</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rotate-button">3. Rotate Button</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#advice">4. Advice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#review-5">5. Background</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#analysis-screen">Analysis Screen</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#analysis-1">1. Action Bar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#activity-indicator">2. Activity Indicator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pdf-info-panel">3. PDF Info Panel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#error-snackbar">4. Error Snackbar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#analysis-5">5. Background</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#multi-page-review-screen">Multi-Page Review Screen</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#multi-page-review-1">1. Action Bar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multi-page-review-2">2. Page Indicators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multi-page-review-3">3. Next Button</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#thumbnails-panel">4. Thumbnails Panel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#thumbnail-card">5. Thumbnail Card</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#add-pages-card">6. Add Pages Card</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reorder-pages-tip">7. Reorder Pages Tip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bottom-toolbar">8. Bottom Toolbar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#image-error">9. Image Error</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#imported-image-delete-last-page-dialog">10. Imported Image Delete Last Page Dialog</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#help-screen">Help Screen</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#help-screen-1">1. Action Bar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#help-screen-2">2. Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#help-list-item">3. Help List Item</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#photo-tips-screen">Photo Tips Screen</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#photo-tips-1">1. Action Bar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#photo-tips-2">2. Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#header">3. Header</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tip">4. Tip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#back-to-camera-button">5. Back To Camera Button</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#supported-formats-screen">Supported Formats Screen</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#supported-formats-1">1. Action Bar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#supported-formats-2">2. Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#supported-formats-3">3. Header</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#format-info-list-item">4. Format Info List Item</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#file-import-screen">File Import Screen</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#file-import-1">1. Action Bar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#file-import-2">2. Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#file-import-3">3. Header</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#separator-line">4. Separator Line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#section">5. Section</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sections">6. Sections</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="updating-to-3-0-0.html">Updating to 3.0.0</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="updating-to-3-0-0.html#api-changes">API Changes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-3-0-0.html#ginivision-singleton">GiniVision Singleton</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-3-0-0.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-3-0-0.html#file-import">File Import</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-3-0-0.html#networking-integration">Networking Integration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="updating-to-3-0-0.html#ui-changes">UI Changes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-3-0-0.html#camera-screen">Camera Screen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-3-0-0.html#onboarding-screen">Onboarding Screen</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="updating-to-3-0-0.html#multi-page-document-scanning">Multi-Page Document Scanning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-3-0-0.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-3-0-0.html#enable-multi-page">Enable Multi-Page</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-3-0-0.html#id18">Camera Screen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-3-0-0.html#multi-page-review-screen">Multi-Page Review Screen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-3-0-0.html#importing-multiple-images">Importing Multiple Images</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="updating-to-2-5-0.html">Updating to 2.5.0</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="updating-to-2-5-0.html#google-play-services">Google Play Services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="updating-to-2-5-0.html#qr-code-scanning">QR Code Scanning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-5-0.html#enable-qr-code-scanning">Enable QR Code Scanning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-5-0.html#handle-the-qr-code">Handle the QR Code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-5-0.html#customizing-the-ui">Customizing the UI</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="updating-to-2-4-0.html">Updating to 2.4.0</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="updating-to-2-4-0.html#breaking-changes">Breaking Changes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#camera-screen">Camera Screen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#analysis-screen">Analysis Screen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#android-support-library">Android Support Library</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="updating-to-2-4-0.html#deprecation">Deprecation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="updating-to-2-4-0.html#new-features">New Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#feature-configuration">Feature Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#document-import">Document Import</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#file-import-open-with">File Import (&#8220;Open With&#8221;)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#tips-in-the-analysis-screen">Tips in the Analysis Screen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#help-screens">Help Screens</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#no-results-screen">No Results Screen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#tablet-support">Tablet Support</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="guide-for-open-with.html">How to Upload PDFs and Images (pre-2.4.0)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guide-for-open-with.html#general-considerations">General considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide-for-open-with.html#registering-pdf-and-image-file-types">Registering PDF and image file types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="guide-for-open-with.html#documentation">Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="guide-for-open-with.html#reading-files-from-external-storage">Reading files from external storage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="guide-for-open-with.html#id1">Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="guide-for-open-with.html#handling-incoming-pdfs-and-images">Handling incoming PDFs and images</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="guide-for-open-with.html#id4">Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="guide-for-open-with.html#showing-a-preview-of-the-pdfs-first-page">Showing a preview of the PDF’s first page</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="guide-for-open-with.html#id5">Documentation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">3.0.0 (2018-07-06)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#multi-page">Multi-Page</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#networking">Networking</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">2.5.3 (2018-05-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">2.5.2 (2018-05-03)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">2.5.1 (2018-02-22)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id5">2.5.0 (2018-01-22)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id6">2.4.3 (2017-11-29)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id7">2.4.2 (2017-11-14)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id8">2.4.1 (2017-11-10)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id9">2.4.0 (2017-10-25)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#features">Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#ui-updates">UI Updates</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id10">2.3.0 (2017-08-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id11">2.2.2 (2017-07-03)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id12">2.2.1 (2017-06-30)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id13">2.2.0 (2017-03-22)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id14">2.1.0 (2017-01-30)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id15">2.0.1 (2016-10-18)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id16">2.0.0 (2016-08-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#alpha-1-2016-08-18">2.0.0-alpha.1 (2016-08-18)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id17">Features</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#stub-1-2016-07-15">2.0.0-stub.1 (2016-07-15)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id18">Features</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="license.html#licenses-and-acknowledgements-for-incorporated-software">Licenses and Acknowledgements for Incorporated Software</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="license.html#apache-commons-sanselan">Apache Commons Sanselan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="license.html#touchimageview">TouchImageView</a></li>
+<li class="toctree-l3"><a class="reference internal" href="license.html#gini-android-sdk">Gini Android SDK</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Gini Vision Library for Android</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Customization Guide</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            
+  <div class="section" id="customization-guide">
+<h1>Customization Guide<a class="headerlink" href="#customization-guide" title="Permalink to this headline">¶</a></h1>
+<p>Customization of the Views is provided mostly via overriding of app resources: dimensions, strings,
+colors, texts, etc. Onboarding can also be customized to show your own pages, each consisting of an
+image and a short text.</p>
+<div class="section" id="onboarding-screen">
+<span id="onboarding"></span><h2>Onboarding Screen<a class="headerlink" href="#onboarding-screen" title="Permalink to this headline">¶</a></h2>
+<img src="_static/customization/Onboarding.png" usemap="#onboarding-map" width="324" height="576">
+
+<map id="onboarding-map" name="onboarding-map">
+    <area shape="rect" alt="" title="Action Bar" coords="89,24,121,57" href="customization-guide.html#onboarding-1" target="" />
+    <area shape="rect" alt="" title="Next Button" coords="282,462,311,494" href="customization-guide.html#onboarding-2" target="" />
+    <area shape="rect" alt="" title="Page Indicators" coords="105,485,134,515" href="customization-guide.html#onboarding-3" target="" />
+    <area shape="rect" alt="" title="Onboarding Message" coords="15,326,44,356" href="customization-guide.html#onboarding-4" target="" />
+    <area shape="rect" alt="" title="Onboarding Pages" coords="141,130,173,162" href="customization-guide.html#onboarding-5" target="" />
+    <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
+</map><div class="section" id="action-bar">
+<span id="onboarding-1"></span><h3>1. Action Bar<a class="headerlink" href="#action-bar" title="Permalink to this headline">¶</a></h3>
+<p>All Action Bar customizations except the title are global to all Activities.</p>
+<ul>
+<li><p class="first"><strong>Title</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_title_onboarding</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Title Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar_title</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Status Bar Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_status_bar</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#onboarding"><em>Back to screenshot.</em></a></p>
+</div>
+<div class="section" id="next-button">
+<span id="onboarding-2"></span><h3>2. Next Button<a class="headerlink" href="#next-button" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Icon</strong></p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_onboarding_fab_next.png</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Color</strong></p>
+<p>Via the color resources named <tt class="docutils literal"><span class="pre">gv_onboarding_fab</span></tt> and <tt class="docutils literal"><span class="pre">gv_onboarding_fab_pressed</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#onboarding"><em>Back to screenshot.</em></a></p>
+</div>
+<div class="section" id="page-indicators">
+<span id="onboarding-3"></span><h3>3. Page Indicators<a class="headerlink" href="#page-indicators" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Active</strong></p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_onboarding_indicator_active.png</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Inactive</strong></p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_onboarding_indicator_inactive.png</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#onboarding"><em>Back to screenshot.</em></a></p>
+</div>
+<div class="section" id="onboarding-message">
+<span id="onboarding-4"></span><h3>4. Onboarding Message<a class="headerlink" href="#onboarding-message" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_onboarding_message</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Text Style</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Onboarding.Message.TextStyle</span></tt> (with parent style
+<tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Onboarding.Message.TextStyle</span></tt>).</p>
+</li>
+<li><p class="first"><strong>Font</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Onboarding.Message.TextStyle</span></tt> (with parent style
+<tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Onboarding.Message.TextStyle</span></tt>) and setting an item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt>
+with the path to the font file in your assets folder.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#onboarding"><em>Back to screenshot.</em></a></p>
+</div>
+<div class="section" id="onboarding-pages">
+<span id="onboarding-5"></span><h3>5. Onboarding Pages<a class="headerlink" href="#onboarding-pages" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Default Pages</strong></p>
+<ul>
+<li><p class="first"><strong>Phone</strong></p>
+<ul>
+<li><p class="first"><strong>First Page</strong></p>
+<ul>
+<li><p class="first"><strong>Image</strong></p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_onboarding_flat.png</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Text</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_onboarding_flat</span></tt>.</p>
+</li>
+</ul>
+</li>
+<li><p class="first"><strong>Second Page</strong></p>
+<ul>
+<li><p class="first"><strong>Image</strong></p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_onboarding_parallel.png</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Text</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_onboarding_parallel</span></tt>.</p>
+</li>
+</ul>
+</li>
+<li><p class="first"><strong>Third Page</strong></p>
+<ul>
+<li><p class="first"><strong>Image</strong></p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_onboarding_align.png</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Text</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_onboarding_align</span></tt>.</p>
+</li>
+</ul>
+</li>
+<li><p class="first"><strong>Fourth Page</strong></p>
+<p>Visible only if the multi-page feature has been enabled.</p>
+<ul>
+<li><p class="first"><strong>Image</strong></p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_onboarding_multipage.png</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Text</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_onboarding_multipage</span></tt>.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><a class="reference internal" href="#onboarding"><em>Back to screenshot.</em></a></p>
+</li>
+<li><p class="first"><strong>Tablet</strong></p>
+<ul>
+<li><p class="first"><strong>First Page</strong></p>
+<ul>
+<li><p class="first"><strong>Image</strong></p>
+<p>Via images for sw600dp-mdpi, sw600dp-hdpi, sw600dp-xhdpi, sw600dp-xxhdpi, sw600dp-xxxhdpi
+named <tt class="docutils literal"><span class="pre">gv_onboarding_lighting.png</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Text</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_onboarding_ligthing</span></tt>.</p>
+</li>
+</ul>
+</li>
+<li><p class="first"><strong>Second Page</strong></p>
+<ul>
+<li><p class="first"><strong>Image</strong></p>
+<p>Via images for sw600dp-mdpi, sw600dp-hdpi, sw600dp-xhdpi, sw600dp-xxhdpi, sw600dp-xxxhdpi
+named <tt class="docutils literal"><span class="pre">gv_onboarding_flat.png</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Text</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_onboarding_flat</span></tt>.</p>
+</li>
+</ul>
+</li>
+<li><p class="first"><strong>Third Page</strong></p>
+<ul>
+<li><p class="first"><strong>Image</strong></p>
+<p>Via images for sw600dp-mdpi, sw600dp-hdpi, sw600dp-xhdpi, sw600dp-xxhdpi, sw600dp-xxxhdpi
+named <tt class="docutils literal"><span class="pre">gv_onboarding_parallel.png</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Text</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_onboarding_parallel</span></tt>.</p>
+</li>
+</ul>
+</li>
+<li><p class="first"><strong>Fourth Page</strong></p>
+<ul>
+<li><p class="first"><strong>Image</strong></p>
+<p>Via images for sw600dp-mdpi, sw600dp-hdpi, sw600dp-xhdpi, sw600dp-xxhdpi, sw600dp-xxxhdpi
+named <tt class="docutils literal"><span class="pre">gv_onboarding_align.png</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Text</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_onboarding_align</span></tt>.</p>
+</li>
+</ul>
+</li>
+<li><p class="first"><strong>Fifth Page</strong></p>
+<p>Visible only if the multi-page feature has been enabled.</p>
+<ul>
+<li><p class="first"><strong>Image</strong></p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_onboarding_multipage.png</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Text</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_onboarding_multipage</span></tt>.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><a class="reference internal" href="#onboarding"><em>Back to screenshot.</em></a></p>
+</li>
+</ul>
+</li>
+<li><p class="first"><strong>Custom Pages</strong></p>
+<p>You can change the number of displayed pages and their content (image and short text) by setting
+an <tt class="docutils literal"><span class="pre">ArrayList</span></tt> containing <tt class="docutils literal"><span class="pre">OnboardingPage</span></tt> objects when building a <tt class="docutils literal"><span class="pre">GiniVision</span></tt> instance
+with <tt class="docutils literal"><span class="pre">setCustomOnboardingPages()</span></tt>.</p>
+<p>If you don&#8217;t use <tt class="docutils literal"><span class="pre">GiniVision</span></tt> yet you can also provide the list using the extra
+<tt class="docutils literal"><span class="pre">CameraActivity.EXTRA_IN_ONBOARDING_PAGES</span></tt> for the Screen API and
+<tt class="docutils literal"><span class="pre">OnboardingFragmentCompat.createInstance(ArrayList&lt;OnboardingPage&gt;)</span></tt> or
+<tt class="docutils literal"><span class="pre">OnboardingFragmentStandard.createInstance(ArrayList&lt;OnboardingPage&gt;)</span></tt> for the Component API.</p>
+<p><a class="reference internal" href="#onboarding"><em>Back to screenshot.</em></a></p>
+</li>
+<li><p class="first"><strong>Background</strong></p>
+<ul>
+<li><p class="first"><strong>Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_background</span></tt>. <strong>Note</strong>: this color resource is global to all
+Activities.</p>
+</li>
+<li><p class="first"><strong>Transparency</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_onboarding_page_fragment_background_alpha</span></tt> which must
+contain a real number between <tt class="docutils literal"><span class="pre">[0,1]</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#onboarding"><em>Back to screenshot.</em></a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="camera-screen">
+<span id="camera"></span><h2>Camera Screen<a class="headerlink" href="#camera-screen" title="Permalink to this headline">¶</a></h2>
+<img src="_static/customization/Camera.png" usemap="#camera-map-1" width="324" height="576">
+
+<map id="camera-map-1" name="camera-map-1">
+    <area shape="rect" alt="" title="Action Bar" coords="189,26,217,56" href="customization-guide.html#camera-1" target="" />
+    <area shape="rect" alt="" title="Document Corner Guides" coords="32,103,60,132" href="customization-guide.html#camera-2" target="" />
+    <area shape="rect" alt="" title="Camera Trigger Button" coords="175,431,201,460" href="customization-guide.html#camera-3" target="" />
+    <area shape="rect" alt="" title="Tap to Focus Indicator" coords="96,215,127,244" href="customization-guide.html#camera-4" target="" />
+    <area shape="rect" alt="" title="Help Menu Item" coords="262,26,291,55" href="customization-guide.html#camera-5" target="" />
+    <area shape="rect" alt="" title="Background" coords="199,507,227,536" href="customization-guide.html#camera-6" target="" />
+    <area shape="rect" alt="" title="Document Import Button" coords="65,434,93,463" href="customization-guide.html#camera-7" target="" />
+    <area shape="rect" alt="" title="Document Import Hint" coords="148,349,177,379" href="customization-guide.html#camera-8" target="" />
+    <area shape="rect" alt="" title="Image Stack" coords="237,433,265,460" href="customization-guide.html#camera-9" target="" />
+    <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
+</map><img src="_static/customization/Camera QRCode.png" usemap="#camera-map-2" width="324" height="576">
+
+<map id="camera-map-2" name="camera-map-2">
+    <area shape="rect" alt="" title="QRCode Detected Popup" coords="148,385,178,416" href="customization-guide.html#camera-10" target="" />
+    <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
+</map><img src="_static/customization/Camera Permission Dialog.png" usemap="#camera-map-3" width="324" height="576">
+
+<map id="camera-map-3" name="camera-map-3">
+    <area shape="rect" alt="" title="Read Storage Permission Dialogs" coords="146,212,176,242" href="customization-guide.html#camera-11" target="" />
+    <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
+</map><img src="_static/customization/Camera Permission.png" usemap="#camera-map-4" width="324" height="576">
+
+<map id="camera-map-4" name="camera-map-4">
+   <area shape="rect" alt="" title="No Camera Permission" coords="48,293,77,323" href="customization-guide.html#camera-12" target="" />
+    <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
+</map><img src="_static/customization/Camera Multi-Page Limit Alert.png" usemap="#camera-map-5" width="324" height="576">
+
+  <map id="camera-map-5" name="camera-map-5">
+    <area shape="rect" alt="" title="Multi-Page Limit Alert" coords="10,266,38,295" href="customization-guide.html#camera-13" target="" />
+    <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
+  </map><div class="section" id="camera-1">
+<span id="id1"></span><h3>1. Action Bar<a class="headerlink" href="#camera-1" title="Permalink to this headline">¶</a></h3>
+<p>All Action Bar customizations except the title are global to all Activities.</p>
+<ul>
+<li><p class="first"><strong>Title</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_title_camera</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Title Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar_title</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Status Bar Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_status_bar</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#camera"><em>Back to screenshot.</em></a></p>
+</div>
+<div class="section" id="document-corner-guides">
+<span id="camera-2"></span><h3>2. Document Corner Guides<a class="headerlink" href="#document-corner-guides" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_camera_preview_corners</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#camera"><em>Back to screenshot.</em></a></p>
+</div>
+<div class="section" id="camera-trigger-button">
+<span id="camera-3"></span><h3>3. Camera Trigger Button<a class="headerlink" href="#camera-trigger-button" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Normal</strong></p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_camera_trigger_default.png</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Pressed</strong></p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_camera_trigger_pressed.png</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#camera"><em>Back to screenshots.</em></a></p>
+</div>
+<div class="section" id="tap-to-focus-indicator">
+<span id="camera-4"></span><h3>4. Tap to Focus Indicator<a class="headerlink" href="#tap-to-focus-indicator" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Icon</strong></p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_camera_focus_indicator.png</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#camera"><em>Back to screenshots.</em></a></p>
+</div>
+<div class="section" id="help-menu-item">
+<span id="camera-5"></span><h3>5. Help Menu Item<a class="headerlink" href="#help-menu-item" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Icon</strong></p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_help_icon.png</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Title</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_show_onboarding</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#camera"><em>Back to screenshots.</em></a></p>
+</div>
+<div class="section" id="background">
+<span id="camera-6"></span><h3>6. Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_background</span></tt>. <strong>Note</strong>: this color resource is global to all
+Activities.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#camera"><em>Back to screenshots.</em></a></p>
+</div>
+<div class="section" id="document-import-button">
+<span id="camera-7"></span><h3>7. Document Import Button<a class="headerlink" href="#document-import-button" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Icon</strong></p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_document_import_icon.png</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Subtitle</strong></p>
+<ul>
+<li><p class="first"><strong>Text</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_camera_document_import_subtitle</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Text Style</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.DocumentImportSubtitle.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.DocumentImportSubtitle.TextStyle</span></tt>).</p>
+</li>
+<li><p class="first"><strong>Font</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.DocumentImportSubtitle.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.DocumentImportSubtitle.TextStyle</span></tt>) and setting an
+item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><a class="reference internal" href="#camera"><em>Back to screenshots.</em></a></p>
+</div>
+<div class="section" id="document-import-hint">
+<span id="camera-8"></span><h3>8. Document Import Hint<a class="headerlink" href="#document-import-hint" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_document_import_hint_background</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Close Icon Color</strong></p>
+<p>Via the color resource name <tt class="docutils literal"><span class="pre">gv_hint_close</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Message</strong></p>
+<ul>
+<li><p class="first"><strong>Text</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_document_import_hint_text</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Text Style</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.DocumentImportHint.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.DocumentImportHint.TextStyle</span></tt>).</p>
+</li>
+<li><p class="first"><strong>Font</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.DocumentImportHint.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.DocumentImportHint.TextStyle</span></tt>) and setting an
+item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><a class="reference internal" href="#camera"><em>Back to screenshots.</em></a></p>
+</div>
+<div class="section" id="images-stack">
+<span id="camera-9"></span><h3>9. Images Stack<a class="headerlink" href="#images-stack" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Badge</strong></p>
+<ul>
+<li><p class="first"><strong>Text Style</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.ImageStackBadge.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.ImageStackBadge.TextStyle</span></tt>).</p>
+</li>
+<li><p class="first"><strong>Font</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.ImageStackBadge.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.ImageStackBadge.TextStyle</span></tt>) and setting an
+item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+</li>
+<li><p class="first"><strong>Background Color</strong></p>
+<p>Via the color resources named <tt class="docutils literal"><span class="pre">gv_camera_image_stack_badge_background</span></tt> and
+<tt class="docutils literal"><span class="pre">gv_camera_image_stack_badge_background_border</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Background Size</strong></p>
+<p>Via the dimension resource named <tt class="docutils literal"><span class="pre">gv_camera_image_stack_badge_size</span></tt>.</p>
+</li>
+</ul>
+</li>
+<li><p class="first"><strong>Subtitle</strong></p>
+<ul>
+<li><p class="first"><strong>Text</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_camera_image_stack_subtitle</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Text Style</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.ImageStackSubtitle.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.ImageStackSubtitle.TextStyle</span></tt>).</p>
+</li>
+<li><p class="first"><strong>Font</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.ImageStackSubtitle.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.ImageStackSubtitle.TextStyle</span></tt>) and setting an item
+named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><a class="reference internal" href="#camera"><em>Back to screenshots.</em></a></p>
+</div>
+<div class="section" id="qrcode-detected-popup">
+<span id="camera-10"></span><h3>10. QRCode Detected Popup<a class="headerlink" href="#qrcode-detected-popup" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_qrcode_detected_popup_background</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Message</strong></p>
+<ul>
+<li><p class="first"><strong>Text</strong></p>
+<p>Via the string resources named <tt class="docutils literal"><span class="pre">gv_qrcode_detected_popup_message_1</span></tt> and
+<tt class="docutils literal"><span class="pre">gv_qrcode_detected_popup_message_2</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Text Style</strong></p>
+<p>Via overriding the styles named
+<tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle</span></tt> (with parent style
+<tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle</span></tt>) and
+<tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle</span></tt> (with parent style
+<tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle</span></tt>).</p>
+</li>
+<li><p class="first"><strong>Font</strong></p>
+<p>Via overriding the styles named
+<tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle</span></tt> (with parent style
+<tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle</span></tt>) and
+<tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle</span></tt> (with parent style
+<tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle</span></tt>). and setting an
+item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><a class="reference internal" href="#camera"><em>Back to screenshots.</em></a></p>
+</div>
+<div class="section" id="read-storage-permission-dialogs">
+<span id="camera-11"></span><h3>11. Read Storage Permission Dialogs<a class="headerlink" href="#read-storage-permission-dialogs" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Permission Rationale Dialog</strong></p>
+<ul>
+<li><p class="first"><strong>Message</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_storage_permission_rationale</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Positive Button Text</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_storage_permission_rationale_positive_button</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Negative Button Text</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_storage_permission_rationale_negative_button</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Button Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_accent</span></tt>. <strong>Note</strong>: this color resource is global.</p>
+</li>
+</ul>
+</li>
+<li><p class="first"><strong>Permission Denied Dialog</strong></p>
+<ul>
+<li><p class="first"><strong>Message</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_storage_permission_denied</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Positive Button Text</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_storage_permission_denied_positive_button</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Negative Button Text</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_storage_permission_denied_negative_button</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Button Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_accent</span></tt>. <strong>Note</strong>: this color resource is global.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><a class="reference internal" href="#camera"><em>Back to screenshots.</em></a></p>
+</div>
+<div class="section" id="no-camera-permission">
+<span id="camera-12"></span><h3>12. No Camera Permission<a class="headerlink" href="#no-camera-permission" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Icon</strong></p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_no_camera.png</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Message</strong></p>
+<ul>
+<li><p class="first"><strong>Text</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_camera_error_no_permission</span></tt>.</p>
+</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><strong>Text Style</strong></li>
+</ul>
+<blockquote>
+<div><p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.Error.NoPermission.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.Error.NoPermission.TextStyle</span></tt>).</p>
+</div></blockquote>
+</div></blockquote>
+<ul>
+<li><p class="first"><strong>Font</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.Error.NoPermission.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.Error.NoPermission.TextStyle</span></tt>) and setting an
+item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+</li>
+</ul>
+</li>
+<li><p class="first"><strong>Button</strong></p>
+<ul>
+<li><p class="first"><strong>Title</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_camera_error_no_permission_button_title</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Text Style</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle</span></tt>).</p>
+</li>
+<li><p class="first"><strong>Font</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle</span></tt>) and setting an
+item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><a class="reference internal" href="#camera"><em>Back to screenshots.</em></a></p>
+</div>
+<div class="section" id="multi-page-limit-alert">
+<span id="camera-13"></span><h3>13. Multi-Page Limit Alert<a class="headerlink" href="#multi-page-limit-alert" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Message</strong></p>
+<blockquote>
+<div><p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_document_error_too_many_pages</span></tt>.</p>
+</div></blockquote>
+</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><strong>Positive Button Text</strong></li>
+</ul>
+<blockquote>
+<div><p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_document_error_multi_page_limit_review_pages_button</span></tt>.</p>
+<ul class="simple">
+<li><strong>Negative Button Text</strong></li>
+</ul>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_document_error_multi_page_limit_cancel_button</span></tt>.</p>
+<ul class="simple">
+<li><strong>Button Color</strong></li>
+</ul>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_accent</span></tt>. <strong>Note</strong>: this color resource is global.</p>
+</div></blockquote>
+</div></blockquote>
+<p><a class="reference internal" href="#camera"><em>Back to screenshots.</em></a></p>
+</div>
+</div>
+<div class="section" id="review-screen">
+<span id="review"></span><h2>Review Screen<a class="headerlink" href="#review-screen" title="Permalink to this headline">¶</a></h2>
+<img src="_static/customization/Review Screen.png" usemap="#review-map" width="324" height="576">
+
+<map id="review-map" name="review-map">
+    <area shape="rect" alt="" title="Action Bar" coords="189,26,220,54" href="customization-guide.html#review-1" target="" />
+    <area shape="rect" alt="" title="Next Button" coords="241,408,272,438" href="customization-guide.html#review-2" target="" />
+    <area shape="rect" alt="" title="Rotate Button" coords="244,352,275,385" href="customization-guide.html#review-3" target="" />
+    <area shape="rect" alt="" title="Advice" coords="231,490,264,520" href="customization-guide.html#review-4" target="" />
+    <area shape="rect" alt="" title="Background" coords="2,288,29,319" href="customization-guide.html#review-5" target="" />
+    <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
+</map><div class="section" id="review-1">
+<span id="id2"></span><h3>1. Action Bar<a class="headerlink" href="#review-1" title="Permalink to this headline">¶</a></h3>
+<p>All Action Bar customizations except the title are global to all Activities.</p>
+<ul>
+<li><p class="first"><strong>Title</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_title_review</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Title Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar_title</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Back Button Icon</strong></p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_action_bar_back</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Status Bar Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_status_bar</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#review"><em>Back to screenshot.</em></a></p>
+</div>
+<div class="section" id="review-2">
+<span id="id3"></span><h3>2. Next Button<a class="headerlink" href="#review-2" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Icon</strong></p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_review_fab_next.png</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Color</strong></p>
+<p>Via the color resources named <tt class="docutils literal"><span class="pre">gv_review_fab</span></tt> and <tt class="docutils literal"><span class="pre">gv_review_fab_pressed</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#review"><em>Back to screenshot.</em></a></p>
+</div>
+<div class="section" id="rotate-button">
+<span id="review-3"></span><h3>3. Rotate Button<a class="headerlink" href="#rotate-button" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Icon</strong></p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_review_button_rotate.png</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Color</strong></p>
+<p>Via the color resources named <tt class="docutils literal"><span class="pre">gv_review_fab_mini</span></tt> and <tt class="docutils literal"><span class="pre">gv_review_fab_mini_pressed</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#review"><em>Back to screenshot.</em></a></p>
+</div>
+<div class="section" id="advice">
+<span id="review-4"></span><h3>4. Advice<a class="headerlink" href="#advice" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Text</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_review_bottom_panel_text</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Text Style</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Review.BottomPanel.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Review.BottomPanel.TextStyle</span></tt>).</p>
+<ul class="simple">
+<li><strong>Font</strong></li>
+</ul>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Review.BottomPanel.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Review.BottomPanel.TextStyle</span></tt>) and setting an
+item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+</li>
+<li><p class="first"><strong>Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_review_bottom_panel_background</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#review"><em>Back to screenshot.</em></a></p>
+</div>
+<div class="section" id="review-5">
+<span id="id4"></span><h3>5. Background<a class="headerlink" href="#review-5" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_background</span></tt>. <strong>Note</strong>: this color resource is global to all Activities.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#review"><em>Back to screenshot.</em></a></p>
+</div>
+</div>
+<div class="section" id="analysis-screen">
+<span id="analysis"></span><h2>Analysis Screen<a class="headerlink" href="#analysis-screen" title="Permalink to this headline">¶</a></h2>
+<img src="_static/customization/Analysis Screen.png" usemap="#analysis-map-1" width="324" height="576">
+
+<map id="analysis-map-1" name="analysis-map-1">
+    <area shape="rect" alt="" title="Action Bar" coords="189,24,222,55" href="customization-guide.html#analysis-1" target="" />
+    <area shape="rect" alt="" title="Activity Indicator" coords="105,283,132,310" href="customization-guide.html#analysis-2" target="" />
+    <area shape="rect" alt="" title="Error Snackbar" coords="190,500,219,530" href="customization-guide.html#analysis-4" target="" />
+    <area shape="rect" alt="" title="Background" title" coords="74,61,105,93" href="customization-guide.html#analysis-5" target="" />
+    <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
+</map><img src="_static/customization/Analysis Screen PDF.png" usemap="#analysis-map-2" width="324" height="576">
+
+<map id="analysis-map-2" name="analysis-map-2">
+    <area shape="rect" alt="" title="PDF Info Panel" coords="60,78,90,106" href="customization-guide.html#analysis-3" target="" />
+    <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
+</map><div class="section" id="analysis-1">
+<span id="id5"></span><h3>1. Action Bar<a class="headerlink" href="#analysis-1" title="Permalink to this headline">¶</a></h3>
+<p>All Action Bar customizations except the title are global to all Activities.</p>
+<ul>
+<li><p class="first"><strong>Back Button Icon</strong></p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_action_bar_back</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Status Bar Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_status_bar</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#analysis"><em>Back to screenshots.</em></a></p>
+</div>
+<div class="section" id="activity-indicator">
+<span id="analysis-2"></span><h3>2. Activity Indicator<a class="headerlink" href="#activity-indicator" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_analysis_activity_indicator</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Message</strong></p>
+<ul>
+<li><p class="first"><strong>Text</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_analysis_activity_indicator_message</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Text Style</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Analysis.AnalysingMessage.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Analysis.AnalysingMessage.TextStyle</span></tt>).</p>
+</li>
+<li><p class="first"><strong>Font</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Analysis.AnalysingMessage.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Analysis.AnalysingMessage.TextStyle</span></tt>) and setting an
+item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><a class="reference internal" href="#analysis"><em>Back to screenshots.</em></a></p>
+</div>
+<div class="section" id="pdf-info-panel">
+<span id="analysis-3"></span><h3>3. PDF Info Panel<a class="headerlink" href="#pdf-info-panel" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_analysis_pdf_info_background</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Filename</strong></p>
+<ul>
+<li><p class="first"><strong>Text Style</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Analysis.PdfFilename.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Analysis.PdfFilename.TextStyle</span></tt>).</p>
+</li>
+<li><p class="first"><strong>Font</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Analysis.PdfFilename.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Analysis.PdfFilename.TextStyle</span></tt>) and setting an
+item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+</li>
+</ul>
+</li>
+<li><p class="first"><strong>Page Count</strong></p>
+<ul>
+<li><p class="first"><strong>Text Style</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Analysis.PdfPageCount.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Analysis.PdfPageCount.TextStyle</span></tt>).</p>
+</li>
+<li><p class="first"><strong>Font</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Analysis.PdfPageCount.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Analysis.PdfPageCount.TextStyle</span></tt>) and setting an
+item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#analysis"><em>Back to screenshots.</em></a></p>
+</li>
+</ul>
+</div>
+<div class="section" id="error-snackbar">
+<span id="analysis-4"></span><h3>4. Error Snackbar<a class="headerlink" href="#error-snackbar" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Message</strong></p>
+<ul>
+<li><p class="first"><strong>Text Style</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Snackbar.Error.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Snackbar.Error.TextStyle</span></tt>).</p>
+</li>
+<li><p class="first"><strong>Font</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Snackbar.Error.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Snackbar.Error.TextStyle</span></tt>) and setting an
+item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+</li>
+</ul>
+</li>
+<li><p class="first"><strong>Button</strong></p>
+<ul>
+<li><p class="first"><strong>Text Style</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Snackbar.Error.Button.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Snackbar.Error.Button.TextStyle</span></tt>).</p>
+</li>
+<li><p class="first"><strong>Font</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Snackbar.Error.Button.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Snackbar.Error.Button.TextStyle</span></tt>) and setting an
+item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+</li>
+<li><p class="first"><strong>Retry Button Text</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_document_analysis_error_retry</span></tt>.</p>
+</li>
+</ul>
+</li>
+<li><p class="first"><strong>Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_snackbar_error_background</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#analysis"><em>Back to screenshots.</em></a></p>
+</div>
+<div class="section" id="analysis-5">
+<span id="id6"></span><h3>5. Background<a class="headerlink" href="#analysis-5" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_background</span></tt>. <strong>Note</strong>: this color resource is global to all Activities.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#analysis"><em>Back to screenshots.</em></a></p>
+</div>
+</div>
+<div class="section" id="multi-page-review-screen">
+<span id="multi-page-review"></span><h2>Multi-Page Review Screen<a class="headerlink" href="#multi-page-review-screen" title="Permalink to this headline">¶</a></h2>
+<img src="_static/customization/Multi-Page Review.png" usemap="#multi-page-review-map-1" width="324" height="576">
+
+<map id="multi-page-review-map-1" name="multi-page-review-map-1">
+    <area shape="rect" alt="" title="Action Bar" coords="189,23,220,54" href="customization-guide.html#multi-page-review-1" target="" />
+    <area shape="rect" alt="" title="Page Indicators" coords="174,284,207,316" href="customization-guide.html#multi-page-review-2" target="" />
+    <area shape="rect" alt="" title="Next Button" coords="273,259,302,288" href="customization-guide.html#multi-page-review-3" target="" />
+    <area shape="rect" alt="" title="Thumbnails Panel" coords="296,341,323,371" href="customization-guide.html#multi-page-review-4" target="" />
+    <area shape="rect" alt="" title="Add Pages Card" coords="213,345,243,376" href="customization-guide.html#multi-page-review-6" target="" />
+    <area shape="rect" alt="" title="Reorder Pages Tip" coords="2,478,28,508" href="customization-guide.html#multi-page-review-7" target="" />
+    <area shape="rect" alt="" title="Bottom Toolbar" coords="150,502,177,532" href="customization-guide.html#multi-page-review-8" target="" />
+    <area shape="rect" alt="" title="Image Error" coords="178,67,212,97" href="customization-guide.html#multi-page-review-9" target="" />
+    <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
+</map><img src="_static/customization/Multi-Page Review Upload Indicators.png" usemap="#multi-page-review-map-2" width="324" height="576">
+
+<map id="multi-page-review-map-2" name="multi-page-review-map-2">
+    <area shape="rect" alt="" title="Thumbnail Card" coords="12,345,41,375" href="customization-guide.html#multi-page-review-5" target="" />
+    <area shape="rect" alt="" title="Badge" coords="131,440,152,463" href="customization-guide.html#multi-page-review-5-1" target="" />
+    <area shape="rect" alt="" title="Drag Indicator Bumps" coords="276,435,299,457" href="customization-guide.html#multi-page-review-5-2" target="" />
+    <area shape="rect" alt="" title="Highlight Strip" coords="10,464,31,488" href="customization-guide.html#multi-page-review-5-3" target="" />
+    <area shape="rect" alt="" title="Activity Indicator" coords="263,367,285,390" href="customization-guide.html#multi-page-review-5-4" target="" />
+    <area shape="rect" alt="" title="Upload Success Icon" coords="59,369,84,393" href="customization-guide.html#multi-page-review-5-5" target="" />
+    <area shape="rect" alt="" title="Upload Failure Icon" coords="161,371,182,394" href="customization-guide.html#multi-page-review-5-6" target="" />
+    <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
+</map><div class="section" id="multi-page-review-1">
+<span id="id7"></span><h3>1. Action Bar<a class="headerlink" href="#multi-page-review-1" title="Permalink to this headline">¶</a></h3>
+<p>All Action Bar customizations except the title are global to all Activities.</p>
+<ul>
+<li><p class="first"><strong>Title</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_title_multi_page_review</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Title Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar_title</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Back Button Icon</strong></p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_action_bar_back</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Status Bar Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_status_bar</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#multi-page-review"><em>Back to screenshots.</em></a></p>
+</div>
+<div class="section" id="multi-page-review-2">
+<span id="id8"></span><h3>2. Page Indicators<a class="headerlink" href="#multi-page-review-2" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Text Style</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Review.MultiPage.PageIndicator.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Review.MultiPage.PageIndicator.TextStyle</span></tt>).</p>
+</li>
+<li><p class="first"><strong>Font</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Review.MultiPage.PageIndicator.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Review.MultiPage.PageIndicator.TextStyle</span></tt>) and setting an
+item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+</li>
+<li><p class="first"><strong>Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_multi_page_review_page_indicator_background</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#multi-page-review"><em>Back to screenshots.</em></a></p>
+</div>
+<div class="section" id="multi-page-review-3">
+<span id="id9"></span><h3>3. Next Button<a class="headerlink" href="#multi-page-review-3" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Icon</strong></p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_review_fab_checkmark.png</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Color</strong></p>
+<p>Via the color resources named <tt class="docutils literal"><span class="pre">gv_review_fab</span></tt> and <tt class="docutils literal"><span class="pre">gv_review_fab_pressed</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#multi-page-review"><em>Back to screenshots.</em></a></p>
+</div>
+<div class="section" id="thumbnails-panel">
+<span id="multi-page-review-4"></span><h3>4. Thumbnails Panel<a class="headerlink" href="#thumbnails-panel" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_multi_page_review_thumbnails_panel_background</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#multi-page-review"><em>Back to screenshots.</em></a></p>
+</div>
+<div class="section" id="thumbnail-card">
+<span id="multi-page-review-5"></span><h3>5. Thumbnail Card<a class="headerlink" href="#thumbnail-card" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_multi_page_review_thumbnail_card_background</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#multi-page-review"><em>Back to screenshots.</em></a></p>
+<div class="section" id="badge">
+<span id="multi-page-review-5-1"></span><h4>5.1 Badge<a class="headerlink" href="#badge" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first"><strong>Text Style</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Review.MultiPage.ThumbnailBadge.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Review.MultiPage.ThumbnailBadge.TextStyle</span></tt>).</p>
+</li>
+<li><p class="first"><strong>Font</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Review.MultiPage.ThumbnailBadge.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Review.MultiPage.ThumbnailBadge.TextStyle</span></tt>) and setting an
+item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+</li>
+<li><p class="first"><strong>Background Border Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_multi_page_thumbnail_badge_background_border</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#multi-page-review"><em>Back to screenshots.</em></a></p>
+</div>
+<div class="section" id="drag-indicator-bumps">
+<span id="multi-page-review-5-2"></span><h4>5.2 Drag Indicator Bumps<a class="headerlink" href="#drag-indicator-bumps" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><strong>Icon</strong></li>
+</ul>
+<blockquote>
+<div>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_bumps_icon.png</span></tt>.</div></blockquote>
+<p><a class="reference internal" href="#multi-page-review"><em>Back to screenshots.</em></a></p>
+</div>
+<div class="section" id="highlight-strip">
+<span id="multi-page-review-5-3"></span><h4>5.3 Highlight Strip<a class="headerlink" href="#highlight-strip" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first"><strong>Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_multi_page_thumbnail_highlight_strip</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#multi-page-review"><em>Back to screenshots.</em></a></p>
+</div>
+<div class="section" id="multi-page-review-5-4">
+<span id="id10"></span><h4>5.4 Activity Indicator<a class="headerlink" href="#multi-page-review-5-4" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><strong>Color</strong></li>
+</ul>
+<blockquote>
+<div>Via the color resource named <tt class="docutils literal"><span class="pre">gv_analysis_activity_indicator</span></tt>.</div></blockquote>
+<p><a class="reference internal" href="#multi-page-review"><em>Back to screenshots.</em></a></p>
+</div>
+<div class="section" id="upload-success-icon">
+<span id="multi-page-review-5-5"></span><h4>5.5 Upload Success Icon<a class="headerlink" href="#upload-success-icon" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first"><strong>Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_multi_page_thumbnail_upload_success_icon_background</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Tick Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_multi_page_thumbnail_upload_success_icon_foreground</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#multi-page-review"><em>Back to screenshots.</em></a></p>
+</div>
+<div class="section" id="upload-failure-icon">
+<span id="multi-page-review-5-6"></span><h4>5.6 Upload Failure Icon<a class="headerlink" href="#upload-failure-icon" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first"><strong>Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_multi_page_thumbnail_upload_failure_icon_background</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Cross Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_multi_page_thumbnail_upload_failure_icon_foreground</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#multi-page-review"><em>Back to screenshots.</em></a></p>
+</div>
+</div>
+<div class="section" id="add-pages-card">
+<span id="multi-page-review-6"></span><h3>6. Add Pages Card<a class="headerlink" href="#add-pages-card" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Icon</strong></p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_multi_page_add_page_icon.png</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Subtitle</strong></p>
+<ul>
+<li><p class="first"><strong>Text</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_multi_page_review_add_pages_subtitle</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Text Style</strong></p>
+</li>
+</ul>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Review.MultiPage.AddPagesSubtitle.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Review.MultiPage.AddPagesSubtitle.TextStyle</span></tt>).</p>
+<ul>
+<li><p class="first"><strong>Font</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Review.MultiPage.AddPagesSubtitle.TextStyle</span></tt>
+(with parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Review.MultiPage.AddPagesSubtitle.TextStyle</span></tt>) and
+setting an item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#multi-page-review"><em>Back to screenshots.</em></a></p>
+</li>
+</ul>
+</div>
+<div class="section" id="reorder-pages-tip">
+<span id="multi-page-review-7"></span><h3>7. Reorder Pages Tip<a class="headerlink" href="#reorder-pages-tip" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Text</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_multi_page_review_reorder_pages_tip</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Text Style</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Review.MultiPage.ReorderPagesTip.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Review.MultiPage.ReorderPagesTip.TextStyle</span></tt>).</p>
+</li>
+<li><p class="first"><strong>Font</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Review.MultiPage.ReorderPagesTip.TextStyle</span></tt>
+(with parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Review.MultiPage.ReorderPagesTip.TextStyle</span></tt>) and
+setting an item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#multi-page-review"><em>Back to screenshots.</em></a></p>
+</div>
+<div class="section" id="bottom-toolbar">
+<span id="multi-page-review-8"></span><h3>8. Bottom Toolbar<a class="headerlink" href="#bottom-toolbar" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Rotate Icon</strong></p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_rotate_icon.png</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Delete Icon</strong></p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_delete_icon.png</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#multi-page-review"><em>Back to screenshots.</em></a></p>
+</div>
+<div class="section" id="image-error">
+<span id="multi-page-review-9"></span><h3>9. Image Error<a class="headerlink" href="#image-error" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_snackbar_error_background</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Message</strong></p>
+<ul>
+<li><p class="first"><strong>Text Style</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Snackbar.Error.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Snackbar.Error.TextStyle</span></tt>).</p>
+</li>
+<li><p class="first"><strong>Font</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Snackbar.Error.TextStyle</span></tt>
+(with parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Snackbar.Error.TextStyle</span></tt>) and
+setting an item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+</li>
+</ul>
+</li>
+<li><p class="first"><strong>Button</strong></p>
+<ul>
+<li><p class="first"><strong>Text Style</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Snackbar.Error.Button.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Snackbar.Error.Button.TextStyle</span></tt>).</p>
+</li>
+<li><p class="first"><strong>Font</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Snackbar.Error.Button.TextStyle</span></tt>
+(with parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Snackbar.Error.Button.TextStyle</span></tt>) and
+setting an item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+</li>
+<li><p class="first"><strong>Retry Text (Analysis)</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_document_analysis_error_retry</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Delete Text (Imported Image)</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_multi_page_review_delete_invalid_document</span></tt>.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><a class="reference internal" href="#multi-page-review"><em>Back to screenshots.</em></a></p>
+</div>
+<div class="section" id="imported-image-delete-last-page-dialog">
+<span id="multi-page-review-10"></span><h3>10. Imported Image Delete Last Page Dialog<a class="headerlink" href="#imported-image-delete-last-page-dialog" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Message</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_multi_page_review_file_import_delete_last_page_dialog_message</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Positive Button Title</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_multi_page_review_file_import_delete_last_page_dialog_positive_button</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Negative Button Title</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_multi_page_review_file_import_delete_last_page_dialog_negative_button</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Button Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_accent</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#multi-page-review"><em>Back to screenshots.</em></a></p>
+</div>
+</div>
+<div class="section" id="help-screen">
+<span id="id11"></span><h2>Help Screen<a class="headerlink" href="#help-screen" title="Permalink to this headline">¶</a></h2>
+<img src="_static/customization/Help Screen.png" usemap="#help-screen-map" width="324" height="576">
+
+<map id="help-screen-map" name="help-screen-map">
+    <area shape="rect" alt="" title="Action Bar" coords="81,23,119,56" href="customization-guide.html#help-screen-1" target="" />
+    <area shape="rect" alt="" title="Background" coords="136,346,168,379" href="customization-guide.html#help-screen-2" target="" />
+    <area shape="rect" alt="" title="Help List Item" coords="217,74,246,104" href="customization-guide.html#help-screen-3" target="" />
+    <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
+</map><div class="section" id="help-screen-1">
+<span id="id12"></span><h3>1. Action Bar<a class="headerlink" href="#help-screen-1" title="Permalink to this headline">¶</a></h3>
+<p>All Action Bar customizations except the title are global to all Activities.</p>
+<ul>
+<li><p class="first"><strong>Title</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_title_help</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Title Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar_title</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Status Bar Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_status_bar</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#help-screen"><em>Back to screenshot.</em></a></p>
+</div>
+<div class="section" id="help-screen-2">
+<span id="id13"></span><h3>2. Background<a class="headerlink" href="#help-screen-2" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_help_activity_background</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#help-screen"><em>Back to screenshot.</em></a></p>
+</div>
+<div class="section" id="help-list-item">
+<span id="help-screen-3"></span><h3>3. Help List Item<a class="headerlink" href="#help-list-item" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Background Color</strong></p>
+<p>Via the color resource name <tt class="docutils literal"><span class="pre">gv_help_item_background</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Text Style</strong></p>
+<blockquote>
+<div><p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Help.Item.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Help.Item.TextStyle</span></tt>).</p>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>Font</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Help.Item.TextStyle</span></tt>
+(with parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Help.Item.TextStyle</span></tt>) and
+setting an item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#help-screen"><em>Back to screenshot.</em></a></p>
+</div>
+</div>
+<div class="section" id="photo-tips-screen">
+<span id="photo-tips"></span><h2>Photo Tips Screen<a class="headerlink" href="#photo-tips-screen" title="Permalink to this headline">¶</a></h2>
+<img src="_static/customization/Photo Tips Screen.png" usemap="#photo-tips-map" width="324" height="576">
+
+<map id="photo-tips-map" name="photo-tips-map">
+    <area shape="rect" alt="" title="Action Bar" coords="136,25,166,56" href="customization-guide.html#photo-tips-1" target="" />
+    <area shape="rect" alt="" title="Background" coords="275,251,306,281" href="customization-guide.html#photo-tips-2" target="" />
+    <area shape="rect" alt="" title="Header" coords="277,71,308,103" href="customization-guide.html#photo-tips-3" target="" />
+    <area shape="rect" alt="" title="Tip" coords="227,138,257,171" href="customization-guide.html#photo-tips-4" target="" />
+    <area shape="rect" alt="" title="Good Lighting" coords="5,124,29,145" href="customization-guide.html#photo-tips-4-1" target="" />
+    <area shape="rect" alt="" title="Document Should be Flat" coords="4,198,27,220" href="customization-guide.html#photo-tips-4-2" target="" />
+    <area shape="rect" alt="" title="Device Parallel to Document" coords="2,269,26,292" href="customization-guide.html#photo-tips-4-3" target="" />
+    <area shape="rect" alt="" title="Document Aligned with Corner Guides" coords="5,344,28,367" href="customization-guide.html#photo-tips-4-4" target="" />
+    <area shape="rect" alt="" title="Document with Multiple Pages" coords="5,420,29,441" href="customization-guide.html#photo-tips-4-5" target="" />
+    <area shape="rect" alt="" title="Back To Camera Button" coords="81,489,116,520" href="customization-guide.html#photo-tips-5" target="" />
+    <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
+</map>
+
+<map id="imgmap201874183930" name="imgmap201874183930">
+<area shape="rect" alt="" title="" coords="275,251,306,281" href="" target="" />
+<area shape="rect" alt="" title="" coords="5,420,29,441" href="" target="" />
+<!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) --></map><div class="section" id="photo-tips-1">
+<span id="id14"></span><h3>1. Action Bar<a class="headerlink" href="#photo-tips-1" title="Permalink to this headline">¶</a></h3>
+<p>All Action Bar customizations except the title are global to all Activities.</p>
+<ul>
+<li><p class="first"><strong>Title</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_title_photo_tips</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Title Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar_title</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Status Bar Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_status_bar</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#photo-tips"><em>Back to screenshot.</em></a></p>
+</div>
+<div class="section" id="photo-tips-2">
+<span id="id15"></span><h3>2. Background<a class="headerlink" href="#photo-tips-2" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_photo_tips_activity_background</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#photo-tips"><em>Back to screenshot.</em></a></p>
+</div>
+<div class="section" id="header">
+<span id="photo-tips-3"></span><h3>3. Header<a class="headerlink" href="#header" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Text Style</strong></p>
+<blockquote>
+<div><p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Help.PhotoTips.Header.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Help.PhotoTips.Header.TextStyle</span></tt>).</p>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>Font</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Help.PhotoTips.Header.TextStyle</span></tt>
+(with parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Help.PhotoTips.Header.TextStyle</span></tt>) and
+setting an item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#photo-tips"><em>Back to screenshot.</em></a></p>
+</div>
+<div class="section" id="tip">
+<span id="photo-tips-4"></span><h3>4. Tip<a class="headerlink" href="#tip" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Text Style</strong></p>
+<blockquote>
+<div><p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Help.PhotoTips.Tip.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Help.PhotoTips.Tip.TextStyle</span></tt>).</p>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>Font</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Help.PhotoTips.Tip.TextStyle</span></tt>
+(with parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Help.PhotoTips.Tip.TextStyle</span></tt>) and
+setting an item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#photo-tips"><em>Back to screenshot.</em></a></p>
+<div class="section" id="good-lighting">
+<span id="photo-tips-4-1"></span><h4>4.1 Good Lighting<a class="headerlink" href="#good-lighting" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first"><strong>Icon</strong></p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_photo_tip_lighting.png</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#photo-tips"><em>Back to screenshot.</em></a></p>
+</div>
+<div class="section" id="document-should-be-flat">
+<span id="photo-tips-4-2"></span><h4>4.2 Document Should be Flat<a class="headerlink" href="#document-should-be-flat" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first"><strong>Icon</strong></p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_photo_tip_flat.png</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#photo-tips"><em>Back to screenshot.</em></a></p>
+</div>
+<div class="section" id="device-parallel-to-document">
+<span id="photo-tips-4-3"></span><h4>4.3 Device Parallel to Document<a class="headerlink" href="#device-parallel-to-document" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first"><strong>Icon</strong></p>
+<p>Via images for mdpi, hdpi, xhdpi,xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_photo_tip_parallel.png</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#photo-tips"><em>Back to screenshot.</em></a></p>
+</div>
+<div class="section" id="document-aligned-with-corner-guides">
+<span id="photo-tips-4-4"></span><h4>4.4 Document Aligned with Corner Guides<a class="headerlink" href="#document-aligned-with-corner-guides" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first"><strong>Icon</strong></p>
+<p>Via images for mdpi, hdpi, xhdpi,xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_photo_tip_align.png</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#photo-tips"><em>Back to screenshot.</em></a></p>
+</div>
+<div class="section" id="document-with-multiple-pages">
+<span id="photo-tips-4-5"></span><h4>4.5 Document with Multiple Pages<a class="headerlink" href="#document-with-multiple-pages" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first"><strong>Icon</strong></p>
+<p>Via images for mdpi, hdpi, xhdpi,xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_photo_tip_multipage.png</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#photo-tips"><em>Back to screenshot.</em></a></p>
+</div>
+</div>
+<div class="section" id="back-to-camera-button">
+<span id="photo-tips-5"></span><h3>5. Back To Camera Button<a class="headerlink" href="#back-to-camera-button" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_photo_tips_button</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Text Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_photo_tips_button_text</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#photo-tips"><em>Back to screenshot.</em></a></p>
+</div>
+</div>
+<div class="section" id="supported-formats-screen">
+<span id="supported-formats"></span><h2>Supported Formats Screen<a class="headerlink" href="#supported-formats-screen" title="Permalink to this headline">¶</a></h2>
+<img src="_static/customization/Supported Formats Screen.png" usemap="#supported-formats-map" width="324" height="576">
+
+<map id="supported-formats-map" name="supported-formats-map">
+    <area shape="rect" alt="" title="Action Bar" coords="171,24,202,54" href="customization-guide.html#supported-formats-1" target="" />
+    <area shape="rect" alt="" title="Background" coords="144,483,178,518" href="customization-guide.html#supported-formats-2" target="" />
+    <area shape="rect" alt="" title="Header" coords="239,74,269,106" href="customization-guide.html#supported-formats-3" target="" />
+    <area shape="rect" alt="" title="Format Info List Item" coords="278,128,307,160" href="customization-guide.html#supported-formats-4" target="" />
+    <area shape="rect" alt="" title="Supported Format Icon" coords="3,117,26,138" href="customization-guide.html#supported-formats-4-1" target="" />
+    <area shape="rect" alt="" title="Unsupported Format Icon" coords="2,343,27,365" href="customization-guide.html#supported-formats-4-2" target="" />
+    <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
+</map><div class="section" id="supported-formats-1">
+<span id="id16"></span><h3>1. Action Bar<a class="headerlink" href="#supported-formats-1" title="Permalink to this headline">¶</a></h3>
+<p>All Action Bar customizations except the title are global to all Activities.</p>
+<ul>
+<li><p class="first"><strong>Title</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_title_supported_formats</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Title Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar_title</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Status Bar Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_status_bar</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#supported-formats"><em>Back to screenshot.</em></a></p>
+</div>
+<div class="section" id="supported-formats-2">
+<span id="id17"></span><h3>2. Background<a class="headerlink" href="#supported-formats-2" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_supported_formats_activity_background</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#supported-formats"><em>Back to screenshot.</em></a></p>
+</div>
+<div class="section" id="supported-formats-3">
+<span id="id18"></span><h3>3. Header<a class="headerlink" href="#supported-formats-3" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Text Style</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Help.SupportedFormats.Item.Header.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Help.SupportedFormats.Item.Header.TextStyle</span></tt>).</p>
+</li>
+<li><p class="first"><strong>Font</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Help.SupportedFormats.Item.Header.TextStyle</span></tt>
+(with parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Help.SupportedFormats.Item.Header.TextStyle</span></tt>) and
+setting an item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#supported-formats"><em>Back to screenshot.</em></a></p>
+</div>
+<div class="section" id="format-info-list-item">
+<span id="supported-formats-4"></span><h3>4. Format Info List Item<a class="headerlink" href="#format-info-list-item" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Text Style</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Help.SupportedFormats.Item.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Help.SupportedFormats.Item.TextStyle</span></tt>).</p>
+</li>
+<li><p class="first"><strong>Font</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Help.SupportedFormats.Item.TextStyle</span></tt>
+(with parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Help.SupportedFormats.Item.TextStyle</span></tt>) and
+setting an item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+</li>
+<li><p class="first"><strong>Background Color</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">gv_supported_formats_item_background</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#supported-formats"><em>Back to screenshot.</em></a></p>
+<div class="section" id="supported-format-icon">
+<span id="supported-formats-4-1"></span><h4>4.1 Supported Format Icon<a class="headerlink" href="#supported-format-icon" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first"><strong>Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_supported_formats_item_supported_icon_background</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Tick Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_supported_formats_item_supported_icon_foreground</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#supported-formats"><em>Back to screenshot.</em></a></p>
+</div>
+<div class="section" id="unsupported-format-icon">
+<span id="supported-formats-4-2"></span><h4>4.2 Unsupported Format Icon<a class="headerlink" href="#unsupported-format-icon" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first"><strong>Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_supported_formats_item_unsupported_icon_background</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Cross Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_supported_formats_item_unsupported_icon_foreground</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#supported-formats"><em>Back to screenshot.</em></a></p>
+</div>
+</div>
+</div>
+<div class="section" id="file-import-screen">
+<span id="file-import"></span><h2>File Import Screen<a class="headerlink" href="#file-import-screen" title="Permalink to this headline">¶</a></h2>
+<img src="_static/customization/File Import Screen.png" usemap="#file-import-map" width="324" height="576">
+
+<map id="file-import-map" name="file-import-map">
+    <area shape="rect" alt="" title="Action Bar" coords="283,22,312,54" href="customization-guide.html#file-import-1" target="" />
+    <area shape="rect" alt="" title="Background" coords="283,157,313,190" href="customization-guide.html#file-import-2" target="" />
+    <area shape="rect" alt="" title="Header" coords="284,82,315,117" href="customization-guide.html#file-import-3" target="" />
+    <area shape="rect" alt="" title="Separator Line" coords="147,143,181,178" href="customization-guide.html#file-import-4" target="" />
+    <area shape="rect" alt="" title="Section" coords="259,218,292,254" href="customization-guide.html#file-import-5" target="" />
+    <area shape="rect" alt="" title="Section Number" coords="38,163,62,187" href="customization-guide.html#file-import-5-1" target="" />
+    <area shape="rect" alt="" title="Section Title" coords="188,209,214,235" href="customization-guide.html#file-import-5-2" target="" />
+    <area shape="rect" alt="" title="Section Body" coords="13,235,33,256" href="customization-guide.html#file-import-5-3" target="" />
+    <area shape="rect" alt="" title="Section Illustration" coords="83,368,110,395" href="customization-guide.html#file-import-5-4" target="" />
+    <area shape="rect" alt="" title="Sections" coords="274,380,303,412" href="customization-guide.html#file-import-6" target="" />
+    <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
+</map><div class="section" id="file-import-1">
+<span id="id19"></span><h3>1. Action Bar<a class="headerlink" href="#file-import-1" title="Permalink to this headline">¶</a></h3>
+<p>All Action Bar customizations except the title are global to all Activities.</p>
+<ul>
+<li><p class="first"><strong>Title</strong></p>
+<p>Via the string resource named <a href="#id20"><span class="problematic" id="id21">``</span></a>gv_title_file_import`.</p>
+</li>
+<li><p class="first"><strong>Title Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar_title</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Status Bar Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_status_bar</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#file-import"><em>Back to screenshot.</em></a></p>
+</div>
+<div class="section" id="file-import-2">
+<span id="id22"></span><h3>2. Background<a class="headerlink" href="#file-import-2" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_file_import_activity_background</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#file-import"><em>Back to screenshot.</em></a></p>
+</div>
+<div class="section" id="file-import-3">
+<span id="id23"></span><h3>3. Header<a class="headerlink" href="#file-import-3" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Text</strong></p>
+<p>Via overriding the string resource named <tt class="docutils literal"><span class="pre">gv_file_import_header</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Text Style</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Help.FileImport.Header.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Help.FileImport.Header.TextStyle</span></tt>).</p>
+</li>
+<li><p class="first"><strong>Font</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Help.FileImport.Header.TextStyle</span></tt>
+(with parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Help.FileImport.Header.TextStyle</span></tt>) and
+setting an item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#file-import"><em>Back to screenshot.</em></a></p>
+</div>
+<div class="section" id="separator-line">
+<span id="file-import-4"></span><h3>4. Separator Line<a class="headerlink" href="#separator-line" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_file_import_separator</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#file-import"><em>Back to screenshot.</em></a></p>
+</div>
+<div class="section" id="section">
+<span id="file-import-5"></span><h3>5. Section<a class="headerlink" href="#section" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="number">
+<span id="file-import-5-1"></span><h4>5.1 Number<a class="headerlink" href="#number" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first"><strong>Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_file_import_section_number_background</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Text Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_file_import_section_number</span></tt>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#file-import"><em>Back to screenshot.</em></a></p>
+</div>
+<div class="section" id="title">
+<span id="file-import-5-2"></span><h4>5.2 Title<a class="headerlink" href="#title" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first"><strong>Text Style</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Help.FileImport.Section.Title.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Help.FileImport.Section.Title.TextStyle</span></tt>).</p>
+</li>
+<li><p class="first"><strong>Font</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Help.FileImport.Section.Title.TextStyle</span></tt>
+(with parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Help.FileImport.Section.Title.TextStyle</span></tt>) and
+setting an item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#file-import"><em>Back to screenshot.</em></a></p>
+</div>
+<div class="section" id="body">
+<span id="file-import-5-3"></span><h4>5.3 Body<a class="headerlink" href="#body" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first"><strong>Text Style</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Help.FileImport.Section.Body.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Help.FileImport.Section.Body.TextStyle</span></tt>).</p>
+</li>
+<li><p class="first"><strong>Font</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Help.FileImport.Section.Body.TextStyle</span></tt>
+(with parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Help.FileImport.Section.Body.TextStyle</span></tt>) and
+setting an item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#file-import"><em>Back to screenshot.</em></a></p>
+</div>
+<div class="section" id="illustration">
+<span id="file-import-5-4"></span><h4>5.4 Illustration<a class="headerlink" href="#illustration" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first">Image</p>
+<p>Via image resources as specified in the section illustrations <a class="reference internal" href="#file-import-6"><em>below</em></a>.</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#file-import"><em>Back to screenshot.</em></a></p>
+</div>
+</div>
+<div class="section" id="sections">
+<span id="file-import-6"></span><h3>6. Sections<a class="headerlink" href="#sections" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p class="first"><strong>Section 1</strong></p>
+<ul>
+<li><p class="first"><strong>Title</strong></p>
+<p>Via overriding the string resource named <tt class="docutils literal"><span class="pre">gv_file_import_section_1_title</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Body</strong></p>
+<p>Via overriding the string resource named <tt class="docutils literal"><span class="pre">gv_file_import_section_1_body</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Illustration</strong></p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named
+<tt class="docutils literal"><span class="pre">gv_file_import_section_1_illustration.png</span></tt>.</p>
+<p><strong>Note</strong>: For creating your custom illustration you may use <a class="reference external" href="https://github.com/gini/gini-vision-lib-assets/blob/master/Gini-Vision-Lib-Design-Elements/Illustrations/PDF/android_pdf_open_with_illustration_1.pdf">this template</a>
+from the <a class="reference external" href="https://github.com/gini/gini-vision-lib-assets">Gini Vision Library UI Assets</a> repository.</p>
+</li>
+</ul>
+</li>
+<li><p class="first"><strong>Section 2</strong></p>
+<ul>
+<li><p class="first"><strong>Title</strong></p>
+<p>Via overriding the string resource named <tt class="docutils literal"><span class="pre">gv_file_import_section_2_title</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Body</strong></p>
+<p>Via overriding the string resource named <tt class="docutils literal"><span class="pre">gv_file_import_section_2_body</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Illustration</strong></p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named
+<tt class="docutils literal"><span class="pre">gv_file_import_section_2_illustration.png</span></tt>.</p>
+<p><strong>Note</strong>: For creating your custom illustration you may use <a class="reference external" href="https://github.com/gini/gini-vision-lib-assets/blob/master/Gini-Vision-Lib-Design-Elements/Illustrations/PDF/android_pdf_open_with_illustration_2.pdf">this template</a>
+from the <a class="reference external" href="https://github.com/gini/gini-vision-lib-assets">Gini Vision Library UI Assets</a> repository.</p>
+</li>
+</ul>
+</li>
+<li><p class="first"><strong>Section 3</strong></p>
+<ul>
+<li><p class="first"><strong>Title</strong></p>
+<p>Via overriding the string resource named <tt class="docutils literal"><span class="pre">gv_file_import_section_3_title</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Body</strong></p>
+<p>Via overriding the string resource named <tt class="docutils literal"><span class="pre">gv_file_import_section_3_body</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Illustration</strong></p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named
+<tt class="docutils literal"><span class="pre">gv_file_import_section_3_illustration.png</span></tt>.</p>
+<p><strong>Note</strong>: For creating your custom illustration you may use <a class="reference external" href="https://github.com/gini/gini-vision-lib-assets/blob/master/Gini-Vision-Lib-Design-Elements/Illustrations/PDF/android_pdf_open_with_illustration_3.pdf">this template</a>
+from the <a class="reference external" href="https://github.com/gini/gini-vision-lib-assets">Gini Vision Library UI Assets</a> repository.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><a class="reference internal" href="#file-import"><em>Back to screenshot.</em></a></p>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="updating-to-3-0-0.html" class="btn btn-neutral float-right" title="Updating to 3.0.0">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Gini Vision Library for Android"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+    </p>
+  </div>
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  
+</body>
+</html>

@@ -1,0 +1,922 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Updating to 3.0.0 &mdash; Gini Vision Library for Android 2.0 documentation</title>
+  
+
+  
+  
+
+  
+  <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,400italic,600italic|Source+Code+Pro|Roboto+Slab:400,700" rel="stylesheet" type="text/css" />
+
+  
+  
+
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:'./',
+        VERSION:'2.0',
+        COLLAPSE_INDEX:false,
+        FILE_SUFFIX:'.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+    <script type="text/javascript">
+        jQuery(function () {
+            SphinxRtdTheme.StickyNav.enable();
+        });
+    </script>
+  
+
+  
+    <link rel="top" title="Gini Vision Library for Android 2.0 documentation" href="index.html"/>
+        <link rel="next" title="Updating to 2.5.0" href="updating-to-2-5-0.html"/>
+        <link rel="prev" title="Customization Guide" href="customization-guide.html"/> 
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        <a href="index.html" id="gini-logo">gini API</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+        
+            <ul class="current">
+<li class="toctree-l1"><a class="reference external" href="http://developer.gini.net/gini-vision-lib-android/javadoc/index.html">Gini Vision Javadoc</a></li>
+<li class="toctree-l1"><a class="reference external" href="http://developer.gini.net/gini-vision-lib-android/network/javadoc/index.html">Network Library Javadoc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="customization-guide.html">Customization Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="customization-guide.html#onboarding-screen">Onboarding Screen</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#action-bar">1. Action Bar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#next-button">2. Next Button</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#page-indicators">3. Page Indicators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#onboarding-message">4. Onboarding Message</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#onboarding-pages">5. Onboarding Pages</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="customization-guide.html#camera-screen">Camera Screen</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#camera-1">1. Action Bar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#document-corner-guides">2. Document Corner Guides</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#camera-trigger-button">3. Camera Trigger Button</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#tap-to-focus-indicator">4. Tap to Focus Indicator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#help-menu-item">5. Help Menu Item</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#background">6. Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#document-import-button">7. Document Import Button</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#document-import-hint">8. Document Import Hint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#images-stack">9. Images Stack</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#qrcode-detected-popup">10. QRCode Detected Popup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#read-storage-permission-dialogs">11. Read Storage Permission Dialogs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#no-camera-permission">12. No Camera Permission</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#multi-page-limit-alert">13. Multi-Page Limit Alert</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="customization-guide.html#review-screen">Review Screen</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#review-1">1. Action Bar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#review-2">2. Next Button</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#rotate-button">3. Rotate Button</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#advice">4. Advice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#review-5">5. Background</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="customization-guide.html#analysis-screen">Analysis Screen</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#analysis-1">1. Action Bar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#activity-indicator">2. Activity Indicator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#pdf-info-panel">3. PDF Info Panel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#error-snackbar">4. Error Snackbar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#analysis-5">5. Background</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="customization-guide.html#multi-page-review-screen">Multi-Page Review Screen</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#multi-page-review-1">1. Action Bar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#multi-page-review-2">2. Page Indicators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#multi-page-review-3">3. Next Button</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#thumbnails-panel">4. Thumbnails Panel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#thumbnail-card">5. Thumbnail Card</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#add-pages-card">6. Add Pages Card</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#reorder-pages-tip">7. Reorder Pages Tip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#bottom-toolbar">8. Bottom Toolbar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#image-error">9. Image Error</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#imported-image-delete-last-page-dialog">10. Imported Image Delete Last Page Dialog</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="customization-guide.html#help-screen">Help Screen</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#help-screen-1">1. Action Bar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#help-screen-2">2. Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#help-list-item">3. Help List Item</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="customization-guide.html#photo-tips-screen">Photo Tips Screen</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#photo-tips-1">1. Action Bar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#photo-tips-2">2. Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#header">3. Header</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#tip">4. Tip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#back-to-camera-button">5. Back To Camera Button</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="customization-guide.html#supported-formats-screen">Supported Formats Screen</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#supported-formats-1">1. Action Bar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#supported-formats-2">2. Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#supported-formats-3">3. Header</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#format-info-list-item">4. Format Info List Item</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="customization-guide.html#file-import-screen">File Import Screen</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#file-import-1">1. Action Bar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#file-import-2">2. Background</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#file-import-3">3. Header</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#separator-line">4. Separator Line</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#section">5. Section</a></li>
+<li class="toctree-l3"><a class="reference internal" href="customization-guide.html#sections">6. Sections</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Updating to 3.0.0</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#api-changes">API Changes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#ginivision-singleton">GiniVision Singleton</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#file-import">File Import</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#networking-integration">Networking Integration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#ui-changes">UI Changes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#camera-screen">Camera Screen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#onboarding-screen">Onboarding Screen</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#multi-page-document-scanning">Multi-Page Document Scanning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#enable-multi-page">Enable Multi-Page</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">Camera Screen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multi-page-review-screen">Multi-Page Review Screen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#importing-multiple-images">Importing Multiple Images</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="updating-to-2-5-0.html">Updating to 2.5.0</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="updating-to-2-5-0.html#google-play-services">Google Play Services</a></li>
+<li class="toctree-l2"><a class="reference internal" href="updating-to-2-5-0.html#qr-code-scanning">QR Code Scanning</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-5-0.html#enable-qr-code-scanning">Enable QR Code Scanning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-5-0.html#handle-the-qr-code">Handle the QR Code</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-5-0.html#customizing-the-ui">Customizing the UI</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="updating-to-2-4-0.html">Updating to 2.4.0</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="updating-to-2-4-0.html#breaking-changes">Breaking Changes</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#camera-screen">Camera Screen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#analysis-screen">Analysis Screen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#android-support-library">Android Support Library</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="updating-to-2-4-0.html#deprecation">Deprecation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="updating-to-2-4-0.html#new-features">New Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#feature-configuration">Feature Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#document-import">Document Import</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#file-import-open-with">File Import (&#8220;Open With&#8221;)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#tips-in-the-analysis-screen">Tips in the Analysis Screen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#help-screens">Help Screens</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#no-results-screen">No Results Screen</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#tablet-support">Tablet Support</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="guide-for-open-with.html">How to Upload PDFs and Images (pre-2.4.0)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guide-for-open-with.html#general-considerations">General considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guide-for-open-with.html#registering-pdf-and-image-file-types">Registering PDF and image file types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="guide-for-open-with.html#documentation">Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="guide-for-open-with.html#reading-files-from-external-storage">Reading files from external storage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="guide-for-open-with.html#id1">Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="guide-for-open-with.html#handling-incoming-pdfs-and-images">Handling incoming PDFs and images</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="guide-for-open-with.html#id4">Documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="guide-for-open-with.html#showing-a-preview-of-the-pdfs-first-page">Showing a preview of the PDF’s first page</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="guide-for-open-with.html#id5">Documentation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id1">3.0.0 (2018-07-06)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#multi-page">Multi-Page</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#configuration">Configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#networking">Networking</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id2">2.5.3 (2018-05-24)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id3">2.5.2 (2018-05-03)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id4">2.5.1 (2018-02-22)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id5">2.5.0 (2018-01-22)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id6">2.4.3 (2017-11-29)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id7">2.4.2 (2017-11-14)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id8">2.4.1 (2017-11-10)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id9">2.4.0 (2017-10-25)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#features">Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#ui-updates">UI Updates</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id10">2.3.0 (2017-08-28)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id11">2.2.2 (2017-07-03)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id12">2.2.1 (2017-06-30)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id13">2.2.0 (2017-03-22)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id14">2.1.0 (2017-01-30)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id15">2.0.1 (2016-10-18)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#id16">2.0.0 (2016-08-25)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#alpha-1-2016-08-18">2.0.0-alpha.1 (2016-08-18)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id17">Features</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="changelog.html#stub-1-2016-07-15">2.0.0-stub.1 (2016-07-15)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="changelog.html#id18">Features</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="license.html#licenses-and-acknowledgements-for-incorporated-software">Licenses and Acknowledgements for Incorporated Software</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="license.html#apache-commons-sanselan">Apache Commons Sanselan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="license.html#touchimageview">TouchImageView</a></li>
+<li class="toctree-l3"><a class="reference internal" href="license.html#gini-android-sdk">Gini Android SDK</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Gini Vision Library for Android</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Updating to 3.0.0</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            
+  <div class="section" id="updating-to-3-0-0">
+<h1>Updating to 3.0.0<a class="headerlink" href="#updating-to-3-0-0" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="api-changes">
+<h2>API Changes<a class="headerlink" href="#api-changes" title="Permalink to this headline">¶</a></h2>
+<p>We introduced some significant changes to the library API without breaking backwards compatibility.
+These changes were required as the old API was not extensible and it limited us in what features we
+could build without making the library integration too difficult. The new API allows us more
+flexibility when adding new features while making the integration even easier as before.</p>
+<p>We are keeping network code out of the Gini Vision Library in order to allow clients freedom in
+choosing their desired network implementation. The multi-page feature required us to add more
+network related logic to the library which would have made integration more difficult.</p>
+<p>We decided to implement a plugin architecture and introduced a network layer with a single interface
+called <tt class="docutils literal"><span class="pre">GiniVisionNetworkService</span></tt>. This declares all the required network tasks and is used in all
+the screens where documents have to be sent to the Gini API. The <tt class="docutils literal"><span class="pre">GiniVisionNetworkService</span></tt>
+implementation is outside of the scope of the Gini Vision Library and has to be specified before
+launching the library.</p>
+<p>We provide a default networking implementation in the Gini Vision Network Library. Adding this to
+your app along with the Gini Vision Library will allow you to quickly integrate Gini invoice
+scanning.</p>
+<p>The multi-page feature requires the new API. Existing features will continue to work without any
+changes, but new features we add in the future will require the new API.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">To easily compare the old API to the new one check out the <a class="reference external" href="https://github.com/gini/gini-vision-lib-android-example">Gini Vision Library Android Example App</a>. There we&#8217;ve set up a <tt class="docutils literal"><span class="pre">legacy</span></tt> and
+a <tt class="docutils literal"><span class="pre">newest</span></tt> flavor. <tt class="docutils literal"><span class="pre">legacy</span></tt> shows how integration was performed in previous versions and
+<tt class="docutils literal"><span class="pre">newest</span></tt> shows how integration should be performed using the new API.</p>
+</div>
+<div class="section" id="ginivision-singleton">
+<h3>GiniVision Singleton<a class="headerlink" href="#ginivision-singleton" title="Permalink to this headline">¶</a></h3>
+<p>We introduced the <tt class="docutils literal"><span class="pre">GiniVision</span></tt> class as the single entry-point for configuring and interacting
+with the Gini Vision Library.</p>
+<p>To configure and create a new instance use the <tt class="docutils literal"><span class="pre">GiniVision.Builder</span></tt> returned by
+<tt class="docutils literal"><span class="pre">GiniVision.newInstance()</span></tt>. The builder creates a new <tt class="docutils literal"><span class="pre">GiniVision</span></tt> singleton which you
+can later destroy with <tt class="docutils literal"><span class="pre">GiniVision.getInstance().cleanup()</span></tt>. This will also free up any resources used
+by the Gini Vision Library. You should call <tt class="docutils literal"><span class="pre">cleanup()</span></tt> after the Gini Vision Library returned
+control to your application and your app is not using it anymore.</p>
+</div>
+<div class="section" id="configuration">
+<h3>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h3>
+<p>Configuration is performed when building a new <tt class="docutils literal"><span class="pre">GiniVision</span></tt> instance. Previously configuration was
+done by setting Activity extras and using the <tt class="docutils literal"><span class="pre">GiniVisionFeatureConfiguration</span></tt>.</p>
+<div class="section" id="set-custom-onboarding-pages">
+<h4>Set Custom Onboarding Pages<a class="headerlink" href="#set-custom-onboarding-pages" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id1">
+<h5>3.0.0<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">GiniVision</span><span class="o">.</span><span class="na">newInstance</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">setCustomOnboardingPages</span><span class="o">(</span><span class="n">getOnboardingPages</span><span class="o">())</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="and-older">
+<h5>2.5.0 and older<a class="headerlink" href="#and-older" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">CameraActivity</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+<span class="n">intent</span><span class="o">.</span><span class="na">putParcelableArrayListExtra</span><span class="o">(</span><span class="n">CameraActivity</span><span class="o">.</span><span class="na">EXTRA_IN_ONBOARDING_PAGES</span><span class="o">,</span> <span class="n">myOnboardingPages</span><span class="o">());</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="disable-showing-onboarding-on-the-first-run">
+<h4>Disable Showing Onboarding on the First Run<a class="headerlink" href="#disable-showing-onboarding-on-the-first-run" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id2">
+<h5>3.0.0<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">GiniVision</span><span class="o">.</span><span class="na">newInstance</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">setShouldShowOnboardingAtFirstRun</span><span class="o">(</span><span class="kc">false</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h5>2.5.0 and older<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">CameraActivity</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+<span class="n">intent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="n">CameraActivity</span><span class="o">.</span><span class="na">EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="force-showing-of-the-onboarding">
+<h4>Force Showing of the Onboarding<a class="headerlink" href="#force-showing-of-the-onboarding" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id4">
+<h5>3.0.0<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">GiniVision</span><span class="o">.</span><span class="na">newInstance</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">setShouldShowOnboarding</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h5>2.5.0 and older<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">CameraActivity</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+<span class="n">intent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="n">CameraActivity</span><span class="o">.</span><span class="na">EXTRA_IN_SHOW_ONBOARDING</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="close-library-on-pressing-the-back-button-from-any-activity-in-the-library">
+<h4>Close Library on Pressing the Back Button From Any Activity in the Library<a class="headerlink" href="#close-library-on-pressing-the-back-button-from-any-activity-in-the-library" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id6">
+<h5>3.0.0<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h5>
+<p>This option has been removed.</p>
+</div>
+<div class="section" id="id7">
+<h5>2.5.0 and older<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">CameraActivity</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+<span class="n">intent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="n">CameraActivity</span><span class="o">.</span><span class="na">EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="enable-document-import-from-the-camera-screen">
+<h4>Enable Document Import from the Camera Screen<a class="headerlink" href="#enable-document-import-from-the-camera-screen" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id8">
+<h5>3.0.0<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">GiniVision</span><span class="o">.</span><span class="na">newInstance</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">setDocumentImportEnabledFileTypes</span><span class="o">(</span><span class="n">DocumentImportEnabledFileTypes</span><span class="o">.</span><span class="na">PDF_AND_IMAGES</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id9">
+<h5>2.5.0 and older<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">CameraActivity</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+<span class="kd">final</span> <span class="n">GiniVisionFeatureConfiguration</span> <span class="n">giniVisionFeatureConfiguration</span> <span class="o">=</span>
+        <span class="n">GiniVisionFeatureConfiguration</span><span class="o">.</span><span class="na">buildNewConfiguration</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">setDocumentImportEnabledFileTypes</span><span class="o">(</span><span class="n">DocumentImportEnabledFileTypes</span><span class="o">.</span><span class="na">PDF_AND_IMAGES</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="n">intent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="n">CameraActivity</span><span class="o">.</span><span class="na">EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION</span><span class="o">,</span>
+            <span class="n">giniVisionFeatureConfiguration</span><span class="o">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="enable-file-import-open-with">
+<h4>Enable File Import (&#8220;open with&#8221;)<a class="headerlink" href="#enable-file-import-open-with" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id10">
+<h5>3.0.0<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">GiniVision</span><span class="o">.</span><span class="na">newInstance</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">setFileImportEnabled</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id11">
+<h5>2.5.0 and older<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">CameraActivity</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+<span class="kd">final</span> <span class="n">GiniVisionFeatureConfiguration</span> <span class="n">giniVisionFeatureConfiguration</span> <span class="o">=</span>
+        <span class="n">GiniVisionFeatureConfiguration</span><span class="o">.</span><span class="na">buildNewConfiguration</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">setFileImportEnabled</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="n">intent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="n">CameraActivity</span><span class="o">.</span><span class="na">EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION</span><span class="o">,</span>
+            <span class="n">giniVisionFeatureConfiguration</span><span class="o">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="enable-qrcode-scanning">
+<h4>Enable QRCode Scanning<a class="headerlink" href="#enable-qrcode-scanning" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id12">
+<h5>3.0.0<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">GiniVision</span><span class="o">.</span><span class="na">newInstance</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">setQRCodeScanningEnabled</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id13">
+<h5>2.5.0 and older<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">CameraActivity</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+<span class="kd">final</span> <span class="n">GiniVisionFeatureConfiguration</span> <span class="n">giniVisionFeatureConfiguration</span> <span class="o">=</span>
+        <span class="n">GiniVisionFeatureConfiguration</span><span class="o">.</span><span class="na">buildNewConfiguration</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">setQRCodeScanningEnabled</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="n">intent</span><span class="o">.</span><span class="na">putExtra</span><span class="o">(</span><span class="n">CameraActivity</span><span class="o">.</span><span class="na">EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION</span><span class="o">,</span>
+            <span class="n">giniVisionFeatureConfiguration</span><span class="o">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="file-import">
+<h3>File Import<a class="headerlink" href="#file-import" title="Permalink to this headline">¶</a></h3>
+<p>We moved methods in <tt class="docutils literal"><span class="pre">GiniVisionFileImport</span></tt> to <tt class="docutils literal"><span class="pre">GiniVision</span></tt> in order to simplify interaction.
+Starting from this version <tt class="docutils literal"><span class="pre">GiniVision</span></tt> is the go-to class for interaction with the Gini Vision
+Library.</p>
+<div class="section" id="create-a-document-from-the-imported-file">
+<h4>Create a Document from the Imported File<a class="headerlink" href="#create-a-document-from-the-imported-file" title="Permalink to this headline">¶</a></h4>
+<p>When using the Component API you need to create a <tt class="docutils literal"><span class="pre">Document</span></tt> from the imported file and pass the
+<tt class="docutils literal"><span class="pre">Document</span></tt> either to the <tt class="docutils literal"><span class="pre">ReviewActivity</span></tt> (<tt class="docutils literal"><span class="pre">ReviewFragment</span></tt>) or the <tt class="docutils literal"><span class="pre">AnalysisActivity</span></tt>
+(<tt class="docutils literal"><span class="pre">AnalysisFragment</span></tt>).</p>
+<div class="section" id="id14">
+<h5>3.0.0<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">GiniVision</span><span class="o">.</span><span class="na">createDocumentForImportedFile</span><span class="o">(...);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id15">
+<h5>2.5.0 and older<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">GiniVisionFileImport</span><span class="o">.</span><span class="na">createDocumentForImportedFile</span><span class="o">(..);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="create-an-intent-from-the-imported-file">
+<h4>Create an Intent from the Imported File<a class="headerlink" href="#create-an-intent-from-the-imported-file" title="Permalink to this headline">¶</a></h4>
+<p>When using the Screen API you only need to create an Intent from the imported file and start it.</p>
+<div class="section" id="id16">
+<h5>3.0.0<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">GiniVision</span><span class="o">.</span><span class="na">createIntentForImportedFile</span><span class="o">(...);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id17">
+<h5>2.5.0 and older<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h5>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">GiniVisionFileImport</span><span class="o">.</span><span class="na">createIntentForImportedFile</span><span class="o">(...);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="networking-integration">
+<h3>Networking Integration<a class="headerlink" href="#networking-integration" title="Permalink to this headline">¶</a></h3>
+<p>We don&#8217;t provide network code with the Gini Vision Library in order to allow clients to use their desired
+networking implementation. In previous versions integration of network code was achieved either by
+subclassing Activities and overriding methods or by implementing Fragment listeners.</p>
+<p>Starting from this version we unified all required network tasks into the
+<tt class="docutils literal"><span class="pre">GiniVisionNetworkService</span></tt> interface. The Gini Vision Library uses this interface to request
+document upload and analysis. We also added the <tt class="docutils literal"><span class="pre">GiniVisionNetworkApi</span></tt> to declare network tasks
+which may be called by the client outside of the Gini Vision Library (e.g. for sending feedback).</p>
+<p>When using the Screen API the extractions are returned to your app in the <tt class="docutils literal"><span class="pre">EXTRA_OUT_EXTRACTIONS</span></tt>
+Bundle in the <tt class="docutils literal"><span class="pre">CameraActivity</span></tt>&#8216;s result Intent. This Bundle contains extraction label Strings as
+keys and <tt class="docutils literal"><span class="pre">GiniVisionSpecificExtraction</span></tt> as values.</p>
+<p>For the Component API the extractions are returned in the <tt class="docutils literal"><span class="pre">onExtractionsAvailable(Map&lt;String,</span>
+<span class="pre">GiniVisionSpecificExtraction&gt;)</span></tt> method of the <tt class="docutils literal"><span class="pre">CameraFragmentListener</span></tt>,
+<tt class="docutils literal"><span class="pre">ReviewFragmentListener</span></tt> or <tt class="docutils literal"><span class="pre">AnalysisFragmentListener</span></tt>.</p>
+<div class="section" id="gini-vision-network-library">
+<h4>Gini Vision Network Library<a class="headerlink" href="#gini-vision-network-library" title="Permalink to this headline">¶</a></h4>
+<p>The Gini Vision Network Library provides a default implementation of the networking interfaces. By using
+this library you can quickly integrate invoice scanning in your application.</p>
+<p>To use it add the <tt class="docutils literal"><span class="pre">gini-vision-network-lib</span></tt> dependency to your app&#8217;s <tt class="docutils literal"><span class="pre">build.gradle</span></tt> along with
+the Gini Vision Library:</p>
+<div class="highlight-groovy"><div class="highlight"><pre><span class="n">repositories</span> <span class="o">{</span>
+    <span class="o">...</span>
+    <span class="n">maven</span> <span class="o">{</span>
+        <span class="n">url</span> <span class="s1">&#39;https://repo.gini.net/nexus/content/repositories/open&#39;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="n">dependencies</span> <span class="o">{</span>
+    <span class="o">...</span>
+    <span class="n">implementation</span> <span class="s1">&#39;net.gini:gini-vision-lib:3.0.0&#39;</span>
+<span class="hll">    <span class="n">implementation</span> <span class="s1">&#39;net.gini:gini-vision-network-lib:3.0.0&#39;</span>
+</span><span class="o">}</span>
+</pre></div>
+</div>
+<p>For the Gini Vision Library to be aware of the default implementations create the instances and pass
+them to the builder of <tt class="docutils literal"><span class="pre">GiniVision</span></tt>:</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">GiniVisionDefaultNetworkService</span> <span class="n">networkService</span> <span class="o">=</span>
+    <span class="n">GiniVisionDefaultNetworkService</span><span class="o">.</span><span class="na">builder</span><span class="o">((</span><span class="n">Context</span><span class="o">)</span> <span class="k">this</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">setClientCredentials</span><span class="o">(</span><span class="n">myClientId</span><span class="o">,</span> <span class="n">myClientSecret</span><span class="o">,</span> <span class="n">myEmailDomain</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="n">GiniVisionDefaultNetworkApi</span> <span class="n">networkApi</span> <span class="o">=</span>
+    <span class="n">GiniVisionDefaultNetworkApi</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">withGiniVisionDefaultNetworkService</span><span class="o">(</span><span class="n">networkService</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+<span class="n">GiniVision</span><span class="o">.</span><span class="na">newInstance</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">setGiniVisionNetworkService</span><span class="o">(</span><span class="n">networkService</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">setGiniVisionNetworkApi</span><span class="o">(</span><span class="n">networkApi</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</pre></div>
+</div>
+<p>Subclassing the <tt class="docutils literal"><span class="pre">CameraActivity</span></tt>, <tt class="docutils literal"><span class="pre">ReviewActivity</span></tt> and <tt class="docutils literal"><span class="pre">AnalysisActivity</span></tt> is not required
+anymore. Likewise adding network code to your implementations of the <tt class="docutils literal"><span class="pre">CameraFragmentListener</span></tt>,
+<tt class="docutils literal"><span class="pre">ReviewFragmentListener</span></tt> and <tt class="docutils literal"><span class="pre">AnalysisFragmentListener</span></tt> is not required. All related methods
+have been deprecated, but will still be used, if there is no <tt class="docutils literal"><span class="pre">GiniVision</span></tt> instance.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">A <tt class="docutils literal"><span class="pre">GiniVision</span></tt> instance is required to use the new network integration API. Without a
+<tt class="docutils literal"><span class="pre">GiniVision</span></tt> instance the Gini Vision Library will fall back to the previous API and requires
+Activity subclasses or Fragment listeners for adding network calls.</p>
+</div>
+</div>
+<div class="section" id="custom-networking-implementation">
+<h4>Custom Networking Implementation<a class="headerlink" href="#custom-networking-implementation" title="Permalink to this headline">¶</a></h4>
+<p>You can also provide your own networking by implementing the <tt class="docutils literal"><span class="pre">GiniVisionNetworkService</span></tt> and the
+<tt class="docutils literal"><span class="pre">GiniVisionNetworkApi</span></tt> interfaces. Pass your instances to the builder of <tt class="docutils literal"><span class="pre">GiniVision</span></tt> as shown
+above.</p>
+</div>
+</div>
+</div>
+<div class="section" id="ui-changes">
+<h2>UI Changes<a class="headerlink" href="#ui-changes" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="camera-screen">
+<h3>Camera Screen<a class="headerlink" href="#camera-screen" title="Permalink to this headline">¶</a></h3>
+<p>We added a subtitle to the document import button to make the purpose of the button more clear. You
+can customize the text via the string resource named <tt class="docutils literal"><span class="pre">gv_camera_document_import_subtitle</span></tt> and the
+text style via overriding the style named
+<tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.DocumentImportSubtitle.TextStyle</span></tt> (make sure to use the root parent style
+<tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.DocumentImportSubtitle.TextStyle</span></tt>).</p>
+</div>
+<div class="section" id="onboarding-screen">
+<h3>Onboarding Screen<a class="headerlink" href="#onboarding-screen" title="Permalink to this headline">¶</a></h3>
+<p>We made the background opaque. Usability testing showed that the semi-transparent
+background lead users to believe they should already perform the tips while in the onboarding.</p>
+</div>
+</div>
+<div class="section" id="multi-page-document-scanning">
+<h2>Multi-Page Document Scanning<a class="headerlink" href="#multi-page-document-scanning" title="Permalink to this headline">¶</a></h2>
+<p>The API changes detailed above allowed us to introduce multi-page document scanning. With this
+feature users can take or import pictures of invoice pages. The Gini API then analyzes
+the pages as a single invoice and extracts the required payment information.</p>
+<div class="section" id="requirements">
+<h3>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h3>
+<p>To use this feature you need to use <tt class="docutils literal"><span class="pre">GiniVision</span></tt> along with the new networking integration.</p>
+</div>
+<div class="section" id="enable-multi-page">
+<h3>Enable Multi-Page<a class="headerlink" href="#enable-multi-page" title="Permalink to this headline">¶</a></h3>
+<p>Multi-page scanning is disabled by default. Enable it when building a new <tt class="docutils literal"><span class="pre">GiniVision</span></tt> instance:</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">GiniVision</span><span class="o">.</span><span class="na">newInstance</span><span class="o">()</span>
+           <span class="o">.</span><span class="na">setMultiPageEnabled</span><span class="o">(</span><span class="kc">true</span><span class="o">)</span>
+           <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id18">
+<h3>Camera Screen<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<p>When multi-page is enabled, then taken or imported pictures are shown in an image stack in the bottom
+right corner of the Camera Screen. When users tap the stack the Multi-Page Review Screen is
+launched.</p>
+<div class="section" id="customizing-the-ui">
+<h4>Customizing the UI<a class="headerlink" href="#customizing-the-ui" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>Images stack badge background and text style</li>
+<li>Images stack subtitle</li>
+</ul>
+<p>For detailed customization options consult the Javadoc of the <tt class="docutils literal"><span class="pre">CameraActivity</span></tt>.</p>
+</div>
+</div>
+<div class="section" id="multi-page-review-screen">
+<h3>Multi-Page Review Screen<a class="headerlink" href="#multi-page-review-screen" title="Permalink to this headline">¶</a></h3>
+<p>In this screen users can review their images. They can also reordered, rotate and delete them. Users
+may add more pages by tapping on the &#8220;Add pages&#8221; button or going back to the Camera Screen.</p>
+<p>The first time users take a picture the Multi-Page Review Screen is launched. Subsequent pictures
+are added to the image stack in the Camera Screen and users can tap it to go to the Multi-Page
+Review Screen.</p>
+<p>Image uploads start as soon as users enter this screen. Upload activity indicators are shown on each
+image thumbnail. If the uploads are successfull green checkmarks are displayed on the image
+thumbnails. When all uploads were successfull the user can proceed to the Analysis Screen. If
+uploads failed, then red crosses are shown on the image thumbnails and users may retry or delete the
+failed images.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">There is no Standard Fragment for the Multi-Page Review Screen. From this version on we only
+provide Android Support Library Fragments to simplify the UI code and we are confident, that
+today the Android Support Library is a must-have for every Android application.</p>
+</div>
+<div class="section" id="id19">
+<h4>Customizing the UI<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>Page indicator</li>
+<li>Next button</li>
+<li>Background colors</li>
+<li>Thumbnail cards</li>
+<li>Thumbnail activity indicator</li>
+<li>Thumbnail upload success and failure icons</li>
+<li>Add page icon and subtitle</li>
+<li>Reorder pages tip</li>
+<li>Error message background color and text styles</li>
+<li>Delete last page confirmation dialog</li>
+</ul>
+<p>For detailed customization options consult the Javadoc of the <tt class="docutils literal"><span class="pre">MultiPageReviewActivity</span></tt>.</p>
+</div>
+</div>
+<div class="section" id="importing-multiple-images">
+<h3>Importing Multiple Images<a class="headerlink" href="#importing-multiple-images" title="Permalink to this headline">¶</a></h3>
+<p>To allow users to send multiple images (jpeg, png and gif) to the Gini Vision Library from other apps through
+your app you need to register one of your Activities to receive multiple images.</p>
+<div class="section" id="registering-to-receive-multiple-image-files">
+<h4>Registering to Receive Multiple Image Files<a class="headerlink" href="#registering-to-receive-multiple-image-files" title="Permalink to this headline">¶</a></h4>
+<p>Add the following intent filter to the Activity in your <tt class="docutils literal"><span class="pre">AndroidManifest.xml</span></tt> you wish to receive multiple incoming images:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;activity</span> <span class="na">android:name=</span><span class="s">&quot;.ui.MyActivity&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;intent-filter</span> <span class="na">android:label=</span><span class="s">&quot;@string/label_for_open_with&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">&quot;android.intent.action.VIEW&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">&quot;android.intent.action.SEND&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">&quot;android.intent.action.SEND_MULTIPLE&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;category</span> <span class="na">android:name=</span><span class="s">&quot;android.intent.category.DEFAULT&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;data</span> <span class="na">android:mimeType=</span><span class="s">&quot;image/*&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/intent-filter&gt;</span>
+<span class="nt">&lt;/activity&gt;</span>
+</pre></div>
+</div>
+<p>Importing multiple PDFs is not supported so the intent filter for PDFs must not contain the
+<tt class="docutils literal"><span class="pre">SEND_MULTIPLE</span></tt> action. Simply add a separate intent filter to be able to receive single PDF
+files:</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;activity</span> <span class="na">android:name=</span><span class="s">&quot;.ui.MyActivity&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;intent-filter</span> <span class="na">android:label=</span><span class="s">&quot;@string/label_for_open_with&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">&quot;android.intent.action.VIEW&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">&quot;android.intent.action.SEND&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;category</span> <span class="na">android:name=</span><span class="s">&quot;android.intent.category.DEFAULT&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;data</span> <span class="na">android:mimeType=</span><span class="s">&quot;application/pdf&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/intent-filter&gt;</span>
+<span class="nt">&lt;/activity&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="handling-imported-files">
+<h4>Handling Imported Files<a class="headerlink" href="#handling-imported-files" title="Permalink to this headline">¶</a></h4>
+<p>When you use the multi-page feature you always have to call the new
+<tt class="docutils literal"><span class="pre">GiniVision.createIntentForImportedFiles()</span></tt> method or if you use the Component API the
+<tt class="docutils literal"><span class="pre">GiniVision.createDocumentForImportedFiles()</span></tt> method.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">You don&#8217;t have to check whether the user imported one or multiple files. Simply use
+<tt class="docutils literal"><span class="pre">GiniVision.createIntentForImportedFiles()</span></tt> or <tt class="docutils literal"><span class="pre">GiniVision.createDocumentForImportedFiles()</span></tt>
+to handle one or more incoming files.</p>
+</div>
+<p>When your app is requested to handle one or multiple images or a PDF your Activity (declaring the intent filter
+shown before) is launched or resumed (<tt class="docutils literal"><span class="pre">onNewIntent(Intent)</span></tt>) with an Intent having <tt class="docutils literal"><span class="pre">ACTION_VIEW</span></tt>,
+<tt class="docutils literal"><span class="pre">ACTION_SEND</span></tt> or <tt class="docutils literal"><span class="pre">ACTION_SEND_MULTIPLE</span></tt>.</p>
+<div class="admonition important">
+<p class="first admonition-title">Important</p>
+<p class="last">To make sure your application can read the shared file declare and request the
+<tt class="docutils literal"><span class="pre">READ_EXTERNAL_STORAGE</span></tt> permission before accessing the <tt class="docutils literal"><span class="pre">Uri</span></tt> or before starting the Gini
+Vision Library.</p>
+</div>
+<p>Checking whether the Intent has the required action:</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">String</span> <span class="n">action</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="na">getAction</span><span class="o">();</span>
+<span class="k">if</span> <span class="o">(</span><span class="n">Intent</span><span class="o">.</span><span class="na">ACTION_VIEW</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">action</span><span class="o">)</span>
+    <span class="o">||</span> <span class="n">Intent</span><span class="o">.</span><span class="na">ACTION_SEND</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">action</span><span class="o">)</span>
+    <span class="o">||</span> <span class="n">Intent</span><span class="o">.</span><span class="na">ACTION_SEND_MULTIPLE</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">action</span><span class="o">))</span> <span class="o">{</span>
+    <span class="o">...</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Using the Screen API, create an Intent for launching the Gini Vision Library with
+<tt class="docutils literal"><span class="pre">GiniVisionFileImport.createIntentForImportedFiles()</span></tt>. This method requires a callback with which
+it will notify your app about the outcome of the import process. Since importing multiple files can
+take some seconds (images are processed and compressed), you should show an activity indicator until
+one of the callback methods is invoked.</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="c1">// Token to request cancellation of the file import</span>
+<span class="kd">private</span> <span class="n">CancellationToken</span> <span class="n">mFileImportCancellationToken</span><span class="o">;</span>
+
+<span class="kt">void</span> <span class="nf">startGiniVisionLibraryForImportedFile</span><span class="o">(</span><span class="kd">final</span> <span class="n">Intent</span> <span class="n">importedFileIntent</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">showActivityIndicator</span><span class="o">();</span>
+    <span class="n">mFileImportCancellationToken</span> <span class="o">=</span> <span class="n">GiniVision</span><span class="o">.</span><span class="na">getInstance</span><span class="o">().</span><span class="na">createIntentForImportedFiles</span><span class="o">(</span>
+                <span class="n">importedFileIntent</span><span class="o">,</span> <span class="k">this</span><span class="o">,</span>
+                <span class="k">new</span> <span class="n">AsyncCallback</span><span class="o">&lt;</span><span class="n">Intent</span><span class="o">,</span> <span class="n">ImportedFileValidationException</span><span class="o">&gt;()</span> <span class="o">{</span>
+                    <span class="nd">@Override</span>
+                    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onSuccess</span><span class="o">(</span><span class="kd">final</span> <span class="n">Intent</span> <span class="n">result</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="n">mFileImportCancellationToken</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+                        <span class="n">hideActivityIndicator</span><span class="o">();</span>
+                        <span class="n">startActivityForResult</span><span class="o">(</span><span class="n">result</span><span class="o">,</span> <span class="n">REQUEST_SCAN</span><span class="o">);</span>
+                    <span class="o">}</span>
+
+                    <span class="nd">@Override</span>
+                    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onError</span><span class="o">(</span><span class="kd">final</span> <span class="n">ImportedFileValidationException</span> <span class="n">exception</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="n">mFileImportCancellationToken</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+                        <span class="n">hideActivityIndicator</span><span class="o">();</span>
+                        <span class="n">String</span> <span class="n">message</span> <span class="o">=</span> <span class="s">&quot;File cannot be analyzed&quot;</span><span class="o">;</span>
+                        <span class="k">if</span> <span class="o">(</span><span class="n">exception</span><span class="o">.</span><span class="na">getValidationError</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                            <span class="k">switch</span> <span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">getValidationError</span><span class="o">())</span> <span class="o">{</span>
+                                <span class="k">case</span> <span class="n">TYPE_NOT_SUPPORTED</span><span class="o">:</span>
+                                    <span class="n">message</span> <span class="o">=</span> <span class="s">&quot;File type not supported.&quot;</span><span class="o">;</span>
+                                    <span class="k">break</span><span class="o">;</span>
+                                <span class="k">case</span> <span class="n">SIZE_TOO_LARGE</span><span class="o">:</span>
+                                    <span class="n">message</span> <span class="o">=</span> <span class="s">&quot;File too large, must be less than 10 MB.&quot;</span><span class="o">;</span>
+                                    <span class="k">break</span><span class="o">;</span>
+                                <span class="k">case</span> <span class="n">TOO_MANY_PDF_PAGES</span><span class="o">:</span>
+                                    <span class="n">message</span> <span class="o">=</span> <span class="s">&quot;Pdf must have less than 10 pages.&quot;</span><span class="o">;</span>
+                                    <span class="k">break</span><span class="o">;</span>
+                            <span class="o">}</span>
+                        <span class="o">}</span>
+                        <span class="k">new</span> <span class="n">AlertDialog</span><span class="o">.</span><span class="na">Builder</span><span class="o">(</span><span class="k">this</span><span class="o">)</span>
+                                <span class="o">.</span><span class="na">setMessage</span><span class="o">(</span><span class="n">message</span><span class="o">)</span>
+                                <span class="o">.</span><span class="na">setPositiveButton</span><span class="o">(</span><span class="s">&quot;OK&quot;</span><span class="o">,</span> <span class="k">new</span> <span class="n">DialogInterface</span><span class="o">.</span><span class="na">OnClickListener</span><span class="o">()</span> <span class="o">{</span>
+                                    <span class="nd">@Override</span>
+                                    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="kd">final</span> <span class="n">DialogInterface</span> <span class="n">dialogInterface</span><span class="o">,</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+                                        <span class="n">finish</span><span class="o">();</span>
+                                    <span class="o">}</span>
+                                <span class="o">})</span>
+                                <span class="o">.</span><span class="na">show</span><span class="o">();</span>
+                    <span class="o">}</span>
+
+                    <span class="nd">@Override</span>
+                    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCancelled</span><span class="o">()</span> <span class="o">{</span>
+                        <span class="n">mFileImportCancellationToken</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+                        <span class="n">hideActivityIndicator</span><span class="o">();</span>
+                    <span class="o">}</span>
+                <span class="o">});</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>The returned Intent will launch either the MultiPageReviewActivity or the AnalysisActivity (the one
+from the Gini Vision Library - subclassing the AnalysisActivity is not required anymore). For
+example PDFs cannot be reviewed by the user and for those the AnalysisActivity is launched.</p>
+<p>For the Component API, create a <tt class="docutils literal"><span class="pre">Document</span></tt> with
+<tt class="docutils literal"><span class="pre">GiniVisionFileImport.createDocumentForImportedFiles()</span></tt>. Like the previous method this one
+requires a callback, too. You should show an activity indicator until one of the callback methods is
+invoked.</p>
+<p>The MultiPageReviewFragment may only be used with reviewable documents. Therefore, it is important
+to check whether the document is reviewable or not:</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="c1">// Token to request cancellation of the file import</span>
+<span class="kd">private</span> <span class="n">CancellationToken</span> <span class="n">mFileImportCancellationToken</span><span class="o">;</span>
+
+<span class="kt">void</span> <span class="nf">startGiniVisionLibraryForImportedFile</span><span class="o">(</span><span class="kd">final</span> <span class="n">Intent</span> <span class="n">importedFileIntent</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">showActivityIndicator</span><span class="o">();</span>
+    <span class="n">mFileImportCancellationToken</span> <span class="o">=</span> <span class="n">GiniVision</span><span class="o">.</span><span class="na">getInstance</span><span class="o">().</span><span class="na">createDocumentForImportedFiles</span><span class="o">(</span>
+                <span class="n">importedFileIntent</span><span class="o">,</span> <span class="n">mActivity</span><span class="o">,</span>
+                <span class="k">new</span> <span class="n">AsyncCallback</span><span class="o">&lt;</span><span class="n">Document</span><span class="o">,</span> <span class="n">ImportedFileValidationException</span><span class="o">&gt;()</span> <span class="o">{</span>
+                    <span class="nd">@Override</span>
+                    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onSuccess</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="kd">final</span> <span class="n">Document</span> <span class="n">result</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="k">if</span> <span class="o">(</span><span class="n">result</span><span class="o">.</span><span class="na">isReviewable</span><span class="o">())</span> <span class="o">{</span>
+                            <span class="n">launchMultiPageReviewScreen</span><span class="o">();</span>
+                        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                            <span class="n">launchAnalysisScreen</span><span class="o">(</span><span class="n">result</span><span class="o">);</span>
+                        <span class="o">}</span>
+                        <span class="n">mActivity</span><span class="o">.</span><span class="na">finish</span><span class="o">();</span>
+                    <span class="o">}</span>
+
+                    <span class="nd">@Override</span>
+                    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onError</span><span class="o">(</span>
+                            <span class="nd">@NonNull</span> <span class="kd">final</span> <span class="n">ImportedFileValidationException</span> <span class="n">exception</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="n">mFileImportCancellationToken</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+                        <span class="n">hideActivityIndicator</span><span class="o">();</span>
+                        <span class="n">String</span> <span class="n">message</span> <span class="o">=</span> <span class="s">&quot;File cannot be analyzed&quot;</span><span class="o">;</span>
+                        <span class="k">if</span> <span class="o">(</span><span class="n">exception</span><span class="o">.</span><span class="na">getValidationError</span><span class="o">()</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                            <span class="k">switch</span> <span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">getValidationError</span><span class="o">())</span> <span class="o">{</span>
+                                <span class="k">case</span> <span class="n">TYPE_NOT_SUPPORTED</span><span class="o">:</span>
+                                    <span class="n">message</span> <span class="o">=</span> <span class="s">&quot;File type not supported.&quot;</span><span class="o">;</span>
+                                    <span class="k">break</span><span class="o">;</span>
+                                <span class="k">case</span> <span class="n">SIZE_TOO_LARGE</span><span class="o">:</span>
+                                    <span class="n">message</span> <span class="o">=</span> <span class="s">&quot;File too large, must be less than 10 MB.&quot;</span><span class="o">;</span>
+                                    <span class="k">break</span><span class="o">;</span>
+                                <span class="k">case</span> <span class="n">TOO_MANY_PDF_PAGES</span><span class="o">:</span>
+                                    <span class="n">message</span> <span class="o">=</span> <span class="s">&quot;Pdf must have less than 10 pages.&quot;</span><span class="o">;</span>
+                                    <span class="k">break</span><span class="o">;</span>
+                            <span class="o">}</span>
+                        <span class="o">}</span>
+                        <span class="k">new</span> <span class="n">AlertDialog</span><span class="o">.</span><span class="na">Builder</span><span class="o">(</span><span class="k">this</span><span class="o">)</span>
+                                <span class="o">.</span><span class="na">setMessage</span><span class="o">(</span><span class="n">message</span><span class="o">)</span>
+                                <span class="o">.</span><span class="na">setPositiveButton</span><span class="o">(</span><span class="s">&quot;OK&quot;</span><span class="o">,</span> <span class="k">new</span> <span class="n">DialogInterface</span><span class="o">.</span><span class="na">OnClickListener</span><span class="o">()</span> <span class="o">{</span>
+                                    <span class="nd">@Override</span>
+                                    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClick</span><span class="o">(</span><span class="kd">final</span> <span class="n">DialogInterface</span> <span class="n">dialogInterface</span><span class="o">,</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+                                        <span class="n">finish</span><span class="o">();</span>
+                                    <span class="o">}</span>
+                                <span class="o">})</span>
+                                <span class="o">.</span><span class="na">show</span><span class="o">();</span>
+                    <span class="o">}</span>
+
+                    <span class="nd">@Override</span>
+                    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCancelled</span><span class="o">()</span> <span class="o">{</span>
+
+                    <span class="o">}</span>
+                <span class="o">});</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="updating-to-2-5-0.html" class="btn btn-neutral float-right" title="Updating to 2.5.0">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="customization-guide.html" class="btn btn-neutral" title="Customization Guide"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+    </p>
+  </div>
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  
+</body>
+</html>
