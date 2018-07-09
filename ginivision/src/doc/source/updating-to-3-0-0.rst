@@ -1,4 +1,4 @@
-Updating to 2.6.0
+Updating to 3.0.0
 ====
 
 API Changes
@@ -54,7 +54,7 @@ done by setting Activity extras and using the ``GiniVisionFeatureConfiguration``
 Set Custom Onboarding Pages
 ~~~~~
 
-2.6.0
+3.0.0
 ____
 
 .. code-block:: java
@@ -74,7 +74,7 @@ ____
 Disable Showing Onboarding on the First Run
 ~~~~~
 
-2.6.0
+3.0.0
 ____
 
 .. code-block:: java
@@ -94,7 +94,7 @@ ____
 Force Showing of the Onboarding
 ~~~~~
 
-2.6.0
+3.0.0
 ____
 
 .. code-block:: java
@@ -114,7 +114,7 @@ ____
 Close Library on Pressing the Back Button From Any Activity in the Library
 ~~~~~
 
-2.6.0
+3.0.0
 ____
 
 This option has been removed.
@@ -130,7 +130,7 @@ ____
 Enable Document Import from the Camera Screen
 ~~~~
 
-2.6.0
+3.0.0
 ____
 
 .. code-block:: java
@@ -157,7 +157,7 @@ ____
 Enable File Import ("open with")
 ~~~~
 
-2.6.0
+3.0.0
 ____
 
 .. code-block:: java
@@ -184,7 +184,7 @@ ____
 Enable QRCode Scanning
 ~~~~
 
-2.6.0
+3.0.0
 ____
 
 .. code-block:: java
@@ -222,7 +222,7 @@ When using the Component API you need to create a ``Document`` from the imported
 ``Document`` either to the ``ReviewActivity`` (``ReviewFragment``) or the ``AnalysisActivity``
 (``AnalysisFragment``).
 
-2.6.0
+3.0.0
 ____
 
 .. code-block:: java
@@ -241,7 +241,7 @@ Create an Intent from the Imported File
 
 When using the Screen API you only need to create an Intent from the imported file and start it.
 
-2.6.0
+3.0.0
 ____
 
 .. code-block:: java
@@ -296,8 +296,8 @@ the Gini Vision Library:
 
     dependencies {
         ...
-        implementation 'net.gini:gini-vision-lib:2.6.0'
-        implementation 'net.gini:gini-vision-network-lib:2.6.0'
+        implementation 'net.gini:gini-vision-lib:3.0.0'
+        implementation 'net.gini:gini-vision-network-lib:3.0.0'
     }
 
 For the Gini Vision Library to be aware of the default implementations create the instances and pass

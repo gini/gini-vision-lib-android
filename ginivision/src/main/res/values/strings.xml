@@ -26,14 +26,14 @@
     <string name="gv_onboarding_flat">Seite glatt streichen</string>
     <string name="gv_onboarding_parallel">Gerät parallel über die Seite halten</string>
     <string name="gv_onboarding_align">Seite vollständig in den angezeigten Rahmen einpassen</string>
-    <string name="gv_onboarding_multi_page">Jetzt ist es möglich, eine Rechnung mit mehreren Seiten zu analysieren</string>
+    <string name="gv_onboarding_multi_page">Jetzt ist es möglich, eine Rechnung mit mehreren Seiten zu analysieren!</string>
 
     <string name="gv_review_bottom_panel_text">Dokument vollständig, scharf und in Leserichtung fotografiert?\n\nDoppeltippen um Schärfe zu prüfen.</string>
 
     <string name="gv_multi_page_review_page_indicator" tools:ignore="PluralsCandidate">%1$d von %2$d</string>
     <string name="gv_multi_page_review_reorder_pages_tip"><![CDATA[Stimmt die Seitenreihenfolge? Mit Drag & Drop verschieben.]]></string>
     <string name="gv_multi_page_review_add_pages_subtitle">Seiten hinzufügen</string>
-    <string name="gv_multi_page_review_image_preview_error">Vorschaubild leider nicht verfügbar.</string>
+    <string name="gv_multi_page_review_image_preview_error">Vorschaubild ist leider nicht verfügbar.</string>
     <string name="gv_multi_page_review_delete_invalid_document">Löschen</string>
     <string name="gv_multi_page_review_file_import_delete_last_page_dialog_message">Möchten Sie das letzte Bild löschen?</string>
     <string name="gv_multi_page_review_file_import_delete_last_page_dialog_positive_button">Löschen</string>
@@ -81,7 +81,7 @@
     <string name="gv_document_import_close_error">Abbrechen</string>
 
     <string name="gv_file_chooser_fotos_section_header">Fotos</string>
-    <string name="gv_file_chooser_pdfs_section_header">PDFs</string>
+    <string name="gv_file_chooser_pdfs_section_header">PDF</string>
     <string name="gv_help_item_photo_tips_title">Tipps für beste Ergebnisse aus Fotos</string>
     <string name="gv_help_item_file_import_guide_title">Dokumente aus anderen Apps öffnen</string>
     <string name="gv_help_item_supported_formats_title">Unterstützte Formate</string>
@@ -104,6 +104,5 @@
     <string name="gv_file_import_section_2_body"><![CDATA[Um die Datei an die <Banking App Name> weiterzuleiten, verwenden Sie eine Funktion wie “Öffnen mit...”, “Datei senden...”, oder “Teilen”. Die “Teilen”-Funktion wird oft grafisch als drei Punkte, die mit zwei Linien verbunden sind, dargestellt.\n\nDiese Funktionen können üblicherweise entweder im Overflow-Menü (drei Punkte oben rechts) oder in einer Funktionsleiste am unteren App-Rand gefunden werden. In manchen Email-Apps wird die Funktion in der Nähe des PDF-Anhangs vor dem Öffnen der Datei angezeigt.]]></string>
     <string name="gv_file_import_section_3_title"><![CDATA[Wählen Sie die <Banking App Name> als Ziel aus]]></string>
     <string name="gv_file_import_section_3_body"><![CDATA[Beim Aktivieren dieser Funktionen werden Apps angezeigt, an die eine PDF-Datei weitergeleitet werden kann. Bitte wählen Sie die <Banking App Name> aus der Liste aus, um den Analyse- und Überweisungsprozess zu starten.]]></string>
-    <string name="gv_add_pages">Seiten Hinzufügen</string>
 
 </resources>

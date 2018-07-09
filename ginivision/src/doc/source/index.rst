@@ -21,7 +21,7 @@ Table of contents
     Gini Vision Javadoc <http://developer.gini.net/gini-vision-lib-android/javadoc/index.html>
     Network Library Javadoc <http://developer.gini.net/gini-vision-lib-android/network/javadoc/index.html>
     customization-guide
-    updating-to-2-6-0
+    updating-to-3-0-0
     updating-to-2-5-0
     updating-to-2-4-0
     guide-for-open-with

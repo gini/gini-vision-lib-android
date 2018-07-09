@@ -29,6 +29,7 @@ public abstract class FragmentHostActivity<F extends Fragment> extends AppCompat
 
         if (savedInstanceState == null) {
             mFragment = createFragment();
+            setListener();
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, mFragment, FRAGMENT_TAG)
                     .commit();
@@ -36,9 +37,8 @@ public abstract class FragmentHostActivity<F extends Fragment> extends AppCompat
             //noinspection unchecked
             mFragment = (F) getSupportFragmentManager()
                     .findFragmentByTag(FRAGMENT_TAG);
+            setListener();
         }
-
-        setListener();
     }
 
     protected abstract void setListener();

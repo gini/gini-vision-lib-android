@@ -18,10 +18,10 @@ import java.util.Map;
 public class ReviewFragmentHostActivity extends
         ReviewFragmentHostActivityNotListener implements ReviewFragmentListener {
 
-    private boolean isRotated;
+    private boolean shouldAnalyzeDocument;
 
-    public boolean isRotated() {
-        return isRotated;
+    public boolean shouldAnalyzeDocument() {
+        return shouldAnalyzeDocument;
     }
 
     @Override
@@ -42,7 +42,7 @@ public class ReviewFragmentHostActivity extends
     @Override
     public void onDocumentWasRotated(@NonNull final Document document, final int oldRotation,
             final int newRotation) {
-        isRotated = true;
+        shouldAnalyzeDocument = true;
     }
 
     @Override
