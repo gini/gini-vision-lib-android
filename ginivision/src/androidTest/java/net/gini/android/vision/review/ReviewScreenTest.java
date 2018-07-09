@@ -680,11 +680,11 @@ public class ReviewScreenTest {
     @Test
     public void should_useExplicitListener_whenActivity_isNotListener() throws Exception {
         // Given
-        final AtomicBoolean isRotated = new AtomicBoolean();
+        final AtomicBoolean shouldAnalyzeDoc = new AtomicBoolean();
         ReviewFragmentHostActivityNotListener.sListener = new ReviewFragmentListener() {
             @Override
             public void onShouldAnalyzeDocument(@NonNull final Document document) {
-
+                shouldAnalyzeDoc.set(true);
             }
 
             @Override
@@ -700,7 +700,6 @@ public class ReviewScreenTest {
             @Override
             public void onDocumentWasRotated(@NonNull final Document document,
                     final int oldRotation, final int newRotation) {
-                isRotated.set(true);
             }
 
             @Override
@@ -727,19 +726,12 @@ public class ReviewScreenTest {
         };
         final Intent intent = new Intent(InstrumentationRegistry.getTargetContext(),
                 ReviewFragmentHostActivityNotListener.class);
-        final ReviewFragmentHostActivityNotListener activity =
                 mReviewFragmentHostActivityNotListenerTR.launchActivity(intent);
-        // When
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                activity.getFragment().mFragmentImpl.mButtonRotate.performClick();
-            }
-        });
-        // Give some time for the rotation animation to finish
+        // Wait for the activity to start
         Thread.sleep(PAUSE_DURATION);
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
         // Then
-        assertThat(isRotated.get()).isTrue();
+        assertThat(shouldAnalyzeDoc.get()).isTrue();
     }
 
     @Test
@@ -758,7 +750,8 @@ public class ReviewScreenTest {
         });
         // Give some time for the rotation animation to finish
         Thread.sleep(PAUSE_DURATION);
+        InstrumentationRegistry.getInstrumentation().waitForIdleSync();
         // Then
-        assertThat(activity.isRotated()).isTrue();
+        assertThat(activity.shouldAnalyzeDocument()).isTrue();
     }
 }
