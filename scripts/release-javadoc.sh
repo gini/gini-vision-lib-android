@@ -24,7 +24,7 @@ git clone -b gh-pages https://"$git_user":"$git_password"@github.com/gini/gini-v
 
 rm -rf gh-pages/javadoc
 rm -rf gh-pages/network/javadoc
-mkdir gh-pages/network
+mkdir -p gh-pages/network
 cp -a ginivision/build/docs/javadoc gh-pages/
 cp -a ginivision-network/build/docs/javadoc gh-pages/network/
 cd gh-pages
