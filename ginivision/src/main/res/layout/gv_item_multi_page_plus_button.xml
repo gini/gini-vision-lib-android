@@ -9,7 +9,7 @@
     android:layout_marginRight="@dimen/gv_multi_page_review_thumbnail_card_horizontal_margin"
     android:layout_marginStart="@dimen/gv_multi_page_review_thumbnail_card_horizontal_margin"
     android:layout_marginBottom="@dimen/gv_multi_page_review_thumbnail_card_vertical_margin"
-    app:cardBackgroundColor="#4F4F4F"
+    app:cardBackgroundColor="@color/gv_multi_page_review_thumbnail_card_background"
     app:cardCornerRadius="5dp"
     app:cardElevation="0dp">
 
