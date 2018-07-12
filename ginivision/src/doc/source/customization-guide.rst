@@ -1661,7 +1661,7 @@ All Action Bar customizations except the title are global to all Activities.
 
 - **Title**
 
-  Via the string resource named ``gv_title_file_import`.
+  Via the string resource named ``gv_title_file_import``.
 
 - **Title Color**
 
