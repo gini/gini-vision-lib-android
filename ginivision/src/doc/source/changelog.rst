@@ -2,6 +2,12 @@
 Changelog
 =========
 
+3.0.1 (2018-08-01)
+==================
+
+- Certificate pinning is now possible when using the default networking implementation
+  ``gini-vision-lib-network``.
+
 3.0.0 (2018-07-06)
 ==================
 
