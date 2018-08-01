@@ -3,6 +3,7 @@ package net.gini.android.vision.network;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.XmlRes;
 import android.text.TextUtils;
 
 import com.android.volley.Cache;
@@ -326,6 +327,8 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
         private String mUserCenterBaseUrl;
         private Cache mCache;
         private CredentialsStore mCredentialsStore;
+        @XmlRes
+        private int mNetworkSecurityConfigResId;
         private long mConnectionTimeout;
         private TimeUnit mConnectionTimeoutUnit;
         private int mMaxNumberOfRetries;
@@ -359,6 +362,9 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
             }
             if (mCredentialsStore != null) {
                 sdkBuilder.setCredentialsStore(mCredentialsStore);
+            }
+            if (mNetworkSecurityConfigResId > 0) {
+                sdkBuilder.setNetworkSecurityConfigResId(mNetworkSecurityConfigResId);
             }
             if (mConnectionTimeoutUnit != null) {
                 sdkBuilder.setConnectionTimeoutInMs(
@@ -460,6 +466,18 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
         @NonNull
         public Builder setCredentialsStore(@NonNull final CredentialsStore credentialsStore) {
             mCredentialsStore = credentialsStore;
+            return this;
+        }
+
+        /**
+         * Set the resource id for the network security configuration xml to enable public key pinning.
+         *
+         * @param networkSecurityConfigResId xml resource id
+         * @return the {@link Builder} instance
+         */
+        @NonNull
+        public Builder setNetworkSecurityConfigResId(@XmlRes final int networkSecurityConfigResId) {
+            mNetworkSecurityConfigResId = networkSecurityConfigResId;
             return this;
         }
 
