@@ -50,6 +50,10 @@ public final class Pdf implements Parcelable {
         return getRenderer(context).getPageCount();
     }
 
+    public boolean isPasswordProtected(@NonNull final Context context) {
+        return getRenderer(context).isPdfPasswordProtected();
+    }
+
     private Renderer getRenderer(@NonNull final Context context) {
         if (mRenderer != null) {
             return mRenderer;

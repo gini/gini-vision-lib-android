@@ -75,6 +75,7 @@
     <string name="gv_document_import_error_type_not_supported">Nur Dateien vom Format jpg, png, gif oder pdf können analysiert werden.</string>
     <string name="gv_document_import_error_size_too_large">Diese Datei ist leider zu groß.</string>
     <string name="gv_document_import_error_too_many_pdf_pages">Das Dokument darf nicht mehr als 10 Seiten haben.</string>
+    <string name="gv_document_import_error_password_protected_pdf">Passwortgeschützte Dokumente können nicht analyisiert werden.</string>
     <string name="gv_document_error_too_many_pages">Das Dokument darf nicht mehr als 10 Seiten haben.</string>
 
     <string name="gv_document_import_pick_another_document">Auswahl ändern</string>

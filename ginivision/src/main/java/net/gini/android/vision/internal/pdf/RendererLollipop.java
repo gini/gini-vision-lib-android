@@ -47,7 +47,12 @@ class RendererLollipop implements Renderer {
     @Nullable
     private synchronized Bitmap toBitmap(@NonNull final Size targetSize) {
         Bitmap bitmap = null;
-        final PdfRenderer pdfRenderer = getPdfRenderer();
+        PdfRenderer pdfRenderer = null;
+        try {
+             pdfRenderer = getPdfRenderer();
+        } catch (final SecurityException e) {
+            LOG.error("Could not read pdf", e);
+        }
         if (pdfRenderer == null) {
             return null;
         }
@@ -63,7 +68,7 @@ class RendererLollipop implements Renderer {
     }
 
     @Nullable
-    private PdfRenderer getPdfRenderer() {
+    private PdfRenderer getPdfRenderer() throws SecurityException {
         final ContentResolver contentResolver = mContext.getContentResolver();
         ParcelFileDescriptor fileDescriptor = null;
         try {
@@ -130,13 +135,33 @@ class RendererLollipop implements Renderer {
 
     @Override
     public synchronized int getPageCount() {
-        final PdfRenderer pdfRenderer = getPdfRenderer();
+        PdfRenderer pdfRenderer = null;
+        try {
+            pdfRenderer = getPdfRenderer();
+        } catch (final SecurityException e) {
+            LOG.error("Could not read pdf", e);
+        }
         if (pdfRenderer == null) {
             return 0;
         }
         final int pageCount = pdfRenderer.getPageCount();
         pdfRenderer.close();
         return pageCount;
+    }
+
+    @Override
+    public boolean isPdfPasswordProtected() {
+        final PdfRenderer pdfRenderer;
+        try {
+            pdfRenderer = getPdfRenderer();
+        } catch (final SecurityException e) {
+            LOG.debug("PDF is password protected", e);
+            return true;
+        }
+        if (pdfRenderer != null) {
+            pdfRenderer.close();
+        }
+        return false;
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
