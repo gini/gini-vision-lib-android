@@ -1,6 +1,7 @@
 package net.gini.android.vision.test;
 
 import android.app.Instrumentation;
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +14,7 @@ import android.os.RemoteException;
 import android.support.annotation.NonNull;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.uiautomator.UiDevice;
+import android.support.v4.content.FileProvider;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.document.DocumentFactory;
@@ -221,5 +223,40 @@ public class Helpers {
                 index++;
             }
         }
+    }
+
+    @NonNull
+    public static Uri getAssetFileFileContentUri(@NonNull final String assetFilePath) throws IOException {
+        final File fileProviderDir = createAndGetFileProviderDir();
+        final File file = new File(fileProviderDir, assetFilePath);
+        Helpers.copyAssetToStorage(assetFilePath, fileProviderDir.getPath());
+        return FileProvider.getUriForFile(InstrumentationRegistry.getTargetContext(),
+                "net.gini.android.vision.test.fileprovider", file);
+    }
+
+    @NonNull
+    public static File getAssetFileAsFileProviderFile(@NonNull final String assetFilePath) {
+        return new File(Helpers.getFileProviderDir(), assetFilePath);
+    }
+
+    private static File createAndGetFileProviderDir() throws IOException {
+        final File fileProviderDir = getFileProviderDir();
+        if (!fileProviderDir.exists()) {
+            //noinspection ResultOfMethodCallIgnored
+            fileProviderDir.mkdirs();
+        }
+        return fileProviderDir;
+    }
+
+    public static void deleteAssetFileFromContentUri(@NonNull final String assetFilePath) throws IOException {
+        final File file = new File(createAndGetFileProviderDir(), assetFilePath);
+        //noinspection ResultOfMethodCallIgnored
+        file.delete();
+    }
+
+    @NonNull
+    private static File getFileProviderDir() {
+        final Context context = InstrumentationRegistry.getTargetContext();
+        return new File(context.getFilesDir(), "file-provider");
     }
 }

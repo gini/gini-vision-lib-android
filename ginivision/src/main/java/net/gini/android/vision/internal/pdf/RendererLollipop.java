@@ -16,6 +16,7 @@ import android.os.ParcelFileDescriptor;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.annotation.VisibleForTesting;
 
 import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.internal.util.Size;
@@ -45,11 +46,12 @@ class RendererLollipop implements Renderer {
     }
 
     @Nullable
-    private synchronized Bitmap toBitmap(@NonNull final Size targetSize) {
+    @VisibleForTesting
+    protected synchronized Bitmap toBitmap(@NonNull final Size targetSize) {
         Bitmap bitmap = null;
         PdfRenderer pdfRenderer = null;
         try {
-             pdfRenderer = getPdfRenderer();
+            pdfRenderer = getPdfRenderer();
         } catch (final SecurityException e) {
             LOG.error("Could not read pdf", e);
         }
@@ -83,8 +85,21 @@ class RendererLollipop implements Renderer {
             return new PdfRenderer(fileDescriptor);
         } catch (final IOException e) {
             LOG.error("Could not read pdf", e);
+            closeFileDescriptor(fileDescriptor);
+        } catch (final SecurityException e) {
+            LOG.error("Could not read pdf", e);
+            closeFileDescriptor(fileDescriptor);
+            throw e;
         }
         return null;
+    }
+
+    private void closeFileDescriptor(@NonNull final ParcelFileDescriptor fileDescriptor) {
+        try {
+            fileDescriptor.close();
+        } catch (final IOException e) {
+            LOG.error("Could not close file descriptor", e);
+        }
     }
 
     @Override
