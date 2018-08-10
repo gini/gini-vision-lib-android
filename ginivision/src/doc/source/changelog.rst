@@ -2,6 +2,13 @@
 Changelog
 =========
 
+3.0.2 (2018-08-10)
+==================
+
+- Password protected PDFs are detected and rejected during file validation and users are informed
+  about the inability to analyze PDFs with passwords.
+
+
 3.0.1 (2018-08-01)
 ==================
 
