@@ -5,6 +5,7 @@ import static com.google.common.truth.Truth.assertThat;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.filters.RequiresDevice;
 import android.support.test.filters.SdkSuppress;
 
 import net.gini.android.vision.internal.util.Size;
@@ -20,6 +21,7 @@ import org.junit.Test;
  * Copyright (c) 2018 Gini GmbH.
  */
 
+@RequiresDevice
 @SdkSuppress(minSdkVersion = 21)
 public class RendererLollipopTest {
 

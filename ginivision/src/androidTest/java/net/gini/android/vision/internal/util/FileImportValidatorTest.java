@@ -4,6 +4,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import android.net.Uri;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.filters.RequiresDevice;
 
 import net.gini.android.vision.test.Helpers;
 
@@ -36,6 +37,7 @@ public class FileImportValidatorTest {
         Helpers.deleteAssetFileFromContentUri(PDF_WITH_PASSWORD);
     }
 
+    @RequiresDevice
     @Test
     public void should_acceptPDF_withOnePage_andWithoutPassword() throws Exception {
         // Given
@@ -47,6 +49,7 @@ public class FileImportValidatorTest {
         assertThat(result).isTrue();
     }
 
+    @RequiresDevice
     @Test
     public void should_NotAcceptPDF_withOnePage_andWithPassword() throws Exception {
         // Given
