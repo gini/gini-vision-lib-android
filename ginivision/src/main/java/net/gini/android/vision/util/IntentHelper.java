@@ -16,6 +16,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -93,6 +94,11 @@ public final class IntentHelper {
                     clipDataUris.add(clipData.getItemAt(i).getUri());
                 }
                 return clipDataUris;
+            } else {
+                final Uri uri = intent.getData();
+                if (uri != null) {
+                    return Collections.singletonList(uri);
+                }
             }
         }
         return null;
