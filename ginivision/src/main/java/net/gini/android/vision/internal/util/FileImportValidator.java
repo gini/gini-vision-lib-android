@@ -43,6 +43,7 @@ public class FileImportValidator {
         TYPE_NOT_SUPPORTED(R.string.gv_document_import_error_type_not_supported),
         SIZE_TOO_LARGE(R.string.gv_document_import_error_size_too_large),
         TOO_MANY_PDF_PAGES(R.string.gv_document_import_error_too_many_pdf_pages),
+        PASSWORD_PROTECTED_PDF(R.string.gv_document_import_error_password_protected_pdf),
         TOO_MANY_DOCUMENT_PAGES(R.string.gv_document_error_too_many_pages);
 
         public int getTextResource() {
@@ -98,8 +99,13 @@ public class FileImportValidator {
         }
 
         if (isPdf(mimeTypes)) {
-            if (!matchesPdfCriteria(fileUri)) { // NOPMD
+            final Pdf pdf = Pdf.fromUri(fileUri);
+            if (!matchesPdfPageCountCriteria(pdf)) { // NOPMD
                 mError = Error.TOO_MANY_PDF_PAGES;
+                return false;
+            }
+            if (!matchesPdfNoPasswordCriteria(pdf)) { // NOPMD
+                mError = Error.PASSWORD_PROTECTED_PDF;
                 return false;
             }
         }
@@ -130,10 +136,13 @@ public class FileImportValidator {
         return false;
     }
 
-    private boolean matchesPdfCriteria(final Uri fileUri) {
-        final Pdf pdf = Pdf.fromUri(fileUri);
+    private boolean matchesPdfPageCountCriteria(final Pdf pdf) {
         final int pageCount = pdf.getPageCount(mContext);
         return pageCount <= PDF_PAGE_LIMIT;
+    }
+
+    private boolean matchesPdfNoPasswordCriteria(final Pdf pdf) {
+        return !pdf.isPasswordProtected(mContext);
     }
 
     private boolean matchesSizeCriteria(final Uri fileUri) {

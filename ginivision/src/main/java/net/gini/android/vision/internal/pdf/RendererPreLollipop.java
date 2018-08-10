@@ -27,4 +27,9 @@ class RendererPreLollipop implements Renderer {
         return 0;
     }
 
+    @Override
+    public boolean isPdfPasswordProtected() {
+        return false;
+    }
+
 }
