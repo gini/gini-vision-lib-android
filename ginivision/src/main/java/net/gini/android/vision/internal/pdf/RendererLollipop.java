@@ -24,7 +24,6 @@ import net.gini.android.vision.internal.util.Size;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -48,58 +47,26 @@ class RendererLollipop implements Renderer {
     @Nullable
     @VisibleForTesting
     protected synchronized Bitmap toBitmap(@NonNull final Size targetSize) {
-        Bitmap bitmap = null;
-        PdfRenderer pdfRenderer = null;
+        final PdfRendererHelper pdfRendererHelper = new PdfRendererHelper(mContext, mUri);
         try {
-            pdfRenderer = getPdfRenderer();
-        } catch (final SecurityException e) {
+            final PdfRenderer pdfRenderer = pdfRendererHelper.createPdfRenderer();
+            if (pdfRenderer == null) {
+                return null;
+            }
+            if (pdfRenderer.getPageCount() > 0) {
+                final PdfRenderer.Page page = pdfRenderer.openPage(0);
+                final Size optimalSize = calculateOptimalRenderingSize(page, targetSize);
+                final Bitmap bitmap = createWhiteBitmap(optimalSize);
+                page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
+                page.close();
+                return bitmap;
+            }
+        } catch (final IOException | SecurityException e) {
             LOG.error("Could not read pdf", e);
-        }
-        if (pdfRenderer == null) {
-            return null;
-        }
-        if (pdfRenderer.getPageCount() > 0) {
-            final PdfRenderer.Page page = pdfRenderer.openPage(0);
-            final Size optimalSize = calculateOptimalRenderingSize(page, targetSize);
-            bitmap = createWhiteBitmap(optimalSize);
-            page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY);
-            page.close();
-        }
-        pdfRenderer.close();
-        return bitmap;
-    }
-
-    @Nullable
-    private PdfRenderer getPdfRenderer() throws SecurityException {
-        final ContentResolver contentResolver = mContext.getContentResolver();
-        ParcelFileDescriptor fileDescriptor = null;
-        try {
-            fileDescriptor = contentResolver.openFileDescriptor(mUri, "r");
-        } catch (final FileNotFoundException e) {
-            LOG.error("Pdf not found", e);
-        }
-        if (fileDescriptor == null) {
-            return null;
-        }
-        try {
-            return new PdfRenderer(fileDescriptor);
-        } catch (final IOException e) {
-            LOG.error("Could not read pdf", e);
-            closeFileDescriptor(fileDescriptor);
-        } catch (final SecurityException e) {
-            LOG.error("Could not read pdf", e);
-            closeFileDescriptor(fileDescriptor);
-            throw e;
+        } finally {
+            pdfRendererHelper.closePdfRenderer();
         }
         return null;
-    }
-
-    private void closeFileDescriptor(@NonNull final ParcelFileDescriptor fileDescriptor) {
-        try {
-            fileDescriptor.close();
-        } catch (final IOException e) {
-            LOG.error("Could not close file descriptor", e);
-        }
     }
 
     @Override
@@ -150,31 +117,34 @@ class RendererLollipop implements Renderer {
 
     @Override
     public synchronized int getPageCount() {
-        PdfRenderer pdfRenderer = null;
+        final PdfRendererHelper pdfRendererHelper = new PdfRendererHelper(mContext, mUri);
         try {
-            pdfRenderer = getPdfRenderer();
-        } catch (final SecurityException e) {
+            final PdfRenderer pdfRenderer = pdfRendererHelper.createPdfRenderer();
+            if (pdfRenderer == null) {
+                return 0;
+            }
+            return pdfRenderer.getPageCount();
+        } catch (final IOException | SecurityException e) {
             LOG.error("Could not read pdf", e);
+        } finally {
+            pdfRendererHelper.closePdfRenderer();
         }
-        if (pdfRenderer == null) {
-            return 0;
-        }
-        final int pageCount = pdfRenderer.getPageCount();
-        pdfRenderer.close();
-        return pageCount;
+        return 0;
     }
 
     @Override
     public boolean isPdfPasswordProtected() {
-        final PdfRenderer pdfRenderer;
+        final PdfRendererHelper pdfRendererHelper = new PdfRendererHelper(mContext, mUri);
         try {
-            pdfRenderer = getPdfRenderer();
+            pdfRendererHelper.createPdfRenderer();
+            return false;
+        } catch (final IOException e) {
+            LOG.error("Could not read pdf", e);
         } catch (final SecurityException e) {
-            LOG.debug("PDF is password protected", e);
+            LOG.error("Could not read pdf", e);
             return true;
-        }
-        if (pdfRenderer != null) {
-            pdfRenderer.close();
+        } finally {
+            pdfRendererHelper.closePdfRenderer();
         }
         return false;
     }
@@ -266,6 +236,45 @@ class RendererLollipop implements Renderer {
         protected void onPostExecute(final Integer pageCount) {
             super.onPostExecute(pageCount);
             mCallback.onSuccess(pageCount);
+        }
+    }
+
+    /**
+     * Helper for creating a {@link PdfRenderer} instance and to free up resources afterwads.
+     */
+    private static class PdfRendererHelper {
+
+        private final Context mContext;
+        private final Uri mUri;
+        private ParcelFileDescriptor mFileDescriptor;
+        private PdfRenderer mPdfRenderer;
+
+        PdfRendererHelper(@NonNull final Context context, @NonNull final Uri uri) {
+            mContext = context;
+            mUri = uri;
+        }
+
+        @Nullable
+        PdfRenderer createPdfRenderer() throws IOException, SecurityException {
+            final ContentResolver contentResolver = mContext.getContentResolver();
+            mFileDescriptor = contentResolver.openFileDescriptor(mUri, "r");
+            if (mFileDescriptor == null) {
+                return null;
+            }
+            mPdfRenderer = new PdfRenderer(mFileDescriptor);
+            return mPdfRenderer;
+        }
+
+        void closePdfRenderer() {
+            if (mPdfRenderer != null) {
+                mPdfRenderer.close();
+            } else if (mFileDescriptor != null) {
+                try {
+                    mFileDescriptor.close();
+                } catch (final IOException e) {
+                    LOG.error("Could not close file descriptor", e);
+                }
+            }
         }
     }
 }
