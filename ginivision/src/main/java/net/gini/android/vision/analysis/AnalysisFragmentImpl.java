@@ -108,6 +108,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     private RelativeLayout mLayoutRoot;
     private AnalysisFragmentListener mListener = NO_OP_LISTENER;
     private ProgressBar mProgressActivity;
+    private Runnable mHintStartRunnable;
     private Runnable mHintCycleRunnable;
     private LinearLayout mPdfOverlayLayout;
     private TextView mPdfTitleTextView;
@@ -119,7 +120,6 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     private static final int HINT_CYCLE_INTERVAL = 4000;
     private boolean mStopped;
     private boolean mAnalysisCompleted;
-
 
     AnalysisFragmentImpl(final FragmentImplCallback fragment, @NonNull final Document document,
             final String documentAnalysisErrorMessage) {
@@ -321,7 +321,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
                 mHintAnimation.start();
             }
         };
-        mHandler.postDelayed(new Runnable() {
+        mHintStartRunnable = new Runnable() {
             @Override
             public void run() {
                 if (TextUtils.isEmpty(mHintHeadlineTextView.getText())) {
@@ -330,7 +330,8 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
                 }
                 mHandler.post(mHintCycleRunnable);
             }
-        }, HINT_START_DELAY);
+        };
+        mHandler.postDelayed(mHintStartRunnable, HINT_START_DELAY);
     }
 
     private ViewPropertyAnimatorCompat getHintHeadlineSlideDownAnimation() {
@@ -409,6 +410,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
     void onStop() {
         mStopped = true;
+        mHandler.removeCallbacks(mHintStartRunnable);
         mHandler.removeCallbacks(mHintCycleRunnable);
         if (mHintAnimation != null) {
             mHintAnimation.cancel();
