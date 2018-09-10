@@ -16,6 +16,7 @@ import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.R;
 import net.gini.android.vision.document.ImageDocument;
+import net.gini.android.vision.internal.camera.photo.ParcelableMemoryCache;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.review.RotatableImageViewContainer;
@@ -33,6 +34,7 @@ public class PreviewFragment extends Fragment {
     private static final String ARGS_DOCUMENT = "GV_ARGS_DOCUMENT";
     private static final String ARGS_ERROR_MESSAGE = "GV_ARGS_ERROR_MESSAGE";
     private static final String ARGS_ERROR_BUTTON_ACTION = "ARGS_ERROR_BUTTON_ACTION";
+    private static final String PARCELABLE_MEMORY_CACHE_TAG = "PAGE_PREVIEW_FRAGMENT";
 
     private RotatableImageViewContainer mImageViewContainer;
 
@@ -64,6 +66,10 @@ public class PreviewFragment extends Fragment {
         if (arguments != null) {
             mErrorMessage = arguments.getString(ARGS_ERROR_MESSAGE);
             mDocument = arguments.getParcelable(ARGS_DOCUMENT);
+            if (mDocument != null) {
+                // Tag the documents to be able to clean up the automatically parcelled data
+                mDocument.setParcelableMemoryCacheTag(PARCELABLE_MEMORY_CACHE_TAG);
+            }
             mErrorButtonAction = (ErrorButtonAction) arguments.getSerializable(
                     ARGS_ERROR_BUTTON_ACTION);
         }
@@ -88,6 +94,9 @@ public class PreviewFragment extends Fragment {
         if (context == null) {
             return;
         }
+        // Remove data from memory cache which was added when the document in the arguments
+        // was automatically parcelled when the activity has been stopped
+        ParcelableMemoryCache.getInstance().removeEntriesWithTag(PARCELABLE_MEMORY_CACHE_TAG);
         if (shouldShowPreviewImage()) {
             LOG.debug("Loading preview bitmap ({})", this);
             showActivityIndicator();
@@ -207,6 +216,14 @@ public class PreviewFragment extends Fragment {
         super.onStop();
         LOG.debug("Stopped ({})", this);
         mStopped = true;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // Remove data from memory cache which was added when the document in the arguments
+        // was automatically parcelled when the activity has been stopped
+        ParcelableMemoryCache.getInstance().removeEntriesWithTag(PARCELABLE_MEMORY_CACHE_TAG);
     }
 
     private void rotateImageView(final int degrees, final boolean animated) {

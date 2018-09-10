@@ -30,6 +30,7 @@ import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.GiniVisionDocument;
 import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.internal.cache.PhotoMemoryCache;
+import net.gini.android.vision.internal.camera.photo.ParcelableMemoryCache;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.PhotoEdit;
 import net.gini.android.vision.internal.camera.photo.PhotoFactoryDocumentAsyncTask;
@@ -52,6 +53,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
 
     private static final String PHOTO_KEY = "PHOTO_KEY";
     private static final String DOCUMENT_KEY = "DOCUMENT_KEY";
+    private static final String PARCELABLE_MEMORY_CACHE_TAG = "REVIEW_FRAGMENT";
     private static final Logger LOG = LoggerFactory.getLogger(ReviewFragmentImpl.class);
 
     private static final ReviewFragmentListener NO_OP_LISTENER = new ReviewFragmentListener() {
@@ -126,6 +128,8 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             throw new IllegalArgumentException("Only Documents with type IMAGE allowed");
         }
         mDocument = (ImageDocument) document;
+        // Tag the documents to be able to clean up the parcelled data
+        mDocument.setParcelableMemoryCacheTag(PARCELABLE_MEMORY_CACHE_TAG);
     }
 
     @VisibleForTesting
@@ -306,6 +310,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
             return;
         }
         mPhoto = result;
+        mPhoto.setParcelableMemoryCacheTag(PARCELABLE_MEMORY_CACHE_TAG);
         mCurrentRotation = mDocument.getRotationForDisplay();
         if (!mDocument.getSource().equals(Document.Source.newCameraSource())) {
             LOG.debug("Compressing Photo");
@@ -422,6 +427,8 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     }
 
     void onSaveInstanceState(final Bundle outState) {
+        // Remove previously saved data from the memory cache
+        ParcelableMemoryCache.getInstance().removeEntriesWithTag(PARCELABLE_MEMORY_CACHE_TAG);
         outState.putParcelable(PHOTO_KEY, mPhoto);
         outState.putParcelable(DOCUMENT_KEY, mDocument);
     }
@@ -429,6 +436,13 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     public void onDestroy() {
         if (!mNextClicked) {
             deleteUploadedDocument();
+        }
+        final Activity activity = mFragment.getActivity();
+        if (activity != null && activity.isFinishing()) {
+            // Remove data from the memory cache wich was added in onSaveInstanceState() and also
+            // when the document in the arguments was automatically parcelled when the activity
+            // has been stopped
+            ParcelableMemoryCache.getInstance().removeEntriesWithTag(PARCELABLE_MEMORY_CACHE_TAG);
         }
         mPhoto = null; // NOPMD
         mDocument = null; // NOPMD

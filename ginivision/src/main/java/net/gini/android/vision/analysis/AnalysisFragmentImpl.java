@@ -41,6 +41,7 @@ import net.gini.android.vision.document.GiniVisionDocument;
 import net.gini.android.vision.document.GiniVisionDocumentError;
 import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.document.PdfDocument;
+import net.gini.android.vision.internal.camera.photo.ParcelableMemoryCache;
 import net.gini.android.vision.internal.document.DocumentRenderer;
 import net.gini.android.vision.internal.document.DocumentRendererFactory;
 import net.gini.android.vision.internal.network.AnalysisNetworkRequestResult;
@@ -66,6 +67,7 @@ import jersey.repackaged.jsr166e.CompletableFuture;
 class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
     protected static final Logger LOG = LoggerFactory.getLogger(AnalysisFragmentImpl.class);
+    private static final String PARCELABLE_MEMORY_CACHE_TAG = "ANALYSIS_FRAGMENT";
 
     private static final AnalysisFragmentListener NO_OP_LISTENER = new AnalysisFragmentListener() {
         @Override
@@ -123,6 +125,9 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
             final String documentAnalysisErrorMessage) {
         mFragment = fragment;
         mMultiPageDocument = asMultiPageDocument(document);
+        // Tag the documents to be able to clean up the automatically parcelled data
+        ((GiniVisionDocument) document).setParcelableMemoryCacheTag(PARCELABLE_MEMORY_CACHE_TAG);
+        mMultiPageDocument.setParcelableMemoryCacheTag(PARCELABLE_MEMORY_CACHE_TAG);
         mDocumentAnalysisErrorMessage = documentAnalysisErrorMessage;
     }
 
@@ -222,6 +227,12 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
             GiniVision.getInstance().internal().getImageMultiPageDocumentMemoryStore()
                     .clear();
         }
+        final Activity activity = mFragment.getActivity();
+        if (activity != null && activity.isFinishing()) {
+            // Remove data from memory cache which was added when the document in the arguments
+            // was automatically parcelled when the activity has been stopped
+            ParcelableMemoryCache.getInstance().removeEntriesWithTag(PARCELABLE_MEMORY_CACHE_TAG);
+        }
     }
 
     private void deleteUploadedDocuments() {
@@ -265,6 +276,10 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         if (activity == null) {
             return;
         }
+        // Remove data from memory cache which was added when the document in the arguments
+        // was automatically parcelled when the activity has been stopped
+        ParcelableMemoryCache.getInstance().removeEntriesWithTag(PARCELABLE_MEMORY_CACHE_TAG);
+
         startScanAnimation();
         LOG.debug("Loading document data");
         mMultiPageDocument.loadData(activity,
