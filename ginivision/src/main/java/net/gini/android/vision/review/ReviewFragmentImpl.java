@@ -439,7 +439,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         }
         final Activity activity = mFragment.getActivity();
         if (activity != null && activity.isFinishing()) {
-            // Remove data from the memory cache wich was added in onSaveInstanceState() and also
+            // Remove data from the memory cache. The data was added in onSaveInstanceState() and also
             // when the document in the arguments was automatically parcelled when the activity
             // has been stopped
             ParcelableMemoryCache.getInstance().removeEntriesWithTag(PARCELABLE_MEMORY_CACHE_TAG);
