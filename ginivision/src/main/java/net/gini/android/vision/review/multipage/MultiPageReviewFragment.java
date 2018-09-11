@@ -12,7 +12,6 @@ import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
@@ -103,7 +102,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         PreviewFragmentListener {
 
     private static final Logger LOG = LoggerFactory.getLogger(MultiPageReviewFragment.class);
-    private static final String MP_DOCUMENT_KEY = "MP_DOCUMENT_KEY";
+
     private final Map<String, Boolean> mDocumentUploadResults = new HashMap<>();
     private ImageMultiPageDocument mMultiPageDocument;
     private MultiPageReviewFragmentListener mListener;
@@ -133,9 +132,6 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         forcePortraitOrientationOnPhones(getActivity());
         initMultiPageDocument();
         initListener();
-        if (savedInstanceState != null) {
-            restoreSavedState(savedInstanceState);
-        }
     }
 
     private void initMultiPageDocument() {
@@ -153,18 +149,6 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     private void initUploadResults() {
         for (final ImageDocument imageDocument : mMultiPageDocument.getDocuments()) {
             mDocumentUploadResults.put(imageDocument.getId(), false);
-        }
-    }
-
-    private void restoreSavedState(@Nullable final Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            return;
-        }
-        LOG.debug("Restoring saved state");
-        mMultiPageDocument = savedInstanceState.getParcelable(MP_DOCUMENT_KEY);
-        if (mMultiPageDocument == null) {
-            throw new IllegalStateException(
-                    "Missing required instances for restoring saved instance state.");
         }
     }
 
@@ -621,11 +605,6 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         mPreviewsPager.setCurrentItem(0);
         updatePageIndicator(0);
         highlightThumbnail(0);
-    }
-
-    @Override
-    public void onSaveInstanceState(final Bundle outState) {
-        outState.putParcelable(MP_DOCUMENT_KEY, mMultiPageDocument);
     }
 
     @Override
