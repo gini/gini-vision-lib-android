@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.helpers.NOPLogger;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -28,7 +29,15 @@ public enum ParcelableMemoryCache {
 
     INSTANCE;
 
-    private static final Logger LOG = LoggerFactory.getLogger(ParcelableMemoryCache.class);
+    private static final boolean DEBUG = false;
+    private static final Logger LOG;
+    static {
+        if (DEBUG) {
+            LOG = LoggerFactory.getLogger(ParcelableMemoryCache.class);
+        } else {
+            LOG = NOPLogger.NOP_LOGGER;
+        }
+    }
 
     /**
      * Opaque tokenId type to identify a document.
