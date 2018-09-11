@@ -85,15 +85,15 @@ public enum ParcelableMemoryCache {
         }
 
         @Override
-        public boolean equals(final Object o) {
-            if (this == o) {
+        public boolean equals(final Object other) {
+            if (this == other) {
                 return true;
             }
-            if (o == null || getClass() != o.getClass()) {
+            if (other == null || getClass() != other.getClass()) {
                 return false;
             }
 
-            final Token token = (Token) o;
+            final Token token = (Token) other;
 
             if (tokenId != token.tokenId) {
                 return false;
