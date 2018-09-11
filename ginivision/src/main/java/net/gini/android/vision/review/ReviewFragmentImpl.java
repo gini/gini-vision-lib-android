@@ -427,10 +427,15 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     }
 
     void onSaveInstanceState(final Bundle outState) {
-        // Remove previously saved data from the memory cache
-        ParcelableMemoryCache.getInstance().removeEntriesWithTag(PARCELABLE_MEMORY_CACHE_TAG);
+        // Remove previously saved data from the memory cache to keep only the data saved in the
+        // current invocation
+        clearParcelableMemoryCache();
         outState.putParcelable(PHOTO_KEY, mPhoto);
         outState.putParcelable(DOCUMENT_KEY, mDocument);
+    }
+
+    private void clearParcelableMemoryCache() {
+        ParcelableMemoryCache.getInstance().removeEntriesWithTag(PARCELABLE_MEMORY_CACHE_TAG);
     }
 
     public void onDestroy() {
@@ -439,10 +444,10 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         }
         final Activity activity = mFragment.getActivity();
         if (activity != null && activity.isFinishing()) {
-            // Remove data from the memory cache. The data was added in onSaveInstanceState() and also
-            // when the document in the arguments was automatically parcelled when the activity
-            // has been stopped
-            ParcelableMemoryCache.getInstance().removeEntriesWithTag(PARCELABLE_MEMORY_CACHE_TAG);
+            // Remove data from the memory cache. The data had been added in onSaveInstanceState()
+            // and also when the document in the arguments was automatically parcelled when the
+            // activity was stopped
+            clearParcelableMemoryCache();
         }
         mPhoto = null; // NOPMD
         mDocument = null; // NOPMD

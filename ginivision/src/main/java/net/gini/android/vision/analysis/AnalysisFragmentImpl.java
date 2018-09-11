@@ -237,8 +237,8 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     private void clearParcelableMemoryCache() {
-        // Remove data from memory cache which was added when the document in the arguments
-        // was automatically parcelled when the activity has been stopped
+        // Remove data from the memory cache. The data had been added when the document in the
+        // arguments was automatically parcelled when the activity was stopped
         ParcelableMemoryCache.getInstance().removeEntriesWithTag(PARCELABLE_MEMORY_CACHE_TAG);
     }
 

@@ -94,9 +94,7 @@ public class PreviewFragment extends Fragment {
         if (context == null) {
             return;
         }
-        // Remove data from memory cache which was added when the document in the arguments
-        // was automatically parcelled when the activity has been stopped
-        ParcelableMemoryCache.getInstance().removeEntriesWithTag(PARCELABLE_MEMORY_CACHE_TAG);
+        clearParcelableMemoryCache();
         if (shouldShowPreviewImage()) {
             LOG.debug("Loading preview bitmap ({})", this);
             showActivityIndicator();
@@ -221,8 +219,12 @@ public class PreviewFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        // Remove data from memory cache which was added when the document in the arguments
-        // was automatically parcelled when the activity has been stopped
+        clearParcelableMemoryCache();
+    }
+
+    private void clearParcelableMemoryCache() {
+        // Remove data from the memory cache. The data had been added when the document in the
+        // arguments was automatically parcelled when the activity was stopped
         ParcelableMemoryCache.getInstance().removeEntriesWithTag(PARCELABLE_MEMORY_CACHE_TAG);
     }
 
