@@ -148,7 +148,7 @@ app/build.gradle:
 
 ```
 dependencies {
-    implementation 'net.gini:gini-vision-lib:3.0.2'
+    implementation 'net.gini:gini-vision-lib:3.0.3'
 }
 ```
 
