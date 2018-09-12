@@ -32,6 +32,7 @@ class ImmutablePhoto implements Photo {
     int mRotationForDisplay;
     private final ImageDocument.ImageFormat mImageFormat;
     private final boolean mIsImported;
+    private String mParcelableMemoryCacheTag;
 
     ImmutablePhoto(@NonNull final byte[] data, final int orientation,
             @NonNull final ImageDocument.ImageFormat imageFormat, final boolean isImported) {
@@ -163,6 +164,17 @@ class ImmutablePhoto implements Photo {
         }
     }
 
+    @Override
+    public void setParcelableMemoryCacheTag(@NonNull final String tag) {
+        mParcelableMemoryCacheTag = tag;
+    }
+
+    @Nullable
+    @Override
+    public String getParcelableMemoryCacheTag() {
+        return mParcelableMemoryCacheTag;
+    }
+
     @VisibleForTesting
     public synchronized void savePreviewToFile(final File file) {
         FileOutputStream outputStream = null;
@@ -190,15 +202,26 @@ class ImmutablePhoto implements Photo {
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {
         final ParcelableMemoryCache cache = ParcelableMemoryCache.getInstance();
-        ParcelableMemoryCache.Token token = cache.storeBitmap(mBitmapPreview);
+
+        ParcelableMemoryCache.Token token;
+        if (mParcelableMemoryCacheTag != null) {
+            token = cache.storeBitmap(mBitmapPreview, mParcelableMemoryCacheTag);
+        } else {
+            token = cache.storeBitmap(mBitmapPreview);
+        }
         dest.writeParcelable(token, flags);
 
-        token = cache.storeByteArray(mData);
+        if (mParcelableMemoryCacheTag != null) {
+            token = cache.storeByteArray(mData, mParcelableMemoryCacheTag);
+        } else {
+            token = cache.storeByteArray(mData);
+        }
         dest.writeParcelable(token, flags);
 
         dest.writeInt(mRotationForDisplay);
         dest.writeSerializable(mImageFormat);
         dest.writeInt(mIsImported ? 1 : 0);
+        dest.writeString(mParcelableMemoryCacheTag);
     }
 
     public static final Parcelable.Creator<ImmutablePhoto> CREATOR =
@@ -228,6 +251,7 @@ class ImmutablePhoto implements Photo {
         mRotationForDisplay = in.readInt();
         mImageFormat = (ImageDocument.ImageFormat) in.readSerializable();
         mIsImported = in.readInt() == 1;
+        mParcelableMemoryCacheTag = in.readString();
     }
 
     @Override

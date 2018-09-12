@@ -83,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
             mFileImportCancellationToken.cancel();
             mFileImportCancellationToken = null;
         }
-        GiniVision.cleanup(this);
     }
 
     private void createRuntimePermissionsHandler() {

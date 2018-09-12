@@ -44,6 +44,7 @@ public class GiniVisionDocument implements Document {
     private final ImportMethod mImportMethod;
     private final String mMimeType;
     private byte[] mData;
+    private String mParcelableMemoryCacheTag;
 
     GiniVisionDocument(@NonNull final Type type,
             @NonNull final Source source,
@@ -98,6 +99,7 @@ public class GiniVisionDocument implements Document {
         mIntent = in.readParcelable(Intent.class.getClassLoader());
         mUri = in.readParcelable(Uri.class.getClassLoader());
         mIsReviewable = in.readInt() == 1;
+        mParcelableMemoryCacheTag = in.readString();
     }
 
     @Override
@@ -120,10 +122,16 @@ public class GiniVisionDocument implements Document {
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeString(mUniqueId);
+
+        final ParcelableMemoryCache cache = ParcelableMemoryCache.getInstance();
         synchronized (this) {
             if (mData != null) {
-                final ParcelableMemoryCache cache = ParcelableMemoryCache.getInstance();
-                final ParcelableMemoryCache.Token token = cache.storeByteArray(mData);
+                final ParcelableMemoryCache.Token token;
+                if (mParcelableMemoryCacheTag != null) {
+                    token = cache.storeByteArray(mData, mParcelableMemoryCacheTag);
+                } else {
+                    token = cache.storeByteArray(mData);
+                }
                 dest.writeParcelable(token, flags);
             } else {
                 dest.writeParcelable(null, flags);
@@ -136,6 +144,7 @@ public class GiniVisionDocument implements Document {
         dest.writeParcelable(mIntent, flags);
         dest.writeParcelable(mUri, flags);
         dest.writeInt(mIsReviewable ? 1 : 0);
+        dest.writeString(mParcelableMemoryCacheTag);
     }
 
     @Deprecated
@@ -204,6 +213,15 @@ public class GiniVisionDocument implements Document {
     @Override
     public boolean isReviewable() {
         return mIsReviewable;
+    }
+
+    public void setParcelableMemoryCacheTag(@NonNull final String tag) {
+        mParcelableMemoryCacheTag = tag;
+    }
+
+    @Nullable
+    public String getParcelableMemoryCacheTag() {
+        return mParcelableMemoryCacheTag;
     }
 
     @Override

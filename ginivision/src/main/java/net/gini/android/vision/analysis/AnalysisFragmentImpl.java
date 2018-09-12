@@ -41,6 +41,7 @@ import net.gini.android.vision.document.GiniVisionDocument;
 import net.gini.android.vision.document.GiniVisionDocumentError;
 import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.document.PdfDocument;
+import net.gini.android.vision.internal.camera.photo.ParcelableMemoryCache;
 import net.gini.android.vision.internal.document.DocumentRenderer;
 import net.gini.android.vision.internal.document.DocumentRendererFactory;
 import net.gini.android.vision.internal.network.AnalysisNetworkRequestResult;
@@ -66,6 +67,7 @@ import jersey.repackaged.jsr166e.CompletableFuture;
 class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
     protected static final Logger LOG = LoggerFactory.getLogger(AnalysisFragmentImpl.class);
+    private static final String PARCELABLE_MEMORY_CACHE_TAG = "ANALYSIS_FRAGMENT";
 
     private static final AnalysisFragmentListener NO_OP_LISTENER = new AnalysisFragmentListener() {
         @Override
@@ -106,6 +108,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     private RelativeLayout mLayoutRoot;
     private AnalysisFragmentListener mListener = NO_OP_LISTENER;
     private ProgressBar mProgressActivity;
+    private Runnable mHintStartRunnable;
     private Runnable mHintCycleRunnable;
     private LinearLayout mPdfOverlayLayout;
     private TextView mPdfTitleTextView;
@@ -118,11 +121,16 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     private boolean mStopped;
     private boolean mAnalysisCompleted;
 
-
     AnalysisFragmentImpl(final FragmentImplCallback fragment, @NonNull final Document document,
             final String documentAnalysisErrorMessage) {
         mFragment = fragment;
         mMultiPageDocument = asMultiPageDocument(document);
+        // Tag the documents to be able to clean up the automatically parcelled data
+        if (document instanceof GiniVisionDocument) {
+            ((GiniVisionDocument) document).setParcelableMemoryCacheTag(
+                    PARCELABLE_MEMORY_CACHE_TAG);
+        }
+        mMultiPageDocument.setParcelableMemoryCacheTag(PARCELABLE_MEMORY_CACHE_TAG);
         mDocumentAnalysisErrorMessage = documentAnalysisErrorMessage;
     }
 
@@ -222,6 +230,16 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
             GiniVision.getInstance().internal().getImageMultiPageDocumentMemoryStore()
                     .clear();
         }
+        final Activity activity = mFragment.getActivity();
+        if (activity != null && activity.isFinishing()) {
+            clearParcelableMemoryCache();
+        }
+    }
+
+    private void clearParcelableMemoryCache() {
+        // Remove data from the memory cache. The data had been added when the document in the
+        // arguments was automatically parcelled when the activity was stopped
+        ParcelableMemoryCache.getInstance().removeEntriesWithTag(PARCELABLE_MEMORY_CACHE_TAG);
     }
 
     private void deleteUploadedDocuments() {
@@ -265,6 +283,8 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         if (activity == null) {
             return;
         }
+        clearParcelableMemoryCache();
+
         startScanAnimation();
         LOG.debug("Loading document data");
         mMultiPageDocument.loadData(activity,
@@ -306,7 +326,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
                 mHintAnimation.start();
             }
         };
-        mHandler.postDelayed(new Runnable() {
+        mHintStartRunnable = new Runnable() {
             @Override
             public void run() {
                 if (TextUtils.isEmpty(mHintHeadlineTextView.getText())) {
@@ -315,7 +335,8 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
                 }
                 mHandler.post(mHintCycleRunnable);
             }
-        }, HINT_START_DELAY);
+        };
+        mHandler.postDelayed(mHintStartRunnable, HINT_START_DELAY);
     }
 
     private ViewPropertyAnimatorCompat getHintHeadlineSlideDownAnimation() {
@@ -394,6 +415,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
 
     void onStop() {
         mStopped = true;
+        mHandler.removeCallbacks(mHintStartRunnable);
         mHandler.removeCallbacks(mHintCycleRunnable);
         if (mHintAnimation != null) {
             mHintAnimation.cancel();

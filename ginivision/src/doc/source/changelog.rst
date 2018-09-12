@@ -2,12 +2,16 @@
 Changelog
 =========
 
+3.0.3 (2018-09-12)
+==================
+
+- Fixed a memory leak that was caused by not clearing cached data when resuming fragments.
+
 3.0.2 (2018-08-10)
 ==================
 
 - Password protected PDFs are detected and rejected during file validation and users are informed
   about the inability to analyze PDFs with passwords.
-
 
 3.0.1 (2018-08-01)
 ==================
