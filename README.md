@@ -113,8 +113,8 @@ Vision Network Library) should be used.
 Requirements
 ------------
 
-Screen API: Android 4.0.3+ (API Level 19+)
-Component API: Android 4.2+ (API Level 19+)
+Screen API: Android 4.4+ (API Level 19+)
+Component API: Android 4.4+ (API Level 19+)
 
 ### Phone Hardware
 

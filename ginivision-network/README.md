@@ -26,7 +26,7 @@ the Gini Vision Library should be used.
 Requirements
 ------------
 
-Android 4.0.3+ (API Level 15+)
+Android 4.4+ (API Level 19+)
 
 Installation
 ------------
