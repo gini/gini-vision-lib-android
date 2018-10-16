@@ -2,6 +2,13 @@
 Changelog
 =========
 
+3.0.4 (2018-10-12)
+==================
+
+- The default networking implementation ``gini-vision-lib-network`` uses the latest Gini API SDK
+  release to store the generated anonymous user credentials in encrypted form.
+- We raised the minimum Android SDK level to 19.
+
 3.0.3 (2018-09-12)
 ==================
 

@@ -113,8 +113,8 @@ Vision Network Library) should be used.
 Requirements
 ------------
 
-Screen API: Android 4.0.3+ (API Level 15+)
-Component API: Android 4.2+ (API Level 17+)
+Screen API: Android 4.4+ (API Level 19+)
+Component API: Android 4.4+ (API Level 19+)
 
 ### Phone Hardware
 
@@ -148,7 +148,7 @@ app/build.gradle:
 
 ```
 dependencies {
-    implementation 'net.gini:gini-vision-lib:3.0.3'
+    implementation 'net.gini:gini-vision-lib:3.0.4'
 }
 ```
 
