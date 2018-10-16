@@ -26,7 +26,7 @@ the Gini Vision Library should be used.
 Requirements
 ------------
 
-Android 4.0.3+ (API Level 15+)
+Android 4.4+ (API Level 19+)
 
 Installation
 ------------
@@ -48,8 +48,8 @@ app/build.gradle:
 
 ```
 dependencies {
-    implementation 'net.gini:gini-vision-lib:3.0.3'
-    implementation 'net.gini:gini-vision-network-lib:3.0.3'
+    implementation 'net.gini:gini-vision-lib:3.0.4'
+    implementation 'net.gini:gini-vision-network-lib:3.0.4'
 }
 ```
 
