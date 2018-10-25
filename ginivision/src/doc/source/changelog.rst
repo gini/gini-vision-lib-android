@@ -2,6 +2,11 @@
 Changelog
 =========
 
+3.0.5 (2018-10-25)
+==================
+
+- Fixed view id references in layout XMLs which caused issues when using the library with Xamarin.
+
 3.0.4 (2018-10-12)
 ==================
 

@@ -12,14 +12,14 @@
         android:id="@+id/gv_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/gv_thumbnails_panel" />
+        android:layout_above="@+id/gv_thumbnails_panel" />
 
     <net.gini.android.vision.internal.ui.CustomFontTextView
         android:id="@+id/gv_page_indicator"
         style="@style/GiniVisionTheme.Review.MultiPage.PageIndicator.TextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/gv_thumbnails_panel"
+        android:layout_above="@+id/gv_thumbnails_panel"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/gv_multi_page_review_page_indicator_bottom_margin"
         android:background="@drawable/gv_page_indicator_background"
@@ -49,7 +49,7 @@
         android:id="@+id/gv_thumbnails_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/gv_reorder_pages_tip"
+        android:layout_above="@+id/gv_reorder_pages_tip"
         android:background="@color/gv_multi_page_review_thumbnails_panel_background"
         android:clipToPadding="false"
         android:paddingEnd="@dimen/gv_multi_page_review_thumbnail_cards_container_horizontal_padding"
@@ -62,7 +62,7 @@
         style="@style/GiniVisionTheme.Review.MultiPage.ReorderPagesTip.TextStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/gv_toolbar"
+        android:layout_above="@+id/gv_toolbar"
         android:layout_centerHorizontal="true"
         android:background="@color/gv_multi_page_review_thumbnails_panel_background"
         android:gravity="center"
