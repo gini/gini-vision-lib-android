@@ -22,7 +22,7 @@
             android:id="@+id/gv_thumbnail_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/gv_handle"
+            android:layout_above="@+id/gv_handle"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:foreground="#33000000" />
