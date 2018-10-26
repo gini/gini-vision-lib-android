@@ -8,6 +8,8 @@ import android.text.TextUtils;
 
 import com.android.volley.Cache;
 
+import net.gini.android.DocumentMetadata;
+import net.gini.android.DocumentTaskManager;
 import net.gini.android.Gini;
 import net.gini.android.SdkBuilder;
 import net.gini.android.authorization.CredentialsStore;
@@ -65,6 +67,7 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
 
     private final Gini mGiniApi;
     private final Map<String, net.gini.android.models.Document> mGiniApiDocuments = new HashMap<>();
+    private final DocumentMetadata mDocumentMetadata;
     private net.gini.android.models.Document mAnalyzedGiniApiDocument;
 
     /**
@@ -79,8 +82,10 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
         return new Builder(context);
     }
 
-    GiniVisionDefaultNetworkService(@NonNull final Gini giniApi) {
+    GiniVisionDefaultNetworkService(@NonNull final Gini giniApi,
+            @Nullable final DocumentMetadata documentMetadata) {
         mGiniApi = giniApi;
+        mDocumentMetadata = documentMetadata;
     }
 
     @Override
@@ -100,9 +105,16 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
             callback.failure(error);
             return new NoOpCancellationToken();
         }
-        mGiniApi.getDocumentTaskManager()
-                .createPartialDocument(document.getData(), document.getMimeType(), null, null)
-                .continueWith(new Continuation<net.gini.android.models.Document, Void>() {
+        final DocumentTaskManager documentTaskManager = mGiniApi.getDocumentTaskManager();
+        final Task<net.gini.android.models.Document> uploadTask;
+        if (mDocumentMetadata != null) {
+            uploadTask = documentTaskManager.createPartialDocument(document.getData(),
+                    document.getMimeType(), null, null, mDocumentMetadata);
+        } else {
+            uploadTask = documentTaskManager.createPartialDocument(document.getData(),
+                    document.getMimeType(), null, null);
+        }
+        uploadTask.continueWith(new Continuation<net.gini.android.models.Document, Void>() {
                     @Override
                     public Void then(final Task<net.gini.android.models.Document> task)
                             throws Exception {
@@ -333,6 +345,7 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
         private TimeUnit mConnectionTimeoutUnit;
         private int mMaxNumberOfRetries;
         private float mBackoffMultiplier;
+        private DocumentMetadata mDocumentMetadata;
 
         Builder(@NonNull final Context context) {
             mContext = context;
@@ -378,7 +391,7 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                 sdkBuilder.setConnectionBackOffMultiplier(mBackoffMultiplier);
             }
             final Gini giniApi = sdkBuilder.build();
-            return new GiniVisionDefaultNetworkService(giniApi);
+            return new GiniVisionDefaultNetworkService(giniApi, mDocumentMetadata);
         }
 
         /**
@@ -533,6 +546,19 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
         @NonNull
         public Builder setBackoffMultiplier(final float backoffMultiplier) {
             mBackoffMultiplier = backoffMultiplier;
+            return this;
+        }
+
+        /**
+         * Set additional information related to the documents. This metadata will be passed to all
+         * document uploads.
+         *
+         * @param documentMetadata a {@link DocumentMetadata} instance containing additional
+         *                         information for the uploaded documents
+         * @return the {@link Builder} instance
+         */
+        public Builder setDocumentMetadata(@NonNull final DocumentMetadata documentMetadata) {
+            mDocumentMetadata = documentMetadata;
             return this;
         }
     }
