@@ -225,6 +225,10 @@ public class FileChooserActivity extends AppCompatActivity implements AlertDialo
 
     @Override
     public void onBackPressed() {
+        final boolean isShown = (boolean) mFileProvidersView.getTag();
+        if (!isShown) {
+            return;
+        }
         overridePendingTransition(0, 0);
         hideFileProviders(new TransitionListenerAdapter() {
             @Override
