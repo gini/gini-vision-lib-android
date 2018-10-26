@@ -241,6 +241,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="index.html#document-changelog">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="index.html#document-changelog#beta-2018-10-26">3.1.0-beta (2018-10-26)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#document-changelog#id1">3.0.5 (2018-10-25)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#document-changelog#id2">3.0.4 (2018-10-12)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="index.html#document-changelog#id3">3.0.3 (2018-09-12)</a></li>
@@ -3207,6 +3208,15 @@ if (fileDescriptor != null) {
 </div>
 <span id="document-changelog"></span><div class="section" id="changelog">
 <h3>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="beta-2018-10-26">
+<h4>3.1.0-beta (2018-10-26)<a class="headerlink" href="#beta-2018-10-26" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li>When using the <tt class="docutils literal"><span class="pre">gini-vision-network-lib</span></tt> default networking implementation you may set document
+metadata to be uploaded with every document. This allows additional information to be associated
+with the created documents. For example in order to know from which branch&#8217;s app the document was
+uploaded from you may add the &#8220;Bankleitzahl&#8221; in the metadata as the <tt class="docutils literal"><span class="pre">branchId</span></tt>.</li>
+</ul>
+</div>
 <div class="section" id="id1">
 <h4>3.0.5 (2018-10-25)<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
@@ -3216,7 +3226,7 @@ if (fileDescriptor != null) {
 <div class="section" id="id2">
 <h4>3.0.4 (2018-10-12)<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
-<li>The default networking implementation <tt class="docutils literal"><span class="pre">gini-vision-lib-network</span></tt> uses the latest Gini API SDK
+<li>The default networking implementation <tt class="docutils literal"><span class="pre">gini-vision-network-lib</span></tt> uses the latest Gini API SDK
 release to store the generated anonymous user credentials in encrypted form.</li>
 <li>We raised the minimum Android SDK level to 19.</li>
 </ul>
@@ -3238,7 +3248,7 @@ about the inability to analyze PDFs with passwords.</li>
 <h4>3.0.1 (2018-08-01)<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li>Certificate pinning is now possible when using the default networking implementation
-<tt class="docutils literal"><span class="pre">gini-vision-lib-network</span></tt>.</li>
+<tt class="docutils literal"><span class="pre">gini-vision-network-lib</span></tt>.</li>
 </ul>
 </div>
 <div class="section" id="id6">
@@ -3269,7 +3279,7 @@ existing features as we are not planning to remove them anytime soon.</li>
 <li>Improved networking integration by introducing the <tt class="docutils literal"><span class="pre">GiniVisionNetworkService</span></tt> and
 <tt class="docutils literal"><span class="pre">GiniVisionNetworkApi</span></tt> interfaces. Desired implementations are set using the <tt class="docutils literal"><span class="pre">GiniVision</span></tt>
 builder. These are optional and are required only for using the multi-page scanning feature.</li>
-<li>Easier integration with the new default networking implementation <tt class="docutils literal"><span class="pre">gini-vision-lib-network</span></tt>. It
+<li>Easier integration with the new default networking implementation <tt class="docutils literal"><span class="pre">gini-vision-network-lib</span></tt>. It
 offers implementation of the networking interfaces and by wiring it up with the <tt class="docutils literal"><span class="pre">GiniVision</span></tt>
 builder you can start extracting invoice data without the need to implement your own networking
 layer to communicate with the Gini API.</li>
