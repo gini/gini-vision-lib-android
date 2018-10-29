@@ -106,15 +106,15 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
             return new NoOpCancellationToken();
         }
         final DocumentTaskManager documentTaskManager = mGiniApi.getDocumentTaskManager();
-        final Task<net.gini.android.models.Document> uploadTask;
+        final Task<net.gini.android.models.Document> createDocumentTask;
         if (mDocumentMetadata != null) {
-            uploadTask = documentTaskManager.createPartialDocument(document.getData(),
+            createDocumentTask = documentTaskManager.createPartialDocument(document.getData(),
                     document.getMimeType(), null, null, mDocumentMetadata);
         } else {
-            uploadTask = documentTaskManager.createPartialDocument(document.getData(),
+            createDocumentTask = documentTaskManager.createPartialDocument(document.getData(),
                     document.getMimeType(), null, null);
         }
-        uploadTask.continueWith(new Continuation<net.gini.android.models.Document, Void>() {
+        createDocumentTask.continueWith(new Continuation<net.gini.android.models.Document, Void>() {
                     @Override
                     public Void then(final Task<net.gini.android.models.Document> task)
                             throws Exception {
