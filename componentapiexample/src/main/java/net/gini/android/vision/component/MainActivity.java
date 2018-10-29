@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         // Configure the Gini Vision Library
         GiniVision.cleanup(this);
         GiniVision.newInstance()
-                .setGiniVisionNetworkService(app.getGiniVisionNetworkService())
+                .setGiniVisionNetworkService(app.getGiniVisionNetworkService("ComponentAPI"))
                 .setGiniVisionNetworkApi(app.getGiniVisionNetworkApi())
                 .setDocumentImportEnabledFileTypes(DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
                 .setFileImportEnabled(true)

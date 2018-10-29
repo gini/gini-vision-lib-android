@@ -284,7 +284,7 @@ public class MainActivity extends AppCompatActivity {
         final BaseExampleApp app = (BaseExampleApp) getApplication();
         GiniVision.cleanup(this);
         GiniVision.newInstance()
-                .setGiniVisionNetworkService(app.getGiniVisionNetworkService())
+                .setGiniVisionNetworkService(app.getGiniVisionNetworkService("ScreenAPI"))
                 .setGiniVisionNetworkApi(app.getGiniVisionNetworkApi())
                 .setDocumentImportEnabledFileTypes(DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
                 .setFileImportEnabled(true)

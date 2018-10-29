@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
 
+import net.gini.android.DocumentMetadata;
 import net.gini.android.Gini;
 import net.gini.android.SdkBuilder;
 import net.gini.android.vision.network.GiniVisionDefaultNetworkApi;
@@ -72,7 +73,7 @@ public abstract class BaseExampleApp extends MultiDexApplication {
     }
 
     @NonNull
-    public GiniVisionNetworkService getGiniVisionNetworkService() {
+    public GiniVisionNetworkService getGiniVisionNetworkService(@NonNull final String appFlowApiType) {
         final String clientId = getClientId();
         final String clientSecret = getClientSecret();
         if (TextUtils.isEmpty(clientId) || TextUtils.isEmpty(clientSecret)) {
@@ -82,8 +83,12 @@ public abstract class BaseExampleApp extends MultiDexApplication {
                             + "parameters with -PclientId and -PclientSecret.");
         }
         if (mGiniVisionNetworkService == null) {
+            final DocumentMetadata documentMetadata = new DocumentMetadata();
+            documentMetadata.setBranchId("GVLExampleAndroid");
+            documentMetadata.add("AppFlow", appFlowApiType);
             mGiniVisionNetworkService = GiniVisionDefaultNetworkService.builder(this)
                     .setClientCredentials(clientId, clientSecret, "example.com")
+                    .setDocumentMetadata(documentMetadata)
                     .build();
         }
         return mGiniVisionNetworkService;
