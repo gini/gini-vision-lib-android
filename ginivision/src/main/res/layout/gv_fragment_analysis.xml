@@ -142,7 +142,6 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/gv_analysis_hint_text_height"
             android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/gv_analysis_hint_text_left_margin"
             android:layout_marginStart="@dimen/gv_analysis_hint_text_left_margin"
             android:gravity="center_vertical"
             tools:text="Gute Lichtverhältnisse beim Aufnehmen des Fotos beschleunigen die Analyse." />

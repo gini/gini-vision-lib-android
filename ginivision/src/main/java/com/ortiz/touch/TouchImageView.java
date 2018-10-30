@@ -11,6 +11,7 @@
  */
 
 package com.ortiz.touch;
+
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -21,7 +22,6 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -1272,12 +1272,7 @@ public class TouchImageView extends android.support.v7.widget.AppCompatImageView
 
     @TargetApi(VERSION_CODES.JELLY_BEAN)
     private void compatPostOnAnimation(final Runnable runnable) {
-        if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN) {
-            postOnAnimation(runnable);
-
-        } else {
-            postDelayed(runnable, 1000 / 60);
-        }
+        postOnAnimation(runnable);
     }
 
     private static class ZoomVariables {

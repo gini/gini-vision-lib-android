@@ -10,9 +10,7 @@
         android:layout_height="40dp"
         android:layout_above="@+id/gv_stack_subtitle"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
         tools:background="#c2af79" />
 
     <ImageView
@@ -21,10 +19,8 @@
         android:layout_height="40dp"
         android:layout_above="@+id/gv_stack_subtitle"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_marginBottom="2dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         tools:background="#6daf70" />
 
     <ImageView
@@ -33,10 +29,8 @@
         android:layout_height="40dp"
         android:layout_above="@+id/gv_stack_subtitle"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_marginBottom="4dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:foreground="?android:attr/selectableItemBackground"
         tools:background="#56769c" />
 
@@ -46,8 +40,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginBottom="96dp"
@@ -65,7 +57,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_marginBottom="54dp"
         android:background="@drawable/gv_image_stack_badge_background"
         android:elevation="2dp"
@@ -82,7 +73,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:gravity="center"
         android:paddingBottom="4dp"
         android:paddingTop="4dp"

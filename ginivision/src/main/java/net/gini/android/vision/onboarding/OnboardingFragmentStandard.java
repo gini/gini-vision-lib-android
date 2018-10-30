@@ -140,9 +140,6 @@ public class OnboardingFragmentStandard extends Fragment implements OnboardingFr
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public PagerAdapter getViewPagerAdapter(@NonNull final List<OnboardingPage> pages) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            throw new IllegalStateException("Component API requires API Level 17 or higher");
-        }
         return new ViewPagerAdapterStandard(getChildFragmentManager(), pages);
     }
 

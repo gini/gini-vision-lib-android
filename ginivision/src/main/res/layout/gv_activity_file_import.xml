@@ -37,7 +37,8 @@
             android:background="@drawable/gv_file_import_section_number_background"
             android:gravity="center"
             android:text="1"
-            android:textColor="@color/gv_file_import_section_number" />
+            android:textColor="@color/gv_file_import_section_number"
+            tools:ignore="HardcodedText" />
 
         <net.gini.android.vision.internal.ui.CustomFontTextView
             style="@style/GiniVisionTheme.Help.FileImport.Section.Title.TextStyle"
@@ -59,8 +60,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_margin="@dimen/gv_file_import_illustration_margin"
-            android:visibility="gone"
-            android:src="@drawable/gv_file_import_section_1_illustration" />
+            android:src="@drawable/gv_file_import_section_1_illustration"
+            android:visibility="gone" />
 
         <View
             android:layout_width="match_parent"
@@ -79,7 +80,8 @@
             android:background="@drawable/gv_file_import_section_number_background"
             android:gravity="center"
             android:text="2"
-            android:textColor="@color/gv_file_import_section_number" />
+            android:textColor="@color/gv_file_import_section_number"
+            tools:ignore="HardcodedText" />
 
         <net.gini.android.vision.internal.ui.CustomFontTextView
             style="@style/GiniVisionTheme.Help.FileImport.Section.Title.TextStyle"
@@ -119,7 +121,8 @@
             android:background="@drawable/gv_file_import_section_number_background"
             android:gravity="center"
             android:text="3"
-            android:textColor="@color/gv_file_import_section_number" />
+            android:textColor="@color/gv_file_import_section_number"
+            tools:ignore="HardcodedText" />
 
         <net.gini.android.vision.internal.ui.CustomFontTextView
             style="@style/GiniVisionTheme.Help.FileImport.Section.Title.TextStyle"

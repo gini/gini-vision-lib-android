@@ -43,7 +43,6 @@
             android:layout_gravity="center_vertical"
             android:layout_marginBottom="@dimen/gv_supported_formats_item_margin"
             android:layout_marginEnd="@dimen/gv_supported_formats_item_margin"
-            android:layout_marginRight="@dimen/gv_supported_formats_item_margin"
             android:layout_marginTop="@dimen/gv_supported_formats_item_margin"
             tools:text="Computer-erstellte Überweisungsträger und Rechnungen" />
     </LinearLayout>

@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -33,7 +32,7 @@ public final class IntentHelper {
     @Nullable
     public static Uri getUri(@NonNull final Intent intent) {
         Uri uri = intent.getData();
-        if (uri == null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        if (uri == null) {
             final ClipData clipData = intent.getClipData();
             if (clipData != null && clipData.getItemCount() > 0) {
                 uri = clipData.getItemAt(0).getUri();
@@ -67,7 +66,7 @@ public final class IntentHelper {
         }
         if (type != null) {
             mimeTypes.add(type);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        } else {
             final ClipData clipData = intent.getClipData();
             if (clipData != null) {
                 final ClipDescription description = clipData.getDescription();
@@ -85,7 +84,7 @@ public final class IntentHelper {
         final ArrayList<Uri> uris = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
         if (uris != null) {
             return uris;
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        } else {
             final ClipData clipData = intent.getClipData();
             if (clipData != null) {
                 final int count = clipData.getItemCount();
