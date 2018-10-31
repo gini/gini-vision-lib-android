@@ -1145,7 +1145,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     }
 
     private boolean exceedsMultiPageLimit() {
-        return mInMultiPageState && mMultiPageDocument.getDocuments().size() >= FileImportValidator.DOCUMENT_PAGE_LIMIT;
+        return mInMultiPageState && mMultiPageDocument.getDocuments().size()
+                >= FileImportValidator.DOCUMENT_PAGE_LIMIT;
     }
 
     @Override
