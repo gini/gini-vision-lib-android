@@ -2,8 +2,8 @@
 Changelog
 =========
 
-3.1.0-beta (2018-10-26)
-=======================
+3.1.0 (2018-10-31)
+==================
 
 - When using the ``gini-vision-network-lib`` default networking implementation you may set document
   metadata to be uploaded with every document. This allows additional information to be associated
