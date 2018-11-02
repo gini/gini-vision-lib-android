@@ -244,7 +244,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
 
                     @Override
                     public void onPlusButtonClicked() {
-                        activity.finish();
+                        mListener.onReturnToCameraScreen();
                     }
                 };
 
@@ -327,7 +327,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
                                     @Override
                                     public void onClick(final DialogInterface dialog,
                                             final int which) {
-                                        activity.finish();
+                                        mListener.onImportedDocumentReviewCancelled();
                                     }
                                 })
                         .setNegativeButton(
@@ -336,7 +336,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
                         .create().show();
             } else {
                 doDeleteDocumentAndUpdateUI(document);
-                activity.finish();
+                mListener.onReturnToCameraScreen();
             }
         } else {
             doDeleteDocumentAndUpdateUI(document);
