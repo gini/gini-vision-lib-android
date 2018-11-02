@@ -225,6 +225,10 @@ public class FileChooserActivity extends AppCompatActivity implements AlertDialo
 
     @Override
     public void onBackPressed() {
+        final boolean isShown = (boolean) mFileProvidersView.getTag();
+        if (!isShown) {
+            return;
+        }
         overridePendingTransition(0, 0);
         hideFileProviders(new TransitionListenerAdapter() {
             @Override
@@ -484,10 +488,10 @@ public class FileChooserActivity extends AppCompatActivity implements AlertDialo
 
     @NonNull
     private static Intent createImagePickerIntent() {
-        final Intent intent = new Intent(ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        intent.setType(MimeType.IMAGE_WILDCARD.asString());
-        if (isMultiPageEnabled()
-                && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+        final Intent intent = new Intent(ACTION_PICK);
+        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                MimeType.IMAGE_WILDCARD.asString());
+        if (isMultiPageEnabled()) {
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         }
         return intent;
@@ -510,8 +514,7 @@ public class FileChooserActivity extends AppCompatActivity implements AlertDialo
         }
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType(MimeType.IMAGE_WILDCARD.asString());
-        if (isMultiPageEnabled()
-                && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+        if (isMultiPageEnabled()) {
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         }
         return intent;

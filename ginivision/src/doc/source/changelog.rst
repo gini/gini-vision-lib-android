@@ -2,6 +2,14 @@
 Changelog
 =========
 
+3.1.0 (2018-10-31)
+==================
+
+- When using the ``gini-vision-network-lib`` default networking implementation you may set document
+  metadata to be uploaded with every document. This allows additional information to be associated
+  with the created documents. For example in order to know from which branch's app the document was
+  uploaded from you may add the "Bankleitzahl" in the metadata as the ``branchId``.
+
 3.0.5 (2018-10-25)
 ==================
 
@@ -10,7 +18,7 @@ Changelog
 3.0.4 (2018-10-12)
 ==================
 
-- The default networking implementation ``gini-vision-lib-network`` uses the latest Gini API SDK
+- The default networking implementation ``gini-vision-network-lib`` uses the latest Gini API SDK
   release to store the generated anonymous user credentials in encrypted form.
 - We raised the minimum Android SDK level to 19.
 
@@ -29,7 +37,7 @@ Changelog
 ==================
 
 - Certificate pinning is now possible when using the default networking implementation
-  ``gini-vision-lib-network``.
+  ``gini-vision-network-lib``.
 
 3.0.0 (2018-07-06)
 ==================
@@ -57,7 +65,7 @@ Networking
 - Improved networking integration by introducing the ``GiniVisionNetworkService`` and
   ``GiniVisionNetworkApi`` interfaces. Desired implementations are set using the ``GiniVision``
   builder. These are optional and are required only for using the multi-page scanning feature.
-- Easier integration with the new default networking implementation ``gini-vision-lib-network``. It
+- Easier integration with the new default networking implementation ``gini-vision-network-lib``. It
   offers implementation of the networking interfaces and by wiring it up with the ``GiniVision``
   builder you can start extracting invoice data without the need to implement your own networking
   layer to communicate with the Gini API.

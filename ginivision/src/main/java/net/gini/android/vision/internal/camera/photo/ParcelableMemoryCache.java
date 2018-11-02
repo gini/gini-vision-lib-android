@@ -119,10 +119,10 @@ public enum ParcelableMemoryCache {
 
         @Override
         public String toString() {
-            return "Token{" +
-                    "tokenId=" + tokenId +
-                    ", tag='" + tag + '\'' +
-                    '}';
+            return "Token{"
+                    + "tokenId=" + tokenId
+                    + ", tag='" + tag + '\''
+                    + '}';
         }
     }
 
@@ -169,16 +169,16 @@ public enum ParcelableMemoryCache {
         logCacheSizes();
     }
 
-    private void removeByteArraysWithTag(final @NonNull String tag) {
+    private void removeByteArraysWithTag(@NonNull final String tag) {
         removeTokensWithTag(mByteArrayCache.keySet(), tag);
     }
 
-    private void removeBitmapsWithTag(final @NonNull String tag) {
+    private void removeBitmapsWithTag(@NonNull final String tag) {
         removeTokensWithTag(mBitmapCache.keySet(), tag);
     }
 
     private void removeTokensWithTag(final Set<Token> tokens,
-            final @NonNull String tag) {
+            @NonNull final String tag) {
         final Iterator<Token> iterator = tokens.iterator();
         while (iterator.hasNext()) {
             final Token token = iterator.next();
