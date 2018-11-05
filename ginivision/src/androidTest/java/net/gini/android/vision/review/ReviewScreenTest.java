@@ -253,8 +253,13 @@ public class ReviewScreenTest {
     }
 
     @Test
+    @SdkSuppress(minSdkVersion = 18)
     public void should_onlyInvokeProceedToAnalysis_whenNextButton_wasClicked_ifDocument_wasModified_andAnalyzed()
-            throws InterruptedException {
+            throws Exception {
+        final UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        uiDevice.setOrientationNatural();
+        waitForWindowUpdate(uiDevice);
+
         final ReviewActivityTestSpy activity = startReviewActivity(TEST_JPEG, 0);
 
         // Modify the document
@@ -678,8 +683,13 @@ public class ReviewScreenTest {
     }
 
     @Test
+    @SdkSuppress(minSdkVersion = 18)
     public void should_useExplicitListener_whenActivity_isNotListener() throws Exception {
         // Given
+        final UiDevice uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
+        uiDevice.setOrientationNatural();
+        waitForWindowUpdate(uiDevice);
+
         final AtomicBoolean shouldAnalyzeDoc = new AtomicBoolean();
         ReviewFragmentHostActivityNotListener.sListener = new ReviewFragmentListener() {
             @Override
