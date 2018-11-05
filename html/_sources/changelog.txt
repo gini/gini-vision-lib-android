@@ -2,6 +2,14 @@
 Changelog
 =========
 
+3.2.0 (2018-11-05)
+==================
+
+- When using the Component API with multi-page the ``MultiPageReviewFragment`` does not finish its
+  hosting Activity anymore when the user presses the add page button or when the user deletes every
+  page. Instead the ``MultiPageReviewFragmentListener`` is used to notify the host Activity about
+  these events.
+
 3.1.0 (2018-10-31)
 ==================
 
