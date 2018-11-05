@@ -274,6 +274,16 @@ public class MultiPageReviewActivity extends AppCompatActivity implements
     }
 
     @Override
+    public void onReturnToCameraScreen() {
+        finish();
+    }
+
+    @Override
+    public void onImportedDocumentReviewCancelled() {
+        finish();
+    }
+
+    @Override
     protected void onActivityResult(final int requestCode, final int resultCode,
             final Intent data) {
         if (requestCode == ANALYSE_DOCUMENT_REQUEST) {
