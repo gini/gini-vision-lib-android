@@ -2,6 +2,11 @@
 Changelog
 =========
 
+3.2.1 (2018-12-10)
+==================
+
+- Fix for the multi-page image stack on the Camera Screen. It is now not clickable when it doesn't contain images.
+
 3.2.0 (2018-11-05)
 ==================
 
