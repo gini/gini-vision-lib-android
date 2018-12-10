@@ -196,9 +196,9 @@ public class ImageStack extends RelativeLayout {
 
     private void removeClickListener(
             @NonNull final View view) {
+        view.setOnClickListener(null);
         view.setClickable(false);
         view.setFocusable(false);
-        view.setOnClickListener(null);
     }
 
     public void setImages(@Nullable final List<StackBitmap> bitmaps) {
