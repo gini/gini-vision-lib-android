@@ -2,6 +2,14 @@
 Changelog
 =========
 
+3.2.2 (2018-12-11)
+==================
+
+- Updated Android dependencies:
+ - Compile and target SDK versions to 28
+ - Support library version to 28.0.0
+ - Google Play Services Vision to 17.0.2
+
 3.2.1 (2018-12-10)
 ==================
 
