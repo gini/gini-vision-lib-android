@@ -6,7 +6,10 @@ import android.text.TextUtils;
 
 import net.gini.android.DocumentMetadata;
 import net.gini.android.Gini;
+import net.gini.android.GiniApiType;
 import net.gini.android.SdkBuilder;
+import net.gini.android.vision.accounting.GiniVisionAccountingNetworkApi;
+import net.gini.android.vision.accounting.GiniVisionAccountingNetworkService;
 import net.gini.android.vision.network.GiniVisionDefaultNetworkApi;
 import net.gini.android.vision.network.GiniVisionDefaultNetworkService;
 import net.gini.android.vision.network.GiniVisionNetworkApi;
@@ -33,8 +36,8 @@ public abstract class BaseExampleApp extends MultiDexApplication {
 
     private Gini mGiniApi;
     private SingleDocumentAnalyzer mSingleDocumentAnalyzer;
-    private GiniVisionDefaultNetworkService mGiniVisionNetworkService;
-    private GiniVisionDefaultNetworkApi mGiniVisionNetworkApi;
+    private GiniVisionNetworkService mGiniVisionNetworkService;
+    private GiniVisionNetworkApi mGiniVisionNetworkApi;
 
     public SingleDocumentAnalyzer getSingleDocumentAnalyzer() {
         if (mSingleDocumentAnalyzer == null) {
@@ -42,8 +45,6 @@ public abstract class BaseExampleApp extends MultiDexApplication {
         }
         return mSingleDocumentAnalyzer;
     }
-
-
 
     protected abstract String getClientId();
 
@@ -73,7 +74,8 @@ public abstract class BaseExampleApp extends MultiDexApplication {
     }
 
     @NonNull
-    public GiniVisionNetworkService getGiniVisionNetworkService(@NonNull final String appFlowApiType) {
+    public GiniVisionNetworkService getGiniVisionNetworkService(@NonNull final String appFlowApiType,
+            @NonNull final GiniApiType giniApiType) {
         final String clientId = getClientId();
         final String clientSecret = getClientSecret();
         if (TextUtils.isEmpty(clientId) || TextUtils.isEmpty(clientSecret)) {
@@ -86,10 +88,22 @@ public abstract class BaseExampleApp extends MultiDexApplication {
             final DocumentMetadata documentMetadata = new DocumentMetadata();
             documentMetadata.setBranchId("GVLExampleAndroid");
             documentMetadata.add("AppFlow", appFlowApiType);
-            mGiniVisionNetworkService = GiniVisionDefaultNetworkService.builder(this)
-                    .setClientCredentials(clientId, clientSecret, "example.com")
-                    .setDocumentMetadata(documentMetadata)
-                    .build();
+            switch (giniApiType) {
+                case DEFAULT:
+                    mGiniVisionNetworkService = GiniVisionDefaultNetworkService.builder(this)
+                            .setClientCredentials(clientId, clientSecret, "example.com")
+                            .setDocumentMetadata(documentMetadata)
+                            .build();
+                    break;
+                case ACCOUNTING:
+                    mGiniVisionNetworkService = GiniVisionAccountingNetworkService.builder(this)
+                            .setClientCredentials(clientId, clientSecret, "example.com")
+                            .setDocumentMetadata(documentMetadata)
+                            .build();
+                    break;
+                    default:
+                        throw new UnsupportedOperationException("Unknown Gini API type: " + giniApiType);
+            }
         }
         return mGiniVisionNetworkService;
     }
@@ -97,10 +111,31 @@ public abstract class BaseExampleApp extends MultiDexApplication {
     @NonNull
     public GiniVisionNetworkApi getGiniVisionNetworkApi() {
         if (mGiniVisionNetworkApi == null) {
-            mGiniVisionNetworkApi = GiniVisionDefaultNetworkApi.builder()
-                    .withGiniVisionDefaultNetworkService(mGiniVisionNetworkService)
-                    .build();
+            if (mGiniVisionNetworkService instanceof GiniVisionDefaultNetworkService) {
+                mGiniVisionNetworkApi = GiniVisionDefaultNetworkApi.builder()
+                        .withGiniVisionDefaultNetworkService(
+                                (GiniVisionDefaultNetworkService) mGiniVisionNetworkService)
+                        .build();
+            } else if (mGiniVisionNetworkService instanceof GiniVisionAccountingNetworkService) {
+                mGiniVisionNetworkApi = GiniVisionAccountingNetworkApi.builder()
+                        .withGiniVisionAccountingNetworkService(
+                                (GiniVisionAccountingNetworkService) mGiniVisionNetworkService)
+                        .build();
+            } else {
+                throw new UnsupportedOperationException("No network api class for "
+                        + mGiniVisionNetworkService.getClass().getName());
+            }
         }
         return mGiniVisionNetworkApi;
+    }
+
+    public void clearGiniVisionNetworkInstances() {
+        if (mGiniVisionNetworkService != null) {
+            mGiniVisionNetworkService.cleanup();
+            mGiniVisionNetworkService = null;
+        }
+        if (mGiniVisionNetworkApi != null) {
+            mGiniVisionNetworkApi = null;
+        }
     }
 }

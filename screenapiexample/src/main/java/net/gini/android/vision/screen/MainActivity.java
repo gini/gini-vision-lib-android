@@ -9,10 +9,13 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import net.gini.android.GiniApiType;
 import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVision;
@@ -51,7 +54,9 @@ public class MainActivity extends AppCompatActivity {
     private RuntimePermissionHandler mRuntimePermissionHandler;
     private TextView mTextGiniVisionLibVersion;
     private TextView mTextAppVersion;
+    private Spinner mGiniApiTypeSpinner;
     private CancellationToken mFileImportCancellationToken;
+    private GiniApiType mGiniApiType = GiniApiType.DEFAULT;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -207,6 +212,18 @@ public class MainActivity extends AppCompatActivity {
                 startGiniVisionLibrary();
             }
         });
+        mGiniApiTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(final AdapterView<?> parent, final View view,
+                    final int position, final long id) {
+                mGiniApiType = GiniApiType.values()[position];
+            }
+
+            @Override
+            public void onNothingSelected(final AdapterView<?> parent) {
+
+            }
+        });
     }
 
     private void startGiniVisionLibrary() {
@@ -283,22 +300,27 @@ public class MainActivity extends AppCompatActivity {
     private void configureGiniVision() {
         final BaseExampleApp app = (BaseExampleApp) getApplication();
         GiniVision.cleanup(this);
-        GiniVision.newInstance()
-                .setGiniVisionNetworkService(app.getGiniVisionNetworkService("ScreenAPI"))
-                .setGiniVisionNetworkApi(app.getGiniVisionNetworkApi())
-                .setDocumentImportEnabledFileTypes(DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
+        app.clearGiniVisionNetworkInstances();
+        final GiniVision.Builder builder = GiniVision.newInstance()
+                .setGiniVisionNetworkService(
+                        app.getGiniVisionNetworkService("ScreenAPI",
+                                mGiniApiType)
+                ).setGiniVisionNetworkApi(app.getGiniVisionNetworkApi());
+        if (mGiniApiType == GiniApiType.DEFAULT) {
+                builder.setDocumentImportEnabledFileTypes(DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
                 .setFileImportEnabled(true)
                 .setQRCodeScanningEnabled(true)
-                .setMultiPageEnabled(true)
+                .setMultiPageEnabled(true);
+        }
                 // Uncomment to add an extra page to the Onboarding pages
-//                .setCustomOnboardingPages(getOnboardingPages())
+//                builder.setCustomOnboardingPages(getOnboardingPages());
                 // Uncomment to disable automatically showing the OnboardingActivity the
                 // first time the CameraActivity is launched - we highly recommend letting the
                 // Gini Vision Library show the OnboardingActivity at first run
-//                .setShouldShowOnboardingAtFirstRun(false)
+//                builder.setShouldShowOnboardingAtFirstRun(false);
                 // Uncomment to show the OnboardingActivity every time the CameraActivity starts
-//                .setShouldShowOnboarding(true)
-                .build();
+//                builder.setShouldShowOnboarding(true);
+        builder.build();
     }
 
     private void showUnfulfilledRequirementsToast(final RequirementsReport report) {
@@ -325,6 +347,7 @@ public class MainActivity extends AppCompatActivity {
         mButtonStartScanner = (Button) findViewById(R.id.button_start_scanner);
         mTextGiniVisionLibVersion = (TextView) findViewById(R.id.text_gini_vision_version);
         mTextAppVersion = (TextView) findViewById(R.id.text_app_version);
+        mGiniApiTypeSpinner = findViewById(R.id.gini_api_type_spinner);
     }
 
     private ArrayList<OnboardingPage> getOnboardingPages() {
