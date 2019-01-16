@@ -24,12 +24,15 @@ git clone -b gh-pages https://"$git_user":"$git_password"@github.com/gini/gini-v
 
 rm -rf gh-pages/javadoc
 rm -rf gh-pages/network/javadoc
+rm -rf gh-pages/accounting/network/javadoc
 mkdir -p gh-pages/network
+mkdir -p gh-pages/accounting/network
 cp -a ginivision/build/docs/javadoc gh-pages/
 cp -a ginivision-network/build/docs/javadoc gh-pages/network/
+cp -a ginivision-accounting-network/build/docs/javadoc gh-pages/accounting/network/
 cd gh-pages
 touch .nojekyll
 git add -u
 git add .
-git diff --quiet --exit-code --cached || git commit -a -m 'Gini Vision Library and Gini Vision Network Library Javadoc'
+git diff --quiet --exit-code --cached || git commit -a -m 'Gini Vision Library, Gini Vision Network Library Javadoc and Gini Vision Accounting Network Library Javadoc'
 git push
