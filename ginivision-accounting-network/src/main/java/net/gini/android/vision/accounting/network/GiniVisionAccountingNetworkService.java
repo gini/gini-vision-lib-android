@@ -232,7 +232,7 @@ public class GiniVisionAccountingNetworkService implements GiniVisionNetworkServ
                                         task.getResult();
                                 if (task.isCancelled()) {
                                     LOG.debug(
-                                            "Composite document polling cancelled for document {}",
+                                            "Document polling cancelled for document {}",
                                             giniApiDocumentIdRotationMap);
                                     return Task.cancelled();
                                 }
