@@ -77,7 +77,7 @@ dependencies {
     }
 
     // For backward compatibility
-    implementation('net.gini:gini-android-sdk:2.1.0@aar') {
+    implementation('net.gini:gini-android-sdk:2.3.0@aar') {
         transitive = true
     }
 
