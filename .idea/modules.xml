@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/componentapiexample/componentapiexample.iml" filepath="$PROJECT_DIR$/componentapiexample/componentapiexample.iml" />
       <module fileurl="file://$PROJECT_DIR$/gini-vision-lib-android.iml" filepath="$PROJECT_DIR$/gini-vision-lib-android.iml" />
       <module fileurl="file://$PROJECT_DIR$/ginivision/ginivision.iml" filepath="$PROJECT_DIR$/ginivision/ginivision.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ginivision-accounting-network/ginivision-accounting-network.iml" filepath="$PROJECT_DIR$/ginivision-accounting-network/ginivision-accounting-network.iml" />
       <module fileurl="file://$PROJECT_DIR$/ginivision-network/ginivision-network.iml" filepath="$PROJECT_DIR$/ginivision-network/ginivision-network.iml" />
       <module fileurl="file://$PROJECT_DIR$/screenapiexample/screenapiexample.iml" filepath="$PROJECT_DIR$/screenapiexample/screenapiexample.iml" />
     </modules>

@@ -11,10 +11,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import net.gini.android.GiniApiType;
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionDebug;
@@ -39,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     private RuntimePermissionHandler mRuntimePermissionHandler;
     private TextView mTextAppVersion;
     private TextView mTextGiniVisionLibVersion;
+    private Spinner mGiniApiTypeSpinner;
+    private GiniApiType mGiniApiType = GiniApiType.DEFAULT;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -73,18 +78,22 @@ public class MainActivity extends AppCompatActivity {
 
     private void initGiniVision() {
         final BaseExampleApp app = (BaseExampleApp) getApplication();
-        // Configure the Gini Vision Library
         GiniVision.cleanup(this);
-        GiniVision.newInstance()
-                .setGiniVisionNetworkService(app.getGiniVisionNetworkService("ComponentAPI"))
-                .setGiniVisionNetworkApi(app.getGiniVisionNetworkApi())
-                .setDocumentImportEnabledFileTypes(DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
-                .setFileImportEnabled(true)
-                .setQRCodeScanningEnabled(true)
-                .setMultiPageEnabled(true)
-                // Uncomment to add an extra page to the Onboarding pages
-//                .setCustomOnboardingPages(getOnboardingPages())
-                .build();
+        app.clearGiniVisionNetworkInstances();
+        final GiniVision.Builder builder = GiniVision.newInstance()
+                .setGiniVisionNetworkService(
+                        app.getGiniVisionNetworkService("ComponentAPI",
+                                mGiniApiType)
+                ).setGiniVisionNetworkApi(app.getGiniVisionNetworkApi());
+        if (mGiniApiType == GiniApiType.DEFAULT) {
+            builder.setDocumentImportEnabledFileTypes(DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
+                    .setFileImportEnabled(true)
+                    .setQRCodeScanningEnabled(true)
+                    .setMultiPageEnabled(true);
+        }
+        // Uncomment to add an extra page to the Onboarding pages
+//      builder.setCustomOnboardingPages(getOnboardingPages());
+        builder.build();
     }
 
     private ArrayList<OnboardingPage> getOnboardingPages() {
@@ -165,6 +174,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(final View v) {
                 startGiniVisionCompat();
+            }
+        });
+        mGiniApiTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(final AdapterView<?> parent, final View view,
+                    final int position, final long id) {
+                mGiniApiType = GiniApiType.values()[position];
+            }
+
+            @Override
+            public void onNothingSelected(final AdapterView<?> parent) {
+
             }
         });
     }
@@ -252,6 +273,7 @@ public class MainActivity extends AppCompatActivity {
         mButtonStartGiniVisionCompat = (Button) findViewById(R.id.button_start_gini_vision_compat);
         mTextGiniVisionLibVersion = (TextView) findViewById(R.id.text_gini_vision_version);
         mTextAppVersion = (TextView) findViewById(R.id.text_app_version);
+        mGiniApiTypeSpinner = findViewById(R.id.gini_api_type_spinner);
     }
 
     private void createRuntimePermissionsHandler() {
