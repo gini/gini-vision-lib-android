@@ -1,4 +1,4 @@
-package net.gini.android.vision.accounting;
+package net.gini.android.vision.accounting.network;
 
 import android.support.annotation.NonNull;
 

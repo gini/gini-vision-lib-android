@@ -1,4 +1,4 @@
-package net.gini.android.vision.accounting;
+package net.gini.android.vision.accounting.network;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -14,8 +14,8 @@ import net.gini.android.Gini;
 import net.gini.android.GiniApiType;
 import net.gini.android.SdkBuilder;
 import net.gini.android.authorization.CredentialsStore;
+import net.gini.android.authorization.EncryptedCredentialsStore;
 import net.gini.android.authorization.SessionManager;
-import net.gini.android.authorization.SharedPreferencesCredentialsStore;
 import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
@@ -49,10 +49,11 @@ import bolts.Task;
  */
 
 /**
- * Default implementation of the network related tasks required by the Gini Vision Library.
+ * Implementation using the Gini Accounting API of the network related tasks required by the
+ * Gini Vision Library.
  *
  * <p> Relies on the <a href="http://developer.gini.net/gini-sdk-android/">Gini API SDK</a> for
- * executing the requests, which implements communication with the Gini API using generated
+ * executing the requests, which implements communication with the Gini Accounting API using generated
  * anonymous Gini users.
  *
  * <p><b>Important:</b> Access to the Gini User Center API is required which is restricted to
@@ -384,11 +385,11 @@ public class GiniVisionAccountingNetworkService implements GiniVisionNetworkServ
         }
 
         /**
-         * Set your Gini API client ID and secret. The email domain is used when generating
+         * Set your Gini Accounting API client ID and secret. The email domain is used when generating
          * anonymous Gini users in the form of {@code UUID@your-email-domain}.
          *
-         * @param clientId     your application's client ID for the Gini API
-         * @param clientSecret your application's client secret for the Gini API
+         * @param clientId     your application's client ID for the Gini Accounting API
+         * @param clientSecret your application's client secret for the Gini Accounting API
          * @param emailDomain  the email domain which is used for created Gini users
          *
          * @return the {@link Builder} instance
@@ -416,9 +417,9 @@ public class GiniVisionAccountingNetworkService implements GiniVisionNetworkServ
         }
 
         /**
-         * Set the base URL of the Gini API.
+         * Set the base URL of the Gini Accounting API.
          *
-         * @param baseUrl custom Gini API base URL
+         * @param baseUrl custom Gini Accounting API base URL
          *
          * @return the {@link Builder} instance
          */
@@ -431,7 +432,7 @@ public class GiniVisionAccountingNetworkService implements GiniVisionNetworkServ
         /**
          * Set the base URL of the Gini User Center API.
          *
-         * @param userCenterBaseUrl custom Gini API base URL
+         * @param userCenterBaseUrl custom Gini User Center API base URL
          *
          * @return the {@link Builder} instance
          */
@@ -457,7 +458,7 @@ public class GiniVisionAccountingNetworkService implements GiniVisionNetworkServ
 
         /**
          * Set the credentials store which is used by the Gini API SDK to store user credentials. If
-         * no credentials store is set, the {@link SharedPreferencesCredentialsStore} from the Gini
+         * no credentials store is set, the {@link EncryptedCredentialsStore} from the Gini
          * API SDK is used by default.
          *
          * @param credentialsStore a credentials store instance (specified by the CredentialsStore
