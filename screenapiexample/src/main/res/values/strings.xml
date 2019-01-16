@@ -19,6 +19,11 @@
     <string name="qrcode_error">Could not use the QR Code. Try again or take a picture of your document.</string>
 
     <string name="gini_api_type_label">Gini API Type</string>
+    <string-array name="gini_api_types">
+        <item>DEFAULT</item>
+        <item>ACCOUNTING</item>
+    </string-array>
+
     <!-- String customization examples -->
 
     <!--<string name="gv_title_camera">Dokument fotografieren</string>-->
@@ -39,8 +44,4 @@
 
     <!--<string name="gv_document_analysis_error_retry">Wiederholen</string>-->
 
-    <string-array name="gini_api_types">
-        <item>DEFAULT</item>
-        <item>ACCOUNTING</item>
-    </string-array>
 </resources>

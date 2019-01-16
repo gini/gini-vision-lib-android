@@ -9,6 +9,26 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="net.gini.android.vision.component.MainActivity">
 
+    <Spinner
+        android:id="@+id/gini_api_type_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/layout_buttons"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp"
+        android:entries="@array/gini_api_types" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/gini_api_type_spinner"
+        android:layout_alignEnd="@+id/gini_api_type_spinner"
+        android:layout_alignStart="@+id/gini_api_type_spinner"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:text="@string/gini_api_type_label" />
+
     <LinearLayout
         android:id="@+id/layout_buttons"
         android:layout_width="match_parent"
@@ -59,4 +79,5 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         tools:text="v1.0.0" />
+
 </RelativeLayout>
