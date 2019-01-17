@@ -191,7 +191,8 @@ public class GiniVisionAccountingNetworkService implements GiniVisionNetworkServ
             if (giniApiDocumentIdRotationMap.size() < 1) {
                 errorMessage = "No document id received.";
             } else {
-                errorMessage = "Multi-page documents are not supported. Use the default networking library instead.";
+                errorMessage = "Multi-page documents are not supported. "
+                        + "Use the default networking library instead.";
             }
             final Error error = new Error(errorMessage); // NOPMD
             LOG.error("Document analysis failed for document {}: {}",
@@ -202,7 +203,8 @@ public class GiniVisionAccountingNetworkService implements GiniVisionNetworkServ
         }
 
         final String giniApiDocumentId = giniApiDocumentIdRotationMap.keySet().iterator().next();
-        final net.gini.android.models.Document giniApiDocument = mGiniApiDocuments.get(giniApiDocumentId);
+        final net.gini.android.models.Document giniApiDocument =
+                mGiniApiDocuments.get(giniApiDocumentId);
         if (giniApiDocument == null) {
             final Error error = new Error("Missing document."); // NOPMD
             LOG.error("Document analysis failed for document {}: {}",
