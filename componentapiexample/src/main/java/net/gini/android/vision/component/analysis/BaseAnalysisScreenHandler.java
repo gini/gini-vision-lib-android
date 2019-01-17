@@ -106,7 +106,8 @@ public abstract class BaseAnalysisScreenHandler implements AnalysisFragmentListe
                         // If we have no Pay 5 extractions we query the Gini Vision Library
                         // whether we should show the the Gini Vision No Results Screen
                         if (hasNoPay5Extractions(extractions.keySet())
-                                && GiniVisionCoordinator.shouldShowGiniVisionNoResultsScreen(document)) {
+                                && GiniVisionCoordinator.shouldShowGiniVisionNoResultsScreen(
+                                        document)) {
                             // Show a special screen, if no Pay5 extractions were found to give the user some
                             // hints and tips
                             // for using the Gini Vision Library
@@ -195,7 +196,8 @@ public abstract class BaseAnalysisScreenHandler implements AnalysisFragmentListe
     protected abstract void setUpActionBar();
 
     @Override
-    public void onExtractionsAvailable(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
+    public void onExtractionsAvailable(
+            @NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
         showExtractions(null, getExtractionsBundle(extractions));
     }
 

@@ -38,8 +38,8 @@ public class NoResultsScreenHandlerAppCompat extends BaseNoResultsScreenHandler 
     @Override
     protected void retainNoResultsFragment() {
         mNoResultsFragment =
-                (NoResultsFragmentCompat) mAppCompatActivity.getSupportFragmentManager().findFragmentById(
-                        R.id.no_results_screen_container);
+                (NoResultsFragmentCompat) mAppCompatActivity.getSupportFragmentManager()
+                        .findFragmentById(R.id.no_results_screen_container);
     }
 
     @Override

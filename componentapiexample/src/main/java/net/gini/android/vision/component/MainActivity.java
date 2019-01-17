@@ -2,6 +2,7 @@ package net.gini.android.vision.component;
 
 import static net.gini.android.vision.example.ExampleUtil.isIntentActionViewOrSend;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -34,6 +35,9 @@ import net.gini.android.vision.requirements.RequirementsReport;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Entry point for the component api example app.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private Button mButtonStartGiniVisionCompat;
@@ -296,6 +300,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void showVersions() {
         mTextGiniVisionLibVersion.setText(
                 "Gini Vision Library v" + net.gini.android.vision.BuildConfig.VERSION_NAME);
