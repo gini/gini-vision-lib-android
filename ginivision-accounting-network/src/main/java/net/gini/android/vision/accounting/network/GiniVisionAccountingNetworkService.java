@@ -188,7 +188,7 @@ public class GiniVisionAccountingNetworkService implements GiniVisionNetworkServ
         LOG.debug("Analyze document {}", giniApiDocumentIdRotationMap);
         if (giniApiDocumentIdRotationMap.size() != 1) {
             final String errorMessage;
-            if (giniApiDocumentIdRotationMap.size() < 1) {
+            if (giniApiDocumentIdRotationMap.isEmpty()) {
                 errorMessage = "No document id received.";
             } else {
                 errorMessage = "Multi-page documents are not supported. "
@@ -285,26 +285,6 @@ public class GiniVisionAccountingNetworkService implements GiniVisionNetworkServ
     public void cleanup() {
         mAnalyzedGiniApiDocument = null; // NOPMD
         mGiniApiDocuments.clear();
-    }
-
-    private boolean collectGiniApiDocuments(
-            @NonNull final LinkedHashMap<net.gini.android.models.Document, Integer> // NOPMD
-                    giniApiDocumentRotationMap,
-            @NonNull final LinkedHashMap<String, Integer> giniApiDocumentIdRotationMap, // NOPMD
-            @NonNull final GiniVisionNetworkCallback<AnalysisResult, Error> callback) {
-        for (final Map.Entry<String, Integer> entry : giniApiDocumentIdRotationMap.entrySet()) {
-            final net.gini.android.models.Document document = mGiniApiDocuments.get(entry.getKey());
-            if (document == null) {
-                final Error error = new Error("Missing partial document."); // NOPMD
-                LOG.error("Document analysis failed for documents {}: {}",
-                        giniApiDocumentIdRotationMap,
-                        error.getMessage());
-                callback.failure(error);
-                return false;
-            }
-            giniApiDocumentRotationMap.put(document, entry.getValue());
-        }
-        return true;
     }
 
     @Nullable
