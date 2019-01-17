@@ -32,6 +32,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
+/**
+ * Implements callbacks for the Gini Vision Library's {@link CameraActivity}. For example to perform
+ * checks on imported documents or handle results from QR Codes.
+ */
 public class CameraScreenApiActivity extends CameraActivity {
 
     private static final Logger LOG = LoggerFactory.getLogger(CameraScreenApiActivity.class);

@@ -43,6 +43,9 @@ import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.android.LogcatAppender;
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 
+/**
+ * Entry point for the screen api example app.
+ */
 public class MainActivity extends AppCompatActivity {
 
     public static final String EXTRA_OUT_EXTRACTIONS = "EXTRA_OUT_EXTRACTIONS";
@@ -309,18 +312,18 @@ public class MainActivity extends AppCompatActivity {
                                 mGiniApiType)
                 ).setGiniVisionNetworkApi(app.getGiniVisionNetworkApi());
         if (mGiniApiType == GiniApiType.DEFAULT) {
-                builder.setDocumentImportEnabledFileTypes(DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
-                .setFileImportEnabled(true)
-                .setQRCodeScanningEnabled(true)
-                .setMultiPageEnabled(true);
+            builder.setDocumentImportEnabledFileTypes(DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
+                    .setFileImportEnabled(true)
+                    .setQRCodeScanningEnabled(true)
+                    .setMultiPageEnabled(true);
         }
-                // Uncomment to add an extra page to the Onboarding pages
+        // Uncomment to add an extra page to the Onboarding pages
 //                builder.setCustomOnboardingPages(getOnboardingPages());
-                // Uncomment to disable automatically showing the OnboardingActivity the
-                // first time the CameraActivity is launched - we highly recommend letting the
-                // Gini Vision Library show the OnboardingActivity at first run
+        // Uncomment to disable automatically showing the OnboardingActivity the
+        // first time the CameraActivity is launched - we highly recommend letting the
+        // Gini Vision Library show the OnboardingActivity at first run
 //                builder.setShouldShowOnboardingAtFirstRun(false);
-                // Uncomment to show the OnboardingActivity every time the CameraActivity starts
+        // Uncomment to show the OnboardingActivity every time the CameraActivity starts
 //                builder.setShouldShowOnboarding(true);
         builder.build();
     }
@@ -405,9 +408,9 @@ public class MainActivity extends AppCompatActivity {
                     final GiniVisionError error = data.getParcelableExtra(
                             CameraActivity.EXTRA_OUT_ERROR);
                     if (error != null) {
-                        Toast.makeText(this, "Error: " +
-                                        error.getErrorCode() + " - " +
-                                        error.getMessage(),
+                        Toast.makeText(this, "Error: "
+                                        + error.getErrorCode() + " - "
+                                        + error.getMessage(),
                                 Toast.LENGTH_LONG).show();
                     }
                     break;
