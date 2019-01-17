@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Component API Example</string>
 
+    <string name="start_gini_vision_lib_standard">Start Gini Vision Lib Standard</string>
+    <string name="start_gini_vision_lib_compat">Start Gini Vision Lib Compat</string>
+
     <string name="title_camera">Camera Screen</string>
     <string name="title_onboarding">Onboarding Screen</string>
     <string name="title_review">Review Screen</string>

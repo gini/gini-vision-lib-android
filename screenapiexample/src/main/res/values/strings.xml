@@ -6,6 +6,8 @@
     <string name="title_extractions">Extractions</string>
     <string name="title_no_extractions">No Extractions</string>
 
+    <string name="start_gini_vision_library">Start Gini Vision Library</string>
+
     <string name="menu_item_feedback">Send Feedback</string>
     <string name="document_size_too_large">Diese Datei ist leider größer als 5MB.</string>
     <string name="unsupported_document_type">Nur Dateien vom Format jpg oder pdf können analysiert werden.</string>

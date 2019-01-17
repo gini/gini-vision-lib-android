@@ -2,6 +2,7 @@ package net.gini.android.vision.screen;
 
 import static net.gini.android.vision.example.ExampleUtil.isPay5Extraction;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -192,6 +193,7 @@ public class MainActivity extends AppCompatActivity {
                 || Intent.ACTION_SEND_MULTIPLE.equals(action);
     }
 
+    @SuppressLint("SetTextI18n")
     private void showVersions() {
         mTextGiniVisionLibVersion.setText(
                 "Gini Vision Library v" + net.gini.android.vision.BuildConfig.VERSION_NAME);
