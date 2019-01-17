@@ -34,7 +34,12 @@ pipeline {
                 }
             }
             steps {
-                sh './gradlew clean ginivision:assembleDebug ginivision:assembleRelease ginivision-network:assembleDebug ginivision-network:assembleRelease'
+                sh '''
+                    ./gradlew clean \
+                    ginivision:assembleDebug ginivision:assembleRelease \
+                    ginivision-network:assembleDebug ginivision-network:assembleRelease \
+                    ginivision-accounting-network:assembleDebug ginivision-accounting-network:assembleRelease
+                '''
             }
         }
         stage('Unit Tests') {
@@ -197,6 +202,7 @@ pipeline {
                 sh './gradlew generateJavadocCoverage'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision/build/reports/javadoc-coverage', reportFiles: 'index.html', reportName: 'GVL Javadoc Coverage Report', reportTitles: ''])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision-network/build/reports/javadoc-coverage', reportFiles: 'index.html', reportName: 'GVL Network Javadoc Coverage Report', reportTitles: ''])
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision-accounting-network/build/reports/javadoc-coverage', reportFiles: 'index.html', reportName: 'GVL Accounting Network Javadoc Coverage Report', reportTitles: ''])
             }
         }
         stage('Code Analysis') {
@@ -217,14 +223,19 @@ pipeline {
             steps {
                 sh './gradlew ginivision:lint ginivision:checkstyle ginivision:findbugs ginivision:pmd'
                 sh './gradlew ginivision-network:lint ginivision-network:checkstyle ginivision-network:findbugs ginivision-network:pmd'
+                sh './gradlew ginivision-accounting-network:lint ginivision-accounting-network:checkstyle ginivision-accounting-network:findbugs ginivision-accounting-network:pmd'
                 androidLint canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'ginivision/build/reports/lint-results.xml', unHealthy: ''
                 androidLint canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'ginivision-network/build/reports/lint-results.xml', unHealthy: ''
+                androidLint canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'ginivision-accounting-network/build/reports/lint-results.xml', unHealthy: ''
                 checkstyle canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'ginivision/build/reports/checkstyle/checkstyle.xml', unHealthy: ''
                 checkstyle canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'ginivision-network/build/reports/checkstyle/checkstyle.xml', unHealthy: ''
+                checkstyle canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'ginivision-accounting-network/build/reports/checkstyle/checkstyle.xml', unHealthy: ''
                 findbugs canComputeNew: false, defaultEncoding: '', excludePattern: '', healthy: '', includePattern: '', pattern: 'ginivision/build/reports/findbugs/findbugs.xml', unHealthy: ''
                 findbugs canComputeNew: false, defaultEncoding: '', excludePattern: '', healthy: '', includePattern: '', pattern: 'ginivision-network/build/reports/findbugs/findbugs.xml', unHealthy: ''
+                findbugs canComputeNew: false, defaultEncoding: '', excludePattern: '', healthy: '', includePattern: '', pattern: 'ginivision-accounting-network/build/reports/findbugs/findbugs.xml', unHealthy: ''
                 pmd canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'ginivision/build/reports/pmd/pmd.xml', unHealthy: ''
                 pmd canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'ginivision-network/build/reports/pmd/pmd.xml', unHealthy: ''
+                pmd canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'ginivision-accounting-network/build/reports/pmd/pmd.xml', unHealthy: ''
             }
         }
         stage('Build Documentation') {
@@ -268,6 +279,7 @@ pipeline {
                 sh './gradlew generateJavadoc'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision/build/docs/javadoc', reportFiles: 'index.html', reportName: 'GVL Javadoc', reportTitles: ''])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision-network/build/docs/javadoc', reportFiles: 'index.html', reportName: 'GVL Network Javadoc', reportTitles: ''])
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision-accounting-network/build/docs/javadoc', reportFiles: 'index.html', reportName: 'GVL Accounting Network Javadoc', reportTitles: ''])
             }
         }
         stage('Archive Artifacts') {
@@ -362,7 +374,14 @@ pipeline {
                 }
             }
             steps {
-                sh './gradlew ginivision:uploadArchives ginivision-network:uploadArchives -PmavenRepoUrl=https://repo.gini.net/nexus/content/repositories/open -PrepoUser=$NEXUS_MAVEN_USR -PrepoPassword=$NEXUS_MAVEN_PSW'
+                sh '''
+                    ./gradlew ginivision:uploadArchives \
+                    ginivision-network:uploadArchives \
+                    ginivision-accounting-network:uploadArchives \
+                    -PmavenRepoUrl=https://repo.gini.net/nexus/content/repositories/open \
+                    -PrepoUser=$NEXUS_MAVEN_USR \
+                    -PrepoPassword=$NEXUS_MAVEN_PSW
+                '''
             }
         }
     }

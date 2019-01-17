@@ -114,7 +114,8 @@ public class CameraExampleActivity extends Activity implements CameraFragmentLis
     }
 
     @Override
-    public void onExtractionsAvailable(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
+    public void onExtractionsAvailable(
+            @NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
         mCameraScreenHandler.onExtractionsAvailable(extractions);
     }
 }

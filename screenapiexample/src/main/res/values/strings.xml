@@ -6,6 +6,8 @@
     <string name="title_extractions">Extractions</string>
     <string name="title_no_extractions">No Extractions</string>
 
+    <string name="start_gini_vision_library">Start Gini Vision Library</string>
+
     <string name="menu_item_feedback">Send Feedback</string>
     <string name="document_size_too_large">Diese Datei ist leider größer als 5MB.</string>
     <string name="unsupported_document_type">Nur Dateien vom Format jpg oder pdf können analysiert werden.</string>
@@ -17,6 +19,12 @@
     <string name="camera_permission_denied_message">Nur mit Kamera-Zugriff können Sie die Gini Vision Library verwenden.</string>
     <string name="camera_permission_rationale">Um Rechnungen fotografieren zu können, wird Kamera-Zugriff benötigt.</string>
     <string name="qrcode_error">Could not use the QR Code. Try again or take a picture of your document.</string>
+
+    <string name="gini_api_type_label">Gini API Type</string>
+    <string-array name="gini_api_types">
+        <item>DEFAULT</item>
+        <item>ACCOUNTING</item>
+    </string-array>
 
     <!-- String customization examples -->
 
@@ -37,4 +45,5 @@
     <!--<string name="gv_review_bottom_panel_text">Dokument vollständig, scharf und in Leserichtung?\n\nDoppeltippen um Schärfe zu prüfen.</string>-->
 
     <!--<string name="gv_document_analysis_error_retry">Wiederholen</string>-->
+
 </resources>

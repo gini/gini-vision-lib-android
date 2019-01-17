@@ -63,13 +63,13 @@ public class AlertDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(final Bundle savedInstanceState) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        if (mTitle > 0) {
+        if (mTitle != 0) {
             builder.setTitle(mTitle);
         }
-        if (mMessage > 0) {
+        if (mMessage != 0) {
             builder.setMessage(mMessage);
         }
-        if (mPositiveButtonTitle > 0) {
+        if (mPositiveButtonTitle != 0) {
             builder.setPositiveButton(mPositiveButtonTitle, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(final DialogInterface dialog, final int which) {
@@ -81,7 +81,7 @@ public class AlertDialogFragment extends DialogFragment {
                 }
             });
         }
-        if (mNegativeButtonTitle > 0) {
+        if (mNegativeButtonTitle != 0) {
             builder.setNegativeButton(mNegativeButtonTitle, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(final DialogInterface dialog, final int which) {

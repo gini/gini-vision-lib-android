@@ -19,6 +19,10 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
+/**
+ * Implements callbacks required by the Gini Vision Library's {@link net.gini.android.vision.review.ReviewActivity}
+ * to perform document analysis using the Gini API SDK.
+ */
 public class ReviewActivity extends net.gini.android.vision.review.ReviewActivity {
 
     private static final Logger LOG = LoggerFactory.getLogger(ReviewActivity.class);
@@ -65,7 +69,8 @@ public class ReviewActivity extends net.gini.android.vision.review.ReviewActivit
     }
 
     @Override
-    public void onDocumentWasRotated(@NonNull final Document document, final int oldRotation, final int newRotation) {
+    public void onDocumentWasRotated(
+            @NonNull final Document document, final int oldRotation, final int newRotation) {
         super.onDocumentWasRotated(document, oldRotation, newRotation);
         LOG.debug("Document was rotated");
         // We need to cancel the analysis here, we will have to upload the rotated document in the Analysis Screen

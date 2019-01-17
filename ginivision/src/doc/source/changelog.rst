@@ -2,6 +2,12 @@
 Changelog
 =========
 
+3.3.0 (2019-01-17)
+==================
+
+- Created a new networking plugin named ``gini-vision-accounting-network-lib`` for analyzing
+  documents using the Gini Accounting API.
+
 3.2.2 (2018-12-11)
 ==================
 

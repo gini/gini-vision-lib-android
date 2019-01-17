@@ -40,8 +40,8 @@ public class AnalysisScreenHandlerAppCompat extends BaseAnalysisScreenHandler {
     @Override
     protected AnalysisFragmentInterface retrieveAnalysisFragment() {
         mAnalysisFragment =
-                (AnalysisFragmentCompat) mAppCompatActivity.getSupportFragmentManager().findFragmentById(
-                        R.id.analysis_screen_container);
+                (AnalysisFragmentCompat) mAppCompatActivity.getSupportFragmentManager()
+                        .findFragmentById(R.id.analysis_screen_container);
         return mAnalysisFragment;
     }
 

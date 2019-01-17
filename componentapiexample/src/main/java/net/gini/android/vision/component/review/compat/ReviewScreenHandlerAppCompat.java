@@ -60,8 +60,8 @@ public class ReviewScreenHandlerAppCompat extends BaseReviewScreenHandler {
     @Override
     protected ReviewFragmentInterface retrieveReviewFragment() {
         mReviewFragment =
-                (ReviewFragmentCompat) mAppCompatActivity.getSupportFragmentManager().findFragmentById(
-                        R.id.review_screen_container);
+                (ReviewFragmentCompat) mAppCompatActivity.getSupportFragmentManager()
+                        .findFragmentById(R.id.review_screen_container);
         return mReviewFragment;
     }
 

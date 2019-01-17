@@ -176,7 +176,7 @@ public abstract class BaseCameraScreenHandler implements CameraFragmentListener,
         }
     }
 
-    private boolean hasLessThan5MB(final @NonNull DocumentCheckResultCallback callback,
+    private boolean hasLessThan5MB(@NonNull final DocumentCheckResultCallback callback,
             final Uri uri) {
         final int fileSize = UriHelper.getFileSizeFromUri(uri, mActivity);
         return fileSize <= 5 * 1024 * 1024;

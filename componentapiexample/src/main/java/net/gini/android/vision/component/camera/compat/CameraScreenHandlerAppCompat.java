@@ -95,8 +95,8 @@ public class CameraScreenHandlerAppCompat extends BaseCameraScreenHandler {
     @Override
     protected CameraFragmentInterface retrieveCameraFragment() {
         mCameraFragment =
-                (CameraFragmentCompat) mAppCompatActivity.getSupportFragmentManager().findFragmentById(
-                        R.id.camera_container);
+                (CameraFragmentCompat) mAppCompatActivity.getSupportFragmentManager()
+                        .findFragmentById(R.id.camera_container);
         return mCameraFragment;
     }
 

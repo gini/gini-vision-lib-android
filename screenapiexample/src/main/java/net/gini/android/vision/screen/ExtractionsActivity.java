@@ -41,10 +41,11 @@ import bolts.Task;
 
 /**
  * <p>
- *     Displays the Pay5 extractions: paymentRecipient, iban, bic, amount and paymentReference.
+ * Displays the Pay5 extractions: paymentRecipient, iban, bic, amount and paymentReference.
  * </p>
  * <p>
- *     A menu item is added to send feedback. The amount is changed to 10.00:EUR or an amount of 10.00:EUR is added, if missing.
+ * A menu item is added to send feedback. The amount is changed to 10.00:EUR or an amount of
+ * 10.00:EUR is added, if missing.
  * </p>
  */
 public class ExtractionsActivity extends AppCompatActivity {
@@ -131,14 +132,15 @@ public class ExtractionsActivity extends AppCompatActivity {
     }
 
     /**
-     * Returns true, if the extraction name is one of the Pay5 extractions: paymentRecipient, iban, bic, amount and paymentReference
+     * Returns true, if the extraction name is one of the Pay5 extractions: paymentRecipient, iban,
+     * bic, amount and paymentReference
      */
     private boolean isPay5Extraction(final String extractionName) {
-        return extractionName.equals("amountToPay") ||
-                extractionName.equals("bic") ||
-                extractionName.equals("iban") ||
-                extractionName.equals("paymentReference") ||
-                extractionName.equals("paymentRecipient");
+        return extractionName.equals("amountToPay")
+                || extractionName.equals("bic")
+                || extractionName.equals("iban")
+                || extractionName.equals("paymentReference")
+                || extractionName.equals("paymentRecipient");
     }
 
     private <T> List<T> getSortedExtractions(@NonNull final Map<String, T> extractions) {
@@ -184,28 +186,28 @@ public class ExtractionsActivity extends AppCompatActivity {
         }
         giniVisionNetworkApi
                 .sendFeedback(mExtractions, new GiniVisionNetworkCallback<Void, Error>() {
-            @Override
-            public void failure(final Error error) {
-                hideProgressIndicator();
-                Toast.makeText(ExtractionsActivity.this,
-                        "Feedback error:\n" + error.getMessage(),
-                        Toast.LENGTH_LONG).show();
-            }
+                    @Override
+                    public void failure(final Error error) {
+                        hideProgressIndicator();
+                        Toast.makeText(ExtractionsActivity.this,
+                                "Feedback error:\n" + error.getMessage(),
+                                Toast.LENGTH_LONG).show();
+                    }
 
-            @Override
-            public void success(final Void result) {
-                hideProgressIndicator();
-                Toast.makeText(ExtractionsActivity.this,
-                        "Feedback successful",
-                        Toast.LENGTH_LONG).show();
+                    @Override
+                    public void success(final Void result) {
+                        hideProgressIndicator();
+                        Toast.makeText(ExtractionsActivity.this,
+                                "Feedback successful",
+                                Toast.LENGTH_LONG).show();
 
-            }
+                    }
 
-            @Override
-            public void cancelled() {
-                hideProgressIndicator();
-            }
-        });
+                    @Override
+                    public void cancelled() {
+                        hideProgressIndicator();
+                    }
+                });
     }
 
     private void legacySendFeedback() {
@@ -233,7 +235,8 @@ public class ExtractionsActivity extends AppCompatActivity {
         mExtractionsAdapter.notifyDataSetChanged();
 
         final Document document =
-                ((BaseExampleApp) getApplication()).getSingleDocumentAnalyzer().getGiniApiDocument();
+                ((BaseExampleApp) getApplication()).getSingleDocumentAnalyzer()
+                        .getGiniApiDocument();
 
         // We require the Gini API SDK's net.gini.android.models.Document for sending the feedback
         if (document != null) {
@@ -343,8 +346,8 @@ public class ExtractionsActivity extends AppCompatActivity {
 
     }
 
-    private static class LegacyExtractionsAdapter  extends
-            ExtractionsAdapter<SpecificExtraction>  {
+    private static class LegacyExtractionsAdapter extends
+            ExtractionsAdapter<SpecificExtraction> {
 
         private List<SpecificExtraction> mExtractions;
 

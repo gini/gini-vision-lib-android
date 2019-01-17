@@ -17,6 +17,7 @@ build/
 local.properties
 checkstyle-idea.xml
 .idea/caches
+.idea/render.experimental.xml
 
 # Sensitive or high-churn files:
 .idea/**/dataSources/

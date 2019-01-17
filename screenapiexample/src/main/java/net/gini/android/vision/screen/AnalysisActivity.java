@@ -20,6 +20,10 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
+/**
+ * Implements callbacks required by the Gini Vision Library's {@link net.gini.android.vision.analysis.AnalysisActivity}
+ * to perform document analysis using the Gini API SDK.
+ */
 public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisActivity {
 
     private static final Logger LOG = LoggerFactory.getLogger(AnalysisActivity.class);
@@ -66,7 +70,8 @@ public class AnalysisActivity extends net.gini.android.vision.analysis.AnalysisA
                     }
 
                     @Override
-                    public void onExtractionsReceived(final Map<String, SpecificExtraction> extractions) {
+                    public void onExtractionsReceived(
+                            final Map<String, SpecificExtraction> extractions) {
                         mExtractions = extractions;
                         if (mExtractions == null || hasNoPay5Extractions(mExtractions.keySet())) {
                             onNoExtractionsFound();
