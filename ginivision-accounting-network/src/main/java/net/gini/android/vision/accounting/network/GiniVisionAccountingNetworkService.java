@@ -348,7 +348,7 @@ public class GiniVisionAccountingNetworkService implements GiniVisionNetworkServ
             if (mCredentialsStore != null) {
                 sdkBuilder.setCredentialsStore(mCredentialsStore);
             }
-            if (mNetworkSecurityConfigResId > 0) {
+            if (mNetworkSecurityConfigResId != 0) {
                 sdkBuilder.setNetworkSecurityConfigResId(mNetworkSecurityConfigResId);
             }
             if (mConnectionTimeoutUnit != null) {
