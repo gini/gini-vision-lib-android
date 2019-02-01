@@ -105,5 +105,6 @@
     <string name="gv_file_import_section_2_body"><![CDATA[Um die Datei an die <Banking App Name> weiterzuleiten, verwenden Sie eine Funktion wie “Öffnen mit...”, “Datei senden...”, oder “Teilen”. Die “Teilen”-Funktion wird oft grafisch als drei Punkte, die mit zwei Linien verbunden sind, dargestellt.\n\nDiese Funktionen können üblicherweise entweder im Overflow-Menü (drei Punkte oben rechts) oder in einer Funktionsleiste am unteren App-Rand gefunden werden. In manchen Email-Apps wird die Funktion in der Nähe des PDF-Anhangs vor dem Öffnen der Datei angezeigt.]]></string>
     <string name="gv_file_import_section_3_title"><![CDATA[Wählen Sie die <Banking App Name> als Ziel aus]]></string>
     <string name="gv_file_import_section_3_body"><![CDATA[Beim Aktivieren dieser Funktionen werden Apps angezeigt, an die eine PDF-Datei weitergeleitet werden kann. Bitte wählen Sie die <Banking App Name> aus der Liste aus, um den Analyse- und Überweisungsprozess zu starten.]]></string>
+    <string name="gv_file_import_section_3_body_2"><![CDATA[Bitte verwenden sie die Option \"NUR DIESMAL\" um zu vermeiden, dass die <Banking App Name> alle PDFs standardmäßig öffnet.]]></string>
 
 </resources>
