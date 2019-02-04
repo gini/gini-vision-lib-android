@@ -1846,11 +1846,20 @@ All Action Bar customizations except the title are global to all Activities.
   - **Illustration**
 
     Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named
-    ``gv_file_import_section_3_illustration.png``. 
-    
+    ``gv_file_import_section_3_illustration.png``.
     **Note**: For creating your custom illustration you may use `this template
     <https://github.com/gini/gini-vision-lib-assets/blob/master/Gini-Vision-Lib-Design-Elements/Illustrations/PDF/android_pdf_open_with_illustration_3.pdf>`_
     from the `Gini Vision Library UI Assets
     <https://github.com/gini/gini-vision-lib-assets>`_ repository. 
+
+  - **Clear app defaults section**
+
+    - **Title**
+
+    Via overriding the string resource named ``gv_file_import_section_3_clear_app_defaults_title``.
+
+    - **Body**
+
+    Via overriding the string resource named ``gv_file_import_section_3_clear_app_defaults_body``.
 
 :ref:`Back to screenshot. <file-import>`
