@@ -51,6 +51,7 @@ import net.gini.android.vision.internal.network.NetworkRequestsManager;
 import net.gini.android.vision.internal.storage.ImageDiskStore;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
+import net.gini.android.vision.internal.util.MimeType;
 import net.gini.android.vision.internal.util.Size;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.util.UriHelper;
@@ -452,25 +453,29 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         if (activity == null) {
             return;
         }
-        showAlertIfOpenWithDocument(activity, mMultiPageDocument, mFragment)
-                .thenRun(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mDocumentAnalysisErrorMessage != null) {
-                            showError(mDocumentAnalysisErrorMessage,
-                                    activity.getString(
-                                            R.string.gv_document_analysis_error_retry),
-                                    new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(final View v) {
-                                            doAnalyzeDocument();
-                                        }
-                                    });
-                        } else {
-                            doAnalyzeDocument();
+        if (MimeType.APPLICATION_PDF.asString().equals(mMultiPageDocument.getMimeType())) {
+            showAlertIfOpenWithDocument(activity, mMultiPageDocument, mFragment)
+                    .thenRun(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (mDocumentAnalysisErrorMessage != null) {
+                                showError(mDocumentAnalysisErrorMessage,
+                                        activity.getString(
+                                                R.string.gv_document_analysis_error_retry),
+                                        new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(final View v) {
+                                                doAnalyzeDocument();
+                                            }
+                                        });
+                            } else {
+                                doAnalyzeDocument();
+                            }
                         }
-                    }
-                });
+                    });
+        } else {
+            doAnalyzeDocument();
+        }
     }
 
     private void doAnalyzeDocument() {
