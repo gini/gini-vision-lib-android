@@ -106,4 +106,8 @@
     <string name="gv_file_import_section_3_title"><![CDATA[Wählen Sie die <Banking App Name> als Ziel aus]]></string>
     <string name="gv_file_import_section_3_body"><![CDATA[Beim Aktivieren dieser Funktionen werden Apps angezeigt, an die eine PDF-Datei weitergeleitet werden kann. Bitte wählen Sie die <Banking App Name> aus der Liste aus, um den Analyse- und Überweisungsprozess zu starten.]]></string>
 
+    <string name="gv_file_import_default_app_dialog_message">Die App öffnet standardmäßig alle PDFs. Um diese Einstellung zurückzusetzen drücken sie auf “Auf Standard zurücksetzen” und befolgen Sie die folgende Anleitung:\n\nTippen Sie auf “Erweitert” > “Standardmäßig öffnen” > “Aktionen auf Standard zurücksetzen”. Wenn Sie die Option “Erweitert” nicht sehen, tippen Sie auf “Standardmäßig öffnen” > “Aktionen auf Standard zurücksetzen”.</string>
+    <string name="gv_file_import_default_app_dialog_positive_button">Auf Standard zurücksetzen</string>
+    <string name="gv_file_import_default_app_dialog_negative_button">Ohne Änderungen fortfahren</string>
+
 </resources>

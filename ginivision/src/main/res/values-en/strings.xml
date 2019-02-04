@@ -86,4 +86,8 @@
     <string name="gv_file_import_section_2_body"><![CDATA[To forward the file to <Partner App Name>, use a function like "Open with...", "Send file..." or "Share" that is available within the app.  The "Share" function is often represented by an icon depicting a graph of three dots that are connected by two lines. These functions are often found in the overflow menu (three dots in the upper right corner of the screen) or in the function bar at the bottom edge of the app. In some email apps, the function is located near the PDF attachment before opening the file.]]></string>
     <string name="gv_file_import_section_3_title"><![CDATA[Select the <Partner App name> as the destination]]></string>
     <string name="gv_file_import_section_3_body"><![CDATA[When using this function, apps are shown to which you can send the PDF document. Please select the <Partner App Name> from the list, to start the analysis and payment process.]]></string>
+
+    <string name="gv_file_import_default_app_dialog_message">The app opens every PDF by default. To clear this setting tap on “Clear defaults” and follow these steps:\n\nTap “Advanced” > “Open by default” > “Clear defaults”. If you don\'t see “Advanced”, tap “Open by default” > “Clear defaults”.</string>
+    <string name="gv_file_import_default_app_dialog_positive_button">Clear defaults</string>
+    <string name="gv_file_import_default_app_dialog_negative_button">Continue without changes</string>
 </resources>

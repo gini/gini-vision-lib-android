@@ -2,6 +2,7 @@ package net.gini.android.vision.analysis;
 
 import static net.gini.android.vision.internal.network.NetworkRequestsManager.isCancellation;
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
+import static net.gini.android.vision.internal.util.FileImportHelper.showAlertIfOpenWithDocument;
 
 import android.app.Activity;
 import android.content.Context;
@@ -121,7 +122,8 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     private boolean mStopped;
     private boolean mAnalysisCompleted;
 
-    AnalysisFragmentImpl(final FragmentImplCallback fragment, @NonNull final Document document,
+    AnalysisFragmentImpl(final FragmentImplCallback fragment,
+            @NonNull final Document document,
             final String documentAnalysisErrorMessage) {
         mFragment = fragment;
         mMultiPageDocument = asMultiPageDocument(document);
@@ -283,6 +285,7 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
         if (activity == null) {
             return;
         }
+
         clearParcelableMemoryCache();
 
         startScanAnimation();
@@ -445,21 +448,29 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
     }
 
     private void analyzeDocument() {
-        if (mFragment.getActivity() == null) {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
             return;
         }
-        if (mDocumentAnalysisErrorMessage != null) {
-            showError(mDocumentAnalysisErrorMessage,
-                    mFragment.getActivity().getString(R.string.gv_document_analysis_error_retry),
-                    new View.OnClickListener() {
-                        @Override
-                        public void onClick(final View v) {
+        showAlertIfOpenWithDocument(activity, mMultiPageDocument, mFragment)
+                .thenRun(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mDocumentAnalysisErrorMessage != null) {
+                            showError(mDocumentAnalysisErrorMessage,
+                                    activity.getString(
+                                            R.string.gv_document_analysis_error_retry),
+                                    new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(final View v) {
+                                            doAnalyzeDocument();
+                                        }
+                                    });
+                        } else {
                             doAnalyzeDocument();
                         }
-                    });
-        } else {
-            doAnalyzeDocument();
-        }
+                    }
+                });
     }
 
     private void doAnalyzeDocument() {

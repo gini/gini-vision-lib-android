@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
+import net.gini.android.vision.internal.ui.FragmentImplCallback;
 
 class CameraFragmentHelper {
 
@@ -19,7 +20,7 @@ class CameraFragmentHelper {
     }
 
     @NonNull
-    CameraFragmentImpl createFragmentImpl(@NonNull final CameraFragmentImplCallback fragment,
+    CameraFragmentImpl createFragmentImpl(@NonNull final FragmentImplCallback fragment,
             @Nullable final Bundle arguments) {
         if (arguments != null) {
             final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration =
@@ -33,14 +34,14 @@ class CameraFragmentHelper {
 
     @NonNull
     protected CameraFragmentImpl createCameraFragment(
-            @NonNull final CameraFragmentImplCallback fragment,
+            @NonNull final FragmentImplCallback fragment,
             @NonNull final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration) {
         return new CameraFragmentImpl(fragment, giniVisionFeatureConfiguration);
     }
 
     @NonNull
     protected CameraFragmentImpl createCameraFragment(
-            @NonNull final CameraFragmentImplCallback fragment) {
+            @NonNull final FragmentImplCallback fragment) {
         return new CameraFragmentImpl(fragment);
     }
 

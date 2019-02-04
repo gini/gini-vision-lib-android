@@ -7,14 +7,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
+import net.gini.android.vision.internal.ui.FragmentImplCallback;
+import net.gini.android.vision.internal.util.AlertDialogHelperCompat;
 
 /**
  * <h3>Component API</h3>
@@ -28,10 +28,16 @@ import net.gini.android.vision.GiniVisionFeatureConfiguration;
  * preview also shows document corner guides to which the user should align the document.
  * </p>
  * <p>
- *     If instantiated with {@link CameraFragmentCompat#createInstance(GiniVisionFeatureConfiguration)} then a button for importing documents is shown next to the trigger button. A hint popup is displayed the first time the Gini Vision Library is used to inform the user about document importing.
+ * If instantiated with {@link CameraFragmentCompat#createInstance(GiniVisionFeatureConfiguration)}
+ * then a button for importing documents is shown next to the trigger button. A hint popup is
+ * displayed the first time the Gini Vision Library is used to inform the user about document
+ * importing.
  * </p>
  * <p>
- *     For importing documents {@code READ_EXTERNAL_STORAGE} permission is required and if the permission is not granted the Gini Vision Library will prompt the user to grant the permission. See @{code Customizing the Camera Screen} on how to override the message and button titles for the rationale and on permission denial alerts.
+ * For importing documents {@code READ_EXTERNAL_STORAGE} permission is required and if the
+ * permission is not granted the Gini Vision Library will prompt the user to grant the permission.
+ * See @{code Customizing the Camera Screen} on how to override the message and button titles for
+ * the rationale and on permission denial alerts.
  * </p>
  * <p>
  * <b>Note:</b> Your Activity hosting this Fragment must extend the {@link
@@ -39,16 +45,18 @@ import net.gini.android.vision.GiniVisionFeatureConfiguration;
  * </p>
  * <p>
  * Include the {@code CameraFragmentCompat} into your layout either directly with {@code <fragment>}
- * in your Activity's layout or using the {@link android.support.v4.app.FragmentManager} and one of the {@code createInstance()} methods.
+ * in your Activity's layout or using the {@link android.support.v4.app.FragmentManager} and one of
+ * the {@code createInstance()} methods.
  * </p>
  * <p>
- *     A {@link CameraFragmentListener} instance must be available until the {@code CameraFragmentCompat} is attached to an activity. Failing to do so will throw an exception.
- *     The listener instance can be provided either implicitly by making the hosting Activity implement the {@link CameraFragmentListener} interface or explicitly by
- *     setting the listener using {@link CameraFragmentCompat#setListener(CameraFragmentListener)}.
+ * A {@link CameraFragmentListener} instance must be available until the {@code
+ * CameraFragmentCompat} is attached to an activity. Failing to do so will throw an exception. The
+ * listener instance can be provided either implicitly by making the hosting Activity implement the
+ * {@link CameraFragmentListener} interface or explicitly by setting the listener using {@link
+ * CameraFragmentCompat#setListener(CameraFragmentListener)}.
  * </p>
  * <p>
- * Your Activity is automatically set as the listener in
- * {@link CameraFragmentCompat#onAttach(Context)}.
+ * Your Activity is automatically set as the listener in {@link CameraFragmentCompat#onAttach(Context)}.
  * </p>
  *
  * <h3>Customizing the Camera Screen</h3>
@@ -58,7 +66,7 @@ import net.gini.android.vision.GiniVisionFeatureConfiguration;
  * </p>
  */
 public class CameraFragmentCompat extends Fragment implements CameraFragmentInterface,
-        CameraFragmentImplCallback {
+        FragmentImplCallback {
 
     private CameraFragmentListener mListener;
 
@@ -69,9 +77,12 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
 
     /**
      * <p>
-     *     Factory method for creating a new instance of the Fragment with document import enabled for the specified file types.
+     * Factory method for creating a new instance of the Fragment with document import enabled for
+     * the specified file types.
      * </p>
+     *
      * @param giniVisionFeatureConfiguration feature configuration
+     *
      * @return a new instance of the Fragment
      */
     public static CameraFragmentCompat createInstance(
@@ -238,33 +249,18 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
     }
 
     @Override
-    public void showAlertDialog(@StringRes final int message,
-            @StringRes final int positiveButtonTitle,
-            @NonNull final DialogInterface.OnClickListener positiveButtonClickListener,
-            @StringRes final int negativeButtonTitle) {
-        final Activity activity = getActivity();
-        if (activity == null) {
-            return;
-        }
-        showAlertDialog(activity.getString(message), positiveButtonTitle,
-                positiveButtonClickListener, negativeButtonTitle);
-    }
-
-    @Override
     public void showAlertDialog(@NonNull final String message,
-            @StringRes final int positiveButtonTitle,
+            @NonNull final String positiveButtonTitle,
             @NonNull final DialogInterface.OnClickListener positiveButtonClickListener,
-            @StringRes final int negativeButtonTitle) {
+            @Nullable final String negativeButtonTitle,
+            @Nullable final DialogInterface.OnClickListener negativeButtonClickListener,
+            @Nullable final DialogInterface.OnCancelListener cancelListener) {
         final Activity activity = getActivity();
         if (activity == null) {
             return;
         }
-        final AlertDialog alertDialog = new AlertDialog.Builder(activity)
-                .setMessage(message)
-                .setPositiveButton(positiveButtonTitle, positiveButtonClickListener)
-                .setNegativeButton(negativeButtonTitle, null)
-                .create();
-        alertDialog.setCanceledOnTouchOutside(false);
-        alertDialog.show();
+        AlertDialogHelperCompat.showAlertDialog(activity, message, positiveButtonTitle,
+                positiveButtonClickListener, negativeButtonTitle, negativeButtonClickListener,
+                cancelListener);
     }
 }

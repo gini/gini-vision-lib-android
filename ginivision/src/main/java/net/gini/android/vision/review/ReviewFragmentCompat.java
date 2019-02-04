@@ -1,5 +1,7 @@
 package net.gini.android.vision.review;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.camera.CameraFragmentListener;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
+import net.gini.android.vision.internal.util.AlertDialogHelperCompat;
 
 /**
  * <h3>Component API</h3>
@@ -61,6 +64,22 @@ public class ReviewFragmentCompat extends Fragment implements FragmentImplCallba
         final ReviewFragmentCompat fragment = new ReviewFragmentCompat();
         fragment.setArguments(ReviewFragmentHelper.createArguments(document));
         return fragment;
+    }
+
+    @Override
+    public void showAlertDialog(@NonNull final String message,
+            @NonNull final String positiveButtonTitle,
+            @NonNull final DialogInterface.OnClickListener positiveButtonClickListener,
+            @Nullable final String negativeButtonTitle,
+            @Nullable final DialogInterface.OnClickListener negativeButtonClickListener,
+            @Nullable final DialogInterface.OnCancelListener cancelListener) {
+        final Activity activity = getActivity();
+        if (activity == null) {
+            return;
+        }
+        AlertDialogHelperCompat.showAlertDialog(activity, message, positiveButtonTitle,
+                positiveButtonClickListener, negativeButtonTitle, negativeButtonClickListener,
+                cancelListener);
     }
 
     @VisibleForTesting
