@@ -954,6 +954,15 @@ Multi-Page Review Screen
         <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
     </map>
 
+.. raw:: html
+
+    <img src="_static/customization/Multi-Page Review Delete Last Page.png" usemap="#multi-page-review-map-3" width="324" height="576">
+
+    <map id="multi-page-review-map-3" name="multi-page-review-map-3">
+        <area shape="rect" alt="" title="Imported Image Delete Last Page Dialog" coords="146,213,176,249" href="customization-guide.html#multi-page-review-10" target="" />
+        <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
+    </map>
+
 .. _multi-page-review-1:
 
 1. Action Bar
