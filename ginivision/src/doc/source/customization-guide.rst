@@ -1854,3 +1854,58 @@ All Action Bar customizations except the title are global to all Activities.
     <https://github.com/gini/gini-vision-lib-assets>`_ repository. 
 
 :ref:`Back to screenshot. <file-import>`
+
+Clear Defaults Dialog
+----
+
+.. raw:: html
+
+    <img src="_static/customization/Clear Defaults Dialog.png" usemap="#clear-defaults-map" width="324" height="576">
+
+    <map id="clear-defaults-map" name="clear-defaults-map">
+        <area shape="rect" alt="" title="Message" coords="236,139,260,166" href="customization-guide.html#clear-defaults-1" target="" />
+        <area shape="rect" alt="" title="File Type" coords="265,223,299,257" href="customization-guide.html#clear-defaults-1-1" target="" />
+        <area shape="rect" alt="" title="Positive Button Title" coords="73,329,106,362" href="customization-guide.html#clear-defaults-2" target="" />
+        <area shape="rect" alt="" title="Negative Button Title" coords="74,369,105,400" href="customization-guide.html#clear-defaults-3" target="" />
+        <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
+    </map>
+
+.. _clear-defaults-1:
+
+1. Message
+^^^^
+
+Via the string resource named ``gv_file_import_default_app_dialog_message``.
+
+.. _clear-defaults-1-1:
+
+1.1 File Type
+~~~~
+
+- **PDF**
+
+  Via the string resources named ``gv_file_import_default_app_dialog_pdf_file_type``.
+
+- **Image**
+
+  Via the string resources named ``gv_file_import_default_app_dialog_image_file_type``.
+
+- **Document (Other)**
+
+  Via the string resources named ``gv_file_import_default_app_dialog_document_file_type``.
+
+.. _clear-defaults-2:
+
+2. Positive Button Title
+~~~~
+
+Via the string resources named ``gv_file_import_default_app_dialog_positive_button``.
+
+.. _clear-defaults-3:
+
+3. Negative Button Title
+~~~~
+
+Via the string resources named ``gv_file_import_default_app_dialog_negative_button``.
+
+:ref:`Back to screenshot. <file-import>`
