@@ -32,9 +32,10 @@ public class FileImportHelper {
         final CompletableFuture<Void> alertCompletion = new CompletableFuture<>();
         if (document.getImportMethod() == Document.ImportMethod.OPEN_WITH
                 && isDefaultForMimeType(activity, document.getMimeType())) {
-            // TODO: say "PDF" if mime type is pdf and "image" if it is image
+            final String fileType = fileTypeForMimeType(activity, document.getMimeType());
             fragmentImplCallback.showAlertDialog(
-                    activity.getString(R.string.gv_file_import_default_app_dialog_message),
+                    activity.getString(R.string.gv_file_import_default_app_dialog_message,
+                            fileType),
                     activity.getString(R.string.gv_file_import_default_app_dialog_positive_button),
                     new DialogInterface.OnClickListener() {
                         @Override
@@ -59,6 +60,16 @@ public class FileImportHelper {
             alertCompletion.complete(null);
         }
         return alertCompletion;
+    }
+
+    private static String fileTypeForMimeType(@NonNull final Activity activity,
+            @NonNull final String mimeType) {
+        if (mimeType.equals(MimeType.APPLICATION_PDF.asString())) {
+            return activity.getString(R.string.gv_file_import_default_app_dialog_pdf_file_type);
+        } else if (mimeType.startsWith(MimeType.IMAGE_PREFIX.asString())) {
+            return activity.getString(R.string.gv_file_import_default_app_dialog_image_file_type);
+        }
+        return activity.getString(R.string.gv_file_import_default_app_dialog_document_file_type);
     }
 
 }
