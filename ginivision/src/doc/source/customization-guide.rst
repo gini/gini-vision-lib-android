@@ -1850,7 +1850,7 @@ All Action Bar customizations except the title are global to all Activities.
 
   - **Body**
 
-    Via overriding the string resource named ``gv_file_import_section_3_body``.
+    Via overriding the string resource named ``gv_file_import_section_3_body`` and ``gv_file_import_section_3_body_2``.
     
   - **Illustration**
 
