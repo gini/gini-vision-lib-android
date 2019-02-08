@@ -109,4 +109,11 @@
     <string name="gv_file_import_section_3_clear_app_defaults_title">Einstellung für Standard-App löschen</string>
     <string name="gv_file_import_section_3_clear_app_defaults_body"><![CDATA[Wenn Sie merken, dass <Partner App Name> alle PDFs standardmäßig öffnet, müssen Sie die Einstellung “Standardmäßig öffnen” für die App zurücksetzen:\n\n1. Öffnen Sie die App “Einstellungen”.\n\n2. Tippen Sie auf “Apps & Benachrichtigungen.”\n\n3. Tippen Sie auf <Partner App Name>. Wenn Sie die App nicht sehen, tippen Sie zuerst auf “Alle Apps anzeigen” oder “App-Info”.\n\n4. Tippen Sie auf “Erweitert” > “Standardmäßig öffnen” > “Aktionen auf Standard zurücksetzen”. Wenn Sie die Option “Erweitert” nicht sehen, tippen Sie auf “Standardmäßig öffnen” > “Aktionen auf Standard zurücksetzen”.\n\nWenn Sie anschließend ein PDF öffnen, werden Sie wieder gefragt, welche App verwendet werden soll.]]></string>
 
+    <string name="gv_file_import_default_app_dialog_message">Die App öffnet standardmäßig alle %1$s. Um diese Einstellung zurückzusetzen, drücken Sie auf “Auf Standard zurücksetzen” und befolgen Sie die folgende Anleitung:\n\nTippen Sie auf “Erweitert” > “Standardmäßig öffnen” > “Aktionen auf Standard zurücksetzen”. Wenn Sie die Option “Erweitert” nicht sehen, tippen Sie auf “Standardmäßig öffnen” > “Aktionen auf Standard zurücksetzen”.</string>
+    <string name="gv_file_import_default_app_dialog_positive_button">Auf Standard zurücksetzen</string>
+    <string name="gv_file_import_default_app_dialog_negative_button">Ohne Änderungen fortfahren</string>
+    <string name="gv_file_import_default_app_dialog_pdf_file_type">PDFs</string>
+    <string name="gv_file_import_default_app_dialog_image_file_type">Bilder</string>
+    <string name="gv_file_import_default_app_dialog_document_file_type">Dokumente</string>
+
 </resources>

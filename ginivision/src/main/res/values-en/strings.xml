@@ -89,4 +89,11 @@
     <string name="gv_file_import_section_3_body_2"><![CDATA[Please use the option \"JUST ONCE\" to prevent the <Partner App Name> from opening every PDF by default.]]></string>
     <string name="gv_file_import_section_3_clear_app_defaults_title">Clear app defaults</string>
     <string name="gv_file_import_section_3_clear_app_defaults_body"><![CDATA[In case you notice that <Partner App Name> opens every PDF by default, then you need to clear the app\'s “Open by default” settings:\n\n1. Open the Settings app.\n\n2. Tap “Apps & notifications”.\n\n3. Tap <Partner App Name>. If you don\'t see it, first tap “See all apps” or “App info”.\n\n4. Tap “Advanced” > “Open by default” > “Clear defaults”. If you don\'t see “Advanced”, tap “Open by default” > “Clear defaults”\n\nAfter clearing the default, when you open a PDF again, your device will ask you which app to use.]]></string>
+
+    <string name="gv_file_import_default_app_dialog_message">The app opens every %1$s by default. To clear this setting tap on “Clear defaults” and follow these steps:\n\nTap “Advanced” > “Open by default” > “Clear defaults”. If you don\'t see “Advanced”, tap “Open by default” > “Clear defaults”.</string>
+    <string name="gv_file_import_default_app_dialog_positive_button">Clear defaults</string>
+    <string name="gv_file_import_default_app_dialog_negative_button">Continue without changes</string>
+    <string name="gv_file_import_default_app_dialog_pdf_file_type">PDF</string>
+    <string name="gv_file_import_default_app_dialog_image_file_type">image</string>
+    <string name="gv_file_import_default_app_dialog_document_file_type">document</string>
 </resources>

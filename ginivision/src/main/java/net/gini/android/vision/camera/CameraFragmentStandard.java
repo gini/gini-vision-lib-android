@@ -1,7 +1,6 @@
 package net.gini.android.vision.camera;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,12 +9,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
+import net.gini.android.vision.internal.ui.FragmentImplCallback;
+import net.gini.android.vision.internal.util.AlertDialogHelperStandard;
 
 /**
  * <h3>Component API</h3>
@@ -51,7 +51,7 @@ import net.gini.android.vision.GiniVisionFeatureConfiguration;
  * </p>
  */
 public class CameraFragmentStandard extends Fragment implements CameraFragmentInterface,
-        CameraFragmentImplCallback {
+        FragmentImplCallback {
 
     private CameraFragmentListener mListener;
 
@@ -247,33 +247,18 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
     }
 
     @Override
-    public void showAlertDialog(@StringRes final int message,
-            @StringRes final int positiveButtonTitle,
-            @NonNull final DialogInterface.OnClickListener positiveButtonClickListener,
-            @StringRes final int negativeButtonTitle) {
-        final Activity activity = getActivity();
-        if (activity == null) {
-            return;
-        }
-        showAlertDialog(activity.getString(message), positiveButtonTitle,
-                positiveButtonClickListener, negativeButtonTitle);
-    }
-
-    @Override
     public void showAlertDialog(@NonNull final String message,
-            @StringRes final int positiveButtonTitle,
+            @NonNull final String positiveButtonTitle,
             @NonNull final DialogInterface.OnClickListener positiveButtonClickListener,
-            @StringRes final int negativeButtonTitle) {
+            @Nullable final String negativeButtonTitle,
+            @Nullable final DialogInterface.OnClickListener negativeButtonClickListener,
+            @Nullable final DialogInterface.OnCancelListener cancelListener) {
         final Activity activity = getActivity();
         if (activity == null) {
             return;
         }
-        final AlertDialog alertDialog = new AlertDialog.Builder(activity)
-                .setMessage(message)
-                .setPositiveButton(positiveButtonTitle, positiveButtonClickListener)
-                .setNegativeButton(negativeButtonTitle, null)
-                .create();
-        alertDialog.setCanceledOnTouchOutside(false);
-        alertDialog.show();
+        AlertDialogHelperStandard.showAlertDialog(activity, message, positiveButtonTitle,
+                positiveButtonClickListener, negativeButtonTitle, negativeButtonClickListener,
+                cancelListener);
     }
 }

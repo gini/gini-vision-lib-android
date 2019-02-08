@@ -14,11 +14,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.transition.AutoTransition;
 import android.support.transition.Transition;
@@ -46,6 +44,7 @@ import net.gini.android.vision.internal.permission.PermissionRequestListener;
 import net.gini.android.vision.internal.permission.RuntimePermissions;
 import net.gini.android.vision.internal.ui.AlertDialogFragment;
 import net.gini.android.vision.internal.ui.AlertDialogFragmentListener;
+import net.gini.android.vision.internal.util.ApplicationHelper;
 import net.gini.android.vision.internal.util.MimeType;
 
 import org.slf4j.Logger;
@@ -402,10 +401,7 @@ public class FileChooserActivity extends AppCompatActivity implements AlertDialo
     }
 
     private void showAppDetailsSettingsScreen() {
-        final Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        final Uri uri = Uri.fromParts("package", getPackageName(), null);
-        intent.setData(uri);
-        startActivity(intent);
+        ApplicationHelper.startApplicationDetailsSettings(this);
     }
 
     @Override
