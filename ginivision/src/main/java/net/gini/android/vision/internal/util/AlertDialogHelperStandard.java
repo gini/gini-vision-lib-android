@@ -11,6 +11,10 @@ import android.support.annotation.Nullable;
  *
  * Copyright (c) 2019 Gini GmbH.
  */
+
+/**
+ * @exclude
+ */
 public final class AlertDialogHelperStandard {
 
     public static void showAlertDialog(@Nullable final Activity activity,
@@ -31,6 +35,9 @@ public final class AlertDialogHelperStandard {
                 .create();
         alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.show();
+    }
+
+    private AlertDialogHelperStandard() {
     }
 
 }

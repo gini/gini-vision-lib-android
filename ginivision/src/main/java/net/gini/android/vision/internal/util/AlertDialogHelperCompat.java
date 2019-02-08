@@ -11,6 +11,10 @@ import android.support.v7.app.AlertDialog;
  *
  * Copyright (c) 2019 Gini GmbH.
  */
+
+/**
+ * @exclude
+ */
 public final class AlertDialogHelperCompat {
 
     public static void showAlertDialog(@Nullable final Activity activity,
@@ -33,4 +37,6 @@ public final class AlertDialogHelperCompat {
         alertDialog.show();
     }
 
+    private AlertDialogHelperCompat() {
+    }
 }

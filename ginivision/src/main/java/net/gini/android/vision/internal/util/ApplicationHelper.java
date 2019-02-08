@@ -18,6 +18,10 @@ import java.util.ArrayList;
  *
  * Copyright (c) 2019 Gini GmbH.
  */
+
+/**
+ * @exclude
+ */
 public final class ApplicationHelper {
 
     public static void startApplicationDetailsSettings(@Nullable final Activity activity) {
@@ -30,7 +34,8 @@ public final class ApplicationHelper {
         activity.startActivity(intent);
     }
 
-    public static boolean isDefaultForMimeType(@Nullable final Activity activity, @NonNull final String mimeType) {
+    public static boolean isDefaultForMimeType(@Nullable final Activity activity,
+            @NonNull final String mimeType) {
         if (activity == null) {
             return false;
         }
@@ -44,6 +49,9 @@ public final class ApplicationHelper {
             }
         }
         return false;
+    }
+
+    private ApplicationHelper() {
     }
 
 }

@@ -20,7 +20,11 @@ import jersey.repackaged.jsr166e.CompletableFuture;
  *
  * Copyright (c) 2019 Gini GmbH.
  */
-public class FileImportHelper {
+
+/**
+ * @exclude
+ */
+public final class FileImportHelper {
 
     public static CompletableFuture<Void> showAlertIfOpenWithDocument(
             @Nullable final Activity activity,
@@ -70,6 +74,9 @@ public class FileImportHelper {
             return activity.getString(R.string.gv_file_import_default_app_dialog_image_file_type);
         }
         return activity.getString(R.string.gv_file_import_default_app_dialog_document_file_type);
+    }
+
+    private FileImportHelper() {
     }
 
 }
