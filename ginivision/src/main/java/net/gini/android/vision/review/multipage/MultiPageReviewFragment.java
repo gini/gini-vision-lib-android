@@ -3,6 +3,7 @@ package net.gini.android.vision.review.multipage;
 import static net.gini.android.vision.document.GiniVisionDocumentError.ErrorCode.FILE_VALIDATION_FAILED;
 import static net.gini.android.vision.document.GiniVisionDocumentError.ErrorCode.UPLOAD_FAILED;
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
+import static net.gini.android.vision.internal.util.FileImportHelper.showAlertIfOpenWithDocument;
 import static net.gini.android.vision.review.multipage.previews.PreviewFragment.ErrorButtonAction.DELETE;
 import static net.gini.android.vision.review.multipage.previews.PreviewFragment.ErrorButtonAction.RETRY;
 import static net.gini.android.vision.review.multipage.thumbnails.ThumbnailsAdapter.getNewPositionAfterDeletion;
@@ -12,6 +13,7 @@ import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
@@ -38,6 +40,8 @@ import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.document.ImageMultiPageDocument;
 import net.gini.android.vision.internal.network.NetworkRequestResult;
 import net.gini.android.vision.internal.network.NetworkRequestsManager;
+import net.gini.android.vision.internal.ui.FragmentImplCallback;
+import net.gini.android.vision.internal.util.AlertDialogHelperCompat;
 import net.gini.android.vision.review.multipage.previews.PreviewFragment;
 import net.gini.android.vision.review.multipage.previews.PreviewFragmentListener;
 import net.gini.android.vision.review.multipage.previews.PreviewsAdapter;
@@ -99,7 +103,7 @@ import jersey.repackaged.jsr166e.CompletableFuture;
  * See the {@link MultiPageReviewActivity} for details.
  */
 public class MultiPageReviewFragment extends Fragment implements MultiPageReviewFragmentInterface,
-        PreviewFragmentListener {
+        PreviewFragmentListener, FragmentImplCallback {
 
     private static final Logger LOG = LoggerFactory.getLogger(MultiPageReviewFragment.class);
 
@@ -132,6 +136,22 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         forcePortraitOrientationOnPhones(getActivity());
         initMultiPageDocument();
         initListener();
+    }
+
+    @Override
+    public void showAlertDialog(@NonNull final String message,
+            @NonNull final String positiveButtonTitle,
+            @NonNull final DialogInterface.OnClickListener positiveButtonClickListener,
+            @Nullable final String negativeButtonTitle,
+            @Nullable final DialogInterface.OnClickListener negativeButtonClickListener,
+            @Nullable final DialogInterface.OnCancelListener cancelListener) {
+        final Activity activity = getActivity();
+        if (activity == null) {
+            return;
+        }
+        AlertDialogHelperCompat.showAlertDialog(activity, message, positiveButtonTitle,
+                positiveButtonClickListener, negativeButtonTitle, negativeButtonClickListener,
+                cancelListener);
     }
 
     private void initMultiPageDocument() {
@@ -504,7 +524,13 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         if (!mPreviewsShown) {
             observeViewTree();
         }
-        uploadDocuments();
+        showAlertIfOpenWithDocument(getActivity(), mMultiPageDocument, this)
+                .thenRun(new Runnable() {
+                    @Override
+                    public void run() {
+                        uploadDocuments();
+                    }
+                });
     }
 
     private void uploadDocuments() {

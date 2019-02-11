@@ -1,7 +1,9 @@
 package net.gini.android.vision.onboarding;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +12,8 @@ import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import net.gini.android.vision.internal.util.AlertDialogHelperStandard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -149,5 +153,21 @@ public class OnboardingFragmentStandard extends Fragment implements OnboardingFr
             mFragmentImpl.setListener(listener);
         }
         mListener = listener;
+    }
+
+    @Override
+    public void showAlertDialog(@NonNull final String message,
+            @NonNull final String positiveButtonTitle,
+            @NonNull final DialogInterface.OnClickListener positiveButtonClickListener,
+            @Nullable final String negativeButtonTitle,
+            @Nullable final DialogInterface.OnClickListener negativeButtonClickListener,
+            @Nullable final DialogInterface.OnCancelListener cancelListener) {
+        final Activity activity = getActivity();
+        if (activity == null) {
+            return;
+        }
+        AlertDialogHelperStandard.showAlertDialog(activity, message, positiveButtonTitle,
+                positiveButtonClickListener, negativeButtonTitle, negativeButtonClickListener,
+                cancelListener);
     }
 }

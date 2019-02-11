@@ -8,7 +8,6 @@ import static net.gini.android.vision.document.ImageDocument.ImportMethod;
 import static net.gini.android.vision.internal.network.NetworkRequestsManager.isCancellation;
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 import static net.gini.android.vision.internal.util.AndroidHelper.isMarshmallowOrLater;
-import static net.gini.android.vision.internal.util.ContextHelper.getClientApplicationId;
 import static net.gini.android.vision.internal.util.FeatureConfiguration.getDocumentImportEnabledFileTypes;
 import static net.gini.android.vision.internal.util.FeatureConfiguration.isMultiPageEnabled;
 import static net.gini.android.vision.internal.util.FeatureConfiguration.isQRCodeScanningEnabled;
@@ -22,7 +21,6 @@ import android.graphics.Point;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
@@ -76,7 +74,9 @@ import net.gini.android.vision.internal.qrcode.QRCodeDetectorTask;
 import net.gini.android.vision.internal.qrcode.QRCodeDetectorTaskGoogleVision;
 import net.gini.android.vision.internal.storage.ImageDiskStore;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
+import net.gini.android.vision.internal.ui.FragmentImplCallback;
 import net.gini.android.vision.internal.ui.ViewStubSafeInflater;
+import net.gini.android.vision.internal.util.ApplicationHelper;
 import net.gini.android.vision.internal.util.DeviceHelper;
 import net.gini.android.vision.internal.util.FileImportValidator;
 import net.gini.android.vision.internal.util.MimeType;
@@ -142,7 +142,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     private static final String SHOW_HINT_POP_UP = "SHOW_HINT_POP_UP";
     private static final String IN_MULTI_PAGE_STATE_KEY = "IN_MULTI_PAGE_STATE_KEY";
 
-    private final CameraFragmentImplCallback mFragment;
+    private final FragmentImplCallback mFragment;
     private final GiniVisionFeatureConfiguration mGiniVisionFeatureConfiguration;
     private HideQRCodeDetectedRunnable mHideQRCodeDetectedPopupRunnable;
 
@@ -189,11 +189,11 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     private LinearLayout mImportButtonContainer;
     private boolean mInstanceStateSaved;
 
-    CameraFragmentImpl(@NonNull final CameraFragmentImplCallback fragment) {
+    CameraFragmentImpl(@NonNull final FragmentImplCallback fragment) {
         this(fragment, GiniVisionFeatureConfiguration.buildNewConfiguration().build());
     }
 
-    CameraFragmentImpl(@NonNull final CameraFragmentImplCallback fragment,
+    CameraFragmentImpl(@NonNull final FragmentImplCallback fragment,
             @NonNull final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration) {
         mFragment = fragment;
         mGiniVisionFeatureConfiguration = giniVisionFeatureConfiguration;
@@ -376,7 +376,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                                         "Cannot start preview: no SurfaceHolder received for SurfaceView",
                                         null);
                             }
-                        } catch (InterruptedException | ExecutionException e) {
+                        } catch (final InterruptedException | ExecutionException e) {
                             handleError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW,
                                     "Cannot start preview", e);
                         }
@@ -1305,8 +1305,12 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     }
 
     private void showInvalidFileAlert(final String message) {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
+        }
         mFragment.showAlertDialog(message,
-                R.string.gv_document_import_pick_another_document,
+                activity.getString(R.string.gv_document_import_pick_another_document),
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(
@@ -1314,7 +1318,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                             final int i) {
                         showFileChooser();
                     }
-                }, R.string.gv_document_import_close_error);
+                }, activity.getString(R.string.gv_document_import_close_error), null, null);
     }
 
     @UiThread
@@ -1414,8 +1418,12 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     }
 
     private void showMultiPageLimitError() {
-        mFragment.showAlertDialog(R.string.gv_document_error_too_many_pages,
-                R.string.gv_document_error_multi_page_limit_review_pages_button,
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
+        }
+        mFragment.showAlertDialog(activity.getString(R.string.gv_document_error_too_many_pages),
+                activity.getString(R.string.gv_document_error_multi_page_limit_review_pages_button),
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(
@@ -1424,7 +1432,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                         mProceededToMultiPageReview = true;
                         mListener.onProceedToMultiPageReviewScreen(mMultiPageDocument);
                     }
-                }, R.string.gv_document_error_multi_page_limit_cancel_button);
+                }, activity.getString(R.string.gv_document_error_multi_page_limit_cancel_button), null, null);
     }
 
     @Nullable
@@ -1659,15 +1667,9 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     }
 
     private void startApplicationDetailsSettings() {
-        final Activity activity = mFragment.getActivity();
-        if (activity == null) {
-            return;
-        }
         LOG.debug("Starting Application Details");
-        final Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        final Uri uri = Uri.fromParts("package", getClientApplicationId(activity), null);
-        intent.setData(uri);
-        mFragment.startActivity(intent);
+        final Activity activity = mFragment.getActivity();
+        ApplicationHelper.startApplicationDetailsSettings(activity);
     }
 
     private void initCameraController(final Activity activity) {

@@ -1,5 +1,7 @@
 package net.gini.android.vision.analysis;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,39 +13,51 @@ import android.view.ViewGroup;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
+import net.gini.android.vision.internal.util.AlertDialogHelperCompat;
 import net.gini.android.vision.review.ReviewFragmentListener;
 
 /**
  * <h3>Component API</h3>
  *
  * <p>
- *     When you use the Component API with the Android Support Library, the {@code AnalyzeDocumentFragmentCompat} displays the captured or imported document and an activity indicator while the document is being analyzed by the Gini API.
+ * When you use the Component API with the Android Support Library, the {@code
+ * AnalyzeDocumentFragmentCompat} displays the captured or imported document and an activity
+ * indicator while the document is being analyzed by the Gini API.
  * </p>
  * <p>
- *     <b>Note:</b> You can use the activity indicator message to display a message under the activity indicator by overriding the string resource named {@code gv_analysis_activity_indicator_message}. The message is displayed for images only.
+ * <b>Note:</b> You can use the activity indicator message to display a message under the activity
+ * indicator by overriding the string resource named {@code gv_analysis_activity_indicator_message}.
+ * The message is displayed for images only.
  * </p>
  * <p>
- *     For PDF documents the first page is shown (only on Android 5.0 Lollipop and newer) along with the PDF's filename and number of pages above the page. On Android KitKat and older only the PDF's filename is shown with the preview area left empty.
+ * For PDF documents the first page is shown (only on Android 5.0 Lollipop and newer) along with the
+ * PDF's filename and number of pages above the page. On Android KitKat and older only the PDF's
+ * filename is shown with the preview area left empty.
  * </p>
  * <p>
- *     <b>Note:</b> Your Activity hosting this Fragment must extend the {@link android.support.v7.app.AppCompatActivity} and use an AppCompat Theme.
+ * <b>Note:</b> Your Activity hosting this Fragment must extend the {@link
+ * android.support.v7.app.AppCompatActivity} and use an AppCompat Theme.
  * </p>
  * <p>
- *     Include the {@code AnalyzeDocumentFragmentCompat} into your layout by using the {@link AnalysisFragmentCompat#createInstance(Document, String)} factory method to create an instance and display it using the {@link android.support.v4.app.FragmentManager}.
+ * Include the {@code AnalyzeDocumentFragmentCompat} into your layout by using the {@link
+ * AnalysisFragmentCompat#createInstance(Document, String)} factory method to create an instance and
+ * display it using the {@link android.support.v4.app.FragmentManager}.
  * </p>
  * <p>
- *     An {@link AnalysisFragmentListener} instance must be available until the {@code AnalysisFragmentCompat} is attached to an activity. Failing to do so will throw an exception.
- *     The listener instance can be provided either implicitly by making the hosting Activity implement the {@link AnalysisFragmentListener} interface or explicitly by
- *     setting the listener using {@link AnalysisFragmentCompat#setListener(AnalysisFragmentListener)}.
+ * An {@link AnalysisFragmentListener} instance must be available until the {@code
+ * AnalysisFragmentCompat} is attached to an activity. Failing to do so will throw an exception. The
+ * listener instance can be provided either implicitly by making the hosting Activity implement the
+ * {@link AnalysisFragmentListener} interface or explicitly by setting the listener using {@link
+ * AnalysisFragmentCompat#setListener(AnalysisFragmentListener)}.
  * </p>
  * <p>
- *     Your Activity is automatically set as the listener in {@link AnalysisFragmentCompat#onCreate(Bundle)}.
+ * Your Activity is automatically set as the listener in {@link AnalysisFragmentCompat#onCreate(Bundle)}.
  * </p>
  *
  * <h3>Customizing the Analysis Screen</h3>
  *
  * <p>
- *     See the {@link AnalysisActivity} for details.
+ * See the {@link AnalysisActivity} for details.
  * </p>
  */
 public class AnalysisFragmentCompat extends Fragment implements FragmentImplCallback,
@@ -150,8 +164,7 @@ public class AnalysisFragmentCompat extends Fragment implements FragmentImplCall
      * </p>
      * <p>
      * You may pass in an optional analysis error message. This error message is shown to the user
-     * with a retry
-     * button.
+     * with a retry button.
      * </p>
      * <p>
      * <b>Note:</b> Always use this method to create new instances. Document is required and an
@@ -162,6 +175,7 @@ public class AnalysisFragmentCompat extends Fragment implements FragmentImplCall
      *                                     ReviewFragmentListener#onProceedToAnalysisScreen
      *                                     (Document)}
      * @param documentAnalysisErrorMessage an optional error message shown to the user
+     *
      * @return a new instance of the Fragment
      */
     public static AnalysisFragmentCompat createInstance(@NonNull final Document document,
@@ -170,6 +184,22 @@ public class AnalysisFragmentCompat extends Fragment implements FragmentImplCall
         fragment.setArguments(
                 AnalysisFragmentHelper.createArguments(document, documentAnalysisErrorMessage));
         return fragment;
+    }
+
+    @Override
+    public void showAlertDialog(@NonNull final String message,
+            @NonNull final String positiveButtonTitle,
+            @NonNull final DialogInterface.OnClickListener positiveButtonClickListener,
+            @Nullable final String negativeButtonTitle,
+            @Nullable final DialogInterface.OnClickListener negativeButtonClickListener,
+            @Nullable final DialogInterface.OnCancelListener cancelListener) {
+        final Activity activity = getActivity();
+        if (activity == null) {
+            return;
+        }
+        AlertDialogHelperCompat.showAlertDialog(activity, message, positiveButtonTitle,
+                positiveButtonClickListener, negativeButtonTitle, negativeButtonClickListener,
+                cancelListener);
     }
 
     @VisibleForTesting

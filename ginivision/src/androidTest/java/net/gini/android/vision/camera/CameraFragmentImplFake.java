@@ -7,6 +7,7 @@ import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.document.QRCodeDocument;
 import net.gini.android.vision.internal.camera.api.CameraControllerFake;
 import net.gini.android.vision.internal.camera.api.CameraInterface;
+import net.gini.android.vision.internal.ui.FragmentImplCallback;
 
 /**
  * Created by Alpar Szotyori on 15.12.2017.
@@ -21,12 +22,12 @@ public class CameraFragmentImplFake extends CameraFragmentImpl {
     private QRCodeDocument mQRCodeDocument;
 
     CameraFragmentImplFake(
-            @NonNull final CameraFragmentImplCallback fragment) {
+            @NonNull final FragmentImplCallback fragment) {
         super(fragment);
     }
 
     CameraFragmentImplFake(
-            @NonNull final CameraFragmentImplCallback fragment,
+            @NonNull final FragmentImplCallback fragment,
             @NonNull final GiniVisionFeatureConfiguration giniVisionFeatureConfiguration) {
         super(fragment, giniVisionFeatureConfiguration);
     }

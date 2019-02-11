@@ -954,6 +954,15 @@ Multi-Page Review Screen
         <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
     </map>
 
+.. raw:: html
+
+    <img src="_static/customization/Multi-Page Review Delete Last Page.png" usemap="#multi-page-review-map-3" width="324" height="576">
+
+    <map id="multi-page-review-map-3" name="multi-page-review-map-3">
+        <area shape="rect" alt="" title="Imported Image Delete Last Page Dialog" coords="146,213,176,249" href="customization-guide.html#multi-page-review-10" target="" />
+        <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
+    </map>
+
 .. _multi-page-review-1:
 
 1. Action Bar
@@ -1833,6 +1842,8 @@ All Action Bar customizations except the title are global to all Activities.
     from the `Gini Vision Library UI Assets
     <https://github.com/gini/gini-vision-lib-assets>`_ repository. 
 
+.. _file-import-6-3:
+
 - **Section 3**
 
   - **Title**
@@ -1841,16 +1852,80 @@ All Action Bar customizations except the title are global to all Activities.
 
   - **Body**
 
-    Via overriding the string resource named ``gv_file_import_section_3_body``.
+    Via overriding the string resource named ``gv_file_import_section_3_body`` and ``gv_file_import_section_3_body_2``.
     
   - **Illustration**
 
     Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named
-    ``gv_file_import_section_3_illustration.png``. 
-    
+    ``gv_file_import_section_3_illustration.png``.
     **Note**: For creating your custom illustration you may use `this template
     <https://github.com/gini/gini-vision-lib-assets/blob/master/Gini-Vision-Lib-Design-Elements/Illustrations/PDF/android_pdf_open_with_illustration_3.pdf>`_
     from the `Gini Vision Library UI Assets
     <https://github.com/gini/gini-vision-lib-assets>`_ repository. 
+
+  - **Clear app defaults section**
+
+    - **Title**
+
+    Via overriding the string resource named ``gv_file_import_section_3_clear_app_defaults_title``.
+
+    - **Body**
+
+    Via overriding the string resource named ``gv_file_import_section_3_clear_app_defaults_body``.
+
+:ref:`Back to screenshot. <file-import>`
+
+Clear Defaults Dialog
+----
+
+.. raw:: html
+
+    <img src="_static/customization/Clear Defaults Dialog.png" usemap="#clear-defaults-map" width="324" height="576">
+
+    <map id="clear-defaults-map" name="clear-defaults-map">
+        <area shape="rect" alt="" title="Message" coords="236,139,260,166" href="customization-guide.html#clear-defaults-1" target="" />
+        <area shape="rect" alt="" title="File Type" coords="265,223,299,257" href="customization-guide.html#clear-defaults-1-1" target="" />
+        <area shape="rect" alt="" title="Positive Button Title" coords="73,329,106,362" href="customization-guide.html#clear-defaults-2" target="" />
+        <area shape="rect" alt="" title="Negative Button Title" coords="74,369,105,400" href="customization-guide.html#clear-defaults-3" target="" />
+        <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
+    </map>
+
+.. _clear-defaults-1:
+
+1. Message
+^^^^
+
+Via the string resource named ``gv_file_import_default_app_dialog_message``.
+
+.. _clear-defaults-1-1:
+
+1.1 File Type
+~~~~
+
+- **PDF**
+
+  Via the string resources named ``gv_file_import_default_app_dialog_pdf_file_type``.
+
+- **Image**
+
+  Via the string resources named ``gv_file_import_default_app_dialog_image_file_type``.
+
+- **Document (Other)**
+
+  Via the string resources named ``gv_file_import_default_app_dialog_document_file_type``.
+
+.. _clear-defaults-2:
+
+2. Positive Button Title
+~~~~
+
+Via the string resources named ``gv_file_import_default_app_dialog_positive_button``.
+
+.. _clear-defaults-3:
+
+3. Negative Button Title
+~~~~
+
+Via the string resources named ``gv_file_import_default_app_dialog_negative_button``.
 
 :ref:`Back to screenshot. <file-import>`

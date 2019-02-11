@@ -1,7 +1,9 @@
 package net.gini.android.vision.noresults;
 
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +13,7 @@ import android.view.ViewGroup;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
+import net.gini.android.vision.internal.util.AlertDialogHelperStandard;
 
 /**
  * <h3>Component API</h3>
@@ -38,7 +41,7 @@ public class NoResultsFragmentStandard extends Fragment implements FragmentImplC
     private NoResultsFragmentImpl mFragmentImpl;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mFragmentImpl = NoResultsFragmentHelper.createFragmentImpl(this, getArguments());
         NoResultsFragmentHelper.setListener(mFragmentImpl, getActivity());
@@ -61,9 +64,24 @@ public class NoResultsFragmentStandard extends Fragment implements FragmentImplC
      * @return a new instance of the Fragment
      */
     public static NoResultsFragmentStandard createInstance(@NonNull final Document document) {
-        NoResultsFragmentStandard fragment = new NoResultsFragmentStandard();
+        final NoResultsFragmentStandard fragment = new NoResultsFragmentStandard();
         fragment.setArguments(NoResultsFragmentHelper.createArguments(document));
         return fragment;
     }
 
+    @Override
+    public void showAlertDialog(@NonNull final String message,
+            @NonNull final String positiveButtonTitle,
+            @NonNull final DialogInterface.OnClickListener positiveButtonClickListener,
+            @Nullable final String negativeButtonTitle,
+            @Nullable final DialogInterface.OnClickListener negativeButtonClickListener,
+            @Nullable final DialogInterface.OnCancelListener cancelListener) {
+        final Activity activity = getActivity();
+        if (activity == null) {
+            return;
+        }
+        AlertDialogHelperStandard.showAlertDialog(activity, message, positiveButtonTitle,
+                positiveButtonClickListener, negativeButtonTitle, negativeButtonClickListener,
+                cancelListener);
+    }
 }
