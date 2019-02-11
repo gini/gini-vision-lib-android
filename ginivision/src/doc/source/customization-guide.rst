@@ -1842,6 +1842,8 @@ All Action Bar customizations except the title are global to all Activities.
     from the `Gini Vision Library UI Assets
     <https://github.com/gini/gini-vision-lib-assets>`_ repository. 
 
+.. _file-import-6-3:
+
 - **Section 3**
 
   - **Title**
