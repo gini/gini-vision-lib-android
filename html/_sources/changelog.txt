@@ -2,6 +2,17 @@
 Changelog
 =========
 
+3.5.0 (2019-02-11)
+==================
+
+- A dialog is presented to the user when the host app is set as default for opening PDFs or images.
+  The user is informed on how to revert the app defaults. The dialog is only shown
+  when a PDF or image has been opened from another app. See the
+  `customization guide <customization-guide.html#clear-defaults-dialog>`_ for adapting the texts.
+- The help screen for opening documents from another app has been extended with information about
+  app defaults. See the `customization guide <customization-guide.html#file-import-6-3>`_ for
+  adapting the texts.
+
 3.4.0 (2019-01-25)
 ==================
 
