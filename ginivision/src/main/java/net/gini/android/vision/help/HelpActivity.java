@@ -102,6 +102,7 @@ public class HelpActivity extends AppCompatActivity {
     private static final Logger LOG = LoggerFactory.getLogger(HelpActivity.class);
     private static final int PHOTO_TIPS_REQUEST = 1;
     private GiniVisionFeatureConfiguration mGiniVisionFeatureConfiguration;
+    private RecyclerView mRecyclerView;
 
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode,
@@ -120,6 +121,10 @@ public class HelpActivity extends AppCompatActivity {
         readExtras();
         setUpHelpItems();
         forcePortraitOrientationOnPhones(this);
+        if (hasOnlyOneHelpItem()) {
+            launchHelpScreen(((HelpItemsAdapter) mRecyclerView.getAdapter()).getItems().get(0));
+            finish();
+        }
     }
 
     private void readExtras() {
@@ -135,15 +140,19 @@ public class HelpActivity extends AppCompatActivity {
     }
 
     private void setUpHelpItems() {
-        final RecyclerView recyclerView = findViewById(R.id.gv_help_items);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new HelpItemsAdapter(mGiniVisionFeatureConfiguration,
+        mRecyclerView = findViewById(R.id.gv_help_items);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setAdapter(new HelpItemsAdapter(mGiniVisionFeatureConfiguration,
                 new HelpItemsAdapter.HelpItemSelectedListener() {
                     @Override
                     public void onItemSelected(@NonNull final HelpItem helpItem) {
                         launchHelpScreen(helpItem);
                     }
                 }));
+    }
+
+    private boolean hasOnlyOneHelpItem() {
+        return mRecyclerView.getAdapter().getItemCount() == 1;
     }
 
     private void launchHelpScreen(final HelpItem helpItem) {

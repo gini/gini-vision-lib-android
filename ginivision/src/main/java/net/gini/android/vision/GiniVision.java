@@ -63,6 +63,7 @@ public class GiniVision {
     private final boolean mShouldShowOnboardingAtFirstRun;
     private final boolean mMultiPageEnabled;
     private boolean mShouldShowOnboarding;
+    private final boolean mIsSupportedFormatsHelpScreenEnabled;
 
     /**
      * Retrieve the current instance.
@@ -145,6 +146,7 @@ public class GiniVision {
         mGiniVisionFileImport = new GiniVisionFileImport(this);
         mInternal = new Internal(this);
         mMultiPageEnabled = builder.isMultiPageEnabled();
+        mIsSupportedFormatsHelpScreenEnabled = builder.isSupportedFormatsHelpScreenEnabled();
     }
 
     /**
@@ -259,6 +261,17 @@ public class GiniVision {
      */
     public void setShouldShowOnboarding(final boolean shouldShowOnboarding) {
         mShouldShowOnboarding = shouldShowOnboarding;
+    }
+
+    /**
+     * Find out whether the Supported Formats help screen has been enabled.
+     *
+     * <p> Enabled by default.
+     *
+     * @return {@code true} if the Supported Formats help screen was enabled
+     */
+    public boolean isSupportedFormatsHelpScreenEnabled() {
+        return mIsSupportedFormatsHelpScreenEnabled;
     }
 
     /**
@@ -424,6 +437,7 @@ public class GiniVision {
         private boolean mShouldShowOnboardingAtFirstRun = true;
         private boolean mShouldShowOnboarding;
         private boolean mMultiPageEnabled;
+        private boolean mIsSupportedFormatsHelpScreenEnabled = true;
 
         /**
          * Create a new {@link GiniVision} instance.
@@ -629,6 +643,24 @@ public class GiniVision {
 
         boolean shouldShowOnboarding() {
             return mShouldShowOnboarding;
+        }
+
+        /**
+         * Enable/disable the Supported Formats help screen.
+         *
+         * <p> Enabled by default.
+         *
+         * @param enabled {@code true} to show the Supported Formats help screen
+         *
+         * @return the {@link Builder} instance
+         */
+        public Builder setSupportedFormatsHelpScreenEnabled(final boolean enabled) {
+            mIsSupportedFormatsHelpScreenEnabled = enabled;
+            return this;
+        }
+
+        boolean isSupportedFormatsHelpScreenEnabled() {
+            return mIsSupportedFormatsHelpScreenEnabled;
         }
     }
 

@@ -95,7 +95,9 @@ public class MainActivity extends AppCompatActivity {
                     .setMultiPageEnabled(true);
         }
         // Uncomment to add an extra page to the Onboarding pages
-//      builder.setCustomOnboardingPages(getOnboardingPages());
+//        builder.setCustomOnboardingPages(getOnboardingPages());
+        // Uncomment to remove the Supported Formats help screen
+//        builder.setSupportedFormatsHelpScreenEnabled(false);
         builder.build();
     }
 
