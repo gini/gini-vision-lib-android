@@ -14,7 +14,10 @@ uploadArchives {
             pom.artifactId = artifactId
             pom.version = version
             if (project.hasProperty('devVersionSuffix')) {
-                pom.version = pom.version + '.' + devVersionSuffix
+                pom.version = "${pom.version}.${devVersionSuffix}"
+            }
+            if (project.hasProperty('mavenSnapshotsRepoUrl')) {
+                pom.version = "${pom.version}-SNAPSHOT"
             }
 
             pom.project {

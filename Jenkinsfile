@@ -354,6 +354,21 @@ pipeline {
                 sh 'scripts/release-doc.sh $GIT_USR $GIT_PSW'
             }
         }
+        stage('Release Library Snapshot') {
+            when {
+                branch 'develop'
+            }
+            steps {
+                sh '''
+                    ./gradlew ginivision:uploadArchives \
+                    ginivision-network:uploadArchives \
+                    ginivision-accounting-network:uploadArchives \
+                    -PmavenSnapshotsRepoUrl=https://repo.gini.net/nexus/content/repositories/snapshots \
+                    -PrepoUser=$NEXUS_MAVEN_USR \
+                    -PrepoPassword=$NEXUS_MAVEN_PSW
+                '''
+            }
+        }
         stage('Release Library') {
             when {
                 expression {
