@@ -325,6 +325,8 @@ public class MainActivity extends AppCompatActivity {
 //                builder.setShouldShowOnboardingAtFirstRun(false);
         // Uncomment to show the OnboardingActivity every time the CameraActivity starts
 //                builder.setShouldShowOnboarding(true);
+        // Uncomment to remove the Supported Formats help screen
+//                builder.setSupportedFormatsHelpScreenEnabled(false);
         builder.build();
     }
 

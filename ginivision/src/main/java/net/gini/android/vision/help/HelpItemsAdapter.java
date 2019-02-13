@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.R;
 
@@ -39,8 +40,16 @@ class HelpItemsAdapter extends Adapter<HelpItemsAdapter.HelpItemsViewHolder> {
         if (isFileImportEnabled(giniVisionFeatureConfiguration)) {
             items.add(HelpItem.FILE_IMPORT_GUIDE);
         }
-        items.add(HelpItem.SUPPORTED_FORMATS);
+        if (GiniVision.hasInstance()
+                && GiniVision.getInstance().isSupportedFormatsHelpScreenEnabled()) {
+            items.add(HelpItem.SUPPORTED_FORMATS);
+        }
         return items;
+    }
+
+    @NonNull
+    List<HelpItem> getItems() {
+        return mItems;
     }
 
     @Override
