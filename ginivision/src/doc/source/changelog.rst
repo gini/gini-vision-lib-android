@@ -2,6 +2,12 @@
 Changelog
 =========
 
+3.6.0 (2019-02-13)
+==================
+
+- The Supported Formats help screen can be disabled using
+  ``setSupportedFormatsHelpScreenEnabled(false)`` when creating a new ``GiniVision`` instance.
+
 3.5.0 (2019-02-11)
 ==================
 
