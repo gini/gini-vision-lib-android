@@ -141,6 +141,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     private static final int REQ_CODE_CHOOSE_FILE = 1;
     private static final String SHOW_HINT_POP_UP = "SHOW_HINT_POP_UP";
     private static final String IN_MULTI_PAGE_STATE_KEY = "IN_MULTI_PAGE_STATE_KEY";
+    private static final String IS_FLASH_ENABLED_KEY = "IS_FLASH_ENABLED_KEY";
 
     private final FragmentImplCallback mFragment;
     private final GiniVisionFeatureConfiguration mGiniVisionFeatureConfiguration;
@@ -150,6 +151,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     private ImageStack mImageStack;
     private boolean mInterfaceHidden;
     private boolean mInMultiPageState;
+    private boolean mIsFlashEnabled = true;
     private CameraFragmentListener mListener = NO_OP_LISTENER;
     private final UIExecutor mUIExecutor = new UIExecutor();
     private CameraInterface mCameraController;
@@ -161,6 +163,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     private ImageView mCameraFocusIndicator;
     @VisibleForTesting
     ImageButton mButtonCameraTrigger;
+    private ImageButton mButtonCameraFlash;
     private LinearLayout mLayoutNoPermission;
     private ImageButton mButtonImportDocument;
     private View mQRCodeDetectedPopupContainer;
@@ -326,6 +329,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
 
     private void restoreSavedState(@NonNull final Bundle savedInstanceState) {
         mInMultiPageState = savedInstanceState.getBoolean(IN_MULTI_PAGE_STATE_KEY);
+        mIsFlashEnabled = savedInstanceState.getBoolean(IS_FLASH_ENABLED_KEY);
     }
 
     View onCreateView(final LayoutInflater inflater, final ViewGroup container,
@@ -371,6 +375,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                                 startPreview(surfaceHolder);
                                 enableTapToFocus();
                                 showUploadHintPopUpOnFirstExecution();
+                                initFlashButton();
                             } else {
                                 handleError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW,
                                         "Cannot start preview: no SurfaceHolder received for SurfaceView",
@@ -383,6 +388,17 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                         return null;
                     }
                 });
+    }
+
+    private void initFlashButton() {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
+        }
+        if (mCameraController.isFlashAvailable()) {
+            mButtonCameraFlash.setVisibility(View.VISIBLE);
+            updateCameraFlashState();
+        }
     }
 
     public void onResume() {
@@ -600,6 +616,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     void onSaveInstanceState(@NonNull final Bundle outState) {
         mInstanceStateSaved = true;
         outState.putBoolean(IN_MULTI_PAGE_STATE_KEY, mInMultiPageState);
+        outState.putBoolean(IS_FLASH_ENABLED_KEY, mIsFlashEnabled);
     }
 
     void onStop() {
@@ -703,6 +720,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         mImageCorners = view.findViewById(R.id.gv_image_corners);
         mCameraFocusIndicator = view.findViewById(R.id.gv_camera_focus_indicator);
         mButtonCameraTrigger = view.findViewById(R.id.gv_button_camera_trigger);
+        mButtonCameraFlash = view.findViewById(R.id.gv_button_camera_flash);
         final ViewStub stubNoPermission = view.findViewById(R.id.gv_stub_camera_no_permission);
         mViewStubInflater = new ViewStubSafeInflater(stubNoPermission);
         mButtonImportDocument = view.findViewById(R.id.gv_button_import_document);
@@ -771,6 +789,13 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                         });
             }
         });
+        mButtonCameraFlash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                mIsFlashEnabled = !mCameraController.isFlashEnabled();
+                updateCameraFlashState();
+            }
+        });
         mImportButtonContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
@@ -802,6 +827,17 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 mListener.onProceedToMultiPageReviewScreen(mMultiPageDocument);
             }
         });
+    }
+
+    private void updateCameraFlashState() {
+        mCameraController.setFlashEnabled(mIsFlashEnabled);
+        updateFlashButtonImage();
+    }
+
+    private void updateFlashButtonImage() {
+        final int flashIconRes = mIsFlashEnabled ? R.drawable.gv_camera_flash_on :
+                R.drawable.gv_camera_flash_off;
+        mButtonCameraFlash.setImageResource(flashIconRes);
     }
 
     @VisibleForTesting
