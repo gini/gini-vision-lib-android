@@ -398,7 +398,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         if (activity == null) {
             return;
         }
-        if (mCameraController.isFlashAvailable()) {
+        if (mCameraController.isFlashAvailable()
+                && (GiniVision.hasInstance() && GiniVision.getInstance().isFlashButtonEnabled())) {
             mButtonCameraFlash.setVisibility(View.VISIBLE);
             updateCameraFlashState();
         }
