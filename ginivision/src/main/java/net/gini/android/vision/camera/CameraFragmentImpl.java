@@ -5,9 +5,11 @@ import static android.app.Activity.RESULT_OK;
 
 import static net.gini.android.vision.camera.Util.cameraExceptionToGiniVisionError;
 import static net.gini.android.vision.document.ImageDocument.ImportMethod;
+import static net.gini.android.vision.internal.camera.view.FlashButtonHelper.getFlashButtonPosition;
 import static net.gini.android.vision.internal.network.NetworkRequestsManager.isCancellation;
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 import static net.gini.android.vision.internal.util.AndroidHelper.isMarshmallowOrLater;
+import static net.gini.android.vision.internal.util.ContextHelper.isTablet;
 import static net.gini.android.vision.internal.util.FeatureConfiguration.getDocumentImportEnabledFileTypes;
 import static net.gini.android.vision.internal.util.FeatureConfiguration.isMultiPageEnabled;
 import static net.gini.android.vision.internal.util.FeatureConfiguration.isQRCodeScanningEnabled;
@@ -64,6 +66,7 @@ import net.gini.android.vision.internal.camera.api.UIExecutor;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.PhotoEdit;
 import net.gini.android.vision.internal.camera.view.CameraPreviewSurface;
+import net.gini.android.vision.internal.camera.view.FlashButtonHelper.FLASH_BUTTON_POSITION;
 import net.gini.android.vision.internal.fileimport.FileChooserActivity;
 import net.gini.android.vision.internal.network.AnalysisNetworkRequestResult;
 import net.gini.android.vision.internal.network.NetworkRequestResult;
@@ -720,7 +723,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         mImageCorners = view.findViewById(R.id.gv_image_corners);
         mCameraFocusIndicator = view.findViewById(R.id.gv_camera_focus_indicator);
         mButtonCameraTrigger = view.findViewById(R.id.gv_button_camera_trigger);
-        mButtonCameraFlash = view.findViewById(R.id.gv_button_camera_flash);
+        bindFlashButtonView(view);
         final ViewStub stubNoPermission = view.findViewById(R.id.gv_stub_camera_no_permission);
         mViewStubInflater = new ViewStubSafeInflater(stubNoPermission);
         mButtonImportDocument = view.findViewById(R.id.gv_button_import_document);
@@ -736,6 +739,35 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
 
                 R.id.gv_qrcode_detected_popup_container);
         mImageStack = view.findViewById(R.id.gv_image_stack);
+    }
+
+    private void bindFlashButtonView(final View view) {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
+        }
+        if (isTablet(activity)) {
+            mButtonCameraFlash = view.findViewById(R.id.gv_button_camera_flash);
+            if (mButtonCameraFlash != null) {
+                return;
+            }
+        }
+        final FLASH_BUTTON_POSITION flashButtonPosition = getFlashButtonPosition(
+                isDocumentImportEnabled(), isMultiPageEnabled());
+        switch (flashButtonPosition) {
+            case LEFT_OF_CAMERA_TRIGGER:
+                mButtonCameraFlash = view.findViewById(R.id.gv_button_camera_flash_left_of_trigger);
+                break;
+            case BOTTOM_LEFT:
+                mButtonCameraFlash = view.findViewById(R.id.gv_button_camera_flash_bottom_left);
+                break;
+            case BOTTOM_RIGHT:
+                mButtonCameraFlash = view.findViewById(R.id.gv_button_camera_flash_bottom_right);
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown flash button position: "
+                        + flashButtonPosition);
+        }
     }
 
     private void initViews() {
@@ -1468,7 +1500,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                         mProceededToMultiPageReview = true;
                         mListener.onProceedToMultiPageReviewScreen(mMultiPageDocument);
                     }
-                }, activity.getString(R.string.gv_document_error_multi_page_limit_cancel_button), null, null);
+                }, activity.getString(R.string.gv_document_error_multi_page_limit_cancel_button),
+                null, null);
     }
 
     @Nullable

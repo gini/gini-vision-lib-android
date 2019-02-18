@@ -33,7 +33,6 @@
         android:alpha="0"
         android:src="@drawable/gv_camera_focus_indicator" />
 
-
     <net.gini.android.vision.camera.FrameView
         android:id="@+id/gv_image_corners"
         android:layout_width="match_parent"
@@ -54,12 +53,41 @@
         android:src="@drawable/gv_camera_trigger" />
 
     <ImageButton
-        android:id="@+id/gv_button_camera_flash"
+        android:id="@+id/gv_button_camera_flash_left_of_trigger"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/gv_camera_button_vertical_margin"
+        android:layout_alignTop="@id/gv_button_camera_trigger"
+        android:layout_alignBottom="@id/gv_button_camera_trigger"
+        android:layout_toStartOf="@id/gv_button_camera_trigger"
+        android:layout_toEndOf="@id/gv_document_import_button_container"
+        android:background="@null"
+        android:scaleType="centerInside"
+        android:src="@drawable/gv_camera_flash_on"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+    <ImageButton
+        android:id="@+id/gv_button_camera_flash_bottom_left"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignTop="@+id/gv_button_camera_trigger"
+        android:layout_alignBottom="@+id/gv_button_camera_trigger"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="48dp"
+        android:background="@null"
+        android:scaleType="centerInside"
+        android:src="@drawable/gv_camera_flash_on"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+    <ImageButton
+        android:id="@+id/gv_button_camera_flash_bottom_right"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignTop="@+id/gv_button_camera_trigger"
+        android:layout_alignBottom="@+id/gv_button_camera_trigger"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="48dp"
         android:background="@null"
         android:scaleType="centerInside"
         android:src="@drawable/gv_camera_flash_on"
