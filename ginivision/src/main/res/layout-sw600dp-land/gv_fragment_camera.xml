@@ -220,7 +220,7 @@
         android:layout_alignStart="@id/gv_button_camera_trigger"
         android:layout_alignEnd="@id/gv_button_camera_trigger"
         android:layout_above="@id/gv_button_camera_trigger"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="32dp"
         android:background="@null"
         android:scaleType="centerInside"
         android:src="@drawable/gv_camera_flash_on"
