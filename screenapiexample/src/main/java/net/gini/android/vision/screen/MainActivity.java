@@ -310,7 +310,8 @@ public class MainActivity extends AppCompatActivity {
                 .setGiniVisionNetworkService(
                         app.getGiniVisionNetworkService("ScreenAPI",
                                 mGiniApiType)
-                ).setGiniVisionNetworkApi(app.getGiniVisionNetworkApi());
+                ).setGiniVisionNetworkApi(app.getGiniVisionNetworkApi())
+                .setFlashButtonEnabled(true);
         if (mGiniApiType == GiniApiType.DEFAULT) {
             builder.setDocumentImportEnabledFileTypes(DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
                     .setFileImportEnabled(true)

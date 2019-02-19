@@ -418,6 +418,31 @@ public class CameraController implements CameraInterface {
         return getDisplayOrientationForCamera(mActivity);
     }
 
+    @Override
+    public boolean isFlashAvailable() {
+        return isFlashModeSupported(Camera.Parameters.FLASH_MODE_ON, mCamera);
+    }
+
+    @Override
+    public boolean isFlashEnabled() {
+        final Camera.Parameters params = mCamera.getParameters();
+        return Camera.Parameters.FLASH_MODE_ON.equals(params.getFlashMode());
+    }
+
+    @Override
+    public void setFlashEnabled(final boolean enabled) {
+        final Camera.Parameters params = mCamera.getParameters();
+        final String flashMode = enabled ? Camera.Parameters.FLASH_MODE_ON
+                : Camera.Parameters.FLASH_MODE_OFF;
+        if (isFlashModeSupported(flashMode, mCamera)) {
+            params.setFlashMode(flashMode);
+            LOG.debug("Flash set to: {}", flashMode);
+        } else {
+            LOG.warn("Flash mode not supported: {}", flashMode);
+        }
+        mCamera.setParameters(params);
+    }
+
     private void configureCamera(final Activity activity) {
         LOG.debug("Configuring camera");
         if (mCamera == null) {

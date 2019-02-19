@@ -121,6 +121,21 @@ public class CameraControllerFake implements CameraInterface {
         return 0;
     }
 
+    @Override
+    public boolean isFlashAvailable() {
+        return false;
+    }
+
+    @Override
+    public boolean isFlashEnabled() {
+        return false;
+    }
+
+    @Override
+    public void setFlashEnabled(final boolean enabled) {
+
+    }
+
     public void showImageAsPreview(@NonNull final byte[] image, @Nullable final byte[] imageNV21) {
         if (mSurfaceHolder == null) {
             return;
