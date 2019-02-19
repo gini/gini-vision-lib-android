@@ -14,18 +14,18 @@ public final class FlashButtonHelper {
     /**
      * @exclude
      */
-    public enum FLASH_BUTTON_POSITION {
+    public enum FlashButtonPosition {
         LEFT_OF_CAMERA_TRIGGER, BOTTOM_LEFT, BOTTOM_RIGHT
     }
 
-    public static FLASH_BUTTON_POSITION getFlashButtonPosition(final boolean documentImportEnabled,
+    public static FlashButtonPosition getFlashButtonPosition(final boolean documentImportEnabled,
             final boolean multiPageEnabled) {
         if (documentImportEnabled && !multiPageEnabled) {
-            return FLASH_BUTTON_POSITION.BOTTOM_RIGHT;
+            return FlashButtonPosition.BOTTOM_RIGHT;
         } else if (!documentImportEnabled) {
-            return FLASH_BUTTON_POSITION.BOTTOM_LEFT;
+            return FlashButtonPosition.BOTTOM_LEFT;
         }
-        return FLASH_BUTTON_POSITION.LEFT_OF_CAMERA_TRIGGER;
+        return FlashButtonPosition.LEFT_OF_CAMERA_TRIGGER;
     }
 
 

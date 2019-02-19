@@ -66,7 +66,7 @@ import net.gini.android.vision.internal.camera.api.UIExecutor;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.PhotoEdit;
 import net.gini.android.vision.internal.camera.view.CameraPreviewSurface;
-import net.gini.android.vision.internal.camera.view.FlashButtonHelper.FLASH_BUTTON_POSITION;
+import net.gini.android.vision.internal.camera.view.FlashButtonHelper.FlashButtonPosition;
 import net.gini.android.vision.internal.fileimport.FileChooserActivity;
 import net.gini.android.vision.internal.network.AnalysisNetworkRequestResult;
 import net.gini.android.vision.internal.network.NetworkRequestResult;
@@ -753,7 +753,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 return;
             }
         }
-        final FLASH_BUTTON_POSITION flashButtonPosition = getFlashButtonPosition(
+        final FlashButtonPosition flashButtonPosition = getFlashButtonPosition(
                 isDocumentImportEnabled(), isMultiPageEnabled());
         switch (flashButtonPosition) {
             case LEFT_OF_CAMERA_TRIGGER:
