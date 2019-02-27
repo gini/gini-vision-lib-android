@@ -1624,6 +1624,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             showUploadHintPopUpOnFirstExecution();
             showImportDocumentButtonAnimated();
         }
+        showFlashButtonAnimated();
     }
 
     private void showImageStackAnimated() {
@@ -1633,6 +1634,11 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     private void showImportDocumentButtonAnimated() {
         mImportButtonContainer.animate().alpha(1.0f);
         mButtonImportDocument.setEnabled(true);
+    }
+
+    private void showFlashButtonAnimated() {
+        mButtonCameraFlash.animate().alpha(1.0f);
+        mButtonCameraFlash.setEnabled(true);
     }
 
     @Override
@@ -1652,6 +1658,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             hideUploadHintPopUp(null);
             hideImportDocumentButtonAnimated();
         }
+        hideFlashButtonAnimated();
     }
 
     private void hideImageStackAnimated() {
@@ -1734,6 +1741,11 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         }
         final Button button = (Button) view.findViewById(R.id.gv_button_camera_no_permission);
         button.setVisibility(View.GONE);
+    }
+
+    private void hideFlashButtonAnimated() {
+        mButtonCameraFlash.animate().alpha(0.0f);
+        mButtonCameraFlash.setEnabled(false);
     }
 
     private void startApplicationDetailsSettings() {
