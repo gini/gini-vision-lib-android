@@ -868,8 +868,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     }
 
     private void updateFlashButtonImage() {
-        final int flashIconRes = mIsFlashEnabled ? R.drawable.gv_camera_flash_on :
-                R.drawable.gv_camera_flash_off;
+        final int flashIconRes = mIsFlashEnabled ? R.drawable.gv_camera_flash_on
+                : R.drawable.gv_camera_flash_off;
         mButtonCameraFlash.setImageResource(flashIconRes);
     }
 

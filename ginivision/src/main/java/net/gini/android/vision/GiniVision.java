@@ -451,7 +451,7 @@ public class GiniVision {
         private boolean mShouldShowOnboarding;
         private boolean mMultiPageEnabled;
         private boolean mIsSupportedFormatsHelpScreenEnabled = true;
-        private boolean mFlashButtonEnabled = false;
+        private boolean mFlashButtonEnabled;
 
         /**
          * Create a new {@link GiniVision} instance.
