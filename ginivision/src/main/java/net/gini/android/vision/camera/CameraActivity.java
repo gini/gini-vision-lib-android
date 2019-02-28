@@ -42,8 +42,9 @@ import java.util.Map;
  * <p> {@code CameraActivity} is the main entry point to the Gini Vision Library when using the
  * Screen API.
  *
- * <p> It shows a camera preview with tap-to-focus functionality and a trigger button. The camera
- * preview also shows document corner guides to which the user should align the document.
+ * <p> It shows a camera preview with tap-to-focus functionality, a trigger button and an optional
+ * flash on/off button. The camera preview also shows document corner guides to which the user
+ * should align the document.
  *
  * <p> On tablets in landscape orientation the camera trigger button is shown on the right side of
  * the screen for easier access.

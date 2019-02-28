@@ -2,6 +2,12 @@
 Changelog
 =========
 
+3.7.0 (2019-02-28)
+==================
+
+- A flash on/off toggle button can be shown on the Camera Screen. It is not enabled by default. To
+  enable it call ``setFlashButtonEnabled(true)`` when creating a new ``GiniVision`` instance.
+
 3.6.0 (2019-02-13)
 ==================
 
