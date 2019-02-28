@@ -259,6 +259,7 @@ Camera Screen
         <area shape="rect" alt="" title="Document Import Button" coords="65,434,93,463" href="customization-guide.html#camera-7" target="" />
         <area shape="rect" alt="" title="Document Import Hint" coords="148,349,177,379" href="customization-guide.html#camera-8" target="" />
         <area shape="rect" alt="" title="Image Stack" coords="237,433,265,460" href="customization-guide.html#camera-9" target="" />
+        <area shape="rect" alt="" title="Flash Toggle Button" coords="94,481,125,515" href="customization-guide.html#camera-14" target="" />
         <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
     </map>
 
@@ -321,7 +322,7 @@ All Action Bar customizations except the title are global to all Activities.
 
   Via the color resource named ``gv_status_bar``.
 
-:ref:`Back to screenshot. <camera>`
+:ref:`Back to screenshots. <camera>`
 
 .. _camera-2:
 
@@ -332,7 +333,7 @@ All Action Bar customizations except the title are global to all Activities.
 
   Via the color resource named ``gv_camera_preview_corners``.
 
-:ref:`Back to screenshot. <camera>`
+:ref:`Back to screenshots. <camera>`
 
 .. _camera-3:
 
@@ -636,6 +637,17 @@ All Action Bar customizations except the title are global to all Activities.
   - **Button Color**
 
   Via the color resource named ``gv_accent``. **Note**: this color resource is global.
+
+:ref:`Back to screenshots. <camera>`
+
+.. _camera-14:
+
+14. Flash Toggle Button
+^^^^
+
+- **Icon**
+
+  Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named ``gv_camera_flash_on.png`` and ``gv_camera_flash_off.png``.
 
 :ref:`Back to screenshots. <camera>`
 
