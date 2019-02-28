@@ -157,7 +157,9 @@
         android:layout_below="@id/gv_document_import_button_container"
         android:layout_marginEnd="@dimen/gv_camera_image_stack_right_margin"
         android:layout_marginTop="@dimen/gv_camera_image_stack_top_margin"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        tools:visibility="visible"
+        tools:background="@android:color/holo_blue_dark"/>
 
     <net.gini.android.vision.camera.ImageStack
         android:id="@+id/gv_image_stack"
@@ -210,6 +212,20 @@
         android:layout_marginEnd="@dimen/gv_camera_button_vertical_margin"
         android:background="@null"
         android:src="@drawable/gv_camera_trigger" />
+
+    <ImageButton
+        android:id="@+id/gv_button_camera_flash"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignStart="@id/gv_button_camera_trigger"
+        android:layout_alignEnd="@id/gv_button_camera_trigger"
+        android:layout_above="@id/gv_button_camera_trigger"
+        android:layout_marginBottom="32dp"
+        android:background="@null"
+        android:scaleType="centerInside"
+        android:src="@drawable/gv_camera_flash_on"
+        android:visibility="gone"
+        tools:visibility="visible"/>
 
 
     <ViewStub

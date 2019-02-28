@@ -64,6 +64,7 @@ public class GiniVision {
     private final boolean mMultiPageEnabled;
     private boolean mShouldShowOnboarding;
     private final boolean mIsSupportedFormatsHelpScreenEnabled;
+    private final boolean mFlashButtonEnabled;
 
     /**
      * Retrieve the current instance.
@@ -147,6 +148,7 @@ public class GiniVision {
         mInternal = new Internal(this);
         mMultiPageEnabled = builder.isMultiPageEnabled();
         mIsSupportedFormatsHelpScreenEnabled = builder.isSupportedFormatsHelpScreenEnabled();
+        mFlashButtonEnabled = builder.isFlashButtonEnabled();
     }
 
     /**
@@ -272,6 +274,17 @@ public class GiniVision {
      */
     public boolean isSupportedFormatsHelpScreenEnabled() {
         return mIsSupportedFormatsHelpScreenEnabled;
+    }
+
+    /**
+     * Find out whether the flash button on the Camera Screen has been enabled.
+     *
+     * <p> Disabled by default.
+     *
+     * @return {@code true} if the flash button was enabled
+     */
+    public boolean isFlashButtonEnabled() {
+        return mFlashButtonEnabled;
     }
 
     /**
@@ -438,6 +451,7 @@ public class GiniVision {
         private boolean mShouldShowOnboarding;
         private boolean mMultiPageEnabled;
         private boolean mIsSupportedFormatsHelpScreenEnabled = true;
+        private boolean mFlashButtonEnabled;
 
         /**
          * Create a new {@link GiniVision} instance.
@@ -661,6 +675,23 @@ public class GiniVision {
 
         boolean isSupportedFormatsHelpScreenEnabled() {
             return mIsSupportedFormatsHelpScreenEnabled;
+        }
+
+        /**
+         * Enable/disable the flash button in the Camera Screen.
+         *
+         * <p> Disabled by default.
+         *
+         * @param enabled {@code true} to show the flash button
+         * @return the {@link Builder} instance
+         */
+        public Builder setFlashButtonEnabled(final boolean enabled) {
+            mFlashButtonEnabled = enabled;
+            return this;
+        }
+
+        boolean isFlashButtonEnabled() {
+            return mFlashButtonEnabled;
         }
     }
 

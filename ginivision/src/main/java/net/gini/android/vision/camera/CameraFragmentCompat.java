@@ -24,8 +24,9 @@ import net.gini.android.vision.internal.util.AlertDialogHelperCompat;
  * Component API with the Android Support Library.
  * </p>
  * <p>
- * It shows a camera preview with tap-to-focus functionality and a trigger button. The camera
- * preview also shows document corner guides to which the user should align the document.
+ * It shows a camera preview with tap-to-focus functionality, a trigger button and an optional
+ * flash on/off button. The camera preview also shows document corner guides to which the user
+ * should align the document.
  * </p>
  * <p>
  * If instantiated with {@link CameraFragmentCompat#createInstance(GiniVisionFeatureConfiguration)}

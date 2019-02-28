@@ -161,6 +161,12 @@ public interface CameraInterface {
      */
     int getCameraRotation();
 
+    boolean isFlashAvailable();
+
+    boolean isFlashEnabled();
+
+    void setFlashEnabled(final boolean enabled);
+
     /**
      * Listener for tap to focus.
      */

@@ -24,7 +24,7 @@ import net.gini.android.vision.internal.util.AlertDialogHelperStandard;
  *     {@code CameraFragmentStandard} is the main entry point to the Gini Vision Library when using the Component API without the Android Support Library.
  * </p>
  * <p>
- *     It shows a camera preview with tap-to-focus functionality and a trigger button. The camera preview also shows document corner guides to which the user should align the document.
+ *     It shows a camera preview with tap-to-focus functionality, a trigger button and an optional flash on/off button. The camera preview also shows document corner guides to which the user should align the document.
  * </p>
  * <p>
  *     If instantiated with {@link CameraFragmentStandard#createInstance(GiniVisionFeatureConfiguration)} then a button for importing documents is shown next to the trigger button. A hint popup is displayed the first time the Gini Vision Library is used to inform the user about document importing.
