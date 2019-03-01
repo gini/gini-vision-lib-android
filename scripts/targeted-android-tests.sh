@@ -59,7 +59,7 @@ adb -s ${target} shell pm install -r "/data/local/tmp/${package}.test"
 
 # Run the instrumented tests with code coverage reporting
 mkdir -p ${results_dir}
-adb -s ${target} shell am instrument -w -r --no-window-animation -e debug false -e coverage true -e coverageFile ${on_device_coverage_file} ${instrument_args} ${package}.test/android.support.test.runner.AndroidJUnitRunner > ${test_results}
+adb -s ${target} shell am instrument -w -r --no-window-animation -e debug false -e coverage true -e coverageFile ${on_device_coverage_file} ${instrument_args} ${package}.test/androidx.test.runner.AndroidJUnitRunner > ${test_results}
 
 # Copy the coverage report to an unrestricted location
 on_device_temp_coverage_file=/data/local/tmp/${package}.test.coverage.ec
