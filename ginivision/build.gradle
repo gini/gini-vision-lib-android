@@ -11,7 +11,7 @@ android {
         versionName rootProject.ext.versionName
 
         // Use the test runner with JUnit4 support
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
     buildTypes {
@@ -34,6 +34,10 @@ android {
     packagingOptions {
         pickFirst 'protobuf.meta'
     }
+
+    testOptions {
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+    }
 }
 
 dependencies {
@@ -54,15 +58,18 @@ dependencies {
     testImplementation deps.truth
     testImplementation deps.mockito
 
-    androidTestImplementation deps.supportTestRunner
+    androidTestImplementation deps.androidxTestJUnit
+    androidTestImplementation deps.androidxTestRunner
     androidTestImplementation deps.truth
-    androidTestImplementation deps.supportTestRules
-    androidTestImplementation deps.supportTestEspressoCore
-    androidTestImplementation deps.supportTestEspressoIntents
-    androidTestImplementation deps.supportTestUiAutomator
+    androidTestImplementation deps.androidxTestRules
+    androidTestImplementation deps.androidxTestEspressoCore
+    androidTestImplementation deps.androidxTestEspressoIntents
+    androidTestImplementation deps.androidxTestUiAutomator
     androidTestImplementation deps.mockito
     androidTestImplementation deps.mockitoAndroid
-    androidTestImplementation deps.supportMultidex
+    androidTestImplementation deps.androidxMultidex
+
+    androidTestUtil deps.androidxTestOrchestrator
 }
 
 apply from: rootProject.file('gradle/codequality.gradle')

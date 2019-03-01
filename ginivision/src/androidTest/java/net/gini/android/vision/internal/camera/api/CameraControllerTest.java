@@ -1,16 +1,14 @@
 package net.gini.android.vision.internal.camera.api;
 
-import static android.support.test.InstrumentationRegistry.getTargetContext;
-
 import static com.google.common.truth.Truth.assertThat;
 
 import static net.gini.android.vision.test.Helpers.prepareLooper;
 import static net.gini.android.vision.test.PermissionsHelper.grantCameraPermission;
 
+import static androidx.test.InstrumentationRegistry.getTargetContext;
+
 import android.content.Intent;
 import android.hardware.Camera;
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
 
 import net.gini.android.vision.internal.util.Size;
 
@@ -20,10 +18,13 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import androidx.test.rule.ActivityTestRule;
+import androidx.test.runner.AndroidJUnit4;
+
 @RunWith(AndroidJUnit4.class)
 public class CameraControllerTest {
 
-    private ActivityTestRule<NoOpActivity> mIntentsTestRule = new ActivityTestRule<>(
+    private final ActivityTestRule<NoOpActivity> mIntentsTestRule = new ActivityTestRule<>(
             NoOpActivity.class, true, false);
 
     private CameraController mCameraController;
@@ -65,7 +66,7 @@ public class CameraControllerTest {
 
     private Camera openAndGetCamera() throws InterruptedException {
         mCameraController.open().join();
-        Camera camera = mCameraController.getCamera();
+        final Camera camera = mCameraController.getCamera();
         assertThat(camera).isNotNull();
         return camera;
     }

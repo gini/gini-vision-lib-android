@@ -1,19 +1,20 @@
 package net.gini.android.vision;
 
+import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
+
 import android.content.Context;
-import android.support.test.InstrumentationRegistry;
 
 public final class OncePerInstallEventStoreHelper {
 
     public static void clearOnboardingWasShownPreference() {
-        Context targetContext = InstrumentationRegistry.getTargetContext();
-        OncePerInstallEventStore store = new OncePerInstallEventStore(targetContext);
+        final Context applicationContext = getApplicationContext();
+        final OncePerInstallEventStore store = new OncePerInstallEventStore(applicationContext);
         store.clearEvent(OncePerInstallEvent.SHOW_ONBOARDING);
     }
 
     public static void setOnboardingWasShownPreference() {
-        Context targetContext = InstrumentationRegistry.getTargetContext();
-        OncePerInstallEventStore store = new OncePerInstallEventStore(targetContext);
+        final Context applicationContext = getApplicationContext();
+        final OncePerInstallEventStore store = new OncePerInstallEventStore(applicationContext);
         store.saveEvent(OncePerInstallEvent.SHOW_ONBOARDING);
     }
 

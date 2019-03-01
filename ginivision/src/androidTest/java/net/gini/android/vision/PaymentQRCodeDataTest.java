@@ -2,12 +2,12 @@ package net.gini.android.vision;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import android.support.test.runner.AndroidJUnit4;
-
 import net.gini.android.vision.internal.qrcode.PaymentQRCodeData;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 /**
  * Created by Alpar Szotyori on 12.01.2018.

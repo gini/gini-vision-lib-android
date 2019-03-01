@@ -11,16 +11,6 @@ import static org.junit.Assume.assumeTrue;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.Espresso;
-import android.support.test.espresso.ViewInteraction;
-import android.support.test.espresso.action.ViewActions;
-import android.support.test.espresso.assertion.ViewAssertions;
-import android.support.test.espresso.matcher.ViewMatchers;
-import android.support.test.filters.SdkSuppress;
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
-import android.support.test.uiautomator.UiDevice;
 import android.view.Surface;
 
 import net.gini.android.vision.GiniVision;
@@ -35,6 +25,17 @@ import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import androidx.test.InstrumentationRegistry;
+import androidx.test.espresso.Espresso;
+import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.assertion.ViewAssertions;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.filters.SdkSuppress;
+import androidx.test.rule.ActivityTestRule;
+import androidx.test.uiautomator.UiDevice;
 
 @RunWith(AndroidJUnit4.class)
 public class OnboardingScreenTest {

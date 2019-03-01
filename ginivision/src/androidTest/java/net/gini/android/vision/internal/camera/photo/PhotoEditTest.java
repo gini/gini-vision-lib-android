@@ -9,7 +9,6 @@ import static net.gini.android.vision.test.PhotoSubject.photo;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
-import android.support.test.runner.AndroidJUnit4;
 
 import net.gini.android.vision.document.ImageDocument;
 
@@ -19,6 +18,8 @@ import org.junit.runner.RunWith;
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)
 public class PhotoEditTest {

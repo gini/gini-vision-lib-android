@@ -4,12 +4,12 @@ import static com.google.common.truth.Truth.assertThat;
 
 import static net.gini.android.vision.test.Helpers.getTestJpeg;
 
-import android.support.test.runner.AndroidJUnit4;
-
 import net.gini.android.vision.test.Helpers;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)
 public class ExifReaderTest {

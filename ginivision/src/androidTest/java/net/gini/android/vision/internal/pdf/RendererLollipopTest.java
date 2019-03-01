@@ -4,9 +4,6 @@ import static com.google.common.truth.Truth.assertThat;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.filters.RequiresDevice;
-import android.support.test.filters.SdkSuppress;
 
 import net.gini.android.vision.internal.util.Size;
 import net.gini.android.vision.test.Helpers;
@@ -14,6 +11,10 @@ import net.gini.android.vision.test.Helpers;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import androidx.test.InstrumentationRegistry;
+import androidx.test.filters.RequiresDevice;
+import androidx.test.filters.SdkSuppress;
 
 /**
  * Created by Alpar Szotyori on 09.08.2018.
