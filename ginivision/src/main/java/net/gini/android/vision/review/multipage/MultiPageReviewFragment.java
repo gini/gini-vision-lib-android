@@ -3,7 +3,7 @@ package net.gini.android.vision.review.multipage;
 import static net.gini.android.vision.document.GiniVisionDocumentError.ErrorCode.FILE_VALIDATION_FAILED;
 import static net.gini.android.vision.document.GiniVisionDocumentError.ErrorCode.UPLOAD_FAILED;
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
-import static net.gini.android.vision.internal.util.FileImportHelper.showAlertIfOpenWithDocument;
+import static net.gini.android.vision.internal.util.FileImportHelper.showAlertIfOpenWithDocumentAndAppIsDefault;
 import static net.gini.android.vision.review.multipage.previews.PreviewFragment.ErrorButtonAction.DELETE;
 import static net.gini.android.vision.review.multipage.previews.PreviewFragment.ErrorButtonAction.RETRY;
 import static net.gini.android.vision.review.multipage.thumbnails.ThumbnailsAdapter.getNewPositionAfterDeletion;
@@ -524,7 +524,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         if (!mPreviewsShown) {
             observeViewTree();
         }
-        showAlertIfOpenWithDocument(getActivity(), mMultiPageDocument, this)
+        showAlertIfOpenWithDocumentAndAppIsDefault(getActivity(), mMultiPageDocument, this)
                 .thenRun(new Runnable() {
                     @Override
                     public void run() {
