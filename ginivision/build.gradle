@@ -76,7 +76,6 @@ apply from: rootProject.file('gradle/codequality.gradle')
 apply from: rootProject.file('gradle/maven.gradle')
 apply from: rootProject.file('gradle/javadoc_coverage.gradle')
 apply from: rootProject.file('gradle/multidex_for_tests.gradle')
-apply from: rootProject.file('gradle/targeted_android_tests.gradle')
 
 task generateJavadoc(type: GenerateJavadoc) {
     projectTitle = "Gini Vision Library for Android"
@@ -101,13 +100,6 @@ task unifyConnectedTestCoverage {
     description = "Adds the connected tests' coverage to the JacocoReport tasks."
     doLast {
         unifyTestCoverage("${buildDir}/outputs/code-coverage/connected")
-    }
-}
-
-task unifyTargetedTestCoverage {
-    description = "Adds the connected tests' coverage to the JacocoReport tasks."
-    doLast {
-        unifyTestCoverage("${buildDir}/outputs/code-coverage/targeted")
     }
 }
 
