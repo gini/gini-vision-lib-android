@@ -50,8 +50,8 @@ app/build.gradle:
 
 ```
 dependencies {
-    implementation 'net.gini:gini-vision-lib:3.7.0'
-    implementation 'net.gini:gini-vision-accounting-network-lib:3.7.0'
+    implementation 'net.gini:gini-vision-lib:3.7.1'
+    implementation 'net.gini:gini-vision-accounting-network-lib:3.7.1'
 }
 ```
 
