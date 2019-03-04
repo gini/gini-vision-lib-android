@@ -149,6 +149,9 @@ import java.util.ArrayList;
  *
  * <li> <b>Title color:</b> via the color resource named {@code gv_action_bar_title}
  *
+ * <li> <b>Back button:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named
+ * {@code gv_action_bar_back}
+ *
  * </ul>
  */
 public class OnboardingActivity extends AppCompatActivity implements OnboardingFragmentListener {
