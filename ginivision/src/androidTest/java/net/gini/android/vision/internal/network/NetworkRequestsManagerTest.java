@@ -12,8 +12,6 @@ import static org.mockito.Mockito.verify;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.document.GiniVisionDocument;
@@ -23,11 +21,11 @@ import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.document.ImageMultiPageDocument;
 import net.gini.android.vision.internal.cache.DocumentDataMemoryCache;
 import net.gini.android.vision.network.AnalysisResult;
-import net.gini.android.vision.util.CancellationToken;
 import net.gini.android.vision.network.Error;
 import net.gini.android.vision.network.GiniVisionNetworkCallback;
 import net.gini.android.vision.network.GiniVisionNetworkService;
 import net.gini.android.vision.network.Result;
+import net.gini.android.vision.util.CancellationToken;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -40,6 +38,9 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
+
+import androidx.test.InstrumentationRegistry;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 /**
  * Created by Alpar Szotyori on 16.04.2018.
@@ -288,7 +289,7 @@ public class NetworkRequestsManagerTest {
             public void run() {
                 try {
                     requestResult.set(networkRequestsManager.delete(document).get());
-                } catch (InterruptedException | ExecutionException e) {
+                } catch (final InterruptedException | ExecutionException e) {
                     e.printStackTrace();
                 }
             }
@@ -411,7 +412,7 @@ public class NetworkRequestsManagerTest {
             public void run() {
                 try {
                     requestResult.set(networkRequestsManager.analyze(multiPageDocument).get());
-                } catch (InterruptedException | ExecutionException e) {
+                } catch (final InterruptedException | ExecutionException e) {
                     e.printStackTrace();
                 }
             }

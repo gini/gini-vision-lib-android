@@ -6,26 +6,27 @@ import static net.gini.android.vision.onboarding.PageIndicatorsHelper.isPageActi
 import static net.gini.android.vision.onboarding.PageIndicatorsHelper.isPageInactive;
 
 import android.support.annotation.NonNull;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
 import android.widget.LinearLayout;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import androidx.test.InstrumentationRegistry;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)
 public class PageIndicatorsTest {
 
     @Test
     public void should_createPageIndicatorImageViews() {
-        OnboardingFragmentImpl.PageIndicators pageIndicators = createPageIndicatorsInstance(2);
+        final OnboardingFragmentImpl.PageIndicators pageIndicators = createPageIndicatorsInstance(2);
 
         assertThat(pageIndicators.getPageIndicators().size()).isEqualTo(2);
     }
 
     @Test
     public void should_setActiveRequiredPageIndicator() {
-        OnboardingFragmentImpl.PageIndicators pageIndicators = createPageIndicatorsInstance(2);
+        final OnboardingFragmentImpl.PageIndicators pageIndicators = createPageIndicatorsInstance(2);
         pageIndicators.setActive(0);
 
         isPageActive(pageIndicators, 0);
@@ -38,9 +39,9 @@ public class PageIndicatorsTest {
     }
 
     @NonNull
-    private OnboardingFragmentImpl.PageIndicators createPageIndicatorsInstance(int nrOfPages) {
-        LinearLayout linearLayout = new LinearLayout(InstrumentationRegistry.getTargetContext());
-        OnboardingFragmentImpl.PageIndicators pageIndicators =
+    private OnboardingFragmentImpl.PageIndicators createPageIndicatorsInstance(final int nrOfPages) {
+        final LinearLayout linearLayout = new LinearLayout(InstrumentationRegistry.getTargetContext());
+        final OnboardingFragmentImpl.PageIndicators pageIndicators =
                 new OnboardingFragmentImpl.PageIndicators(
                         InstrumentationRegistry.getTargetContext(), nrOfPages, linearLayout);
         pageIndicators.create();

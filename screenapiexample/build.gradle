@@ -101,23 +101,23 @@ dependencies {
 
     testImplementation deps.junit
 
-    androidTestImplementation(deps.supportTestRunner, {
+    androidTestImplementation(deps.androidxTestRunner, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     androidTestImplementation deps.truth
-    androidTestImplementation(deps.supportTestRules, {
+    androidTestImplementation(deps.androidxTestRules, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    androidTestImplementation(deps.supportTestEspressoCore, {
+    androidTestImplementation(deps.androidxTestEspressoCore, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    androidTestImplementation(deps.supportTestEspressoIntents, {
+    androidTestImplementation(deps.androidxTestEspressoIntents, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    androidTestImplementation deps.supportTestUiAutomator
+    androidTestImplementation deps.androidxTestUiAutomator
     androidTestImplementation deps.mockito
     androidTestImplementation deps.mockitoAndroid
-    androidTestImplementation deps.supportMultidex
+    androidTestImplementation deps.androidxMultidex
 }
 
 apply from: rootProject.file('gradle/codequality.gradle')

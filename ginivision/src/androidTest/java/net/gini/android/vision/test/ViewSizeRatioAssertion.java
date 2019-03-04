@@ -2,11 +2,12 @@ package net.gini.android.vision.test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import android.support.test.espresso.NoMatchingViewException;
-import android.support.test.espresso.ViewAssertion;
 import android.view.View;
 
 import org.hamcrest.number.IsCloseTo;
+
+import androidx.test.espresso.NoMatchingViewException;
+import androidx.test.espresso.ViewAssertion;
 
 public class ViewSizeRatioAssertion implements ViewAssertion {
 

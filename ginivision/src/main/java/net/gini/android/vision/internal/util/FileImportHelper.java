@@ -26,7 +26,7 @@ import jersey.repackaged.jsr166e.CompletableFuture;
  */
 public final class FileImportHelper {
 
-    public static CompletableFuture<Void> showAlertIfOpenWithDocument(
+    public static CompletableFuture<Void> showAlertIfOpenWithDocumentAndAppIsDefault(
             @Nullable final Activity activity,
             @NonNull final GiniVisionDocument document,
             @NonNull final FragmentImplCallback fragmentImplCallback) {

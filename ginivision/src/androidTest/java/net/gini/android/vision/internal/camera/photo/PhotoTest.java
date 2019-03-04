@@ -7,8 +7,6 @@ import static net.gini.android.vision.test.Helpers.doParcelingRoundTrip;
 import static net.gini.android.vision.test.Helpers.getTestJpeg;
 import static net.gini.android.vision.test.PhotoSubject.photo;
 
-import android.support.test.runner.AndroidJUnit4;
-
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.ImageDocument;
 
@@ -19,6 +17,8 @@ import org.junit.runner.RunWith;
 
 import java.io.IOException;
 import java.util.UUID;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)
 public class PhotoTest {
