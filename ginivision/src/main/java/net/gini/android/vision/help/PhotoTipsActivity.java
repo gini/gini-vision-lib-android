@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.camera.CameraActivity;
@@ -120,7 +121,13 @@ public class PhotoTipsActivity extends AppCompatActivity {
                     }
                 });
         forcePortraitOrientationOnPhones(this);
-        enableHomeAsUp(this);
+        setupHomeButton();
+    }
+
+    private void setupHomeButton() {
+        if (GiniVision.hasInstance() && GiniVision.getInstance().areBackButtonsEnabled()) {
+            enableHomeAsUp(this);
+        }
     }
 
     @Override

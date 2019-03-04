@@ -130,7 +130,13 @@ public class HelpActivity extends AppCompatActivity {
             launchHelpScreen(((HelpItemsAdapter) mRecyclerView.getAdapter()).getItems().get(0));
             finish();
         }
-        enableHomeAsUp(this);
+        setupHomeButton();
+    }
+
+    private void setupHomeButton() {
+        if (GiniVision.hasInstance() && GiniVision.getInstance().areBackButtonsEnabled()) {
+            enableHomeAsUp(this);
+        }
     }
 
     private void readExtras() {

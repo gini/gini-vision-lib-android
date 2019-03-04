@@ -174,7 +174,13 @@ public class OnboardingActivity extends AppCompatActivity implements OnboardingF
         setContentView(R.layout.gv_activity_onboarding);
         readExtras();
         initFragment();
-        enableHomeAsUp(this);
+        setupHomeButton();
+    }
+
+    private void setupHomeButton() {
+        if (GiniVision.hasInstance() && GiniVision.getInstance().areBackButtonsEnabled()) {
+            enableHomeAsUp(this);
+        }
     }
 
     @Override

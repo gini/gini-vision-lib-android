@@ -115,7 +115,13 @@ public class SupportedFormatsActivity extends AppCompatActivity {
         readExtras();
         setUpFormatsList();
         forcePortraitOrientationOnPhones(this);
-        enableHomeAsUp(this);
+        setupHomeButton();
+    }
+
+    private void setupHomeButton() {
+        if (GiniVision.hasInstance() && GiniVision.getInstance().areBackButtonsEnabled()) {
+            enableHomeAsUp(this);
+        }
     }
 
     private void readExtras() {

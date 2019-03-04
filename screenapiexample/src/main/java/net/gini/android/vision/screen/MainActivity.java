@@ -310,14 +310,16 @@ public class MainActivity extends AppCompatActivity {
                 .setGiniVisionNetworkService(
                         app.getGiniVisionNetworkService("ScreenAPI",
                                 mGiniApiType)
-                ).setGiniVisionNetworkApi(app.getGiniVisionNetworkApi())
-                .setFlashButtonEnabled(true);
+                ).setGiniVisionNetworkApi(app.getGiniVisionNetworkApi());
         if (mGiniApiType == GiniApiType.DEFAULT) {
             builder.setDocumentImportEnabledFileTypes(DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
                     .setFileImportEnabled(true)
                     .setQRCodeScanningEnabled(true)
                     .setMultiPageEnabled(true);
         }
+        builder.setFlashButtonEnabled(true);
+        // Uncomment to disable back buttons (except in the review and analysis screens)
+//        builder.setBackButtonsEnabled(false);
         // Uncomment to add an extra page to the Onboarding pages
 //                builder.setCustomOnboardingPages(getOnboardingPages());
         // Uncomment to disable automatically showing the OnboardingActivity the

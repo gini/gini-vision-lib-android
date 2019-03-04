@@ -512,7 +512,13 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
             retainFragment();
         }
         showOnboardingIfRequested();
-        enableHomeAsUp(this);
+        setupHomeButton();
+    }
+
+    private void setupHomeButton() {
+        if (GiniVision.hasInstance() && GiniVision.getInstance().areBackButtonsEnabled()) {
+            enableHomeAsUp(this);
+        }
     }
 
     private void restoreSavedState(@Nullable final Bundle savedInstanceState) {

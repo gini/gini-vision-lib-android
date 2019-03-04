@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
+import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
@@ -145,7 +146,13 @@ public class FileImportActivity extends AppCompatActivity {
             section1ImageView.setVisibility(View.VISIBLE);
             section1ImageView.setImageDrawable(section1Illustration);
         }
-        enableHomeAsUp(this);
+        setupHomeButton();
+    }
+
+    private void setupHomeButton() {
+        if (GiniVision.hasInstance() && GiniVision.getInstance().areBackButtonsEnabled()) {
+            enableHomeAsUp(this);
+        }
     }
 
     @Override
