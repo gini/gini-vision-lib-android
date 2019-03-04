@@ -2,7 +2,7 @@ package net.gini.android.vision.analysis;
 
 import static net.gini.android.vision.internal.network.NetworkRequestsManager.isCancellation;
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
-import static net.gini.android.vision.internal.util.FileImportHelper.showAlertIfOpenWithDocument;
+import static net.gini.android.vision.internal.util.FileImportHelper.showAlertIfOpenWithDocumentAndAppIsDefault;
 
 import android.app.Activity;
 import android.content.Context;
@@ -454,23 +454,27 @@ class AnalysisFragmentImpl implements AnalysisFragmentInterface {
             return;
         }
         if (MimeType.APPLICATION_PDF.asString().equals(mMultiPageDocument.getMimeType())) {
-            showAlertIfOpenWithDocument(activity, mMultiPageDocument, mFragment)
+            showAlertIfOpenWithDocumentAndAppIsDefault(activity, mMultiPageDocument, mFragment)
                     .thenRun(new Runnable() {
                         @Override
                         public void run() {
-                            if (mDocumentAnalysisErrorMessage != null) {
-                                showError(mDocumentAnalysisErrorMessage,
-                                        activity.getString(
-                                                R.string.gv_document_analysis_error_retry),
-                                        new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(final View v) {
-                                                doAnalyzeDocument();
-                                            }
-                                        });
-                            } else {
-                                doAnalyzeDocument();
-                            }
+                            showErrorIfAvailableAndAnalyzeDocument(activity);
+                        }
+                    });
+        } else {
+            showErrorIfAvailableAndAnalyzeDocument(activity);
+        }
+    }
+
+    private void showErrorIfAvailableAndAnalyzeDocument(@NonNull final Activity activity) {
+        if (mDocumentAnalysisErrorMessage != null) {
+            showError(mDocumentAnalysisErrorMessage,
+                    activity.getString(
+                            R.string.gv_document_analysis_error_retry),
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(final View v) {
+                            doAnalyzeDocument();
                         }
                     });
         } else {

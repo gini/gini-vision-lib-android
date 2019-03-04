@@ -15,15 +15,6 @@ import static org.junit.Assume.assumeTrue;
 import android.app.Instrumentation;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.Espresso;
-import android.support.test.espresso.action.ViewActions;
-import android.support.test.espresso.assertion.ViewAssertions;
-import android.support.test.espresso.matcher.ViewMatchers;
-import android.support.test.filters.SdkSuppress;
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
-import android.support.test.uiautomator.UiDevice;
 import android.view.Surface;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -48,6 +39,17 @@ import org.junit.runner.RunWith;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.Espresso;
+import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.assertion.ViewAssertions;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.filters.SdkSuppress;
+import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.rule.ActivityTestRule;
+import androidx.test.runner.AndroidJUnit4;
+import androidx.test.uiautomator.UiDevice;
 
 @RunWith(AndroidJUnit4.class)
 public class AnalysisScreenTest {
@@ -384,12 +386,12 @@ public class AnalysisScreenTest {
     }
 
     private Intent getAnalysisActivityIntent() {
-        return new Intent(InstrumentationRegistry.getTargetContext(),
+        return new Intent(ApplicationProvider.getApplicationContext(),
                 AnalysisActivityTestSpy.class);
     }
 
     private Intent getAnalysisActivityIntentWithDocument(final byte[] jpeg, final int orientation) {
-        final Intent intent = new Intent(InstrumentationRegistry.getTargetContext(),
+        final Intent intent = new Intent(ApplicationProvider.getApplicationContext(),
                 AnalysisActivityTestSpy.class);
         intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT,
                 createDocument(jpeg, orientation, "portrait", "phone", ImageDocument.Source.newCameraSource()));
@@ -429,7 +431,7 @@ public class AnalysisScreenTest {
 
             }
         };
-        final Intent intent = new Intent(InstrumentationRegistry.getTargetContext(),
+        final Intent intent = new Intent(ApplicationProvider.getApplicationContext(),
                 AnalysisFragmentHostActivityNotListener.class);
         final AnalysisFragmentHostActivityNotListener activity =
                 mAnalysisFragmentHostActivityNotListenerTR.launchActivity(intent);
@@ -442,7 +444,7 @@ public class AnalysisScreenTest {
     @Test
     public void should_useActivity_asListener_whenAvailable() throws Exception {
         // Given
-        final Intent intent = new Intent(InstrumentationRegistry.getTargetContext(),
+        final Intent intent = new Intent(ApplicationProvider.getApplicationContext(),
                 AnalysisFragmentHostActivity.class);
         final AnalysisFragmentHostActivity activity =
                 mAnalysisFragmentHostActivityTR.launchActivity(intent);

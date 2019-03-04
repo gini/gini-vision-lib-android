@@ -2,7 +2,7 @@ package net.gini.android.vision.review;
 
 import static net.gini.android.vision.internal.network.NetworkRequestsManager.isCancellation;
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
-import static net.gini.android.vision.internal.util.FileImportHelper.showAlertIfOpenWithDocument;
+import static net.gini.android.vision.internal.util.FileImportHelper.showAlertIfOpenWithDocumentAndAppIsDefault;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
@@ -171,7 +171,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     public void onStart() {
         mNextClicked = false;
         mStopped = false;
-        showAlertIfOpenWithDocument(mFragment.getActivity(), mDocument, mFragment)
+        showAlertIfOpenWithDocumentAndAppIsDefault(mFragment.getActivity(), mDocument, mFragment)
                 .thenRun(new Runnable() {
                     @Override
                     public void run() {

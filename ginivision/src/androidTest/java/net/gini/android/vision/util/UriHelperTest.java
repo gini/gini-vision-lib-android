@@ -3,8 +3,6 @@ package net.gini.android.vision.util;
 import static com.google.common.truth.Truth.assertThat;
 
 import android.net.Uri;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
 
 import net.gini.android.vision.test.Helpers;
 
@@ -14,6 +12,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.File;
+
+import androidx.test.InstrumentationRegistry;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 /**
  * Created by Alpar Szotyori on 28.11.2017.

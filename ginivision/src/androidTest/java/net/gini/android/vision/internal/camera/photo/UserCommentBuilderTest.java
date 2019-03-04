@@ -3,13 +3,14 @@ package net.gini.android.vision.internal.camera.photo;
 import static com.google.common.truth.Truth.assertThat;
 
 import android.support.annotation.NonNull;
-import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 /**
  * Created by aszotyori on 13/03/2017.
@@ -21,7 +22,7 @@ public class UserCommentBuilderTest {
     @Test
     public void should_createUserComment_withPredeterminedOrder_ofKeys() throws Exception {
         // Given
-        Exif.UserCommentBuilder builder = Exif.userCommentBuilder();
+        final Exif.UserCommentBuilder builder = Exif.userCommentBuilder();
         // When
         builder.setRotationDelta(90)
                 .setContentId("asdasd-assd-ssdsa-sdsdss")
@@ -30,9 +31,9 @@ public class UserCommentBuilderTest {
                 .setDeviceOrientation("landscape")
                 .setDeviceType("tablet")
                 .setSource("picker");
-        String userComment = builder.build();
+        final String userComment = builder.build();
         // Then
-        List<String> keys = getListOfKeys(userComment);
+        final List<String> keys = getListOfKeys(userComment);
         assertThat(keys).containsExactly(Exif.USER_COMMENT_MAKE, Exif.USER_COMMENT_MODEL,
                 Exif.USER_COMMENT_PLATFORM, Exif.USER_COMMENT_OS_VERSION,
                 Exif.USER_COMMENT_GINI_VISION_VERSION, Exif.USER_COMMENT_CONTENT_ID,
@@ -43,7 +44,7 @@ public class UserCommentBuilderTest {
     @Test
     public void should_addImportMethod_ifSet() throws Exception {
         // Given
-        Exif.UserCommentBuilder builder = Exif.userCommentBuilder();
+        final Exif.UserCommentBuilder builder = Exif.userCommentBuilder();
         // When
         builder.setRotationDelta(90)
                 .setContentId("asdasd-assd-ssdsa-sdsdss")
@@ -53,9 +54,9 @@ public class UserCommentBuilderTest {
                 .setDeviceType("tablet")
                 .setSource("external")
                 .setImportMethod("picker");
-        String userComment = builder.build();
+        final String userComment = builder.build();
         // Then
-        List<String> keys = getListOfKeys(userComment);
+        final List<String> keys = getListOfKeys(userComment);
         assertThat(keys).containsExactly(Exif.USER_COMMENT_MAKE, Exif.USER_COMMENT_MODEL,
                 Exif.USER_COMMENT_PLATFORM, Exif.USER_COMMENT_OS_VERSION,
                 Exif.USER_COMMENT_GINI_VISION_VERSION, Exif.USER_COMMENT_CONTENT_ID,
@@ -65,11 +66,11 @@ public class UserCommentBuilderTest {
     }
 
     @NonNull
-    private List<String> getListOfKeys(String userComment) {
-        List<String> keys = new ArrayList<>();
-        String[] keyValuePairs = userComment.split(",");
-        for (String keyValuePair : keyValuePairs) {
-            String[] keyAndValue = keyValuePair.split("=");
+    private List<String> getListOfKeys(final String userComment) {
+        final List<String> keys = new ArrayList<>();
+        final String[] keyValuePairs = userComment.split(",");
+        for (final String keyValuePair : keyValuePairs) {
+            final String[] keyAndValue = keyValuePair.split("=");
             if (keyAndValue.length > 0) {
                 keys.add(keyAndValue[0]);
             }

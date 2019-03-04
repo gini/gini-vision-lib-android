@@ -5,8 +5,6 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static net.gini.android.vision.test.PermissionsHelper.grantCameraPermission;
 
 import android.hardware.Camera;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -14,6 +12,9 @@ import org.junit.runner.RunWith;
 
 import java.util.List;
 import java.util.Locale;
+
+import androidx.test.InstrumentationRegistry;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)
 public class GiniVisionRequirementsTest {
@@ -33,7 +34,7 @@ public class GiniVisionRequirementsTest {
     }
 
     private String unfulfilledRequirementsMessage(final RequirementsReport report) {
-        StringBuilder stringBuilder = new StringBuilder();
+        final StringBuilder stringBuilder = new StringBuilder();
         if (!report.isFulfilled()) {
             stringBuilder.append("Some requirements were not met");
             stringBuilder.append("\n");
@@ -53,7 +54,7 @@ public class GiniVisionRequirementsTest {
     }
 
     private void appendResolutions(final StringBuilder stringBuilder) {
-        Camera camera = Camera.open();
+        final Camera camera = Camera.open();
         stringBuilder.append("Picture resolutions:\n");
         appendPictureResolutions(stringBuilder, camera);
         stringBuilder.append("Preview resolutions:\n");

@@ -4,13 +4,6 @@ import static com.google.common.truth.Truth.assertThat;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.Espresso;
-import android.support.test.espresso.action.ViewActions;
-import android.support.test.espresso.assertion.ViewAssertions;
-import android.support.test.espresso.matcher.ViewMatchers;
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -20,6 +13,14 @@ import org.junit.runner.RunWith;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+
+import androidx.test.espresso.Espresso;
+import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.assertion.ViewAssertions;
+import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.rule.ActivityTestRule;
 
 @RunWith(AndroidJUnit4.class)
 public class ErrorSnackbarTest {
@@ -67,7 +68,7 @@ public class ErrorSnackbarTest {
 
         assertErrorSnackbarIsShown("Test message 1", null);
 
-        ErrorSnackbarTestActivity activity = mActivityTestRule.getActivity();
+        final ErrorSnackbarTestActivity activity = mActivityTestRule.getActivity();
 
         showErrorSnackbar(activity.getSubviewLayout(), "Test message 2", null, null,
                 ErrorSnackbar.LENGTH_INDEFINITE);
@@ -120,7 +121,7 @@ public class ErrorSnackbarTest {
         final AtomicBoolean buttonClicked = new AtomicBoolean();
         showErrorSnackbar("Test message", "Button title", new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 buttonClicked.set(true);
             }
         }, ErrorSnackbar.LENGTH_INDEFINITE);
@@ -177,7 +178,8 @@ public class ErrorSnackbarTest {
         Thread.sleep(ErrorSnackbar.ANIM_DURATION + TEST_PAUSE_DURATION);
     }
 
-    private void assertErrorSnackbarIsShown(@NonNull String message, @Nullable String buttonTitle) {
+    private void assertErrorSnackbarIsShown(@NonNull final String message,
+            @Nullable final String buttonTitle) {
         Espresso.onView(ViewMatchers.withText(message))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
         if (buttonTitle != null) {
@@ -186,8 +188,8 @@ public class ErrorSnackbarTest {
         }
     }
 
-    private void assertErrorSnackbarIsHidden(@NonNull String message,
-            @Nullable String buttonTitle) {
+    private void assertErrorSnackbarIsHidden(@NonNull final String message,
+            @Nullable final String buttonTitle) {
         Espresso.onView(ViewMatchers.withText(message))
                 .check(ViewAssertions.doesNotExist());
         if (buttonTitle != null) {
