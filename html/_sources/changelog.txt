@@ -2,6 +2,12 @@
 Changelog
 =========
 
+3.7.1 (2019-03-04)
+==================
+
+- Fixed an issue where the pre-upload error from the Review Screen was not shown in the Analysis
+  Screen. Occurred only when not enabling the multi-page feature since version 3.5.0.
+
 3.7.0 (2019-02-28)
 ==================
 
