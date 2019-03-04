@@ -1,11 +1,13 @@
 package net.gini.android.vision.help;
 
+import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
@@ -110,6 +112,7 @@ public class SupportedFormatsActivity extends AppCompatActivity {
         readExtras();
         setUpFormatsList();
         forcePortraitOrientationOnPhones(this);
+        enableHomeAsUp(this);
     }
 
     private void readExtras() {
@@ -128,5 +131,14 @@ public class SupportedFormatsActivity extends AppCompatActivity {
         final RecyclerView recyclerView = findViewById(R.id.gv_formats_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new SupportedFormatsAdapter(mGiniVisionFeatureConfiguration));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

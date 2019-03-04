@@ -1,9 +1,12 @@
 package net.gini.android.vision.onboarding;
 
+import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionError;
@@ -168,6 +171,16 @@ public class OnboardingActivity extends AppCompatActivity implements OnboardingF
         setContentView(R.layout.gv_activity_onboarding);
         readExtras();
         initFragment();
+        enableHomeAsUp(this);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void readExtras() {

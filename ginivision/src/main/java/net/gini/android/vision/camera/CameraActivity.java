@@ -1,5 +1,6 @@
 package net.gini.android.vision.camera;
 
+import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
 import static net.gini.android.vision.internal.util.FeatureConfiguration.shouldShowOnboarding;
 import static net.gini.android.vision.internal.util.FeatureConfiguration.shouldShowOnboardingAtFirstRun;
 
@@ -508,6 +509,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
             retainFragment();
         }
         showOnboardingIfRequested();
+        enableHomeAsUp(this);
     }
 
     private void restoreSavedState(@Nullable final Bundle savedInstanceState) {
@@ -640,6 +642,9 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     public boolean onOptionsItemSelected(final MenuItem item) {
         if (item.getItemId() == R.id.gv_action_show_onboarding) {
             startHelpActivity();
+            return true;
+        } else if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);

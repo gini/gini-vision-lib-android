@@ -1,9 +1,11 @@
 package net.gini.android.vision.help;
 
+import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 
 import net.gini.android.vision.R;
@@ -115,5 +117,15 @@ public class PhotoTipsActivity extends AppCompatActivity {
                     }
                 });
         forcePortraitOrientationOnPhones(this);
+        enableHomeAsUp(this);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
