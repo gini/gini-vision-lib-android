@@ -15,7 +15,7 @@ Onboarding Screen
     <img src="_static/customization/Onboarding.png" usemap="#onboarding-map" width="324" height="576">
 
     <map id="onboarding-map" name="onboarding-map">
-        <area shape="rect" alt="" title="Action Bar" coords="89,24,121,57" href="customization-guide.html#onboarding-1" target="" />
+        <area shape="rect" alt="" title="Action Bar" coords="132,24,164,57" href="customization-guide.html#onboarding-1" target="" />
         <area shape="rect" alt="" title="Next Button" coords="282,462,311,494" href="customization-guide.html#onboarding-2" target="" />
         <area shape="rect" alt="" title="Page Indicators" coords="105,485,134,515" href="customization-guide.html#onboarding-3" target="" />
         <area shape="rect" alt="" title="Onboarding Message" coords="15,326,44,356" href="customization-guide.html#onboarding-4" target="" />
@@ -37,6 +37,10 @@ All Action Bar customizations except the title are global to all Activities.
 - **Title Color**
 
   Via the color resource named ``gv_action_bar_title``.
+
+- **Back Button Icon**
+
+  Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named ``gv_action_bar_back``.
 
 - **Background Color**
 
@@ -250,7 +254,7 @@ Camera Screen
     <img src="_static/customization/Camera.png" usemap="#camera-map-1" width="324" height="576">
 
     <map id="camera-map-1" name="camera-map-1">
-        <area shape="rect" alt="" title="Action Bar" coords="189,26,217,56" href="customization-guide.html#camera-1" target="" />
+        <area shape="rect" alt="" title="Action Bar" coords="229,26,257,56" href="customization-guide.html#camera-1" target="" />
         <area shape="rect" alt="" title="Document Corner Guides" coords="32,103,60,132" href="customization-guide.html#camera-2" target="" />
         <area shape="rect" alt="" title="Camera Trigger Button" coords="175,431,201,460" href="customization-guide.html#camera-3" target="" />
         <area shape="rect" alt="" title="Tap to Focus Indicator" coords="96,215,127,244" href="customization-guide.html#camera-4" target="" />
@@ -313,6 +317,10 @@ All Action Bar customizations except the title are global to all Activities.
 - **Title Color**
 
   Via the color resource named ``gv_action_bar_title``.
+
+- **Back Button Icon**
+
+  Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named ``gv_action_bar_back``.
 
 - **Background Color**
 
@@ -1291,7 +1299,7 @@ Help Screen
     <img src="_static/customization/Help Screen.png" usemap="#help-screen-map" width="324" height="576">
 
     <map id="help-screen-map" name="help-screen-map">
-        <area shape="rect" alt="" title="Action Bar" coords="81,23,119,56" href="customization-guide.html#help-screen-1" target="" />
+        <area shape="rect" alt="" title="Action Bar" coords="97,23,135,56" href="customization-guide.html#help-screen-1" target="" />
         <area shape="rect" alt="" title="Background" coords="136,346,168,379" href="customization-guide.html#help-screen-2" target="" />
         <area shape="rect" alt="" title="Help List Item" coords="217,74,246,104" href="customization-guide.html#help-screen-3" target="" />
         <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
@@ -1311,6 +1319,10 @@ All Action Bar customizations except the title are global to all Activities.
 - **Title Color**
 
   Via the color resource named ``gv_action_bar_title``.
+
+- **Back Button Icon**
+
+  Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named ``gv_action_bar_back``.
 
 - **Background Color**
 
@@ -1365,7 +1377,7 @@ Photo Tips Screen
     <img src="_static/customization/Photo Tips Screen.png" usemap="#photo-tips-map" width="324" height="576">
 
     <map id="photo-tips-map" name="photo-tips-map">
-        <area shape="rect" alt="" title="Action Bar" coords="136,25,166,56" href="customization-guide.html#photo-tips-1" target="" />
+        <area shape="rect" alt="" title="Action Bar" coords="173,25,203,56" href="customization-guide.html#photo-tips-1" target="" />
         <area shape="rect" alt="" title="Background" coords="275,251,306,281" href="customization-guide.html#photo-tips-2" target="" />
         <area shape="rect" alt="" title="Header" coords="277,71,308,103" href="customization-guide.html#photo-tips-3" target="" />
         <area shape="rect" alt="" title="Tip" coords="227,138,257,171" href="customization-guide.html#photo-tips-4" target="" />
@@ -1397,6 +1409,10 @@ All Action Bar customizations except the title are global to all Activities.
 - **Title Color**
 
   Via the color resource named ``gv_action_bar_title``.
+
+- **Back Button Icon**
+
+  Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named ``gv_action_bar_back``.
 
 - **Background Color**
 
@@ -1535,7 +1551,7 @@ Supported Formats Screen
     <img src="_static/customization/Supported Formats Screen.png" usemap="#supported-formats-map" width="324" height="576">
 
     <map id="supported-formats-map" name="supported-formats-map">
-        <area shape="rect" alt="" title="Action Bar" coords="171,24,202,54" href="customization-guide.html#supported-formats-1" target="" />
+        <area shape="rect" alt="" title="Action Bar" coords="215,24,246,54" href="customization-guide.html#supported-formats-1" target="" />
         <area shape="rect" alt="" title="Background" coords="144,483,178,518" href="customization-guide.html#supported-formats-2" target="" />
         <area shape="rect" alt="" title="Header" coords="239,74,269,106" href="customization-guide.html#supported-formats-3" target="" />
         <area shape="rect" alt="" title="Format Info List Item" coords="278,128,307,160" href="customization-guide.html#supported-formats-4" target="" />
@@ -1558,6 +1574,10 @@ All Action Bar customizations except the title are global to all Activities.
 - **Title Color**
 
   Via the color resource named ``gv_action_bar_title``.
+
+- **Back Button Icon**
+
+  Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named ``gv_action_bar_back``.
 
 - **Background Color**
 
@@ -1660,7 +1680,7 @@ File Import Screen
     <img src="_static/customization/File Import Screen.png" usemap="#file-import-map" width="324" height="576">
 
     <map id="file-import-map" name="file-import-map">
-        <area shape="rect" alt="" title="Action Bar" coords="283,22,312,54" href="customization-guide.html#file-import-1" target="" />
+        <area shape="rect" alt="" title="Action Bar" coords="288,22,317,54" href="customization-guide.html#file-import-1" target="" />
         <area shape="rect" alt="" title="Background" coords="283,157,313,190" href="customization-guide.html#file-import-2" target="" />
         <area shape="rect" alt="" title="Header" coords="284,82,315,117" href="customization-guide.html#file-import-3" target="" />
         <area shape="rect" alt="" title="Separator Line" coords="147,143,181,178" href="customization-guide.html#file-import-4" target="" />
@@ -1687,6 +1707,10 @@ All Action Bar customizations except the title are global to all Activities.
 - **Title Color**
 
   Via the color resource named ``gv_action_bar_title``.
+
+- **Back Button Icon**
+
+  Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named ``gv_action_bar_back``.
 
 - **Background Color**
 

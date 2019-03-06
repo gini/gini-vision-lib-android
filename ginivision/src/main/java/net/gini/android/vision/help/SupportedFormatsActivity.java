@@ -1,11 +1,13 @@
 package net.gini.android.vision.help;
 
+import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
@@ -87,6 +89,9 @@ import net.gini.android.vision.review.ReviewActivity;
  * <li>
  * <b>Title color:</b> via the color resource named {@code gv_action_bar_title}
  * </li>
+ * <li><b>Back button:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named
+ * {@code gv_action_bar_back}
+ * </li>
  * </ul>
  * </p>
  */
@@ -110,6 +115,13 @@ public class SupportedFormatsActivity extends AppCompatActivity {
         readExtras();
         setUpFormatsList();
         forcePortraitOrientationOnPhones(this);
+        setupHomeButton();
+    }
+
+    private void setupHomeButton() {
+        if (GiniVision.hasInstance() && GiniVision.getInstance().areBackButtonsEnabled()) {
+            enableHomeAsUp(this);
+        }
     }
 
     private void readExtras() {
@@ -128,5 +140,14 @@ public class SupportedFormatsActivity extends AppCompatActivity {
         final RecyclerView recyclerView = findViewById(R.id.gv_formats_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new SupportedFormatsAdapter(mGiniVisionFeatureConfiguration));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

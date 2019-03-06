@@ -65,6 +65,7 @@ public class GiniVision {
     private boolean mShouldShowOnboarding;
     private final boolean mIsSupportedFormatsHelpScreenEnabled;
     private final boolean mFlashButtonEnabled;
+    private final boolean mBackButtonsEnabled;
 
     /**
      * Retrieve the current instance.
@@ -149,6 +150,7 @@ public class GiniVision {
         mMultiPageEnabled = builder.isMultiPageEnabled();
         mIsSupportedFormatsHelpScreenEnabled = builder.isSupportedFormatsHelpScreenEnabled();
         mFlashButtonEnabled = builder.isFlashButtonEnabled();
+        mBackButtonsEnabled = builder.areBackButtonsEnabled();
     }
 
     /**
@@ -285,6 +287,21 @@ public class GiniVision {
      */
     public boolean isFlashButtonEnabled() {
         return mFlashButtonEnabled;
+    }
+
+    /**
+     * Screen API only
+     *
+     * <p> Find out whether back buttons in all Activities have been enabled.
+     * {@link ReviewActivity} and {@link AnalysisActivity} are not affected and always show back
+     * buttons.
+     *
+     * <p> Enabled by default.
+     *
+     * @return {@code true} if the back buttons were enabled
+     */
+    public boolean areBackButtonsEnabled() {
+        return mBackButtonsEnabled;
     }
 
     /**
@@ -452,6 +469,7 @@ public class GiniVision {
         private boolean mMultiPageEnabled;
         private boolean mIsSupportedFormatsHelpScreenEnabled = true;
         private boolean mFlashButtonEnabled;
+        private boolean mBackButtonsEnabled = true;
 
         /**
          * Create a new {@link GiniVision} instance.
@@ -683,6 +701,7 @@ public class GiniVision {
          * <p> Disabled by default.
          *
          * @param enabled {@code true} to show the flash button
+         *
          * @return the {@link Builder} instance
          */
         public Builder setFlashButtonEnabled(final boolean enabled) {
@@ -692,6 +711,27 @@ public class GiniVision {
 
         boolean isFlashButtonEnabled() {
             return mFlashButtonEnabled;
+        }
+
+        /**
+         * Screen API only
+         *
+         * <p> Enable/disable back buttons in all Activities except {@link ReviewActivity} and
+         * {@link AnalysisActivity}, which always show back buttons.
+         *
+         * <p> Enabled by default.
+         *
+         * @param enabled {@code true} to show back buttons
+         *
+         * @return the {@link Builder} instance
+         */
+        public Builder setBackButtonsEnabled(final boolean enabled) {
+            mBackButtonsEnabled = enabled;
+            return this;
+        }
+
+        boolean areBackButtonsEnabled() {
+            return mBackButtonsEnabled;
         }
     }
 

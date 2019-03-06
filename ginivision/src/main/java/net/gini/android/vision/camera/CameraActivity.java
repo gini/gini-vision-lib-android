@@ -1,5 +1,6 @@
 package net.gini.android.vision.camera;
 
+import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
 import static net.gini.android.vision.internal.util.FeatureConfiguration.shouldShowOnboarding;
 import static net.gini.android.vision.internal.util.FeatureConfiguration.shouldShowOnboardingAtFirstRun;
 
@@ -337,6 +338,9 @@ import java.util.Map;
  *
  * <li> <b>Title color:</b> via the color resource named {@code gv_action_bar_title}
  *
+ * <li> <b>Back button:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named
+ * {@code gv_action_bar_back}
+ *
  * </ul>
  **/
 public class CameraActivity extends AppCompatActivity implements CameraFragmentListener,
@@ -508,6 +512,13 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
             retainFragment();
         }
         showOnboardingIfRequested();
+        setupHomeButton();
+    }
+
+    private void setupHomeButton() {
+        if (GiniVision.hasInstance() && GiniVision.getInstance().areBackButtonsEnabled()) {
+            enableHomeAsUp(this);
+        }
     }
 
     private void restoreSavedState(@Nullable final Bundle savedInstanceState) {
@@ -640,6 +651,9 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     public boolean onOptionsItemSelected(final MenuItem item) {
         if (item.getItemId() == R.id.gv_action_show_onboarding) {
             startHelpActivity();
+            return true;
+        } else if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);
