@@ -1,5 +1,6 @@
 package net.gini.android.vision.help;
 
+import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
@@ -85,6 +87,9 @@ import org.slf4j.LoggerFactory;
  * <li>
  * <b>Title color:</b> via the color resource named {@code gv_action_bar_title}
  * </li>
+ * <li><b>Back button:</b> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named
+ * {@code gv_action_bar_back}
+ * </li>
  * </ul>
  * </p>
  */
@@ -125,6 +130,13 @@ public class HelpActivity extends AppCompatActivity {
             launchHelpScreen(((HelpItemsAdapter) mRecyclerView.getAdapter()).getItems().get(0));
             finish();
         }
+        setupHomeButton();
+    }
+
+    private void setupHomeButton() {
+        if (GiniVision.hasInstance() && GiniVision.getInstance().areBackButtonsEnabled()) {
+            enableHomeAsUp(this);
+        }
     }
 
     private void readExtras() {
@@ -137,6 +149,15 @@ public class HelpActivity extends AppCompatActivity {
                         + "Please make sure you have created and configured a GiniVision instance.");
             }
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setUpHelpItems() {
