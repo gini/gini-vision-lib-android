@@ -2,6 +2,13 @@
 Changelog
 =========
 
+3.8.0 (2019-03-06)
+==================
+
+- Added back buttons to every Activity when using the Screen API. You can revert to having back
+  buttons only in the Review and Analysis Screens by calling ``.setBackButtonsEnabled(false)`` when
+  creating a new ``GiniVision`` instance.
+
 3.7.1 (2019-03-04)
 ==================
 
