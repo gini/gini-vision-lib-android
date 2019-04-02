@@ -5,4 +5,8 @@
         android:id="@+id/feedback"
         android:title="@string/menu_item_feedback"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/view_picture"
+        android:title="@string/menu_item_view_picture"
+        app:showAsAction="ifRoom" />
 </menu>

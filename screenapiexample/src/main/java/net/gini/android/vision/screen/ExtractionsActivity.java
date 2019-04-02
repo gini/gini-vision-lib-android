@@ -1,7 +1,11 @@
 package net.gini.android.vision.screen;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,14 +19,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import net.gini.android.DocumentTaskManager;
+import net.gini.android.GiniApiType;
 import net.gini.android.models.Document;
 import net.gini.android.models.Extraction;
 import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.GiniVision;
+import net.gini.android.vision.accounting.network.GiniVisionAccountingNetworkService;
 import net.gini.android.vision.example.BaseExampleApp;
 import net.gini.android.vision.network.Error;
 import net.gini.android.vision.network.GiniVisionNetworkApi;
 import net.gini.android.vision.network.GiniVisionNetworkCallback;
+import net.gini.android.vision.network.GiniVisionNetworkService;
 import net.gini.android.vision.network.model.GiniVisionExtraction;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
@@ -30,8 +37,12 @@ import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -81,16 +92,120 @@ public class ExtractionsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(final Menu menu) {
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_extractions, menu);
+        final MenuItem viewPictureItem = menu.findItem(R.id.view_picture);
+        if (viewPictureItem != null) {
+            final boolean pictureAvailable = getAnalyzedCameraPicture() != null;
+            viewPictureItem.setEnabled(pictureAvailable);
+            viewPictureItem.setVisible(pictureAvailable);
+        }
         return true;
+    }
+
+    @Nullable
+    private byte[] getAnalyzedCameraPicture() {
+        final BaseExampleApp app = (BaseExampleApp) getApplication();
+        final GiniVisionNetworkService networkService = app.getGiniVisionNetworkService("ScreenApi",
+                GiniApiType.ACCOUNTING);
+        if (networkService instanceof GiniVisionAccountingNetworkService) {
+            return ((GiniVisionAccountingNetworkService) networkService)
+                    .getAnalyzedCameraPictureAsJpeg();
+        }
+        return null;
     }
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
-        if (item.getItemId() == R.id.feedback) {
-            sendFeedback();
-            return true;
+        switch (item.getItemId()) {
+            case R.id.feedback:
+                sendFeedback();
+                return true;
+            case R.id.view_picture:
+                viewPicture();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+    }
+
+    private void viewPicture() {
+        final File pictureFile = savePictureToFile();
+        if (pictureFile != null) {
+            final Uri fileUri;
+            try {
+                fileUri = FileProvider.getUriForFile(
+                        this,
+                        "net.gini.android.vision.screen.fileprovider",
+                        pictureFile);
+            } catch (final Exception e) {
+                LOG.error("Error sharing the pictue {} ", pictureFile.getAbsolutePath(), e);
+                Toast.makeText(this,
+                        "Error sharing the picture {} " + pictureFile.getAbsolutePath(),
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+            if (fileUri != null) {
+                final Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                intent.setDataAndType(fileUri, getContentResolver().getType(fileUri));
+                if (getPackageManager().queryIntentActivities(intent, 0).isEmpty()) {
+                    Toast.makeText(this, "No image viewer app found",
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    startActivity(intent);
+                }
+            }
+        } else {
+            Toast.makeText(this, "Could not write picture to file",
+                    Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    @Nullable
+    private File savePictureToFile() {
+        final byte[] picture = getAnalyzedCameraPicture();
+        if (picture == null) {
+            return null;
+        }
+
+        final long time = new Date().getTime();
+        final String jpegFilename = time + ".jpeg";
+        final File picDir = createPictureDir();
+        if (picDir == null) {
+            LOG.error("Could not write picture to file {}", jpegFilename);
+            return null;
+        }
+        final File jpegFile = new File(picDir, jpegFilename);
+
+        FileOutputStream fileOutputStream = null;
+        try {
+            fileOutputStream = new FileOutputStream(jpegFile);
+            fileOutputStream.write(picture, 0, picture.length);
+            LOG.debug("Picture written to {}", jpegFile.getAbsolutePath());
+            return jpegFile;
+        } catch (final IOException e) {
+            LOG.error("Failed to save picture to {}", jpegFile.getAbsolutePath(), e);
+            return null;
+        } finally {
+            if (fileOutputStream != null) {
+                try {
+                    fileOutputStream.close();
+                } catch (final IOException e) {
+                    LOG.error("Closing FileOutputStream failed for {}", jpegFile.getAbsolutePath(),
+                            e);
+                }
+            }
+        }
+    }
+
+    @Nullable
+    private File createPictureDir() {
+        final File externalFilesDir = getExternalFilesDir(null);
+        final File pictureDir = new File(externalFilesDir, "camera-pictures");
+        if (pictureDir.exists() || pictureDir.mkdir()) {
+            return pictureDir;
+        }
+        return null;
     }
 
     private void readExtras() {
