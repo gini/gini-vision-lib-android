@@ -2,6 +2,12 @@
 Changelog
 =========
 
+3.9.0 (2019-04-03)
+==================
+
+- When using the ``gini-vision-accounting-network-lib`` you can get the last successfully analyzed
+  camera picture with ``GiniVisionAccountingNetworkService#getAnalyzedCameraPictureAsJpeg()``.
+
 3.8.0 (2019-03-06)
 ==================
 
