@@ -21,6 +21,7 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.accounting.network.model.SpecificExtractionMapper;
 import net.gini.android.vision.document.GiniVisionMultiPageDocument;
+import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.network.AnalysisResult;
 import net.gini.android.vision.network.Error;
 import net.gini.android.vision.network.GiniVisionNetworkCallback;
@@ -75,6 +76,8 @@ public class GiniVisionAccountingNetworkService implements GiniVisionNetworkServ
     private final Map<String, net.gini.android.models.Document> mGiniApiDocuments = new HashMap<>();
     private final DocumentMetadata mDocumentMetadata;
     private net.gini.android.models.Document mAnalyzedGiniApiDocument;
+    private final Map<String, Document> mDocuments = new HashMap<>();
+    private Document mAnalyzedDocument;
 
     /**
      * Creates a new {@link GiniVisionAccountingNetworkService.Builder} to configure and create a
@@ -133,6 +136,7 @@ public class GiniVisionAccountingNetworkService implements GiniVisionNetworkServ
                     LOG.debug("Document upload success for {}: {}", document.getId(),
                             apiDocument);
                     mGiniApiDocuments.put(apiDocument.getId(), apiDocument);
+                    mDocuments.put(apiDocument.getId(), document);
                     callback.success(new Result(apiDocument.getId()));
                 } else {
                     LOG.debug("Document upload cancelled for {}", document.getId());
@@ -168,6 +172,8 @@ public class GiniVisionAccountingNetworkService implements GiniVisionNetworkServ
                             callback.failure(error);
                         } else if (task.getResult() != null) {
                             LOG.debug("Document deletion success for api id {}", giniApiDocumentId);
+                            mGiniApiDocuments.remove(giniApiDocumentId);
+                            mDocuments.remove(giniApiDocumentId);
                             callback.success(new Result(giniApiDocumentId));
                         } else {
                             LOG.debug("Document deletion cancelled for api id {}",
@@ -215,6 +221,7 @@ public class GiniVisionAccountingNetworkService implements GiniVisionNetworkServ
         }
 
         mAnalyzedGiniApiDocument = null; // NOPMD
+        mAnalyzedDocument = null; // NOPMD
         final AtomicBoolean isCancelled = new AtomicBoolean();
         mGiniApi.getDocumentTaskManager().pollDocument(giniApiDocument)
                 .onSuccessTask(
@@ -255,6 +262,7 @@ public class GiniVisionAccountingNetworkService implements GiniVisionNetworkServ
                                     callback.failure(error);
                                 } else if (task.getResult() != null) {
                                     mAnalyzedGiniApiDocument = giniApiDocument;
+                                    mAnalyzedDocument = mDocuments.get(giniApiDocument.getId());
                                     final Map<String, GiniVisionSpecificExtraction> extractions =
                                             SpecificExtractionMapper.mapToGVL(task.getResult());
                                     LOG.debug("Document analysis success for document {}: {}",
@@ -284,12 +292,34 @@ public class GiniVisionAccountingNetworkService implements GiniVisionNetworkServ
     @Override
     public void cleanup() {
         mAnalyzedGiniApiDocument = null; // NOPMD
+        mAnalyzedDocument = null; // NOPMD
         mGiniApiDocuments.clear();
     }
 
     @Nullable
     net.gini.android.models.Document getAnalyzedGiniApiDocument() {
         return mAnalyzedGiniApiDocument;
+    }
+
+    /**
+     * Get the last successfully analyzed picture taken by the camera.
+     * <p>
+     * <b>Important:</b> Call this method before calling {@link #cleanup()} (or {@link
+     * GiniVision#cleanup(Context)}), otherwise it will
+     * return {@code null}.
+     * <p>
+     *
+     * @return a byte array containing the picture in jpeg format. Returns {@code null}, if {@link
+     * #cleanup()} (or {@link GiniVision#cleanup(Context)}) was called before or the analyzed
+     * document was not an image taken by the camera with the Gini Vision Library.
+     */
+    @Nullable
+    public byte[] getAnalyzedCameraPictureAsJpeg() {
+        if (mAnalyzedDocument instanceof ImageDocument
+                && !mAnalyzedDocument.isImported()) {
+            return mAnalyzedDocument.getData();
+        }
+        return null;
     }
 
     Gini getGiniApi() {
