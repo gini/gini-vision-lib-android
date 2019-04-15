@@ -16,14 +16,15 @@ import org.slf4j.LoggerFactory;
  */
 
 /**
- * QRCode parser for the EPC069-12 format.
- * See: <a href="https://www.europeanpaymentscouncil.eu/document-library/guidance-documents/quick-response-code-guidelines-enable-data-capture-initiation">EPC069-12 Specification</a>
+ * QRCode parser for the EPC069-12 format. See: <a href="https://www.europeanpaymentscouncil.eu/document-library/guidance-documents/quick-response-code-guidelines-enable-data-capture-initiation">EPC069-12
+ * Specification</a>
  * <p>
- * This recommendation is implemented by Girocode (DE) and Stuzza (AT).
- * Currently it supports versions 1 and 2 and it does not honor the specified encoding.
+ * This recommendation is implemented by Girocode (DE) and Stuzza (AT). Currently it supports
+ * versions 1 and 2 and it does not honor the specified encoding.
  * <p>
  * See also the
- * <a href="https://www.stuzza.at/de/zahlungsverkehr/qr-code.html">"Zahlen mit Code" Specification</a>
+ * <a href="https://www.stuzza.at/de/zahlungsverkehr/qr-code.html">"Zahlen mit Code"
+ * Specification</a>
  */
 class EPC069_12Parser implements QRCodeParser<PaymentQRCodeData> {
 
@@ -54,8 +55,8 @@ class EPC069_12Parser implements QRCodeParser<PaymentQRCodeData> {
         }
         final String bic = getLineString(4, lines);
         final String amount = normalizeAmount(processAmount(getLineString(7, lines)), "EUR");
-        return new PaymentQRCodeData(qrCodeContent, paymentRecipient, paymentReference, iban, bic,
-                amount);
+        return new PaymentQRCodeData(PaymentQRCodeData.Format.EPC069_12, qrCodeContent,
+                paymentRecipient, paymentReference, iban, bic, amount);
     }
 
     @NonNull

@@ -7,6 +7,7 @@ import static net.gini.android.vision.camera.Util.cameraExceptionToGiniVisionErr
 import static net.gini.android.vision.document.ImageDocument.ImportMethod;
 import static net.gini.android.vision.internal.camera.view.FlashButtonHelper.getFlashButtonPosition;
 import static net.gini.android.vision.internal.network.NetworkRequestsManager.isCancellation;
+import static net.gini.android.vision.internal.qrcode.EPSPaymentParser.EXTRACTION_ENTITY_NAME;
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 import static net.gini.android.vision.internal.util.AndroidHelper.isMarshmallowOrLater;
 import static net.gini.android.vision.internal.util.ContextHelper.isTablet;
@@ -84,6 +85,7 @@ import net.gini.android.vision.internal.util.DeviceHelper;
 import net.gini.android.vision.internal.util.FileImportValidator;
 import net.gini.android.vision.internal.util.MimeType;
 import net.gini.android.vision.internal.util.Size;
+import net.gini.android.vision.network.model.GiniVisionExtraction;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.util.IntentHelper;
 import net.gini.android.vision.util.UriHelper;
@@ -846,11 +848,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             @Override
             public void onClick(final View v) {
                 hideQRCodeDetectedPopup(null);
-                if (mPaymentQRCodeData != null) {
-                    mQRCodeDocument = QRCodeDocument.fromPaymentQRCodeData(mPaymentQRCodeData);
-                    analyzeQRCode(mQRCodeDocument);
-                    mPaymentQRCodeData = null; // NOPMD
-                }
+                handlePaymentQRCodeData();
             }
         });
         mImageStack.setOnClickListener(new View.OnClickListener() {
@@ -860,6 +858,41 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 mListener.onProceedToMultiPageReviewScreen(mMultiPageDocument);
             }
         });
+    }
+
+    private void handlePaymentQRCodeData() {
+        if (mPaymentQRCodeData != null) {
+            switch (mPaymentQRCodeData.getFormat()) {
+                case EPC069_12:
+                case BEZAHL_CODE:
+                    mQRCodeDocument = QRCodeDocument.fromPaymentQRCodeData(
+                            mPaymentQRCodeData);
+                    analyzeQRCode(mQRCodeDocument);
+                    break;
+                case EPS_PAYMENT:
+                    handleEPSPaymentQRCode();
+                    break;
+                default:
+                    LOG.error("Unknown payment QR Code format: {}", mPaymentQRCodeData);
+                    break;
+            }
+            mPaymentQRCodeData = null; // NOPMD
+        }
+    }
+
+    private void handleEPSPaymentQRCode() {
+        final GiniVisionExtraction extraction = new GiniVisionExtraction(
+                mPaymentQRCodeData.getUnparsedContent(), EXTRACTION_ENTITY_NAME,
+                null);
+        final GiniVisionSpecificExtraction specificExtraction = new GiniVisionSpecificExtraction(
+                EXTRACTION_ENTITY_NAME,
+                mPaymentQRCodeData.getUnparsedContent(),
+                EXTRACTION_ENTITY_NAME,
+                null,
+                Collections.singletonList(extraction)
+        );
+        mListener.onExtractionsAvailable(
+                Collections.singletonMap(EXTRACTION_ENTITY_NAME, specificExtraction));
     }
 
     private void updateCameraFlashState() {
