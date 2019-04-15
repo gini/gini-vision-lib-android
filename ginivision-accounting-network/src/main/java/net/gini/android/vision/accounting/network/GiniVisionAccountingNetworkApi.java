@@ -77,8 +77,7 @@ public class GiniVisionAccountingNetworkApi implements GiniVisionNetworkApi {
                         .continueWith(new Continuation<net.gini.android.models.Document, Object>() {
                             @Override
                             public Object then(
-                                    @NonNull final Task<net.gini.android.models.Document> task)
-                                    throws Exception {
+                                    @NonNull final Task<net.gini.android.models.Document> task) {
                                 mUIExecutor.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -110,6 +109,12 @@ public class GiniVisionAccountingNetworkApi implements GiniVisionNetworkApi {
             callback.failure(new Error("Feedback not set: no Gini Api Document available"));
         }
     }
+
+    @Override
+    public void deleteGiniUserCredentials() {
+        mAccountingNetworkService.getGiniApi().getCredentialsStore().deleteUserCredentials();
+    }
+
     /**
      * Builder for configuring a new instance of the {@link GiniVisionAccountingNetworkApi}.
      */

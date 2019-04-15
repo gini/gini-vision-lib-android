@@ -33,4 +33,12 @@ public interface GiniVisionNetworkApi {
      */
     void sendFeedback(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
             @NonNull final GiniVisionNetworkCallback<Void, Error> callback);
+
+    /**
+     * Delete the anonymous gini user credentials. These were automatically generated when the first
+     * document was uploaded.
+     * <p>
+     * By deleting the credentials, new ones will be generated at the next upload.
+     */
+    void deleteGiniUserCredentials();
 }

@@ -74,8 +74,7 @@ public class GiniVisionDefaultNetworkApi implements GiniVisionNetworkApi {
                         .continueWith(new Continuation<net.gini.android.models.Document, Object>() {
                             @Override
                             public Object then(
-                                    @NonNull final Task<net.gini.android.models.Document> task)
-                                    throws Exception {
+                                    @NonNull final Task<net.gini.android.models.Document> task) {
                                 mUIExecutor.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -106,6 +105,11 @@ public class GiniVisionDefaultNetworkApi implements GiniVisionNetworkApi {
             LOG.error("Send feedback failed: no Gini Api Document available");
             callback.failure(new Error("Feedback not set: no Gini Api Document available"));
         }
+    }
+
+    @Override
+    public void deleteGiniUserCredentials() {
+        mDefaultNetworkService.getGiniApi().getCredentialsStore().deleteUserCredentials();
     }
 
     /**
