@@ -99,15 +99,17 @@ public class ExtractionsActivity extends AppCompatActivity {
             final Bundle extractionsBundle = extras.getParcelable(EXTRA_IN_EXTRACTIONS);
             if (extractionsBundle != null) {
                 for (final String key : extractionsBundle.keySet()) {
-                    // We only show Pay5 extractions: paymentRecipient, iban, bic, amount and paymentReference
-                    if (isPay5Extraction(key)) {
-                        try {
-                            mExtractions.put(key,
-                                    (GiniVisionSpecificExtraction) extractionsBundle.getParcelable(
-                                            key));
-                        } catch (final ClassCastException e) {
-                            mLegacyExtractions.put(key,
-                                    (SpecificExtraction) extractionsBundle.getParcelable(key));
+                    try {
+                        final GiniVisionSpecificExtraction extraction =
+                                extractionsBundle.getParcelable(key);
+                        if (extraction != null) {
+                            mExtractions.put(key, extraction);
+                        }
+                    } catch (final ClassCastException e) {
+                        final SpecificExtraction extraction =
+                                extractionsBundle.getParcelable(key);
+                        if (extraction != null) {
+                            mLegacyExtractions.put(key, extraction);
                         }
                     }
                 }
