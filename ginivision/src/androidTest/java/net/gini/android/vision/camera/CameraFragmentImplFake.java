@@ -7,6 +7,7 @@ import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.document.QRCodeDocument;
 import net.gini.android.vision.internal.camera.api.CameraControllerFake;
 import net.gini.android.vision.internal.camera.api.CameraInterface;
+import net.gini.android.vision.internal.qrcode.PaymentQRCodeData;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 
 /**
@@ -20,6 +21,7 @@ public class CameraFragmentImplFake extends CameraFragmentImpl {
     private CameraControllerFake mCameraControllerFake;
     private int mHidePaymentDataDetectedPopupDelayMs = 10000;
     private QRCodeDocument mQRCodeDocument;
+    private PaymentQRCodeData mPaymentQRCodeData;
 
     CameraFragmentImplFake(
             @NonNull final FragmentImplCallback fragment) {
@@ -65,5 +67,15 @@ public class CameraFragmentImplFake extends CameraFragmentImpl {
 
     CameraControllerFake getCameraControllerFake() {
         return mCameraControllerFake;
+    }
+
+    @Override
+    public void onPaymentQRCodeDataAvailable(@NonNull final PaymentQRCodeData paymentQRCodeData) {
+        super.onPaymentQRCodeDataAvailable(paymentQRCodeData);
+        mPaymentQRCodeData = paymentQRCodeData;
+    }
+
+    public PaymentQRCodeData getPaymentQRCodeData() {
+        return mPaymentQRCodeData;
     }
 }
