@@ -397,9 +397,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                         return;
                     }
-                    if (pay5ExtractionsAvailable(extractionsBundle)) {
-                        // We display only the Pay5 extractions: paymentRecipient, iban, bic,
-                        // amount and paymentReference
+                    if (pay5ExtractionsAvailable(extractionsBundle)
+                            || epsPaymentAvailable(extractionsBundle)) {
                         startExtractionsActivity(extractionsBundle);
                     } else {
                         // Show a special screen, if no Pay5 extractions were found to give
@@ -435,6 +434,15 @@ public class MainActivity extends AppCompatActivity {
     private boolean pay5ExtractionsAvailable(final Bundle extractionsBundle) {
         for (final String key : extractionsBundle.keySet()) {
             if (isPay5Extraction(key)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean epsPaymentAvailable(final Bundle extractionsBundle) {
+        for (final String key : extractionsBundle.keySet()) {
+            if (key.equals("epsPaymentQRCodeUrl")) {
                 return true;
             }
         }

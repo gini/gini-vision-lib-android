@@ -5,6 +5,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static net.gini.android.vision.OncePerInstallEventStoreHelper.clearOnboardingWasShownPreference;
 import static net.gini.android.vision.OncePerInstallEventStoreHelper.setOnboardingWasShownPreference;
 import static net.gini.android.vision.test.EspressoMatchers.hasComponent;
+import static net.gini.android.vision.test.Helpers.convertJpegToNV21;
 import static net.gini.android.vision.test.Helpers.isTablet;
 import static net.gini.android.vision.test.Helpers.loadAsset;
 import static net.gini.android.vision.test.Helpers.prepareLooper;
@@ -486,6 +487,7 @@ public class CameraScreenTest {
             throws IOException, InterruptedException {
         detectAndCheckQRCode("qrcode_bezahlcode.jpeg", "qrcode_bezahlcode_nv21.bmp",
                 new PaymentQRCodeData(
+                        PaymentQRCodeData.Format.BEZAHL_CODE,
                         "bank://singlepaymentsepa?name=GINI%20GMBH&reason=BezahlCode%20Test&iban=DE27100777770209299700&bic=DEUTDEMMXXX&amount=140%2C4",
                         "GINI GMBH",
                         "BezahlCode Test",
@@ -512,8 +514,17 @@ public class CameraScreenTest {
                 .perform(ViewActions.click());
 
         // Then
-        final PaymentQRCodeData actualPaymentData = QRCodeDocumentHelper.getPaymentData(
-                mCameraActivityFakeActivityTestRule.getActivity().getCameraFragmentImplFake().getQRCodeDocument());
+        final QRCodeDocument qrCodeDocument =
+                mCameraActivityFakeActivityTestRule.getActivity()
+                        .getCameraFragmentImplFake().getQRCodeDocument();
+        final PaymentQRCodeData actualPaymentData;
+        if (qrCodeDocument != null) {
+            actualPaymentData = QRCodeDocumentHelper.getPaymentData(qrCodeDocument);
+        } else {
+            actualPaymentData =
+                    mCameraActivityFakeActivityTestRule.getActivity()
+                            .getCameraFragmentImplFake().getPaymentQRCodeData();
+        }
         assertThat(actualPaymentData).isEqualTo(paymentData);
     }
 
@@ -541,14 +552,26 @@ public class CameraScreenTest {
     @Test
     public void should_detectEPC069_andShowPopup_andReturnPaymentData_whenPopupClicked()
             throws IOException, InterruptedException {
+        convertJpegToNV21("qrcode_eps_payment.jpg", "qrcode_eps_payment_nv21.bmp");
         detectAndCheckQRCode("qrcode_epc069_12.jpeg", "qrcode_epc069_12_nv21.bmp",
                 new PaymentQRCodeData(
+                        PaymentQRCodeData.Format.EPC069_12,
                         "BCD\n001\n2\nSCT\nSOLADES1PFD\nGirosolution GmbH\nDE19690516200000581900\nEUR140.4\n\n\nBezahlCode Test",
                         "Girosolution GmbH",
                         "BezahlCode Test",
                         "DE19690516200000581900",
                         "SOLADES1PFD",
                         "140.40:EUR"));
+    }
+
+    @Test
+    public void should_detectEpsPayment_andShowPopup_andReturnPaymentData_whenPopupClicked()
+            throws IOException, InterruptedException {
+        detectAndCheckQRCode("qrcode_eps_payment.jpg", "qrcode_eps_payment_nv21.bmp",
+                new PaymentQRCodeData(
+                        PaymentQRCodeData.Format.EPS_PAYMENT,
+                        "epspayment://eps.or.at/?transactionid=epsJUJQQV9U2",
+                        null, null, null, null, null));
     }
 
     @Test
@@ -580,6 +603,7 @@ public class CameraScreenTest {
                 .build();
         detectAndCheckQRCode("qrcode_epc069_12.jpeg", "qrcode_epc069_12_nv21.bmp",
                 new PaymentQRCodeData(
+                        PaymentQRCodeData.Format.EPC069_12,
                         "BCD\n001\n2\nSCT\nSOLADES1PFD\nGirosolution GmbH\nDE19690516200000581900\nEUR140.4\n\n\nBezahlCode Test",
                         "Girosolution GmbH",
                         "BezahlCode Test",

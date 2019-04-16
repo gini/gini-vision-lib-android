@@ -28,6 +28,7 @@ class PaymentQRCodeParser implements QRCodeParser<PaymentQRCodeData> {
         mParsers = new ArrayList<>(3);
         mParsers.add(new BezahlCodeParser());
         mParsers.add(new EPC069_12Parser());
+        mParsers.add(new EPSPaymentParser());
     }
 
     /**

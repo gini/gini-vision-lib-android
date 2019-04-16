@@ -22,6 +22,7 @@ public class PaymentQRCodeDataTest {
     public void should_writePaymentData_toJson() {
         // Given
         final PaymentQRCodeData paymentData = new PaymentQRCodeData(
+                PaymentQRCodeData.Format.BEZAHL_CODE,
                 "bank://singlepaymentsepa?name=GINI%20GMBH&reason=BezahlCode%20Test&iban=DE27100777770209299700&bic=DEUTDEMMXXX&amount=140%2C4",
                 "GINI GMBH",
                 "BezahlCode Test",
@@ -39,6 +40,7 @@ public class PaymentQRCodeDataTest {
     public void should_notWrite_emptyLabel_toPaymentDataJson() {
         // Given
         final PaymentQRCodeData paymentData = new PaymentQRCodeData(
+                PaymentQRCodeData.Format.BEZAHL_CODE,
                 "bank://singlepaymentsepa?name=GINI%20GMBH&reason=BezahlCode%20Test&iban=DE27100777770209299700&bic=DEUTDEMMXXX&amount=140%2C4",
                 "GINI GMBH",
                 "BezahlCode Test",
