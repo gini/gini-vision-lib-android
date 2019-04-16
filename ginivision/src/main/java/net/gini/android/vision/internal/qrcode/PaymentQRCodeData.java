@@ -225,8 +225,20 @@ public class PaymentQRCodeData implements Parcelable {
     };
 
     public enum Format {
+        /**
+         * BezahlCode QR Code format. You can view the specification <a
+         * href="http://www.bezahlcode.de/wp-content/uploads/BezahlCode_TechDok.pdf"> here</a>.
+         */
         BEZAHL_CODE,
+        /**
+         * EPC069-12 QR Code format, implemented by by Girocode in Germany and Stuzza in Austria.
+         * You can view the specification <a href="https://www.stuzza.at/de/zahlungsverkehr/qr-code.html">here</a>.
+         */
         EPC069_12,
+        /**
+         * Eps e-payment QR Code format. You can view the specification <a
+         * href="https://eservice.stuzza.at/de/eps-ueberweisung-dokumentation/category/5-dokumentation.html">here</a>.
+         */
         EPS_PAYMENT
     }
 }
