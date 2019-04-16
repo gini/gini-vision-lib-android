@@ -13,12 +13,13 @@ import android.support.annotation.NonNull;
 public class EPSPaymentParser implements QRCodeParser<PaymentQRCodeData> {
 
     public static final String EXTRACTION_ENTITY_NAME = "epsPaymentQRCodeUrl";
+    private static final String EPSPAYMENT_SCHEME = "epspayment";
 
     @Override
     public PaymentQRCodeData parse(@NonNull final String qrCodeContent)
             throws IllegalArgumentException {
         final Uri uri = Uri.parse(qrCodeContent);
-        if (!"epspayment".equals(uri.getScheme())) {
+        if (!EPSPAYMENT_SCHEME.equals(uri.getScheme())) {
             throw new IllegalArgumentException(
                     "QRCode content does not conform to the eps e-payment QRCodeUrl format.");
         }

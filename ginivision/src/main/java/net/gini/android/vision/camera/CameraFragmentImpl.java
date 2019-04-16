@@ -861,23 +861,24 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     }
 
     private void handlePaymentQRCodeData() {
-        if (mPaymentQRCodeData != null) {
-            switch (mPaymentQRCodeData.getFormat()) {
-                case EPC069_12:
-                case BEZAHL_CODE:
-                    mQRCodeDocument = QRCodeDocument.fromPaymentQRCodeData(
-                            mPaymentQRCodeData);
-                    analyzeQRCode(mQRCodeDocument);
-                    break;
-                case EPS_PAYMENT:
-                    handleEPSPaymentQRCode();
-                    break;
-                default:
-                    LOG.error("Unknown payment QR Code format: {}", mPaymentQRCodeData);
-                    break;
-            }
-            mPaymentQRCodeData = null; // NOPMD
+        if (mPaymentQRCodeData == null) {
+            return;
         }
+        switch (mPaymentQRCodeData.getFormat()) {
+            case EPC069_12:
+            case BEZAHL_CODE:
+                mQRCodeDocument = QRCodeDocument.fromPaymentQRCodeData(
+                        mPaymentQRCodeData);
+                analyzeQRCode(mQRCodeDocument);
+                break;
+            case EPS_PAYMENT:
+                handleEPSPaymentQRCode();
+                break;
+            default:
+                LOG.error("Unknown payment QR Code format: {}", mPaymentQRCodeData);
+                break;
+        }
+        mPaymentQRCodeData = null; // NOPMD
     }
 
     private void handleEPSPaymentQRCode() {
