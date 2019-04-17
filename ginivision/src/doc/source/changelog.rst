@@ -2,6 +2,20 @@
 Changelog
 =========
 
+3.10.0 (2019-04-17)
+===================
+
+- Added support for extracting eps e-payment urls from QR Codes. When using the Screen API the url
+  is returned as a ``GiniVisionSpecificExtraction`` in ``CameraActivity's`` result ``Bundle`` with
+  the ``"epsPaymentQRCodeUrl"`` key. When using the Component API the url is returned in the
+  ``CameraFragmentListener#onExtractionsAvailable()`` method also as a
+  ``GiniVisionSpecificExtraction`` in a map with the same ``"epsPaymentQRCodeUrl"`` key.
+- The generated anonymous user credentials can be deleted when using the networking plugins by
+  invoking the ``GiniVisionNetworkApi#deleteGiniUserCredentials()`` method on your instance of the
+  ``GiniVisionNetworkApi``. Consult the
+  `Gini Vision Network Library <updating-to-3-0-0.html#gini-vision-network-library>`_ section for
+  more information about the networking plugin.
+
 3.9.0 (2019-04-03)
 ==================
 
