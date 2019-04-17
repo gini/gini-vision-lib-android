@@ -30,6 +30,7 @@ public class PaymentQRCodeData implements Parcelable {
 
     private static final Logger LOG = LoggerFactory.getLogger(PaymentQRCodeData.class);
 
+    private final Format mFormat;
     private final String mUnparsedContent;
     private final String mAmount;
     private final String mBIC;
@@ -37,12 +38,14 @@ public class PaymentQRCodeData implements Parcelable {
     private final String mPaymentRecipient;
     private final String mPaymentReference;
 
-    public PaymentQRCodeData(@NonNull final String unparsedContent,
+    public PaymentQRCodeData(@NonNull final Format format,
+            @NonNull final String unparsedContent,
             @Nullable final String paymentRecipient,
             @Nullable final String paymentReference,
             @Nullable final String iban,
             @Nullable final String bic,
             @Nullable final String amount) {
+        mFormat = format;
         mUnparsedContent = unparsedContent;
         mPaymentRecipient = nullToEmpty(paymentRecipient);
         mPaymentReference = nullToEmpty(paymentReference);
@@ -53,6 +56,16 @@ public class PaymentQRCodeData implements Parcelable {
 
     private String nullToEmpty(@Nullable final String str) {
         return TextUtils.isEmpty(str) ? "" : str;
+    }
+
+    @NonNull
+    public Format getFormat() {
+        return mFormat;
+    }
+
+    @NonNull
+    public String getUnparsedContent() {
+        return mUnparsedContent;
     }
 
     @NonNull
@@ -83,7 +96,8 @@ public class PaymentQRCodeData implements Parcelable {
     @Override
     public String toString() {
         return "PaymentQRCodeData{"
-                + "mUnparsedContent='" + mUnparsedContent + '\''
+                + "mFormat='" + mFormat + '\''
+                + ", mUnparsedContent='" + mUnparsedContent + '\''
                 + ", mAmount='" + mAmount + '\''
                 + ", mBIC='" + mBIC + '\''
                 + ", mIBAN='" + mIBAN + '\''
@@ -137,6 +151,9 @@ public class PaymentQRCodeData implements Parcelable {
 
         final PaymentQRCodeData that = (PaymentQRCodeData) o;
 
+        if (!mFormat.equals(that.mFormat)) {
+            return false;
+        }
         if (!mUnparsedContent.equals(that.mUnparsedContent)) {
             return false;
         }
@@ -160,6 +177,7 @@ public class PaymentQRCodeData implements Parcelable {
     @Override
     public int hashCode() {
         int result = mUnparsedContent.hashCode();
+        result = 31 * result + mFormat.hashCode();
         result = 31 * result + (mAmount != null ? mAmount.hashCode() : 0);
         result = 31 * result + (mBIC != null ? mBIC.hashCode() : 0);
         result = 31 * result + (mIBAN != null ? mIBAN.hashCode() : 0);
@@ -169,6 +187,7 @@ public class PaymentQRCodeData implements Parcelable {
     }
 
     private PaymentQRCodeData(final Parcel in) {
+        mFormat = (Format) in.readSerializable();
         mUnparsedContent = in.readString();
         mAmount = in.readString();
         mBIC = in.readString();
@@ -184,6 +203,7 @@ public class PaymentQRCodeData implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull final Parcel dest, final int flags) {
+        dest.writeSerializable(mFormat);
         dest.writeString(mUnparsedContent);
         dest.writeString(mAmount);
         dest.writeString(mBIC);
@@ -203,4 +223,22 @@ public class PaymentQRCodeData implements Parcelable {
             return new PaymentQRCodeData[size];
         }
     };
+
+    public enum Format {
+        /**
+         * BezahlCode QR Code format. You can view the specification <a
+         * href="http://www.bezahlcode.de/wp-content/uploads/BezahlCode_TechDok.pdf"> here</a>.
+         */
+        BEZAHL_CODE,
+        /**
+         * EPC069-12 QR Code format, implemented by by Girocode in Germany and Stuzza in Austria.
+         * You can view the specification <a href="https://www.stuzza.at/de/zahlungsverkehr/qr-code.html">here</a>.
+         */
+        EPC069_12,
+        /**
+         * Eps e-payment QR Code format. You can view the specification <a
+         * href="https://eservice.stuzza.at/de/eps-ueberweisung-dokumentation/category/5-dokumentation.html">here</a>.
+         */
+        EPS_PAYMENT
+    }
 }

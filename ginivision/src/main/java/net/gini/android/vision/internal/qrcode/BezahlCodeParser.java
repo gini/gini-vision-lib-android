@@ -17,7 +17,8 @@ import android.text.TextUtils;
  * QRCode parser for the BezahlCode format.
  * <p>
  * See also the
- * <a href="http://www.bezahlcode.de/wp-content/uploads/BezahlCode_TechDok.pdf">BezahlCode Specification</a>
+ * <a href="http://www.bezahlcode.de/wp-content/uploads/BezahlCode_TechDok.pdf">BezahlCode
+ * Specification</a>
  */
 class BezahlCodeParser implements QRCodeParser<PaymentQRCodeData> {
 
@@ -47,8 +48,8 @@ class BezahlCodeParser implements QRCodeParser<PaymentQRCodeData> {
         String currency = normalizeCurrency(getQueryParameter(uri, "currency"));
         currency = TextUtils.isEmpty(currency) ? "EUR" : currency;
         final String amount = normalizeAmount(getQueryParameter(uri, "amount"), currency);
-        return new PaymentQRCodeData(qrCodeContent, paymentRecipient, paymentReference, iban, bic,
-                amount);
+        return new PaymentQRCodeData(PaymentQRCodeData.Format.BEZAHL_CODE, qrCodeContent,
+                paymentRecipient, paymentReference, iban, bic, amount);
     }
 
     private String getQueryParameter(@NonNull final Uri uri, @NonNull final String key) {
