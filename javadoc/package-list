@@ -3,6 +3,7 @@ net.gini.android.vision.analysis
 net.gini.android.vision.camera
 net.gini.android.vision.document
 net.gini.android.vision.help
+net.gini.android.vision.internal.qrcode
 net.gini.android.vision.network
 net.gini.android.vision.network.model
 net.gini.android.vision.noresults
