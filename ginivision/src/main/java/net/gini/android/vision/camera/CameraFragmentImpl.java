@@ -327,8 +327,15 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             return;
         }
         forcePortraitOrientationOnPhones(activity);
+        initFlashState();
         if (savedInstanceState != null) {
             restoreSavedState(savedInstanceState);
+        }
+    }
+
+    private void initFlashState() {
+        if (GiniVision.hasInstance()) {
+            mIsFlashEnabled = GiniVision.getInstance().isFlashOnByDefault();
         }
     }
 
@@ -400,11 +407,13 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         if (activity == null) {
             return;
         }
-        if (mCameraController.isFlashAvailable()
-                && (GiniVision.hasInstance() && GiniVision.getInstance().isFlashButtonEnabled())) {
-            mButtonCameraFlash.setVisibility(View.VISIBLE);
+        if (mCameraController.isFlashAvailable()) {
+            if (GiniVision.hasInstance() && GiniVision.getInstance().isFlashButtonEnabled()) {
+                mButtonCameraFlash.setVisibility(View.VISIBLE);
+            }
             updateCameraFlashState();
         }
+
     }
 
     public void onResume() {
