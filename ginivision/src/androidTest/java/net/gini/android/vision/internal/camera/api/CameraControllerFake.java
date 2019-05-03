@@ -30,6 +30,7 @@ public class CameraControllerFake implements CameraInterface {
     private Camera.PreviewCallback mPreviewCallback;
     private Size mPreviewSize = DEFAULT_PREVIEW_SIZE;
     private SurfaceHolder mSurfaceHolder;
+    private boolean mFlashEnabled;
 
     @NonNull
     @Override
@@ -123,17 +124,17 @@ public class CameraControllerFake implements CameraInterface {
 
     @Override
     public boolean isFlashAvailable() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isFlashEnabled() {
-        return false;
+        return mFlashEnabled;
     }
 
     @Override
     public void setFlashEnabled(final boolean enabled) {
-
+        mFlashEnabled = enabled;
     }
 
     public void showImageAsPreview(@NonNull final byte[] image, @Nullable final byte[] imageNV21) {

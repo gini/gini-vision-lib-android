@@ -811,4 +811,31 @@ public class CameraScreenTest {
         // Then
         assertThat(activity.hasDocument()).isTrue();
     }
+
+    @Test
+    public void should_turnOffFlashByDefault_whenRequested() {
+        // Given
+        GiniVision.newInstance()
+                .setFlashOnByDefault(false)
+                .build();
+        // When
+        final CameraActivityFake cameraActivityFake = startCameraActivityFakeWithoutOnboarding(
+                null);
+
+        // Then
+        assertThat(cameraActivityFake.getCameraControllerFake().isFlashEnabled()).isFalse();
+    }
+
+    @Test
+    public void should_turnOnFlashByDefault_ifNotChanged() {
+        // Given
+        GiniVision.newInstance().build();
+
+        // When
+        final CameraActivityFake cameraActivityFake = startCameraActivityFakeWithoutOnboarding(
+                null);
+
+        // Then
+        assertThat(cameraActivityFake.getCameraControllerFake().isFlashEnabled()).isTrue();
+    }
 }
