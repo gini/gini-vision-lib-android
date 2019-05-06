@@ -66,6 +66,7 @@ public class GiniVision {
     private final boolean mIsSupportedFormatsHelpScreenEnabled;
     private final boolean mFlashButtonEnabled;
     private final boolean mBackButtonsEnabled;
+    private final boolean mIsFlashOnByDefault;
 
     /**
      * Retrieve the current instance.
@@ -151,6 +152,7 @@ public class GiniVision {
         mIsSupportedFormatsHelpScreenEnabled = builder.isSupportedFormatsHelpScreenEnabled();
         mFlashButtonEnabled = builder.isFlashButtonEnabled();
         mBackButtonsEnabled = builder.areBackButtonsEnabled();
+        mIsFlashOnByDefault = builder.isFlashOnByDefault();
     }
 
     /**
@@ -302,6 +304,17 @@ public class GiniVision {
      */
     public boolean areBackButtonsEnabled() {
         return mBackButtonsEnabled;
+    }
+
+    /**
+     * Find out whether the camera flash is on or off by default.
+     *
+     * <p> If not changed, then flash is on by default.
+     *
+     * @return {@code true} if the flash is on by default
+     */
+    public boolean isFlashOnByDefault() {
+        return mIsFlashOnByDefault;
     }
 
     /**
@@ -470,6 +483,7 @@ public class GiniVision {
         private boolean mIsSupportedFormatsHelpScreenEnabled = true;
         private boolean mFlashButtonEnabled;
         private boolean mBackButtonsEnabled = true;
+        private boolean mIsFlashOnByDefault = true;
 
         /**
          * Create a new {@link GiniVision} instance.
@@ -732,6 +746,24 @@ public class GiniVision {
 
         boolean areBackButtonsEnabled() {
             return mBackButtonsEnabled;
+        }
+
+        /**
+         * Set whether the camera flash is on or off by default.
+         *
+         * <p> If not changed, then flash is on by default.
+         *
+         * @param flashOn {@code true} to turn the flash on
+         *
+         * @return the {@link Builder} instance
+         */
+        public Builder setFlashOnByDefault(final boolean flashOn) {
+            mIsFlashOnByDefault = flashOn;
+            return this;
+        }
+
+        boolean isFlashOnByDefault() {
+            return mIsFlashOnByDefault;
         }
     }
 

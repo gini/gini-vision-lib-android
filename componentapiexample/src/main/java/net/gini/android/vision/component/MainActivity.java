@@ -87,14 +87,16 @@ public class MainActivity extends AppCompatActivity {
                 .setGiniVisionNetworkService(
                         app.getGiniVisionNetworkService("ComponentAPI",
                                 mGiniApiType)
-                ).setGiniVisionNetworkApi(app.getGiniVisionNetworkApi())
-                .setFlashButtonEnabled(true);
+                ).setGiniVisionNetworkApi(app.getGiniVisionNetworkApi());
         if (mGiniApiType == GiniApiType.DEFAULT) {
             builder.setDocumentImportEnabledFileTypes(DocumentImportEnabledFileTypes.PDF_AND_IMAGES)
                     .setFileImportEnabled(true)
                     .setQRCodeScanningEnabled(true)
                     .setMultiPageEnabled(true);
         }
+        builder.setFlashButtonEnabled(true);
+        // Uncomment to turn off the camera flash by default
+//        builder.setFlashOnByDefault(false);
         // Uncomment to add an extra page to the Onboarding pages
 //        builder.setCustomOnboardingPages(getOnboardingPages());
         // Uncomment to remove the Supported Formats help screen
