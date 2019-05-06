@@ -2,6 +2,12 @@
 Changelog
 =========
 
+3.11.0 (2019-05-06)
+===================
+
+- Flash can be turned off by default by calling ``.setFlashOnByDefault(false)`` when creating a
+  new ``GiniVision`` instance. Flash is turned on by default.
+
 3.10.0 (2019-04-17)
 ===================
 

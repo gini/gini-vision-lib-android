@@ -48,7 +48,6 @@ uploadArchives {
                             userName: project.hasProperty('repoUser') ? repoUser : "invalidUserName",
                             password: project.hasProperty('repoPassword') ? repoPassword : "invalidPassword"
                     )
-                    uniqueVersion = false
                 }
             }
 
@@ -67,7 +66,6 @@ uploadArchives {
                             userName: project.hasProperty('repoUser') ? repoUser : 'invalidUserName',
                             password: project.hasProperty('repoPassword') ? repoPassword : 'invalidPassword'
                     )
-                    uniqueVersion = false
                 }
             }
         }

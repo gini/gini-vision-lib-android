@@ -1,6 +1,10 @@
 apply plugin: 'com.android.library'
 apply plugin: 'jacoco-android'
 
+jacoco {
+    toolVersion = "0.8.3"
+}
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
@@ -116,8 +120,8 @@ def unifyTestCoverage(coverageFilesPath) {
     tasks.withType(JacocoReport) { task ->
         File execDataDir = file(coverageFilesPath)
         if (execDataDir.exists() && execDataDir.isDirectory() && execDataDir.listFiles().length > 0) {
-            File[] execDataDirContents = execDataDir.listFiles();
-            task.executionData = task.executionData.plus(files { execDataDirContents })
+            File[] execDataDirContents = execDataDir.listFiles()
+            task.executionData.from(files { execDataDirContents })
         }
     }
 }
