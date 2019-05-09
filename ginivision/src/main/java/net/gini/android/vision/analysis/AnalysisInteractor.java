@@ -1,0 +1,159 @@
+package net.gini.android.vision.analysis;
+
+import static net.gini.android.vision.internal.network.NetworkRequestsManager.isCancellation;
+
+import android.app.Application;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
+import net.gini.android.vision.GiniVision;
+import net.gini.android.vision.GiniVisionDebug;
+import net.gini.android.vision.document.GiniVisionDocument;
+import net.gini.android.vision.document.GiniVisionDocumentError;
+import net.gini.android.vision.document.GiniVisionMultiPageDocument;
+import net.gini.android.vision.internal.network.AnalysisNetworkRequestResult;
+import net.gini.android.vision.internal.network.NetworkRequestResult;
+import net.gini.android.vision.internal.network.NetworkRequestsManager;
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import jersey.repackaged.jsr166e.CompletableFuture;
+
+/**
+ * Created by Alpar Szotyori on 09.05.2019.
+ *
+ * Copyright (c) 2019 Gini GmbH.
+ */
+public class AnalysisInteractor {
+
+    private final Application mApp;
+
+    public AnalysisInteractor(@NonNull final Application app) {
+        mApp = app;
+    }
+
+    public CompletableFuture<ResultHolder> analyzeMultiPageDocument(
+            final GiniVisionMultiPageDocument<GiniVisionDocument, GiniVisionDocumentError>
+                    multiPageDocument) {
+        if (GiniVision.hasInstance()) {
+            final NetworkRequestsManager networkRequestsManager = GiniVision.getInstance()
+                    .internal().getNetworkRequestsManager();
+            if (networkRequestsManager != null) {
+                GiniVisionDebug.writeDocumentToFile(mApp, multiPageDocument, "_for_analysis");
+                for (final Object document : multiPageDocument.getDocuments()) {
+                    final GiniVisionDocument giniVisionDocument = (GiniVisionDocument) document;
+                    networkRequestsManager.upload(mApp, giniVisionDocument);
+                }
+                return networkRequestsManager.analyze(multiPageDocument)
+                        .handle(new CompletableFuture.BiFun<AnalysisNetworkRequestResult<
+                                GiniVisionMultiPageDocument>, Throwable, ResultHolder>() {
+                            @Override
+                            public ResultHolder apply(
+                                    final AnalysisNetworkRequestResult<GiniVisionMultiPageDocument>
+                                            requestResult,
+                                    final Throwable throwable) {
+                                if (throwable != null && !isCancellation(throwable)) {
+                                    throw new RuntimeException(throwable);
+                                } else if (requestResult != null) {
+                                    final Map<String, GiniVisionSpecificExtraction> extractions =
+                                            requestResult.getAnalysisResult().getExtractions();
+                                    if (extractions.isEmpty()) {
+                                        return new ResultHolder(Result.SUCCESS_NO_EXTRACTIONS);
+                                    } else {
+                                        return new ResultHolder(Result.SUCCESS_WITH_EXTRACTIONS,
+                                                extractions);
+                                    }
+                                }
+                                return null;
+                            }
+                        });
+            } else {
+                return CompletableFuture.completedFuture(
+                        new ResultHolder(Result.NO_NETWORK_SERVICE));
+            }
+        } else {
+            return CompletableFuture.completedFuture(new ResultHolder(Result.NO_NETWORK_SERVICE));
+        }
+    }
+
+    public CompletableFuture<Void> deleteMultiPageDocument(
+            final GiniVisionMultiPageDocument<GiniVisionDocument, GiniVisionDocumentError> multiPageDocument) {
+        if (GiniVision.hasInstance()) {
+            final NetworkRequestsManager networkRequestsManager = GiniVision.getInstance()
+                    .internal().getNetworkRequestsManager();
+            if (networkRequestsManager != null) {
+                return deleteDocument(multiPageDocument)
+                        .thenCompose(
+                                new CompletableFuture.Fun<Void, CompletableFuture<Void>>() {
+                                    @Override
+                                    public CompletableFuture<Void> apply(
+                                            final Void result) {
+                                        final List<CompletableFuture<NetworkRequestResult<GiniVisionDocument>>>
+                                                futures = new ArrayList<>();
+                                        for (final GiniVisionDocument document : multiPageDocument.getDocuments()) {
+                                            networkRequestsManager.cancel(document);
+                                            futures.add(networkRequestsManager.delete(document));
+                                        }
+                                        return CompletableFuture.allOf(
+                                                futures.toArray(new CompletableFuture[0]));
+                                    }
+                                });
+            }
+        }
+        return CompletableFuture.completedFuture(null);
+    }
+
+    public CompletableFuture<Void> deleteDocument(final GiniVisionDocument document) {
+        if (GiniVision.hasInstance()) {
+            final NetworkRequestsManager networkRequestsManager = GiniVision.getInstance()
+                    .internal().getNetworkRequestsManager();
+            if (networkRequestsManager != null) {
+                networkRequestsManager.cancel(document);
+                return networkRequestsManager.delete(document)
+                        .handle(new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, Void>() {
+                            @Override
+                            public Void apply(
+                                    final NetworkRequestResult<GiniVisionDocument> giniVisionDocumentNetworkRequestResult,
+                                    final Throwable throwable) {
+                                return null;
+                            }
+                        });
+            }
+        }
+        return CompletableFuture.completedFuture(null);
+    }
+
+    public enum Result {
+        SUCCESS_NO_EXTRACTIONS,
+        SUCCESS_WITH_EXTRACTIONS,
+        NO_NETWORK_SERVICE
+    }
+
+    public static final class ResultHolder {
+
+        private final Result mResult;
+        private final Map<String, GiniVisionSpecificExtraction> mExtractions;
+
+        ResultHolder(@NonNull final Result result) {
+            this(result, null);
+        }
+
+        ResultHolder(
+                @NonNull final Result result,
+                @Nullable final Map<String, GiniVisionSpecificExtraction> extractions) {
+            mResult = result;
+            mExtractions = extractions;
+        }
+
+        public Result getResult() {
+            return mResult;
+        }
+
+        public Map<String, GiniVisionSpecificExtraction> getExtractions() {
+            return mExtractions;
+        }
+    }
+}
