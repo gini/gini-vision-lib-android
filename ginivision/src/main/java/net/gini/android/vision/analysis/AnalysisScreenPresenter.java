@@ -1,13 +1,12 @@
 package net.gini.android.vision.analysis;
 
-import static net.gini.android.vision.internal.util.FileImportHelper.showAlertIfOpenWithDocumentAndAppIsDefault;
-
 import android.app.Application;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.view.View;
 
 import net.gini.android.vision.AsyncCallback;
@@ -47,9 +46,9 @@ import jersey.repackaged.jsr166e.CompletableFuture;
  */
 public class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
 
+    @VisibleForTesting
+    static final String PARCELABLE_MEMORY_CACHE_TAG = "ANALYSIS_FRAGMENT";
     private static final Logger LOG = LoggerFactory.getLogger(AnalysisFragmentImpl.class);
-    private static final String PARCELABLE_MEMORY_CACHE_TAG = "ANALYSIS_FRAGMENT";
-
     private static final AnalysisFragmentListener NO_OP_LISTENER = new AnalysisFragmentListener() {
         @Override
         public void onAnalyzeDocument(@NonNull final Document document) {
@@ -74,31 +73,38 @@ public class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
     private final GiniVisionMultiPageDocument<GiniVisionDocument, GiniVisionDocumentError>
             mMultiPageDocument;
     private final String mDocumentAnalysisErrorMessage;
-    private AnalysisFragmentListener mListener;
-    private DocumentRenderer mDocumentRenderer;
-    private boolean mStopped;
-    private boolean mAnalysisCompleted;
     private final AnalysisInteractor mAnalysisInteractor;
     private final List<AnalysisHint> mHints;
+    @VisibleForTesting
+    DocumentRenderer mDocumentRenderer;
+    private AnalysisFragmentListener mListener;
+    private boolean mStopped;
+    private boolean mAnalysisCompleted;
 
     AnalysisScreenPresenter(
             @NonNull final Application app,
             @NonNull final AnalysisScreenContract.View view,
             @NonNull final Document document,
             @Nullable final String documentAnalysisErrorMessage) {
+        this(app, view, document, documentAnalysisErrorMessage,
+                new AnalysisInteractor(app));
+    }
+
+    @VisibleForTesting
+    AnalysisScreenPresenter(
+            @NonNull final Application app,
+            @NonNull final AnalysisScreenContract.View view,
+            @NonNull final Document document,
+            @Nullable final String documentAnalysisErrorMessage,
+            @NonNull final AnalysisInteractor analysisInteractor) {
         super(app, view);
         view.setPresenter(this);
         mMultiPageDocument = asMultiPageDocument(document);
         // Tag the documents to be able to clean up the automatically parcelled data
         tagDocumentsForParcelableMemoryCache(document, mMultiPageDocument);
         mDocumentAnalysisErrorMessage = documentAnalysisErrorMessage;
-        mAnalysisInteractor = new AnalysisInteractor(app);
+        mAnalysisInteractor = analysisInteractor;
         mHints = generateRandomHintsList();
-    }
-
-    @Override
-    void finish() {
-        clearParcelableMemoryCache();
     }
 
     private List<AnalysisHint> generateRandomHintsList() {
@@ -126,6 +132,18 @@ public class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
         } else {
             return (GiniVisionMultiPageDocument) document;
         }
+    }
+
+    @Override
+    void finish() {
+        clearParcelableMemoryCache();
+    }
+
+    @VisibleForTesting
+    void clearParcelableMemoryCache() {
+        // Remove data from the memory cache. The data had been added when the document in the
+        // arguments was automatically parcelled when the activity was stopped
+        ParcelableMemoryCache.getInstance().removeEntriesWithTag(PARCELABLE_MEMORY_CACHE_TAG);
     }
 
     @Override
@@ -171,7 +189,8 @@ public class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
         mListener = listener;
     }
 
-    private void clearSavedImages() {
+    @VisibleForTesting
+    void clearSavedImages() {
         ImageDiskStore.clear(getApp());
     }
 
@@ -197,12 +216,6 @@ public class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
         }
     }
 
-    private void clearParcelableMemoryCache() {
-        // Remove data from the memory cache. The data had been added when the document in the
-        // arguments was automatically parcelled when the activity was stopped
-        ParcelableMemoryCache.getInstance().removeEntriesWithTag(PARCELABLE_MEMORY_CACHE_TAG);
-    }
-
     private void deleteUploadedDocuments() {
         if (mMultiPageDocument.getType() == Document.Type.PDF_MULTI_PAGE) {
             // Delete PDF partial documents here because the Camera Screen
@@ -214,6 +227,121 @@ public class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
         }
     }
 
+    @VisibleForTesting
+    boolean isStopped() {
+        return mStopped;
+    }
+
+    @VisibleForTesting
+    GiniVisionMultiPageDocument<GiniVisionDocument, GiniVisionDocumentError> getMultiPageDocument() {
+        return mMultiPageDocument;
+    }
+
+    @VisibleForTesting
+    List<AnalysisHint> getHints() {
+        return mHints;
+    }
+
+    @VisibleForTesting
+    void createDocumentRenderer() {
+        final GiniVisionDocument documentToRender = getFirstDocument();
+        if (documentToRender != null) {
+            mDocumentRenderer = DocumentRendererFactory.fromDocument(documentToRender);
+        }
+    }
+
+    @Nullable
+    @VisibleForTesting
+    String getPdfFilename(final PdfDocument pdfDocument) {
+        final Uri uri = pdfDocument.getUri();
+        try {
+            return UriHelper.getFilenameFromUri(uri, getApp());
+        } catch (final IllegalStateException e) { // NOPMD
+            // Ignore
+        }
+        return null;
+    }
+
+    @VisibleForTesting
+    void analyzeDocument() {
+        if (MimeType.APPLICATION_PDF.asString().equals(mMultiPageDocument.getMimeType())) {
+            showAlertIfOpenWithDocumentAndAppIsDefault(mMultiPageDocument,
+                    new FileImportHelper.ShowAlertCallback() {
+                        @Override
+                        public void showAlertDialog(@NonNull final String message,
+                                @NonNull final String positiveButtonTitle,
+                                @NonNull final DialogInterface.OnClickListener positiveButtonClickListener,
+                                @Nullable final String negativeButtonTitle,
+                                @Nullable final DialogInterface.OnClickListener negativeButtonClickListener,
+                                @Nullable final DialogInterface.OnCancelListener cancelListener) {
+                            getView().showAlertDialog(message, positiveButtonTitle,
+                                    positiveButtonClickListener, negativeButtonTitle,
+                                    negativeButtonClickListener, cancelListener);
+                        }
+                    })
+                    .handle(new CompletableFuture.BiFun<Void, Throwable, Void>() {
+                        @Override
+                        public Void apply(final Void aVoid, final Throwable throwable) {
+                            if (throwable != null) {
+                                // TODO: finish activity
+                                // TODO: finish activity through an AnalysisFragmentListener method
+                            } else {
+                                showErrorIfAvailableAndAnalyzeDocument();
+                            }
+                            return null;
+                        }
+                    });
+        } else {
+            showErrorIfAvailableAndAnalyzeDocument();
+        }
+    }
+
+    @VisibleForTesting
+    CompletableFuture<Void> showAlertIfOpenWithDocumentAndAppIsDefault(
+            @NonNull final GiniVisionDocument document,
+            @NonNull final FileImportHelper.ShowAlertCallback showAlertCallback) {
+        return FileImportHelper.showAlertIfOpenWithDocumentAndAppIsDefault(getApp(), document,
+                showAlertCallback);
+    }
+
+    @VisibleForTesting
+    void doAnalyzeDocument() {
+        startScanAnimation();
+        mAnalysisInteractor.analyzeMultiPageDocument(mMultiPageDocument)
+                .handle(new CompletableFuture.BiFun<AnalysisInteractor.ResultHolder, Throwable, Void>() {
+                    @Override
+                    public Void apply(final AnalysisInteractor.ResultHolder resultHolder,
+                            final Throwable throwable) {
+                        stopScanAnimation();
+                        if (throwable != null) {
+                            handleAnalysisError();
+                            return null;
+                        }
+                        final AnalysisInteractor.Result result = resultHolder.getResult();
+                        switch (result) {
+                            case SUCCESS_NO_EXTRACTIONS:
+                                mAnalysisCompleted = true;
+                                getAnalysisFragmentListenerOrNoOp()
+                                        .onProceedToNoExtractionsScreen(mMultiPageDocument);
+                                break;
+                            case SUCCESS_WITH_EXTRACTIONS:
+                                mAnalysisCompleted = true;
+                                getAnalysisFragmentListenerOrNoOp()
+                                        .onExtractionsAvailable(resultHolder.getExtractions());
+                                break;
+                            case NO_NETWORK_SERVICE:
+                                getAnalysisFragmentListenerOrNoOp().onAnalyzeDocument(
+                                        getFirstDocument());
+                                break;
+                        }
+                        if (result != AnalysisInteractor.Result.NO_NETWORK_SERVICE) {
+                            clearSavedImages();
+                        }
+                        return null;
+                    }
+                });
+    }
+
     private void loadDocumentData() {
         LOG.debug("Loading document data");
         mMultiPageDocument.loadData(getApp(),
@@ -221,7 +349,7 @@ public class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
                     @Override
                     public void onSuccess(final byte[] result) {
                         LOG.debug("Document data loaded");
-                        if (mStopped) {
+                        if (isStopped()) {
                             return;
                         }
                         getView().waitForViewLayout()
@@ -236,7 +364,7 @@ public class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
                     @Override
                     public void onError(final Exception exception) {
                         LOG.error("Failed to load document data", exception);
-                        if (mStopped) {
+                        if (isStopped()) {
                             return;
                         }
                         getAnalysisFragmentListenerOrNoOp().onError(
@@ -266,13 +394,6 @@ public class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
     private void showHintsForImage() {
         if (getFirstDocument().getType() == Document.Type.IMAGE) {
             getView().showHints(mHints);
-        }
-    }
-
-    private void createDocumentRenderer() {
-        final GiniVisionDocument documentToRender = getFirstDocument();
-        if (documentToRender != null) {
-            mDocumentRenderer = DocumentRendererFactory.fromDocument(documentToRender);
         }
     }
 
@@ -314,17 +435,6 @@ public class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
         }
     }
 
-    @Nullable
-    private String getPdfFilename(final PdfDocument pdfDocument) {
-        final Uri uri = pdfDocument.getUri();
-        try {
-            return UriHelper.getFilenameFromUri(uri, getApp());
-        } catch (final IllegalStateException e) { // NOPMD
-            // Ignore
-        }
-        return null;
-    }
-
     private void showDocument() {
         LOG.debug("Rendering the document");
         mDocumentRenderer.toBitmap(getApp(), getView().getPdfPreviewSize(),
@@ -333,45 +443,12 @@ public class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
                     public void onBitmapReady(@Nullable final Bitmap bitmap,
                             final int rotationForDisplay) {
                         LOG.debug("Document rendered");
-                        if (mStopped) {
+                        if (isStopped()) {
                             return;
                         }
                         getView().showBitmap(bitmap, rotationForDisplay);
                     }
                 });
-    }
-
-    private void analyzeDocument() {
-        if (MimeType.APPLICATION_PDF.asString().equals(mMultiPageDocument.getMimeType())) {
-            showAlertIfOpenWithDocumentAndAppIsDefault(getApp(), mMultiPageDocument,
-                    new FileImportHelper.ShowAlertCallback() {
-                        @Override
-                        public void showAlertDialog(@NonNull final String message,
-                                @NonNull final String positiveButtonTitle,
-                                @NonNull final DialogInterface.OnClickListener positiveButtonClickListener,
-                                @Nullable final String negativeButtonTitle,
-                                @Nullable final DialogInterface.OnClickListener negativeButtonClickListener,
-                                @Nullable final DialogInterface.OnCancelListener cancelListener) {
-                            getView().showAlertDialog(message, positiveButtonTitle,
-                                    positiveButtonClickListener, negativeButtonTitle,
-                                    negativeButtonClickListener, cancelListener);
-                        }
-                    })
-                    .handle(new CompletableFuture.BiFun<Void, Throwable, Void>() {
-                        @Override
-                        public Void apply(final Void aVoid, final Throwable throwable) {
-                            if (throwable != null) {
-                                // TODO: finish activity
-                                // TODO: finish activity through an AnalysisFragmentListener method
-                            } else {
-                                showErrorIfAvailableAndAnalyzeDocument();
-                            }
-                            return null;
-                        }
-                    });
-        } else {
-            showErrorIfAvailableAndAnalyzeDocument();
-        }
     }
 
     private void showErrorIfAvailableAndAnalyzeDocument() {
@@ -388,42 +465,6 @@ public class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
         } else {
             doAnalyzeDocument();
         }
-    }
-
-    private void doAnalyzeDocument() {
-        startScanAnimation();
-        mAnalysisInteractor.analyzeMultiPageDocument(mMultiPageDocument)
-                .handle(new CompletableFuture.BiFun<AnalysisInteractor.ResultHolder, Throwable, Void>() {
-                    @Override
-                    public Void apply(final AnalysisInteractor.ResultHolder resultHolder,
-                            final Throwable throwable) {
-                        stopScanAnimation();
-                        if (throwable != null) {
-                            handleAnalysisError();
-                            return null;
-                        }
-                        final AnalysisInteractor.Result result = resultHolder.getResult();
-                        switch (result) {
-                            case SUCCESS_NO_EXTRACTIONS:
-                                mAnalysisCompleted = true;
-//                                getAnalysisFragmentListenerOrNoOp()
-//                                        .onProceedToNoExtractionsScreen(mMultiPageDocument);
-                                break;
-                            case SUCCESS_WITH_EXTRACTIONS:
-                                mAnalysisCompleted = true;
-//                                getAnalysisFragmentListenerOrNoOp()
-//                                        .onExtractionsAvailable(resultHolder.getExtractions());
-                                break;
-                            case NO_NETWORK_SERVICE:
-                                getAnalysisFragmentListenerOrNoOp().onAnalyzeDocument(getFirstDocument());
-                                break;
-                        }
-                        if (result != AnalysisInteractor.Result.NO_NETWORK_SERVICE) {
-                            clearSavedImages();
-                        }
-                        return null;
-                    }
-                });
     }
 
     private void handleAnalysisError() {
