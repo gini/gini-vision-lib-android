@@ -81,46 +81,46 @@ public class AnalysisInteractor {
 
     public CompletableFuture<Void> deleteMultiPageDocument(
             final GiniVisionMultiPageDocument<GiniVisionDocument, GiniVisionDocumentError> multiPageDocument) {
-        if (GiniVision.hasInstance()) {
-            final NetworkRequestsManager networkRequestsManager = GiniVision.getInstance()
-                    .internal().getNetworkRequestsManager();
-            if (networkRequestsManager != null) {
-                return deleteDocument(multiPageDocument)
-                        .thenCompose(
-                                new CompletableFuture.Fun<Void, CompletableFuture<Void>>() {
-                                    @Override
-                                    public CompletableFuture<Void> apply(
-                                            final Void result) {
-                                        final List<CompletableFuture<NetworkRequestResult<GiniVisionDocument>>>
-                                                futures = new ArrayList<>();
-                                        for (final GiniVisionDocument document : multiPageDocument.getDocuments()) {
-                                            networkRequestsManager.cancel(document);
-                                            futures.add(networkRequestsManager.delete(document));
-                                        }
-                                        return CompletableFuture.allOf(
-                                                futures.toArray(new CompletableFuture[0]));
-                                    }
-                                });
-            }
-        }
-        return CompletableFuture.completedFuture(null);
+        return deleteDocument(multiPageDocument)
+                .handle(new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, Void>() {
+                    @Override
+                    public Void apply(
+                            final NetworkRequestResult<GiniVisionDocument> giniVisionDocumentNetworkRequestResult,
+                            final Throwable throwable) {
+                        return null;
+                    }
+                })
+                .thenCompose(
+                        new CompletableFuture.Fun<Void, CompletableFuture<Void>>() {
+                            @Override
+                            public CompletableFuture<Void> apply(
+                                    final Void result) {
+                                final NetworkRequestsManager networkRequestsManager =
+                                        GiniVision.getInstance()
+                                                .internal().getNetworkRequestsManager();
+                                if (networkRequestsManager == null) {
+                                    return CompletableFuture.completedFuture(null);
+                                }
+                                final List<CompletableFuture<NetworkRequestResult<GiniVisionDocument>>>
+                                        futures = new ArrayList<>();
+                                for (final GiniVisionDocument document : multiPageDocument.getDocuments()) {
+                                    networkRequestsManager.cancel(document);
+                                    futures.add(networkRequestsManager.delete(document));
+                                }
+                                return CompletableFuture.allOf(
+                                        futures.toArray(new CompletableFuture[0]));
+                            }
+                        });
     }
 
-    public CompletableFuture<Void> deleteDocument(final GiniVisionDocument document) {
+    public CompletableFuture<NetworkRequestResult<GiniVisionDocument>> deleteDocument(
+            final GiniVisionDocument document) {
         if (GiniVision.hasInstance()) {
             final NetworkRequestsManager networkRequestsManager = GiniVision.getInstance()
                     .internal().getNetworkRequestsManager();
             if (networkRequestsManager != null) {
                 networkRequestsManager.cancel(document);
-                return networkRequestsManager.delete(document)
-                        .handle(new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, Void>() {
-                            @Override
-                            public Void apply(
-                                    final NetworkRequestResult<GiniVisionDocument> giniVisionDocumentNetworkRequestResult,
-                                    final Throwable throwable) {
-                                return null;
-                            }
-                        });
+                return networkRequestsManager.delete(document);
             }
         }
         return CompletableFuture.completedFuture(null);
