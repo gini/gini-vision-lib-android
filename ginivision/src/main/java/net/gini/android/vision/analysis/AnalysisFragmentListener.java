@@ -55,4 +55,13 @@ public interface AnalysisFragmentListener {
      * @param document contains the reviewed document
      */
     void onProceedToNoExtractionsScreen(@NonNull final Document document);
+
+    /**
+     * Called when the default PDF app alert dialog was cancelled. You should close the
+     * AnalysisFragment because the user decided not to continue with analysis.
+     * <p>
+     * This alert dialog is shown for PDFs imported from another app when your app was set as
+     * default for opening PDFs.
+     */
+    void onDefaultPDFAppAlertDialogCancelled();
 }

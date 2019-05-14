@@ -792,7 +792,7 @@ public class AnalysisScreenPresenterTest {
     }
 
     @Test
-    public void should_notifiyHost_whenAlertDialog_wasCancelled_forOpenWithPdfDocument_ifAppIsDefaultForPdfs()
+    public void should_notifiyListener_whenAlertDialog_wasCancelled_forOpenWithPdfDocument_ifAppIsDefaultForPdfs()
             throws Exception {
         // Given
         final PdfDocument pdfDocument = spy(new PdfDocumentFake());
@@ -817,7 +817,7 @@ public class AnalysisScreenPresenterTest {
         presenter.start();
 
         // Then
-        // TODO: add method to listener and check if it's called
+        verify(listener).onDefaultPDFAppAlertDialogCancelled();
     }
 
     @Test
@@ -971,5 +971,4 @@ public class AnalysisScreenPresenterTest {
         // Then
         verify(mView, never()).showBitmap(bitmap, rotationForDisplay);
     }
-
 }

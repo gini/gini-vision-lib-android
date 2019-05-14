@@ -474,4 +474,9 @@ public class AnalysisActivity extends AppCompatActivity implements
         }
         finish();
     }
+
+    @Override
+    public void onDefaultPDFAppAlertDialogCancelled() {
+        finish();
+    }
 }

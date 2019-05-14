@@ -61,12 +61,14 @@ public class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
         @Override
         public void onExtractionsAvailable(
                 @NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
-
         }
 
         @Override
         public void onProceedToNoExtractionsScreen(@NonNull final Document document) {
+        }
 
+        @Override
+        public void onDefaultPDFAppAlertDialogCancelled() {
         }
     };
 
@@ -283,8 +285,8 @@ public class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
                         @Override
                         public Void apply(final Void aVoid, final Throwable throwable) {
                             if (throwable != null) {
-                                // TODO: finish activity
-                                // TODO: finish activity through an AnalysisFragmentListener method
+                                getAnalysisFragmentListenerOrNoOp()
+                                        .onDefaultPDFAppAlertDialogCancelled();
                             } else {
                                 showErrorIfAvailableAndAnalyzeDocument();
                             }

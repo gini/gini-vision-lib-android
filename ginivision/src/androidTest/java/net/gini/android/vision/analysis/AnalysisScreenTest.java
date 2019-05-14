@@ -430,6 +430,11 @@ public class AnalysisScreenTest {
             public void onProceedToNoExtractionsScreen(@NonNull final Document document) {
 
             }
+
+            @Override
+            public void onDefaultPDFAppAlertDialogCancelled() {
+
+            }
         };
         final Intent intent = new Intent(ApplicationProvider.getApplicationContext(),
                 AnalysisFragmentHostActivityNotListener.class);
