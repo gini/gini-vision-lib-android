@@ -1,6 +1,6 @@
 package net.gini.android.vision;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 /**
  * Created by Alpar Szotyori on 13.05.2019.

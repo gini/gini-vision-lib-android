@@ -1,10 +1,11 @@
 package net.gini.android.vision.document;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.Document;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Alpar Szotyori on 13.05.2019.

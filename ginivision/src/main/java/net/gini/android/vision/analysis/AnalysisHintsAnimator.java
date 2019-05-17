@@ -1,6 +1,6 @@
 package net.gini.android.vision.analysis;
 
-import android.app.Application;
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
@@ -24,11 +24,11 @@ import java.util.List;
  */
 public class AnalysisHintsAnimator {
 
-    private static final int HINT_ANIMATION_DURATION = 500;
     private static final int HINT_START_DELAY = 5000;
+    private static final int HINT_ANIMATION_DURATION = 500;
     private static final int HINT_CYCLE_INTERVAL = 4000;
 
-    private final Application mApp;
+    private final Context mContext;
     private final View mHintContainer;
     private final ImageView mHintImageView;
     private final TextView mHintTextView;
@@ -42,12 +42,12 @@ public class AnalysisHintsAnimator {
     private Runnable mHintCycleRunnable;
 
     public AnalysisHintsAnimator(
-            @NonNull final Application app,
+            @NonNull final Context context,
             @NonNull final View hintContainer,
             @NonNull final ImageView hintImageView,
             @NonNull final TextView hintTextView,
             @NonNull final TextView hintHeadlineTextView) {
-        mApp = app;
+        mContext = context;
         mHintContainer = hintContainer;
         mHintImageView = hintImageView;
         mHintTextView = hintTextView;
@@ -134,7 +134,7 @@ public class AnalysisHintsAnimator {
     private void setNextHint() {
         final AnalysisHint nextHint = getNextHint();
         mHintImageView.setImageDrawable(
-                ContextCompat.getDrawable(mApp, nextHint.getDrawableResource()));
+                ContextCompat.getDrawable(mContext, nextHint.getDrawableResource()));
         mHintTextView.setText(nextHint.getTextResource());
     }
 

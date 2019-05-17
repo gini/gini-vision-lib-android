@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="net.gini.android.vision.test">
+
+    <application
+        android:name="android.support.multidex.MultiDexApplication"
+        android:largeHeap="true"
+        tools:replace="android:appComponentFactory"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory">
+
+        <activity
+            android:name="net.gini.android.vision.analysis.AnalysisFragmentHostActivity"
+            android:theme="@style/GiniVisionTheme" />
+
+    </application>
+
+</manifest>
