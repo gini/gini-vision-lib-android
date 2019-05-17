@@ -205,4 +205,9 @@ public abstract class BaseAnalysisScreenHandler implements AnalysisFragmentListe
     public void onProceedToNoExtractionsScreen(@NonNull final Document document) {
         showNoResultsScreen(document);
     }
+
+    @Override
+    public void onDefaultPDFAppAlertDialogCancelled() {
+        mActivity.finish();
+    }
 }

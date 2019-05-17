@@ -56,6 +56,11 @@ public class AnalysisExampleAppCompatActivity extends AppCompatActivity implemen
     }
 
     @Override
+    public void onDefaultPDFAppAlertDialogCancelled() {
+        mAnalysisScreenHandler.onDefaultPDFAppAlertDialogCancelled();
+    }
+
+    @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_analysis_compat);
