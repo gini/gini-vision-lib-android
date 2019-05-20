@@ -20,7 +20,7 @@ interface OnboardingScreenContract {
     abstract class View extends GiniVisionBaseView<Presenter> implements
             OnboardingFragmentInterface {
 
-        abstract void showPages(@NonNull final List<OnboardingPage> onboardingPages,
+        abstract void showPages(@NonNull final List<OnboardingPage> pages,
                 final boolean showEmptyLastPage);
 
         abstract void scrollToPage(final int pageIndex);
@@ -39,7 +39,7 @@ interface OnboardingScreenContract {
             super(app, view);
         }
 
-        abstract void setCustomOnboardingPages(@NonNull final List<OnboardingPage> onboardingPages);
+        abstract void setCustomPages(@NonNull final List<OnboardingPage> pages);
 
         abstract void enableEmptyLastPage(final boolean isEnabled);
 

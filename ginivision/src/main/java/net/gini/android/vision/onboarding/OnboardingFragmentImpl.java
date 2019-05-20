@@ -59,14 +59,14 @@ class OnboardingFragmentImpl extends OnboardingScreenContract.View {
             final boolean showEmptyLastPage) {
         createPresenter(showEmptyLastPage);
         if (pages != null) {
-            getPresenter().setCustomOnboardingPages(pages);
+            getPresenter().setCustomPages(pages);
         }
     }
 
     @Override
-    void showPages(@NonNull final List<OnboardingPage> onboardingPages,
+    void showPages(@NonNull final List<OnboardingPage> pages,
             final boolean showEmptyLastPage) {
-        setUpViewPager(onboardingPages, showEmptyLastPage);
+        setUpViewPager(pages, showEmptyLastPage);
     }
 
     @Override

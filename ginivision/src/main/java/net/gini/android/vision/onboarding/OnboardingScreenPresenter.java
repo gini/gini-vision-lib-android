@@ -4,11 +4,9 @@ import static net.gini.android.vision.internal.util.ContextHelper.isTablet;
 
 import android.app.Application;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import net.gini.android.vision.GiniVisionError;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -18,8 +16,6 @@ import java.util.List;
  * Copyright (c) 2019 Gini GmbH.
  */
 class OnboardingScreenPresenter extends OnboardingScreenContract.Presenter {
-
-    private static final Logger LOG = LoggerFactory.getLogger(OnboardingScreenPresenter.class);
 
     private static final OnboardingFragmentListener NO_OP_LISTENER =
             new OnboardingFragmentListener() {
@@ -53,8 +49,8 @@ class OnboardingScreenPresenter extends OnboardingScreenContract.Presenter {
     }
 
     @Override
-    void setCustomOnboardingPages(@NonNull final List<OnboardingPage> onboardingPages) {
-        mPages = onboardingPages;
+    void setCustomPages(@NonNull final List<OnboardingPage> pages) {
+        mPages = pages;
         if (mShowEmptyLastPage) {
             addTransparentPage();
         }
@@ -108,7 +104,6 @@ class OnboardingScreenPresenter extends OnboardingScreenContract.Presenter {
     }
 
     private void addTransparentPage() {
-        LOG.info("appended an empty transparent page");
         mPages.add(new OnboardingPage(0, 0, true));
     }
 
@@ -128,5 +123,10 @@ class OnboardingScreenPresenter extends OnboardingScreenContract.Presenter {
     @Override
     public void setListener(@NonNull final OnboardingFragmentListener listener) {
         mListener = listener;
+    }
+
+    @VisibleForTesting
+    List<OnboardingPage> getPages() {
+        return mPages;
     }
 }
