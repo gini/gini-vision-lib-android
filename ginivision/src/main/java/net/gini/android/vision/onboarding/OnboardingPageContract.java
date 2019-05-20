@@ -1,9 +1,9 @@
 package net.gini.android.vision.onboarding;
 
 import android.app.Application;
-import android.graphics.drawable.Drawable;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 
 import net.gini.android.vision.GiniVisionBasePresenter;
 import net.gini.android.vision.GiniVisionBaseView;
@@ -17,9 +17,9 @@ interface OnboardingPageContract {
 
     abstract class View extends GiniVisionBaseView<Presenter> {
 
-        abstract void showImage(@Nullable final Drawable image);
+        abstract void showImage(@DrawableRes final int imageResId, final boolean rotated);
 
-        abstract void showText(@Nullable final String text);
+        abstract void showText(@StringRes final int textResId);
 
         abstract void showTransparentBackground();
     }

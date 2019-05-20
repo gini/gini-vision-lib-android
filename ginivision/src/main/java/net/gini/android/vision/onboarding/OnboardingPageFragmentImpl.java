@@ -1,9 +1,17 @@
 package net.gini.android.vision.onboarding;
 
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +20,7 @@ import android.widget.TextView;
 
 import net.gini.android.vision.R;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
+import net.gini.android.vision.internal.util.ContextHelper;
 
 class OnboardingPageFragmentImpl extends OnboardingPageContract.View {
 
@@ -33,13 +42,57 @@ class OnboardingPageFragmentImpl extends OnboardingPageContract.View {
     }
 
     @Override
-    void showImage(@NonNull final Drawable image) {
-        mImageOnboarding.setImageDrawable(image);
+    void showImage(final int imageResId, final boolean rotated) {
+        mImageOnboarding.setImageDrawable(getImageDrawable(imageResId, rotated));
+    }
+
+    @Nullable
+    private Drawable getImageDrawable(@DrawableRes final int imageResId, final boolean rotated) {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return null;
+        }
+        if (imageResId == 0) {
+            return null;
+        }
+
+        final Drawable drawable = ContextCompat.getDrawable(activity, imageResId);
+        if (!ContextHelper.isPortraitOrientation(activity)
+                && rotated) {
+            final Drawable rotatedDrawable = createRotatedDrawableForLandscape(
+                    imageResId);
+            return rotatedDrawable != null ? rotatedDrawable : drawable;
+        } else {
+            return drawable;
+        }
+    }
+
+    private Drawable createRotatedDrawableForLandscape(@DrawableRes final int imageResId) {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return null;
+        }
+
+        final Bitmap bitmap = BitmapFactory.decodeResource(activity.getResources(),
+                imageResId);
+        if (bitmap == null) {
+            return null;
+        }
+        final Matrix matrix = new Matrix();
+        matrix.postRotate(270f);
+        final Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0,
+                bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        return new BitmapDrawable(activity.getResources(), rotatedBitmap);
     }
 
     @Override
-    void showText(@NonNull final String text) {
-        mTextMessage.setText(text);
+    void showText(final int textResId) {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
+        }
+
+        mTextMessage.setText(activity.getText(textResId).toString());
     }
 
     @Override
