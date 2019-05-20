@@ -19,9 +19,10 @@ import jersey.repackaged.jsr166e.CompletableFuture;
  *
  * Copyright (c) 2019 Gini GmbH.
  */
-public interface AnalysisScreenContract {
+interface AnalysisScreenContract {
 
-    abstract class View extends GiniVisionBaseView<Presenter> {
+    abstract class View extends GiniVisionBaseView<Presenter> implements
+            AnalysisFragmentInterface {
 
         abstract void showScanAnimation();
 

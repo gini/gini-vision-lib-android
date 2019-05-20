@@ -34,8 +34,7 @@ import java.util.List;
 
 import jersey.repackaged.jsr166e.CompletableFuture;
 
-class AnalysisFragmentImpl extends AnalysisScreenContract.View implements
-        AnalysisFragmentInterface {
+class AnalysisFragmentImpl extends AnalysisScreenContract.View {
 
     protected static final Logger LOG = LoggerFactory.getLogger(AnalysisFragmentImpl.class);
 
