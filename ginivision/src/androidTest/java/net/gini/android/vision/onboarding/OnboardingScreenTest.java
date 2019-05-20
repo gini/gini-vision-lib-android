@@ -28,7 +28,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import androidx.test.InstrumentationRegistry;
 import androidx.test.espresso.Espresso;
-import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
@@ -58,74 +57,6 @@ public class OnboardingScreenTest {
     public void tearDown() throws Exception {
         resetDeviceOrientation();
         GiniVision.cleanup(InstrumentationRegistry.getTargetContext());
-    }
-
-    @Test
-    public void should_goToNextPage_whenNextButton_isClicked() {
-        startOnboardingActivity();
-
-        // Check that we are on the first page
-        Espresso.onView(ViewMatchers.withText(getDefaultPageAtIndex(0).getTextResId()))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-
-        Espresso.onView(ViewMatchers.withId(R.id.gv_button_next))
-                .perform(ViewActions.click());
-
-        // Check that we are on the second page
-        Espresso.onView(ViewMatchers.withText(getDefaultPageAtIndex(1).getTextResId()))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-    }
-
-    @Test
-    public void should_goToNextPage_whenSwiped() {
-        startOnboardingActivity();
-
-        // Check that we are on the first page
-        Espresso.onView(ViewMatchers.withText(getDefaultPageAtIndex(0).getTextResId()))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-
-        Espresso.onView(ViewMatchers.withId(R.id.gv_onboarding_viewpager))
-                .perform(ViewActions.swipeLeft());
-
-        // Check that we are on the second page
-        Espresso.onView(ViewMatchers.withText(getDefaultPageAtIndex(1).getTextResId()))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-    }
-
-    @Test
-    public void should_finish_whenNextButton_isClicked_onLastPage() throws InterruptedException {
-        final OnboardingActivity activity = startOnboardingActivity();
-
-        // Go to the last page by clicking the next button
-        final ViewInteraction viewInteraction = Espresso.onView(
-                ViewMatchers.withId(R.id.gv_button_next));
-        final int nrOfPages = getDefaultPages().length;
-        for (int i = 0; i < nrOfPages; i++) {
-            viewInteraction.perform(ViewActions.click());
-        }
-
-        // Give some time for paging animation to finish
-        Thread.sleep(TEST_PAUSE_DURATION);
-
-        assertThat(activity.isFinishing()).isTrue();
-    }
-
-    @Test
-    public void should_finish_whenSwiped_onLastPage() throws InterruptedException {
-        final OnboardingActivity activity = startOnboardingActivity();
-
-        // Go to the last page by swiping
-        final ViewInteraction viewInteraction = Espresso.onView(
-                ViewMatchers.withId(R.id.gv_onboarding_viewpager));
-        final int nrOfPages = getDefaultPages().length;
-        for (int i = 0; i < nrOfPages; i++) {
-            viewInteraction.perform(ViewActions.swipeLeft());
-        }
-
-        // Wait a little for the animation to finish
-        Thread.sleep(TEST_PAUSE_DURATION);
-
-        assertThat(activity.isFinishing()).isTrue();
     }
 
     @Test
@@ -220,19 +151,6 @@ public class OnboardingScreenTest {
     }
 
     @Test
-    public void should_notShowEmptyLastPage_ifRequested() {
-        final OnboardingActivity onboardingActivity = startOnboardingActivity();
-        final OnboardingFragmentCompat onboardingFragment =
-                OnboardingFragmentCompat.createInstanceWithoutEmptyLastPage();
-        onboardingActivity.showFragment(onboardingFragment);
-
-        // ViewPager should contain the default pages and an empty last page
-        Espresso.onView(ViewMatchers.withId(R.id.gv_onboarding_viewpager))
-                .check(ViewAssertions.matches(
-                        EspressoMatchers.hasPageCount(getDefaultPages().length)));
-    }
-
-    @Test
     @SdkSuppress(minSdkVersion = 18)
     public void should_forcePortraitOrientation_onPhones() throws Exception {
         // Given
@@ -249,14 +167,6 @@ public class OnboardingScreenTest {
         final int rotation = onboardingActivity.getWindowManager().getDefaultDisplay().getRotation();
         assertThat(rotation)
                 .isEqualTo(Surface.ROTATION_0);
-    }
-
-    private OnboardingPage getDefaultPageAtIndex(final int index) {
-        if (isTablet()) {
-            return DefaultPagesTablet.values()[index].getPage();
-        } else {
-            return DefaultPagesPhone.values()[index].getPage();
-        }
     }
 
     private Enum[] getDefaultPages() {
