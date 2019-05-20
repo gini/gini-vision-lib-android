@@ -40,13 +40,7 @@ class OnboardingFragmentImpl extends OnboardingScreenContract.View {
 
     public OnboardingFragmentImpl(final OnboardingFragmentImplCallback fragment,
             final boolean showEmptyLastPage) {
-        mFragment = fragment;
-        createPresenter(showEmptyLastPage);
-    }
-
-    private void createPresenter(final boolean showEmptyLastPage) {
-        new OnboardingScreenPresenter(mFragment.getActivity().getApplication(), this);
-        getPresenter().enableEmptyLastPage(showEmptyLastPage);
+        this(fragment, showEmptyLastPage, null);
     }
 
     public OnboardingFragmentImpl(final OnboardingFragmentImplCallback fragment,
@@ -57,10 +51,16 @@ class OnboardingFragmentImpl extends OnboardingScreenContract.View {
 
     private void createPresenter(@Nullable final ArrayList<OnboardingPage> pages,
             final boolean showEmptyLastPage) {
-        createPresenter(showEmptyLastPage);
+        createPresenter();
+        getPresenter().enableEmptyLastPage(showEmptyLastPage);
         if (pages != null) {
             getPresenter().setCustomPages(pages);
         }
+    }
+
+    @VisibleForTesting
+    void createPresenter() {
+        new OnboardingScreenPresenter(mFragment.getActivity().getApplication(), this);
     }
 
     @Override
@@ -116,6 +116,11 @@ class OnboardingFragmentImpl extends OnboardingScreenContract.View {
         mPageIndicators.create();
 
         mViewPager.addOnPageChangeListener(new PageChangeListener(getPresenter()));
+    }
+
+    @VisibleForTesting
+    PageIndicators getPageIndicators() {
+        return mPageIndicators;
     }
 
     @Override
@@ -190,6 +195,8 @@ class OnboardingFragmentImpl extends OnboardingScreenContract.View {
             pageIndicator.setScaleType(ImageView.ScaleType.CENTER);
             pageIndicator.setImageDrawable(mContext.getResources().getDrawable(
                     R.drawable.gv_onboarding_indicator_inactive));
+            pageIndicator.setTag("pageIndicator");
+            pageIndicator.setContentDescription("inactive");
             return pageIndicator;
         }
 
@@ -212,22 +219,19 @@ class OnboardingFragmentImpl extends OnboardingScreenContract.View {
             final ImageView pageIndicator = mPageIndicators.get(page);
             pageIndicator.setImageDrawable(
                     mContext.getResources().getDrawable(R.drawable.gv_onboarding_indicator_active));
+            pageIndicator.setContentDescription("active");
         }
 
         private void deactivatePageIndicators() {
             for (final ImageView pageIndicator : mPageIndicators) {
                 pageIndicator.setImageDrawable(mContext.getResources().getDrawable(
                         R.drawable.gv_onboarding_indicator_inactive));
+                pageIndicator.setContentDescription("inactive");
             }
         }
 
         @VisibleForTesting
-        LinearLayout getLayoutPageIndicators() {
-            return mLayoutPageIndicators;
-        }
-
-        @VisibleForTesting
-        List<ImageView> getPageIndicators() {
+        List<ImageView> getPageIndicatorImageViews() {
             return mPageIndicators;
         }
     }

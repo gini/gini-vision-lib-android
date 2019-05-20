@@ -8,17 +8,17 @@ import net.gini.android.vision.R;
 
 public final class PageIndicatorsHelper {
 
-    public static void isPageActive(OnboardingFragmentImpl.PageIndicators pageIndicators,
-            int pageNr) {
+    public static void isPageActive(final OnboardingFragmentImpl.PageIndicators pageIndicators,
+            final int pageNr) {
         assertAbout(pageIndicatorImageView()).that(
-                pageIndicators.getPageIndicators().get(pageNr)).showsDrawable(
+                pageIndicators.getPageIndicatorImageViews().get(pageNr)).showsDrawable(
                 R.drawable.gv_onboarding_indicator_active);
     }
 
-    public static void isPageInactive(OnboardingFragmentImpl.PageIndicators pageIndicators,
-            int pageNr) {
+    public static void isPageInactive(final OnboardingFragmentImpl.PageIndicators pageIndicators,
+            final int pageNr) {
         assertAbout(pageIndicatorImageView()).that(
-                pageIndicators.getPageIndicators().get(pageNr)).showsDrawable(
+                pageIndicators.getPageIndicatorImageViews().get(pageNr)).showsDrawable(
                 R.drawable.gv_onboarding_indicator_inactive);
     }
 

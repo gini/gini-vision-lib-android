@@ -36,6 +36,7 @@ import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.internal.util.Size;
+import net.gini.android.vision.test.FragmentImplFactory;
 
 import org.junit.After;
 import org.junit.Test;
@@ -122,7 +123,7 @@ public class AnalysisFragmentImplTest {
             @NonNull final AnalysisScreenPresenter presenter,
             @NonNull final AtomicReference<AnalysisFragmentImpl> analysisFragmentImplRef) {
         AnalysisFragmentCompatFake.sFragmentImplFactory =
-                new AnalysisFragmentCompatFake.FragmentImplFactory() {
+                new FragmentImplFactory<AnalysisFragmentImpl, AnalysisFragmentCompat>() {
                     @NonNull
                     @Override
                     public AnalysisFragmentImpl createFragmentImpl(

@@ -1,6 +1,6 @@
 package net.gini.android.vision.analysis;
 
-import android.support.annotation.NonNull;
+import net.gini.android.vision.test.FragmentImplFactory;
 
 /**
  * Created by Alpar Szotyori on 15.05.2019.
@@ -9,7 +9,8 @@ import android.support.annotation.NonNull;
  */
 public class AnalysisFragmentCompatFake extends AnalysisFragmentCompat {
 
-    public static FragmentImplFactory sFragmentImplFactory;
+    public static FragmentImplFactory<AnalysisFragmentImpl, AnalysisFragmentCompat>
+            sFragmentImplFactory;
 
     public AnalysisFragmentCompatFake() {
     }
@@ -17,10 +18,5 @@ public class AnalysisFragmentCompatFake extends AnalysisFragmentCompat {
     @Override
     AnalysisFragmentImpl createFragmentImpl() {
         return sFragmentImplFactory.createFragmentImpl(this);
-    }
-
-    public interface FragmentImplFactory {
-        @NonNull
-        AnalysisFragmentImpl createFragmentImpl(@NonNull final AnalysisFragmentCompat fragment);
     }
 }
