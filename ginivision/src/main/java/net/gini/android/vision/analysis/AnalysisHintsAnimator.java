@@ -86,11 +86,15 @@ public class AnalysisHintsAnimator {
                 .setListener(new ViewPropertyAnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(final View view) {
-                        showHeadlineText();
-                        mHintHeadlineAnimation = getHintHeadlineSlideUpAnimation();
-                        mHintHeadlineAnimation.start();
+                        startShowHeadlineAnimation();
                     }
                 });
+    }
+
+    private void startShowHeadlineAnimation() {
+        showHeadlineText();
+        mHintHeadlineAnimation = getHintHeadlineSlideUpAnimation();
+        mHintHeadlineAnimation.start();
     }
 
     private void showHeadlineText() {
@@ -111,11 +115,15 @@ public class AnalysisHintsAnimator {
                 .setListener(new ViewPropertyAnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(final View view) {
-                        setNextHint();
-                        mHintAnimation = getSlideUpAnimation();
-                        mHintAnimation.start();
+                        startNextHintSlideUpAnimation();
                     }
                 });
+    }
+
+    private void startNextHintSlideUpAnimation() {
+        setNextHint();
+        mHintAnimation = getSlideUpAnimation();
+        mHintAnimation.start();
     }
 
     @NonNull
