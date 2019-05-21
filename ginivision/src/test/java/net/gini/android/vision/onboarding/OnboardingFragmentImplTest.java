@@ -67,7 +67,7 @@ public class OnboardingFragmentImplTest {
         launchHostActivity(presenter, onboardingFragmentImplRef, showEmptyLastPage, null);
 
         // Then
-        verify(presenter).enableEmptyLastPage(showEmptyLastPage);
+        verify(presenter).addEmptyLastPage();
     }
 
     @NonNull

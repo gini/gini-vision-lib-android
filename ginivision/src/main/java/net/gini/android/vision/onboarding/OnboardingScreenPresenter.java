@@ -57,7 +57,7 @@ class OnboardingScreenPresenter extends OnboardingScreenContract.Presenter {
     }
 
     @Override
-    void enableEmptyLastPage(final boolean isEnabled) {
+    void addEmptyLastPage() {
         mShowEmptyLastPage = true;
         if (mPages != null) {
             addTransparentPage();

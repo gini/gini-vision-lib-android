@@ -52,7 +52,9 @@ class OnboardingFragmentImpl extends OnboardingScreenContract.View {
     private void createPresenter(@Nullable final ArrayList<OnboardingPage> pages,
             final boolean showEmptyLastPage) {
         createPresenter();
-        getPresenter().enableEmptyLastPage(showEmptyLastPage);
+        if (showEmptyLastPage) {
+            getPresenter().addEmptyLastPage();
+        }
         if (pages != null) {
             getPresenter().setCustomPages(pages);
         }

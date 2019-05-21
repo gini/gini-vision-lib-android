@@ -75,7 +75,7 @@ public class OnboardingScreenPresenterTest {
         final OnboardingScreenPresenter presenter = createPresenter();
 
         // When
-        presenter.enableEmptyLastPage(true);
+        presenter.addEmptyLastPage();
 
         final List<OnboardingPage> customPages = Lists.newArrayList(
                 new OnboardingPage(R.string.gv_title_camera, R.drawable.gv_camera_trigger),
@@ -95,7 +95,8 @@ public class OnboardingScreenPresenterTest {
     }
 
     @Test
-    public void should_enableEmptyLastPage() throws Exception {
+    public void should_addEmptyLastPage_toCustomPages_ifRequested_afterAddingCustomPages()
+            throws Exception {
         // Given
         final OnboardingScreenPresenter presenter = createPresenter();
 
@@ -106,7 +107,7 @@ public class OnboardingScreenPresenterTest {
         );
         presenter.setCustomPages(customPages);
 
-        presenter.enableEmptyLastPage(true);
+        presenter.addEmptyLastPage();
 
         // Then
         assertThat(presenter.getPages().get(2).getImageResId()).isEqualTo(0);
@@ -174,7 +175,7 @@ public class OnboardingScreenPresenterTest {
     }
 
     @Test
-    public void should_slideOutViews_whenScrolledToTheLastPage_andEmptyLastPage_isEnabled()
+    public void should_slideOutViews_whenScrolledToTheLastPage_withAnEmptyLastPage()
             throws Exception {
         // Given
         final OnboardingScreenPresenter presenter = createPresenter();
@@ -190,7 +191,7 @@ public class OnboardingScreenPresenterTest {
                 new OnboardingPage(R.string.gv_title_review, R.drawable.gv_review_button_rotate)
         );
         presenter.setCustomPages(customPages);
-        presenter.enableEmptyLastPage(true);
+        presenter.addEmptyLastPage();
 
         presenter.onScrolledToPage(2);
 

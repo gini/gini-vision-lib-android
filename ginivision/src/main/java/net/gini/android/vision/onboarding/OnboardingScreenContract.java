@@ -41,7 +41,7 @@ interface OnboardingScreenContract {
 
         abstract void setCustomPages(@NonNull final List<OnboardingPage> pages);
 
-        abstract void enableEmptyLastPage(final boolean isEnabled);
+        abstract void addEmptyLastPage();
 
         abstract void showNextPage();
 
