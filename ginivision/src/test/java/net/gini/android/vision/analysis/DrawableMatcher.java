@@ -27,7 +27,7 @@ public class DrawableMatcher extends TypeSafeMatcher<View> {
 
     @Override
     public void describeTo(final Description description) {
-
+        description.appendText("has drawable " + mDrawable);
     }
 
     @Override
