@@ -33,12 +33,16 @@ class OnboardingPageFragmentImpl extends OnboardingPageContract.View {
     public OnboardingPageFragmentImpl(@NonNull final FragmentImplCallback fragment,
             @NonNull final OnboardingPage page) {
         mFragment = fragment;
-        createPresenter(page);
+        initPresenter(page);
     }
 
-    private void createPresenter(@NonNull final OnboardingPage page) {
-        new OnboardingPagePresenter(mFragment.getActivity().getApplication(), this);
+    private void initPresenter(@NonNull final OnboardingPage page) {
+        createPresenter();
         getPresenter().setPage(page);
+    }
+
+    private void createPresenter() {
+        new OnboardingPagePresenter(mFragment.getActivity().getApplication(), this);
     }
 
     @Override

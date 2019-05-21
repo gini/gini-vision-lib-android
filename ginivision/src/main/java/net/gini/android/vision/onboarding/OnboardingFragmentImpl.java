@@ -46,10 +46,10 @@ class OnboardingFragmentImpl extends OnboardingScreenContract.View {
     public OnboardingFragmentImpl(final OnboardingFragmentImplCallback fragment,
             final boolean showEmptyLastPage, final ArrayList<OnboardingPage> pages) { // NOPMD
         mFragment = fragment;
-        createPresenter(pages, showEmptyLastPage);
+        initPresenter(pages, showEmptyLastPage);
     }
 
-    private void createPresenter(@Nullable final ArrayList<OnboardingPage> pages,
+    private void initPresenter(@Nullable final ArrayList<OnboardingPage> pages,
             final boolean showEmptyLastPage) {
         createPresenter();
         if (showEmptyLastPage) {
