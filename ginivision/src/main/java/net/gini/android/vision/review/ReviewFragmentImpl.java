@@ -7,6 +7,7 @@ import static net.gini.android.vision.internal.util.FileImportHelper.showAlertIf
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -38,6 +39,7 @@ import net.gini.android.vision.internal.camera.photo.PhotoFactoryDocumentAsyncTa
 import net.gini.android.vision.internal.network.NetworkRequestResult;
 import net.gini.android.vision.internal.network.NetworkRequestsManager;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
+import net.gini.android.vision.internal.util.FileImportHelper;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
 import org.slf4j.Logger;
@@ -171,7 +173,24 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     public void onStart() {
         mNextClicked = false;
         mStopped = false;
-        showAlertIfOpenWithDocumentAndAppIsDefault(mFragment.getActivity(), mDocument, mFragment)
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
+        }
+        showAlertIfOpenWithDocumentAndAppIsDefault(activity.getApplication(), mDocument,
+                new FileImportHelper.ShowAlertCallback() {
+                    @Override
+                    public void showAlertDialog(@NonNull final String message,
+                            @NonNull final String positiveButtonTitle,
+                            @NonNull final DialogInterface.OnClickListener positiveButtonClickListener,
+                            @Nullable final String negativeButtonTitle,
+                            @Nullable final DialogInterface.OnClickListener negativeButtonClickListener,
+                            @Nullable final DialogInterface.OnCancelListener cancelListener) {
+                        mFragment.showAlertDialog(message, positiveButtonTitle,
+                                positiveButtonClickListener, negativeButtonTitle,
+                                negativeButtonClickListener, cancelListener);
+                    }
+                })
                 .thenRun(new Runnable() {
                     @Override
                     public void run() {
