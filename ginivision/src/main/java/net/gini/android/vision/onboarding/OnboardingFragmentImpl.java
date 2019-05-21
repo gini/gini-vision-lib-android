@@ -112,9 +112,9 @@ class OnboardingFragmentImpl extends OnboardingScreenContract.View {
             final boolean showEmptyLastPage) {
         mViewPager.setAdapter(mFragment.getViewPagerAdapter(pages));
 
-        final int nrOfPageIndicators = showEmptyLastPage ? pages.size() - 1 : pages.size();
+        final int numberOfPageIndicators = showEmptyLastPage ? pages.size() - 1 : pages.size();
         mPageIndicators = new PageIndicators(mFragment.getActivity(),
-                nrOfPageIndicators, mLayoutPageIndicators);
+                numberOfPageIndicators, mLayoutPageIndicators);
         mPageIndicators.create();
 
         mViewPager.addOnPageChangeListener(new PageChangeListener(getPresenter()));
