@@ -55,6 +55,7 @@ public class OnboardingScreenTest {
 
     @After
     public void tearDown() throws Exception {
+        OnboardingFragmentHostActivityNotListener.sListener = null;
         resetDeviceOrientation();
         GiniVision.cleanup(InstrumentationRegistry.getTargetContext());
     }
@@ -187,15 +188,6 @@ public class OnboardingScreenTest {
     @NonNull
     private Intent getOnboardingActivityIntent() {
         return new Intent(InstrumentationRegistry.getTargetContext(), OnboardingActivity.class);
-    }
-
-    @Test(expected = IllegalStateException.class)
-    public void should_throwException_whenListener_wasNotSet() {
-        final ArrayList<OnboardingPage> pages = new ArrayList<>();
-        pages.add(new OnboardingPage(R.string.gv_onboarding_flat,
-                R.drawable.gv_onboarding_flat));
-        final OnboardingFragmentCompat fragment = OnboardingFragmentCompat.createInstance(pages);
-        fragment.onCreate(null);
     }
 
     @Test
