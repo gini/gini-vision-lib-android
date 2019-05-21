@@ -71,6 +71,7 @@ class OnboardingPageFragmentImpl extends OnboardingPageContract.View {
         }
     }
 
+    @Nullable
     private Drawable createRotatedDrawableForLandscape(@DrawableRes final int imageResId) {
         final Activity activity = mFragment.getActivity();
         if (activity == null) {
