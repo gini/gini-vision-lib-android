@@ -40,7 +40,7 @@ class AnalysisFragmentImpl extends AnalysisScreenContract.View {
 
     private final FragmentImplCallback mFragment;
     private TextView mAnalysisMessageTextView;
-    private ImageView mImageDocument;
+    private ImageView mImageDocumentView;
     private RelativeLayout mLayoutRoot;
     private ProgressBar mProgressActivity;
     private LinearLayout mPdfOverlayLayout;
@@ -165,13 +165,13 @@ class AnalysisFragmentImpl extends AnalysisScreenContract.View {
 
     @Override
     Size getPdfPreviewSize() {
-        return new Size(mImageDocument.getWidth(), mImageDocument.getHeight());
+        return new Size(mImageDocumentView.getWidth(), mImageDocumentView.getHeight());
     }
 
     @Override
     void showBitmap(@Nullable final Bitmap bitmap, final int rotationForDisplay) {
         rotateDocumentImageView(rotationForDisplay);
-        mImageDocument.setImageBitmap(bitmap);
+        mImageDocumentView.setImageBitmap(bitmap);
     }
 
     @Override
@@ -222,11 +222,11 @@ class AnalysisFragmentImpl extends AnalysisScreenContract.View {
         }
 
         final FrameLayout.LayoutParams layoutParams =
-                (FrameLayout.LayoutParams) mImageDocument.getLayoutParams();
+                (FrameLayout.LayoutParams) mImageDocumentView.getLayoutParams();
         layoutParams.width = newWidth;
         layoutParams.height = newHeight;
-        mImageDocument.setLayoutParams(layoutParams);
-        mImageDocument.setRotation(rotationForDisplay);
+        mImageDocumentView.setLayoutParams(layoutParams);
+        mImageDocumentView.setRotation(rotationForDisplay);
     }
 
     public void onCreate(final Bundle savedInstanceState) {
@@ -247,7 +247,7 @@ class AnalysisFragmentImpl extends AnalysisScreenContract.View {
 
     private void bindViews(@NonNull final View view) {
         mLayoutRoot = view.findViewById(R.id.gv_layout_root);
-        mImageDocument = view.findViewById(R.id.gv_image_picture);
+        mImageDocumentView = view.findViewById(R.id.gv_image_picture);
         mProgressActivity = view.findViewById(R.id.gv_progress_activity);
         mAnalysisMessageTextView = view.findViewById(R.id.gv_analysis_message);
         mPdfOverlayLayout = view.findViewById(R.id.gv_pdf_info);
@@ -279,16 +279,6 @@ class AnalysisFragmentImpl extends AnalysisScreenContract.View {
 
     void onStop() {
         mHintsAnimator.stop();
-    }
-
-    @VisibleForTesting
-    ImageView getImageDocument() {
-        return mImageDocument;
-    }
-
-    @VisibleForTesting
-    ProgressBar getProgressActivity() {
-        return mProgressActivity;
     }
 
 }
