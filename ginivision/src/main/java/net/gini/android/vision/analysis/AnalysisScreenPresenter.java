@@ -155,7 +155,11 @@ public class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
 
     @Override
     public void onNoExtractionsFound() {
-
+        // Nothing to do here. We don't need to update the UI or do anything else here.
+        // The client has to decide what to do when there are no extractions
+        // when using the Component API.
+        // For the Screen API there is an implementation of this interface method in the
+        // AnalysisActivity.
     }
 
     @Override
