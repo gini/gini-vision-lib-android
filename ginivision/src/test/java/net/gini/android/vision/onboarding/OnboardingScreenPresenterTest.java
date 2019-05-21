@@ -221,7 +221,7 @@ public class OnboardingScreenPresenterTest {
         presenter.start();
 
         // Then
-        verify(mView).activatePageIndicatorForPage(0);
+        verify(mView).scrollToPage(0);
     }
 
     @Test
