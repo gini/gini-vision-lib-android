@@ -49,7 +49,7 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
 
     @VisibleForTesting
     static final String PARCELABLE_MEMORY_CACHE_TAG = "ANALYSIS_FRAGMENT";
-    private static final Logger LOG = LoggerFactory.getLogger(AnalysisFragmentImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AnalysisScreenPresenter.class);
     private static final AnalysisFragmentListener NO_OP_LISTENER = new AnalysisFragmentListener() {
         @Override
         public void onAnalyzeDocument(@NonNull final Document document) {
