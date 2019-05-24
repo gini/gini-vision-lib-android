@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.internal.cache.DocumentDataMemoryCache;
@@ -81,6 +82,11 @@ public class GiniVision {
             throw new IllegalStateException("Not instantiated.");
         }
         return sInstance;
+    }
+
+    @VisibleForTesting
+    static synchronized void setInstance(@Nullable final GiniVision giniVision) {
+        sInstance = giniVision;
     }
 
     /**

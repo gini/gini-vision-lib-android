@@ -1794,7 +1794,10 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     private void startApplicationDetailsSettings() {
         LOG.debug("Starting Application Details");
         final Activity activity = mFragment.getActivity();
-        ApplicationHelper.startApplicationDetailsSettings(activity);
+        if (activity == null) {
+            return;
+        }
+        ApplicationHelper.startApplicationDetailsSettings(activity.getApplication());
     }
 
     private void initCameraController(final Activity activity) {

@@ -58,7 +58,7 @@ pipeline {
                 }
             }
             steps {
-                sh './gradlew ginivision:test'
+                sh './gradlew ginivision:testDebugUnitTest'
             }
             post {
                 always {

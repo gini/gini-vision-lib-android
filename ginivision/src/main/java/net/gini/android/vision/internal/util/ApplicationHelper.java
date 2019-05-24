@@ -2,14 +2,13 @@ package net.gini.android.vision.internal.util;
 
 import static net.gini.android.vision.internal.util.ContextHelper.getClientApplicationId;
 
-import android.app.Activity;
+import android.app.Application;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
 
@@ -24,25 +23,19 @@ import java.util.ArrayList;
  */
 public final class ApplicationHelper {
 
-    public static void startApplicationDetailsSettings(@Nullable final Activity activity) {
-        if (activity == null) {
-            return;
-        }
+    public static void startApplicationDetailsSettings(@NonNull final Application app) {
         final Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        final Uri uri = Uri.fromParts("package", getClientApplicationId(activity), null);
+        final Uri uri = Uri.fromParts("package", getClientApplicationId(app), null);
         intent.setData(uri);
-        activity.startActivity(intent);
+        app.startActivity(intent);
     }
 
-    public static boolean isDefaultForMimeType(@Nullable final Activity activity,
+    public static boolean isDefaultForMimeType(@NonNull final Application app,
             @NonNull final String mimeType) {
-        if (activity == null) {
-            return false;
-        }
         final ArrayList<ComponentName> components = new ArrayList<>();
         final ArrayList<IntentFilter> filters = new ArrayList<>();
-        final String packageName = ContextHelper.getClientApplicationId(activity);
-        activity.getPackageManager().getPreferredActivities(filters, components, packageName);
+        final String packageName = ContextHelper.getClientApplicationId(app);
+        app.getPackageManager().getPreferredActivities(filters, components, packageName);
         for (final IntentFilter filter : filters) {
             if (filter.hasDataType(mimeType)) {
                 return true;

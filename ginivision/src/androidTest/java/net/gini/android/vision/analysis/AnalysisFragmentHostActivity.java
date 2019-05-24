@@ -43,4 +43,9 @@ public class AnalysisFragmentHostActivity extends
     public void onProceedToNoExtractionsScreen(@NonNull final Document document) {
 
     }
+
+    @Override
+    public void onDefaultPDFAppAlertDialogCancelled() {
+
+    }
 }
