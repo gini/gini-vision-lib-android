@@ -534,9 +534,11 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
                     @Override
                     public void showAlertDialog(@NonNull final String message,
                             @NonNull final String positiveButtonTitle,
-                            @NonNull final DialogInterface.OnClickListener positiveButtonClickListener,
+                            @NonNull final DialogInterface.OnClickListener
+                                    positiveButtonClickListener,
                             @Nullable final String negativeButtonTitle,
-                            @Nullable final DialogInterface.OnClickListener negativeButtonClickListener,
+                            @Nullable final DialogInterface.OnClickListener
+                                    negativeButtonClickListener,
                             @Nullable final DialogInterface.OnCancelListener cancelListener) {
                         MultiPageReviewFragment.this.showAlertDialog(message, positiveButtonTitle,
                                 positiveButtonClickListener,

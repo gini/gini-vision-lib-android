@@ -182,9 +182,11 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                     @Override
                     public void showAlertDialog(@NonNull final String message,
                             @NonNull final String positiveButtonTitle,
-                            @NonNull final DialogInterface.OnClickListener positiveButtonClickListener,
+                            @NonNull final DialogInterface.OnClickListener
+                                    positiveButtonClickListener,
                             @Nullable final String negativeButtonTitle,
-                            @Nullable final DialogInterface.OnClickListener negativeButtonClickListener,
+                            @Nullable final DialogInterface.OnClickListener
+                                    negativeButtonClickListener,
                             @Nullable final DialogInterface.OnCancelListener cancelListener) {
                         mFragment.showAlertDialog(message, positiveButtonTitle,
                                 positiveButtonClickListener, negativeButtonTitle,
