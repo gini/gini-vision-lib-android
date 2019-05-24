@@ -341,6 +341,9 @@ public class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
                                 getAnalysisFragmentListenerOrNoOp().onAnalyzeDocument(
                                         getFirstDocument());
                                 break;
+                            default:
+                                throw new UnsupportedOperationException(
+                                        "Unknown AnalysisInteractor result: " + result);
                         }
                         if (result != AnalysisInteractor.Result.NO_NETWORK_SERVICE) {
                             clearSavedImages();

@@ -49,7 +49,7 @@ class OnboardingFragmentImpl extends OnboardingScreenContract.View {
         initPresenter(pages, showEmptyLastPage);
     }
 
-    private void initPresenter(@Nullable final ArrayList<OnboardingPage> pages,
+    private void initPresenter(@Nullable final ArrayList<OnboardingPage> pages, // NOPMD - Bundle
             final boolean showEmptyLastPage) {
         createPresenter();
         if (showEmptyLastPage) {
@@ -120,11 +120,6 @@ class OnboardingFragmentImpl extends OnboardingScreenContract.View {
         mViewPager.addOnPageChangeListener(new PageChangeListener(getPresenter()));
     }
 
-    @VisibleForTesting
-    PageIndicators getPageIndicators() {
-        return mPageIndicators;
-    }
-
     @Override
     public void setListener(@NonNull final OnboardingFragmentListener listener) {
         getPresenter().setListener(listener);
@@ -152,6 +147,11 @@ class OnboardingFragmentImpl extends OnboardingScreenContract.View {
                 getPresenter().showNextPage();
             }
         });
+    }
+
+    @VisibleForTesting
+    PageIndicators getPageIndicators() {
+        return mPageIndicators;
     }
 
     @VisibleForTesting

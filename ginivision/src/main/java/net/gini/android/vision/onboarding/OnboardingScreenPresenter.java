@@ -88,18 +88,16 @@ class OnboardingScreenPresenter extends OnboardingScreenContract.Presenter {
     void onScrolledToPage(final int pageIndex) {
         mCurrentPageIndex = pageIndex;
         getView().activatePageIndicatorForPage(mCurrentPageIndex);
-        if (isOnLastPage()) {
-            // Only when an empty last page is shown slide out the page indicator and next button
-            // and notify the listener that the onboarding should be closed
-            if (mShowEmptyLastPage) {
-                getView().slideOutViews()
-                        .thenRun(new Runnable() {
-                            @Override
-                            public void run() {
-                                mListener.onCloseOnboarding();
-                            }
-                        });
-            }
+        // Only when an empty last page is shown slide out the page indicator and next button
+        // and notify the listener that the onboarding should be closed
+        if (isOnLastPage() && mShowEmptyLastPage) {
+            getView().slideOutViews()
+                    .thenRun(new Runnable() {
+                        @Override
+                        public void run() {
+                            mListener.onCloseOnboarding();
+                        }
+                    });
         }
     }
 

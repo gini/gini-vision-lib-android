@@ -56,7 +56,7 @@ class AnalysisFragmentImpl extends AnalysisScreenContract.View {
         if (mFragment.getActivity() == null) {
             throw new IllegalStateException("Missing activity for fragment.");
         }
-        createPresenter(document, documentAnalysisErrorMessage);
+        createPresenter(document, documentAnalysisErrorMessage); // NOPMD - overridable for testing
     }
 
     @VisibleForTesting

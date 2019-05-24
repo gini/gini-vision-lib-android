@@ -58,7 +58,7 @@ public class AnalysisInteractor {
                                             requestResult,
                                     final Throwable throwable) {
                                 if (throwable != null && !isCancellation(throwable)) {
-                                    throw new RuntimeException(throwable);
+                                    throw new RuntimeException(throwable); // NOPMD
                                 } else if (requestResult != null) {
                                     final Map<String, GiniVisionSpecificExtraction> extractions =
                                             requestResult.getAnalysisResult().getExtractions();
