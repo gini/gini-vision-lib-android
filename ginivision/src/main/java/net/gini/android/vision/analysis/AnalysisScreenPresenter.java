@@ -44,9 +44,8 @@ import jersey.repackaged.jsr166e.CompletableFuture;
  *
  * Copyright (c) 2019 Gini GmbH.
  *
- * @exclude
  */
-public class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
+class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
 
     @VisibleForTesting
     static final String PARCELABLE_MEMORY_CACHE_TAG = "ANALYSIS_FRAGMENT";

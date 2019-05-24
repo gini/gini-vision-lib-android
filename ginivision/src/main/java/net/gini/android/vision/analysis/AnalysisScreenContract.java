@@ -18,6 +18,7 @@ import jersey.repackaged.jsr166e.CompletableFuture;
  * Created by Alpar Szotyori on 08.05.2019.
  *
  * Copyright (c) 2019 Gini GmbH.
+ *
  */
 interface AnalysisScreenContract {
 

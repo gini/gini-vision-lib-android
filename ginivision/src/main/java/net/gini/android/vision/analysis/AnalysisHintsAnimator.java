@@ -21,8 +21,9 @@ import java.util.List;
  * Created by Alpar Szotyori on 09.05.2019.
  *
  * Copyright (c) 2019 Gini GmbH.
+ *
  */
-public class AnalysisHintsAnimator {
+class AnalysisHintsAnimator {
 
     private static final int HINT_START_DELAY = 5000;
     private static final int HINT_ANIMATION_DURATION = 500;
