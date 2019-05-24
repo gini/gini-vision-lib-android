@@ -107,6 +107,9 @@ public final class FileImportHelper {
         return alertCompletion;
     }
 
+    /**
+     * @exclude
+     */
     public interface ShowAlertCallback {
 
         void showAlertDialog(@NonNull final String message,

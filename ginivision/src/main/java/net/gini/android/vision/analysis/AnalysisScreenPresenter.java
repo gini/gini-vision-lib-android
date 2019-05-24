@@ -43,6 +43,8 @@ import jersey.repackaged.jsr166e.CompletableFuture;
  * Created by Alpar Szotyori on 08.05.2019.
  *
  * Copyright (c) 2019 Gini GmbH.
+ *
+ * @exclude
  */
 public class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
 
@@ -235,7 +237,8 @@ public class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
     }
 
     @VisibleForTesting
-    GiniVisionMultiPageDocument<GiniVisionDocument, GiniVisionDocumentError> getMultiPageDocument() {
+    GiniVisionMultiPageDocument<
+            GiniVisionDocument, GiniVisionDocumentError> getMultiPageDocument() {
         return mMultiPageDocument;
     }
 
@@ -272,9 +275,11 @@ public class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
                         @Override
                         public void showAlertDialog(@NonNull final String message,
                                 @NonNull final String positiveButtonTitle,
-                                @NonNull final DialogInterface.OnClickListener positiveButtonClickListener,
+                                @NonNull final DialogInterface.OnClickListener
+                                        positiveButtonClickListener,
                                 @Nullable final String negativeButtonTitle,
-                                @Nullable final DialogInterface.OnClickListener negativeButtonClickListener,
+                                @Nullable final DialogInterface.OnClickListener
+                                        negativeButtonClickListener,
                                 @Nullable final DialogInterface.OnCancelListener cancelListener) {
                             getView().showAlertDialog(message, positiveButtonTitle,
                                     positiveButtonClickListener, negativeButtonTitle,
@@ -310,7 +315,8 @@ public class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
     void doAnalyzeDocument() {
         startScanAnimation();
         mAnalysisInteractor.analyzeMultiPageDocument(mMultiPageDocument)
-                .handle(new CompletableFuture.BiFun<AnalysisInteractor.ResultHolder, Throwable, Void>() {
+                .handle(new CompletableFuture.BiFun<
+                        AnalysisInteractor.ResultHolder, Throwable, Void>() {
                     @Override
                     public Void apply(final AnalysisInteractor.ResultHolder resultHolder,
                             final Throwable throwable) {
