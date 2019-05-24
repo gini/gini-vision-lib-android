@@ -87,25 +87,25 @@ public class CameraControllerTest {
     }
 
     @Test
-    @Ignore
+    @Ignore("TODO: implement w/o using a camera spy")
     public void should_useContinuousFocusMode_ifAvailable() {
         // TODO: implement w/o using a camera spy
     }
 
     @Test
-    @Ignore
+    @Ignore("TODO: implement w/o using a camera spy")
     public void should_useAutoFocusMode_ifContinuousFocusMode_isNotAvailable() {
         // TODO: implement w/o using a camera spy
     }
 
     @Test
-    @Ignore
+    @Ignore("TODO: implement w/o using a camera spy")
     public void should_doAutoFocusRun_beforeTakingPicture_ifNoContinuousFocusMode() {
         // TODO: implement w/o using a camera spy
     }
 
     @Test
-    @Ignore
+    @Ignore("TODO: implement w/o using a camera spy")
     public void should_notDoAutoFocusRun_beforeTakingPicture_ifUsingContinuousFocusMode() {
         // TODO: implement w/o using a camera spy
     }

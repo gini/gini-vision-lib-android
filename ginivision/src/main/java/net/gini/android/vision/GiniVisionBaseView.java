@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
  *
  * Copyright (c) 2019 Gini GmbH.
  */
+@SuppressWarnings("PMD.AbstractClassWithoutAbstractMethod")
 public abstract class GiniVisionBaseView<P extends GiniVisionBasePresenter> {
 
     private P mPresenter;

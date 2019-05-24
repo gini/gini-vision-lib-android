@@ -8,6 +8,7 @@ import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -21,71 +22,66 @@ import net.gini.android.vision.R;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 import net.gini.android.vision.internal.util.ContextHelper;
 
-class OnboardingPageFragmentImpl {
+class OnboardingPageFragmentImpl extends OnboardingPageContract.View {
 
     private final FragmentImplCallback mFragment;
-    private final OnboardingPage mPage;
 
     private View mBackground;
     private ImageView mImageOnboarding;
     private TextView mTextMessage;
 
-    public OnboardingPageFragmentImpl(@NonNull FragmentImplCallback fragment,
-            @NonNull OnboardingPage page) {
+    public OnboardingPageFragmentImpl(@NonNull final FragmentImplCallback fragment,
+            @NonNull final OnboardingPage page) {
         mFragment = fragment;
-        mPage = page;
+        initPresenter(page);
     }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.gv_fragment_onboarding_page, container, false);
-        bindViews(view);
-        setUpViews();
-        return view;
+    private void initPresenter(@NonNull final OnboardingPage page) {
+        createPresenter();
+        getPresenter().setPage(page);
     }
 
-    private void bindViews(@NonNull View view) {
-        mImageOnboarding = (ImageView) view.findViewById(R.id.gv_image_onboarding);
-        mTextMessage = (TextView) view.findViewById(R.id.gv_text_message);
-        mBackground = view.findViewById(R.id.gv_background);
+    private void createPresenter() {
+        new OnboardingPagePresenter(mFragment.getActivity().getApplication(), this);
     }
 
-    private void setUpViews() {
-        mImageOnboarding.setImageDrawable(getImageDrawable());
-        mTextMessage.setText(getText());
-        setUpBackground();
-    }
-
-    private void setUpBackground() {
-        if (mPage.isTransparent()) {
-            mBackground.setBackgroundColor(Color.TRANSPARENT);
-        }
+    @Override
+    void showImage(final int imageResId, final boolean rotated) {
+        mImageOnboarding.setImageDrawable(getImageDrawable(imageResId, rotated));
     }
 
     @Nullable
-    private Drawable getImageDrawable() {
+    private Drawable getImageDrawable(@DrawableRes final int imageResId, final boolean rotated) {
         final Activity activity = mFragment.getActivity();
         if (activity == null) {
             return null;
         }
-        if (mPage.getImageResId() == 0) {
+        if (imageResId == 0) {
             return null;
         }
-        final Drawable drawable = ContextCompat.getDrawable(activity, mPage.getImageResId());
+
+        final Drawable drawable = ContextCompat.getDrawable(activity, imageResId);
         if (!ContextHelper.isPortraitOrientation(activity)
-                && mPage.shouldRotateImageForLandscape()) {
-            return createRotatedDrawableForLandscape(activity, drawable);
+                && rotated) {
+            final Drawable rotatedDrawable = createRotatedDrawableForLandscape(
+                    imageResId);
+            return rotatedDrawable != null ? rotatedDrawable : drawable;
         } else {
             return drawable;
         }
     }
 
-    private Drawable createRotatedDrawableForLandscape(final Activity activity,
-            final Drawable drawable) {
+    @Nullable
+    private Drawable createRotatedDrawableForLandscape(@DrawableRes final int imageResId) {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return null;
+        }
+
         final Bitmap bitmap = BitmapFactory.decodeResource(activity.getResources(),
-                mPage.getImageResId());
+                imageResId);
         if (bitmap == null) {
-            return drawable;
+            return null;
         }
         final Matrix matrix = new Matrix();
         matrix.postRotate(270f);
@@ -94,15 +90,34 @@ class OnboardingPageFragmentImpl {
         return new BitmapDrawable(activity.getResources(), rotatedBitmap);
     }
 
-    @Nullable
-    private CharSequence getText() {
-        if (mFragment.getActivity() == null) {
-            return null;
+    @Override
+    void showText(final int textResId) {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return;
         }
-        if (mPage.getTextResId() == 0) {
-            return null;
-        }
-        return mFragment.getActivity().getText(mPage.getTextResId());
+
+        mTextMessage.setText(activity.getText(textResId).toString());
     }
+
+    @Override
+    void showTransparentBackground() {
+        mBackground.setBackgroundColor(Color.TRANSPARENT);
+    }
+
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+            final Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.gv_fragment_onboarding_page, container, false);
+        bindViews(view);
+        getPresenter().start();
+        return view;
+    }
+
+    private void bindViews(@NonNull final View view) {
+        mImageOnboarding = (ImageView) view.findViewById(R.id.gv_image_onboarding);
+        mTextMessage = (TextView) view.findViewById(R.id.gv_text_message);
+        mBackground = view.findViewById(R.id.gv_background);
+    }
+
 
 }

@@ -21,9 +21,7 @@ public class GiniVisionRequirementsTest {
 
     private static final String LOG_TAG = "RequirementsReport";
 
-    // Intended to gather requirement reports from devices.
-    // This test should be ignored normally.
-    @Ignore
+    @Ignore("Intended to gather requirement reports from devices.")
     @Test
     public void should_fulfillRequirements() throws InterruptedException {
         grantCameraPermission();

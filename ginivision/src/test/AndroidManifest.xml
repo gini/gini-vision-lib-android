@@ -12,6 +12,9 @@
         <activity
             android:name="net.gini.android.vision.analysis.AnalysisFragmentHostActivity"
             android:theme="@style/GiniVisionTheme" />
+        <activity
+            android:name="net.gini.android.vision.onboarding.OnboardingFragmentHostActivity"
+            android:theme="@style/GiniVisionTheme" />
 
     </application>
 

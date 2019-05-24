@@ -26,6 +26,8 @@ import jersey.repackaged.jsr166e.CompletableFuture;
  * Created by Alpar Szotyori on 09.05.2019.
  *
  * Copyright (c) 2019 Gini GmbH.
+ *
+ * @exclude
  */
 public class AnalysisInteractor {
 
@@ -56,7 +58,7 @@ public class AnalysisInteractor {
                                             requestResult,
                                     final Throwable throwable) {
                                 if (throwable != null && !isCancellation(throwable)) {
-                                    throw new RuntimeException(throwable);
+                                    throw new RuntimeException(throwable); // NOPMD
                                 } else if (requestResult != null) {
                                     final Map<String, GiniVisionSpecificExtraction> extractions =
                                             requestResult.getAnalysisResult().getExtractions();
@@ -80,12 +82,15 @@ public class AnalysisInteractor {
     }
 
     public CompletableFuture<Void> deleteMultiPageDocument(
-            final GiniVisionMultiPageDocument<GiniVisionDocument, GiniVisionDocumentError> multiPageDocument) {
+            final GiniVisionMultiPageDocument<GiniVisionDocument, GiniVisionDocumentError>
+                    multiPageDocument) {
         return deleteDocument(multiPageDocument)
-                .handle(new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>, Throwable, Void>() {
+                .handle(new CompletableFuture.BiFun<NetworkRequestResult<GiniVisionDocument>,
+                        Throwable, Void>() {
                     @Override
                     public Void apply(
-                            final NetworkRequestResult<GiniVisionDocument> giniVisionDocumentNetworkRequestResult,
+                            final NetworkRequestResult<GiniVisionDocument>
+                                    giniVisionDocumentNetworkRequestResult,
                             final Throwable throwable) {
                         return null;
                     }
@@ -101,9 +106,10 @@ public class AnalysisInteractor {
                                 if (networkRequestsManager == null) {
                                     return CompletableFuture.completedFuture(null);
                                 }
-                                final List<CompletableFuture<NetworkRequestResult<GiniVisionDocument>>>
-                                        futures = new ArrayList<>();
-                                for (final GiniVisionDocument document : multiPageDocument.getDocuments()) {
+                                final List<CompletableFuture<NetworkRequestResult<
+                                        GiniVisionDocument>>> futures = new ArrayList<>();
+                                for (final GiniVisionDocument document
+                                        : multiPageDocument.getDocuments()) {
                                     networkRequestsManager.cancel(document);
                                     futures.add(networkRequestsManager.delete(document));
                                 }
@@ -126,12 +132,18 @@ public class AnalysisInteractor {
         return CompletableFuture.completedFuture(null);
     }
 
+    /**
+     * @exclude
+     */
     public enum Result {
         SUCCESS_NO_EXTRACTIONS,
         SUCCESS_WITH_EXTRACTIONS,
         NO_NETWORK_SERVICE
     }
 
+    /**
+     * @exclude
+     */
     public static final class ResultHolder {
 
         private final Result mResult;
