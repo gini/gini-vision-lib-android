@@ -538,7 +538,8 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
                             @Nullable final String negativeButtonTitle,
                             @Nullable final DialogInterface.OnClickListener negativeButtonClickListener,
                             @Nullable final DialogInterface.OnCancelListener cancelListener) {
-                        showAlertDialog(message, positiveButtonTitle, positiveButtonClickListener,
+                        MultiPageReviewFragment.this.showAlertDialog(message, positiveButtonTitle,
+                                positiveButtonClickListener,
                                 negativeButtonTitle, negativeButtonClickListener, cancelListener);
                     }
                 })
