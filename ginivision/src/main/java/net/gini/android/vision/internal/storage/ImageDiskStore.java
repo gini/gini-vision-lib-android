@@ -31,6 +31,8 @@ public class ImageDiskStore {
 
     private static final Logger LOG = LoggerFactory.getLogger(ImageDiskStore.class);
 
+    private static final String STORE_DIR = "gv-images";
+
     @Nullable
     public Uri save(@NonNull final Context context, @NonNull final byte[] bytes) {
         final Uri uri = generateUri(context, null);
@@ -83,7 +85,7 @@ public class ImageDiskStore {
     private Uri generateUri(@NonNull final Context context, @Nullable final String extension) {
         final String filename =
                 System.currentTimeMillis() + (extension != null ? "." + extension : "");
-        final String storePath = getStorePath(context);
+        final String storePath = getStoreDir(context).getAbsolutePath();
         return new Uri.Builder().scheme("file").path(storePath).appendPath(filename).build();
     }
 
@@ -92,6 +94,7 @@ public class ImageDiskStore {
         final File file = new File(uri.getPath());
         if (!file.exists()) {
             try {
+                //noinspection ResultOfMethodCallIgnored
                 file.createNewFile();
             } catch (final IOException e) {
                 LOG.error("Failed to create file", e);
@@ -160,8 +163,7 @@ public class ImageDiskStore {
     }
 
     public static void clear(@NonNull final Context context) {
-        final String storePath = getStorePath(context);
-        final File storeDir = new File(storePath);
+        final File storeDir = getStoreDir(context);
         if (!storeDir.isDirectory()) {
             return;
         }
@@ -172,11 +174,22 @@ public class ImageDiskStore {
                 file.delete();
             }
         }
+        //noinspection ResultOfMethodCallIgnored
+        storeDir.delete();
     }
 
     @NonNull
-    private static String getStorePath(@NonNull final Context context) {
-        return context.getFilesDir().getAbsolutePath();
+    private static File getStoreDir(@NonNull final Context context) {
+        final File storeDir = new File(context.getFilesDir(), STORE_DIR);
+        if (!storeDir.exists()) {
+            try {
+                //noinspection ResultOfMethodCallIgnored
+                storeDir.mkdir();
+            } catch (final SecurityException e) {
+                LOG.error("Failed to create store folder", e);
+            }
+        }
+        return storeDir;
     }
 
 }
