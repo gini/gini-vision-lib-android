@@ -296,8 +296,8 @@ public class AnalysisScreenPresenterTest {
     public void should_clearImagesFromDisk_onDocumentAnalyzed() throws Exception {
         // Given
         final AnalysisScreenPresenter presenter = spy(createPresenterWithEmptyImageDocument());
-        final File filesDir = mock(File.class);
-        when(filesDir.getAbsolutePath()).thenReturn("");
+        final File filesDir = spy(new File("file:///gv-images/12343.jpg"));
+        when(filesDir.exists()).thenReturn(true);
         when(mApp.getFilesDir()).thenReturn(filesDir);
 
         // When
