@@ -216,8 +216,6 @@ public class AnalysisScreenPresenterTest {
         final int nrOfComparisons = presenters.size() - 1;
         final int nrOfPairwiseComparisons = (int) ((nrOfComparisons / 2.0) * (nrOfComparisons + 1));
         final int samePositionCountIfSameOrder = nrOfPairwiseComparisons * hints1.size();
-        System.out.println(samePositionCountIfSameOrder);
-        System.out.println(countSamePosition);
         assertThat(countSamePosition).isLessThan(samePositionCountIfSameOrder);
     }
 
