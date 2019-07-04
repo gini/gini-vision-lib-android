@@ -52,8 +52,8 @@ ext {
 
 def supportLibVersion = '28.0.0'
 def mockitoVersion = '2.24.5'
-def androidxTestVersion = '1.1.0'
-def espressoVersion = '3.1.0'
+def androidxTestVersion = '1.2.0-beta01'
+def espressoVersion = '3.2.0-beta01'
 
 ext.deps = [
         // Android
@@ -76,13 +76,15 @@ ext.deps = [
         truth                      : 'com.google.truth:truth:0.28',
         mockito                    : "org.mockito:mockito-core:$mockitoVersion",
         mockitoAndroid             : "org.mockito:mockito-android:$mockitoVersion",
-        androidxTestJUnit          : 'androidx.test.ext:junit:1.1.0',
+        androidxTestCore           : "androidx.test:core:$androidxTestVersion",
+        androidxTestJUnit          : 'androidx.test.ext:junit:1.1.1-beta01',
         androidxTestRunner         : "androidx.test:runner:$androidxTestVersion",
         androidxTestRules          : "androidx.test:rules:$androidxTestVersion",
         androidxTestOrchestrator   : "androidx.test:orchestrator:$androidxTestVersion",
         androidxTestEspressoCore   : "androidx.test.espresso:espresso-core:$espressoVersion",
         androidxTestEspressoIntents: "androidx.test.espresso:espresso-intents:$espressoVersion",
         androidxTestUiAutomator    : 'androidx.test.uiautomator:uiautomator:2.2.0',
-        androidxMultidex           : 'androidx.multidex:multidex:2.0.1'
+        androidxMultidex           : 'androidx.multidex:multidex:2.0.1',
+        robolectric                : 'org.robolectric:robolectric:4.3-beta-1'
 
 ]

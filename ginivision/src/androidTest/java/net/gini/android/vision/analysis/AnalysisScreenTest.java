@@ -12,20 +12,15 @@ import static net.gini.android.vision.test.Helpers.waitForWindowUpdate;
 
 import static org.junit.Assume.assumeTrue;
 
-import android.app.Instrumentation;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.Surface;
-import android.view.View;
-import android.widget.ProgressBar;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
-import net.gini.android.vision.R;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.internal.camera.photo.PhotoFactory;
-import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.review.ReviewActivity;
 
@@ -43,7 +38,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
-import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.filters.SdkSuppress;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -102,71 +96,6 @@ public class AnalysisScreenTest {
     }
 
     @Test
-    public void should_rotatePreview_accordingToOrientation() throws InterruptedException {
-        final AnalysisActivityTestSpy activity = startAnalysisActivity(TEST_JPEG, 180);
-
-        // Allow the activity to run a little for listeners to be invoked
-        Thread.sleep(TEST_PAUSE_DURATION);
-
-        assertThat(
-                activity.getFragment().getFragmentImpl().getImageDocument().getRotation()).isWithin(
-                0.0f).of(180);
-    }
-
-    @Test
-    public void should_startIndeterminateProgressAnimation_ifRequested()
-            throws InterruptedException {
-        final AnalysisActivityTestSpy activity = startAnalysisActivity(TEST_JPEG, 0);
-
-        final Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
-
-        instrumentation.runOnMainSync(new Runnable() {
-            @Override
-            public void run() {
-                activity.startScanAnimation();
-            }
-        });
-
-        // Wait a little for the animation to start
-        Thread.sleep(TEST_PAUSE_DURATION);
-
-        final ProgressBar progressBar =
-                activity.getFragment().getFragmentImpl().getProgressActivity();
-        assertThat(progressBar.isIndeterminate()).isTrue();
-        assertThat(progressBar.getVisibility()).isEqualTo(View.VISIBLE);
-    }
-
-    @Test
-    public void should_stopIndeterminateProgressAnimation_ifRequested()
-            throws InterruptedException {
-        final AnalysisActivityTestSpy activity = startAnalysisActivity(TEST_JPEG, 0);
-
-        final Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
-
-        instrumentation.runOnMainSync(new Runnable() {
-            @Override
-            public void run() {
-                activity.startScanAnimation();
-            }
-        });
-
-        // Wait a little for the animation to start
-        Thread.sleep(TEST_PAUSE_DURATION);
-
-        instrumentation.runOnMainSync(new Runnable() {
-            @Override
-            public void run() {
-                activity.stopScanAnimation();
-            }
-        });
-
-        final ProgressBar progressBar =
-                activity.getFragment().getFragmentImpl().getProgressActivity();
-        assertThat(progressBar.isIndeterminate()).isTrue();
-        assertThat(progressBar.getVisibility()).isEqualTo(View.GONE);
-    }
-
-    @Test
     public void should_invokeAddDataToResult_andFinish_whenDocumentAnalyzed_hasBeenCalled()
             throws InterruptedException {
         final AnalysisActivityTestSpy activity = startAnalysisActivity(TEST_JPEG, 0);
@@ -194,83 +123,6 @@ public class AnalysisScreenTest {
 
         assertThat(activity.addDataToResultIntent).isNull();
         assertThat(activity.finishWasCalled).isTrue();
-    }
-
-    @Test
-    public void should_showErrorSnackbar_withButton_andClickListener_whenRequested()
-            throws InterruptedException {
-        final AnalysisActivityTestSpy activity = startAnalysisActivity(TEST_JPEG, 0);
-
-        final AtomicBoolean buttonClicked = new AtomicBoolean();
-
-        InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
-            @Override
-            public void run() {
-                activity.showError("Test message", "Test button", new View.OnClickListener() {
-                    @Override
-                    public void onClick(final View v) {
-                        buttonClicked.set(true);
-                    }
-                });
-            }
-        });
-
-        // Wait a little for the snackbar to be shown
-        Thread.sleep(TEST_PAUSE_DURATION);
-
-        Espresso.onView(ViewMatchers.withText("Test message"))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-        Espresso.onView(ViewMatchers.withText("Test button"))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-                .perform(ViewActions.click());
-
-        assertThat(buttonClicked.get()).isTrue();
-    }
-
-    @Test
-    public void should_showErrorSnackbar_withoutButton_whenRequested() throws InterruptedException {
-        final AnalysisActivityTestSpy activity = startAnalysisActivity(TEST_JPEG, 0);
-
-        InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
-            @Override
-            public void run() {
-                activity.showError("Test message", ErrorSnackbar.LENGTH_LONG);
-            }
-        });
-
-        // Wait a little for the snackbar to be shown
-        Thread.sleep(TEST_PAUSE_DURATION);
-
-        Espresso.onView(ViewMatchers.withText("Test message"))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-    }
-
-    @Test
-    public void should_hideErrorSnackbar_whenRequested() throws InterruptedException {
-        final AnalysisActivityTestSpy activity = startAnalysisActivity(TEST_JPEG, 0);
-
-        InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
-            @Override
-            public void run() {
-                activity.showError("Test message", ErrorSnackbar.LENGTH_LONG);
-            }
-        });
-
-        // Wait a little for the snackbar to be shown
-        Thread.sleep(TEST_PAUSE_DURATION);
-
-        InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
-            @Override
-            public void run() {
-                activity.hideError();
-            }
-        });
-
-        // Wait a little for the snackbar to be hidden
-        Thread.sleep(TEST_PAUSE_DURATION);
-
-        Espresso.onView(ViewMatchers.withText("Test message"))
-                .check(ViewAssertions.doesNotExist());
     }
 
     @Test
@@ -305,57 +157,6 @@ public class AnalysisScreenTest {
         InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 
         assertThat(activity.addDataToResultIntent).isNull();
-    }
-
-    @Test
-    public void should_showErrorMessage_whenAnalysisErrorMessage_wasGiven()
-            throws InterruptedException {
-        final Intent intent = getAnalysisActivityIntentWithDocument(TEST_JPEG, 0);
-        intent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE,
-                "Something happened");
-        mActivityTestRule.launchActivity(intent);
-
-        // Allow the activity to run a little for the error message to be shown
-        Thread.sleep(TEST_PAUSE_DURATION);
-
-        Espresso.onView(ViewMatchers.withText("Something happened"))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-    }
-
-    @Test
-    public void should_notInvokeAnalyzeDocument_whenAnalysisErrorMessage_wasGiven()
-            throws InterruptedException {
-        final Intent intent = getAnalysisActivityIntentWithDocument(TEST_JPEG, 0);
-        intent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE,
-                "Something happened");
-        final AnalysisActivityTestSpy activity = mActivityTestRule.launchActivity(intent);
-
-        // Allow the activity to run a little for the error message to be shown
-        Thread.sleep(TEST_PAUSE_DURATION);
-
-        assertThat(activity.analyzeDocument).isNull();
-    }
-
-    @Test
-    public void should_invokeAnalyzeDocument_whenAnalysisErrorRetryButton_wasClicked()
-            throws InterruptedException {
-        final Intent intent = getAnalysisActivityIntentWithDocument(TEST_JPEG, 0);
-        intent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE,
-                "Something happened");
-        final AnalysisActivityTestSpy activity = mActivityTestRule.launchActivity(intent);
-
-        // Allow the activity to run a little for the error message to be shown
-        Thread.sleep(TEST_PAUSE_DURATION);
-
-        Espresso.onView(ViewMatchers.withId(R.id.gv_button_error))
-                .perform(ViewActions.click());
-
-        assertThat(activity.analyzeDocument).isNotNull();
-
-        assertAbout(document()).that(activity.analyzeDocument)
-                .isEqualToDocument(DocumentFactory.newImageDocumentFromPhoto(
-                        PhotoFactory.newPhotoFromJpeg(TEST_JPEG, 0, "portrait", "phone",
-                                ImageDocument.Source.newCameraSource())));
     }
 
     @Test
@@ -428,6 +229,11 @@ public class AnalysisScreenTest {
 
             @Override
             public void onProceedToNoExtractionsScreen(@NonNull final Document document) {
+
+            }
+
+            @Override
+            public void onDefaultPDFAppAlertDialogCancelled() {
 
             }
         };

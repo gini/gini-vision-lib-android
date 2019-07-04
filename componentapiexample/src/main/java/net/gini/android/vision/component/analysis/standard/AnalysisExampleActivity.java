@@ -56,6 +56,11 @@ public class AnalysisExampleActivity extends Activity implements
     }
 
     @Override
+    public void onDefaultPDFAppAlertDialogCancelled() {
+        mAnalysisScreenHandler.onDefaultPDFAppAlertDialogCancelled();
+    }
+
+    @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_analysis);

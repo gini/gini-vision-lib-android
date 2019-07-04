@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * A document containing an image.
  */
-public final class ImageDocument extends GiniVisionDocument {
+public class ImageDocument extends GiniVisionDocument {
 
     /**
      * Supported image formats.

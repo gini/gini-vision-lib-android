@@ -150,6 +150,7 @@ public class GiniVisionMultiPageDocument<T extends GiniVisionDocument,
 
                 @Override
                 public void onError(final Exception exception) {
+                    callback.onError(exception);
                     loadImageDocuments(currentIndex + 1, context, callback);
                 }
 

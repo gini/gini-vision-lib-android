@@ -42,6 +42,7 @@ import net.gini.android.vision.internal.network.NetworkRequestResult;
 import net.gini.android.vision.internal.network.NetworkRequestsManager;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 import net.gini.android.vision.internal.util.AlertDialogHelperCompat;
+import net.gini.android.vision.internal.util.FileImportHelper;
 import net.gini.android.vision.review.multipage.previews.PreviewFragment;
 import net.gini.android.vision.review.multipage.previews.PreviewFragmentListener;
 import net.gini.android.vision.review.multipage.previews.PreviewsAdapter;
@@ -519,12 +520,31 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     @Override
     public void onStart() {
         super.onStart();
+        final Activity activity = getActivity();
+        if (activity == null) {
+            return;
+        }
         initMultiPageDocument();
         mNextClicked = false;
         if (!mPreviewsShown) {
             observeViewTree();
         }
-        showAlertIfOpenWithDocumentAndAppIsDefault(getActivity(), mMultiPageDocument, this)
+        showAlertIfOpenWithDocumentAndAppIsDefault(activity.getApplication(),
+                mMultiPageDocument, new FileImportHelper.ShowAlertCallback() {
+                    @Override
+                    public void showAlertDialog(@NonNull final String message,
+                            @NonNull final String positiveButtonTitle,
+                            @NonNull final DialogInterface.OnClickListener
+                                    positiveButtonClickListener,
+                            @Nullable final String negativeButtonTitle,
+                            @Nullable final DialogInterface.OnClickListener
+                                    negativeButtonClickListener,
+                            @Nullable final DialogInterface.OnCancelListener cancelListener) {
+                        MultiPageReviewFragment.this.showAlertDialog(message, positiveButtonTitle,
+                                positiveButtonClickListener,
+                                negativeButtonTitle, negativeButtonClickListener, cancelListener);
+                    }
+                })
                 .thenRun(new Runnable() {
                     @Override
                     public void run() {

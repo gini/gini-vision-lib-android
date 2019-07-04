@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Parcel;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import net.gini.android.vision.internal.util.MimeType;
 import net.gini.android.vision.util.IntentHelper;
@@ -15,7 +16,7 @@ import net.gini.android.vision.util.IntentHelper;
  * </p>
  *
  */
-public final class PdfDocument extends GiniVisionDocument {
+public class PdfDocument extends GiniVisionDocument {
 
     /**
      * Creates an instance using the resource pointed to by the Intent's Uri.
@@ -39,7 +40,8 @@ public final class PdfDocument extends GiniVisionDocument {
      * @param intent an Intent that must point to a PDF
      * @throws IllegalArgumentException if the Intent's data is null
      */
-    private PdfDocument(@NonNull final Intent intent, @NonNull final Uri uri,
+    @VisibleForTesting
+    PdfDocument(@NonNull final Intent intent, @NonNull final Uri uri,
             @NonNull final Source source, @NonNull final ImportMethod importMethod) {
         super(Type.PDF, source, importMethod, MimeType.APPLICATION_PDF.asString(), null, intent,
                 uri, false);

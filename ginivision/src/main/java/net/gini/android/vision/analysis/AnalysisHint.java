@@ -33,7 +33,7 @@ enum AnalysisHint {
     }
 
     static List<AnalysisHint> getArray() {
-        List<AnalysisHint> arrayList = new ArrayList<>(values().length);
+        final List<AnalysisHint> arrayList = new ArrayList<>(values().length);
         Collections.addAll(arrayList, values());
         return arrayList;
     }

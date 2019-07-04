@@ -21,7 +21,7 @@ public class PageIndicatorsTest {
     public void should_createPageIndicatorImageViews() {
         final OnboardingFragmentImpl.PageIndicators pageIndicators = createPageIndicatorsInstance(2);
 
-        assertThat(pageIndicators.getPageIndicators().size()).isEqualTo(2);
+        assertThat(pageIndicators.getPageIndicatorImageViews().size()).isEqualTo(2);
     }
 
     @Test

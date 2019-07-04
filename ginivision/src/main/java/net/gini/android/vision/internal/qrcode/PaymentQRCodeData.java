@@ -224,6 +224,9 @@ public class PaymentQRCodeData implements Parcelable {
         }
     };
 
+    /**
+     * Supported QR Code formats.
+     */
     public enum Format {
         /**
          * BezahlCode QR Code format. You can view the specification <a

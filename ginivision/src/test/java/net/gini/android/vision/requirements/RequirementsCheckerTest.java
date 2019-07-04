@@ -2,13 +2,13 @@ package net.gini.android.vision.requirements;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import android.support.annotation.NonNull;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import java.util.Arrays;
+
+import androidx.annotation.NonNull;
 
 @RunWith(JUnit4.class)
 public class RequirementsCheckerTest {

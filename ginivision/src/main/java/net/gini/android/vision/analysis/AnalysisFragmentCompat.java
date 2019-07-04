@@ -82,9 +82,16 @@ public class AnalysisFragmentCompat extends Fragment implements FragmentImplCall
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mFragmentImpl = AnalysisFragmentHelper.createFragmentImpl(this, getArguments());
-        AnalysisFragmentHelper.setListener(mFragmentImpl, getActivity(), mListener);
+        mFragmentImpl = createFragmentImpl();
         mFragmentImpl.onCreate(savedInstanceState);
+    }
+
+    @VisibleForTesting
+    AnalysisFragmentImpl createFragmentImpl() {
+        final AnalysisFragmentImpl fragmentImpl = AnalysisFragmentHelper.createFragmentImpl(this,
+                getArguments());
+        AnalysisFragmentHelper.setListener(fragmentImpl, getActivity(), mListener);
+        return fragmentImpl;
     }
 
     /**

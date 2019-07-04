@@ -41,6 +41,15 @@ android {
 
     testOptions {
         execution 'ANDROIDX_TEST_ORCHESTRATOR'
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
+    sourceSets {
+        debug {
+            res.srcDirs += "$rootProject.projectDir/ginivision/src/test/res"
+        }
     }
 }
 
@@ -61,7 +70,14 @@ dependencies {
     testImplementation deps.junit
     testImplementation deps.truth
     testImplementation deps.mockito
+    testImplementation deps.robolectric
+    testImplementation deps.androidxTestCore
+    testImplementation deps.androidxTestJUnit
+    testImplementation deps.androidxTestRunner
+    testImplementation deps.androidxTestEspressoCore
+    testImplementation deps.androidxTestEspressoIntents
 
+    androidTestImplementation deps.androidxTestCore
     androidTestImplementation deps.androidxTestJUnit
     androidTestImplementation deps.androidxTestRunner
     androidTestImplementation deps.truth
