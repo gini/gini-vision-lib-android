@@ -2,6 +2,11 @@
 Changelog
 =========
 
+3.11.1 (2019-07-04)
+===================
+
+- Fixed a bug where host app's files were deleted after analysis.
+
 3.11.0 (2019-05-06)
 ===================
 
