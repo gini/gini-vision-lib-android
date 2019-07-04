@@ -6,6 +6,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +32,8 @@ public class ImageDiskStore {
 
     private static final Logger LOG = LoggerFactory.getLogger(ImageDiskStore.class);
 
-    private static final String STORE_DIR = "gv-images";
+    @VisibleForTesting
+    static final String STORE_DIR = "gv-images";
 
     @Nullable
     public Uri save(@NonNull final Context context, @NonNull final byte[] bytes) {
@@ -104,7 +106,8 @@ public class ImageDiskStore {
         return file;
     }
 
-    private void writeToFile(@NonNull final File file, @NonNull final byte[] bytes)
+    @VisibleForTesting
+    void writeToFile(@NonNull final File file, @NonNull final byte[] bytes)
             throws IOException {
         OutputStream outputStream = null;
         try {
