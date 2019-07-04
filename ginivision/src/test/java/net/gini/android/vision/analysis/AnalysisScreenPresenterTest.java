@@ -216,8 +216,6 @@ public class AnalysisScreenPresenterTest {
         final int nrOfComparisons = presenters.size() - 1;
         final int nrOfPairwiseComparisons = (int) ((nrOfComparisons / 2.0) * (nrOfComparisons + 1));
         final int samePositionCountIfSameOrder = nrOfPairwiseComparisons * hints1.size();
-        System.out.println(samePositionCountIfSameOrder);
-        System.out.println(countSamePosition);
         assertThat(countSamePosition).isLessThan(samePositionCountIfSameOrder);
     }
 
@@ -296,8 +294,8 @@ public class AnalysisScreenPresenterTest {
     public void should_clearImagesFromDisk_onDocumentAnalyzed() throws Exception {
         // Given
         final AnalysisScreenPresenter presenter = spy(createPresenterWithEmptyImageDocument());
-        final File filesDir = mock(File.class);
-        when(filesDir.getAbsolutePath()).thenReturn("");
+        final File filesDir = spy(new File("file:///gv-images/12343.jpg"));
+        when(filesDir.exists()).thenReturn(true);
         when(mApp.getFilesDir()).thenReturn(filesDir);
 
         // When
