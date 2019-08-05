@@ -270,6 +270,7 @@ public class MultiPageReviewActivity extends AppCompatActivity implements
         }
         final Intent intent = new Intent(this, AnalysisActivity.class);
         intent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, multiPageDocument);
+        intent.setExtrasClassLoader(MultiPageReviewActivity.class.getClassLoader());
         startActivityForResult(intent, ANALYSE_DOCUMENT_REQUEST);
     }
 
