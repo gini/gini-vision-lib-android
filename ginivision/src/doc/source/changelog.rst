@@ -2,6 +2,12 @@
 Changelog
 =========
 
+3.11.2 (2019-08-05)
+===================
+
+- Fixed a bug occuring on some Samsung devices where a ``ClassNotFoundException`` was thrown when
+  unparcelling the ``ImageDocument``.
+
 3.11.1 (2019-07-04)
 ===================
 

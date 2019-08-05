@@ -334,6 +334,7 @@ public class ReviewActivity extends AppCompatActivity implements ReviewFragmentL
             if (GiniVisionCoordinator.shouldShowGiniVisionNoResultsScreen(document)) {
                 final Intent noResultsActivity = new Intent(this, NoResultsActivity.class);
                 noResultsActivity.putExtra(NoResultsActivity.EXTRA_IN_DOCUMENT, mDocument);
+                noResultsActivity.setExtrasClassLoader(ReviewActivity.class.getClassLoader());
                 startActivity(noResultsActivity);
                 setResult(RESULT_NO_EXTRACTIONS);
             } else {
@@ -348,6 +349,8 @@ public class ReviewActivity extends AppCompatActivity implements ReviewFragmentL
                         AnalysisActivity.EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE,
                         errorMessage);
             }
+            mAnalyzeDocumentActivityIntent.setExtrasClassLoader(
+                    ReviewActivity.class.getClassLoader());
             startActivityForResult(mAnalyzeDocumentActivityIntent, ANALYSE_DOCUMENT_REQUEST);
         }
     }
@@ -492,6 +495,7 @@ public class ReviewActivity extends AppCompatActivity implements ReviewFragmentL
         if (GiniVisionCoordinator.shouldShowGiniVisionNoResultsScreen(document)) {
             final Intent noResultsActivity = new Intent(this, NoResultsActivity.class);
             noResultsActivity.putExtra(NoResultsActivity.EXTRA_IN_DOCUMENT, mDocument);
+            noResultsActivity.setExtrasClassLoader(ReviewActivity.class.getClassLoader());
             startActivity(noResultsActivity);
             setResult(RESULT_NO_EXTRACTIONS);
         } else {

@@ -78,6 +78,7 @@ public final class GiniVisionFileImport {
         } else {
             giniVisionIntent = new Intent(context, analysisActivityClass);
             giniVisionIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, document);
+            giniVisionIntent.setExtrasClassLoader(GiniVisionFileImport.class.getClassLoader());
         }
         return giniVisionIntent;
     }
@@ -90,6 +91,7 @@ public final class GiniVisionFileImport {
         final Intent giniVisionIntent;
         giniVisionIntent = new Intent(context, getReviewActivityClass(reviewActivityClass));
         giniVisionIntent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, document);
+        giniVisionIntent.setExtrasClassLoader(GiniVisionFileImport.class.getClassLoader());
         ActivityHelper.setActivityExtra(giniVisionIntent,
                 ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY, context,
                 getAnalysisActivityClass(analysisActivityClass));

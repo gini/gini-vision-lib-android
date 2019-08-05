@@ -1067,6 +1067,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         }
         fileChooserIntent.putExtra(FileChooserActivity.EXTRA_IN_DOCUMENT_IMPORT_FILE_TYPES,
                 enabledFileTypes);
+        fileChooserIntent.setExtrasClassLoader(CameraFragmentImpl.class.getClassLoader());
         mFragment.startActivityForResult(fileChooserIntent, REQ_CODE_CHOOSE_FILE);
     }
 

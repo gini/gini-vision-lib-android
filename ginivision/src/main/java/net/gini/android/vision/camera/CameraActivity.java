@@ -720,12 +720,14 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         reviewIntent.putExtra(
                 ReviewActivity.EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY,
                 mBackButtonShouldCloseLibrary);
+        reviewIntent.setExtrasClassLoader(CameraActivity.class.getClassLoader());
         startActivityForResult(reviewIntent, REVIEW_DOCUMENT_REQUEST);
     }
 
     private void startAnalysisActivity(@NonNull final Document document) {
         final Intent analysisIntent = new Intent(mAnalyzeDocumentActivityIntent);
         analysisIntent.putExtra(AnalysisActivity.EXTRA_IN_DOCUMENT, document);
+        analysisIntent.setExtrasClassLoader(CameraActivity.class.getClassLoader());
         startActivityForResult(analysisIntent, ANALYSE_DOCUMENT_REQUEST);
     }
 

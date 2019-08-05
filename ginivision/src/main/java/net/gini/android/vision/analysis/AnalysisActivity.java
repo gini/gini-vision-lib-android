@@ -256,6 +256,7 @@ public class AnalysisActivity extends AppCompatActivity implements
         if (GiniVisionCoordinator.shouldShowGiniVisionNoResultsScreen(mDocument)) {
             final Intent noResultsActivity = new Intent(this, NoResultsActivity.class);
             noResultsActivity.putExtra(NoResultsActivity.EXTRA_IN_DOCUMENT, mDocument);
+            noResultsActivity.setExtrasClassLoader(AnalysisActivity.class.getClassLoader());
             startActivity(noResultsActivity);
             setResult(RESULT_NO_EXTRACTIONS);
         } else {
@@ -466,6 +467,7 @@ public class AnalysisActivity extends AppCompatActivity implements
         if (GiniVisionCoordinator.shouldShowGiniVisionNoResultsScreen(mDocument)) {
             final Intent noResultsActivity = new Intent(this, NoResultsActivity.class);
             noResultsActivity.putExtra(NoResultsActivity.EXTRA_IN_DOCUMENT, mDocument);
+            noResultsActivity.setExtrasClassLoader(AnalysisActivity.class.getClassLoader());
             startActivity(noResultsActivity);
             setResult(RESULT_NO_EXTRACTIONS);
         } else {
