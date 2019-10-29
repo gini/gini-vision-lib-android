@@ -1,6 +1,6 @@
 package net.gini.android.vision;
 
-import android.app.Application;
+import android.app.Activity;
 import android.support.annotation.NonNull;
 
 /**
@@ -10,17 +10,17 @@ import android.support.annotation.NonNull;
  */
 public abstract class GiniVisionBasePresenter<V extends GiniVisionBaseView> {
 
-    private final Application mApp;
+    private final Activity mActivity;
     private final V mView;
 
-    protected GiniVisionBasePresenter(@NonNull final Application app, @NonNull final V view) {
-        mApp = app;
+    protected GiniVisionBasePresenter(@NonNull final Activity activity, @NonNull final V view) {
+        mActivity = activity;
         mView = view;
     }
 
     @NonNull
-    public Application getApp() {
-        return mApp;
+    public Activity getActivity() {
+        return mActivity;
     }
 
     @NonNull

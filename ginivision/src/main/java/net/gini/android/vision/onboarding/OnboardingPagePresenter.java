@@ -1,6 +1,6 @@
 package net.gini.android.vision.onboarding;
 
-import android.app.Application;
+import android.app.Activity;
 import android.support.annotation.NonNull;
 
 import net.gini.android.vision.internal.util.ContextHelper;
@@ -15,9 +15,9 @@ class OnboardingPagePresenter extends OnboardingPageContract.Presenter {
     private OnboardingPage mPage;
 
     OnboardingPagePresenter(
-            @NonNull final Application app,
+            @NonNull final Activity activity,
             @NonNull final OnboardingPageContract.View view) {
-        super(app, view);
+        super(activity, view);
         view.setPresenter(this);
     }
 
@@ -44,7 +44,7 @@ class OnboardingPagePresenter extends OnboardingPageContract.Presenter {
         if (mPage.getImageResId() == 0) {
             return;
         }
-        final boolean rotated = !ContextHelper.isPortraitOrientation(getApp())
+        final boolean rotated = !ContextHelper.isPortraitOrientation(getActivity())
                 && mPage.shouldRotateImageForLandscape();
         getView().showImage(mPage.getImageResId(), rotated);
     }
