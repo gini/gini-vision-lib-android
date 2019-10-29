@@ -18,6 +18,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withTagValue;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -84,10 +85,12 @@ public class OnboardingFragmentImplTest {
                             @NonNull final OnboardingFragmentCompat fragment) {
                         final OnboardingFragmentImpl onboardingFragmentImpl =
                                 new OnboardingFragmentImpl(fragment, showEmptyLastPage, pages) {
+
                                     @Override
-                                    void createPresenter() {
+                                    void createPresenter(@NonNull final Activity activity) {
                                         setPresenter(presenter);
                                     }
+
                                 };
                         onboardingFragmentImplRef.set(onboardingFragmentImpl);
                         return onboardingFragmentImpl;
