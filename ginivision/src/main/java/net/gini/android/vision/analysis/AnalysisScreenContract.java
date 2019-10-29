@@ -1,6 +1,6 @@
 package net.gini.android.vision.analysis;
 
-import android.app.Application;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
@@ -62,9 +62,9 @@ interface AnalysisScreenContract {
     abstract class Presenter extends GiniVisionBasePresenter<View> implements
             AnalysisFragmentInterface {
 
-        Presenter(@NonNull final Application app,
+        Presenter(@NonNull final Activity activity,
                 @NonNull final View view) {
-            super(app, view);
+            super(activity, view);
         }
 
         abstract void finish();

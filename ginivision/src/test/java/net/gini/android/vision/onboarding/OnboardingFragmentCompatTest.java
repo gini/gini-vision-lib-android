@@ -40,6 +40,7 @@ public class OnboardingFragmentCompatTest {
 
         final FragmentActivity activity = mock(FragmentActivity.class);
         when(activity.getApplication()).thenReturn(application);
+        when(activity.getResources()).thenReturn(mock(Resources.class));
 
         when(fragment.getActivity()).thenReturn(activity);
 

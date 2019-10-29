@@ -2,6 +2,7 @@ package net.gini.android.vision.internal.util;
 
 import static net.gini.android.vision.internal.util.ContextHelper.getClientApplicationId;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -23,11 +24,11 @@ import java.util.ArrayList;
  */
 public final class ApplicationHelper {
 
-    public static void startApplicationDetailsSettings(@NonNull final Application app) {
+    public static void startApplicationDetailsSettings(@NonNull final Activity activity) {
         final Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        final Uri uri = Uri.fromParts("package", getClientApplicationId(app), null);
+        final Uri uri = Uri.fromParts("package", getClientApplicationId(activity), null);
         intent.setData(uri);
-        app.startActivity(intent);
+        activity.startActivity(intent);
     }
 
     public static boolean isDefaultForMimeType(@NonNull final Application app,

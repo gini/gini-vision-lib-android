@@ -1798,7 +1798,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         if (activity == null) {
             return;
         }
-        ApplicationHelper.startApplicationDetailsSettings(activity.getApplication());
+        ApplicationHelper.startApplicationDetailsSettings(activity);
     }
 
     private void initCameraController(final Activity activity) {

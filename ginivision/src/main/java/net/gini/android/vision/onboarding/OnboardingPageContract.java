@@ -1,6 +1,6 @@
 package net.gini.android.vision.onboarding;
 
-import android.app.Application;
+import android.app.Activity;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
@@ -27,9 +27,9 @@ interface OnboardingPageContract {
     abstract class Presenter extends GiniVisionBasePresenter<View> {
 
         Presenter(
-                @NonNull final Application app,
+                @NonNull final Activity activity,
                 @NonNull final View view) {
-            super(app, view);
+            super(activity, view);
         }
 
         abstract void setPage(@NonNull final OnboardingPage page);

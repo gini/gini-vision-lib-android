@@ -401,7 +401,7 @@ public class FileChooserActivity extends AppCompatActivity implements AlertDialo
     }
 
     private void showAppDetailsSettingsScreen() {
-        ApplicationHelper.startApplicationDetailsSettings(getApplication());
+        ApplicationHelper.startApplicationDetailsSettings(this);
     }
 
     @Override

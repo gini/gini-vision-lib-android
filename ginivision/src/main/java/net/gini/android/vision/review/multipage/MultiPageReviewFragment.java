@@ -529,7 +529,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         if (!mPreviewsShown) {
             observeViewTree();
         }
-        showAlertIfOpenWithDocumentAndAppIsDefault(activity.getApplication(),
+        showAlertIfOpenWithDocumentAndAppIsDefault(activity,
                 mMultiPageDocument, new FileImportHelper.ShowAlertCallback() {
                     @Override
                     public void showAlertDialog(@NonNull final String message,

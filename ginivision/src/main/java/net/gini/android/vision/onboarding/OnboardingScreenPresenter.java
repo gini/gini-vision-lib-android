@@ -2,7 +2,7 @@ package net.gini.android.vision.onboarding;
 
 import static net.gini.android.vision.internal.util.ContextHelper.isTablet;
 
-import android.app.Application;
+import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
@@ -33,15 +33,15 @@ class OnboardingScreenPresenter extends OnboardingScreenContract.Presenter {
     private boolean mShowEmptyLastPage;
     private int mCurrentPageIndex;
 
-    OnboardingScreenPresenter(@NonNull final Application app,
+    OnboardingScreenPresenter(@NonNull final Activity activity,
             @NonNull final OnboardingScreenContract.View view) {
-        super(app, view);
+        super(activity, view);
         view.setPresenter(this);
         mPages = getDefaultPages();
     }
 
     private List<OnboardingPage> getDefaultPages() {
-        if (isTablet(getApp())) {
+        if (isTablet(getActivity())) {
             return DefaultPagesTablet.asArrayList();
         } else {
             return DefaultPagesPhone.asArrayList();

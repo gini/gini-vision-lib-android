@@ -16,7 +16,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-import android.app.Application;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
@@ -70,7 +70,7 @@ import jersey.repackaged.jsr166e.CompletableFuture;
 public class AnalysisScreenPresenterTest {
 
     @Mock
-    private Application mApp;
+    private Activity mActivity;
     @Mock
     private AnalysisScreenContract.View mView;
 
@@ -145,7 +145,7 @@ public class AnalysisScreenPresenterTest {
             }
         };
         if (analysisInteractor == null) {
-            return new AnalysisScreenPresenter(mApp, mView, document,
+            return new AnalysisScreenPresenter(mActivity, mView, document,
                     documentAnalysisErrorMessage) {
                 @Override
                 void createDocumentRenderer() {
@@ -153,7 +153,8 @@ public class AnalysisScreenPresenterTest {
                 }
             };
         } else {
-            return new AnalysisScreenPresenter(mApp, mView, document, documentAnalysisErrorMessage,
+            return new AnalysisScreenPresenter(mActivity, mView, document,
+                    documentAnalysisErrorMessage,
                     analysisInteractor) {
                 @Override
                 void createDocumentRenderer() {
@@ -296,7 +297,7 @@ public class AnalysisScreenPresenterTest {
         final AnalysisScreenPresenter presenter = spy(createPresenterWithEmptyImageDocument());
         final File filesDir = spy(new File("file:///gv-images/12343.jpg"));
         when(filesDir.exists()).thenReturn(true);
-        when(mApp.getFilesDir()).thenReturn(filesDir);
+        when(mActivity.getFilesDir()).thenReturn(filesDir);
 
         // When
         presenter.onDocumentAnalyzed();
@@ -340,7 +341,7 @@ public class AnalysisScreenPresenterTest {
         presenter.start();
 
         // Then
-        verify(document).loadData(eq(mApp), any(AsyncCallback.class));
+        verify(document).loadData(eq(mActivity), any(AsyncCallback.class));
     }
 
     @Test
@@ -398,7 +399,7 @@ public class AnalysisScreenPresenterTest {
         final String pdfPageCountString = pdfPageCount + " pages";
         final Resources resources = mock(Resources.class);
         when(resources.getQuantityString(anyInt(), anyInt(), any())).thenReturn(pdfPageCountString);
-        when(mApp.getResources()).thenReturn(resources);
+        when(mActivity.getResources()).thenReturn(resources);
 
         final AnalysisScreenPresenter presenter = spy(
                 createPresenter(pdfDocument, pdfPageCount, null));
@@ -563,7 +564,7 @@ public class AnalysisScreenPresenterTest {
     @Test
     public void should_stopScanAnimation_whenAnalysisFinished() throws Exception {
         // Given
-        when(mApp.getString(anyInt())).thenReturn("A String");
+        when(mActivity.getString(anyInt())).thenReturn("A String");
 
         final ImageDocument imageDocument = new ImageDocumentFake();
 
@@ -601,7 +602,7 @@ public class AnalysisScreenPresenterTest {
     @Test
     public void should_showError_whenAnalysisFailed() throws Exception {
         // Given
-        when(mApp.getString(anyInt())).thenReturn("A String");
+        when(mActivity.getString(anyInt())).thenReturn("A String");
 
         final ImageDocument imageDocument = new ImageDocumentFake();
 
@@ -624,7 +625,7 @@ public class AnalysisScreenPresenterTest {
     public void should_requestProceedingToNoExtractionsScreen_whenAnalysisSucceeded_withoutExtractions()
             throws Exception {
         // Given
-        when(mApp.getString(anyInt())).thenReturn("A String");
+        when(mActivity.getString(anyInt())).thenReturn("A String");
 
         final ImageDocument imageDocument = new ImageDocumentFake();
 
@@ -650,7 +651,7 @@ public class AnalysisScreenPresenterTest {
     public void should_returnExtractions_whenAnalysisSucceeded_withExtractions()
             throws Exception {
         // Given
-        when(mApp.getString(anyInt())).thenReturn("A String");
+        when(mActivity.getString(anyInt())).thenReturn("A String");
 
         final ImageDocument imageDocument = new ImageDocumentFake();
 
@@ -678,7 +679,7 @@ public class AnalysisScreenPresenterTest {
     @Test
     public void should_requestDocumentAnalysis_whenNoNetworkService_wasSet() throws Exception {
         // Given
-        when(mApp.getString(anyInt())).thenReturn("A String");
+        when(mActivity.getString(anyInt())).thenReturn("A String");
 
         final ImageDocument imageDocument = new ImageDocumentFake();
 
@@ -703,7 +704,7 @@ public class AnalysisScreenPresenterTest {
     @Test
     public void should_clearSavedImages_afterAnalysis_whenNetworkService_wasSet() throws Exception {
         // Given
-        when(mApp.getString(anyInt())).thenReturn("A String");
+        when(mActivity.getString(anyInt())).thenReturn("A String");
 
         final ImageDocument imageDocument = new ImageDocumentFake();
 

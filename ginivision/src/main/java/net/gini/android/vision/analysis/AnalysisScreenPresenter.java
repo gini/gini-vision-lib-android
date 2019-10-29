@@ -1,6 +1,6 @@
 package net.gini.android.vision.analysis;
 
-import android.app.Application;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -85,22 +85,22 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
     private boolean mAnalysisCompleted;
 
     AnalysisScreenPresenter(
-            @NonNull final Application app,
+            @NonNull final Activity activity,
             @NonNull final AnalysisScreenContract.View view,
             @NonNull final Document document,
             @Nullable final String documentAnalysisErrorMessage) {
-        this(app, view, document, documentAnalysisErrorMessage,
-                new AnalysisInteractor(app));
+        this(activity, view, document, documentAnalysisErrorMessage,
+                new AnalysisInteractor(activity.getApplication()));
     }
 
     @VisibleForTesting
     AnalysisScreenPresenter(
-            @NonNull final Application app,
+            @NonNull final Activity activity,
             @NonNull final AnalysisScreenContract.View view,
             @NonNull final Document document,
             @Nullable final String documentAnalysisErrorMessage,
             @NonNull final AnalysisInteractor analysisInteractor) {
-        super(app, view);
+        super(activity, view);
         view.setPresenter(this);
         mMultiPageDocument = asMultiPageDocument(document);
         // Tag the documents to be able to clean up the automatically parcelled data
@@ -198,7 +198,7 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
 
     @VisibleForTesting
     void clearSavedImages() {
-        ImageDiskStore.clear(getApp());
+        ImageDiskStore.clear(getActivity());
     }
 
     @Override
@@ -263,7 +263,7 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
     String getPdfFilename(final PdfDocument pdfDocument) {
         final Uri uri = pdfDocument.getUri();
         try {
-            return UriHelper.getFilenameFromUri(uri, getApp());
+            return UriHelper.getFilenameFromUri(uri, getActivity());
         } catch (final IllegalStateException e) { // NOPMD
             // Ignore
         }
@@ -310,7 +310,7 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
     CompletableFuture<Void> showAlertIfOpenWithDocumentAndAppIsDefault(
             @NonNull final GiniVisionDocument document,
             @NonNull final FileImportHelper.ShowAlertCallback showAlertCallback) {
-        return FileImportHelper.showAlertIfOpenWithDocumentAndAppIsDefault(getApp(), document,
+        return FileImportHelper.showAlertIfOpenWithDocumentAndAppIsDefault(getActivity(), document,
                 showAlertCallback);
     }
 
@@ -358,7 +358,7 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
 
     private void loadDocumentData() {
         LOG.debug("Loading document data");
-        mMultiPageDocument.loadData(getApp(),
+        mMultiPageDocument.loadData(getActivity(),
                 new AsyncCallback<byte[], Exception>() {
                     @Override
                     public void onSuccess(final byte[] result) {
@@ -424,11 +424,11 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
             if (filename != null) {
                 getView().showPdfTitle(filename);
             }
-            mDocumentRenderer.getPageCount(getApp(), new AsyncCallback<Integer, Exception>() {
+            mDocumentRenderer.getPageCount(getActivity(), new AsyncCallback<Integer, Exception>() {
                 @Override
                 public void onSuccess(final Integer result) {
                     if (result > 0) {
-                        final String pageCount = getApp().getResources().getQuantityString(
+                        final String pageCount = getActivity().getResources().getQuantityString(
                                 R.plurals.gv_analysis_pdf_pages, result, result);
                         getView().showPdfPageCount(pageCount);
                     } else {
@@ -451,7 +451,7 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
 
     private void showDocument() {
         LOG.debug("Rendering the document");
-        mDocumentRenderer.toBitmap(getApp(), getView().getPdfPreviewSize(),
+        mDocumentRenderer.toBitmap(getActivity(), getView().getPdfPreviewSize(),
                 new DocumentRenderer.Callback() {
                     @Override
                     public void onBitmapReady(@Nullable final Bitmap bitmap,
@@ -468,7 +468,7 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
     private void showErrorIfAvailableAndAnalyzeDocument() {
         if (mDocumentAnalysisErrorMessage != null) {
             showError(mDocumentAnalysisErrorMessage,
-                    getApp().getString(
+                    getActivity().getString(
                             R.string.gv_document_analysis_error_retry),
                     new View.OnClickListener() {
                         @Override
@@ -482,8 +482,8 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
     }
 
     private void handleAnalysisError() {
-        showError(getApp().getString(R.string.gv_document_analysis_error),
-                getApp().getString(R.string.gv_document_analysis_error_retry),
+        showError(getActivity().getString(R.string.gv_document_analysis_error),
+                getActivity().getString(R.string.gv_document_analysis_error_retry),
                 new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
