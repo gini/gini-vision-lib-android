@@ -2,6 +2,13 @@
 Changelog
 =========
 
+3.11.3 (2019-10-29)
+===================
+
+- Fixed a bug where a crash occured on the Camera Screen if it was started without camera
+  permissions and the user tapped on the grant access button to open the application details in the
+  Android Settings app.
+
 3.11.2 (2019-08-05)
 ===================
 
