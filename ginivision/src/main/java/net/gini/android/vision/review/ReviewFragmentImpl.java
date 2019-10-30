@@ -177,7 +177,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         if (activity == null) {
             return;
         }
-        showAlertIfOpenWithDocumentAndAppIsDefault(activity.getApplication(), mDocument,
+        showAlertIfOpenWithDocumentAndAppIsDefault(activity, mDocument,
                 new FileImportHelper.ShowAlertCallback() {
                     @Override
                     public void showAlertDialog(@NonNull final String message,

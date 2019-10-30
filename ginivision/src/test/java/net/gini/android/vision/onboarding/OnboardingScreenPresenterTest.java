@@ -7,7 +7,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-import android.app.Application;
+import android.app.Activity;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 
@@ -31,7 +31,7 @@ import jersey.repackaged.jsr166e.CompletableFuture;
 public class OnboardingScreenPresenterTest {
 
     @Mock
-    private Application mApp;
+    private Activity mActivity;
     @Mock
     private OnboardingScreenContract.View mView;
 
@@ -54,9 +54,9 @@ public class OnboardingScreenPresenterTest {
     private OnboardingScreenPresenter createPresenter(final boolean isTablet) {
         final Resources resources = mock(Resources.class);
         when(resources.getBoolean(R.bool.gv_is_tablet)).thenReturn(isTablet);
-        when(mApp.getResources()).thenReturn(resources);
+        when(mActivity.getResources()).thenReturn(resources);
 
-        return new OnboardingScreenPresenter(mApp, mView);
+        return new OnboardingScreenPresenter(mActivity, mView);
     }
 
     @Test

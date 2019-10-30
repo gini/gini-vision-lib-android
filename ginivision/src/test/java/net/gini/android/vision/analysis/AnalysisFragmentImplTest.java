@@ -21,6 +21,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibilit
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -133,11 +134,14 @@ public class AnalysisFragmentImplTest {
                         final AnalysisFragmentImpl analysisFragmentImpl = new AnalysisFragmentImpl(
                                 fragment,
                                 document, null) {
+
                             @Override
-                            void createPresenter(@NonNull final Document document,
+                            void createPresenter(@NonNull final Activity activity,
+                                    @NonNull final Document document,
                                     final String documentAnalysisErrorMessage) {
                                 setPresenter(presenter);
                             }
+
                         };
                         analysisFragmentImplRef.set(analysisFragmentImpl);
                         return analysisFragmentImpl;

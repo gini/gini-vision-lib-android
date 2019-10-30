@@ -1,6 +1,7 @@
 package net.gini.android.vision.onboarding;
 
 import android.animation.Animator;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -46,12 +47,16 @@ class OnboardingFragmentImpl extends OnboardingScreenContract.View {
     public OnboardingFragmentImpl(final OnboardingFragmentImplCallback fragment,
             final boolean showEmptyLastPage, final ArrayList<OnboardingPage> pages) { // NOPMD
         mFragment = fragment;
-        initPresenter(pages, showEmptyLastPage);
+        if (mFragment.getActivity() == null) {
+            throw new IllegalStateException("Missing activity for fragment.");
+        }
+        initPresenter(mFragment.getActivity(), pages, showEmptyLastPage);
     }
 
-    private void initPresenter(@Nullable final ArrayList<OnboardingPage> pages, // NOPMD - Bundle
+    private void initPresenter(@NonNull final Activity activity,
+            @Nullable final ArrayList<OnboardingPage> pages, // NOPMD - Bundle
             final boolean showEmptyLastPage) {
-        createPresenter();
+        createPresenter(activity);
         if (showEmptyLastPage) {
             getPresenter().addEmptyLastPage();
         }
@@ -61,8 +66,8 @@ class OnboardingFragmentImpl extends OnboardingScreenContract.View {
     }
 
     @VisibleForTesting
-    void createPresenter() {
-        new OnboardingScreenPresenter(mFragment.getActivity().getApplication(), this);
+    void createPresenter(@NonNull final Activity activity) {
+        new OnboardingScreenPresenter(activity, this);
     }
 
     @Override

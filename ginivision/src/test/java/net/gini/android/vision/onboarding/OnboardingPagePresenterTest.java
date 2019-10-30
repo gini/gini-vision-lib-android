@@ -6,7 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-import android.app.Application;
+import android.app.Activity;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 
@@ -24,7 +24,7 @@ import org.mockito.Mock;
 public class OnboardingPagePresenterTest {
 
     @Mock
-    private Application mApp;
+    private Activity mActivity;
     @Mock
     private OnboardingPageContract.View mView;
 
@@ -57,9 +57,9 @@ public class OnboardingPagePresenterTest {
             final Boolean isPortrait) throws Exception {
         final Resources resources = mock(Resources.class);
         when(resources.getBoolean(R.bool.gv_is_portrait)).thenReturn(isPortrait);
-        when(mApp.getResources()).thenReturn(resources);
+        when(mActivity.getResources()).thenReturn(resources);
 
-        final OnboardingPagePresenter presenter = new OnboardingPagePresenter(mApp, mView);
+        final OnboardingPagePresenter presenter = new OnboardingPagePresenter(mActivity, mView);
         presenter.setPage(page);
 
         return presenter;
