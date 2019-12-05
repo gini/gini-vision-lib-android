@@ -22,8 +22,18 @@ import jersey.repackaged.jsr166e.CompletableFuture;
  */
 interface AnalysisScreenContract {
 
-    abstract class View extends GiniVisionBaseView<Presenter> implements
-            AnalysisFragmentInterface {
+    abstract class View implements GiniVisionBaseView<Presenter>, AnalysisFragmentInterface {
+
+        private Presenter mPresenter;
+
+        @Override
+        public void setPresenter(@NonNull final Presenter presenter) {
+            mPresenter = presenter;
+        }
+
+        public Presenter getPresenter() {
+            return mPresenter;
+        }
 
         abstract void showScanAnimation();
 

@@ -17,8 +17,18 @@ import jersey.repackaged.jsr166e.CompletableFuture;
  */
 interface OnboardingScreenContract {
 
-    abstract class View extends GiniVisionBaseView<Presenter> implements
-            OnboardingFragmentInterface {
+    abstract class View implements GiniVisionBaseView<Presenter>, OnboardingFragmentInterface {
+
+        private Presenter mPresenter;
+
+        @Override
+        public void setPresenter(@NonNull final Presenter presenter) {
+            mPresenter = presenter;
+        }
+
+        public Presenter getPresenter() {
+            return mPresenter;
+        }
 
         abstract void showPages(@NonNull final List<OnboardingPage> pages,
                 final boolean showEmptyLastPage);
