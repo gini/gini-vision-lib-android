@@ -2,6 +2,12 @@
 Changelog
 =========
 
+3.11.4 (2019-12-06)
+===================
+
+- No camera permission views are shown also on devices which don't report the correct camera error
+  when the camera permission hasn't been granted (like the Huawei P8 Lite).
+
 3.11.3 (2019-10-29)
 ===================
 
