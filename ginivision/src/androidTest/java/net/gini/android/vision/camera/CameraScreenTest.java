@@ -50,15 +50,14 @@ import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.review.ReviewActivity;
 import net.gini.android.vision.review.ReviewActivityTestSpy;
 import net.gini.android.vision.test.EspressoAssertions;
+import net.gini.android.vision.test.PermissionsHelper;
 
 import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 import org.mockito.ArgumentMatcher;
 import org.mockito.Mockito;
 
@@ -81,11 +80,9 @@ import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.UiObject;
-import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
 
 @RunWith(AndroidJUnit4.class)
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CameraScreenTest {
 
     private static final int PAUSE_DURATION = 500;
@@ -115,6 +112,7 @@ public class CameraScreenTest {
     public void setup() throws Exception {
         prepareLooper();
         CameraFragmentHostActivityNotListener.sListener = null;
+        PermissionsHelper.grantCameraPermission();
     }
 
     @After
@@ -265,7 +263,9 @@ public class CameraScreenTest {
     @RequiresDevice
     @SdkSuppress(minSdkVersion = 23)
     @Test
-    public void a_should_showNoPermissionView_ifNoCameraPermission() {
+    public void should_showNoPermissionView_ifNoCameraPermission() throws Exception {
+        PermissionsHelper.revokeCameraPermission();
+
         // Gini Vision Library does not handle runtime permissions and the no permission view is
         // shown by default
         startCameraActivityWithoutOnboarding();
@@ -277,8 +277,9 @@ public class CameraScreenTest {
     @RequiresDevice
     @SdkSuppress(minSdkVersion = 23)
     @Test
-    public void b_should_showCameraPreview_afterCameraPermission_wasGranted()
-            throws UiObjectNotFoundException {
+    public void should_showCameraPreview_afterCameraPermission_wasGranted() throws Exception {
+        PermissionsHelper.revokeCameraPermission();
+
         startCameraActivityWithoutOnboarding();
 
         final UiDevice uiDevice = UiDevice.getInstance(

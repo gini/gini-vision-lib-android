@@ -15,11 +15,13 @@ import static net.gini.android.vision.internal.util.FeatureConfiguration.getDocu
 import static net.gini.android.vision.internal.util.FeatureConfiguration.isMultiPageEnabled;
 import static net.gini.android.vision.internal.util.FeatureConfiguration.isQRCodeScanningEnabled;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.hardware.Camera;
 import android.net.Uri;
@@ -30,6 +32,7 @@ import android.support.annotation.UiThread;
 import android.support.annotation.VisibleForTesting;
 import android.support.transition.Transition;
 import android.support.transition.TransitionListenerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorCompat;
 import android.support.v4.view.ViewPropertyAnimatorListener;
@@ -367,39 +370,51 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             initQRCodeReader(activity);
         }
 
-        final CompletableFuture<Void> openCameraCompletable = openCamera();
-        final CompletableFuture<SurfaceHolder> surfaceCreationCompletable = handleSurfaceCreation();
+        if (isCameraPermissionGranted()) {
+            final CompletableFuture<Void> openCameraCompletable = openCamera();
+            final CompletableFuture<SurfaceHolder> surfaceCreationCompletable =
+                    handleSurfaceCreation();
 
-        CompletableFuture.allOf(openCameraCompletable, surfaceCreationCompletable)
-                .handle(new CompletableFuture.BiFun<Void, Throwable, Object>() {
-                    @Override
-                    public Object apply(final Void aVoid, final Throwable throwable) {
-                        if (throwable != null) {
-                            // Exceptions were handled before
+            CompletableFuture.allOf(openCameraCompletable, surfaceCreationCompletable)
+                    .handle(new CompletableFuture.BiFun<Void, Throwable, Object>() {
+                        @Override
+                        public Object apply(final Void aVoid, final Throwable throwable) {
+                            if (throwable != null) {
+                                // Exceptions were handled before
+                                return null;
+                            }
+                            try {
+                                final SurfaceHolder surfaceHolder =
+                                        surfaceCreationCompletable.get();
+                                if (surfaceHolder != null) {
+                                    final Size previewSize =
+                                            mCameraController.getPreviewSizeForDisplay();
+                                    mCameraPreview.setPreviewSize(previewSize);
+                                    startPreview(surfaceHolder);
+                                    enableTapToFocus();
+                                    showUploadHintPopUpOnFirstExecution();
+                                    initFlashButton();
+                                } else {
+                                    handleError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW,
+                                            "Cannot start preview: no SurfaceHolder received for SurfaceView",
+                                            null);
+                                }
+                            } catch (final InterruptedException | ExecutionException e) {
+                                handleError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW,
+                                        "Cannot start preview", e);
+                            }
                             return null;
                         }
-                        try {
-                            final SurfaceHolder surfaceHolder = surfaceCreationCompletable.get();
-                            if (surfaceHolder != null) {
-                                final Size previewSize =
-                                        mCameraController.getPreviewSizeForDisplay();
-                                mCameraPreview.setPreviewSize(previewSize);
-                                startPreview(surfaceHolder);
-                                enableTapToFocus();
-                                showUploadHintPopUpOnFirstExecution();
-                                initFlashButton();
-                            } else {
-                                handleError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW,
-                                        "Cannot start preview: no SurfaceHolder received for SurfaceView",
-                                        null);
-                            }
-                        } catch (final InterruptedException | ExecutionException e) {
-                            handleError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW,
-                                    "Cannot start preview", e);
-                        }
-                        return null;
-                    }
-                });
+                    });
+        } else {
+            showNoPermissionView();
+        }
+    }
+
+    private boolean isCameraPermissionGranted() {
+        final Activity activity = mFragment.getActivity();
+        return activity != null && ContextCompat.checkSelfPermission(activity,
+                Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
     }
 
     private void initFlashButton() {
