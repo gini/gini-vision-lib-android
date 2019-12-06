@@ -50,6 +50,20 @@ public class PermissionsHelper {
         }
     }
 
+    public static void revokeCameraPermission() throws InterruptedException {
+        revokePermission(Manifest.permission.CAMERA, getApplicationContext().getPackageName());
+    }
+
+    private static void revokePermission(final String permission, final String packageName) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!hasPermission(permission, packageName)) {
+                return;
+            }
+            final String command = "pm revoke " + packageName + " " + permission;
+            executeShellCommand(command);
+        }
+    }
+
     private static boolean hasPermission(final String permission, final String packageName) {
         final int checkResult = getApplicationContext().getPackageManager().checkPermission(
                 permission,
