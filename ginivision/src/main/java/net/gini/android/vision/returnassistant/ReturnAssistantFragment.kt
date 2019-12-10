@@ -61,4 +61,14 @@ class ReturnAssistantFragment : Fragment(), ReturnAssistantScreenContract.View,
         this.presenter = presenter
     }
 
+    override fun onStart() {
+        super.onStart()
+        presenter?.start()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        presenter?.stop()
+    }
+
 }
