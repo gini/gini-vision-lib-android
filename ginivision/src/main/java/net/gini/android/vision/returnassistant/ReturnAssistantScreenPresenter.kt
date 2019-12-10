@@ -10,10 +10,7 @@ import android.app.Activity
 internal class ReturnAssistantScreenPresenter(activity: Activity, view: ReturnAssistantScreenContract.View) :
         ReturnAssistantScreenContract.Presenter(activity, view) {
 
-    private var _listener: ReturnAssistantFragmentListener? = null
-    override var listener: ReturnAssistantFragmentListener?
-        get() = _listener
-        set(value) { _listener = value}
+    override var listener: ReturnAssistantFragmentListener? = null
 
     init {
         view.setPresenter(this)
