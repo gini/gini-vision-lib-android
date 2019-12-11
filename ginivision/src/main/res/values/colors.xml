@@ -121,5 +121,6 @@
     <color name="gv_multi_page_review_page_indicator_background">#82000000</color>
 
     <color name="gv_return_assistant_activity_background">#fff</color>
+    <color name="gv_return_assistant_fragment_background">#fff</color>
 
 </resources>

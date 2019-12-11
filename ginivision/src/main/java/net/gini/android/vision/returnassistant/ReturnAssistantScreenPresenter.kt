@@ -17,11 +17,11 @@ internal class ReturnAssistantScreenPresenter(activity: Activity, view: ReturnAs
     }
 
     override fun start() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        // TODO
     }
 
     override fun stop() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        // TODO
     }
 
 
