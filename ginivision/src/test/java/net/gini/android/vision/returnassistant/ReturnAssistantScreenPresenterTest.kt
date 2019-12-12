@@ -105,7 +105,7 @@ class ReturnAssistantScreenPresenterTest {
                             lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 1,
                                     rawAmount = "1.09:EUR")),
                     SelectableLineItem(selected = true,
-                            lineItem = LineItem(id = "2", description = "Line Item 2", quantity = 1,
+                            lineItem = LineItem(id = "2", description = "Line Item 2", quantity = 2,
                                     rawAmount = "2.99:EUR"))
             )
 
@@ -113,7 +113,7 @@ class ReturnAssistantScreenPresenterTest {
             updateView(lineItems)
 
             // Then
-            verify(view).showSelectedLineItemsSum("EUR4", ".08")
+            verify(view).showSelectedLineItemsSum("EUR7", ".07")
         }
     }
 
@@ -126,10 +126,10 @@ class ReturnAssistantScreenPresenterTest {
                             lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 1,
                                     rawAmount = "1.09:EUR")),
                     SelectableLineItem(selected = true,
-                            lineItem = LineItem(id = "2", description = "Line Item 2", quantity = 1,
+                            lineItem = LineItem(id = "2", description = "Line Item 2", quantity = 2,
                                     rawAmount = "2.99:EUR")),
                     SelectableLineItem(selected = true,
-                            lineItem = LineItem(id = "3", description = "Line Item 3", quantity = 1,
+                            lineItem = LineItem(id = "3", description = "Line Item 3", quantity = 3,
                                     rawAmount = "3.10:EUR"))
             )
 
@@ -137,7 +137,7 @@ class ReturnAssistantScreenPresenterTest {
             updateView(lineItems)
 
             // Then
-            verify(view).showSelectedLineItemsSum("EUR6", ".09")
+            verify(view).showSelectedLineItemsSum("EUR15", ".28")
         }
     }
 
@@ -183,7 +183,7 @@ class ReturnAssistantScreenPresenterTest {
         ReturnAssistantScreenPresenter(activity, view).run {
             lineItems = listOf(
                     SelectableLineItem(selected = false,
-                            lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 1,
+                            lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 2,
                                     rawAmount = "1.19:EUR"))
             )
 
@@ -201,7 +201,7 @@ class ReturnAssistantScreenPresenterTest {
         ReturnAssistantScreenPresenter(activity, view).run {
             lineItems = listOf(
                     SelectableLineItem(selected = true,
-                            lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 1,
+                            lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
                                     rawAmount = "1.19:EUR"))
             )
 

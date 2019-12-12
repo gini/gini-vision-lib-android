@@ -42,7 +42,7 @@ class LineItemsAdapter(context: Context, val listener: LineItemsAdapterListener)
                 it.lineItem.let { li ->
                     description.text = li.description
                     quantity.text = li.quantity.toString()
-                    lineItemAmountIntegralAndFractionParts(li).let { (integral, fraction) ->
+                    lineItemTotalAmountIntegralAndFractionParts(li).let { (integral, fraction) ->
                         priceIntegralPart.text = integral
                         @SuppressLint("SetTextI18n")
                         priceFractionPart.text = fraction

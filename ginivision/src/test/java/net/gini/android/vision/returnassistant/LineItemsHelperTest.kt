@@ -24,7 +24,7 @@ class LineItemsHelperTest {
                         lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 1,
                                 rawAmount = "1.19:EUR")),
                 SelectableLineItem(selected = true,
-                        lineItem = LineItem(id = "2", description = "Line Item 2", quantity = 1,
+                        lineItem = LineItem(id = "2", description = "Line Item 2", quantity = 2,
                                 rawAmount = "5.89:EUR")),
                 SelectableLineItem(selected = true,
                         lineItem = LineItem(id = "3", description = "Line Item 3", quantity = 1,
@@ -32,10 +32,10 @@ class LineItemsHelperTest {
         )
 
         // When
-        val sum = lineItemsAmountSum(lineItems)
+        val sum = lineItemsTotalAmountSum(lineItems)
 
         // Then
-        assertThat(sum).isEqualTo(BigDecimal("15.88"))
+        assertThat(sum).isEqualTo(BigDecimal("21.77"))
     }
 
     @Test
@@ -44,7 +44,7 @@ class LineItemsHelperTest {
         val lineItems: List<SelectableLineItem> = emptyList()
 
         // When
-        val sum = lineItemsAmountSum(lineItems)
+        val sum = lineItemsTotalAmountSum(lineItems)
 
         // Then
         assertThat(sum).isEqualTo(BigDecimal.ZERO)
@@ -66,7 +66,7 @@ class LineItemsHelperTest {
         )
 
         // When
-        val sum = lineItemsAmountSum(lineItems)
+        val sum = lineItemsTotalAmountSum(lineItems)
 
         // Then
         assertThat(sum).isEqualTo(BigDecimal.ZERO)
