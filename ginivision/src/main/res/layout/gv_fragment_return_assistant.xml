@@ -5,10 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gv_return_assistant_fragment_background"
-    android:padding="16dp"
     tools:context=".returnassistant.ReturnAssistantFragment">
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
@@ -17,7 +16,10 @@
             android:id="@+id/gv_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="72dp">
+            android:paddingStart="16dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="88dp">
 
             <net.gini.android.vision.internal.ui.CustomFontTextView
                 android:id="@+id/gv_subtitle"
@@ -61,11 +63,21 @@
                 android:layout_below="@id/gv_hero_image">
 
                 <net.gini.android.vision.internal.ui.CustomFontTextView
+                    android:id="@+id/gv_total_and_selected_items_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
                     android:layout_alignBaseline="@+id/info"
-                    android:text="Items 2/2"
+                    android:layout_alignParentStart="true"
+                    android:text="Items "
+                    android:textSize="12sp" />
+
+                <net.gini.android.vision.internal.ui.CustomFontTextView
+                    android:id="@+id/gv_total_and_selected_items"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/info"
+                    android:layout_toEndOf="@id/gv_total_and_selected_items_label"
+                    android:text="2/2"
                     android:textSize="12sp" />
 
                 <net.gini.android.vision.internal.ui.CustomFontButton
@@ -90,15 +102,16 @@
                 android:layout_below="@id/gv_line_items_header"
                 android:layout_marginBottom="16dp"
                 tools:itemCount="4"
-                tools:listitem="@layout/gv_item_return_assistant_line_item" />
+                tools:listitem="@layout/gv_item_return_assistant_line_item"
+                android:nestedScrollingEnabled="false" />
 
             <net.gini.android.vision.internal.ui.CustomFontTextView
-                android:id="@+id/gv_price_total_integer_part"
+                android:id="@+id/gv_amount_total_integral_part"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/gv_line_items"
                 android:layout_marginBottom="32dp"
-                android:layout_toStartOf="@+id/gv_price_total_fraction_part"
+                android:layout_toStartOf="@+id/gv_amount_total_fraction_part"
                 android:includeFontPadding="false"
                 android:text="€242"
                 android:textColor="#000"
@@ -106,10 +119,10 @@
                 android:textStyle="bold" />
 
             <net.gini.android.vision.internal.ui.CustomFontTextView
-                android:id="@+id/gv_price_total_fraction_part"
+                android:id="@+id/gv_amount_total_fraction_part"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@id/gv_price_total_integer_part"
+                android:layout_alignTop="@id/gv_amount_total_integral_part"
                 android:layout_alignParentEnd="true"
                 android:text=".90"
                 android:textColor="#000"
@@ -120,7 +133,7 @@
                 android:id="@+id/gv_bottom_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/gv_price_total_integer_part"
+                android:layout_below="@id/gv_amount_total_integral_part"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="60dp"
                 android:layout_marginEnd="60dp"
@@ -130,15 +143,16 @@
 
         </RelativeLayout>
 
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
-    <Button
-        android:id="@+id/gv_button_photo_tips_camera"
+    <net.gini.android.vision.internal.ui.CustomFontButton
+        android:id="@+id/gv_pay_button"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="Pay 2/2"
-        app:backgroundTint="#0087dc" />
+        android:layout_margin="16dp"
+        app:backgroundTint="#0087dc"
+        tools:text="Pay 2/2" />
 
 </RelativeLayout>

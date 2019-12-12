@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="4dp"
-    android:layout_marginBottom="4dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="4dp"
     app:cardBackgroundColor="#fff"
     app:cardCornerRadius="10dp"
-    app:cardElevation="4dp"
+    app:cardElevation="2dp"
     app:contentPadding="16dp">
 
     <RelativeLayout
@@ -30,18 +30,26 @@
             android:layout_marginBottom="16dp"
             android:layout_toStartOf="@id/edit"
             android:layout_toEndOf="@id/gv_checkbox"
-            android:text="Nike Sportswear Air Max 97 - Sneaker Low"
+            tools:text="Nike Sportswear Air Max 97 - Sneaker Low"
             android:textColor="#000"
             android:textSize="14sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/gv_quantity"
+            android:id="@+id/gv_quantity_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/gv_description"
             android:layout_alignStart="@id/gv_description"
-            android:text="Quantity: 1" />
+            android:text="Quantity: " />
+
+        <TextView
+            android:id="@+id/gv_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/gv_quantity_label"
+            android:layout_alignBaseline="@id/gv_quantity_label"
+            tools:text="1" />
 
         <net.gini.android.vision.internal.ui.CustomFontButton
             android:id="@+id/edit"
@@ -60,23 +68,23 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/gv_price_integer_part"
+            android:id="@+id/gv_amount_integral_part"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/gv_quantity"
-            android:layout_toStartOf="@id/gv_price_fraction_part"
+            android:layout_toStartOf="@id/gv_amount_fraction_part"
             android:includeFontPadding="false"
-            android:text="€76"
+            tools:text="€76"
             android:textColor="#000"
             android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/gv_price_fraction_part"
+            android:id="@+id/gv_amount_fraction_part"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/gv_price_integer_part"
+            android:layout_alignTop="@id/gv_amount_integral_part"
             android:layout_alignParentEnd="true"
-            android:text=".48"
+            tools:text=".48"
             android:textColor="#000"
             android:textSize="12sp" />
 

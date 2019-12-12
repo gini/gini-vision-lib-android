@@ -11,8 +11,16 @@ import net.gini.android.vision.GiniVisionBaseView
  */
 interface ReturnAssistantScreenContract {
 
-    interface View : GiniVisionBaseView<Presenter>
+    interface View : GiniVisionBaseView<Presenter> {
+        fun showLineItems(lineItems: List<SelectableLineItem>)
+    }
 
     abstract class Presenter(activity: Activity, view: View) :
-            GiniVisionBasePresenter<View>(activity, view), ReturnAssistantFragmentInterface
+            GiniVisionBasePresenter<View>(activity, view), ReturnAssistantFragmentInterface {
+
+        abstract fun selectLineItem(lineItem: SelectableLineItem)
+        abstract fun deselectLineItem(lineItem: SelectableLineItem)
+    }
 }
+
+data class SelectableLineItem(var selected: Boolean = true, val lineItem: LineItem)

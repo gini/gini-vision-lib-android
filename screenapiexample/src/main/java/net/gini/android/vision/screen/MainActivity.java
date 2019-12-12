@@ -31,6 +31,7 @@ import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.requirements.GiniVisionRequirements;
 import net.gini.android.vision.requirements.RequirementReport;
 import net.gini.android.vision.requirements.RequirementsReport;
+import net.gini.android.vision.returnassistant.ReturnAssistantActivity;
 import net.gini.android.vision.util.CancellationToken;
 
 import org.slf4j.Logger;
@@ -299,7 +300,7 @@ public class MainActivity extends AppCompatActivity {
         // Start for result in order to receive the error result, in case something went wrong, or the extractions
         // To receive the extractions add it to the result Intent in ReviewActivity#onAddDataToResult(Intent) or
         // AnalysisActivity#onAddDataToResult(Intent) and retrieve them here in onActivityResult()
-        startActivityForResult(intent, REQUEST_SCAN);
+        startActivityForResult(new Intent(this, ReturnAssistantActivity.class), REQUEST_SCAN);
     }
 
     private void configureGiniVision() {
