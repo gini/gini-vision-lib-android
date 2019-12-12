@@ -1,6 +1,9 @@
 package net.gini.android.vision.returnassistant
 
 import android.app.Activity
+import java.math.BigDecimal
+import java.text.DecimalFormat
+import java.util.*
 import kotlin.random.Random
 
 /**
@@ -8,6 +11,9 @@ import kotlin.random.Random
  *
  * Copyright (c) 2019 Gini GmbH.
  */
+
+val INTEGRAL_FORMAT = DecimalFormat("#")
+val FRACTION_FORMAT = DecimalFormat(".00")
 
 val mockLineItems = List(10) { i ->
     LineItem(id = "$i",
@@ -28,21 +34,63 @@ internal class ReturnAssistantScreenPresenter(activity: Activity,
 
     override fun selectLineItem(lineItem: SelectableLineItem) {
         lineItem.selected = true
-        view.showLineItems(mockLineItems)
+        updateView(mockLineItems)
     }
 
     override fun deselectLineItem(lineItem: SelectableLineItem) {
         lineItem.selected = false
-        view.showLineItems(mockLineItems)
+        updateView(mockLineItems)
     }
 
     override fun start() {
-        view.showLineItems(mockLineItems)
+        updateView(mockLineItems)
     }
 
     override fun stop() {
         // TODO
     }
 
+    private fun updateView(lineItems: List<SelectableLineItem>) {
+        view.apply {
+            showLineItems(lineItems)
+            val (selected, total) = selectedAndTotalLineItems(lineItems)
+            showSelectedAndTotalLineItems(selected, total)
+            if (selected > 0) {
+                enablePayButton(selected, total)
+            } else {
+                disablePayButton(0, total)
+            }
+            val (integral, fraction) = lineItemsSumIntegralAndFractionParts(lineItems)
+            showSelectedLineItemsSum(integral, fraction)
+        }
+    }
 
+    private fun lineItemsSumIntegralAndFractionParts(
+            lineItems: List<SelectableLineItem>): Pair<String, String> {
+        val sum = lineItemsAmountSum(lineItems)
+        val currency = lineItemsCurency(lineItems)
+        return Pair(amountIntegralPartWithCurrencySymbol(sum, currency),
+                sum.fractionPart(FRACTION_FORMAT))
+    }
+
+    private fun amountIntegralPartWithCurrencySymbol(amount: BigDecimal, currency: Currency?) =
+            currency?.let { c ->
+                amount.integralPartWithCurrency(c, INTEGRAL_FORMAT)
+            } ?: amount.integralPart(INTEGRAL_FORMAT)
+
+    private fun lineItemsCurency(lineItems: List<SelectableLineItem>): Currency? =
+            if (lineItems.isEmpty()) null else lineItems.first().lineItem.currency
+
+    private fun lineItemsAmountSum(lineItems: List<SelectableLineItem>) =
+            if (lineItems.isEmpty()) {
+                BigDecimal.ZERO
+            } else {
+                lineItems.fold<SelectableLineItem, BigDecimal>(
+                        BigDecimal.ZERO) { sum, sli ->
+                    if (sli.selected) sum.add(sli.lineItem.amount) else sum
+                }
+            }
+
+    private fun selectedAndTotalLineItems(lineItems: List<SelectableLineItem>): Pair<Int, Int> =
+            Pair(lineItems.count { it.selected }, lineItems.size)
 }

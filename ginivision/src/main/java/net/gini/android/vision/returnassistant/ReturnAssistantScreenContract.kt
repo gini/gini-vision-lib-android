@@ -13,6 +13,10 @@ interface ReturnAssistantScreenContract {
 
     interface View : GiniVisionBaseView<Presenter> {
         fun showLineItems(lineItems: List<SelectableLineItem>)
+        fun showSelectedAndTotalLineItems(selected: Int, total: Int)
+        fun enablePayButton(selected: Int, total: Int)
+        fun disablePayButton(selected: Int, total: Int)
+        fun showSelectedLineItemsSum(integralPart: String, fractionPart: String)
     }
 
     abstract class Presenter(activity: Activity, view: View) :

@@ -10,19 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.gv_fragment_return_assistant.*
 import net.gini.android.vision.R
-import java.math.BigDecimal
-import java.text.DecimalFormat
-import java.util.*
 
 /**
  * Created by Alpar Szotyori on 05.12.2019.
  *
  * Copyright (c) 2019 Gini GmbH.
  */
-
-val INTEGRAL_FORMAT = DecimalFormat("#")
-val FRACTION_FORMAT = DecimalFormat(".00")
-
 class ReturnAssistantFragment : Fragment(), ReturnAssistantScreenContract.View,
         ReturnAssistantFragmentInterface, LineItemsAdapterListener {
 
@@ -35,7 +28,6 @@ class ReturnAssistantFragment : Fragment(), ReturnAssistantScreenContract.View,
     private var presenter: ReturnAssistantScreenContract.Presenter? = null
 
     companion object {
-
         @JvmStatic
         fun createInstance() = ReturnAssistantFragment()
     }
@@ -82,54 +74,32 @@ class ReturnAssistantFragment : Fragment(), ReturnAssistantScreenContract.View,
 
     override fun showLineItems(lineItems: List<SelectableLineItem>) {
         (gv_line_items.adapter as LineItemsAdapter?)?.lineItems = lineItems
-        showSelectedAndTotalLineItems(lineItems)
-        showSelectedLineItemsAmountSum(lineItems)
-        updatePayButton(lineItems)
     }
 
-    private fun showSelectedAndTotalLineItems(lineItems: List<SelectableLineItem>) {
+    override fun showSelectedAndTotalLineItems(selected: Int, total: Int) {
         @SuppressLint("SetTextI18n")
-        gv_total_and_selected_items.text = selectedAndTotalLineItemsString(lineItems)
+        gv_total_and_selected_items.text = "${selected}/${total}"
     }
 
-    private fun selectedAndTotalLineItemsString(lineItems: List<SelectableLineItem>): String =
-            "${lineItems.count { it.selected }}/${lineItems.size}"
-
-    private fun updatePayButton(lineItems: List<SelectableLineItem>) {
-        gv_pay_button.apply {
-            isEnabled = lineItems.any { it.selected }
-            text = if (lineItems.isEmpty()) {
-                "Pay"
-            } else {
-                "Pay ${selectedAndTotalLineItemsString(lineItems)}"
-            }
-        }
+    override fun enablePayButton(selected: Int, total: Int) {
+        gv_pay_button.isEnabled = true
+        updatePayButtonTitle(selected, total)
     }
 
-    private fun showSelectedLineItemsAmountSum(lineItems: List<SelectableLineItem>) {
-        val sum = lineItemsAmountSum(lineItems)
-        val currency = lineItemsCurency(lineItems)
-        gv_amount_total_integral_part.text = amountIntegralPartWithCurrencySymbol(sum, currency)
-        gv_amount_total_fraction_part.text = sum.fractionPart(FRACTION_FORMAT)
+    override fun disablePayButton(selected: Int, total: Int) {
+        gv_pay_button.isEnabled = false
+        updatePayButtonTitle(selected, total)
     }
 
-    private fun lineItemsCurency(lineItems: List<SelectableLineItem>): Currency? =
-            if (lineItems.isEmpty()) null else lineItems.first().lineItem.currency
+    override fun showSelectedLineItemsSum(integralPart: String, fractionPart: String) {
+        gv_amount_total_integral_part.text = integralPart
+        gv_amount_total_fraction_part.text = fractionPart
+    }
 
-    private fun lineItemsAmountSum(lineItems: List<SelectableLineItem>) =
-            if (lineItems.isEmpty()) {
-                BigDecimal.ZERO
-            } else {
-                lineItems.fold<SelectableLineItem, BigDecimal>(
-                        BigDecimal.ZERO) { sum, sli ->
-                    if (sli.selected) sum.add(sli.lineItem.amount) else sum
-                }
-            }
-
-    private fun amountIntegralPartWithCurrencySymbol(amount: BigDecimal, currency: Currency?) =
-            currency?.let { c ->
-                amount.integralPartWithCurrency(c, INTEGRAL_FORMAT)
-            } ?: amount.integralPart(INTEGRAL_FORMAT)
+    private fun updatePayButtonTitle(selected: Int, total: Int) {
+        @SuppressLint("SetTextI18n")
+        gv_pay_button.text = "Pay ${selected}/${total}"
+    }
 
     override fun setPresenter(presenter: ReturnAssistantScreenContract.Presenter) {
         this.presenter = presenter
