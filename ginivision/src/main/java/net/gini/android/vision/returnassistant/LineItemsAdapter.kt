@@ -39,17 +39,15 @@ class LineItemsAdapter(context: Context, val listener: LineItemsAdapterListener)
         lineItems[position].let {
             viewHolder.apply {
                 checkbox.isChecked = it.selected
-                with(it.lineItem) {
-                    viewHolder.description.text = description
+                it.lineItem.let { li ->
+                    description.text = li.description
+                    quantity.text = li.quantity.toString()
+                    lineItemAmountIntegralAndFractionParts(li).let { (integral, fraction) ->
+                        priceIntegralPart.text = integral
+                        @SuppressLint("SetTextI18n")
+                        priceFractionPart.text = fraction
+                    }
                 }
-                description.text = it.lineItem.description
-                quantity.text = it.lineItem.quantity.toString()
-                priceIntegralPart.text = it.lineItem.currency?.let { currency ->
-                    it.lineItem.amount.integralPartWithCurrency(currency, INTEGRAL_FORMAT)
-                } ?: it.lineItem.amount.integralPart(INTEGRAL_FORMAT)
-                @SuppressLint("SetTextI18n")
-                priceFractionPart.text =
-                        it.lineItem.amount.fractionPart(FRACTION_FORMAT)
                 itemView.setOnClickListener {
                     listener.onLineItemClicked(lineItems[adapterPosition])
                 }

@@ -80,6 +80,7 @@ ext.deps = [
         junit                      : 'junit:junit:4.12',
         truth                      : 'com.google.truth:truth:0.28',
         mockito                    : "org.mockito:mockito-core:$mockitoVersion",
+        mockitoKotlin              : "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0",
         mockitoAndroid             : "org.mockito:mockito-android:$mockitoVersion",
         androidxTestCore           : "androidx.test:core:$androidxTestVersion",
         androidxTestJUnit          : 'androidx.test.ext:junit:1.1.1-beta01',
