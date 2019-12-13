@@ -54,6 +54,6 @@ class BigDecimalExtensionsTest {
         val result = number.integralPartWithCurrency(currency, format)
 
         // Then
-        assertThat(result).isEqualTo("EUR028")
+        assertThat(result).isEqualTo("${currency.symbol}028")
     }
 }

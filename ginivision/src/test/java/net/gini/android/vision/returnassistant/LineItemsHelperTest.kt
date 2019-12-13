@@ -116,7 +116,7 @@ class LineItemsHelperTest {
         val integralPartWithCurrency = amountIntegralPartWithCurrencySymbol(amount, currency)
 
         // Then
-        assertThat(integralPartWithCurrency).isEqualTo("EUR1")
+        assertThat(integralPartWithCurrency).isEqualTo("${Currency.getInstance("EUR").symbol}1")
     }
 
     @Test
@@ -147,7 +147,7 @@ class LineItemsHelperTest {
         val (integral, fraction) = lineItemsSumIntegralAndFractionParts(lineItems)
 
         // Then
-        assertThat(integral).isEqualTo("EUR7")
+        assertThat(integral).isEqualTo("${Currency.getInstance("EUR").symbol}7")
         assertThat(fraction).isEqualTo(".08")
     }
 }

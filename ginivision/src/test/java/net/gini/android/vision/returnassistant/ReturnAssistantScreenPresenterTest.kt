@@ -11,6 +11,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations.initMocks
+import java.util.*
 
 
 /**
@@ -113,7 +114,7 @@ class ReturnAssistantScreenPresenterTest {
             updateView(lineItems)
 
             // Then
-            verify(view).showSelectedLineItemsSum("EUR7", ".07")
+            verify(view).showSelectedLineItemsSum("${Currency.getInstance("EUR").symbol}7", ".07")
         }
     }
 
@@ -137,7 +138,7 @@ class ReturnAssistantScreenPresenterTest {
             updateView(lineItems)
 
             // Then
-            verify(view).showSelectedLineItemsSum("EUR15", ".28")
+            verify(view).showSelectedLineItemsSum("${Currency.getInstance("EUR").symbol}15", ".28")
         }
     }
 
