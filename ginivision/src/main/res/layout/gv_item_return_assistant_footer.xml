@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:paddingStart="16dp"
+    android:paddingTop="16dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="0dp">
+
+    <net.gini.android.vision.internal.ui.CustomFontTextView
+        android:id="@+id/gv_amount_total_integral_part"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="32dp"
+        android:layout_toStartOf="@+id/gv_amount_total_fraction_part"
+        android:includeFontPadding="false"
+        android:text="€242"
+        android:textColor="#000"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <net.gini.android.vision.internal.ui.CustomFontTextView
+        android:id="@+id/gv_amount_total_fraction_part"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/gv_amount_total_integral_part"
+        android:layout_alignParentEnd="true"
+        android:text=".90"
+        android:textColor="#000"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <net.gini.android.vision.internal.ui.CustomFontTextView
+        android:id="@+id/gv_bottom_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gv_amount_total_integral_part"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="88dp"
+        android:gravity="center_horizontal"
+        android:text="Please check that all is in order and edit if necessary before paying."
+        android:textSize="12sp" />
+
+</RelativeLayout>

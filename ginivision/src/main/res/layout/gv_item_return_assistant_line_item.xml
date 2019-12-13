@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_margin="4dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginBottom="4dp"
     app:cardBackgroundColor="#fff"
     app:cardCornerRadius="10dp"
     app:cardElevation="2dp"
@@ -30,10 +33,10 @@
             android:layout_marginBottom="16dp"
             android:layout_toStartOf="@id/edit"
             android:layout_toEndOf="@id/gv_checkbox"
-            tools:text="Nike Sportswear Air Max 97 - Sneaker Low"
             android:textColor="#000"
             android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="Nike Sportswear Air Max 97 - Sneaker Low" />
 
         <TextView
             android:id="@+id/gv_quantity_label"
@@ -47,8 +50,8 @@
             android:id="@+id/gv_quantity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/gv_quantity_label"
             android:layout_alignBaseline="@id/gv_quantity_label"
+            android:layout_toEndOf="@id/gv_quantity_label"
             tools:text="1" />
 
         <net.gini.android.vision.internal.ui.CustomFontButton
@@ -74,9 +77,9 @@
             android:layout_alignBaseline="@id/gv_quantity"
             android:layout_toStartOf="@id/gv_amount_fraction_part"
             android:includeFontPadding="false"
-            tools:text="€76"
             android:textColor="#000"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            tools:text="€76" />
 
         <TextView
             android:id="@+id/gv_amount_fraction_part"
@@ -84,9 +87,9 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/gv_amount_integral_part"
             android:layout_alignParentEnd="true"
-            tools:text=".48"
             android:textColor="#000"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            tools:text=".48" />
 
     </RelativeLayout>
 

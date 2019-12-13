@@ -77,8 +77,7 @@ class ReturnAssistantFragment : Fragment(), ReturnAssistantScreenContract.View,
     }
 
     override fun showSelectedAndTotalLineItems(selected: Int, total: Int) {
-        @SuppressLint("SetTextI18n")
-        gv_total_and_selected_items.text = "${selected}/${total}"
+        (gv_line_items.adapter as LineItemsAdapter?)?.selectedAndTotalItems = "${selected}/${total}"
     }
 
     override fun enablePayButton(selected: Int, total: Int) {
@@ -92,8 +91,8 @@ class ReturnAssistantFragment : Fragment(), ReturnAssistantScreenContract.View,
     }
 
     override fun showSelectedLineItemsSum(integralPart: String, fractionPart: String) {
-        gv_amount_total_integral_part.text = integralPart
-        gv_amount_total_fraction_part.text = fractionPart
+        (gv_line_items.adapter as LineItemsAdapter?)?.totalAmountIntegralAndFractionParts =
+                Pair(integralPart, fractionPart)
     }
 
     private fun updatePayButtonTitle(selected: Int, total: Int) {

@@ -10,11 +10,11 @@ import kotlin.random.Random
  * Copyright (c) 2019 Gini GmbH.
  */
 
-val mockLineItems = List(10) { i ->
+val mockLineItems = List(50) { i ->
     LineItem(id = "$i",
             description = "Nike Sportswear Air Max ${Random.nextInt(1, 99)} - Sneaker Low",
-            quantity = 2,
-            rawAmount = "${Random.nextInt(25)}.${Random.nextInt(9)}${Random.nextInt(9)}:EUR")
+            quantity = Random.nextInt(10),
+            rawAmount = "${Random.nextInt(2500)}.${Random.nextInt(9)}${Random.nextInt(9)}:EUR")
 }.map { SelectableLineItem(lineItem = it) }
 
 internal open class ReturnAssistantScreenPresenter(activity: Activity,
