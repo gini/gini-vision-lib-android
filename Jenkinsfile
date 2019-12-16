@@ -180,7 +180,7 @@ pipeline {
                 }
             }
             steps {
-                sh './gradlew ginivision:unifyConnectedTestCoverage ginivision:jacocoTestDebugUnitTestReport'
+                sh './gradlew ginivision:unifyConnectedTestCoverage ginivision:jacocoTestDebugUnitTestReport -Dorg.gradle.java.home=$JAVA9'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision/build/reports/jacoco/jacocoTestDebugUnitTestReport/html', reportFiles: 'index.html', reportName: 'Code Coverage Report', reportTitles: ''])
             }
         }
