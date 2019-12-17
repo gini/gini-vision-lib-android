@@ -31,7 +31,9 @@ import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.requirements.GiniVisionRequirements;
 import net.gini.android.vision.requirements.RequirementReport;
 import net.gini.android.vision.requirements.RequirementsReport;
-import net.gini.android.vision.returnassistant.ReturnAssistantActivity;
+import net.gini.android.vision.returnassistant.LineItem;
+import net.gini.android.vision.returnassistant.SelectableLineItem;
+import net.gini.android.vision.returnassistant.details.LineItemDetailsActivity;
 import net.gini.android.vision.util.CancellationToken;
 
 import org.slf4j.Logger;
@@ -300,7 +302,11 @@ public class MainActivity extends AppCompatActivity {
         // Start for result in order to receive the error result, in case something went wrong, or the extractions
         // To receive the extractions add it to the result Intent in ReviewActivity#onAddDataToResult(Intent) or
         // AnalysisActivity#onAddDataToResult(Intent) and retrieve them here in onActivityResult()
-        startActivityForResult(new Intent(this, ReturnAssistantActivity.class), REQUEST_SCAN);
+        final Intent debug = new Intent(this, LineItemDetailsActivity.class);
+        debug.putExtra(LineItemDetailsActivity.EXTRA_IN_SELECTABLE_LINE_ITEM,
+                new SelectableLineItem(true,
+                        new LineItem("id", "description", 3, "17.22:EUR")));
+        startActivityForResult(debug, REQUEST_SCAN);
     }
 
     private void configureGiniVision() {

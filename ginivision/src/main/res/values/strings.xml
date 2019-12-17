@@ -117,6 +117,7 @@
     <string name="gv_file_import_default_app_dialog_document_file_type">Dokumente</string>
 
     <string name="gv_title_return_assistant">Return Assistant</string> <!-- TODO: translate to German -->
+    <string name="gv_title_line_item_details">Details</string> <!-- TODO: translate to German -->
     <string name="gv_return_assistant_scan_success">Scan successful!\nYou can now deselect items you would like to return.</string> <!-- TODO: translate to German -->
     <string name="gv_return_assistant_items">Items</string> <!-- TODO: translate to German -->
     <string name="gv_return_assistant_help">What is this?</string> <!-- TODO: translate to German -->
