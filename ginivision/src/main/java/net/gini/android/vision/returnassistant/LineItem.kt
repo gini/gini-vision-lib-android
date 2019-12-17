@@ -1,5 +1,8 @@
 package net.gini.android.vision.returnassistant
 
+import android.os.Parcelable
+import kotlinx.android.parcel.IgnoredOnParcel
+import kotlinx.android.parcel.Parcelize
 import java.math.BigDecimal
 import java.util.*
 
@@ -8,15 +11,19 @@ import java.util.*
  *
  * Copyright (c) 2019 Gini GmbH.
  */
+@Parcelize
 class LineItem(
         val id: String,
         val description: String,
         val quantity: Int,
         val rawAmount: String
-) {
+) : Parcelable {
 
+    @IgnoredOnParcel
     val amount: BigDecimal
+    @IgnoredOnParcel
     val totalAmount: BigDecimal
+    @IgnoredOnParcel
     val currency: Currency?
 
     init {
@@ -47,4 +54,7 @@ class LineItem(
 
     override fun hashCode() = Objects.hash(id, description, quantity, rawAmount, amount,
             totalAmount, currency)
+
+    fun copy() = LineItem(id, description, quantity, rawAmount)
+
 }
