@@ -26,5 +26,3 @@ interface ReturnAssistantScreenContract {
         abstract fun deselectLineItem(lineItem: SelectableLineItem)
     }
 }
-
-data class SelectableLineItem(var selected: Boolean = true, val lineItem: LineItem)
