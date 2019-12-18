@@ -3,7 +3,6 @@ package net.gini.android.vision.returnassistant.details
 import android.app.Activity
 import net.gini.android.vision.GiniVisionBasePresenter
 import net.gini.android.vision.GiniVisionBaseView
-import net.gini.android.vision.returnassistant.SelectableLineItem
 import java.math.BigDecimal
 
 /**
@@ -14,7 +13,15 @@ import java.math.BigDecimal
 interface LineItemDetailsScreenContract {
 
     interface View : GiniVisionBaseView<Presenter> {
-        fun showLineItem(lineItem: SelectableLineItem)
+        fun showDescription(description: String)
+        fun showQuantity(quantity: Int)
+        fun showAmount(amount: BigDecimal)
+        fun showCheckbox(selected: Boolean, quantity: Int)
+        fun showTotalAmount(integralPart: String, fractionPart: String)
+        fun enableSaveButton()
+        fun disableSaveButton()
+        fun enableInput()
+        fun disableInput()
     }
 
     abstract class Presenter(activity: Activity, view: View) :

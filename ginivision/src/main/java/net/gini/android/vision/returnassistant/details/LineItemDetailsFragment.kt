@@ -4,13 +4,15 @@ package net.gini.android.vision.returnassistant.details
 import android.app.Activity
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import kotlinx.android.synthetic.main.gv_fragment_line_item_details.*
 import net.gini.android.vision.R
 import net.gini.android.vision.returnassistant.LineItem
 import net.gini.android.vision.returnassistant.SelectableLineItem
+import java.math.BigDecimal
 
 private const val ARG_SELECTABLE_LINE_ITEM = "GV_ARG_SELECTABLE_LINE_ITEM"
 
@@ -31,6 +33,10 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
     private var presenter: LineItemDetailsScreenContract.Presenter? = null
 
     private lateinit var lineItem: SelectableLineItem
+
+    private var descriptionTextWatcher: TextWatcher? = null
+    private var quantityTextWatcher: TextWatcher? = null
+    private var amountTextWatcher: TextWatcher? = null
 
     companion object {
         @JvmStatic
@@ -77,6 +83,47 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
                               savedInstanceState: Bundle?): View? = inflater.inflate(
             R.layout.gv_fragment_line_item_details, container, false)
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setInputHandlers()
+    }
+
+    private fun setInputHandlers() {
+        gv_checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
+            presenter?.let {
+                if (isChecked) {
+                    it.selectLineItem()
+                } else {
+                    it.deselectLineItem()
+                }
+            }
+        }
+        descriptionTextWatcher = gv_description.doAfterTextChanged {
+            presenter?.setDescription(it)
+        }
+        quantityTextWatcher = gv_quantity.doAfterTextChanged {
+            presenter?.setQuantity(try {
+                it.toInt()
+            } catch (_: NumberFormatException) {
+                0
+            })
+        }
+        amountTextWatcher = gv_amount.doAfterTextChanged {
+            presenter?.setAmount(try {
+                BigDecimal(it)
+            } catch (_: NumberFormatException) {
+                BigDecimal.ZERO
+            })
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        gv_description.removeTextChangedListener(descriptionTextWatcher)
+        gv_quantity.removeTextChangedListener(quantityTextWatcher)
+        gv_amount.removeTextChangedListener(amountTextWatcher)
+    }
+
     override fun setPresenter(presenter: LineItemDetailsScreenContract.Presenter) {
         this.presenter = presenter
     }
@@ -91,9 +138,46 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
         presenter?.stop()
     }
 
-    override fun showLineItem(lineItem: SelectableLineItem) {
-        // TODO
-        Log.d("view", "show line item: $lineItem")
+    override fun showDescription(description: String) {
+        gv_description.setText(description)
+    }
+
+    override fun showQuantity(quantity: Int) {
+        gv_quantity.setText(quantity.toString())
+    }
+
+    override fun showAmount(amount: BigDecimal) {
+        gv_amount.setText(amount.toString())
+    }
+
+    override fun showTotalAmount(integralPart: String, fractionPart: String) {
+        gv_amount_total_integral_part.text = integralPart
+        gv_amount_total_fraction_part.text = fractionPart
+    }
+
+    override fun enableSaveButton() {
+        gv_save_button.isEnabled = true
+    }
+
+    override fun disableSaveButton() {
+        gv_save_button.isEnabled = false
+    }
+
+    override fun enableInput() {
+        gv_description.isEnabled = true
+        gv_quantity.isEnabled = true
+        gv_amount.isEnabled = true
+    }
+
+    override fun disableInput() {
+        gv_description.isEnabled = false
+        gv_quantity.isEnabled = false
+        gv_amount.isEnabled = false
+    }
+
+    override fun showCheckbox(selected: Boolean, quantity: Int) {
+        gv_checkbox.isChecked = selected
+        gv_checkbox.text = "${quantity} items ${if (selected) "selected" else ""}"
     }
 
 }

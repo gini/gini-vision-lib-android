@@ -23,5 +23,8 @@ class SelectableLineItem(
 
     override fun hashCode() = Objects.hash(selected, lineItem)
 
-    fun copy() = SelectableLineItem(selected, lineItem.copy())
+    @JvmSynthetic
+    fun copy(selected: Boolean = this.selected,
+             lineItem: LineItem = this.lineItem) = SelectableLineItem(selected,
+            lineItem.copy())
 }

@@ -19,12 +19,18 @@ class LineItem(
         val rawAmount: String
 ) : Parcelable {
 
+    companion object {
+        fun createRawAmount(amount: String, currency: String) = "$amount:$currency"
+    }
+
     @IgnoredOnParcel
     val amount: BigDecimal
     @IgnoredOnParcel
     val totalAmount: BigDecimal
     @IgnoredOnParcel
     val currency: Currency?
+    @IgnoredOnParcel
+    val rawCurrency: String
 
     init {
         rawAmount.split(":").let {
@@ -33,6 +39,7 @@ class LineItem(
             }
             amount = BigDecimal(it[0])
             totalAmount = amount.times(BigDecimal(quantity))
+            rawCurrency = it[1]
             currency = try {
                 Currency.getInstance(it[1])
             } catch (e: Exception) {
@@ -55,6 +62,9 @@ class LineItem(
     override fun hashCode() = Objects.hash(id, description, quantity, rawAmount, amount,
             totalAmount, currency)
 
-    fun copy() = LineItem(id, description, quantity, rawAmount)
+    @JvmSynthetic
+    fun copy(id: String = this.id, description: String = this.description,
+             quantity: Int = this.quantity, rawAmount: String = this.rawAmount) =
+            LineItem(id, description, quantity, rawAmount)
 
 }

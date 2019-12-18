@@ -1,14 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context=".returnassistant.details.LineItemDetailsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello there" />
+    <CheckBox
+        android:id="@+id/gv_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="16dp"
+        android:text="1 item selected" />
 
-</FrameLayout>
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/gv_description_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gv_checkbox"
+        android:layout_marginBottom="16dp">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/gv_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Item Name"
+            android:inputType="text"
+            android:nextFocusDown="@id/gv_quantity"
+            tools:text="Nike Sportswear Air Max 97 - Sneaker Low" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+        android:id="@+id/gv_quantity_and_amount_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gv_description_container"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/gv_quantity_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/gv_quantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Quantity"
+                android:inputType="number"
+                android:nextFocusDown="@id/gv_amount"
+                tools:text="1" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <net.gini.android.vision.internal.ui.CustomFontTextView
+            android:id="@+id/gv_multiplier"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="X"
+            android:textColor="#000"
+            android:textSize="14sp" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/gv_amount_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/gv_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:hint="Item price"
+                android:inputType="numberDecimal"
+                tools:text="152.95" />
+
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+    <net.gini.android.vision.internal.ui.CustomFontTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gv_quantity_and_amount_container"
+        android:layout_alignTop="@id/gv_amount_total_integral_part"
+        android:layout_alignBottom="@id/gv_amount_total_integral_part"
+        android:layout_marginEnd="16dp"
+        android:layout_toStartOf="@id/gv_amount_total_integral_part"
+        android:gravity="center"
+        android:text="Total:" />
+
+    <net.gini.android.vision.internal.ui.CustomFontTextView
+        android:id="@+id/gv_amount_total_integral_part"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gv_quantity_and_amount_container"
+        android:layout_marginBottom="32dp"
+        android:layout_toStartOf="@+id/gv_amount_total_fraction_part"
+        android:includeFontPadding="false"
+        android:text="€0"
+        android:textColor="#000"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <net.gini.android.vision.internal.ui.CustomFontTextView
+        android:id="@+id/gv_amount_total_fraction_part"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/gv_amount_total_integral_part"
+        android:layout_alignParentEnd="true"
+        android:text=".00"
+        android:textColor="#000"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <net.gini.android.vision.internal.ui.CustomFontButton
+        android:id="@+id/gv_save_button"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        android:text="Save"
+        app:backgroundTint="#0087dc" />
+
+</RelativeLayout>
