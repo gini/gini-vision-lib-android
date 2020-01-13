@@ -51,7 +51,7 @@ internal open class ReturnAssistantScreenPresenter(activity: Activity,
     internal fun updateView(lineItems: List<SelectableLineItem>) {
         view.apply {
             showLineItems(lineItems)
-            selectedAndTotalLineItems(lineItems).let { (selected, total) ->
+            selectedAndTotalLineItemsCount(lineItems).let { (selected, total) ->
                 showSelectedAndTotalLineItems(selected, total)
                 if (selected > 0) {
                     enablePayButton(selected, total)
@@ -65,6 +65,13 @@ internal open class ReturnAssistantScreenPresenter(activity: Activity,
         }
     }
 
-    private fun selectedAndTotalLineItems(lineItems: List<SelectableLineItem>): Pair<Int, Int> =
-            Pair(lineItems.count { it.selected }, lineItems.size)
+    private fun selectedAndTotalLineItemsCount(
+            lineItems: List<SelectableLineItem>): Pair<Int, Int> =
+            Pair(selectedLineItemsCount(lineItems), totalLineItemsCount(lineItems))
+
+    private fun selectedLineItemsCount(lineItems: List<SelectableLineItem>): Int =
+            lineItems.fold(0) { c, sli -> if (sli.selected) c + sli.lineItem.quantity else c }
+
+    private fun totalLineItemsCount(lineItems: List<SelectableLineItem>): Int =
+            lineItems.fold(0) { c, sli -> c + sli.lineItem.quantity }
 }

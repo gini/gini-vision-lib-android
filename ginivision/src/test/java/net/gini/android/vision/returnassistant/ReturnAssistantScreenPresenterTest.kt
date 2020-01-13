@@ -28,6 +28,8 @@ class ReturnAssistantScreenPresenterTest {
     @Mock
     private lateinit var view: View
 
+    private val totalLineItemsCount = mockLineItems.fold(0) { c, sli -> c + sli.lineItem.quantity }
+
     @Before
     fun setUp() {
         initMocks(this)
@@ -56,10 +58,13 @@ class ReturnAssistantScreenPresenterTest {
             // When
             lineItems.run {
                 first().selected = false
+                val unselectedQuantity = first().lineItem.quantity
+
                 updateView(this)
 
                 // Then
-                verify(view).showSelectedAndTotalLineItems(size - 1, size)
+                verify(view).showSelectedAndTotalLineItems(totalLineItemsCount - unselectedQuantity,
+                        totalLineItemsCount)
             }
         }
     }
@@ -75,7 +80,7 @@ class ReturnAssistantScreenPresenterTest {
                 updateView(this)
 
                 // Then
-                verify(view).enablePayButton(size, size)
+                verify(view).enablePayButton(totalLineItemsCount, totalLineItemsCount)
             }
         }
     }
@@ -92,7 +97,7 @@ class ReturnAssistantScreenPresenterTest {
                 updateView(this)
 
                 // Then
-                verify(view).disablePayButton(0, size)
+                verify(view).disablePayButton(0, totalLineItemsCount)
             }
         }
     }
