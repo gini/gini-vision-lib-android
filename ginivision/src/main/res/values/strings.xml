@@ -116,6 +116,9 @@
     <string name="gv_file_import_default_app_dialog_image_file_type">Bilder</string>
     <string name="gv_file_import_default_app_dialog_document_file_type">Dokumente</string>
 
-    <string name="gv_title_return_assistant">Return Assistant</string>
+    <string name="gv_title_return_assistant">Return Assistant</string> <!-- TODO: translate to German -->
+    <string name="gv_return_assistant_scan_success">Scan successful! You can now deselect items you would like to return.</string> <!-- TODO: translate to German -->
+    <string name="gv_return_assistant_items">Items</string> <!-- TODO: translate to German -->
+    <string name="gv_return_assistant_help">What is this?</string> <!-- TODO: translate to German -->
 
 </resources>

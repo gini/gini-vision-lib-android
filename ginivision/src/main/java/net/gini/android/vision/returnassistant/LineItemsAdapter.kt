@@ -125,7 +125,8 @@ sealed class ViewHolder<in T>(itemView: View, val viewType: ViewType) :
         private val selectedAndTotalItems = itemView.gv_selected_and_total_items
 
         override fun bind(data: String, allData: List<String>?) {
-            selectedAndTotalItems.text = data
+            @SuppressLint("SetTextI18n")
+            selectedAndTotalItems.text = " $data"
         }
 
         override fun unbind() {

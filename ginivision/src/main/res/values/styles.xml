@@ -241,6 +241,22 @@
         <item name="gvCustomFont"/>
     </style>
 
+    <style name="Root.GiniVisionTheme.ReturnAssistant.Title.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">#0087dc</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Root.GiniVisionTheme.ReturnAssistant.SelectedAndTotalItems.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#696969</item>
+    </style>
+
+    <style name="Root.GiniVisionTheme.ReturnAssistant.Help.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#696969</item>
+    </style>
+
     <!-- Text styles used in the layouts which are overridable for customization -->
 
     <style name="GiniVisionTheme.Camera.Error.NoPermission.TextStyle" parent="Root.GiniVisionTheme.Camera.Error.NoPermission.TextStyle"/>
@@ -306,5 +322,11 @@
     <style name="GiniVisionTheme.Review.MultiPage.ThumbnailBadge.TextStyle" parent="Root.GiniVisionTheme.Review.MultiPage.ThumbnailBadge.TextStyle"/>
 
     <style name="GiniVisionTheme.Review.MultiPage.PageIndicator.TextStyle" parent="Root.GiniVisionTheme.Review.MultiPage.PageIndicator.TextStyle"/>
+
+    <style name="GiniVisionTheme.ReturnAssistant.Title.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.Title.TextStyle" />
+
+    <style name="GiniVisionTheme.ReturnAssistant.SelectedAndTotalItems.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.SelectedAndTotalItems.TextStyle" />
+
+    <style name="GiniVisionTheme.ReturnAssistant.Help.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.Help.TextStyle" />
 
 </resources>
