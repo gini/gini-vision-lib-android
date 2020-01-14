@@ -54,6 +54,7 @@
                 android:hint="Quantity"
                 android:inputType="number"
                 android:nextFocusDown="@id/gv_amount"
+                android:selectAllOnFocus="true"
                 tools:text="1" />
 
         </android.support.design.widget.TextInputLayout>
@@ -81,6 +82,7 @@
                 android:gravity="end"
                 android:hint="Item price"
                 android:inputType="numberDecimal"
+                android:selectAllOnFocus="true"
                 tools:text="152.95" />
 
         </android.support.design.widget.TextInputLayout>
