@@ -8,30 +8,21 @@
     android:paddingEnd="16dp"
     android:paddingBottom="0dp">
 
-    <net.gini.android.vision.internal.ui.CustomFontTextView
-        android:id="@+id/gv_subtitle"
+    <TextView
+        android:id="@+id/gv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
-        android:gravity="center_horizontal"
-        android:text="Scan successful!"
-        android:textColor="#000" />
-
-    <net.gini.android.vision.internal.ui.CustomFontTextView
-        android:id="@+id/gv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/gv_subtitle"
-        android:layout_centerHorizontal="true"
         android:layout_marginStart="60dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="60dp"
+        android:fontFamily="sans-serif-medium"
         android:gravity="center_horizontal"
-        android:text="You can now deselect items you would like to return."
+        android:lineSpacingMultiplier="1.3"
+        android:text="Scan successful!\nYou can now deselect items you would like to return."
         android:textColor="#0087dc"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textSize="16sp" />
 
     <ImageView
         android:id="@+id/gv_hero_image"
@@ -49,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/gv_hero_image">
 
-        <net.gini.android.vision.internal.ui.CustomFontTextView
+        <TextView
             android:id="@+id/gv_selected_and_total_items_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,7 +49,7 @@
             android:text="Items "
             android:textSize="12sp" />
 
-        <net.gini.android.vision.internal.ui.CustomFontTextView
+        <TextView
             android:id="@+id/gv_selected_and_total_items"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -67,18 +58,20 @@
             android:text="2/2"
             android:textSize="12sp" />
 
-        <net.gini.android.vision.internal.ui.CustomFontButton
+        <Button
             android:id="@+id/info"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:drawableEnd="@drawable/gv_info_icon"
+            android:layout_marginEnd="-12dp"
+            android:drawableEnd="@drawable/gv_help_icon_dark"
             android:drawablePadding="4dp"
-            android:paddingEnd="0dp"
+            android:fontFamily="sans-serif"
             android:text="What is this?"
             android:textAllCaps="false"
-            android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+            android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button"
+            android:textColor="#696969"
             android:textSize="12sp" />
     </RelativeLayout>
 
