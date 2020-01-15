@@ -125,5 +125,11 @@
     <color name="gv_return_assistant_header_background">#fff</color>
     <color name="gv_return_assistant_line_item_background">#fff</color>
     <color name="gv_return_assistant_line_item_stroke">#009edc</color>
+    <color name="gv_return_assistant_title_text">#0087dc</color>
+    <color name="gv_return_assistant_selected_and_total_items_text">#696969</color>
+    <color name="gv_return_assistant_help_text">#696969</color>
+    <color name="gv_return_assistant_line_item_description_text">#000</color>
+    <color name="gv_return_assistant_line_item_edit_text">#0087dc</color>
+    <color name="gv_return_assistant_line_item_amount_text">#000</color>
 
 </resources>
