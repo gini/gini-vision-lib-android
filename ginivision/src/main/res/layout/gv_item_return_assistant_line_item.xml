@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
-    android:layout_marginTop="4dp"
-    android:layout_marginEnd="16dp"
-    android:layout_marginBottom="4dp"
-    app:cardBackgroundColor="#fff"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="2dp"
-    app:contentPadding="16dp">
+    android:layout_marginStart="@dimen/gv_return_assistant_line_item_horizontal_margin"
+    android:layout_marginTop="@dimen/gv_return_assistant_line_item_vertical_margin"
+    android:layout_marginEnd="@dimen/gv_return_assistant_line_item_horizontal_margin"
+    android:layout_marginBottom="@dimen/gv_return_assistant_line_item_vertical_margin"
+    app:cardBackgroundColor="@color/gv_return_assistant_line_item_background"
+    app:cardCornerRadius="@dimen/gv_return_assistant_line_item_corner_radius"
+    app:cardElevation="@dimen/gv_return_assistant_line_item_card_elevation"
+    app:contentPadding="@dimen/gv_return_assistant_line_item_padding"
+    app:strokeColor="@color/gv_return_assistant_line_item_stroke"
+    app:strokeWidth="@dimen/gv_return_assistant_line_item_stroke_width">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -23,19 +25,17 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_marginRight="16dp" />
+            android:layout_marginEnd="@dimen/gv_return_assistant_line_item_checkbox_margin_right" />
 
         <TextView
             android:id="@+id/gv_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/gv_checkbox"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/gv_return_assistant_line_item_description_margin_bottom"
             android:layout_toStartOf="@id/edit"
             android:layout_toEndOf="@id/gv_checkbox"
-            android:textColor="#000"
-            android:textSize="14sp"
-            android:textStyle="bold"
+            android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.LineItem.Description.TextStyle"
             tools:text="Nike Sportswear Air Max 97 - Sneaker Low" />
 
         <TextView
@@ -44,7 +44,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/gv_description"
             android:layout_alignStart="@id/gv_description"
-            android:text="Quantity: " />
+            android:text="@string/gv_return_assistant_line_item_quantity"
+            android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.LineItem.Quantity.TextStyle" />
 
         <TextView
             android:id="@+id/gv_quantity"
@@ -52,9 +53,10 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/gv_quantity_label"
             android:layout_toEndOf="@id/gv_quantity_label"
-            tools:text="1" />
+            android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.LineItem.Quantity.TextStyle"
+            tools:text=" 1" />
 
-        <net.gini.android.vision.internal.ui.CustomFontButton
+        <Button
             android:id="@+id/edit"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
@@ -62,13 +64,10 @@
             android:layout_alignBaseline="@id/gv_description"
             android:layout_alignParentEnd="true"
             android:drawableEnd="@drawable/gv_edit_icon"
-            android:drawablePadding="0dp"
-            android:paddingEnd="0dp"
-            android:text="Edit"
-            android:textAllCaps="false"
-            android:textAppearance="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
-            android:textColor="#0087dc"
-            android:textSize="14sp" />
+            android:drawablePadding="@dimen/gv_return_assistant_line_item_edit_drawable_padding"
+            android:paddingEnd="@dimen/gv_return_assistant_line_item_edit_padding_right"
+            android:text="@string/gv_return_assistant_line_item_edit"
+            android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.LineItem.Edit.TextStyle" />
 
         <TextView
             android:id="@+id/gv_amount_integral_part"
@@ -76,9 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/gv_quantity"
             android:layout_toStartOf="@id/gv_amount_fraction_part"
-            android:includeFontPadding="false"
-            android:textColor="#000"
-            android:textSize="24sp"
+            android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.LineItem.Amount.Integral.TextStyle"
             tools:text="€76" />
 
         <TextView
@@ -87,10 +84,9 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/gv_amount_integral_part"
             android:layout_alignParentEnd="true"
-            android:textColor="#000"
-            android:textSize="12sp"
+            android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.LineItem.Amount.Fraction.TextStyle"
             tools:text=".48" />
 
     </RelativeLayout>
 
-</android.support.v7.widget.CardView>
+</android.support.design.card.MaterialCardView>

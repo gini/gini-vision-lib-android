@@ -123,5 +123,7 @@
     <color name="gv_return_assistant_activity_background">#fff</color>
     <color name="gv_return_assistant_fragment_background">#fff</color>
     <color name="gv_return_assistant_header_background">#fff</color>
+    <color name="gv_return_assistant_line_item_background">#fff</color>
+    <color name="gv_return_assistant_line_item_stroke">#009edc</color>
 
 </resources>

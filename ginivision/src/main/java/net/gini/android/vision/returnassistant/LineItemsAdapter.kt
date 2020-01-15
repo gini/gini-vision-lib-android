@@ -145,7 +145,8 @@ sealed class ViewHolder<in T>(itemView: View, val viewType: ViewType) :
             checkbox.isChecked = data.selected
             data.lineItem.let { li ->
                 description.text = li.description
-                quantity.text = li.quantity.toString()
+                @SuppressLint("SetTextI18n")
+                quantity.text = " ${li.quantity}"
                 lineItemTotalAmountIntegralAndFractionParts(li).let { (integral, fraction) ->
                     priceIntegralPart.text = integral
                     @SuppressLint("SetTextI18n")
