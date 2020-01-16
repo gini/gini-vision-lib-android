@@ -1,6 +1,7 @@
 package net.gini.android.vision.returnassistant
 
 import java.math.BigDecimal
+import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.*
 
@@ -11,7 +12,7 @@ import java.util.*
  */
 
 val INTEGRAL_FORMAT = DecimalFormat("#")
-val FRACTION_FORMAT = DecimalFormat(".00")
+val FRACTION_FORMAT = DecimalFormat(".00").apply { roundingMode = RoundingMode.DOWN }
 
 fun lineItemsSumIntegralAndFractionParts(
         lineItems: List<SelectableLineItem>): Pair<String, String> {
