@@ -105,4 +105,9 @@
     <string name="gv_return_assistant_line_item_edit">Edit</string>
     <string name="gv_return_assistant_line_item_quantity">Quantity:</string>
     <string name="gv_return_assistant_footer_notice">Please check that all is in order and edit if necessary before paying.</string>
+    <string name="gv_return_assistant_line_item_details_description_label">Item Name</string>
+    <string name="gv_return_assistant_line_item_details_quantity_label">Quantity</string>
+    <string name="gv_return_assistant_line_item_details_amount_label">Item price</string>
+    <string name="gv_return_assistant_line_item_details_total_label">Total:</string>
+    <string name="gv_return_assistant_line_item_details_save">Save</string>
 </resources>

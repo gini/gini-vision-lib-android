@@ -291,17 +291,17 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="Root.GiniVisionTheme.ReturnAssistant.LineItem.Footer.Amount.Integral.TextStyle" parent="TextAppearance.AppCompat">
+    <style name="Root.GiniVisionTheme.ReturnAssistant.TotalAmount.Integral.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textColor">@color/gv_return_assistant_footer_amount_text</item>
         <item name="android:textSize">24sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="Root.GiniVisionTheme.ReturnAssistant.Footer.Amount.Fraction.TextStyle" parent="TextAppearance.AppCompat">
+    <style name="Root.GiniVisionTheme.ReturnAssistant.TotalAmount.Fraction.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textColor">@color/gv_return_assistant_footer_amount_text</item>
-        <item name="android:textSize">11sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
@@ -309,6 +309,25 @@
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textSize">11sp</item>
         <item name="android:textColor">@color/gv_return_assistant_footer_notice_text</item>
+    </style>
+
+    <style name="Root.GiniVisionTheme.ReturnAssistant.LineItemDetails.Checkbox.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/gv_return_assistant_line_item_details_checkbox_label
+        </item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="Root.GiniVisionTheme.ReturnAssistant.LineItemDetails.InputField.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Root.GiniVisionTheme.ReturnAssistant.LineItemDetails.Total.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/gv_return_assistant_line_item_details_total_label
+        </item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <!-- Text styles used in the layouts which are overridable for customization -->
@@ -393,10 +412,16 @@
 
     <style name="GiniVisionTheme.ReturnAssistant.LineItem.Amount.Fraction.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.LineItem.Amount.Fraction.TextStyle" />
 
-    <style name="GiniVisionTheme.ReturnAssistant.Footer.Amount.Integral.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.LineItem.Footer.Amount.Integral.TextStyle" />
+    <style name="GiniVisionTheme.ReturnAssistant.TotalAmount.Integral.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.TotalAmount.Integral.TextStyle" />
 
-    <style name="GiniVisionTheme.ReturnAssistant.LineItem.Footer.Amount.Fraction.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.Footer.Amount.Fraction.TextStyle" />
+    <style name="GiniVisionTheme.ReturnAssistant.TotalAmount.Fraction.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.TotalAmount.Fraction.TextStyle" />
 
-    <style name="GiniVisionTheme.ReturnAssistant.LineItem.Footer.Notice.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.Footer.Notice.TextStyle" />
+    <style name="GiniVisionTheme.ReturnAssistant.Footer.Notice.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.Footer.Notice.TextStyle" />
+
+    <style name="GiniVisionTheme.ReturnAssistant.LineItemDetails.Checkbox.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.LineItemDetails.Checkbox.TextStyle" />
+
+    <style name="GiniVisionTheme.ReturnAssistant.LineItemDetails.InputField.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.LineItemDetails.InputField.TextStyle" />
+
+    <style name="GiniVisionTheme.ReturnAssistant.LineItemDetails.Total.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.LineItemDetails.Total.TextStyle" />
 
 </resources>

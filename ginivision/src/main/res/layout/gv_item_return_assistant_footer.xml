@@ -17,7 +17,7 @@
         android:layout_marginBottom="@dimen/gv_return_assistant_footer_amount_margin_bottom"
         android:layout_toStartOf="@+id/gv_amount_total_fraction_part"
         android:includeFontPadding="false"
-        android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.Footer.Amount.Integral.TextStyle"
+        android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.TotalAmount.Integral.TextStyle"
         tools:text="€242" />
 
     <TextView
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/gv_amount_total_integral_part"
         android:layout_alignParentEnd="true"
-        android:textAppearance="@style/Root.GiniVisionTheme.ReturnAssistant.Footer.Amount.Fraction.TextStyle"
+        android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.TotalAmount.Fraction.TextStyle"
         tools:text=".90" />
 
     <TextView
@@ -40,6 +40,6 @@
         android:layout_marginBottom="@dimen/gv_return_assistant_footer_notice_margin_bottom"
         android:gravity="center_horizontal"
         android:text="@string/gv_return_assistant_footer_notice"
-        android:textAppearance="@style/Root.GiniVisionTheme.ReturnAssistant.Footer.Notice.TextStyle" />
+        android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.Footer.Notice.TextStyle" />
 
 </RelativeLayout>

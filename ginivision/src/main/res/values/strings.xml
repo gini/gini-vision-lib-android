@@ -125,4 +125,10 @@
     <string name="gv_return_assistant_line_item_quantity">Quantity:</string> <!-- TODO: translate to German -->
     <string name="gv_return_assistant_footer_notice">Please check that all is in order and edit if necessary before paying.</string> <!-- TODO: translate to German -->
 
+    <string name="gv_return_assistant_line_item_details_description_label">Item Name</string> <!-- TODO: translate to German -->
+    <string name="gv_return_assistant_line_item_details_quantity_label">Quantity</string> <!-- TODO: translate to German -->
+    <string name="gv_return_assistant_line_item_details_amount_label">Item price</string> <!-- TODO: translate to German -->
+    <string name="gv_return_assistant_line_item_details_total_label">Total:</string> <!-- TODO: translate to German -->
+    <string name="gv_return_assistant_line_item_details_save">Save</string> <!-- TODO: translate to German -->
+
 </resources>
