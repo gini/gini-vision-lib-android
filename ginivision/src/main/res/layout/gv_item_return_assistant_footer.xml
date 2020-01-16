@@ -16,6 +16,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginBottom="@dimen/gv_return_assistant_footer_amount_margin_bottom"
         android:layout_toStartOf="@+id/gv_amount_total_fraction_part"
+        android:includeFontPadding="false"
         android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.Footer.Amount.Integral.TextStyle"
         tools:text="€242" />
 
@@ -37,6 +38,7 @@
         android:layout_marginStart="@dimen/gv_return_assistant_footer_notice_horizontal_margin"
         android:layout_marginEnd="@dimen/gv_return_assistant_footer_notice_horizontal_margin"
         android:layout_marginBottom="@dimen/gv_return_assistant_footer_notice_margin_bottom"
+        android:gravity="center_horizontal"
         android:text="@string/gv_return_assistant_footer_notice"
         android:textAppearance="@style/Root.GiniVisionTheme.ReturnAssistant.Footer.Notice.TextStyle" />
 

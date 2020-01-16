@@ -63,9 +63,9 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/gv_description"
             android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/gv_return_assistant_line_item_edit_margin_right"
             android:drawableEnd="@drawable/gv_edit_icon"
             android:drawablePadding="@dimen/gv_return_assistant_line_item_edit_drawable_padding"
-            android:paddingEnd="@dimen/gv_return_assistant_line_item_edit_padding_right"
             android:text="@string/gv_return_assistant_line_item_edit"
             android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.LineItem.Edit.TextStyle" />
 
@@ -75,6 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/gv_quantity"
             android:layout_toStartOf="@id/gv_amount_fraction_part"
+            android:includeFontPadding="false"
             android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.LineItem.Amount.Integral.TextStyle"
             tools:text="€76" />
 
@@ -82,8 +83,8 @@
             android:id="@+id/gv_amount_fraction_part"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/gv_amount_integral_part"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
             android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.LineItem.Amount.Fraction.TextStyle"
             tools:text=".48" />
 
