@@ -291,6 +291,28 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="Root.GiniVisionTheme.ReturnAssistant.LineItem.Footer.Amount.Integral.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textColor">@color/gv_return_assistant_footer_amount_text</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Root.GiniVisionTheme.ReturnAssistant.Footer.Amount.Fraction.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/gv_return_assistant_footer_amount_text</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Root.GiniVisionTheme.ReturnAssistant.Footer.Notice.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">@color/gv_return_assistant_footer_notice_text</item>
+    </style>
+
     <!-- Text styles used in the layouts which are overridable for customization -->
 
     <style name="GiniVisionTheme.Camera.Error.NoPermission.TextStyle" parent="Root.GiniVisionTheme.Camera.Error.NoPermission.TextStyle" />
@@ -372,5 +394,11 @@
     <style name="GiniVisionTheme.ReturnAssistant.LineItem.Amount.Integral.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.LineItem.Amount.Integral.TextStyle" />
 
     <style name="GiniVisionTheme.ReturnAssistant.LineItem.Amount.Fraction.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.LineItem.Amount.Fraction.TextStyle" />
+
+    <style name="GiniVisionTheme.ReturnAssistant.Footer.Amount.Integral.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.LineItem.Footer.Amount.Integral.TextStyle" />
+
+    <style name="GiniVisionTheme.ReturnAssistant.LineItem.Footer.Amount.Fraction.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.Footer.Amount.Fraction.TextStyle" />
+
+    <style name="GiniVisionTheme.ReturnAssistant.LineItem.Footer.Notice.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.Footer.Notice.TextStyle" />
 
 </resources>

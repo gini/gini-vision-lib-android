@@ -122,5 +122,6 @@
     <string name="gv_return_assistant_help">What is this?</string> <!-- TODO: translate to German -->
     <string name="gv_return_assistant_line_item_edit">Edit</string> <!-- TODO: translate to German -->
     <string name="gv_return_assistant_line_item_quantity">Quantity:</string> <!-- TODO: translate to German -->
+    <string name="gv_return_assistant_footer_notice">Please check that all is in order and edit if necessary before paying.</string> <!-- TODO: translate to German -->
 
 </resources>
