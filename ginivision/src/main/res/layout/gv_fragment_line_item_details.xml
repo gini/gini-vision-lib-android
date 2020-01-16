@@ -13,7 +13,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginBottom="16dp"
-        android:text="1 item selected" />
+        android:text="1 item selected"
+        android:textColor="#696969"
+        android:fontFamily="sans-serif"
+        android:textSize="12sp" />
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/gv_description_container"
@@ -29,7 +32,10 @@
             android:hint="Item Name"
             android:inputType="text"
             android:nextFocusDown="@id/gv_quantity"
-            tools:text="Nike Sportswear Air Max 97 - Sneaker Low" />
+            tools:text="Nike Sportswear Air Max 97 - Sneaker Low"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="14sp"
+            android:textColorHint="#696969" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -55,6 +61,9 @@
                 android:inputType="number"
                 android:nextFocusDown="@id/gv_amount"
                 android:selectAllOnFocus="true"
+                android:fontFamily="sans-serif-medium"
+                android:textSize="14sp"
+                android:textColorHint="#696969"
                 tools:text="1" />
 
         </android.support.design.widget.TextInputLayout>
@@ -83,6 +92,9 @@
                 android:hint="Item price"
                 android:inputType="numberDecimal"
                 android:selectAllOnFocus="true"
+                android:fontFamily="sans-serif-medium"
+                android:textSize="14sp"
+                android:textColorHint="#696969"
                 tools:text="152.95" />
 
         </android.support.design.widget.TextInputLayout>
@@ -95,9 +107,12 @@
         android:layout_below="@id/gv_quantity_and_amount_container"
         android:layout_alignTop="@id/gv_amount_total_integral_part"
         android:layout_alignBottom="@id/gv_amount_total_integral_part"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="24dp"
         android:layout_toStartOf="@id/gv_amount_total_integral_part"
         android:gravity="center"
+        android:fontFamily="sans-serif"
+        android:textSize="12sp"
+        android:textColor="#696969"
         android:text="Total:" />
 
     <net.gini.android.vision.internal.ui.CustomFontTextView
@@ -110,7 +125,8 @@
         android:includeFontPadding="false"
         android:text="€0"
         android:textColor="#000"
-        android:textSize="24sp"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif"
         android:textStyle="bold" />
 
     <net.gini.android.vision.internal.ui.CustomFontTextView
@@ -122,16 +138,17 @@
         android:text=".00"
         android:textColor="#000"
         android:textSize="12sp"
+        android:fontFamily="sans-serif"
         android:textStyle="bold" />
 
     <net.gini.android.vision.internal.ui.CustomFontButton
         android:id="@+id/gv_save_button"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
         android:text="Save"
-        app:backgroundTint="#0087dc" />
+        app:backgroundTint="#009edc" />
 
 </RelativeLayout>
