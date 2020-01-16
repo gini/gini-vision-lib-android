@@ -134,5 +134,6 @@
     <color name="gv_return_assistant_footer_background">#fff</color>
     <color name="gv_return_assistant_footer_amount_text">#000</color>
     <color name="gv_return_assistant_footer_notice_text">#696969</color>
+    <color name="gv_return_assistant_pay_button">#0087dc</color>
 
 </resources>

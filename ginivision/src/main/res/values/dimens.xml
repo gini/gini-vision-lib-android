@@ -147,5 +147,7 @@
     <dimen name="gv_return_assistant_footer_amount_margin_bottom">32dp</dimen>
     <dimen name="gv_return_assistant_footer_notice_horizontal_margin">60dp</dimen>
     <dimen name="gv_return_assistant_footer_notice_margin_bottom">88dp</dimen>
+    <dimen name="gv_return_assistant_pay_button_height">56dp</dimen>
+    <dimen name="gv_return_assistant_pay_button_margin">16dp</dimen>
 
 </resources>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,14 +14,14 @@
         tools:itemCount="4"
         tools:listitem="@layout/gv_item_return_assistant_line_item" />
 
-    <net.gini.android.vision.internal.ui.CustomFontButton
+    <Button
         android:id="@+id/gv_pay_button"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/gv_return_assistant_pay_button_height"
         android:layout_alignParentBottom="true"
-        android:layout_margin="16dp"
-        app:backgroundTint="#0087dc"
+        android:layout_margin="@dimen/gv_return_assistant_pay_button_margin"
+        android:backgroundTint="@color/gv_return_assistant_pay_button"
         tools:text="Pay 2/2" />
 
 </RelativeLayout>
