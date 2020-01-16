@@ -177,7 +177,11 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
 
     override fun showCheckbox(selected: Boolean, quantity: Int) {
         gv_checkbox.isChecked = selected
-        gv_checkbox.text = "${quantity} items ${if (selected) "selected" else ""}"
+        gv_checkbox.text =
+                resources.getQuantityString(
+                        R.plurals.gv_return_assistant_line_item_details_selected_line_items,
+                        quantity, quantity, if (selected) resources.getString(
+                        R.string.gv_return_assistant_line_item_details_selected) else "")
     }
 
 }

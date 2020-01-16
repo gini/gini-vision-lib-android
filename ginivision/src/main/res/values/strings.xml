@@ -130,5 +130,10 @@
     <string name="gv_return_assistant_line_item_details_amount_label">Item price</string> <!-- TODO: translate to German -->
     <string name="gv_return_assistant_line_item_details_total_label">Total:</string> <!-- TODO: translate to German -->
     <string name="gv_return_assistant_line_item_details_save">Save</string> <!-- TODO: translate to German -->
+    <plurals name="gv_return_assistant_line_item_details_selected_line_items"> <!-- TODO: translate to German -->
+        <item quantity="one">%1$d item %2$s</item>
+        <item quantity="other">%1$d items %2$s</item>
+    </plurals>
+    <string name="gv_return_assistant_line_item_details_selected">selected</string> <!-- TODO: translate to German -->
 
 </resources>
