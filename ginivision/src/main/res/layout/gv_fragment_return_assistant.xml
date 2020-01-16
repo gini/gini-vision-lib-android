@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gv_return_assistant_fragment_background"
+    tools:context=".returnassistant.ReturnAssistantFragment">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/gv_line_items"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        tools:itemCount="4"
+        tools:listitem="@layout/gv_item_return_assistant_line_item" />
+
+    <Button
+        android:id="@+id/gv_pay_button"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/gv_return_assistant_pay_button_height"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/gv_return_assistant_pay_button_margin"
+        android:backgroundTint="@color/gv_return_assistant_pay_button"
+        tools:text="Pay 2/2" />
+
+</RelativeLayout>

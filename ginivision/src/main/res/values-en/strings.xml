@@ -96,4 +96,12 @@
     <string name="gv_file_import_default_app_dialog_pdf_file_type">PDF</string>
     <string name="gv_file_import_default_app_dialog_image_file_type">image</string>
     <string name="gv_file_import_default_app_dialog_document_file_type">document</string>
+
+    <string name="gv_title_return_assistant">Return Assistant</string>
+    <string name="gv_return_assistant_scan_success">Scan successful!\nYou can now deselect items you would like to return.</string>
+    <string name="gv_return_assistant_items">Items</string>
+    <string name="gv_return_assistant_help">What is this?</string>
+    <string name="gv_return_assistant_line_item_edit">Edit</string>
+    <string name="gv_return_assistant_line_item_quantity">Quantity:</string>
+    <string name="gv_return_assistant_footer_notice">Please check that all is in order and edit if necessary before paying.</string>
 </resources>

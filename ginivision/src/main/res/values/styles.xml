@@ -42,20 +42,21 @@
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/gv_camera_error_no_permission_text</item>
-        <item name="gvCustomFont"/>
+        <item name="gvCustomFont" />
     </style>
 
     <style name="Root.GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@drawable/gv_camera_error_no_permission_button_title_color</item>
-        <item name="gvCustomFont"/>
+        <item name="android:textColor">@drawable/gv_camera_error_no_permission_button_title_color
+        </item>
+        <item name="gvCustomFont" />
     </style>
 
     <style name="Root.GiniVisionTheme.Camera.DocumentImportHint.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/gv_document_import_hint_text</item>
-        <item name="gvCustomFont"/>
+        <item name="gvCustomFont" />
     </style>
 
     <style name="Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle" parent="TextAppearance.AppCompat">
@@ -92,7 +93,7 @@
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/gv_review_bottom_panel_text</item>
-        <item name="gvCustomFont"/>
+        <item name="gvCustomFont" />
     </style>
 
     <style name="Root.GiniVisionTheme.Onboarding.Message.TextStyle" parent="TextAppearance.AppCompat">
@@ -106,14 +107,14 @@
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/gv_snackbar_error_text</item>
-        <item name="gvCustomFont"/>
+        <item name="gvCustomFont" />
     </style>
 
     <style name="Root.GiniVisionTheme.Snackbar.Error.Button.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@drawable/gv_snackbar_error_button_title_color</item>
-        <item name="gvCustomFont"/>
+        <item name="gvCustomFont" />
     </style>
 
     <style name="Root.GiniVisionTheme.Analysis.PdfFilename.TextStyle" parent="TextAppearance.AppCompat">
@@ -121,26 +122,26 @@
         <item name="autoSizeMaxTextSize">20sp</item>
         <item name="autoSizeMinTextSize">14sp</item>
         <item name="android:textColor">@color/gv_analysis_pdf_info_text</item>
-        <item name="gvCustomFont"/>
+        <item name="gvCustomFont" />
     </style>
 
     <style name="Root.GiniVisionTheme.Analysis.PdfPageCount.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/gv_analysis_pdf_info_text</item>
-        <item name="gvCustomFont"/>
+        <item name="gvCustomFont" />
     </style>
 
     <style name="Root.GiniVisionTheme.Analysis.AnalysingMessage.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/gv_analysis_analysing_message</item>
-        <item name="gvCustomFont"/>
+        <item name="gvCustomFont" />
     </style>
 
     <style name="Root.GiniVisionTheme.Analysis.HintHeadline.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/gv_analysis_hint_headline</item>
-        <item name="gvCustomFont"/>
+        <item name="gvCustomFont" />
     </style>
 
     <style name="Root.GiniVisionTheme.Analysis.Hint.TextStyle" parent="TextAppearance.AppCompat">
@@ -148,104 +149,173 @@
         <item name="autoSizeMinTextSize">14sp</item>
         <item name="autoSizeMaxTextSize">16sp</item>
         <item name="android:textColor">@color/gv_analysis_hint</item>
-        <item name="gvCustomFont"/>
+        <item name="gvCustomFont" />
     </style>
 
     <style name="Root.GiniVisionTheme.NoResults.Header.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/gv_noresults_header</item>
-        <item name="gvCustomFont"/>
+        <item name="gvCustomFont" />
     </style>
 
     <style name="Root.GiniVisionTheme.NoResults.Headline.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/gv_noresults_headline</item>
         <item name="android:textStyle">bold</item>
-        <item name="gvCustomFont"/>
+        <item name="gvCustomFont" />
     </style>
 
     <style name="Root.GiniVisionTheme.NoResults.Tip.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/gv_noresults_tip</item>
-        <item name="gvCustomFont"/>
+        <item name="gvCustomFont" />
     </style>
 
     <style name="Root.GiniVisionTheme.Help.Item.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/gv_help_item_title</item>
-        <item name="gvCustomFont"/>
+        <item name="gvCustomFont" />
     </style>
 
     <style name="Root.GiniVisionTheme.Help.PhotoTips.Header.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/gv_photo_tips_header</item>
-        <item name="gvCustomFont"/>
+        <item name="gvCustomFont" />
     </style>
 
     <style name="Root.GiniVisionTheme.Help.PhotoTips.Tip.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/gv_noresults_tip</item>
-        <item name="gvCustomFont"/>
+        <item name="gvCustomFont" />
     </style>
 
     <style name="Root.GiniVisionTheme.Help.SupportedFormats.Item.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/gv_supported_formats_item_label</item>
-        <item name="gvCustomFont"/>
+        <item name="gvCustomFont" />
     </style>
 
     <style name="Root.GiniVisionTheme.Help.SupportedFormats.Item.Header.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/gv_supported_formats_item_header</item>
-        <item name="gvCustomFont"/>
+        <item name="gvCustomFont" />
     </style>
 
     <style name="Root.GiniVisionTheme.Help.FileImport.Header.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/gv_file_import_header</item>
-        <item name="gvCustomFont"/>
+        <item name="gvCustomFont" />
     </style>
 
     <style name="Root.GiniVisionTheme.Help.FileImport.Section.Title.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/gv_file_import_section_title</item>
-        <item name="gvCustomFont"/>
+        <item name="gvCustomFont" />
     </style>
 
     <style name="Root.GiniVisionTheme.Help.FileImport.Section.Body.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/gv_file_import_section_body</item>
-        <item name="gvCustomFont"/>
+        <item name="gvCustomFont" />
     </style>
 
     <style name="Root.GiniVisionTheme.Review.MultiPage.ReorderPagesTip.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/gv_multi_page_review_reorder_pages_tip_text</item>
-        <item name="gvCustomFont"/>
+        <item name="gvCustomFont" />
     </style>
 
     <style name="Root.GiniVisionTheme.Review.MultiPage.AddPagesSubtitle.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/gv_multi_page_review_add_pages_text</item>
-        <item name="gvCustomFont"/>
+        <item name="gvCustomFont" />
     </style>
 
     <style name="Root.GiniVisionTheme.Review.MultiPage.ThumbnailBadge.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/gv_multi_page_thumbnail_badge_text</item>
-        <item name="gvCustomFont"/>
+        <item name="gvCustomFont" />
     </style>
 
     <style name="Root.GiniVisionTheme.Review.MultiPage.PageIndicator.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/gv_multi_page_review_page_indicator_text</item>
-        <item name="gvCustomFont"/>
+        <item name="gvCustomFont" />
+    </style>
+
+    <style name="Root.GiniVisionTheme.ReturnAssistant.Title.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/gv_return_assistant_title_text</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Root.GiniVisionTheme.ReturnAssistant.SelectedAndTotalItems.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/gv_return_assistant_selected_and_total_items_text
+        </item>
+    </style>
+
+    <style name="Root.GiniVisionTheme.ReturnAssistant.Help.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/gv_return_assistant_help_text</item>
+    </style>
+
+    <style name="Root.GiniVisionTheme.ReturnAssistant.LineItem.Description.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/gv_return_assistant_line_item_description_text</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Root.GiniVisionTheme.ReturnAssistant.LineItem.Quantity.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/gv_return_assistant_line_item_quantity_text</item>
+    </style>
+
+    <style name="Root.GiniVisionTheme.ReturnAssistant.LineItem.Edit.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/gv_return_assistant_line_item_edit_text</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Root.GiniVisionTheme.ReturnAssistant.LineItem.Amount.Integral.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/gv_return_assistant_line_item_amount_text</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Root.GiniVisionTheme.ReturnAssistant.LineItem.Amount.Fraction.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/gv_return_assistant_line_item_amount_text</item>
+        <item name="android:textSize">9sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Root.GiniVisionTheme.ReturnAssistant.LineItem.Footer.Amount.Integral.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/gv_return_assistant_footer_amount_text</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Root.GiniVisionTheme.ReturnAssistant.Footer.Amount.Fraction.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/gv_return_assistant_footer_amount_text</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Root.GiniVisionTheme.ReturnAssistant.Footer.Notice.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">@color/gv_return_assistant_footer_notice_text</item>
     </style>
 
     <!-- Text styles used in the layouts which are overridable for customization -->
 
-    <style name="GiniVisionTheme.Camera.Error.NoPermission.TextStyle" parent="Root.GiniVisionTheme.Camera.Error.NoPermission.TextStyle"/>
+    <style name="GiniVisionTheme.Camera.Error.NoPermission.TextStyle" parent="Root.GiniVisionTheme.Camera.Error.NoPermission.TextStyle" />
 
-    <style name="GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle" parent="Root.GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle"/>
+    <style name="GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle" parent="Root.GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle" />
 
     <style name="GiniVisionTheme.Camera.DocumentImportHint.TextStyle" parent="Root.GiniVisionTheme.Camera.DocumentImportHint.TextStyle" />
 
@@ -259,13 +329,13 @@
 
     <style name="GiniVisionTheme.Camera.ImageStackSubtitle.TextStyle" parent="Root.GiniVisionTheme.Camera.ImageStackSubtitle.TextStyle" />
 
-    <style name="GiniVisionTheme.Review.BottomPanel.TextStyle" parent="Root.GiniVisionTheme.Review.BottomPanel.TextStyle"/>
+    <style name="GiniVisionTheme.Review.BottomPanel.TextStyle" parent="Root.GiniVisionTheme.Review.BottomPanel.TextStyle" />
 
-    <style name="GiniVisionTheme.Onboarding.Message.TextStyle" parent="Root.GiniVisionTheme.Onboarding.Message.TextStyle"/>
+    <style name="GiniVisionTheme.Onboarding.Message.TextStyle" parent="Root.GiniVisionTheme.Onboarding.Message.TextStyle" />
 
-    <style name="GiniVisionTheme.Snackbar.Error.TextStyle" parent="Root.GiniVisionTheme.Snackbar.Error.TextStyle"/>
+    <style name="GiniVisionTheme.Snackbar.Error.TextStyle" parent="Root.GiniVisionTheme.Snackbar.Error.TextStyle" />
 
-    <style name="GiniVisionTheme.Snackbar.Error.Button.TextStyle" parent="Root.GiniVisionTheme.Snackbar.Error.Button.TextStyle"/>
+    <style name="GiniVisionTheme.Snackbar.Error.Button.TextStyle" parent="Root.GiniVisionTheme.Snackbar.Error.Button.TextStyle" />
 
     <style name="GiniVisionTheme.Analysis.PdfFilename.TextStyle" parent="Root.GiniVisionTheme.Analysis.PdfFilename.TextStyle" />
 
@@ -299,12 +369,34 @@
 
     <style name="GiniVisionTheme.Help.FileImport.Section.Body.TextStyle" parent="Root.GiniVisionTheme.Help.FileImport.Section.Body.TextStyle" />
 
-    <style name="GiniVisionTheme.Review.MultiPage.ReorderPagesTip.TextStyle" parent="Root.GiniVisionTheme.Review.MultiPage.ReorderPagesTip.TextStyle"/>
+    <style name="GiniVisionTheme.Review.MultiPage.ReorderPagesTip.TextStyle" parent="Root.GiniVisionTheme.Review.MultiPage.ReorderPagesTip.TextStyle" />
 
-    <style name="GiniVisionTheme.Review.MultiPage.AddPagesSubtitle.TextStyle" parent="Root.GiniVisionTheme.Review.MultiPage.AddPagesSubtitle.TextStyle"/>
+    <style name="GiniVisionTheme.Review.MultiPage.AddPagesSubtitle.TextStyle" parent="Root.GiniVisionTheme.Review.MultiPage.AddPagesSubtitle.TextStyle" />
 
-    <style name="GiniVisionTheme.Review.MultiPage.ThumbnailBadge.TextStyle" parent="Root.GiniVisionTheme.Review.MultiPage.ThumbnailBadge.TextStyle"/>
+    <style name="GiniVisionTheme.Review.MultiPage.ThumbnailBadge.TextStyle" parent="Root.GiniVisionTheme.Review.MultiPage.ThumbnailBadge.TextStyle" />
 
-    <style name="GiniVisionTheme.Review.MultiPage.PageIndicator.TextStyle" parent="Root.GiniVisionTheme.Review.MultiPage.PageIndicator.TextStyle"/>
+    <style name="GiniVisionTheme.Review.MultiPage.PageIndicator.TextStyle" parent="Root.GiniVisionTheme.Review.MultiPage.PageIndicator.TextStyle" />
+
+    <style name="GiniVisionTheme.ReturnAssistant.Title.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.Title.TextStyle" />
+
+    <style name="GiniVisionTheme.ReturnAssistant.SelectedAndTotalItems.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.SelectedAndTotalItems.TextStyle" />
+
+    <style name="GiniVisionTheme.ReturnAssistant.Help.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.Help.TextStyle" />
+
+    <style name="GiniVisionTheme.ReturnAssistant.LineItem.Description.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.LineItem.Description.TextStyle" />
+
+    <style name="GiniVisionTheme.ReturnAssistant.LineItem.Quantity.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.LineItem.Quantity.TextStyle" />
+
+    <style name="GiniVisionTheme.ReturnAssistant.LineItem.Edit.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.LineItem.Edit.TextStyle" />
+
+    <style name="GiniVisionTheme.ReturnAssistant.LineItem.Amount.Integral.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.LineItem.Amount.Integral.TextStyle" />
+
+    <style name="GiniVisionTheme.ReturnAssistant.LineItem.Amount.Fraction.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.LineItem.Amount.Fraction.TextStyle" />
+
+    <style name="GiniVisionTheme.ReturnAssistant.Footer.Amount.Integral.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.LineItem.Footer.Amount.Integral.TextStyle" />
+
+    <style name="GiniVisionTheme.ReturnAssistant.LineItem.Footer.Amount.Fraction.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.Footer.Amount.Fraction.TextStyle" />
+
+    <style name="GiniVisionTheme.ReturnAssistant.LineItem.Footer.Notice.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.Footer.Notice.TextStyle" />
 
 </resources>

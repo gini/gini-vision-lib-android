@@ -1,4 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <plurals name="gv_analysis_pdf_pages">
+        <item quantity="one">%d Seite</item>
+        <item quantity="other">%d Seiten</item>
+    </plurals>
     <string name="gv_title_camera">Dokument fotografieren</string>
     <string name="gv_title_onboarding">Anleitung</string>
     <string name="gv_title_review">Foto überprüfen</string>
@@ -7,29 +11,29 @@
     <string name="gv_title_supported_formats">Unterstützte Formate</string>
     <string name="gv_title_file_import">Dokumente aus anderen Apps öffnen</string>
     <string name="gv_title_analysis" />
+
     <string name="gv_title_multi_page_review">Fotos überprüfen</string>
-
     <string name="gv_show_onboarding">Hilfe</string>
-    <string name="gv_select_from_camera_roll">Eigenes Bild auswählen</string>
 
+    <string name="gv_select_from_camera_roll">Eigenes Bild auswählen</string>
     <string name="gv_camera_error_no_permission">Um Dokumente zu fotografieren, erlaube Gini Pay den Zugriff auf die Kamera.</string>
     <string name="gv_camera_error_no_permission_button_title">Zugriff erlauben</string>
     <string name="gv_camera_image_stack_subtitle">Seiten</string>
     <string name="gv_camera_document_import_subtitle">Importieren</string>
     <string name="gv_document_error_multi_page_limit_review_pages_button">Seitenübersicht</string>
+
     <string name="gv_document_error_multi_page_limit_cancel_button">Abbrechen</string>
-
     <string name="gv_qrcode_detected_popup_message_1">QR verwenden?</string>
-    <string name="gv_qrcode_detected_popup_message_2">Hier geht’s weiter.</string>
 
+    <string name="gv_qrcode_detected_popup_message_2">Hier geht’s weiter.</string>
     <string name="gv_onboarding_lighting">Beim Abfotografieren der Rechnung oder des Überweisungsträgers auf gute Beleuchtung achten</string>
     <string name="gv_onboarding_flat">Seite glatt streichen</string>
     <string name="gv_onboarding_parallel">Gerät parallel über die Seite halten</string>
     <string name="gv_onboarding_align">Seite vollständig in den angezeigten Rahmen einpassen</string>
+
     <string name="gv_onboarding_multi_page">Jetzt ist es möglich, eine Rechnung mit mehreren Seiten zu analysieren!</string>
 
     <string name="gv_review_bottom_panel_text">Dokument vollständig, scharf und in Leserichtung fotografiert?\n\nDoppeltippen um Schärfe zu prüfen.</string>
-
     <string name="gv_multi_page_review_page_indicator" tools:ignore="PluralsCandidate">%1$d von %2$d</string>
     <string name="gv_multi_page_review_reorder_pages_tip"><![CDATA[Stimmt die Seitenreihenfolge? Mit Drag & Drop verschieben.]]></string>
     <string name="gv_multi_page_review_add_pages_subtitle">Seiten hinzufügen</string>
@@ -37,38 +41,34 @@
     <string name="gv_multi_page_review_delete_invalid_document">Löschen</string>
     <string name="gv_multi_page_review_file_import_delete_last_page_dialog_message">Möchten Sie das letzte Bild löschen?</string>
     <string name="gv_multi_page_review_file_import_delete_last_page_dialog_positive_button">Löschen</string>
-    <string name="gv_multi_page_review_file_import_delete_last_page_dialog_negative_button">Abbrechen</string>
 
+    <string name="gv_multi_page_review_file_import_delete_last_page_dialog_negative_button">Abbrechen</string>
     <string name="gv_document_analysis_error">Ein Fehler ist aufgetreten.</string>
     <string name="gv_document_analysis_error_retry">Wiederholen</string>
-    <string name="gv_analysis_activity_indicator_message">Dokument wird analysiert</string>
 
+    <string name="gv_analysis_activity_indicator_message">Dokument wird analysiert</string>
     <string name="gv_photo_tip_align">Seite vollständig in den angezeigten Rahmen einpassen</string>
     <string name="gv_photo_tip_multipage">Jetzt ist es möglich, eine Rechnung mit mehreren Seiten zu analysieren</string>
     <string name="gv_photo_tip_lighting">Auf gute Beleuchtung achten</string>
     <string name="gv_photo_tip_parallel">Gerät parallel über die Seite halten</string>
-    <string name="gv_photo_tip_flat">Seite glatt streichen</string>
 
+    <string name="gv_photo_tip_flat">Seite glatt streichen</string>
     <string name="gv_noresults_header">Es konnten keine Daten ausgelesen werden. Bitte Aufnahme wiederholen.</string>
     <string name="gv_noresults_headline">Tipps für beste Ergebnisse:</string>
+
     <string name="gv_noresults_back_button">Zur Kamera</string>
 
     <string name="gv_document_import_hint_text">Es können jetzt auch ganz einfach Dateien hochgeladen werden.</string>
 
     <string name="gv_document_import_error">Ihre Datei konnte nicht geöffnet werden. Bitte versuchen sie es mit einer anderen Datei.</string>
-
     <string name="gv_storage_permission_denied">Nur mit Datei-Zugriff können gespeicherte Rechnungen hochgeladen werden.</string>
     <string name="gv_storage_permission_denied_positive_button">Zugriff erteilen</string>
     <string name="gv_storage_permission_denied_negative_button">Abbrechen</string>
     <string name="gv_storage_permission_rationale">Um gespeicherte Bilder oder PDFs zu analysieren, wird Datei-Zugriff auf dem Gerät benötigt.</string>
     <string name="gv_storage_permission_rationale_positive_button">Zugriff erteilen</string>
-    <string name="gv_storage_permission_rationale_negative_button">Abbrechen</string>
 
+    <string name="gv_storage_permission_rationale_negative_button">Abbrechen</string>
     <string name="gv_analysis_pdf_default_title">PDF Dokument</string>
-    <plurals name="gv_analysis_pdf_pages">
-        <item quantity="one">%d Seite</item>
-        <item quantity="other">%d Seiten</item>
-    </plurals>
     <string name="gv_analysis_hint_headline">Für schnellere Ergebnisse, bitte:</string>
 
     <string name="gv_document_import_invalid_document">Leider kann diese Datei nicht bearbeitet werden.</string>
@@ -115,5 +115,13 @@
     <string name="gv_file_import_default_app_dialog_pdf_file_type">PDFs</string>
     <string name="gv_file_import_default_app_dialog_image_file_type">Bilder</string>
     <string name="gv_file_import_default_app_dialog_document_file_type">Dokumente</string>
+
+    <string name="gv_title_return_assistant">Return Assistant</string> <!-- TODO: translate to German -->
+    <string name="gv_return_assistant_scan_success">Scan successful!\nYou can now deselect items you would like to return.</string> <!-- TODO: translate to German -->
+    <string name="gv_return_assistant_items">Items</string> <!-- TODO: translate to German -->
+    <string name="gv_return_assistant_help">What is this?</string> <!-- TODO: translate to German -->
+    <string name="gv_return_assistant_line_item_edit">Edit</string> <!-- TODO: translate to German -->
+    <string name="gv_return_assistant_line_item_quantity">Quantity:</string> <!-- TODO: translate to German -->
+    <string name="gv_return_assistant_footer_notice">Please check that all is in order and edit if necessary before paying.</string> <!-- TODO: translate to German -->
 
 </resources>

@@ -15,7 +15,18 @@ import net.gini.android.vision.GiniVisionBaseView;
  */
 interface OnboardingPageContract {
 
-    abstract class View extends GiniVisionBaseView<Presenter> {
+    abstract class View implements GiniVisionBaseView<Presenter> {
+
+        private Presenter mPresenter;
+
+        @Override
+        public void setPresenter(@NonNull final Presenter presenter) {
+            mPresenter = presenter;
+        }
+
+        public Presenter getPresenter() {
+            return mPresenter;
+        }
 
         abstract void showImage(@DrawableRes final int imageResId, final boolean rotated);
 

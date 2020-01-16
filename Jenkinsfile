@@ -11,6 +11,7 @@ pipeline {
         EXAMPLE_APP_CLIENT_CREDENTIALS = credentials('gini-vision-library-android_gini-api-client-credentials')
         COMPONENT_API_EXAMPLE_APP_HOCKEYAPP_API_TOKEN = credentials('gini-vision-library-android_component-api-example-app-hockeyapp-api-token')
         SCREEN_API_EXAMPLE_APP_HOCKEYAPP_API_TOKEN = credentials('gini-vision-library-android_screen-api-example-app-hockeyapp-api-token')
+        JAVA9 = '/Users/mobilecd/java-vm/jdk-9.0.4.jdk/Contents/Home'
     }
     stages {
         stage('Import Pipeline Libraries') {
@@ -58,7 +59,7 @@ pipeline {
                 }
             }
             steps {
-                sh './gradlew ginivision:testDebugUnitTest'
+                sh './gradlew ginivision:testDebugUnitTest -Dorg.gradle.java.home=$JAVA9'
             }
             post {
                 always {
@@ -179,7 +180,7 @@ pipeline {
                 }
             }
             steps {
-                sh './gradlew ginivision:unifyConnectedTestCoverage ginivision:jacocoTestDebugUnitTestReport'
+                sh './gradlew ginivision:unifyConnectedTestCoverage ginivision:jacocoTestDebugUnitTestReport -Dorg.gradle.java.home=$JAVA9'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision/build/reports/jacoco/jacocoTestDebugUnitTestReport/html', reportFiles: 'index.html', reportName: 'Code Coverage Report', reportTitles: ''])
             }
         }

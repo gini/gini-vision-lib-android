@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/gv_return_assistant_line_item_horizontal_margin"
+    android:layout_marginTop="@dimen/gv_return_assistant_line_item_vertical_margin"
+    android:layout_marginEnd="@dimen/gv_return_assistant_line_item_horizontal_margin"
+    android:layout_marginBottom="@dimen/gv_return_assistant_line_item_vertical_margin"
+    app:cardBackgroundColor="@color/gv_return_assistant_line_item_background"
+    app:cardCornerRadius="@dimen/gv_return_assistant_line_item_corner_radius"
+    app:cardElevation="@dimen/gv_return_assistant_line_item_card_elevation"
+    app:contentPadding="@dimen/gv_return_assistant_line_item_padding"
+    app:strokeColor="@color/gv_return_assistant_line_item_stroke"
+    app:strokeWidth="@dimen/gv_return_assistant_line_item_stroke_width">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <CheckBox
+            android:id="@+id/gv_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="@dimen/gv_return_assistant_line_item_checkbox_margin_right" />
+
+        <TextView
+            android:id="@+id/gv_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/gv_checkbox"
+            android:layout_marginBottom="@dimen/gv_return_assistant_line_item_description_margin_bottom"
+            android:layout_toStartOf="@id/edit"
+            android:layout_toEndOf="@id/gv_checkbox"
+            android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.LineItem.Description.TextStyle"
+            tools:text="Nike Sportswear Air Max 97 - Sneaker Low" />
+
+        <TextView
+            android:id="@+id/gv_quantity_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/gv_description"
+            android:layout_alignStart="@id/gv_description"
+            android:text="@string/gv_return_assistant_line_item_quantity"
+            android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.LineItem.Quantity.TextStyle" />
+
+        <TextView
+            android:id="@+id/gv_quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/gv_quantity_label"
+            android:layout_toEndOf="@id/gv_quantity_label"
+            android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.LineItem.Quantity.TextStyle"
+            tools:text=" 1" />
+
+        <Button
+            android:id="@+id/edit"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/gv_description"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/gv_return_assistant_line_item_edit_margin_right"
+            android:drawableEnd="@drawable/gv_edit_icon"
+            android:drawablePadding="@dimen/gv_return_assistant_line_item_edit_drawable_padding"
+            android:text="@string/gv_return_assistant_line_item_edit"
+            android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.LineItem.Edit.TextStyle" />
+
+        <TextView
+            android:id="@+id/gv_amount_integral_part"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/gv_quantity"
+            android:layout_toStartOf="@id/gv_amount_fraction_part"
+            android:includeFontPadding="false"
+            android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.LineItem.Amount.Integral.TextStyle"
+            tools:text="€76" />
+
+        <TextView
+            android:id="@+id/gv_amount_fraction_part"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.LineItem.Amount.Fraction.TextStyle"
+            tools:text=".48" />
+
+    </RelativeLayout>
+
+</android.support.design.card.MaterialCardView>
