@@ -8,16 +8,19 @@
     android:layout_marginTop="@dimen/gv_return_assistant_line_item_vertical_margin"
     android:layout_marginEnd="@dimen/gv_return_assistant_line_item_horizontal_margin"
     android:layout_marginBottom="@dimen/gv_return_assistant_line_item_vertical_margin"
+    android:clickable="true"
+    android:focusable="true"
     app:cardBackgroundColor="@color/gv_return_assistant_line_item_background"
     app:cardCornerRadius="@dimen/gv_return_assistant_line_item_corner_radius"
     app:cardElevation="@dimen/gv_return_assistant_line_item_card_elevation"
-    app:contentPadding="@dimen/gv_return_assistant_line_item_padding"
     app:strokeColor="@color/gv_return_assistant_line_item_stroke"
     app:strokeWidth="@dimen/gv_return_assistant_line_item_stroke_width">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:foreground="?attr/selectableItemBackground"
+        android:padding="@dimen/gv_return_assistant_line_item_padding">
 
         <CheckBox
             android:id="@+id/gv_checkbox"
@@ -64,8 +67,11 @@
             android:layout_alignBaseline="@id/gv_description"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/gv_return_assistant_line_item_edit_margin_right"
+            android:background="@android:color/transparent"
+            android:clickable="false"
             android:drawableEnd="@drawable/gv_edit_icon"
             android:drawablePadding="@dimen/gv_return_assistant_line_item_edit_drawable_padding"
+            android:focusable="false"
             android:text="@string/gv_return_assistant_line_item_edit"
             android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.LineItem.Edit.TextStyle" />
 
