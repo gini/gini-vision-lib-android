@@ -9,5 +9,5 @@ import net.gini.android.vision.returnassistant.SelectableLineItem
  */
 interface LineItemDetailsFragmentListener {
 
-    fun save(selectableLineItem: SelectableLineItem)
+    fun onSave(selectableLineItem: SelectableLineItem)
 }

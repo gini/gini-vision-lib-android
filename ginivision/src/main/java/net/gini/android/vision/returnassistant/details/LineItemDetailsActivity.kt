@@ -72,7 +72,7 @@ class LineItemDetailsActivity : AppCompatActivity(), LineItemDetailsFragmentList
                 LINE_ITEM_DETAILS_FRAGMENT) as LineItemDetailsFragment?
     }
 
-    override fun save(selectableLineItem: SelectableLineItem) {
+    override fun onSave(selectableLineItem: SelectableLineItem) {
         setResult(Activity.RESULT_OK, Intent().apply {
             putExtra(EXTRA_OUT_SELECTABLE_LINE_ITEM, selectableLineItem)
         })
