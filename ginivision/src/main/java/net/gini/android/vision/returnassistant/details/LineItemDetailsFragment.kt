@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.gv_fragment_line_item_details.*
 import net.gini.android.vision.R
+import net.gini.android.vision.returnassistant.AMOUNT_FORMAT
 import net.gini.android.vision.returnassistant.LineItem
 import net.gini.android.vision.returnassistant.SelectableLineItem
 import java.math.BigDecimal
@@ -150,7 +151,7 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
     }
 
     override fun showAmount(amount: BigDecimal, currency: String) {
-        gv_amount.setText(amount.toString())
+        gv_amount.setText(AMOUNT_FORMAT.format(amount))
         gv_currency.text = currency
     }
 

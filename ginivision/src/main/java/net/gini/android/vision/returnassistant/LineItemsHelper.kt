@@ -13,6 +13,7 @@ import java.util.*
 
 val INTEGRAL_FORMAT = DecimalFormat("#")
 val FRACTION_FORMAT = DecimalFormat(".00").apply { roundingMode = RoundingMode.DOWN }
+val AMOUNT_FORMAT = DecimalFormat("#.00")
 
 fun lineItemsSumIntegralAndFractionParts(
         lineItems: List<SelectableLineItem>): Pair<String, String> {
