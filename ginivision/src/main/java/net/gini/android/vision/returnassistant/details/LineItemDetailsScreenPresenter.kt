@@ -96,6 +96,10 @@ class LineItemDetailsScreenPresenter(activity: Activity, view: View,
         }
     }
 
+    override fun save() {
+        listener?.save(selectableLineItem)
+    }
+
     override fun start() {
         view.apply {
             selectableLineItem.run {

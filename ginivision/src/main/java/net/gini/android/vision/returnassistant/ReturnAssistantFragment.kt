@@ -2,6 +2,7 @@ package net.gini.android.vision.returnassistant
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -115,7 +116,7 @@ class ReturnAssistantFragment : Fragment(), ReturnAssistantScreenContract.View,
     }
 
     override fun onLineItemClicked(lineItem: SelectableLineItem) {
-        // TODO
+        presenter?.editLineItem(lineItem)
     }
 
     override fun onLineItemSelected(lineItem: SelectableLineItem) {
@@ -126,4 +127,8 @@ class ReturnAssistantFragment : Fragment(), ReturnAssistantScreenContract.View,
         presenter?.deselectLineItem(lineItem)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        presenter?.onActivityResult(requestCode, resultCode, data)
+    }
 }

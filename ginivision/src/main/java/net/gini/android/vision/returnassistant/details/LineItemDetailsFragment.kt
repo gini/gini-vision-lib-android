@@ -115,6 +115,9 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
                 BigDecimal.ZERO
             })
         }
+        gv_save_button.setOnClickListener {
+            presenter?.save()
+        }
     }
 
     override fun onDestroyView() {

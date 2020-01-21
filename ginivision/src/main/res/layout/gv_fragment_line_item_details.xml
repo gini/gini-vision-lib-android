@@ -135,7 +135,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/gv_return_assistant_line_item_details_save_button_height"
         android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/gv_return_assistant_line_item_details_save_button_margin"
         android:text="@string/gv_return_assistant_line_item_details_save"
         app:backgroundTint="@color/gv_return_assistant_line_item_details_save_button" />
 

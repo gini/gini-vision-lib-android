@@ -161,6 +161,5 @@
     <dimen name="gv_return_assistant_line_item_details_total_label_margin_end">24dp</dimen>
     <dimen name="gv_return_assistant_line_item_details_amount_margin_bottom">32dp</dimen>
     <dimen name="gv_return_assistant_line_item_details_save_button_height">56dp</dimen>
-    <dimen name="gv_return_assistant_line_item_details_save_button_margin">16dp</dimen>
 
 </resources>

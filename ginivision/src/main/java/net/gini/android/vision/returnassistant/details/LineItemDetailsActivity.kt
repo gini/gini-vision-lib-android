@@ -1,16 +1,25 @@
 package net.gini.android.vision.returnassistant.details
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import net.gini.android.vision.R
 import net.gini.android.vision.returnassistant.SelectableLineItem
 
 private const val LINE_ITEM_DETAILS_FRAGMENT = "LINE_ITEM_DETAILS_FRAGMENT"
+private const val EXTRA_IN_SELECTABLE_LINE_ITEM = "EXTRA_IN_SELECTABLE_LINE_ITEM"
 
 class LineItemDetailsActivity : AppCompatActivity(), LineItemDetailsFragmentListener {
 
     companion object {
-        const val EXTRA_IN_SELECTABLE_LINE_ITEM = "EXTRA_IN_SELECTABLE_LINE_ITEM"
+        const val EXTRA_OUT_SELECTABLE_LINE_ITEM = "EXTRA_OUT_SELECTABLE_LINE_ITEM"
+
+        fun createIntent(
+                activity: Activity, selectableLineItem: SelectableLineItem) = Intent(activity,
+                LineItemDetailsActivity::class.java).apply {
+            putExtra(EXTRA_IN_SELECTABLE_LINE_ITEM, selectableLineItem)
+        }
     }
 
     var fragment: LineItemDetailsFragment? = null
@@ -30,7 +39,7 @@ class LineItemDetailsActivity : AppCompatActivity(), LineItemDetailsFragmentList
 
     private fun readExtras() {
         intent.extras?.let {
-            lineItem = checkNotNull(it.getParcelable(Companion.EXTRA_IN_SELECTABLE_LINE_ITEM)) {
+            lineItem = checkNotNull(it.getParcelable(EXTRA_IN_SELECTABLE_LINE_ITEM)) {
                 ("LineItemDetailsActivity requires a SelectableLineItem. " +
                         "Set it as an extra using the EXTRA_IN_SELECTABLE_LINE_ITEM key.")
             }
@@ -61,5 +70,12 @@ class LineItemDetailsActivity : AppCompatActivity(), LineItemDetailsFragmentList
     private fun retainFragment() {
         fragment = supportFragmentManager.findFragmentByTag(
                 LINE_ITEM_DETAILS_FRAGMENT) as LineItemDetailsFragment?
+    }
+
+    override fun save(selectableLineItem: SelectableLineItem) {
+        setResult(Activity.RESULT_OK, Intent().apply {
+            putExtra(EXTRA_OUT_SELECTABLE_LINE_ITEM, selectableLineItem)
+        })
+        finish()
     }
 }

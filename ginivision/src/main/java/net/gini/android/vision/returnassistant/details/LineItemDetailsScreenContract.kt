@@ -32,5 +32,6 @@ interface LineItemDetailsScreenContract {
         abstract fun setDescription(description: String)
         abstract fun setQuantity(quantity: Int)
         abstract fun setAmount(amount: BigDecimal)
+        abstract fun save()
     }
 }
