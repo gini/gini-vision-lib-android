@@ -10,11 +10,11 @@ import kotlin.random.Random
  * Copyright (c) 2019 Gini GmbH.
  */
 
-val mockLineItems = List(50) { i ->
+val mockLineItems = List(5) { i ->
     LineItem(id = "$i",
-            description = "Nike Sportswear Air Max ${Random.nextInt(1, 99)} - Sneaker Low",
-            quantity = Random.nextInt(10),
-            rawAmount = "${Random.nextInt(2500)}.${Random.nextInt(9)}${Random.nextInt(9)}:EUR")
+            description = "Nike Sportswear Air Max ${Random.nextInt(1, 50)} - Sneaker Low",
+            quantity = Random.nextInt(1, 5),
+            rawAmount = "${Random.nextInt(50)}.${Random.nextInt(9)}${Random.nextInt(9)}:EUR")
 }.map { SelectableLineItem(lineItem = it) }
 
 

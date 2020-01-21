@@ -10,6 +10,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.Mock
+import org.mockito.Mockito.mock
 import org.mockito.MockitoAnnotations.initMocks
 import java.util.*
 
@@ -218,4 +219,43 @@ class ReturnAssistantScreenPresenterTest {
             assertThat(lineItems.first().selected).isFalse()
         }
     }
+
+    @Test
+    fun `should invoke edit line item on listener`() {
+        // Given
+        ReturnAssistantScreenPresenter(activity, view).run {
+            lineItems = mockLineItems.map { it.copy() }
+            listener = mock(ReturnAssistantFragmentListener::class.java)
+
+
+            // When
+            editLineItem(lineItems.first())
+
+            // Then
+            verify(listener)?.onEditLineItem(lineItems.first())
+        }
+    }
+
+    @Test
+    fun `should update line item`() {
+        // Given
+        ReturnAssistantScreenPresenter(activity, view).run {
+            lineItems = listOf(
+                    SelectableLineItem(selected = true,
+                            lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
+                                    rawAmount = "1.19:EUR"))
+            )
+
+            val modifiedLineItem = SelectableLineItem(selected = true,
+                    lineItem = LineItem(id = "1", description = "Line Item X", quantity = 8,
+                            rawAmount = "99.19:EUR"))
+
+            // When
+            updateLineItem(modifiedLineItem)
+
+            // Then
+            assertThat(lineItems.first()).isEqualTo(modifiedLineItem)
+        }
+    }
+
 }
