@@ -75,6 +75,18 @@
             android:textSize="14sp"
             tools:ignore="HardcodedText" />
 
+        <TextView
+            android:id="@+id/gv_currency"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="-12dp"
+            android:background="@color/gv_return_assistant_activity_background"
+            android:gravity="bottom"
+            android:paddingBottom="10dp"
+            android:text="€"
+            android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.LineItemDetails.InputField.TextStyle"
+            tools:ignore="HardcodedText" />
+
         <android.support.design.widget.TextInputLayout
             android:id="@+id/gv_amount_container"
             android:layout_width="match_parent"

@@ -48,7 +48,7 @@ class LineItemDetailsScreenPresenterTest {
             verify(view).showCheckbox(true, 3)
             verify(view).showDescription("Line Item 1")
             verify(view).showQuantity(3)
-            verify(view).showAmount(BigDecimal("1.19"))
+            verify(view).showAmount(BigDecimal("1.19"), Currency.getInstance("EUR").symbol)
             verify(view).showTotalAmount("${Currency.getInstance("EUR").symbol}3", ".57")
             verify(view).disableSaveButton()
         }

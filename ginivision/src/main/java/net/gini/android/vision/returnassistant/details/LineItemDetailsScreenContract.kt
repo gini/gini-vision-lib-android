@@ -15,7 +15,7 @@ interface LineItemDetailsScreenContract {
     interface View : GiniVisionBaseView<Presenter> {
         fun showDescription(description: String)
         fun showQuantity(quantity: Int)
-        fun showAmount(amount: BigDecimal)
+        fun showAmount(amount: BigDecimal, currency: String)
         fun showCheckbox(selected: Boolean, quantity: Int)
         fun showTotalAmount(integralPart: String, fractionPart: String)
         fun enableSaveButton()

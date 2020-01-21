@@ -107,7 +107,7 @@ class LineItemDetailsScreenPresenter(activity: Activity, view: View,
                 lineItem.run {
                     showDescription(description)
                     showQuantity(quantity)
-                    showAmount(amount)
+                    showAmount(amount, currency?.symbol ?: "")
                 }
                 showTotalAmount(this)
                 updateSaveButton(this, originalLineItem)

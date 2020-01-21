@@ -149,8 +149,9 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
         gv_quantity.setText(quantity.toString())
     }
 
-    override fun showAmount(amount: BigDecimal) {
+    override fun showAmount(amount: BigDecimal, currency: String) {
         gv_amount.setText(amount.toString())
+        gv_currency.text = currency
     }
 
     override fun showTotalAmount(integralPart: String, fractionPart: String) {
@@ -170,12 +171,14 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
         gv_description.isEnabled = true
         gv_quantity.isEnabled = true
         gv_amount.isEnabled = true
+        gv_currency.isEnabled = true
     }
 
     override fun disableInput() {
         gv_description.isEnabled = false
         gv_quantity.isEnabled = false
         gv_amount.isEnabled = false
+        gv_currency.isEnabled = false
     }
 
     override fun showCheckbox(selected: Boolean, quantity: Int) {
