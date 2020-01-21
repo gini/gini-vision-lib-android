@@ -1,9 +1,7 @@
 package net.gini.android.vision.returnassistant
 
 import android.app.Activity
-import android.content.Intent
 import android.support.annotation.VisibleForTesting
-import net.gini.android.vision.returnassistant.details.LineItemDetailsActivity
 import kotlin.random.Random
 
 /**
@@ -19,13 +17,14 @@ val mockLineItems = List(50) { i ->
             rawAmount = "${Random.nextInt(2500)}.${Random.nextInt(9)}${Random.nextInt(9)}:EUR")
 }.map { SelectableLineItem(lineItem = it) }
 
-private const val EDIT_LINE_ITEM_REQUEST = 1
+
 
 internal open class ReturnAssistantScreenPresenter(activity: Activity,
                                                    view: ReturnAssistantScreenContract.View) :
         ReturnAssistantScreenContract.Presenter(activity, view) {
 
     override var listener: ReturnAssistantFragmentListener? = null
+
     var lineItems: List<SelectableLineItem> = emptyList()
 
     init {
@@ -44,25 +43,13 @@ internal open class ReturnAssistantScreenPresenter(activity: Activity,
     }
 
     override fun editLineItem(lineItem: SelectableLineItem) {
-        view.startActivityForResult(LineItemDetailsActivity.createIntent(activity, lineItem),
-                EDIT_LINE_ITEM_REQUEST)
+        listener?.onEditLineItem(lineItem)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        when (requestCode) {
-            EDIT_LINE_ITEM_REQUEST -> {
-                when (resultCode) {
-                    Activity.RESULT_OK -> {
-                        data?.getParcelableExtra<SelectableLineItem>(
-                                LineItemDetailsActivity.EXTRA_OUT_SELECTABLE_LINE_ITEM)?.let {
-                            lineItems =
-                                    lineItems.map { sli -> if (sli.lineItem.id == it.lineItem.id) it else sli }
-                            updateView(lineItems)
-                        }
-                    }
-                }
-            }
-        }
+    override fun updateLineItem(selectableLineItem: SelectableLineItem) {
+        lineItems =
+                lineItems.map { sli -> if (sli.lineItem.id == selectableLineItem.lineItem.id) selectableLineItem else sli }
+        updateView(lineItems)
     }
 
     override fun start() {

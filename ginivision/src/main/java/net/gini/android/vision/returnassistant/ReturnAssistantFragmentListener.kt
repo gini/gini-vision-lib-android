@@ -6,4 +6,6 @@ package net.gini.android.vision.returnassistant
  * Copyright (c) 2019 Gini GmbH.
  */
 interface ReturnAssistantFragmentListener {
+
+    fun onEditLineItem(selectableLineItem: SelectableLineItem)
 }

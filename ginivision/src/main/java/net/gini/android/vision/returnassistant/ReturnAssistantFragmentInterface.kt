@@ -9,4 +9,5 @@ interface ReturnAssistantFragmentInterface {
 
     var listener: ReturnAssistantFragmentListener?
 
+    fun updateLineItem(selectableLineItem: SelectableLineItem)
 }
