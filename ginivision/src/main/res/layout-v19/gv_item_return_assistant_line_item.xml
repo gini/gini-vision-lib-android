@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/gv_line_item"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -67,7 +68,7 @@
             android:layout_marginEnd="@dimen/gv_return_assistant_line_item_edit_margin_right"
             android:background="@android:color/transparent"
             android:clickable="false"
-            android:drawableEnd="@drawable/gv_edit_icon"
+            android:drawableEnd="@drawable/gv_edit_button_icon"
             android:drawablePadding="@dimen/gv_return_assistant_line_item_edit_drawable_padding"
             android:focusable="false"
             android:text="@string/gv_return_assistant_line_item_edit"

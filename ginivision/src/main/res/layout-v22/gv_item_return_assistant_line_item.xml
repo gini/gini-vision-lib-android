@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/gv_line_item"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -36,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/gv_checkbox"
             android:layout_marginBottom="@dimen/gv_return_assistant_line_item_description_margin_bottom"
-            android:layout_toStartOf="@id/edit"
+            android:layout_toStartOf="@id/gv_edit"
             android:layout_toEndOf="@id/gv_checkbox"
             android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.LineItem.Description.TextStyle"
             tools:text="Nike Sportswear Air Max 97 - Sneaker Low" />
@@ -60,7 +61,7 @@
             tools:text=" 1" />
 
         <Button
-            android:id="@+id/edit"
+            android:id="@+id/gv_edit"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -69,7 +70,7 @@
             android:layout_marginEnd="@dimen/gv_return_assistant_line_item_edit_margin_right"
             android:background="@android:color/transparent"
             android:clickable="false"
-            android:drawableEnd="@drawable/gv_edit_icon"
+            android:drawableEnd="@drawable/gv_edit_button_icon"
             android:drawablePadding="@dimen/gv_return_assistant_line_item_edit_drawable_padding"
             android:focusable="false"
             android:text="@string/gv_return_assistant_line_item_edit"
