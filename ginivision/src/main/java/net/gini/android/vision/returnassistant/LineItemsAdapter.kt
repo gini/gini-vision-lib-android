@@ -134,6 +134,7 @@ sealed class ViewHolder<in T>(itemView: View, val viewType: ViewType) :
         private val card: MaterialCardView = itemView.gv_line_item
         private val checkbox: CheckBox = itemView.gv_checkbox
         private val description: TextView = itemView.gv_description
+        private val quantityLabel: TextView = itemView.gv_quantity_label
         private val quantity: TextView = itemView.gv_quantity
         private val quantityLabel: TextView = itemView.gv_quantity_label
         private val edit: Button = itemView.gv_edit
@@ -148,6 +149,14 @@ sealed class ViewHolder<in T>(itemView: View, val viewType: ViewType) :
                 disable()
             }
             checkbox.isChecked = data.selected
+            if (data.reason != null) {
+                quantityLabel.text = data.reason
+                quantity.visibility = View.INVISIBLE
+            } else {
+                quantityLabel.text =
+                        itemView.resources.getText(R.string.gv_return_assistant_line_item_quantity)
+                quantity.visibility = View.VISIBLE
+            }
             data.lineItem.let { li ->
                 description.text = li.description
                 @SuppressLint("SetTextI18n")

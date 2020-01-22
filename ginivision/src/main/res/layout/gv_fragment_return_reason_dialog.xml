@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#fff">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="Your reasons to return this item" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#d8d8d8" />
+
+    <ListView
+        android:id="@+id/gv_return_reasons_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="#d8d8d8"
+        android:dividerHeight="1dp"
+        tools:listitem="@android:layout/simple_list_item_1" />
+</LinearLayout>
