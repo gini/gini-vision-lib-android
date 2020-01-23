@@ -117,11 +117,23 @@
     <string name="gv_file_import_default_app_dialog_document_file_type">Dokumente</string>
 
     <string name="gv_title_return_assistant">Return Assistant</string> <!-- TODO: translate to German -->
+    <string name="gv_title_line_item_details">Details</string> <!-- TODO: translate to German -->
     <string name="gv_return_assistant_scan_success">Scan successful!\nYou can now deselect items you would like to return.</string> <!-- TODO: translate to German -->
     <string name="gv_return_assistant_items">Items</string> <!-- TODO: translate to German -->
     <string name="gv_return_assistant_help">What is this?</string> <!-- TODO: translate to German -->
     <string name="gv_return_assistant_line_item_edit">Edit</string> <!-- TODO: translate to German -->
     <string name="gv_return_assistant_line_item_quantity">Quantity:</string> <!-- TODO: translate to German -->
     <string name="gv_return_assistant_footer_notice">Please check that all is in order and edit if necessary before paying.</string> <!-- TODO: translate to German -->
+
+    <string name="gv_return_assistant_line_item_details_description_label">Item Name</string> <!-- TODO: translate to German -->
+    <string name="gv_return_assistant_line_item_details_quantity_label">Quantity</string> <!-- TODO: translate to German -->
+    <string name="gv_return_assistant_line_item_details_amount_label">Item price</string> <!-- TODO: translate to German -->
+    <string name="gv_return_assistant_line_item_details_total_label">Total:</string> <!-- TODO: translate to German -->
+    <string name="gv_return_assistant_line_item_details_save">Save</string> <!-- TODO: translate to German -->
+    <plurals name="gv_return_assistant_line_item_details_selected_line_items"> <!-- TODO: translate to German -->
+        <item quantity="one">%1$d item %2$s</item>
+        <item quantity="other">%1$d items %2$s</item>
+    </plurals>
+    <string name="gv_return_assistant_line_item_details_selected">selected</string> <!-- TODO: translate to German -->
 
 </resources>

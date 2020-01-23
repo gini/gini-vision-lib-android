@@ -115,7 +115,7 @@ class ReturnAssistantFragment : Fragment(), ReturnAssistantScreenContract.View,
     }
 
     override fun onLineItemClicked(lineItem: SelectableLineItem) {
-        // TODO
+        presenter?.editLineItem(lineItem)
     }
 
     override fun onLineItemSelected(lineItem: SelectableLineItem) {
@@ -124,6 +124,10 @@ class ReturnAssistantFragment : Fragment(), ReturnAssistantScreenContract.View,
 
     override fun onLineItemDeselected(lineItem: SelectableLineItem) {
         presenter?.deselectLineItem(lineItem)
+    }
+
+    override fun updateLineItem(selectableLineItem: SelectableLineItem) {
+        presenter?.updateLineItem(selectableLineItem)
     }
 
 }

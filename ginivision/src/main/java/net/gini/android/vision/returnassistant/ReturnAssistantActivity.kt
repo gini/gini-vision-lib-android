@@ -1,8 +1,11 @@
 package net.gini.android.vision.returnassistant
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import net.gini.android.vision.R
+import net.gini.android.vision.returnassistant.details.LineItemDetailsActivity
 
 /**
  * Created by Alpar Szotyori on 05.12.2019.
@@ -11,6 +14,8 @@ import net.gini.android.vision.R
  */
 
 private const val RETURN_ASSISTANT_FRAGMENT = "RETURN_ASSISTANT_FRAGMENT"
+
+private const val EDIT_LINE_ITEM_REQUEST = 1
 
 class ReturnAssistantActivity : AppCompatActivity(), ReturnAssistantFragmentListener {
 
@@ -51,5 +56,26 @@ class ReturnAssistantActivity : AppCompatActivity(), ReturnAssistantFragmentList
     private fun retainFragment() {
         fragment = supportFragmentManager.findFragmentByTag(
                 RETURN_ASSISTANT_FRAGMENT) as ReturnAssistantFragment?
+    }
+
+    override fun onEditLineItem(selectableLineItem: SelectableLineItem) {
+        startActivityForResult(LineItemDetailsActivity.createIntent(this, selectableLineItem),
+                EDIT_LINE_ITEM_REQUEST)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            EDIT_LINE_ITEM_REQUEST -> {
+                when (resultCode) {
+                    Activity.RESULT_OK -> {
+                        data?.getParcelableExtra<SelectableLineItem>(
+                                LineItemDetailsActivity.EXTRA_OUT_SELECTABLE_LINE_ITEM)?.let {
+                            fragment?.updateLineItem(it)
+                        }
+                    }
+                }
+            }
+        }
     }
 }

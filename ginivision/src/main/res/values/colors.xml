@@ -137,4 +137,9 @@
     <color name="gv_return_assistant_footer_notice_text">#696969</color>
     <color name="gv_return_assistant_pay_button">#009edc</color>
 
+    <color name="gv_return_assistant_line_item_details_checkbox_label">#696969</color>
+    <color name="gv_return_assistant_line_item_details_input_field_hint_text">#696969</color>
+    <color name="gv_return_assistant_line_item_details_total_label">#696969</color>
+    <color name="gv_return_assistant_line_item_details_save_button">#009edc</color>
+
 </resources>

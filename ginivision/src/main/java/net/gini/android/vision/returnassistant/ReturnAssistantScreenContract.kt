@@ -24,7 +24,6 @@ interface ReturnAssistantScreenContract {
 
         abstract fun selectLineItem(lineItem: SelectableLineItem)
         abstract fun deselectLineItem(lineItem: SelectableLineItem)
+        abstract fun editLineItem(lineItem: SelectableLineItem)
     }
 }
-
-data class SelectableLineItem(var selected: Boolean = true, val lineItem: LineItem)
