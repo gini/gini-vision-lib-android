@@ -99,9 +99,9 @@ class ReturnAssistantFragment : Fragment(), ReturnAssistantScreenContract.View,
     }
 
     override fun showReturnReasonDialog(reasons: List<String>,
-                                        dialogListener: ReturnReasonsDialogListener) {
+                                        resultCallback: DialogResultCallback) {
         ReturnReasonDialog.createInstance(reasons).also {
-            it.listener = dialogListener
+            it.callback = resultCallback
             it.show(fragmentManager, TAG_RETURN_REASON_DIALOG)
         }
     }

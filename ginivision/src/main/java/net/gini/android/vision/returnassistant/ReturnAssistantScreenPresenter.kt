@@ -34,6 +34,7 @@ internal open class ReturnAssistantScreenPresenter(activity: Activity,
     override var listener: ReturnAssistantFragmentListener? = null
 
     var lineItems: List<SelectableLineItem> = emptyList()
+    var returnReasons: List<String> = mockReasons
 
     init {
         view.setPresenter(this)
@@ -47,19 +48,17 @@ internal open class ReturnAssistantScreenPresenter(activity: Activity,
     }
 
     override fun deselectLineItem(lineItem: SelectableLineItem) {
-        view.showReturnReasonDialog(mockReasons, object : ReturnReasonsDialogListener {
-            override fun onReasonSelected(reason: String) {
+        view.showReturnReasonDialog(returnReasons) { selectedReason ->
+            if (selectedReason != null) {
                 lineItem.selected = false
-                lineItem.reason = reason
+                lineItem.reason = selectedReason
                 updateView(lineItems)
-            }
-
-            override fun onCancelled() {
+            } else {
                 lineItem.selected = true
                 lineItem.reason = null
                 updateView(lineItems)
             }
-        })
+        }
     }
 
     override fun editLineItem(lineItem: SelectableLineItem) {

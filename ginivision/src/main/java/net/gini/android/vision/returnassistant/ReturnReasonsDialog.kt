@@ -19,11 +19,13 @@ import net.gini.android.vision.R
 
 private const val ARG_RETURN_REASONS = "GV_ARG_SELECTABLE_LINE_ITEM"
 
+typealias DialogResultCallback = (String?) -> Unit
+
 class ReturnReasonDialog : BottomSheetDialogFragment() {
 
     private lateinit var reasons: List<String>
 
-    var listener: ReturnReasonsDialogListener? = null
+    var callback: DialogResultCallback? = null
 
     override fun getTheme(): Int = R.style.GiniVisionTheme_BottomSheetDialog
 
@@ -39,6 +41,11 @@ class ReturnReasonDialog : BottomSheetDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         readArguments()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        callback = null
     }
 
     private fun readArguments() {
@@ -62,18 +69,13 @@ class ReturnReasonDialog : BottomSheetDialogFragment() {
                     ArrayAdapter<String>(it, R.layout.gv_item_return_reason, reasons)
             gv_return_reasons_list.onItemClickListener =
                     AdapterView.OnItemClickListener { _, _, position, _ ->
-                        listener?.onReasonSelected(reasons[position])
+                        callback?.invoke(reasons[position])
                         dismissAllowingStateLoss()
                     }
         }
     }
 
     override fun onCancel(dialog: DialogInterface?) {
-        listener?.onCancelled()
+        callback?.invoke(null)
     }
-}
-
-interface ReturnReasonsDialogListener {
-    fun onReasonSelected(reason: String)
-    fun onCancelled()
 }
