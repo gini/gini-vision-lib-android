@@ -142,7 +142,11 @@ sealed class ViewHolder<in T>(itemView: View, val viewType: ViewType) :
         var listener: LineItemsAdapterListener? = null
 
         override fun bind(data: SelectableLineItem, allData: List<SelectableLineItem>?) {
-            if (data.selected) enable() else disable()
+            if (data.selected) {
+                enable()
+            } else {
+                disable()
+            }
             checkbox.isChecked = data.selected
             data.lineItem.let { li ->
                 description.text = li.description
