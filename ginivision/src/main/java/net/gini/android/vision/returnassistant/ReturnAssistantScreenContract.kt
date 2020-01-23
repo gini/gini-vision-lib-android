@@ -28,7 +28,3 @@ interface ReturnAssistantScreenContract {
         abstract fun editLineItem(lineItem: SelectableLineItem)
     }
 }
-
-data class SelectableLineItem(var selected: Boolean = true,
-                              var reason: String? = null,
-                              val lineItem: LineItem)

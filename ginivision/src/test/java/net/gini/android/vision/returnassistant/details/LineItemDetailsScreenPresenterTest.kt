@@ -3,6 +3,7 @@ package net.gini.android.vision.returnassistant.details
 import android.app.Activity
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.verify
+import net.gini.android.vision.returnassistant.FRACTION_FORMAT
 import net.gini.android.vision.returnassistant.LineItem
 import net.gini.android.vision.returnassistant.SelectableLineItem
 import org.junit.Before
@@ -49,7 +50,8 @@ class LineItemDetailsScreenPresenterTest {
             verify(view).showDescription("Line Item 1")
             verify(view).showQuantity(3)
             verify(view).showAmount(BigDecimal("1.19"), Currency.getInstance("EUR").symbol)
-            verify(view).showTotalAmount("${Currency.getInstance("EUR").symbol}3", ".57")
+            verify(view).showTotalAmount("${Currency.getInstance("EUR").symbol}3",
+                    "${FRACTION_FORMAT.decimalFormatSymbols.decimalSeparator}57")
             verify(view).disableSaveButton()
         }
     }
@@ -116,7 +118,8 @@ class LineItemDetailsScreenPresenterTest {
 
             // Then
             assertThat(selectableLineItem.lineItem.quantity).isEqualTo(99)
-            verify(view).showTotalAmount("${Currency.getInstance("EUR").symbol}117", ".81")
+            verify(view).showTotalAmount("${Currency.getInstance("EUR").symbol}117",
+                    "${FRACTION_FORMAT.decimalFormatSymbols.decimalSeparator}81")
             verify(view).showCheckbox(true, 99)
             verify(view).enableSaveButton()
         }
@@ -134,7 +137,8 @@ class LineItemDetailsScreenPresenterTest {
 
             // Then
             assertThat(selectableLineItem.lineItem.amount).isEqualTo(BigDecimal("19.99"))
-            verify(view).showTotalAmount("${Currency.getInstance("EUR").symbol}59", ".97")
+            verify(view).showTotalAmount("${Currency.getInstance("EUR").symbol}59",
+                    "${FRACTION_FORMAT.decimalFormatSymbols.decimalSeparator}97")
             verify(view).enableSaveButton()
         }
     }

@@ -121,7 +121,8 @@ class ReturnAssistantScreenPresenterTest {
             updateView(lineItems)
 
             // Then
-            verify(view).showSelectedLineItemsSum("${Currency.getInstance("EUR").symbol}7", ".07")
+            verify(view).showSelectedLineItemsSum("${Currency.getInstance("EUR").symbol}7",
+                    "${FRACTION_FORMAT.decimalFormatSymbols.decimalSeparator}07")
         }
     }
 
@@ -145,7 +146,8 @@ class ReturnAssistantScreenPresenterTest {
             updateView(lineItems)
 
             // Then
-            verify(view).showSelectedLineItemsSum("${Currency.getInstance("EUR").symbol}15", ".28")
+            verify(view).showSelectedLineItemsSum("${Currency.getInstance("EUR").symbol}15",
+                    "${FRACTION_FORMAT.decimalFormatSymbols.decimalSeparator}28")
         }
     }
 
@@ -303,7 +305,6 @@ class ReturnAssistantScreenPresenterTest {
         }
     }
 
-}
     @Test
     fun `should pass return reason to deselected item`() {
         // Given

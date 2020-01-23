@@ -18,7 +18,7 @@ class SelectableLineItemTest {
     @Test
     fun `should be parcelable`() {
         // Given
-        val orig = SelectableLineItem(true, LineItem("id", "description", 3, "12.13:EUR"))
+        val orig = SelectableLineItem(true, null, LineItem("id", "description", 3, "12.13:EUR"))
 
         // When
         val fromParcel: SelectableLineItem? = Bundle().apply {

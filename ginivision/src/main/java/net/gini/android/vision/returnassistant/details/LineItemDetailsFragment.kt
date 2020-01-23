@@ -62,8 +62,9 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
 
     private fun readArguments() {
         arguments?.let {
-            lineItem = it.getParcelable(ARG_SELECTABLE_LINE_ITEM) ?: SelectableLineItem(false,
-                    LineItem("", "", 0, ""))
+            lineItem = it.getParcelable(ARG_SELECTABLE_LINE_ITEM) ?: SelectableLineItem(
+                    selected = false,
+                    lineItem = LineItem("", "", 0, ""))
         }
     }
 
