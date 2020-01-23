@@ -116,4 +116,6 @@
     </plurals>
     <string name="gv_return_assistant_line_item_details_selected">selected</string>
 
+    <string name="gv_return_assistant_return_reason_dialog_title">Your reasons to return this item</string>
+
 </resources>

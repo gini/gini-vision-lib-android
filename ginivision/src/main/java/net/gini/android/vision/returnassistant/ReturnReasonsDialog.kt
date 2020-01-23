@@ -25,6 +25,8 @@ class ReturnReasonDialog : BottomSheetDialogFragment() {
 
     var listener: ReturnReasonsDialogListener? = null
 
+    override fun getTheme(): Int = R.style.GiniVisionTheme_BottomSheetDialog
+
     companion object {
         @JvmStatic
         fun createInstance(reasons: List<String>) = ReturnReasonDialog().apply {
@@ -49,7 +51,6 @@ class ReturnReasonDialog : BottomSheetDialogFragment() {
                               savedInstanceState: Bundle?): View? = inflater.inflate(
             R.layout.gv_fragment_return_reason_dialog, container, false)
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initListView()
@@ -58,7 +59,7 @@ class ReturnReasonDialog : BottomSheetDialogFragment() {
     private fun initListView() {
         activity?.let {
             gv_return_reasons_list.adapter =
-                    ArrayAdapter<String>(it, android.R.layout.simple_list_item_1, reasons)
+                    ArrayAdapter<String>(it, R.layout.gv_item_return_reason, reasons)
             gv_return_reasons_list.onItemClickListener =
                     AdapterView.OnItemClickListener { _, _, position, _ ->
                         listener?.onReasonSelected(reasons[position])
