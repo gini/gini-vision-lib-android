@@ -3,7 +3,7 @@ package net.gini.android.vision.returnassistant.details
 import android.app.Activity
 import net.gini.android.vision.GiniVisionBasePresenter
 import net.gini.android.vision.GiniVisionBaseView
-import net.gini.android.vision.returnassistant.DialogResultCallback
+import net.gini.android.vision.returnassistant.ReturnReasonDialogResultCallback
 
 /**
  * Created by Alpar Szotyori on 17.12.2019.
@@ -22,7 +22,8 @@ interface LineItemDetailsScreenContract {
         fun disableSaveButton()
         fun enableInput()
         fun disableInput()
-        fun showReturnReasonDialog(reasons: List<String>, resultCallback: DialogResultCallback)
+        fun showReturnReasonDialog(reasons: List<String>,
+                                   resultCallback: ReturnReasonDialogResultCallback)
     }
 
     abstract class Presenter(activity: Activity, view: View) :

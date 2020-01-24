@@ -19,13 +19,13 @@ import net.gini.android.vision.R
 
 private const val ARG_RETURN_REASONS = "GV_ARG_SELECTABLE_LINE_ITEM"
 
-typealias DialogResultCallback = (String?) -> Unit
+typealias ReturnReasonDialogResultCallback = (String?) -> Unit
 
 class ReturnReasonDialog : BottomSheetDialogFragment() {
 
     private lateinit var reasons: List<String>
 
-    var callback: DialogResultCallback? = null
+    var callback: ReturnReasonDialogResultCallback? = null
 
     override fun getTheme(): Int = R.style.GiniVisionTheme_BottomSheetDialog
 

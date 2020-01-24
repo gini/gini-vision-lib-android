@@ -17,7 +17,8 @@ interface ReturnAssistantScreenContract {
         fun enablePayButton(selected: Int, total: Int)
         fun disablePayButton(selected: Int, total: Int)
         fun showSelectedLineItemsSum(integralPart: String, fractionPart: String)
-        fun showReturnReasonDialog(reasons: List<String>, resultCallback: DialogResultCallback)
+        fun showReturnReasonDialog(reasons: List<String>,
+                                   resultCallback: ReturnReasonDialogResultCallback)
     }
 
     abstract class Presenter(activity: Activity, view: View) :
@@ -26,5 +27,6 @@ interface ReturnAssistantScreenContract {
         abstract fun selectLineItem(lineItem: SelectableLineItem)
         abstract fun deselectLineItem(lineItem: SelectableLineItem)
         abstract fun editLineItem(lineItem: SelectableLineItem)
+        abstract fun userFeedbackReceived(helpful: Boolean)
     }
 }

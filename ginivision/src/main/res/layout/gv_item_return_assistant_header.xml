@@ -43,7 +43,7 @@
             android:id="@+id/gv_selected_and_total_items_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/help"
+            android:layout_alignBaseline="@+id/gv_what_is_this_button"
             android:layout_alignParentStart="true"
             android:text="@string/gv_return_assistant_items"
             android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.SelectedAndTotalItems.TextStyle" />
@@ -52,13 +52,13 @@
             android:id="@+id/gv_selected_and_total_items"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/help"
+            android:layout_alignBaseline="@+id/gv_what_is_this_button"
             android:layout_toEndOf="@id/gv_selected_and_total_items_label"
             android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.SelectedAndTotalItems.TextStyle"
             tools:text=" 2/2" />
 
         <Button
-            android:id="@+id/help"
+            android:id="@+id/gv_what_is_this_button"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
             android:drawablePadding="@dimen/gv_return_assistant_header_help_button_padding"
             android:text="@string/gv_return_assistant_help"
             android:textAllCaps="false"
-            android:textAppearance="@style/Root.GiniVisionTheme.ReturnAssistant.Help.TextStyle" />
+            android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.WhatIsThis.TextStyle" />
     </RelativeLayout>
 
 </RelativeLayout>

@@ -65,6 +65,10 @@ internal open class ReturnAssistantScreenPresenter(activity: Activity,
         listener?.onEditLineItem(lineItem)
     }
 
+    override fun userFeedbackReceived(helpful: Boolean) {
+        // TODO
+    }
+
     override fun updateLineItem(selectableLineItem: SelectableLineItem) {
         lineItems =
                 lineItems.map { sli -> if (sli.lineItem.id == selectableLineItem.lineItem.id) selectableLineItem else sli }

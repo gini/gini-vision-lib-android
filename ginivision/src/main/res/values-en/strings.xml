@@ -117,5 +117,9 @@
     <string name="gv_return_assistant_line_item_details_selected">selected</string>
 
     <string name="gv_return_assistant_return_reason_dialog_title">Your reasons to return this item</string>
+    <string name="gv_return_assistant_what_is_this_dialog_title">We extracted the detailed items from your invoice to help you calculate the amount to pay in case you want to return some goods or simply not fully-paying it.</string>
+    <string name="gv_return_assistant_what_is_this_dialog_subtitle">Is this helpful?</string>
+    <string name="gv_return_assistant_what_is_this_dialog_positive_response">Yes, that\'s helpful</string>
+    <string name="gv_return_assistant_what_is_this_dialog_negative_response">No, I don\'t want to see it again</string>
 
 </resources>

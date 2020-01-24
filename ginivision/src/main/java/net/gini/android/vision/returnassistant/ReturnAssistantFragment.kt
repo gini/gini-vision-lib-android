@@ -18,6 +18,7 @@ import net.gini.android.vision.R
  */
 
 private const val TAG_RETURN_REASON_DIALOG = "TAG_RETURN_REASON_DIALOG"
+private const val TAG_WHAT_IS_THIS_DIALOG = "TAG_WHAT_IS_THIS_DIALOG"
 
 class ReturnAssistantFragment : Fragment(), ReturnAssistantScreenContract.View,
         ReturnAssistantFragmentInterface, LineItemsAdapterListener {
@@ -99,7 +100,7 @@ class ReturnAssistantFragment : Fragment(), ReturnAssistantScreenContract.View,
     }
 
     override fun showReturnReasonDialog(reasons: List<String>,
-                                        resultCallback: DialogResultCallback) {
+                                        resultCallback: ReturnReasonDialogResultCallback) {
         ReturnReasonDialog.createInstance(reasons).also {
             it.callback = resultCallback
             it.show(fragmentManager, TAG_RETURN_REASON_DIALOG)
@@ -135,6 +136,17 @@ class ReturnAssistantFragment : Fragment(), ReturnAssistantScreenContract.View,
 
     override fun onLineItemDeselected(lineItem: SelectableLineItem) {
         presenter?.deselectLineItem(lineItem)
+    }
+
+    override fun onWhatIsThisButtonClicked() {
+        WhatIsThisDialog.createInstance().also {
+            it.callback = { isHelpful ->
+                if (isHelpful != null) {
+                    presenter?.userFeedbackReceived(isHelpful)
+                }
+            }
+            it.show(fragmentManager, TAG_WHAT_IS_THIS_DIALOG)
+        }
     }
 
     override fun updateLineItem(selectableLineItem: SelectableLineItem) {

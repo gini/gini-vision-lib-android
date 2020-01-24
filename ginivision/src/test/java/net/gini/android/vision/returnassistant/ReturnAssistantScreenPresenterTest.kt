@@ -184,7 +184,7 @@ class ReturnAssistantScreenPresenterTest {
         override fun setPresenter(presenter: ReturnAssistantScreenContract.Presenter) {}
 
         override fun showReturnReasonDialog(reasons: List<String>,
-                                            resultCallback: DialogResultCallback) {
+                                            resultCallback: ReturnReasonDialogResultCallback) {
             resultCallback(reason)
         }
     }
