@@ -6,6 +6,7 @@ import net.gini.android.vision.returnassistant.SelectableLineItem
 import net.gini.android.vision.returnassistant.details.LineItemDetailsScreenContract.Presenter
 import net.gini.android.vision.returnassistant.details.LineItemDetailsScreenContract.View
 import net.gini.android.vision.returnassistant.lineItemTotalAmountIntegralAndFractionParts
+import net.gini.android.vision.returnassistant.mockReasons
 import java.math.BigDecimal
 
 /**
@@ -18,6 +19,8 @@ class LineItemDetailsScreenPresenter(activity: Activity, view: View,
         Presenter(activity, view) {
 
     override var listener: LineItemDetailsFragmentListener? = null
+
+    var returnReasons: List<String> = mockReasons
 
     private val originalLineItem: SelectableLineItem = selectableLineItem.copy()
 
@@ -43,12 +46,21 @@ class LineItemDetailsScreenPresenter(activity: Activity, view: View,
         if (!selectableLineItem.selected) {
             return
         }
-        selectableLineItem.selected = false
-        view.apply {
-            disableInput()
-            selectableLineItem.run {
-                showCheckbox(selected, lineItem.quantity)
-                updateSaveButton(this, originalLineItem)
+        view.showReturnReasonDialog(returnReasons) { selectedReason ->
+            if (selectedReason != null) {
+                selectableLineItem.selected = false
+                selectableLineItem.reason = selectedReason
+                view.disableInput()
+            } else {
+                selectableLineItem.selected = true
+                selectableLineItem.reason = null
+                view.enableInput()
+            }
+            selectableLineItem.let {
+                view.apply {
+                    showCheckbox(it.selected, it.lineItem.quantity)
+                    updateSaveButton(it, originalLineItem)
+                }
             }
         }
     }

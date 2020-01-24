@@ -10,18 +10,19 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.gv_fragment_line_item_details.*
 import net.gini.android.vision.R
-import net.gini.android.vision.returnassistant.AMOUNT_FORMAT
-import net.gini.android.vision.returnassistant.LineItem
-import net.gini.android.vision.returnassistant.SelectableLineItem
+import net.gini.android.vision.returnassistant.*
 import java.math.BigDecimal
-
-private const val ARG_SELECTABLE_LINE_ITEM = "GV_ARG_SELECTABLE_LINE_ITEM"
+import java.text.ParseException
 
 /**
  * Created by Alpar Szotyori on 17.12.2019.
  *
  * Copyright (c) 2019 Gini GmbH.
  */
+
+private const val ARG_SELECTABLE_LINE_ITEM = "GV_ARG_SELECTABLE_LINE_ITEM"
+private const val TAG_RETURN_REASON_DIALOG = "TAG_RETURN_REASON_DIALOG"
+
 class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
         LineItemDetailsFragmentInterface {
 
@@ -181,6 +182,14 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
         gv_quantity.isEnabled = false
         gv_amount.isEnabled = false
         gv_currency.isEnabled = false
+    }
+
+    override fun showReturnReasonDialog(reasons: List<String>,
+                                        resultCallback: DialogResultCallback) {
+        ReturnReasonDialog.createInstance(reasons).also {
+            it.callback = resultCallback
+            it.show(fragmentManager, TAG_RETURN_REASON_DIALOG)
+        }
     }
 
     override fun showCheckbox(selected: Boolean, quantity: Int) {

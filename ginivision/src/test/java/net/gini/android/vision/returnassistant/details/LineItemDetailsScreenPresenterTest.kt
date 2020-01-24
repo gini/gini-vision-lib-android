@@ -2,10 +2,13 @@ package net.gini.android.vision.returnassistant.details
 
 import android.app.Activity
 import com.google.common.truth.Truth.assertThat
+import com.nhaarman.mockitokotlin2.spy
 import com.nhaarman.mockitokotlin2.verify
+import net.gini.android.vision.returnassistant.DialogResultCallback
 import net.gini.android.vision.returnassistant.FRACTION_FORMAT
 import net.gini.android.vision.returnassistant.LineItem
 import net.gini.android.vision.returnassistant.SelectableLineItem
+import net.gini.android.vision.returnassistant.details.LineItemDetailsScreenContract.View
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -28,7 +31,7 @@ class LineItemDetailsScreenPresenterTest {
     @Mock
     private lateinit var activity: Activity
     @Mock
-    private lateinit var view: LineItemDetailsScreenContract.View
+    private lateinit var view: View
 
     @Before
     fun setUp() {
@@ -73,9 +76,29 @@ class LineItemDetailsScreenPresenterTest {
         }
     }
 
+    open class ViewWithSelectedReturnReason(val reason: String?) : View {
+        override fun showDescription(description: String) {}
+        override fun showQuantity(quantity: Int) {}
+        override fun showAmount(amount: BigDecimal, currency: String) {}
+        override fun showCheckbox(selected: Boolean, quantity: Int) {}
+        override fun showTotalAmount(integralPart: String, fractionPart: String) {}
+        override fun enableSaveButton() {}
+        override fun disableSaveButton() {}
+        override fun enableInput() {}
+        override fun disableInput() {}
+        override fun setPresenter(presenter: LineItemDetailsScreenContract.Presenter) {}
+
+        override fun showReturnReasonDialog(reasons: List<String>,
+                                            resultCallback: DialogResultCallback) {
+            resultCallback(reason)
+        }
+    }
+
     @Test
-    fun `should deselect line item`() {
+    fun `should deselect line item when a reason was selected`() {
         // Given
+        val view = spy(ViewWithSelectedReturnReason("Item is not for me"))
+
         val sli = SelectableLineItem(selected = true,
                 lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
                         rawAmount = "1.19:EUR"))
@@ -87,6 +110,59 @@ class LineItemDetailsScreenPresenterTest {
             verify(view).disableInput()
             verify(view).showCheckbox(false, 3)
             verify(view).enableSaveButton()
+        }
+    }
+
+    @Test
+    fun `should pass return reason to deselected item`() {
+        // Given
+        val view = spy(ViewWithSelectedReturnReason("Item is not for me"))
+
+        val sli = SelectableLineItem(selected = true,
+                lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
+                        rawAmount = "1.19:EUR"))
+        LineItemDetailsScreenPresenter(activity, view, sli).run {
+            // When
+            deselectLineItem()
+
+            // Then
+            assertThat(selectableLineItem.reason).isEqualTo("Item is not for me")
+        }
+    }
+
+    @Test
+    fun `should not deselect line item when a reason was not selected`() {
+        // Given
+        val view = spy(ViewWithSelectedReturnReason(null))
+
+        val sli = SelectableLineItem(selected = true,
+                lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
+                        rawAmount = "1.19:EUR"))
+        LineItemDetailsScreenPresenter(activity, view, sli).run {
+            // When
+            deselectLineItem()
+
+            // Then
+            verify(view).enableInput()
+            verify(view).showCheckbox(true, 3)
+            verify(view).disableSaveButton()
+        }
+    }
+
+    @Test
+    fun `should remove reason when a reason was not selected`() {
+        // Given
+        val view = spy(ViewWithSelectedReturnReason(null))
+
+        val sli = SelectableLineItem(selected = true,
+                lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
+                        rawAmount = "1.19:EUR"))
+        LineItemDetailsScreenPresenter(activity, view, sli).run {
+            // When
+            deselectLineItem()
+
+            // Then
+            assertThat(selectableLineItem.reason).isNull()
         }
     }
 

@@ -17,7 +17,7 @@ val mockLineItems = List(5) { i ->
             rawAmount = "${Random.nextInt(50)}.${Random.nextInt(9)}${Random.nextInt(9)}:EUR")
 }.map { SelectableLineItem(lineItem = it) }
 
-private val mockReasons = listOf(
+val mockReasons = listOf(
         "Looks different than site image",
         "Poor quality/fault",
         "Doesn't fit properly",

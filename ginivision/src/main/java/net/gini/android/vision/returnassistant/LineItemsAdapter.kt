@@ -136,7 +136,6 @@ sealed class ViewHolder<in T>(itemView: View, val viewType: ViewType) :
         private val description: TextView = itemView.gv_description
         private val quantityLabel: TextView = itemView.gv_quantity_label
         private val quantity: TextView = itemView.gv_quantity
-        private val quantityLabel: TextView = itemView.gv_quantity_label
         private val edit: Button = itemView.gv_edit
         private val priceIntegralPart: TextView = itemView.gv_amount_integral_part
         private val priceFractionPart: TextView = itemView.gv_amount_fraction_part
