@@ -10,10 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.gv_fragment_line_item_details.*
 import net.gini.android.vision.R
-import net.gini.android.vision.returnassistant.AMOUNT_FORMAT
 import net.gini.android.vision.returnassistant.LineItem
 import net.gini.android.vision.returnassistant.SelectableLineItem
-import java.math.BigDecimal
 
 private const val ARG_SELECTABLE_LINE_ITEM = "GV_ARG_SELECTABLE_LINE_ITEM"
 
@@ -110,11 +108,7 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
             })
         }
         amountTextWatcher = gv_amount.doAfterTextChanged {
-            presenter?.setAmount(try {
-                BigDecimal(it)
-            } catch (_: NumberFormatException) {
-                BigDecimal.ZERO
-            })
+            presenter?.setAmount(it)
         }
         gv_save_button.setOnClickListener {
             presenter?.save()
@@ -150,8 +144,8 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
         gv_quantity.setText(quantity.toString())
     }
 
-    override fun showAmount(amount: BigDecimal, currency: String) {
-        gv_amount.setText(AMOUNT_FORMAT.format(amount))
+    override fun showAmount(amount: String, currency: String) {
+        gv_amount.setText(amount)
         gv_currency.text = currency
     }
 
