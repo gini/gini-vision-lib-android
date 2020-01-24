@@ -2,10 +2,12 @@ package net.gini.android.vision.returnassistant
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.support.design.card.MaterialCardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
 import kotlinx.android.synthetic.main.gv_item_return_assistant_footer.view.*
@@ -55,15 +57,10 @@ class LineItemsAdapter(context: Context, val listener: LineItemsAdapterListener)
 
     private fun footerPosition() = lineItems.size + 1
 
-    override fun getItemViewType(position: Int): Int {
-        println("position: $position")
-        val id = when (position) {
-            0 -> Header.id
-            footerPosition() -> Footer.id
-            else -> LineItem.id
-        }
-        println("viewType: ${ViewType.from(id)}")
-        return id
+    override fun getItemViewType(position: Int): Int = when (position) {
+        0 -> Header.id
+        footerPosition() -> Footer.id
+        else -> LineItem.id
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder<*>, position: Int) {
@@ -134,14 +131,22 @@ sealed class ViewHolder<in T>(itemView: View, val viewType: ViewType) :
     }
 
     class LineItemViewHolder(itemView: View) : ViewHolder<SelectableLineItem>(itemView, LineItem) {
+        private val card: MaterialCardView = itemView.gv_line_item
         private val checkbox: CheckBox = itemView.gv_checkbox
         private val description: TextView = itemView.gv_description
         private val quantity: TextView = itemView.gv_quantity
+        private val quantityLabel: TextView = itemView.gv_quantity_label
+        private val edit: Button = itemView.gv_edit
         private val priceIntegralPart: TextView = itemView.gv_amount_integral_part
         private val priceFractionPart: TextView = itemView.gv_amount_fraction_part
         var listener: LineItemsAdapterListener? = null
 
         override fun bind(data: SelectableLineItem, allData: List<SelectableLineItem>?) {
+            if (data.selected) {
+                enable()
+            } else {
+                disable()
+            }
             checkbox.isChecked = data.selected
             data.lineItem.let { li ->
                 description.text = li.description
@@ -181,6 +186,61 @@ sealed class ViewHolder<in T>(itemView: View, val viewType: ViewType) :
             listener = null
             itemView.setOnClickListener(null)
             checkbox.setOnCheckedChangeListener(null)
+        }
+
+        fun enable() {
+            itemView.isEnabled = true
+            card.cardElevation = itemView.resources.getDimension(
+                    R.dimen.gv_return_assistant_line_item_card_elevation)
+            card.strokeColor =
+                    itemView.resources.getColor(
+                            R.color.gv_return_assistant_line_item_stroke)
+            description.setTextColor(
+                    itemView.resources.getColor(
+                            R.color.gv_return_assistant_line_item_description_text))
+            edit.isEnabled = true
+            edit.setTextColor(
+                    itemView.resources.getColor(
+                            R.color.gv_return_assistant_line_item_edit_text))
+            quantityLabel.setTextColor(
+                    itemView.resources.getColor(
+                            R.color.gv_return_assistant_line_item_quantity_text))
+            quantity.setTextColor(
+                    itemView.resources.getColor(
+                            R.color.gv_return_assistant_line_item_quantity_text))
+            priceIntegralPart.setTextColor(
+                    itemView.resources.getColor(
+                            R.color.gv_return_assistant_line_item_amount_text))
+            priceFractionPart.setTextColor(
+                    itemView.resources.getColor(
+                            R.color.gv_return_assistant_line_item_amount_text))
+        }
+
+
+        fun disable() {
+            itemView.isEnabled = false
+            card.cardElevation = 0f
+            card.strokeColor = itemView.resources.getColor(
+                    R.color.gv_return_assistant_line_item_disabled)
+            description.setTextColor(
+                    itemView.resources.getColor(
+                            R.color.gv_return_assistant_line_item_disabled))
+            edit.isEnabled = false
+            edit.setTextColor(
+                    itemView.resources.getColor(
+                            R.color.gv_return_assistant_line_item_disabled))
+            quantityLabel.setTextColor(
+                    itemView.resources.getColor(
+                            R.color.gv_return_assistant_line_item_disabled))
+            quantity.setTextColor(
+                    itemView.resources.getColor(
+                            R.color.gv_return_assistant_line_item_disabled))
+            priceIntegralPart.setTextColor(
+                    itemView.resources.getColor(
+                            R.color.gv_return_assistant_line_item_disabled))
+            priceFractionPart.setTextColor(
+                    itemView.resources.getColor(
+                            R.color.gv_return_assistant_line_item_disabled))
         }
     }
 
