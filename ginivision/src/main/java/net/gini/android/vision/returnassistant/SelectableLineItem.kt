@@ -12,19 +12,22 @@ import java.util.*
 @Parcelize
 class SelectableLineItem(
         var selected: Boolean = true,
+        var reason: String? = null,
         val lineItem: LineItem
 ) : Parcelable {
 
-    override fun toString() = "LineItem(selected=$selected, lineItem=$lineItem)"
+    override fun toString() = "LineItem(selected=$selected, reason=$reason, lineItem=$lineItem)"
 
     override fun equals(other: Any?) = other is SelectableLineItem
             && selected == other.selected
+            && reason == other.reason
             && lineItem == other.lineItem
 
     override fun hashCode() = Objects.hash(selected, lineItem)
 
     @JvmSynthetic
     fun copy(selected: Boolean = this.selected,
-             lineItem: LineItem = this.lineItem) = SelectableLineItem(selected,
+             reason: String? = this.reason,
+             lineItem: LineItem = this.lineItem) = SelectableLineItem(selected, reason,
             lineItem.copy())
 }

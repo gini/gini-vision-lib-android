@@ -2,6 +2,7 @@ package net.gini.android.vision.returnassistant
 
 import android.app.Activity
 import com.google.common.truth.Truth.assertThat
+import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.spy
 import com.nhaarman.mockitokotlin2.verify
 import net.gini.android.vision.returnassistant.ReturnAssistantScreenContract.View
@@ -120,7 +121,8 @@ class ReturnAssistantScreenPresenterTest {
             updateView(lineItems)
 
             // Then
-            verify(view).showSelectedLineItemsSum("${Currency.getInstance("EUR").symbol}7", ".07")
+            verify(view).showSelectedLineItemsSum("${Currency.getInstance("EUR").symbol}7",
+                    "${FRACTION_FORMAT.decimalFormatSymbols.decimalSeparator}07")
         }
     }
 
@@ -144,7 +146,8 @@ class ReturnAssistantScreenPresenterTest {
             updateView(lineItems)
 
             // Then
-            verify(view).showSelectedLineItemsSum("${Currency.getInstance("EUR").symbol}15", ".28")
+            verify(view).showSelectedLineItemsSum("${Currency.getInstance("EUR").symbol}15",
+                    "${FRACTION_FORMAT.decimalFormatSymbols.decimalSeparator}28")
         }
     }
 
@@ -172,9 +175,39 @@ class ReturnAssistantScreenPresenterTest {
         }
     }
 
+    open class ViewWithSelectedReturnReason(val reason: String?) : View {
+        override fun showLineItems(lineItems: List<SelectableLineItem>) {}
+        override fun showSelectedAndTotalLineItems(selected: Int, total: Int) {}
+        override fun enablePayButton(selected: Int, total: Int) {}
+        override fun disablePayButton(selected: Int, total: Int) {}
+        override fun showSelectedLineItemsSum(integralPart: String, fractionPart: String) {}
+        override fun setPresenter(presenter: ReturnAssistantScreenContract.Presenter) {}
+
+        override fun showReturnReasonDialog(reasons: List<String>,
+                                            resultCallback: DialogResultCallback) {
+            resultCallback(reason)
+        }
+    }
+
     @Test
-    fun `should update view when deselecting a line item`() {
+    fun `should update view when deselecting a line item after a reason was selected`() {
         // Given
+        view = spy(ViewWithSelectedReturnReason("Item is not for me"))
+
+        spy(ReturnAssistantScreenPresenter(activity, view)).run {
+            // When
+            deselectLineItem(lineItems.first())
+
+            // Then
+            verify(view).showLineItems(lineItems)
+        }
+    }
+
+    @Test
+    fun `should update view when deselecting a line item after a reason was not selected`() {
+        // Given
+        view = spy(ViewWithSelectedReturnReason(null))
+
         spy(ReturnAssistantScreenPresenter(activity, view)).run {
             // When
             deselectLineItem(lineItems.first())
@@ -203,8 +236,22 @@ class ReturnAssistantScreenPresenterTest {
     }
 
     @Test
-    fun `should deselect line item`() {
+    fun `should show return reason dialog when deselecting a line item`() {
         // Given
+        ReturnAssistantScreenPresenter(activity, view).run {
+            // When
+            deselectLineItem(lineItems.first())
+
+            // Then
+            verify(view).showReturnReasonDialog(any(), any())
+        }
+    }
+
+    @Test
+    fun `should deselect line item when a reason was selected`() {
+        // Given
+        view = ViewWithSelectedReturnReason("Item is not for me")
+
         ReturnAssistantScreenPresenter(activity, view).run {
             lineItems = listOf(
                     SelectableLineItem(selected = true,
@@ -258,4 +305,63 @@ class ReturnAssistantScreenPresenterTest {
         }
     }
 
+    @Test
+    fun `should pass return reason to deselected item`() {
+        // Given
+        view = ViewWithSelectedReturnReason("Item is not for me")
+
+        ReturnAssistantScreenPresenter(activity, view).run {
+            lineItems = listOf(
+                    SelectableLineItem(selected = true,
+                            lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
+                                    rawAmount = "1.19:EUR"))
+            )
+
+            // When
+            deselectLineItem(lineItems.first())
+
+            // Then
+            assertThat(lineItems.first().reason).isEqualTo("Item is not for me")
+        }
+    }
+
+    @Test
+    fun `should not deselect line item when a reason was not selected`() {
+        // Given
+        view = ViewWithSelectedReturnReason(null)
+
+        ReturnAssistantScreenPresenter(activity, view).run {
+            lineItems = listOf(
+                    SelectableLineItem(selected = true,
+                            lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
+                                    rawAmount = "1.19:EUR"))
+            )
+
+            // When
+            deselectLineItem(lineItems.first())
+
+            // Then
+            assertThat(lineItems.first().selected).isTrue()
+        }
+    }
+
+    @Test
+    fun `should remove reason when a reason was not selected`() {
+        // Given
+        view = ViewWithSelectedReturnReason(null)
+
+        ReturnAssistantScreenPresenter(activity, view).run {
+            lineItems = listOf(
+                    SelectableLineItem(selected = true,
+                            lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
+                                    rawAmount = "1.19:EUR"))
+            )
+
+            // When
+            deselectLineItem(lineItems.first())
+
+            // Then
+            assertThat(lineItems.first().reason).isNull()
+        }
+    }
 }

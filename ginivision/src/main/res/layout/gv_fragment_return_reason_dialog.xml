@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/gv_return_assistant_return_reason_dialog_item_horizontal_padding"
+        android:paddingTop="@dimen/gv_return_assistant_return_reason_dialog_item_vertical_padding"
+        android:paddingEnd="@dimen/gv_return_assistant_return_reason_dialog_item_horizontal_padding"
+        android:paddingBottom="@dimen/gv_return_assistant_return_reason_dialog_item_vertical_padding"
+        android:text="@string/gv_return_assistant_return_reason_dialog_title"
+        android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.ReturnReasonDialog.Title.TextStyle" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gv_return_assistant_return_reason_dialog_divider" />
+
+    <ListView
+        android:id="@+id/gv_return_reasons_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/gv_return_assistant_return_reason_dialog_divider"
+        android:dividerHeight="1dp"
+        tools:listitem="@layout/gv_item_return_reason" />
+
+</LinearLayout>

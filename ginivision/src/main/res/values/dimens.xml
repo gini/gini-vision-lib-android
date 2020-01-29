@@ -152,6 +152,8 @@
 
     <dimen name="gv_return_assistant_pay_button_height">56dp</dimen>
     <dimen name="gv_return_assistant_pay_button_margin">16dp</dimen>
+    <dimen name="gv_return_assistant_return_reason_dialog_item_horizontal_padding">32dp</dimen>
+    <dimen name="gv_return_assistant_return_reason_dialog_item_vertical_padding">16dp</dimen>
 
     <dimen name="gv_return_assistant_line_item_details_padding">16dp</dimen>
     <dimen name="gv_return_assistant_line_item_details_checkbox_margin_bottom">16dp</dimen>

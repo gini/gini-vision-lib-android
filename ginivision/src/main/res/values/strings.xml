@@ -124,6 +124,7 @@
     <string name="gv_return_assistant_line_item_edit">Edit</string> <!-- TODO: translate to German -->
     <string name="gv_return_assistant_line_item_quantity">Quantity:</string> <!-- TODO: translate to German -->
     <string name="gv_return_assistant_footer_notice">Please check that all is in order and edit if necessary before paying.</string> <!-- TODO: translate to German -->
+    <string name="gv_return_assistant_return_reason_dialog_title">Your reasons to return this item</string> <!-- TODO: translate to German -->
 
     <string name="gv_return_assistant_line_item_details_description_label">Item Name</string> <!-- TODO: translate to German -->
     <string name="gv_return_assistant_line_item_details_quantity_label">Quantity</string> <!-- TODO: translate to German -->

@@ -16,6 +16,9 @@ import net.gini.android.vision.R
  *
  * Copyright (c) 2019 Gini GmbH.
  */
+
+private const val TAG_RETURN_REASON_DIALOG = "TAG_RETURN_REASON_DIALOG"
+
 class ReturnAssistantFragment : Fragment(), ReturnAssistantScreenContract.View,
         ReturnAssistantFragmentInterface, LineItemsAdapterListener {
 
@@ -93,6 +96,14 @@ class ReturnAssistantFragment : Fragment(), ReturnAssistantScreenContract.View,
     override fun showSelectedLineItemsSum(integralPart: String, fractionPart: String) {
         (gv_line_items.adapter as LineItemsAdapter?)?.totalAmountIntegralAndFractionParts =
                 Pair(integralPart, fractionPart)
+    }
+
+    override fun showReturnReasonDialog(reasons: List<String>,
+                                        resultCallback: DialogResultCallback) {
+        ReturnReasonDialog.createInstance(reasons).also {
+            it.callback = resultCallback
+            it.show(fragmentManager, TAG_RETURN_REASON_DIALOG)
+        }
     }
 
     private fun updatePayButtonTitle(selected: Int, total: Int) {

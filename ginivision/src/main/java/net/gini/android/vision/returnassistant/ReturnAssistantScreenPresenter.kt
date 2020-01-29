@@ -17,7 +17,15 @@ val mockLineItems = List(5) { i ->
             rawAmount = "${Random.nextInt(50)}.${Random.nextInt(9)}${Random.nextInt(9)}:EUR")
 }.map { SelectableLineItem(lineItem = it) }
 
-
+val mockReasons = listOf(
+        "Looks different than site image",
+        "Poor quality/fault",
+        "Doesn't fit properly",
+        "Doesn't suite me",
+        "Received wrong item",
+        "Parcel damaged",
+        "Arrived too late"
+)
 
 internal open class ReturnAssistantScreenPresenter(activity: Activity,
                                                    view: ReturnAssistantScreenContract.View) :
@@ -26,6 +34,7 @@ internal open class ReturnAssistantScreenPresenter(activity: Activity,
     override var listener: ReturnAssistantFragmentListener? = null
 
     var lineItems: List<SelectableLineItem> = emptyList()
+    var returnReasons: List<String> = mockReasons
 
     init {
         view.setPresenter(this)
@@ -34,12 +43,22 @@ internal open class ReturnAssistantScreenPresenter(activity: Activity,
 
     override fun selectLineItem(lineItem: SelectableLineItem) {
         lineItem.selected = true
+        lineItem.reason = null
         updateView(lineItems)
     }
 
     override fun deselectLineItem(lineItem: SelectableLineItem) {
-        lineItem.selected = false
-        updateView(lineItems)
+        view.showReturnReasonDialog(returnReasons) { selectedReason ->
+            if (selectedReason != null) {
+                lineItem.selected = false
+                lineItem.reason = selectedReason
+                updateView(lineItems)
+            } else {
+                lineItem.selected = true
+                lineItem.reason = null
+                updateView(lineItems)
+            }
+        }
     }
 
     override fun editLineItem(lineItem: SelectableLineItem) {

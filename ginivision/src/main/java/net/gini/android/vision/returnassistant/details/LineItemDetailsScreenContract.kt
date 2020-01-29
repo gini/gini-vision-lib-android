@@ -3,6 +3,7 @@ package net.gini.android.vision.returnassistant.details
 import android.app.Activity
 import net.gini.android.vision.GiniVisionBasePresenter
 import net.gini.android.vision.GiniVisionBaseView
+import net.gini.android.vision.returnassistant.DialogResultCallback
 import java.math.BigDecimal
 
 /**
@@ -22,6 +23,7 @@ interface LineItemDetailsScreenContract {
         fun disableSaveButton()
         fun enableInput()
         fun disableInput()
+        fun showReturnReasonDialog(reasons: List<String>, resultCallback: DialogResultCallback)
     }
 
     abstract class Presenter(activity: Activity, view: View) :

@@ -148,6 +148,6 @@ class LineItemsHelperTest {
 
         // Then
         assertThat(integral).isEqualTo("${Currency.getInstance("EUR").symbol}7")
-        assertThat(fraction).isEqualTo(".08")
+        assertThat(fraction).isEqualTo("${FRACTION_FORMAT.decimalFormatSymbols.decimalSeparator}08")
     }
 }
