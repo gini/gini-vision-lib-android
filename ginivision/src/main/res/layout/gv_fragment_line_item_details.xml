@@ -101,6 +101,7 @@
                 android:gravity="end"
                 android:hint="@string/gv_return_assistant_line_item_details_amount_label"
                 android:inputType="numberDecimal"
+                android:digits="0123456789,."
                 android:selectAllOnFocus="true"
                 android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.LineItemDetails.InputField.TextStyle"
                 tools:text="152.95" />

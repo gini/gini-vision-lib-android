@@ -17,6 +17,8 @@ import org.mockito.Mock
 import org.mockito.Mockito.mock
 import org.mockito.MockitoAnnotations.initMocks
 import java.math.BigDecimal
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 import java.util.*
 
 /**
@@ -33,6 +35,9 @@ class LineItemDetailsScreenPresenterTest {
     @Mock
     private lateinit var view: View
 
+    private val decimalFormat = DecimalFormat("#,##0.00", DecimalFormatSymbols.getInstance(
+            Locale.ENGLISH)).apply { isParseBigDecimal = true }
+
     @Before
     fun setUp() {
         initMocks(this)
@@ -44,7 +49,7 @@ class LineItemDetailsScreenPresenterTest {
         val sli = SelectableLineItem(selected = true,
                 lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
                         rawAmount = "1.19:EUR"))
-        LineItemDetailsScreenPresenter(activity, view, sli).run {
+        LineItemDetailsScreenPresenter(activity, view, sli, decimalFormat).run {
             // When
             start()
 
@@ -52,10 +57,28 @@ class LineItemDetailsScreenPresenterTest {
             verify(view).showCheckbox(true, 3)
             verify(view).showDescription("Line Item 1")
             verify(view).showQuantity(3)
-            verify(view).showAmount(BigDecimal("1.19"), Currency.getInstance("EUR").symbol)
+            verify(view).showAmount("1.19", Currency.getInstance("EUR").symbol)
             verify(view).showTotalAmount("${Currency.getInstance("EUR").symbol}3",
                     "${FRACTION_FORMAT.decimalFormatSymbols.decimalSeparator}57")
             verify(view).disableSaveButton()
+        }
+    }
+
+    @Test
+    fun `should show amount formatted`() {
+        // Given
+        val germanDecimalFormat =
+                DecimalFormat("0.00", DecimalFormatSymbols.getInstance(
+                        Locale.GERMAN)).apply { isParseBigDecimal = true }
+        val sli = SelectableLineItem(selected = true,
+                lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
+                        rawAmount = "1.19:EUR"))
+        LineItemDetailsScreenPresenter(activity, view, sli, germanDecimalFormat).run {
+            // When
+            start()
+
+            // Then
+            verify(view).showAmount("1,19", Currency.getInstance("EUR").symbol)
         }
     }
 
@@ -79,7 +102,7 @@ class LineItemDetailsScreenPresenterTest {
     open class ViewWithSelectedReturnReason(val reason: String?) : View {
         override fun showDescription(description: String) {}
         override fun showQuantity(quantity: Int) {}
-        override fun showAmount(amount: BigDecimal, currency: String) {}
+        override fun showAmount(amount: String, currency: String) {}
         override fun showCheckbox(selected: Boolean, quantity: Int) {}
         override fun showTotalAmount(integralPart: String, fractionPart: String) {}
         override fun enableSaveButton() {}
@@ -207,15 +230,33 @@ class LineItemDetailsScreenPresenterTest {
         val sli = SelectableLineItem(selected = true,
                 lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
                         rawAmount = "1.19:EUR"))
-        LineItemDetailsScreenPresenter(activity, view, sli).run {
+        LineItemDetailsScreenPresenter(activity, view, sli, decimalFormat).run {
             // When
-            setAmount(BigDecimal("19.99"))
+            setAmount("19.99")
 
             // Then
             assertThat(selectableLineItem.lineItem.amount).isEqualTo(BigDecimal("19.99"))
             verify(view).showTotalAmount("${Currency.getInstance("EUR").symbol}59",
                     "${FRACTION_FORMAT.decimalFormatSymbols.decimalSeparator}97")
             verify(view).enableSaveButton()
+        }
+    }
+
+    @Test
+    fun `should parse amount in the format it was shown with`() {
+        // Given
+        val sli = SelectableLineItem(selected = true,
+                lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
+                        rawAmount = "1.19:EUR"))
+        LineItemDetailsScreenPresenter(activity, view, sli, decimalFormat).run {
+            // When
+            start()
+            // Using german format (comma decimal separator)
+            setAmount("200,19")
+
+            // Then
+            // Since we used english format, the comma was interpreted as a grouping separator
+            assertThat(selectableLineItem.lineItem.amount).isEqualTo(BigDecimal("20019.00"))
         }
     }
 

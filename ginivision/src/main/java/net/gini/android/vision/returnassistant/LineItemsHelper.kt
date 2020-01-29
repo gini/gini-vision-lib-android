@@ -11,9 +11,8 @@ import java.util.*
  * Copyright (c) 2019 Gini GmbH.
  */
 
-val INTEGRAL_FORMAT = DecimalFormat("#")
+val INTEGRAL_FORMAT = DecimalFormat("#,###")
 val FRACTION_FORMAT = DecimalFormat(".00").apply { roundingMode = RoundingMode.DOWN }
-val AMOUNT_FORMAT = DecimalFormat("#.00")
 
 fun lineItemsSumIntegralAndFractionParts(
         lineItems: List<SelectableLineItem>): Pair<String, String> {

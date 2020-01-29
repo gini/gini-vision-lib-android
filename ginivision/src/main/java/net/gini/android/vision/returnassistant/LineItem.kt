@@ -4,6 +4,9 @@ import android.os.Parcelable
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 import java.math.BigDecimal
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.text.ParseException
 import java.util.*
 
 /**
@@ -11,6 +14,12 @@ import java.util.*
  *
  * Copyright (c) 2019 Gini GmbH.
  */
+
+val RAW_AMOUNT_FORMAT = DecimalFormat("0.00",
+        DecimalFormatSymbols.getInstance(Locale.ENGLISH)).apply { isParseBigDecimal = true }
+
+val AMOUNT_STRING_REGEX = "^[0-9]+([.,])[0-9]+\$".toRegex()
+
 @Parcelize
 class LineItem(
         val id: String,
@@ -18,10 +27,6 @@ class LineItem(
         val quantity: Int,
         val rawAmount: String
 ) : Parcelable {
-
-    companion object {
-        fun createRawAmount(amount: String, currency: String) = "$amount:$currency"
-    }
 
     @IgnoredOnParcel
     val amount: BigDecimal
@@ -32,12 +37,21 @@ class LineItem(
     @IgnoredOnParcel
     val rawCurrency: String
 
+    companion object {
+        fun createRawAmount(amount: BigDecimal, currency: String) = "${RAW_AMOUNT_FORMAT.format(
+                amount)}:$currency"
+    }
+
     init {
         rawAmount.split(":").let {
             check(it.size == 2) {
                 "Invalid amount format. Expected <Amount>:<Currency Code>, but got: $rawAmount"
             }
-            amount = BigDecimal(it[0])
+            amount = try {
+                parseAmountString(it[0])
+            } catch (_: NumberFormatException) {
+                BigDecimal.ZERO
+            }
             totalAmount = amount.times(BigDecimal(quantity))
             rawCurrency = it[1]
             currency = try {
@@ -47,6 +61,34 @@ class LineItem(
             }
         }
     }
+
+    private fun parseAmountString(amount: String): BigDecimal =
+            if (amount matches AMOUNT_STRING_REGEX) {
+                when {
+                    amount.contains(".") -> {
+                        parseAmountWithLocale(amount, Locale.ENGLISH)
+                    }
+                    amount.contains(",") -> {
+                        parseAmountWithLocale(amount, Locale.GERMAN)
+                    }
+                    else -> {
+                        throw NumberFormatException()
+                    }
+                }
+            } else {
+                throw NumberFormatException()
+            }
+
+    private fun parseAmountWithLocale(amount: String, locale: Locale) = DecimalFormat("0.00",
+            DecimalFormatSymbols.getInstance(locale))
+            .apply { isParseBigDecimal = true }
+            .run {
+                try {
+                    parse(amount) as BigDecimal
+                } catch (_: ParseException) {
+                    throw NumberFormatException()
+                }
+            }
 
     override fun toString() = "LineItem(id=$id, description=$description, quantity=$quantity, rawAmount=$rawAmount, amount=$amount, totalAmount=$totalAmount, currency=$currency)"
 

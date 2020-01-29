@@ -8,14 +8,20 @@ import net.gini.android.vision.returnassistant.details.LineItemDetailsScreenCont
 import net.gini.android.vision.returnassistant.lineItemTotalAmountIntegralAndFractionParts
 import net.gini.android.vision.returnassistant.mockReasons
 import java.math.BigDecimal
+import java.text.DecimalFormat
+import java.text.ParseException
 
 /**
  * Created by Alpar Szotyori on 17.12.2019.
  *
  * Copyright (c) 2019 Gini GmbH.
  */
+
+val AMOUNT_FORMAT = DecimalFormat("#,##0.00").apply { isParseBigDecimal = true }
+
 class LineItemDetailsScreenPresenter(activity: Activity, view: View,
-                                     var selectableLineItem: SelectableLineItem) :
+                                     var selectableLineItem: SelectableLineItem,
+                                     private val amountFormat: DecimalFormat = AMOUNT_FORMAT) :
         Presenter(activity, view) {
 
     override var listener: LineItemDetailsFragmentListener? = null
@@ -91,13 +97,18 @@ class LineItemDetailsScreenPresenter(activity: Activity, view: View,
         }
     }
 
-    override fun setAmount(amount: BigDecimal) {
+    override fun setAmount(displayedAmount: String) {
+        val amount = try {
+            amountFormat.parse(displayedAmount) as BigDecimal
+        } catch (_: ParseException) {
+            return
+        }
         if (selectableLineItem.lineItem.amount == amount) {
             return
         }
         selectableLineItem = selectableLineItem.copy(
                 lineItem = selectableLineItem.lineItem.copy(
-                        rawAmount = LineItem.createRawAmount(amount.toString(),
+                        rawAmount = LineItem.createRawAmount(amount,
                                 selectableLineItem.lineItem.rawCurrency)
                 )
         ).also {
@@ -119,7 +130,7 @@ class LineItemDetailsScreenPresenter(activity: Activity, view: View,
                 lineItem.run {
                     showDescription(description)
                     showQuantity(quantity)
-                    showAmount(amount, currency?.symbol ?: "")
+                    showAmount(amountFormat.format(amount), currency?.symbol ?: "")
                 }
                 showTotalAmount(this)
                 updateSaveButton(this, originalLineItem)

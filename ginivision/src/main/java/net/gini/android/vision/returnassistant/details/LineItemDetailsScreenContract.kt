@@ -4,7 +4,6 @@ import android.app.Activity
 import net.gini.android.vision.GiniVisionBasePresenter
 import net.gini.android.vision.GiniVisionBaseView
 import net.gini.android.vision.returnassistant.DialogResultCallback
-import java.math.BigDecimal
 
 /**
  * Created by Alpar Szotyori on 17.12.2019.
@@ -16,7 +15,7 @@ interface LineItemDetailsScreenContract {
     interface View : GiniVisionBaseView<Presenter> {
         fun showDescription(description: String)
         fun showQuantity(quantity: Int)
-        fun showAmount(amount: BigDecimal, currency: String)
+        fun showAmount(displayedAmount: String, currency: String)
         fun showCheckbox(selected: Boolean, quantity: Int)
         fun showTotalAmount(integralPart: String, fractionPart: String)
         fun enableSaveButton()
@@ -33,7 +32,7 @@ interface LineItemDetailsScreenContract {
         abstract fun deselectLineItem()
         abstract fun setDescription(description: String)
         abstract fun setQuantity(quantity: Int)
-        abstract fun setAmount(amount: BigDecimal)
+        abstract fun setAmount(displayedAmount: String)
         abstract fun save()
     }
 }
