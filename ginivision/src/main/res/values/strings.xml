@@ -125,6 +125,10 @@
     <string name="gv_return_assistant_line_item_quantity">Quantity:</string> <!-- TODO: translate to German -->
     <string name="gv_return_assistant_footer_notice">Please check that all is in order and edit if necessary before paying.</string> <!-- TODO: translate to German -->
     <string name="gv_return_assistant_return_reason_dialog_title">Your reasons to return this item</string> <!-- TODO: translate to German -->
+    <string name="gv_return_assistant_what_is_this_dialog_title">We extracted the detailed items from your invoice to help you calculate the amount to pay in case you want to return some goods or simply not fully-paying it.</string> <!-- TODO: translate to German -->
+    <string name="gv_return_assistant_what_is_this_dialog_subtitle">Is this helpful?</string> <!-- TODO: translate to German -->
+    <string name="gv_return_assistant_what_is_this_dialog_positive_response">Yes, that\'s helpful</string> <!-- TODO: translate to German -->
+    <string name="gv_return_assistant_what_is_this_dialog_negative_response">No, I don\'t want to see it again</string> <!-- TODO: translate to German -->
 
     <string name="gv_return_assistant_line_item_details_description_label">Item Name</string> <!-- TODO: translate to German -->
     <string name="gv_return_assistant_line_item_details_quantity_label">Quantity</string> <!-- TODO: translate to German -->

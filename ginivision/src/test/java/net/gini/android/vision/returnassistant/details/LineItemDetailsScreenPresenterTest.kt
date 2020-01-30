@@ -4,9 +4,9 @@ import android.app.Activity
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.spy
 import com.nhaarman.mockitokotlin2.verify
-import net.gini.android.vision.returnassistant.DialogResultCallback
 import net.gini.android.vision.returnassistant.FRACTION_FORMAT
 import net.gini.android.vision.returnassistant.LineItem
+import net.gini.android.vision.returnassistant.ReturnReasonDialogResultCallback
 import net.gini.android.vision.returnassistant.SelectableLineItem
 import net.gini.android.vision.returnassistant.details.LineItemDetailsScreenContract.View
 import org.junit.Before
@@ -112,7 +112,7 @@ class LineItemDetailsScreenPresenterTest {
         override fun setPresenter(presenter: LineItemDetailsScreenContract.Presenter) {}
 
         override fun showReturnReasonDialog(reasons: List<String>,
-                                            resultCallback: DialogResultCallback) {
+                                            resultCallback: ReturnReasonDialogResultCallback) {
             resultCallback(reason)
         }
     }

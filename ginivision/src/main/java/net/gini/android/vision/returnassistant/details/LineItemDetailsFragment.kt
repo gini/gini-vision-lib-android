@@ -10,10 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.gv_fragment_line_item_details.*
 import net.gini.android.vision.R
-import net.gini.android.vision.returnassistant.DialogResultCallback
-import net.gini.android.vision.returnassistant.LineItem
-import net.gini.android.vision.returnassistant.ReturnReasonDialog
-import net.gini.android.vision.returnassistant.SelectableLineItem
+import net.gini.android.vision.returnassistant.*
 
 /**
  * Created by Alpar Szotyori on 17.12.2019.
@@ -182,7 +179,7 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
     }
 
     override fun showReturnReasonDialog(reasons: List<String>,
-                                        resultCallback: DialogResultCallback) {
+                                        resultCallback: ReturnReasonDialogResultCallback) {
         ReturnReasonDialog.createInstance(reasons).also {
             it.callback = resultCallback
             it.show(fragmentManager, TAG_RETURN_REASON_DIALOG)

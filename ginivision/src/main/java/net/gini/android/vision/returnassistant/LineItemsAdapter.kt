@@ -27,6 +27,7 @@ interface LineItemsAdapterListener {
     fun onLineItemClicked(lineItem: SelectableLineItem)
     fun onLineItemSelected(lineItem: SelectableLineItem)
     fun onLineItemDeselected(lineItem: SelectableLineItem)
+    fun onWhatIsThisButtonClicked()
 }
 
 class LineItemsAdapter(context: Context, val listener: LineItemsAdapterListener) :
@@ -65,7 +66,10 @@ class LineItemsAdapter(context: Context, val listener: LineItemsAdapterListener)
 
     override fun onBindViewHolder(viewHolder: ViewHolder<*>, position: Int) {
         when (viewHolder) {
-            is ViewHolder.HeaderViewHolder -> viewHolder.bind(selectedAndTotalItems)
+            is ViewHolder.HeaderViewHolder -> {
+                viewHolder.listener = listener
+                viewHolder.bind(selectedAndTotalItems)
+            }
             is ViewHolder.LineItemViewHolder -> {
                 lineItemForPosition(position, lineItems)?.let {
                     viewHolder.listener = listener
@@ -120,10 +124,15 @@ sealed class ViewHolder<in T>(itemView: View, val viewType: ViewType) :
 
     class HeaderViewHolder(itemView: View) : ViewHolder<String>(itemView, Header) {
         private val selectedAndTotalItems = itemView.gv_selected_and_total_items
+        private val whatIsThisButton = itemView.gv_what_is_this_button
+        var listener: LineItemsAdapterListener? = null
 
         override fun bind(data: String, allData: List<String>?) {
             @SuppressLint("SetTextI18n")
             selectedAndTotalItems.text = " $data"
+            whatIsThisButton.setOnClickListener {
+                listener?.onWhatIsThisButtonClicked()
+            }
         }
 
         override fun unbind() {
