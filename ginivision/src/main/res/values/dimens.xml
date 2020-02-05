@@ -140,7 +140,7 @@
     <dimen name="gv_return_assistant_line_item_stroke_width">1dp</dimen>
     <dimen name="gv_return_assistant_line_item_checkbox_margin_right">16dp</dimen>
     <dimen name="gv_return_assistant_line_item_description_margin_bottom">16dp</dimen>
-    <dimen name="gv_return_assistant_line_item_edit_drawable_padding">-24dp</dimen>
+    <dimen name="gv_return_assistant_line_item_edit_drawable_padding">8dp</dimen>
     <dimen name="gv_return_assistant_line_item_edit_margin_right">0dp</dimen>
 
     <dimen name="gv_return_assistant_footer_horizontal_padding">16dp</dimen>

@@ -97,14 +97,15 @@
     <string name="gv_file_import_default_app_dialog_image_file_type">image</string>
     <string name="gv_file_import_default_app_dialog_document_file_type">document</string>
 
-    <string name="gv_title_return_assistant">Return Assistant</string>
-    <string name="gv_title_line_item_details">Details</string>
+    <string name="gv_title_return_assistant">Digital Invoice</string>
+    <string name="gv_title_line_item_details" />
     <string name="gv_return_assistant_scan_success">Scan successful!\nYou can now deselect items you would like to return.</string>
     <string name="gv_return_assistant_items">Items</string>
     <string name="gv_return_assistant_help">What is this?</string>
     <string name="gv_return_assistant_line_item_edit">Edit</string>
     <string name="gv_return_assistant_line_item_quantity">Quantity:</string>
     <string name="gv_return_assistant_footer_notice">Please check that all is in order and edit if necessary before paying.</string>
+    <string name="gv_return_assistant_pay">Pay %1$d/%2$d</string>
     <string name="gv_return_assistant_line_item_details_description_label">Item Name</string>
     <string name="gv_return_assistant_line_item_details_quantity_label">Quantity</string>
     <string name="gv_return_assistant_line_item_details_amount_label">Item price</string>
@@ -117,8 +118,8 @@
     <string name="gv_return_assistant_line_item_details_selected">selected</string>
 
     <string name="gv_return_assistant_return_reason_dialog_title">Your reasons to return this item</string>
-    <string name="gv_return_assistant_what_is_this_dialog_title">We extracted the detailed items from your invoice to help you calculate the amount to pay in case you want to return some goods or simply not fully-paying it.</string>
-    <string name="gv_return_assistant_what_is_this_dialog_subtitle">Is this helpful?</string>
+    <string name="gv_return_assistant_what_is_this_dialog_title">What is this?</string>
+    <string name="gv_return_assistant_what_is_this_dialog_message">We extracted the detailed items from your invoice to help you calculate the amount to pay in case you want to return some goods or simply not fully-paying it.</string>
     <string name="gv_return_assistant_what_is_this_dialog_positive_response">Yes, that\'s helpful</string>
     <string name="gv_return_assistant_what_is_this_dialog_negative_response">No, I don\'t want to see it again</string>
 

@@ -351,16 +351,16 @@
         <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="Root.GiniVisionTheme.ReturnAssistant.WhatIsThisDialog.Title.TextStyle" parent="TextAppearance.AppCompat">
+    <style name="Root.GiniVisionTheme.ReturnAssistant.WhatIsThisDialog.Message.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/gv_return_assistant_what_is_this_dialog_title</item>
+        <item name="android:textColor">@color/gv_return_assistant_what_is_this_dialog_message</item>
     </style>
 
-    <style name="Root.GiniVisionTheme.ReturnAssistant.WhatIsThisDialog.Subtitle.TextStyle" parent="TextAppearance.AppCompat">
+    <style name="Root.GiniVisionTheme.ReturnAssistant.WhatIsThisDialog.Title.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/gv_return_assistant_what_is_this_dialog_subtitle
+        <item name="android:textColor">@color/gv_return_assistant_what_is_this_dialog_title
         </item>
     </style>
 
@@ -471,9 +471,9 @@
 
     <style name="GiniVisionTheme.ReturnAssistant.ReturnReasonDialog.Item.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.ReturnReasonDialog.Item.TextStyle" />
 
-    <style name="GiniVisionTheme.ReturnAssistant.WhatIsThisDialog.Title.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.WhatIsThisDialog.Title.TextStyle" />
+    <style name="GiniVisionTheme.ReturnAssistant.WhatIsThisDialog.Message.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.WhatIsThisDialog.Message.TextStyle" />
 
-    <style name="GiniVisionTheme.ReturnAssistant.WhatIsThisDialog.Subtitle.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.WhatIsThisDialog.Subtitle.TextStyle" />
+    <style name="GiniVisionTheme.ReturnAssistant.WhatIsThisDialog.Title.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.WhatIsThisDialog.Title.TextStyle" />
 
     <style name="GiniVisionTheme.ReturnAssistant.WhatIsThisDialog.Response.TextStyle" parent="Root.GiniVisionTheme.ReturnAssistant.WhatIsThisDialog.Response.TextStyle" />
 

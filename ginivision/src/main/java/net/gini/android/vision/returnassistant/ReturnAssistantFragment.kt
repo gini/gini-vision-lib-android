@@ -109,7 +109,7 @@ class ReturnAssistantFragment : Fragment(), ReturnAssistantScreenContract.View,
 
     private fun updatePayButtonTitle(selected: Int, total: Int) {
         @SuppressLint("SetTextI18n")
-        gv_pay_button.text = "Pay ${selected}/${total}"
+        gv_pay_button.text = resources.getString(R.string.gv_return_assistant_pay, selected, total)
     }
 
     override fun setPresenter(presenter: ReturnAssistantScreenContract.Presenter) {
