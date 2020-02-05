@@ -275,4 +275,19 @@ class LineItemDetailsScreenPresenterTest {
             verify(listener)?.onSave(selectableLineItem)
         }
     }
+
+    @Test
+    fun `should remove reason when line item is selected`() {
+        // Given
+        val sli = SelectableLineItem(selected = false,
+                lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
+                        rawAmount = "1.19:EUR"))
+        LineItemDetailsScreenPresenter(activity, view, sli).run {
+            // When
+            selectLineItem()
+
+            // Then
+            assertThat(selectableLineItem.reason).isNull()
+        }
+    }
 }

@@ -39,6 +39,7 @@ class LineItemDetailsScreenPresenter(activity: Activity, view: View,
             return
         }
         selectableLineItem.selected = true
+        selectableLineItem.reason = null
         view.apply {
             enableInput()
             selectableLineItem.run {
