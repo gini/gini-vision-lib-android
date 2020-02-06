@@ -4,16 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/gv_return_assistant_line_item_details_padding"
-    tools:context=".returnassistant.details.LineItemDetailsFragment">
+    android:padding="@dimen/gv_digital_invoice_line_item_details_padding"
+    tools:context=".digitalinvoice.details.LineItemDetailsFragment">
 
     <CheckBox
         android:id="@+id/gv_checkbox"
-        style="@style/GiniVisionTheme.ReturnAssistant.LineItemDetails.Checkbox.TextStyle"
+        style="@style/GiniVisionTheme.DigitalInvoice.LineItemDetails.Checkbox.TextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginBottom="@dimen/gv_return_assistant_line_item_details_checkbox_margin_bottom"
+        android:layout_marginBottom="@dimen/gv_digital_invoice_line_item_details_checkbox_margin_bottom"
         tools:text="1 item selected" />
 
     <android.support.design.widget.TextInputLayout
@@ -21,17 +21,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/gv_checkbox"
-        android:layout_marginBottom="@dimen/gv_return_assistant_line_item_details_description_margin_bottom"
-        android:textColorHint="@color/gv_return_assistant_line_item_details_input_field_hint_text">
+        android:layout_marginBottom="@dimen/gv_digital_invoice_line_item_details_description_margin_bottom"
+        android:textColorHint="@color/gv_digital_invoice_line_item_details_input_field_hint_text">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/gv_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/gv_return_assistant_line_item_details_description_label"
+            android:hint="@string/gv_digital_invoice_line_item_details_description_label"
             android:inputType="text"
             android:nextFocusDown="@id/gv_quantity"
-            android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.LineItemDetails.InputField.TextStyle"
+            android:textAppearance="@style/GiniVisionTheme.DigitalInvoice.LineItemDetails.InputField.TextStyle"
             tools:text="Nike Sportswear Air Max 97 - Sneaker Low" />
 
     </android.support.design.widget.TextInputLayout>
@@ -41,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/gv_description_container"
-        android:layout_marginBottom="@dimen/gv_return_assistant_line_item_details_quantity_and_amount_margin_bottom"
+        android:layout_marginBottom="@dimen/gv_digital_invoice_line_item_details_quantity_and_amount_margin_bottom"
         android:orientation="horizontal">
 
         <android.support.design.widget.TextInputLayout
@@ -49,17 +49,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColorHint="@color/gv_return_assistant_line_item_details_input_field_hint_text">
+            android:textColorHint="@color/gv_digital_invoice_line_item_details_input_field_hint_text">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/gv_quantity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/gv_return_assistant_line_item_details_quantity_label"
+                android:hint="@string/gv_digital_invoice_line_item_details_quantity_label"
                 android:inputType="number"
                 android:nextFocusDown="@id/gv_amount"
                 android:selectAllOnFocus="true"
-                android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.LineItemDetails.InputField.TextStyle"
+                android:textAppearance="@style/GiniVisionTheme.DigitalInvoice.LineItemDetails.InputField.TextStyle"
                 tools:text="1" />
 
         </android.support.design.widget.TextInputLayout>
@@ -80,11 +80,11 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginEnd="-12dp"
-            android:background="@color/gv_return_assistant_activity_background"
+            android:background="@color/gv_digital_invoice_activity_background"
             android:gravity="bottom"
             android:paddingBottom="10dp"
             android:text="€"
-            android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.LineItemDetails.InputField.TextStyle"
+            android:textAppearance="@style/GiniVisionTheme.DigitalInvoice.LineItemDetails.InputField.TextStyle"
             tools:ignore="HardcodedText" />
 
         <android.support.design.widget.TextInputLayout
@@ -92,18 +92,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColorHint="@color/gv_return_assistant_line_item_details_input_field_hint_text">
+            android:textColorHint="@color/gv_digital_invoice_line_item_details_input_field_hint_text">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/gv_amount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:hint="@string/gv_return_assistant_line_item_details_amount_label"
+                android:hint="@string/gv_digital_invoice_line_item_details_amount_label"
                 android:inputType="numberDecimal"
                 android:digits="0123456789,."
                 android:selectAllOnFocus="true"
-                android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.LineItemDetails.InputField.TextStyle"
+                android:textAppearance="@style/GiniVisionTheme.DigitalInvoice.LineItemDetails.InputField.TextStyle"
                 tools:text="152.95" />
 
         </android.support.design.widget.TextInputLayout>
@@ -116,21 +116,21 @@
         android:layout_below="@id/gv_quantity_and_amount_container"
         android:layout_alignTop="@id/gv_amount_total_integral_part"
         android:layout_alignBottom="@id/gv_amount_total_integral_part"
-        android:layout_marginEnd="@dimen/gv_return_assistant_line_item_details_total_label_margin_end"
+        android:layout_marginEnd="@dimen/gv_digital_invoice_line_item_details_total_label_margin_end"
         android:layout_toStartOf="@id/gv_amount_total_integral_part"
         android:gravity="center"
-        android:text="@string/gv_return_assistant_line_item_details_total_label"
-        android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.LineItemDetails.Total.TextStyle" />
+        android:text="@string/gv_digital_invoice_line_item_details_total_label"
+        android:textAppearance="@style/GiniVisionTheme.DigitalInvoice.LineItemDetails.Total.TextStyle" />
 
     <TextView
         android:id="@+id/gv_amount_total_integral_part"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/gv_quantity_and_amount_container"
-        android:layout_marginBottom="@dimen/gv_return_assistant_line_item_details_amount_margin_bottom"
+        android:layout_marginBottom="@dimen/gv_digital_invoice_line_item_details_amount_margin_bottom"
         android:layout_toStartOf="@+id/gv_amount_total_fraction_part"
         android:includeFontPadding="false"
-        android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.TotalAmount.Integral.TextStyle"
+        android:textAppearance="@style/GiniVisionTheme.DigitalInvoice.TotalAmount.Integral.TextStyle"
         tools:text="€0" />
 
     <TextView
@@ -139,16 +139,16 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/gv_amount_total_integral_part"
         android:layout_alignParentEnd="true"
-        android:textAppearance="@style/GiniVisionTheme.ReturnAssistant.TotalAmount.Fraction.TextStyle"
+        android:textAppearance="@style/GiniVisionTheme.DigitalInvoice.TotalAmount.Fraction.TextStyle"
         tools:text=".00" />
 
     <Button
         android:id="@+id/gv_save_button"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/gv_return_assistant_line_item_details_save_button_height"
+        android:layout_height="@dimen/gv_digital_invoice_line_item_details_save_button_height"
         android:layout_alignParentBottom="true"
-        android:text="@string/gv_return_assistant_line_item_details_save"
-        app:backgroundTint="@color/gv_return_assistant_line_item_details_save_button" />
+        android:text="@string/gv_digital_invoice_line_item_details_save"
+        app:backgroundTint="@color/gv_digital_invoice_line_item_details_save_button" />
 
 </RelativeLayout>

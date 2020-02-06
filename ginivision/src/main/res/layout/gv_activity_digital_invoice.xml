@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gv_digital_invoice_activity_background"
-    tools:context=".digitalinvoice.details.LineItemDetailsActivity">
+    tools:context=".digitalinvoice.DigitalInvoiceActivity">
 
     <FrameLayout
-        android:id="@+id/gv_fragment_line_item_details"
+        android:id="@+id/gv_fragment_digital_invoice"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

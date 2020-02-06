@@ -116,29 +116,29 @@
     <string name="gv_file_import_default_app_dialog_image_file_type">Bilder</string>
     <string name="gv_file_import_default_app_dialog_document_file_type">Dokumente</string>
 
-    <string name="gv_title_return_assistant">Digitale Rechnung</string>
+    <string name="gv_title_digital_invoice">Digitale Rechnung</string>
     <string name="gv_title_line_item_details" />
-    <string name="gv_return_assistant_scan_success">Scan war erfolgreich!\nDu kannst nun die Artikel abwählen, die du zurückschicken willst.</string>
-    <string name="gv_return_assistant_items">Artikel</string>
-    <string name="gv_return_assistant_help">Was ist das?</string>
-    <string name="gv_return_assistant_line_item_edit">Editieren</string>
-    <string name="gv_return_assistant_line_item_quantity">Anzahl:</string>
-    <string name="gv_return_assistant_footer_notice">Überprüfe, ob so alles in Ordnung ist und editiere, bevor du bezahlst.</string>
-    <string name="gv_return_assistant_pay">Bezahle %1$d/%2$d</string>
-    <string name="gv_return_assistant_return_reason_dialog_title">Der Grund der Rücksendung</string>
-    <string name="gv_return_assistant_what_is_this_dialog_title">Was ist das?</string>
-    <string name="gv_return_assistant_what_is_this_dialog_message">Wir haben die Artikel aus deiner Rechnung extrahiert. Wenn du einige Artikel zurückschicken willst oder deine Rechnung nur zum Teil bezahlen willst, kannst du Artikel abwählen und der zu bezahlende Betrag wird neu berechnet.</string>
-    <string name="gv_return_assistant_what_is_this_dialog_positive_response">Ja, das ist hilfreich</string>
-    <string name="gv_return_assistant_what_is_this_dialog_negative_response">Nein, nicht mehr angezeigen</string>
+    <string name="gv_digital_invoice_scan_success">Scan war erfolgreich!\nDu kannst nun die Artikel abwählen, die du zurückschicken willst.</string>
+    <string name="gv_digital_invoice_items">Artikel</string>
+    <string name="gv_digital_invoice_help">Was ist das?</string>
+    <string name="gv_digital_invoice_line_item_edit">Editieren</string>
+    <string name="gv_digital_invoice_line_item_quantity">Anzahl:</string>
+    <string name="gv_digital_invoice_footer_notice">Überprüfe, ob so alles in Ordnung ist und editiere, bevor du bezahlst.</string>
+    <string name="gv_digital_invoice_pay">Bezahle %1$d/%2$d</string>
+    <string name="gv_digital_invoice_return_reason_dialog_title">Der Grund der Rücksendung</string>
+    <string name="gv_digital_invoice_what_is_this_dialog_title">Was ist das?</string>
+    <string name="gv_digital_invoice_what_is_this_dialog_message">Wir haben die Artikel aus deiner Rechnung extrahiert. Wenn du einige Artikel zurückschicken willst oder deine Rechnung nur zum Teil bezahlen willst, kannst du Artikel abwählen und der zu bezahlende Betrag wird neu berechnet.</string>
+    <string name="gv_digital_invoice_what_is_this_dialog_positive_response">Ja, das ist hilfreich</string>
+    <string name="gv_digital_invoice_what_is_this_dialog_negative_response">Nein, nicht mehr angezeigen</string>
 
-    <string name="gv_return_assistant_line_item_details_description_label">Artikelname</string>
-    <string name="gv_return_assistant_line_item_details_quantity_label">Anzahl</string>
-    <string name="gv_return_assistant_line_item_details_amount_label">Artikelpreis</string>
-    <string name="gv_return_assistant_line_item_details_total_label">Total:</string>
-    <string name="gv_return_assistant_line_item_details_save">Speichern</string>
-    <plurals name="gv_return_assistant_line_item_details_selected_line_items">
+    <string name="gv_digital_invoice_line_item_details_description_label">Artikelname</string>
+    <string name="gv_digital_invoice_line_item_details_quantity_label">Anzahl</string>
+    <string name="gv_digital_invoice_line_item_details_amount_label">Artikelpreis</string>
+    <string name="gv_digital_invoice_line_item_details_total_label">Total:</string>
+    <string name="gv_digital_invoice_line_item_details_save">Speichern</string>
+    <plurals name="gv_digital_invoice_line_item_details_selected_line_items">
         <item quantity="other">%1$d Artikel %2$s</item>
     </plurals>
-    <string name="gv_return_assistant_line_item_details_selected">ausgewählt</string>
+    <string name="gv_digital_invoice_line_item_details_selected">ausgewählt</string>
 
 </resources>

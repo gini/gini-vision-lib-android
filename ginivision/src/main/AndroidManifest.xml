@@ -57,12 +57,12 @@
             android:label="@string/gv_title_multi_page_review"
             android:theme="@style/GiniVisionTheme" />
         <activity
-            android:name=".returnassistant.ReturnAssistantActivity"
+            android:name=".digitalinvoice.DigitalInvoiceActivity"
             android:exported="false"
-            android:label="@string/gv_title_return_assistant"
+            android:label="@string/gv_title_digital_invoice"
             android:theme="@style/GiniVisionTheme" />
         <activity
-            android:name=".returnassistant.details.LineItemDetailsActivity"
+            android:name=".digitalinvoice.details.LineItemDetailsActivity"
             android:exported="false"
             android:label="@string/gv_title_line_item_details"
             android:theme="@style/GiniVisionTheme" />
