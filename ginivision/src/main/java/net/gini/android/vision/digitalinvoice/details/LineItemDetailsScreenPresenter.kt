@@ -5,7 +5,7 @@ import net.gini.android.vision.digitalinvoice.LineItem
 import net.gini.android.vision.digitalinvoice.SelectableLineItem
 import net.gini.android.vision.digitalinvoice.details.LineItemDetailsScreenContract.Presenter
 import net.gini.android.vision.digitalinvoice.details.LineItemDetailsScreenContract.View
-import net.gini.android.vision.digitalinvoice.lineItemTotalAmountIntegralAndFractionParts
+import net.gini.android.vision.digitalinvoice.lineItemTotalAmountIntegralAndFractionalParts
 import net.gini.android.vision.digitalinvoice.mockReasons
 import java.math.BigDecimal
 import java.text.DecimalFormat
@@ -145,9 +145,9 @@ class LineItemDetailsScreenPresenter(activity: Activity, view: View,
 }
 
 private fun View.showTotalAmount(selectableLineItem: SelectableLineItem) {
-    lineItemTotalAmountIntegralAndFractionParts(
-            selectableLineItem.lineItem).let { (integral, fraction) ->
-        showTotalAmount(integral, fraction)
+    lineItemTotalAmountIntegralAndFractionalParts(
+            selectableLineItem.lineItem).let { (integral, fractional) ->
+        showTotalAmount(integral, fractional)
     }
 }
 

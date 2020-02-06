@@ -132,7 +132,7 @@ class LineItemsHelperTest {
     }
 
     @Test
-    fun `should get line items sum integral and fraction parts`() {
+    fun `should get line items sum integral and fractional parts`() {
         // Given
         val lineItems = listOf(
                 SelectableLineItem(selected = true,
@@ -144,10 +144,10 @@ class LineItemsHelperTest {
         )
 
         // When
-        val (integral, fraction) = lineItemsSumIntegralAndFractionParts(lineItems)
+        val (integral, fractional) = lineItemsSumIntegralAndFractionalParts(lineItems)
 
         // Then
         assertThat(integral).isEqualTo("${Currency.getInstance("EUR").symbol}7")
-        assertThat(fraction).isEqualTo("${FRACTION_FORMAT.decimalFormatSymbols.decimalSeparator}08")
+        assertThat(fractional).isEqualTo("${FRACTION_FORMAT.decimalFormatSymbols.decimalSeparator}08")
     }
 }

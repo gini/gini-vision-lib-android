@@ -81,18 +81,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/gv_quantity"
-            android:layout_toStartOf="@id/gv_amount_fraction_part"
+            android:layout_toStartOf="@id/gv_amount_fractional_part"
             android:includeFontPadding="false"
             android:textAppearance="@style/GiniVisionTheme.DigitalInvoice.LineItem.Amount.Integral.TextStyle"
             tools:text="€76" />
 
         <TextView
-            android:id="@+id/gv_amount_fraction_part"
+            android:id="@+id/gv_amount_fractional_part"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/gv_amount_integral_part"
             android:layout_alignParentEnd="true"
-            android:textAppearance="@style/GiniVisionTheme.DigitalInvoice.LineItem.Amount.Fraction.TextStyle"
+            android:textAppearance="@style/GiniVisionTheme.DigitalInvoice.LineItem.Amount.Fractional.TextStyle"
             tools:text=".48" />
 
     </RelativeLayout>

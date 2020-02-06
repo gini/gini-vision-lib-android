@@ -17,7 +17,7 @@ interface LineItemDetailsScreenContract {
         fun showQuantity(quantity: Int)
         fun showAmount(displayedAmount: String, currency: String)
         fun showCheckbox(selected: Boolean, quantity: Int)
-        fun showTotalAmount(integralPart: String, fractionPart: String)
+        fun showTotalAmount(integralPart: String, fractionalPart: String)
         fun enableSaveButton()
         fun disableSaveButton()
         fun enableInput()

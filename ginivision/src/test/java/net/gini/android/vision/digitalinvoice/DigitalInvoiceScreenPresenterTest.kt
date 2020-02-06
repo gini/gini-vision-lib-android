@@ -180,7 +180,7 @@ class DigitalInvoiceScreenPresenterTest {
         override fun showSelectedAndTotalLineItems(selected: Int, total: Int) {}
         override fun enablePayButton(selected: Int, total: Int) {}
         override fun disablePayButton(selected: Int, total: Int) {}
-        override fun showSelectedLineItemsSum(integralPart: String, fractionPart: String) {}
+        override fun showSelectedLineItemsSum(integralPart: String, fractionalPart: String) {}
         override fun setPresenter(presenter: DigitalInvoiceScreenContract.Presenter) {}
 
         override fun showReturnReasonDialog(reasons: List<String>,

@@ -94,9 +94,9 @@ class DigitalInvoiceFragment : Fragment(), DigitalInvoiceScreenContract.View,
         updatePayButtonTitle(selected, total)
     }
 
-    override fun showSelectedLineItemsSum(integralPart: String, fractionPart: String) {
-        (gv_line_items.adapter as LineItemsAdapter?)?.totalAmountIntegralAndFractionParts =
-                Pair(integralPart, fractionPart)
+    override fun showSelectedLineItemsSum(integralPart: String, fractionalPart: String) {
+        (gv_line_items.adapter as LineItemsAdapter?)?.totalAmountIntegralAndFractionalParts =
+                Pair(integralPart, fractionalPart)
     }
 
     override fun showReturnReasonDialog(reasons: List<String>,

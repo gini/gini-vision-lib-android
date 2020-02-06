@@ -154,9 +154,9 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
         gv_currency.text = currency
     }
 
-    override fun showTotalAmount(integralPart: String, fractionPart: String) {
+    override fun showTotalAmount(integralPart: String, fractionalPart: String) {
         gv_amount_total_integral_part.text = integralPart
-        gv_amount_total_fraction_part.text = fractionPart
+        gv_amount_total_fractional_part.text = fractionalPart
     }
 
     override fun enableSaveButton() {

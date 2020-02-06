@@ -31,13 +31,13 @@ class BigDecimalExtensionsTest {
     }
 
     @Test
-    fun `should return formatted fraction part`() {
+    fun `should return formatted fractional part`() {
         // Given
         val number = BigDecimal("28.92")
         val format = DecimalFormat(".000")
 
         // When
-        val result = number.fractionPart(format)
+        val result = number.fractionalPart(format)
 
         // Then
         assertThat(result).isEqualTo(".920")

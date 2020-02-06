@@ -16,7 +16,7 @@ interface DigitalInvoiceScreenContract {
         fun showSelectedAndTotalLineItems(selected: Int, total: Int)
         fun enablePayButton(selected: Int, total: Int)
         fun disablePayButton(selected: Int, total: Int)
-        fun showSelectedLineItemsSum(integralPart: String, fractionPart: String)
+        fun showSelectedLineItemsSum(integralPart: String, fractionalPart: String)
         fun showReturnReasonDialog(reasons: List<String>,
                                    resultCallback: ReturnReasonDialogResultCallback)
     }

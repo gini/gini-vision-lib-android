@@ -14,18 +14,18 @@ import java.util.*
 val INTEGRAL_FORMAT = DecimalFormat("#,###")
 val FRACTION_FORMAT = DecimalFormat(".00").apply { roundingMode = RoundingMode.DOWN }
 
-fun lineItemsSumIntegralAndFractionParts(
+fun lineItemsSumIntegralAndFractionalParts(
         lineItems: List<SelectableLineItem>): Pair<String, String> {
     val sum = lineItemsTotalAmountSum(lineItems)
     val currency = lineItemsCurency(lineItems)
     return Pair(amountIntegralPartWithCurrencySymbol(sum, currency),
-            sum.fractionPart(FRACTION_FORMAT))
+            sum.fractionalPart(FRACTION_FORMAT))
 }
 
-fun lineItemTotalAmountIntegralAndFractionParts(lineItem: LineItem): Pair<String, String> {
+fun lineItemTotalAmountIntegralAndFractionalParts(lineItem: LineItem): Pair<String, String> {
     return lineItem.run {
         Pair(amountIntegralPartWithCurrencySymbol(totalAmount, currency),
-                totalAmount.fractionPart(FRACTION_FORMAT))
+                totalAmount.fractionalPart(FRACTION_FORMAT))
     }
 }
 

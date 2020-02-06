@@ -104,7 +104,7 @@ class LineItemDetailsScreenPresenterTest {
         override fun showQuantity(quantity: Int) {}
         override fun showAmount(amount: String, currency: String) {}
         override fun showCheckbox(selected: Boolean, quantity: Int) {}
-        override fun showTotalAmount(integralPart: String, fractionPart: String) {}
+        override fun showTotalAmount(integralPart: String, fractionalPart: String) {}
         override fun enableSaveButton() {}
         override fun disableSaveButton() {}
         override fun enableInput() {}

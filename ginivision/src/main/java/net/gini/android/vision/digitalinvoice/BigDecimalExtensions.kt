@@ -14,4 +14,4 @@ fun BigDecimal.integralPartWithCurrency(currency: Currency, decimalFormat: Decim
 
 fun BigDecimal.integralPart(decimalFormat: DecimalFormat): String = decimalFormat.format(this.toBigInteger())
 
-fun BigDecimal.fractionPart(decimalFormat: DecimalFormat): String = decimalFormat.format(this.remainder(BigDecimal.ONE).abs())
+fun BigDecimal.fractionalPart(decimalFormat: DecimalFormat): String = decimalFormat.format(this.remainder(BigDecimal.ONE).abs())

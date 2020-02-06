@@ -95,8 +95,8 @@ internal open class DigitalInvoiceScreenPresenter(activity: Activity,
                     disablePayButton(0, total)
                 }
             }
-            lineItemsSumIntegralAndFractionParts(lineItems).let { (integral, fraction) ->
-                showSelectedLineItemsSum(integral, fraction)
+            lineItemsSumIntegralAndFractionalParts(lineItems).let { (integral, fractional) ->
+                showSelectedLineItemsSum(integral, fractional)
             }
         }
     }
