@@ -3,6 +3,7 @@ package net.gini.android.vision.digitalinvoice
 import android.annotation.SuppressLint
 import android.content.Context
 import android.support.design.card.MaterialCardView
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -209,55 +210,29 @@ sealed class ViewHolder<in T>(itemView: View, val viewType: ViewType) :
             itemView.isEnabled = true
             card.cardElevation = itemView.resources.getDimension(
                     R.dimen.gv_digital_invoice_line_item_card_elevation)
-            card.strokeColor =
-                    itemView.resources.getColor(
-                            R.color.gv_digital_invoice_line_item_stroke)
-            description.setTextColor(
-                    itemView.resources.getColor(
-                            R.color.gv_digital_invoice_line_item_description_text))
+            card.strokeColor = ContextCompat.getColor(itemView.context, R.color.gv_digital_invoice_line_item_stroke)
+            description.setTextColor(ContextCompat.getColor(itemView.context, R.color.gv_digital_invoice_line_item_description_text))
             edit.isEnabled = true
-            edit.setTextColor(
-                    itemView.resources.getColor(
-                            R.color.gv_digital_invoice_line_item_edit_text))
-            quantityLabel.setTextColor(
-                    itemView.resources.getColor(
-                            R.color.gv_digital_invoice_line_item_quantity_text))
-            quantity.setTextColor(
-                    itemView.resources.getColor(
-                            R.color.gv_digital_invoice_line_item_quantity_text))
-            priceIntegralPart.setTextColor(
-                    itemView.resources.getColor(
-                            R.color.gv_digital_invoice_line_item_amount_text))
-            priceFractionPart.setTextColor(
-                    itemView.resources.getColor(
-                            R.color.gv_digital_invoice_line_item_amount_text))
+            edit.setTextColor(ContextCompat.getColor(itemView.context, R.color.gv_digital_invoice_line_item_edit_text))
+            quantityLabel.setTextColor(ContextCompat.getColor(itemView.context, R.color.gv_digital_invoice_line_item_quantity_text))
+            quantity.setTextColor(ContextCompat.getColor(itemView.context, R.color.gv_digital_invoice_line_item_quantity_text))
+            priceIntegralPart.setTextColor(ContextCompat.getColor(itemView.context, R.color.gv_digital_invoice_line_item_amount_text))
+            priceFractionPart.setTextColor(ContextCompat.getColor(itemView.context, R.color.gv_digital_invoice_line_item_amount_text))
         }
 
 
         fun disable() {
             itemView.isEnabled = false
             card.cardElevation = 0f
-            card.strokeColor = itemView.resources.getColor(
-                    R.color.gv_digital_invoice_line_item_disabled)
-            description.setTextColor(
-                    itemView.resources.getColor(
-                            R.color.gv_digital_invoice_line_item_disabled))
+            val disabledColor = ContextCompat.getColor(itemView.context, R.color.gv_digital_invoice_line_item_disabled)
+            card.strokeColor = disabledColor
+            description.setTextColor(disabledColor)
             edit.isEnabled = false
-            edit.setTextColor(
-                    itemView.resources.getColor(
-                            R.color.gv_digital_invoice_line_item_disabled))
-            quantityLabel.setTextColor(
-                    itemView.resources.getColor(
-                            R.color.gv_digital_invoice_line_item_disabled))
-            quantity.setTextColor(
-                    itemView.resources.getColor(
-                            R.color.gv_digital_invoice_line_item_disabled))
-            priceIntegralPart.setTextColor(
-                    itemView.resources.getColor(
-                            R.color.gv_digital_invoice_line_item_disabled))
-            priceFractionPart.setTextColor(
-                    itemView.resources.getColor(
-                            R.color.gv_digital_invoice_line_item_disabled))
+            edit.setTextColor(disabledColor)
+            quantityLabel.setTextColor(disabledColor)
+            quantity.setTextColor(disabledColor)
+            priceIntegralPart.setTextColor(disabledColor)
+            priceFractionPart.setTextColor(disabledColor)
         }
     }
 
