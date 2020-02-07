@@ -92,6 +92,8 @@ public abstract class BaseExampleApp extends MultiDexApplication {
                 case DEFAULT:
                     mGiniVisionNetworkService = GiniVisionDefaultNetworkService.builder(this)
                             .setClientCredentials(clientId, clientSecret, "example.com")
+                            .setBaseUrl("https://api.stage.gini.net/") // TODO: remove after line items are live
+                            .setUserCenterBaseUrl("https://user.stage.gini.net/") // TODO: remove after line items are live
                             .setDocumentMetadata(documentMetadata)
                             .build();
                     break;

@@ -24,7 +24,6 @@ import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.ImportedFileValidationException;
 import net.gini.android.vision.camera.CameraActivity;
-import net.gini.android.vision.digitalinvoice.DigitalInvoiceActivity;
 import net.gini.android.vision.example.BaseExampleApp;
 import net.gini.android.vision.example.RuntimePermissionHandler;
 import net.gini.android.vision.onboarding.DefaultPagesPhone;
@@ -300,8 +299,7 @@ public class MainActivity extends AppCompatActivity {
         // Start for result in order to receive the error result, in case something went wrong, or the extractions
         // To receive the extractions add it to the result Intent in ReviewActivity#onAddDataToResult(Intent) or
         // AnalysisActivity#onAddDataToResult(Intent) and retrieve them here in onActivityResult()
-        final Intent debug = new Intent(this, DigitalInvoiceActivity.class);
-        startActivityForResult(debug, REQUEST_SCAN);
+        startActivityForResult(intent, REQUEST_SCAN);
     }
 
     private void configureGiniVision() {
