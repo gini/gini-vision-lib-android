@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -393,10 +394,7 @@ public class MainActivity extends AppCompatActivity {
                 case RESULT_CANCELED:
                     break;
                 case RESULT_OK:
-                    // Retrieve the extra we set in our ReviewActivity or AnalysisActivity subclasses' onAddDataToResult()
-                    // method
-                    // The payload format is up to you. For the example we added all the extractions as key-value pairs to
-                    // a Bundle.
+                    // Retrieve the extractions
                     Bundle extractionsBundle = data.getBundleExtra(
                             CameraActivity.EXTRA_OUT_EXTRACTIONS);
                     if (extractionsBundle == null) {
@@ -408,9 +406,11 @@ public class MainActivity extends AppCompatActivity {
                         }
                         return;
                     }
+                    final Bundle compoundExtractionsBundle = data.getBundleExtra(CameraActivity.EXTRA_OUT_COMPOUND_EXTRACTIONS);
                     if (pay5ExtractionsAvailable(extractionsBundle)
-                            || epsPaymentAvailable(extractionsBundle)) {
-                        startExtractionsActivity(extractionsBundle);
+                            || epsPaymentAvailable(extractionsBundle)
+                            || compoundExtractionsBundle != null) {
+                        startExtractionsActivity(extractionsBundle, compoundExtractionsBundle);
                     } else {
                         // Show a special screen, if no Pay5 extractions were found to give
                         // the user some hints and tips
@@ -465,9 +465,10 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, REQUEST_NO_EXTRACTIONS);
     }
 
-    private void startExtractionsActivity(final Bundle extractionsBundle) {
+    private void startExtractionsActivity(@NonNull final Bundle extractionsBundle, @Nullable final Bundle compoundExtractionsBundle) {
         final Intent intent = new Intent(this, ExtractionsActivity.class);
         intent.putExtra(ExtractionsActivity.EXTRA_IN_EXTRACTIONS, extractionsBundle);
+        intent.putExtra(ExtractionsActivity.EXTRA_IN_COMPOUND_EXTRACTIONS, compoundExtractionsBundle);
         startActivity(intent);
     }
 
