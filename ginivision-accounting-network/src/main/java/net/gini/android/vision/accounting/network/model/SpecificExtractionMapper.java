@@ -86,7 +86,7 @@ public final class SpecificExtractionMapper {
             @NonNull final GiniVisionSpecificExtraction source) {
         return new SpecificExtraction(source.getName(), source.getValue(), source.getEntity(),
                 BoxMapper.map(source.getBox()),
-                ExtractionMapper.mapListToApiSdk(source.getCandidate()));
+                ExtractionMapper.mapListToApiSdk(source.getCandidates()));
     }
 
     private SpecificExtractionMapper() {

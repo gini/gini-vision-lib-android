@@ -4,9 +4,7 @@ import android.support.annotation.NonNull;
 
 import net.gini.android.models.SpecificExtraction;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -53,17 +51,7 @@ public final class SpecificExtractionMapper {
         return new GiniVisionSpecificExtraction(source.getName(), source.getValue(),
                 source.getEntity(),
                 BoxMapper.map(source.getBox()),
-                ExtractionMapper.mapListToGVL(source.getCandidate()),
-                mapListToGVL(source.getSpecificExtractions()));
-    }
-
-    @NonNull
-    private static List<GiniVisionSpecificExtraction> mapListToGVL(final List<SpecificExtraction> specificExtractions) {
-        final List<GiniVisionSpecificExtraction> targetList = new ArrayList<>(specificExtractions.size());
-        for (final SpecificExtraction specificExtraction : specificExtractions) {
-            targetList.add(map(specificExtraction));
-        }
-        return targetList;
+                ExtractionMapper.mapListToGVL(source.getCandidate()));
     }
 
     /**
@@ -97,17 +85,7 @@ public final class SpecificExtractionMapper {
             @NonNull final GiniVisionSpecificExtraction source) {
         return new SpecificExtraction(source.getName(), source.getValue(), source.getEntity(),
                 BoxMapper.map(source.getBox()),
-                ExtractionMapper.mapListToApiSdk(source.getCandidate()),
-                mapListToApiSdk(source.getSpecificExtractions()));
-    }
-
-    @NonNull
-    private static List<SpecificExtraction> mapListToApiSdk(final List<GiniVisionSpecificExtraction> specificExtractions) {
-        final List<SpecificExtraction> targetList = new ArrayList<>(specificExtractions.size());
-        for (final GiniVisionSpecificExtraction specificExtraction : specificExtractions) {
-            targetList.add(map(specificExtraction));
-        }
-        return targetList;
+                ExtractionMapper.mapListToApiSdk(source.getCandidates()));
     }
 
     private SpecificExtractionMapper() {

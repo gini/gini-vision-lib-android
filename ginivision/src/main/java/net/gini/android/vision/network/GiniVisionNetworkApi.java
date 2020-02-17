@@ -3,6 +3,7 @@ package net.gini.android.vision.network;
 import android.support.annotation.NonNull;
 
 import net.gini.android.vision.GiniVision;
+import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
 import java.util.Map;
@@ -32,6 +33,19 @@ public interface GiniVisionNetworkApi {
      * @param callback    a callback implementation to return the outcome
      */
     void sendFeedback(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
+            @NonNull final GiniVisionNetworkCallback<Void, Error> callback);
+
+    /**
+     * Call this method with the extractions and compound extractions the user has seen and accepted. The {@link
+     * GiniVisionSpecificExtraction}s and {@link GiniVisionCompoundExtraction}s must contain the final user corrected and/or accepted
+     * values.
+     *
+     * @param extractions         a map of extraction labels and specific extractions
+     * @param compoundExtractions a map of extraction labels and compound extractions
+     * @param callback            a callback implementation to return the outcome
+     */
+    void sendFeedback(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
+            @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions,
             @NonNull final GiniVisionNetworkCallback<Void, Error> callback);
 
     /**
