@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/gv_line_item"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gv_line_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/gv_digital_invoice_line_item_horizontal_margin"
@@ -34,9 +34,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/gv_checkbox"
+            android:layout_marginEnd="@dimen/gv_digital_invoice_line_item_description_margin_right"
             android:layout_marginBottom="@dimen/gv_digital_invoice_line_item_description_margin_bottom"
             android:layout_toStartOf="@id/gv_edit"
             android:layout_toEndOf="@id/gv_checkbox"
+            android:minLines="2"
             android:textAppearance="@style/GiniVisionTheme.DigitalInvoice.LineItem.Description.TextStyle"
             tools:text="Nike Sportswear Air Max 97 - Sneaker Low" />
 
