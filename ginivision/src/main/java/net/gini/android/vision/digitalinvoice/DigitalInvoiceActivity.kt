@@ -5,7 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import net.gini.android.vision.R
+import net.gini.android.vision.camera.CameraActivity
 import net.gini.android.vision.digitalinvoice.details.LineItemDetailsActivity
+import net.gini.android.vision.network.model.GiniVisionCompoundExtraction
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction
 
 /**
  * Created by Alpar Szotyori on 05.12.2019.
@@ -17,19 +20,48 @@ private const val RETURN_ASSISTANT_FRAGMENT = "RETURN_ASSISTANT_FRAGMENT"
 
 private const val EDIT_LINE_ITEM_REQUEST = 1
 
+private const val EXTRA_IN_EXTRACTIONS = "EXTRA_IN_EXTRACTIONS"
+
+private const val EXTRA_IN_COMPOUND_EXTRACTIONS = "EXTRA_IN_COMPOUND_EXTRACTIONS"
+
 class DigitalInvoiceActivity : AppCompatActivity(), DigitalInvoiceFragmentListener {
 
     var fragment: DigitalInvoiceFragment? = null
+    var extractions: Map<String, GiniVisionSpecificExtraction> = emptyMap()
+    var compoundExtractions: Map<String, GiniVisionCompoundExtraction> = emptyMap()
+
+    companion object {
+        @JvmStatic
+        fun createIntent(activity: Activity, extractions: Map<String, GiniVisionSpecificExtraction>,
+                         compoundExtractions: Map<String, GiniVisionCompoundExtraction>) =
+                Intent(activity, DigitalInvoiceActivity::class.java).apply {
+                    putExtra(EXTRA_IN_EXTRACTIONS, Bundle().apply {
+                        extractions.forEach { putParcelable(it.key, it.value) }
+                    })
+                    putExtra(EXTRA_IN_COMPOUND_EXTRACTIONS, Bundle().apply {
+                        compoundExtractions.forEach { putParcelable(it.key, it.value) }
+                    })
+                }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.gv_activity_digital_invoice)
-
+        readExtras()
         if (savedInstanceState == null) {
             initFragment()
         } else {
             retainFragment()
         }
+    }
+
+    private fun readExtras() {
+        extractions = intent.extras?.getBundle(EXTRA_IN_EXTRACTIONS)?.run {
+            keySet().map { it to getParcelable<GiniVisionSpecificExtraction>(it)!! }.toMap()
+        } ?: emptyMap()
+        compoundExtractions = intent.extras?.getBundle(EXTRA_IN_COMPOUND_EXTRACTIONS)?.run {
+            keySet().map { it to getParcelable<GiniVisionCompoundExtraction>(it)!! }.toMap()
+        } ?: emptyMap()
     }
 
     private fun initFragment() {
@@ -43,7 +75,7 @@ class DigitalInvoiceActivity : AppCompatActivity(), DigitalInvoiceFragmentListen
             RETURN_ASSISTANT_FRAGMENT) != null
 
     private fun createFragment() {
-        fragment = DigitalInvoiceFragment.createInstance()
+        fragment = DigitalInvoiceFragment.createInstance(extractions, compoundExtractions)
     }
 
     private fun showFragment() = fragment?.let {
@@ -61,6 +93,20 @@ class DigitalInvoiceActivity : AppCompatActivity(), DigitalInvoiceFragmentListen
     override fun onEditLineItem(selectableLineItem: SelectableLineItem) {
         startActivityForResult(LineItemDetailsActivity.createIntent(this, selectableLineItem),
                 EDIT_LINE_ITEM_REQUEST)
+    }
+
+    override fun onPayInvoice(selectedLineItems: List<LineItem>, selectedLineItemsTotalPrice: String, deselectedLineItems: List<LineItem>,
+                              reviewedCompoundExtractions: Map<String, GiniVisionCompoundExtraction>,
+                              reviewedExtractions: Map<String, GiniVisionSpecificExtraction>) {
+        setResult(Activity.RESULT_OK, Intent().apply {
+            putExtra(CameraActivity.EXTRA_OUT_EXTRACTIONS, Bundle().apply {
+                reviewedExtractions.forEach { putParcelable(it.key, it.value) }
+            })
+            putExtra(CameraActivity.EXTRA_OUT_COMPOUND_EXTRACTIONS, Bundle().apply {
+                reviewedCompoundExtractions.forEach { putParcelable(it.key, it.value) }
+            })
+        })
+        finish()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

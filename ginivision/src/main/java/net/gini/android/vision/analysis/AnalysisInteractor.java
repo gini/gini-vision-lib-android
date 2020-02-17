@@ -4,7 +4,6 @@ import static net.gini.android.vision.internal.network.NetworkRequestsManager.is
 
 import android.app.Application;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionDebug;
@@ -14,9 +13,11 @@ import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.internal.network.AnalysisNetworkRequestResult;
 import net.gini.android.vision.internal.network.NetworkRequestResult;
 import net.gini.android.vision.internal.network.NetworkRequestsManager;
+import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -66,7 +67,8 @@ public class AnalysisInteractor {
                                         return new ResultHolder(Result.SUCCESS_NO_EXTRACTIONS);
                                     } else {
                                         return new ResultHolder(Result.SUCCESS_WITH_EXTRACTIONS,
-                                                extractions);
+                                                extractions,
+                                                requestResult.getAnalysisResult().getCompoundExtractions());
                                     }
                                 }
                                 return null;
@@ -148,24 +150,35 @@ public class AnalysisInteractor {
 
         private final Result mResult;
         private final Map<String, GiniVisionSpecificExtraction> mExtractions;
+        private final Map<String, GiniVisionCompoundExtraction> mCompoundExtractions;
 
         ResultHolder(@NonNull final Result result) {
-            this(result, null);
+            this(result, Collections.<String, GiniVisionSpecificExtraction>emptyMap(),
+                    Collections.<String, GiniVisionCompoundExtraction>emptyMap());
         }
 
         ResultHolder(
                 @NonNull final Result result,
-                @Nullable final Map<String, GiniVisionSpecificExtraction> extractions) {
+                @NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
+                @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions) {
             mResult = result;
             mExtractions = extractions;
+            mCompoundExtractions = compoundExtractions;
         }
 
+        @NonNull
         public Result getResult() {
             return mResult;
         }
 
+        @NonNull
         public Map<String, GiniVisionSpecificExtraction> getExtractions() {
             return mExtractions;
+        }
+
+        @NonNull
+        public Map<String, GiniVisionCompoundExtraction> getCompoundExtractions() {
+            return mCompoundExtractions;
         }
     }
 }

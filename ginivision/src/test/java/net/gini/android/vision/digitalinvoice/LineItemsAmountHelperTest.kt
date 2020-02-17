@@ -14,7 +14,7 @@ import java.util.*
  */
 
 @RunWith(JUnit4::class)
-class LineItemsHelperTest {
+class LineItemsAmountHelperTest {
 
     @Test
     fun `should calculate selected line items sum`() {
@@ -32,7 +32,7 @@ class LineItemsHelperTest {
         )
 
         // When
-        val sum = lineItemsTotalAmountSum(lineItems)
+        val sum = selectedLineItemsTotalAmountSum(lineItems)
 
         // Then
         assertThat(sum).isEqualTo(BigDecimal("21.77"))
@@ -44,7 +44,7 @@ class LineItemsHelperTest {
         val lineItems: List<SelectableLineItem> = emptyList()
 
         // When
-        val sum = lineItemsTotalAmountSum(lineItems)
+        val sum = selectedLineItemsTotalAmountSum(lineItems)
 
         // Then
         assertThat(sum).isEqualTo(BigDecimal.ZERO)
@@ -66,7 +66,7 @@ class LineItemsHelperTest {
         )
 
         // When
-        val sum = lineItemsTotalAmountSum(lineItems)
+        val sum = selectedLineItemsTotalAmountSum(lineItems)
 
         // Then
         assertThat(sum).isEqualTo(BigDecimal.ZERO)

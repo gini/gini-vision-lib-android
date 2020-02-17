@@ -28,5 +28,6 @@ interface DigitalInvoiceScreenContract {
         abstract fun deselectLineItem(lineItem: SelectableLineItem)
         abstract fun editLineItem(lineItem: SelectableLineItem)
         abstract fun userFeedbackReceived(helpful: Boolean)
+        abstract fun pay()
     }
 }

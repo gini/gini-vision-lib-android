@@ -16,7 +16,7 @@ val FRACTION_FORMAT = DecimalFormat(".00").apply { roundingMode = RoundingMode.D
 
 fun lineItemsSumIntegralAndFractionalParts(
         lineItems: List<SelectableLineItem>): Pair<String, String> {
-    val sum = lineItemsTotalAmountSum(lineItems)
+    val sum = selectedLineItemsTotalAmountSum(lineItems)
     val currency = lineItemsCurency(lineItems)
     return Pair(amountIntegralPartWithCurrencySymbol(sum, currency),
             sum.fractionalPart(FRACTION_FORMAT))
@@ -35,14 +35,9 @@ fun amountIntegralPartWithCurrencySymbol(amount: BigDecimal, currency: Currency?
         } ?: amount.integralPart(INTEGRAL_FORMAT)
 
 fun lineItemsCurency(lineItems: List<SelectableLineItem>): Currency? =
-        if (lineItems.isEmpty()) null else lineItems.first().lineItem.currency
+        lineItems.firstOrNull()?.lineItem?.currency
 
-fun lineItemsTotalAmountSum(lineItems: List<SelectableLineItem>): BigDecimal =
-        if (lineItems.isEmpty()) {
-            BigDecimal.ZERO
-        } else {
-            lineItems.fold<SelectableLineItem, BigDecimal>(
-                    BigDecimal.ZERO) { sum, sli ->
-                if (sli.selected) sum.add(sli.lineItem.totalAmount) else sum
-            }
+fun selectedLineItemsTotalAmountSum(lineItems: List<SelectableLineItem>): BigDecimal =
+        lineItems.fold<SelectableLineItem, BigDecimal>(BigDecimal.ZERO) { sum, sli ->
+            if (sli.selected) sum.add(sli.lineItem.totalAmount) else sum
         }

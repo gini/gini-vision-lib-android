@@ -1,5 +1,7 @@
 package net.gini.android.vision.analysis;
 
+import static net.gini.android.vision.internal.util.NullabilityHelper.getMapOrEmpty;
+
 import static net.gini.android.vision.tracking.EventTrackingHelper.trackAnalysisScreenEvent;
 
 import static java.util.Collections.singletonMap;
@@ -30,6 +32,7 @@ import net.gini.android.vision.internal.storage.ImageDiskStore;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.internal.util.FileImportHelper;
 import net.gini.android.vision.internal.util.MimeType;
+import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.tracking.AnalysisScreenEvent;
 import net.gini.android.vision.tracking.AnalysisScreenEvent.ERROR_DETAILS_MAP_KEY;
@@ -66,8 +69,8 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
         }
 
         @Override
-        public void onExtractionsAvailable(
-                @NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
+        public void onExtractionsAvailable(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
+                @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions) {
         }
 
         @Override
@@ -76,6 +79,11 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
 
         @Override
         public void onDefaultPDFAppAlertDialogCancelled() {
+        }
+
+        @Override
+        public void onProceedToReturnAssistant(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
+                @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions) {
         }
     };
 
@@ -343,8 +351,15 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
                                 break;
                             case SUCCESS_WITH_EXTRACTIONS:
                                 mAnalysisCompleted = true;
-                                getAnalysisFragmentListenerOrNoOp()
-                                        .onExtractionsAvailable(resultHolder.getExtractions());
+                                if (hasLineItems(resultHolder)) {
+                                    getAnalysisFragmentListenerOrNoOp()
+                                            .onProceedToReturnAssistant(getMapOrEmpty(resultHolder.getExtractions()),
+                                                    getMapOrEmpty(resultHolder.getCompoundExtractions()));
+                                } else {
+                                    getAnalysisFragmentListenerOrNoOp()
+                                            .onExtractionsAvailable(getMapOrEmpty(resultHolder.getExtractions()),
+                                                    Collections.<String, GiniVisionCompoundExtraction>emptyMap());
+                                }
                                 break;
                             case NO_NETWORK_SERVICE:
                                 getAnalysisFragmentListenerOrNoOp().onAnalyzeDocument(
@@ -360,6 +375,10 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
                         return null;
                     }
                 });
+    }
+
+    private boolean hasLineItems(@NonNull final AnalysisInteractor.ResultHolder resultHolder) {
+        return !resultHolder.getCompoundExtractions().isEmpty();
     }
 
     private void loadDocumentData() {

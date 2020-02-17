@@ -17,8 +17,10 @@ import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.camera.CameraActivity;
+import net.gini.android.vision.digitalinvoice.DigitalInvoiceActivity;
 import net.gini.android.vision.network.GiniVisionNetworkApi;
 import net.gini.android.vision.network.GiniVisionNetworkService;
+import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.noresults.NoResultsActivity;
 import net.gini.android.vision.onboarding.OnboardingActivity;
@@ -34,26 +36,24 @@ import java.util.Map;
  * document and an activity indicator while the document is being analyzed by the Gini API.
  *
  * <p> <b>Note:</b> The title from the ActionBar was removed. Use the activity indicator message
- * instead by overriding the string resource named {@code gv_analysis_activity_indicator_message}.
- * The message is displayed for images only.
+ * instead by overriding the string resource named {@code gv_analysis_activity_indicator_message}. The message is displayed for images
+ * only.
  *
  * <p> For PDF documents the first page is shown (only on Android 5.0 Lollipop and newer) along with
- * the PDF's filename and number of pages above the page. On Android KitKat and older only the PDF's
- * filename is shown with the preview area left empty.
+ * the PDF's filename and number of pages above the page. On Android KitKat and older only the PDF's filename is shown with the preview area
+ * left empty.
  *
  * <p> Extending the {@code AnalysisActivity} in your application has been deprecated. The preferred
- * way of adding network calls to the Gini Vision Library is by creating a {@link GiniVision}
- * instance with a {@link GiniVisionNetworkService} and a {@link GiniVisionNetworkApi}
- * implementation.
+ * way of adding network calls to the Gini Vision Library is by creating a {@link GiniVision} instance with a {@link
+ * GiniVisionNetworkService} and a {@link GiniVisionNetworkApi} implementation.
  *
  * <p> <b>Note:</b> When declaring your {@code AnalysisActivity} subclass in the {@code
- * AndroidManifest.xml} you should set the theme to the {@code GiniVisionTheme}. If you would like
- * to use your own theme please consider that {@code AnalysisActivity} extends {@link
- * AppCompatActivity} and requires an AppCompat Theme.
+ * AndroidManifest.xml} you should set the theme to the {@code GiniVisionTheme}. If you would like to use your own theme please consider
+ * that {@code AnalysisActivity} extends {@link AppCompatActivity} and requires an AppCompat Theme.
  *
  * <p> The {@code AnalysisActivity} is started by the {@link CameraActivity} after the user has
- * reviewed the document and either made no changes to the document and it hasn't been analyzed
- * before tapping the Next button, or the user has modified the document, e.g. by rotating it.
+ * reviewed the document and either made no changes to the document and it hasn't been analyzed before tapping the Next button, or the user
+ * has modified the document, e.g. by rotating it.
  *
  * <p> For imported documents that cannot be reviewed, like PDFs, the {@link CameraActivity} starts
  * the {@code AnalysisActivity} directly.
@@ -64,15 +64,14 @@ import java.util.Map;
  * <ul>
  *
  * <li> {@link AnalysisActivity#onAnalyzeDocument(Document)} - start analyzing the document by
- * sending it to the Gini API.<br/><b>Note:</b> Call {@link AnalysisActivity#onDocumentAnalyzed()}
- * when the analysis is done and the Activity hasn't been stopped.<br/><b>Note:</b> If an analysis
- * error message was set in the Review Screen with {@link ReviewActivity#onDocumentAnalysisError(String)}
- * this method won't be called until the user clicks the retry button next to the error message.
+ * sending it to the Gini API.<br/><b>Note:</b> Call {@link AnalysisActivity#onDocumentAnalyzed()} when the analysis is done and the
+ * Activity hasn't been stopped.<br/><b>Note:</b> If an analysis error message was set in the Review Screen with {@link
+ * ReviewActivity#onDocumentAnalysisError(String)} this method won't be called until the user clicks the retry button next to the error
+ * message.
  *
  * <li>{@link AnalysisActivity#onAddDataToResult(Intent)} - you should add the results of the
- * analysis to the Intent as extras and retrieve them once the {@link CameraActivity}
- * returns.<br/>This is called only if you called {@link AnalysisActivity#onDocumentAnalyzed()}
- * before.<br/>When this is called, control is returned to your Activity which started the {@link
+ * analysis to the Intent as extras and retrieve them once the {@link CameraActivity} returns.<br/>This is called only if you called {@link
+ * AnalysisActivity#onDocumentAnalyzed()} before.<br/>When this is called, control is returned to your Activity which started the {@link
  * CameraActivity} and you can extract the results of the analysis.
  *
  * </ul>
@@ -104,76 +103,72 @@ import java.util.Map;
  * GiniVisionTheme.Analysis.AnalysingMessage.TextStyle}
  *
  * <li> <b>Activity indicator message font:</b> via overriding the style named {@code
- * GiniVisionTheme.Analysis.AnalysingMessage.TextStyle} and setting an item named {@code
- * gvCustomFont} with the path to the font file in your {@code assets} folder
+ * GiniVisionTheme.Analysis.AnalysingMessage.TextStyle} and setting an item named {@code gvCustomFont} with the path to the font file in
+ * your {@code assets} folder
  *
  * <li> <b>PDF info panel background:</b> via the color resource named {@code
  * gv_analysis_pdf_info_background}
  *
  * <li> <b>PDF filename text style:</b> via overriding the style named {@code
- * GiniVisionTheme.Analysis.PdfFilename.TextStyle} and setting an item named {@code
- * android:textStyle} to {@code normal}, {@code bold} or {@code italic}
+ * GiniVisionTheme.Analysis.PdfFilename.TextStyle} and setting an item named {@code android:textStyle} to {@code normal}, {@code bold} or
+ * {@code italic}
  *
  * <li> <b>PDF filename text size:</b> via overriding the style named {@code
- * GiniVisionTheme.Analysis.PdfFilename.TextStyle} and setting an item named {@code
- * autoSizeMaxTextSize} and {@code autoSizeMinTextSize} to the desired maximum and minimum {@code
- * sp} sizes
+ * GiniVisionTheme.Analysis.PdfFilename.TextStyle} and setting an item named {@code autoSizeMaxTextSize} and {@code autoSizeMinTextSize} to
+ * the desired maximum and minimum {@code sp} sizes
  *
  * <li> <b>PDF filename text color:</b> via the color resource named {@code
  * gv_analysis_pdf_info_text}
  *
  * <li> <b>PDF filename font:</b> via overriding the style named {@code
- * GiniVisionTheme.Analysis.PdfFilename.TextStyle} and setting an item named {@code gvCustomFont}
- * with the path to the font file in your {@code assets} folder
+ * GiniVisionTheme.Analysis.PdfFilename.TextStyle} and setting an item named {@code gvCustomFont} with the path to the font file in your
+ * {@code assets} folder
  *
  * <li> <b>PDF page count text style:</b> via overriding the style named {@code
- * GiniVisionTheme.Analysis.PdfPageCount.TextStyle} and setting an item named {@code
- * android:textStyle} to {@code normal}, {@code bold} or {@code italic}
+ * GiniVisionTheme.Analysis.PdfPageCount.TextStyle} and setting an item named {@code android:textStyle} to {@code normal}, {@code bold} or
+ * {@code italic}
  *
  * <li> <b>PDF page count text size:</b> via overriding the style named {@code
- * GiniVisionTheme.Analysis.PdfPageCount.TextStyle} and setting an item named {@code
- * android:textSize} to the desired {@code sp} size
+ * GiniVisionTheme.Analysis.PdfPageCount.TextStyle} and setting an item named {@code android:textSize} to the desired {@code sp} size
  *
  * <li> <b>PDF page count text color:</b> via the color resource named {@code
  * gv_analysis_pdf_info_text}
  *
  * <li> <b>PDF page count font:</b> via overriding the style named {@code
- * GiniVisionTheme.Analysis.PdfPageCount.TextStyle} and setting an item named {@code gvCustomFont}
- * with the path to the font file in your {@code assets} folder
+ * GiniVisionTheme.Analysis.PdfPageCount.TextStyle} and setting an item named {@code gvCustomFont} with the path to the font file in your
+ * {@code assets} folder
  *
  * <li> <b>Background color:</b> via the color resource named {@code gv_background}. <b>Note:</b>
- * this color resource is global to all Activities ({@link CameraActivity}, {@link
- * OnboardingActivity}, {@link ReviewActivity}, {@link AnalysisActivity})
+ * this color resource is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity}, {@link ReviewActivity}, {@link
+ * AnalysisActivity})
  *
  * <li> <b>Error message text color:</b> via the color resource named {@code
  * gv_snackbar_error_text}
  *
  * <li> <b>Error message font:</b> via overriding the style named {@code
- * GiniVisionTheme.Snackbar.Error.TextStyle} and setting an item named {@code gvCustomFont} with the
- * path to the font file in your {@code assets} folder
+ * GiniVisionTheme.Snackbar.Error.TextStyle} and setting an item named {@code gvCustomFont} with the path to the font file in your {@code
+ * assets} folder
  *
  * <li> <b>Error message text style:</b> via overriding the style named {@code
- * GiniVisionTheme.Snackbar.Error.TextStyle} and setting an item named {@code android:textStyle} to
- * {@code normal}, {@code bold} or {@code italic}
+ * GiniVisionTheme.Snackbar.Error.TextStyle} and setting an item named {@code android:textStyle} to {@code normal}, {@code bold} or {@code
+ * italic}
  *
  * <li> <b>Error message text size:</b> via overriding the style named {@code
- * GiniVisionTheme.Snackbar.Error.TextStyle} and setting an item named {@code android:textSize} to
- * the desired {@code sp} size
+ * GiniVisionTheme.Snackbar.Error.TextStyle} and setting an item named {@code android:textSize} to the desired {@code sp} size
  *
  * <li> <b>Error message button text color:</b> via the color resource named {@code
  * gv_snackbar_error_button_title} and {@code gv_snackbar_error_button_title_pressed}
  *
  * <li> <b>Error message button font:</b> via overriding the style named {@code
- * GiniVisionTheme.Snackbar.Error.Button.TextStyle} and setting an item named {@code gvCustomFont}
- * with the path to the font file in your {@code assets} folder
+ * GiniVisionTheme.Snackbar.Error.Button.TextStyle} and setting an item named {@code gvCustomFont} with the path to the font file in your
+ * {@code assets} folder
  *
  * <li> <b>Error message button text style:</b> via overriding the style named {@code
- * GiniVisionTheme.Snackbar.Error.Button.TextStyle} and setting an item named {@code
- * android:textStyle} to {@code normal}, {@code bold} or {@code italic}
+ * GiniVisionTheme.Snackbar.Error.Button.TextStyle} and setting an item named {@code android:textStyle} to {@code normal}, {@code bold} or
+ * {@code italic}
  *
  * <li> <b>Error message button text size:</b> via overriding the style named {@code
- * GiniVisionTheme.Snackbar.Error.Button.TextStyle} and setting an item named {@code
- * android:textSize} to the desired {@code sp} size
+ * GiniVisionTheme.Snackbar.Error.Button.TextStyle} and setting an item named {@code android:textSize} to the desired {@code sp} size
  *
  * <li> <b>Error message background color:</b> via the color resource named {@code
  * gv_snackbar_error_background}
@@ -184,15 +179,14 @@ import java.util.Map;
  * </ul>
  *
  * <p> <b>Important:</b> All overriden styles must have their respective {@code Root.} prefixed
- * style as their parent. Ex.: the parent of {@code GiniVisionTheme.Snackbar.Error.TextStyle} must
- * be {@code Root.GiniVisionTheme.Snackbar.Error.TextStyle}.
+ * style as their parent. Ex.: the parent of {@code GiniVisionTheme.Snackbar.Error.TextStyle} must be {@code
+ * Root.GiniVisionTheme.Snackbar.Error.TextStyle}.
  *
  * <h3>Customizing the Action Bar</h3>
  *
  * <p> Customizing the Action Bar is also done via overriding of app resources and each one - except
- * the title string resource - is global to all Activities ({@link CameraActivity}, {@link
- * OnboardingActivity}, {@link ReviewActivity}, {@link net.gini.android.vision.review.multipage.MultiPageReviewActivity},
- * {@link AnalysisActivity}).
+ * the title string resource - is global to all Activities ({@link CameraActivity}, {@link OnboardingActivity}, {@link ReviewActivity},
+ * {@link net.gini.android.vision.review.multipage.MultiPageReviewActivity}, {@link AnalysisActivity}).
  *
  * <p> The following items are customizable:
  *
@@ -234,6 +228,9 @@ public class AnalysisActivity extends AppCompatActivity implements
     public static final int RESULT_NO_EXTRACTIONS = RESULT_FIRST_USER + 2;
 
     private static final String ANALYSIS_FRAGMENT = "ANALYSIS_FRAGMENT";
+
+    private static final int RETURN_ASSISTANT_REQUEST = 1;
+
     private String mAnalysisErrorMessage;
     private Document mDocument;
     private AnalysisFragmentCompat mFragment;
@@ -245,12 +242,11 @@ public class AnalysisActivity extends AppCompatActivity implements
 
     /**
      * <p> You should call this method after you've received the analysis results from the Gini API
-     * without the required extractions. </p> <p> It will launch the {@link NoResultsActivity}, if
-     * the {@link Document}'s type is {@link Document.Type#IMAGE}. For other types it will just
-     * finish the {@code AnalysisActivity} with {@code RESULT_OK}. </p>
+     * without the required extractions. </p> <p> It will launch the {@link NoResultsActivity}, if the {@link Document}'s type is {@link
+     * Document.Type#IMAGE}. For other types it will just finish the {@code AnalysisActivity} with {@code RESULT_OK}. </p>
      *
-     * @deprecated When a {@link GiniVision} instance is available the document is analyzed
-     * internally by using the configured {@link GiniVisionNetworkService} implementation.
+     * @deprecated When a {@link GiniVision} instance is available the document is analyzed internally by using the configured {@link
+     * GiniVisionNetworkService} implementation.
      */
     @Deprecated
     @Override
@@ -270,15 +266,14 @@ public class AnalysisActivity extends AppCompatActivity implements
 
     /**
      * <p> <b>Screen API:</b> If an analysis error message was set in the Review Screen with {@link
-     * ReviewActivity#onDocumentAnalysisError(String)} this method won't be called until the user
-     * clicks the retry button next to the error message. </p>
+     * ReviewActivity#onDocumentAnalysisError(String)} this method won't be called until the user clicks the retry button next to the error
+     * message. </p>
      *
      * @param document contains the image taken by the camera (original or modified)
      *
-     * @deprecated When a {@link GiniVision} instance is available the document is analyzed
-     * internally by using the configured {@link GiniVisionNetworkService} implementation. The
-     * extractions will be returned in the extra called {@link CameraActivity#EXTRA_OUT_EXTRACTIONS}
-     * of the {@link CameraActivity}'s result Intent.
+     * @deprecated When a {@link GiniVision} instance is available the document is analyzed internally by using the configured {@link
+     * GiniVisionNetworkService} implementation. The extractions will be returned in the extra called {@link
+     * CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
      */
     @Deprecated
     @Override
@@ -306,10 +301,9 @@ public class AnalysisActivity extends AppCompatActivity implements
     }
 
     /**
-     * @deprecated When a {@link GiniVision} instance is available the document is analyzed
-     * internally by using the configured {@link GiniVisionNetworkService} implementation. The
-     * extractions will be returned in the extra called {@link CameraActivity#EXTRA_OUT_EXTRACTIONS}
-     * of the {@link CameraActivity}'s result Intent.
+     * @deprecated When a {@link GiniVision} instance is available the document is analyzed internally by using the configured {@link
+     * GiniVisionNetworkService} implementation. The extractions will be returned in the extra called {@link
+     * CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
      */
     @Deprecated
     @Override
@@ -356,10 +350,9 @@ public class AnalysisActivity extends AppCompatActivity implements
     }
 
     /**
-     * @deprecated When a {@link GiniVision} instance is available the document is analyzed
-     * internally by using the configured {@link GiniVisionNetworkService} implementation. The
-     * extractions will be returned in the extra called {@link CameraActivity#EXTRA_OUT_EXTRACTIONS}
-     * of the {@link CameraActivity}'s result Intent.
+     * @deprecated When a {@link GiniVision} instance is available the document is analyzed internally by using the configured {@link
+     * GiniVisionNetworkService} implementation. The extractions will be returned in the extra called {@link
+     * CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
      */
     @Deprecated
     @Override
@@ -368,10 +361,9 @@ public class AnalysisActivity extends AppCompatActivity implements
     }
 
     /**
-     * @deprecated When a {@link GiniVision} instance is available the document is analyzed
-     * internally by using the configured {@link GiniVisionNetworkService} implementation. The
-     * extractions will be returned in the extra called {@link CameraActivity#EXTRA_OUT_EXTRACTIONS}
-     * of the {@link CameraActivity}'s result Intent.
+     * @deprecated When a {@link GiniVision} instance is available the document is analyzed internally by using the configured {@link
+     * GiniVisionNetworkService} implementation. The extractions will be returned in the extra called {@link
+     * CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
      */
     @Deprecated
     @Override
@@ -381,17 +373,15 @@ public class AnalysisActivity extends AppCompatActivity implements
 
     /**
      * <p> Callback for adding your own data to the Activity's result. </p> <p> Called when the
-     * document was analyzed. </p> <p> You should add the results of the analysis as extras and
-     * retrieve them when the {@link CameraActivity} returned. </p> <p> <b>Note:</b> you must call
-     * {@link AnalysisActivity#onDocumentAnalyzed()} after you received the analysis results from
-     * the Gini API, otherwise this method won't be invoked. </p>
+     * document was analyzed. </p> <p> You should add the results of the analysis as extras and retrieve them when the {@link
+     * CameraActivity} returned. </p> <p> <b>Note:</b> you must call {@link AnalysisActivity#onDocumentAnalyzed()} after you received the
+     * analysis results from the Gini API, otherwise this method won't be invoked. </p>
      *
      * @param result the {@link Intent} which will be returned as the result data.
      *
-     * @deprecated When a {@link GiniVision} instance is available the document is analyzed
-     * internally by using the configured {@link GiniVisionNetworkService} implementation. The
-     * extractions will be returned in the extra called {@link CameraActivity#EXTRA_OUT_EXTRACTIONS}
-     * of the {@link CameraActivity}'s result Intent.
+     * @deprecated When a {@link GiniVision} instance is available the document is analyzed internally by using the configured {@link
+     * GiniVisionNetworkService} implementation. The extractions will be returned in the extra called {@link
+     * CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
      */
     @Deprecated
     public void onAddDataToResult(final Intent result) {
@@ -457,7 +447,8 @@ public class AnalysisActivity extends AppCompatActivity implements
 
     @Override
     public void onExtractionsAvailable(
-            @NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
+            @NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
+            @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions) {
         final Intent result = new Intent();
         final Bundle extractionsBundle = new Bundle();
         for (final Map.Entry<String, GiniVisionSpecificExtraction> extraction
@@ -488,5 +479,20 @@ public class AnalysisActivity extends AppCompatActivity implements
     @Override
     public void onDefaultPDFAppAlertDialogCancelled() {
         finish();
+    }
+
+    @Override
+    public void onProceedToReturnAssistant(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
+            @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions) {
+        startActivityForResult(DigitalInvoiceActivity.createIntent(this, extractions, compoundExtractions), RETURN_ASSISTANT_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode,
+            final Intent data) {
+        if (requestCode == RETURN_ASSISTANT_REQUEST) {
+            setResult(resultCode, data);
+            finish();
+        }
     }
 }

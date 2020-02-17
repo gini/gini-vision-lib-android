@@ -2,20 +2,14 @@ package net.gini.android.vision.digitalinvoice
 
 import android.app.Activity
 import android.support.annotation.VisibleForTesting
-import kotlin.random.Random
+import net.gini.android.vision.network.model.GiniVisionCompoundExtraction
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction
 
 /**
  * Created by Alpar Szotyori on 05.12.2019.
  *
  * Copyright (c) 2019 Gini GmbH.
  */
-
-val mockLineItems = List(5) { i ->
-    LineItem(id = "$i",
-            description = "Nike Sportswear Air Max ${Random.nextInt(1, 50)} - Sneaker Low",
-            quantity = Random.nextInt(1, 5),
-            rawAmount = "${Random.nextInt(50)}.${Random.nextInt(9)}${Random.nextInt(9)}:EUR")
-}.map { SelectableLineItem(lineItem = it) }
 
 val mockReasons = listOf(
         "Looks different than site image",
@@ -28,7 +22,9 @@ val mockReasons = listOf(
 )
 
 internal open class DigitalInvoiceScreenPresenter(activity: Activity,
-                                                  view: DigitalInvoiceScreenContract.View) :
+                                                  view: DigitalInvoiceScreenContract.View,
+                                                  val extractions: Map<String, GiniVisionSpecificExtraction> = emptyMap(),
+                                                  val compoundExtractions: Map<String, GiniVisionCompoundExtraction> = emptyMap()) :
         DigitalInvoiceScreenContract.Presenter(activity, view) {
 
     override var listener: DigitalInvoiceFragmentListener? = null
@@ -38,7 +34,7 @@ internal open class DigitalInvoiceScreenPresenter(activity: Activity,
 
     init {
         view.setPresenter(this)
-        lineItems = mockLineItems
+        lineItems = lineItemsFromCompoundExtractions(compoundExtractions).map { SelectableLineItem(lineItem = it) }
     }
 
     override fun selectLineItem(lineItem: SelectableLineItem) {
@@ -69,9 +65,25 @@ internal open class DigitalInvoiceScreenPresenter(activity: Activity,
         // TODO
     }
 
+    override fun pay() {
+        val (selected, deselected) = lineItems.groupBy { it.selected }.run {
+            Pair(get(true)?.map { it.lineItem } ?: emptyList(), get(false)?.map { it.lineItem } ?: emptyList())
+        }
+        val totalPrice =
+                LineItem.createRawAmount(selectedLineItemsTotalAmountSum(lineItems),
+                        lineItems.firstOrNull()?.lineItem?.rawCurrency ?: "EUR")
+        val (reviewedCompoundExtractions, reviewedExtractions) = updateExtractionsWithReviewedLineItems(compoundExtractions, extractions,
+                selected, totalPrice)
+        listener?.onPayInvoice(
+                selectedLineItems = selected,
+                selectedLineItemsTotalPrice = totalPrice,
+                deselectedLineItems = deselected,
+                reviewedCompoundExtractions = reviewedCompoundExtractions,
+                reviewedExtractions = reviewedExtractions)
+    }
+
     override fun updateLineItem(selectableLineItem: SelectableLineItem) {
-        lineItems =
-                lineItems.map { sli -> if (sli.lineItem.id == selectableLineItem.lineItem.id) selectableLineItem else sli }
+        lineItems = lineItems.map { sli -> if (sli.lineItem.id == selectableLineItem.lineItem.id) selectableLineItem else sli }
         updateView(lineItems)
     }
 
@@ -111,3 +123,54 @@ internal open class DigitalInvoiceScreenPresenter(activity: Activity,
     private fun totalLineItemsCount(lineItems: List<SelectableLineItem>): Int =
             lineItems.fold(0) { c, sli -> c + sli.lineItem.quantity }
 }
+
+fun lineItemsFromCompoundExtractions(compoundExtractions: Map<String, GiniVisionCompoundExtraction>): List<LineItem> =
+        compoundExtractions["lineItems"]?.run {
+            specificExtractionMaps.mapIndexed { index, lineItem ->
+                LineItem(index.toString(),
+                        lineItem["description"]?.value ?: "",
+                        lineItem["quantity"]?.value?.toInt() ?: 0,
+                        lineItem["grossPrice"]?.value ?: "")
+            }
+        } ?: emptyList()
+
+fun updateExtractionsWithReviewedLineItems(compoundExtractions: Map<String, GiniVisionCompoundExtraction>,
+                                           extractions: Map<String, GiniVisionSpecificExtraction>,
+                                           selectedlineItems: List<LineItem>,
+                                           totalPrice: String) =
+        Pair(updateCompoundExtractions(compoundExtractions, selectedlineItems), updateExtractions(extractions, totalPrice))
+
+fun updateCompoundExtractions(compoundExtractions: Map<String, GiniVisionCompoundExtraction>,
+                              selectedlineItems: List<LineItem>) =
+        compoundExtractions.mapValues { (name, extraction) ->
+            when (name) {
+                "lineItems" -> GiniVisionCompoundExtraction(name,
+                        extraction.specificExtractionMaps.mapIndexed { index, lineItemExtractions ->
+                            selectedlineItems.find { it.id.toInt() == index }?.let { lineItem ->
+                                lineItemExtractions.mapValues { (name, lineItemExtraction) ->
+                                    when (name) {
+                                        "description" -> GiniVisionSpecificExtraction(lineItemExtraction, lineItem.description)
+                                        "grossPrice" -> GiniVisionSpecificExtraction(lineItemExtraction, lineItem.rawAmount)
+                                        "quantity" -> GiniVisionSpecificExtraction(lineItemExtraction, lineItem.quantity.toString())
+                                        else -> lineItemExtraction
+                                    }
+                                }
+                            }
+                        }.filterNotNull())
+                else -> extraction
+            }
+        }
+
+fun updateExtractions(extractions: Map<String, GiniVisionSpecificExtraction>,
+                      totalPrice: String) =
+        extractions.mapValues { (name, extraction) ->
+            when (name) {
+                "amountToPay" -> GiniVisionSpecificExtraction(extraction, totalPrice)
+                else -> extraction
+            }
+        }
+
+@JvmSynthetic
+fun GiniVisionSpecificExtraction(other: GiniVisionSpecificExtraction,
+                                 value: String) =
+        GiniVisionSpecificExtraction(other.name, value, other.entity, other.box, other.candidates)
