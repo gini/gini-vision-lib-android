@@ -358,7 +358,7 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
                                 } else {
                                     getAnalysisFragmentListenerOrNoOp()
                                             .onExtractionsAvailable(getMapOrEmpty(resultHolder.getExtractions()),
-                                                    Collections.<String, GiniVisionCompoundExtraction>emptyMap());
+                                                    getMapOrEmpty(resultHolder.getCompoundExtractions()));
                                 }
                                 break;
                             case NO_NETWORK_SERVICE:
@@ -378,7 +378,7 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
     }
 
     private boolean hasLineItems(@NonNull final AnalysisInteractor.ResultHolder resultHolder) {
-        return !resultHolder.getCompoundExtractions().isEmpty();
+        return resultHolder.getCompoundExtractions().containsKey("lineItems");
     }
 
     private void loadDocumentData() {
