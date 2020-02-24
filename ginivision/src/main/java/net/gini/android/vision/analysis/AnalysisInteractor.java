@@ -63,12 +63,14 @@ public class AnalysisInteractor {
                                 } else if (requestResult != null) {
                                     final Map<String, GiniVisionSpecificExtraction> extractions =
                                             requestResult.getAnalysisResult().getExtractions();
-                                    if (extractions.isEmpty()) {
+                                    final Map<String, GiniVisionCompoundExtraction> compoundExtractions =
+                                            requestResult.getAnalysisResult().getCompoundExtractions();
+                                    if (extractions.isEmpty() && compoundExtractions.isEmpty()) {
                                         return new ResultHolder(Result.SUCCESS_NO_EXTRACTIONS);
                                     } else {
                                         return new ResultHolder(Result.SUCCESS_WITH_EXTRACTIONS,
                                                 extractions,
-                                                requestResult.getAnalysisResult().getCompoundExtractions());
+                                                compoundExtractions);
                                     }
                                 }
                                 return null;
