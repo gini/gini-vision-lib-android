@@ -14,7 +14,7 @@ import java.util.*
  */
 
 @RunWith(JUnit4::class)
-class LineItemsAmountHelperTest {
+class LineItemsGrossPriceHelperTest {
 
     @Test
     fun `should calculate selected line items sum`() {
@@ -22,17 +22,17 @@ class LineItemsAmountHelperTest {
         val lineItems = listOf(
                 SelectableLineItem(selected = false,
                         lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 1,
-                                rawAmount = "1.19:EUR")),
+                                rawGrossPrice = "1.19:EUR")),
                 SelectableLineItem(selected = true,
                         lineItem = LineItem(id = "2", description = "Line Item 2", quantity = 2,
-                                rawAmount = "5.89:EUR")),
+                                rawGrossPrice = "5.89:EUR")),
                 SelectableLineItem(selected = true,
                         lineItem = LineItem(id = "3", description = "Line Item 3", quantity = 1,
-                                rawAmount = "9.99:EUR"))
+                                rawGrossPrice = "9.99:EUR"))
         )
 
         // When
-        val sum = selectedLineItemsTotalAmountSum(lineItems)
+        val sum = selectedLineItemsTotalGrossPriceSum(lineItems)
 
         // Then
         assertThat(sum).isEqualTo(BigDecimal("21.77"))
@@ -44,7 +44,7 @@ class LineItemsAmountHelperTest {
         val lineItems: List<SelectableLineItem> = emptyList()
 
         // When
-        val sum = selectedLineItemsTotalAmountSum(lineItems)
+        val sum = selectedLineItemsTotalGrossPriceSum(lineItems)
 
         // Then
         assertThat(sum).isEqualTo(BigDecimal.ZERO)
@@ -56,17 +56,17 @@ class LineItemsAmountHelperTest {
         val lineItems = listOf(
                 SelectableLineItem(selected = false,
                         lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 1,
-                                rawAmount = "1.19:EUR")),
+                                rawGrossPrice = "1.19:EUR")),
                 SelectableLineItem(selected = false,
                         lineItem = LineItem(id = "2", description = "Line Item 2", quantity = 1,
-                                rawAmount = "5.89:EUR")),
+                                rawGrossPrice = "5.89:EUR")),
                 SelectableLineItem(selected = false,
                         lineItem = LineItem(id = "3", description = "Line Item 3", quantity = 1,
-                                rawAmount = "9.99:EUR"))
+                                rawGrossPrice = "9.99:EUR"))
         )
 
         // When
-        val sum = selectedLineItemsTotalAmountSum(lineItems)
+        val sum = selectedLineItemsTotalGrossPriceSum(lineItems)
 
         // Then
         assertThat(sum).isEqualTo(BigDecimal.ZERO)
@@ -78,13 +78,13 @@ class LineItemsAmountHelperTest {
         val lineItems = listOf(
                 SelectableLineItem(selected = false,
                         lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 1,
-                                rawAmount = "1.19:EUR")),
+                                rawGrossPrice = "1.19:EUR")),
                 SelectableLineItem(selected = false,
                         lineItem = LineItem(id = "2", description = "Line Item 2", quantity = 1,
-                                rawAmount = "5.89:EUR")),
+                                rawGrossPrice = "5.89:EUR")),
                 SelectableLineItem(selected = false,
                         lineItem = LineItem(id = "3", description = "Line Item 3", quantity = 1,
-                                rawAmount = "9.99:EUR"))
+                                rawGrossPrice = "9.99:EUR"))
         )
 
         // When
@@ -107,25 +107,25 @@ class LineItemsAmountHelperTest {
     }
 
     @Test
-    fun `should get amount integral part with currency`() {
+    fun `should get gross price integral part with currency`() {
         // Given
-        val amount = BigDecimal("1.99")
+        val grossPrice = BigDecimal("1.99")
         val currency = Currency.getInstance("EUR")
 
         // When
-        val integralPartWithCurrency = amountIntegralPartWithCurrencySymbol(amount, currency)
+        val integralPartWithCurrency = grossPriceIntegralPartWithCurrencySymbol(grossPrice, currency)
 
         // Then
         assertThat(integralPartWithCurrency).isEqualTo("${Currency.getInstance("EUR").symbol}1")
     }
 
     @Test
-    fun `should get amount integral part without currency, if currency is null`() {
+    fun `should get gross price integral part without currency, if currency is null`() {
         // Given
-        val amount = BigDecimal("1.99")
+        val grossPrice = BigDecimal("1.99")
 
         // When
-        val integralPartWithCurrency = amountIntegralPartWithCurrencySymbol(amount, null)
+        val integralPartWithCurrency = grossPriceIntegralPartWithCurrencySymbol(grossPrice, null)
 
         // Then
         assertThat(integralPartWithCurrency).isEqualTo("1")
@@ -137,14 +137,14 @@ class LineItemsAmountHelperTest {
         val lineItems = listOf(
                 SelectableLineItem(selected = true,
                         lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 1,
-                                rawAmount = "1.19:EUR")),
+                                rawGrossPrice = "1.19:EUR")),
                 SelectableLineItem(selected = true,
                         lineItem = LineItem(id = "2", description = "Line Item 2", quantity = 1,
-                                rawAmount = "5.89:EUR"))
+                                rawGrossPrice = "5.89:EUR"))
         )
 
         // When
-        val (integral, fractional) = lineItemsSumIntegralAndFractionalParts(lineItems)
+        val (integral, fractional) = lineItemsTotalGrossPriceSumIntegralAndFractionalParts(lineItems)
 
         // Then
         assertThat(integral).isEqualTo("${Currency.getInstance("EUR").symbol}7")

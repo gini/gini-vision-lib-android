@@ -5,7 +5,7 @@ import net.gini.android.vision.digitalinvoice.LineItem
 import net.gini.android.vision.digitalinvoice.SelectableLineItem
 import net.gini.android.vision.digitalinvoice.details.LineItemDetailsScreenContract.Presenter
 import net.gini.android.vision.digitalinvoice.details.LineItemDetailsScreenContract.View
-import net.gini.android.vision.digitalinvoice.lineItemTotalAmountIntegralAndFractionalParts
+import net.gini.android.vision.digitalinvoice.lineItemTotalGrossPriceIntegralAndFractionalParts
 import net.gini.android.vision.digitalinvoice.mockReasons
 import java.math.BigDecimal
 import java.text.DecimalFormat
@@ -17,11 +17,11 @@ import java.text.ParseException
  * Copyright (c) 2019 Gini GmbH.
  */
 
-val AMOUNT_FORMAT = DecimalFormat("#,##0.00").apply { isParseBigDecimal = true }
+val GROSS_PRICE_FORMAT = DecimalFormat("#,##0.00").apply { isParseBigDecimal = true }
 
 class LineItemDetailsScreenPresenter(activity: Activity, view: View,
                                      var selectableLineItem: SelectableLineItem,
-                                     private val amountFormat: DecimalFormat = AMOUNT_FORMAT) :
+                                     private val grossPriceFormat: DecimalFormat = GROSS_PRICE_FORMAT) :
         Presenter(activity, view) {
 
     override var listener: LineItemDetailsFragmentListener? = null
@@ -91,30 +91,30 @@ class LineItemDetailsScreenPresenter(activity: Activity, view: View,
                 lineItem = selectableLineItem.lineItem.copy(quantity = quantity)
         ).also {
             view.apply {
-                showTotalAmount(it)
+                showTotalGrossPrice(it)
                 showCheckbox(it.selected, it.lineItem.quantity)
                 updateSaveButton(it, originalLineItem)
             }
         }
     }
 
-    override fun setAmount(displayedAmount: String) {
-        val amount = try {
-            amountFormat.parse(displayedAmount) as BigDecimal
+    override fun setGrossPrice(displayedGrossPrice: String) {
+        val grossPrice = try {
+            grossPriceFormat.parse(displayedGrossPrice) as BigDecimal
         } catch (_: ParseException) {
             return
         }
-        if (selectableLineItem.lineItem.amount == amount) {
+        if (selectableLineItem.lineItem.grossPrice == grossPrice) {
             return
         }
         selectableLineItem = selectableLineItem.copy(
                 lineItem = selectableLineItem.lineItem.copy(
-                        rawAmount = LineItem.createRawAmount(amount,
+                        rawGrossPrice = LineItem.createRawGrossPrice(grossPrice,
                                 selectableLineItem.lineItem.rawCurrency)
                 )
         ).also {
             view.apply {
-                showTotalAmount(it)
+                showTotalGrossPrice(it)
                 updateSaveButton(it, originalLineItem)
             }
         }
@@ -131,9 +131,9 @@ class LineItemDetailsScreenPresenter(activity: Activity, view: View,
                 lineItem.run {
                     showDescription(description)
                     showQuantity(quantity)
-                    showAmount(amountFormat.format(amount), currency?.symbol ?: "")
+                    showGrossPrice(grossPriceFormat.format(grossPrice), currency?.symbol ?: "")
                 }
-                showTotalAmount(this)
+                showTotalGrossPrice(this)
                 updateSaveButton(this, originalLineItem)
             }
         }
@@ -144,10 +144,10 @@ class LineItemDetailsScreenPresenter(activity: Activity, view: View,
     }
 }
 
-private fun View.showTotalAmount(selectableLineItem: SelectableLineItem) {
-    lineItemTotalAmountIntegralAndFractionalParts(
+private fun View.showTotalGrossPrice(selectableLineItem: SelectableLineItem) {
+    lineItemTotalGrossPriceIntegralAndFractionalParts(
             selectableLineItem.lineItem).let { (integral, fractional) ->
-        showTotalAmount(integral, fractional)
+        showTotalGrossPrice(integral, fractional)
     }
 }
 

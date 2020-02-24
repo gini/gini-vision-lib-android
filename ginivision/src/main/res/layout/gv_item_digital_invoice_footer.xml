@@ -10,30 +10,30 @@
     android:paddingBottom="@dimen/gv_digital_invoice_footer_padding_bottom">
 
     <TextView
-        android:id="@+id/gv_amount_total_integral_part"
+        android:id="@+id/gv_gross_price_total_integral_part"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginBottom="@dimen/gv_digital_invoice_footer_amount_margin_bottom"
-        android:layout_toStartOf="@+id/gv_amount_total_fractional_part"
+        android:layout_marginBottom="@dimen/gv_digital_invoice_footer_gross_price_margin_bottom"
+        android:layout_toStartOf="@+id/gv_gross_price_total_fractional_part"
         android:includeFontPadding="false"
-        android:textAppearance="@style/GiniVisionTheme.DigitalInvoice.TotalAmount.Integral.TextStyle"
+        android:textAppearance="@style/GiniVisionTheme.DigitalInvoice.TotalGrossPrice.Integral.TextStyle"
         tools:text="€242" />
 
     <TextView
-        android:id="@+id/gv_amount_total_fractional_part"
+        android:id="@+id/gv_gross_price_total_fractional_part"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/gv_amount_total_integral_part"
+        android:layout_alignTop="@id/gv_gross_price_total_integral_part"
         android:layout_alignParentEnd="true"
-        android:textAppearance="@style/GiniVisionTheme.DigitalInvoice.TotalAmount.Fractional.TextStyle"
+        android:textAppearance="@style/GiniVisionTheme.DigitalInvoice.TotalGrossPrice.Fractional.TextStyle"
         tools:text=".90" />
 
     <TextView
         android:id="@+id/gv_bottom_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/gv_amount_total_integral_part"
+        android:layout_below="@id/gv_gross_price_total_integral_part"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="@dimen/gv_digital_invoice_footer_notice_horizontal_margin"
         android:layout_marginEnd="@dimen/gv_digital_invoice_footer_notice_horizontal_margin"

@@ -134,9 +134,9 @@
     <color name="gv_digital_invoice_line_item_description_text">#000</color>
     <color name="gv_digital_invoice_line_item_quantity_text">#696969</color>
     <color name="gv_digital_invoice_line_item_edit_text">#009edc</color>
-    <color name="gv_digital_invoice_line_item_amount_text">#000</color>
+    <color name="gv_digital_invoice_line_item_gross_price_text">#000</color>
     <color name="gv_digital_invoice_footer_background">#fff</color>
-    <color name="gv_digital_invoice_footer_amount_text">#000</color>
+    <color name="gv_digital_invoice_footer_gross_price_text">#000</color>
     <color name="gv_digital_invoice_footer_notice_text">#696969</color>
     <color name="gv_digital_invoice_pay_button">#009edc</color>
     <color name="gv_digital_invoice_return_reason_dialog_title">#696969</color>

@@ -70,7 +70,7 @@ internal open class DigitalInvoiceScreenPresenter(activity: Activity,
             Pair(get(true)?.map { it.lineItem } ?: emptyList(), get(false)?.map { it.lineItem } ?: emptyList())
         }
         val totalPrice =
-                LineItem.createRawAmount(selectedLineItemsTotalAmountSum(lineItems),
+                LineItem.createRawGrossPrice(selectedLineItemsTotalGrossPriceSum(lineItems),
                         lineItems.firstOrNull()?.lineItem?.rawCurrency ?: "EUR")
         val (reviewedCompoundExtractions, reviewedExtractions) = updateExtractionsWithReviewedLineItems(compoundExtractions, extractions,
                 selected, totalPrice)
@@ -107,7 +107,7 @@ internal open class DigitalInvoiceScreenPresenter(activity: Activity,
                     disablePayButton(0, total)
                 }
             }
-            lineItemsSumIntegralAndFractionalParts(lineItems).let { (integral, fractional) ->
+            lineItemsTotalGrossPriceSumIntegralAndFractionalParts(lineItems).let { (integral, fractional) ->
                 showSelectedLineItemsSum(integral, fractional)
             }
         }
@@ -150,7 +150,7 @@ fun updateCompoundExtractions(compoundExtractions: Map<String, GiniVisionCompoun
                                 lineItemExtractions.mapValues { (name, lineItemExtraction) ->
                                     when (name) {
                                         "description" -> copyGiniVisionSpecificExtraction(lineItemExtraction, lineItem.description)
-                                        "grossPrice" -> copyGiniVisionSpecificExtraction(lineItemExtraction, lineItem.rawAmount)
+                                        "grossPrice" -> copyGiniVisionSpecificExtraction(lineItemExtraction, lineItem.rawGrossPrice)
                                         "quantity" -> copyGiniVisionSpecificExtraction(lineItemExtraction, lineItem.quantity.toString())
                                         else -> lineItemExtraction
                                     }

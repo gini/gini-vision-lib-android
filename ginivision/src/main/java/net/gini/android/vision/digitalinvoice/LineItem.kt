@@ -15,44 +15,43 @@ import java.util.*
  * Copyright (c) 2019 Gini GmbH.
  */
 
-val RAW_AMOUNT_FORMAT = DecimalFormat("0.00",
+val RAW_GROSS_PRICE_FORMAT = DecimalFormat("0.00",
         DecimalFormatSymbols.getInstance(Locale.ENGLISH)).apply { isParseBigDecimal = true }
 
-val AMOUNT_STRING_REGEX = "^[0-9]+([.,])[0-9]+\$".toRegex()
+val GROSS_PRICE_STRING_REGEX = "^[0-9]+([.,])[0-9]+\$".toRegex()
 
 @Parcelize
 class LineItem(
         val id: String,
         val description: String,
         val quantity: Int,
-        val rawAmount: String
+        val rawGrossPrice: String
 ) : Parcelable {
 
     @IgnoredOnParcel
-    val amount: BigDecimal
+    val grossPrice: BigDecimal
     @IgnoredOnParcel
-    val totalAmount: BigDecimal
+    val totalGrossPrice: BigDecimal
     @IgnoredOnParcel
     val currency: Currency?
     @IgnoredOnParcel
     val rawCurrency: String
 
     companion object {
-        fun createRawAmount(amount: BigDecimal, currency: String) = "${RAW_AMOUNT_FORMAT.format(
-                amount)}:$currency"
+        fun createRawGrossPrice(grossPrice: BigDecimal, currency: String) = "${RAW_GROSS_PRICE_FORMAT.format(grossPrice)}:$currency"
     }
 
     init {
-        rawAmount.split(":").let {
+        rawGrossPrice.split(":").let {
             check(it.size == 2) {
-                "Invalid amount format. Expected <Amount>:<Currency Code>, but got: $rawAmount"
+                "Invalid gross price format. Expected <Gross Price>:<Currency Code>, but got: $rawGrossPrice"
             }
-            amount = try {
-                parseAmountString(it[0])
+            grossPrice = try {
+                parseGrossPriceString(it[0])
             } catch (_: NumberFormatException) {
                 BigDecimal.ZERO
             }
-            totalAmount = amount.times(BigDecimal(quantity))
+            totalGrossPrice = grossPrice.times(BigDecimal(quantity))
             rawCurrency = it[1]
             currency = try {
                 Currency.getInstance(it[1])
@@ -62,14 +61,14 @@ class LineItem(
         }
     }
 
-    private fun parseAmountString(amount: String): BigDecimal =
-            if (amount matches AMOUNT_STRING_REGEX) {
+    private fun parseGrossPriceString(grossPrice: String): BigDecimal =
+            if (grossPrice matches GROSS_PRICE_STRING_REGEX) {
                 when {
-                    amount.contains(".") -> {
-                        parseAmountWithLocale(amount, Locale.ENGLISH)
+                    grossPrice.contains(".") -> {
+                        parseGrossPriceWithLocale(grossPrice, Locale.ENGLISH)
                     }
-                    amount.contains(",") -> {
-                        parseAmountWithLocale(amount, Locale.GERMAN)
+                    grossPrice.contains(",") -> {
+                        parseGrossPriceWithLocale(grossPrice, Locale.GERMAN)
                     }
                     else -> {
                         throw NumberFormatException()
@@ -79,34 +78,34 @@ class LineItem(
                 throw NumberFormatException()
             }
 
-    private fun parseAmountWithLocale(amount: String, locale: Locale) = DecimalFormat("0.00",
+    private fun parseGrossPriceWithLocale(grossPrice: String, locale: Locale) = DecimalFormat("0.00",
             DecimalFormatSymbols.getInstance(locale))
             .apply { isParseBigDecimal = true }
             .run {
                 try {
-                    parse(amount) as BigDecimal
+                    parse(grossPrice) as BigDecimal
                 } catch (_: ParseException) {
                     throw NumberFormatException()
                 }
             }
 
-    override fun toString() = "LineItem(id=$id, description=$description, quantity=$quantity, rawAmount=$rawAmount, amount=$amount, totalAmount=$totalAmount, currency=$currency)"
+    override fun toString() = "LineItem(id=$id, description=$description, quantity=$quantity, rawGrossPrice=$rawGrossPrice, grossPrice=$grossPrice, totalGrossPrice=$totalGrossPrice, currency=$currency)"
 
     override fun equals(other: Any?) = other is LineItem
             && id == other.id
             && description == other.description
             && quantity == other.quantity
-            && amount == other.amount
-            && totalAmount == other.totalAmount
-            && rawAmount == other.rawAmount
+            && grossPrice == other.grossPrice
+            && totalGrossPrice == other.totalGrossPrice
+            && rawGrossPrice == other.rawGrossPrice
             && currency == other.currency
 
-    override fun hashCode() = Objects.hash(id, description, quantity, rawAmount, amount,
-            totalAmount, currency)
+    override fun hashCode() = Objects.hash(id, description, quantity, rawGrossPrice, grossPrice,
+            totalGrossPrice, currency)
 
     @JvmSynthetic
     fun copy(id: String = this.id, description: String = this.description,
-             quantity: Int = this.quantity, rawAmount: String = this.rawAmount) =
-            LineItem(id, description, quantity, rawAmount)
+             quantity: Int = this.quantity, rawGrossPrice: String = this.rawGrossPrice) =
+            LineItem(id, description, quantity, rawGrossPrice)
 
 }

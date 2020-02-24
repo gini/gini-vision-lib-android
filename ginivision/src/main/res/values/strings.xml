@@ -133,7 +133,7 @@
 
     <string name="gv_digital_invoice_line_item_details_description_label">Artikelname</string>
     <string name="gv_digital_invoice_line_item_details_quantity_label">Anzahl</string>
-    <string name="gv_digital_invoice_line_item_details_amount_label">Artikelpreis</string>
+    <string name="gv_digital_invoice_line_item_details_gross_price_label">Artikelpreis</string>
     <string name="gv_digital_invoice_line_item_details_total_label">Total:</string>
     <string name="gv_digital_invoice_line_item_details_save">Speichern</string>
     <plurals name="gv_digital_invoice_line_item_details_selected_line_items">

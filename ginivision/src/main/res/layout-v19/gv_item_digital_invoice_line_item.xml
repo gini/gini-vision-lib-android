@@ -77,22 +77,22 @@
             android:textAppearance="@style/GiniVisionTheme.DigitalInvoice.LineItem.Edit.TextStyle" />
 
         <TextView
-            android:id="@+id/gv_amount_integral_part"
+            android:id="@+id/gv_gross_price_integral_part"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/gv_quantity"
-            android:layout_toStartOf="@id/gv_amount_fractional_part"
+            android:layout_toStartOf="@id/gv_gross_price_fractional_part"
             android:includeFontPadding="false"
-            android:textAppearance="@style/GiniVisionTheme.DigitalInvoice.LineItem.Amount.Integral.TextStyle"
+            android:textAppearance="@style/GiniVisionTheme.DigitalInvoice.LineItem.GrossPrice.Integral.TextStyle"
             tools:text="€76" />
 
         <TextView
-            android:id="@+id/gv_amount_fractional_part"
+            android:id="@+id/gv_gross_price_fractional_part"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:textAppearance="@style/GiniVisionTheme.DigitalInvoice.LineItem.Amount.Fractional.TextStyle"
+            android:textAppearance="@style/GiniVisionTheme.DigitalInvoice.LineItem.GrossPrice.Fractional.TextStyle"
             tools:text=".48" />
     </RelativeLayout>
 

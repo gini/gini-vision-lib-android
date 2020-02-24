@@ -27,7 +27,7 @@ val mockLineItems = List(5) { i ->
     LineItem(id = "$i",
             description = "Nike Sportswear Air Max ${Random.nextInt(1, 50)} - Sneaker Low",
             quantity = Random.nextInt(1, 5),
-            rawAmount = "${Random.nextInt(50)}.${Random.nextInt(9)}${Random.nextInt(9)}:EUR")
+            rawGrossPrice = "${Random.nextInt(50)}.${Random.nextInt(9)}${Random.nextInt(9)}:EUR")
 }.map { SelectableLineItem(lineItem = it) }
 
 @RunWith(JUnit4::class)
@@ -119,10 +119,10 @@ class DigitalInvoiceScreenPresenterTest {
             lineItems = listOf(
                     SelectableLineItem(selected = true,
                             lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 1,
-                                    rawAmount = "1.09:EUR")),
+                                    rawGrossPrice = "1.09:EUR")),
                     SelectableLineItem(selected = true,
                             lineItem = LineItem(id = "2", description = "Line Item 2", quantity = 2,
-                                    rawAmount = "2.99:EUR"))
+                                    rawGrossPrice = "2.99:EUR"))
             )
 
             // When
@@ -141,13 +141,13 @@ class DigitalInvoiceScreenPresenterTest {
             lineItems = listOf(
                     SelectableLineItem(selected = false,
                             lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 1,
-                                    rawAmount = "1.09:EUR")),
+                                    rawGrossPrice = "1.09:EUR")),
                     SelectableLineItem(selected = true,
                             lineItem = LineItem(id = "2", description = "Line Item 2", quantity = 2,
-                                    rawAmount = "2.99:EUR")),
+                                    rawGrossPrice = "2.99:EUR")),
                     SelectableLineItem(selected = true,
                             lineItem = LineItem(id = "3", description = "Line Item 3", quantity = 3,
-                                    rawAmount = "3.10:EUR"))
+                                    rawGrossPrice = "3.10:EUR"))
             )
 
             // When
@@ -238,7 +238,7 @@ class DigitalInvoiceScreenPresenterTest {
             lineItems = listOf(
                     SelectableLineItem(selected = false,
                             lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 2,
-                                    rawAmount = "1.19:EUR"))
+                                    rawGrossPrice = "1.19:EUR"))
             )
 
             // When
@@ -272,7 +272,7 @@ class DigitalInvoiceScreenPresenterTest {
             lineItems = listOf(
                     SelectableLineItem(selected = true,
                             lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
-                                    rawAmount = "1.19:EUR"))
+                                    rawGrossPrice = "1.19:EUR"))
             )
 
             // When
@@ -306,12 +306,12 @@ class DigitalInvoiceScreenPresenterTest {
             lineItems = listOf(
                     SelectableLineItem(selected = true,
                             lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
-                                    rawAmount = "1.19:EUR"))
+                                    rawGrossPrice = "1.19:EUR"))
             )
 
             val modifiedLineItem = SelectableLineItem(selected = true,
                     lineItem = LineItem(id = "1", description = "Line Item X", quantity = 8,
-                            rawAmount = "99.19:EUR"))
+                            rawGrossPrice = "99.19:EUR"))
 
             // When
             updateLineItem(modifiedLineItem)
@@ -330,7 +330,7 @@ class DigitalInvoiceScreenPresenterTest {
             lineItems = listOf(
                     SelectableLineItem(selected = true,
                             lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
-                                    rawAmount = "1.19:EUR"))
+                                    rawGrossPrice = "1.19:EUR"))
             )
 
             // When
@@ -350,7 +350,7 @@ class DigitalInvoiceScreenPresenterTest {
             lineItems = listOf(
                     SelectableLineItem(selected = true,
                             lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
-                                    rawAmount = "1.19:EUR"))
+                                    rawGrossPrice = "1.19:EUR"))
             )
 
             // When
@@ -370,7 +370,7 @@ class DigitalInvoiceScreenPresenterTest {
             lineItems = listOf(
                     SelectableLineItem(selected = true,
                             lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
-                                    rawAmount = "1.19:EUR"))
+                                    rawGrossPrice = "1.19:EUR"))
             )
 
             // When
@@ -405,12 +405,12 @@ class DigitalInvoiceScreenPresenterTest {
             val specificExtractionMaps = compoundExtractions["lineItems"]?.specificExtractionMaps
             lineItems[0].lineItem.run {
                 assertThat(description).isEqualTo(specificExtractionMaps?.get(0)?.get("description")?.value)
-                assertThat(rawAmount).isEqualTo(specificExtractionMaps?.get(0)?.get("grossPrice")?.value)
+                assertThat(rawGrossPrice).isEqualTo(specificExtractionMaps?.get(0)?.get("grossPrice")?.value)
                 assertThat(quantity.toString()).isEqualTo(specificExtractionMaps?.get(0)?.get("quantity")?.value)
             }
             lineItems[1].lineItem.run {
                 assertThat(description).isEqualTo(specificExtractionMaps?.get(1)?.get("description")?.value)
-                assertThat(rawAmount).isEqualTo(specificExtractionMaps?.get(1)?.get("grossPrice")?.value)
+                assertThat(rawGrossPrice).isEqualTo(specificExtractionMaps?.get(1)?.get("grossPrice")?.value)
                 assertThat(quantity.toString()).isEqualTo(specificExtractionMaps?.get(1)?.get("quantity")?.value)
             }
         }
@@ -573,7 +573,7 @@ class DigitalInvoiceScreenPresenterTest {
             }
 
             lineItems = lineItems.mapIndexed { index, sli ->
-                if (index == 2) sli.copy(lineItem = sli.lineItem.copy(rawAmount = "10.19:EUR")) else sli
+                if (index == 2) sli.copy(lineItem = sli.lineItem.copy(rawGrossPrice = "10.19:EUR")) else sli
             }
 
             // When

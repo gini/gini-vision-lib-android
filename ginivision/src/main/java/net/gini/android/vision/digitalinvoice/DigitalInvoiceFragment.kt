@@ -132,7 +132,7 @@ class DigitalInvoiceFragment : Fragment(), DigitalInvoiceScreenContract.View,
     }
 
     override fun showSelectedLineItemsSum(integralPart: String, fractionalPart: String) {
-        (gv_line_items.adapter as LineItemsAdapter?)?.totalAmountIntegralAndFractionalParts =
+        (gv_line_items.adapter as LineItemsAdapter?)?.totalGrossPriceIntegralAndFractionalParts =
                 Pair(integralPart, fractionalPart)
     }
 

@@ -39,7 +39,7 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
 
     private var descriptionTextWatcher: TextWatcher? = null
     private var quantityTextWatcher: TextWatcher? = null
-    private var amountTextWatcher: TextWatcher? = null
+    private var grossPriceTextWatcher: TextWatcher? = null
 
     companion object {
         @JvmStatic
@@ -112,8 +112,8 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
                 0
             })
         }
-        amountTextWatcher = gv_amount.doAfterTextChanged {
-            presenter?.setAmount(it)
+        grossPriceTextWatcher = gv_gross_price.doAfterTextChanged {
+            presenter?.setGrossPrice(it)
         }
         gv_save_button.setOnClickListener {
             presenter?.save()
@@ -124,7 +124,7 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
         super.onDestroyView()
         gv_description.removeTextChangedListener(descriptionTextWatcher)
         gv_quantity.removeTextChangedListener(quantityTextWatcher)
-        gv_amount.removeTextChangedListener(amountTextWatcher)
+        gv_gross_price.removeTextChangedListener(grossPriceTextWatcher)
     }
 
     override fun setPresenter(presenter: LineItemDetailsScreenContract.Presenter) {
@@ -149,14 +149,14 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
         gv_quantity.setText(quantity.toString())
     }
 
-    override fun showAmount(displayedAmount: String, currency: String) {
-        gv_amount.setText(displayedAmount)
+    override fun showGrossPrice(displayedGrossPrice: String, currency: String) {
+        gv_gross_price.setText(displayedGrossPrice)
         gv_currency.text = currency
     }
 
-    override fun showTotalAmount(integralPart: String, fractionalPart: String) {
-        gv_amount_total_integral_part.text = integralPart
-        gv_amount_total_fractional_part.text = fractionalPart
+    override fun showTotalGrossPrice(integralPart: String, fractionalPart: String) {
+        gv_gross_price_total_integral_part.text = integralPart
+        gv_gross_price_total_fractional_part.text = fractionalPart
     }
 
     override fun enableSaveButton() {
@@ -170,14 +170,14 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
     override fun enableInput() {
         gv_description.isEnabled = true
         gv_quantity.isEnabled = true
-        gv_amount.isEnabled = true
+        gv_gross_price.isEnabled = true
         gv_currency.isEnabled = true
     }
 
     override fun disableInput() {
         gv_description.isEnabled = false
         gv_quantity.isEnabled = false
-        gv_amount.isEnabled = false
+        gv_gross_price.isEnabled = false
         gv_currency.isEnabled = false
     }
 

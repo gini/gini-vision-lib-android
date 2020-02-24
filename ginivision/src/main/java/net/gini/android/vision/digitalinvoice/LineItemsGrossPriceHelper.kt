@@ -14,30 +14,30 @@ import java.util.*
 val INTEGRAL_FORMAT = DecimalFormat("#,###")
 val FRACTION_FORMAT = DecimalFormat(".00").apply { roundingMode = RoundingMode.DOWN }
 
-fun lineItemsSumIntegralAndFractionalParts(
+fun lineItemsTotalGrossPriceSumIntegralAndFractionalParts(
         lineItems: List<SelectableLineItem>): Pair<String, String> {
-    val sum = selectedLineItemsTotalAmountSum(lineItems)
+    val sum = selectedLineItemsTotalGrossPriceSum(lineItems)
     val currency = lineItemsCurency(lineItems)
-    return Pair(amountIntegralPartWithCurrencySymbol(sum, currency),
+    return Pair(grossPriceIntegralPartWithCurrencySymbol(sum, currency),
             sum.fractionalPart(FRACTION_FORMAT))
 }
 
-fun lineItemTotalAmountIntegralAndFractionalParts(lineItem: LineItem): Pair<String, String> {
+fun lineItemTotalGrossPriceIntegralAndFractionalParts(lineItem: LineItem): Pair<String, String> {
     return lineItem.run {
-        Pair(amountIntegralPartWithCurrencySymbol(totalAmount, currency),
-                totalAmount.fractionalPart(FRACTION_FORMAT))
+        Pair(grossPriceIntegralPartWithCurrencySymbol(totalGrossPrice, currency),
+                totalGrossPrice.fractionalPart(FRACTION_FORMAT))
     }
 }
 
-fun amountIntegralPartWithCurrencySymbol(amount: BigDecimal, currency: Currency?) =
+fun grossPriceIntegralPartWithCurrencySymbol(grossPrice: BigDecimal, currency: Currency?) =
         currency?.let { c ->
-            amount.integralPartWithCurrency(c, INTEGRAL_FORMAT)
-        } ?: amount.integralPart(INTEGRAL_FORMAT)
+            grossPrice.integralPartWithCurrency(c, INTEGRAL_FORMAT)
+        } ?: grossPrice.integralPart(INTEGRAL_FORMAT)
 
 fun lineItemsCurency(lineItems: List<SelectableLineItem>): Currency? =
         lineItems.firstOrNull()?.lineItem?.currency
 
-fun selectedLineItemsTotalAmountSum(lineItems: List<SelectableLineItem>): BigDecimal =
+fun selectedLineItemsTotalGrossPriceSum(lineItems: List<SelectableLineItem>): BigDecimal =
         lineItems.fold<SelectableLineItem, BigDecimal>(BigDecimal.ZERO) { sum, sli ->
-            if (sli.selected) sum.add(sli.lineItem.totalAmount) else sum
+            if (sli.selected) sum.add(sli.lineItem.totalGrossPrice) else sum
         }

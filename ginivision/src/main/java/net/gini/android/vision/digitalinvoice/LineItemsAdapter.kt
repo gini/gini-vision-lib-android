@@ -44,7 +44,7 @@ class LineItemsAdapter(context: Context, val listener: LineItemsAdapterListener)
             field = value
             notifyDataSetChanged()
         }
-    var totalAmountIntegralAndFractionalParts: Pair<String, String> = Pair("", "")
+    var totalGrossPriceIntegralAndFractionalParts: Pair<String, String> = Pair("", "")
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -77,7 +77,7 @@ class LineItemsAdapter(context: Context, val listener: LineItemsAdapterListener)
                     viewHolder.bind(it, lineItems)
                 }
             }
-            is ViewHolder.FooterViewHolder -> viewHolder.bind(totalAmountIntegralAndFractionalParts)
+            is ViewHolder.FooterViewHolder -> viewHolder.bind(totalGrossPriceIntegralAndFractionalParts)
         }
     }
 
@@ -147,8 +147,8 @@ sealed class ViewHolder<in T>(itemView: View, val viewType: ViewType) :
         private val quantityLabel: TextView = itemView.gv_quantity_label
         private val quantity: TextView = itemView.gv_quantity
         private val edit: Button = itemView.gv_edit
-        private val priceIntegralPart: TextView = itemView.gv_amount_integral_part
-        private val priceFractionalPart: TextView = itemView.gv_amount_fractional_part
+        private val priceIntegralPart: TextView = itemView.gv_gross_price_integral_part
+        private val priceFractionalPart: TextView = itemView.gv_gross_price_fractional_part
         var listener: LineItemsAdapterListener? = null
 
         override fun bind(data: SelectableLineItem, allData: List<SelectableLineItem>?) {
@@ -170,7 +170,7 @@ sealed class ViewHolder<in T>(itemView: View, val viewType: ViewType) :
                 description.text = li.description
                 @SuppressLint("SetTextI18n")
                 quantity.text = " ${li.quantity}"
-                lineItemTotalAmountIntegralAndFractionalParts(li).let { (integral, fractional) ->
+                lineItemTotalGrossPriceIntegralAndFractionalParts(li).let { (integral, fractional) ->
                     priceIntegralPart.text = integral
                     @SuppressLint("SetTextI18n")
                     priceFractionalPart.text = fractional
@@ -216,8 +216,9 @@ sealed class ViewHolder<in T>(itemView: View, val viewType: ViewType) :
             edit.setTextColor(ContextCompat.getColor(itemView.context, R.color.gv_digital_invoice_line_item_edit_text))
             quantityLabel.setTextColor(ContextCompat.getColor(itemView.context, R.color.gv_digital_invoice_line_item_quantity_text))
             quantity.setTextColor(ContextCompat.getColor(itemView.context, R.color.gv_digital_invoice_line_item_quantity_text))
-            priceIntegralPart.setTextColor(ContextCompat.getColor(itemView.context, R.color.gv_digital_invoice_line_item_amount_text))
-            priceFractionalPart.setTextColor(ContextCompat.getColor(itemView.context, R.color.gv_digital_invoice_line_item_amount_text))
+            priceIntegralPart.setTextColor(ContextCompat.getColor(itemView.context, R.color.gv_digital_invoice_line_item_gross_price_text))
+            priceFractionalPart.setTextColor(
+                    ContextCompat.getColor(itemView.context, R.color.gv_digital_invoice_line_item_gross_price_text))
         }
 
 
@@ -237,8 +238,8 @@ sealed class ViewHolder<in T>(itemView: View, val viewType: ViewType) :
     }
 
     class FooterViewHolder(itemView: View) : ViewHolder<Pair<String, String>>(itemView, Footer) {
-        private val integralPart = itemView.gv_amount_total_integral_part
-        private val fractionalPart = itemView.gv_amount_total_fractional_part
+        private val integralPart = itemView.gv_gross_price_total_integral_part
+        private val fractionalPart = itemView.gv_gross_price_total_fractional_part
 
         override fun bind(data: Pair<String, String>, allData: List<Pair<String, String>>?) {
             val (integral, fractional) = data
