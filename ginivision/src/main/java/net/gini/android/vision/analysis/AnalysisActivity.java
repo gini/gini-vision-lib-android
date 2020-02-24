@@ -229,7 +229,8 @@ public class AnalysisActivity extends AppCompatActivity implements
 
     private static final String ANALYSIS_FRAGMENT = "ANALYSIS_FRAGMENT";
 
-    private static final int RETURN_ASSISTANT_REQUEST = 1;
+    @VisibleForTesting
+    static final int RETURN_ASSISTANT_REQUEST = 1;
 
     private String mAnalysisErrorMessage;
     private Document mDocument;

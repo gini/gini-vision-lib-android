@@ -2,10 +2,10 @@ package net.gini.android.vision.digitalinvoice
 
 import android.app.Activity
 import com.google.common.truth.Truth.assertThat
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.spy
-import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.*
 import net.gini.android.vision.digitalinvoice.DigitalInvoiceScreenContract.View
+import net.gini.android.vision.network.model.GiniVisionCompoundExtraction
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -14,6 +14,7 @@ import org.mockito.Mock
 import org.mockito.Mockito.mock
 import org.mockito.MockitoAnnotations.initMocks
 import java.util.*
+import kotlin.random.Random
 
 
 /**
@@ -21,6 +22,13 @@ import java.util.*
  *
  * Copyright (c) 2019 Gini GmbH.
  */
+
+val mockLineItems = List(5) { i ->
+    LineItem(id = "$i",
+            description = "Nike Sportswear Air Max ${Random.nextInt(1, 50)} - Sneaker Low",
+            quantity = Random.nextInt(1, 5),
+            rawAmount = "${Random.nextInt(50)}.${Random.nextInt(9)}${Random.nextInt(9)}:EUR")
+}.map { SelectableLineItem(lineItem = it) }
 
 @RunWith(JUnit4::class)
 class DigitalInvoiceScreenPresenterTest {
@@ -167,6 +175,8 @@ class DigitalInvoiceScreenPresenterTest {
     fun `should update view when selecting a line item`() {
         // Given
         spy(DigitalInvoiceScreenPresenter(activity, view)).run {
+            lineItems = mockLineItems.map { it.copy() }
+
             // When
             selectLineItem(lineItems.first())
 
@@ -195,6 +205,8 @@ class DigitalInvoiceScreenPresenterTest {
         view = spy(ViewWithSelectedReturnReason("Item is not for me"))
 
         spy(DigitalInvoiceScreenPresenter(activity, view)).run {
+            lineItems = mockLineItems.map { it.copy() }
+
             // When
             deselectLineItem(lineItems.first())
 
@@ -209,6 +221,8 @@ class DigitalInvoiceScreenPresenterTest {
         view = spy(ViewWithSelectedReturnReason(null))
 
         spy(DigitalInvoiceScreenPresenter(activity, view)).run {
+            lineItems = mockLineItems.map { it.copy() }
+
             // When
             deselectLineItem(lineItems.first())
 
@@ -239,6 +253,8 @@ class DigitalInvoiceScreenPresenterTest {
     fun `should show return reason dialog when deselecting a line item`() {
         // Given
         DigitalInvoiceScreenPresenter(activity, view).run {
+            lineItems = mockLineItems.map { it.copy() }
+
             // When
             deselectLineItem(lineItems.first())
 
@@ -364,4 +380,260 @@ class DigitalInvoiceScreenPresenterTest {
             assertThat(lineItems.first().reason).isNull()
         }
     }
+
+    @Test
+    fun `should create LineItems from the 'lineItems' compound extraction`() {
+        // Given
+        val compoundExtractions =
+                mapOf("lineItems" to GiniVisionCompoundExtraction("lineItems",
+                        listOf(
+                                mapOf(
+                                        "description" to GiniVisionSpecificExtraction("description", "Foo Bar", "", null, emptyList()),
+                                        "grossPrice" to GiniVisionSpecificExtraction("grossPrice", "1.99:EUR", "", null, emptyList()),
+                                        "quantity" to GiniVisionSpecificExtraction("quantity", "2", "", null, emptyList())
+                                ),
+                                mapOf(
+                                        "description" to GiniVisionSpecificExtraction("description", "Bar Zoo", "", null, emptyList()),
+                                        "grossPrice" to GiniVisionSpecificExtraction("grossPrice", "2.99:EUR", "", null, emptyList()),
+                                        "quantity" to GiniVisionSpecificExtraction("quantity", "4", "", null, emptyList())
+                                )
+                        )
+                ))
+
+        // Then
+        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = compoundExtractions).run {
+            val specificExtractionMaps = compoundExtractions["lineItems"]?.specificExtractionMaps
+            lineItems[0].lineItem.run {
+                assertThat(description).isEqualTo(specificExtractionMaps?.get(0)?.get("description")?.value)
+                assertThat(rawAmount).isEqualTo(specificExtractionMaps?.get(0)?.get("grossPrice")?.value)
+                assertThat(quantity.toString()).isEqualTo(specificExtractionMaps?.get(0)?.get("quantity")?.value)
+            }
+            lineItems[1].lineItem.run {
+                assertThat(description).isEqualTo(specificExtractionMaps?.get(1)?.get("description")?.value)
+                assertThat(rawAmount).isEqualTo(specificExtractionMaps?.get(1)?.get("grossPrice")?.value)
+                assertThat(quantity.toString()).isEqualTo(specificExtractionMaps?.get(1)?.get("quantity")?.value)
+            }
+        }
+    }
+
+    @Test
+    fun `should return selected and deselected line items when the 'Pay' button was clicked`() {
+        // Given
+        val compoundExtractions =
+                mapOf("lineItems" to GiniVisionCompoundExtraction("lineItems",
+                        listOf(
+                                mapOf(
+                                        "description" to GiniVisionSpecificExtraction("description", "Foo Bar", "", null, emptyList()),
+                                        "grossPrice" to GiniVisionSpecificExtraction("grossPrice", "1.99:EUR", "", null, emptyList()),
+                                        "quantity" to GiniVisionSpecificExtraction("quantity", "2", "", null, emptyList())
+                                ),
+                                mapOf(
+                                        "description" to GiniVisionSpecificExtraction("description", "Bar Zoo", "", null, emptyList()),
+                                        "grossPrice" to GiniVisionSpecificExtraction("grossPrice", "2.99:EUR", "", null, emptyList()),
+                                        "quantity" to GiniVisionSpecificExtraction("quantity", "4", "", null, emptyList())
+                                )
+                        )
+                ))
+
+        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = compoundExtractions).run {
+            listener = mock(DigitalInvoiceFragmentListener::class.java)
+
+            lineItems[1].selected = false
+
+            // When
+            pay()
+
+            // Then
+            verify(listener)?.onPayInvoice(
+                    selectedLineItems = eq(listOf(lineItems[0].lineItem)),
+                    selectedLineItemsTotalPrice = any(),
+                    deselectedLineItems = eq(listOf(lineItems[1].lineItem)),
+                    reviewedCompoundExtractions = any(),
+                    reviewedExtractions = any())
+        }
+    }
+
+    @Test
+    fun `should return total price of selected line items when the 'Pay' button was clicked`() {
+        // Given
+        val compoundExtractions =
+                mapOf("lineItems" to GiniVisionCompoundExtraction("lineItems",
+                        listOf(
+                                mapOf(
+                                        "description" to GiniVisionSpecificExtraction("description", "Foo Bar", "", null, emptyList()),
+                                        "grossPrice" to GiniVisionSpecificExtraction("grossPrice", "1.99:EUR", "", null, emptyList()),
+                                        "quantity" to GiniVisionSpecificExtraction("quantity", "2", "", null, emptyList())
+                                ),
+                                mapOf(
+                                        "description" to GiniVisionSpecificExtraction("description", "Bar Zoo", "", null, emptyList()),
+                                        "grossPrice" to GiniVisionSpecificExtraction("grossPrice", "2.99:EUR", "", null, emptyList()),
+                                        "quantity" to GiniVisionSpecificExtraction("quantity", "4", "", null, emptyList())
+                                ),
+                                mapOf(
+                                        "description" to GiniVisionSpecificExtraction("description", "Bar Foo", "", null, emptyList()),
+                                        "grossPrice" to GiniVisionSpecificExtraction("grossPrice", "4.99:EUR", "", null, emptyList()),
+                                        "quantity" to GiniVisionSpecificExtraction("quantity", "1", "", null, emptyList())
+                                )
+                        )
+                ))
+
+        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = compoundExtractions).run {
+            listener = mock(DigitalInvoiceFragmentListener::class.java)
+
+            lineItems[0].selected = false
+
+            // When
+            pay()
+
+            // Then
+            verify(listener)?.onPayInvoice(
+                    selectedLineItems = any(),
+                    selectedLineItemsTotalPrice = eq("16.95:EUR"),
+                    deselectedLineItems = any(),
+                    reviewedCompoundExtractions = any(),
+                    reviewedExtractions = any())
+        }
+    }
+
+    @Test
+    fun `should update amount in extractions when the 'Pay' button was clicked`() {
+        // Given
+        val extractions = mapOf("amountToPay" to GiniVisionSpecificExtraction("amountToPay", "10.00:EUR", "", null, emptyList()))
+
+        val compoundExtractions =
+                mapOf("lineItems" to GiniVisionCompoundExtraction("lineItems",
+                        listOf(
+                                mapOf(
+                                        "description" to GiniVisionSpecificExtraction("description", "Foo Bar", "", null, emptyList()),
+                                        "grossPrice" to GiniVisionSpecificExtraction("grossPrice", "1.99:EUR", "", null, emptyList()),
+                                        "quantity" to GiniVisionSpecificExtraction("quantity", "2", "", null, emptyList())
+                                ),
+                                mapOf(
+                                        "description" to GiniVisionSpecificExtraction("description", "Bar Zoo", "", null, emptyList()),
+                                        "grossPrice" to GiniVisionSpecificExtraction("grossPrice", "2.99:EUR", "", null, emptyList()),
+                                        "quantity" to GiniVisionSpecificExtraction("quantity", "4", "", null, emptyList())
+                                ),
+                                mapOf(
+                                        "description" to GiniVisionSpecificExtraction("description", "Bar Foo", "", null, emptyList()),
+                                        "grossPrice" to GiniVisionSpecificExtraction("grossPrice", "4.99:EUR", "", null, emptyList()),
+                                        "quantity" to GiniVisionSpecificExtraction("quantity", "1", "", null, emptyList())
+                                )
+                        )
+                ))
+
+        DigitalInvoiceScreenPresenter(activity, view, extractions, compoundExtractions).run {
+            listener = mock(DigitalInvoiceFragmentListener::class.java)
+
+            lineItems[0].selected = false
+
+            // When
+            pay()
+
+            // Then
+            verify(listener)?.onPayInvoice(
+                    selectedLineItems = any(),
+                    selectedLineItemsTotalPrice = any(),
+                    deselectedLineItems = any(),
+                    reviewedCompoundExtractions = any(),
+                    reviewedExtractions = argThat { get("amountToPay")?.value?.equals("16.95:EUR") ?: false })
+        }
+    }
+
+    @Test
+    fun `should update the 'lineItems' compound extractions when the 'Pay' button was clicked`() {
+        // Given
+        val compoundExtractions =
+                mapOf("lineItems" to GiniVisionCompoundExtraction("lineItems",
+                        listOf(
+                                mapOf(
+                                        "description" to GiniVisionSpecificExtraction("description", "Foo Bar", "", null, emptyList()),
+                                        "grossPrice" to GiniVisionSpecificExtraction("grossPrice", "1.99:EUR", "", null, emptyList()),
+                                        "quantity" to GiniVisionSpecificExtraction("quantity", "2", "", null, emptyList())
+                                ),
+                                mapOf(
+                                        "description" to GiniVisionSpecificExtraction("description", "Bar Zoo", "", null, emptyList()),
+                                        "grossPrice" to GiniVisionSpecificExtraction("grossPrice", "2.99:EUR", "", null, emptyList()),
+                                        "quantity" to GiniVisionSpecificExtraction("quantity", "4", "", null, emptyList())
+                                ),
+                                mapOf(
+                                        "description" to GiniVisionSpecificExtraction("description", "Bar Foo", "", null, emptyList()),
+                                        "grossPrice" to GiniVisionSpecificExtraction("grossPrice", "4.99:EUR", "", null, emptyList()),
+                                        "quantity" to GiniVisionSpecificExtraction("quantity", "1", "", null, emptyList())
+                                )
+                        )
+                ))
+
+        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = compoundExtractions).run {
+            listener = mock(DigitalInvoiceFragmentListener::class.java)
+
+            lineItems[0].selected = false
+
+            lineItems = lineItems.mapIndexed { index, sli ->
+                if (index == 1) sli.copy(lineItem = sli.lineItem.copy(quantity = 2)) else sli
+            }
+
+            lineItems = lineItems.mapIndexed { index, sli ->
+                if (index == 2) sli.copy(lineItem = sli.lineItem.copy(rawAmount = "10.19:EUR")) else sli
+            }
+
+            // When
+            pay()
+
+            // Then
+            verify(listener)?.onPayInvoice(
+                    selectedLineItems = any(),
+                    selectedLineItemsTotalPrice = any(),
+                    deselectedLineItems = any(),
+                    reviewedCompoundExtractions = argThat {
+                        val specificExtractionMaps = get("lineItems")?.specificExtractionMaps
+                        specificExtractionMaps?.size == 2
+                                && specificExtractionMaps[0]["quantity"]?.value.equals("2") ?: false
+                                && specificExtractionMaps[1]["grossPrice"]?.value.equals("10.19:EUR") ?: false
+                    },
+                    reviewedExtractions = any())
+        }
+    }
+
+    @Test
+    fun `should return empty 'lineItems' compound extraction, if all line items were deselected, when the 'Pay' button was clicked`() {
+        // Given
+        val compoundExtractions =
+                mapOf("lineItems" to GiniVisionCompoundExtraction("lineItems",
+                        listOf(
+                                mapOf(
+                                        "description" to GiniVisionSpecificExtraction("description", "Foo Bar", "", null, emptyList()),
+                                        "grossPrice" to GiniVisionSpecificExtraction("grossPrice", "1.99:EUR", "", null, emptyList()),
+                                        "quantity" to GiniVisionSpecificExtraction("quantity", "2", "", null, emptyList())
+                                ),
+                                mapOf(
+                                        "description" to GiniVisionSpecificExtraction("description", "Bar Zoo", "", null, emptyList()),
+                                        "grossPrice" to GiniVisionSpecificExtraction("grossPrice", "2.99:EUR", "", null, emptyList()),
+                                        "quantity" to GiniVisionSpecificExtraction("quantity", "4", "", null, emptyList())
+                                ),
+                                mapOf(
+                                        "description" to GiniVisionSpecificExtraction("description", "Bar Foo", "", null, emptyList()),
+                                        "grossPrice" to GiniVisionSpecificExtraction("grossPrice", "4.99:EUR", "", null, emptyList()),
+                                        "quantity" to GiniVisionSpecificExtraction("quantity", "1", "", null, emptyList())
+                                )
+                        )
+                ))
+
+        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = compoundExtractions).run {
+            listener = mock(DigitalInvoiceFragmentListener::class.java)
+
+            lineItems.forEach { it.selected = false }
+
+            // When
+            pay()
+
+            // Then
+            verify(listener)?.onPayInvoice(
+                    selectedLineItems = any(),
+                    selectedLineItemsTotalPrice = any(),
+                    deselectedLineItems = any(),
+                    reviewedCompoundExtractions = argThat { get("lineItems")?.specificExtractionMaps?.size == 0 },
+                    reviewedExtractions = any())
+        }
+    }
+
 }

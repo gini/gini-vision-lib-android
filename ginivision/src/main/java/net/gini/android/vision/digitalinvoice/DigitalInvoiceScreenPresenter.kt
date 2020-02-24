@@ -149,9 +149,9 @@ fun updateCompoundExtractions(compoundExtractions: Map<String, GiniVisionCompoun
                             selectedlineItems.find { it.id.toInt() == index }?.let { lineItem ->
                                 lineItemExtractions.mapValues { (name, lineItemExtraction) ->
                                     when (name) {
-                                        "description" -> GiniVisionSpecificExtraction(lineItemExtraction, lineItem.description)
-                                        "grossPrice" -> GiniVisionSpecificExtraction(lineItemExtraction, lineItem.rawAmount)
-                                        "quantity" -> GiniVisionSpecificExtraction(lineItemExtraction, lineItem.quantity.toString())
+                                        "description" -> copyGiniVisionSpecificExtraction(lineItemExtraction, lineItem.description)
+                                        "grossPrice" -> copyGiniVisionSpecificExtraction(lineItemExtraction, lineItem.rawAmount)
+                                        "quantity" -> copyGiniVisionSpecificExtraction(lineItemExtraction, lineItem.quantity.toString())
                                         else -> lineItemExtraction
                                     }
                                 }
@@ -165,12 +165,11 @@ fun updateExtractions(extractions: Map<String, GiniVisionSpecificExtraction>,
                       totalPrice: String) =
         extractions.mapValues { (name, extraction) ->
             when (name) {
-                "amountToPay" -> GiniVisionSpecificExtraction(extraction, totalPrice)
+                "amountToPay" -> copyGiniVisionSpecificExtraction(extraction, totalPrice)
                 else -> extraction
             }
         }
 
 @JvmSynthetic
-fun GiniVisionSpecificExtraction(other: GiniVisionSpecificExtraction,
-                                 value: String) =
+fun copyGiniVisionSpecificExtraction(other: GiniVisionSpecificExtraction, value: String) =
         GiniVisionSpecificExtraction(other.name, value, other.entity, other.box, other.candidates)
