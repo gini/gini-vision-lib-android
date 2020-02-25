@@ -19,6 +19,7 @@ import net.gini.android.vision.internal.network.AnalysisNetworkRequestResult;
 import net.gini.android.vision.internal.network.NetworkRequestResult;
 import net.gini.android.vision.internal.network.NetworkRequestsManager;
 import net.gini.android.vision.network.AnalysisResult;
+import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
 import org.junit.After;
@@ -222,7 +223,7 @@ public class AnalysisInteractorTest {
                 multiPageDocument = mock(GiniVisionMultiPageDocument.class);
 
         final AnalysisResult analysisResult = new AnalysisResult("apiDocumentId",
-                Collections.<String, GiniVisionSpecificExtraction>emptyMap());
+                Collections.<String, GiniVisionSpecificExtraction>emptyMap(), Collections.<String, GiniVisionCompoundExtraction>emptyMap());
 
         final NetworkRequestsManager networkRequestsManager = createtNetworkRequestsManager(
                 analysisResult);
@@ -272,7 +273,7 @@ public class AnalysisInteractorTest {
         extractions.put("paymentReference", mock(GiniVisionSpecificExtraction.class));
 
         final AnalysisResult analysisResult = new AnalysisResult("apiDocumentId",
-                extractions);
+                extractions, Collections.<String, GiniVisionCompoundExtraction>emptyMap());
 
         final NetworkRequestsManager networkRequestsManager = createtNetworkRequestsManager(
                 analysisResult);
