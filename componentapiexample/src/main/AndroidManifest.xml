@@ -80,6 +80,12 @@
         <activity
             android:name="net.gini.android.vision.component.ExtractionsActivity"
             android:theme="@style/AppThemeCompat" />
+        <activity
+            android:name="net.gini.android.vision.component.digitalinvoice.DigitalInvoiceExampleActivity"
+            android:theme="@style/AppThemeCompat.NoActionBar" />
+        <activity
+            android:name="net.gini.android.vision.component.digitalinvoice.details.LineItemDetailsExampleActivity"
+            android:theme="@style/AppThemeCompat.NoActionBar" />
     </application>
 
 </manifest>
