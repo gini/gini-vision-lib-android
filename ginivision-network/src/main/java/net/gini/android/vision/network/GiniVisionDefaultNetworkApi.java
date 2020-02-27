@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import net.gini.android.DocumentTaskManager;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.internal.camera.api.UIExecutor;
+import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.network.model.SpecificExtractionMapper;
 
@@ -105,6 +106,13 @@ public class GiniVisionDefaultNetworkApi implements GiniVisionNetworkApi {
             LOG.error("Send feedback failed: no Gini Api Document available");
             callback.failure(new Error("Feedback not set: no Gini Api Document available"));
         }
+    }
+
+    @Override
+    public void sendFeedback(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
+            @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions,
+            @NonNull final GiniVisionNetworkCallback<Void, Error> callback) {
+        throw new UnsupportedOperationException("Sending feedback for compound extractions is not possible yet.");
     }
 
     @Override

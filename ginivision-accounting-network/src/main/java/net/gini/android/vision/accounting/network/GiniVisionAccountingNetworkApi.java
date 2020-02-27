@@ -9,6 +9,7 @@ import net.gini.android.vision.internal.camera.api.UIExecutor;
 import net.gini.android.vision.network.Error;
 import net.gini.android.vision.network.GiniVisionNetworkApi;
 import net.gini.android.vision.network.GiniVisionNetworkCallback;
+import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
 import org.json.JSONException;
@@ -108,6 +109,13 @@ public class GiniVisionAccountingNetworkApi implements GiniVisionNetworkApi {
             LOG.error("Send feedback failed: no Gini Api Document available");
             callback.failure(new Error("Feedback not set: no Gini Api Document available"));
         }
+    }
+
+    @Override
+    public void sendFeedback(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
+            @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions,
+            @NonNull final GiniVisionNetworkCallback<Void, Error> callback) {
+        throw new UnsupportedOperationException("Sending feedback for compound extractions is not possible yet.");
     }
 
     @Override

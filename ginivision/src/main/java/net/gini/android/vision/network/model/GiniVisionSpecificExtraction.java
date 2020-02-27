@@ -98,11 +98,11 @@ public class GiniVisionSpecificExtraction extends GiniVisionExtraction {
      * @return a list containing other candidates for this specific extraction
      */
     @NonNull
-    public List<GiniVisionExtraction> getCandidate() {
+    public List<GiniVisionExtraction> getCandidates() {
         return mCandidates;
     }
 
-
+    @NonNull
     @Override
     public String toString() {
         return "GiniVisionSpecificExtraction{"

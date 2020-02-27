@@ -15,10 +15,12 @@ import net.gini.android.SdkBuilder;
 import net.gini.android.authorization.CredentialsStore;
 import net.gini.android.authorization.SessionManager;
 import net.gini.android.authorization.SharedPreferencesCredentialsStore;
-import net.gini.android.models.SpecificExtraction;
+import net.gini.android.models.ExtractionsContainer;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.document.GiniVisionMultiPageDocument;
+import net.gini.android.vision.network.model.CompoundExtractionsMapper;
+import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.network.model.SpecificExtractionMapper;
 import net.gini.android.vision.util.CancellationToken;
@@ -224,9 +226,9 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                         })
                 .onSuccessTask(
                         new Continuation<net.gini.android.models.Document,
-                                Task<Map<String, SpecificExtraction>>>() {
+                                Task<ExtractionsContainer>>() {
                             @Override
-                            public Task<Map<String, SpecificExtraction>> then(
+                            public Task<ExtractionsContainer> then(
                                     final Task<net.gini.android.models.Document> task)
                                     throws Exception {
                                 if (isCancelled.get()) {
@@ -243,15 +245,15 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                                             giniApiDocumentIdRotationMap);
                                     return Task.cancelled();
                                 }
-                                return mGiniApi.getDocumentTaskManager().getExtractions(
+                                return mGiniApi.getDocumentTaskManager().getAllExtractions(
                                         giniApiDocument);
                             }
                         })
                 .continueWith(
-                        new Continuation<Map<String, SpecificExtraction>, Void>() {
+                        new Continuation<ExtractionsContainer, Void>() {
                             @Override
                             public Void then(
-                                    final Task<Map<String, SpecificExtraction>> task)
+                                    final Task<ExtractionsContainer> task)
                                     throws Exception {
                                 if (task.isFaulted()) {
                                     final Error error = new Error(getTaskErrorMessage(task));
@@ -261,12 +263,14 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                                 } else if (task.getResult() != null) {
                                     mAnalyzedGiniApiDocument = compositeDocument.get();
                                     final Map<String, GiniVisionSpecificExtraction> extractions =
-                                            SpecificExtractionMapper.mapToGVL(task.getResult());
-                                    LOG.debug("Document analysis success for documents {}: {}",
-                                            giniApiDocumentIdRotationMap, extractions);
+                                            SpecificExtractionMapper.mapToGVL(task.getResult().getSpecificExtractions());
+                                    final Map<String, GiniVisionCompoundExtraction> compoundExtractions =
+                                            CompoundExtractionsMapper.mapToGVL(task.getResult().getCompoundExtractions());
+                                    LOG.debug("Document analysis success for documents {}: extractions = {}; compoundExtractions = {}",
+                                            giniApiDocumentIdRotationMap, extractions, compoundExtractions);
                                     callback.success(
                                             new AnalysisResult(compositeDocument.get().getId(),
-                                                    extractions));
+                                                    extractions, compoundExtractions));
                                 } else {
                                     LOG.debug("Document analysis cancelled for documents {}",
                                             giniApiDocumentIdRotationMap);
