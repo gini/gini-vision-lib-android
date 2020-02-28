@@ -19,28 +19,28 @@ class Event<T : Enum<T>>(val type: T,
                          val details: Map<String, String> = emptyMap())
 
 @JvmOverloads
-fun trackOnboardingScreenEvent(event: OnboardingScreenEvent, details: Map<String, String> = emptyMap()) {
+internal fun trackOnboardingScreenEvent(event: OnboardingScreenEvent, details: Map<String, String> = emptyMap()) {
     if (GiniVision.hasInstance()) {
         GiniVision.getInstance().eventTracker.onOnboardingScreenEvent(Event(event, details))
     }
 }
 
 @JvmOverloads
-fun trackCameraScreenEvent(event: CameraScreenEvent, details: Map<String, String> = emptyMap()) {
+internal fun trackCameraScreenEvent(event: CameraScreenEvent, details: Map<String, String> = emptyMap()) {
     if (GiniVision.hasInstance()) {
         GiniVision.getInstance().eventTracker.onCameraScreenEvent(Event(event, details))
     }
 }
 
 @JvmOverloads
-fun trackReviewScreenEvent(event: ReviewScreenEvent, details: Map<String, String> = emptyMap()) {
+internal fun trackReviewScreenEvent(event: ReviewScreenEvent, details: Map<String, String> = emptyMap()) {
     if (GiniVision.hasInstance()) {
         GiniVision.getInstance().eventTracker.onReviewScreenEvent(Event(event, details))
     }
 }
 
 @JvmOverloads
-fun trackAnalysisScreenEvent(event: AnalysisScreenEvent, details: Map<String, String> = emptyMap()) {
+internal fun trackAnalysisScreenEvent(event: AnalysisScreenEvent, details: Map<String, String> = emptyMap()) {
     if (GiniVision.hasInstance()) {
         GiniVision.getInstance().eventTracker.onAnalysisScreenEvent(Event(event, details))
     }
