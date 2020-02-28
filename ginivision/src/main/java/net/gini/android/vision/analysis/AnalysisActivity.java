@@ -1,6 +1,7 @@
 package net.gini.android.vision.analysis;
 
 import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
+import static net.gini.android.vision.tracking.EventTrackerKt.trackAnalysisScreenEvent;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.noresults.NoResultsActivity;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.review.ReviewActivity;
+import net.gini.android.vision.tracking.AnalysisScreenEvent;
 
 import java.util.Map;
 
@@ -334,6 +336,12 @@ public class AnalysisActivity extends AppCompatActivity implements
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        trackAnalysisScreenEvent(AnalysisScreenEvent.CANCEL);
     }
 
     @Override
