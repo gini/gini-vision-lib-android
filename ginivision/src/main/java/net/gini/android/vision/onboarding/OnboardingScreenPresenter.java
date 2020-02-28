@@ -99,6 +99,7 @@ class OnboardingScreenPresenter extends OnboardingScreenContract.Presenter {
                         @Override
                         public void run() {
                             mListener.onCloseOnboarding();
+                            trackOnboardingScreenEvent(OnboardingScreenEvent.FINISH);
                         }
                     });
         }
