@@ -1,12 +1,14 @@
 package net.gini.android.vision.onboarding;
 
 import static net.gini.android.vision.internal.util.ContextHelper.isTablet;
+import static net.gini.android.vision.tracking.EventTrackerKt.trackOnboardingScreenEvent;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.tracking.OnboardingScreenEvent;
 
 import java.util.List;
 
@@ -68,6 +70,7 @@ class OnboardingScreenPresenter extends OnboardingScreenContract.Presenter {
     void showNextPage() {
         if (isOnLastPage()) {
             mListener.onCloseOnboarding();
+            trackOnboardingScreenEvent(OnboardingScreenEvent.FINISH);
         } else {
             scrollToNextPage();
         }
@@ -111,6 +114,7 @@ class OnboardingScreenPresenter extends OnboardingScreenContract.Presenter {
         mCurrentPageIndex = 0;
         getView().scrollToPage(mCurrentPageIndex);
         getView().activatePageIndicatorForPage(mCurrentPageIndex);
+        trackOnboardingScreenEvent(OnboardingScreenEvent.START);
     }
 
     @Override
