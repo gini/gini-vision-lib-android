@@ -14,6 +14,7 @@ import static net.gini.android.vision.internal.util.ContextHelper.isTablet;
 import static net.gini.android.vision.internal.util.FeatureConfiguration.getDocumentImportEnabledFileTypes;
 import static net.gini.android.vision.internal.util.FeatureConfiguration.isMultiPageEnabled;
 import static net.gini.android.vision.internal.util.FeatureConfiguration.isQRCodeScanningEnabled;
+import static net.gini.android.vision.tracking.EventTrackerKt.trackCameraScreenEvent;
 
 import android.Manifest;
 import android.app.Activity;
@@ -90,6 +91,7 @@ import net.gini.android.vision.internal.util.MimeType;
 import net.gini.android.vision.internal.util.Size;
 import net.gini.android.vision.network.model.GiniVisionExtraction;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
+import net.gini.android.vision.tracking.CameraScreenEvent;
 import net.gini.android.vision.util.IntentHelper;
 import net.gini.android.vision.util.UriHelper;
 
@@ -840,6 +842,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                                 mUIExecutor.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
+                                        trackCameraScreenEvent(CameraScreenEvent.TAKE_PICTURE);
                                         onPictureTaken(photo, throwable);
                                     }
                                 });

@@ -3,6 +3,7 @@ package net.gini.android.vision.camera;
 import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
 import static net.gini.android.vision.internal.util.FeatureConfiguration.shouldShowOnboarding;
 import static net.gini.android.vision.internal.util.FeatureConfiguration.shouldShowOnboardingAtFirstRun;
+import static net.gini.android.vision.tracking.EventTrackerKt.trackCameraScreenEvent;
 
 import android.app.Activity;
 import android.content.Context;
@@ -33,6 +34,7 @@ import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.review.ReviewActivity;
 import net.gini.android.vision.review.multipage.MultiPageReviewActivity;
+import net.gini.android.vision.tracking.CameraScreenEvent;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -659,11 +661,18 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        trackCameraScreenEvent(CameraScreenEvent.EXIT);
+    }
+
     private void startHelpActivity() {
         final Intent intent = new Intent(this, HelpActivity.class);
         intent.putExtra(HelpActivity.EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION,
                 mGiniVisionFeatureConfiguration);
         startActivity(intent);
+        trackCameraScreenEvent(CameraScreenEvent.HELP);
     }
 
     @VisibleForTesting
