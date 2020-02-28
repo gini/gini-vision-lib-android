@@ -1,6 +1,7 @@
 package net.gini.android.vision.review;
 
 import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
+import static net.gini.android.vision.tracking.EventTrackerKt.trackReviewScreenEvent;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -23,6 +24,7 @@ import net.gini.android.vision.network.GiniVisionNetworkService;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.noresults.NoResultsActivity;
 import net.gini.android.vision.onboarding.OnboardingActivity;
+import net.gini.android.vision.tracking.ReviewScreenEvent;
 
 import java.util.Map;
 
@@ -241,6 +243,12 @@ public class ReviewActivity extends AppCompatActivity implements ReviewFragmentL
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        trackReviewScreenEvent(ReviewScreenEvent.BACK);
     }
 
     @Override
