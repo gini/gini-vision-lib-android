@@ -109,7 +109,8 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     private ProgressBar mActivityIndicator;
 
     private final FragmentImplCallback mFragment;
-    private Photo mPhoto;
+    @VisibleForTesting
+    Photo mPhoto;
     private ImageDocument mDocument;
     private ReviewFragmentListener mListener = NO_OP_LISTENER;
     private boolean mDocumentWasUploaded;
@@ -608,7 +609,8 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         }
     }
 
-    private void onNextClicked() {
+    @VisibleForTesting
+    void onNextClicked() {
         trackReviewScreenEvent(ReviewScreenEvent.NEXT);
         mNextClicked = true;
         if (!mDocumentWasModified) {
