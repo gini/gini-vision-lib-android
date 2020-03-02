@@ -105,6 +105,7 @@ pipeline {
                 }
             }
             steps {
+                script {
                     def emulatorPort = emulator.start(avd.createName("api-25-pixel"), "pixel", "-prop persist.sys.language=en -prop persist.sys.country=US -gpu host -camera-back emulated -no-snapshot")
                     sh "echo $emulatorPort > emulator_port"
                     adb.setAnimationDurationScale("emulator-$emulatorPort", 0)
