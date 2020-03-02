@@ -2,6 +2,7 @@ package net.gini.android.vision.review.multipage;
 
 import static net.gini.android.vision.analysis.AnalysisActivity.RESULT_NO_EXTRACTIONS;
 import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
+import static net.gini.android.vision.tracking.EventTrackerKt.trackReviewScreenEvent;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,6 +19,7 @@ import net.gini.android.vision.camera.CameraActivity;
 import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.review.ReviewActivity;
+import net.gini.android.vision.tracking.ReviewScreenEvent;
 
 import java.util.List;
 
@@ -259,6 +261,12 @@ public class MultiPageReviewActivity extends AppCompatActivity implements
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        trackReviewScreenEvent(ReviewScreenEvent.BACK);
     }
 
     @Override

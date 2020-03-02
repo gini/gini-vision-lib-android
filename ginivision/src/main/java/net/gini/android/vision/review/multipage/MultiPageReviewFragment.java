@@ -7,6 +7,7 @@ import static net.gini.android.vision.internal.util.FileImportHelper.showAlertIf
 import static net.gini.android.vision.review.multipage.previews.PreviewFragment.ErrorButtonAction.DELETE;
 import static net.gini.android.vision.review.multipage.previews.PreviewFragment.ErrorButtonAction.RETRY;
 import static net.gini.android.vision.review.multipage.thumbnails.ThumbnailsAdapter.getNewPositionAfterDeletion;
+import static net.gini.android.vision.tracking.EventTrackerKt.trackReviewScreenEvent;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -52,6 +53,7 @@ import net.gini.android.vision.review.multipage.previews.PreviewsPageChangeListe
 import net.gini.android.vision.review.multipage.thumbnails.ThumbnailsAdapter;
 import net.gini.android.vision.review.multipage.thumbnails.ThumbnailsAdapterListener;
 import net.gini.android.vision.review.multipage.thumbnails.ThumbnailsTouchHelperCallback;
+import net.gini.android.vision.tracking.ReviewScreenEvent;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -513,6 +515,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     }
 
     private void onNextButtonClicked() {
+        trackReviewScreenEvent(ReviewScreenEvent.NEXT);
         mNextClicked = true;
         mListener.onProceedToAnalysisScreen(mMultiPageDocument);
     }
