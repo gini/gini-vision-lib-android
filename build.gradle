@@ -55,8 +55,8 @@ ext {
 
 def supportLibVersion = '28.0.0'
 def mockitoVersion = '2.24.5'
-def androidxTestVersion = '1.2.0-beta01'
-def espressoVersion = '3.2.0-beta01'
+def androidxTestVersion = '1.2.0'
+def espressoVersion = '3.2.0'
 
 ext.deps = [
         // Android
@@ -78,9 +78,10 @@ ext.deps = [
         junit                      : 'junit:junit:4.12',
         truth                      : 'com.google.truth:truth:0.28',
         mockito                    : "org.mockito:mockito-core:$mockitoVersion",
+        mockitoKotlin              : "com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0",
         mockitoAndroid             : "org.mockito:mockito-android:$mockitoVersion",
         androidxTestCore           : "androidx.test:core:$androidxTestVersion",
-        androidxTestJUnit          : 'androidx.test.ext:junit:1.1.1-beta01',
+        androidxTestJUnit          : 'androidx.test.ext:junit:1.1.1',
         androidxTestRunner         : "androidx.test:runner:$androidxTestVersion",
         androidxTestRules          : "androidx.test:rules:$androidxTestVersion",
         androidxTestOrchestrator   : "androidx.test:orchestrator:$androidxTestVersion",

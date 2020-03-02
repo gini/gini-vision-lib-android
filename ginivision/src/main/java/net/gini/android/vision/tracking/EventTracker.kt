@@ -1,6 +1,7 @@
 package net.gini.android.vision.tracking
 
 import net.gini.android.vision.GiniVision
+import java.util.*
 
 /**
  * Created by Alpar Szotyori on 27.02.2020.
@@ -15,8 +16,19 @@ interface EventTracker {
     fun onAnalysisScreenEvent(event: Event<AnalysisScreenEvent>)
 }
 
-class Event<T : Enum<T>>(val type: T,
-                         val details: Map<String, String> = emptyMap())
+class Event<T : Enum<T>> @JvmOverloads constructor(val type: T,
+                                                   val details: Map<String, String> = emptyMap()) {
+
+    override fun equals(other: Any?) = other is Event<*>
+            && type == other.type
+            && details == other.details
+
+    override fun hashCode() = Objects.hash(type, details)
+
+    override fun toString(): String {
+        return "Event(type=$type, details=$details)"
+    }
+}
 
 @JvmOverloads
 internal fun trackOnboardingScreenEvent(event: OnboardingScreenEvent, details: Map<String, String> = emptyMap()) {
