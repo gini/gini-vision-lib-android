@@ -821,34 +821,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         mButtonCameraTrigger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                LOG.info("Taking picture");
-                if (exceedsMultiPageLimit()) {
-                    showMultiPageLimitError();
-                    return;
-                }
-                if (!mCameraController.isPreviewRunning()) {
-                    LOG.info("Will not take picture: preview must be running");
-                    return;
-                }
-                if (mIsTakingPicture) {
-                    LOG.info("Already taking a picture");
-                    return;
-                }
-                mIsTakingPicture = true;
-                mCameraController.takePicture()
-                        .handle(new CompletableFuture.BiFun<Photo, Throwable, Void>() {
-                            @Override
-                            public Void apply(final Photo photo, final Throwable throwable) {
-                                mUIExecutor.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        trackCameraScreenEvent(CameraScreenEvent.TAKE_PICTURE);
-                                        onPictureTaken(photo, throwable);
-                                    }
-                                });
-                                return null;
-                            }
-                        });
+                onCameraTriggerClicked();
             }
         });
         mButtonCameraFlash.setOnClickListener(new View.OnClickListener() {
@@ -885,6 +858,38 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 mListener.onProceedToMultiPageReviewScreen(mMultiPageDocument);
             }
         });
+    }
+
+    @VisibleForTesting
+    void onCameraTriggerClicked() {
+        LOG.info("Taking picture");
+        if (exceedsMultiPageLimit()) {
+            showMultiPageLimitError();
+            return;
+        }
+        if (!mCameraController.isPreviewRunning()) {
+            LOG.info("Will not take picture: preview must be running");
+            return;
+        }
+        if (mIsTakingPicture) {
+            LOG.info("Already taking a picture");
+            return;
+        }
+        mIsTakingPicture = true;
+        mCameraController.takePicture()
+                .handle(new CompletableFuture.BiFun<Photo, Throwable, Void>() {
+                    @Override
+                    public Void apply(final Photo photo, final Throwable throwable) {
+                        mUIExecutor.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                trackCameraScreenEvent(CameraScreenEvent.TAKE_PICTURE);
+                                onPictureTaken(photo, throwable);
+                            }
+                        });
+                        return null;
+                    }
+                });
     }
 
     private void handlePaymentQRCodeData() {
@@ -1819,7 +1824,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         ApplicationHelper.startApplicationDetailsSettings(activity);
     }
 
-    private void initCameraController(final Activity activity) {
+    @VisibleForTesting
+    void initCameraController(final Activity activity) {
         if (mCameraController == null) {
             LOG.debug("CameraController created");
             mCameraController = createCameraController(activity);
