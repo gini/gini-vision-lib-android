@@ -2,14 +2,11 @@ package net.gini.android.vision.onboarding;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
-
-import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
 import android.app.Activity;
 import android.content.res.Resources;
@@ -18,6 +15,7 @@ import android.support.annotation.NonNull;
 import com.google.common.collect.Lists;
 
 import net.gini.android.vision.GiniVision;
+import net.gini.android.vision.GiniVisionHelper;
 import net.gini.android.vision.R;
 import net.gini.android.vision.tracking.Event;
 import net.gini.android.vision.tracking.EventTracker;
@@ -27,11 +25,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 import org.mockito.Mock;
 
 import java.util.List;
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 import jersey.repackaged.jsr166e.CompletableFuture;
 
 /**
@@ -40,7 +38,7 @@ import jersey.repackaged.jsr166e.CompletableFuture;
  * Copyright (c) 2019 Gini GmbH.
  */
 
-@RunWith(AndroidJUnit4.class)
+@RunWith(JUnit4.class)
 public class OnboardingScreenPresenterTest {
 
     @Mock
@@ -55,7 +53,7 @@ public class OnboardingScreenPresenterTest {
 
     @After
     public void tearDown() {
-        GiniVision.cleanup(getInstrumentation().getTargetContext());
+        GiniVisionHelper.setGiniVisionInstance(null);
     }
 
     @Test
@@ -268,7 +266,7 @@ public class OnboardingScreenPresenterTest {
         presenter.showNextPage();
 
         // Then
-        verify(eventTracker).onOnboardingScreenEvent(eq(new Event<>(OnboardingScreenEvent.FINISH)));
+        verify(eventTracker).onOnboardingScreenEvent(new Event<>(OnboardingScreenEvent.FINISH));
     }
 
     @Test
@@ -286,7 +284,7 @@ public class OnboardingScreenPresenterTest {
         presenter.onScrolledToPage(DefaultPagesPhone.asArrayList().size());
 
         // Then
-        verify(eventTracker).onOnboardingScreenEvent(eq(new Event<>(OnboardingScreenEvent.FINISH)));
+        verify(eventTracker).onOnboardingScreenEvent(new Event<>(OnboardingScreenEvent.FINISH));
     }
 
     @Test
@@ -301,6 +299,6 @@ public class OnboardingScreenPresenterTest {
         presenter.start();
 
         // Then
-        verify(eventTracker).onOnboardingScreenEvent(eq(new Event<>(OnboardingScreenEvent.START)));
+        verify(eventTracker).onOnboardingScreenEvent(new Event<>(OnboardingScreenEvent.START));
     }
 }
