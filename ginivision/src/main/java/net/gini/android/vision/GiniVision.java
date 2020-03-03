@@ -481,7 +481,7 @@ public class GiniVision {
     }
 
     @NonNull
-    public EventTracker getEventTracker() {
+    EventTracker getEventTracker() {
         return mEventTracker;
     }
 
@@ -803,6 +803,14 @@ public class GiniVision {
             return mIsFlashOnByDefault;
         }
 
+        /**
+         * Set the {@link EventTracker} instance which will be called from the different screens to inform you about the various events
+         * which can occur during the usage of the Gini Vision Library.
+         *
+         * @param eventTracker an {@link EventTracker} instance
+         *
+         * @return the {@link Builder} instance
+         */
         public Builder setEventTracker(@NonNull final EventTracker eventTracker) {
             mEventTracker = eventTracker;
             return this;
@@ -850,6 +858,10 @@ public class GiniVision {
 
         public ImageMultiPageDocumentMemoryStore getImageMultiPageDocumentMemoryStore() {
             return mGiniVision.getImageMultiPageDocumentMemoryStore();
+        }
+
+        public EventTracker getEventTracker() {
+            return mGiniVision.getEventTracker();
         }
     }
 
