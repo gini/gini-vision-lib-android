@@ -3,7 +3,7 @@ package net.gini.android.vision.review;
 import static net.gini.android.vision.internal.network.NetworkRequestsManager.isCancellation;
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 import static net.gini.android.vision.internal.util.FileImportHelper.showAlertIfOpenWithDocumentAndAppIsDefault;
-import static net.gini.android.vision.tracking.EventTrackerKt.trackReviewScreenEvent;
+import static net.gini.android.vision.tracking.EventTrackingHelper.trackReviewScreenEvent;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;

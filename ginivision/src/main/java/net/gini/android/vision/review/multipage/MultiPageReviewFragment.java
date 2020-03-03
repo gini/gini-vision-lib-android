@@ -7,7 +7,7 @@ import static net.gini.android.vision.internal.util.FileImportHelper.showAlertIf
 import static net.gini.android.vision.review.multipage.previews.PreviewFragment.ErrorButtonAction.DELETE;
 import static net.gini.android.vision.review.multipage.previews.PreviewFragment.ErrorButtonAction.RETRY;
 import static net.gini.android.vision.review.multipage.thumbnails.ThumbnailsAdapter.getNewPositionAfterDeletion;
-import static net.gini.android.vision.tracking.EventTrackerKt.trackReviewScreenEvent;
+import static net.gini.android.vision.tracking.EventTrackingHelper.trackReviewScreenEvent;
 
 import android.app.Activity;
 import android.content.DialogInterface;

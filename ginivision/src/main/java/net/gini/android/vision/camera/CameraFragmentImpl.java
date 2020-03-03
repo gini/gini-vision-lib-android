@@ -14,7 +14,7 @@ import static net.gini.android.vision.internal.util.ContextHelper.isTablet;
 import static net.gini.android.vision.internal.util.FeatureConfiguration.getDocumentImportEnabledFileTypes;
 import static net.gini.android.vision.internal.util.FeatureConfiguration.isMultiPageEnabled;
 import static net.gini.android.vision.internal.util.FeatureConfiguration.isQRCodeScanningEnabled;
-import static net.gini.android.vision.tracking.EventTrackerKt.trackCameraScreenEvent;
+import static net.gini.android.vision.tracking.EventTrackingHelper.trackCameraScreenEvent;
 
 import android.Manifest;
 import android.app.Activity;

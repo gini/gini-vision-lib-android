@@ -1,7 +1,7 @@
 package net.gini.android.vision.onboarding;
 
 import static net.gini.android.vision.internal.util.ContextHelper.isTablet;
-import static net.gini.android.vision.tracking.EventTrackerKt.trackOnboardingScreenEvent;
+import static net.gini.android.vision.tracking.EventTrackingHelper.trackOnboardingScreenEvent;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;

@@ -2,7 +2,7 @@ package net.gini.android.vision.review.multipage;
 
 import static net.gini.android.vision.analysis.AnalysisActivity.RESULT_NO_EXTRACTIONS;
 import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
-import static net.gini.android.vision.tracking.EventTrackerKt.trackReviewScreenEvent;
+import static net.gini.android.vision.tracking.EventTrackingHelper.trackReviewScreenEvent;
 
 import android.app.Activity;
 import android.content.Context;

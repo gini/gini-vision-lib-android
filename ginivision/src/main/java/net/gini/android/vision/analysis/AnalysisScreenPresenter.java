@@ -1,6 +1,6 @@
 package net.gini.android.vision.analysis;
 
-import static net.gini.android.vision.tracking.EventTrackerKt.trackAnalysisScreenEvent;
+import static net.gini.android.vision.tracking.EventTrackingHelper.trackAnalysisScreenEvent;
 
 import static java.util.Collections.singletonMap;
 

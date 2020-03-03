@@ -1,7 +1,7 @@
 package net.gini.android.vision.review;
 
 import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
-import static net.gini.android.vision.tracking.EventTrackerKt.trackReviewScreenEvent;
+import static net.gini.android.vision.tracking.EventTrackingHelper.trackReviewScreenEvent;
 
 import android.app.Activity;
 import android.content.Intent;

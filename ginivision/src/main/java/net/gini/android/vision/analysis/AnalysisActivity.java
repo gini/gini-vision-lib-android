@@ -1,7 +1,7 @@
 package net.gini.android.vision.analysis;
 
 import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
-import static net.gini.android.vision.tracking.EventTrackerKt.trackAnalysisScreenEvent;
+import static net.gini.android.vision.tracking.EventTrackingHelper.trackAnalysisScreenEvent;
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -3,7 +3,7 @@ package net.gini.android.vision.camera;
 import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
 import static net.gini.android.vision.internal.util.FeatureConfiguration.shouldShowOnboarding;
 import static net.gini.android.vision.internal.util.FeatureConfiguration.shouldShowOnboardingAtFirstRun;
-import static net.gini.android.vision.tracking.EventTrackerKt.trackCameraScreenEvent;
+import static net.gini.android.vision.tracking.EventTrackingHelper.trackCameraScreenEvent;
 
 import android.app.Activity;
 import android.content.Context;

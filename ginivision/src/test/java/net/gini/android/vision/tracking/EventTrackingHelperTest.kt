@@ -1,12 +1,13 @@
 package net.gini.android.vision.tracking
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import com.nhaarman.mockitokotlin2.*
 import net.gini.android.vision.GiniVision
+import net.gini.android.vision.GiniVisionHelper
+import net.gini.android.vision.tracking.EventTrackingHelper.*
 import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
 
 /**
  * Created by Alpar Szotyori on 02.03.2020.
@@ -14,12 +15,12 @@ import org.junit.runner.RunWith
  * Copyright (c) 2020 Gini GmbH.
  */
 
-@RunWith(AndroidJUnit4::class)
-class EventTrackerTest {
+@RunWith(JUnit4::class)
+class EventTrackingHelperTest {
 
     @After
     fun after() {
-        GiniVision.cleanup(getInstrumentation().targetContext)
+        GiniVisionHelper.setGiniVisionInstance(null)
     }
 
     @Test
@@ -42,7 +43,7 @@ class EventTrackerTest {
         GiniVision.Builder().setEventTracker(eventTracker).build()
 
         // When
-        GiniVision.cleanup(getInstrumentation().targetContext)
+        GiniVisionHelper.setGiniVisionInstance(null)
 
         trackOnboardingScreenEvent(OnboardingScreenEvent.START)
 
@@ -70,7 +71,7 @@ class EventTrackerTest {
         GiniVision.Builder().setEventTracker(eventTracker).build()
 
         // When
-        GiniVision.cleanup(getInstrumentation().targetContext)
+        GiniVisionHelper.setGiniVisionInstance(null)
 
         trackCameraScreenEvent(CameraScreenEvent.TAKE_PICTURE)
 
@@ -98,7 +99,7 @@ class EventTrackerTest {
         GiniVision.Builder().setEventTracker(eventTracker).build()
 
         // When
-        GiniVision.cleanup(getInstrumentation().targetContext)
+        GiniVisionHelper.setGiniVisionInstance(null)
 
         trackReviewScreenEvent(ReviewScreenEvent.NEXT)
 
@@ -126,7 +127,7 @@ class EventTrackerTest {
         GiniVision.Builder().setEventTracker(eventTracker).build()
 
         // When
-        GiniVision.cleanup(getInstrumentation().targetContext)
+        GiniVisionHelper.setGiniVisionInstance(null)
 
         trackAnalysisScreenEvent(AnalysisScreenEvent.RETRY)
 
