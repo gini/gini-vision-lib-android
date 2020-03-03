@@ -22,6 +22,7 @@ Table of contents
     Network Library Javadoc <http://developer.gini.net/gini-vision-lib-android/network/javadoc/index.html>
     Accounting Network Library Javadoc <http://developer.gini.net/gini-vision-lib-android/accounting/network/javadoc/index.html>
     customization-guide
+    event-tracking
     updating-to-3-0-0
     updating-to-2-5-0
     updating-to-2-4-0
