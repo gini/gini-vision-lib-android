@@ -58,6 +58,8 @@ In ``MyEventTracker`` you can handle the events you are interested in.
      If you use the Component API some events will not be triggered (for ex. events which rely on ``Activity#onBackPressed()``). You can
      check in the table below whether all the events you are interested in are triggered.
 
+     To manually trigger events just call the relevant method of your ``EventTracker`` implementation with the required event.
+
 Events
 ----
 
