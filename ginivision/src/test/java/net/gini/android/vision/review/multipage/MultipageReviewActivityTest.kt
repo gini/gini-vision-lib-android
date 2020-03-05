@@ -33,7 +33,7 @@ class MultipageReviewActivityTest {
     }
 
     @Test
-    fun `triggers Exit event when back was pressed`() {
+    fun `triggers Back event when back was pressed`() {
         // Given
         val eventTracker = spy<EventTracker>()
         GiniVision.Builder().setEventTracker(eventTracker).build()
