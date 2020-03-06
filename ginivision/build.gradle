@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'jacoco-android'
 
 jacoco {
@@ -61,6 +63,7 @@ dependencies {
     api deps.supportDesign
     api deps.playServicesVision
 
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation deps.commonsImaging
     implementation deps.completableFuture
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -70,6 +73,7 @@ dependencies {
     testImplementation deps.junit
     testImplementation deps.truth
     testImplementation deps.mockito
+    testImplementation deps.mockitoKotlin
     testImplementation deps.robolectric
     testImplementation deps.androidxTestCore
     testImplementation deps.androidxTestJUnit

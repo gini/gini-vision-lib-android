@@ -23,4 +23,10 @@ class NoOpPhotoEdit extends PhotoEdit {
     public PhotoEdit compressBy(final int quality) {
         return this;
     }
+
+    @NonNull
+    @Override
+    public PhotoEdit compressByDefault() {
+        return this;
+    }
 }

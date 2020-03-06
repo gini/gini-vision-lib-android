@@ -3,6 +3,7 @@ package net.gini.android.vision.onboarding;
 import static com.google.common.truth.Truth.assertThat;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -13,10 +14,18 @@ import android.support.annotation.NonNull;
 
 import com.google.common.collect.Lists;
 
+import net.gini.android.vision.GiniVision;
+import net.gini.android.vision.GiniVisionHelper;
 import net.gini.android.vision.R;
+import net.gini.android.vision.tracking.Event;
+import net.gini.android.vision.tracking.EventTracker;
+import net.gini.android.vision.tracking.OnboardingScreenEvent;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 import org.mockito.Mock;
 
 import java.util.List;
@@ -28,6 +37,8 @@ import jersey.repackaged.jsr166e.CompletableFuture;
  *
  * Copyright (c) 2019 Gini GmbH.
  */
+
+@RunWith(JUnit4.class)
 public class OnboardingScreenPresenterTest {
 
     @Mock
@@ -38,6 +49,11 @@ public class OnboardingScreenPresenterTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
+    }
+
+    @After
+    public void tearDown() {
+        GiniVisionHelper.setGiniVisionInstance(null);
     }
 
     @Test
@@ -234,5 +250,55 @@ public class OnboardingScreenPresenterTest {
 
         // Then
         verify(mView).activatePageIndicatorForPage(0);
+    }
+
+    @Test
+    public void should_triggerFinishEvent_whenClickingNext_onTheLastPage_withoutEmptyLastPage() throws Exception {
+        // Given
+        final OnboardingScreenPresenter presenter = createPresenter();
+
+        final EventTracker eventTracker = spy(EventTracker.class);
+
+        new GiniVision.Builder().setEventTracker(eventTracker).build();
+
+        // When
+        presenter.onScrolledToPage(DefaultPagesPhone.asArrayList().size() - 1);
+        presenter.showNextPage();
+
+        // Then
+        verify(eventTracker).onOnboardingScreenEvent(new Event<>(OnboardingScreenEvent.FINISH));
+    }
+
+    @Test
+    public void should_triggerFinishEvent_whenClickingNext_onTheLastPage_withEmptyLastPage() throws Exception {
+        // Given
+        final OnboardingScreenPresenter presenter = createPresenter();
+
+        final EventTracker eventTracker = spy(EventTracker.class);
+        new GiniVision.Builder().setEventTracker(eventTracker).build();
+
+        when(mView.slideOutViews()).thenReturn(CompletableFuture.<Void>completedFuture(null));
+
+        // When
+        presenter.addEmptyLastPage();
+        presenter.onScrolledToPage(DefaultPagesPhone.asArrayList().size());
+
+        // Then
+        verify(eventTracker).onOnboardingScreenEvent(new Event<>(OnboardingScreenEvent.FINISH));
+    }
+
+    @Test
+    public void should_triggerStartEvent() throws Exception {
+        // Given
+        final OnboardingScreenPresenter presenter = createPresenter();
+
+        final EventTracker eventTracker = spy(EventTracker.class);
+        new GiniVision.Builder().setEventTracker(eventTracker).build();
+
+        // When
+        presenter.start();
+
+        // Then
+        verify(eventTracker).onOnboardingScreenEvent(new Event<>(OnboardingScreenEvent.START));
     }
 }
