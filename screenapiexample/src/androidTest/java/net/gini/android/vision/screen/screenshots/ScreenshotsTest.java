@@ -8,11 +8,6 @@ import static net.gini.android.vision.screen.screenshots.ScreenshotHelper.takeUI
 import static net.gini.android.vision.screen.testhelper.PermissionsHelper.grantCameraPermission;
 
 import android.os.RemoteException;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.filters.SdkSuppress;
-import android.support.test.runner.AndroidJUnit4;
-import android.support.test.uiautomator.UiDevice;
-import android.support.test.uiautomator.UiObjectNotFoundException;
 
 import net.gini.android.vision.screen.screenshots.screens.screenapi.AnalysisScreen;
 import net.gini.android.vision.screen.screenshots.screens.screenapi.CameraScreen;
@@ -25,6 +20,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.File;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.filters.SdkSuppress;
+import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.uiautomator.UiDevice;
+import androidx.test.uiautomator.UiObjectNotFoundException;
 
 @SdkSuppress(minSdkVersion = 18)
 @RunWith(AndroidJUnit4.class)
@@ -69,10 +70,10 @@ public class ScreenshotsTest {
 
     private void takeScreenshots(final String namePrefix)
             throws UiObjectNotFoundException, InterruptedException {
-        MainScreen mainScreen = new MainScreen(mDevice);
-        CameraScreen cameraScreen = new CameraScreen(mDevice);
-        ReviewScreen reviewScreen = new ReviewScreen(mDevice);
-        AnalysisScreen analysisScreen = new AnalysisScreen(mDevice);
+        final MainScreen mainScreen = new MainScreen(mDevice);
+        final CameraScreen cameraScreen = new CameraScreen(mDevice);
+        final ReviewScreen reviewScreen = new ReviewScreen(mDevice);
+        final AnalysisScreen analysisScreen = new AnalysisScreen(mDevice);
 
         // Main Screen
         assertThat(mainScreen.isVisible()).named("Main Screen is displayed").isTrue();
@@ -106,7 +107,7 @@ public class ScreenshotsTest {
 
     private void takeOnboardingScreenshots(final String namePrefix)
             throws InterruptedException, UiObjectNotFoundException {
-        OnboardingScreen onboardingScreen = new OnboardingScreen(mDevice);
+        final OnboardingScreen onboardingScreen = new OnboardingScreen(mDevice);
 
         assertThat(onboardingScreen.isVisible()).named("Onboarding Screen is displayed").isTrue();
         takeScreenshot(namePrefix + "OnboardingScreen-Page1");
@@ -121,7 +122,7 @@ public class ScreenshotsTest {
     }
 
     private void takeScreenshot(final String name) throws InterruptedException {
-        File screenshotFile = screenshotFileForBitBar(name);
+        final File screenshotFile = screenshotFileForBitBar(name);
         takeUIAutomatorScreenshot(screenshotFile, mDevice);
     }
 

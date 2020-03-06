@@ -5,7 +5,6 @@ import static net.gini.android.vision.screen.testhelper.PermissionsHelper.grantE
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Environment;
-import android.support.test.uiautomator.UiDevice;
 import android.view.View;
 
 import java.io.File;
@@ -13,20 +12,22 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import androidx.test.uiautomator.UiDevice;
+
 public class ScreenshotHelper {
 
-    public static void takeEspressoScreenshot(File destination, Activity activity)
+    public static void takeEspressoScreenshot(final File destination, final Activity activity)
             throws IOException, InterruptedException {
-        Bitmap bitmap = takeScreenshotFromActivity(activity);
+        final Bitmap bitmap = takeScreenshotFromActivity(activity);
         writeBitmapToFile(bitmap, destination);
     }
 
     private static Bitmap takeScreenshotFromActivity(final Activity activity)
             throws InterruptedException {
         grantExternalStoragePermission();
-        View scrView = activity.getWindow().getDecorView().getRootView();
+        final View scrView = activity.getWindow().getDecorView().getRootView();
         scrView.setDrawingCacheEnabled(true);
-        Bitmap bitmap = Bitmap.createBitmap(scrView.getDrawingCache());
+        final Bitmap bitmap = Bitmap.createBitmap(scrView.getDrawingCache());
         scrView.setDrawingCacheEnabled(false);
         return bitmap;
     }
@@ -42,29 +43,29 @@ public class ScreenshotHelper {
             if (out != null) {
                 try {
                     out.close();
-                } catch (IOException ignored) {
+                } catch (final IOException ignored) {
                 }
             }
         }
     }
 
-    public static void takeUIAutomatorScreenshot(File destination, UiDevice device)
+    public static void takeUIAutomatorScreenshot(final File destination, final UiDevice device)
             throws InterruptedException {
         grantExternalStoragePermission();
         device.takeScreenshot(destination);
     }
 
-    public static File screenshotFileForBitBar(String name) {
-        File screenshotsDir = getBitBarScreenshotsDir();
-        String fileName = name + ".png";
+    public static File screenshotFileForBitBar(final String name) {
+        final File screenshotsDir = getBitBarScreenshotsDir();
+        final String fileName = name + ".png";
         return new File(screenshotsDir, fileName);
     }
 
     private static File getBitBarScreenshotsDir() {
-        String screenshotsDirPath = String.format("%s%s%s",
+        final String screenshotsDirPath = String.format("%s%s%s",
                 Environment.getExternalStorageDirectory().getPath(), File.separator,
                 "test-screenshots");
-        File screenshotsDir = new File(screenshotsDirPath);
+        final File screenshotsDir = new File(screenshotsDirPath);
         screenshotsDir.mkdir();
         return screenshotsDir;
     }

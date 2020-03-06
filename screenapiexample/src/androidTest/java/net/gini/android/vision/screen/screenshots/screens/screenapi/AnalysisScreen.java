@@ -2,10 +2,10 @@ package net.gini.android.vision.screen.screenshots.screens.screenapi;
 
 import static net.gini.android.vision.screen.screenshots.Helper.isObjectAvailable;
 
-import android.support.test.uiautomator.UiDevice;
-import android.support.test.uiautomator.UiSelector;
-
 import net.gini.android.vision.screen.screenshots.screens.Screen;
+
+import androidx.test.uiautomator.UiDevice;
+import androidx.test.uiautomator.UiSelector;
 
 public class AnalysisScreen implements Screen {
 
