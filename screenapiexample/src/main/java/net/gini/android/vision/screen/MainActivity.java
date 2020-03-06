@@ -31,6 +31,12 @@ import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.requirements.GiniVisionRequirements;
 import net.gini.android.vision.requirements.RequirementReport;
 import net.gini.android.vision.requirements.RequirementsReport;
+import net.gini.android.vision.tracking.AnalysisScreenEvent;
+import net.gini.android.vision.tracking.CameraScreenEvent;
+import net.gini.android.vision.tracking.Event;
+import net.gini.android.vision.tracking.EventTracker;
+import net.gini.android.vision.tracking.OnboardingScreenEvent;
+import net.gini.android.vision.tracking.ReviewScreenEvent;
 import net.gini.android.vision.util.CancellationToken;
 
 import org.slf4j.Logger;
@@ -49,6 +55,8 @@ import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 public class MainActivity extends AppCompatActivity {
 
     public static final String EXTRA_OUT_EXTRACTIONS = "EXTRA_OUT_EXTRACTIONS";
+
+    private static final Logger LOG = LoggerFactory.getLogger(MainActivity.class);
 
     private static final int REQUEST_SCAN = 1;
     private static final int REQUEST_NO_EXTRACTIONS = 2;
@@ -318,6 +326,7 @@ public class MainActivity extends AppCompatActivity {
                     .setMultiPageEnabled(true);
         }
         builder.setFlashButtonEnabled(true);
+        builder.setEventTracker(new GVLEventTracker());
         // Uncomment to turn off the camera flash by default
 //        builder.setFlashOnByDefault(false);
         // Uncomment to disable back buttons (except in the review and analysis screens)
@@ -479,6 +488,63 @@ public class MainActivity extends AppCompatActivity {
         final ch.qos.logback.classic.Logger root =
                 (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
         root.addAppender(logcatAppender);
+    }
+
+    private class GVLEventTracker implements EventTracker {
+
+        @Override
+        public void onOnboardingScreenEvent(final Event<OnboardingScreenEvent> event) {
+            switch (event.getType()) {
+                case START:
+                    LOG.info("Onboarding started");
+                    break;
+                case FINISH:
+                    LOG.info("Onboarding finished");
+                    break;
+            }
+        }
+
+        @Override
+        public void onCameraScreenEvent(final Event<CameraScreenEvent> event) {
+            switch (event.getType()) {
+                case TAKE_PICTURE:
+                    LOG.info("Take picture");
+                    break;
+                case HELP:
+                    LOG.info("Show help");
+                    break;
+                case EXIT:
+                    LOG.info("Exit");
+                    break;
+            }
+        }
+
+        @Override
+        public void onReviewScreenEvent(final Event<ReviewScreenEvent> event) {
+            switch (event.getType()) {
+                case NEXT:
+                    LOG.info("Go next to analyse");
+                    break;
+                case BACK:
+                    LOG.info("Go back to the camera");
+                    break;
+            }
+        }
+
+        @Override
+        public void onAnalysisScreenEvent(final Event<AnalysisScreenEvent> event) {
+            switch (event.getType()) {
+                case ERROR:
+                    LOG.info("Analysis failed {}", event.getDetails().get(AnalysisScreenEvent.ERROR_DETAILS_MAP_KEY.MESSAGE));
+                    break;
+                case RETRY:
+                    LOG.info("Retry analysis");
+                    break;
+                case CANCEL:
+                    LOG.info("Analysis cancelled");
+                    break;
+            }
+        }
     }
 }
 

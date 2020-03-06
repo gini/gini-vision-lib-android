@@ -17,8 +17,15 @@ import net.gini.android.vision.network.GiniVisionNetworkService;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.review.ReviewActivity;
 import net.gini.android.vision.review.multipage.MultiPageReviewFragment;
+import net.gini.android.vision.tracking.AnalysisScreenEvent;
+import net.gini.android.vision.tracking.CameraScreenEvent;
+import net.gini.android.vision.tracking.Event;
+import net.gini.android.vision.tracking.EventTracker;
+import net.gini.android.vision.tracking.OnboardingScreenEvent;
+import net.gini.android.vision.tracking.ReviewScreenEvent;
 import net.gini.android.vision.util.CancellationToken;
 
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,6 +75,7 @@ public class GiniVision {
     private final boolean mFlashButtonEnabled;
     private final boolean mBackButtonsEnabled;
     private final boolean mIsFlashOnByDefault;
+    private final EventTracker mEventTracker;
 
     /**
      * Retrieve the current instance.
@@ -159,6 +167,7 @@ public class GiniVision {
         mFlashButtonEnabled = builder.isFlashButtonEnabled();
         mBackButtonsEnabled = builder.areBackButtonsEnabled();
         mIsFlashOnByDefault = builder.isFlashOnByDefault();
+        mEventTracker = builder.getEventTracker();
     }
 
     /**
@@ -471,6 +480,11 @@ public class GiniVision {
         return mImageDiskStore;
     }
 
+    @NonNull
+    EventTracker getEventTracker() {
+        return mEventTracker;
+    }
+
     /**
      * Builder for {@link GiniVision}. To get an instance call {@link #newInstance()}.
      */
@@ -490,6 +504,23 @@ public class GiniVision {
         private boolean mFlashButtonEnabled;
         private boolean mBackButtonsEnabled = true;
         private boolean mIsFlashOnByDefault = true;
+        private EventTracker mEventTracker = new EventTracker() {
+            @Override
+            public void onOnboardingScreenEvent(@NotNull final Event<OnboardingScreenEvent> event) {
+            }
+
+            @Override
+            public void onCameraScreenEvent(@NotNull final Event<CameraScreenEvent> event) {
+            }
+
+            @Override
+            public void onReviewScreenEvent(@NotNull final Event<ReviewScreenEvent> event) {
+            }
+
+            @Override
+            public void onAnalysisScreenEvent(@NotNull final Event<AnalysisScreenEvent> event) {
+            }
+        };
 
         /**
          * Create a new {@link GiniVision} instance.
@@ -771,6 +802,23 @@ public class GiniVision {
         boolean isFlashOnByDefault() {
             return mIsFlashOnByDefault;
         }
+
+        /**
+         * Set the {@link EventTracker} instance which will be called from the different screens to inform you about the various events
+         * which can occur during the usage of the Gini Vision Library.
+         *
+         * @param eventTracker an {@link EventTracker} instance
+         *
+         * @return the {@link Builder} instance
+         */
+        public Builder setEventTracker(@NonNull final EventTracker eventTracker) {
+            mEventTracker = eventTracker;
+            return this;
+        }
+
+        EventTracker getEventTracker() {
+            return mEventTracker;
+        }
     }
 
     /**
@@ -810,6 +858,10 @@ public class GiniVision {
 
         public ImageMultiPageDocumentMemoryStore getImageMultiPageDocumentMemoryStore() {
             return mGiniVision.getImageMultiPageDocumentMemoryStore();
+        }
+
+        public EventTracker getEventTracker() {
+            return mGiniVision.getEventTracker();
         }
     }
 
