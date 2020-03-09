@@ -153,6 +153,8 @@ pipeline {
                                 def emulatorPort = emulator.start(avd.createName("api-25-nexus-9"), "nexus_9", "-prop persist.sys.language=en -prop persist.sys.country=US -gpu host -camera-back emulated -no-snapshot", 5570)
                                 sh "echo $emulatorPort > emulator_port_2_$BUILD_NUMBER"
                                 adb.setAnimationDurationScale("emulator-$emulatorPort", 0)
+                                // need to wait, otherwise the processDebugAndroidTestResources task fails due to conflict with the build for the phone emulator
+                                sleep(time: 1, unit: "MINUTES")
                                 withEnv(["PATH+TOOLS=$ANDROID_HOME/tools", "PATH+TOOLS_BIN=$ANDROID_HOME/tools/bin", "PATH+PLATFORM_TOOLS=$ANDROID_HOME/platform-tools"]) {
                                     sh "ANDROID_SERIAL=emulator-$emulatorPort ./gradlew ginivision:connectedAndroidTest"
                                 }
