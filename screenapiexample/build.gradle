@@ -22,7 +22,7 @@ android {
         versionName appVersionName
 
         // Use the test runner with JUnit4 support
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
         sourceSets {
             main {
@@ -118,6 +118,7 @@ dependencies {
     androidTestImplementation deps.mockito
     androidTestImplementation deps.mockitoAndroid
     androidTestImplementation deps.androidxMultidex
+    androidTestImplementation deps.androidxTestJUnit
 }
 
 apply from: rootProject.file('gradle/codequality.gradle')

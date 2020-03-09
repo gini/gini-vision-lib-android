@@ -4,11 +4,17 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 
 /**
+ * Created by Alpar Szotyori on 15.04.2019.
+ *
+ * Copyright (c) 2019 Gini GmbH.
+ */
+
+/**
  * QR Code parser for the eps e-payment QR Code url.
  * <p>
  * See the documentation of this format <a href="https://eservice.stuzza.at/de/eps-ueberweisung-dokumentation/category/5-dokumentation.html">here</a>.
  *
- * Copyright (c) 2019 Gini GmbH.
+ * @exclude
  */
 public class EPSPaymentParser implements QRCodeParser<PaymentQRCodeData> {
 

@@ -4,12 +4,12 @@ import static com.google.common.truth.Truth.assertThat;
 
 import static net.gini.android.vision.screen.screenshots.Helper.isObjectAvailable;
 
-import android.support.test.uiautomator.UiDevice;
-import android.support.test.uiautomator.UiObject;
-import android.support.test.uiautomator.UiObjectNotFoundException;
-import android.support.test.uiautomator.UiSelector;
-
 import net.gini.android.vision.screen.screenshots.screens.Screen;
+
+import androidx.test.uiautomator.UiDevice;
+import androidx.test.uiautomator.UiObject;
+import androidx.test.uiautomator.UiObjectNotFoundException;
+import androidx.test.uiautomator.UiSelector;
 
 public class CameraScreen implements Screen {
 
@@ -28,15 +28,15 @@ public class CameraScreen implements Screen {
 
     @Override
     public boolean isVisible() {
-        boolean isNextButtonAvailable = isObjectAvailable(
+        final boolean isNextButtonAvailable = isObjectAvailable(
                 new UiSelector().resourceId(NEXT_BUTTON_RES_ID), mUiDevice);
-        boolean isTriggerButtonAvailable = isObjectAvailable(
+        final boolean isTriggerButtonAvailable = isObjectAvailable(
                 new UiSelector().resourceId(TRIGGER_BUTTON_RES_ID), mUiDevice);
         return isNextButtonAvailable || isTriggerButtonAvailable;
     }
 
     public void triggerCamera() throws UiObjectNotFoundException {
-        UiObject triggerButton = mUiDevice.findObject(
+        final UiObject triggerButton = mUiDevice.findObject(
                 new UiSelector().resourceId(TRIGGER_BUTTON_RES_ID));
         triggerButton.clickAndWaitForNewWindow();
     }
@@ -51,7 +51,7 @@ public class CameraScreen implements Screen {
     }
 
     public void showOnboarding() throws UiObjectNotFoundException {
-        UiObject button = mUiDevice.findObject(
+        final UiObject button = mUiDevice.findObject(
                 new UiSelector().resourceId(ONBOARDING_BUTTON_RES_ID));
         button.clickAndWaitForNewWindow();
     }

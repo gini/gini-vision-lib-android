@@ -2,12 +2,12 @@ package net.gini.android.vision.screen.screenshots.screens.screenapi;
 
 import static net.gini.android.vision.screen.screenshots.Helper.isObjectAvailable;
 
-import android.support.test.uiautomator.UiDevice;
-import android.support.test.uiautomator.UiObject;
-import android.support.test.uiautomator.UiObjectNotFoundException;
-import android.support.test.uiautomator.UiSelector;
-
 import net.gini.android.vision.screen.screenshots.screens.Screen;
+
+import androidx.test.uiautomator.UiDevice;
+import androidx.test.uiautomator.UiObject;
+import androidx.test.uiautomator.UiObjectNotFoundException;
+import androidx.test.uiautomator.UiSelector;
 
 public class OnboardingScreen implements Screen {
 
@@ -26,17 +26,17 @@ public class OnboardingScreen implements Screen {
 
     @Override
     public boolean isVisible() {
-        boolean isNextButtonAvailable = isObjectAvailable(
+        final boolean isNextButtonAvailable = isObjectAvailable(
                 new UiSelector().resourceId(NEXT_BUTTON_RES_ID), mUiDevice);
-        boolean isImageAvailable = isObjectAvailable(
+        final boolean isImageAvailable = isObjectAvailable(
                 new UiSelector().resourceId(IMAGE_RES_ID), mUiDevice);
-        boolean isTextAvailable = isObjectAvailable(
+        final boolean isTextAvailable = isObjectAvailable(
                 new UiSelector().resourceId(TEXT_RES_ID), mUiDevice);
         return isNextButtonAvailable && isImageAvailable && isTextAvailable;
     }
 
     public void goToNextPage() throws UiObjectNotFoundException {
-        UiObject button = mUiDevice.findObject(new UiSelector().resourceId(NEXT_BUTTON_RES_ID));
+        final UiObject button = mUiDevice.findObject(new UiSelector().resourceId(NEXT_BUTTON_RES_ID));
         button.click();
         mUiDevice.waitForIdle();
     }

@@ -1,5 +1,9 @@
 package net.gini.android.vision.analysis;
 
+import static net.gini.android.vision.tracking.EventTrackingHelper.trackAnalysisScreenEvent;
+
+import static java.util.Collections.singletonMap;
+
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -27,6 +31,8 @@ import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.internal.util.FileImportHelper;
 import net.gini.android.vision.internal.util.MimeType;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
+import net.gini.android.vision.tracking.AnalysisScreenEvent;
+import net.gini.android.vision.tracking.AnalysisScreenEvent.ERROR_DETAILS_MAP_KEY;
 import net.gini.android.vision.util.UriHelper;
 
 import org.slf4j.Logger;
@@ -325,7 +331,7 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
                             final Throwable throwable) {
                         stopScanAnimation();
                         if (throwable != null) {
-                            handleAnalysisError();
+                            handleAnalysisError(throwable);
                             return null;
                         }
                         final AnalysisInteractor.Result result = resultHolder.getResult();
@@ -467,12 +473,15 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
 
     private void showErrorIfAvailableAndAnalyzeDocument() {
         if (mDocumentAnalysisErrorMessage != null) {
+            trackAnalysisScreenEvent(AnalysisScreenEvent.ERROR,
+                    singletonMap(ERROR_DETAILS_MAP_KEY.MESSAGE, mDocumentAnalysisErrorMessage));
             showError(mDocumentAnalysisErrorMessage,
                     getActivity().getString(
                             R.string.gv_document_analysis_error_retry),
                     new View.OnClickListener() {
                         @Override
                         public void onClick(final View v) {
+                            trackAnalysisScreenEvent(AnalysisScreenEvent.RETRY);
                             doAnalyzeDocument();
                         }
                     });
@@ -481,12 +490,15 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
         }
     }
 
-    private void handleAnalysisError() {
+    private void handleAnalysisError(final Throwable throwable) {
+        trackAnalysisScreenEvent(AnalysisScreenEvent.ERROR,
+                singletonMap(ERROR_DETAILS_MAP_KEY.MESSAGE, throwable.getMessage()));
         showError(getActivity().getString(R.string.gv_document_analysis_error),
                 getActivity().getString(R.string.gv_document_analysis_error_retry),
                 new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
+                        trackAnalysisScreenEvent(AnalysisScreenEvent.RETRY);
                         doAnalyzeDocument();
                     }
                 });

@@ -3,6 +3,7 @@ package net.gini.android.vision.review;
 import static net.gini.android.vision.internal.network.NetworkRequestsManager.isCancellation;
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 import static net.gini.android.vision.internal.util.FileImportHelper.showAlertIfOpenWithDocumentAndAppIsDefault;
+import static net.gini.android.vision.tracking.EventTrackingHelper.trackReviewScreenEvent;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
@@ -41,6 +42,7 @@ import net.gini.android.vision.internal.network.NetworkRequestsManager;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 import net.gini.android.vision.internal.util.FileImportHelper;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
+import net.gini.android.vision.tracking.ReviewScreenEvent;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -107,7 +109,8 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
     private ProgressBar mActivityIndicator;
 
     private final FragmentImplCallback mFragment;
-    private Photo mPhoto;
+    @VisibleForTesting
+    Photo mPhoto;
     private ImageDocument mDocument;
     private ReviewFragmentListener mListener = NO_OP_LISTENER;
     private boolean mDocumentWasUploaded;
@@ -606,7 +609,9 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         }
     }
 
-    private void onNextClicked() {
+    @VisibleForTesting
+    void onNextClicked() {
+        trackReviewScreenEvent(ReviewScreenEvent.NEXT);
         mNextClicked = true;
         if (!mDocumentWasModified) {
             LOG.debug("Document wasn't modified");

@@ -41,6 +41,9 @@ import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.internal.util.FileImportHelper;
 import net.gini.android.vision.internal.util.Size;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
+import net.gini.android.vision.tracking.AnalysisScreenEvent;
+import net.gini.android.vision.tracking.Event;
+import net.gini.android.vision.tracking.EventTracker;
 
 import org.junit.After;
 import org.junit.Before;
@@ -969,5 +972,101 @@ public class AnalysisScreenPresenterTest {
 
         // Then
         verify(mView, never()).showBitmap(bitmap, rotationForDisplay);
+    }
+
+    @Test
+    public void should_triggerErrorEvent_forError_fromReviewScreen() throws Exception {
+        // Given
+        final EventTracker eventTracker = spy(EventTracker.class);
+        new GiniVision.Builder().setEventTracker(eventTracker).build();
+
+        final ImageDocument imageDocument = new ImageDocumentFake();
+
+        final String errorMessage = "Something went wrong";
+        final AnalysisScreenPresenter presenter = createPresenter(imageDocument, errorMessage);
+
+        // When
+        presenter.start();
+
+        // Then
+        verify(eventTracker).onAnalysisScreenEvent(new Event<>(AnalysisScreenEvent.ERROR,
+                Collections.singletonMap(AnalysisScreenEvent.ERROR_DETAILS_MAP_KEY.MESSAGE, errorMessage)));
+    }
+
+    @Test
+    public void should_triggerErrorEvent_forAnalysisError() throws Exception {
+        // Given
+        final EventTracker eventTracker = spy(EventTracker.class);
+        new GiniVision.Builder().setEventTracker(eventTracker).build();
+
+        final ImageDocument imageDocument = new ImageDocumentFake();
+
+        final CompletableFuture<AnalysisInteractor.ResultHolder> analysisFuture =
+                new CompletableFuture<>();
+        analysisFuture.completeExceptionally(new RuntimeException("error message"));
+
+        final AnalysisScreenPresenter presenter = createPresenterWithAnalysisFuture(imageDocument,
+                analysisFuture);
+
+        // When
+        presenter.start();
+
+        // Then
+        verify(eventTracker).onAnalysisScreenEvent(new Event<>(AnalysisScreenEvent.ERROR,
+                Collections.singletonMap(AnalysisScreenEvent.ERROR_DETAILS_MAP_KEY.MESSAGE, "error message")));
+    }
+
+    @Test
+    public void should_triggerRetryEvent_forError_fromReviewScreen_whenRetry_wasClicked() throws Exception {
+        // Given
+        final EventTracker eventTracker = spy(EventTracker.class);
+        new GiniVision.Builder().setEventTracker(eventTracker).build();
+
+        final ImageDocument imageDocument = new ImageDocumentFake();
+
+        final String errorMessage = "Something went wrong";
+        final AnalysisScreenPresenter presenter = createPresenter(imageDocument, errorMessage);
+
+        // When
+        presenter.start();
+
+        final ArgumentCaptor<View.OnClickListener> onClickListenerCaptor = ArgumentCaptor.forClass(
+                View.OnClickListener.class);
+        verify(mView).showErrorSnackbar(anyString(), anyInt(), (String) any(),
+                onClickListenerCaptor.capture());
+        onClickListenerCaptor.getValue().onClick(mock(View.class));
+
+        // Then
+        verify(eventTracker).onAnalysisScreenEvent(new Event<>(AnalysisScreenEvent.RETRY));
+    }
+
+    @Test
+    public void should_triggerRetryEvent_forAnalysisError_whenRetry_wasClicked() throws Exception {
+        // Given
+        when(mActivity.getString(anyInt())).thenReturn("A String");
+
+        final EventTracker eventTracker = spy(EventTracker.class);
+        new GiniVision.Builder().setEventTracker(eventTracker).build();
+
+        final ImageDocument imageDocument = new ImageDocumentFake();
+
+        final CompletableFuture<AnalysisInteractor.ResultHolder> analysisFuture =
+                new CompletableFuture<>();
+        analysisFuture.completeExceptionally(new RuntimeException("error message"));
+
+        final AnalysisScreenPresenter presenter = createPresenterWithAnalysisFuture(imageDocument,
+                analysisFuture);
+
+        // When
+        presenter.start();
+
+        final ArgumentCaptor<View.OnClickListener> onClickListenerCaptor = ArgumentCaptor.forClass(
+                View.OnClickListener.class);
+        verify(mView).showErrorSnackbar(anyString(), anyInt(), (String) any(),
+                onClickListenerCaptor.capture());
+        onClickListenerCaptor.getValue().onClick(mock(View.class));
+
+        // Then
+        verify(eventTracker).onAnalysisScreenEvent(new Event<>(AnalysisScreenEvent.RETRY));
     }
 }
