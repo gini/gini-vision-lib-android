@@ -1,7 +1,6 @@
 package net.gini.android.vision.analysis;
 
 import static net.gini.android.vision.internal.util.NullabilityHelper.getMapOrEmpty;
-
 import static net.gini.android.vision.tracking.EventTrackingHelper.trackAnalysisScreenEvent;
 
 import static java.util.Collections.singletonMap;
@@ -351,7 +350,7 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
                                 break;
                             case SUCCESS_WITH_EXTRACTIONS:
                                 mAnalysisCompleted = true;
-                                if (hasLineItems(resultHolder)) {
+                                if (isReturnAssistantEnabled() && hasLineItems(resultHolder)) {
                                     getAnalysisFragmentListenerOrNoOp()
                                             .onProceedToReturnAssistant(getMapOrEmpty(resultHolder.getExtractions()),
                                                     getMapOrEmpty(resultHolder.getCompoundExtractions()));
@@ -375,6 +374,10 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
                         return null;
                     }
                 });
+    }
+
+    private boolean isReturnAssistantEnabled() {
+        return GiniVision.hasInstance() && GiniVision.getInstance().isReturnAssistantEnabled();
     }
 
     private boolean hasLineItems(@NonNull final AnalysisInteractor.ResultHolder resultHolder) {

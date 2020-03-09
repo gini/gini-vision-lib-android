@@ -681,10 +681,15 @@ public class AnalysisScreenPresenterTest {
     }
 
     @Test
-    public void should_proceedToReturnAssistant_whenAnalysisSucceeded_withLineItems()
+    public void should_proceedToReturnAssistant_whenAnalysisSucceeded_withLineItems_andReturnAssistant_isEnabled()
             throws Exception {
         // Given
         when(mActivity.getString(anyInt())).thenReturn("A String");
+
+        final GiniVision giniVision = mock(GiniVision.class);
+        when(giniVision.isReturnAssistantEnabled()).thenReturn(true);
+
+        GiniVisionHelper.setGiniVisionInstance(giniVision);
 
         final ImageDocument imageDocument = new ImageDocumentFake();
 
@@ -709,6 +714,42 @@ public class AnalysisScreenPresenterTest {
 
         // Then
         verify(listener).onProceedToReturnAssistant(extractions, compoundExtractions);
+    }
+
+    @Test
+    public void should_notProceedToReturnAssistant_whenAnalysisSucceeded_withLineItems_andReturnAssistant_isNotEnabled()
+            throws Exception {
+        // Given
+        when(mActivity.getString(anyInt())).thenReturn("A String");
+
+        final GiniVision giniVision = mock(GiniVision.class);
+        when(giniVision.isReturnAssistantEnabled()).thenReturn(false);
+
+        GiniVisionHelper.setGiniVisionInstance(giniVision);
+
+        final ImageDocument imageDocument = new ImageDocumentFake();
+
+        final Map<String, GiniVisionSpecificExtraction> extractions = Collections.singletonMap(
+                "extraction", mock(GiniVisionSpecificExtraction.class));
+        final Map<String, GiniVisionCompoundExtraction> compoundExtractions = Collections.singletonMap(
+                "lineItems", mock(GiniVisionCompoundExtraction.class));
+        final CompletableFuture<AnalysisInteractor.ResultHolder> analysisFuture =
+                new CompletableFuture<>();
+        analysisFuture.complete(new AnalysisInteractor.ResultHolder(
+                AnalysisInteractor.Result.SUCCESS_WITH_EXTRACTIONS,
+                extractions, compoundExtractions));
+
+        final AnalysisScreenPresenter presenter = createPresenterWithAnalysisFuture(imageDocument,
+                analysisFuture);
+
+        final AnalysisFragmentListener listener = mock(AnalysisFragmentListener.class);
+        presenter.setListener(listener);
+
+        // When
+        presenter.start();
+
+        // Then
+        verify(listener).onExtractionsAvailable(extractions, compoundExtractions);
     }
 
     @Test
