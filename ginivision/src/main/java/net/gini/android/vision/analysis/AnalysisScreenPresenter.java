@@ -356,12 +356,18 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
                                             .onProceedToNoExtractionsScreen(mMultiPageDocument);
                                     return null;
                                 }
-                                try {
-                                    LineItemsValidator.validate(resultHolder.getCompoundExtractions());
-                                    getAnalysisFragmentListenerOrNoOp()
-                                            .onProceedToReturnAssistant(getMapOrEmpty(resultHolder.getExtractions()),
-                                                    getMapOrEmpty(resultHolder.getCompoundExtractions()));
-                                } catch (final DigitalInvoiceException notUsed) {
+                                if (isReturnAssistantEnabled()) {
+                                    try {
+                                        LineItemsValidator.validate(resultHolder.getCompoundExtractions());
+                                        getAnalysisFragmentListenerOrNoOp()
+                                                .onProceedToReturnAssistant(getMapOrEmpty(resultHolder.getExtractions()),
+                                                        getMapOrEmpty(resultHolder.getCompoundExtractions()));
+                                    } catch (final DigitalInvoiceException notUsed) {
+                                        getAnalysisFragmentListenerOrNoOp()
+                                                .onExtractionsAvailable(getMapOrEmpty(resultHolder.getExtractions()),
+                                                        getMapOrEmpty(resultHolder.getCompoundExtractions()));
+                                    }
+                                } else {
                                     getAnalysisFragmentListenerOrNoOp()
                                             .onExtractionsAvailable(getMapOrEmpty(resultHolder.getExtractions()),
                                                     getMapOrEmpty(resultHolder.getCompoundExtractions()));
@@ -381,6 +387,10 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
                         return null;
                     }
                 });
+    }
+
+    private boolean isReturnAssistantEnabled() {
+        return GiniVision.hasInstance() && GiniVision.getInstance().isReturnAssistantEnabled();
     }
 
     private boolean hasLineItems(@NonNull final AnalysisInteractor.ResultHolder resultHolder) {
