@@ -351,6 +351,11 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
                                 break;
                             case SUCCESS_WITH_EXTRACTIONS:
                                 mAnalysisCompleted = true;
+                                if (resultHolder.getExtractions().isEmpty()) {
+                                    getAnalysisFragmentListenerOrNoOp()
+                                            .onProceedToNoExtractionsScreen(mMultiPageDocument);
+                                    return null;
+                                }
                                 try {
                                     LineItemsValidator.validate(resultHolder.getCompoundExtractions());
                                     getAnalysisFragmentListenerOrNoOp()

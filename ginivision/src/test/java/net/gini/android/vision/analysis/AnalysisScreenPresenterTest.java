@@ -628,7 +628,7 @@ public class AnalysisScreenPresenterTest {
     }
 
     @Test
-    public void should_requestProceedingToNoExtractionsScreen_whenAnalysisSucceeded_withoutExtractions()
+    public void should_requestProceedingToNoExtractionsScreen_whenAnalysisSucceeded_withoutAnyExtractions()
             throws Exception {
         // Given
         when(mActivity.getString(anyInt())).thenReturn("A String");
@@ -639,6 +639,35 @@ public class AnalysisScreenPresenterTest {
                 new CompletableFuture<>();
         analysisFuture.complete(new AnalysisInteractor.ResultHolder(
                 AnalysisInteractor.Result.SUCCESS_NO_EXTRACTIONS));
+
+        final AnalysisScreenPresenter presenter = createPresenterWithAnalysisFuture(imageDocument,
+                analysisFuture);
+
+        final AnalysisFragmentListener listener = mock(AnalysisFragmentListener.class);
+        presenter.setListener(listener);
+
+        // When
+        presenter.start();
+
+        // Then
+        verify(listener).onProceedToNoExtractionsScreen(any(GiniVisionMultiPageDocument.class));
+    }
+
+    @Test
+    public void should_requestProceedingToNoExtractionsScreen_whenAnalysisSucceeded_withoutSpecificExtractions()
+            throws Exception {
+        // Given
+        when(mActivity.getString(anyInt())).thenReturn("A String");
+
+        final ImageDocument imageDocument = new ImageDocumentFake();
+
+        final CompletableFuture<AnalysisInteractor.ResultHolder> analysisFuture =
+                new CompletableFuture<>();
+        analysisFuture.complete(new AnalysisInteractor.ResultHolder(
+                AnalysisInteractor.Result.SUCCESS_WITH_EXTRACTIONS,
+                Collections.<String, GiniVisionSpecificExtraction>emptyMap(),
+                Collections.singletonMap("lineItems", mock(GiniVisionCompoundExtraction.class))
+        ));
 
         final AnalysisScreenPresenter presenter = createPresenterWithAnalysisFuture(imageDocument,
                 analysisFuture);
