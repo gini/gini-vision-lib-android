@@ -1,7 +1,6 @@
 package net.gini.android.vision.analysis;
 
 import static net.gini.android.vision.internal.util.NullabilityHelper.getMapOrEmpty;
-
 import static net.gini.android.vision.tracking.EventTrackingHelper.trackAnalysisScreenEvent;
 
 import static java.util.Collections.singletonMap;
@@ -20,6 +19,8 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
+import net.gini.android.vision.digitalinvoice.DigitalInvoiceException;
+import net.gini.android.vision.digitalinvoice.LineItemsValidator;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.GiniVisionDocument;
 import net.gini.android.vision.document.GiniVisionDocumentError;
@@ -52,7 +53,6 @@ import jersey.repackaged.jsr166e.CompletableFuture;
  * Created by Alpar Szotyori on 08.05.2019.
  *
  * Copyright (c) 2019 Gini GmbH.
- *
  */
 class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
 
@@ -351,11 +351,12 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
                                 break;
                             case SUCCESS_WITH_EXTRACTIONS:
                                 mAnalysisCompleted = true;
-                                if (hasLineItems(resultHolder)) {
+                                try {
+                                    LineItemsValidator.validate(resultHolder.getCompoundExtractions());
                                     getAnalysisFragmentListenerOrNoOp()
                                             .onProceedToReturnAssistant(getMapOrEmpty(resultHolder.getExtractions()),
                                                     getMapOrEmpty(resultHolder.getCompoundExtractions()));
-                                } else {
+                                } catch (final DigitalInvoiceException notUsed) {
                                     getAnalysisFragmentListenerOrNoOp()
                                             .onExtractionsAvailable(getMapOrEmpty(resultHolder.getExtractions()),
                                                     getMapOrEmpty(resultHolder.getCompoundExtractions()));

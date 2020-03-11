@@ -39,55 +39,61 @@ class LineItem(
 
     companion object {
         fun createRawGrossPrice(grossPrice: BigDecimal, currency: String) = "${RAW_GROSS_PRICE_FORMAT.format(grossPrice)}:$currency"
+
+        @Throws(NumberFormatException::class, IllegalArgumentException::class)
+        fun parseGrossPriceExtraction(rawGrossPrice: String): Triple<BigDecimal, String, Currency?> {
+            rawGrossPrice.split(":").let { substrings ->
+                if (substrings.size != 2) {
+                    throw java.lang.NumberFormatException(
+                            "Invalid gross price format. Expected <Gross Price>:<Currency Code>, but got: $rawGrossPrice")
+                }
+                val grossPrice = parseGrossPrice(substrings[0])
+                val rawCurrency = substrings[1]
+                val currency = Currency.getInstance(substrings[1])
+                return Triple(grossPrice, rawCurrency, currency)
+            }
+        }
+
+        private fun parseGrossPrice(grossPrice: String): BigDecimal =
+                if (grossPrice matches GROSS_PRICE_STRING_REGEX) {
+                    when {
+                        grossPrice.contains(".") -> {
+                            parseGrossPriceWithLocale(grossPrice, Locale.ENGLISH)
+                        }
+                        grossPrice.contains(",") -> {
+                            parseGrossPriceWithLocale(grossPrice, Locale.GERMAN)
+                        }
+                        else -> {
+                            throw NumberFormatException("Unknown number format locale")
+                        }
+                    }
+                } else {
+                    throw NumberFormatException("Invalid number format")
+                }
+
+        private fun parseGrossPriceWithLocale(grossPrice: String, locale: Locale) = DecimalFormat("0.00",
+                DecimalFormatSymbols.getInstance(locale))
+                .apply { isParseBigDecimal = true }
+                .run {
+                    try {
+                        parse(grossPrice) as BigDecimal
+                    } catch (e: ParseException) {
+                        throw NumberFormatException(e.message)
+                    }
+                }
     }
 
     init {
-        rawGrossPrice.split(":").let {
-            check(it.size == 2) {
-                "Invalid gross price format. Expected <Gross Price>:<Currency Code>, but got: $rawGrossPrice"
-            }
-            grossPrice = try {
-                parseGrossPriceString(it[0])
-            } catch (_: NumberFormatException) {
-                BigDecimal.ZERO
-            }
-            totalGrossPrice = grossPrice.times(BigDecimal(quantity))
-            rawCurrency = it[1]
-            currency = try {
-                Currency.getInstance(it[1])
-            } catch (e: Exception) {
-                null
-            }
+        val (grossPrice, rawCurrency, currency) = try {
+            parseGrossPriceExtraction(rawGrossPrice)
+        } catch (e: Exception) {
+            Triple(BigDecimal.ZERO, "", null)
         }
+        this.grossPrice = grossPrice
+        this.totalGrossPrice = grossPrice.times(BigDecimal(quantity))
+        this.rawCurrency = rawCurrency
+        this.currency = currency
     }
-
-    private fun parseGrossPriceString(grossPrice: String): BigDecimal =
-            if (grossPrice matches GROSS_PRICE_STRING_REGEX) {
-                when {
-                    grossPrice.contains(".") -> {
-                        parseGrossPriceWithLocale(grossPrice, Locale.ENGLISH)
-                    }
-                    grossPrice.contains(",") -> {
-                        parseGrossPriceWithLocale(grossPrice, Locale.GERMAN)
-                    }
-                    else -> {
-                        throw NumberFormatException()
-                    }
-                }
-            } else {
-                throw NumberFormatException()
-            }
-
-    private fun parseGrossPriceWithLocale(grossPrice: String, locale: Locale) = DecimalFormat("0.00",
-            DecimalFormatSymbols.getInstance(locale))
-            .apply { isParseBigDecimal = true }
-            .run {
-                try {
-                    parse(grossPrice) as BigDecimal
-                } catch (_: ParseException) {
-                    throw NumberFormatException()
-                }
-            }
 
     override fun toString() = "LineItem(id=$id, description=$description, quantity=$quantity, rawGrossPrice=$rawGrossPrice, grossPrice=$grossPrice, totalGrossPrice=$totalGrossPrice, currency=$currency)"
 
