@@ -97,7 +97,7 @@ val singleCurrency: Validate = { compoundExtractions ->
             if (firstCurrency == null) {
                 throw MixedCurrenciesException(cause = GrossPriceMissingException())
             } else {
-                val sameCurrency = lineItemRows.subList(1, lineItemRows.lastIndex).fold(true, { sameCurrency, row ->
+                val sameCurrency = lineItemRows.subList(1, lineItemRows.size).fold(true, { sameCurrency, row ->
                     val currency = try {
                         row["grossPrice"]?.value?.let { grossPriceString ->
                             val (_, _, currency) = LineItem.parseGrossPriceExtraction(grossPriceString)

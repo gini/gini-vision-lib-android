@@ -17,12 +17,29 @@ import org.junit.runners.JUnit4
 @RunWith(JUnit4::class)
 class LineItemsValidatorTest {
 
+    private fun createLineItemsFixture() = mutableMapOf("lineItems" to GiniVisionCompoundExtraction("lineItems",
+            mutableListOf(
+                    mutableMapOf(
+                            "description" to GiniVisionSpecificExtraction("description", "Shoe", "", null, emptyList()),
+                            "quantity" to GiniVisionSpecificExtraction("quantity", "2", "", null, emptyList()),
+                            "grossPrice" to GiniVisionSpecificExtraction("grossPrice", "9.99:EUR", "", null, emptyList()),
+                            "articleNumber" to GiniVisionSpecificExtraction("articleNumber", "8947278", "", null, emptyList())
+                    ),
+                    mutableMapOf(
+                            "description" to GiniVisionSpecificExtraction("description", "Trouser", "", null, emptyList()),
+                            "quantity" to GiniVisionSpecificExtraction("quantity", "1", "", null, emptyList()),
+                            "grossPrice" to GiniVisionSpecificExtraction("grossPrice", "24.39:EUR", "", null, emptyList()),
+                            "articleNumber" to GiniVisionSpecificExtraction("articleNumber", "1232411", "", null, emptyList())
+                    )
+            )
+    ))
+
     @Test
     fun `line items available`() {
         // When
         var valid = true
         try {
-            lineItemsAvailable(mapOf("lineItems" to mock()))
+            LineItemsValidator.validate(createLineItemsFixture())
         } catch (e: LineItemsMissingException) {
             valid = false
         }
@@ -36,7 +53,7 @@ class LineItemsValidatorTest {
         // When
         var valid = true
         try {
-            lineItemsAvailable(mapOf("somethingElse" to mock()))
+            LineItemsValidator.validate(mapOf("somethingElse" to mock()))
         } catch (e: LineItemsMissingException) {
             valid = false
         }
@@ -50,11 +67,7 @@ class LineItemsValidatorTest {
         // When
         var valid = true
         try {
-            descriptionAvailable(
-                    mapOf("lineItems" to GiniVisionCompoundExtraction("lineItems",
-                            listOf(mapOf("description" to mock())))
-                    )
-            )
+            LineItemsValidator.validate(createLineItemsFixture())
         } catch (e: DescriptionMissingException) {
             valid = false
         }
@@ -68,11 +81,9 @@ class LineItemsValidatorTest {
         // When
         var valid = true
         try {
-            descriptionAvailable(
-                    mapOf("lineItems" to GiniVisionCompoundExtraction("lineItems",
-                            listOf(emptyMap(), mapOf("description" to mock())))
-                    )
-            )
+            LineItemsValidator.validate(createLineItemsFixture().apply {
+                get("lineItems")!!.specificExtractionMaps[0].remove("description")
+            })
         } catch (e: DescriptionMissingException) {
             valid = false
         }
@@ -86,11 +97,7 @@ class LineItemsValidatorTest {
         // When
         var valid = true
         try {
-            quantityAvailable(
-                    mapOf("lineItems" to GiniVisionCompoundExtraction("lineItems",
-                            listOf(mapOf("quantity" to mock())))
-                    )
-            )
+            LineItemsValidator.validate(createLineItemsFixture())
         } catch (e: QuantityMissingException) {
             valid = false
         }
@@ -104,11 +111,9 @@ class LineItemsValidatorTest {
         // When
         var valid = true
         try {
-            quantityAvailable(
-                    mapOf("lineItems" to GiniVisionCompoundExtraction("lineItems",
-                            listOf(emptyMap(), mapOf("quantity" to mock())))
-                    )
-            )
+            LineItemsValidator.validate(createLineItemsFixture().apply {
+                get("lineItems")!!.specificExtractionMaps[0].remove("quantity")
+            })
         } catch (e: QuantityMissingException) {
             valid = false
         }
@@ -122,11 +127,7 @@ class LineItemsValidatorTest {
         // When
         var valid = true
         try {
-            grossPriceAvailable(
-                    mapOf("lineItems" to GiniVisionCompoundExtraction("lineItems",
-                            listOf(mapOf("grossPrice" to mock())))
-                    )
-            )
+            LineItemsValidator.validate(createLineItemsFixture())
         } catch (e: GrossPriceMissingException) {
             valid = false
         }
@@ -140,11 +141,9 @@ class LineItemsValidatorTest {
         // When
         var valid = true
         try {
-            grossPriceAvailable(
-                    mapOf("lineItems" to GiniVisionCompoundExtraction("lineItems",
-                            listOf(emptyMap(), mapOf("grossPrice" to mock())))
-                    )
-            )
+            LineItemsValidator.validate(createLineItemsFixture().apply {
+                get("lineItems")!!.specificExtractionMaps[0].remove("grossPrice")
+            })
         } catch (e: GrossPriceMissingException) {
             valid = false
         }
@@ -158,11 +157,7 @@ class LineItemsValidatorTest {
         // When
         var valid = true
         try {
-            articleNumberAvailable(
-                    mapOf("lineItems" to GiniVisionCompoundExtraction("lineItems",
-                            listOf(mapOf("articleNumber" to mock())))
-                    )
-            )
+            LineItemsValidator.validate(createLineItemsFixture())
         } catch (e: ArticleNumberMissingException) {
             valid = false
         }
@@ -176,11 +171,9 @@ class LineItemsValidatorTest {
         // When
         var valid = true
         try {
-            articleNumberAvailable(
-                    mapOf("lineItems" to GiniVisionCompoundExtraction("lineItems",
-                            listOf(emptyMap(), mapOf("articleNumber" to mock())))
-                    )
-            )
+            LineItemsValidator.validate(createLineItemsFixture().apply {
+                get("lineItems")!!.specificExtractionMaps[0].remove("articleNumber")
+            })
         } catch (e: ArticleNumberMissingException) {
             valid = false
         }
@@ -191,17 +184,10 @@ class LineItemsValidatorTest {
 
     @Test
     fun `quantity parcelable`() {
-        // Given
-        val quantity = GiniVisionSpecificExtraction("quantity", "3","",null, emptyList())
-
         // When
         var valid = true
         try {
-            quantityParcelable(
-                    mapOf("lineItems" to GiniVisionCompoundExtraction("lineItems",
-                            listOf(mapOf("quantity" to quantity)))
-                    )
-            )
+            LineItemsValidator.validate(createLineItemsFixture())
         } catch (e: QuantityParsingException) {
             valid = false
         }
@@ -212,17 +198,12 @@ class LineItemsValidatorTest {
 
     @Test
     fun `quantity not parcelable`() {
-        // Given
-        val quantity = GiniVisionSpecificExtraction("quantity", "NaN","",null, emptyList())
-
         // When
         var valid = true
         try {
-            quantityParcelable(
-                    mapOf("lineItems" to GiniVisionCompoundExtraction("lineItems",
-                            listOf(emptyMap(), mapOf("quantity" to quantity)))
-                    )
-            )
+            LineItemsValidator.validate(createLineItemsFixture().apply {
+                get("lineItems")!!.specificExtractionMaps[0]["quantity"]!!.value = "NaN"
+            })
         } catch (e: QuantityParsingException) {
             valid = false
         }
@@ -233,17 +214,10 @@ class LineItemsValidatorTest {
 
     @Test
     fun `gross price parcelable`() {
-        // Given
-        val grossPrice = GiniVisionSpecificExtraction("grossPrice", "9.89:EUR","",null, emptyList())
-
         // When
         var valid = true
         try {
-            grossPriceParcelable(
-                    mapOf("lineItems" to GiniVisionCompoundExtraction("lineItems",
-                            listOf(mapOf("grossPrice" to grossPrice)))
-                    )
-            )
+            LineItemsValidator.validate(createLineItemsFixture())
         } catch (e: GrossPriceParsingException) {
             valid = false
         }
@@ -254,17 +228,12 @@ class LineItemsValidatorTest {
 
     @Test
     fun `gross price not parcelable`() {
-        // Given
-        val grossPrice = GiniVisionSpecificExtraction("grossPrice", "9_89:EUR","",null, emptyList())
-
         // When
         var valid = true
         try {
-            grossPriceParcelable(
-                    mapOf("lineItems" to GiniVisionCompoundExtraction("lineItems",
-                            listOf(mapOf("grossPrice" to grossPrice)))
-                    )
-            )
+            LineItemsValidator.validate(createLineItemsFixture().apply {
+                get("lineItems")!!.specificExtractionMaps[0]["grossPrice"]!!.value = "9_89:EUR"
+            })
         } catch (e: GrossPriceParsingException) {
             valid = false
         }
@@ -275,21 +244,10 @@ class LineItemsValidatorTest {
 
     @Test
     fun `single currency`() {
-        // Given
-        val grossPrice1 = GiniVisionSpecificExtraction("grossPrice", "9.89:EUR","",null, emptyList())
-        val grossPrice2 = GiniVisionSpecificExtraction("grossPrice", "3.49:EUR","",null, emptyList())
-        val grossPrice3 = GiniVisionSpecificExtraction("grossPrice", "1.99:EUR","",null, emptyList())
-
         // When
         var valid = true
         try {
-            singleCurrency(
-                    mapOf("lineItems" to GiniVisionCompoundExtraction("lineItems",
-                            listOf(mapOf("grossPrice" to grossPrice1),
-                                    mapOf("grossPrice" to grossPrice2),
-                                    mapOf("grossPrice" to grossPrice3)))
-                    )
-            )
+            LineItemsValidator.validate(createLineItemsFixture())
         } catch (e: MixedCurrenciesException) {
             valid = false
         }
@@ -300,21 +258,12 @@ class LineItemsValidatorTest {
 
     @Test
     fun `mixed currencies`() {
-        // Given
-        val grossPrice1 = GiniVisionSpecificExtraction("grossPrice", "9.89:EUR","",null, emptyList())
-        val grossPrice2 = GiniVisionSpecificExtraction("grossPrice", "3.49:USD","",null, emptyList())
-        val grossPrice3 = GiniVisionSpecificExtraction("grossPrice", "1.99:EUR","",null, emptyList())
-
         // When
         var valid = true
         try {
-            singleCurrency(
-                    mapOf("lineItems" to GiniVisionCompoundExtraction("lineItems",
-                            listOf(mapOf("grossPrice" to grossPrice1),
-                                    mapOf("grossPrice" to grossPrice2),
-                                    mapOf("grossPrice" to grossPrice3)))
-                    )
-            )
+            LineItemsValidator.validate(createLineItemsFixture().apply {
+                get("lineItems")!!.specificExtractionMaps[0]["grossPrice"]!!.value = "9.89:USD"
+            })
         } catch (e: MixedCurrenciesException) {
             valid = false
         }
