@@ -702,7 +702,7 @@ public class AnalysisScreenPresenterTest {
                 new GiniVisionSpecificExtraction("description", "Trouser", "", null, Collections.<GiniVisionExtraction>emptyList()));
         row2.put("quantity", new GiniVisionSpecificExtraction("quantity", "1", "", null, Collections.<GiniVisionExtraction>emptyList()));
         row2.put("grossPrice",
-                new GiniVisionSpecificExtraction("grossPrice", "24:39:EUR", "", null, Collections.<GiniVisionExtraction>emptyList()));
+                new GiniVisionSpecificExtraction("grossPrice", "24.39:EUR", "", null, Collections.<GiniVisionExtraction>emptyList()));
         row2.put("articleNumber",
                 new GiniVisionSpecificExtraction("articleNumber", "1232411", "", null, Collections.<GiniVisionExtraction>emptyList()));
 

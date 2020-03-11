@@ -71,7 +71,7 @@ class LineItemTest {
         // Then
         assertThat(lineItem.grossPrice).isEqualTo(BigDecimal("0"))
         assertThat(lineItem.totalGrossPrice).isEqualTo(BigDecimal("0"))
-        assertThat(lineItem.currency).isEqualTo(Currency.getInstance("EUR"))
+        assertThat(lineItem.currency).isEqualTo(null)
         assertThat(lineItem.rawCurrency).isEqualTo("EUR")
     }
 }
