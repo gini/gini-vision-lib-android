@@ -1,7 +1,6 @@
 package net.gini.android.vision.example;
 
 import android.support.annotation.NonNull;
-import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
 
 import net.gini.android.DocumentMetadata;
@@ -17,6 +16,8 @@ import net.gini.android.vision.network.GiniVisionNetworkService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import androidx.multidex.MultiDexApplication;
 
 /**
  * <p>
