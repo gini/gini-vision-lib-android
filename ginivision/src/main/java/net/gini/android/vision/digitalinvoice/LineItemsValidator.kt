@@ -58,7 +58,7 @@ val grossPriceAvailable: Validate = { compoundExtractions ->
 }
 
 val articleNumberAvailable: Validate = { compoundExtractions ->
-    if ((compoundExtractions["lineItems"]?.specificExtractionMaps?.all { it.containsKey("articleNumber") }) != true) {
+    if ((compoundExtractions["lineItems"]?.specificExtractionMaps?.all { it.containsKey("artNumber") }) != true) {
         throw ArticleNumberMissingException()
     }
 }

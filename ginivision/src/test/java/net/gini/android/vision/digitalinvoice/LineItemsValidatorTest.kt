@@ -23,13 +23,13 @@ class LineItemsValidatorTest {
                             "description" to GiniVisionSpecificExtraction("description", "Shoe", "", null, emptyList()),
                             "quantity" to GiniVisionSpecificExtraction("quantity", "2", "", null, emptyList()),
                             "grossPrice" to GiniVisionSpecificExtraction("grossPrice", "9.99:EUR", "", null, emptyList()),
-                            "articleNumber" to GiniVisionSpecificExtraction("articleNumber", "8947278", "", null, emptyList())
+                            "artNumber" to GiniVisionSpecificExtraction("artNumber", "8947278", "", null, emptyList())
                     ),
                     mutableMapOf(
                             "description" to GiniVisionSpecificExtraction("description", "Trouser", "", null, emptyList()),
                             "quantity" to GiniVisionSpecificExtraction("quantity", "1", "", null, emptyList()),
                             "grossPrice" to GiniVisionSpecificExtraction("grossPrice", "24.39:EUR", "", null, emptyList()),
-                            "articleNumber" to GiniVisionSpecificExtraction("articleNumber", "1232411", "", null, emptyList())
+                            "artNumber" to GiniVisionSpecificExtraction("artNumber", "1232411", "", null, emptyList())
                     )
             )
     ))
@@ -172,7 +172,7 @@ class LineItemsValidatorTest {
         var valid = true
         try {
             LineItemsValidator.validate(createLineItemsFixture().apply {
-                get("lineItems")!!.specificExtractionMaps[0].remove("articleNumber")
+                get("lineItems")!!.specificExtractionMaps[0].remove("artNumber")
             })
         } catch (e: ArticleNumberMissingException) {
             valid = false
