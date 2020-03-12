@@ -170,7 +170,7 @@ sealed class ViewHolder<in T>(itemView: View, val viewType: ViewType) :
                 description.text = li.description
                 @SuppressLint("SetTextI18n")
                 quantity.text = " ${li.quantity}"
-                lineItemTotalGrossPriceIntegralAndFractionalParts(li).let { (integral, fractional) ->
+                DigitalInvoice.lineItemTotalGrossPriceIntegralAndFractionalParts(li).let { (integral, fractional) ->
                     priceIntegralPart.text = integral
                     @SuppressLint("SetTextI18n")
                     priceFractionalPart.text = fractional

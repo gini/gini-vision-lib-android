@@ -1,11 +1,11 @@
 package net.gini.android.vision.digitalinvoice.details
 
 import android.app.Activity
+import net.gini.android.vision.digitalinvoice.DigitalInvoice
 import net.gini.android.vision.digitalinvoice.LineItem
 import net.gini.android.vision.digitalinvoice.SelectableLineItem
 import net.gini.android.vision.digitalinvoice.details.LineItemDetailsScreenContract.Presenter
 import net.gini.android.vision.digitalinvoice.details.LineItemDetailsScreenContract.View
-import net.gini.android.vision.digitalinvoice.lineItemTotalGrossPriceIntegralAndFractionalParts
 import net.gini.android.vision.digitalinvoice.mockReasons
 import java.math.BigDecimal
 import java.text.DecimalFormat
@@ -140,12 +140,11 @@ class LineItemDetailsScreenPresenter(activity: Activity, view: View,
     }
 
     override fun stop() {
-        // TODO
     }
 }
 
 private fun View.showTotalGrossPrice(selectableLineItem: SelectableLineItem) {
-    lineItemTotalGrossPriceIntegralAndFractionalParts(
+    DigitalInvoice.lineItemTotalGrossPriceIntegralAndFractionalParts(
             selectableLineItem.lineItem).let { (integral, fractional) ->
         showTotalGrossPrice(integral, fractional)
     }
