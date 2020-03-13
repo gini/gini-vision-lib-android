@@ -26,6 +26,7 @@ class DigitalInvoiceScreenPresenterTest {
 
     @Mock
     private lateinit var activity: Activity
+
     @Mock
     private lateinit var view: View
 
@@ -351,52 +352,6 @@ class DigitalInvoiceScreenPresenterTest {
     }
 
     @Test
-    fun `should return selected and deselected line items when the 'Pay' button was clicked`() {
-        // Given
-        view = ViewWithSelectedReturnReason("Item is not for me")
-
-        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
-            listener = mock()
-
-            deselectLineItem(digitalInvoice.selectableLineItems[0])
-
-            // When
-            pay()
-
-            // Then
-            verify(listener)?.onPayInvoice(
-                    selectedLineItems = eq(digitalInvoice.selectableLineItems.takeLast(2).map { it.lineItem }),
-                    selectedLineItemsTotalPrice = any(),
-                    deselectedLineItems = eq(listOf(digitalInvoice.selectableLineItems[0].lineItem)),
-                    reviewedCompoundExtractions = any(),
-                    reviewedExtractions = any())
-        }
-    }
-
-    @Test
-    fun `should return total price of selected line items when the 'Pay' button was clicked`() {
-        // Given
-        view = ViewWithSelectedReturnReason("Item is not for me")
-
-        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
-            listener = mock()
-
-            deselectLineItem(digitalInvoice.selectableLineItems[0])
-
-            // When
-            pay()
-
-            // Then
-            verify(listener)?.onPayInvoice(
-                    selectedLineItems = any(),
-                    selectedLineItemsTotalPrice = eq("28.58:EUR"),
-                    deselectedLineItems = any(),
-                    reviewedCompoundExtractions = any(),
-                    reviewedExtractions = any())
-        }
-    }
-
-    @Test
     fun `should update amount in extractions when the 'Pay' button was clicked`() {
         // Given
         view = ViewWithSelectedReturnReason("Item is not for me")
@@ -412,12 +367,8 @@ class DigitalInvoiceScreenPresenterTest {
             pay()
 
             // Then
-            verify(listener)?.onPayInvoice(
-                    selectedLineItems = any(),
-                    selectedLineItemsTotalPrice = any(),
-                    deselectedLineItems = any(),
-                    reviewedCompoundExtractions = any(),
-                    reviewedExtractions = argThat { get("amountToPay")?.value?.equals("28.58:EUR") ?: false })
+            verify(listener)?.onPayInvoice(specificExtractions = argThat { get("amountToPay")?.value?.equals("28.58:EUR") ?: false },
+                    compoundExtractions = any())
         }
     }
 
@@ -443,18 +394,14 @@ class DigitalInvoiceScreenPresenterTest {
             pay()
 
             // Then
-            verify(listener)?.onPayInvoice(
-                    selectedLineItems = any(),
-                    selectedLineItemsTotalPrice = any(),
-                    deselectedLineItems = any(),
-                    reviewedCompoundExtractions = argThat {
+            verify(listener)?.onPayInvoice(specificExtractions = any(),
+                    compoundExtractions = argThat {
                         val specificExtractionMaps = get("lineItems")?.specificExtractionMaps
                         specificExtractionMaps?.size == 3
                                 && specificExtractionMaps[0]["quantity"]?.value.equals("0")
                                 && specificExtractionMaps[1]["quantity"]?.value.equals("99")
                                 && specificExtractionMaps[2]["baseGross"]?.value.equals("203.19:EUR")
-                    },
-                    reviewedExtractions = any())
+                    })
         }
     }
 

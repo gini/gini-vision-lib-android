@@ -12,9 +12,6 @@ interface DigitalInvoiceFragmentListener {
 
     fun onEditLineItem(selectableLineItem: SelectableLineItem)
 
-    fun onPayInvoice(selectedLineItems: List<LineItem>,
-                     selectedLineItemsTotalPrice: String,
-                     deselectedLineItems: List<LineItem>,
-                     reviewedCompoundExtractions: Map<String, GiniVisionCompoundExtraction>,
-                     reviewedExtractions: Map<String, GiniVisionSpecificExtraction>)
+    fun onPayInvoice(specificExtractions: Map<String, GiniVisionSpecificExtraction>,
+                     compoundExtractions: Map<String, GiniVisionCompoundExtraction>)
 }

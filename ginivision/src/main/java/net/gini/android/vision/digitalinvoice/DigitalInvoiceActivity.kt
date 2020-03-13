@@ -95,15 +95,14 @@ class DigitalInvoiceActivity : AppCompatActivity(), DigitalInvoiceFragmentListen
                 EDIT_LINE_ITEM_REQUEST)
     }
 
-    override fun onPayInvoice(selectedLineItems: List<LineItem>, selectedLineItemsTotalPrice: String, deselectedLineItems: List<LineItem>,
-                              reviewedCompoundExtractions: Map<String, GiniVisionCompoundExtraction>,
-                              reviewedExtractions: Map<String, GiniVisionSpecificExtraction>) {
+    override fun onPayInvoice(specificExtractions: Map<String, GiniVisionSpecificExtraction>,
+                              compoundExtractions: Map<String, GiniVisionCompoundExtraction>) {
         setResult(Activity.RESULT_OK, Intent().apply {
             putExtra(CameraActivity.EXTRA_OUT_EXTRACTIONS, Bundle().apply {
-                reviewedExtractions.forEach { putParcelable(it.key, it.value) }
+                specificExtractions.forEach { putParcelable(it.key, it.value) }
             })
             putExtra(CameraActivity.EXTRA_OUT_COMPOUND_EXTRACTIONS, Bundle().apply {
-                reviewedCompoundExtractions.forEach { putParcelable(it.key, it.value) }
+                compoundExtractions.forEach { putParcelable(it.key, it.value) }
             })
         })
         finish()
