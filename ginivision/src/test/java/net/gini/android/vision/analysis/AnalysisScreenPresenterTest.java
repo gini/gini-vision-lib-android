@@ -721,8 +721,8 @@ public class AnalysisScreenPresenterTest {
         row1.put("description",
                 new GiniVisionSpecificExtraction("description", "Shoe", "", null, Collections.<GiniVisionExtraction>emptyList()));
         row1.put("quantity", new GiniVisionSpecificExtraction("quantity", "2", "", null, Collections.<GiniVisionExtraction>emptyList()));
-        row1.put("grossPrice",
-                new GiniVisionSpecificExtraction("grossPrice", "9.99:EUR", "", null, Collections.<GiniVisionExtraction>emptyList()));
+        row1.put("baseGross",
+                new GiniVisionSpecificExtraction("baseGross", "9.99:EUR", "", null, Collections.<GiniVisionExtraction>emptyList()));
         row1.put("artNumber",
                 new GiniVisionSpecificExtraction("artNumber", "8947278", "", null, Collections.<GiniVisionExtraction>emptyList()));
 
@@ -730,8 +730,8 @@ public class AnalysisScreenPresenterTest {
         row2.put("description",
                 new GiniVisionSpecificExtraction("description", "Trouser", "", null, Collections.<GiniVisionExtraction>emptyList()));
         row2.put("quantity", new GiniVisionSpecificExtraction("quantity", "1", "", null, Collections.<GiniVisionExtraction>emptyList()));
-        row2.put("grossPrice",
-                new GiniVisionSpecificExtraction("grossPrice", "24.39:EUR", "", null, Collections.<GiniVisionExtraction>emptyList()));
+        row2.put("baseGross",
+                new GiniVisionSpecificExtraction("baseGross", "24.39:EUR", "", null, Collections.<GiniVisionExtraction>emptyList()));
         row2.put("artNumber",
                 new GiniVisionSpecificExtraction("artNumber", "1232411", "", null, Collections.<GiniVisionExtraction>emptyList()));
 

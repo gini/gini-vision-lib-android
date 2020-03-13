@@ -57,7 +57,7 @@ class DigitalInvoice(extractions: Map<String, GiniVisionSpecificExtraction>,
                     LineItem(index.toString(),
                             lineItem["description"]?.value ?: "",
                             lineItem["quantity"]?.value?.toIntOrNull() ?: 0,
-                            lineItem["grossPrice"]?.value ?: "")
+                            lineItem["baseGross"]?.value ?: "")
                 }
             } ?: emptyList()
 
@@ -114,7 +114,7 @@ class DigitalInvoice(extractions: Map<String, GiniVisionSpecificExtraction>,
                                 lineItemExtractions.mapValues { (name, lineItemExtraction) ->
                                     when (name) {
                                         "description" -> copyGiniVisionSpecificExtraction(lineItemExtraction, sli.lineItem.description)
-                                        "grossPrice" -> copyGiniVisionSpecificExtraction(lineItemExtraction, sli.lineItem.rawGrossPrice)
+                                        "baseGross" -> copyGiniVisionSpecificExtraction(lineItemExtraction, sli.lineItem.rawGrossPrice)
                                         "quantity" -> copyGiniVisionSpecificExtraction(lineItemExtraction,
                                                 if (sli.selected) {
                                                     sli.lineItem.quantity.toString()

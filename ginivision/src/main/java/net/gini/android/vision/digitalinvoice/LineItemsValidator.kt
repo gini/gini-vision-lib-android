@@ -52,7 +52,7 @@ val quantityAvailable: Validate = { compoundExtractions ->
 }
 
 val grossPriceAvailable: Validate = { compoundExtractions ->
-    if ((compoundExtractions["lineItems"]?.specificExtractionMaps?.all { it.containsKey("grossPrice") }) != true) {
+    if ((compoundExtractions["lineItems"]?.specificExtractionMaps?.all { it.containsKey("baseGross") }) != true) {
         throw GrossPriceMissingException()
     }
 }
@@ -71,7 +71,7 @@ val quantityParcelable: Validate = { compoundExtractions ->
 
 val grossPriceParcelable: Validate = { compoundExtractions ->
     compoundExtractions["lineItems"]?.specificExtractionMaps?.forEach { map ->
-        map["grossPrice"]?.value?.let { grossPriceString ->
+        map["baseGross"]?.value?.let { grossPriceString ->
             try {
                 LineItem.parseGrossPriceExtraction(grossPriceString)
             } catch (e: Exception) {
@@ -87,7 +87,7 @@ val singleCurrency: Validate = { compoundExtractions ->
             throw MixedCurrenciesException(cause = LineItemsMissingException())
         } else {
             val firstCurrency = try {
-                lineItemRows[0]["grossPrice"]?.value?.let { grossPriceString ->
+                lineItemRows[0]["baseGross"]?.value?.let { grossPriceString ->
                     val (_, _, currency) = LineItem.parseGrossPriceExtraction(grossPriceString)
                     currency
                 }
@@ -99,7 +99,7 @@ val singleCurrency: Validate = { compoundExtractions ->
             } else {
                 val sameCurrency = lineItemRows.subList(1, lineItemRows.size).fold(true, { sameCurrency, row ->
                     val currency = try {
-                        row["grossPrice"]?.value?.let { grossPriceString ->
+                        row["baseGross"]?.value?.let { grossPriceString ->
                             val (_, _, currency) = LineItem.parseGrossPriceExtraction(grossPriceString)
                             currency
                         }

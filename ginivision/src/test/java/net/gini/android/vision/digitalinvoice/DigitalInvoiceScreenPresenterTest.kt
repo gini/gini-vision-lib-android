@@ -34,19 +34,19 @@ class DigitalInvoiceScreenPresenterTest {
                     mutableMapOf(
                             "description" to GiniVisionSpecificExtraction("description", "Shoe", "", null, emptyList()),
                             "quantity" to GiniVisionSpecificExtraction("quantity", "2", "", null, emptyList()),
-                            "grossPrice" to GiniVisionSpecificExtraction("grossPrice", "9.99:EUR", "", null, emptyList()),
+                            "baseGross" to GiniVisionSpecificExtraction("baseGross", "9.99:EUR", "", null, emptyList()),
                             "articleNumber" to GiniVisionSpecificExtraction("articleNumber", "8947278", "", null, emptyList())
                     ),
                     mutableMapOf(
                             "description" to GiniVisionSpecificExtraction("description", "Trouser", "", null, emptyList()),
                             "quantity" to GiniVisionSpecificExtraction("quantity", "1", "", null, emptyList()),
-                            "grossPrice" to GiniVisionSpecificExtraction("grossPrice", "24.39:EUR", "", null, emptyList()),
+                            "baseGross" to GiniVisionSpecificExtraction("baseGross", "24.39:EUR", "", null, emptyList()),
                             "articleNumber" to GiniVisionSpecificExtraction("articleNumber", "1232411", "", null, emptyList())
                     ),
                     mutableMapOf(
                             "description" to GiniVisionSpecificExtraction("description", "Socks", "", null, emptyList()),
                             "quantity" to GiniVisionSpecificExtraction("quantity", "1", "", null, emptyList()),
-                            "grossPrice" to GiniVisionSpecificExtraction("grossPrice", "4.19:EUR", "", null, emptyList()),
+                            "baseGross" to GiniVisionSpecificExtraction("baseGross", "4.19:EUR", "", null, emptyList()),
                             "articleNumber" to GiniVisionSpecificExtraction("articleNumber", "55789642", "", null, emptyList())
                     )
             )
@@ -339,12 +339,12 @@ class DigitalInvoiceScreenPresenterTest {
             val specificExtractionMaps = compoundExtractions["lineItems"]?.specificExtractionMaps
             digitalInvoice.selectableLineItems[0].lineItem.run {
                 assertThat(description).isEqualTo(specificExtractionMaps?.get(0)?.get("description")?.value)
-                assertThat(rawGrossPrice).isEqualTo(specificExtractionMaps?.get(0)?.get("grossPrice")?.value)
+                assertThat(rawGrossPrice).isEqualTo(specificExtractionMaps?.get(0)?.get("baseGross")?.value)
                 assertThat(quantity.toString()).isEqualTo(specificExtractionMaps?.get(0)?.get("quantity")?.value)
             }
             digitalInvoice.selectableLineItems[1].lineItem.run {
                 assertThat(description).isEqualTo(specificExtractionMaps?.get(1)?.get("description")?.value)
-                assertThat(rawGrossPrice).isEqualTo(specificExtractionMaps?.get(1)?.get("grossPrice")?.value)
+                assertThat(rawGrossPrice).isEqualTo(specificExtractionMaps?.get(1)?.get("baseGross")?.value)
                 assertThat(quantity.toString()).isEqualTo(specificExtractionMaps?.get(1)?.get("quantity")?.value)
             }
         }
@@ -452,7 +452,7 @@ class DigitalInvoiceScreenPresenterTest {
                         specificExtractionMaps?.size == 3
                                 && specificExtractionMaps[0]["quantity"]?.value.equals("0")
                                 && specificExtractionMaps[1]["quantity"]?.value.equals("99")
-                                && specificExtractionMaps[2]["grossPrice"]?.value.equals("203.19:EUR")
+                                && specificExtractionMaps[2]["baseGross"]?.value.equals("203.19:EUR")
                     },
                     reviewedExtractions = any())
         }

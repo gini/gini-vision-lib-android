@@ -22,13 +22,13 @@ class LineItemsValidatorTest {
                     mutableMapOf(
                             "description" to GiniVisionSpecificExtraction("description", "Shoe", "", null, emptyList()),
                             "quantity" to GiniVisionSpecificExtraction("quantity", "2", "", null, emptyList()),
-                            "grossPrice" to GiniVisionSpecificExtraction("grossPrice", "9.99:EUR", "", null, emptyList()),
+                            "baseGross" to GiniVisionSpecificExtraction("baseGross", "9.99:EUR", "", null, emptyList()),
                             "artNumber" to GiniVisionSpecificExtraction("artNumber", "8947278", "", null, emptyList())
                     ),
                     mutableMapOf(
                             "description" to GiniVisionSpecificExtraction("description", "Trouser", "", null, emptyList()),
                             "quantity" to GiniVisionSpecificExtraction("quantity", "1", "", null, emptyList()),
-                            "grossPrice" to GiniVisionSpecificExtraction("grossPrice", "24.39:EUR", "", null, emptyList()),
+                            "baseGross" to GiniVisionSpecificExtraction("baseGross", "24.39:EUR", "", null, emptyList()),
                             "artNumber" to GiniVisionSpecificExtraction("artNumber", "1232411", "", null, emptyList())
                     )
             )
@@ -142,7 +142,7 @@ class LineItemsValidatorTest {
         var valid = true
         try {
             LineItemsValidator.validate(createLineItemsFixture().apply {
-                get("lineItems")!!.specificExtractionMaps[0].remove("grossPrice")
+                get("lineItems")!!.specificExtractionMaps[0].remove("baseGross")
             })
         } catch (e: GrossPriceMissingException) {
             valid = false
@@ -232,7 +232,7 @@ class LineItemsValidatorTest {
         var valid = true
         try {
             LineItemsValidator.validate(createLineItemsFixture().apply {
-                get("lineItems")!!.specificExtractionMaps[0]["grossPrice"]!!.value = "9_89:EUR"
+                get("lineItems")!!.specificExtractionMaps[0]["baseGross"]!!.value = "9_89:EUR"
             })
         } catch (e: GrossPriceParsingException) {
             valid = false
@@ -262,7 +262,7 @@ class LineItemsValidatorTest {
         var valid = true
         try {
             LineItemsValidator.validate(createLineItemsFixture().apply {
-                get("lineItems")!!.specificExtractionMaps[0]["grossPrice"]!!.value = "9.89:USD"
+                get("lineItems")!!.specificExtractionMaps[0]["baseGross"]!!.value = "9.89:USD"
             })
         } catch (e: MixedCurrenciesException) {
             valid = false
