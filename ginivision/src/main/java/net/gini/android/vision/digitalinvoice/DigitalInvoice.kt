@@ -105,23 +105,22 @@ class DigitalInvoice(extractions: Map<String, GiniVisionSpecificExtraction>,
     private fun totalLineItemsCount(): Int =
             selectableLineItems.fold(0) { c, sli -> c + sli.lineItem.quantity }
 
-    // TODO: not tested - will be removed in PIA-540
-    fun updateExtractionsWithReviewedLineItems() =
-            updateCompoundExtractions(compoundExtractions, selectableLineItems.filter { it.selected }.map { it.lineItem })
-
-    // TODO: not tested - will be removed in PIA-540
-    private fun updateCompoundExtractions(compoundExtractions: Map<String, GiniVisionCompoundExtraction>,
-                                          selectedlineItems: List<LineItem>) {
+    fun updateLineItemExtractionsWithReviewedLineItems() {
         _compoundExtractions = compoundExtractions.mapValues { (name, extraction) ->
             when (name) {
                 "lineItems" -> GiniVisionCompoundExtraction(name,
                         extraction.specificExtractionMaps.mapIndexed { index, lineItemExtractions ->
-                            selectedlineItems.find { it.id.toInt() == index }?.let { lineItem ->
+                            selectableLineItems.find { it.lineItem.id.toInt() == index }?.let { sli ->
                                 lineItemExtractions.mapValues { (name, lineItemExtraction) ->
                                     when (name) {
-                                        "description" -> copyGiniVisionSpecificExtraction(lineItemExtraction, lineItem.description)
-                                        "grossPrice" -> copyGiniVisionSpecificExtraction(lineItemExtraction, lineItem.rawGrossPrice)
-                                        "quantity" -> copyGiniVisionSpecificExtraction(lineItemExtraction, lineItem.quantity.toString())
+                                        "description" -> copyGiniVisionSpecificExtraction(lineItemExtraction, sli.lineItem.description)
+                                        "grossPrice" -> copyGiniVisionSpecificExtraction(lineItemExtraction, sli.lineItem.rawGrossPrice)
+                                        "quantity" -> copyGiniVisionSpecificExtraction(lineItemExtraction,
+                                                if (sli.selected) {
+                                                    sli.lineItem.quantity.toString()
+                                                } else {
+                                                    "0"
+                                                })
                                         else -> lineItemExtraction
                                     }
                                 }
@@ -132,7 +131,7 @@ class DigitalInvoice(extractions: Map<String, GiniVisionSpecificExtraction>,
         }
     }
 
-    fun addTotalGrossPriceToExtractions() {
+    fun updateAmountToPayExtractionWithTotalGrossPrice() {
         val totalPrice = LineItem.createRawGrossPrice(selectedLineItemsTotalGrossPriceSum(),
                 selectableLineItems.firstOrNull()?.lineItem?.rawCurrency ?: "EUR")
 

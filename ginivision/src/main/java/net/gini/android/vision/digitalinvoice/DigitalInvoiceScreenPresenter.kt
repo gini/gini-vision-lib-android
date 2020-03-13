@@ -69,8 +69,8 @@ internal open class DigitalInvoiceScreenPresenter(activity: Activity,
         val totalPrice =
                 LineItem.createRawGrossPrice(digitalInvoice.selectedLineItemsTotalGrossPriceSum(),
                         digitalInvoice.selectableLineItems.firstOrNull()?.lineItem?.rawCurrency ?: "EUR")
-        digitalInvoice.updateExtractionsWithReviewedLineItems()
-        digitalInvoice.addTotalGrossPriceToExtractions()
+        digitalInvoice.updateLineItemExtractionsWithReviewedLineItems()
+        digitalInvoice.updateAmountToPayExtractionWithTotalGrossPrice()
         listener?.onPayInvoice(
                 selectedLineItems = selected,
                 selectedLineItemsTotalPrice = totalPrice,

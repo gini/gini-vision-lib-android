@@ -253,7 +253,7 @@ class DigitalInvoiceTest {
         digitalInvoice.deselectLineItem(digitalInvoice.selectableLineItems[0], "Nem kell")
 
         // When
-        digitalInvoice.addTotalGrossPriceToExtractions()
+        digitalInvoice.updateAmountToPayExtractionWithTotalGrossPrice()
 
         // Then
         assertThat(digitalInvoice.extractions["amountToPay"]!!.value).isEqualTo("28.58:EUR")
@@ -271,9 +271,45 @@ class DigitalInvoiceTest {
         digitalInvoice.deselectLineItem(digitalInvoice.selectableLineItems[1], "Nem kell")
 
         // When
-        digitalInvoice.addTotalGrossPriceToExtractions()
+        digitalInvoice.updateAmountToPayExtractionWithTotalGrossPrice()
 
         // Then
         assertThat(digitalInvoice.extractions["amountToPay"]!!.value).isEqualTo("24.17:EUR")
+    }
+
+    @Test
+    fun `should set quantity to 0 in the 'lineItems' compound extractions for deselected line items`() {
+        // Given
+        val digitalInvoice = DigitalInvoice(emptyMap(), createLineItemsFixture())
+
+        digitalInvoice.deselectLineItem(digitalInvoice.selectableLineItems[0], "I don't want this")
+
+        // When
+        digitalInvoice.updateLineItemExtractionsWithReviewedLineItems()
+
+        // Then
+        assertThat(digitalInvoice.compoundExtractions["lineItems"]!!.specificExtractionMaps[0]["quantity"]!!.value).isEqualTo("0")
+    }
+
+    @Test
+    fun `should update the 'lineItems' compound extractions with the line item changes`() {
+        // Given
+        val digitalInvoice = DigitalInvoice(emptyMap(), createLineItemsFixture())
+
+        digitalInvoice.updateLineItem(digitalInvoice.selectableLineItems[1]
+                .copy(lineItem = digitalInvoice.selectableLineItems[1].lineItem
+                        .copy(description = "This was modified", quantity = 99)))
+        digitalInvoice.updateLineItem(digitalInvoice.selectableLineItems[2]
+                .copy(lineItem = digitalInvoice.selectableLineItems[2].lineItem
+                        .copy(rawGrossPrice = "79.19:EUR")))
+
+        // When
+        digitalInvoice.updateLineItemExtractionsWithReviewedLineItems()
+
+        // Then
+        val lineItemExtractions = digitalInvoice.compoundExtractions["lineItems"]!!.specificExtractionMaps
+        assertThat(lineItemExtractions[1]["description"]!!.value).isEqualTo("This was modified")
+        assertThat(lineItemExtractions[1]["quantity"]!!.value).isEqualTo("99")
+        assertThat(lineItemExtractions[2]["grossPrice"]!!.value).isEqualTo("79.19:EUR")
     }
 }

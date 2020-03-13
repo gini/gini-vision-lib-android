@@ -449,33 +449,11 @@ class DigitalInvoiceScreenPresenterTest {
                     deselectedLineItems = any(),
                     reviewedCompoundExtractions = argThat {
                         val specificExtractionMaps = get("lineItems")?.specificExtractionMaps
-                        specificExtractionMaps?.size == 2
-                                && specificExtractionMaps[0]["quantity"]?.value.equals("99")
-                                && specificExtractionMaps[1]["grossPrice"]?.value.equals("203.19:EUR")
+                        specificExtractionMaps?.size == 3
+                                && specificExtractionMaps[0]["quantity"]?.value.equals("0")
+                                && specificExtractionMaps[1]["quantity"]?.value.equals("99")
+                                && specificExtractionMaps[2]["grossPrice"]?.value.equals("203.19:EUR")
                     },
-                    reviewedExtractions = any())
-        }
-    }
-
-    @Test
-    fun `should return empty 'lineItems' compound extraction, if all line items were deselected, when the 'Pay' button was clicked`() {
-        // Given
-        view = ViewWithSelectedReturnReason("Item is not for me")
-
-        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
-            listener = mock()
-
-            digitalInvoice.selectableLineItems.forEach { it.selected = false }
-
-            // When
-            pay()
-
-            // Then
-            verify(listener)?.onPayInvoice(
-                    selectedLineItems = any(),
-                    selectedLineItemsTotalPrice = any(),
-                    deselectedLineItems = any(),
-                    reviewedCompoundExtractions = argThat { get("lineItems")?.specificExtractionMaps?.size == 0 },
                     reviewedExtractions = any())
         }
     }
