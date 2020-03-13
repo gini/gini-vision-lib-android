@@ -15,7 +15,6 @@ import net.gini.android.vision.component.R;
 import net.gini.android.vision.component.digitalinvoice.details.LineItemDetailsExampleActivity;
 import net.gini.android.vision.digitalinvoice.DigitalInvoiceFragment;
 import net.gini.android.vision.digitalinvoice.DigitalInvoiceFragmentListener;
-import net.gini.android.vision.digitalinvoice.LineItem;
 import net.gini.android.vision.digitalinvoice.SelectableLineItem;
 import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
@@ -25,7 +24,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -113,14 +111,12 @@ public class DigitalInvoiceExampleActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onPayInvoice(final List<LineItem> selectedLineItems, final String selectedLineItemsTotalPrice,
-            final List<LineItem> deselectedLineItems,
-            final Map<String, ? extends GiniVisionCompoundExtraction> reviewedCompoundExtractions,
-            final Map<String, ? extends GiniVisionSpecificExtraction> reviewedExtractions) {
+    public void onPayInvoice(@NonNull final Map<String, ? extends GiniVisionSpecificExtraction> specificxtractions,
+            @NonNull final Map<String, ? extends GiniVisionCompoundExtraction> compoundExtractions) {
         LOG.debug("Show extractions with line items");
         final Intent intent = new Intent(this, ExtractionsActivity.class);
-        intent.putExtra(ExtractionsActivity.EXTRA_IN_EXTRACTIONS, mapToBundle(reviewedExtractions));
-        intent.putExtra(ExtractionsActivity.EXTRA_IN_COMPOUND_EXTRACTIONS, mapToBundle(reviewedCompoundExtractions));
+        intent.putExtra(ExtractionsActivity.EXTRA_IN_EXTRACTIONS, mapToBundle(specificxtractions));
+        intent.putExtra(ExtractionsActivity.EXTRA_IN_COMPOUND_EXTRACTIONS, mapToBundle(compoundExtractions));
         startActivity(intent);
         setResult(RESULT_OK);
         finish();
