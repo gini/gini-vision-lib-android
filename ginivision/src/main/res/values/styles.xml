@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="GiniVisionTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="GiniVisionTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <item name="colorPrimary">@color/gv_action_bar</item>
         <item name="colorPrimaryDark">@color/gv_status_bar</item>
         <item name="colorAccent">@color/gv_accent</item>
@@ -14,7 +14,7 @@
         <item name="android:colorBackgroundCacheHint">@null</item>
     </style>
 
-    <style name="GiniVisionTheme.ActionBar" parent="Widget.AppCompat.ActionBar.Solid">
+    <style name="GiniVisionTheme.ActionBar" parent="Widget.MaterialComponents.ActionBar.Solid">
         <item name="titleTextStyle">@style/GiniVisionTheme.ActionBar.TextStyle</item>
         <item name="homeAsUpIndicator">@drawable/gv_action_bar_back</item>
     </style>

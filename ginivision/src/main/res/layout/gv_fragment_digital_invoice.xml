@@ -16,7 +16,7 @@
 
     <Button
         android:id="@+id/gv_pay_button"
-        style="@style/Widget.AppCompat.Button.Colored"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="match_parent"
         android:layout_height="@dimen/gv_digital_invoice_pay_button_height"
         android:layout_alignParentBottom="true"

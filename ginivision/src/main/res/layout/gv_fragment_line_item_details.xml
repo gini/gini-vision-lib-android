@@ -18,11 +18,14 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/gv_description_container"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/gv_checkbox"
         android:layout_marginBottom="@dimen/gv_digital_invoice_line_item_details_description_margin_bottom"
-        android:textColorHint="@color/gv_digital_invoice_line_item_details_input_field_hint_text">
+        android:textColorHint="@color/gv_digital_invoice_line_item_details_input_field_hint_text"
+        app:hintTextColor="@color/gv_digital_invoice_line_item_details_input_field_hint_text"
+        app:boxBackgroundColor="@android:color/transparent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/gv_description"
@@ -46,10 +49,13 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/gv_quantity_container"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColorHint="@color/gv_digital_invoice_line_item_details_input_field_hint_text">
+            android:textColorHint="@color/gv_digital_invoice_line_item_details_input_field_hint_text"
+            app:hintTextColor="@color/gv_digital_invoice_line_item_details_input_field_hint_text"
+            app:boxBackgroundColor="@android:color/transparent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/gv_quantity"
@@ -82,27 +88,31 @@
             android:layout_marginEnd="-12dp"
             android:background="@color/gv_digital_invoice_activity_background"
             android:gravity="bottom"
-            android:paddingBottom="10dp"
+            android:paddingBottom="8dp"
             android:text="€"
             android:textAppearance="@style/GiniVisionTheme.DigitalInvoice.LineItemDetails.InputField.TextStyle"
             tools:ignore="HardcodedText" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/gv_gross_price_container"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColorHint="@color/gv_digital_invoice_line_item_details_input_field_hint_text">
+            app:hintTextColor="@color/gv_digital_invoice_line_item_details_input_field_hint_text"
+            android:textColorHint="@color/gv_digital_invoice_line_item_details_input_field_hint_text"
+            app:boxBackgroundColor="@android:color/transparent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/gv_gross_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:digits="0123456789,."
                 android:gravity="end"
                 android:hint="@string/gv_digital_invoice_line_item_details_gross_price_label"
                 android:inputType="numberDecimal"
-                android:digits="0123456789,."
                 android:selectAllOnFocus="true"
+                android:background="@android:color/transparent"
                 android:textAppearance="@style/GiniVisionTheme.DigitalInvoice.LineItemDetails.InputField.TextStyle"
                 tools:text="152.95" />
 
@@ -144,7 +154,7 @@
 
     <Button
         android:id="@+id/gv_save_button"
-        style="@style/Widget.AppCompat.Button.Colored"
+        style="@style/Widget.MaterialComponents.Button"
         android:layout_width="match_parent"
         android:layout_height="@dimen/gv_digital_invoice_line_item_details_save_button_height"
         android:layout_alignParentBottom="true"
