@@ -3,11 +3,11 @@ package net.gini.android.vision.digitalinvoice.details
 
 import android.app.Activity
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.gv_fragment_line_item_details.*
 import net.gini.android.vision.R
 import net.gini.android.vision.digitalinvoice.LineItem
@@ -183,9 +183,11 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
 
     override fun showReturnReasonDialog(reasons: List<String>,
                                         resultCallback: ReturnReasonDialogResultCallback) {
-        ReturnReasonDialog.createInstance(reasons).also {
-            it.callback = resultCallback
-            it.show(fragmentManager, TAG_RETURN_REASON_DIALOG)
+        fragmentManager?.let { fm ->
+            ReturnReasonDialog.createInstance(reasons).run {
+                callback = resultCallback
+                show(fm, TAG_RETURN_REASON_DIALOG)
+            }
         }
     }
 

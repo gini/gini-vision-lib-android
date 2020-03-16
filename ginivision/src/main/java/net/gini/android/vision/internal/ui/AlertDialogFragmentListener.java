@@ -1,8 +1,8 @@
 package net.gini.android.vision.internal.ui;
 
 import android.content.DialogInterface;
-import android.support.annotation.NonNull;
 
+import androidx.annotation.NonNull;
 /**
  * Created by Alpar Szotyori on 05.06.2018.
  *

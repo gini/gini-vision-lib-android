@@ -1,7 +1,5 @@
 package net.gini.android.vision.review;
 
-import android.support.annotation.NonNull;
-
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.analysis.AnalysisActivity;
@@ -10,6 +8,8 @@ import net.gini.android.vision.analysis.AnalysisFragmentStandard;
 import net.gini.android.vision.network.GiniVisionNetworkService;
 
 import java.util.Map;
+
+import androidx.annotation.NonNull;
 
 /**
  * Methods which both Review Fragments must implement.

@@ -1,13 +1,14 @@
 package net.gini.android.vision.internal.cache;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.util.LruCache;
 
 import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.document.GiniVisionDocument;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Alpar Szotyori on 16.03.2018.

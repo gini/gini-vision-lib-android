@@ -2,10 +2,11 @@ package net.gini.android.vision.internal.camera.photo;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
 
 import java.io.ByteArrayOutputStream;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 
 /**
  * @exclude

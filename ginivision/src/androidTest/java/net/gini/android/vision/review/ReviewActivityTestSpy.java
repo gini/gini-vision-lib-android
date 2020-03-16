@@ -1,9 +1,10 @@
 package net.gini.android.vision.review;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 
 import net.gini.android.vision.Document;
+
+import androidx.annotation.NonNull;
 
 public class ReviewActivityTestSpy extends ReviewActivity {
 
@@ -17,7 +18,7 @@ public class ReviewActivityTestSpy extends ReviewActivity {
     private int mDocumentWasRotatedDegreesOld = Integer.MAX_VALUE;
     private int mDocumentWasRotatedDegreesNew = Integer.MAX_VALUE;
 
-    public void setListenerHook(ListenerHook listenerHook) {
+    public void setListenerHook(final ListenerHook listenerHook) {
         mListenerHook = listenerHook;
         if (mShouldAnalyzeDocument != null) {
             mListenerHook.onShouldAnalyzeDocument(mShouldAnalyzeDocument);
@@ -40,7 +41,7 @@ public class ReviewActivityTestSpy extends ReviewActivity {
     }
 
     @Override
-    public void onShouldAnalyzeDocument(@NonNull Document document) {
+    public void onShouldAnalyzeDocument(@NonNull final Document document) {
         if (mListenerHook != null) {
             mListenerHook.onShouldAnalyzeDocument(document);
         } else {
@@ -49,7 +50,7 @@ public class ReviewActivityTestSpy extends ReviewActivity {
     }
 
     @Override
-    public void onAddDataToResult(@NonNull Intent result) {
+    public void onAddDataToResult(@NonNull final Intent result) {
         if (mListenerHook != null) {
             mListenerHook.onAddDataToResult(result);
         } else {
@@ -58,7 +59,7 @@ public class ReviewActivityTestSpy extends ReviewActivity {
     }
 
     @Override
-    public void onProceedToAnalysisScreen(@NonNull Document document) {
+    public void onProceedToAnalysisScreen(@NonNull final Document document) {
         super.onProceedToAnalysisScreen(document);
         if (mListenerHook != null) {
             mListenerHook.onProceedToAnalysisScreen(document);
@@ -68,7 +69,7 @@ public class ReviewActivityTestSpy extends ReviewActivity {
     }
 
     @Override
-    public void onDocumentReviewedAndAnalyzed(@NonNull Document document) {
+    public void onDocumentReviewedAndAnalyzed(@NonNull final Document document) {
         super.onDocumentReviewedAndAnalyzed(document);
         if (mListenerHook != null) {
             mListenerHook.onDocumentReviewedAndAnalyzed(document);
@@ -78,7 +79,7 @@ public class ReviewActivityTestSpy extends ReviewActivity {
     }
 
     @Override
-    public void onDocumentWasRotated(@NonNull Document document, int oldRotation, int newRotation) {
+    public void onDocumentWasRotated(@NonNull final Document document, final int oldRotation, final int newRotation) {
         super.onDocumentWasRotated(document, oldRotation, newRotation);
         if (mListenerHook != null) {
             mListenerHook.onDocumentWasRotated(document, oldRotation, newRotation);
@@ -90,20 +91,21 @@ public class ReviewActivityTestSpy extends ReviewActivity {
     }
 
     public static abstract class ListenerHook {
-        public void onShouldAnalyzeDocument(@NonNull Document document) {
+
+        public void onShouldAnalyzeDocument(@NonNull final Document document) {
         }
 
-        public void onAddDataToResult(@NonNull Intent result) {
+        public void onAddDataToResult(@NonNull final Intent result) {
         }
 
-        public void onProceedToAnalysisScreen(@NonNull Document document) {
+        public void onProceedToAnalysisScreen(@NonNull final Document document) {
         }
 
-        public void onDocumentReviewedAndAnalyzed(@NonNull Document document) {
+        public void onDocumentReviewedAndAnalyzed(@NonNull final Document document) {
         }
 
-        public void onDocumentWasRotated(@NonNull Document document, int oldRotation,
-                int newRotation) {
+        public void onDocumentWasRotated(@NonNull final Document document, final int oldRotation,
+                final int newRotation) {
         }
     }
 }

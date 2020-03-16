@@ -1,9 +1,9 @@
 package net.gini.android.vision.internal.util;
 
-import android.support.annotation.NonNull;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Alpar Szotyori on 27.03.2018.

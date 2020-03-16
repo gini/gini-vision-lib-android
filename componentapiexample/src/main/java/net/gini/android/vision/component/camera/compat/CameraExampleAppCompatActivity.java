@@ -2,8 +2,6 @@ package net.gini.android.vision.component.camera.compat;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -22,6 +20,9 @@ import net.gini.android.vision.onboarding.OnboardingFragmentCompat;
 import net.gini.android.vision.onboarding.OnboardingFragmentListener;
 
 import java.util.Map;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Created by Alpar Szotyori on 04.12.2017.

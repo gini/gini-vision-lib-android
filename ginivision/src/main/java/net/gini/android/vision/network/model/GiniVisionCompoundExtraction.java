@@ -6,11 +6,12 @@ import static net.gini.android.vision.internal.util.BundleHelperKt.toMapList;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Alpar Szotyori on 13.02.2020.

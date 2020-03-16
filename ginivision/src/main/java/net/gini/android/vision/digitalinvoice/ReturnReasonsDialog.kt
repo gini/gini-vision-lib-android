@@ -2,12 +2,12 @@ package net.gini.android.vision.digitalinvoice
 
 import android.content.DialogInterface
 import android.os.Bundle
-import android.support.design.widget.BottomSheetDialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.gv_fragment_return_reason_dialog.*
 import net.gini.android.vision.R
 
@@ -75,7 +75,7 @@ class ReturnReasonDialog : BottomSheetDialogFragment() {
         }
     }
 
-    override fun onCancel(dialog: DialogInterface?) {
+    override fun onCancel(dialog: DialogInterface) {
         callback?.invoke(null)
     }
 }

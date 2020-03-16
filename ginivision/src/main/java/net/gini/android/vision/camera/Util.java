@@ -1,8 +1,8 @@
 package net.gini.android.vision.camera;
 
-import android.support.annotation.NonNull;
-
 import net.gini.android.vision.GiniVisionError;
+
+import androidx.annotation.NonNull;
 
 /**
  * @exclude

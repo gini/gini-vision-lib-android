@@ -1,9 +1,9 @@
 package net.gini.android.vision.tracking;
 
-import android.support.annotation.NonNull;
-
 import java.util.Collections;
 import java.util.Map;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Alpar Szotyori on 27.02.2020.

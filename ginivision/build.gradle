@@ -57,10 +57,15 @@ android {
 
 dependencies {
     api deps.slf4j
-    api deps.appCompatv7
-    api deps.supportv4
-    api deps.supportv13
-    api deps.supportDesign
+    api deps.androidxCore
+    api deps.androidxAppCompat
+    api deps.androidxFragment
+    api deps.androidxViewPager
+    api deps.androidxRecyclerView
+    api deps.androidxLegacySupportV13
+    api deps.materialDesign
+    api deps.androidxCardView
+    api deps.androidxAnnotations
     api deps.playServicesVision
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
@@ -68,7 +73,7 @@ dependencies {
     implementation deps.completableFuture
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation fileTree(dir: '${project.rootDir}/tools/doccheck-doclet', include: ['*.jar'])
-    implementation deps.supportCardView
+    implementation deps.androidxCardView
 
     testImplementation deps.junit
     testImplementation deps.truth

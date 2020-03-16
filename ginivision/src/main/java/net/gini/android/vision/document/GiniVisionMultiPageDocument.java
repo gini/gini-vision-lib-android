@@ -2,8 +2,6 @@ package net.gini.android.vision.document;
 
 import android.content.Context;
 import android.os.Parcel;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import net.gini.android.vision.AsyncCallback;
 
@@ -11,6 +9,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * Created by Alpar Szotyori on 19.02.2018.

@@ -5,9 +5,6 @@ import static net.gini.android.vision.tracking.EventTrackingHelper.trackAnalysis
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -28,6 +25,10 @@ import net.gini.android.vision.review.ReviewActivity;
 import net.gini.android.vision.tracking.AnalysisScreenEvent;
 
 import java.util.Map;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * <h3>Screen API</h3>
@@ -491,6 +492,7 @@ public class AnalysisActivity extends AppCompatActivity implements
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode,
             final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RETURN_ASSISTANT_REQUEST) {
             setResult(resultCode, data);
             finish();

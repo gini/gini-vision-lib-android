@@ -3,11 +3,11 @@ package net.gini.android.vision.digitalinvoice
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.gv_fragment_digital_invoice.*
 import net.gini.android.vision.R
 import net.gini.android.vision.network.model.GiniVisionCompoundExtraction
@@ -138,9 +138,11 @@ class DigitalInvoiceFragment : Fragment(), DigitalInvoiceScreenContract.View,
 
     override fun showReturnReasonDialog(reasons: List<String>,
                                         resultCallback: ReturnReasonDialogResultCallback) {
-        ReturnReasonDialog.createInstance(reasons).also {
-            it.callback = resultCallback
-            it.show(fragmentManager, TAG_RETURN_REASON_DIALOG)
+        fragmentManager?.let { fm ->
+            ReturnReasonDialog.createInstance(reasons).run {
+                callback = resultCallback
+                show(fm, TAG_RETURN_REASON_DIALOG)
+        }
         }
     }
 
@@ -176,13 +178,15 @@ class DigitalInvoiceFragment : Fragment(), DigitalInvoiceScreenContract.View,
     }
 
     override fun onWhatIsThisButtonClicked() {
-        WhatIsThisDialog.createInstance().also {
-            it.callback = { isHelpful ->
+        fragmentManager?.let { fm ->
+            WhatIsThisDialog.createInstance().run {
+                callback = { isHelpful ->
                 if (isHelpful != null) {
                     presenter?.userFeedbackReceived(isHelpful)
                 }
             }
-            it.show(fragmentManager, TAG_WHAT_IS_THIS_DIALOG)
+                show(fm, TAG_WHAT_IS_THIS_DIALOG)
+        }
         }
     }
 

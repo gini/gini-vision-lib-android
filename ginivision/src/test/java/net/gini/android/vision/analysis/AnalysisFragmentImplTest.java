@@ -26,7 +26,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.support.annotation.NonNull;
 import android.view.View;
 
 import net.gini.android.vision.Document;
@@ -50,6 +49,7 @@ import org.robolectric.shadows.ShadowViewGroup;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.Lifecycle;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.matcher.ViewMatchers;

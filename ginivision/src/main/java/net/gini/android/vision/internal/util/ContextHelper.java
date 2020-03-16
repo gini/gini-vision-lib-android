@@ -1,9 +1,10 @@
 package net.gini.android.vision.internal.util;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import net.gini.android.vision.R;
+
+import androidx.annotation.NonNull;
 
 /**
  * @exclude

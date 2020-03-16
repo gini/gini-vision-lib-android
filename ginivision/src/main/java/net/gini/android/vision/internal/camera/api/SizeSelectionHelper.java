@@ -1,13 +1,14 @@
 package net.gini.android.vision.internal.camera.api;
 
 import android.hardware.Camera;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import net.gini.android.vision.internal.util.Size;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * @exclude

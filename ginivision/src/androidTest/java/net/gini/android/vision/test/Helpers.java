@@ -11,8 +11,6 @@ import android.os.Looper;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.RemoteException;
-import android.support.annotation.NonNull;
-import android.support.v4.content.FileProvider;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.document.DocumentFactory;
@@ -27,6 +25,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.FileProvider;
 import androidx.test.InstrumentationRegistry;
 import androidx.test.uiautomator.UiDevice;
 

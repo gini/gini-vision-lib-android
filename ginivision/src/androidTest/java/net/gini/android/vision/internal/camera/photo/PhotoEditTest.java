@@ -8,7 +8,6 @@ import static net.gini.android.vision.test.PhotoSubject.photo;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
 
 import net.gini.android.vision.document.ImageDocument;
 
@@ -19,6 +18,7 @@ import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+import androidx.annotation.NonNull;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)

@@ -1,7 +1,5 @@
 package net.gini.android.vision.network.model;
 
-import android.support.annotation.NonNull;
-
 import net.gini.android.models.CompoundExtraction;
 import net.gini.android.models.SpecificExtraction;
 
@@ -9,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Alpar Szotyori on 17.02.2020.

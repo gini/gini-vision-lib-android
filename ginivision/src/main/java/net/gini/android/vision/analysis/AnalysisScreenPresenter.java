@@ -9,9 +9,6 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
 import android.view.View;
 
 import net.gini.android.vision.AsyncCallback;
@@ -47,6 +44,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 import jersey.repackaged.jsr166e.CompletableFuture;
 
 /**

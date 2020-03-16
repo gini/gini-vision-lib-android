@@ -1,24 +1,24 @@
 package net.gini.android.vision.requirements;
 
-import android.support.annotation.NonNull;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 class RequirementsChecker {
 
     private final List<? extends Requirement> mRequirements;
 
-    RequirementsChecker(@NonNull List<? extends Requirement> requirements) {
+    RequirementsChecker(@NonNull final List<? extends Requirement> requirements) {
         mRequirements = requirements;
     }
 
     RequirementsReport checkRequirements() {
         boolean result = true;
-        List<RequirementReport> requirementsReports = new ArrayList<>(mRequirements.size());
+        final List<RequirementReport> requirementsReports = new ArrayList<>(mRequirements.size());
 
-        for (Requirement requirement : mRequirements) {
-            RequirementReport report = requirement.check();
+        for (final Requirement requirement : mRequirements) {
+            final RequirementReport report = requirement.check();
             result = result && report.isFulfilled();
             requirementsReports.add(report);
         }

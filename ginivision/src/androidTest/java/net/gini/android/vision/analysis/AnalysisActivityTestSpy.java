@@ -1,9 +1,10 @@
 package net.gini.android.vision.analysis;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 
 import net.gini.android.vision.Document;
+
+import androidx.annotation.NonNull;
 
 public class AnalysisActivityTestSpy extends AnalysisActivity {
 
@@ -12,12 +13,12 @@ public class AnalysisActivityTestSpy extends AnalysisActivity {
     public boolean finishWasCalled = false;
 
     @Override
-    public void onAnalyzeDocument(@NonNull Document document) {
+    public void onAnalyzeDocument(@NonNull final Document document) {
         analyzeDocument = document;
     }
 
     @Override
-    public void onAddDataToResult(Intent result) {
+    public void onAddDataToResult(final Intent result) {
         addDataToResultIntent = result;
     }
 

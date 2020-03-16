@@ -1,9 +1,9 @@
 package net.gini.android.vision.help;
 
-import android.support.annotation.StringRes;
-
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.R;
+
+import androidx.annotation.StringRes;
 
 /**
  * <p>

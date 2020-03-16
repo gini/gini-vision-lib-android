@@ -2,8 +2,9 @@ package net.gini.android.vision.internal.permission;
 
 import android.app.Activity;
 import android.os.Build;
-import android.support.annotation.NonNull;
 import android.util.SparseArray;
+
+import androidx.annotation.NonNull;
 
 /**
  * @exclude

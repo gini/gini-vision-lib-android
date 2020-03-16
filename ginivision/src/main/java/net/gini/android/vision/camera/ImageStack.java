@@ -4,15 +4,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.transition.ChangeBounds;
-import android.support.transition.Fade;
-import android.support.transition.Scene;
-import android.support.transition.Transition;
-import android.support.transition.TransitionListenerAdapter;
-import android.support.transition.TransitionManager;
-import android.support.transition.TransitionSet;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +15,16 @@ import android.widget.TextView;
 import net.gini.android.vision.R;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.transition.ChangeBounds;
+import androidx.transition.Fade;
+import androidx.transition.Scene;
+import androidx.transition.Transition;
+import androidx.transition.TransitionListenerAdapter;
+import androidx.transition.TransitionManager;
+import androidx.transition.TransitionSet;
 
 /**
  * Created by Alpar Szotyori on 13.02.2018.

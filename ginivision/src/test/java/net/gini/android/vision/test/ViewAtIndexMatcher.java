@@ -1,11 +1,12 @@
 package net.gini.android.vision.test;
 
-import android.support.annotation.NonNull;
 import android.view.View;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Alpar Szotyori on 20.05.2019.

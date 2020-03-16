@@ -5,8 +5,6 @@ import static net.gini.android.vision.internal.util.ActivityHelper.forcePortrait
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,6 +16,9 @@ import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.camera.CameraActivity;
 import net.gini.android.vision.noresults.NoResultsActivity;
 import net.gini.android.vision.review.ReviewActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 /**
  * <h3>Screen API and Component API</h3>

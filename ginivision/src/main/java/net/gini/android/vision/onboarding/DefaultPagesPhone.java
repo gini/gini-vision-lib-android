@@ -1,11 +1,11 @@
 package net.gini.android.vision.onboarding;
 
-import android.support.annotation.VisibleForTesting;
-
 import net.gini.android.vision.R;
 import net.gini.android.vision.internal.util.FeatureConfiguration;
 
 import java.util.ArrayList;
+
+import androidx.annotation.VisibleForTesting;
 
 /**
  * @exclude

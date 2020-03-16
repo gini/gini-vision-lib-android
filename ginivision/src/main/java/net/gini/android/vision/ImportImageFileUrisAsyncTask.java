@@ -2,10 +2,11 @@ package net.gini.android.vision;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 
 import net.gini.android.vision.document.ImageMultiPageDocument;
 import net.gini.android.vision.internal.fileimport.AbstractImportImageUrisAsyncTask;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Alpar Szotyori on 22.05.2018.

@@ -1,12 +1,12 @@
 package net.gini.android.vision.review.multipage.previews;
 
-import android.support.v4.view.ViewPager;
-
 /**
  * Created by Alpar Szotyori on 08.05.2018.
  *
  * Copyright (c) 2018 Gini GmbH.
  */
+
+import androidx.viewpager.widget.ViewPager;
 
 /**
  * @exclude

@@ -1,6 +1,6 @@
 package net.gini.android.vision.internal.permission;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * @exclude

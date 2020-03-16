@@ -3,10 +3,6 @@ package net.gini.android.vision.review;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +11,11 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.camera.CameraFragmentListener;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 import net.gini.android.vision.internal.util.AlertDialogHelperCompat;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+import androidx.fragment.app.Fragment;
 
 /**
  * <h3>Component API</h3>
@@ -25,11 +26,11 @@ import net.gini.android.vision.internal.util.AlertDialogHelperCompat;
  * orientation by rotating the image.
  *
  * <p> <b>Note:</b> Your Activity hosting this Fragment must extend the {@link
- * android.support.v7.app.AppCompatActivity} and use an AppCompat Theme.
+ * androidx.appcompat.app.AppCompatActivity} and use an AppCompat Theme.
  *
  * <p> Include the {@code ReviewFragmentCompat} into your layout by using the {@link
  * ReviewFragmentCompat#createInstance(Document)} factory method to create an instance and display
- * it using the {@link android.support.v4.app.FragmentManager}.
+ * it using the {@link androidx.fragment.app.FragmentManager}.
  *
  * <p> A {@link ReviewFragmentListener} instance must be available until the {@code
  * ReviewFragmentCompat} is attached to an activity. Failing to do so will throw an exception. The

@@ -9,9 +9,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Alpar Szotyori on 04.02.2019.

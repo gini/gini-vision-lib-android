@@ -1,12 +1,12 @@
 package net.gini.android.vision.accounting.network.model;
 
-import android.support.annotation.NonNull;
-
 import net.gini.android.models.Extraction;
 import net.gini.android.vision.network.model.GiniVisionExtraction;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Alpar Szotyori on 30.01.2018.

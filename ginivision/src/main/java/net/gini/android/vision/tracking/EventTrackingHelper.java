@@ -1,11 +1,11 @@
 package net.gini.android.vision.tracking;
 
-import android.support.annotation.NonNull;
-
 import net.gini.android.vision.GiniVision;
 
 import java.util.Collections;
 import java.util.Map;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Alpar Szotyori on 03.03.2020.

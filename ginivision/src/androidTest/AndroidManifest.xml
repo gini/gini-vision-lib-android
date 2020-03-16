@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="net.gini.android.vision.test">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <uses-sdk tools:overrideLibrary="android.support.test.uiautomator.v18" />\
-
     <application
-        android:name="android.support.multidex.MultiDexApplication"
+        android:name="androidx.multidex.MultiDexApplication"
         android:largeHeap="true">
         <activity
             android:name="net.gini.android.vision.review.ReviewActivityTestSpy"
@@ -25,7 +22,7 @@
         <activity android:name="net.gini.android.vision.internal.camera.api.NoOpActivity" />
 
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="net.gini.android.vision.test.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">

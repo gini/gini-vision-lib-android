@@ -31,7 +31,7 @@ import android.util.AttributeSet;
  *
  * @exclude
  */
-public class CustomFontButton extends android.support.v7.widget.AppCompatButton {
+public class CustomFontButton extends androidx.appcompat.widget.AppCompatButton {
 
     public CustomFontButton(final Context context) {
         super(context);

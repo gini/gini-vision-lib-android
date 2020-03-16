@@ -1,11 +1,11 @@
 package net.gini.android.vision.internal.camera.photo;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
 import com.google.common.truth.FailureStrategy;
 import com.google.common.truth.Subject;
 import com.google.common.truth.SubjectFactory;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class JpegByteArraySubject extends Subject<JpegByteArraySubject, byte[]> {
 
@@ -27,9 +27,9 @@ public class JpegByteArraySubject extends Subject<JpegByteArraySubject, byte[]> 
         super(failureStrategy, subject);
     }
 
-    public void hasContentIdInUserComment(@Nullable String contentId) {
+    public void hasContentIdInUserComment(@Nullable final String contentId) {
         isNotNull();
-        String verb = "has in User Comment ContentId";
+        final String verb = "has in User Comment ContentId";
 
         if (contentId == null) {
             fail(verb, (Object) null);
@@ -50,7 +50,7 @@ public class JpegByteArraySubject extends Subject<JpegByteArraySubject, byte[]> 
         }
     }
 
-    private void triggerFailureWithRawMessage(String verb, String expected, String failureMessage) {
+    private void triggerFailureWithRawMessage(final String verb, final String expected, final String failureMessage) {
         failWithRawMessage(RAW_MESSAGE_TEMPLATE, getSubject(), verb, expected, failureMessage);
     }
 
@@ -58,9 +58,9 @@ public class JpegByteArraySubject extends Subject<JpegByteArraySubject, byte[]> 
     private String readExifUserComment(@NonNull final String verb, @NonNull final String expected,
             @NonNull final byte[] jpeg) {
         try {
-            ExifReader reader = ExifReader.forJpeg(jpeg);
+            final ExifReader reader = ExifReader.forJpeg(jpeg);
             return reader.getUserComment();
-        } catch (ExifReaderException e) {
+        } catch (final ExifReaderException e) {
             triggerFailureWithRawMessage(verb, expected, "An error occurred: " + e.getMessage());
         }
         return "";
@@ -69,9 +69,9 @@ public class JpegByteArraySubject extends Subject<JpegByteArraySubject, byte[]> 
     @NonNull
     private String readExifUserComment(@NonNull final byte[] jpeg) {
         try {
-            ExifReader reader = ExifReader.forJpeg(jpeg);
+            final ExifReader reader = ExifReader.forJpeg(jpeg);
             return reader.getUserComment();
-        } catch (ExifReaderException e) {
+        } catch (final ExifReaderException e) {
             failWithRawMessage("Could not read User Comment from <%s> due to error: %s", jpeg,
                     e.getMessage());
         }
@@ -81,9 +81,9 @@ public class JpegByteArraySubject extends Subject<JpegByteArraySubject, byte[]> 
     @Nullable
     private String getValueForKeyfromUserComment(@NonNull final String key,
             @NonNull final String userComment) {
-        String[] keyValuePairs = userComment.split(",");
+        final String[] keyValuePairs = userComment.split(",");
         for (final String keyValuePair : keyValuePairs) {
-            String[] keyAndValue = keyValuePair.split("=");
+            final String[] keyAndValue = keyValuePair.split("=");
             if (keyAndValue[0].equals(key)) {
                 return keyAndValue[1];
             }
@@ -91,9 +91,9 @@ public class JpegByteArraySubject extends Subject<JpegByteArraySubject, byte[]> 
         return null;
     }
 
-    public void hasSameContentIdInUserCommentAs(@Nullable byte[] jpeg) {
+    public void hasSameContentIdInUserCommentAs(@Nullable final byte[] jpeg) {
         isNotNull();
-        String verb = "has in User Comment same ContentId";
+        final String verb = "has in User Comment same ContentId";
 
         if (jpeg == null) {
             fail(verb, (Object) null);
@@ -121,7 +121,7 @@ public class JpegByteArraySubject extends Subject<JpegByteArraySubject, byte[]> 
 
     public void hasRotationDeltaInUserComment(final int rotationDelta) {
         isNotNull();
-        String verb = "has in User Comment rotation delta";
+        final String verb = "has in User Comment rotation delta";
 
         final String userComment = readExifUserComment(getSubject());
         final String subjectRotDeltaDegString = getValueForKeyfromUserComment("RotDeltaDeg",
@@ -133,7 +133,7 @@ public class JpegByteArraySubject extends Subject<JpegByteArraySubject, byte[]> 
             return;
         }
 
-        int subjectRotDeltaDeg = Integer.parseInt(subjectRotDeltaDegString);
+        final int subjectRotDeltaDeg = Integer.parseInt(subjectRotDeltaDegString);
         if (subjectRotDeltaDeg != rotationDelta) {
             failWithBadResults(verb, rotationDelta, "was", subjectRotDeltaDeg);
         }
@@ -141,7 +141,7 @@ public class JpegByteArraySubject extends Subject<JpegByteArraySubject, byte[]> 
 
     public void hasSameUserCommentAs(@Nullable final byte[] other) {
         isNotNull();
-        String verb = "has User Comment";
+        final String verb = "has User Comment";
 
         if (other == null) {
             fail(verb, (Object) null);

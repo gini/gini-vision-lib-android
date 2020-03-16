@@ -17,7 +17,6 @@ import static androidx.test.espresso.intent.Intents.intended;
 
 import android.app.Instrumentation;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.view.Surface;
 
 import net.gini.android.vision.Document;
@@ -42,6 +41,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import androidx.annotation.NonNull;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;

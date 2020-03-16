@@ -3,7 +3,8 @@ package net.gini.android.vision.internal.fileimport.providerchooser;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.os.Parcel;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 /**
  * @exclude

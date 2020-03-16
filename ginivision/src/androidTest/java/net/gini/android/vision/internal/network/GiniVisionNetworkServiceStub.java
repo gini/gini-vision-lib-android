@@ -1,7 +1,5 @@
 package net.gini.android.vision.internal.network;
 
-import android.support.annotation.NonNull;
-
 import net.gini.android.vision.Document;
 import net.gini.android.vision.network.AnalysisResult;
 import net.gini.android.vision.network.Error;
@@ -16,6 +14,8 @@ import net.gini.android.vision.util.CancellationToken;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Alpar Szotyori on 16.04.2018.

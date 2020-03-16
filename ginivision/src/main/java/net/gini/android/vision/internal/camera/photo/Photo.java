@@ -2,13 +2,14 @@ package net.gini.android.vision.internal.camera.photo;
 
 import android.graphics.Bitmap;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.document.ImageDocument;
 
 import java.io.File;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * @exclude

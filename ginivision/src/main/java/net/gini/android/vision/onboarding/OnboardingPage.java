@@ -2,13 +2,14 @@ package net.gini.android.vision.onboarding;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
 
 import net.gini.android.vision.camera.CameraActivity;
 
 import java.util.ArrayList;
+
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 
 /**
  * <p>
@@ -41,22 +42,22 @@ public class OnboardingPage implements Parcelable {
      * @param textResId a string resource id which will be shown in the onboarding page
      * @param imageResId a drawable resource id which will be shown in the onboarding page
      */
-    public OnboardingPage(@StringRes int textResId, @DrawableRes int imageResId) {
+    public OnboardingPage(@StringRes final int textResId, @DrawableRes final int imageResId) {
         this(textResId, imageResId, false);
     }
 
     /**
      * @exclude
      */
-    OnboardingPage(@StringRes int textResId, @DrawableRes int imageResId, boolean transparent) {
+    OnboardingPage(@StringRes final int textResId, @DrawableRes final int imageResId, final boolean transparent) {
         this(textResId, imageResId, transparent, false);
     }
 
     /**
      * @exclude
      */
-    OnboardingPage(@StringRes int textResId, @DrawableRes int imageResId, boolean transparent,
-            boolean rotateImageForLandscape) {
+    OnboardingPage(@StringRes final int textResId, @DrawableRes final int imageResId, final boolean transparent,
+            final boolean rotateImageForLandscape) {
         mTextResId = textResId;
         mImageResId = imageResId;
         mTransparent = transparent;
@@ -105,7 +106,7 @@ public class OnboardingPage implements Parcelable {
      * @exclude
      */
     @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeInt(mTextResId);
         dest.writeInt(mImageResId);
         dest.writeInt(mTransparent ? 1 : 0);
@@ -117,17 +118,17 @@ public class OnboardingPage implements Parcelable {
      */
     public static final Creator<OnboardingPage> CREATOR = new Creator<OnboardingPage>() {
         @Override
-        public OnboardingPage createFromParcel(Parcel in) {
+        public OnboardingPage createFromParcel(final Parcel in) {
             return new OnboardingPage(in);
         }
 
         @Override
-        public OnboardingPage[] newArray(int size) {
+        public OnboardingPage[] newArray(final int size) {
             return new OnboardingPage[size];
         }
     };
 
-    private OnboardingPage(@NonNull Parcel in) {
+    private OnboardingPage(@NonNull final Parcel in) {
         mTextResId = in.readInt();
         mImageResId = in.readInt();
         mTransparent = in.readInt() == 1;

@@ -10,7 +10,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 import android.app.Activity;
 import android.content.res.Resources;
-import android.support.annotation.NonNull;
 
 import com.google.common.collect.Lists;
 
@@ -29,6 +28,7 @@ import org.mockito.Mock;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import jersey.repackaged.jsr166e.CompletableFuture;
 

@@ -4,8 +4,9 @@ import static net.gini.android.vision.internal.qrcode.AmountAndCurrencyNormalize
 import static net.gini.android.vision.internal.qrcode.AmountAndCurrencyNormalizer.normalizeCurrency;
 
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Alpar Szotyori on 11.12.2017.

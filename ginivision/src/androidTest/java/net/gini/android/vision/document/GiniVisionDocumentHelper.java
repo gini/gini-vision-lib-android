@@ -1,11 +1,11 @@
 package net.gini.android.vision.document;
 
-import android.support.annotation.NonNull;
-
 import net.gini.android.vision.Document;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Alpar Szotyori on 16.04.2018.

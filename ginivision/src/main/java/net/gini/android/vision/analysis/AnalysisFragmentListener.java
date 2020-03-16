@@ -1,7 +1,5 @@
 package net.gini.android.vision.analysis;
 
-import android.support.annotation.NonNull;
-
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionError;
@@ -12,6 +10,8 @@ import net.gini.android.vision.noresults.NoResultsFragmentCompat;
 import net.gini.android.vision.noresults.NoResultsFragmentStandard;
 
 import java.util.Map;
+
+import androidx.annotation.NonNull;
 
 /**
  * <p>

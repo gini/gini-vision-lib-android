@@ -6,9 +6,6 @@ import static net.gini.android.vision.util.UriHelper.getMimeType;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 
 import net.gini.android.vision.R;
 import net.gini.android.vision.internal.pdf.Pdf;
@@ -20,6 +17,10 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 
 /**
  * @exclude

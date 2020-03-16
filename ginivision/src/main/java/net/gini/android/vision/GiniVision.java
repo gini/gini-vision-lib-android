@@ -2,9 +2,6 @@ package net.gini.android.vision;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
 
 import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.internal.cache.DocumentDataMemoryCache;
@@ -30,6 +27,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 
 /**
  * Created by Alpar Szotyori on 22.02.2018.

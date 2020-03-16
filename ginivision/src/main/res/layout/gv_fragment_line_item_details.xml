@@ -16,7 +16,7 @@
         android:layout_marginBottom="@dimen/gv_digital_invoice_line_item_details_checkbox_margin_bottom"
         tools:text="1 item selected" />
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/gv_description_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
         android:layout_marginBottom="@dimen/gv_digital_invoice_line_item_details_description_margin_bottom"
         android:textColorHint="@color/gv_digital_invoice_line_item_details_input_field_hint_text">
 
-        <android.support.design.widget.TextInputEditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/gv_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
             android:textAppearance="@style/GiniVisionTheme.DigitalInvoice.LineItemDetails.InputField.TextStyle"
             tools:text="Nike Sportswear Air Max 97 - Sneaker Low" />
 
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
         android:id="@+id/gv_quantity_and_gross_price_container"
@@ -44,14 +44,14 @@
         android:layout_marginBottom="@dimen/gv_digital_invoice_line_item_details_quantity_and_gross_price_margin_bottom"
         android:orientation="horizontal">
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/gv_quantity_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColorHint="@color/gv_digital_invoice_line_item_details_input_field_hint_text">
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/gv_quantity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
                 android:textAppearance="@style/GiniVisionTheme.DigitalInvoice.LineItemDetails.InputField.TextStyle"
                 tools:text="1" />
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/gv_multiplier"
@@ -87,14 +87,14 @@
             android:textAppearance="@style/GiniVisionTheme.DigitalInvoice.LineItemDetails.InputField.TextStyle"
             tools:ignore="HardcodedText" />
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/gv_gross_price_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColorHint="@color/gv_digital_invoice_line_item_details_input_field_hint_text">
 
-            <android.support.design.widget.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/gv_gross_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
                 android:textAppearance="@style/GiniVisionTheme.DigitalInvoice.LineItemDetails.InputField.TextStyle"
                 tools:text="152.95" />
 
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 

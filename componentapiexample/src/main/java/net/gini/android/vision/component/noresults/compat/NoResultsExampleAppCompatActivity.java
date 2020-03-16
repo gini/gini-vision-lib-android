@@ -3,12 +3,13 @@ package net.gini.android.vision.component.noresults.compat;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.component.R;
 import net.gini.android.vision.noresults.NoResultsFragmentCompat;
 import net.gini.android.vision.noresults.NoResultsFragmentListener;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Created by Alpar Szotyori on 04.12.2017.
@@ -33,7 +34,7 @@ public class NoResultsExampleAppCompatActivity extends AppCompatActivity impleme
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_no_results_compat);
         mNoResultsScreenHandler = new NoResultsScreenHandlerAppCompat(this);

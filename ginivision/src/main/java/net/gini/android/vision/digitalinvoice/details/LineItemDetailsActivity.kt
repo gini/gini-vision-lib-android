@@ -3,7 +3,7 @@ package net.gini.android.vision.digitalinvoice.details
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import net.gini.android.vision.R
 import net.gini.android.vision.digitalinvoice.SelectableLineItem
 

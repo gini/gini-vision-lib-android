@@ -2,13 +2,13 @@ package net.gini.android.vision.screen
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.content.FileProvider
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_extractions.*
 import net.gini.android.GiniApiType
 import net.gini.android.models.SpecificExtraction

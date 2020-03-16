@@ -4,7 +4,6 @@ import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsU
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -15,6 +14,8 @@ import net.gini.android.vision.camera.CameraActivity;
 import net.gini.android.vision.internal.util.FeatureConfiguration;
 import net.gini.android.vision.noresults.NoResultsActivity;
 import net.gini.android.vision.review.ReviewActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * <h3>Screen API and Component API</h3>

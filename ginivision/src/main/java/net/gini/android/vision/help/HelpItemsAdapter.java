@@ -2,9 +2,6 @@ package net.gini.android.vision.help;
 
 import static net.gini.android.vision.internal.util.FeatureConfiguration.isFileImportEnabled;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +14,14 @@ import net.gini.android.vision.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 /**
  * @exclude
  */
 
-class HelpItemsAdapter extends Adapter<HelpItemsAdapter.HelpItemsViewHolder> {
+class HelpItemsAdapter extends RecyclerView.Adapter<HelpItemsAdapter.HelpItemsViewHolder> {
 
     private final HelpItemSelectedListener mItemSelectedListener;
     private final List<HelpItem> mItems;
