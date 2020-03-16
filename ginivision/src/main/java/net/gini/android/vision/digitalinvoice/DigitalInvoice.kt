@@ -57,7 +57,7 @@ class DigitalInvoice(extractions: Map<String, GiniVisionSpecificExtraction>,
                     LineItem(index.toString(),
                             lineItem["description"]?.value ?: "",
                             lineItem["quantity"]?.value?.toIntOrNull() ?: 0,
-                            lineItem["baseGross"]?.value ?: "")
+                            lineItem["baseGross"]?.value ?: "0.00:EUR")
                 }
             } ?: emptyList()
 
