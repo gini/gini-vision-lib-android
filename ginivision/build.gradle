@@ -57,16 +57,16 @@ android {
 
 dependencies {
     api deps.slf4j
-    api deps.androidxCore
-    api deps.androidxAppCompat
-    api deps.androidxFragment
-    api deps.androidxViewPager
-    api deps.androidxRecyclerView
-    api deps.androidxLegacySupportV13
-    api deps.materialDesign
-    api deps.androidxCardView
-    api deps.androidxAnnotations
-    api deps.playServicesVision
+    implementation deps.androidxCore
+    implementation deps.androidxAppCompat
+    implementation deps.androidxFragment
+    implementation deps.androidxViewPager
+    implementation deps.androidxRecyclerView
+    implementation deps.androidxLegacySupportV13
+    implementation deps.materialDesign
+    implementation deps.androidxCardView
+    implementation deps.androidxAnnotations
+    implementation deps.playServicesVision
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation deps.commonsImaging
@@ -111,13 +111,13 @@ task generateJavadoc(type: GenerateJavadoc) {
 }
 
 task sourcesJar(type: Jar, dependsOn: 'assembleRelease') {
-    classifier = 'sources'
+    archiveClassifier.set('sources')
     from android.sourceSets.main.java.srcDirs
 }
 
 task javadocJar(type: Jar, dependsOn: generateJavadoc) {
-    classifier = 'javadoc'
-    from destinationDir
+    archiveClassifier.set('javadoc')
+    from destinationDirectory
 }
 
 artifacts {
