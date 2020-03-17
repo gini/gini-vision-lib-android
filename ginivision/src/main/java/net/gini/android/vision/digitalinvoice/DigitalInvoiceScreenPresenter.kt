@@ -2,20 +2,14 @@ package net.gini.android.vision.digitalinvoice
 
 import android.app.Activity
 import android.support.annotation.VisibleForTesting
-import kotlin.random.Random
+import net.gini.android.vision.network.model.GiniVisionCompoundExtraction
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction
 
 /**
  * Created by Alpar Szotyori on 05.12.2019.
  *
  * Copyright (c) 2019 Gini GmbH.
  */
-
-val mockLineItems = List(5) { i ->
-    LineItem(id = "$i",
-            description = "Nike Sportswear Air Max ${Random.nextInt(1, 50)} - Sneaker Low",
-            quantity = Random.nextInt(1, 5),
-            rawAmount = "${Random.nextInt(50)}.${Random.nextInt(9)}${Random.nextInt(9)}:EUR")
-}.map { SelectableLineItem(lineItem = it) }
 
 val mockReasons = listOf(
         "Looks different than site image",
@@ -28,36 +22,35 @@ val mockReasons = listOf(
 )
 
 internal open class DigitalInvoiceScreenPresenter(activity: Activity,
-                                                  view: DigitalInvoiceScreenContract.View) :
+                                                  view: DigitalInvoiceScreenContract.View,
+                                                  val extractions: Map<String, GiniVisionSpecificExtraction> = emptyMap(),
+                                                  val compoundExtractions: Map<String, GiniVisionCompoundExtraction> = emptyMap()) :
         DigitalInvoiceScreenContract.Presenter(activity, view) {
 
     override var listener: DigitalInvoiceFragmentListener? = null
 
-    var lineItems: List<SelectableLineItem> = emptyList()
+    @VisibleForTesting
+    val digitalInvoice: DigitalInvoice
     var returnReasons: List<String> = mockReasons
 
     init {
         view.setPresenter(this)
-        lineItems = mockLineItems
+        digitalInvoice = DigitalInvoice(extractions, compoundExtractions)
     }
 
     override fun selectLineItem(lineItem: SelectableLineItem) {
-        lineItem.selected = true
-        lineItem.reason = null
-        updateView(lineItems)
+        digitalInvoice.selectLineItem(lineItem)
+        updateView()
     }
 
     override fun deselectLineItem(lineItem: SelectableLineItem) {
         view.showReturnReasonDialog(returnReasons) { selectedReason ->
             if (selectedReason != null) {
-                lineItem.selected = false
-                lineItem.reason = selectedReason
-                updateView(lineItems)
+                digitalInvoice.deselectLineItem(lineItem, selectedReason)
             } else {
-                lineItem.selected = true
-                lineItem.reason = null
-                updateView(lineItems)
+                digitalInvoice.selectLineItem(lineItem)
             }
+            updateView()
         }
     }
 
@@ -69,25 +62,40 @@ internal open class DigitalInvoiceScreenPresenter(activity: Activity,
         // TODO
     }
 
+    override fun pay() {
+        val (selected, deselected) = digitalInvoice.selectableLineItems.groupBy { it.selected }.run {
+            Pair(get(true)?.map { it.lineItem } ?: emptyList(), get(false)?.map { it.lineItem } ?: emptyList())
+        }
+        val totalPrice =
+                LineItem.createRawGrossPrice(digitalInvoice.selectedLineItemsTotalGrossPriceSum(),
+                        digitalInvoice.selectableLineItems.firstOrNull()?.lineItem?.rawCurrency ?: "EUR")
+        digitalInvoice.updateLineItemExtractionsWithReviewedLineItems()
+        digitalInvoice.updateAmountToPayExtractionWithTotalGrossPrice()
+        listener?.onPayInvoice(
+                selectedLineItems = selected,
+                selectedLineItemsTotalPrice = totalPrice,
+                deselectedLineItems = deselected,
+                reviewedCompoundExtractions = digitalInvoice.compoundExtractions,
+                reviewedExtractions = digitalInvoice.extractions)
+    }
+
     override fun updateLineItem(selectableLineItem: SelectableLineItem) {
-        lineItems =
-                lineItems.map { sli -> if (sli.lineItem.id == selectableLineItem.lineItem.id) selectableLineItem else sli }
-        updateView(lineItems)
+        digitalInvoice.updateLineItem(selectableLineItem)
+        updateView()
     }
 
     override fun start() {
-        updateView(lineItems)
+        updateView()
     }
 
     override fun stop() {
-        // TODO
     }
 
     @VisibleForTesting
-    internal fun updateView(lineItems: List<SelectableLineItem>) {
+    internal fun updateView() {
         view.apply {
-            showLineItems(lineItems)
-            selectedAndTotalLineItemsCount(lineItems).let { (selected, total) ->
+            showLineItems(digitalInvoice.selectableLineItems)
+            digitalInvoice.selectedAndTotalLineItemsCount().let { (selected, total) ->
                 showSelectedAndTotalLineItems(selected, total)
                 if (selected > 0) {
                     enablePayButton(selected, total)
@@ -95,19 +103,9 @@ internal open class DigitalInvoiceScreenPresenter(activity: Activity,
                     disablePayButton(0, total)
                 }
             }
-            lineItemsSumIntegralAndFractionalParts(lineItems).let { (integral, fractional) ->
+            digitalInvoice.lineItemsTotalGrossPriceSumIntegralAndFractionalParts().let { (integral, fractional) ->
                 showSelectedLineItemsSum(integral, fractional)
             }
         }
     }
-
-    private fun selectedAndTotalLineItemsCount(
-            lineItems: List<SelectableLineItem>): Pair<Int, Int> =
-            Pair(selectedLineItemsCount(lineItems), totalLineItemsCount(lineItems))
-
-    private fun selectedLineItemsCount(lineItems: List<SelectableLineItem>): Int =
-            lineItems.fold(0) { c, sli -> if (sli.selected) c + sli.lineItem.quantity else c }
-
-    private fun totalLineItemsCount(lineItems: List<SelectableLineItem>): Int =
-            lineItems.fold(0) { c, sli -> c + sli.lineItem.quantity }
 }

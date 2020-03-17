@@ -1,5 +1,6 @@
 package net.gini.android.vision.analysis;
 
+import static net.gini.android.vision.internal.util.NullabilityHelper.getMapOrEmpty;
 import static net.gini.android.vision.tracking.EventTrackingHelper.trackAnalysisScreenEvent;
 
 import static java.util.Collections.singletonMap;
@@ -18,6 +19,8 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
+import net.gini.android.vision.digitalinvoice.DigitalInvoiceException;
+import net.gini.android.vision.digitalinvoice.LineItemsValidator;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.GiniVisionDocument;
 import net.gini.android.vision.document.GiniVisionDocumentError;
@@ -30,6 +33,7 @@ import net.gini.android.vision.internal.storage.ImageDiskStore;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.internal.util.FileImportHelper;
 import net.gini.android.vision.internal.util.MimeType;
+import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.tracking.AnalysisScreenEvent;
 import net.gini.android.vision.tracking.AnalysisScreenEvent.ERROR_DETAILS_MAP_KEY;
@@ -49,7 +53,6 @@ import jersey.repackaged.jsr166e.CompletableFuture;
  * Created by Alpar Szotyori on 08.05.2019.
  *
  * Copyright (c) 2019 Gini GmbH.
- *
  */
 class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
 
@@ -66,8 +69,8 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
         }
 
         @Override
-        public void onExtractionsAvailable(
-                @NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
+        public void onExtractionsAvailable(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
+                @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions) {
         }
 
         @Override
@@ -76,6 +79,11 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
 
         @Override
         public void onDefaultPDFAppAlertDialogCancelled() {
+        }
+
+        @Override
+        public void onProceedToReturnAssistant(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
+                @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions) {
         }
     };
 
@@ -343,8 +351,21 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
                                 break;
                             case SUCCESS_WITH_EXTRACTIONS:
                                 mAnalysisCompleted = true;
-                                getAnalysisFragmentListenerOrNoOp()
-                                        .onExtractionsAvailable(resultHolder.getExtractions());
+                                if (resultHolder.getExtractions().isEmpty()) {
+                                    getAnalysisFragmentListenerOrNoOp()
+                                            .onProceedToNoExtractionsScreen(mMultiPageDocument);
+                                    return null;
+                                }
+                                try {
+                                    LineItemsValidator.validate(resultHolder.getCompoundExtractions());
+                                    getAnalysisFragmentListenerOrNoOp()
+                                            .onProceedToReturnAssistant(getMapOrEmpty(resultHolder.getExtractions()),
+                                                    getMapOrEmpty(resultHolder.getCompoundExtractions()));
+                                } catch (final DigitalInvoiceException notUsed) {
+                                    getAnalysisFragmentListenerOrNoOp()
+                                            .onExtractionsAvailable(getMapOrEmpty(resultHolder.getExtractions()),
+                                                    getMapOrEmpty(resultHolder.getCompoundExtractions()));
+                                }
                                 break;
                             case NO_NETWORK_SERVICE:
                                 getAnalysisFragmentListenerOrNoOp().onAnalyzeDocument(
@@ -360,6 +381,10 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
                         return null;
                     }
                 });
+    }
+
+    private boolean hasLineItems(@NonNull final AnalysisInteractor.ResultHolder resultHolder) {
+        return resultHolder.getCompoundExtractions().containsKey("lineItems");
     }
 
     private void loadDocumentData() {

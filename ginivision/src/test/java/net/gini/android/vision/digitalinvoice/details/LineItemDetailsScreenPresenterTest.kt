@@ -48,7 +48,7 @@ class LineItemDetailsScreenPresenterTest {
         // Given
         val sli = SelectableLineItem(selected = true,
                 lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
-                        rawAmount = "1.19:EUR"))
+                        rawGrossPrice = "1.19:EUR"))
         LineItemDetailsScreenPresenter(activity, view, sli, decimalFormat).run {
             // When
             start()
@@ -57,8 +57,8 @@ class LineItemDetailsScreenPresenterTest {
             verify(view).showCheckbox(true, 3)
             verify(view).showDescription("Line Item 1")
             verify(view).showQuantity(3)
-            verify(view).showAmount("1.19", Currency.getInstance("EUR").symbol)
-            verify(view).showTotalAmount("${Currency.getInstance("EUR").symbol}3",
+            verify(view).showGrossPrice("1.19", Currency.getInstance("EUR").symbol)
+            verify(view).showTotalGrossPrice("${Currency.getInstance("EUR").symbol}3",
                     "${FRACTION_FORMAT.decimalFormatSymbols.decimalSeparator}57")
             verify(view).disableSaveButton()
         }
@@ -72,13 +72,13 @@ class LineItemDetailsScreenPresenterTest {
                         Locale.GERMAN)).apply { isParseBigDecimal = true }
         val sli = SelectableLineItem(selected = true,
                 lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
-                        rawAmount = "1.19:EUR"))
+                        rawGrossPrice = "1.19:EUR"))
         LineItemDetailsScreenPresenter(activity, view, sli, germanDecimalFormat).run {
             // When
             start()
 
             // Then
-            verify(view).showAmount("1,19", Currency.getInstance("EUR").symbol)
+            verify(view).showGrossPrice("1,19", Currency.getInstance("EUR").symbol)
         }
     }
 
@@ -87,7 +87,7 @@ class LineItemDetailsScreenPresenterTest {
         // Given
         val sli = SelectableLineItem(selected = false,
                 lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
-                        rawAmount = "1.19:EUR"))
+                        rawGrossPrice = "1.19:EUR"))
         LineItemDetailsScreenPresenter(activity, view, sli).run {
             // When
             selectLineItem()
@@ -102,9 +102,9 @@ class LineItemDetailsScreenPresenterTest {
     open class ViewWithSelectedReturnReason(val reason: String?) : View {
         override fun showDescription(description: String) {}
         override fun showQuantity(quantity: Int) {}
-        override fun showAmount(amount: String, currency: String) {}
+        override fun showGrossPrice(amount: String, currency: String) {}
         override fun showCheckbox(selected: Boolean, quantity: Int) {}
-        override fun showTotalAmount(integralPart: String, fractionalPart: String) {}
+        override fun showTotalGrossPrice(integralPart: String, fractionalPart: String) {}
         override fun enableSaveButton() {}
         override fun disableSaveButton() {}
         override fun enableInput() {}
@@ -124,7 +124,7 @@ class LineItemDetailsScreenPresenterTest {
 
         val sli = SelectableLineItem(selected = true,
                 lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
-                        rawAmount = "1.19:EUR"))
+                        rawGrossPrice = "1.19:EUR"))
         LineItemDetailsScreenPresenter(activity, view, sli).run {
             // When
             deselectLineItem()
@@ -143,7 +143,7 @@ class LineItemDetailsScreenPresenterTest {
 
         val sli = SelectableLineItem(selected = true,
                 lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
-                        rawAmount = "1.19:EUR"))
+                        rawGrossPrice = "1.19:EUR"))
         LineItemDetailsScreenPresenter(activity, view, sli).run {
             // When
             deselectLineItem()
@@ -160,7 +160,7 @@ class LineItemDetailsScreenPresenterTest {
 
         val sli = SelectableLineItem(selected = true,
                 lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
-                        rawAmount = "1.19:EUR"))
+                        rawGrossPrice = "1.19:EUR"))
         LineItemDetailsScreenPresenter(activity, view, sli).run {
             // When
             deselectLineItem()
@@ -179,7 +179,7 @@ class LineItemDetailsScreenPresenterTest {
 
         val sli = SelectableLineItem(selected = true,
                 lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
-                        rawAmount = "1.19:EUR"))
+                        rawGrossPrice = "1.19:EUR"))
         LineItemDetailsScreenPresenter(activity, view, sli).run {
             // When
             deselectLineItem()
@@ -194,7 +194,7 @@ class LineItemDetailsScreenPresenterTest {
         // Given
         val sli = SelectableLineItem(selected = true,
                 lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
-                        rawAmount = "1.19:EUR"))
+                        rawGrossPrice = "1.19:EUR"))
         LineItemDetailsScreenPresenter(activity, view, sli).run {
             // When
             setDescription("Line Item X")
@@ -210,14 +210,14 @@ class LineItemDetailsScreenPresenterTest {
         // Given
         val sli = SelectableLineItem(selected = true,
                 lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
-                        rawAmount = "1.19:EUR"))
+                        rawGrossPrice = "1.19:EUR"))
         LineItemDetailsScreenPresenter(activity, view, sli).run {
             // When
             setQuantity(99)
 
             // Then
             assertThat(selectableLineItem.lineItem.quantity).isEqualTo(99)
-            verify(view).showTotalAmount("${Currency.getInstance("EUR").symbol}117",
+            verify(view).showTotalGrossPrice("${Currency.getInstance("EUR").symbol}117",
                     "${FRACTION_FORMAT.decimalFormatSymbols.decimalSeparator}81")
             verify(view).showCheckbox(true, 99)
             verify(view).enableSaveButton()
@@ -229,14 +229,14 @@ class LineItemDetailsScreenPresenterTest {
         // Given
         val sli = SelectableLineItem(selected = true,
                 lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
-                        rawAmount = "1.19:EUR"))
+                        rawGrossPrice = "1.19:EUR"))
         LineItemDetailsScreenPresenter(activity, view, sli, decimalFormat).run {
             // When
-            setAmount("19.99")
+            setGrossPrice("19.99")
 
             // Then
-            assertThat(selectableLineItem.lineItem.amount).isEqualTo(BigDecimal("19.99"))
-            verify(view).showTotalAmount("${Currency.getInstance("EUR").symbol}59",
+            assertThat(selectableLineItem.lineItem.grossPrice).isEqualTo(BigDecimal("19.99"))
+            verify(view).showTotalGrossPrice("${Currency.getInstance("EUR").symbol}59",
                     "${FRACTION_FORMAT.decimalFormatSymbols.decimalSeparator}97")
             verify(view).enableSaveButton()
         }
@@ -247,16 +247,16 @@ class LineItemDetailsScreenPresenterTest {
         // Given
         val sli = SelectableLineItem(selected = true,
                 lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
-                        rawAmount = "1.19:EUR"))
+                        rawGrossPrice = "1.19:EUR"))
         LineItemDetailsScreenPresenter(activity, view, sli, decimalFormat).run {
             // When
             start()
             // Using german format (comma decimal separator)
-            setAmount("200,19")
+            setGrossPrice("200,19")
 
             // Then
             // Since we used english format, the comma was interpreted as a grouping separator
-            assertThat(selectableLineItem.lineItem.amount).isEqualTo(BigDecimal("20019.00"))
+            assertThat(selectableLineItem.lineItem.grossPrice).isEqualTo(BigDecimal("20019.00"))
         }
     }
 
@@ -265,7 +265,7 @@ class LineItemDetailsScreenPresenterTest {
         // Given
         val sli = SelectableLineItem(selected = true,
                 lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
-                        rawAmount = "1.19:EUR"))
+                        rawGrossPrice = "1.19:EUR"))
         LineItemDetailsScreenPresenter(activity, view, sli).run {
             // When
             listener = mock(LineItemDetailsFragmentListener::class.java)
@@ -281,7 +281,7 @@ class LineItemDetailsScreenPresenterTest {
         // Given
         val sli = SelectableLineItem(selected = false,
                 lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
-                        rawAmount = "1.19:EUR"))
+                        rawGrossPrice = "1.19:EUR"))
         LineItemDetailsScreenPresenter(activity, view, sli).run {
             // When
             selectLineItem()

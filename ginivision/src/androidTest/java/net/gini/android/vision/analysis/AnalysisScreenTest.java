@@ -3,6 +3,7 @@ package net.gini.android.vision.analysis;
 import static com.google.common.truth.Truth.assertAbout;
 import static com.google.common.truth.Truth.assertThat;
 
+import static net.gini.android.vision.analysis.AnalysisActivity.RETURN_ASSISTANT_REQUEST;
 import static net.gini.android.vision.test.DocumentSubject.document;
 import static net.gini.android.vision.test.Helpers.createDocument;
 import static net.gini.android.vision.test.Helpers.getTestJpeg;
@@ -12,15 +13,20 @@ import static net.gini.android.vision.test.Helpers.waitForWindowUpdate;
 
 import static org.junit.Assume.assumeTrue;
 
+import static androidx.test.espresso.intent.Intents.intended;
+
+import android.app.Instrumentation;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.Surface;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
+import net.gini.android.vision.digitalinvoice.DigitalInvoiceActivity;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.internal.camera.photo.PhotoFactory;
+import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.review.ReviewActivity;
 
@@ -32,12 +38,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.intent.matcher.IntentMatchers;
+import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.filters.SdkSuppress;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -63,6 +72,10 @@ public class AnalysisScreenTest {
     public ActivityTestRule<AnalysisFragmentHostActivity>
             mAnalysisFragmentHostActivityTR = new ActivityTestRule<>(
             AnalysisFragmentHostActivity.class, true, false);
+
+    @Rule
+    public IntentsTestRule<AnalysisActivity> mIntentsTestRule = new IntentsTestRule<>(
+            AnalysisActivity.class, true, false);
 
     @BeforeClass
     public static void setupClass() throws IOException {
@@ -181,8 +194,7 @@ public class AnalysisScreenTest {
     private AnalysisActivityTestSpy startAnalysisActivity(final byte[] jpeg,
             final int orientation) {
         final Intent intent = getAnalysisActivityIntent();
-        intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, DocumentFactory.newImageDocumentFromPhoto(
-                PhotoFactory.newPhotoFromJpeg(jpeg, orientation, "portrait", "phone", ImageDocument.Source.newCameraSource())));
+        addDocumentExtraToIntent(intent, jpeg, orientation);
         return mActivityTestRule.launchActivity(intent);
     }
 
@@ -191,12 +203,11 @@ public class AnalysisScreenTest {
                 AnalysisActivityTestSpy.class);
     }
 
-    private Intent getAnalysisActivityIntentWithDocument(final byte[] jpeg, final int orientation) {
-        final Intent intent = new Intent(ApplicationProvider.getApplicationContext(),
-                AnalysisActivityTestSpy.class);
-        intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT,
-                createDocument(jpeg, orientation, "portrait", "phone", ImageDocument.Source.newCameraSource()));
-        return intent;
+    private void addDocumentExtraToIntent(final Intent intent, final byte[] jpeg,
+            final int orientation) {
+        intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, DocumentFactory.newImageDocumentFromPhoto(
+                PhotoFactory.newPhotoFromJpeg(jpeg, orientation, "portrait", "phone",
+                        ImageDocument.Source.newCameraSource())));
     }
 
     @Test(expected = IllegalStateException.class)
@@ -223,7 +234,8 @@ public class AnalysisScreenTest {
 
             @Override
             public void onExtractionsAvailable(
-                    @NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
+                    @NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
+                    @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions) {
 
             }
 
@@ -234,6 +246,13 @@ public class AnalysisScreenTest {
 
             @Override
             public void onDefaultPDFAppAlertDialogCancelled() {
+
+            }
+
+            @Override
+            public void onProceedToReturnAssistant(
+                    @NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
+                    @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions) {
 
             }
         };
@@ -258,5 +277,43 @@ public class AnalysisScreenTest {
         InstrumentationRegistry.getInstrumentation().waitForIdleSync();
         // Then
         assertThat(activity.isAnalysisRequested()).isTrue();
+    }
+
+    @Test
+    public void should_startDigitalInvoiceActivity_whenProceedingToReturnAssistant()
+            throws Exception {
+        // Given
+        final Intent intent = getAnalysisActivityIntent();
+        addDocumentExtraToIntent(intent, TEST_JPEG, 0);
+        final AnalysisActivity analysisActivity = mIntentsTestRule.launchActivity(intent);
+
+        // When
+        analysisActivity.onProceedToReturnAssistant(
+                Collections.<String, GiniVisionSpecificExtraction>emptyMap(),
+                Collections.<String, GiniVisionCompoundExtraction>emptyMap());
+
+        // Then
+        intended(IntentMatchers.hasComponent(DigitalInvoiceActivity.class.getName()));
+    }
+
+    @Test
+    public void should_forwardResult_fromDigitalInvoice_andFinish()
+            throws Exception {
+        // Given
+        final AnalysisActivityTestSpy analysisActivity = startAnalysisActivity(TEST_JPEG, 0);
+
+        // When
+        final Intent resultIntent = new Intent();
+        final int resultCode = 42;
+        analysisActivity.onActivityResult(RETURN_ASSISTANT_REQUEST, resultCode,
+                resultIntent);
+
+        // Then
+        final Instrumentation.ActivityResult activityResult = mActivityTestRule.getActivityResult();
+
+        assertThat(activityResult.getResultCode()).isEqualTo(resultCode);
+        assertThat(activityResult.getResultData()).isEqualTo(resultIntent);
+
+        assertThat(analysisActivity.finishWasCalled).isTrue();
     }
 }

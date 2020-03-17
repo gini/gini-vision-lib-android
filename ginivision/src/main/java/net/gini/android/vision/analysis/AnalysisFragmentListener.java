@@ -6,6 +6,7 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.network.GiniVisionNetworkService;
+import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.noresults.NoResultsFragmentCompat;
 import net.gini.android.vision.noresults.NoResultsFragmentStandard;
@@ -43,9 +44,11 @@ public interface AnalysisFragmentListener {
      * Called when the document has been analyzed and extractions are available.
      *
      * @param extractions a map of the extractions with the extraction labels as keys
+     * @param compoundExtractions a map of the compound extractions with the extraction labels as keys
      */
     void onExtractionsAvailable(
-            @NonNull final Map<String, GiniVisionSpecificExtraction> extractions);
+            @NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
+            @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions);
 
     /**
      * Called when the document has been analyzed and no extractions were received.
@@ -64,4 +67,7 @@ public interface AnalysisFragmentListener {
      * default for opening PDFs.
      */
     void onDefaultPDFAppAlertDialogCancelled();
+
+    void onProceedToReturnAssistant(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
+            @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions);
 }

@@ -10,12 +10,17 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.gv_fragment_digital_invoice.*
 import net.gini.android.vision.R
+import net.gini.android.vision.network.model.GiniVisionCompoundExtraction
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction
 
 /**
  * Created by Alpar Szotyori on 05.12.2019.
  *
  * Copyright (c) 2019 Gini GmbH.
  */
+
+private const val ARGS_EXTRACTIONS = "GV_ARGS_EXTRACTIONS"
+private const val ARGS_COMPOUND_EXTRACTIONS = "GV_ARGS_COMPOUND_EXTRACTIONS"
 
 private const val TAG_RETURN_REASON_DIALOG = "TAG_RETURN_REASON_DIALOG"
 private const val TAG_WHAT_IS_THIS_DIALOG = "TAG_WHAT_IS_THIS_DIALOG"
@@ -31,9 +36,22 @@ class DigitalInvoiceFragment : Fragment(), DigitalInvoiceScreenContract.View,
 
     private var presenter: DigitalInvoiceScreenContract.Presenter? = null
 
+    private var extractions: Map<String, GiniVisionSpecificExtraction> = emptyMap()
+    private var compoundExtractions: Map<String, GiniVisionCompoundExtraction> = emptyMap()
+
     companion object {
         @JvmStatic
-        fun createInstance() = DigitalInvoiceFragment()
+        fun createInstance(extractions: Map<String, GiniVisionSpecificExtraction>,
+                           compoundExtractions: Map<String, GiniVisionCompoundExtraction>) = DigitalInvoiceFragment().apply {
+            arguments = Bundle().apply {
+                putBundle(ARGS_EXTRACTIONS, Bundle().apply {
+                    extractions.forEach { putParcelable(it.key, it.value) }
+                })
+                putBundle(ARGS_COMPOUND_EXTRACTIONS, Bundle().apply {
+                    compoundExtractions.forEach { putParcelable(it.key, it.value) }
+                })
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,11 +60,23 @@ class DigitalInvoiceFragment : Fragment(), DigitalInvoiceScreenContract.View,
         checkNotNull(activity) {
             "Missing activity for fragment."
         }
+        readArguments()
         createPresenter(activity)
         initListener()
     }
 
-    private fun createPresenter(activity: Activity) = DigitalInvoiceScreenPresenter(activity, this)
+    private fun readArguments() {
+        arguments?.run {
+            getBundle(ARGS_EXTRACTIONS)?.run {
+                extractions = keySet().map { it to getParcelable<GiniVisionSpecificExtraction>(it)!! }.toMap()
+            }
+            getBundle(ARGS_COMPOUND_EXTRACTIONS)?.run {
+                compoundExtractions = keySet().map { it to getParcelable<GiniVisionCompoundExtraction>(it)!! }.toMap()
+            }
+        }
+    }
+
+    private fun createPresenter(activity: Activity) = DigitalInvoiceScreenPresenter(activity, this, extractions, compoundExtractions)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? = inflater.inflate(
@@ -55,6 +85,7 @@ class DigitalInvoiceFragment : Fragment(), DigitalInvoiceScreenContract.View,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
+        setInputHandlers()
     }
 
     private fun initListener() {
@@ -73,6 +104,12 @@ class DigitalInvoiceFragment : Fragment(), DigitalInvoiceScreenContract.View,
                 layoutManager = LinearLayoutManager(it)
                 adapter = LineItemsAdapter(it, this@DigitalInvoiceFragment)
             }
+        }
+    }
+
+    private fun setInputHandlers() {
+        gv_pay_button.setOnClickListener {
+            presenter?.pay()
         }
     }
 
@@ -95,7 +132,7 @@ class DigitalInvoiceFragment : Fragment(), DigitalInvoiceScreenContract.View,
     }
 
     override fun showSelectedLineItemsSum(integralPart: String, fractionalPart: String) {
-        (gv_line_items.adapter as LineItemsAdapter?)?.totalAmountIntegralAndFractionalParts =
+        (gv_line_items.adapter as LineItemsAdapter?)?.totalGrossPriceIntegralAndFractionalParts =
                 Pair(integralPart, fractionalPart)
     }
 

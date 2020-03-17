@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply from: rootProject.file('gradle/git_utils.gradle')
 apply from: rootProject.file('gradle/gini_credentials.gradle')
 
@@ -20,6 +22,12 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode appVersionCode
         versionName appVersionName
+
+        sourceSets {
+            main {
+                java.srcDirs += "$rootProject.projectDir/exampleShared/java"
+            }
+        }
 
         multiDexEnabled true
     }
@@ -47,11 +55,6 @@ android {
         }
     }
 
-    sourceSets {
-        main {
-            java.srcDirs += "$rootProject.projectDir/exampleShared/java"
-        }
-    }
 }
 
 // For testing a released version
@@ -64,6 +67,7 @@ repositories {
 }
 
 dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation deps.appCompatv7
     implementation 'com.android.support:multidex:1.0.3'

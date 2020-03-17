@@ -277,30 +277,30 @@
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="Root.GiniVisionTheme.DigitalInvoice.LineItem.Amount.Integral.TextStyle" parent="TextAppearance.AppCompat">
+    <style name="Root.GiniVisionTheme.DigitalInvoice.LineItem.GrossPrice.Integral.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textColor">@color/gv_digital_invoice_line_item_amount_text</item>
+        <item name="android:textColor">@color/gv_digital_invoice_line_item_gross_price_text</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="Root.GiniVisionTheme.DigitalInvoice.LineItem.Amount.Fractional.TextStyle" parent="TextAppearance.AppCompat">
+    <style name="Root.GiniVisionTheme.DigitalInvoice.LineItem.GrossPrice.Fractional.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textColor">@color/gv_digital_invoice_line_item_amount_text</item>
+        <item name="android:textColor">@color/gv_digital_invoice_line_item_gross_price_text</item>
         <item name="android:textSize">9sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="Root.GiniVisionTheme.DigitalInvoice.TotalAmount.Integral.TextStyle" parent="TextAppearance.AppCompat">
+    <style name="Root.GiniVisionTheme.DigitalInvoice.TotalGrossPrice.Integral.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textColor">@color/gv_digital_invoice_footer_amount_text</item>
+        <item name="android:textColor">@color/gv_digital_invoice_footer_gross_price_text</item>
         <item name="android:textSize">24sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="Root.GiniVisionTheme.DigitalInvoice.TotalAmount.Fractional.TextStyle" parent="TextAppearance.AppCompat">
+    <style name="Root.GiniVisionTheme.DigitalInvoice.TotalGrossPrice.Fractional.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textColor">@color/gv_digital_invoice_footer_amount_text</item>
+        <item name="android:textColor">@color/gv_digital_invoice_footer_gross_price_text</item>
         <item name="android:textSize">12sp</item>
         <item name="android:textStyle">bold</item>
     </style>
@@ -449,13 +449,13 @@
 
     <style name="GiniVisionTheme.DigitalInvoice.LineItem.Edit.TextStyle" parent="Root.GiniVisionTheme.DigitalInvoice.LineItem.Edit.TextStyle" />
 
-    <style name="GiniVisionTheme.DigitalInvoice.LineItem.Amount.Integral.TextStyle" parent="Root.GiniVisionTheme.DigitalInvoice.LineItem.Amount.Integral.TextStyle" />
+    <style name="GiniVisionTheme.DigitalInvoice.LineItem.GrossPrice.Integral.TextStyle" parent="Root.GiniVisionTheme.DigitalInvoice.LineItem.GrossPrice.Integral.TextStyle" />
 
-    <style name="GiniVisionTheme.DigitalInvoice.LineItem.Amount.Fractional.TextStyle" parent="Root.GiniVisionTheme.DigitalInvoice.LineItem.Amount.Fractional.TextStyle" />
+    <style name="GiniVisionTheme.DigitalInvoice.LineItem.GrossPrice.Fractional.TextStyle" parent="Root.GiniVisionTheme.DigitalInvoice.LineItem.GrossPrice.Fractional.TextStyle" />
 
-    <style name="GiniVisionTheme.DigitalInvoice.TotalAmount.Integral.TextStyle" parent="Root.GiniVisionTheme.DigitalInvoice.TotalAmount.Integral.TextStyle" />
+    <style name="GiniVisionTheme.DigitalInvoice.TotalGrossPrice.Integral.TextStyle" parent="Root.GiniVisionTheme.DigitalInvoice.TotalGrossPrice.Integral.TextStyle" />
 
-    <style name="GiniVisionTheme.DigitalInvoice.TotalAmount.Fractional.TextStyle" parent="Root.GiniVisionTheme.DigitalInvoice.TotalAmount.Fractional.TextStyle" />
+    <style name="GiniVisionTheme.DigitalInvoice.TotalGrossPrice.Fractional.TextStyle" parent="Root.GiniVisionTheme.DigitalInvoice.TotalGrossPrice.Fractional.TextStyle" />
 
     <style name="GiniVisionTheme.DigitalInvoice.Footer.Notice.TextStyle" parent="Root.GiniVisionTheme.DigitalInvoice.Footer.Notice.TextStyle" />
 

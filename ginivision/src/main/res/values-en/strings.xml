@@ -108,7 +108,7 @@
     <string name="gv_digital_invoice_pay">Pay %1$d/%2$d</string>
     <string name="gv_digital_invoice_line_item_details_description_label">Item Name</string>
     <string name="gv_digital_invoice_line_item_details_quantity_label">Quantity</string>
-    <string name="gv_digital_invoice_line_item_details_amount_label">Item price</string>
+    <string name="gv_digital_invoice_line_item_details_gross_price_label">Item price</string>
     <string name="gv_digital_invoice_line_item_details_total_label">Total:</string>
     <string name="gv_digital_invoice_line_item_details_save">Save</string>
     <plurals name="gv_digital_invoice_line_item_details_selected_line_items">

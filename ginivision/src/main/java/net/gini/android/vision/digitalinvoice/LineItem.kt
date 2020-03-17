@@ -15,98 +15,103 @@ import java.util.*
  * Copyright (c) 2019 Gini GmbH.
  */
 
-val RAW_AMOUNT_FORMAT = DecimalFormat("0.00",
+val RAW_GROSS_PRICE_FORMAT = DecimalFormat("0.00",
         DecimalFormatSymbols.getInstance(Locale.ENGLISH)).apply { isParseBigDecimal = true }
 
-val AMOUNT_STRING_REGEX = "^[0-9]+([.,])[0-9]+\$".toRegex()
+val GROSS_PRICE_STRING_REGEX = "^[0-9]+([.,])[0-9]+\$".toRegex()
 
 @Parcelize
 class LineItem(
         val id: String,
         val description: String,
         val quantity: Int,
-        val rawAmount: String
+        val rawGrossPrice: String
 ) : Parcelable {
 
     @IgnoredOnParcel
-    val amount: BigDecimal
+    val grossPrice: BigDecimal
     @IgnoredOnParcel
-    val totalAmount: BigDecimal
+    val totalGrossPrice: BigDecimal
     @IgnoredOnParcel
     val currency: Currency?
     @IgnoredOnParcel
     val rawCurrency: String
 
     companion object {
-        fun createRawAmount(amount: BigDecimal, currency: String) = "${RAW_AMOUNT_FORMAT.format(
-                amount)}:$currency"
+        fun createRawGrossPrice(grossPrice: BigDecimal, currency: String) = "${RAW_GROSS_PRICE_FORMAT.format(grossPrice)}:$currency"
+
+        @Throws(NumberFormatException::class, IllegalArgumentException::class)
+        fun parseGrossPriceExtraction(rawGrossPrice: String): Triple<BigDecimal, String, Currency?> {
+            rawGrossPrice.split(":").let { substrings ->
+                if (substrings.size != 2) {
+                    throw java.lang.NumberFormatException(
+                            "Invalid gross price format. Expected <Gross Price>:<Currency Code>, but got: $rawGrossPrice")
+                }
+                val grossPrice = parseGrossPrice(substrings[0])
+                val rawCurrency = substrings[1]
+                val currency = Currency.getInstance(substrings[1])
+                return Triple(grossPrice, rawCurrency, currency)
+            }
+        }
+
+        private fun parseGrossPrice(grossPrice: String): BigDecimal =
+                if (grossPrice matches GROSS_PRICE_STRING_REGEX) {
+                    when {
+                        grossPrice.contains(".") -> {
+                            parseGrossPriceWithLocale(grossPrice, Locale.ENGLISH)
+                        }
+                        grossPrice.contains(",") -> {
+                            parseGrossPriceWithLocale(grossPrice, Locale.GERMAN)
+                        }
+                        else -> {
+                            throw NumberFormatException("Unknown number format locale")
+                        }
+                    }
+                } else {
+                    throw NumberFormatException("Invalid number format")
+                }
+
+        private fun parseGrossPriceWithLocale(grossPrice: String, locale: Locale) = DecimalFormat("0.00",
+                DecimalFormatSymbols.getInstance(locale))
+                .apply { isParseBigDecimal = true }
+                .run {
+                    try {
+                        parse(grossPrice) as BigDecimal
+                    } catch (e: ParseException) {
+                        throw NumberFormatException(e.message)
+                    }
+                }
     }
 
     init {
-        rawAmount.split(":").let {
-            check(it.size == 2) {
-                "Invalid amount format. Expected <Amount>:<Currency Code>, but got: $rawAmount"
-            }
-            amount = try {
-                parseAmountString(it[0])
-            } catch (_: NumberFormatException) {
-                BigDecimal.ZERO
-            }
-            totalAmount = amount.times(BigDecimal(quantity))
-            rawCurrency = it[1]
-            currency = try {
-                Currency.getInstance(it[1])
-            } catch (e: Exception) {
-                null
-            }
+        val (grossPrice, rawCurrency, currency) = try {
+            parseGrossPriceExtraction(rawGrossPrice)
+        } catch (e: Exception) {
+            Triple(BigDecimal.ZERO, "", null)
         }
+        this.grossPrice = grossPrice
+        this.totalGrossPrice = grossPrice.times(BigDecimal(quantity))
+        this.rawCurrency = rawCurrency
+        this.currency = currency
     }
 
-    private fun parseAmountString(amount: String): BigDecimal =
-            if (amount matches AMOUNT_STRING_REGEX) {
-                when {
-                    amount.contains(".") -> {
-                        parseAmountWithLocale(amount, Locale.ENGLISH)
-                    }
-                    amount.contains(",") -> {
-                        parseAmountWithLocale(amount, Locale.GERMAN)
-                    }
-                    else -> {
-                        throw NumberFormatException()
-                    }
-                }
-            } else {
-                throw NumberFormatException()
-            }
-
-    private fun parseAmountWithLocale(amount: String, locale: Locale) = DecimalFormat("0.00",
-            DecimalFormatSymbols.getInstance(locale))
-            .apply { isParseBigDecimal = true }
-            .run {
-                try {
-                    parse(amount) as BigDecimal
-                } catch (_: ParseException) {
-                    throw NumberFormatException()
-                }
-            }
-
-    override fun toString() = "LineItem(id=$id, description=$description, quantity=$quantity, rawAmount=$rawAmount, amount=$amount, totalAmount=$totalAmount, currency=$currency)"
+    override fun toString() = "LineItem(id=$id, description=$description, quantity=$quantity, rawGrossPrice=$rawGrossPrice, grossPrice=$grossPrice, totalGrossPrice=$totalGrossPrice, currency=$currency)"
 
     override fun equals(other: Any?) = other is LineItem
             && id == other.id
             && description == other.description
             && quantity == other.quantity
-            && amount == other.amount
-            && totalAmount == other.totalAmount
-            && rawAmount == other.rawAmount
+            && grossPrice == other.grossPrice
+            && totalGrossPrice == other.totalGrossPrice
+            && rawGrossPrice == other.rawGrossPrice
             && currency == other.currency
 
-    override fun hashCode() = Objects.hash(id, description, quantity, rawAmount, amount,
-            totalAmount, currency)
+    override fun hashCode() = Objects.hash(id, description, quantity, rawGrossPrice, grossPrice,
+            totalGrossPrice, currency)
 
     @JvmSynthetic
     fun copy(id: String = this.id, description: String = this.description,
-             quantity: Int = this.quantity, rawAmount: String = this.rawAmount) =
-            LineItem(id, description, quantity, rawAmount)
+             quantity: Int = this.quantity, rawGrossPrice: String = this.rawGrossPrice) =
+            LineItem(id, description, quantity, rawGrossPrice)
 
 }

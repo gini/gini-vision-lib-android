@@ -259,7 +259,45 @@ public class AnalysisInteractorTest {
     }
 
     @Test
-    public void should_completeWithExtractions_whenAnalysisSucceeded_withExtractions()
+    public void should_completeWithExtractions_whenAnalysisSucceeded_withAllExtractions()
+            throws Exception {
+        // Given
+        //noinspection unchecked
+        final GiniVisionMultiPageDocument<GiniVisionDocument, GiniVisionDocumentError>
+                multiPageDocument = mock(GiniVisionMultiPageDocument.class);
+
+        final Map<String, GiniVisionSpecificExtraction> extractions = new HashMap<>();
+        extractions.put("amountToPay", mock(GiniVisionSpecificExtraction.class));
+        extractions.put("paymentRecipient", mock(GiniVisionSpecificExtraction.class));
+        extractions.put("iban", mock(GiniVisionSpecificExtraction.class));
+        extractions.put("paymentReference", mock(GiniVisionSpecificExtraction.class));
+
+        final Map<String, GiniVisionCompoundExtraction> compoundExtractions = new HashMap<>();
+        compoundExtractions.put("lineItems", mock(GiniVisionCompoundExtraction.class));
+
+        final AnalysisResult analysisResult = new AnalysisResult("apiDocumentId",
+                extractions, compoundExtractions);
+
+        final NetworkRequestsManager networkRequestsManager = createtNetworkRequestsManager(
+                analysisResult);
+
+        createGiniVision(networkRequestsManager);
+
+        // When
+        final CompletableFuture<AnalysisInteractor.ResultHolder> future =
+                mAnalysisInteractor.analyzeMultiPageDocument(multiPageDocument);
+
+        // Then
+        final AnalysisInteractor.ResultHolder resultHolder = future.get();
+
+        assertThat(resultHolder.getResult()).isEqualTo(
+                AnalysisInteractor.Result.SUCCESS_WITH_EXTRACTIONS);
+        assertThat(resultHolder.getExtractions()).isEqualTo(extractions);
+        assertThat(resultHolder.getCompoundExtractions()).isEqualTo(compoundExtractions);
+    }
+
+    @Test
+    public void should_completeWithExtractions_whenAnalysisSucceeded_withOnlySpecificExtractions()
             throws Exception {
         // Given
         //noinspection unchecked
@@ -290,6 +328,37 @@ public class AnalysisInteractorTest {
         assertThat(resultHolder.getResult()).isEqualTo(
                 AnalysisInteractor.Result.SUCCESS_WITH_EXTRACTIONS);
         assertThat(resultHolder.getExtractions()).isEqualTo(extractions);
+    }
+
+    @Test
+    public void should_completeWithExtractions_whenAnalysisSucceeded_withOnlyCompoundExtractions()
+            throws Exception {
+        // Given
+        //noinspection unchecked
+        final GiniVisionMultiPageDocument<GiniVisionDocument, GiniVisionDocumentError>
+                multiPageDocument = mock(GiniVisionMultiPageDocument.class);
+
+        final Map<String, GiniVisionCompoundExtraction> compoundExtractions = new HashMap<>();
+        compoundExtractions.put("lineItems", mock(GiniVisionCompoundExtraction.class));
+
+        final AnalysisResult analysisResult = new AnalysisResult("apiDocumentId",
+                Collections.<String, GiniVisionSpecificExtraction>emptyMap(), compoundExtractions);
+
+        final NetworkRequestsManager networkRequestsManager = createtNetworkRequestsManager(
+                analysisResult);
+
+        createGiniVision(networkRequestsManager);
+
+        // When
+        final CompletableFuture<AnalysisInteractor.ResultHolder> future =
+                mAnalysisInteractor.analyzeMultiPageDocument(multiPageDocument);
+
+        // Then
+        final AnalysisInteractor.ResultHolder resultHolder = future.get();
+
+        assertThat(resultHolder.getResult()).isEqualTo(
+                AnalysisInteractor.Result.SUCCESS_WITH_EXTRACTIONS);
+        assertThat(resultHolder.getCompoundExtractions()).isEqualTo(compoundExtractions);
     }
 
     @Test
