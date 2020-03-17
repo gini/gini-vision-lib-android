@@ -63,20 +63,9 @@ internal open class DigitalInvoiceScreenPresenter(activity: Activity,
     }
 
     override fun pay() {
-        val (selected, deselected) = digitalInvoice.selectableLineItems.groupBy { it.selected }.run {
-            Pair(get(true)?.map { it.lineItem } ?: emptyList(), get(false)?.map { it.lineItem } ?: emptyList())
-        }
-        val totalPrice =
-                LineItem.createRawGrossPrice(digitalInvoice.selectedLineItemsTotalGrossPriceSum(),
-                        digitalInvoice.selectableLineItems.firstOrNull()?.lineItem?.rawCurrency ?: "EUR")
         digitalInvoice.updateLineItemExtractionsWithReviewedLineItems()
         digitalInvoice.updateAmountToPayExtractionWithTotalGrossPrice()
-        listener?.onPayInvoice(
-                selectedLineItems = selected,
-                selectedLineItemsTotalPrice = totalPrice,
-                deselectedLineItems = deselected,
-                reviewedCompoundExtractions = digitalInvoice.compoundExtractions,
-                reviewedExtractions = digitalInvoice.extractions)
+        listener?.onPayInvoice(digitalInvoice.extractions, digitalInvoice.compoundExtractions)
     }
 
     override fun updateLineItem(selectableLineItem: SelectableLineItem) {

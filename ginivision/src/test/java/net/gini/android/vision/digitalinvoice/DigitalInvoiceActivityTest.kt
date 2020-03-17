@@ -32,11 +32,8 @@ class DigitalInvoiceActivityTest {
 
             // When
             scenario.onActivity { activity ->
-                activity.onPayInvoice(selectedLineItems = emptyList(),
-                        selectedLineItemsTotalPrice = "",
-                        deselectedLineItems = emptyList(),
-                        reviewedExtractions = mapOf("amountToPay" to mock()),
-                        reviewedCompoundExtractions = mapOf("lineItems" to mock()))
+                activity.onPayInvoice(specificExtractions = mapOf("amountToPay" to mock()),
+                        compoundExtractions = mapOf("lineItems" to mock()))
             }
 
             // Then
