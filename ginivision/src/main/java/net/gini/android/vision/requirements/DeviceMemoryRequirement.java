@@ -1,17 +1,18 @@
 package net.gini.android.vision.requirements;
 
 import android.hardware.Camera;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
 
 import net.gini.android.vision.internal.camera.api.SizeSelectionHelper;
 import net.gini.android.vision.internal.util.Size;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 
 class DeviceMemoryRequirement implements Requirement {
 
     private final CameraHolder mCameraHolder;
 
-    DeviceMemoryRequirement(CameraHolder cameraHolder) {
+    DeviceMemoryRequirement(final CameraHolder cameraHolder) {
         mCameraHolder = cameraHolder;
     }
 
@@ -28,9 +29,9 @@ class DeviceMemoryRequirement implements Requirement {
         String details = "";
 
         try {
-            Camera.Parameters parameters = mCameraHolder.getCameraParameters();
+            final Camera.Parameters parameters = mCameraHolder.getCameraParameters();
             if (parameters != null) {
-                Size pictureSize = SizeSelectionHelper.getLargestSize(
+                final Size pictureSize = SizeSelectionHelper.getLargestSize(
                         parameters.getSupportedPictureSizes());
                 if (pictureSize == null) {
                     result = false;
@@ -44,7 +45,7 @@ class DeviceMemoryRequirement implements Requirement {
                 result = false;
                 details = "Camera not open";
             }
-        } catch (RuntimeException e) {
+        } catch (final RuntimeException e) {
             result = false;
             details = "Camera exception: " + e.getMessage();
         }
@@ -59,13 +60,13 @@ class DeviceMemoryRequirement implements Requirement {
      * @return whether there is enough memory for the image processing to succeed
      */
     @VisibleForTesting
-    boolean sufficientMemoryAvailable(Size photoSize) {
-        Runtime runtime = Runtime.getRuntime();
+    boolean sufficientMemoryAvailable(final Size photoSize) {
+        final Runtime runtime = Runtime.getRuntime();
         return sufficientMemoryAvailable(runtime, photoSize);
     }
 
     @VisibleForTesting
-    boolean sufficientMemoryAvailable(Runtime runtime,
+    boolean sufficientMemoryAvailable(final Runtime runtime,
             final Size photoSize) {
         final float memoryUsed = (runtime.totalMemory() - runtime.freeMemory()) / 1024f / 1024f;
         final float memoryNeeded = calculateMemoryUsageForSize(photoSize) / 1024f / 1024f;

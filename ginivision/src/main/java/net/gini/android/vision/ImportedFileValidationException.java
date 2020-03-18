@@ -1,8 +1,8 @@
 package net.gini.android.vision;
 
-import android.support.annotation.Nullable;
-
 import net.gini.android.vision.internal.util.FileImportValidator;
+
+import androidx.annotation.Nullable;
 
 /**
  * Thrown when a file failed validation.

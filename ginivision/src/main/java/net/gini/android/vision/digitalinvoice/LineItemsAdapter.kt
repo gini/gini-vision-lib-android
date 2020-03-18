@@ -2,15 +2,15 @@ package net.gini.android.vision.digitalinvoice
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.support.design.card.MaterialCardView
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import kotlinx.android.synthetic.main.gv_item_digital_invoice_footer.view.*
 import kotlinx.android.synthetic.main.gv_item_digital_invoice_header.view.*
 import kotlinx.android.synthetic.main.gv_item_digital_invoice_line_item.view.*

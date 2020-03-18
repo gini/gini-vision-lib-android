@@ -1,8 +1,8 @@
 package net.gini.android.vision.document;
 
-import android.support.annotation.NonNull;
-
 import net.gini.android.vision.internal.qrcode.PaymentQRCodeData;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Alpar Szotyori on 12.01.2018.

@@ -3,9 +3,6 @@ package net.gini.android.vision.component.review.compat;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
@@ -18,6 +15,10 @@ import net.gini.android.vision.review.ReviewFragmentCompat;
 import net.gini.android.vision.review.ReviewFragmentListener;
 
 import java.util.Map;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Created by Alpar Szotyori on 04.12.2017.

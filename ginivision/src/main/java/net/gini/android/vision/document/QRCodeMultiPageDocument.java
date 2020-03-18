@@ -1,9 +1,10 @@
 package net.gini.android.vision.document;
 
 import android.os.Parcel;
-import android.support.annotation.NonNull;
 
 import net.gini.android.vision.internal.util.MimeType;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Alpar Szotyori on 17.04.2018.

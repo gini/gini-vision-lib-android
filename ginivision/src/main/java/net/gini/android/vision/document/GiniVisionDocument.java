@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Parcel;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.Document;
@@ -15,6 +13,9 @@ import net.gini.android.vision.util.IntentHelper;
 
 import java.util.Arrays;
 import java.util.UUID;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * @exclude

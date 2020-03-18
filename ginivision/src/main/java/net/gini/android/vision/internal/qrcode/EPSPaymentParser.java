@@ -1,8 +1,8 @@
 package net.gini.android.vision.internal.qrcode;
 
 import android.net.Uri;
-import android.support.annotation.NonNull;
 
+import androidx.annotation.NonNull;
 /**
  * Created by Alpar Szotyori on 15.04.2019.
  *

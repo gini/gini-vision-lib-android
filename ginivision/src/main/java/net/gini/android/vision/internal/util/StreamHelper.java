@@ -1,11 +1,11 @@
 package net.gini.android.vision.internal.util;
 
 
-import android.support.annotation.NonNull;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
+import androidx.annotation.NonNull;
 
 /**
  * @exclude

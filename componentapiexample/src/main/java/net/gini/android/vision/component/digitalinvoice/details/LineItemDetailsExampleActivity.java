@@ -4,10 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 
 import net.gini.android.vision.component.R;
 import net.gini.android.vision.digitalinvoice.SelectableLineItem;
@@ -15,6 +11,11 @@ import net.gini.android.vision.digitalinvoice.details.LineItemDetailsFragment;
 import net.gini.android.vision.digitalinvoice.details.LineItemDetailsFragmentListener;
 
 import org.jetbrains.annotations.NotNull;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 /**
  * Created by Alpar Szotyori on 08.05.2018.

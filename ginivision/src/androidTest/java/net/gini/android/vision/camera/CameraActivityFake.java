@@ -1,10 +1,10 @@
 package net.gini.android.vision.camera;
 
-import android.support.annotation.NonNull;
-
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.document.QRCodeDocument;
 import net.gini.android.vision.internal.camera.api.CameraControllerFake;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Alpar Szotyori on 15.12.2017.

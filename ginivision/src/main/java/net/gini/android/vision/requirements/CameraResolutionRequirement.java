@@ -1,12 +1,13 @@
 package net.gini.android.vision.requirements;
 
 import android.hardware.Camera;
-import android.support.annotation.NonNull;
 
 import net.gini.android.vision.internal.camera.api.SizeSelectionHelper;
 import net.gini.android.vision.internal.util.Size;
 
 import java.util.Locale;
+
+import androidx.annotation.NonNull;
 
 class CameraResolutionRequirement implements Requirement {
 
@@ -15,7 +16,7 @@ class CameraResolutionRequirement implements Requirement {
 
     private final CameraHolder mCameraHolder;
 
-    CameraResolutionRequirement(CameraHolder cameraHolder) {
+    CameraResolutionRequirement(final CameraHolder cameraHolder) {
         mCameraHolder = cameraHolder;
     }
 
@@ -32,9 +33,9 @@ class CameraResolutionRequirement implements Requirement {
         String details = "";
 
         try {
-            Camera.Parameters parameters = mCameraHolder.getCameraParameters();
+            final Camera.Parameters parameters = mCameraHolder.getCameraParameters();
             if (parameters != null) {
-                Size pictureSize = SizeSelectionHelper.getLargestSize(
+                final Size pictureSize = SizeSelectionHelper.getLargestSize(
                         parameters.getSupportedPictureSizes());
                 if (pictureSize == null) {
                     result = false;
@@ -46,7 +47,7 @@ class CameraResolutionRequirement implements Requirement {
                     return new RequirementReport(getId(), result, details);
                 }
 
-                Size previewSize = SizeSelectionHelper.getLargestSizeWithSimilarAspectRatio(
+                final Size previewSize = SizeSelectionHelper.getLargestSizeWithSimilarAspectRatio(
                         parameters.getSupportedPreviewSizes(), pictureSize);
                 if (previewSize == null) {
                     result = false;
@@ -60,7 +61,7 @@ class CameraResolutionRequirement implements Requirement {
                 result = false;
                 details = "Camera not open";
             }
-        } catch (RuntimeException e) {
+        } catch (final RuntimeException e) {
             result = false;
             details = "Camera exception: " + e.getMessage();
         }
@@ -68,7 +69,7 @@ class CameraResolutionRequirement implements Requirement {
         return new RequirementReport(getId(), result, details);
     }
 
-    private boolean isAround8MPOrHigher(Size size) {
+    private boolean isAround8MPOrHigher(final Size size) {
         return size.width * size.height >= MIN_PICTURE_AREA;
     }
 

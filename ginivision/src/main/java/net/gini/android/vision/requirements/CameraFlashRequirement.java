@@ -1,15 +1,16 @@
 package net.gini.android.vision.requirements;
 
 import android.hardware.Camera;
-import android.support.annotation.NonNull;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 class CameraFlashRequirement implements Requirement {
 
     private final CameraHolder mCameraHolder;
 
-    CameraFlashRequirement(CameraHolder cameraHolder) {
+    CameraFlashRequirement(final CameraHolder cameraHolder) {
         mCameraHolder = cameraHolder;
     }
 
@@ -26,9 +27,9 @@ class CameraFlashRequirement implements Requirement {
         String details = "";
 
         try {
-            Camera.Parameters parameters = mCameraHolder.getCameraParameters();
+            final Camera.Parameters parameters = mCameraHolder.getCameraParameters();
             if (parameters != null) {
-                List<String> supportedFlashModes = parameters.getSupportedFlashModes();
+                final List<String> supportedFlashModes = parameters.getSupportedFlashModes();
                 if (supportedFlashModes == null || !supportedFlashModes.contains(
                         Camera.Parameters.FLASH_MODE_ON)) {
                     result = false;
@@ -38,7 +39,7 @@ class CameraFlashRequirement implements Requirement {
                 result = false;
                 details = "Camera not open";
             }
-        } catch (RuntimeException e) {
+        } catch (final RuntimeException e) {
             result = false;
             details = "Camera exception: " + e.getMessage();
         }

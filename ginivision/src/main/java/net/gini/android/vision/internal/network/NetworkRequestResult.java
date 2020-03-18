@@ -1,8 +1,8 @@
 package net.gini.android.vision.internal.network;
 
-import android.support.annotation.NonNull;
-
 import net.gini.android.vision.document.GiniVisionDocument;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Alpar Szotyori on 16.04.2018.

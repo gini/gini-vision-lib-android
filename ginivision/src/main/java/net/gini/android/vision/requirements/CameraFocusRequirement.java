@@ -1,15 +1,16 @@
 package net.gini.android.vision.requirements;
 
 import android.hardware.Camera;
-import android.support.annotation.NonNull;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 class CameraFocusRequirement implements Requirement {
 
     private final CameraHolder mCameraHolder;
 
-    CameraFocusRequirement(CameraHolder cameraHolder) {
+    CameraFocusRequirement(final CameraHolder cameraHolder) {
         mCameraHolder = cameraHolder;
     }
 
@@ -26,9 +27,9 @@ class CameraFocusRequirement implements Requirement {
         String details = "";
 
         try {
-            Camera.Parameters parameters = mCameraHolder.getCameraParameters();
+            final Camera.Parameters parameters = mCameraHolder.getCameraParameters();
             if (parameters != null) {
-                List<String> supportedFocusModes = parameters.getSupportedFocusModes();
+                final List<String> supportedFocusModes = parameters.getSupportedFocusModes();
                 if (supportedFocusModes == null || !supportedFocusModes.contains(
                         Camera.Parameters.FOCUS_MODE_AUTO)) {
                     fulfilled = false;
@@ -38,7 +39,7 @@ class CameraFocusRequirement implements Requirement {
                 fulfilled = false;
                 details = "Camera not open";
             }
-        } catch (RuntimeException e) {
+        } catch (final RuntimeException e) {
             fulfilled = false;
             details = "Camera exception: " + e.getMessage();
         }

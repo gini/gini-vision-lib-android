@@ -3,7 +3,6 @@ package net.gini.android.vision.component.camera.standard;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -22,6 +21,8 @@ import net.gini.android.vision.onboarding.OnboardingFragmentListener;
 import net.gini.android.vision.onboarding.OnboardingFragmentStandard;
 
 import java.util.Map;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Alpar Szotyori on 04.12.2017.

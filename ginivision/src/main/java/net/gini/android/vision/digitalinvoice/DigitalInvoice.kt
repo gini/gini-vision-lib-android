@@ -1,6 +1,6 @@
 package net.gini.android.vision.digitalinvoice
 
-import android.support.annotation.VisibleForTesting
+import androidx.annotation.VisibleForTesting
 import net.gini.android.vision.network.model.GiniVisionCompoundExtraction
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction
 import java.math.BigDecimal

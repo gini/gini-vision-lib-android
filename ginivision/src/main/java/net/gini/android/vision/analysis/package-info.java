@@ -9,7 +9,7 @@
  * and a {@link net.gini.android.vision.network.GiniVisionNetworkApi} implementation.
  *
  * <p> <b>Note:</b> {@link net.gini.android.vision.analysis.AnalysisActivity} extends {@link
- * android.support.v7.app.AppCompatActivity}, therefore you have to use an {@code AppCompat} theme
+ * androidx.appcompat.app.AppCompatActivity}, therefore you have to use an {@code AppCompat} theme
  * for your {@link net.gini.android.vision.analysis.AnalysisActivity} subclass.
  *
  * <h3>Component API</h3>

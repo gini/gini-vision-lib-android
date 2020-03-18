@@ -31,7 +31,7 @@ import android.util.AttributeSet;
  *
  * @exclude
  */
-public class CustomFontTextView extends android.support.v7.widget.AppCompatTextView {
+public class CustomFontTextView extends androidx.appcompat.widget.AppCompatTextView {
 
     public CustomFontTextView(final Context context) {
         super(context);

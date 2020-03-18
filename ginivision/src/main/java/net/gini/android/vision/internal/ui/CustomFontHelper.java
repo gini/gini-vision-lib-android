@@ -3,8 +3,6 @@ package net.gini.android.vision.internal.ui;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.TextView;
@@ -13,6 +11,9 @@ import net.gini.android.vision.R;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 final class CustomFontHelper {
 

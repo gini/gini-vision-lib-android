@@ -1,7 +1,5 @@
 package net.gini.android.vision.camera;
 
-import android.support.annotation.NonNull;
-
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.document.GiniVisionMultiPageDocument;
@@ -9,6 +7,8 @@ import net.gini.android.vision.document.QRCodeDocument;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
 import java.util.Map;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Alpar Szotyori on 21.02.2018.

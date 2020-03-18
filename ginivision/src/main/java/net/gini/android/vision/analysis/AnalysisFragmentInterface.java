@@ -1,12 +1,13 @@
 package net.gini.android.vision.analysis;
 
-import android.support.annotation.NonNull;
 import android.view.View;
 
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.network.GiniVisionNetworkService;
 
 import java.util.Map;
+
+import androidx.annotation.NonNull;
 
 /**
  * <p>

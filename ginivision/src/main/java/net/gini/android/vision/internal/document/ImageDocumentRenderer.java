@@ -1,7 +1,6 @@
 package net.gini.android.vision.internal.document;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.GiniVision;
@@ -10,6 +9,8 @@ import net.gini.android.vision.internal.cache.PhotoMemoryCache;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.PhotoFactoryDocumentAsyncTask;
 import net.gini.android.vision.internal.util.Size;
+
+import androidx.annotation.NonNull;
 
 /**
  * @exclude

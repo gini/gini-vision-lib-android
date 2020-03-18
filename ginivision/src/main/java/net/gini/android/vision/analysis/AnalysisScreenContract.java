@@ -3,8 +3,6 @@ package net.gini.android.vision.analysis;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import net.gini.android.vision.GiniVisionBasePresenter;
 import net.gini.android.vision.GiniVisionBaseView;
@@ -12,6 +10,8 @@ import net.gini.android.vision.internal.util.Size;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import jersey.repackaged.jsr166e.CompletableFuture;
 
 /**

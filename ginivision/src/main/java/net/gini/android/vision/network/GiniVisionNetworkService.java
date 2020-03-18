@@ -1,7 +1,6 @@
 package net.gini.android.vision.network;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
@@ -11,6 +10,8 @@ import net.gini.android.vision.review.ReviewFragmentListener;
 import net.gini.android.vision.util.CancellationToken;
 
 import java.util.LinkedHashMap;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Alpar Szotyori on 29.01.2018.

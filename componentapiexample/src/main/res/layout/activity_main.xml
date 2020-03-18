@@ -42,24 +42,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            style="@android:style/Widget.Holo.Button.Borderless"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:text="@string/start_gini_vision_lib_standard"
             android:textColor="@color/colorPrimary"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="32dp"/>
+            android:layout_marginBottom="8dp" />
 
         <Button
             android:id="@+id/button_start_gini_vision_compat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            style="@android:style/Widget.Holo.Button.Borderless"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:text="@string/start_gini_vision_lib_compat"
             android:textColor="@color/colorPrimary"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="32dp"/>
+            android:layout_marginBottom="16dp" />
 
     </LinearLayout>
 

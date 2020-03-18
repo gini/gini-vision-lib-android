@@ -11,8 +11,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 
 import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
@@ -31,6 +29,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 /**
  * Implements callbacks for the Gini Vision Library's {@link CameraActivity}. For example to perform

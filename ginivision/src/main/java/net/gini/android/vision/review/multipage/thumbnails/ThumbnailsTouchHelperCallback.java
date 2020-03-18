@@ -1,13 +1,13 @@
 package net.gini.android.vision.review.multipage.thumbnails;
 
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
-
 /**
  * Created by Alpar Szotyori on 08.05.2018.
  *
  * Copyright (c) 2018 Gini GmbH.
  */
+
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * @exclude

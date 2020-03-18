@@ -2,9 +2,6 @@ package net.gini.android.vision.component.analysis.compat;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.analysis.AnalysisFragmentCompat;
@@ -12,6 +9,10 @@ import net.gini.android.vision.analysis.AnalysisFragmentInterface;
 import net.gini.android.vision.component.R;
 import net.gini.android.vision.component.analysis.BaseAnalysisScreenHandler;
 import net.gini.android.vision.component.noresults.compat.NoResultsExampleAppCompatActivity;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 /**
  * Created by Alpar Szotyori on 04.12.2017.

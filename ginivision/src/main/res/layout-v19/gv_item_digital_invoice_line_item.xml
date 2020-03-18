@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/gv_line_item"
@@ -19,7 +19,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:foreground="?attr/selectableItemBackground"
-        android:padding="@dimen/gv_digital_invoice_line_item_padding">
+        android:paddingStart="@dimen/gv_digital_invoice_line_item_padding_left"
+        android:paddingEnd="@dimen/gv_digital_invoice_line_item_padding"
+        android:paddingBottom="@dimen/gv_digital_invoice_line_item_padding">
 
         <CheckBox
             android:id="@+id/gv_checkbox"
@@ -62,7 +64,7 @@
 
         <Button
             android:id="@+id/gv_edit"
-            style="@style/Widget.AppCompat.Button.Small"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/gv_description"
@@ -71,7 +73,7 @@
             android:background="@android:color/transparent"
             android:clickable="false"
             android:drawableEnd="@drawable/gv_edit_button_icon"
-            android:drawablePadding="@dimen/gv_digital_invoice_line_item_edit_drawable_padding"
+            app:iconPadding="@dimen/gv_digital_invoice_line_item_edit_drawable_padding"
             android:focusable="false"
             android:text="@string/gv_digital_invoice_line_item_edit"
             android:textAppearance="@style/GiniVisionTheme.DigitalInvoice.LineItem.Edit.TextStyle" />
@@ -96,4 +98,4 @@
             tools:text=".48" />
     </RelativeLayout>
 
-</android.support.design.card.MaterialCardView>
+</com.google.android.material.card.MaterialCardView>

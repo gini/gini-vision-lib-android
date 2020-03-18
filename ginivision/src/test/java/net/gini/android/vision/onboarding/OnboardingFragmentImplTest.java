@@ -19,8 +19,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withTagValue;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
@@ -37,6 +35,8 @@ import org.robolectric.annotation.LooperMode;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.ext.junit.runners.AndroidJUnit4;

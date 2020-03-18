@@ -65,7 +65,7 @@
             android:label="@string/title_no_extractions"/>
 
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="net.gini.android.vision.screen.fileprovider"
             android:grantUriPermissions="true"
             android:exported="false">

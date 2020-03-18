@@ -1,7 +1,5 @@
 package net.gini.android.vision.network;
 
-import android.support.annotation.NonNull;
-
 import net.gini.android.DocumentTaskManager;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.internal.camera.api.UIExecutor;
@@ -15,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
+import androidx.annotation.NonNull;
 import bolts.Continuation;
 import bolts.Task;
 

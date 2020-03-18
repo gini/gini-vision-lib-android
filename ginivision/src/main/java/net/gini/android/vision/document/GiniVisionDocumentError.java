@@ -2,8 +2,8 @@ package net.gini.android.vision.document;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 
+import androidx.annotation.NonNull;
 /**
  * Created by Alpar Szotyori on 15.03.2018.
  *

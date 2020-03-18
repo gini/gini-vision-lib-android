@@ -4,7 +4,6 @@ import static androidx.test.InstrumentationRegistry.getTargetContext;
 
 import android.content.res.AssetManager;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -12,6 +11,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Alpar Szotyori on 15.05.2019.

@@ -1,11 +1,11 @@
 package net.gini.android.vision.network.model;
 
-import android.support.annotation.NonNull;
-
 import net.gini.android.models.SpecificExtraction;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Alpar Szotyori on 30.01.2018.

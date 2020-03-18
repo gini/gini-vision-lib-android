@@ -2,7 +2,8 @@ package net.gini.android.vision.internal.permission;
 
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 /**
  * @exclude

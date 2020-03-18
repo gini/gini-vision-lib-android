@@ -10,13 +10,13 @@
     </style>
 
     <!-- Theme using the support library for material design on Android versions before Lollipop-->
-    <style name="AppThemeCompat" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppThemeCompat" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppThemeCompat.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppThemeCompat.NoActionBar" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>

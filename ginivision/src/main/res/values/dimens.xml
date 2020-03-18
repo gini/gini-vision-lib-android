@@ -129,7 +129,7 @@
     <dimen name="gv_digital_invoice_header_title_margin_top">8dp</dimen>
     <dimen name="gv_digital_invoice_header_hero_image_margin_top">16dp</dimen>
     <dimen name="gv_digital_invoice_header_hero_image_margin_bottom">8dp</dimen>
-    <dimen name="gv_digital_invoice_header_help_margin_right">-12dp</dimen>
+    <dimen name="gv_digital_invoice_header_help_margin_right">-8dp</dimen>
     <dimen name="gv_digital_invoice_header_help_button_padding">4dp</dimen>
 
     <dimen name="gv_digital_invoice_line_item_horizontal_margin">16dp</dimen>
@@ -137,6 +137,7 @@
     <dimen name="gv_digital_invoice_line_item_corner_radius">10dp</dimen>
     <dimen name="gv_digital_invoice_line_item_card_elevation">4dp</dimen>
     <dimen name="gv_digital_invoice_line_item_padding">16dp</dimen>
+    <dimen name="gv_digital_invoice_line_item_padding_left">8dp</dimen>
     <dimen name="gv_digital_invoice_line_item_stroke_width">1dp</dimen>
     <dimen name="gv_digital_invoice_line_item_checkbox_margin_right">16dp</dimen>
     <dimen name="gv_digital_invoice_line_item_description_margin_bottom">16dp</dimen>

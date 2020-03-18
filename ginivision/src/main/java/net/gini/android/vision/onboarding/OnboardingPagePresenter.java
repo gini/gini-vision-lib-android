@@ -1,9 +1,10 @@
 package net.gini.android.vision.onboarding;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
 
 import net.gini.android.vision.internal.util.ContextHelper;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Alpar Szotyori on 20.05.2019.

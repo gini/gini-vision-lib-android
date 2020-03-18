@@ -1,12 +1,12 @@
 package net.gini.android.vision.internal.qrcode;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
-
 import net.gini.android.vision.internal.util.Size;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 
 /**
  * Created by Alpar Szotyori on 08.12.2017.

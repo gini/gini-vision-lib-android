@@ -5,9 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +12,10 @@ import android.view.ViewGroup;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 import net.gini.android.vision.internal.util.AlertDialogHelperCompat;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 /**
  * <h3>Component API</h3>
@@ -42,11 +43,11 @@ import net.gini.android.vision.internal.util.AlertDialogHelperCompat;
  * </p>
  * <p>
  * <b>Note:</b> Your Activity hosting this Fragment must extend the {@link
- * android.support.v7.app.AppCompatActivity} and use an AppCompat Theme.
+ * androidx.appcompat.app.AppCompatActivity} and use an AppCompat Theme.
  * </p>
  * <p>
  * Include the {@code CameraFragmentCompat} into your layout either directly with {@code <fragment>}
- * in your Activity's layout or using the {@link android.support.v4.app.FragmentManager} and one of
+ * in your Activity's layout or using the {@link androidx.fragment.app.FragmentManager} and one of
  * the {@code createInstance()} methods.
  * </p>
  * <p>

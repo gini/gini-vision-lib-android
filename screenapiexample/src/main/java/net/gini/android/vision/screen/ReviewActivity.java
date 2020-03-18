@@ -5,7 +5,6 @@ import static net.gini.android.vision.example.ExampleUtil.hasNoPay5Extractions;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 
 import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
@@ -18,6 +17,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Map;
+
+import androidx.annotation.NonNull;
 
 /**
  * Implements callbacks required by the Gini Vision Library's {@link net.gini.android.vision.review.ReviewActivity}

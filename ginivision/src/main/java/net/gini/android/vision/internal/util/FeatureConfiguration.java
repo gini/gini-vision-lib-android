@@ -1,10 +1,10 @@
 package net.gini.android.vision.internal.util;
 
-import android.support.annotation.NonNull;
-
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Alpar Szotyori on 05.03.2018.

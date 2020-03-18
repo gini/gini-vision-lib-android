@@ -3,7 +3,6 @@ package net.gini.android.vision.analysis;
 import static net.gini.android.vision.internal.network.NetworkRequestsManager.isCancellation;
 
 import android.app.Application;
-import android.support.annotation.NonNull;
 
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionDebug;
@@ -21,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
 import jersey.repackaged.jsr166e.CompletableFuture;
 
 /**

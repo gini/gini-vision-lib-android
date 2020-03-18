@@ -1,9 +1,6 @@
 package net.gini.android.vision.accounting.network;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.XmlRes;
 import android.text.TextUtils;
 
 import com.android.volley.Cache;
@@ -42,6 +39,9 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.XmlRes;
 import bolts.Continuation;
 import bolts.Task;
 

@@ -1,9 +1,9 @@
 package net.gini.android.vision.accounting.network.model;
 
-import android.support.annotation.Nullable;
-
 import net.gini.android.models.Box;
 import net.gini.android.vision.network.model.GiniVisionBox;
+
+import androidx.annotation.Nullable;
 
 /**
  * Created by Alpar Szotyori on 30.01.2018.

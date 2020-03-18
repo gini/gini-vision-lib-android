@@ -5,12 +5,12 @@ import static com.google.common.truth.Truth.assertThat;
 import static net.gini.android.vision.onboarding.PageIndicatorsHelper.isPageActive;
 import static net.gini.android.vision.onboarding.PageIndicatorsHelper.isPageInactive;
 
-import android.support.annotation.NonNull;
 import android.widget.LinearLayout;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import androidx.annotation.NonNull;
 import androidx.test.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 

@@ -1,7 +1,5 @@
 package net.gini.android.vision.camera;
 
-import android.support.annotation.NonNull;
-
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionError;
@@ -11,6 +9,8 @@ import net.gini.android.vision.network.GiniVisionNetworkService;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
 import java.util.Map;
+
+import androidx.annotation.NonNull;
 
 /**
  * <p>

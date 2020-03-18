@@ -2,10 +2,10 @@ package net.gini.android.vision.camera;
 
 import static org.mockito.Mockito.spy;
 
-import android.support.annotation.NonNull;
-
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Alpar Szotyori on 15.12.2017.

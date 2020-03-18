@@ -6,10 +6,6 @@ import static net.gini.android.vision.tracking.EventTrackingHelper.trackReviewSc
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import net.gini.android.vision.Document;
@@ -27,6 +23,11 @@ import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.tracking.ReviewScreenEvent;
 
 import java.util.Map;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * <h3>Screen API</h3>
@@ -463,6 +464,7 @@ public class ReviewActivity extends AppCompatActivity implements ReviewFragmentL
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode,
             final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ANALYSE_DOCUMENT_REQUEST) {
             if (resultCode == RESULT_NO_EXTRACTIONS) {
                 finish();

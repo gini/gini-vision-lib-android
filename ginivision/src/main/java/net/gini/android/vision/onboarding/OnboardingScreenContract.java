@@ -1,13 +1,13 @@
 package net.gini.android.vision.onboarding;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
 
 import net.gini.android.vision.GiniVisionBasePresenter;
 import net.gini.android.vision.GiniVisionBaseView;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import jersey.repackaged.jsr166e.CompletableFuture;
 
 /**
