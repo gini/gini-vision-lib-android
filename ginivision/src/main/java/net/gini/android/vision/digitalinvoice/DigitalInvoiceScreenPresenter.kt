@@ -11,16 +11,6 @@ import net.gini.android.vision.network.model.GiniVisionSpecificExtraction
  * Copyright (c) 2019 Gini GmbH.
  */
 
-val mockReasons = listOf(
-        "Looks different than site image",
-        "Poor quality/fault",
-        "Doesn't fit properly",
-        "Doesn't suite me",
-        "Received wrong item",
-        "Parcel damaged",
-        "Arrived too late"
-)
-
 internal open class DigitalInvoiceScreenPresenter(activity: Activity,
                                                   view: DigitalInvoiceScreenContract.View,
                                                   val extractions: Map<String, GiniVisionSpecificExtraction> = emptyMap(),
@@ -31,7 +21,7 @@ internal open class DigitalInvoiceScreenPresenter(activity: Activity,
 
     @VisibleForTesting
     val digitalInvoice: DigitalInvoice
-    var returnReasons: List<String> = mockReasons
+    var returnReasons: List<String> = emptyList()
 
     init {
         view.setPresenter(this)
@@ -44,14 +34,18 @@ internal open class DigitalInvoiceScreenPresenter(activity: Activity,
     }
 
     override fun deselectLineItem(lineItem: SelectableLineItem) {
-        view.showReturnReasonDialog(returnReasons) { selectedReason ->
-            if (selectedReason != null) {
-                digitalInvoice.deselectLineItem(lineItem, selectedReason)
-            } else {
-                digitalInvoice.selectLineItem(lineItem)
+        if (returnReasons.isEmpty()) {
+            digitalInvoice.deselectLineItem(lineItem, null)
+        } else {
+            view.showReturnReasonDialog(returnReasons) { selectedReason ->
+                if (selectedReason != null) {
+                    digitalInvoice.deselectLineItem(lineItem, selectedReason)
+                } else {
+                    digitalInvoice.selectLineItem(lineItem)
+                }
             }
-            updateView()
         }
+        updateView()
     }
 
     override fun editLineItem(lineItem: SelectableLineItem) {

@@ -6,7 +6,6 @@ import net.gini.android.vision.digitalinvoice.LineItem
 import net.gini.android.vision.digitalinvoice.SelectableLineItem
 import net.gini.android.vision.digitalinvoice.details.LineItemDetailsScreenContract.Presenter
 import net.gini.android.vision.digitalinvoice.details.LineItemDetailsScreenContract.View
-import net.gini.android.vision.digitalinvoice.mockReasons
 import java.math.BigDecimal
 import java.text.DecimalFormat
 import java.text.ParseException
@@ -26,7 +25,7 @@ class LineItemDetailsScreenPresenter(activity: Activity, view: View,
 
     override var listener: LineItemDetailsFragmentListener? = null
 
-    var returnReasons: List<String> = mockReasons
+    var returnReasons: List<String> = emptyList()
 
     private val originalLineItem: SelectableLineItem = selectableLineItem.copy()
 
@@ -53,21 +52,27 @@ class LineItemDetailsScreenPresenter(activity: Activity, view: View,
         if (!selectableLineItem.selected) {
             return
         }
-        view.showReturnReasonDialog(returnReasons) { selectedReason ->
-            if (selectedReason != null) {
-                selectableLineItem.selected = false
-                selectableLineItem.reason = selectedReason
-                view.disableInput()
-            } else {
-                selectableLineItem.selected = true
-                selectableLineItem.reason = null
-                view.enableInput()
-            }
-            selectableLineItem.let {
-                view.apply {
-                    showCheckbox(it.selected, it.lineItem.quantity)
-                    updateSaveButton(it, originalLineItem)
+        if (returnReasons.isEmpty()) {
+            selectableLineItem.selected = false
+            selectableLineItem.reason = null
+            view.disableInput()
+        } else {
+            view.showReturnReasonDialog(returnReasons) { selectedReason ->
+                if (selectedReason != null) {
+                    selectableLineItem.selected = false
+                    selectableLineItem.reason = selectedReason
+                    view.disableInput()
+                } else {
+                    selectableLineItem.selected = true
+                    selectableLineItem.reason = null
+                    view.enableInput()
                 }
+            }
+        }
+        selectableLineItem.let {
+            view.apply {
+                showCheckbox(it.selected, it.lineItem.quantity)
+                updateSaveButton(it, originalLineItem)
             }
         }
     }

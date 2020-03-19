@@ -73,7 +73,7 @@ class DigitalInvoice(extractions: Map<String, GiniVisionSpecificExtraction>,
         }
     }
 
-    fun deselectLineItem(selectableLineItem: SelectableLineItem, reason: String) {
+    fun deselectLineItem(selectableLineItem: SelectableLineItem, reason: String?) {
         selectableLineItems.find { sli -> sli.lineItem.id == selectableLineItem.lineItem.id }?.let { sli ->
             sli.selected = false
             sli.reason = reason
