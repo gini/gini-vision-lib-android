@@ -125,7 +125,7 @@
     <dimen name="gv_digital_invoice_header_padding_right">16dp</dimen>
     <dimen name="gv_digital_invoice_header_padding_top">16dp</dimen>
     <dimen name="gv_digital_invoice_header_padding_bottom">0dp</dimen>
-    <dimen name="gv_digital_invoice_header_title_horizontal_margin">60dp</dimen>
+    <dimen name="gv_digital_invoice_header_title_horizontal_margin">32dp</dimen>
     <dimen name="gv_digital_invoice_header_title_margin_top">8dp</dimen>
     <dimen name="gv_digital_invoice_header_hero_image_margin_top">16dp</dimen>
     <dimen name="gv_digital_invoice_header_hero_image_margin_bottom">8dp</dimen>
