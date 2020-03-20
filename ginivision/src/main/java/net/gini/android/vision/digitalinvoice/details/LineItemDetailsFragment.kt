@@ -14,6 +14,7 @@ import net.gini.android.vision.digitalinvoice.LineItem
 import net.gini.android.vision.digitalinvoice.ReturnReasonDialog
 import net.gini.android.vision.digitalinvoice.ReturnReasonDialogResultCallback
 import net.gini.android.vision.digitalinvoice.SelectableLineItem
+import net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones
 
 /**
  * Created by Alpar Szotyori on 17.12.2019.
@@ -57,6 +58,7 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
         checkNotNull(activity) {
             "Missing activity for fragment."
         }
+        forcePortraitOrientationOnPhones(activity)
         readArguments()
         createPresenter(activity)
         initListener()

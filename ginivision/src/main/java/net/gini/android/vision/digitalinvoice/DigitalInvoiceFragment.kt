@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.gv_fragment_digital_invoice.*
 import net.gini.android.vision.R
+import net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones
 import net.gini.android.vision.network.model.GiniVisionCompoundExtraction
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction
 
@@ -60,6 +61,7 @@ class DigitalInvoiceFragment : Fragment(), DigitalInvoiceScreenContract.View,
         checkNotNull(activity) {
             "Missing activity for fragment."
         }
+        forcePortraitOrientationOnPhones(activity)
         readArguments()
         createPresenter(activity)
         initListener()
