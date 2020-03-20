@@ -393,10 +393,6 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
         return GiniVision.hasInstance() && GiniVision.getInstance().isReturnAssistantEnabled();
     }
 
-    private boolean hasLineItems(@NonNull final AnalysisInteractor.ResultHolder resultHolder) {
-        return resultHolder.getCompoundExtractions().containsKey("lineItems");
-    }
-
     private void loadDocumentData() {
         LOG.debug("Loading document data");
         mMultiPageDocument.loadData(getActivity(),

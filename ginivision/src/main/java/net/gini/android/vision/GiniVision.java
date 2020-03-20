@@ -534,7 +534,7 @@ public class GiniVision {
             public void onAnalysisScreenEvent(@NotNull final Event<AnalysisScreenEvent> event) {
             }
         };
-        private boolean mReturnAssistantEnabled = false;
+        private boolean mReturnAssistantEnabled;
 
         /**
          * Create a new {@link GiniVision} instance.

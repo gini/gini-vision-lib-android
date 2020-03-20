@@ -74,10 +74,10 @@ public class GiniVisionCompoundExtraction implements Parcelable {
     @NonNull
     @Override
     public String toString() {
-        return "GiniVisionCompoundExtraction{" +
-                "mName='" + mName + '\'' +
-                ", mSpecificExtractionMaps=" + mSpecificExtractionMaps +
-                '}';
+        return "GiniVisionCompoundExtraction{"
+                + "mName='" + mName + '\''
+                + ", mSpecificExtractionMaps=" + mSpecificExtractionMaps
+                + '}';
     }
 
     @NonNull

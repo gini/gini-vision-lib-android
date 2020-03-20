@@ -92,9 +92,9 @@ public class Event<T extends Enum<T>> {
     @NonNull
     @Override
     public String toString() {
-        return "Event{" +
-                "type=" + type +
-                ", details=" + details +
-                '}';
+        return "Event{"
+                + "type=" + type
+                + ", details=" + details
+                + '}';
     }
 }
