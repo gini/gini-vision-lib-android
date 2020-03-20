@@ -68,7 +68,8 @@
             android:drawablePadding="@dimen/gv_digital_invoice_header_help_button_padding"
             android:text="@string/gv_digital_invoice_help"
             android:textAllCaps="false"
-            android:textAppearance="@style/GiniVisionTheme.DigitalInvoice.WhatIsThis.TextStyle" />
+            android:textAppearance="@style/GiniVisionTheme.DigitalInvoice.WhatIsThis.TextStyle"
+            tools:ignore="RelativeOverlap" />
     </RelativeLayout>
 
 </RelativeLayout>
