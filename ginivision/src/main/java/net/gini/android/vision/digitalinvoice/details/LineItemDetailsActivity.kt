@@ -3,9 +3,11 @@ package net.gini.android.vision.digitalinvoice.details
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import net.gini.android.vision.R
 import net.gini.android.vision.digitalinvoice.SelectableLineItem
+import net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp
 
 private const val LINE_ITEM_DETAILS_FRAGMENT = "LINE_ITEM_DETAILS_FRAGMENT"
 private const val EXTRA_IN_SELECTABLE_LINE_ITEM = "EXTRA_IN_SELECTABLE_LINE_ITEM"
@@ -35,6 +37,15 @@ class LineItemDetailsActivity : AppCompatActivity(), LineItemDetailsFragmentList
         } else {
             retainFragment()
         }
+        enableHomeAsUp(this)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            onBackPressed()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun readExtras() {
