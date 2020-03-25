@@ -7,7 +7,9 @@ package net.gini.android.vision.review.multipage.previews;
  */
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public interface PreviewsPageChangeListener {
 

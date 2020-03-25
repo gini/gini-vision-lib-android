@@ -20,7 +20,9 @@ import androidx.annotation.NonNull;
  */
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class PhotoMemoryCache extends MemoryCache<ImageDocument, Photo> {
 

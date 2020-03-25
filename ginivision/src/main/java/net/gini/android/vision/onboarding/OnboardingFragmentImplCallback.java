@@ -8,7 +8,9 @@ import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public interface OnboardingFragmentImplCallback extends FragmentImplCallback {
 

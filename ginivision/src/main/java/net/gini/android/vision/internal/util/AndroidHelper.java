@@ -3,12 +3,16 @@ package net.gini.android.vision.internal.util;
 import android.os.Build;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public final class AndroidHelper {
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static boolean isMarshmallowOrLater() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;

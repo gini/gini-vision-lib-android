@@ -7,14 +7,18 @@ import android.view.SurfaceView;
 import net.gini.android.vision.internal.util.Size;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class CameraPreviewSurface extends SurfaceView {
 
     private Size mPreviewSize;
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public enum ScaleType {
         CENTER_RESIZE,

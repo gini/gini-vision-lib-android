@@ -55,7 +55,9 @@ import androidx.transition.TransitionListenerAdapter;
 import androidx.transition.TransitionManager;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class FileChooserActivity extends AppCompatActivity implements AlertDialogFragmentListener {
 

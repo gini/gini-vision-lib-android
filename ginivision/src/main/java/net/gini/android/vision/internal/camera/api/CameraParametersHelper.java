@@ -7,7 +7,9 @@ import java.util.List;
 import androidx.annotation.NonNull;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 final class CameraParametersHelper {
 

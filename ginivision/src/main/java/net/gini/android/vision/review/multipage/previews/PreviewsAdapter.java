@@ -17,7 +17,9 @@ import androidx.viewpager.widget.ViewPager;
  */
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class PreviewsAdapter extends FragmentStatePagerAdapter {
 

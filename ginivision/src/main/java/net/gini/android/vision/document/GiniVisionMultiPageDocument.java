@@ -20,7 +20,9 @@ import androidx.annotation.Nullable;
  */
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class GiniVisionMultiPageDocument<T extends GiniVisionDocument,
         E extends GiniVisionDocumentError> extends GiniVisionDocument {

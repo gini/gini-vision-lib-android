@@ -5,7 +5,9 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public final class DeviceHelper {
 

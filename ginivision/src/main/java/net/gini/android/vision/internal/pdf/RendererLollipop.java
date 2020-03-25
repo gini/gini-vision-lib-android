@@ -28,9 +28,11 @@ import androidx.annotation.RequiresApi;
 import androidx.annotation.VisibleForTesting;
 
 /**
+ * Internal use only.
+ *
  * This class is not thread safe due to the underlying {@link PdfRenderer}.
  *
- * @exclude
+ * @suppress
  */
 @RequiresApi(21)
 class RendererLollipop implements Renderer {

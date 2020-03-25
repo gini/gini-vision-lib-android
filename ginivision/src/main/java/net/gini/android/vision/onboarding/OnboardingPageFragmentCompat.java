@@ -15,7 +15,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class OnboardingPageFragmentCompat extends Fragment implements FragmentImplCallback {
 

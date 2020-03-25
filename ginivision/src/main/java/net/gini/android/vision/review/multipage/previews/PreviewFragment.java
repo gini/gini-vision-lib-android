@@ -26,7 +26,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class PreviewFragment extends Fragment {
 
@@ -238,7 +240,9 @@ public class PreviewFragment extends Fragment {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public enum ErrorButtonAction {
         RETRY,

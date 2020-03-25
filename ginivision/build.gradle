@@ -111,6 +111,7 @@ dokka {
     outputFormat = 'html'
     outputDirectory = "$buildDir/dokka"
     configuration {
+        includes = ['module.md'] + packageDocumentationPaths(android.sourceSets.main.java.srcDirs[0])
         perPackageOption {
             prefix = 'com.ortiz'
             suppress = true
@@ -119,7 +120,33 @@ dokka {
             prefix = 'net.gini.android.vision.internal'
             suppress = true
         }
+        perPackageOption {
+            prefix = 'net.gini.android.vision.internal'
+            suppress = true
+        }
+        perPackageOption {
+            prefix = 'net.gini.android.vision.util'
+            suppress = true
+        }
+        perPackageOption {
+            prefix = 'net.gini.android.vision.review.multipage.previews'
+            suppress = true
+        }
+        perPackageOption {
+            prefix = 'net.gini.android.vision.review.multipage.thumbnails'
+            suppress = true
+        }
     }
+}
+
+static def packageDocumentationPaths(srcDir) {
+    def packageDocs = []
+    srcDir.eachFileRecurse {
+        if (it.name == 'package.md') {
+            packageDocs.add(it.getAbsolutePath())
+        }
+    }
+    return packageDocs
 }
 
 task generateJavadocWithDokka(type: org.jetbrains.dokka.gradle.DokkaTask) {

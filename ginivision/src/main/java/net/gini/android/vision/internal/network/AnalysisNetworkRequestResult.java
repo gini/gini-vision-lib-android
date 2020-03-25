@@ -12,7 +12,9 @@ import androidx.annotation.NonNull;
  */
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class AnalysisNetworkRequestResult<T extends GiniVisionDocument>
         extends NetworkRequestResult<T> {

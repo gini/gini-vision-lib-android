@@ -7,7 +7,9 @@ import android.os.Parcel;
 import androidx.annotation.NonNull;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class ProvidersAppItem extends ProvidersItem {
 

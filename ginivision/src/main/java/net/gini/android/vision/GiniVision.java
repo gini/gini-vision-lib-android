@@ -174,7 +174,9 @@ public class GiniVision {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @NonNull
     public Internal internal() {
@@ -854,7 +856,9 @@ public class GiniVision {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static class Internal {
 

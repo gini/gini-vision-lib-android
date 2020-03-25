@@ -13,7 +13,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public final class ActivityHelper {
 

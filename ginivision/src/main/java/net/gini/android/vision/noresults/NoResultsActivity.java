@@ -126,7 +126,9 @@ import androidx.appcompat.app.AppCompatActivity;
 public class NoResultsActivity extends AppCompatActivity implements NoResultsFragmentListener {
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static final String EXTRA_IN_DOCUMENT = "GV_EXTRA_IN_DOCUMENT";
 

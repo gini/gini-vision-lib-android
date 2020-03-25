@@ -15,7 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class ProvidersAdapter extends RecyclerView.Adapter<ProvidersItemViewHolder> {
 

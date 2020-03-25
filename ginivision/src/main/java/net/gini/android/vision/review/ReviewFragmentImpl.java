@@ -52,7 +52,9 @@ import androidx.annotation.VisibleForTesting;
 import jersey.repackaged.jsr166e.CompletableFuture;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 class ReviewFragmentImpl implements ReviewFragmentInterface {
 

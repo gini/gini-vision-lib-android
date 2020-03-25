@@ -8,7 +8,9 @@ import net.gini.android.vision.document.ImageDocument;
 import androidx.annotation.NonNull;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class PhotoFactoryDocumentAsyncTask extends AsyncTask<ImageDocument, Void, Photo> {
 

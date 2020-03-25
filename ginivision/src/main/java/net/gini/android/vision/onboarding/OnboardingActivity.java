@@ -158,8 +158,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class OnboardingActivity extends AppCompatActivity implements OnboardingFragmentListener {
 
     /**
-     * @exclude
-     * @deprecated Configuration should be applied by creating a {@link GiniVision} instance using
+     * @suppress
+     * @Deprecated Configuration should be applied by creating a {@link GiniVision} instance using
      * {@link GiniVision#newInstance()} and the returned {@link GiniVision.Builder}.
      */
     public static final String EXTRA_ONBOARDING_PAGES = "GV_EXTRA_PAGES";

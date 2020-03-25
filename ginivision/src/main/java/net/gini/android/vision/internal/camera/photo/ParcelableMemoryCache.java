@@ -18,13 +18,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 /**
+ * Internal use only.
+ *
  * This singleton cache keeps references to byte arrays and Bitmaps to be preserved between
  * parceling and unparceling.
  *
  * <p> This solution is needed because it is not possible to pass large
  * byte arrays and Bitmaps via Intents.
  *
- * @exclude
+ * @suppress
  */
 public enum ParcelableMemoryCache {
 

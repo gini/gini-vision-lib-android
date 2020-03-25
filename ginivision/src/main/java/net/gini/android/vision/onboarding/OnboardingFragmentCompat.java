@@ -145,7 +145,7 @@ public class OnboardingFragmentCompat extends Fragment implements OnboardingFrag
     /**
      * @param savedInstanceState
      *
-     * @exclude
+     * @suppress
      */
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -168,7 +168,7 @@ public class OnboardingFragmentCompat extends Fragment implements OnboardingFrag
      *
      * @return
      *
-     * @exclude
+     * @suppress
      */
     @Nullable
     @Override

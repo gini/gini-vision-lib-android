@@ -3,7 +3,9 @@ package net.gini.android.vision.internal.permission;
 import androidx.annotation.NonNull;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public interface PermissionRequestListener {
     void permissionGranted();
@@ -13,7 +15,9 @@ public interface PermissionRequestListener {
     void shouldShowRequestPermissionRationale(@NonNull final RationaleResponse response);
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     interface RationaleResponse {
         void requestPermission();

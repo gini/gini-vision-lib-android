@@ -42,7 +42,7 @@ public interface CameraFragmentListener {
      *
      * @param qrCodeDocument contains payment data from a QR Code
      *
-     * @deprecated When a {@link GiniVision} instance is available the QRCode
+     * @Deprecated When a {@link GiniVision} instance is available the QRCode
      * is analyzed internally by using the configured {@link GiniVisionNetworkService}
      * implementation. The extractions will be returned in {@link CameraFragmentListener#onExtractionsAvailable(Map)}.
      */

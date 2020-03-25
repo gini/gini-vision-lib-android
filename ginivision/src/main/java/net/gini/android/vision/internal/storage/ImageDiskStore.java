@@ -27,7 +27,9 @@ import androidx.annotation.VisibleForTesting;
  */
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class ImageDiskStore {
 

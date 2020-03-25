@@ -14,12 +14,16 @@ import androidx.annotation.NonNull;
  */
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public final class EventTrackingHelper {
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static void trackOnboardingScreenEvent(@NonNull final OnboardingScreenEvent event, @NonNull final Map<String, String> details) {
         if (GiniVision.hasInstance()) {
@@ -28,14 +32,18 @@ public final class EventTrackingHelper {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static void trackOnboardingScreenEvent(@NonNull final OnboardingScreenEvent event) {
         trackOnboardingScreenEvent(event, Collections.<String, String>emptyMap());
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static void trackCameraScreenEvent(@NonNull final CameraScreenEvent event, @NonNull final Map<String, String> details) {
         if (GiniVision.hasInstance()) {
@@ -44,14 +52,18 @@ public final class EventTrackingHelper {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static void trackCameraScreenEvent(@NonNull final CameraScreenEvent event) {
         trackCameraScreenEvent(event, Collections.<String, String>emptyMap());
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static void trackReviewScreenEvent(@NonNull final ReviewScreenEvent event, @NonNull final Map<String, String> details) {
         if (GiniVision.hasInstance()) {
@@ -60,14 +72,18 @@ public final class EventTrackingHelper {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static void trackReviewScreenEvent(@NonNull final ReviewScreenEvent event) {
         trackReviewScreenEvent(event, Collections.<String, String>emptyMap());
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static void trackAnalysisScreenEvent(@NonNull final AnalysisScreenEvent event, @NonNull final Map<String, String> details) {
         if (GiniVision.hasInstance()) {
@@ -76,7 +92,9 @@ public final class EventTrackingHelper {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static void trackAnalysisScreenEvent(@NonNull final AnalysisScreenEvent event) {
         trackAnalysisScreenEvent(event, Collections.<String, String>emptyMap());

@@ -63,7 +63,9 @@ public class AnalysisFragmentStandard extends Fragment implements FragmentImplCa
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -74,7 +76,9 @@ public class AnalysisFragmentStandard extends Fragment implements FragmentImplCa
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Nullable
     @Override
@@ -84,7 +88,9 @@ public class AnalysisFragmentStandard extends Fragment implements FragmentImplCa
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onDestroy() {
@@ -98,7 +104,9 @@ public class AnalysisFragmentStandard extends Fragment implements FragmentImplCa
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onStart() {
@@ -107,7 +115,9 @@ public class AnalysisFragmentStandard extends Fragment implements FragmentImplCa
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onStop() {

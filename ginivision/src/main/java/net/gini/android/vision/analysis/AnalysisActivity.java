@@ -205,26 +205,36 @@ public class AnalysisActivity extends AppCompatActivity implements
         AnalysisFragmentListener, AnalysisFragmentInterface {
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static final String EXTRA_IN_DOCUMENT = "GV_EXTRA_IN_DOCUMENT";
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static final String EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE =
             "GV_EXTRA_IN_DOCUMENT_ANALYSIS_ERROR_MESSAGE";
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static final String EXTRA_OUT_ERROR = "GV_EXTRA_OUT_ERROR";
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static final int RESULT_ERROR = RESULT_FIRST_USER + 1;
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static final int RESULT_NO_EXTRACTIONS = RESULT_FIRST_USER + 2;
 
@@ -247,7 +257,7 @@ public class AnalysisActivity extends AppCompatActivity implements
      * without the required extractions. </p> <p> It will launch the {@link NoResultsActivity}, if the {@link Document}'s type is {@link
      * Document.Type#IMAGE}. For other types it will just finish the {@code AnalysisActivity} with {@code RESULT_OK}. </p>
      *
-     * @deprecated When a {@link GiniVision} instance is available the document is analyzed internally by using the configured {@link
+     * @Deprecated When a {@link GiniVision} instance is available the document is analyzed internally by using the configured {@link
      * GiniVisionNetworkService} implementation.
      */
     @Deprecated
@@ -273,7 +283,7 @@ public class AnalysisActivity extends AppCompatActivity implements
      *
      * @param document contains the image taken by the camera (original or modified)
      *
-     * @deprecated When a {@link GiniVision} instance is available the document is analyzed internally by using the configured {@link
+     * @Deprecated When a {@link GiniVision} instance is available the document is analyzed internally by using the configured {@link
      * GiniVisionNetworkService} implementation. The extractions will be returned in the extra called {@link
      * CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
      */
@@ -303,7 +313,7 @@ public class AnalysisActivity extends AppCompatActivity implements
     }
 
     /**
-     * @deprecated When a {@link GiniVision} instance is available the document is analyzed internally by using the configured {@link
+     * @Deprecated When a {@link GiniVision} instance is available the document is analyzed internally by using the configured {@link
      * GiniVisionNetworkService} implementation. The extractions will be returned in the extra called {@link
      * CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
      */
@@ -352,7 +362,7 @@ public class AnalysisActivity extends AppCompatActivity implements
     }
 
     /**
-     * @deprecated When a {@link GiniVision} instance is available the document is analyzed internally by using the configured {@link
+     * @Deprecated When a {@link GiniVision} instance is available the document is analyzed internally by using the configured {@link
      * GiniVisionNetworkService} implementation. The extractions will be returned in the extra called {@link
      * CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
      */
@@ -363,7 +373,7 @@ public class AnalysisActivity extends AppCompatActivity implements
     }
 
     /**
-     * @deprecated When a {@link GiniVision} instance is available the document is analyzed internally by using the configured {@link
+     * @Deprecated When a {@link GiniVision} instance is available the document is analyzed internally by using the configured {@link
      * GiniVisionNetworkService} implementation. The extractions will be returned in the extra called {@link
      * CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
      */
@@ -381,7 +391,7 @@ public class AnalysisActivity extends AppCompatActivity implements
      *
      * @param result the {@link Intent} which will be returned as the result data.
      *
-     * @deprecated When a {@link GiniVision} instance is available the document is analyzed internally by using the configured {@link
+     * @Deprecated When a {@link GiniVision} instance is available the document is analyzed internally by using the configured {@link
      * GiniVisionNetworkService} implementation. The extractions will be returned in the extra called {@link
      * CameraActivity#EXTRA_OUT_EXTRACTIONS} of the {@link CameraActivity}'s result Intent.
      */

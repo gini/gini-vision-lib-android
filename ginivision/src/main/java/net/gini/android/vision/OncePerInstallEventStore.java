@@ -9,7 +9,9 @@ import org.slf4j.LoggerFactory;
 import androidx.annotation.VisibleForTesting;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 class OncePerInstallEventStore {
 

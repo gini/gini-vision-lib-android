@@ -7,12 +7,16 @@ package net.gini.android.vision.internal.camera.view;
  */
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public final class FlashButtonHelper {
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public enum FlashButtonPosition {
         LEFT_OF_CAMERA_TRIGGER, BOTTOM_LEFT, BOTTOM_RIGHT

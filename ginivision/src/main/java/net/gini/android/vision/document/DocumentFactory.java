@@ -15,7 +15,9 @@ import net.gini.android.vision.internal.util.MimeType;
 import androidx.annotation.NonNull;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public final class DocumentFactory {
 

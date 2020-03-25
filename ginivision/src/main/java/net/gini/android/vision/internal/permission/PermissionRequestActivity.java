@@ -9,7 +9,9 @@ import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 class PermissionRequestActivity extends AbstractPermissionRequest<Activity> {
 

@@ -63,7 +63,9 @@ public class ReviewFragmentStandard extends Fragment implements FragmentImplCall
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -74,7 +76,9 @@ public class ReviewFragmentStandard extends Fragment implements FragmentImplCall
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Nullable
     @Override
@@ -84,7 +88,9 @@ public class ReviewFragmentStandard extends Fragment implements FragmentImplCall
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onStart() {
@@ -93,7 +99,9 @@ public class ReviewFragmentStandard extends Fragment implements FragmentImplCall
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onStop() {
@@ -108,7 +116,9 @@ public class ReviewFragmentStandard extends Fragment implements FragmentImplCall
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onDestroy() {

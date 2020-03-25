@@ -9,7 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class ProvidersSpanSizeLookup extends GridLayoutManager.SpanSizeLookup {
 

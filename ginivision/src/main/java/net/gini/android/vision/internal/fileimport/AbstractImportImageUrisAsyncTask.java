@@ -35,7 +35,9 @@ import androidx.annotation.NonNull;
  */
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public abstract class AbstractImportImageUrisAsyncTask extends
         AsyncTask<Uri, Integer, ImageMultiPageDocument> {

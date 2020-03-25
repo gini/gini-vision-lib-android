@@ -26,7 +26,9 @@ import androidx.annotation.NonNull;
  */
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public abstract class MemoryCache<K, V> {
 

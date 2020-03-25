@@ -9,6 +9,12 @@ import androidx.annotation.NonNull;
  *
  * Copyright (c) 2019 Gini GmbH.
  */
+
+/**
+ * Internal use only.
+ *
+ * @suppress
+ */
 public abstract class GiniVisionBasePresenter<V extends GiniVisionBaseView> {
 
     private final Activity mActivity;

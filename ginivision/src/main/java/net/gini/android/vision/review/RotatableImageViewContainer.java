@@ -22,7 +22,9 @@ import androidx.annotation.Nullable;
  */
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class RotatableImageViewContainer extends FrameLayout {
 

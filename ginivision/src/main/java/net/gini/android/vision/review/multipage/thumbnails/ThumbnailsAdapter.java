@@ -37,7 +37,9 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class ThumbnailsAdapter extends
         RecyclerView.Adapter<ThumbnailsAdapter.ViewHolder> implements
@@ -390,7 +392,9 @@ public class ThumbnailsAdapter extends
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public enum UploadState {
         NOT_STARTED,

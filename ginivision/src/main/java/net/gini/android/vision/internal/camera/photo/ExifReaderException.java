@@ -3,7 +3,9 @@ package net.gini.android.vision.internal.camera.photo;
 import androidx.annotation.NonNull;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 class ExifReaderException extends RuntimeException {
 

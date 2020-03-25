@@ -12,7 +12,9 @@ import androidx.annotation.NonNull;
  */
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public enum MimeType {
     IMAGE_PREFIX("image/"),

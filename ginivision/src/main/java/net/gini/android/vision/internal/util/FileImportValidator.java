@@ -23,7 +23,9 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class FileImportValidator {
 
@@ -32,7 +34,9 @@ public class FileImportValidator {
     private static final int FILE_SIZE_LIMIT = 10485760; // 10MB
     private static final int PDF_PAGE_LIMIT = 10;
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static final int DOCUMENT_PAGE_LIMIT = 10;
 

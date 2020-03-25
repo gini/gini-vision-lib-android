@@ -118,7 +118,7 @@ public class OnboardingFragmentStandard extends Fragment implements OnboardingFr
 
 
     /**
-     * @exclude
+     * @suppress
      * @param savedInstanceState
      */
     @Override
@@ -129,7 +129,7 @@ public class OnboardingFragmentStandard extends Fragment implements OnboardingFr
     }
 
     /**
-     * @exclude
+     * @suppress
      * @param inflater
      * @param container
      * @param savedInstanceState

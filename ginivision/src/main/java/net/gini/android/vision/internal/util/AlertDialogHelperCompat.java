@@ -13,7 +13,9 @@ import androidx.appcompat.app.AlertDialog;
  */
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public final class AlertDialogHelperCompat {
 

@@ -18,7 +18,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 
 class HelpItemsAdapter extends RecyclerView.Adapter<HelpItemsAdapter.HelpItemsViewHolder> {

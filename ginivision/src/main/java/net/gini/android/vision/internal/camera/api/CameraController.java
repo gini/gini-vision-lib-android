@@ -39,7 +39,9 @@ import androidx.annotation.VisibleForTesting;
 import jersey.repackaged.jsr166e.CompletableFuture;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class CameraController implements CameraInterface {
 

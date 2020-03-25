@@ -31,7 +31,7 @@ public interface AnalysisFragmentInterface {
      * without the required extractions.
      * </p>
      *
-     * @deprecated When a {@link GiniVision} instance is available the document
+     * @Deprecated When a {@link GiniVision} instance is available the document
      * is analyzed internally by using the configured {@link GiniVisionNetworkService}
      * implementation.
      */
@@ -43,7 +43,7 @@ public interface AnalysisFragmentInterface {
      * You should call this method after you've received the analysis results from the Gini API.
      * </p>
      *
-     * @deprecated When a {@link GiniVision} instance is available the document
+     * @Deprecated When a {@link GiniVision} instance is available the document
      * is analyzed internally by using the configured {@link GiniVisionNetworkService}
      * implementation. The extractions will be returned in {@link AnalysisFragmentListener#onExtractionsAvailable(Map)}.
      */
@@ -79,7 +79,7 @@ public interface AnalysisFragmentInterface {
      * You should call this method when you start the document analysis using the Gini API.
      * </p>
      *
-     * @deprecated When a {@link GiniVision} instance is available the document
+     * @Deprecated When a {@link GiniVision} instance is available the document
      * is analyzed internally by using the configured {@link GiniVisionNetworkService}
      * implementation. The extractions will be returned in {@link AnalysisFragmentListener#onExtractionsAvailable(Map)}.
      */
@@ -90,7 +90,7 @@ public interface AnalysisFragmentInterface {
      * <p>
      * You should call this method when the document analysis has finished.
      * </p>
-     * @deprecated When a {@link GiniVision} instance is available the document
+     * @Deprecated When a {@link GiniVision} instance is available the document
      * is analyzed internally by using the configured {@link GiniVisionNetworkService}
      * implementation. The extractions will be returned in {@link AnalysisFragmentListener#onExtractionsAvailable(Map)}.
      */

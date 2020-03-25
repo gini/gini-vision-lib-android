@@ -15,11 +15,13 @@ import androidx.annotation.VisibleForTesting;
  */
 
 /**
+ * Internal use only.
+ *
  * Reads the first supported QRCode payment data from images.
  * <p>
  * See {@link PaymentQRCodeParser} for supported formats.
  *
- * @exclude
+ * @suppress
  */
 public class PaymentQRCodeReader {
 
@@ -95,7 +97,9 @@ public class PaymentQRCodeReader {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public interface Listener {
 

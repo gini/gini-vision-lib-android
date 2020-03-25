@@ -28,7 +28,9 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 class SupportedFormatsAdapter extends
         RecyclerView.Adapter<SupportedFormatsAdapter.FormatItemViewHolder> {

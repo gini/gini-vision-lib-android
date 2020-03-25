@@ -78,7 +78,9 @@ public class AnalysisFragmentCompat extends Fragment implements FragmentImplCall
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -96,7 +98,9 @@ public class AnalysisFragmentCompat extends Fragment implements FragmentImplCall
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Nullable
     @Override
@@ -106,7 +110,9 @@ public class AnalysisFragmentCompat extends Fragment implements FragmentImplCall
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onDestroy() {
@@ -120,7 +126,9 @@ public class AnalysisFragmentCompat extends Fragment implements FragmentImplCall
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onStart() {
@@ -129,7 +137,9 @@ public class AnalysisFragmentCompat extends Fragment implements FragmentImplCall
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onStop() {

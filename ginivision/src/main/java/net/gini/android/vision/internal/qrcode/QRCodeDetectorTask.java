@@ -13,9 +13,11 @@ import androidx.annotation.NonNull;
  */
 
 /**
+ * Internal use only.
+ *
  * Interface for synchronous detection of QRCodes from images.
  *
- * @exclude
+ * @suppress
  */
 public interface QRCodeDetectorTask {
 
@@ -28,7 +30,9 @@ public interface QRCodeDetectorTask {
     void release();
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     interface Callback {
 

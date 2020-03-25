@@ -8,7 +8,9 @@ import net.gini.android.vision.internal.util.Size;
 import androidx.annotation.NonNull;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 class RendererPreLollipop implements Renderer {
 

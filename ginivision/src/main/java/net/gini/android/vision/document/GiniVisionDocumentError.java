@@ -11,7 +11,9 @@ import androidx.annotation.NonNull;
  */
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class GiniVisionDocumentError implements Parcelable {
 
@@ -64,7 +66,9 @@ public class GiniVisionDocumentError implements Parcelable {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public enum ErrorCode {
         UPLOAD_FAILED,

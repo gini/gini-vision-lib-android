@@ -14,7 +14,9 @@ import net.gini.android.vision.internal.util.Size;
 import androidx.annotation.NonNull;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public final class Pdf implements Parcelable {
 

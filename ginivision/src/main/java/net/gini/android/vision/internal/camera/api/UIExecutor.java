@@ -4,7 +4,9 @@ import android.os.Handler;
 import android.os.Looper;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class UIExecutor {
     private final Thread mUiThread;
@@ -23,7 +25,7 @@ public class UIExecutor {
      *
      * @param action the action to run on the UI thread
      */
-    public void runOnUiThread(Runnable action) {
+    public void runOnUiThread(final Runnable action) {
         if (Thread.currentThread() != mUiThread) {
             mUiHandler.post(action);
         } else {
