@@ -6,13 +6,67 @@ package net.gini.android.vision.digitalinvoice
  * Copyright (c) 2020 Gini GmbH.
  */
 
-sealed class DigitalInvoiceException(message: String? = null, cause: Throwable? = null) : Exception(message, cause) {
-    class LineItemsMissingException(message: String? = null, cause: Throwable? = null) : DigitalInvoiceException(message, cause)
-    class DescriptionMissingException(message: String? = null, cause: Throwable? = null) : DigitalInvoiceException(message, cause)
-    class QuantityMissingException(message: String? = null, cause: Throwable? = null) : DigitalInvoiceException(message, cause)
-    class GrossPriceMissingException(message: String? = null, cause: Throwable? = null) : DigitalInvoiceException(message, cause)
-    class ArticleNumberMissingException(message: String? = null, cause: Throwable? = null) : DigitalInvoiceException(message, cause)
-    class MixedCurrenciesException(message: String? = null, cause: Throwable? = null) : DigitalInvoiceException(message, cause)
-    class QuantityParsingException(message: String? = null, cause: Throwable? = null) : DigitalInvoiceException(message, cause)
-    class GrossPriceParsingException(message: String? = null, cause: Throwable? = null) : DigitalInvoiceException(message, cause)
+/**
+ * Internal use only.
+ *
+ * @suppress
+ */
+internal sealed class DigitalInvoiceException(message: String? = null, cause: Throwable? = null) : Exception(message, cause) {
+
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
+    internal class LineItemsMissingException(message: String? = null, cause: Throwable? = null) : DigitalInvoiceException(message, cause)
+
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
+    internal class DescriptionMissingException(message: String? = null, cause: Throwable? = null) : DigitalInvoiceException(message, cause)
+
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
+    internal class QuantityMissingException(message: String? = null, cause: Throwable? = null) : DigitalInvoiceException(message, cause)
+
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
+    internal class GrossPriceMissingException(message: String? = null, cause: Throwable? = null) : DigitalInvoiceException(message, cause)
+
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
+    internal class ArticleNumberMissingException(message: String? = null, cause: Throwable? = null) :
+            DigitalInvoiceException(message, cause)
+
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
+    internal class MixedCurrenciesException(message: String? = null, cause: Throwable? = null) : DigitalInvoiceException(message, cause)
+
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
+    internal class QuantityParsingException(message: String? = null, cause: Throwable? = null) : DigitalInvoiceException(message, cause)
+
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
+    internal class GrossPriceParsingException(message: String? = null, cause: Throwable? = null) : DigitalInvoiceException(message, cause)
 }

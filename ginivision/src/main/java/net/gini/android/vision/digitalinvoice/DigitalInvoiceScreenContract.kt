@@ -9,8 +9,19 @@ import net.gini.android.vision.GiniVisionBaseView
  *
  * Copyright (c) 2019 Gini GmbH.
  */
+
+/**
+ * Internal use only.
+ *
+ * @suppress
+ */
 interface DigitalInvoiceScreenContract {
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     interface View : GiniVisionBaseView<Presenter> {
         fun showLineItems(lineItems: List<SelectableLineItem>)
         fun showSelectedAndTotalLineItems(selected: Int, total: Int)
@@ -21,6 +32,11 @@ interface DigitalInvoiceScreenContract {
                                    resultCallback: ReturnReasonDialogResultCallback)
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     abstract class Presenter(activity: Activity, view: View) :
             GiniVisionBasePresenter<View>(activity, view), DigitalInvoiceFragmentInterface {
 

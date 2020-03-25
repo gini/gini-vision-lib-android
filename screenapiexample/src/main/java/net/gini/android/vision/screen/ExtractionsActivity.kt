@@ -51,6 +51,10 @@ class ExtractionsActivity : AppCompatActivity() {
         setUpRecyclerView()
     }
 
+    private fun deleteMe() {
+        
+    }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
         menuInflater.inflate(R.menu.menu_extractions, menu)

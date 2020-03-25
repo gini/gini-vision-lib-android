@@ -26,6 +26,31 @@ private const val ARGS_COMPOUND_EXTRACTIONS = "GV_ARGS_COMPOUND_EXTRACTIONS"
 private const val TAG_RETURN_REASON_DIALOG = "TAG_RETURN_REASON_DIALOG"
 private const val TAG_WHAT_IS_THIS_DIALOG = "TAG_WHAT_IS_THIS_DIALOG"
 
+/**
+ * When you use the Component API the `DigitalInvoiceFragment` displays the line items extracted from an invoice document and their total
+ * price. The user can deselect line items which should not be payed and also edit the quantity, price or description of each line item. The
+ * total price is always updated to include only the selected line items.
+ *
+ * The returned extractions in the [DigitalInvoiceFragmentListener.onPayInvoice()] are updated to include the user's midifications:
+ * - "amountToPay" was updated to contain the sum of the selected line items' prices,
+ * - the line items were updated according to the user's modifications.
+ *
+ * You should show the `DigitalInvoiceFragment` when the
+ * [AnalysisFragmentListener.onProceedToReturnAssistant()] is called.
+ *
+ * Include the `DigitalInvoiceFragment` into your layout by using the [DigitalInvoiceFragment.createInstance()] factory method to create
+ * an instance and display it using the [androidx.fragment.app.FragmentManager].
+ *
+ * A [DigitalInvoiceFragmentListener] instance must be available before the `DigitalInvoiceFragment` is attached to an Activity. Failing to
+ * do so will throw an exception. The listener instance can be provided either implicitly by making the hosting Activity implement the
+ * [DigitalInvoiceFragmentListener] interface or explicitly by setting the listener using [DigitalInvoiceFragment.listener].
+ *
+ * Your Activity is automatically set as the listener in [DigitalInvoiceFragment.onCreate()].
+ *
+ * ### Customizing the Digital Invoice Screen
+ *
+ * See the [DigitalInvoiceActivity] for details.
+ */
 class DigitalInvoiceFragment : Fragment(), DigitalInvoiceScreenContract.View,
         DigitalInvoiceFragmentInterface, LineItemsAdapterListener {
 
@@ -41,6 +66,16 @@ class DigitalInvoiceFragment : Fragment(), DigitalInvoiceScreenContract.View,
     private var compoundExtractions: Map<String, GiniVisionCompoundExtraction> = emptyMap()
 
     companion object {
+
+        /**
+         * Factory method for creating a new instance of the `DigitalInvoiceFragment` using the provided extractions.
+         *
+         * **Note:** Always use this method to create new instances. The extractions are required and passed as fragment arguments to the
+         * instance.
+         *
+         * @param extractions a map of [GiniVisionSpecificExtraction]s
+         * @param compoundExtractions a map of [GiniVisionCompoundExtraction]s
+         */
         @JvmStatic
         fun createInstance(extractions: Map<String, GiniVisionSpecificExtraction>,
                            compoundExtractions: Map<String, GiniVisionCompoundExtraction>) = DigitalInvoiceFragment().apply {
@@ -55,6 +90,11 @@ class DigitalInvoiceFragment : Fragment(), DigitalInvoiceScreenContract.View,
         }
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val activity = this.activity
@@ -80,10 +120,20 @@ class DigitalInvoiceFragment : Fragment(), DigitalInvoiceScreenContract.View,
 
     private fun createPresenter(activity: Activity) = DigitalInvoiceScreenPresenter(activity, this, extractions, compoundExtractions)
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? = inflater.inflate(
             R.layout.gv_fragment_digital_invoice, container, false)
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
@@ -115,36 +165,66 @@ class DigitalInvoiceFragment : Fragment(), DigitalInvoiceScreenContract.View,
         }
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun showLineItems(lineItems: List<SelectableLineItem>) {
         (gv_line_items.adapter as LineItemsAdapter?)?.lineItems = lineItems
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun showSelectedAndTotalLineItems(selected: Int, total: Int) {
         (gv_line_items.adapter as LineItemsAdapter?)?.selectedAndTotalItems = "${selected}/${total}"
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun enablePayButton(selected: Int, total: Int) {
         gv_pay_button.isEnabled = true
         updatePayButtonTitle(selected, total)
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun disablePayButton(selected: Int, total: Int) {
         gv_pay_button.isEnabled = false
         updatePayButtonTitle(selected, total)
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun showSelectedLineItemsSum(integralPart: String, fractionalPart: String) {
         (gv_line_items.adapter as LineItemsAdapter?)?.totalGrossPriceIntegralAndFractionalParts =
                 Pair(integralPart, fractionalPart)
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun showReturnReasonDialog(reasons: List<String>,
                                         resultCallback: ReturnReasonDialogResultCallback) {
         fragmentManager?.let { fm ->
             ReturnReasonDialog.createInstance(reasons).run {
                 callback = resultCallback
                 show(fm, TAG_RETURN_REASON_DIALOG)
-        }
+            }
         }
     }
 
@@ -153,42 +233,77 @@ class DigitalInvoiceFragment : Fragment(), DigitalInvoiceScreenContract.View,
         gv_pay_button.text = resources.getString(R.string.gv_digital_invoice_pay, selected, total)
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun setPresenter(presenter: DigitalInvoiceScreenContract.Presenter) {
         this.presenter = presenter
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun onStart() {
         super.onStart()
         presenter?.start()
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun onStop() {
         super.onStop()
         presenter?.stop()
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun onLineItemClicked(lineItem: SelectableLineItem) {
         presenter?.editLineItem(lineItem)
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun onLineItemSelected(lineItem: SelectableLineItem) {
         presenter?.selectLineItem(lineItem)
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun onLineItemDeselected(lineItem: SelectableLineItem) {
         presenter?.deselectLineItem(lineItem)
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun onWhatIsThisButtonClicked() {
         fragmentManager?.let { fm ->
             WhatIsThisDialog.createInstance().run {
                 callback = { isHelpful ->
-                if (isHelpful != null) {
-                    presenter?.userFeedbackReceived(isHelpful)
+                    if (isHelpful != null) {
+                        presenter?.userFeedbackReceived(isHelpful)
+                    }
                 }
-            }
                 show(fm, TAG_WHAT_IS_THIS_DIALOG)
-        }
+            }
         }
     }
 

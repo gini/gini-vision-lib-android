@@ -5,8 +5,16 @@ package net.gini.android.vision.digitalinvoice.details
  *
  * Copyright (c) 2019 Gini GmbH.
  */
+
+/**
+ * Public API of the [LineItemDetailsFragment].
+ *
+ */
 interface LineItemDetailsFragmentInterface {
 
+    /**
+     * Set a listener for events in the Line Item Details Screen.
+     */
     var listener: LineItemDetailsFragmentListener?
 
 }

@@ -25,6 +25,32 @@ import net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrienta
 private const val ARG_SELECTABLE_LINE_ITEM = "GV_ARG_SELECTABLE_LINE_ITEM"
 private const val TAG_RETURN_REASON_DIALOG = "TAG_RETURN_REASON_DIALOG"
 
+/**
+ * When you use the Component API the `LineItemDetailsFragment` displays a line item to be edited by the user. The user can modify the
+ * following:
+ * - deselect the line item,
+ * - edit the line item description,
+ * - edit the quantity,
+ * - edit the price.
+ *
+ * The returned line item in the [LineItemDetailsFragmentListener.onSave()] is updated to contain the user's modifications.
+ *
+ * You should show the `LineItemDetailsFragment` when the
+ * [DigitalInvoiceFragmentListener.onEditLineItem()] is called.
+ *
+ * Include the `LineItemDetailsFragment` into your layout by using the [LineItemDetailsFragment.createInstance()] factory method to create
+ * an instance and display it using the [androidx.fragment.app.FragmentManager].
+ *
+ * A [LineItemDetailsFragmentListener] instance must be available before the `LineItemDetailsFragment` is attached to an activity. Failing
+ * to do so will throw an exception. The listener instance can be provided either implicitly by making the hosting Activity implement the
+ * [LineItemDetailsFragmentListener] interface or explicitly by setting the listener using [LineItemDetailsFragment.listener].
+ *
+ * Your Activity is automatically set as the listener in [LineItemDetailsFragment.onCreate()].
+ *
+ * ### Customizing the Digital Invoice Screen
+ *
+ * See the [LineItemDetailsActivity] for details.
+ */
 class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
         LineItemDetailsFragmentInterface {
 
@@ -43,6 +69,15 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
     private var grossPriceTextWatcher: TextWatcher? = null
 
     companion object {
+
+        /**
+         * Factory method for creating a new instance of the `LineItemDetailsFragment` using the provided line item.
+         *
+         * **Note:** Always use this method to create new instances. The selectable line item is required and passed as fragment arguments
+         * to the instance.
+         *
+         * @param selectableLineItem the [SelectableLineItem] to be edited
+         */
         @JvmStatic
         fun createInstance(
                 selectableLineItem: SelectableLineItem) = LineItemDetailsFragment().apply {
@@ -52,6 +87,11 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
         }
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val activity = this.activity
@@ -85,10 +125,20 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
         }
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? = inflater.inflate(
             R.layout.gv_fragment_line_item_details, container, false)
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setInputHandlers()
@@ -122,6 +172,11 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
         }
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun onDestroyView() {
         super.onDestroyView()
         gv_description.removeTextChangedListener(descriptionTextWatcher)
@@ -129,46 +184,96 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
         gv_gross_price.removeTextChangedListener(grossPriceTextWatcher)
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun setPresenter(presenter: LineItemDetailsScreenContract.Presenter) {
         this.presenter = presenter
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun onStart() {
         super.onStart()
         presenter?.start()
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun onStop() {
         super.onStop()
         presenter?.stop()
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun showDescription(description: String) {
         gv_description.setText(description)
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun showQuantity(quantity: Int) {
         gv_quantity.setText(quantity.toString())
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun showGrossPrice(displayedGrossPrice: String, currency: String) {
         gv_gross_price.setText(displayedGrossPrice)
         gv_currency.text = currency
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun showTotalGrossPrice(integralPart: String, fractionalPart: String) {
         gv_gross_price_total_integral_part.text = integralPart
         gv_gross_price_total_fractional_part.text = fractionalPart
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun enableSaveButton() {
         gv_save_button.isEnabled = true
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun disableSaveButton() {
         gv_save_button.isEnabled = false
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun enableInput() {
         gv_description.isEnabled = true
         gv_quantity.isEnabled = true
@@ -176,6 +281,11 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
         gv_currency.isEnabled = true
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun disableInput() {
         gv_description.isEnabled = false
         gv_quantity.isEnabled = false
@@ -183,6 +293,11 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
         gv_currency.isEnabled = false
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun showReturnReasonDialog(reasons: List<String>,
                                         resultCallback: ReturnReasonDialogResultCallback) {
         fragmentManager?.let { fm ->
@@ -193,6 +308,11 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
         }
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun showCheckbox(selected: Boolean, quantity: Int) {
         gv_checkbox.isChecked = selected
         gv_checkbox.text =

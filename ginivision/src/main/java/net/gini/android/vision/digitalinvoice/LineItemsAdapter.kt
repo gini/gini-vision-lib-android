@@ -24,14 +24,24 @@ import net.gini.android.vision.digitalinvoice.ViewType.LineItem
  * Copyright (c) 2019 Gini GmbH.
  */
 
-interface LineItemsAdapterListener {
+/**
+ * Internal use only.
+ *
+ * @suppress
+ */
+internal interface LineItemsAdapterListener {
     fun onLineItemClicked(lineItem: SelectableLineItem)
     fun onLineItemSelected(lineItem: SelectableLineItem)
     fun onLineItemDeselected(lineItem: SelectableLineItem)
     fun onWhatIsThisButtonClicked()
 }
 
-class LineItemsAdapter(context: Context, val listener: LineItemsAdapterListener) :
+/**
+ * Internal use only.
+ *
+ * @suppress
+ */
+internal class LineItemsAdapter(context: Context, val listener: LineItemsAdapterListener) :
         RecyclerView.Adapter<ViewHolder<*>>() {
 
     var lineItems: List<SelectableLineItem> = emptyList()
@@ -86,27 +96,47 @@ class LineItemsAdapter(context: Context, val listener: LineItemsAdapterListener)
     }
 }
 
-fun lineItemForPosition(position: Int,
+@JvmSynthetic
+internal fun lineItemForPosition(position: Int,
                         lineItems: List<SelectableLineItem>): SelectableLineItem? =
         lineItems.getOrElse(position - 1) { null }
 
+/**
+ * Internal use only.
+ *
+ * @suppress
+ */
+internal sealed class ViewType {
+    internal abstract val id: Int
 
-sealed class ViewType {
-    abstract val id: Int
-
-    object Header : ViewType() {
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
+    internal object Header : ViewType() {
         override val id: Int = 1
     }
 
-    object LineItem : ViewType() {
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
+    internal object LineItem : ViewType() {
         override val id: Int = 2
     }
 
-    object Footer : ViewType() {
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
+    internal object Footer : ViewType() {
         override val id: Int = 3
     }
 
-    companion object {
+    internal companion object {
         fun from(viewTypeId: Int): ViewType = when (viewTypeId) {
             1 -> Header
             2 -> LineItem
@@ -116,17 +146,27 @@ sealed class ViewType {
     }
 }
 
-sealed class ViewHolder<in T>(itemView: View, val viewType: ViewType) :
+/**
+ * Internal use only.
+ *
+ * @suppress
+ */
+internal sealed class ViewHolder<in T>(itemView: View, val viewType: ViewType) :
         RecyclerView.ViewHolder(itemView) {
 
-    abstract fun bind(data: T, allData: List<T>? = null)
+    internal abstract fun bind(data: T, allData: List<T>? = null)
 
-    abstract fun unbind()
+    internal abstract fun unbind()
 
-    class HeaderViewHolder(itemView: View) : ViewHolder<String>(itemView, Header) {
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
+    internal class HeaderViewHolder(itemView: View) : ViewHolder<String>(itemView, Header) {
         private val selectedAndTotalItems = itemView.gv_selected_and_total_items
         private val whatIsThisButton = itemView.gv_what_is_this_button
-        var listener: LineItemsAdapterListener? = null
+        internal var listener: LineItemsAdapterListener? = null
 
         override fun bind(data: String, allData: List<String>?) {
             @SuppressLint("SetTextI18n")
@@ -140,7 +180,12 @@ sealed class ViewHolder<in T>(itemView: View, val viewType: ViewType) :
         }
     }
 
-    class LineItemViewHolder(itemView: View) : ViewHolder<SelectableLineItem>(itemView, LineItem) {
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
+    internal class LineItemViewHolder(itemView: View) : ViewHolder<SelectableLineItem>(itemView, LineItem) {
         private val card: MaterialCardView = itemView.gv_line_item
         private val checkbox: CheckBox = itemView.gv_checkbox
         private val description: TextView = itemView.gv_description
@@ -149,7 +194,7 @@ sealed class ViewHolder<in T>(itemView: View, val viewType: ViewType) :
         private val edit: Button = itemView.gv_edit
         private val priceIntegralPart: TextView = itemView.gv_gross_price_integral_part
         private val priceFractionalPart: TextView = itemView.gv_gross_price_fractional_part
-        var listener: LineItemsAdapterListener? = null
+        internal var listener: LineItemsAdapterListener? = null
 
         override fun bind(data: SelectableLineItem, allData: List<SelectableLineItem>?) {
             if (data.selected) {
@@ -237,7 +282,12 @@ sealed class ViewHolder<in T>(itemView: View, val viewType: ViewType) :
         }
     }
 
-    class FooterViewHolder(itemView: View) : ViewHolder<Pair<String, String>>(itemView, Footer) {
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
+    internal class FooterViewHolder(itemView: View) : ViewHolder<Pair<String, String>>(itemView, Footer) {
         private val integralPart = itemView.gv_gross_price_total_integral_part
         private val fractionalPart = itemView.gv_gross_price_total_fractional_part
 
