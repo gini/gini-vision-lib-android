@@ -283,7 +283,7 @@ pipeline {
                 }
             }
             steps {
-                sh './gradlew generateJavadoc'
+                sh './gradlew ginivision:dokka ginivision-network:generateJavadoc ginivision-accounting-network:generateJavadoc'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision/build/docs/javadoc', reportFiles: 'index.html', reportName: 'GVL Javadoc', reportTitles: ''])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision-network/build/docs/javadoc', reportFiles: 'index.html', reportName: 'GVL Network Javadoc', reportTitles: ''])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision-accounting-network/build/docs/javadoc', reportFiles: 'index.html', reportName: 'GVL Accounting Network Javadoc', reportTitles: ''])
