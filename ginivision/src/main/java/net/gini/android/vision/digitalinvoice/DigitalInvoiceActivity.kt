@@ -3,10 +3,13 @@ package net.gini.android.vision.digitalinvoice
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import net.gini.android.vision.R
+import net.gini.android.vision.analysis.AnalysisActivity
 import net.gini.android.vision.camera.CameraActivity
 import net.gini.android.vision.digitalinvoice.details.LineItemDetailsActivity
+import net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp
 import net.gini.android.vision.network.model.GiniVisionCompoundExtraction
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction
 
@@ -53,6 +56,20 @@ class DigitalInvoiceActivity : AppCompatActivity(), DigitalInvoiceFragmentListen
         } else {
             retainFragment()
         }
+        enableHomeAsUp(this)
+    }
+
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            onBackPressed()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun readExtras() {
