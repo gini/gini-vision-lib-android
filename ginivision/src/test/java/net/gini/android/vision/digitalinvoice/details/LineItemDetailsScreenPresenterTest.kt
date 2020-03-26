@@ -38,6 +38,16 @@ class LineItemDetailsScreenPresenterTest {
     private val decimalFormat = DecimalFormat("#,##0.00", DecimalFormatSymbols.getInstance(
             Locale.ENGLISH)).apply { isParseBigDecimal = true }
 
+    private val returnReasonsFixture = listOf(
+            "Looks different than site image",
+            "Poor quality/fault",
+            "Doesn't fit properly",
+            "Doesn't suite me",
+            "Received wrong item",
+            "Parcel damaged",
+            "Arrived too late"
+    )
+
     @Before
     fun setUp() {
         initMocks(this)
@@ -118,7 +128,7 @@ class LineItemDetailsScreenPresenterTest {
     }
 
     @Test
-    fun `should deselect line item when a reason was selected`() {
+    fun `should deselect line item when a reason was selected, if there are return reasons`() {
         // Given
         val view = spy(ViewWithSelectedReturnReason("Item is not for me"))
 
@@ -126,6 +136,8 @@ class LineItemDetailsScreenPresenterTest {
                 lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
                         rawGrossPrice = "1.19:EUR"))
         LineItemDetailsScreenPresenter(activity, view, sli).run {
+            returnReasons = returnReasonsFixture
+
             // When
             deselectLineItem()
 
@@ -145,6 +157,8 @@ class LineItemDetailsScreenPresenterTest {
                 lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
                         rawGrossPrice = "1.19:EUR"))
         LineItemDetailsScreenPresenter(activity, view, sli).run {
+            returnReasons = returnReasonsFixture
+
             // When
             deselectLineItem()
 
@@ -162,6 +176,8 @@ class LineItemDetailsScreenPresenterTest {
                 lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
                         rawGrossPrice = "1.19:EUR"))
         LineItemDetailsScreenPresenter(activity, view, sli).run {
+            returnReasons = returnReasonsFixture
+
             // When
             deselectLineItem()
 
@@ -186,6 +202,23 @@ class LineItemDetailsScreenPresenterTest {
 
             // Then
             assertThat(selectableLineItem.reason).isNull()
+        }
+    }
+
+    @Test
+    fun `should not show return reason dialog, if there are no return reasons`() {
+        // Given
+        val sli = SelectableLineItem(selected = true,
+                lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
+                        rawGrossPrice = "1.19:EUR"))
+        LineItemDetailsScreenPresenter(activity, view, sli).run {
+            // When
+            deselectLineItem()
+
+            // Then
+            verify(view).disableInput()
+            verify(view).showCheckbox(false, 3)
+            verify(view).enableSaveButton()
         }
     }
 

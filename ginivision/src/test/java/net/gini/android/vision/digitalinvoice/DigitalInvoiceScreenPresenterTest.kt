@@ -53,6 +53,16 @@ class DigitalInvoiceScreenPresenterTest {
             )
     ))
 
+    private val returnReasonsFixture = listOf(
+            "Looks different than site image",
+            "Poor quality/fault",
+            "Doesn't fit properly",
+            "Doesn't suite me",
+            "Received wrong item",
+            "Parcel damaged",
+            "Arrived too late"
+    )
+
     private fun totalLineItemsCount(selectableLineItems: List<SelectableLineItem>) = selectableLineItems.fold(
             0) { c, sli -> c + sli.lineItem.quantity }
 
@@ -196,6 +206,8 @@ class DigitalInvoiceScreenPresenterTest {
         view = spy(ViewWithSelectedReturnReason("Item is not for me"))
 
         DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
+            returnReasons = returnReasonsFixture
+
             // When
             deselectLineItem(digitalInvoice.selectableLineItems.first())
 
@@ -210,6 +222,8 @@ class DigitalInvoiceScreenPresenterTest {
         view = spy(ViewWithSelectedReturnReason(null))
 
         DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
+            returnReasons = returnReasonsFixture
+
             // When
             deselectLineItem(digitalInvoice.selectableLineItems.first())
 
@@ -233,9 +247,11 @@ class DigitalInvoiceScreenPresenterTest {
     }
 
     @Test
-    fun `should show return reason dialog when deselecting a line item`() {
+    fun `should show return reason dialog when deselecting a line item, if there are return reasons`() {
         // Given
         DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
+            returnReasons = returnReasonsFixture
+
             // When
             deselectLineItem(digitalInvoice.selectableLineItems.first())
 
@@ -255,6 +271,30 @@ class DigitalInvoiceScreenPresenterTest {
 
             // Then
             assertThat(digitalInvoice.selectableLineItems.first().selected).isFalse()
+        }
+    }
+
+    @Test
+    fun `should not show return reason dialog, if there are no return reasons`() {
+        // Given
+        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
+            // When
+            deselectLineItem(digitalInvoice.selectableLineItems.first())
+
+            // Then
+            assertThat(digitalInvoice.selectableLineItems.first().selected).isFalse()
+        }
+    }
+
+    @Test
+    fun `should update view when deselecting a line item, if there are no return reasons`() {
+        // Given
+        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
+            // When
+            deselectLineItem(digitalInvoice.selectableLineItems.first())
+
+            // Then
+            verify(view).showLineItems(digitalInvoice.selectableLineItems)
         }
     }
 
@@ -295,6 +335,7 @@ class DigitalInvoiceScreenPresenterTest {
         view = ViewWithSelectedReturnReason("Item is not for me")
 
         DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
+            returnReasons = returnReasonsFixture
 
             // When
             deselectLineItem(digitalInvoice.selectableLineItems.first())
@@ -310,6 +351,8 @@ class DigitalInvoiceScreenPresenterTest {
         view = ViewWithSelectedReturnReason(null)
 
         DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
+            returnReasons = returnReasonsFixture
+
             // When
             deselectLineItem(digitalInvoice.selectableLineItems.first())
 
