@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
                     .setQRCodeScanningEnabled(true)
                     .setMultiPageEnabled(true);
         }
+        builder.setReturnAssistantEnabled(true);
         builder.setFlashButtonEnabled(true);
         // Uncomment to turn off the camera flash by default
 //        builder.setFlashOnByDefault(false);
