@@ -101,7 +101,7 @@
     <string name="gv_title_line_item_details" />
     <string name="gv_digital_invoice_scan_success">Scan successful!\nYou can now deselect items you would like to return.</string>
     <string name="gv_digital_invoice_items">Items</string>
-    <string name="gv_digital_invoice_help">What is this?</string>
+    <string name="gv_digital_invoice_what_is_this_button">What is this?</string>
     <string name="gv_digital_invoice_line_item_edit">Edit</string>
     <string name="gv_digital_invoice_line_item_quantity">Quantity:</string>
     <string name="gv_digital_invoice_footer_notice">Please check that all is in order and edit if necessary before paying.</string>

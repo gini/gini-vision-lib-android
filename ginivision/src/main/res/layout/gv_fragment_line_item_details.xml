@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/gv_digital_invoice_line_item_details_padding"
+    android:background="@color/gv_digital_invoice_line_item_details_background"
     tools:context=".digitalinvoice.details.LineItemDetailsFragment">
 
     <CheckBox
@@ -77,7 +78,7 @@
             android:gravity="center"
             android:padding="16dp"
             android:text="X"
-            android:textColor="#000"
+            android:textColor="@color/gv_digital_invoice_line_item_details_multiplication_symbol"
             android:textSize="14sp"
             tools:ignore="HardcodedText" />
 
@@ -159,6 +160,7 @@
         android:layout_height="@dimen/gv_digital_invoice_line_item_details_save_button_height"
         android:layout_alignParentBottom="true"
         android:text="@string/gv_digital_invoice_line_item_details_save"
+        android:textColor="@color/gv_digital_invoice_line_item_details_save_button_text"
         app:backgroundTint="@color/gv_digital_invoice_line_item_details_save_button" />
 
 </RelativeLayout>

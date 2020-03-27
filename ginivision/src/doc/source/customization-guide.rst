@@ -1965,3 +1965,733 @@ Via the string resources named ``gv_file_import_default_app_dialog_positive_butt
 Via the string resources named ``gv_file_import_default_app_dialog_negative_button``.
 
 :ref:`Back to screenshot. <file-import>`
+
+.. _digital-invoice:
+
+Digital Invoice Screen
+----
+
+.. raw:: html
+
+    <img src="_static/customization/Digital Invoice Screen.png" usemap="#digital-invoice-map" width="324" height="576">
+
+    <map id="digital-invoice-map" name="digital-invoice-map">
+      <area shape="rect" alt="" title="Action Bar" coords="191,25,222,57" href="customization-guide.html#digital-invoice-1" target="" />
+      <area shape="rect" alt="" title="Title" coords="230,72,260,104" href="customization-guide.html#digital-invoice-2" target="" />
+      <area shape="rect" alt="" title="Background" coords="16,157,48,188" href="customization-guide.html#digital-invoice-3" target="" />
+      <area shape="rect" alt="" title="Image" coords="202,177,238,209" href="customization-guide.html#digital-invoice-4" target="" />
+      <area shape="rect" alt="" title="\"What is this?\" Button" coords="203,242,237,275" href="customization-guide.html#digital-invoice-5" target="" />
+      <area shape="rect" alt="" title="Selected and Total Items Label" coords="57,242,92,275" href="customization-guide.html#digital-invoice-6" target="" />
+      <area shape="rect" alt="" title="Line Item Card" coords="171,322,202,355" href="customization-guide.html#digital-invoice-7" target="" />
+      <area shape="rect" alt="" title="Checkbox" coords="18,306,46,333" href="customization-guide.html#digital-invoice-7-1" target="" />
+      <area shape="rect" alt="" title="Description" coords="120,275,147,304" href="customization-guide.html#digital-invoice-7-2" target="" />
+      <area shape="rect" alt="" title="Edit Button" coords="251,275,276,301" href="customization-guide.html#digital-invoice-7-3" target="" />
+      <area shape="rect" alt="" title="Quantity Label" coords="108,329,137,355" href="customization-guide.html#digital-invoice-7-4" target="" />
+      <area shape="rect" alt="" title="Price" coords="233,327,263,354" href="customization-guide.html#digital-invoice-7-5" target="" />
+      <area shape="rect" alt="" title="Total Price" coords="226,371,262,405" href="customization-guide.html#digital-invoice-8" target="" />
+      <area shape="rect" alt="" title="Notice" coords="29,417,63,452" href="customization-guide.html#digital-invoice-9" target="" />
+      <area shape="rect" alt="" title="Pay Button" coords="201,485,238,521" href="customization-guide.html#digital-invoice-10" target="" />
+      <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
+    </map>
+
+.. raw:: html
+
+    <img src="_static/customization/What is This Dialog.png" usemap="#what-is-this-dialog-map" width="324" height="576">
+
+    <map id="what-is-this-dialog-map" name="what-is-this-dialog-map">
+      <area shape="rect" alt="" title="Title" coords="87,334,121,365" href="customization-guide.html#what-is-this-dialog" target="" />
+      <area shape="rect" alt="" title="Message" coords="284,370,317,404" href="customization-guide.html#digital-invoice-12" target="" />
+      <area shape="rect" alt="" title="Positive Response" coords="128,457,164,489" href="customization-guide.html#digital-invoice-13" target="" />
+      <area shape="rect" alt="" title="Negative Response" coords="182,500,217,535" href="customization-guide.html#digital-invoice-14" target="" />
+      <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
+    </map>
+
+.. _digital-invoice-1:
+
+1. Action Bar
+^^^^
+
+All Action Bar customizations except the title are global to all Activities.
+
+- **Title**
+
+  Via the string resource named ``gv_title_digital_invoice``.
+
+- **Title Color**
+
+  Via the color resource named ``gv_action_bar_title``.
+
+- **Back Button Icon**
+
+  Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named ``gv_action_bar_back``.
+
+- **Background Color**
+
+  Via the color resource named ``gv_action_bar``.
+
+- **Status Bar Background Color**
+
+  Via the color resource named ``gv_status_bar``.
+
+:ref:`Back to screenshot. <digital-invoice>`
+
+.. _digital-invoice-2:
+
+2. Title
+^^^^
+
+- **Text**
+
+  Via the string resource named ``gv_digital_invoice_scan_success``.
+
+- **Text Style**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.Title.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.Title.TextStyle``).
+
+- **Font**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.Title.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.Title.TextStyle``) and setting an
+  item named ``fontFamily`` with the name of a font family or a font resource.
+
+- **Color**
+
+  Via the color resource named ``gv_digital_invoice_title_text``.
+
+:ref:`Back to screenshot. <digital-invoice>`
+
+.. _digital-invoice-3:
+
+3. Background
+^^^^
+
+- **Color**
+
+  Via the color resource named ``gv_digital_invoice_fragment_background``.
+
+:ref:`Back to screenshot. <digital-invoice>`
+
+.. _digital-invoice-4:
+
+4. Image
+^^^^
+
+  Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named ``gv_digital_invoice_image.png``.
+
+:ref:`Back to screenshot. <digital-invoice>`
+
+.. _digital-invoice-5:
+
+5. "What is this?" Button
+^^^^
+
+- **Title**
+
+  Via the string resource named ``gv_digital_invoice_what_is_this_button``.
+
+- **Text Style**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.WhatIsThis.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.WhatIsThis.TextStyle``).
+
+- **Font**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.WhatIsThis.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.WhatIsThis.TextStyle``) and setting an
+  item named ``fontFamily`` with the name of a font family or a font resource.
+
+- **Color**
+
+  Via the color resource named ``gv_digital_invoice_what_is_this_button_text``.
+
+- **Icon**
+
+  Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named ``gv_help_icon_dark.png``.
+
+:ref:`Back to screenshot. <digital-invoice>`
+
+.. _digital-invoice-6:
+
+6. Selected and Total Items Label
+^^^^
+
+- **Text**
+
+  Via the string resource named ``gv_digital_invoice_items``.
+
+- **Text Style**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.SelectedAndTotalItems.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.SelectedAndTotalItems.TextStyle``).
+
+- **Font**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.SelectedAndTotalItems.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.SelectedAndTotalItems.TextStyle``) and setting an
+  item named ``fontFamily`` with the name of a font family or a font resource.
+
+- **Color**
+
+  Via the color resource named ``gv_digital_invoice_selected_and_total_items_text``.
+
+:ref:`Back to screenshot. <digital-invoice>`
+
+.. _digital-invoice-7:
+
+7. Line Item Card
+^^^^
+
+- **Background Color**
+
+  Via the color resource named ``gv_digital_invoice_line_item_background``.
+
+- **Stroke Color**
+
+  Via the color resource named ``gv_digital_invoice_line_item_stroke``.
+
+.. _digital-invoice-7-1:
+
+7.1 Checkbox
+~~~~~
+
+- **Color**
+
+  Via the color resource named ``gv_accent``.
+
+:ref:`Back to screenshot. <digital-invoice>`
+
+.. _digital-invoice-7-2:
+
+7.2 Description
+~~~~~
+
+- **Text Style**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.LineItem.Description.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.LineItem.Description.TextStyle``).
+
+- **Font**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.LineItem.Description.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.LineItem.Description.TextStyle``) and setting an
+  item named ``fontFamily`` with the name of a font family or a font resource.
+
+- **Color**
+
+  Via the color resource named ``gv_digital_invoice_line_item_description_text``.
+
+:ref:`Back to screenshot. <digital-invoice>`
+
+.. _digital-invoice-7-3:
+
+7.3 Edit Button
+~~~~~
+
+- **Title**
+
+  Via the string resource named ``gv_digital_invoice_line_item_edit``.
+
+- **Text Style**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.LineItem.Edit.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.LineItem.Edit.TextStyle``).
+
+- **Font**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.LineItem.Edit.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.LineItem.Edit.TextStyle``) and setting an
+  item named ``fontFamily`` with the name of a font family or a font resource.
+
+- **Color**
+
+  Via the color resource named ``gv_digital_invoice_line_item_edit_text``.
+
+- **Icon**
+
+  Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named ``gv_edit_button_icon``.
+
+:ref:`Back to screenshot. <digital-invoice>`
+
+.. _digital-invoice-7-4:
+
+7.4 Quantity Label
+~~~~~
+
+- **Text**
+
+  Via the string resource named ``gv_digital_invoice_line_item_quantity``.
+
+- **Text Style**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.LineItem.Quantity.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.LineItem.Quantity.TextStyle``).
+
+- **Font**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.LineItem.Quantity.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.LineItem.Quantity.TextStyle``) and setting an
+  item named ``fontFamily`` with the name of a font family or a font resource.
+
+- **Color**
+
+  Via the color resource named ``gv_digital_invoice_line_item_quantity_text``.
+
+:ref:`Back to screenshot. <digital-invoice>`
+
+.. _digital-invoice-7-5:
+
+7.5 Price
+~~~~~
+
+- **Integral Part**
+
+  - **Text Style**
+
+    Via overriding the style named ``GiniVisionTheme.DigitalInvoice.LineItem.GrossPrice.Integral.TextStyle`` (with
+    parent style ``Root.GiniVisionTheme.DigitalInvoice.LineItem.GrossPrice.Integral.TextStyle``).
+
+  - **Font**
+
+    Via overriding the style named ``GiniVisionTheme.DigitalInvoice.LineItem.GrossPrice.Integral.TextStyle`` (with
+    parent style ``Root.GiniVisionTheme.DigitalInvoice.LineItem.GrossPrice.Integral.TextStyle``) and setting an
+    item named ``fontFamily`` with the name of a font family or a font resource.
+
+  - **Color**
+
+    Via the color resource named ``gv_digital_invoice_line_item_gross_price_text``.
+
+- **Fractional Part**
+
+  - **Text Style**
+
+    Via overriding the style named ``GiniVisionTheme.DigitalInvoice.LineItem.GrossPrice.Fractional.TextStyle`` (with
+    parent style ``Root.GiniVisionTheme.DigitalInvoice.LineItem.GrossPrice.Fractional.TextStyle``).
+
+  - **Font**
+
+    Via overriding the style named ``GiniVisionTheme.DigitalInvoice.LineItem.GrossPrice.Fractional.TextStyle`` (with
+    parent style ``Root.GiniVisionTheme.DigitalInvoice.LineItem.GrossPrice.Fractional.TextStyle``) and setting an
+    item named ``fontFamily`` with the name of a font family or a font resource.
+
+  - **Color**
+
+    Via the color resource named ``gv_digital_invoice_footer_gross_price_text``.
+
+:ref:`Back to screenshot. <digital-invoice>`
+
+.. _digital-invoice-8:
+
+8. Total Price
+^^^^
+
+- **Integral Part**
+
+  - **Text Style**
+
+    Via overriding the style named ``GiniVisionTheme.DigitalInvoice.TotalGrossPrice.Integral.TextStyle`` (with
+    parent style ``Root.GiniVisionTheme.DigitalInvoice.TotalGrossPrice.Integral.TextStyle``).
+
+  - **Font**
+
+    Via overriding the style named ``GiniVisionTheme.DigitalInvoice.TotalGrossPrice.Integral.TextStyle`` (with
+    parent style ``Root.GiniVisionTheme.DigitalInvoice.TotalGrossPrice.Integral.TextStyle``) and setting an
+    item named ``fontFamily`` with the name of a font family or a font resource.
+
+  - **Color**
+
+    Via the color resource named ``gv_digital_invoice_footer_gross_price_text``.
+
+- **Fractional Part**
+
+  - **Text Style**
+
+    Via overriding the style named ``GiniVisionTheme.DigitalInvoice.TotalGrossPrice.Fractional.TextStyle`` (with
+    parent style ``Root.GiniVisionTheme.DigitalInvoice.TotalGrossPrice.Fractional.TextStyle``).
+
+  - **Font**
+
+    Via overriding the style named ``GiniVisionTheme.DigitalInvoice.TotalGrossPrice.Fractional.TextStyle`` (with
+    parent style ``Root.GiniVisionTheme.DigitalInvoice.TotalGrossPrice.Fractional.TextStyle``) and setting an
+    item named ``fontFamily`` with the name of a font family or a font resource.
+
+  - **Color**
+
+    Via the color resource named ``gv_digital_invoice_footer_gross_price_text``.
+
+:ref:`Back to screenshot. <digital-invoice>`
+
+.. _digital-invoice-9:
+
+9. Notice
+^^^^
+
+- **Text**
+
+  Via the string resource named ``gv_digital_invoice_footer_notice``.
+
+- **Text Style**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.Footer.Notice.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.Footer.Notice.TextStyle``).
+
+- **Font**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.Footer.Notice.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.Footer.Notice.TextStyle``) and setting an
+  item named ``fontFamily`` with the name of a font family or a font resource.
+
+- **Color**
+
+  Via the color resource named ``gv_digital_invoice_footer_notice_text``.
+
+:ref:`Back to screenshot. <digital-invoice>`
+
+.. _digital-invoice-10:
+
+10. Pay Button
+^^^^
+
+- **Title**
+
+  Via the formatted string resource named ``gv_digital_invoice_pay`` with two decimal arguments ``%1$d/%2$d`` 
+  for showing the number of selected and total line items.
+
+- **Text Color**
+
+  Via the color resource named ``gv_digital_invoice_pay_button_text``.
+
+- **Background Color**
+
+  Via the color resource named ``gv_digital_invoice_pay_button``.
+
+:ref:`Back to screenshot. <digital-invoice>`
+
+.. _what-is-this-dialog:
+
+"What is This?" Dialog
+^^^^
+
+- **Background Color**
+
+  Via the color resource named ``gv_digital_invoice_what_is_this_dialog_background``.
+
+:ref:`Back to screenshot. <digital-invoice>`
+
+.. _digital-invoice-11:
+
+11. Title
+~~~~~
+
+- **Text**
+
+  Via the string resource named ``gv_digital_invoice_what_is_this_dialog_title``.
+
+- **Text Style**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.WhatIsThisDialog.Title.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.WhatIsThisDialog.Title.TextStyle``).
+
+- **Font**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.WhatIsThisDialog.Title.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.WhatIsThisDialog.Title.TextStyle``) and setting an
+  item named ``fontFamily`` with the name of a font family or a font resource.
+
+- **Color**
+
+  Via the color resource named ``gv_digital_invoice_what_is_this_dialog_title``.
+
+:ref:`Back to screenshot. <digital-invoice>`
+
+.. _digital-invoice-12:
+
+12. Message
+~~~~~
+
+- **Text**
+
+  Via the string resource named ``gv_digital_invoice_what_is_this_dialog_message``.
+
+- **Text Style**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.WhatIsThisDialog.Message.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.WhatIsThisDialog.Message.TextStyle``).
+
+- **Font**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.WhatIsThisDialog.Message.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.WhatIsThisDialog.Message.TextStyle``) and setting an
+  item named ``fontFamily`` with the name of a font family or a font resource.
+
+- **Color**
+
+  Via the color resource named ``gv_digital_invoice_what_is_this_dialog_message``.
+
+:ref:`Back to screenshot. <digital-invoice>`
+
+.. _digital-invoice-13:
+
+13. Positive Response
+~~~~~
+
+- **Text**
+
+  Via the string resource named ``gv_digital_invoice_what_is_this_dialog_positive_response``.
+
+- **Text Style**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.WhatIsThisDialog.Response.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.WhatIsThisDialog.Response.TextStyle``).
+
+- **Font**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.WhatIsThisDialog.Response.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.WhatIsThisDialog.Response.TextStyle``) and setting an
+  item named ``fontFamily`` with the name of a font family or a font resource.
+
+- **Color**
+
+  Via the color resource named ``gv_digital_invoice_what_is_this_dialog_response_text``.
+
+:ref:`Back to screenshot. <digital-invoice>`
+
+.. _digital-invoice-14:
+
+14. Negative Response
+~~~~~
+
+- **Text**
+
+  Via the string resource named ``gv_digital_invoice_what_is_this_dialog_negative_response``.
+
+- **Text Style**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.WhatIsThisDialog.Response.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.WhatIsThisDialog.Response.TextStyle``).
+
+- **Font**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.WhatIsThisDialog.Response.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.WhatIsThisDialog.Response.TextStyle``) and setting an
+  item named ``fontFamily`` with the name of a font family or a font resource.
+
+- **Color**
+
+  Via the color resource named ``gv_digital_invoice_what_is_this_dialog_response_text``.
+
+:ref:`Back to screenshot. <digital-invoice>`
+
+.. _line-item-details:
+
+Line Item Details Screen
+----
+
+.. raw:: html
+
+    <img src="_static/customization/Line Item Details Screen.png" usemap="#line-item-details-map" width="324" height="576">
+
+    <map id="line-item-details-map" name="line-item-details-map">
+      <area shape="rect" alt="" title="Action Bar" coords="39,25,71,56" href="customization-guide.html#line-item-details-1" target="" />
+      <area shape="rect" alt="" title="Background" coords="219,69,252,101" href="customization-guide.html#line-item-details-2" target="" />
+      <area shape="rect" alt="" title="Checkbox" coords="128,76,160,108" href="customization-guide.html#line-item-details-3" target="" />
+      <area shape="rect" alt="" title="Input Field" coords="234,127,266,162" href="customization-guide.html#line-item-details-4-5-6" target="" />
+      <area shape="rect" alt="" title="Input Field" coords="60,180,92,214" href="customization-guide.html#line-item-details-4-5-6" target="" />
+      <area shape="rect" alt="" title="Input Field" coords="215,182,246,214" href="customization-guide.html#line-item-details-4-5-6" target="" />
+      <area shape="rect" alt="" title="Multiplication Symbol" coords="147,205,179,237" href="customization-guide.html#line-item-details-7" target="" />
+      <area shape="rect" alt="" title="Total Price" coords="187,226,219,259" href="customization-guide.html#line-item-details-8" target="" />
+      <area shape="rect" alt="" title="Save Button" coords="201,484,236,517" href="customization-guide.html#line-item-details-9" target="" />
+      <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
+    </map>
+
+.. _line-item-details-1:
+
+1. Action Bar
+^^^^
+
+All Action Bar customizations except the title are global to all Activities.
+
+- **Title**
+
+  Via the string resource named ``gv_title_line_item_details``.
+
+- **Title Color**
+
+  Via the color resource named ``gv_action_bar_title``.
+
+- **Back Button Icon**
+
+  Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named ``gv_action_bar_back``.
+
+- **Background Color**
+
+  Via the color resource named ``gv_action_bar``.
+
+- **Status Bar Background Color**
+
+  Via the color resource named ``gv_status_bar``.
+
+:ref:`Back to screenshot. <line-item-details>`
+
+.. _line-item-details-2:
+
+2. Background
+^^^^
+
+- **Color**
+
+  Via the color resource named ``gv_digital_invoice_line_item_details_background``.
+
+:ref:`Back to screenshot. <line-item-details>`
+
+.. _line-item-details-3:
+
+3. Checkbox
+^^^^
+
+- **Color**
+
+  Via the color resource named ``gv_accent``.
+
+- **Text Style**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.LineItemDetails.Checkbox.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.LineItemDetails.Checkbox.TextStyle``).
+
+- **Font**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.LineItemDetails.Checkbox.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.LineItemDetails.Checkbox.TextStyle``) and setting an
+  item named ``fontFamily`` with the name of a font family or a font resource.
+
+- **Text Color**
+
+  Via the color resource named ``gv_digital_invoice_line_item_details_checkbox_label``.
+
+:ref:`Back to screenshot. <line-item-details>`
+
+.. _line-item-details-4-5-6:
+
+4, 5, 6. Input Fields
+^^^^
+
+- **Text Style**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.LineItemDetails.InputField.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.LineItemDetails.InputField.TextStyle``).
+
+- **Font**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.LineItemDetails.InputField.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.LineItemDetails.InputField.TextStyle``) and setting an
+  item named ``fontFamily`` with the name of a font family or a font resource.
+
+- **Text Color**
+
+  Via the color resource named ``gv_digital_invoice_line_item_details_input_field_text``.
+
+- **Hint Text Color**
+
+  Via the color resource named ``gv_digital_invoice_line_item_details_input_field_hint_text``.
+
+- **Selection Color**
+
+  Via the color resource named ``gv_accent``.
+
+- **Activation Stroke Color**
+
+  Via the color resource named ``gv_action_bar``.
+
+:ref:`Back to screenshot. <line-item-details>`
+
+.. _line-item-details-7:
+
+7. Multiplication Symbol
+^^^^
+
+- **Color**
+
+  Via the color resource named ``gv_digital_invoice_line_item_details_multiplication_symbol``.
+
+:ref:`Back to screenshot. <line-item-details>`
+
+.. _line-item-details-8:
+
+8. Total Price
+^^^^
+
+- **Label**
+
+  - **Text**
+
+    Via the string resource named ``gv_digital_invoice_line_item_details_total_label``.
+
+  - **Text Style**
+
+    Via overriding the style named ``GiniVisionTheme.DigitalInvoice.LineItemDetails.Total.TextStyle`` (with
+    parent style ``Root.GiniVisionTheme.DigitalInvoice.LineItemDetails.Total.TextStyle``).
+
+  - **Font**
+
+    Via overriding the style named ``GiniVisionTheme.DigitalInvoice.LineItemDetails.Total.TextStyle`` (with
+    parent style ``Root.GiniVisionTheme.DigitalInvoice.LineItemDetails.Total.TextStyle``) and setting an
+    item named ``fontFamily`` with the name of a font family or a font resource.
+
+  - **Color**
+
+    Via the color resource named ``gv_digital_invoice_line_item_details_total_label``.
+
+- **Integral Part**
+
+  - **Text Style**
+
+    Via overriding the style named ``GiniVisionTheme.DigitalInvoice.TotalGrossPrice.Integral.TextStyle`` (with
+    parent style ``Root.GiniVisionTheme.DigitalInvoice.TotalGrossPrice.Integral.TextStyle``).
+
+  - **Font**
+
+    Via overriding the style named ``GiniVisionTheme.DigitalInvoice.TotalGrossPrice.Integral.TextStyle`` (with
+    parent style ``Root.GiniVisionTheme.DigitalInvoice.TotalGrossPrice.Integral.TextStyle``) and setting an
+    item named ``fontFamily`` with the name of a font family or a font resource.
+
+  - **Color**
+
+    Via the color resource named ``gv_digital_invoice_footer_gross_price_text``.
+
+- **Fractional Part**
+
+  - **Text Style**
+
+    Via overriding the style named ``GiniVisionTheme.DigitalInvoice.TotalGrossPrice.Fractional.TextStyle`` (with
+    parent style ``Root.GiniVisionTheme.DigitalInvoice.TotalGrossPrice.Fractional.TextStyle``).
+
+  - **Font**
+
+    Via overriding the style named ``GiniVisionTheme.DigitalInvoice.TotalGrossPrice.Fractional.TextStyle`` (with
+    parent style ``Root.GiniVisionTheme.DigitalInvoice.TotalGrossPrice.Fractional.TextStyle``) and setting an
+    item named ``fontFamily`` with the name of a font family or a font resource.
+
+  - **Color**
+
+    Via the color resource named ``gv_digital_invoice_footer_gross_price_text``.
+
+:ref:`Back to screenshot. <line-item-details>`
+
+.. _line-item-details-9:
+
+9. Save Button
+^^^^
+
+- **Title**
+
+  Via the string resource named ``gv_digital_invoice_line_item_details_save``.
+
+- **Text Color**
+
+  Via the color resource named ``gv_digital_invoice_line_item_details_save_button_text``.
+
+- **Background Color**
+
+  Via the color resource named ``gv_digital_invoice_line_item_details_save_button``.
+
+:ref:`Back to screenshot. <line-item-details>`
