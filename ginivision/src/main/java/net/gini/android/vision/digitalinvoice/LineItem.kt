@@ -34,13 +34,13 @@ class LineItem(
 ) : Parcelable {
 
     /**
-     * The parsed gross price.
+     * The unit price.
      */
     @IgnoredOnParcel
     val grossPrice: BigDecimal
 
     /**
-     * The total gross price. Total gross price = gross price x quantity.
+     * The total unit price. Total unit price = unit price x quantity.
      */
     @IgnoredOnParcel
     val totalGrossPrice: BigDecimal

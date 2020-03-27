@@ -373,10 +373,6 @@ public class MainActivity extends AppCompatActivity {
         mGiniApiTypeSpinner = findViewById(R.id.gini_api_type_spinner);
     }
 
-    private void deleteMe() {
-
-    }
-
     private ArrayList<OnboardingPage> getOnboardingPages() {
         // Adding a custom page to the default pages
         final ArrayList<OnboardingPage> pages = DefaultPagesPhone.asArrayList();

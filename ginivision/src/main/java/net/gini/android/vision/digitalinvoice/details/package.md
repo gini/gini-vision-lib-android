@@ -5,7 +5,7 @@ Contains the Activity and Fragments used for the return assistant's Line Item De
 ## Screen API
 
 The [net.gini.android.vision.digitalinvoice.details.LineItemDetailsActivity] is launched by the
-[net.gini.android.vision.digitalinvoice.DigitalInvoiceActivity] when a user tapped on a line item to edit it. It displays the line item and
+[net.gini.android.vision.digitalinvoice.DigitalInvoiceActivity] when the user tapps on a line item to edit it. It displays the line item and
 allows editing it.
 
 ## Component API

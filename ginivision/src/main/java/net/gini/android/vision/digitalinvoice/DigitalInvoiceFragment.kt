@@ -28,12 +28,12 @@ private const val TAG_WHAT_IS_THIS_DIALOG = "TAG_WHAT_IS_THIS_DIALOG"
 
 /**
  * When you use the Component API the `DigitalInvoiceFragment` displays the line items extracted from an invoice document and their total
- * price. The user can deselect line items which should not be payed and also edit the quantity, price or description of each line item. The
+ * price. The user can deselect line items which should not be paid for and also edit the quantity, price or description of each line item. The
  * total price is always updated to include only the selected line items.
  *
  * The returned extractions in the [DigitalInvoiceFragmentListener.onPayInvoice()] are updated to include the user's midifications:
- * - "amountToPay" was updated to contain the sum of the selected line items' prices,
- * - the line items were updated according to the user's modifications.
+ * - "amountToPay" is updated to contain the sum of the selected line items' prices,
+ * - the line items are updated according to the user's modifications.
  *
  * You should show the `DigitalInvoiceFragment` when the
  * [AnalysisFragmentListener.onProceedToReturnAssistant()] is called.

@@ -25,7 +25,7 @@ interface DigitalInvoiceFragmentListener {
     fun onEditLineItem(selectableLineItem: SelectableLineItem)
 
     /**
-     * Called when the user pressed the buy button.
+     * Called when the user presses the buy button.
      *
      * The extractions were updated to contain the user's modifications:
      *  - "amountToPay" was updated to contain the sum of the selected line items' prices,

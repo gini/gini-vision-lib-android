@@ -14,9 +14,9 @@ import net.gini.android.vision.digitalinvoice.SelectableLineItem
 interface LineItemDetailsFragmentListener {
 
     /**
-     * Called when the user pressed the save button.
+     * Called when the user presses the save button.
      *
-     * The selectable line item was updated to contain the user's modifications.
+     * The selectable line item is updated to contain the user's modifications.
      *
      * @param selectableLineItem - the modified selectable line item
      */

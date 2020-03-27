@@ -29,13 +29,13 @@ private const val EXTRA_IN_COMPOUND_EXTRACTIONS = "EXTRA_IN_COMPOUND_EXTRACTIONS
 
 /**
  * When you use the Screen API, the `DigitalInvoiceActivity` displays the line items extracted from an invoice document and their total
- * price. The user can deselect line items which should not be payed and also edit the quantity, price or description of each line item.
+ * price. The user can deselect line items which should not be paid for and also edit the quantity, price or description of each line item.
  * The total price is always updated to include only the selected line items.
  *
  * The returned extractions in the [CameraActivity.EXTRA_OUT_EXTRACTIONS] and [CameraActivity.EXTRA_OUT_COMPOUND_EXTRACTIONS] are updated to
  * include the user's modifications:
- * - "amountToPay" was updated to contain the sum of the selected line items' prices,
- * - the line items were updated according to the user's modifications.
+ * - "amountToPay" is updated to contain the sum of the selected line items' prices,
+ * - the line items are updated according to the user's modifications.
  *
  * The `DigitalInvoiceActivity` is started by the [AnalysisActivity] if the following are true:
  * - analysis completed successfully

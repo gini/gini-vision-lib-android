@@ -24,8 +24,7 @@ private const val EXTRA_IN_SELECTABLE_LINE_ITEM = "EXTRA_IN_SELECTABLE_LINE_ITEM
  *
  * The extractions returned in the [CameraActivity.EXTRA_OUT_COMPOUND_EXTRACTIONS] are updated to include the user's modifications.
  *
- * The `LineItemDetailsActivity` is started by the [DigitalInvoiceActivity] when a user taps on a
- * line item to edit it.
+ * The `LineItemDetailsActivity` is started by the [DigitalInvoiceActivity] when the user taps on a line item to edit it.
  *
  * ### Customizing the Line Item Details Screen
  *
