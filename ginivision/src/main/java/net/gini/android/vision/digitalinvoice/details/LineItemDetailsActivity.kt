@@ -30,9 +30,8 @@ private const val EXTRA_IN_SELECTABLE_LINE_ITEM = "EXTRA_IN_SELECTABLE_LINE_ITEM
  *
  * Customizing the look of the Line Item Details Screen is done via overriding of app resources.
  *
- * The following items are customizable:
- * - TODO
- * - TODO
+ * Detailed description of the customization options is available in the
+ * [customization guide](http://developer.gini.net/gini-vision-lib-android/html/customization-guide.html#line-item-details-screen).
  *
  * **Important:** All overriden styles must have their respective `Root.` prefixed style as their parent. Ex.: the parent of
  * `GiniVisionTheme.Snackbar.Error.TextStyle` must be `Root.GiniVisionTheme.Snackbar.Error.TextStyle`.
