@@ -7,6 +7,7 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.analysis.AnalysisActivity;
+import net.gini.android.vision.analysis.AnalysisFragmentListener;
 import net.gini.android.vision.network.GiniVisionNetworkService;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.noresults.NoResultsFragmentCompat;
@@ -35,7 +36,8 @@ public interface ReviewFragmentListener {
      *
      * @deprecated When a {@link GiniVision} instance is available the document is analyzed
      * internally by using the configured {@link GiniVisionNetworkService} implementation. The
-     * extractions will be returned in {@link ReviewFragmentListener#onExtractionsAvailable(Map)}.
+     * extractions will be returned in the Analysis Screen in
+     * {@link AnalysisFragmentListener#onExtractionsAvailable(Map, Map)}.
      */
     @Deprecated
     void onShouldAnalyzeDocument(@NonNull Document document);
@@ -67,7 +69,8 @@ public interface ReviewFragmentListener {
      *
      * @deprecated When a {@link GiniVision} instance is available the document is analyzed
      * internally by using the configured {@link GiniVisionNetworkService} implementation. The
-     * extractions will be returned in {@link ReviewFragmentListener#onExtractionsAvailable(Map)}.
+     * extractions will be returned in the Analysis Screen in
+     * {@link AnalysisFragmentListener#onExtractionsAvailable(Map, Map)}.
      */
     @Deprecated
     void onDocumentReviewedAndAnalyzed(@NonNull Document document);
@@ -84,9 +87,10 @@ public interface ReviewFragmentListener {
      *
      * @deprecated When a {@link GiniVision} and a {@link GiniVisionNetworkService} instance is
      * available rotation is handled internally. The document is analyzed by using the configured
-     * {@link GiniVisionNetworkService} implementation. The extractions will be returned in {@link
-     * ReviewFragmentListener#onExtractionsAvailable(Map)}.
+     * {@link GiniVisionNetworkService} implementation. The extractions will be returned in the
+     * Analysis Screen in {@link AnalysisFragmentListener#onExtractionsAvailable(Map, Map)}.
      */
+    @Deprecated
     void onDocumentWasRotated(@NonNull Document document, int oldRotation, int newRotation);
 
     /**
@@ -100,7 +104,13 @@ public interface ReviewFragmentListener {
      * Called when the document has been analyzed and extractions are available.
      *
      * @param extractions a map of the extractions with the extraction labels as keys
+     *
+     * @deprecated When a {@link GiniVision} instance is available the document is analyzed
+     * internally by using the configured {@link GiniVisionNetworkService} implementation. The
+     * extractions will be returned in the Analysis Screen in
+     * {@link AnalysisFragmentListener#onExtractionsAvailable(Map, Map)}.
      */
+    @Deprecated
     void onExtractionsAvailable(
             @NonNull final Map<String, GiniVisionSpecificExtraction> extractions);
 
@@ -111,7 +121,13 @@ public interface ReviewFragmentListener {
      * NoResultsFragmentCompat}.
      *
      * @param document contains the reviewed document
+     *
+     * @deprecated When a {@link GiniVision} instance is available the document is analyzed
+     * internally by using the configured {@link GiniVisionNetworkService} implementation. The
+     * extractions will be returned in the Analysis Screen in
+     * {@link AnalysisFragmentListener#onExtractionsAvailable(Map, Map)}.
      */
+    @Deprecated
     void onProceedToNoExtractionsScreen(@NonNull final Document document);
 
     /**
