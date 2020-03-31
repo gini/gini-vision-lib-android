@@ -9,6 +9,12 @@ import java.util.*
  *
  * Copyright (c) 2019 Gini GmbH.
  */
+
+/**
+ * The `SelectableLineItem` wrapps a [LineItem] and adds the possibility to select/deselect it and also add a reason why it's deselected.
+ *
+ * @property reason Reason for deselection.
+ */
 @Parcelize
 class SelectableLineItem(
         var selected: Boolean = true,

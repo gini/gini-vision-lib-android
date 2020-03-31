@@ -9,9 +9,13 @@ import java.util.*
  *
  * Copyright (c) 2019 Gini GmbH.
  */
-fun BigDecimal.integralPartWithCurrency(currency: Currency, decimalFormat: DecimalFormat): String =
+
+@JvmSynthetic
+internal fun BigDecimal.integralPartWithCurrency(currency: Currency, decimalFormat: DecimalFormat): String =
         "${currency.symbol}${this.integralPart(decimalFormat)}"
 
-fun BigDecimal.integralPart(decimalFormat: DecimalFormat): String = decimalFormat.format(this.toBigInteger())
+@JvmSynthetic
+internal fun BigDecimal.integralPart(decimalFormat: DecimalFormat): String = decimalFormat.format(this.toBigInteger())
 
-fun BigDecimal.fractionalPart(decimalFormat: DecimalFormat): String = decimalFormat.format(this.remainder(BigDecimal.ONE).abs())
+@JvmSynthetic
+internal fun BigDecimal.fractionalPart(decimalFormat: DecimalFormat): String = decimalFormat.format(this.remainder(BigDecimal.ONE).abs())

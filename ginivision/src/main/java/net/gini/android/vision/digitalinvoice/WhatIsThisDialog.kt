@@ -17,9 +17,14 @@ import net.gini.android.vision.R
  * Copyright (c) 2020 Gini GmbH.
  */
 
-typealias WhatIsThisDialogResultCallback = (Boolean?) -> Unit
+internal typealias WhatIsThisDialogResultCallback = (Boolean?) -> Unit
 
-class WhatIsThisDialog : BottomSheetDialogFragment() {
+/**
+ * Internal use only.
+ *
+ * @suppress
+ */
+internal class WhatIsThisDialog : BottomSheetDialogFragment() {
 
     var callback: WhatIsThisDialogResultCallback? = null
 

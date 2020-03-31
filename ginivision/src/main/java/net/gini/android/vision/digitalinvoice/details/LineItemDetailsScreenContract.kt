@@ -10,8 +10,19 @@ import net.gini.android.vision.digitalinvoice.ReturnReasonDialogResultCallback
  *
  * Copyright (c) 2019 Gini GmbH.
  */
+
+/**
+ * Internal use only.
+ *
+ * @suppress
+ */
 interface LineItemDetailsScreenContract {
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     interface View : GiniVisionBaseView<Presenter> {
         fun showDescription(description: String)
         fun showQuantity(quantity: Int)
@@ -26,6 +37,11 @@ interface LineItemDetailsScreenContract {
                                    resultCallback: ReturnReasonDialogResultCallback)
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     abstract class Presenter(activity: Activity, view: View) :
             GiniVisionBasePresenter<View>(activity, view), LineItemDetailsFragmentInterface {
 

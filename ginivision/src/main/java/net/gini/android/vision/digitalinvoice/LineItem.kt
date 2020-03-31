@@ -15,11 +15,16 @@ import java.util.*
  * Copyright (c) 2019 Gini GmbH.
  */
 
-val RAW_GROSS_PRICE_FORMAT = DecimalFormat("0.00",
+@JvmSynthetic
+internal val RAW_GROSS_PRICE_FORMAT = DecimalFormat("0.00",
         DecimalFormatSymbols.getInstance(Locale.ENGLISH)).apply { isParseBigDecimal = true }
 
-val GROSS_PRICE_STRING_REGEX = "^[0-9]+([.,])[0-9]+\$".toRegex()
+@JvmSynthetic
+internal val GROSS_PRICE_STRING_REGEX = "^[0-9]+([.,])[0-9]+\$".toRegex()
 
+/**
+ * The `LineItem` class contains information from a line item extraction.
+ */
 @Parcelize
 class LineItem(
         val id: String,
@@ -28,20 +33,40 @@ class LineItem(
         val rawGrossPrice: String
 ) : Parcelable {
 
+    /**
+     * The unit price.
+     */
     @IgnoredOnParcel
     val grossPrice: BigDecimal
+
+    /**
+     * The total unit price. Total unit price = unit price x quantity.
+     */
     @IgnoredOnParcel
     val totalGrossPrice: BigDecimal
+
+    /**
+     * The parsed currency.
+     */
     @IgnoredOnParcel
     val currency: Currency?
+
+    /**
+     * The currency as a string in ISO 4217 format.
+     */
     @IgnoredOnParcel
     val rawCurrency: String
 
     companion object {
-        fun createRawGrossPrice(grossPrice: BigDecimal, currency: String) = "${RAW_GROSS_PRICE_FORMAT.format(grossPrice)}:$currency"
+
+        @JvmSynthetic
+        internal fun createRawGrossPrice(grossPrice: BigDecimal, currency: String) = "${RAW_GROSS_PRICE_FORMAT.format(
+                grossPrice)}:$currency"
+
 
         @Throws(NumberFormatException::class, IllegalArgumentException::class)
-        fun parseGrossPriceExtraction(rawGrossPrice: String): Triple<BigDecimal, String, Currency?> {
+        @JvmSynthetic
+        internal fun parseGrossPriceExtraction(rawGrossPrice: String): Triple<BigDecimal, String, Currency?> {
             rawGrossPrice.split(":").let { substrings ->
                 if (substrings.size != 2) {
                     throw java.lang.NumberFormatException(

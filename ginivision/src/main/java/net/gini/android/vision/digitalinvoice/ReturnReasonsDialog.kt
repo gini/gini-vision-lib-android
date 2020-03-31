@@ -19,9 +19,14 @@ import net.gini.android.vision.R
 
 private const val ARG_RETURN_REASONS = "GV_ARG_SELECTABLE_LINE_ITEM"
 
-typealias ReturnReasonDialogResultCallback = (String?) -> Unit
+internal typealias ReturnReasonDialogResultCallback = (String?) -> Unit
 
-class ReturnReasonDialog : BottomSheetDialogFragment() {
+/**
+ * Internal use only.
+ *
+ * @suppress
+ */
+internal class ReturnReasonDialog : BottomSheetDialogFragment() {
 
     private lateinit var reasons: List<String>
 

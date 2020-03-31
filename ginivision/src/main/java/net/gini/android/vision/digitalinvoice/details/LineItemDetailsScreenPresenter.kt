@@ -16,9 +16,15 @@ import java.text.ParseException
  * Copyright (c) 2019 Gini GmbH.
  */
 
-val GROSS_PRICE_FORMAT = DecimalFormat("#,##0.00").apply { isParseBigDecimal = true }
+@JvmSynthetic
+internal val GROSS_PRICE_FORMAT = DecimalFormat("#,##0.00").apply { isParseBigDecimal = true }
 
-class LineItemDetailsScreenPresenter(activity: Activity, view: View,
+/**
+ * Internal use only.
+ *
+ * @suppress
+ */
+internal class LineItemDetailsScreenPresenter(activity: Activity, view: View,
                                      var selectableLineItem: SelectableLineItem,
                                      private val grossPriceFormat: DecimalFormat = GROSS_PRICE_FORMAT) :
         Presenter(activity, view) {

@@ -14,10 +14,18 @@ import java.util.*
  * Copyright (c) 2020 Gini GmbH.
  */
 
-val INTEGRAL_FORMAT = DecimalFormat("#,###")
-val FRACTION_FORMAT = DecimalFormat(".00").apply { roundingMode = RoundingMode.DOWN }
+@JvmSynthetic
+internal val INTEGRAL_FORMAT = DecimalFormat("#,###")
 
-class DigitalInvoice(extractions: Map<String, GiniVisionSpecificExtraction>,
+@JvmSynthetic
+internal val FRACTION_FORMAT = DecimalFormat(".00").apply { roundingMode = RoundingMode.DOWN }
+
+/**
+ * Internal use only.
+ *
+ * @suppress
+ */
+internal class DigitalInvoice(extractions: Map<String, GiniVisionSpecificExtraction>,
                      compoundExtractions: Map<String, GiniVisionCompoundExtraction>) {
 
     private var _extractions: Map<String, GiniVisionSpecificExtraction> = extractions

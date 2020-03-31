@@ -9,12 +9,22 @@ import net.gini.android.vision.network.model.GiniVisionCompoundExtraction
  * Copyright (c) 2020 Gini GmbH.
  */
 
-typealias Validate = (compoundExtractions: Map<String, GiniVisionCompoundExtraction>) -> Unit
+internal typealias Validate = (compoundExtractions: Map<String, GiniVisionCompoundExtraction>) -> Unit
 
-class LineItemsValidator {
+/**
+ * Internal use only.
+ *
+ * @suppress
+ */
+internal class LineItemsValidator {
 
     companion object {
 
+        /**
+         * Internal use only.
+         *
+         * @suppress
+         */
         @JvmStatic
         @Throws(LineItemsMissingException::class, DescriptionMissingException::class, QuantityMissingException::class,
                 GrossPriceMissingException::class, ArticleNumberMissingException::class, MixedCurrenciesException::class,
@@ -32,44 +42,43 @@ class LineItemsValidator {
     }
 }
 
-
-val lineItemsAvailable: Validate = { compoundExtractions ->
+internal val lineItemsAvailable: Validate = { compoundExtractions ->
     if (!compoundExtractions.containsKey("lineItems")) {
         throw LineItemsMissingException()
     }
 }
 
-val descriptionAvailable: Validate = { compoundExtractions ->
+internal val descriptionAvailable: Validate = { compoundExtractions ->
     if ((compoundExtractions["lineItems"]?.specificExtractionMaps?.all { it.containsKey("description") }) != true) {
         throw DescriptionMissingException()
     }
 }
 
-val quantityAvailable: Validate = { compoundExtractions ->
+internal val quantityAvailable: Validate = { compoundExtractions ->
     if ((compoundExtractions["lineItems"]?.specificExtractionMaps?.all { it.containsKey("quantity") }) != true) {
         throw QuantityMissingException()
     }
 }
 
-val grossPriceAvailable: Validate = { compoundExtractions ->
+internal val grossPriceAvailable: Validate = { compoundExtractions ->
     if ((compoundExtractions["lineItems"]?.specificExtractionMaps?.all { it.containsKey("baseGross") }) != true) {
         throw GrossPriceMissingException()
     }
 }
 
-val articleNumberAvailable: Validate = { compoundExtractions ->
+internal val articleNumberAvailable: Validate = { compoundExtractions ->
     if ((compoundExtractions["lineItems"]?.specificExtractionMaps?.all { it.containsKey("artNumber") }) != true) {
         throw ArticleNumberMissingException()
     }
 }
 
-val quantityParcelable: Validate = { compoundExtractions ->
+internal val quantityParcelable: Validate = { compoundExtractions ->
     if ((compoundExtractions["lineItems"]?.specificExtractionMaps?.all { it["quantity"]?.value?.toIntOrNull() != null }) != true) {
         throw QuantityParsingException()
     }
 }
 
-val grossPriceParcelable: Validate = { compoundExtractions ->
+internal val grossPriceParcelable: Validate = { compoundExtractions ->
     compoundExtractions["lineItems"]?.specificExtractionMaps?.forEach { map ->
         map["baseGross"]?.value?.let { grossPriceString ->
             try {
@@ -81,7 +90,7 @@ val grossPriceParcelable: Validate = { compoundExtractions ->
     } ?: throw GrossPriceParsingException(cause = LineItemsMissingException())
 }
 
-val singleCurrency: Validate = { compoundExtractions ->
+internal val singleCurrency: Validate = { compoundExtractions ->
     compoundExtractions["lineItems"]?.specificExtractionMaps?.let { lineItemRows ->
         if (lineItemRows.isEmpty()) {
             throw MixedCurrenciesException(cause = LineItemsMissingException())

@@ -10,7 +10,8 @@ import android.widget.EditText
  * Copyright (c) 2019 Gini GmbH.
  */
 
-fun EditText.doAfterTextChanged(afterTextChanged: (String) -> Unit): TextWatcher =
+@JvmSynthetic
+internal fun EditText.doAfterTextChanged(afterTextChanged: (String) -> Unit): TextWatcher =
     object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
         }

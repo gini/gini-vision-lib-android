@@ -27,13 +27,55 @@ private const val EXTRA_IN_EXTRACTIONS = "EXTRA_IN_EXTRACTIONS"
 
 private const val EXTRA_IN_COMPOUND_EXTRACTIONS = "EXTRA_IN_COMPOUND_EXTRACTIONS"
 
+/**
+ * When you use the Screen API, the `DigitalInvoiceActivity` displays the line items extracted from an invoice document and their total
+ * price. The user can deselect line items which should not be paid for and also edit the quantity, price or description of each line item.
+ * The total price is always updated to include only the selected line items.
+ *
+ * The returned extractions in the [CameraActivity.EXTRA_OUT_EXTRACTIONS] and [CameraActivity.EXTRA_OUT_COMPOUND_EXTRACTIONS] are updated to
+ * include the user's modifications:
+ * - "amountToPay" is updated to contain the sum of the selected line items' prices,
+ * - the line items are updated according to the user's modifications.
+ *
+ * The `DigitalInvoiceActivity` is started by the [AnalysisActivity] if the following are true:
+ * - analysis completed successfully
+ * - line item extractions have been enabled for your client id
+ * - the analysis result contains line item extractions
+ *
+ * ### Customizing the Digital Invoice Screen
+ *
+ * Customizing the look of the Digital Invoice Screen is done via overriding of app resources.
+ *
+ * The following items are customizable:
+ * - TODO
+ * - TODO
+ *
+ * **Important:** All overriden styles must have their respective `Root.` prefixed style as their parent. Ex.: the parent of
+ * `GiniVisionTheme.Snackbar.Error.TextStyle` must be `Root.GiniVisionTheme.Snackbar.Error.TextStyle`.
+ *
+ * ### Customizing the Action Bar
+ *
+ * Customizing the Action Bar is also done via overriding of app resources and each one - except the title string resource - is global to
+ * all Activities.
+ *
+ * The following items are customizable:
+ * - **Background color:** via the color resource named `gv_action_bar` (highly recommended for Android 5+: customize the status bar color
+ * via `gv_status_bar`)
+ * - **Back button:** via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_action_bar_back}
+ */
 class DigitalInvoiceActivity : AppCompatActivity(), DigitalInvoiceFragmentListener {
 
-    var fragment: DigitalInvoiceFragment? = null
-    var extractions: Map<String, GiniVisionSpecificExtraction> = emptyMap()
-    var compoundExtractions: Map<String, GiniVisionCompoundExtraction> = emptyMap()
+    private var fragment: DigitalInvoiceFragment? = null
+    private lateinit var extractions: Map<String, GiniVisionSpecificExtraction>
+    private lateinit var compoundExtractions: Map<String, GiniVisionCompoundExtraction>
 
     companion object {
+
+        /**
+         * Internal use only.
+         *
+         * @suppress
+         */
         @JvmStatic
         fun createIntent(activity: Activity, extractions: Map<String, GiniVisionSpecificExtraction>,
                          compoundExtractions: Map<String, GiniVisionCompoundExtraction>) =
@@ -47,6 +89,11 @@ class DigitalInvoiceActivity : AppCompatActivity(), DigitalInvoiceFragmentListen
                 }
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.gv_activity_digital_invoice)
@@ -107,11 +154,21 @@ class DigitalInvoiceActivity : AppCompatActivity(), DigitalInvoiceFragmentListen
                 RETURN_ASSISTANT_FRAGMENT) as DigitalInvoiceFragment?
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun onEditLineItem(selectableLineItem: SelectableLineItem) {
         startActivityForResult(LineItemDetailsActivity.createIntent(this, selectableLineItem),
                 EDIT_LINE_ITEM_REQUEST)
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun onPayInvoice(specificExtractions: Map<String, GiniVisionSpecificExtraction>,
                               compoundExtractions: Map<String, GiniVisionCompoundExtraction>) {
         setResult(Activity.RESULT_OK, Intent().apply {
@@ -125,6 +182,11 @@ class DigitalInvoiceActivity : AppCompatActivity(), DigitalInvoiceFragmentListen
         finish()
     }
 
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
