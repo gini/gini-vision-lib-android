@@ -1,13 +1,13 @@
 Updating to 4.0.0
 ====
 
-Migrating to this version should be straight forward. The only change which might have a big impact on you is that we now use the AndroidX
+Migrating to this version should be straightforward. The only change which might have a big impact on you is that we now use the AndroidX
 libraries instead of the discontinued Android Support libraries.
 
 Return Assistant
 ----
 
-The main feature of this releas is the Return Assistant. Users often order multiple items and decide to return some of them. The Return
+The main feature of this release is the Return Assistant. Users often order multiple items and decide to return some of them. The Return
 Assistant helps them by showing the line items from the scanned invoice. They can then deselect the items they are returning and the total
 price is automatically updated to contain only the items they are keeping. This dynamically calculated total price is returned to the client
 applications in the ``amountToPay`` extraction.
@@ -88,7 +88,7 @@ Line items
 
 If you use the Screen API, then the ``CameraActivity`` returns an additional extra in the
 ``CameraActivity.EXTRA_OUT_COMPOUND_EXTRACTIONS`` containing a map of compound extraction labels as keys and the compound extractions as
-values. Currently the only compound extraction returned are the line items which have the ``lineItems`` label.
+values. Currently the only compound extractions returned are the line items which have the ``lineItems`` label.
 
 If you use the Component API, then you need to use the new signature of the ``AnalysisFragmentListener.onExtractionsAvailable()`` which now
 also returns the map of compound extractions. This map is identical to the one the CameraActivity returns in the Screen API.
