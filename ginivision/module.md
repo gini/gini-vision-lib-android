@@ -9,7 +9,7 @@ By integrating this library in your application you can allow your users to easi
 implementing the necessary callbacks - upload the document to the Gini API for analysis.
 
 Communication with the Gini API is not part of the Gini Vision Library to allow clients the freedom of using a networking implementation of
-their chossing. The quickest way to add networking is to use the Gini Vision Network Library. You may also use the Gini API SDK for Android
+chossing. The quickest way to add networking is to use the Gini Vision Network Library. You may also use the Gini API SDK for Android
 or implement communication with the Gini API yourself.
 
 The Gini Vision Library for Android can be integrated in two ways, either by using the Screen API or the Component API. The Screen API
@@ -24,7 +24,7 @@ Due to in-memory image handling applications using the Gini Vision Library must 
 
 ### Tablet Support
 
-The Gini Vision Library can be used on tablets, too. We have adapted some UI elements to offer a better experience to tablet users and
+The Gini Vision Library can be used on tablets too. We have adapted some UI elements to offer a better experience to tablet users and
 removed the camera flash requirement for tablets since flash is not present on all tablets. For more information please consult our guide
 [Supporting Tablets](http://developer.gini.net/gini-vision-lib-android/html/updating-to-2-4-0.html#tablet-support).
 
