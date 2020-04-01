@@ -6,7 +6,9 @@ import net.gini.android.vision.document.ImageDocument;
 import androidx.annotation.NonNull;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public final class PhotoFactory {
 

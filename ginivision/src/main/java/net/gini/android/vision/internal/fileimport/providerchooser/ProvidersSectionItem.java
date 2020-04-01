@@ -3,7 +3,9 @@ package net.gini.android.vision.internal.fileimport.providerchooser;
 import androidx.annotation.NonNull;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class ProvidersSectionItem extends ProvidersItem {
 

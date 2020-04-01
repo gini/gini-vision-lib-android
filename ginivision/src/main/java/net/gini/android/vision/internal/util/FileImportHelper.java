@@ -24,7 +24,9 @@ import jersey.repackaged.jsr166e.CompletableFuture;
  */
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public final class FileImportHelper {
 
@@ -67,7 +69,9 @@ public final class FileImportHelper {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public interface ShowAlertCallback {
 

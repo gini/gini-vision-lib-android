@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import androidx.annotation.VisibleForTesting;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public enum DefaultPagesPhone {
     FLAT(new OnboardingPage(R.string.gv_onboarding_flat, R.drawable.gv_onboarding_flat)),

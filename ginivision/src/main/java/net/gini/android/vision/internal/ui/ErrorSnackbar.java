@@ -26,7 +26,9 @@ import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class ErrorSnackbar extends RelativeLayout {
 
@@ -49,7 +51,9 @@ public class ErrorSnackbar extends RelativeLayout {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public enum Position {
         TOP,

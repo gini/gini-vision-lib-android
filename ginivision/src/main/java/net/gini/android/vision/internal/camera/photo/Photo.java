@@ -12,7 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public interface Photo extends Parcelable {
 

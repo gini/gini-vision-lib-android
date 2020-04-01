@@ -5,7 +5,9 @@ import net.gini.android.vision.GiniVisionError;
 import androidx.annotation.NonNull;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 final class Util {
 

@@ -18,12 +18,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class GiniVisionDocument implements Document {
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static final Creator<GiniVisionDocument> CREATOR = new Creator<GiniVisionDocument>() {
         @Override
@@ -110,7 +114,9 @@ public class GiniVisionDocument implements Document {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public int describeContents() {
@@ -118,7 +124,9 @@ public class GiniVisionDocument implements Document {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {

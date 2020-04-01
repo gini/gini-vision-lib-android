@@ -21,11 +21,13 @@ import androidx.annotation.Nullable;
  */
 
 /**
+ * Internal use only.
+ *
  * Contains payment information required for transactions that were parsed from a payment QR Code.
  * <p>
  * See {@link PaymentQRCodeParser} for supported formats.
  *
- * @exclude
+ * @suppress
  */
 public class PaymentQRCodeData implements Parcelable {
 

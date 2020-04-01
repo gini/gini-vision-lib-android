@@ -10,7 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public interface DocumentRenderer {
 
@@ -21,7 +23,9 @@ public interface DocumentRenderer {
             @NonNull final AsyncCallback<Integer, Exception> asyncCallback);
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     interface Callback {
         void onBitmapReady(@Nullable final Bitmap bitmap, final int rotationForDisplay);

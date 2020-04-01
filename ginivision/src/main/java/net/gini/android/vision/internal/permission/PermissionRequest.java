@@ -3,7 +3,9 @@ package net.gini.android.vision.internal.permission;
 import androidx.annotation.NonNull;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 interface PermissionRequest<T> {
 

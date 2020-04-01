@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import androidx.annotation.VisibleForTesting;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public enum DefaultPagesTablet {
     LIGHTING(

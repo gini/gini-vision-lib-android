@@ -7,11 +7,9 @@ import net.gini.android.vision.document.PdfDocument;
 import androidx.annotation.NonNull;
 
 /**
- * @exclude
- */
-
-/**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public final class DocumentRendererFactory {
 

@@ -8,7 +8,9 @@ import java.io.InputStream;
 import androidx.annotation.NonNull;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public final class StreamHelper {
 
@@ -21,7 +23,7 @@ public final class StreamHelper {
      * @throws IOException if the first byte cannot be read for any reason other than the end of the
      *                     file, if the input stream has been closed, or if some other I/O error
      *                     occurs.
-     * @exclude
+     * @suppress
      */
     public static byte[] inputStreamToByteArray(@NonNull final InputStream inputStream)
             throws IOException {

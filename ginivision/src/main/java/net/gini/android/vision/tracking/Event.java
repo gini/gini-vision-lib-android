@@ -22,7 +22,9 @@ public class Event<T extends Enum<T>> {
     private final Map<String, String> details;
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public Event(@NonNull final T type, @NonNull final Map<String, String> details) {
         this.type = type;
@@ -30,7 +32,9 @@ public class Event<T extends Enum<T>> {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public Event(@NonNull final T type) {
         this(type, Collections.<String, String>emptyMap());
@@ -57,7 +61,9 @@ public class Event<T extends Enum<T>> {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public boolean equals(final Object o) {
@@ -77,7 +83,9 @@ public class Event<T extends Enum<T>> {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public int hashCode() {
@@ -87,7 +95,9 @@ public class Event<T extends Enum<T>> {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @NonNull
     @Override

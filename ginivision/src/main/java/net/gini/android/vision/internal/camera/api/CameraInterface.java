@@ -13,6 +13,8 @@ import androidx.annotation.Nullable;
 import jersey.repackaged.jsr166e.CompletableFuture;
 
 /**
+ * Internal use only.
+ *
  * <p>
  *     An interface which defines an API for the camera used with the Gini Vision Library.
  * </p>
@@ -20,7 +22,8 @@ import jersey.repackaged.jsr166e.CompletableFuture;
  *     We use this interface with the deprecated Camera API and the new Camera2 API to publish a common API for the required
  *     camera features.
  * </p>
- * @exclude
+ *
+ * @suppress
  */
 public interface CameraInterface {
     /**

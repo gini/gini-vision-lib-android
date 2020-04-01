@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'jacoco-android'
+apply plugin: 'org.jetbrains.dokka'
 
 jacoco {
     toolVersion = "0.8.3"
@@ -106,8 +107,51 @@ apply from: rootProject.file('gradle/maven.gradle')
 apply from: rootProject.file('gradle/javadoc_coverage.gradle')
 apply from: rootProject.file('gradle/multidex_for_tests.gradle')
 
-task generateJavadoc(type: GenerateJavadoc) {
-    projectTitle = "Gini Vision Library for Android"
+dokka {
+    outputFormat = 'html'
+    outputDirectory = "$buildDir/dokka"
+    configuration {
+        includes = ['module.md'] + packageDocumentationPaths(android.sourceSets.main.java.srcDirs[0])
+        perPackageOption {
+            prefix = 'com.ortiz'
+            suppress = true
+        }
+        perPackageOption {
+            prefix = 'net.gini.android.vision.internal'
+            suppress = true
+        }
+        perPackageOption {
+            prefix = 'net.gini.android.vision.internal'
+            suppress = true
+        }
+        perPackageOption {
+            prefix = 'net.gini.android.vision.util'
+            suppress = true
+        }
+        perPackageOption {
+            prefix = 'net.gini.android.vision.review.multipage.previews'
+            suppress = true
+        }
+        perPackageOption {
+            prefix = 'net.gini.android.vision.review.multipage.thumbnails'
+            suppress = true
+        }
+    }
+}
+
+static def packageDocumentationPaths(srcDir) {
+    def packageDocs = []
+    srcDir.eachFileRecurse {
+        if (it.name == 'package.md') {
+            packageDocs.add(it.getAbsolutePath())
+        }
+    }
+    return packageDocs
+}
+
+task generateJavadocWithDokka(type: org.jetbrains.dokka.gradle.DokkaTask) {
+    outputFormat = 'javadoc'
+    outputDirectory = "$buildDir/dokka-javadoc"
 }
 
 task sourcesJar(type: Jar, dependsOn: 'assembleRelease') {
@@ -115,9 +159,9 @@ task sourcesJar(type: Jar, dependsOn: 'assembleRelease') {
     from android.sourceSets.main.java.srcDirs
 }
 
-task javadocJar(type: Jar, dependsOn: generateJavadoc) {
+task javadocJar(type: Jar, dependsOn: generateJavadocWithDokka) {
     archiveClassifier.set('javadoc')
-    from destinationDirectory
+    from generateJavadocWithDokka.outputDirectory
 }
 
 artifacts {

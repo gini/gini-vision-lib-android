@@ -6,7 +6,9 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class ProvidersItem implements Parcelable {
 

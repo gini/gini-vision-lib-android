@@ -74,7 +74,9 @@ public class GiniVisionError implements Parcelable {
     private final String mMessage;
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public GiniVisionError(final ErrorCode code, final String message) {
         mErrorCode = code;
@@ -105,7 +107,9 @@ public class GiniVisionError implements Parcelable {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public int describeContents() {
@@ -113,7 +117,9 @@ public class GiniVisionError implements Parcelable {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {
@@ -122,7 +128,9 @@ public class GiniVisionError implements Parcelable {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static final Creator<GiniVisionError> CREATOR = new Creator<GiniVisionError>() {
         @Override

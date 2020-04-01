@@ -9,7 +9,9 @@ package net.gini.android.vision.review.multipage.thumbnails;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public interface ThumbnailsTouchHelperListener {
 

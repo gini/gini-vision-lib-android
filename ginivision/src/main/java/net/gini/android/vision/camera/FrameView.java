@@ -14,7 +14,9 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class FrameView extends View {
 

@@ -9,7 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 class PhotoCompressionModifier implements PhotoModifier {
 

@@ -7,8 +7,12 @@ import java.util.Map;
  * Created by Alpar Szotyori on 17.02.2020.
  *
  * Copyright (c) 2020 Gini GmbH.
+ */
+
+/**
+ * Internal use only.
  *
- * @exclude
+ * @suppress
  */
 public final class NullabilityHelper {
 

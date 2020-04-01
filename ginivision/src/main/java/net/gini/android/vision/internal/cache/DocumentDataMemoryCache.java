@@ -17,7 +17,9 @@ import androidx.annotation.NonNull;
  */
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class DocumentDataMemoryCache extends MemoryCache<GiniVisionDocument, byte[]> {
 

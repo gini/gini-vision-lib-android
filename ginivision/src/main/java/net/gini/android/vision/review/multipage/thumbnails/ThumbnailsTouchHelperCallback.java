@@ -10,7 +10,9 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class ThumbnailsTouchHelperCallback extends ItemTouchHelper.Callback {
 

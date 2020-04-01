@@ -18,7 +18,9 @@ import androidx.fragment.app.FragmentActivity;
  */
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class AlertDialogFragment extends DialogFragment {
 
@@ -102,8 +104,10 @@ public class AlertDialogFragment extends DialogFragment {
     }
 
     /**
-     * @exclude
-     */
+ * Internal use only.
+ *
+ * @suppress
+ */
     public static class Builder {
 
         private final Bundle args = new Bundle();

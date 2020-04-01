@@ -13,7 +13,9 @@ import java.io.IOException;
 import androidx.annotation.NonNull;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class UriReaderAsyncTask extends AsyncTask<Uri, Void, byte[]> {
 

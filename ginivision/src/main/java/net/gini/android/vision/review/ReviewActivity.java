@@ -166,34 +166,48 @@ public class ReviewActivity extends AppCompatActivity implements ReviewFragmentL
         ReviewFragmentInterface {
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static final String EXTRA_IN_DOCUMENT = "GV_EXTRA_IN_DOCUMENT";
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static final String EXTRA_IN_ANALYSIS_ACTIVITY = "GV_EXTRA_IN_ANALYSIS_ACTIVITY";
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static final String EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY =
             "GV_EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY";
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static final String EXTRA_OUT_DOCUMENT = "GV_EXTRA_OUT_DOCUMENT";
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static final String EXTRA_OUT_ERROR = "GV_EXTRA_OUT_ERROR";
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static final int RESULT_ERROR = RESULT_FIRST_USER + 1;
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static final int RESULT_NO_EXTRACTIONS = RESULT_FIRST_USER + 2;
 
@@ -322,7 +336,7 @@ public class ReviewActivity extends AppCompatActivity implements ReviewFragmentL
     /**
      * @param document contains the original image taken by the camera
      *
-     * @deprecated When a {@link GiniVision} instance is available the document is analyzed
+     * @Deprecated When a {@link GiniVision} instance is available the document is analyzed
      * internally by using the configured {@link GiniVisionNetworkService} implementation. The
      * extractions will be returned in the extra called {@link CameraActivity#EXTRA_OUT_EXTRACTIONS}
      * of the {@link CameraActivity}'s result Intent.
@@ -384,7 +398,7 @@ public class ReviewActivity extends AppCompatActivity implements ReviewFragmentL
      *
      * @param result the {@link Intent} which will be returned as the result data.
      *
-     * @deprecated When a {@link GiniVision} instance is available the document is analyzed
+     * @Deprecated When a {@link GiniVision} instance is available the document is analyzed
      * internally by using the configured {@link GiniVisionNetworkService} implementation. The
      * extractions will be returned in the extra called {@link CameraActivity#EXTRA_OUT_EXTRACTIONS}
      * of the {@link CameraActivity}'s result Intent.
@@ -402,7 +416,7 @@ public class ReviewActivity extends AppCompatActivity implements ReviewFragmentL
      * @param oldRotation the previous rotation in degrees
      * @param newRotation the new rotation in degrees
      *
-     * @deprecated When a {@link GiniVision} and a {@link GiniVisionNetworkService} instance is
+     * @Deprecated When a {@link GiniVision} and a {@link GiniVisionNetworkService} instance is
      * available rotation is handled internally. The document is analyzed by using the configured
      * {@link GiniVisionNetworkService} implementation. The extractions will be returned in the
      * Analysis Screen in {@link AnalysisFragmentListener#onExtractionsAvailable(Map, Map)}.
@@ -414,7 +428,7 @@ public class ReviewActivity extends AppCompatActivity implements ReviewFragmentL
     }
 
     /**
-     * @deprecated When a {@link GiniVision} instance is available the document is analyzed
+     * @Deprecated When a {@link GiniVision} instance is available the document is analyzed
      * internally by using the configured {@link GiniVisionNetworkService} implementation. The
      * extractions will be returned in the extra called {@link CameraActivity#EXTRA_OUT_EXTRACTIONS}
      * of the {@link CameraActivity}'s result Intent.
@@ -426,7 +440,7 @@ public class ReviewActivity extends AppCompatActivity implements ReviewFragmentL
     }
 
     /**
-     * @deprecated When a {@link GiniVision} instance is available the document is analyzed
+     * @Deprecated When a {@link GiniVision} instance is available the document is analyzed
      * internally by using the configured {@link GiniVisionNetworkService} implementation.
      */
     @Deprecated
@@ -450,7 +464,7 @@ public class ReviewActivity extends AppCompatActivity implements ReviewFragmentL
      *
      * @param message an error message to be shown to the user
      *
-     * @deprecated When a {@link GiniVision} instance is available the document is analyzed
+     * @Deprecated When a {@link GiniVision} instance is available the document is analyzed
      * internally by using the configured {@link GiniVisionNetworkService} implementation.
      */
     @Deprecated

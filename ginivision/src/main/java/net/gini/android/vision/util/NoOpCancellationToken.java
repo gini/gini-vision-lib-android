@@ -7,7 +7,9 @@ package net.gini.android.vision.util;
  */
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class NoOpCancellationToken implements CancellationToken {
 

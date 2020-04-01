@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
  *
  * Copyright (c) 2018 Gini GmbH.
  */
+
 class ImportImageFileUrisAsyncTask extends AbstractImportImageUrisAsyncTask {
 
     private ImportedFileValidationException mException;

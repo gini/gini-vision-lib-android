@@ -36,7 +36,9 @@ import androidx.annotation.Nullable;
 import jersey.repackaged.jsr166e.CompletableFuture;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class NetworkRequestsManager {
 

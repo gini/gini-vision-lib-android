@@ -251,21 +251,27 @@ public class ImageDocument extends GiniVisionDocument {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public String getDeviceOrientation() {
         return mDeviceOrientation;
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public String getDeviceType() {
         return mDeviceType;
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public int describeContents() {
@@ -273,7 +279,9 @@ public class ImageDocument extends GiniVisionDocument {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {
@@ -286,7 +294,9 @@ public class ImageDocument extends GiniVisionDocument {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static final Creator<ImageDocument> CREATOR = new Creator<ImageDocument>() {
         @Override

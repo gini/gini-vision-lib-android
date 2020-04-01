@@ -27,8 +27,12 @@ import jersey.repackaged.jsr166e.CompletableFuture;
  * Created by Alpar Szotyori on 09.05.2019.
  *
  * Copyright (c) 2019 Gini GmbH.
+ */
+
+/**
+ * Internal use only.
  *
- * @exclude
+ * @suppress
  */
 public class AnalysisInteractor {
 
@@ -137,7 +141,9 @@ public class AnalysisInteractor {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public enum Result {
         SUCCESS_NO_EXTRACTIONS,
@@ -146,7 +152,9 @@ public class AnalysisInteractor {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static final class ResultHolder {
 

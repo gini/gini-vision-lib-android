@@ -98,7 +98,9 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
     private CameraFragmentImpl mFragmentImpl;
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -113,7 +115,9 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Nullable
     @Override
@@ -123,7 +127,9 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onStart() {
@@ -132,7 +138,9 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onResume() {
@@ -141,7 +149,9 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onStop() {
@@ -150,7 +160,9 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onSaveInstanceState(@NonNull final Bundle outState) {
@@ -159,7 +171,9 @@ public class CameraFragmentCompat extends Fragment implements CameraFragmentInte
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onDestroy() {

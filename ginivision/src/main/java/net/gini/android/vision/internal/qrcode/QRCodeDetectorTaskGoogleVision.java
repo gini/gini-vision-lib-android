@@ -28,9 +28,11 @@ import androidx.annotation.NonNull;
  */
 
 /**
+ * Internal use only.
+ *
  * QRCode detector task using the Google Mobile Vision API.
  *
- * @exclude
+ * @suppress
  */
 public class QRCodeDetectorTaskGoogleVision implements QRCodeDetectorTask {
 

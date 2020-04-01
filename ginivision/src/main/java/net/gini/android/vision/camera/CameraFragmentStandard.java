@@ -78,7 +78,9 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
     private CameraFragmentImpl mFragmentImpl;
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onAttach(final Context context) {
@@ -88,7 +90,9 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onAttach(final Activity activity) {
@@ -101,7 +105,9 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -110,7 +116,9 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Nullable
     @Override
@@ -120,7 +128,9 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onStart() {
@@ -129,7 +139,9 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onResume() {
@@ -138,7 +150,9 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onStop() {
@@ -147,7 +161,9 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onSaveInstanceState(@NonNull final Bundle outState) {
@@ -156,7 +172,9 @@ public class CameraFragmentStandard extends Fragment implements CameraFragmentIn
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onDestroy() {

@@ -47,14 +47,18 @@ public class OnboardingPage implements Parcelable {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     OnboardingPage(@StringRes final int textResId, @DrawableRes final int imageResId, final boolean transparent) {
         this(textResId, imageResId, transparent, false);
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     OnboardingPage(@StringRes final int textResId, @DrawableRes final int imageResId, final boolean transparent,
             final boolean rotateImageForLandscape) {
@@ -81,21 +85,27 @@ public class OnboardingPage implements Parcelable {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public boolean isTransparent() {
         return mTransparent;
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public boolean shouldRotateImageForLandscape() {
         return mRotateImageForLandscape;
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public int describeContents() {
@@ -103,7 +113,9 @@ public class OnboardingPage implements Parcelable {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {
@@ -114,7 +126,9 @@ public class OnboardingPage implements Parcelable {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static final Creator<OnboardingPage> CREATOR = new Creator<OnboardingPage>() {
         @Override

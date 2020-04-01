@@ -34,7 +34,7 @@ public interface CameraFragmentInterface {
      *     <b>Note:</b> the document corner guides are shown by default.
      * </p>
      *
-     * @deprecated Use {@link CameraFragmentInterface#showInterface()} instead.
+     * @Deprecated Use {@link CameraFragmentInterface#showInterface()} instead.
      */
     @Deprecated
     void showDocumentCornerGuides();
@@ -47,7 +47,7 @@ public interface CameraFragmentInterface {
      *     <b>Note:</b> the document corner guides are shown by default.
      * </p>
      *
-     * @deprecated Use {@link CameraFragmentInterface#hideInterface()} instead.
+     * @Deprecated Use {@link CameraFragmentInterface#hideInterface()} instead.
      */
     @Deprecated
     void hideDocumentCornerGuides();
@@ -60,7 +60,7 @@ public interface CameraFragmentInterface {
      *     <b>Note:</b> the camera trigger button is shown by default.
      * </p>
      *
-     * @deprecated Use {@link CameraFragmentInterface#showInterface()} instead.
+     * @Deprecated Use {@link CameraFragmentInterface#showInterface()} instead.
      */
     @Deprecated
     void showCameraTriggerButton();
@@ -73,7 +73,7 @@ public interface CameraFragmentInterface {
      *     <b>Note:</b> the camera trigger button is shown by default.
      * </p>
      *
-     * @deprecated Use {@link CameraFragmentInterface#hideInterface()} instead.
+     * @Deprecated Use {@link CameraFragmentInterface#hideInterface()} instead.
      */
     @Deprecated
     void hideCameraTriggerButton();

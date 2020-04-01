@@ -10,7 +10,9 @@ import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class PhotoEdit {
 
@@ -138,7 +140,9 @@ public class PhotoEdit {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public interface PhotoEditCallback {
 

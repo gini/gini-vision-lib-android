@@ -132,7 +132,9 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onCreate(final Bundle savedInstanceState) {

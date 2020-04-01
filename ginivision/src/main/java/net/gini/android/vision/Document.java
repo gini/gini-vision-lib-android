@@ -37,7 +37,7 @@ public interface Document extends Parcelable {
      * The image of a document as a JPEG.
      *
      * @return a byte array containg a JPEG
-     * @deprecated Use {@link Document#getData()} instead. This method might return a byte array
+     * @Deprecated Use {@link Document#getData()} instead. This method might return a byte array
      * containing other types, like PDFs.
      * <p>
      * To check if the byte array contains an image query the type with {@link Document#getType()}
@@ -56,7 +56,7 @@ public interface Document extends Parcelable {
      * </p>
      *
      * @return degrees by which the image should be rotated clockwise before displaying
-     * @deprecated Use
+     * @Deprecated Use
      * {@link net.gini.android.vision.document.ImageDocument#getRotationForDisplay()}
      * instead, if {@link Document#getType()} equals {@link Document.Type#IMAGE}.
      */

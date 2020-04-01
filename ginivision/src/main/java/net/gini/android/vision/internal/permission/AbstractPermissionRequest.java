@@ -6,7 +6,9 @@ import android.os.Build;
 import androidx.annotation.NonNull;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 abstract class AbstractPermissionRequest<T> implements PermissionRequest<T> {
 

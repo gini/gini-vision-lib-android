@@ -7,6 +7,12 @@ import androidx.annotation.NonNull;
  *
  * Copyright (c) 2019 Gini GmbH.
  */
+
+/**
+ * Internal use only.
+ *
+ * @suppress
+ */
 @SuppressWarnings("PMD.AbstractClassWithoutAbstractMethod")
 public interface GiniVisionBaseView<P extends GiniVisionBasePresenter> {
 

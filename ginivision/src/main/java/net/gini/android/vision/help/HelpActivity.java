@@ -99,7 +99,7 @@ public class HelpActivity extends AppCompatActivity {
     /**
      * Optional extra which must contain a {@link GiniVisionFeatureConfiguration} instance.
      *
-     * @deprecated Configuration should be applied by creating a {@link GiniVision} instance using
+     * @Deprecated Configuration should be applied by creating a {@link GiniVision} instance using
      * {@link GiniVision#newInstance()} and the returned {@link GiniVision.Builder}.
      */
     public static final String EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION =

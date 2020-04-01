@@ -52,7 +52,7 @@ public final class GiniVisionFileImport {
      * @throws ImportedFileValidationException if the file didn't pass validation
      * @throws IllegalArgumentException        if the Intent's data is not valid or the mime type is
      *                                         not supported
-     * @deprecated Use {@link GiniVision#createIntentForImportedFile(Intent, Context, Class, Class)}
+     * @Deprecated Use {@link GiniVision#createIntentForImportedFile(Intent, Context, Class, Class)}
      * instead.
      */
     @Deprecated
@@ -133,7 +133,7 @@ public final class GiniVisionFileImport {
      * Analysis Fragments
      *
      * @throws ImportedFileValidationException if the file didn't pass validation
-     * @deprecated Use {@link GiniVision#createDocumentForImportedFile(Intent, Context)} instead.
+     * @Deprecated Use {@link GiniVision#createDocumentForImportedFile(Intent, Context)} instead.
      */
     @Deprecated
     @NonNull

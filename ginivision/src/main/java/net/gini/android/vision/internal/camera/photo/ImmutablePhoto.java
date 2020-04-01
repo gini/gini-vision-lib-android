@@ -22,7 +22,9 @@ import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 class ImmutablePhoto implements Photo {
 

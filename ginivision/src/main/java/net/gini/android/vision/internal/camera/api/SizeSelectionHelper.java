@@ -11,7 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public final class SizeSelectionHelper {
 

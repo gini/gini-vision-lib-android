@@ -9,7 +9,9 @@ package net.gini.android.vision.review.multipage.previews;
 import androidx.viewpager.widget.ViewPager;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class PreviewsPageChangeHandler implements ViewPager.OnPageChangeListener {
 

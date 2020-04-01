@@ -7,7 +7,9 @@ import android.util.SparseArray;
 import androidx.annotation.NonNull;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class RuntimePermissions {
 
