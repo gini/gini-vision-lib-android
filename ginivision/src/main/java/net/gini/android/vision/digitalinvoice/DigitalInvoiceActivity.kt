@@ -46,9 +46,8 @@ private const val EXTRA_IN_COMPOUND_EXTRACTIONS = "EXTRA_IN_COMPOUND_EXTRACTIONS
  *
  * Customizing the look of the Digital Invoice Screen is done via overriding of app resources.
  *
- * The following items are customizable:
- * - TODO
- * - TODO
+ * Detailed description of the customization options is available in the
+ * [customization guide](http://developer.gini.net/gini-vision-lib-android/html/customization-guide.html#digital-invoice-screen).
  *
  * **Important:** All overriden styles must have their respective `Root.` prefixed style as their parent. Ex.: the parent of
  * `GiniVisionTheme.Snackbar.Error.TextStyle` must be `Root.GiniVisionTheme.Snackbar.Error.TextStyle`.

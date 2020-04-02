@@ -256,7 +256,7 @@
 
     <style name="Root.GiniVisionTheme.DigitalInvoice.WhatIsThis.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@color/gv_digital_invoice_help_text</item>
+        <item name="android:textColor">@color/gv_digital_invoice_what_is_this_button_text</item>
     </style>
 
     <style name="Root.GiniVisionTheme.DigitalInvoice.LineItem.Description.TextStyle" parent="TextAppearance.AppCompat">
@@ -321,6 +321,7 @@
     <style name="Root.GiniVisionTheme.DigitalInvoice.LineItemDetails.InputField.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gv_digital_invoice_line_item_details_input_field_text</item>
     </style>
 
     <style name="Root.GiniVisionTheme.DigitalInvoice.LineItemDetails.Total.TextStyle" parent="TextAppearance.AppCompat">

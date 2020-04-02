@@ -54,7 +54,8 @@ The updated total price and the line items are returned to your application when
 Customizing the UI
 ++++
 
-- TODO
+Detailed description of the customization options is available in the
+`Customization Guide <customization-guide.html#digital-invoice-screen>`_.
 
 Line Item Details Screen
 ~~~~
@@ -70,7 +71,8 @@ when the ``onEditLineItem()`` method is called.
 Customizing the UI
 ++++
 
-- TODO
+Detailed description of the customization options is available in the
+`Customization Guide <customization-guide.html#line-item-details-screen>`_.
 
 Receiving the results
 ^^^^
