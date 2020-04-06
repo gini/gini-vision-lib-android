@@ -1,0 +1,187 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>ginivision</title>
+<link rel="stylesheet" href="../style.css">
+</HEAD>
+<BODY>
+<a href="./index.html">ginivision</a><br/>
+<br/>
+<h2>Gini Vision Library for Android</h2>
+<p>The Gini Vision Library for Android provides Activities and Fragments for capturing, reviewing and analyzing photos, images and pdfs of
+invoices and remittance slips.</p>
+<p>By integrating this library in your application you can allow your users to easily take a picture of a document, review it and - by
+implementing the necessary callbacks - upload the document to the Gini API for analysis.</p>
+<p>Communication with the Gini API is not part of the Gini Vision Library to allow clients the freedom of using a networking implementation of
+chossing. The quickest way to add networking is to use the Gini Vision Network Library. You may also use the Gini API SDK for Android
+or implement communication with the Gini API yourself.</p>
+<p>The Gini Vision Library for Android can be integrated in two ways, either by using the Screen API or the Component API. The Screen API
+provides Activities for easy integration that can be customized in a limited way. The screen and configuration design is based on our
+long-lasting experience with integration in customer apps. In the Component API we provide Fragments for advanced integration with more
+freedom for customization. We strongly recommend keeping in mind our UI/UX guidelines, however.</p>
+<p>Customization of the Views is provided mostly via overriding of app resources: dimensions, strings, colors, texts, etc. Onboarding can also
+be customized to show your own pages, each consisting of an image and a short text.</p>
+<p>Due to in-memory image handling applications using the Gini Vision Library must enable large heap.</p>
+<h3>Tablet Support</h3>
+<p>The Gini Vision Library can be used on tablets too. We have adapted some UI elements to offer a better experience to tablet users and
+removed the camera flash requirement for tablets since flash is not present on all tablets. For more information please consult our guide
+<a href="http://developer.gini.net/gini-vision-lib-android/html/updating-to-2-4-0.html#tablet-support">Supporting Tablets</a>.</p>
+<h3>Requirements</h3>
+<ul><li>Screen API: Android 4.4+ (API Level 19+)</li>
+<li>Component API: Android 4.4+ (API Level 19+)</li>
+</ul>
+<h4>Phone Hardware</h4>
+<ul><li>Back-facing camera with auto-focus and flash</li>
+<li>Minimum 8MP camera resolution.</li>
+<li>Minimum 512MB RAM.</li>
+</ul>
+<h4>Tablet Hardware</h4>
+<ul><li>Back-facing camera with auto-focus.</li>
+<li>Minimum 8MP camera resolution.</li>
+<li>Minimum 512MB RAM.</li>
+</ul>
+<h3>Screen API</h3>
+<h4>GVL 2.5.0 and older</h4>
+<p>The Screen API provides a main Activity with which to start the Gini Vision Library and two abstract Activities which you need to override
+to react to events coming from the Gini Vision Library.</p>
+<p>In order to support the widest variety of Android versions while keeping the look and feel consistent, we use the Android Support Library
+and provide only Activities subclassing the AppCompatActivity.</p>
+<h4>GVL 3.0.0 and newer</h4>
+<p>The Screen API provides a configuration singleton and a main Activity with which to start the Gini Vision Library. </p>
+<p>In order to support the widest variety of Android versions while keeping the look and feel consistent, we use the Android Support Library
+and provide only Activities subclassing the AppCompatActivity.</p>
+<h3>Component API</h3>
+<p>The Component API provides Fragments which you can include in your own layouts. This allows you more freedom to customize the Gini
+Vision Library, without being restricted to AppCompatActivities and the Gini Vision Library Theme.</p>
+<p>To allow usage even if you aren't using the Android Support Library, we provide a Standard and a Compat version of each Fragment.</p>
+<h3>Packages</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="net.gini.android.vision/index.html">net.gini.android.vision</a></h4>
+</td>
+<td>
+<p>The Gini Vision Library for Android provides Activities and Fragments for capturing, reviewing and analyzing photos, images and pdfs of
+invoices and remittance slips.</p>
+</td>
+</tr>
+<tr>
+<td>
+<h4><a href="net.gini.android.vision.analysis/index.html">net.gini.android.vision.analysis</a></h4>
+</td>
+<td>
+<p>Contains the Activity and Fragments used for the Analysis Screen.</p>
+</td>
+</tr>
+<tr>
+<td>
+<h4><a href="net.gini.android.vision.camera/index.html">net.gini.android.vision.camera</a></h4>
+</td>
+<td>
+<p>Contains the Activity and Fragments used for the Camera Screen.</p>
+</td>
+</tr>
+<tr>
+<td>
+<h4><a href="net.gini.android.vision.digitalinvoice/index.html">net.gini.android.vision.digitalinvoice</a></h4>
+</td>
+<td>
+<p>Contains the Activity and Fragments used for the return assistant's Digital Invoice Screen.</p>
+</td>
+</tr>
+<tr>
+<td>
+<h4><a href="net.gini.android.vision.digitalinvoice.details/index.html">net.gini.android.vision.digitalinvoice.details</a></h4>
+</td>
+<td>
+<p>Contains the Activity and Fragments used for the return assistant's Line Item Details Screen.</p>
+</td>
+</tr>
+<tr>
+<td>
+<h4><a href="net.gini.android.vision.document/index.html">net.gini.android.vision.document</a></h4>
+</td>
+<td>
+<p>Contains <a href="net.gini.android.vision/-document/index.html">net.gini.android.vision.Document</a> implementations for the supported document types.</p>
+</td>
+</tr>
+<tr>
+<td>
+<h4><a href="net.gini.android.vision.help/index.html">net.gini.android.vision.help</a></h4>
+</td>
+<td>
+<p>Contains Activities used to display information to the user on how to best use the Gini Vision Library.</p>
+</td>
+</tr>
+<tr>
+<td>
+<h4><a href="net.gini.android.vision.network/index.html">net.gini.android.vision.network</a></h4>
+</td>
+<td>
+<p>Contains interfaces and classes for adding networking calls to the Gini Vision Library in order to communicate with the Gini API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<h4><a href="net.gini.android.vision.network.model/index.html">net.gini.android.vision.network.model</a></h4>
+</td>
+<td>
+<p>Contains value classes for extractions from the Gini API.</p>
+</td>
+</tr>
+<tr>
+<td>
+<h4><a href="net.gini.android.vision.noresults/index.html">net.gini.android.vision.noresults</a></h4>
+</td>
+<td>
+<p>Contains the Activity and Fragments used for the No Results Screen. The No Results Screen includes hints on how to take a picture in an
+optimal condition. This screen should be shown when the received results from the Gini API don't include the required extractions.</p>
+</td>
+</tr>
+<tr>
+<td>
+<h4><a href="net.gini.android.vision.onboarding/index.html">net.gini.android.vision.onboarding</a></h4>
+</td>
+<td>
+<p>Contains the Activity and Fragments used for the Onboarding Screen.</p>
+</td>
+</tr>
+<tr>
+<td>
+<h4><a href="net.gini.android.vision.requirements/index.html">net.gini.android.vision.requirements</a></h4>
+</td>
+<td>
+<p>Contains classes to check if the device meets all the requirements for using the Gini Vision Library.</p>
+</td>
+</tr>
+<tr>
+<td>
+<h4><a href="net.gini.android.vision.review/index.html">net.gini.android.vision.review</a></h4>
+</td>
+<td>
+<p>Contains the Activity and Fragments used for the Review Screen.</p>
+</td>
+</tr>
+<tr>
+<td>
+<h4><a href="net.gini.android.vision.review.multipage/index.html">net.gini.android.vision.review.multipage</a></h4>
+</td>
+<td>
+<p>Contains the Activity and Fragment used for the Multi-Page Review Screen.</p>
+</td>
+</tr>
+<tr>
+<td>
+<h4><a href="net.gini.android.vision.tracking/index.html">net.gini.android.vision.tracking</a></h4>
+</td>
+<td>
+<p>Contains the interface, enums and classes used for tracking various events which occur during the usage of the Gini Vision Library.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Index</h3>
+<a href="alltypes/index.html">All Types</a>
+</BODY>
+</HTML>

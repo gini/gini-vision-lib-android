@@ -1,0 +1,97 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>OnboardingPage - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision.onboarding</a>&nbsp;/&nbsp;<a href="./index.html">OnboardingPage</a><br/>
+<br/>
+<h1>OnboardingPage</h1>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">OnboardingPage</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Parcelable.html"><span class="identifier">Parcelable</span></a></code>
+<p> The <code>OnboardingPage</code> is used by the Onboarding Fragment to display an image and a short text. </p>
+ 
+<p> Use this class to show a different number of pages in the Onboarding Screen. Customizing the default onboarding pages can be done via overriding of app resources. </p>
+ 
+<p> When using the Screen API set an <code><a href="https://docs.oracle.com/javase/6/docs/api/java/util/ArrayList.html">java.util.ArrayList</a></code> containing <code>OnboardingPage</code> objects as the <code><a href="../../net.gini.android.vision.camera/-camera-activity/-e-x-t-r-a_-i-n_-o-n-b-o-a-r-d-i-n-g_-p-a-g-e-s.html">CameraActivity#EXTRA_IN_ONBOARDING_PAGES</a></code> when starting the <code><a href="../../net.gini.android.vision.camera/-camera-activity/index.html">CameraActivity</a></code>. </p>
+ 
+<p> When using the Componenent API provide an <code><a href="https://docs.oracle.com/javase/6/docs/api/java/util/ArrayList.html">java.util.ArrayList</a></code> containing <code>OnboardingPage</code> objects as the argument for the Onboarding Fragment factory method <code><a href="../-onboarding-fragment-standard/create-instance.html">OnboardingFragmentStandard#createInstance(ArrayList)</a></code> or <code><a href="../-onboarding-fragment-compat/create-instance.html">OnboardingFragmentCompat#createInstance(ArrayList)</a></code>. </p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-init-.html">&lt;init&gt;</a></h4>
+</td>
+<td>
+<p> Create a new onboarding page with the desired string resource and drawable resource. </p>
+<code><span class="identifier">OnboardingPage</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.onboarding.OnboardingPage$<init>(kotlin.Int, kotlin.Int)/textResId">textResId</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.onboarding.OnboardingPage$<init>(kotlin.Int, kotlin.Int)/imageResId">imageResId</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-c-r-e-a-t-o-r.html">CREATOR</a></h4>
+</td>
+<td>
+<p>Internal use only.</p>
+<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">CREATOR</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/os/Parcelable/Creator.html"><span class="identifier">Creator</span></a><span class="symbol">&lt;</span><a href="./index.html"><span class="identifier">OnboardingPage</span></a><span class="symbol">!</span><span class="symbol">&gt;</span><span class="symbol">!</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="describe-contents.html">describeContents</a></h4>
+</td>
+<td>
+<p>Internal use only.</p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">describeContents</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-image-res-id.html">getImageResId</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">getImageResId</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-text-res-id.html">getTextResId</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">getTextResId</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="is-transparent.html">isTransparent</a></h4>
+</td>
+<td>
+<p>Internal use only.</p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">isTransparent</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="should-rotate-image-for-landscape.html">shouldRotateImageForLandscape</a></h4>
+</td>
+<td>
+<p>Internal use only.</p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">shouldRotateImageForLandscape</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="write-to-parcel.html">writeToParcel</a></h4>
+</td>
+<td>
+<p>Internal use only.</p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">writeToParcel</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.onboarding.OnboardingPage$writeToParcel(android.os.Parcel, kotlin.Int)/dest">dest</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Parcel.html"><span class="identifier">Parcel</span></a><span class="symbol">!</span><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.onboarding.OnboardingPage$writeToParcel(android.os.Parcel, kotlin.Int)/flags">flags</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

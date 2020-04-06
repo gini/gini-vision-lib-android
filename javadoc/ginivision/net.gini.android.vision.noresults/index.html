@@ -1,0 +1,61 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>net.gini.android.vision.noresults - ginivision</title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">ginivision</a>&nbsp;/&nbsp;<a href="./index.html">net.gini.android.vision.noresults</a><br/>
+<br/>
+<h2>Package net.gini.android.vision.noresults</h2>
+<p>Contains the Activity and Fragments used for the No Results Screen. The No Results Screen includes hints on how to take a picture in an
+optimal condition. This screen should be shown when the received results from the Gini API don't include the required extractions.</p>
+<h2>Screen API</h2>
+<p>The <a href="-no-results-activity/index.html">net.gini.android.vision.noresults.NoResultsActivity</a> is launched directly by the <a href="../net.gini.android.vision.analysis/-analysis-activity/index.html">net.gini.android.vision.analysis.AnalysisActivity</a> or
+the <a href="../net.gini.android.vision.review/-review-activity/index.html">net.gini.android.vision.review.ReviewActivity</a>, depending on where analysis results were received.</p>
+<p>Call <a href="#">net.gini.android.vision.analysis.AnalysisFragmentInterface#onNoExtractionsFound</a> or
+<a href="#">net.gini.android.vision.review.ReviewFragmentInterface#onNoExtractionsFound</a> after you received the results from the Gini API and it
+didn't include the required extractions.</p>
+<h2>Component API</h2>
+<p>To use the Component API you have to include the <a href="-no-results-fragment-standard/index.html">net.gini.android.vision.noresults.NoResultsFragmentStandard</a> or the
+<a href="-no-results-fragment-compat/index.html">net.gini.android.vision.noresults.NoResultsFragmentCompat</a> in an Activity in your app (a dedicated Activity is recommended). To receive
+events from the Fragments your Activity must implement the <a href="-no-results-fragment-listener/index.html">net.gini.android.vision.noresults.NoResultsFragmentListener</a> interface.</p>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-no-results-activity/index.html">NoResultsActivity</a></h4>
+</td>
+<td>
+<p>Screen API </p>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">NoResultsActivity</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">AppCompatActivity</span><span class="symbol">, </span><a href="-no-results-fragment-listener/index.html"><span class="identifier">NoResultsFragmentListener</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-no-results-fragment-compat/index.html">NoResultsFragmentCompat</a></h4>
+</td>
+<td>
+<p>Component API </p>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">NoResultsFragmentCompat</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Fragment</span><span class="symbol">, </span><span class="identifier">FragmentImplCallback</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-no-results-fragment-listener/index.html">NoResultsFragmentListener</a></h4>
+</td>
+<td>
+<p> Interface used by <code><a href="-no-results-fragment-standard/index.html">NoResultsFragmentStandard</a></code> and <code><a href="-no-results-fragment-compat/index.html">NoResultsFragmentCompat</a></code> to dispatch events to the hosting Activity. </p>
+<code><span class="keyword">interface </span><span class="identifier">NoResultsFragmentListener</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-no-results-fragment-standard/index.html">NoResultsFragmentStandard</a></h4>
+</td>
+<td>
+<p>Component API </p>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">NoResultsFragmentStandard</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/app/Fragment.html"><span class="identifier">Fragment</span></a><span class="symbol">, </span><span class="identifier">FragmentImplCallback</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

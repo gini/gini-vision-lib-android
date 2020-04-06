@@ -1,0 +1,56 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>FileImportActivity.<init> - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision.help</a>&nbsp;/&nbsp;<a href="index.html">FileImportActivity</a>&nbsp;/&nbsp;<a href="./-init-.html">&lt;init&gt;</a><br/>
+<br/>
+<h1>&lt;init&gt;</h1>
+<a name="net.gini.android.vision.help.FileImportActivity$&lt;init&gt;()"></a>
+<code><span class="identifier">FileImportActivity</span><span class="symbol">(</span><span class="symbol">)</span></code>
+<p>Screen API and Component API </p>
+<p> On the File Import Screen users can get information about how import files from other apps via "open with". </p>
+ 
+<p> This Activity is launched by the <code><a href="../-help-activity/index.html">HelpActivity</a></code> for both Screen and Component APIs. </p>
+ 
+<p> <strong>Important:</strong> The File Import Screen is only shown only if file import was enabled with the <code><a href="../../net.gini.android.vision/-gini-vision-feature-configuration/index.html">GiniVisionFeatureConfiguration</a></code>. </p>
+ 
+<p> The contents of this screen need to be customized to insert your App's name or label for the "open with" functionality into the texts and illustrations. </p>
+ Customizing the File Import Screen 
+<p> Customizing the look of the File Import Screen is done via overriding of app resources. </p>
+ 
+<p> The following items are customizable: </p>
+<ul> <li> <strong>Background color:</strong> via the color resource named <code>gv_file_import_activity_background</code>. </li>
+ <li> <strong>Header text:</strong> via overriding the string resource named <code>gv_file_import_header</code> </li>
+ <li> <strong>Header text style:</strong> via overriding the style named <code>GiniVisionTheme.Help.FileImport.Header.TextStyle</code> </li>
+ <li> <strong>Separator line color:</strong> via the color resource named <code>gv_file_import_separator</code> </li>
+ <li> <strong>Section numbers' background circle color:</strong> via the color resource named <code>gv_file_import_section_number_background</code> </li>
+ <li> <strong>Section numbers' text color:</strong> via the color resource named <code>gv_file_import_section_number</code> </li>
+ <li> <strong>Section title text style:</strong> via overriding the style named <code>GiniVisionTheme.Help.FileImport.Section.Title.TextStyle</code> </li>
+ <li> <strong>Section body text style:</strong> via overriding the style named <code>GiniVisionTheme.Help.FileImport.Section.Body.TextStyle</code> </li>
+ <li> <strong>Section 1 title:</strong> via overriding the string resource named <code>gv_file_import_section_1_title</code> </li>
+ <li> <strong>Section 1 body:</strong> via overriding the string resource named <code>gv_file_import_section_1_body</code> </li>
+ <li> <strong>Section 1 illustration image:</strong> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code>gv_file_import_section_1_illustration.png</code>. For creating your custom illustration you may use <a href="https://github.com/gini/gini-vision-lib-assets/blob/master/Gini-Vision-Lib-Design-Elements/Illustrations/PDF/android_pdf_open_with_illustration_1.pdf">this template</a> from the <a href="https://github.com/gini/gini-vision-lib-assets">Gini Vision Library UI Assets</a> repository. </li>
+ <li> <strong>Section 2 title:</strong> via overriding the string resource named <code>gv_file_import_section_2_title</code> </li>
+ <li> <strong>Section 2 body:</strong> via overriding the string resource named <code>gv_file_import_section_2_body</code> </li>
+ <li> <strong>Section 2 illustration image:</strong> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code>gv_file_import_section_2_illustration.png</code>. For creating your custom illustration you may use <a href="https://github.com/gini/gini-vision-lib-assets/blob/master/Gini-Vision-Lib-Design-Elements/Illustrations/PDF/android_pdf_open_with_illustration_2.pdf">this template</a> from the <a href="https://github.com/gini/gini-vision-lib-assets">Gini Vision Library UI Assets</a> repository. </li>
+ <li> <strong>Section 3 title:</strong> via overriding the string resource named <code>gv_file_import_section_3_title</code> </li>
+ <li> <strong>Section 3 body:</strong> via overriding the string resource named <code>gv_file_import_section_3_body</code> </li>
+ <li> <strong>Section 3 illustration image:</strong> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code>gv_file_import_section_3_illustration.png</code> </li>
+ </ul>
+  
+<p> <strong>Important:</strong> All overriden styles must have their respective <code>Root.</code> prefixed style as their parent. Ex.: the parent of <code>GiniVisionTheme.Onboarding.Message.TextStyle</code> must be <code>Root.GiniVisionTheme.Onboarding.Message.TextStyle</code>. </p>
+ Customizing the Action Bar 
+<p> Customizing the Action Bar is done via overriding of app resources and each one - except the title string resource - is global to all Activities (<code><a href="../../net.gini.android.vision.camera/-camera-activity/index.html">CameraActivity</a></code>, , <code><a href="../-help-activity/index.html">HelpActivity</a></code>, <code><a href="../../net.gini.android.vision.review/-review-activity/index.html">ReviewActivity</a></code>, <code><a href="../../net.gini.android.vision.analysis/-analysis-activity/index.html">AnalysisActivity</a></code>). </p>
+ 
+<p> The following items are customizable: </p>
+<ul> <li> <strong>Background color:</strong> via the color resource named <code>gv_action_bar</code> (highly recommended for Android 5+: customize the status bar color via <code>gv_status_bar</code>) </li>
+ <li> <strong>Title:</strong> via the string resource name <code>gv_title_file_import</code> </li>
+ <li> <strong>Title color:</strong> via the color resource named <code>gv_action_bar_title</code> </li>
+ <li> <strong>Back button:</strong> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code>gv_action_bar_back</code> </li>
+ </ul>
+ 
+</BODY>
+</HTML>

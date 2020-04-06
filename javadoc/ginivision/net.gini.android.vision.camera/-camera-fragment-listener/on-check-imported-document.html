@@ -1,0 +1,24 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>CameraFragmentListener.onCheckImportedDocument - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision.camera</a>&nbsp;/&nbsp;<a href="index.html">CameraFragmentListener</a>&nbsp;/&nbsp;<a href="./on-check-imported-document.html">onCheckImportedDocument</a><br/>
+<br/>
+<h1>onCheckImportedDocument</h1>
+<a name="net.gini.android.vision.camera.CameraFragmentListener$onCheckImportedDocument(net.gini.android.vision.Document, net.gini.android.vision.camera.CameraFragmentListener.DocumentCheckResultCallback)"></a>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">onCheckImportedDocument</span><span class="symbol">(</span><span class="identifier">@NonNull</span> <span class="identifier" id="net.gini.android.vision.camera.CameraFragmentListener$onCheckImportedDocument(net.gini.android.vision.Document, net.gini.android.vision.camera.CameraFragmentListener.DocumentCheckResultCallback)/document">document</span><span class="symbol">:</span>&nbsp;<a href="../../net.gini.android.vision/-document/index.html"><span class="identifier">Document</span></a><span class="symbol">, </span><span class="identifier">@NonNull</span> <span class="identifier" id="net.gini.android.vision.camera.CameraFragmentListener$onCheckImportedDocument(net.gini.android.vision.Document, net.gini.android.vision.camera.CameraFragmentListener.DocumentCheckResultCallback)/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="identifier">DocumentCheckResultCallback</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p> This method is invoked for imported documents to allow custom validations. </p>
+ 
+<p> Invoke one of the <code><a href="-document-check-result-callback/index.html">DocumentCheckResultCallback</a></code> methods on the main thread to inform the Gini Vision Library about the result. </p>
+ 
+<p> <strong>Note:</strong> The Gini Vision Library will wait until one of the <code><a href="-document-check-result-callback/index.html">DocumentCheckResultCallback</a></code> methods are invoked. </p>
+<h3>Parameters</h3>
+<p><a name="document"></a>
+<code>document</code> - <a href="../../net.gini.android.vision/-document/index.html"><span class="identifier">Document</span></a><span class="symbol">:</span> a <code><a href="../../net.gini.android.vision/-document/index.html">Document</a></code> created from the file the user picked</p>
+<p><a name="callback"></a>
+<code>callback</code> - <span class="identifier">DocumentCheckResultCallback</span><span class="symbol">:</span> use this callback to inform the Gini Vision Library about the result of the custom checks</p>
+</BODY>
+</HTML>

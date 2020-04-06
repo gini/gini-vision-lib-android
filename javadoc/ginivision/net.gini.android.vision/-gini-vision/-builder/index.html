@@ -1,0 +1,160 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>GiniVision.Builder - ginivision</title>
+<link rel="stylesheet" href="../../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../../index.html">net.gini.android.vision</a>&nbsp;/&nbsp;<a href="../index.html">GiniVision</a>&nbsp;/&nbsp;<a href="./index.html">Builder</a><br/>
+<br/>
+<h1>Builder</h1>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">Builder</span></code>
+<p>Builder for <code><a href="../index.html">GiniVision</a></code>. To get an instance call <code><a href="../new-instance.html">#newInstance()</a></code>.</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-init-.html">&lt;init&gt;</a></h4>
+</td>
+<td>
+<p>Builder for <code><a href="../index.html">GiniVision</a></code>. To get an instance call <code><a href="../new-instance.html">#newInstance()</a></code>.</p>
+<code><span class="identifier">Builder</span><span class="symbol">(</span><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="build.html">build</a></h4>
+</td>
+<td>
+<p>Create a new <code><a href="../index.html">GiniVision</a></code> instance.</p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">build</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-back-buttons-enabled.html">setBackButtonsEnabled</a></h4>
+</td>
+<td>
+<p>Screen API only </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setBackButtonsEnabled</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.GiniVision.Builder$setBackButtonsEnabled(kotlin.Boolean)/enabled">enabled</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span><span class="symbol">!</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-custom-onboarding-pages.html">setCustomOnboardingPages</a></h4>
+</td>
+<td>
+<p>Set custom pages to be shown in the Onboarding Screen.</p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setCustomOnboardingPages</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.GiniVision.Builder$setCustomOnboardingPages(java.util.ArrayList((net.gini.android.vision.onboarding.OnboardingPage)))/onboardingPages">onboardingPages</span><span class="symbol">:</span>&nbsp;<a href="https://docs.oracle.com/javase/6/docs/api/java/util/ArrayList.html"><span class="identifier">ArrayList</span></a><span class="symbol">&lt;</span><a href="../../../net.gini.android.vision.onboarding/-onboarding-page/index.html"><span class="identifier">OnboardingPage</span></a><span class="symbol">!</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-document-import-enabled-file-types.html">setDocumentImportEnabledFileTypes</a></h4>
+</td>
+<td>
+<p>Enable and configure the document import feature or disable it by passing in <code><a href="../../-document-import-enabled-file-types/index.html"> </a></code>. </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setDocumentImportEnabledFileTypes</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.GiniVision.Builder$setDocumentImportEnabledFileTypes(net.gini.android.vision.DocumentImportEnabledFileTypes)/documentImportEnabledFileTypes">documentImportEnabledFileTypes</span><span class="symbol">:</span>&nbsp;<a href="../../-document-import-enabled-file-types/index.html"><span class="identifier">DocumentImportEnabledFileTypes</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-event-tracker.html">setEventTracker</a></h4>
+</td>
+<td>
+<p>Set the <code><a href="../../../net.gini.android.vision.tracking/-event-tracker/index.html">EventTracker</a></code> instance which will be called from the different screens to inform you about the various events which can occur during the usage of the Gini Vision Library.</p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setEventTracker</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.GiniVision.Builder$setEventTracker(net.gini.android.vision.tracking.EventTracker)/eventTracker">eventTracker</span><span class="symbol">:</span>&nbsp;<a href="../../../net.gini.android.vision.tracking/-event-tracker/index.html"><span class="identifier">EventTracker</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span><span class="symbol">!</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-file-import-enabled.html">setFileImportEnabled</a></h4>
+</td>
+<td>
+<p>Enable/disable the file import feature. </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setFileImportEnabled</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.GiniVision.Builder$setFileImportEnabled(kotlin.Boolean)/fileImportEnabled">fileImportEnabled</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-flash-button-enabled.html">setFlashButtonEnabled</a></h4>
+</td>
+<td>
+<p>Enable/disable the flash button in the Camera Screen. </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setFlashButtonEnabled</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.GiniVision.Builder$setFlashButtonEnabled(kotlin.Boolean)/enabled">enabled</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span><span class="symbol">!</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-flash-on-by-default.html">setFlashOnByDefault</a></h4>
+</td>
+<td>
+<p>Set whether the camera flash is on or off by default. </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setFlashOnByDefault</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.GiniVision.Builder$setFlashOnByDefault(kotlin.Boolean)/flashOn">flashOn</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span><span class="symbol">!</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-gini-vision-network-api.html">setGiniVisionNetworkApi</a></h4>
+</td>
+<td>
+<p>Set the <code><a href="../../../net.gini.android.vision.network/-gini-vision-network-api/index.html">GiniVisionNetworkApi</a></code> instance which clients can use to request network calls (e.g. for sending feedback).</p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setGiniVisionNetworkApi</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.GiniVision.Builder$setGiniVisionNetworkApi(net.gini.android.vision.network.GiniVisionNetworkApi)/giniVisionNetworkApi">giniVisionNetworkApi</span><span class="symbol">:</span>&nbsp;<a href="../../../net.gini.android.vision.network/-gini-vision-network-api/index.html"><span class="identifier">GiniVisionNetworkApi</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-gini-vision-network-service.html">setGiniVisionNetworkService</a></h4>
+</td>
+<td>
+<p>Set the <code><a href="../../../net.gini.android.vision.network/-gini-vision-network-service/index.html">GiniVisionNetworkService</a></code> instance which will be used by the library to request document related network calls (e.g. upload, analysis or deletion).</p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setGiniVisionNetworkService</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.GiniVision.Builder$setGiniVisionNetworkService(net.gini.android.vision.network.GiniVisionNetworkService)/giniVisionNetworkService">giniVisionNetworkService</span><span class="symbol">:</span>&nbsp;<a href="../../../net.gini.android.vision.network/-gini-vision-network-service/index.html"><span class="identifier">GiniVisionNetworkService</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-multi-page-enabled.html">setMultiPageEnabled</a></h4>
+</td>
+<td>
+<p>Enable/disable the multi-page feature. </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setMultiPageEnabled</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.GiniVision.Builder$setMultiPageEnabled(kotlin.Boolean)/multiPageEnabled">multiPageEnabled</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span><span class="symbol">!</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-q-r-code-scanning-enabled.html">setQRCodeScanningEnabled</a></h4>
+</td>
+<td>
+<p>Enable/disable the QRCode scanning feature. </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setQRCodeScanningEnabled</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.GiniVision.Builder$setQRCodeScanningEnabled(kotlin.Boolean)/qrCodeScanningEnabled">qrCodeScanningEnabled</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-return-assistant-enabled.html">setReturnAssistantEnabled</a></h4>
+</td>
+<td>
+<p>Enable/disable the return assistant feature. </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setReturnAssistantEnabled</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.GiniVision.Builder$setReturnAssistantEnabled(kotlin.Boolean)/enabled">enabled</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span><span class="symbol">!</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-should-show-onboarding.html">setShouldShowOnboarding</a></h4>
+</td>
+<td>
+<p>Screen API only </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setShouldShowOnboarding</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.GiniVision.Builder$setShouldShowOnboarding(kotlin.Boolean)/shouldShowOnboarding">shouldShowOnboarding</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-should-show-onboarding-at-first-run.html">setShouldShowOnboardingAtFirstRun</a></h4>
+</td>
+<td>
+<p>Screen API only </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setShouldShowOnboardingAtFirstRun</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.GiniVision.Builder$setShouldShowOnboardingAtFirstRun(kotlin.Boolean)/shouldShowOnboardingAtFirstRun">shouldShowOnboardingAtFirstRun</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-supported-formats-help-screen-enabled.html">setSupportedFormatsHelpScreenEnabled</a></h4>
+</td>
+<td>
+<p>Enable/disable the Supported Formats help screen. </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setSupportedFormatsHelpScreenEnabled</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.GiniVision.Builder$setSupportedFormatsHelpScreenEnabled(kotlin.Boolean)/enabled">enabled</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span><span class="symbol">!</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

@@ -1,0 +1,92 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>CameraFragmentListener - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision.camera</a>&nbsp;/&nbsp;<a href="./index.html">CameraFragmentListener</a><br/>
+<br/>
+<h1>CameraFragmentListener</h1>
+<code><span class="keyword">interface </span><span class="identifier">CameraFragmentListener</span></code>
+<p> Interface used by <code><a href="../-camera-fragment-standard/index.html">CameraFragmentStandard</a></code> and <code><a href="../-camera-fragment-compat/index.html">CameraFragmentCompat</a></code> to dispatch events to the hosting Activity. </p>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-document-check-result-callback/index.html">DocumentCheckResultCallback</a></h4>
+</td>
+<td>
+<p> Callback to inform the Gini Vision Library about the outcome of the custom imported document checks. </p>
+<code><span class="keyword">interface </span><span class="identifier">DocumentCheckResultCallback</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="on-check-imported-document.html">onCheckImportedDocument</a></h4>
+</td>
+<td>
+<p> This method is invoked for imported documents to allow custom validations. </p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">onCheckImportedDocument</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.camera.CameraFragmentListener$onCheckImportedDocument(net.gini.android.vision.Document, net.gini.android.vision.camera.CameraFragmentListener.DocumentCheckResultCallback)/document">document</span><span class="symbol">:</span>&nbsp;<a href="../../net.gini.android.vision/-document/index.html"><span class="identifier">Document</span></a><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.camera.CameraFragmentListener$onCheckImportedDocument(net.gini.android.vision.Document, net.gini.android.vision.camera.CameraFragmentListener.DocumentCheckResultCallback)/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="identifier">DocumentCheckResultCallback</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-document-available.html">onDocumentAvailable</a></h4>
+</td>
+<td>
+<p> Called when the user has taken an image with the camera or has imported a document that passed the Gini Vision Library's validation and any custom checks that were implemented. </p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">onDocumentAvailable</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.camera.CameraFragmentListener$onDocumentAvailable(net.gini.android.vision.Document)/document">document</span><span class="symbol">:</span>&nbsp;<a href="../../net.gini.android.vision/-document/index.html"><span class="identifier">Document</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-error.html">onError</a></h4>
+</td>
+<td>
+<p> Called when an error occurred. </p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">onError</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.camera.CameraFragmentListener$onError(net.gini.android.vision.GiniVisionError)/error">error</span><span class="symbol">:</span>&nbsp;<a href="../../net.gini.android.vision/-gini-vision-error/index.html"><span class="identifier">GiniVisionError</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-extractions-available.html">onExtractionsAvailable</a></h4>
+</td>
+<td>
+<p>Called after a QRCode was successfully analyzed.</p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">onExtractionsAvailable</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.camera.CameraFragmentListener$onExtractionsAvailable(kotlin.collections.MutableMap((kotlin.String, net.gini.android.vision.network.model.GiniVisionSpecificExtraction)))/extractions">extractions</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-map/index.html"><span class="identifier">MutableMap</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">!</span><span class="symbol">,</span>&nbsp;<a href="../../net.gini.android.vision.network.model/-gini-vision-specific-extraction/index.html"><span class="identifier">GiniVisionSpecificExtraction</span></a><span class="symbol">!</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-proceed-to-multi-page-review-screen.html">onProceedToMultiPageReviewScreen</a></h4>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">onProceedToMultiPageReviewScreen</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.camera.CameraFragmentListener$onProceedToMultiPageReviewScreen(net.gini.android.vision.document.GiniVisionMultiPageDocument((net.gini.android.vision.document.GiniVisionDocument, net.gini.android.vision.document.GiniVisionDocumentError)))/multiPageDocument">multiPageDocument</span><span class="symbol">:</span>&nbsp;<a href="../../net.gini.android.vision.document/-gini-vision-multi-page-document/index.html"><span class="identifier">GiniVisionMultiPageDocument</span></a><span class="symbol">&lt;</span><a href="../../net.gini.android.vision.document/-gini-vision-document/index.html"><span class="identifier">GiniVisionDocument</span></a><span class="symbol">!</span><span class="symbol">,</span>&nbsp;<a href="../../net.gini.android.vision.document/-gini-vision-document-error/index.html"><span class="identifier">GiniVisionDocumentError</span></a><span class="symbol">!</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-q-r-code-available.html">onQRCodeAvailable</a></h4>
+</td>
+<td>
+<p> Called when the user clicked the QR Code detected popup. You should upload the <code><a href="../../net.gini.android.vision.document/-q-r-code-document/index.html">QRCodeDocument</a></code>'s data to the Gini API to get the extractions, close the Gini Vision Library and continue to your app's transfer form. </p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><s><span class="identifier">onQRCodeAvailable</span></s><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.camera.CameraFragmentListener$onQRCodeAvailable(net.gini.android.vision.document.QRCodeDocument)/qrCodeDocument">qrCodeDocument</span><span class="symbol">:</span>&nbsp;<a href="../../net.gini.android.vision.document/-q-r-code-document/index.html"><span class="identifier">QRCodeDocument</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="../-camera-activity/index.html">CameraActivity</a></h4>
+</td>
+<td>
+<p>Screen API </p>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">CameraActivity</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">AppCompatActivity</span><span class="symbol">, </span><a href="./index.html"><span class="identifier">CameraFragmentListener</span></a><span class="symbol">, </span><a href="../-camera-fragment-interface/index.html"><span class="identifier">CameraFragmentInterface</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

@@ -1,0 +1,56 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>DigitalInvoiceFragmentInterface - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision.digitalinvoice</a>&nbsp;/&nbsp;<a href="./index.html">DigitalInvoiceFragmentInterface</a><br/>
+<br/>
+<h1>DigitalInvoiceFragmentInterface</h1>
+<code><span class="keyword">interface </span><span class="identifier">DigitalInvoiceFragmentInterface</span></code>
+<p>Public API of the <a href="../-digital-invoice-fragment/index.html">DigitalInvoiceFragment</a>.</p>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="listener.html">listener</a></h4>
+</td>
+<td>
+<p>Set a listener for digital invoice events.</p>
+<code><span class="keyword">abstract</span> <span class="keyword">var </span><span class="identifier">listener</span><span class="symbol">: </span><a href="../-digital-invoice-fragment-listener/index.html"><span class="identifier">DigitalInvoiceFragmentListener</span></a><span class="symbol">?</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="update-line-item.html">updateLineItem</a></h4>
+</td>
+<td>
+<p>Call this method when the modified selectable line item was returned by the
+<a href="../../net.gini.android.vision.digitalinvoice.details/-line-item-details-fragment-listener/on-save.html">LineItemDetailsFragmentListener.onSave</a> method.</p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">updateLineItem</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.digitalinvoice.DigitalInvoiceFragmentInterface$updateLineItem(net.gini.android.vision.digitalinvoice.SelectableLineItem)/selectableLineItem">selectableLineItem</span><span class="symbol">:</span>&nbsp;<a href="../-selectable-line-item/index.html"><span class="identifier">SelectableLineItem</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="../-digital-invoice-fragment/index.html">DigitalInvoiceFragment</a></h4>
+</td>
+<td>
+<p>When you use the Component API the <code>DigitalInvoiceFragment</code> displays the line items extracted from an invoice document and their total
+price. The user can deselect line items which should not be paid for and also edit the quantity, price or description of each line item. The
+total price is always updated to include only the selected line items.</p>
+<code><span class="keyword">class </span><span class="identifier">DigitalInvoiceFragment</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Fragment</span><span class="symbol">, </span><span class="identifier">View</span><span class="symbol">, </span><a href="./index.html"><span class="identifier">DigitalInvoiceFragmentInterface</span></a><span class="symbol">, </span><span class="identifier">LineItemsAdapterListener</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

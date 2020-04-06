@@ -1,0 +1,32 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>GiniVisionFileImport.createDocumentForImportedFile - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision</a>&nbsp;/&nbsp;<a href="index.html">GiniVisionFileImport</a>&nbsp;/&nbsp;<a href="./create-document-for-imported-file.html">createDocumentForImportedFile</a><br/>
+<br/>
+<h1>createDocumentForImportedFile</h1>
+<a name="net.gini.android.vision.GiniVisionFileImport$createDocumentForImportedFile(android.content.Intent, android.content.Context)"></a>
+<code><span class="identifier">@NonNull</span> <span class="keyword">static</span> <span class="keyword">fun </span><s><span class="identifier">createDocumentForImportedFile</span></s><span class="symbol">(</span><span class="identifier">@NonNull</span> <span class="identifier" id="net.gini.android.vision.GiniVisionFileImport$createDocumentForImportedFile(android.content.Intent, android.content.Context)/intent">intent</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Intent.html"><span class="identifier">Intent</span></a><span class="symbol">, </span><span class="identifier">@NonNull</span> <span class="identifier" id="net.gini.android.vision.GiniVisionFileImport$createDocumentForImportedFile(android.content.Intent, android.content.Context)/context">context</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Context.html"><span class="identifier">Context</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../-document/index.html"><span class="identifier">Document</span></a></code><br/>
+<strong>Deprecated:</strong> Deprecated in Java<br/>
+<br/>
+<p>Component API </p>
+<p> When your application receives a file from another application you can use this method to create a Document for launching one of the Gini Vision Library's Review Fragments or Analysis Fragments. </p>
+<p> If the Document can be reviewed (<code><a href="../-document/is-reviewable.html">Document#isReviewable()</a></code>) launch one of the Review Fragments (<code><a href="../../net.gini.android.vision.review/-review-fragment-compat/index.html">net.gini.android.vision.review.ReviewFragmentCompat</a></code> or ). </p>
+<p> If the Document cannot be reviewed you must launch one of the Analysis Fragments ( or ).</p>
+<h3>Parameters</h3>
+<p><a name="intent"></a>
+<code>intent</code> - <a href="https://developer.android.com/reference/android/content/Intent.html"><span class="identifier">Intent</span></a><span class="symbol">:</span> the Intent your app received</p>
+<p><a name="context"></a>
+<code>context</code> - <a href="https://developer.android.com/reference/android/content/Context.html"><span class="identifier">Context</span></a><span class="symbol">:</span> Android context</p>
+<h3>Exceptions</h3>
+<p><a name="ImportedFileValidationException"></a>
+<code>ImportedFileValidationException</code> - if the file didn't pass validation</p>
+<p><strong>Return</strong><br/>
+<a href="../-document/index.html"><span class="identifier">Document</span></a><span class="symbol">:</span> a Document for launching one of the Gini Vision Library's Review Fragments or Analysis Fragments</p>
+<p><strong>Deprecated</strong><br/>
+Use <code><a href="../-gini-vision/create-document-for-imported-file.html">GiniVision#createDocumentForImportedFile(Intent, Context)</a></code> instead.</p>
+</BODY>
+</HTML>

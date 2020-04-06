@@ -1,0 +1,81 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>GiniVisionSpecificExtraction - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision.network.model</a>&nbsp;/&nbsp;<a href="./index.html">GiniVisionSpecificExtraction</a><br/>
+<br/>
+<h1>GiniVisionSpecificExtraction</h1>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">GiniVisionSpecificExtraction</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-gini-vision-extraction/index.html"><span class="identifier">GiniVisionExtraction</span></a></code>
+<p>Contains a Gini API <a href="http://developer.gini.net/gini-api/html/document_extractions.html#specific-extractions">specific extraction</a>. </p>
+<p> A specific extraction assings a semantic property to an extraction and it may contain a list of extraction candidates. </p>
+<p> The <a href="http://developer.gini.net/gini-api/html/document_extractions.html#available-extraction-candidates">extraction candidates</a> are other suggestions for this specific extraction (e.g. all amounts on the document). Candidates are of the same entity as the found extraction.</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-init-.html">&lt;init&gt;</a></h4>
+</td>
+<td>
+<p>Value object for a specific extraction from the Gini API.</p>
+<code><span class="identifier">GiniVisionSpecificExtraction</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.network.model.GiniVisionSpecificExtraction$<init>(kotlin.String, kotlin.String, kotlin.String, net.gini.android.vision.network.model.GiniVisionBox, kotlin.collections.MutableList((net.gini.android.vision.network.model.GiniVisionExtraction)))/name">name</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.network.model.GiniVisionSpecificExtraction$<init>(kotlin.String, kotlin.String, kotlin.String, net.gini.android.vision.network.model.GiniVisionBox, kotlin.collections.MutableList((net.gini.android.vision.network.model.GiniVisionExtraction)))/value">value</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.network.model.GiniVisionSpecificExtraction$<init>(kotlin.String, kotlin.String, kotlin.String, net.gini.android.vision.network.model.GiniVisionBox, kotlin.collections.MutableList((net.gini.android.vision.network.model.GiniVisionExtraction)))/entity">entity</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.network.model.GiniVisionSpecificExtraction$<init>(kotlin.String, kotlin.String, kotlin.String, net.gini.android.vision.network.model.GiniVisionBox, kotlin.collections.MutableList((net.gini.android.vision.network.model.GiniVisionExtraction)))/box">box</span><span class="symbol">:</span>&nbsp;<a href="../-gini-vision-box/index.html"><span class="identifier">GiniVisionBox</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.network.model.GiniVisionSpecificExtraction$<init>(kotlin.String, kotlin.String, kotlin.String, net.gini.android.vision.network.model.GiniVisionBox, kotlin.collections.MutableList((net.gini.android.vision.network.model.GiniVisionExtraction)))/candidates">candidates</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html"><span class="identifier">MutableList</span></a><span class="symbol">&lt;</span><a href="../-gini-vision-extraction/index.html"><span class="identifier">GiniVisionExtraction</span></a><span class="symbol">!</span><span class="symbol">&gt;</span><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-c-r-e-a-t-o-r.html">CREATOR</a></h4>
+</td>
+<td>
+<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">CREATOR</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/os/Parcelable/Creator.html"><span class="identifier">Creator</span></a><span class="symbol">&lt;</span><a href="./index.html"><span class="identifier">GiniVisionSpecificExtraction</span></a><span class="symbol">!</span><span class="symbol">&gt;</span><span class="symbol">!</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="describe-contents.html">describeContents</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">describeContents</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-candidates.html">getCandidates</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">getCandidates</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html"><span class="identifier">MutableList</span></a><span class="symbol">&lt;</span><a href="../-gini-vision-extraction/index.html"><span class="identifier">GiniVisionExtraction</span></a><span class="symbol">!</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-name.html">getName</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">getName</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="to-string.html">toString</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">toString</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="write-to-parcel.html">writeToParcel</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">writeToParcel</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.network.model.GiniVisionSpecificExtraction$writeToParcel(android.os.Parcel, kotlin.Int)/dest">dest</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Parcel.html"><span class="identifier">Parcel</span></a><span class="symbol">!</span><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.network.model.GiniVisionSpecificExtraction$writeToParcel(android.os.Parcel, kotlin.Int)/flags">flags</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

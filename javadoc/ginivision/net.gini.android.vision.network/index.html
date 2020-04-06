@@ -1,0 +1,72 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>net.gini.android.vision.network - ginivision</title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">ginivision</a>&nbsp;/&nbsp;<a href="./index.html">net.gini.android.vision.network</a><br/>
+<br/>
+<h2>Package net.gini.android.vision.network</h2>
+<p>Contains interfaces and classes for adding networking calls to the Gini Vision Library in order to communicate with the Gini API.</p>
+<p>The Gini Vision Library uses the <a href="-gini-vision-network-service/index.html">net.gini.android.vision.network.GiniVisionNetworkService</a> interface to request network calls when
+required. By implementing the interface and passing it to the <a href="../net.gini.android.vision/-gini-vision/-builder/set-gini-vision-network-service.html">net.gini.android.vision.GiniVision.Builder.setGiniVisionNetworkService</a>
+when creating the <a href="../net.gini.android.vision/-gini-vision/index.html">net.gini.android.vision.GiniVision</a> instance clients are free to use any networking implementation that fits their needs.</p>
+<p>The <a href="-gini-vision-network-api/index.html">net.gini.android.vision.network.GiniVisionNetworkApi</a> can be implemented and used to perform network calls manually outside of the Gini
+Vision Library (e.g. for sending feedback).</p>
+<p>The easiest way to get started is to use the Gini Vision Network Library package which provides a default implementation of both interfaces.</p>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-analysis-result/index.html">AnalysisResult</a></h4>
+</td>
+<td>
+<p>Used by the <code><a href="-gini-vision-network-service/index.html">GiniVisionNetworkService</a></code> to return analysis results.</p>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">AnalysisResult</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-result/index.html"><span class="identifier">Result</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-error/index.html">Error</a></h4>
+</td>
+<td>
+<p>Used by the <code><a href="-gini-vision-network-service/index.html">GiniVisionNetworkService</a></code> and <code><a href="-gini-vision-network-api/index.html">GiniVisionNetworkApi</a></code> to return error messages.</p>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">Error</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-gini-vision-network-api/index.html">GiniVisionNetworkApi</a></h4>
+</td>
+<td>
+<p>Interface specifying network calls which can be performed manually from outside the Gini Vision Library (e.g. for sending feedback). * </p>
+<code><span class="keyword">interface </span><span class="identifier">GiniVisionNetworkApi</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-gini-vision-network-callback/index.html">GiniVisionNetworkCallback</a></h4>
+</td>
+<td>
+<p>Used by the <code><a href="-gini-vision-network-service/index.html">GiniVisionNetworkService</a></code> and <code><a href="-gini-vision-network-api/index.html">GiniVisionNetworkApi</a></code> to return the outcome of network calls.</p>
+<code><span class="keyword">interface </span><span class="identifier">GiniVisionNetworkCallback</span><span class="symbol">&lt;</span><span class="identifier">R</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">!</span><span class="symbol">, </span><span class="identifier">E</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">!</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-gini-vision-network-service/index.html">GiniVisionNetworkService</a></h4>
+</td>
+<td>
+<p>Interface specifying network related tasks required by the Gini Vision Library in order to communicate with the Gini API. </p>
+<code><span class="keyword">interface </span><span class="identifier">GiniVisionNetworkService</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-result/index.html">Result</a></h4>
+</td>
+<td>
+<p>Used by the <code><a href="-gini-vision-network-service/index.html">GiniVisionNetworkService</a></code> to return network call results.</p>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">Result</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

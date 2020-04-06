@@ -1,0 +1,79 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>AnalysisFragmentListener - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision.analysis</a>&nbsp;/&nbsp;<a href="./index.html">AnalysisFragmentListener</a><br/>
+<br/>
+<h1>AnalysisFragmentListener</h1>
+<code><span class="keyword">interface </span><span class="identifier">AnalysisFragmentListener</span></code>
+<p> Interface used by <code><a href="../-analysis-fragment-standard/index.html">AnalysisFragmentStandard</a></code> and <code><a href="../-analysis-fragment-compat/index.html">AnalysisFragmentCompat</a></code> to dispatch events to the hosting Activity. </p>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="on-analyze-document.html">onAnalyzeDocument</a></h4>
+</td>
+<td>
+<p> Called when the Analyze Document Fragment is started and the document can be analyzed. </p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><s><span class="identifier">onAnalyzeDocument</span></s><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.analysis.AnalysisFragmentListener$onAnalyzeDocument(net.gini.android.vision.Document)/document">document</span><span class="symbol">:</span>&nbsp;<a href="../../net.gini.android.vision/-document/index.html"><span class="identifier">Document</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-default-p-d-f-app-alert-dialog-cancelled.html">onDefaultPDFAppAlertDialogCancelled</a></h4>
+</td>
+<td>
+<p>Called when the default PDF app alert dialog was cancelled. You should close the AnalysisFragment because the user decided not to continue with analysis. </p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">onDefaultPDFAppAlertDialogCancelled</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-error.html">onError</a></h4>
+</td>
+<td>
+<p> Called when an error occurred. </p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">onError</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.analysis.AnalysisFragmentListener$onError(net.gini.android.vision.GiniVisionError)/error">error</span><span class="symbol">:</span>&nbsp;<a href="../../net.gini.android.vision/-gini-vision-error/index.html"><span class="identifier">GiniVisionError</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-extractions-available.html">onExtractionsAvailable</a></h4>
+</td>
+<td>
+<p>Called when the document has been analyzed and extractions are available.</p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">onExtractionsAvailable</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.analysis.AnalysisFragmentListener$onExtractionsAvailable(kotlin.collections.MutableMap((kotlin.String, net.gini.android.vision.network.model.GiniVisionSpecificExtraction)), kotlin.collections.MutableMap((kotlin.String, net.gini.android.vision.network.model.GiniVisionCompoundExtraction)))/extractions">extractions</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-map/index.html"><span class="identifier">MutableMap</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">!</span><span class="symbol">,</span>&nbsp;<a href="../../net.gini.android.vision.network.model/-gini-vision-specific-extraction/index.html"><span class="identifier">GiniVisionSpecificExtraction</span></a><span class="symbol">!</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.analysis.AnalysisFragmentListener$onExtractionsAvailable(kotlin.collections.MutableMap((kotlin.String, net.gini.android.vision.network.model.GiniVisionSpecificExtraction)), kotlin.collections.MutableMap((kotlin.String, net.gini.android.vision.network.model.GiniVisionCompoundExtraction)))/compoundExtractions">compoundExtractions</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-map/index.html"><span class="identifier">MutableMap</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">!</span><span class="symbol">,</span>&nbsp;<a href="../../net.gini.android.vision.network.model/-gini-vision-compound-extraction/index.html"><span class="identifier">GiniVisionCompoundExtraction</span></a><span class="symbol">!</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-proceed-to-no-extractions-screen.html">onProceedToNoExtractionsScreen</a></h4>
+</td>
+<td>
+<p>Called when the document has been analyzed and no extractions were received. </p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">onProceedToNoExtractionsScreen</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.analysis.AnalysisFragmentListener$onProceedToNoExtractionsScreen(net.gini.android.vision.Document)/document">document</span><span class="symbol">:</span>&nbsp;<a href="../../net.gini.android.vision/-document/index.html"><span class="identifier">Document</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-proceed-to-return-assistant.html">onProceedToReturnAssistant</a></h4>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">onProceedToReturnAssistant</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.analysis.AnalysisFragmentListener$onProceedToReturnAssistant(kotlin.collections.MutableMap((kotlin.String, net.gini.android.vision.network.model.GiniVisionSpecificExtraction)), kotlin.collections.MutableMap((kotlin.String, net.gini.android.vision.network.model.GiniVisionCompoundExtraction)))/extractions">extractions</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-map/index.html"><span class="identifier">MutableMap</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">!</span><span class="symbol">,</span>&nbsp;<a href="../../net.gini.android.vision.network.model/-gini-vision-specific-extraction/index.html"><span class="identifier">GiniVisionSpecificExtraction</span></a><span class="symbol">!</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.analysis.AnalysisFragmentListener$onProceedToReturnAssistant(kotlin.collections.MutableMap((kotlin.String, net.gini.android.vision.network.model.GiniVisionSpecificExtraction)), kotlin.collections.MutableMap((kotlin.String, net.gini.android.vision.network.model.GiniVisionCompoundExtraction)))/compoundExtractions">compoundExtractions</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-map/index.html"><span class="identifier">MutableMap</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">!</span><span class="symbol">,</span>&nbsp;<a href="../../net.gini.android.vision.network.model/-gini-vision-compound-extraction/index.html"><span class="identifier">GiniVisionCompoundExtraction</span></a><span class="symbol">!</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="../-analysis-activity/index.html">AnalysisActivity</a></h4>
+</td>
+<td>
+<p>Screen API </p>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">AnalysisActivity</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">AppCompatActivity</span><span class="symbol">, </span><a href="./index.html"><span class="identifier">AnalysisFragmentListener</span></a><span class="symbol">, </span><a href="../-analysis-fragment-interface/index.html"><span class="identifier">AnalysisFragmentInterface</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

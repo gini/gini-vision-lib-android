@@ -1,0 +1,24 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>CameraFragmentListener.onQRCodeAvailable - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision.camera</a>&nbsp;/&nbsp;<a href="index.html">CameraFragmentListener</a>&nbsp;/&nbsp;<a href="./on-q-r-code-available.html">onQRCodeAvailable</a><br/>
+<br/>
+<h1>onQRCodeAvailable</h1>
+<a name="net.gini.android.vision.camera.CameraFragmentListener$onQRCodeAvailable(net.gini.android.vision.document.QRCodeDocument)"></a>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><s><span class="identifier">onQRCodeAvailable</span></s><span class="symbol">(</span><span class="identifier">@NonNull</span> <span class="identifier" id="net.gini.android.vision.camera.CameraFragmentListener$onQRCodeAvailable(net.gini.android.vision.document.QRCodeDocument)/qrCodeDocument">qrCodeDocument</span><span class="symbol">:</span>&nbsp;<a href="../../net.gini.android.vision.document/-q-r-code-document/index.html"><span class="identifier">QRCodeDocument</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code><br/>
+<strong>Deprecated:</strong> Deprecated in Java<br/>
+<br/>
+<p> Called when the user clicked the QR Code detected popup. You should upload the <code><a href="../../net.gini.android.vision.document/-q-r-code-document/index.html">QRCodeDocument</a></code>'s data to the Gini API to get the extractions, close the Gini Vision Library and continue to your app's transfer form. </p>
+ 
+<p> See <code><a href="../../net.gini.android.vision.document/-q-r-code-document/index.html">QRCodeDocument</a></code> for supported formats. </p>
+<h3>Parameters</h3>
+<p><a name="qrCodeDocument"></a>
+<code>qrCodeDocument</code> - <a href="../../net.gini.android.vision.document/-q-r-code-document/index.html"><span class="identifier">QRCodeDocument</span></a><span class="symbol">:</span> contains payment data from a QR Code</p>
+<p><strong>Deprecated</strong><br/>
+When a <code><a href="../../net.gini.android.vision/-gini-vision/index.html">GiniVision</a></code> instance is available the QRCode is analyzed internally by using the configured <code><a href="../../net.gini.android.vision.network/-gini-vision-network-service/index.html">GiniVisionNetworkService</a></code> implementation. The extractions will be returned in <code><a href="on-extractions-available.html">CameraFragmentListener#onExtractionsAvailable(Map)</a></code>.</p>
+</BODY>
+</HTML>

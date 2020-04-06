@@ -1,0 +1,50 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>LineItemDetailsActivity - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision.digitalinvoice.details</a>&nbsp;/&nbsp;<a href="./index.html">LineItemDetailsActivity</a><br/>
+<br/>
+<h1>LineItemDetailsActivity</h1>
+<code><span class="keyword">class </span><span class="identifier">LineItemDetailsActivity</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">AppCompatActivity</span><span class="symbol">, </span><a href="../-line-item-details-fragment-listener/index.html"><span class="identifier">LineItemDetailsFragmentListener</span></a></code>
+<p>When you use the Screen API, the <code>LineItemDetailsActivity</code> displays a line item to be edited by the user. The user can modify the
+following:</p>
+<ul><li>deselect the line item,</li>
+<li>edit the line item description,</li>
+<li>edit the quantity,</li>
+<li>edit the price.</li>
+</ul>
+<p>The extractions returned in the <a href="../../net.gini.android.vision.camera/-camera-activity/-e-x-t-r-a_-o-u-t_-c-o-m-p-o-u-n-d_-e-x-t-r-a-c-t-i-o-n-s.html">CameraActivity.EXTRA_OUT_COMPOUND_EXTRACTIONS</a> are updated to include the user's modifications.</p>
+<p>The <code>LineItemDetailsActivity</code> is started by the <a href="../../net.gini.android.vision.digitalinvoice/-digital-invoice-activity/index.html">DigitalInvoiceActivity</a> when the user taps on a line item to edit it.</p>
+<h3>Customizing the Line Item Details Screen</h3>
+<p>Customizing the look of the Line Item Details Screen is done via overriding of app resources.</p>
+<p>Detailed description of the customization options is available in the
+<a href="http://developer.gini.net/gini-vision-lib-android/html/customization-guide.html#line-item-details-screen">customization guide</a>.</p>
+<p><strong>Important:</strong> All overriden styles must have their respective <code>Root.</code> prefixed style as their parent. Ex.: the parent of
+<code>GiniVisionTheme.Snackbar.Error.TextStyle</code> must be <code>Root.GiniVisionTheme.Snackbar.Error.TextStyle</code>.</p>
+<h3>Customizing the Action Bar</h3>
+<p>Customizing the Action Bar is also done via overriding of app resources and each one - except the title string resource - is global to
+all Activities.</p>
+<p>The following items are customizable:</p>
+<ul><li><strong>Background color:</strong> via the color resource named <code>gv_action_bar</code> (highly recommended for Android 5+: customize the status bar color
+via <code>gv_status_bar</code>)</li>
+<li><strong>Back button:</strong> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named {@code gv_action_bar_back}</li>
+</ul>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-init-.html">&lt;init&gt;</a></h4>
+</td>
+<td>
+<p>When you use the Screen API, the <code>LineItemDetailsActivity</code> displays a line item to be edited by the user. The user can modify the
+following:</p>
+<code><span class="identifier">LineItemDetailsActivity</span><span class="symbol">(</span><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

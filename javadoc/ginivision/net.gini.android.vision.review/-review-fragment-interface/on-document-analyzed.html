@@ -1,0 +1,22 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>ReviewFragmentInterface.onDocumentAnalyzed - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision.review</a>&nbsp;/&nbsp;<a href="index.html">ReviewFragmentInterface</a>&nbsp;/&nbsp;<a href="./on-document-analyzed.html">onDocumentAnalyzed</a><br/>
+<br/>
+<h1>onDocumentAnalyzed</h1>
+<a name="net.gini.android.vision.review.ReviewFragmentInterface$onDocumentAnalyzed()"></a>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><s><span class="identifier">onDocumentAnalyzed</span></s><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code><br/>
+<strong>Deprecated:</strong> Deprecated in Java<br/>
+<br/>
+<p>You should call this method after you've received the analysis results from the Gini API. </p>
+<p> This is important for managing the behavior of the Review Document Fragment when the Next button was clicked. </p>
+<p> If the document has already been analyzed and the image wasn't changed when the user tapped the Next button, <code><a href="../-review-fragment-listener/on-document-reviewed-and-analyzed.html">ReviewFragmentListener#onDocumentReviewedAndAnalyzed(Document)</a></code> is called and there is no need to show an <code><a href="../../net.gini.android.vision.analysis/-analysis-activity/index.html">AnalysisActivity</a></code> or or <code><a href="../../net.gini.android.vision.analysis/-analysis-fragment-compat/index.html">AnalysisFragmentCompat</a></code>. </p>
+<p> If the document wasn't analyzed or the image was changed when the user tapped the Next button, <code><a href="../-review-fragment-listener/on-proceed-to-analysis-screen.html">ReviewFragmentListener#onProceedToAnalysisScreen(Document)</a></code> is called.</p>
+<p><strong>Deprecated</strong><br/>
+When a <code><a href="../../net.gini.android.vision/-gini-vision/index.html">GiniVision</a></code> instance is available the document is analyzed internally by using the configured <code><a href="../../net.gini.android.vision.network/-gini-vision-network-service/index.html">GiniVisionNetworkService</a></code> implementation. The extractions will be returned in the Analysis Screen in <code><a href="../../net.gini.android.vision.analysis/-analysis-fragment-listener/on-extractions-available.html">AnalysisFragmentListener#onExtractionsAvailable(Map, Map)</a></code>.</p>
+</BODY>
+</HTML>

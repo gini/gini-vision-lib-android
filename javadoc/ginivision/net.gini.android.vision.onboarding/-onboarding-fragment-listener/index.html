@@ -1,0 +1,48 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>OnboardingFragmentListener - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision.onboarding</a>&nbsp;/&nbsp;<a href="./index.html">OnboardingFragmentListener</a><br/>
+<br/>
+<h1>OnboardingFragmentListener</h1>
+<code><span class="keyword">interface </span><span class="identifier">OnboardingFragmentListener</span></code>
+<p> Interface used by <code><a href="../-onboarding-fragment-standard/index.html">OnboardingFragmentStandard</a></code> and <code><a href="../-onboarding-fragment-compat/index.html">OnboardingFragmentCompat</a></code> to dispatch events to the hosting Activity. </p>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="on-close-onboarding.html">onCloseOnboarding</a></h4>
+</td>
+<td>
+<p> Called when the user has left the last page - either by swiping or tapping on the Next button - and you should close the Onboarding Fragment. </p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">onCloseOnboarding</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-error.html">onError</a></h4>
+</td>
+<td>
+<p> Called when an error occurred. </p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">onError</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.onboarding.OnboardingFragmentListener$onError(net.gini.android.vision.GiniVisionError)/error">error</span><span class="symbol">:</span>&nbsp;<a href="../../net.gini.android.vision/-gini-vision-error/index.html"><span class="identifier">GiniVisionError</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="../-onboarding-activity/index.html">OnboardingActivity</a></h4>
+</td>
+<td>
+<p>Screen API </p>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">OnboardingActivity</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">AppCompatActivity</span><span class="symbol">, </span><a href="./index.html"><span class="identifier">OnboardingFragmentListener</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

@@ -1,0 +1,85 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>DigitalInvoiceFragment - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision.digitalinvoice</a>&nbsp;/&nbsp;<a href="./index.html">DigitalInvoiceFragment</a><br/>
+<br/>
+<h1>DigitalInvoiceFragment</h1>
+<code><span class="keyword">class </span><span class="identifier">DigitalInvoiceFragment</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Fragment</span><span class="symbol">, </span><span class="identifier">View</span><span class="symbol">, </span><a href="../-digital-invoice-fragment-interface/index.html"><span class="identifier">DigitalInvoiceFragmentInterface</span></a><span class="symbol">, </span><span class="identifier">LineItemsAdapterListener</span></code>
+<p>When you use the Component API the <code>DigitalInvoiceFragment</code> displays the line items extracted from an invoice document and their total
+price. The user can deselect line items which should not be paid for and also edit the quantity, price or description of each line item. The
+total price is always updated to include only the selected line items.</p>
+<p>The returned extractions in the <a href="../-digital-invoice-fragment-listener/on-pay-invoice.html">DigitalInvoiceFragmentListener.onPayInvoice</a> are updated to include the user's midifications:</p>
+<ul><li>"amountToPay" is updated to contain the sum of the selected line items' prices,</li>
+<li>the line items are updated according to the user's modifications.</li>
+</ul>
+<p>You should show the <code>DigitalInvoiceFragment</code> when the
+<a href="#">AnalysisFragmentListener.onProceedToReturnAssistant</a> is called.</p>
+<p>Include the <code>DigitalInvoiceFragment</code> into your layout by using the <a href="create-instance.html">DigitalInvoiceFragment.createInstance</a> factory method to create
+an instance and display it using the <a href="#">androidx.fragment.app.FragmentManager</a>.</p>
+<p>A <a href="../-digital-invoice-fragment-listener/index.html">DigitalInvoiceFragmentListener</a> instance must be available before the <code>DigitalInvoiceFragment</code> is attached to an Activity. Failing to
+do so will throw an exception. The listener instance can be provided either implicitly by making the hosting Activity implement the
+<a href="../-digital-invoice-fragment-listener/index.html">DigitalInvoiceFragmentListener</a> interface or explicitly by setting the listener using <a href="listener.html">DigitalInvoiceFragment.listener</a>.</p>
+<p>Your Activity is automatically set as the listener in <a href="#">DigitalInvoiceFragment.onCreate</a>.</p>
+<h3>Customizing the Digital Invoice Screen</h3>
+<p>See the <a href="../-digital-invoice-activity/index.html">DigitalInvoiceActivity</a> for details.</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-init-.html">&lt;init&gt;</a></h4>
+</td>
+<td>
+<p>When you use the Component API the <code>DigitalInvoiceFragment</code> displays the line items extracted from an invoice document and their total
+price. The user can deselect line items which should not be paid for and also edit the quantity, price or description of each line item. The
+total price is always updated to include only the selected line items.</p>
+<code><span class="identifier">DigitalInvoiceFragment</span><span class="symbol">(</span><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="listener.html">listener</a></h4>
+</td>
+<td>
+<p>Set a listener for digital invoice events.</p>
+<code><span class="keyword">var </span><span class="identifier">listener</span><span class="symbol">: </span><a href="../-digital-invoice-fragment-listener/index.html"><span class="identifier">DigitalInvoiceFragmentListener</span></a><span class="symbol">?</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="update-line-item.html">updateLineItem</a></h4>
+</td>
+<td>
+<p>Call this method when the modified selectable line item was returned by the
+<a href="../../net.gini.android.vision.digitalinvoice.details/-line-item-details-fragment-listener/on-save.html">LineItemDetailsFragmentListener.onSave</a> method.</p>
+<code><span class="keyword">fun </span><span class="identifier">updateLineItem</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.digitalinvoice.DigitalInvoiceFragment$updateLineItem(net.gini.android.vision.digitalinvoice.SelectableLineItem)/selectableLineItem">selectableLineItem</span><span class="symbol">:</span>&nbsp;<a href="../-selectable-line-item/index.html"><span class="identifier">SelectableLineItem</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Companion Object Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="create-instance.html">createInstance</a></h4>
+</td>
+<td>
+<p>Factory method for creating a new instance of the <code>DigitalInvoiceFragment</code> using the provided extractions.</p>
+<code><span class="keyword">fun </span><span class="identifier">createInstance</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.digitalinvoice.DigitalInvoiceFragment.Companion$createInstance(kotlin.collections.Map((kotlin.String, net.gini.android.vision.network.model.GiniVisionSpecificExtraction)), kotlin.collections.Map((kotlin.String, net.gini.android.vision.network.model.GiniVisionCompoundExtraction)))/extractions">extractions</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><span class="identifier">Map</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">,</span>&nbsp;<a href="../../net.gini.android.vision.network.model/-gini-vision-specific-extraction/index.html"><span class="identifier">GiniVisionSpecificExtraction</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.digitalinvoice.DigitalInvoiceFragment.Companion$createInstance(kotlin.collections.Map((kotlin.String, net.gini.android.vision.network.model.GiniVisionSpecificExtraction)), kotlin.collections.Map((kotlin.String, net.gini.android.vision.network.model.GiniVisionCompoundExtraction)))/compoundExtractions">compoundExtractions</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><span class="identifier">Map</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">,</span>&nbsp;<a href="../../net.gini.android.vision.network.model/-gini-vision-compound-extraction/index.html"><span class="identifier">GiniVisionCompoundExtraction</span></a><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">DigitalInvoiceFragment</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

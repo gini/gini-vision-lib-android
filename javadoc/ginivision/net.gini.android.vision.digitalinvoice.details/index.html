@@ -1,0 +1,60 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>net.gini.android.vision.digitalinvoice.details - ginivision</title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">ginivision</a>&nbsp;/&nbsp;<a href="./index.html">net.gini.android.vision.digitalinvoice.details</a><br/>
+<br/>
+<h2>Package net.gini.android.vision.digitalinvoice.details</h2>
+<p>Contains the Activity and Fragments used for the return assistant's Line Item Details Screen.</p>
+<h2>Screen API</h2>
+<p>The <a href="-line-item-details-activity/index.html">net.gini.android.vision.digitalinvoice.details.LineItemDetailsActivity</a> is launched by the
+<a href="../net.gini.android.vision.digitalinvoice/-digital-invoice-activity/index.html">net.gini.android.vision.digitalinvoice.DigitalInvoiceActivity</a> when the user tapps on a line item to edit it. It displays the line item and
+allows editing it.</p>
+<h2>Component API</h2>
+<p>To use the Component API you have to include the <a href="-line-item-details-fragment/index.html">net.gini.android.vision.digitalinvoice.details.LineItemDetailsFragment</a> in an Activity in
+your app (a dedicated Activity is recommended). To receive events from the Fragment your Activity must implement the
+<a href="-line-item-details-fragment-listener/index.html">net.gini.android.vision.digitalinvoice.details.LineItemDetailsFragmentListener</a> interface.</p>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-line-item-details-activity/index.html">LineItemDetailsActivity</a></h4>
+</td>
+<td>
+<p>When you use the Screen API, the <code>LineItemDetailsActivity</code> displays a line item to be edited by the user. The user can modify the
+following:</p>
+<code><span class="keyword">class </span><span class="identifier">LineItemDetailsActivity</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">AppCompatActivity</span><span class="symbol">, </span><a href="-line-item-details-fragment-listener/index.html"><span class="identifier">LineItemDetailsFragmentListener</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-line-item-details-fragment/index.html">LineItemDetailsFragment</a></h4>
+</td>
+<td>
+<p>When you use the Component API the <code>LineItemDetailsFragment</code> displays a line item to be edited by the user. The user can modify the
+following:</p>
+<code><span class="keyword">class </span><span class="identifier">LineItemDetailsFragment</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Fragment</span><span class="symbol">, </span><span class="identifier">View</span><span class="symbol">, </span><a href="-line-item-details-fragment-interface/index.html"><span class="identifier">LineItemDetailsFragmentInterface</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-line-item-details-fragment-interface/index.html">LineItemDetailsFragmentInterface</a></h4>
+</td>
+<td>
+<p>Public API of the <a href="-line-item-details-fragment/index.html">LineItemDetailsFragment</a>.</p>
+<code><span class="keyword">interface </span><span class="identifier">LineItemDetailsFragmentInterface</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-line-item-details-fragment-listener/index.html">LineItemDetailsFragmentListener</a></h4>
+</td>
+<td>
+<p>Interface used by the <a href="-line-item-details-fragment/index.html">LineItemDetailsFragment</a> to dispatch events to the hosting Activity.</p>
+<code><span class="keyword">interface </span><span class="identifier">LineItemDetailsFragmentListener</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

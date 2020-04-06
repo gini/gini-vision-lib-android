@@ -1,0 +1,113 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>MultiPageReviewFragment - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision.review.multipage</a>&nbsp;/&nbsp;<a href="./index.html">MultiPageReviewFragment</a><br/>
+<br/>
+<h1>MultiPageReviewFragment</h1>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">MultiPageReviewFragment</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Fragment</span><span class="symbol">, </span><a href="../-multi-page-review-fragment-interface/index.html"><span class="identifier">MultiPageReviewFragmentInterface</span></a><span class="symbol">, </span><span class="identifier">PreviewFragmentListener</span><span class="symbol">, </span><span class="identifier">FragmentImplCallback</span></code>
+<p>Component API </p>
+<p> When you use the Compontent API and have enabled the multi-page feature, the <code>MultiPageReviewFragment</code> displays the photographed or imported images and allows the user to review them by checking the order, sharpness, quality and orientation of the images. The user can correct the order by dragging the thumbnails of the images and can also correct the orientation by rotating the images. </p>
+<p> <strong>Important:</strong> </p>
+<ul> <li> A <code><a href="../../net.gini.android.vision/-gini-vision/index.html">GiniVision</a></code> instance is required to use the <code>MultiPageReviewFragment</code> </li>
+<li> Your Activity hosting this Fragment must extend the <code><a href="#">androidx.appcompat.app.AppCompatActivity</a></code> and use an AppCompat Theme. </li>
+</ul>
+ 
+<p> Include the <code>MultiPageReviewFragment</code> into your layout by using the <code><a href="create-instance.html"> </a></code> factory method to create an instance and display it using the <code><a href="#">androidx.fragment.app.FragmentManager</a></code>. </p>
+<p> A <code><a href="../-multi-page-review-fragment-listener/index.html">MultiPageReviewFragmentListener</a></code> instance must be available until the <code>MultiPageReviewFragment</code> is attached to an activity. Failing to do so will throw an exception. The listener instance can be provided either implicitly by making the hosting Activity implement the <code><a href="../-multi-page-review-fragment-listener/index.html">MultiPageReviewFragmentListener</a></code> interface or explicitly by setting the listener using <code><a href="set-listener.html">MultiPageReviewFragment#setListener(MultiPageReviewFragmentListener)</a></code>. </p>
+<p> Your Activity is automatically set as the listener in <code><a href="on-create.html">MultiPageReviewFragment#onCreate(Bundle)</a></code>. </p>
+Customizing the Multi-Page Review Screen See the <code><a href="../-multi-page-review-activity/index.html">MultiPageReviewActivity</a></code> for details.
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-init-.html">&lt;init&gt;</a></h4>
+</td>
+<td>
+<p>Component API </p>
+<code><span class="identifier">MultiPageReviewFragment</span><span class="symbol">(</span><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="create-instance.html">createInstance</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">static</span> <span class="keyword">fun </span><span class="identifier">createInstance</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">MultiPageReviewFragment</span></a><span class="symbol">!</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-create.html">onCreate</a></h4>
+</td>
+<td>
+<p>Internal use only.</p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onCreate</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.review.multipage.MultiPageReviewFragment$onCreate(android.os.Bundle)/savedInstanceState">savedInstanceState</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Bundle.html"><span class="identifier">Bundle</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-create-view.html">onCreateView</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onCreateView</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.review.multipage.MultiPageReviewFragment$onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)/inflater">inflater</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/view/LayoutInflater.html"><span class="identifier">LayoutInflater</span></a><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.review.multipage.MultiPageReviewFragment$onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)/container">container</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/view/ViewGroup.html"><span class="identifier">ViewGroup</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.review.multipage.MultiPageReviewFragment$onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)/savedInstanceState">savedInstanceState</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Bundle.html"><span class="identifier">Bundle</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/view/View.html"><span class="identifier">View</span></a><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-delete-document.html">onDeleteDocument</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onDeleteDocument</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.review.multipage.MultiPageReviewFragment$onDeleteDocument(net.gini.android.vision.document.ImageDocument)/document">document</span><span class="symbol">:</span>&nbsp;<a href="../../net.gini.android.vision.document/-image-document/index.html"><span class="identifier">ImageDocument</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-destroy.html">onDestroy</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onDestroy</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-pause.html">onPause</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onPause</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-retry-upload.html">onRetryUpload</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onRetryUpload</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.review.multipage.MultiPageReviewFragment$onRetryUpload(net.gini.android.vision.document.ImageDocument)/document">document</span><span class="symbol">:</span>&nbsp;<a href="../../net.gini.android.vision.document/-image-document/index.html"><span class="identifier">ImageDocument</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-start.html">onStart</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onStart</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-listener.html">setListener</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setListener</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.review.multipage.MultiPageReviewFragment$setListener(net.gini.android.vision.review.multipage.MultiPageReviewFragmentListener)/listener">listener</span><span class="symbol">:</span>&nbsp;<a href="../-multi-page-review-fragment-listener/index.html"><span class="identifier">MultiPageReviewFragmentListener</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="show-alert-dialog.html">showAlertDialog</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">showAlertDialog</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.review.multipage.MultiPageReviewFragment$showAlertDialog(kotlin.String, kotlin.String, android.content.DialogInterface.OnClickListener, kotlin.String, android.content.DialogInterface.OnClickListener, android.content.DialogInterface.OnCancelListener)/message">message</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.review.multipage.MultiPageReviewFragment$showAlertDialog(kotlin.String, kotlin.String, android.content.DialogInterface.OnClickListener, kotlin.String, android.content.DialogInterface.OnClickListener, android.content.DialogInterface.OnCancelListener)/positiveButtonTitle">positiveButtonTitle</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.review.multipage.MultiPageReviewFragment$showAlertDialog(kotlin.String, kotlin.String, android.content.DialogInterface.OnClickListener, kotlin.String, android.content.DialogInterface.OnClickListener, android.content.DialogInterface.OnCancelListener)/positiveButtonClickListener">positiveButtonClickListener</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/DialogInterface/OnClickListener.html"><span class="identifier">OnClickListener</span></a><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.review.multipage.MultiPageReviewFragment$showAlertDialog(kotlin.String, kotlin.String, android.content.DialogInterface.OnClickListener, kotlin.String, android.content.DialogInterface.OnClickListener, android.content.DialogInterface.OnCancelListener)/negativeButtonTitle">negativeButtonTitle</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.review.multipage.MultiPageReviewFragment$showAlertDialog(kotlin.String, kotlin.String, android.content.DialogInterface.OnClickListener, kotlin.String, android.content.DialogInterface.OnClickListener, android.content.DialogInterface.OnCancelListener)/negativeButtonClickListener">negativeButtonClickListener</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/DialogInterface/OnClickListener.html"><span class="identifier">OnClickListener</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.review.multipage.MultiPageReviewFragment$showAlertDialog(kotlin.String, kotlin.String, android.content.DialogInterface.OnClickListener, kotlin.String, android.content.DialogInterface.OnClickListener, android.content.DialogInterface.OnCancelListener)/cancelListener">cancelListener</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/DialogInterface/OnCancelListener.html"><span class="identifier">OnCancelListener</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

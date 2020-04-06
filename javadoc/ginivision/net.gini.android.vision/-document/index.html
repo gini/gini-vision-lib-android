@@ -1,0 +1,159 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Document - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision</a>&nbsp;/&nbsp;<a href="./index.html">Document</a><br/>
+<br/>
+<h1>Document</h1>
+<code><span class="keyword">interface </span><span class="identifier">Document</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Parcelable.html"><span class="identifier">Parcelable</span></a></code>
+<p>This class is the container for transferring documents between the client application and the Gini Vision Library and between the Fragments of the Gini Vision Library. </p>
+<p> Due to the size limitations of the <code><a href="https://developer.android.com/reference/android/os/Bundle.html">android.os.Bundle</a></code>, the document data byte array has to be stored in a memory cache when parceling and read from the cache when unparceling. </p>
+<p> <strong>Warning:</strong> Always retrieve the <code><a href="./index.html">Document</a></code> extras from a Bundle to force unparceling and removing of the reference to the byte array from the memory cache. Failing to do so will lead to memory leaks.</p>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-import-method/index.html">ImportMethod</a></h4>
+</td>
+<td>
+<p>Enum of supported methods for importing documents.</p>
+<code><span class="keyword">class </span><span class="identifier">ImportMethod</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-source/index.html">Source</a></h4>
+</td>
+<td>
+<p>Source of the document (e.g. camera or external).</p>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">Source</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Parcelable.html"><span class="identifier">Parcelable</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-type/index.html">Type</a></h4>
+</td>
+<td>
+<p>Supported document types.</p>
+<code><span class="keyword">class </span><span class="identifier">Type</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="get-data.html">getData</a></h4>
+</td>
+<td>
+<p> The contents of a document, if the document was loaded into memory. </p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">getData</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html"><span class="identifier">ByteArray</span></a><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-id.html">getId</a></h4>
+</td>
+<td>
+<p>Retrieve the document's unique id.</p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">getId</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-import-method.html">getImportMethod</a></h4>
+</td>
+<td>
+<p>Retrieve with which method the document has been imported.</p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">getImportMethod</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">ImportMethod</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-intent.html">getIntent</a></h4>
+</td>
+<td>
+<p> The <code><a href="https://developer.android.com/reference/android/content/Intent.html">Intent</a></code> with which the imported document was received. </p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">getIntent</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/content/Intent.html"><span class="identifier">Intent</span></a><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-jpeg.html">getJpeg</a></h4>
+</td>
+<td>
+<p>The image of a document as a JPEG.</p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><s><span class="identifier">getJpeg</span></s><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html"><span class="identifier">ByteArray</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-mime-type.html">getMimeType</a></h4>
+</td>
+<td>
+<p>Retrieve the document's mime type (media type).</p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">getMimeType</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">!</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-rotation-for-display.html">getRotationForDisplay</a></h4>
+</td>
+<td>
+<p> The amount of clockwise rotation needed to display the image in the correct orientation. </p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><s><span class="identifier">getRotationForDisplay</span></s><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-source.html">getSource</a></h4>
+</td>
+<td>
+<p>Retrieve from which source the document originates from.</p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">getSource</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Source</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-type.html">getType</a></h4>
+</td>
+<td>
+<p>Get the concrete document type.</p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">getType</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Type</span><span class="symbol">!</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-uri.html">getUri</a></h4>
+</td>
+<td>
+<p> The <code><a href="https://developer.android.com/reference/android/net/Uri.html">Uri</a></code> of the imported document. </p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">getUri</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/net/Uri.html"><span class="identifier">Uri</span></a><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="is-imported.html">isImported</a></h4>
+</td>
+<td>
+<p> Document is imported if it was picked from another app from the Camera Screen's document upload button or if a file was passed to the Gini Vision Library through the client application from another app. </p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">isImported</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="is-reviewable.html">isReviewable</a></h4>
+</td>
+<td>
+<p> Documents like PDFs are not reviewable and can be passed directly to the Analysis Screen. Reviewable documents have to be shown in the Review Screen first before passing it on to the Analysis Screen. </p>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">isReviewable</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="../../net.gini.android.vision.document/-gini-vision-document/index.html">GiniVisionDocument</a></h4>
+</td>
+<td>
+<p>Internal use only.</p>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">GiniVisionDocument</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">Document</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

@@ -1,0 +1,28 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>AnalysisActivity.onAddDataToResult - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision.analysis</a>&nbsp;/&nbsp;<a href="index.html">AnalysisActivity</a>&nbsp;/&nbsp;<a href="./on-add-data-to-result.html">onAddDataToResult</a><br/>
+<br/>
+<h1>onAddDataToResult</h1>
+<a name="net.gini.android.vision.analysis.AnalysisActivity$onAddDataToResult(android.content.Intent)"></a>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><s><span class="identifier">onAddDataToResult</span></s><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.analysis.AnalysisActivity$onAddDataToResult(android.content.Intent)/result">result</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Intent.html"><span class="identifier">Intent</span></a><span class="symbol">!</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code><br/>
+<strong>Deprecated:</strong> Deprecated in Java<br/>
+<br/>
+<p> Callback for adding your own data to the Activity's result. </p>
+ 
+<p> Called when the document was analyzed. </p>
+ 
+<p> You should add the results of the analysis as extras and retrieve them when the returned. </p>
+ 
+<p> <strong>Note:</strong> you must call <code><a href="on-document-analyzed.html">AnalysisActivity#onDocumentAnalyzed()</a></code> after you received the analysis results from the Gini API, otherwise this method won't be invoked. </p>
+<h3>Parameters</h3>
+<p><a name="result"></a>
+<code>result</code> - <a href="https://developer.android.com/reference/android/content/Intent.html"><span class="identifier">Intent</span></a><span class="symbol">!</span><span class="symbol">:</span> the <code><a href="https://developer.android.com/reference/android/content/Intent.html">Intent</a></code> which will be returned as the result data.</p>
+<p><strong>Deprecated</strong><br/>
+When a <code><a href="../../net.gini.android.vision/-gini-vision/index.html">GiniVision</a></code> instance is available the document is analyzed internally by using the configured implementation. The extractions will be returned in the extra called <code><a href="../../net.gini.android.vision.camera/-camera-activity/-e-x-t-r-a_-o-u-t_-e-x-t-r-a-c-t-i-o-n-s.html"> </a></code> of the <code><a href="../../net.gini.android.vision.camera/-camera-activity/index.html">CameraActivity</a></code>'s result Intent.</p>
+</BODY>
+</HTML>

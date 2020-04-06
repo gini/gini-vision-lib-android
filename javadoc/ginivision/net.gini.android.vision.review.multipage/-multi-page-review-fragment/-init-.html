@@ -1,0 +1,25 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>MultiPageReviewFragment.<init> - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision.review.multipage</a>&nbsp;/&nbsp;<a href="index.html">MultiPageReviewFragment</a>&nbsp;/&nbsp;<a href="./-init-.html">&lt;init&gt;</a><br/>
+<br/>
+<h1>&lt;init&gt;</h1>
+<a name="net.gini.android.vision.review.multipage.MultiPageReviewFragment$&lt;init&gt;()"></a>
+<code><span class="identifier">MultiPageReviewFragment</span><span class="symbol">(</span><span class="symbol">)</span></code>
+<p>Component API </p>
+<p> When you use the Compontent API and have enabled the multi-page feature, the <code>MultiPageReviewFragment</code> displays the photographed or imported images and allows the user to review them by checking the order, sharpness, quality and orientation of the images. The user can correct the order by dragging the thumbnails of the images and can also correct the orientation by rotating the images. </p>
+<p> <strong>Important:</strong> </p>
+<ul> <li> A <code><a href="../../net.gini.android.vision/-gini-vision/index.html">GiniVision</a></code> instance is required to use the <code>MultiPageReviewFragment</code> </li>
+<li> Your Activity hosting this Fragment must extend the <code><a href="#">androidx.appcompat.app.AppCompatActivity</a></code> and use an AppCompat Theme. </li>
+</ul>
+ 
+<p> Include the <code>MultiPageReviewFragment</code> into your layout by using the <code><a href="create-instance.html"> </a></code> factory method to create an instance and display it using the <code><a href="#">androidx.fragment.app.FragmentManager</a></code>. </p>
+<p> A <code><a href="../-multi-page-review-fragment-listener/index.html">MultiPageReviewFragmentListener</a></code> instance must be available until the <code>MultiPageReviewFragment</code> is attached to an activity. Failing to do so will throw an exception. The listener instance can be provided either implicitly by making the hosting Activity implement the <code><a href="../-multi-page-review-fragment-listener/index.html">MultiPageReviewFragmentListener</a></code> interface or explicitly by setting the listener using <code><a href="set-listener.html">MultiPageReviewFragment#setListener(MultiPageReviewFragmentListener)</a></code>. </p>
+<p> Your Activity is automatically set as the listener in <code><a href="on-create.html">MultiPageReviewFragment#onCreate(Bundle)</a></code>. </p>
+Customizing the Multi-Page Review Screen See the <code><a href="../-multi-page-review-activity/index.html">MultiPageReviewActivity</a></code> for details.
+</BODY>
+</HTML>

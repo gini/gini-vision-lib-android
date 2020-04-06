@@ -1,0 +1,116 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>OnboardingActivity - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision.onboarding</a>&nbsp;/&nbsp;<a href="./index.html">OnboardingActivity</a><br/>
+<br/>
+<h1>OnboardingActivity</h1>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">OnboardingActivity</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">AppCompatActivity</span><span class="symbol">, </span><a href="../-onboarding-fragment-listener/index.html"><span class="identifier">OnboardingFragmentListener</span></a></code>
+<p>Screen API </p>
+<p>When you use the Screen API, the <code>OnboardingActivity</code> displays important advice for correctly photographing a document. </p>
+<p>The <code>OnboardingActivity</code> is started by the <code><a href="../../net.gini.android.vision.camera/-camera-activity/index.html">CameraActivity</a></code> when the latter is launched for the first time. You may disable this behavior - we highly recommend keeping it - by passing <code>false</code> to <code><a href="../../net.gini.android.vision/-gini-vision/-builder/set-should-show-onboarding-at-first-run.html">GiniVision.Builder#setShouldShowOnboardingAtFirstRun(boolean)</a></code> when creating a <code><a href="../../net.gini.android.vision/-gini-vision/index.html">GiniVision</a></code> instance. If you don't use <code><a href="../../net.gini.android.vision/-gini-vision/index.html">GiniVision</a></code> yet you can also use the extra <code><a href="../../net.gini.android.vision.camera/-camera-activity/-e-x-t-r-a_-i-n_-s-h-o-w_-o-n-b-o-a-r-d-i-n-g_-a-t_-f-i-r-s-t_-r-u-n.html">CameraActivity#EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN</a></code> with <code>false</code> when starting the <code><a href="../../net.gini.android.vision.camera/-camera-activity/index.html">CameraActivity</a></code>. </p>
+<p> You can change the number of displayed pages and their content (image and short text) by setting an <code>ArrayList</code> containing <code><a href="../-onboarding-page/index.html">OnboardingPage</a></code> objects when building a instance with <code><a href="../../net.gini.android.vision/-gini-vision/-builder/set-custom-onboarding-pages.html">GiniVision.Builder#setCustomOnboardingPages(ArrayList)</a></code>. If you don't use <code><a href="../../net.gini.android.vision/-gini-vision/index.html">GiniVision</a></code> yet you can also provide the list using the extra <code><a href="../../net.gini.android.vision.camera/-camera-activity/-e-x-t-r-a_-i-n_-o-n-b-o-a-r-d-i-n-g_-p-a-g-e-s.html"> </a></code> for the Screen API and <code><a href="../-onboarding-fragment-compat/create-instance.html"> </a></code> or <code><a href="../-onboarding-fragment-standard/create-instance.html">OnboardingFragmentStandard#createInstance(ArrayList)</a></code> for the Component API. </p>
+Customizing the Onboarding Screen 
+<p> Customizing the look of the Onboarding Screen is done via overriding of app resources or by providing your own pages with your own strings and drawable resources. </p>
+<p> The following items are customizable: </p>
+<ul> <li> <strong>Next button icon:</strong> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code>gv_onboarding_fab_next.png</code> </li>
+<li> <strong>Next button color:</strong> via the color resources named <code>gv_onboarding_fab</code> and <code>gv_onboarding_fab_pressed</code> </li>
+<li> <strong>Page indicators:</strong> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code>gv_onboarding_indicator_active.png</code> and <code>gv_onboarding_indicator_inactive.png</code> </li>
+<li> <strong>Onboarding message color:</strong> via the color resource named <code>gv_onboarding_message</code> </li>
+<li> <strong>Onboarding message font:</strong> via overriding the style named <code>GiniVisionTheme.Onboarding.Message.TextStyle</code> and setting an item named <code>gvCustomFont</code> with the path to the font file in your <code>assets</code> folder </li>
+<li> <strong>Onboarding message text style:</strong> via overriding the style named <code>GiniVisionTheme.Onboarding.Message.TextStyle</code> and setting an item named <code>android:textStyle</code> to <code>normal</code>, <code>bold</code> or <code>italic</code> </li>
+<li> <strong>Onboarding message text size:</strong> via overriding the style named <code>GiniVisionTheme.Onboarding.Message.TextStyle</code> and setting an item named <code>android:textSize</code> to the desired <code>sp</code> size </li>
+<li> <strong>Tablet Onboarding Pages:</strong> <ul> <li> <strong>First page image</strong> via images for sw600dp-mdpi, sw600dp-hdpi, sw600dp-xhdpi, sw600dp-xxhdpi, sw600dp-xxxhdpi named <code>gv_onboarding_lighting.png</code> </li>
+<li> <strong>First page text:</strong> via the string resource named <code>gv_onboarding_ligthing</code> </li>
+<li> <strong>Second page image</strong> via images for sw600dp-mdpi, sw600dp-hdpi, sw600dp-xhdpi, sw600dp-xxhdpi, sw600dp-xxxhdpi named <code>gv_onboarding_flat.png</code> </li>
+<li> <strong>Second page text:</strong> via the string resource named <code>gv_onboarding_flat</code> </li>
+<li> <strong>Third page image:</strong> via images for sw600dp-mdpi, sw600dp-hdpi, sw600dp-xhdpi, sw600dp-xxhdpi, sw600dp-xxxhdpi named <code>gv_onboarding_parallel.png</code> </li>
+<li> <strong>Third page text:</strong> via the string resource named <code>gv_onboarding_parallel</code> </li>
+<li> <strong>Fourth page image:</strong> via images for sw600dp-mdpi, sw600dp-hdpi, sw600dp-xhdpi, sw600dp-xxhdpi, sw600dp-xxxhdpi named <code>gv_onboarding_align.png</code> </li>
+<li> <strong>Fourth page text:</strong> via the string resource named <code>gv_onboarding_align</code> </li>
+</ul>
+ </li>
+<li> <strong>Phone Onboarding Pages:</strong> <ul> <li> <strong>First page image:</strong> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code>gv_onboarding_flat.png</code> </li>
+<li> <strong>First page text:</strong> via the string resource named <code>gv_onboarding_flat</code> </li>
+<li> <strong>Second page image:</strong> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code>gv_onboarding_parallel.png</code> </li>
+<li> <strong>Second page text:</strong> via the string resource named <code>gv_onboarding_parallel</code> </li>
+<li> <strong>Third page image:</strong> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code>gv_onboarding_align.png</code> </li>
+<li> <strong>Third page text:</strong> via the string resource named <code>gv_onboarding_align</code> </li>
+</ul>
+ </li>
+<li> <strong>Background transparency:</strong> via the string resource named <code>gv_onboarding_page_fragment_background_alpha</code> which must contain a real number between [0,1]. </li>
+<li> <strong>Background color:</strong> via the color resource named <code>gv_background</code>. <strong>Note:</strong> this color resource is global to all Activities (<code><a href="../../net.gini.android.vision.camera/-camera-activity/index.html">CameraActivity</a></code>, , <code><a href="../../net.gini.android.vision.review/-review-activity/index.html">ReviewActivity</a></code>, <code><a href="../../net.gini.android.vision.analysis/-analysis-activity/index.html">AnalysisActivity</a></code>) </li>
+</ul>
+ 
+<p> <strong>Important:</strong> All overriden styles must have their respective <code>Root.</code> prefixed style as their parent. Ex.: the parent of <code>GiniVisionTheme.Onboarding.Message.TextStyle</code> must be <code>Root.GiniVisionTheme.Onboarding.Message.TextStyle</code>. </p>
+Customizing the Action Bar 
+<p> Customizing the Action Bar is also done via overriding of app resources and each one - except the title string resource - is global to all Activities (<code><a href="../../net.gini.android.vision.camera/-camera-activity/index.html">CameraActivity</a></code>, , <code><a href="../../net.gini.android.vision.review/-review-activity/index.html">ReviewActivity</a></code>, <code><a href="../../net.gini.android.vision.analysis/-analysis-activity/index.html">AnalysisActivity</a></code>). </p>
+<p> The following items are customizable: </p>
+<ul> <li> <strong>Background color:</strong> via the color resource named <code>gv_action_bar</code> (highly recommended for Android 5+: customize the status bar color via <code>gv_status_bar</code>) </li>
+<li> <strong>Title:</strong> via the string resource named <code>gv_title_onboarding</code> </li>
+<li> <strong>Title color:</strong> via the color resource named <code>gv_action_bar_title</code> </li>
+<li> <strong>Back button:</strong> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code>gv_action_bar_back</code> </li>
+</ul>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-init-.html">&lt;init&gt;</a></h4>
+</td>
+<td>
+<p>Screen API </p>
+<code><span class="identifier">OnboardingActivity</span><span class="symbol">(</span><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-e-x-t-r-a_-o-n-b-o-a-r-d-i-n-g_-p-a-g-e-s.html">EXTRA_ONBOARDING_PAGES</a></h4>
+</td>
+<td>
+<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">EXTRA_ONBOARDING_PAGES</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="on-close-onboarding.html">onCloseOnboarding</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onCloseOnboarding</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-create.html">onCreate</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onCreate</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.onboarding.OnboardingActivity$onCreate(android.os.Bundle)/savedInstanceState">savedInstanceState</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Bundle.html"><span class="identifier">Bundle</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-error.html">onError</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onError</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.onboarding.OnboardingActivity$onError(net.gini.android.vision.GiniVisionError)/giniVisionError">giniVisionError</span><span class="symbol">:</span>&nbsp;<a href="../../net.gini.android.vision/-gini-vision-error/index.html"><span class="identifier">GiniVisionError</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-options-item-selected.html">onOptionsItemSelected</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onOptionsItemSelected</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.onboarding.OnboardingActivity$onOptionsItemSelected(android.view.MenuItem)/item">item</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/view/MenuItem.html"><span class="identifier">MenuItem</span></a><span class="symbol">!</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

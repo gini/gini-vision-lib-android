@@ -1,0 +1,227 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>GiniVision - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision</a>&nbsp;/&nbsp;<a href="./index.html">GiniVision</a><br/>
+<br/>
+<h1>GiniVision</h1>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">GiniVision</span></code>
+<p>Single entry point for the Gini Vision Library for configuration and interaction. </p>
+<p> This singleton class is preferred over the previous methods of configuration and interaction. It is only mandatory for new features. You can continue using features from previous releases without any modification. </p>
+<p> To create and configure a singleton instance use the <code><a href="new-instance.html">#newInstance()</a></code> method and the returned <code><a href="-builder/index.html">Builder</a></code>. If an instance is already available you need to call <code><a href="cleanup.html"> </a></code> before creating a new instance. Failing to do so will throw an exception. </p>
+<p> After you are done using the Gini Vision Library use the <code><a href="cleanup.html">#cleanup(Context)</a></code> method. This will free up resources used by the library.</p>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-builder/index.html">Builder</a></h4>
+</td>
+<td>
+<p>Builder for <code><a href="./index.html">GiniVision</a></code>. To get an instance call <code><a href="new-instance.html">#newInstance()</a></code>.</p>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">Builder</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-internal/index.html">Internal</a></h4>
+</td>
+<td>
+<p>Internal use only.</p>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">Internal</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="are-back-buttons-enabled.html">areBackButtonsEnabled</a></h4>
+</td>
+<td>
+<p>Screen API only </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">areBackButtonsEnabled</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="cleanup.html">cleanup</a></h4>
+</td>
+<td>
+<p>Destroys the <code><a href="./index.html">GiniVision</a></code> instance and frees up used resources.</p>
+<code><span class="keyword">open</span> <span class="keyword">static</span> <span class="keyword">fun </span><span class="identifier">cleanup</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.GiniVision$cleanup(android.content.Context)/context">context</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Context.html"><span class="identifier">Context</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="create-document-for-imported-file.html">createDocumentForImportedFile</a></h4>
+</td>
+<td>
+<p>Component API </p>
+<code><span class="keyword">open</span> <span class="keyword">static</span> <span class="keyword">fun </span><span class="identifier">createDocumentForImportedFile</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.GiniVision$createDocumentForImportedFile(android.content.Intent, android.content.Context)/intent">intent</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Intent.html"><span class="identifier">Intent</span></a><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.GiniVision$createDocumentForImportedFile(android.content.Intent, android.content.Context)/context">context</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Context.html"><span class="identifier">Context</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../-document/index.html"><span class="identifier">Document</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="create-document-for-imported-files.html">createDocumentForImportedFiles</a></h4>
+</td>
+<td>
+<p>Component API </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">createDocumentForImportedFiles</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.GiniVision$createDocumentForImportedFiles(android.content.Intent, android.content.Context, net.gini.android.vision.AsyncCallback((net.gini.android.vision.Document, net.gini.android.vision.ImportedFileValidationException)))/intent">intent</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Intent.html"><span class="identifier">Intent</span></a><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.GiniVision$createDocumentForImportedFiles(android.content.Intent, android.content.Context, net.gini.android.vision.AsyncCallback((net.gini.android.vision.Document, net.gini.android.vision.ImportedFileValidationException)))/context">context</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Context.html"><span class="identifier">Context</span></a><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.GiniVision$createDocumentForImportedFiles(android.content.Intent, android.content.Context, net.gini.android.vision.AsyncCallback((net.gini.android.vision.Document, net.gini.android.vision.ImportedFileValidationException)))/callback">callback</span><span class="symbol">:</span>&nbsp;<a href="../-async-callback/index.html"><span class="identifier">AsyncCallback</span></a><span class="symbol">&lt;</span><a href="../-document/index.html"><span class="identifier">Document</span></a><span class="symbol">!</span><span class="symbol">,</span>&nbsp;<a href="../-imported-file-validation-exception/index.html"><span class="identifier">ImportedFileValidationException</span></a><span class="symbol">!</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">CancellationToken</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="create-intent-for-imported-file.html">createIntentForImportedFile</a></h4>
+</td>
+<td>
+<p>Screen API </p>
+<code><span class="keyword">open</span> <span class="keyword">static</span> <span class="keyword">fun </span><span class="identifier">createIntentForImportedFile</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.GiniVision$createIntentForImportedFile(android.content.Intent, android.content.Context, java.lang.Class((net.gini.android.vision.review.ReviewActivity)), java.lang.Class((net.gini.android.vision.analysis.AnalysisActivity)))/intent">intent</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Intent.html"><span class="identifier">Intent</span></a><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.GiniVision$createIntentForImportedFile(android.content.Intent, android.content.Context, java.lang.Class((net.gini.android.vision.review.ReviewActivity)), java.lang.Class((net.gini.android.vision.analysis.AnalysisActivity)))/context">context</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Context.html"><span class="identifier">Context</span></a><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.GiniVision$createIntentForImportedFile(android.content.Intent, android.content.Context, java.lang.Class((net.gini.android.vision.review.ReviewActivity)), java.lang.Class((net.gini.android.vision.analysis.AnalysisActivity)))/reviewActivityClass">reviewActivityClass</span><span class="symbol">:</span>&nbsp;<a href="https://docs.oracle.com/javase/6/docs/api/java/lang/Class.html"><span class="identifier">Class</span></a><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<a href="../../net.gini.android.vision.review/-review-activity/index.html"><span class="identifier">ReviewActivity</span></a><span class="symbol">!</span><span class="symbol">&gt;</span><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.GiniVision$createIntentForImportedFile(android.content.Intent, android.content.Context, java.lang.Class((net.gini.android.vision.review.ReviewActivity)), java.lang.Class((net.gini.android.vision.analysis.AnalysisActivity)))/analysisActivityClass">analysisActivityClass</span><span class="symbol">:</span>&nbsp;<a href="https://docs.oracle.com/javase/6/docs/api/java/lang/Class.html"><span class="identifier">Class</span></a><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<a href="../../net.gini.android.vision.analysis/-analysis-activity/index.html"><span class="identifier">AnalysisActivity</span></a><span class="symbol">!</span><span class="symbol">&gt;</span><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/content/Intent.html"><span class="identifier">Intent</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="create-intent-for-imported-files.html">createIntentForImportedFiles</a></h4>
+</td>
+<td>
+<p>Screen API </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">createIntentForImportedFiles</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.GiniVision$createIntentForImportedFiles(android.content.Intent, android.content.Context, net.gini.android.vision.AsyncCallback((android.content.Intent, net.gini.android.vision.ImportedFileValidationException)))/intent">intent</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Intent.html"><span class="identifier">Intent</span></a><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.GiniVision$createIntentForImportedFiles(android.content.Intent, android.content.Context, net.gini.android.vision.AsyncCallback((android.content.Intent, net.gini.android.vision.ImportedFileValidationException)))/context">context</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Context.html"><span class="identifier">Context</span></a><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.GiniVision$createIntentForImportedFiles(android.content.Intent, android.content.Context, net.gini.android.vision.AsyncCallback((android.content.Intent, net.gini.android.vision.ImportedFileValidationException)))/callback">callback</span><span class="symbol">:</span>&nbsp;<a href="../-async-callback/index.html"><span class="identifier">AsyncCallback</span></a><span class="symbol">&lt;</span><a href="https://developer.android.com/reference/android/content/Intent.html"><span class="identifier">Intent</span></a><span class="symbol">!</span><span class="symbol">,</span>&nbsp;<a href="../-imported-file-validation-exception/index.html"><span class="identifier">ImportedFileValidationException</span></a><span class="symbol">!</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">CancellationToken</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-custom-onboarding-pages.html">getCustomOnboardingPages</a></h4>
+</td>
+<td>
+<p>The custom Onboarding Screen pages, if configured.</p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">getCustomOnboardingPages</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://docs.oracle.com/javase/6/docs/api/java/util/ArrayList.html"><span class="identifier">ArrayList</span></a><span class="symbol">&lt;</span><a href="../../net.gini.android.vision.onboarding/-onboarding-page/index.html"><span class="identifier">OnboardingPage</span></a><span class="symbol">!</span><span class="symbol">&gt;</span><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-document-import-enabled-file-types.html">getDocumentImportEnabledFileTypes</a></h4>
+</td>
+<td>
+<p>Retrieve the file types enabled for document import. </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">getDocumentImportEnabledFileTypes</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-document-import-enabled-file-types/index.html"><span class="identifier">DocumentImportEnabledFileTypes</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-gini-vision-network-api.html">getGiniVisionNetworkApi</a></h4>
+</td>
+<td>
+<p>Retrieve the <code><a href="../../net.gini.android.vision.network/-gini-vision-network-api/index.html">GiniVisionNetworkApi</a></code> instance, if available.</p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">getGiniVisionNetworkApi</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../../net.gini.android.vision.network/-gini-vision-network-api/index.html"><span class="identifier">GiniVisionNetworkApi</span></a><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-instance.html">getInstance</a></h4>
+</td>
+<td>
+<p>Retrieve the current instance.</p>
+<code><span class="keyword">open</span> <span class="keyword">static</span> <span class="keyword">fun </span><span class="identifier">getInstance</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">GiniVision</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="has-instance.html">hasInstance</a></h4>
+</td>
+<td>
+<p>Check whether an instance exists.</p>
+<code><span class="keyword">open</span> <span class="keyword">static</span> <span class="keyword">fun </span><span class="identifier">hasInstance</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="internal.html">internal</a></h4>
+</td>
+<td>
+<p>Internal use only.</p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">internal</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Internal</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="is-file-import-enabled.html">isFileImportEnabled</a></h4>
+</td>
+<td>
+<p>Find out whether file import has been enabled. </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">isFileImportEnabled</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="is-flash-button-enabled.html">isFlashButtonEnabled</a></h4>
+</td>
+<td>
+<p>Find out whether the flash button on the Camera Screen has been enabled. </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">isFlashButtonEnabled</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="is-flash-on-by-default.html">isFlashOnByDefault</a></h4>
+</td>
+<td>
+<p>Find out whether the camera flash is on or off by default. </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">isFlashOnByDefault</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="is-multi-page-enabled.html">isMultiPageEnabled</a></h4>
+</td>
+<td>
+<p>Find out whether scanning multi-page documents has been enabled. </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">isMultiPageEnabled</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="is-q-r-code-scanning-enabled.html">isQRCodeScanningEnabled</a></h4>
+</td>
+<td>
+<p>Find out whether QRCode scanning has been enabled. </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">isQRCodeScanningEnabled</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="is-return-assistant-enabled.html">isReturnAssistantEnabled</a></h4>
+</td>
+<td>
+<p>Find out whether the return assistant has been enabled.</p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">isReturnAssistantEnabled</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="is-supported-formats-help-screen-enabled.html">isSupportedFormatsHelpScreenEnabled</a></h4>
+</td>
+<td>
+<p>Find out whether the Supported Formats help screen has been enabled. </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">isSupportedFormatsHelpScreenEnabled</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="new-instance.html">newInstance</a></h4>
+</td>
+<td>
+<p>Configure and create a new instance using the returned <code><a href="-builder/index.html">Builder</a></code>.</p>
+<code><span class="keyword">open</span> <span class="keyword">static</span> <span class="keyword">fun </span><span class="identifier">newInstance</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-should-show-onboarding.html">setShouldShowOnboarding</a></h4>
+</td>
+<td>
+<p>Screen API only </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setShouldShowOnboarding</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.GiniVision$setShouldShowOnboarding(kotlin.Boolean)/shouldShowOnboarding">shouldShowOnboarding</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="should-show-onboarding.html">shouldShowOnboarding</a></h4>
+</td>
+<td>
+<p>Screen API only </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">shouldShowOnboarding</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="should-show-onboarding-at-first-run.html">shouldShowOnboardingAtFirstRun</a></h4>
+</td>
+<td>
+<p>Screen API only </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">shouldShowOnboardingAtFirstRun</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

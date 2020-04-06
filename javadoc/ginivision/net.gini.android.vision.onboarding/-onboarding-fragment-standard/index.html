@@ -1,0 +1,102 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>OnboardingFragmentStandard - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision.onboarding</a>&nbsp;/&nbsp;<a href="./index.html">OnboardingFragmentStandard</a><br/>
+<br/>
+<h1>OnboardingFragmentStandard</h1>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">OnboardingFragmentStandard</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/app/Fragment.html"><span class="identifier">Fragment</span></a><span class="symbol">, </span><a href="../-onboarding-fragment-impl-callback/index.html"><span class="identifier">OnboardingFragmentImplCallback</span></a><span class="symbol">, </span><a href="../-onboarding-fragment-interface/index.html"><span class="identifier">OnboardingFragmentInterface</span></a></code>
+<p>Component API </p>
+<p> When you use the Component API without the Android Support Library, the <code>OnboardingFragmentStandard</code> displays important advice for correctly photographing a document. </p>
+ 
+<p> Include the <code>OnboardingFragmentStandard</code> into your layout either directly with <code>&lt;fragment&gt;</code> in your Activity's layout or using the <code><a href="https://developer.android.com/reference/android/app/FragmentManager.html">android.app.FragmentManager</a></code>. </p>
+ 
+<p> The default way of showing the Onboarding Screen is as an overlay above the camera preview with a semi-transparent background. </p>
+ 
+<p> By default an empty last page is added to enable the revealing of the camera preview before the Onboarding Screen is dismissed. </p>
+ 
+<p> If you would like to display a different number of pages, you can use the <code><a href="create-instance.html">OnboardingFragmentStandard#createInstance(ArrayList)</a></code> or <code><a href="create-instance-without-empty-last-page.html">OnboardingFragmentStandard#createInstanceWithoutEmptyLastPage(ArrayList)</a></code> factory method and provide a list of <code><a href="../-onboarding-page/index.html">OnboardingPage</a></code> objects. </p>
+ 
+<p> If you would like to disable the appending of the empty last page, you can use the <code><a href="create-instance-without-empty-last-page.html">OnboardingFragmentStandard#createInstanceWithoutEmptyLastPage(ArrayList)</a></code> or the <code><a href="create-instance-without-empty-last-page.html">OnboardingFragmentStandard#createInstanceWithoutEmptyLastPage()</a></code> factory method. </p>
+ 
+<p> An <code><a href="../-onboarding-fragment-listener/index.html">OnboardingFragmentListener</a></code> instance must be available until the <code>OnboardingFragmentStandard</code> is attached to an activity. Failing to do so will throw an exception. The listener instance can be provided either implicitly by making the hosting Activity implement the <code><a href="../-onboarding-fragment-listener/index.html">OnboardingFragmentListener</a></code> interface or explicitly by setting the listener using <code><a href="../-onboarding-fragment-compat/set-listener.html">OnboardingFragmentCompat#setListener(OnboardingFragmentListener)</a></code>. </p>
+ 
+<p> Your Activity is automatically set as the listener in <code><a href="on-create.html">OnboardingFragmentStandard#onCreate(Bundle)</a></code>. </p>
+ Customizing the Onboarding Screen 
+<p> See the <code><a href="../-onboarding-activity/index.html">OnboardingActivity</a></code> for details. </p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-init-.html">&lt;init&gt;</a></h4>
+</td>
+<td>
+<p>Component API </p>
+<code><span class="identifier">OnboardingFragmentStandard</span><span class="symbol">(</span><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="create-instance.html">createInstance</a></h4>
+</td>
+<td>
+<p> Factory method for creating a new instance of the Fragment using the provided list of onboarding pages. </p>
+<code><span class="keyword">open</span> <span class="keyword">static</span> <span class="keyword">fun </span><span class="identifier">createInstance</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.onboarding.OnboardingFragmentStandard$createInstance(java.util.ArrayList((net.gini.android.vision.onboarding.OnboardingPage)))/pages">pages</span><span class="symbol">:</span>&nbsp;<a href="https://docs.oracle.com/javase/6/docs/api/java/util/ArrayList.html"><span class="identifier">ArrayList</span></a><span class="symbol">&lt;</span><a href="../-onboarding-page/index.html"><span class="identifier">OnboardingPage</span></a><span class="symbol">!</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">OnboardingFragmentStandard</span></a><span class="symbol">!</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="create-instance-without-empty-last-page.html">createInstanceWithoutEmptyLastPage</a></h4>
+</td>
+<td>
+<p> Factory method for creating a new instance of the Fragment using the provided list of onboarding pages. </p>
+<code><span class="keyword">open</span> <span class="keyword">static</span> <span class="keyword">fun </span><span class="identifier">createInstanceWithoutEmptyLastPage</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.onboarding.OnboardingFragmentStandard$createInstanceWithoutEmptyLastPage(java.util.ArrayList((net.gini.android.vision.onboarding.OnboardingPage)))/pages">pages</span><span class="symbol">:</span>&nbsp;<a href="https://docs.oracle.com/javase/6/docs/api/java/util/ArrayList.html"><span class="identifier">ArrayList</span></a><span class="symbol">&lt;</span><a href="../-onboarding-page/index.html"><span class="identifier">OnboardingPage</span></a><span class="symbol">!</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">OnboardingFragmentStandard</span></a><span class="symbol">!</span></code>
+<p> Factory method for creating a new instance of the Fragment without appending an empty page to the default pages. </p>
+<code><span class="keyword">open</span> <span class="keyword">static</span> <span class="keyword">fun </span><span class="identifier">createInstanceWithoutEmptyLastPage</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">OnboardingFragmentStandard</span></a><span class="symbol">!</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-view-pager-adapter.html">getViewPagerAdapter</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">getViewPagerAdapter</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.onboarding.OnboardingFragmentStandard$getViewPagerAdapter(kotlin.collections.MutableList((net.gini.android.vision.onboarding.OnboardingPage)))/pages">pages</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html"><span class="identifier">MutableList</span></a><span class="symbol">&lt;</span><a href="../-onboarding-page/index.html"><span class="identifier">OnboardingPage</span></a><span class="symbol">!</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">PagerAdapter</span><span class="symbol">!</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-create.html">onCreate</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onCreate</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.onboarding.OnboardingFragmentStandard$onCreate(android.os.Bundle)/savedInstanceState">savedInstanceState</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Bundle.html"><span class="identifier">Bundle</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-create-view.html">onCreateView</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onCreateView</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.onboarding.OnboardingFragmentStandard$onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)/inflater">inflater</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/view/LayoutInflater.html"><span class="identifier">LayoutInflater</span></a><span class="symbol">!</span><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.onboarding.OnboardingFragmentStandard$onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)/container">container</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/view/ViewGroup.html"><span class="identifier">ViewGroup</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.onboarding.OnboardingFragmentStandard$onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)/savedInstanceState">savedInstanceState</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Bundle.html"><span class="identifier">Bundle</span></a><span class="symbol">!</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/view/View.html"><span class="identifier">View</span></a><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-listener.html">setListener</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setListener</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.onboarding.OnboardingFragmentStandard$setListener(net.gini.android.vision.onboarding.OnboardingFragmentListener)/listener">listener</span><span class="symbol">:</span>&nbsp;<a href="../-onboarding-fragment-listener/index.html"><span class="identifier">OnboardingFragmentListener</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="show-alert-dialog.html">showAlertDialog</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">showAlertDialog</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.onboarding.OnboardingFragmentStandard$showAlertDialog(kotlin.String, kotlin.String, android.content.DialogInterface.OnClickListener, kotlin.String, android.content.DialogInterface.OnClickListener, android.content.DialogInterface.OnCancelListener)/message">message</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.onboarding.OnboardingFragmentStandard$showAlertDialog(kotlin.String, kotlin.String, android.content.DialogInterface.OnClickListener, kotlin.String, android.content.DialogInterface.OnClickListener, android.content.DialogInterface.OnCancelListener)/positiveButtonTitle">positiveButtonTitle</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.onboarding.OnboardingFragmentStandard$showAlertDialog(kotlin.String, kotlin.String, android.content.DialogInterface.OnClickListener, kotlin.String, android.content.DialogInterface.OnClickListener, android.content.DialogInterface.OnCancelListener)/positiveButtonClickListener">positiveButtonClickListener</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/DialogInterface/OnClickListener.html"><span class="identifier">OnClickListener</span></a><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.onboarding.OnboardingFragmentStandard$showAlertDialog(kotlin.String, kotlin.String, android.content.DialogInterface.OnClickListener, kotlin.String, android.content.DialogInterface.OnClickListener, android.content.DialogInterface.OnCancelListener)/negativeButtonTitle">negativeButtonTitle</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.onboarding.OnboardingFragmentStandard$showAlertDialog(kotlin.String, kotlin.String, android.content.DialogInterface.OnClickListener, kotlin.String, android.content.DialogInterface.OnClickListener, android.content.DialogInterface.OnCancelListener)/negativeButtonClickListener">negativeButtonClickListener</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/DialogInterface/OnClickListener.html"><span class="identifier">OnClickListener</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.onboarding.OnboardingFragmentStandard$showAlertDialog(kotlin.String, kotlin.String, android.content.DialogInterface.OnClickListener, kotlin.String, android.content.DialogInterface.OnClickListener, android.content.DialogInterface.OnCancelListener)/cancelListener">cancelListener</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/DialogInterface/OnCancelListener.html"><span class="identifier">OnCancelListener</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

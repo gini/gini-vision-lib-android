@@ -1,0 +1,37 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>GiniVisionFileImport.createIntentForImportedFile - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision</a>&nbsp;/&nbsp;<a href="index.html">GiniVisionFileImport</a>&nbsp;/&nbsp;<a href="./create-intent-for-imported-file.html">createIntentForImportedFile</a><br/>
+<br/>
+<h1>createIntentForImportedFile</h1>
+<a name="net.gini.android.vision.GiniVisionFileImport$createIntentForImportedFile(android.content.Intent, android.content.Context, java.lang.Class((net.gini.android.vision.review.ReviewActivity)), java.lang.Class((net.gini.android.vision.analysis.AnalysisActivity)))"></a>
+<code><span class="identifier">@NonNull</span> <span class="keyword">static</span> <span class="keyword">fun </span><s><span class="identifier">createIntentForImportedFile</span></s><span class="symbol">(</span><span class="identifier">@NonNull</span> <span class="identifier" id="net.gini.android.vision.GiniVisionFileImport$createIntentForImportedFile(android.content.Intent, android.content.Context, java.lang.Class((net.gini.android.vision.review.ReviewActivity)), java.lang.Class((net.gini.android.vision.analysis.AnalysisActivity)))/intent">intent</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Intent.html"><span class="identifier">Intent</span></a><span class="symbol">, </span><span class="identifier">@NonNull</span> <span class="identifier" id="net.gini.android.vision.GiniVisionFileImport$createIntentForImportedFile(android.content.Intent, android.content.Context, java.lang.Class((net.gini.android.vision.review.ReviewActivity)), java.lang.Class((net.gini.android.vision.analysis.AnalysisActivity)))/context">context</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Context.html"><span class="identifier">Context</span></a><span class="symbol">, </span><span class="identifier">@NonNull</span> <span class="identifier" id="net.gini.android.vision.GiniVisionFileImport$createIntentForImportedFile(android.content.Intent, android.content.Context, java.lang.Class((net.gini.android.vision.review.ReviewActivity)), java.lang.Class((net.gini.android.vision.analysis.AnalysisActivity)))/reviewActivityClass">reviewActivityClass</span><span class="symbol">:</span>&nbsp;<a href="https://docs.oracle.com/javase/6/docs/api/java/lang/Class.html"><span class="identifier">Class</span></a><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<a href="../../net.gini.android.vision.review/-review-activity/index.html"><span class="identifier">ReviewActivity</span></a><span class="symbol">!</span><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier">@NonNull</span> <span class="identifier" id="net.gini.android.vision.GiniVisionFileImport$createIntentForImportedFile(android.content.Intent, android.content.Context, java.lang.Class((net.gini.android.vision.review.ReviewActivity)), java.lang.Class((net.gini.android.vision.analysis.AnalysisActivity)))/analysisActivityClass">analysisActivityClass</span><span class="symbol">:</span>&nbsp;<a href="https://docs.oracle.com/javase/6/docs/api/java/lang/Class.html"><span class="identifier">Class</span></a><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<a href="../../net.gini.android.vision.analysis/-analysis-activity/index.html"><span class="identifier">AnalysisActivity</span></a><span class="symbol">!</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/content/Intent.html"><span class="identifier">Intent</span></a></code><br/>
+<strong>Deprecated:</strong> Deprecated in Java<br/>
+<br/>
+<p>Screen API </p>
+<p> When your application receives a file from another application you can use this method to create an Intent for launching the Gini Vision Library. </p>
+<p> Start the Intent with <code><a href="https://developer.android.com/reference/android/app/Activity.html#startActivityForResult(android.content.Intent, int)">android.app.Activity#startActivityForResult(Intent, int)</a></code> to receive the <code><a href="../-gini-vision-error/index.html">GiniVisionError</a></code> in case there was an error.</p>
+<h3>Parameters</h3>
+<p><a name="intent"></a>
+<code>intent</code> - <a href="https://developer.android.com/reference/android/content/Intent.html"><span class="identifier">Intent</span></a><span class="symbol">:</span> the Intent your app received</p>
+<p><a name="context"></a>
+<code>context</code> - <a href="https://developer.android.com/reference/android/content/Context.html"><span class="identifier">Context</span></a><span class="symbol">:</span> Android context</p>
+<p><a name="reviewActivityClass"></a>
+<code>reviewActivityClass</code> - <a href="https://docs.oracle.com/javase/6/docs/api/java/lang/Class.html"><span class="identifier">Class</span></a><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<a href="../../net.gini.android.vision.review/-review-activity/index.html"><span class="identifier">ReviewActivity</span></a><span class="symbol">!</span><span class="symbol">&gt;</span><span class="symbol">:</span> the class of your application's <code><a href="../../net.gini.android.vision.review/-review-activity/index.html">ReviewActivity</a></code> subclass</p>
+<p><a name="analysisActivityClass"></a>
+<code>analysisActivityClass</code> - <a href="https://docs.oracle.com/javase/6/docs/api/java/lang/Class.html"><span class="identifier">Class</span></a><span class="symbol">&lt;</span><span class="keyword">out</span>&nbsp;<a href="../../net.gini.android.vision.analysis/-analysis-activity/index.html"><span class="identifier">AnalysisActivity</span></a><span class="symbol">!</span><span class="symbol">&gt;</span><span class="symbol">:</span> the class of your application's <code><a href="../../net.gini.android.vision.analysis/-analysis-activity/index.html">AnalysisActivity</a></code> subclass</p>
+<h3>Exceptions</h3>
+<p><a name="ImportedFileValidationException"></a>
+<code>ImportedFileValidationException</code> - if the file didn't pass validation</p>
+<p><a name="IllegalArgumentException"></a>
+<code>IllegalArgumentException</code> - if the Intent's data is not valid or the mime type is not supported</p>
+<p><strong>Return</strong><br/>
+<a href="https://developer.android.com/reference/android/content/Intent.html"><span class="identifier">Intent</span></a><span class="symbol">:</span> an Intent for launching the Gini Vision Library</p>
+<p><strong>Deprecated</strong><br/>
+Use <code><a href="../-gini-vision/create-intent-for-imported-file.html">GiniVision#createIntentForImportedFile(Intent, Context, Class, Class)</a></code> instead.</p>
+</BODY>
+</HTML>

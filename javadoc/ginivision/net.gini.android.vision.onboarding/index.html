@@ -1,0 +1,125 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>net.gini.android.vision.onboarding - ginivision</title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">ginivision</a>&nbsp;/&nbsp;<a href="./index.html">net.gini.android.vision.onboarding</a><br/>
+<br/>
+<h2>Package net.gini.android.vision.onboarding</h2>
+<p>Contains the Activity and Fragments used for the Onboarding Screen.</p>
+<h2>Screen API</h2>
+<p>The <a href="-onboarding-activity/index.html">net.gini.android.vision.onboarding.OnboardingActivity</a> is launched directly by the <a href="../net.gini.android.vision.camera/-camera-activity/index.html">net.gini.android.vision.camera.CameraActivity</a>. It
+can be configured by overriding Gini Vision Library app resources and/or by supplying the <a href="../net.gini.android.vision.camera/-camera-activity/index.html">net.gini.android.vision.camera.CameraActivity</a>
+with an <a href="https://docs.oracle.com/javase/6/docs/api/java/util/ArrayList.html">java.util.ArrayList</a> of <a href="-onboarding-page/index.html">net.gini.android.vision.onboarding.OnboardingPage</a> objects in the
+<a href="../net.gini.android.vision.camera/-camera-activity/-e-x-t-r-a_-i-n_-o-n-b-o-a-r-d-i-n-g_-p-a-g-e-s.html">net.gini.android.vision.camera.CameraActivity.EXTRA_IN_ONBOARDING_PAGES</a> extra.</p>
+<h2>Component API</h2>
+<p>To use the Component API you have to include the <a href="-onboarding-fragment-standard/index.html">net.gini.android.vision.onboarding.OnboardingFragmentStandard</a> or the
+<a href="-onboarding-fragment-compat/index.html">net.gini.android.vision.onboarding.OnboardingFragmentCompat</a> in an Activity in your app (a dedicated Activity is recommended). To receive
+events from the Fragments your Activity must implement the <a href="-onboarding-fragment-listener/index.html">net.gini.android.vision.onboarding.OnboardingFragmentListener</a> interface.</p>
+<p>The Onboarding Screen was designed as a semi-transparent overlay for the camera preview. Your Activity should be configured to be
+transparent and the Camera Fragment should not stop the camera when the onboarding is shown.</p>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-conditional-pages/index.html">ConditionalPages</a></h4>
+</td>
+<td>
+<p>Internal use only.</p>
+<code><span class="keyword">class </span><span class="identifier">ConditionalPages</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-default-pages-phone/index.html">DefaultPagesPhone</a></h4>
+</td>
+<td>
+<p>Internal use only.</p>
+<code><span class="keyword">class </span><span class="identifier">DefaultPagesPhone</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-default-pages-tablet/index.html">DefaultPagesTablet</a></h4>
+</td>
+<td>
+<p>Internal use only.</p>
+<code><span class="keyword">class </span><span class="identifier">DefaultPagesTablet</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-onboarding-activity/index.html">OnboardingActivity</a></h4>
+</td>
+<td>
+<p>Screen API </p>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">OnboardingActivity</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">AppCompatActivity</span><span class="symbol">, </span><a href="-onboarding-fragment-listener/index.html"><span class="identifier">OnboardingFragmentListener</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-onboarding-fragment-compat/index.html">OnboardingFragmentCompat</a></h4>
+</td>
+<td>
+<p>Component API </p>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">OnboardingFragmentCompat</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Fragment</span><span class="symbol">, </span><a href="-onboarding-fragment-impl-callback/index.html"><span class="identifier">OnboardingFragmentImplCallback</span></a><span class="symbol">, </span><a href="-onboarding-fragment-interface/index.html"><span class="identifier">OnboardingFragmentInterface</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-onboarding-fragment-impl-callback/index.html">OnboardingFragmentImplCallback</a></h4>
+</td>
+<td>
+<p>Internal use only.</p>
+<code><span class="keyword">interface </span><span class="identifier">OnboardingFragmentImplCallback</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">FragmentImplCallback</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-onboarding-fragment-interface/index.html">OnboardingFragmentInterface</a></h4>
+</td>
+<td>
+<p> Methods which both Onboarding Fragments must implement. </p>
+<code><span class="keyword">interface </span><span class="identifier">OnboardingFragmentInterface</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-onboarding-fragment-listener/index.html">OnboardingFragmentListener</a></h4>
+</td>
+<td>
+<p> Interface used by <code><a href="-onboarding-fragment-standard/index.html">OnboardingFragmentStandard</a></code> and <code><a href="-onboarding-fragment-compat/index.html">OnboardingFragmentCompat</a></code> to dispatch events to the hosting Activity. </p>
+<code><span class="keyword">interface </span><span class="identifier">OnboardingFragmentListener</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-onboarding-fragment-standard/index.html">OnboardingFragmentStandard</a></h4>
+</td>
+<td>
+<p>Component API </p>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">OnboardingFragmentStandard</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/app/Fragment.html"><span class="identifier">Fragment</span></a><span class="symbol">, </span><a href="-onboarding-fragment-impl-callback/index.html"><span class="identifier">OnboardingFragmentImplCallback</span></a><span class="symbol">, </span><a href="-onboarding-fragment-interface/index.html"><span class="identifier">OnboardingFragmentInterface</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-onboarding-page/index.html">OnboardingPage</a></h4>
+</td>
+<td>
+<p> The <code>OnboardingPage</code> is used by the Onboarding Fragment to display an image and a short text. </p>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">OnboardingPage</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Parcelable.html"><span class="identifier">Parcelable</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-onboarding-page-fragment-compat/index.html">OnboardingPageFragmentCompat</a></h4>
+</td>
+<td>
+<p>Internal use only.</p>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">OnboardingPageFragmentCompat</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Fragment</span><span class="symbol">, </span><span class="identifier">FragmentImplCallback</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-onboarding-page-fragment-standard/index.html">OnboardingPageFragmentStandard</a></h4>
+</td>
+<td>
+<p>Internal use only.</p>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">OnboardingPageFragmentStandard</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/app/Fragment.html"><span class="identifier">Fragment</span></a><span class="symbol">, </span><span class="identifier">FragmentImplCallback</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

@@ -1,0 +1,76 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>net.gini.android.vision.analysis - ginivision</title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">ginivision</a>&nbsp;/&nbsp;<a href="./index.html">net.gini.android.vision.analysis</a><br/>
+<br/>
+<h2>Package net.gini.android.vision.analysis</h2>
+<p>Contains the Activity and Fragments used for the Analysis Screen.</p>
+<h2>Screen API</h2>
+<p>Extending the <code>AnalysisActivity</code> in your application has been deprecated. The preferred way of adding network calls to the Gini Vision
+Library is by creating a <a href="../net.gini.android.vision/-gini-vision/index.html">net.gini.android.vision.GiniVision</a> instance with a <a href="../net.gini.android.vision.network/-gini-vision-network-service/index.html">net.gini.android.vision.network.GiniVisionNetworkService</a> and
+a <a href="../net.gini.android.vision.network/-gini-vision-network-api/index.html">net.gini.android.vision.network.GiniVisionNetworkApi</a> implementation.</p>
+<p><strong>Note:</strong> <a href="-analysis-activity/index.html">net.gini.android.vision.analysis.AnalysisActivity</a> extends <a href="#">androidx.appcompat.app.AppCompatActivity</a>, therefore you have to use
+*an <code>AppCompat</code> theme for your <a href="-analysis-activity/index.html">net.gini.android.vision.analysis.AnalysisActivity</a> subclass.</p>
+<h2>Component API</h2>
+<p>To use the Component API you have to include the <a href="-analysis-fragment-standard/index.html">net.gini.android.vision.analysis.AnalysisFragmentStandard</a> or the
+<a href="-analysis-fragment-compat/index.html">net.gini.android.vision.analysis.AnalysisFragmentCompat</a> in an Activity in your app (a dedicated Activity is recommended). To receive
+events from the Fragments your Activity must implement the <a href="-analysis-fragment-listener/index.html">net.gini.android.vision.analysis.AnalysisFragmentListener</a> interface.</p>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-analysis-activity/index.html">AnalysisActivity</a></h4>
+</td>
+<td>
+<p>Screen API </p>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">AnalysisActivity</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">AppCompatActivity</span><span class="symbol">, </span><a href="-analysis-fragment-listener/index.html"><span class="identifier">AnalysisFragmentListener</span></a><span class="symbol">, </span><a href="-analysis-fragment-interface/index.html"><span class="identifier">AnalysisFragmentInterface</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-analysis-fragment-compat/index.html">AnalysisFragmentCompat</a></h4>
+</td>
+<td>
+<p>Component API </p>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">AnalysisFragmentCompat</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Fragment</span><span class="symbol">, </span><span class="identifier">FragmentImplCallback</span><span class="symbol">, </span><a href="-analysis-fragment-interface/index.html"><span class="identifier">AnalysisFragmentInterface</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-analysis-fragment-interface/index.html">AnalysisFragmentInterface</a></h4>
+</td>
+<td>
+<p> Methods which both Analysis Fragments must implement. </p>
+<code><span class="keyword">interface </span><span class="identifier">AnalysisFragmentInterface</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-analysis-fragment-listener/index.html">AnalysisFragmentListener</a></h4>
+</td>
+<td>
+<p> Interface used by <code><a href="-analysis-fragment-standard/index.html">AnalysisFragmentStandard</a></code> and <code><a href="-analysis-fragment-compat/index.html">AnalysisFragmentCompat</a></code> to dispatch events to the hosting Activity. </p>
+<code><span class="keyword">interface </span><span class="identifier">AnalysisFragmentListener</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-analysis-fragment-standard/index.html">AnalysisFragmentStandard</a></h4>
+</td>
+<td>
+<p>Component API </p>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">AnalysisFragmentStandard</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/app/Fragment.html"><span class="identifier">Fragment</span></a><span class="symbol">, </span><span class="identifier">FragmentImplCallback</span><span class="symbol">, </span><a href="-analysis-fragment-interface/index.html"><span class="identifier">AnalysisFragmentInterface</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-analysis-interactor/index.html">AnalysisInteractor</a></h4>
+</td>
+<td>
+<p>Internal use only.</p>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">AnalysisInteractor</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

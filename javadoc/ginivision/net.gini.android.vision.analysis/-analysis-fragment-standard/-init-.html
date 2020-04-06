@@ -1,0 +1,28 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>AnalysisFragmentStandard.<init> - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision.analysis</a>&nbsp;/&nbsp;<a href="index.html">AnalysisFragmentStandard</a>&nbsp;/&nbsp;<a href="./-init-.html">&lt;init&gt;</a><br/>
+<br/>
+<h1>&lt;init&gt;</h1>
+<a name="net.gini.android.vision.analysis.AnalysisFragmentStandard$&lt;init&gt;()"></a>
+<code><span class="identifier">AnalysisFragmentStandard</span><span class="symbol">(</span><span class="symbol">)</span></code>
+<p>Component API </p>
+<p> When you use the Component API without the Android Support Library, the <code>AnalyzeDocumentFragmentStandard</code> displays the captured or imported document and an activity indicator while the document is being analyzed by the Gini API. </p>
+ 
+<p> <strong>Note:</strong> You can use the activity indicator message to display a message under the activity indicator by overriding the string resource named <code>gv_analysis_activity_indicator_message</code>. The message is displayed for images only. </p>
+ 
+<p> For PDF documents the first page is shown (only on Android 5.0 Lollipop and newer) along with the PDF's filename and number of pages above the page. On Android KitKat and older only the PDF's filename is shown with the preview area left empty. </p>
+ 
+<p> Include the <code>AnalyzeDocumentFragmentStandard</code> into your layout by using the <code><a href="create-instance.html">AnalysisFragmentStandard#createInstance(Document, String)</a></code> factory method to create an instance and display it using the <code><a href="https://developer.android.com/reference/android/app/FragmentManager.html">android.app.FragmentManager</a></code>. </p>
+ 
+<p> An <code><a href="../-analysis-fragment-listener/index.html">AnalysisFragmentListener</a></code> instance must be available until the <code>AnalysisFragmentStandard</code> is attached to an activity. Failing to do so will throw an exception. The listener instance can be provided either implicitly by making the hosting Activity implement the <code><a href="../-analysis-fragment-listener/index.html">AnalysisFragmentListener</a></code> interface or explicitly by setting the listener using <code><a href="../-analysis-fragment-compat/set-listener.html">AnalysisFragmentCompat#setListener(AnalysisFragmentListener)</a></code>. </p>
+ 
+<p> Your Activity is automatically set as the listener in <code><a href="on-create.html">AnalysisFragmentStandard#onCreate(Bundle)</a></code>. </p>
+ Customizing the Analysis Screen 
+<p> See the <code><a href="../-analysis-activity/index.html">AnalysisActivity</a></code> for details. </p>
+</BODY>
+</HTML>

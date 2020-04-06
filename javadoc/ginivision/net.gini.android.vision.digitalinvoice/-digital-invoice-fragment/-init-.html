@@ -1,0 +1,31 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>DigitalInvoiceFragment.<init> - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision.digitalinvoice</a>&nbsp;/&nbsp;<a href="index.html">DigitalInvoiceFragment</a>&nbsp;/&nbsp;<a href="./-init-.html">&lt;init&gt;</a><br/>
+<br/>
+<h1>&lt;init&gt;</h1>
+<a name="net.gini.android.vision.digitalinvoice.DigitalInvoiceFragment$&lt;init&gt;()"></a>
+<code><span class="identifier">DigitalInvoiceFragment</span><span class="symbol">(</span><span class="symbol">)</span></code>
+<p>When you use the Component API the <code>DigitalInvoiceFragment</code> displays the line items extracted from an invoice document and their total
+price. The user can deselect line items which should not be paid for and also edit the quantity, price or description of each line item. The
+total price is always updated to include only the selected line items.</p>
+<p>The returned extractions in the <a href="../-digital-invoice-fragment-listener/on-pay-invoice.html">DigitalInvoiceFragmentListener.onPayInvoice</a> are updated to include the user's midifications:</p>
+<ul><li>"amountToPay" is updated to contain the sum of the selected line items' prices,</li>
+<li>the line items are updated according to the user's modifications.</li>
+</ul>
+<p>You should show the <code>DigitalInvoiceFragment</code> when the
+<a href="#">AnalysisFragmentListener.onProceedToReturnAssistant</a> is called.</p>
+<p>Include the <code>DigitalInvoiceFragment</code> into your layout by using the <a href="create-instance.html">DigitalInvoiceFragment.createInstance</a> factory method to create
+an instance and display it using the <a href="#">androidx.fragment.app.FragmentManager</a>.</p>
+<p>A <a href="../-digital-invoice-fragment-listener/index.html">DigitalInvoiceFragmentListener</a> instance must be available before the <code>DigitalInvoiceFragment</code> is attached to an Activity. Failing to
+do so will throw an exception. The listener instance can be provided either implicitly by making the hosting Activity implement the
+<a href="../-digital-invoice-fragment-listener/index.html">DigitalInvoiceFragmentListener</a> interface or explicitly by setting the listener using <a href="listener.html">DigitalInvoiceFragment.listener</a>.</p>
+<p>Your Activity is automatically set as the listener in <a href="#">DigitalInvoiceFragment.onCreate</a>.</p>
+<h3>Customizing the Digital Invoice Screen</h3>
+<p>See the <a href="../-digital-invoice-activity/index.html">DigitalInvoiceActivity</a> for details.</p>
+</BODY>
+</HTML>

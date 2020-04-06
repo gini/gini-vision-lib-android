@@ -1,0 +1,20 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>MultiPageReviewFragmentListener.onProceedToAnalysisScreen - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision.review.multipage</a>&nbsp;/&nbsp;<a href="index.html">MultiPageReviewFragmentListener</a>&nbsp;/&nbsp;<a href="./on-proceed-to-analysis-screen.html">onProceedToAnalysisScreen</a><br/>
+<br/>
+<h1>onProceedToAnalysisScreen</h1>
+<a name="net.gini.android.vision.review.multipage.MultiPageReviewFragmentListener$onProceedToAnalysisScreen(net.gini.android.vision.document.GiniVisionMultiPageDocument((net.gini.android.vision.document.GiniVisionDocument, net.gini.android.vision.document.GiniVisionDocumentError)))"></a>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">onProceedToAnalysisScreen</span><span class="symbol">(</span><span class="identifier">@NonNull</span> <span class="identifier" id="net.gini.android.vision.review.multipage.MultiPageReviewFragmentListener$onProceedToAnalysisScreen(net.gini.android.vision.document.GiniVisionMultiPageDocument((net.gini.android.vision.document.GiniVisionDocument, net.gini.android.vision.document.GiniVisionDocumentError)))/document">document</span><span class="symbol">:</span>&nbsp;<a href="../../net.gini.android.vision.document/-gini-vision-multi-page-document/index.html"><span class="identifier">GiniVisionMultiPageDocument</span></a><span class="symbol">&lt;</span><a href="../../net.gini.android.vision.document/-gini-vision-document/index.html"><span class="identifier">GiniVisionDocument</span></a><span class="symbol">!</span><span class="symbol">,</span>&nbsp;<a href="../../net.gini.android.vision.document/-gini-vision-document-error/index.html"><span class="identifier">GiniVisionDocumentError</span></a><span class="symbol">!</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Called when all pages were uploaded successfully and the user tapped on the "next" button. </p>
+<p> If you use the Screen API you should start the <code><a href="../../net.gini.android.vision.analysis/-analysis-activity/index.html">AnalysisActivity</a></code> and set the document as the <code><a href="../../net.gini.android.vision.analysis/-analysis-activity/-e-x-t-r-a_-i-n_-d-o-c-u-m-e-n-t.html">AnalysisActivity#EXTRA_IN_DOCUMENT</a></code> extra. </p>
+<p> If you use the Component API you should start the <code><a href="../../net.gini.android.vision.analysis/-analysis-fragment-compat/index.html">AnalysisFragmentCompat</a></code> (or the <code><a href="../../net.gini.android.vision.analysis/-analysis-fragment-standard/index.html">AnalysisFragmentStandard</a></code>) and pass the document when creating it with <code><a href="../../net.gini.android.vision.analysis/-analysis-fragment-compat/create-instance.html"> </a></code> (or <code><a href="../../net.gini.android.vision.analysis/-analysis-fragment-standard/create-instance.html"> </a></code>).</p>
+<h3>Parameters</h3>
+<p><a name="document"></a>
+<code>document</code> - <a href="../../net.gini.android.vision.document/-gini-vision-multi-page-document/index.html"><span class="identifier">GiniVisionMultiPageDocument</span></a><span class="symbol">&lt;</span><a href="../../net.gini.android.vision.document/-gini-vision-document/index.html"><span class="identifier">GiniVisionDocument</span></a><span class="symbol">!</span><span class="symbol">,</span>&nbsp;<a href="../../net.gini.android.vision.document/-gini-vision-document-error/index.html"><span class="identifier">GiniVisionDocumentError</span></a><span class="symbol">!</span><span class="symbol">&gt;</span><span class="symbol">:</span> contains the reviewed image (can be the original one or a modified image)</p>
+</BODY>
+</HTML>

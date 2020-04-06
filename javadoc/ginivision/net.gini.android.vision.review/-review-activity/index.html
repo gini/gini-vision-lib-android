@@ -1,0 +1,257 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>ReviewActivity - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision.review</a>&nbsp;/&nbsp;<a href="./index.html">ReviewActivity</a><br/>
+<br/>
+<h1>ReviewActivity</h1>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">ReviewActivity</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">AppCompatActivity</span><span class="symbol">, </span><a href="../-review-fragment-listener/index.html"><span class="identifier">ReviewFragmentListener</span></a><span class="symbol">, </span><a href="../-review-fragment-interface/index.html"><span class="identifier">ReviewFragmentInterface</span></a></code>
+<p>Screen API When you use the Screen API, the <code>ReviewActivity</code> displays the photographed or imported image and allows the user to review it by checking the sharpness, quality and orientation of the image. The user can correct the orientation by rotating the image. </p>
+<p> Extending the <code>ReviewActivity</code> in your application has been deprecated. The preferred way of adding network calls to the Gini Vision Library is by creating a <code><a href="../../net.gini.android.vision/-gini-vision/index.html">GiniVision</a></code> instance with a <code><a href="../../net.gini.android.vision.network/-gini-vision-network-service/index.html">GiniVisionNetworkService</a></code> and a <code><a href="../../net.gini.android.vision.network/-gini-vision-network-api/index.html">GiniVisionNetworkApi</a></code> implementation. </p>
+<p> <strong>Note:</strong> When declaring your <code>ReviewActivity</code> subclass in the <code>AndroidManifest.xml</code> you should set the theme to the <code>GiniVisionTheme</code> and the title to the string resource named <code>gv_title_review</code>. If you would like to use your own theme please consider that <code>ReviewActivity</code> extends <code><a href="#">AppCompatActivity</a></code> and requires an AppCompat Theme. </p>
+<p> The <code>ReviewActivity</code> is started by the <code><a href="../../net.gini.android.vision.camera/-camera-activity/index.html">CameraActivity</a></code> after the user has taken a photo or imported an image of a document. </p>
+<p> If you didn't create <code><a href="../../net.gini.android.vision/-gini-vision/index.html">GiniVision</a></code> instance you have to implement the following methods in your <code>ReviewActivity</code> subclass: </p>
+<ul> <li><code><a href="on-should-analyze-document.html">ReviewActivity#onShouldAnalyzeDocument(Document)</a></code> - you should start analyzing the original document by sending it to the Gini API. We assume that in most cases the photo is good enough and this way we are able to provide analysis results quicker.<strong>Note:</strong> Call <code><a href="on-document-analyzed.html"> </a></code> when the analysis is done and the Activity wasn't stopped. </li>
+<li><code><a href="on-add-data-to-result.html">ReviewActivity#onAddDataToResult(Intent)</a></code> - you can add the results of the analysis to the Intent as extras and retrieve them once the <code><a href="../../net.gini.android.vision.camera/-camera-activity/index.html">CameraActivity</a></code> returns.This is called only if you called <code><a href="on-document-analyzed.html">ReviewActivity#onDocumentAnalyzed()</a></code> and the image wasn't changed before the user tapped on the Next button.When this is called, your subclass is not launched, instead control is returned to your Activity which started the <code><a href="../../net.gini.android.vision.camera/-camera-activity/index.html">CameraActivity</a></code> and you can extract the results of the analysis. </li>
+</ul>
+ You can also override the following methods, if you didn't create a <code><a href="../../net.gini.android.vision/-gini-vision/index.html">GiniVision</a></code> instance: <ul> <li><code><a href="on-document-was-rotated.html">ReviewActivity#onDocumentWasRotated(Document, int, int)</a></code> - you should cancel the analysis started in <code><a href="on-should-analyze-document.html">ReviewActivity#onShouldAnalyzeDocument(Document)</a></code> because the document was rotated and analysing the original is not necessary anymore. The Gini Vision Library will proceed to the Analysis Screen where the reviewed document can be analyzed. </li>
+<li><code><a href="on-proceed-to-analysis-screen.html">ReviewActivity#onProceedToAnalysisScreen(Document)</a></code> - called when the Gini Vision Library will continue to the Analysis Screen. For example you can unsubscribe your analysis listener, if you want to continue the analysis in your <code><a href="../../net.gini.android.vision.analysis/-analysis-activity/index.html">AnalysisActivity</a></code> subclass in case the document wasn't modified. </li>
+<li>ReviewActivity#onBackPressed() - called when the back or the up button was clicked. You should cancel the analysis started in <code><a href="on-should-analyze-document.html">ReviewActivity#onShouldAnalyzeDocument(Document)</a></code>. </li>
+</ul>
+ Customizing the Review Screen Customizing the look of the Review Screen is done via overriding of app resources. 
+<p> The following items are customizable: </p>
+<ul> <li><strong>Rotate button icon:</strong> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code>gv_review_button_rotate.png</code> </li>
+<li><strong>Rotate button color:</strong> via the color resources named <code>gv_review_fab_mini</code> and <code>gv_review_fab_mini_pressed</code> </li>
+<li><strong>Next button icon:</strong> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code>gv_review_fab_next.png</code> </li>
+<li><strong>Next button color:</strong> via the color resources named <code>gv_review_fab</code> and <code>gv_review_fab_pressed</code> </li>
+<li><strong>Bottom advice text:</strong> via the string resource named <code>gv_review_bottom_panel_text</code> </li>
+<li><strong>Bottom text color:</strong> via the color resource named <code>gv_review_bottom_panel_text</code> </li>
+<li><strong>Bottom text font:</strong> via overriding the style named <code>GiniVisionTheme.Review.BottomPanel.TextStyle</code> and setting an item named <code>gvCustomFont</code> with the path to the font file in your <code>assets</code> folder </li>
+<li><strong>Bottom text style:</strong> via overriding the style named <code>GiniVisionTheme.Review.BottomPanel.TextStyle</code> and setting an item named <code>android:textStyle</code> to <code>normal</code>, <code>bold</code> or <code>italic</code> </li>
+<li><strong>Bottom text size:</strong> via overriding the style named <code>GiniVisionTheme.Review.BottomPanel.TextStyle</code> and setting an item named <code>android:textSize</code> to the desired <code>sp</code> size </li>
+<li><strong>Bottom panel background color:</strong> via the color resource named <code>gv_review_bottom_panel_background</code> </li>
+<li><strong>Background color:</strong> via the color resource named <code>gv_background</code>. <strong>Note:</strong> this color resource is global to all Activities (<code><a href="../../net.gini.android.vision.camera/-camera-activity/index.html">CameraActivity</a></code>, , <code><a href="./index.html">ReviewActivity</a></code>, <code><a href="../../net.gini.android.vision.analysis/-analysis-activity/index.html">AnalysisActivity</a></code>) </li>
+</ul>
+ 
+<p> <strong>Important:</strong> All overridden styles must have their respective <code>Root.</code> prefixed style as their parent. Ex.: the parent of <code>GiniVisionTheme.Review.BottomPanel.TextStyle</code> must be <code>Root.GiniVisionTheme.Review.BottomPanel.TextStyle</code>. </p>
+Customizing the Action Bar Customizing the Action Bar is also done via overriding of app resources and each one - except the title string resource - is global to all Activities (<code><a href="../../net.gini.android.vision.camera/-camera-activity/index.html">CameraActivity</a></code>, , <code><a href="./index.html">ReviewActivity</a></code>, <code><a href="../../net.gini.android.vision.analysis/-analysis-activity/index.html">AnalysisActivity</a></code>). 
+<p> The following items are customizable: </p>
+<ul> <li><strong>Background color:</strong> via the color resource named <code>gv_action_bar</code> (highly recommended for Android 5+: customize the status bar color via <code>gv_status_bar</code>) </li>
+<li><strong>Title:</strong> via the string resource you set in your <code>AndroidManifest.xml</code> when declaring your Activity that extends <code><a href="./index.html">ReviewActivity</a></code>. The default title string resource is named <code>gv_title_review</code> </li>
+<li><strong>Title color:</strong> via the color resource named <code>gv_action_bar_title</code> </li>
+<li><strong>Back button:</strong> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code>gv_action_bar_back</code> </li>
+</ul>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-init-.html">&lt;init&gt;</a></h4>
+</td>
+<td>
+<p>Screen API When you use the Screen API, the <code>ReviewActivity</code> displays the photographed or imported image and allows the user to review it by checking the sharpness, quality and orientation of the image. The user can correct the orientation by rotating the image. </p>
+<code><span class="identifier">ReviewActivity</span><span class="symbol">(</span><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-e-x-t-r-a_-i-n_-a-n-a-l-y-s-i-s_-a-c-t-i-v-i-t-y.html">EXTRA_IN_ANALYSIS_ACTIVITY</a></h4>
+</td>
+<td>
+<p>Internal use only.</p>
+<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">EXTRA_IN_ANALYSIS_ACTIVITY</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-e-x-t-r-a_-i-n_-b-a-c-k_-b-u-t-t-o-n_-s-h-o-u-l-d_-c-l-o-s-e_-l-i-b-r-a-r-y.html">EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY</a></h4>
+</td>
+<td>
+<p>Internal use only.</p>
+<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-e-x-t-r-a_-i-n_-d-o-c-u-m-e-n-t.html">EXTRA_IN_DOCUMENT</a></h4>
+</td>
+<td>
+<p>Internal use only.</p>
+<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">EXTRA_IN_DOCUMENT</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-e-x-t-r-a_-o-u-t_-d-o-c-u-m-e-n-t.html">EXTRA_OUT_DOCUMENT</a></h4>
+</td>
+<td>
+<p>Internal use only.</p>
+<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">EXTRA_OUT_DOCUMENT</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-e-x-t-r-a_-o-u-t_-e-r-r-o-r.html">EXTRA_OUT_ERROR</a></h4>
+</td>
+<td>
+<p>Internal use only.</p>
+<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">EXTRA_OUT_ERROR</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-r-e-s-u-l-t_-e-r-r-o-r.html">RESULT_ERROR</a></h4>
+</td>
+<td>
+<p>Internal use only.</p>
+<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">RESULT_ERROR</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="-r-e-s-u-l-t_-n-o_-e-x-t-r-a-c-t-i-o-n-s.html">RESULT_NO_EXTRACTIONS</a></h4>
+</td>
+<td>
+<p>Internal use only.</p>
+<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">RESULT_NO_EXTRACTIONS</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="on-activity-result.html">onActivityResult</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onActivityResult</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.review.ReviewActivity$onActivityResult(kotlin.Int, kotlin.Int, android.content.Intent)/requestCode">requestCode</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.review.ReviewActivity$onActivityResult(kotlin.Int, kotlin.Int, android.content.Intent)/resultCode">resultCode</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.review.ReviewActivity$onActivityResult(kotlin.Int, kotlin.Int, android.content.Intent)/data">data</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Intent.html"><span class="identifier">Intent</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-add-data-to-result.html">onAddDataToResult</a></h4>
+</td>
+<td>
+<p> Callback for adding your own data to the Activity's result. </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><s><span class="identifier">onAddDataToResult</span></s><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.review.ReviewActivity$onAddDataToResult(android.content.Intent)/result">result</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Intent.html"><span class="identifier">Intent</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-back-pressed.html">onBackPressed</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onBackPressed</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-create.html">onCreate</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onCreate</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.review.ReviewActivity$onCreate(android.os.Bundle)/savedInstanceState">savedInstanceState</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Bundle.html"><span class="identifier">Bundle</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-destroy.html">onDestroy</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onDestroy</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-document-analysis-error.html">onDocumentAnalysisError</a></h4>
+</td>
+<td>
+<p> If the analysis started in <code><a href="on-should-analyze-document.html">ReviewActivity#onShouldAnalyzeDocument(Document)</a></code> failed you can set an error message here, which will be shown in the <code><a href="../../net.gini.android.vision.analysis/-analysis-activity/index.html">AnalysisActivity</a></code> with a retry button. </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><s><span class="identifier">onDocumentAnalysisError</span></s><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.review.ReviewActivity$onDocumentAnalysisError(kotlin.String)/message">message</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">!</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-document-analyzed.html">onDocumentAnalyzed</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><s><span class="identifier">onDocumentAnalyzed</span></s><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-document-reviewed-and-analyzed.html">onDocumentReviewedAndAnalyzed</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onDocumentReviewedAndAnalyzed</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.review.ReviewActivity$onDocumentReviewedAndAnalyzed(net.gini.android.vision.Document)/document">document</span><span class="symbol">:</span>&nbsp;<a href="../../net.gini.android.vision/-document/index.html"><span class="identifier">Document</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-document-was-rotated.html">onDocumentWasRotated</a></h4>
+</td>
+<td>
+<p> Called when the user rotated the image. </p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onDocumentWasRotated</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.review.ReviewActivity$onDocumentWasRotated(net.gini.android.vision.Document, kotlin.Int, kotlin.Int)/document">document</span><span class="symbol">:</span>&nbsp;<a href="../../net.gini.android.vision/-document/index.html"><span class="identifier">Document</span></a><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.review.ReviewActivity$onDocumentWasRotated(net.gini.android.vision.Document, kotlin.Int, kotlin.Int)/oldRotation">oldRotation</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.review.ReviewActivity$onDocumentWasRotated(net.gini.android.vision.Document, kotlin.Int, kotlin.Int)/newRotation">newRotation</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-error.html">onError</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onError</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.review.ReviewActivity$onError(net.gini.android.vision.GiniVisionError)/error">error</span><span class="symbol">:</span>&nbsp;<a href="../../net.gini.android.vision/-gini-vision-error/index.html"><span class="identifier">GiniVisionError</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-extractions-available.html">onExtractionsAvailable</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onExtractionsAvailable</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.review.ReviewActivity$onExtractionsAvailable(kotlin.collections.MutableMap((kotlin.String, net.gini.android.vision.network.model.GiniVisionSpecificExtraction)))/extractions">extractions</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-map/index.html"><span class="identifier">MutableMap</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">!</span><span class="symbol">,</span>&nbsp;<a href="../../net.gini.android.vision.network.model/-gini-vision-specific-extraction/index.html"><span class="identifier">GiniVisionSpecificExtraction</span></a><span class="symbol">!</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-no-extractions-found.html">onNoExtractionsFound</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><s><span class="identifier">onNoExtractionsFound</span></s><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-options-item-selected.html">onOptionsItemSelected</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onOptionsItemSelected</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.review.ReviewActivity$onOptionsItemSelected(android.view.MenuItem)/item">item</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/view/MenuItem.html"><span class="identifier">MenuItem</span></a><span class="symbol">!</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-proceed-to-analysis-screen.html">onProceedToAnalysisScreen</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onProceedToAnalysisScreen</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.review.ReviewActivity$onProceedToAnalysisScreen(net.gini.android.vision.Document)/document">document</span><span class="symbol">:</span>&nbsp;<a href="../../net.gini.android.vision/-document/index.html"><span class="identifier">Document</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code><br/>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onProceedToAnalysisScreen</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.review.ReviewActivity$onProceedToAnalysisScreen(net.gini.android.vision.Document, kotlin.String)/document">document</span><span class="symbol">:</span>&nbsp;<a href="../../net.gini.android.vision/-document/index.html"><span class="identifier">Document</span></a><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.review.ReviewActivity$onProceedToAnalysisScreen(net.gini.android.vision.Document, kotlin.String)/errorMessage">errorMessage</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-proceed-to-no-extractions-screen.html">onProceedToNoExtractionsScreen</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onProceedToNoExtractionsScreen</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.review.ReviewActivity$onProceedToNoExtractionsScreen(net.gini.android.vision.Document)/document">document</span><span class="symbol">:</span>&nbsp;<a href="../../net.gini.android.vision/-document/index.html"><span class="identifier">Document</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-save-instance-state.html">onSaveInstanceState</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onSaveInstanceState</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.review.ReviewActivity$onSaveInstanceState(android.os.Bundle)/outState">outState</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Bundle.html"><span class="identifier">Bundle</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-should-analyze-document.html">onShouldAnalyzeDocument</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><s><span class="identifier">onShouldAnalyzeDocument</span></s><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.review.ReviewActivity$onShouldAnalyzeDocument(net.gini.android.vision.Document)/document">document</span><span class="symbol">:</span>&nbsp;<a href="../../net.gini.android.vision/-document/index.html"><span class="identifier">Document</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-listener.html">setListener</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setListener</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.review.ReviewActivity$setListener(net.gini.android.vision.review.ReviewFragmentListener)/listener">listener</span><span class="symbol">:</span>&nbsp;<a href="../-review-fragment-listener/index.html"><span class="identifier">ReviewFragmentListener</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

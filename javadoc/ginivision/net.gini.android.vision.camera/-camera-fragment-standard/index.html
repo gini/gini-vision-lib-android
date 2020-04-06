@@ -1,0 +1,205 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>CameraFragmentStandard - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision.camera</a>&nbsp;/&nbsp;<a href="./index.html">CameraFragmentStandard</a><br/>
+<br/>
+<h1>CameraFragmentStandard</h1>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">CameraFragmentStandard</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/app/Fragment.html"><span class="identifier">Fragment</span></a><span class="symbol">, </span><a href="../-camera-fragment-interface/index.html"><span class="identifier">CameraFragmentInterface</span></a><span class="symbol">, </span><span class="identifier">FragmentImplCallback</span></code>
+<p>Component API </p>
+<p> <code>CameraFragmentStandard</code> is the main entry point to the Gini Vision Library when using the Component API without the Android Support Library. </p>
+ 
+<p> It shows a camera preview with tap-to-focus functionality, a trigger button and an optional flash on/off button. The camera preview also shows document corner guides to which the user should align the document. </p>
+ 
+<p> If instantiated with <code><a href="create-instance.html">CameraFragmentStandard#createInstance(GiniVisionFeatureConfiguration)</a></code> then a button for importing documents is shown next to the trigger button. A hint popup is displayed the first time the Gini Vision Library is used to inform the user about document importing. </p>
+ 
+<p> For importing documents <code>READ_EXTERNAL_STORAGE</code> permission is required and if the permission is not granted the Gini Vision Library will prompt the user to grant the permission. See @{code Customizing the Camera Screen} on how to override the message and button titles for the rationale and on permission denial alerts. </p>
+ 
+<p> Include the <code>CameraFragmentStandard</code> into your layout either directly with <code>&lt;fragment&gt;</code> in your Activity's layout or using the <code><a href="https://developer.android.com/reference/android/app/FragmentManager.html">android.app.FragmentManager</a></code> and one of the <code>createInstance()</code> methods. </p>
+ 
+<p> A <code><a href="../-camera-fragment-listener/index.html">CameraFragmentListener</a></code> instance must be available until the <code>CameraFragmentStandard</code> is attached to an activity. Failing to do so will throw an exception. The listener instance can be provided either implicitly by making the hosting Activity implement the <code><a href="../-camera-fragment-listener/index.html">CameraFragmentListener</a></code> interface or explicitly by setting the listener using <code><a href="../-camera-fragment-compat/set-listener.html">CameraFragmentCompat#setListener(CameraFragmentListener)</a></code>. </p>
+ 
+<p> Your Activity is automatically set as the listener in <code><a href="on-attach.html">CameraFragmentStandard#onAttach(Context)</a></code>. </p>
+ Customizing the Camera Screen 
+<p> See the <code><a href="../-camera-activity/index.html">CameraActivity</a></code> for details. </p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-init-.html">&lt;init&gt;</a></h4>
+</td>
+<td>
+<p>Component API </p>
+<code><span class="identifier">CameraFragmentStandard</span><span class="symbol">(</span><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="create-instance.html">createInstance</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">static</span> <span class="keyword">fun </span><span class="identifier">createInstance</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">CameraFragmentStandard</span></a><span class="symbol">!</span></code>
+<p> Factory method for creating a new instance of the Fragment with document import enabled for the specified file types. </p>
+<code><span class="keyword">open</span> <span class="keyword">static</span> <span class="keyword">fun </span><span class="identifier">createInstance</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.camera.CameraFragmentStandard$createInstance(net.gini.android.vision.GiniVisionFeatureConfiguration)/giniVisionFeatureConfiguration">giniVisionFeatureConfiguration</span><span class="symbol">:</span>&nbsp;<a href="../../net.gini.android.vision/-gini-vision-feature-configuration/index.html"><span class="identifier">GiniVisionFeatureConfiguration</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">CameraFragmentStandard</span></a><span class="symbol">!</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="hide-activity-indicator-and-enable-interaction.html">hideActivityIndicatorAndEnableInteraction</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">hideActivityIndicatorAndEnableInteraction</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="hide-camera-trigger-button.html">hideCameraTriggerButton</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><s><span class="identifier">hideCameraTriggerButton</span></s><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="hide-document-corner-guides.html">hideDocumentCornerGuides</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><s><span class="identifier">hideDocumentCornerGuides</span></s><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="hide-interface.html">hideInterface</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">hideInterface</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-activity-result.html">onActivityResult</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onActivityResult</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.camera.CameraFragmentStandard$onActivityResult(kotlin.Int, kotlin.Int, android.content.Intent)/requestCode">requestCode</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.camera.CameraFragmentStandard$onActivityResult(kotlin.Int, kotlin.Int, android.content.Intent)/resultCode">resultCode</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.camera.CameraFragmentStandard$onActivityResult(kotlin.Int, kotlin.Int, android.content.Intent)/data">data</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Intent.html"><span class="identifier">Intent</span></a><span class="symbol">!</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-attach.html">onAttach</a></h4>
+</td>
+<td>
+<p>Internal use only.</p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onAttach</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.camera.CameraFragmentStandard$onAttach(android.content.Context)/context">context</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Context.html"><span class="identifier">Context</span></a><span class="symbol">!</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code><br/>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onAttach</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.camera.CameraFragmentStandard$onAttach(android.app.Activity)/activity">activity</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/app/Activity.html"><span class="identifier">Activity</span></a><span class="symbol">!</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-create.html">onCreate</a></h4>
+</td>
+<td>
+<p>Internal use only.</p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onCreate</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.camera.CameraFragmentStandard$onCreate(android.os.Bundle)/savedInstanceState">savedInstanceState</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Bundle.html"><span class="identifier">Bundle</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-create-view.html">onCreateView</a></h4>
+</td>
+<td>
+<p>Internal use only.</p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onCreateView</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.camera.CameraFragmentStandard$onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)/inflater">inflater</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/view/LayoutInflater.html"><span class="identifier">LayoutInflater</span></a><span class="symbol">!</span><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.camera.CameraFragmentStandard$onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)/container">container</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/view/ViewGroup.html"><span class="identifier">ViewGroup</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.camera.CameraFragmentStandard$onCreateView(android.view.LayoutInflater, android.view.ViewGroup, android.os.Bundle)/savedInstanceState">savedInstanceState</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Bundle.html"><span class="identifier">Bundle</span></a><span class="symbol">!</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/view/View.html"><span class="identifier">View</span></a><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-destroy.html">onDestroy</a></h4>
+</td>
+<td>
+<p>Internal use only.</p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onDestroy</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-resume.html">onResume</a></h4>
+</td>
+<td>
+<p>Internal use only.</p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onResume</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-save-instance-state.html">onSaveInstanceState</a></h4>
+</td>
+<td>
+<p>Internal use only.</p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onSaveInstanceState</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.camera.CameraFragmentStandard$onSaveInstanceState(android.os.Bundle)/outState">outState</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Bundle.html"><span class="identifier">Bundle</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-start.html">onStart</a></h4>
+</td>
+<td>
+<p>Internal use only.</p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onStart</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="on-stop.html">onStop</a></h4>
+</td>
+<td>
+<p>Internal use only.</p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">onStop</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-listener.html">setListener</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setListener</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.camera.CameraFragmentStandard$setListener(net.gini.android.vision.camera.CameraFragmentListener)/listener">listener</span><span class="symbol">:</span>&nbsp;<a href="../-camera-fragment-listener/index.html"><span class="identifier">CameraFragmentListener</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="show-activity-indicator-and-disable-interaction.html">showActivityIndicatorAndDisableInteraction</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">showActivityIndicatorAndDisableInteraction</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="show-alert-dialog.html">showAlertDialog</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">showAlertDialog</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.camera.CameraFragmentStandard$showAlertDialog(kotlin.String, kotlin.String, android.content.DialogInterface.OnClickListener, kotlin.String, android.content.DialogInterface.OnClickListener, android.content.DialogInterface.OnCancelListener)/message">message</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.camera.CameraFragmentStandard$showAlertDialog(kotlin.String, kotlin.String, android.content.DialogInterface.OnClickListener, kotlin.String, android.content.DialogInterface.OnClickListener, android.content.DialogInterface.OnCancelListener)/positiveButtonTitle">positiveButtonTitle</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.camera.CameraFragmentStandard$showAlertDialog(kotlin.String, kotlin.String, android.content.DialogInterface.OnClickListener, kotlin.String, android.content.DialogInterface.OnClickListener, android.content.DialogInterface.OnCancelListener)/positiveButtonClickListener">positiveButtonClickListener</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/DialogInterface/OnClickListener.html"><span class="identifier">OnClickListener</span></a><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.camera.CameraFragmentStandard$showAlertDialog(kotlin.String, kotlin.String, android.content.DialogInterface.OnClickListener, kotlin.String, android.content.DialogInterface.OnClickListener, android.content.DialogInterface.OnCancelListener)/negativeButtonTitle">negativeButtonTitle</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.camera.CameraFragmentStandard$showAlertDialog(kotlin.String, kotlin.String, android.content.DialogInterface.OnClickListener, kotlin.String, android.content.DialogInterface.OnClickListener, android.content.DialogInterface.OnCancelListener)/negativeButtonClickListener">negativeButtonClickListener</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/DialogInterface/OnClickListener.html"><span class="identifier">OnClickListener</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.camera.CameraFragmentStandard$showAlertDialog(kotlin.String, kotlin.String, android.content.DialogInterface.OnClickListener, kotlin.String, android.content.DialogInterface.OnClickListener, android.content.DialogInterface.OnCancelListener)/cancelListener">cancelListener</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/DialogInterface/OnCancelListener.html"><span class="identifier">OnCancelListener</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="show-camera-trigger-button.html">showCameraTriggerButton</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><s><span class="identifier">showCameraTriggerButton</span></s><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="show-document-corner-guides.html">showDocumentCornerGuides</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><s><span class="identifier">showDocumentCornerGuides</span></s><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="show-error.html">showError</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">showError</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.camera.CameraFragmentStandard$showError(kotlin.String, kotlin.Int)/message">message</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.camera.CameraFragmentStandard$showError(kotlin.String, kotlin.Int)/duration">duration</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="show-interface.html">showInterface</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">showInterface</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

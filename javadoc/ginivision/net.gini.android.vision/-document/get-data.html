@@ -1,0 +1,21 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>Document.getData - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision</a>&nbsp;/&nbsp;<a href="index.html">Document</a>&nbsp;/&nbsp;<a href="./get-data.html">getData</a><br/>
+<br/>
+<h1>getData</h1>
+<a name="net.gini.android.vision.Document$getData()"></a>
+<code><span class="identifier">@Nullable</span> <span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">getData</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html"><span class="identifier">ByteArray</span></a><span class="symbol">?</span></code>
+<p> The contents of a document, if the document was loaded into memory. </p>
+ 
+<p> For photos captured with the camera or for QR Codes this is never null. </p>
+ 
+<p> If <code><a href="is-imported.html">Document#isImported()</a></code> is <code>true</code> then this might be null. If it's null you can use <code><a href="get-intent.html">Document#getIntent()</a></code> and access the contents using the Intent. </p>
+<p><strong>Return</strong><br/>
+<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html"><span class="identifier">ByteArray</span></a><span class="symbol">?</span><span class="symbol">:</span> a byte array containing one of the supported document types</p>
+</BODY>
+</HTML>

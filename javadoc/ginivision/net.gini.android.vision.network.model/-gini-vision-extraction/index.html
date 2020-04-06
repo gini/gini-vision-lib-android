@@ -1,0 +1,130 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>GiniVisionExtraction - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision.network.model</a>&nbsp;/&nbsp;<a href="./index.html">GiniVisionExtraction</a><br/>
+<br/>
+<h1>GiniVisionExtraction</h1>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">GiniVisionExtraction</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Parcelable.html"><span class="identifier">Parcelable</span></a></code>
+<p>Contains a Gini API <a href="http://developer.gini.net/gini-api/html/document_extractions.html#extractions">extraction</a>. </p>
+<p> An extraction contains an entity describing the general semantic type of the extraction (e.g. a date), which also determines the format of the value containing the information as text. Optionally there may be a box describing the position of the extraction value on the document. In most instances, extractions without a bounding box are meta information (e.g. doctype).</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-init-.html">&lt;init&gt;</a></h4>
+</td>
+<td>
+<p>Value object for an extraction from the Gini API.</p>
+<code><span class="identifier">GiniVisionExtraction</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.network.model.GiniVisionExtraction$<init>(kotlin.String, kotlin.String, net.gini.android.vision.network.model.GiniVisionBox)/value">value</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.network.model.GiniVisionExtraction$<init>(kotlin.String, kotlin.String, net.gini.android.vision.network.model.GiniVisionBox)/entity">entity</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.network.model.GiniVisionExtraction$<init>(kotlin.String, kotlin.String, net.gini.android.vision.network.model.GiniVisionBox)/box">box</span><span class="symbol">:</span>&nbsp;<a href="../-gini-vision-box/index.html"><span class="identifier">GiniVisionBox</span></a><span class="symbol">?</span><span class="symbol">)</span></code><code><span class="identifier">GiniVisionExtraction</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.network.model.GiniVisionExtraction$<init>(android.os.Parcel)/in">in</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Parcel.html"><span class="identifier">Parcel</span></a><span class="symbol">!</span><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-c-r-e-a-t-o-r.html">CREATOR</a></h4>
+</td>
+<td>
+<code><span class="keyword">static</span> <span class="keyword">val </span><span class="identifier">CREATOR</span><span class="symbol">: </span><a href="https://developer.android.com/reference/android/os/Parcelable/Creator.html"><span class="identifier">Creator</span></a><span class="symbol">&lt;</span><a href="./index.html"><span class="identifier">GiniVisionExtraction</span></a><span class="symbol">!</span><span class="symbol">&gt;</span><span class="symbol">!</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="describe-contents.html">describeContents</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">describeContents</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-box.html">getBox</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">getBox</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-gini-vision-box/index.html"><span class="identifier">GiniVisionBox</span></a><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-entity.html">getEntity</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">getEntity</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="get-value.html">getValue</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">getValue</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="is-dirty.html">isDirty</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">isDirty</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-box.html">setBox</a></h4>
+</td>
+<td>
+<p>Set a new bounding box. Marks the extraction as dirty.</p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setBox</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.network.model.GiniVisionExtraction$setBox(net.gini.android.vision.network.model.GiniVisionBox)/newBox">newBox</span><span class="symbol">:</span>&nbsp;<a href="../-gini-vision-box/index.html"><span class="identifier">GiniVisionBox</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-is-dirty.html">setIsDirty</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setIsDirty</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.network.model.GiniVisionExtraction$setIsDirty(kotlin.Boolean)/isDirty">isDirty</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-value.html">setValue</a></h4>
+</td>
+<td>
+<p>Set a new value for this extraction. Marks the extraction as dirty.</p>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">setValue</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.network.model.GiniVisionExtraction$setValue(kotlin.String)/newValue">newValue</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="to-string.html">toString</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">toString</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="write-to-parcel.html">writeToParcel</a></h4>
+</td>
+<td>
+<code><span class="keyword">open</span> <span class="keyword">fun </span><span class="identifier">writeToParcel</span><span class="symbol">(</span><span class="identifier" id="net.gini.android.vision.network.model.GiniVisionExtraction$writeToParcel(android.os.Parcel, kotlin.Int)/dest">dest</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/os/Parcel.html"><span class="identifier">Parcel</span></a><span class="symbol">!</span><span class="symbol">, </span><span class="identifier" id="net.gini.android.vision.network.model.GiniVisionExtraction$writeToParcel(android.os.Parcel, kotlin.Int)/flags">flags</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html"><span class="identifier">Int</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="../-gini-vision-specific-extraction/index.html">GiniVisionSpecificExtraction</a></h4>
+</td>
+<td>
+<p>Contains a Gini API <a href="http://developer.gini.net/gini-api/html/document_extractions.html#specific-extractions">specific extraction</a>. </p>
+<code><span class="keyword">open</span> <span class="keyword">class </span><span class="identifier">GiniVisionSpecificExtraction</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">GiniVisionExtraction</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

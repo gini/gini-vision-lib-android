@@ -1,0 +1,44 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>PhotoTipsActivity.<init> - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision.help</a>&nbsp;/&nbsp;<a href="index.html">PhotoTipsActivity</a>&nbsp;/&nbsp;<a href="./-init-.html">&lt;init&gt;</a><br/>
+<br/>
+<h1>&lt;init&gt;</h1>
+<a name="net.gini.android.vision.help.PhotoTipsActivity$&lt;init&gt;()"></a>
+<code><span class="identifier">PhotoTipsActivity</span><span class="symbol">(</span><span class="symbol">)</span></code>
+<p>Screen API and Component API </p>
+<p> On the Photo Tips Screen users can get information about how to take better pictures. </p>
+ 
+<p> This Activity is launched by the <code><a href="../-help-activity/index.html">HelpActivity</a></code> for both Screen and Component APIs. </p>
+ Customizing the Photo Tips Screen 
+<p> Customizing the look of the Photo Tips Screen is done via overriding of app resources. </p>
+ 
+<p> The following items are customizable: </p>
+<ul> <li> <strong>Background color:</strong> via the color resource named <code>gv_photo_tips_activity_background</code>. </li>
+ <li> <strong>Header text style:</strong> via overriding the style named <code>GiniVisionTheme.Help.PhotoTips.Header.TextStyle</code> </li>
+ <li> <strong>Tip text style:</strong> via overriding the style named <code>GiniVisionTheme.Help.PhotoTips.Tip.TextStyle</code> </li>
+ <li> <strong>Tip image - Good lighting:</strong> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code>gv_photo_tip_lighting.png</code> </li>
+ <li> <strong>Tip image - Document should be flat:</strong> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code>gv_photo_tip_flat.png</code> </li>
+ <li> <strong>Tip image - Device should be parallel to document:</strong> via images for mdpi, hdpi, xhdpi,xxhdpi, xxxhdpi named <code>gv_photo_tip_parallel.png</code> </li>
+ <li> <strong>Tip image - Document should be aligned with corner guides:</strong> via images for mdpi, hdpi, xhdpi,xxhdpi, xxxhdpi named <code>gv_photo_tip_align.png</code> </li>
+ <li> <strong>Button color:</strong> via the color resource named <code>gv_photo_tips_button</code> </li>
+ <li> <strong>Button text color:</strong> via the color resource named <code>gv_photo_tips_button_text</code> </li>
+ </ul>
+  
+<p> <strong>Important:</strong> All overriden styles must have their respective <code>Root.</code> prefixed style as their parent. Ex.: the parent of <code>GiniVisionTheme.Onboarding.Message.TextStyle</code> must be <code>Root.GiniVisionTheme.Onboarding.Message.TextStyle</code>. </p>
+ Customizing the Action Bar 
+<p> Customizing the Action Bar is done via overriding of app resources and each one - except the title string resource - is global to all Activities (<code><a href="../../net.gini.android.vision.camera/-camera-activity/index.html">CameraActivity</a></code>, , <code><a href="../-help-activity/index.html">HelpActivity</a></code>, <code><a href="../../net.gini.android.vision.review/-review-activity/index.html">ReviewActivity</a></code>, <code><a href="../../net.gini.android.vision.analysis/-analysis-activity/index.html">AnalysisActivity</a></code>). </p>
+ 
+<p> The following items are customizable: </p>
+<ul> <li> <strong>Background color:</strong> via the color resource named <code>gv_action_bar</code> (highly recommended for Android 5+: customize the status bar color via <code>gv_status_bar</code>) </li>
+ <li> <strong>Title:</strong> via the string resource name <code>gv_title_photo_tips</code> </li>
+ <li> <strong>Title color:</strong> via the color resource named <code>gv_action_bar_title</code> </li>
+ <li><strong>Back button:</strong> via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code>gv_action_bar_back</code> </li>
+ </ul>
+ 
+</BODY>
+</HTML>

@@ -1,0 +1,34 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>OnboardingFragmentCompat.<init> - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision.onboarding</a>&nbsp;/&nbsp;<a href="index.html">OnboardingFragmentCompat</a>&nbsp;/&nbsp;<a href="./-init-.html">&lt;init&gt;</a><br/>
+<br/>
+<h1>&lt;init&gt;</h1>
+<a name="net.gini.android.vision.onboarding.OnboardingFragmentCompat$&lt;init&gt;()"></a>
+<code><span class="identifier">OnboardingFragmentCompat</span><span class="symbol">(</span><span class="symbol">)</span></code>
+<p>Component API </p>
+<p> When you use the Component API with the Android Support Library, the <code>OnboardingFragmentCompat</code> displays important advice for correctly photographing a document. </p>
+ 
+<p> <strong>Note:</strong> Your Activity hosting this Fragment must extend the and use an AppCompat Theme. </p>
+ 
+<p> Include the <code>OnboardingFragmentCompat</code> into your layout either directly with <code>&lt;fragment&gt;</code> in your Activity's layout or using the <code><a href="#">androidx.fragment.app.FragmentManager</a></code>. </p>
+ 
+<p> The default way of showing the Onboarding Screen is as an overlay above the camera preview with a semi-transparent background. </p>
+ 
+<p> By default an empty last page is added to enable the revealing of the camera preview before the Onboarding Screen is dismissed. </p>
+ 
+<p> If you would like to display a different number of pages, you can use the <code><a href="create-instance.html"> </a></code> or <code><a href="create-instance-without-empty-last-page.html">OnboardingFragmentCompat#createInstanceWithoutEmptyLastPage(ArrayList)</a></code> factory method and provide a list of <code><a href="../-onboarding-page/index.html">OnboardingPage</a></code> objects. </p>
+ 
+<p> If you would like to disable the appending of the empty last page, you can use the <code><a href="create-instance-without-empty-last-page.html"> </a></code> or the <code><a href="create-instance-without-empty-last-page.html"> </a></code> factory method. </p>
+ 
+<p> An <code><a href="../-onboarding-fragment-listener/index.html">OnboardingFragmentListener</a></code> instance must be available until the <code>OnboardingFragmentCompat</code> is attached to an activity. Failing to do so will throw an exception. The listener instance can be provided either implicitly by making the hosting Activity implement the <code><a href="../-onboarding-fragment-listener/index.html">OnboardingFragmentListener</a></code> interface or explicitly by setting the listener using <code><a href="set-listener.html">OnboardingFragmentCompat#setListener(OnboardingFragmentListener)</a></code>. </p>
+ 
+<p> Your Activity is automatically set as the listener in <code><a href="on-create.html">OnboardingFragmentCompat#onCreate(Bundle)</a></code>. </p>
+ Customizing the Onboarding Screen 
+<p> See the <code><a href="../-onboarding-activity/index.html">OnboardingActivity</a></code> for details. </p>
+</BODY>
+</HTML>

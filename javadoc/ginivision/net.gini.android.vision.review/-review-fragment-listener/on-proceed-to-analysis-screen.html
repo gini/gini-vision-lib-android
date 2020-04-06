@@ -1,0 +1,37 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>ReviewFragmentListener.onProceedToAnalysisScreen - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision.review</a>&nbsp;/&nbsp;<a href="index.html">ReviewFragmentListener</a>&nbsp;/&nbsp;<a href="./on-proceed-to-analysis-screen.html">onProceedToAnalysisScreen</a><br/>
+<br/>
+<h1>onProceedToAnalysisScreen</h1>
+<a name="net.gini.android.vision.review.ReviewFragmentListener$onProceedToAnalysisScreen(net.gini.android.vision.Document)"></a>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><s><span class="identifier">onProceedToAnalysisScreen</span></s><span class="symbol">(</span><span class="identifier">@NonNull</span> <span class="identifier" id="net.gini.android.vision.review.ReviewFragmentListener$onProceedToAnalysisScreen(net.gini.android.vision.Document)/document">document</span><span class="symbol">:</span>&nbsp;<a href="../../net.gini.android.vision/-document/index.html"><span class="identifier">Document</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code><br/>
+<strong>Deprecated:</strong> Deprecated in Java<br/>
+<br/>
+<p>Called if you didn't call <code><a href="../-review-fragment-standard/on-document-analyzed.html">ReviewFragmentStandard#onDocumentAnalyzed()</a></code> or <code><a href="../-review-fragment-compat/on-document-analyzed.html"> </a></code> (or the image was changed) and the user tapped on the Next button. </p>
+<p> You should start your Activity extending <code><a href="../../net.gini.android.vision.analysis/-analysis-activity/index.html">AnalysisActivity</a></code> and set the document as the <code><a href="../../net.gini.android.vision.analysis/-analysis-activity/-e-x-t-r-a_-i-n_-d-o-c-u-m-e-n-t.html">AnalysisActivity#EXTRA_IN_DOCUMENT</a></code> extra.</p>
+<h3>Parameters</h3>
+<p><a name="document"></a>
+<code>document</code> - <a href="../../net.gini.android.vision/-document/index.html"><span class="identifier">Document</span></a><span class="symbol">:</span> contains the reviewed image (can be the original one or a modified image)</p>
+<p><strong>Deprecated</strong><br/>
+When a <code><a href="../../net.gini.android.vision/-gini-vision/index.html">GiniVision</a></code> instance is available <code><a href="./on-proceed-to-analysis-screen.html">ReviewFragmentListener#onProceedToAnalysisScreen(Document, * String)</a></code> is invoked instead.</p>
+<a name="net.gini.android.vision.review.ReviewFragmentListener$onProceedToAnalysisScreen(net.gini.android.vision.Document, kotlin.String)"></a>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">onProceedToAnalysisScreen</span><span class="symbol">(</span><span class="identifier">@NonNull</span> <span class="identifier" id="net.gini.android.vision.review.ReviewFragmentListener$onProceedToAnalysisScreen(net.gini.android.vision.Document, kotlin.String)/document">document</span><span class="symbol">:</span>&nbsp;<a href="../../net.gini.android.vision/-document/index.html"><span class="identifier">Document</span></a><span class="symbol">, </span><span class="identifier">@Nullable</span> <span class="identifier" id="net.gini.android.vision.review.ReviewFragmentListener$onProceedToAnalysisScreen(net.gini.android.vision.Document, kotlin.String)/errorMessage">errorMessage</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Called when the user tapped on the Next button and one of the following conditions apply: <ul> <li>Analysis is in progress </li>
+<li>Analysis completed with an error </li>
+<li>The image was rotated 
+<p> You should start your Activity extending <code><a href="../../net.gini.android.vision.analysis/-analysis-activity/index.html">AnalysisActivity</a></code> and set the document as the <code><a href="../../net.gini.android.vision.analysis/-analysis-activity/-e-x-t-r-a_-i-n_-d-o-c-u-m-e-n-t.html">AnalysisActivity#EXTRA_IN_DOCUMENT</a></code> extra.</p>
+</li>
+</ul>
+</p>
+<h3>Parameters</h3>
+<p><a name="document"></a>
+<code>document</code> - <a href="../../net.gini.android.vision/-document/index.html"><span class="identifier">Document</span></a><span class="symbol">:</span> contains the reviewed image (can be the original one or a modified image)</p>
+<p><a name="errorMessage"></a>
+<code>errorMessage</code> - <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">:</span> an optional error message to be passed to the Analysis Screen</p>
+</BODY>
+</HTML>

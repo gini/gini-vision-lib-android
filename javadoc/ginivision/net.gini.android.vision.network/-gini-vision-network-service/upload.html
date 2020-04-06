@@ -1,0 +1,23 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>GiniVisionNetworkService.upload - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision.network</a>&nbsp;/&nbsp;<a href="index.html">GiniVisionNetworkService</a>&nbsp;/&nbsp;<a href="./upload.html">upload</a><br/>
+<br/>
+<h1>upload</h1>
+<a name="net.gini.android.vision.network.GiniVisionNetworkService$upload(net.gini.android.vision.Document, net.gini.android.vision.network.GiniVisionNetworkCallback((net.gini.android.vision.network.Result, net.gini.android.vision.network.Error)))"></a>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">upload</span><span class="symbol">(</span><span class="identifier">@NonNull</span> <span class="identifier" id="net.gini.android.vision.network.GiniVisionNetworkService$upload(net.gini.android.vision.Document, net.gini.android.vision.network.GiniVisionNetworkCallback((net.gini.android.vision.network.Result, net.gini.android.vision.network.Error)))/document">document</span><span class="symbol">:</span>&nbsp;<a href="../../net.gini.android.vision/-document/index.html"><span class="identifier">Document</span></a><span class="symbol">, </span><span class="identifier">@NonNull</span> <span class="identifier" id="net.gini.android.vision.network.GiniVisionNetworkService$upload(net.gini.android.vision.Document, net.gini.android.vision.network.GiniVisionNetworkCallback((net.gini.android.vision.network.Result, net.gini.android.vision.network.Error)))/callback">callback</span><span class="symbol">:</span>&nbsp;<a href="../-gini-vision-network-callback/index.html"><span class="identifier">GiniVisionNetworkCallback</span></a><span class="symbol">&lt;</span><a href="../-result/index.html"><span class="identifier">Result</span></a><span class="symbol">!</span><span class="symbol">,</span>&nbsp;<a href="../-error/index.html"><span class="identifier">Error</span></a><span class="symbol">!</span><span class="symbol">&gt;</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">CancellationToken</span><span class="symbol">!</span></code>
+<p>Called when a document needs to be uploaded to the Gini API. </p>
+<p> You should only upload the document. Polling or retrieving extractions is not needed at this point.</p>
+<h3>Parameters</h3>
+<p><a name="document"></a>
+<code>document</code> - <a href="../../net.gini.android.vision/-document/index.html"><span class="identifier">Document</span></a><span class="symbol">:</span> a <code><a href="../../net.gini.android.vision/-document/index.html">Document</a></code> containing an image, pdf or other supported formats</p>
+<p><a name="callback"></a>
+<code>callback</code> - <a href="../-gini-vision-network-callback/index.html"><span class="identifier">GiniVisionNetworkCallback</span></a><span class="symbol">&lt;</span><a href="../-result/index.html"><span class="identifier">Result</span></a><span class="symbol">!</span><span class="symbol">,</span>&nbsp;<a href="../-error/index.html"><span class="identifier">Error</span></a><span class="symbol">!</span><span class="symbol">&gt;</span><span class="symbol">:</span> a callback implementation to return the outcome of the upload</p>
+<p><strong>Return</strong><br/>
+<span class="identifier">CancellationToken</span><span class="symbol">!</span><span class="symbol">:</span> a <code><a href="#">CancellationToken</a></code> to be used for requesting upload cancellation</p>
+</BODY>
+</HTML>

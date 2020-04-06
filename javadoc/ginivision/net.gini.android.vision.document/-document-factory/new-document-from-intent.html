@@ -1,0 +1,24 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>DocumentFactory.newDocumentFromIntent - ginivision</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">ginivision</a>&nbsp;/&nbsp;<a href="../index.html">net.gini.android.vision.document</a>&nbsp;/&nbsp;<a href="index.html">DocumentFactory</a>&nbsp;/&nbsp;<a href="./new-document-from-intent.html">newDocumentFromIntent</a><br/>
+<br/>
+<h1>newDocumentFromIntent</h1>
+<a name="net.gini.android.vision.document.DocumentFactory$newDocumentFromIntent(android.content.Intent, android.content.Context, kotlin.String, kotlin.String, net.gini.android.vision.Document.ImportMethod)"></a>
+<code><span class="identifier">@NonNull</span> <span class="keyword">static</span> <span class="keyword">fun </span><span class="identifier">newDocumentFromIntent</span><span class="symbol">(</span><span class="identifier">@NonNull</span> <span class="identifier" id="net.gini.android.vision.document.DocumentFactory$newDocumentFromIntent(android.content.Intent, android.content.Context, kotlin.String, kotlin.String, net.gini.android.vision.Document.ImportMethod)/intent">intent</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Intent.html"><span class="identifier">Intent</span></a><span class="symbol">, </span><span class="identifier">@NonNull</span> <span class="identifier" id="net.gini.android.vision.document.DocumentFactory$newDocumentFromIntent(android.content.Intent, android.content.Context, kotlin.String, kotlin.String, net.gini.android.vision.Document.ImportMethod)/context">context</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Context.html"><span class="identifier">Context</span></a><span class="symbol">, </span><span class="identifier">@NonNull</span> <span class="identifier" id="net.gini.android.vision.document.DocumentFactory$newDocumentFromIntent(android.content.Intent, android.content.Context, kotlin.String, kotlin.String, net.gini.android.vision.Document.ImportMethod)/deviceOrientation">deviceOrientation</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier">@NonNull</span> <span class="identifier" id="net.gini.android.vision.document.DocumentFactory$newDocumentFromIntent(android.content.Intent, android.content.Context, kotlin.String, kotlin.String, net.gini.android.vision.Document.ImportMethod)/deviceType">deviceType</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier">@NonNull</span> <span class="identifier" id="net.gini.android.vision.document.DocumentFactory$newDocumentFromIntent(android.content.Intent, android.content.Context, kotlin.String, kotlin.String, net.gini.android.vision.Document.ImportMethod)/importMethod">importMethod</span><span class="symbol">:</span>&nbsp;<span class="identifier">ImportMethod</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-gini-vision-document/index.html"><span class="identifier">GiniVisionDocument</span></a></code>
+<h3>Parameters</h3>
+<p><a name="intent"></a>
+<code>intent</code> - <a href="https://developer.android.com/reference/android/content/Intent.html"><span class="identifier">Intent</span></a><span class="symbol">:</span> an <code><a href="https://developer.android.com/reference/android/content/Intent.html">Intent</a></code> containing an image or a pdf <code><a href="https://developer.android.com/reference/android/net/Uri.html">Uri</a></code></p>
+<p><a name="context"></a>
+<code>context</code> - <a href="https://developer.android.com/reference/android/content/Context.html"><span class="identifier">Context</span></a><span class="symbol">:</span> Android context</p>
+<h3>Exceptions</h3>
+<p><a name="IllegalArgumentException"></a>
+<code>IllegalArgumentException</code> - if the Intent's data is null or the mime type is unknown</p>
+<p><strong>Return</strong><br/>
+<a href="../-gini-vision-document/index.html"><span class="identifier">GiniVisionDocument</span></a><span class="symbol">:</span> new <code><a href="../../net.gini.android.vision/-document/index.html">Document</a></code> instance with the contents of the Intent's Uri</p>
+</BODY>
+</HTML>
