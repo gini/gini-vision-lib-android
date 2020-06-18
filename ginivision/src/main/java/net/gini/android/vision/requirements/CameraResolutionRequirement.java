@@ -8,14 +8,21 @@ import net.gini.android.vision.internal.util.Size;
 
 import java.util.Locale;
 
-class CameraResolutionRequirement implements Requirement {
+/**
+ * Internal use only.
+ *
+ * @exclude
+ */
+public class CameraResolutionRequirement implements Requirement {
 
     // We require ~8MP or higher picture resolutions
-    private static final int MIN_PICTURE_AREA = 7900000;
+    private static final int MIN_PICTURE_AREA = 7_900_000;
+    // We allow up to 13MP picture resolutions
+    public static final int MAX_PICTURE_AREA = 13_000_000;
 
     private final CameraHolder mCameraHolder;
 
-    CameraResolutionRequirement(CameraHolder cameraHolder) {
+    CameraResolutionRequirement(final CameraHolder cameraHolder) {
         mCameraHolder = cameraHolder;
     }
 
@@ -32,10 +39,10 @@ class CameraResolutionRequirement implements Requirement {
         String details = "";
 
         try {
-            Camera.Parameters parameters = mCameraHolder.getCameraParameters();
+            final Camera.Parameters parameters = mCameraHolder.getCameraParameters();
             if (parameters != null) {
-                Size pictureSize = SizeSelectionHelper.getLargestSize(
-                        parameters.getSupportedPictureSizes());
+                final Size pictureSize = SizeSelectionHelper.getLargestAllowedSize(
+                        parameters.getSupportedPictureSizes(), MAX_PICTURE_AREA);
                 if (pictureSize == null) {
                     result = false;
                     details = "Camera has no picture resolutions";
@@ -46,8 +53,8 @@ class CameraResolutionRequirement implements Requirement {
                     return new RequirementReport(getId(), result, details);
                 }
 
-                Size previewSize = SizeSelectionHelper.getLargestSizeWithSimilarAspectRatio(
-                        parameters.getSupportedPreviewSizes(), pictureSize);
+                final Size previewSize = SizeSelectionHelper.getLargestAllowedSizeWithSimilarAspectRatio(
+                        parameters.getSupportedPreviewSizes(), pictureSize, MAX_PICTURE_AREA);
                 if (previewSize == null) {
                     result = false;
                     details = String.format(Locale.US,
@@ -60,7 +67,7 @@ class CameraResolutionRequirement implements Requirement {
                 result = false;
                 details = "Camera not open";
             }
-        } catch (RuntimeException e) {
+        } catch (final RuntimeException e) {
             result = false;
             details = "Camera exception: " + e.getMessage();
         }
@@ -68,7 +75,7 @@ class CameraResolutionRequirement implements Requirement {
         return new RequirementReport(getId(), result, details);
     }
 
-    private boolean isAround8MPOrHigher(Size size) {
+    private boolean isAround8MPOrHigher(final Size size) {
         return size.width * size.height >= MIN_PICTURE_AREA;
     }
 
