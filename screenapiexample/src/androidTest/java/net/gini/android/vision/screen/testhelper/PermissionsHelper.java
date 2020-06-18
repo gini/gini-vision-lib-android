@@ -1,7 +1,7 @@
 package net.gini.android.vision.screen.testhelper;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
-import static android.support.test.InstrumentationRegistry.getTargetContext;
+import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -21,7 +21,7 @@ public class PermissionsHelper {
     private static final String LOG_TAG = "GrantPermission";
 
     public static void grantExternalStoragePermission() throws InterruptedException {
-        grantExternalStoragePermission(getTargetContext().getPackageName());
+        grantExternalStoragePermission(getApplicationContext().getPackageName());
     }
 
     public static void grantExternalStoragePermission(final String packageName)
@@ -33,7 +33,7 @@ public class PermissionsHelper {
     }
 
     public static void grantCameraPermission() throws InterruptedException {
-        grantCameraPermission(getTargetContext().getPackageName());
+        grantCameraPermission(getApplicationContext().getPackageName());
     }
 
     public static void grantCameraPermission(final String packageName) throws InterruptedException {
@@ -45,13 +45,13 @@ public class PermissionsHelper {
             if (hasPermission(permission, packageName)) {
                 return;
             }
-            String command = "pm grant " + packageName + " " + permission;
+            final String command = "pm grant " + packageName + " " + permission;
             executeShellCommand(command);
         }
     }
 
-    private static boolean hasPermission(String permission, String packageName) {
-        int checkResult = getTargetContext().getPackageManager().checkPermission(permission,
+    private static boolean hasPermission(final String permission, final String packageName) {
+        final int checkResult = getApplicationContext().getPackageManager().checkPermission(permission,
                 packageName);
         return checkResult == PackageManager.PERMISSION_GRANTED;
     }
@@ -66,17 +66,17 @@ public class PermissionsHelper {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @NonNull
     private static String executeShellCommand(final String command) {
-        UiAutomation uiAutomation = getInstrumentation().getUiAutomation();
-        try (ParcelFileDescriptor parcelFd = uiAutomation.executeShellCommand(command);
-             FileReader fileReader = new FileReader(parcelFd.getFileDescriptor());
-             BufferedReader reader = new BufferedReader(fileReader)) {
-            StringBuilder stringBuilder = new StringBuilder();
+        final UiAutomation uiAutomation = getInstrumentation().getUiAutomation();
+        try (final ParcelFileDescriptor parcelFd = uiAutomation.executeShellCommand(command);
+             final FileReader fileReader = new FileReader(parcelFd.getFileDescriptor());
+             final BufferedReader reader = new BufferedReader(fileReader)) {
+            final StringBuilder stringBuilder = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {
                 stringBuilder.append(line).append("\n");
             }
             return stringBuilder.toString();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             Log.e(LOG_TAG, e.getMessage());
         }
         return "";

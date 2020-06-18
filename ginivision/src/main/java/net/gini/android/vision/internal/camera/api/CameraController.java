@@ -3,8 +3,8 @@ package net.gini.android.vision.internal.camera.api;
 import static net.gini.android.vision.internal.camera.api.CameraParametersHelper.isFlashModeSupported;
 import static net.gini.android.vision.internal.camera.api.CameraParametersHelper.isFocusModeSupported;
 import static net.gini.android.vision.internal.camera.api.CameraParametersHelper.isUsingFocusMode;
-import static net.gini.android.vision.internal.camera.api.SizeSelectionHelper.getLargestSize;
-import static net.gini.android.vision.internal.camera.api.SizeSelectionHelper.getLargestSizeWithSimilarAspectRatio;
+import static net.gini.android.vision.internal.camera.api.SizeSelectionHelper.getLargestAllowedSize;
+import static net.gini.android.vision.internal.camera.api.SizeSelectionHelper.getLargestAllowedSizeWithSimilarAspectRatio;
 import static net.gini.android.vision.internal.util.DeviceHelper.getDeviceOrientation;
 import static net.gini.android.vision.internal.util.DeviceHelper.getDeviceType;
 
@@ -27,6 +27,7 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 import net.gini.android.vision.internal.util.Size;
+import net.gini.android.vision.requirements.CameraResolutionRequirement;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -462,7 +463,7 @@ public class CameraController implements CameraInterface {
 
     private void selectPictureSize(final Camera.Parameters params) {
         final List<Camera.Size> pictureSizes = params.getSupportedPictureSizes();
-        final Size pictureSize = getLargestSize(pictureSizes);
+        final Size pictureSize = getLargestAllowedSize(pictureSizes, CameraResolutionRequirement.MAX_PICTURE_AREA);
         if (pictureSize != null) {
             mPictureSize = pictureSize;
             params.setPictureSize(mPictureSize.width, mPictureSize.height);
@@ -474,7 +475,8 @@ public class CameraController implements CameraInterface {
 
     private void selectPreviewSize(final Camera.Parameters params) {
         final List<Camera.Size> previewSizes = params.getSupportedPreviewSizes();
-        final Size previewSize = getLargestSizeWithSimilarAspectRatio(previewSizes, mPictureSize);
+        final Size previewSize = getLargestAllowedSizeWithSimilarAspectRatio(previewSizes, mPictureSize,
+                CameraResolutionRequirement.MAX_PICTURE_AREA);
         if (previewSize != null) {
             mPreviewSize = previewSize;
             params.setPreviewSize(mPreviewSize.width, mPreviewSize.height);

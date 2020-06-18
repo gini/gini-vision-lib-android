@@ -86,19 +86,23 @@ final class Resolutions {
     static List<Camera.Size> toSizesList(final int[][] resolutions) {
         final List<Camera.Size> sizes = new ArrayList<>(resolutions.length);
         for (final int[] resolution : resolutions) {
-            final Camera.Size size = mock(Camera.Size.class);
-            size.width = resolution[0];
-            size.height = resolution[1];
-            sizes.add(size);
+            sizes.add(toCameraSize(resolution));
         }
         return sizes;
     }
 
-    static Size toSize(int[] resolution) {
+    static Camera.Size toCameraSize(final int[] resolution) {
+        final Camera.Size size = mock(Camera.Size.class);
+        size.width = resolution[0];
+        size.height = resolution[1];
+        return size;
+    }
+
+    static Size toSize(final int[] resolution) {
         return new Size(resolution[0], resolution[1]);
     }
 
-    static void assertSizeEqualsResolution(final Size largestSize, int[] expectedResolution) {
+    static void assertSizeEqualsResolution(final Size largestSize, final int[] expectedResolution) {
         assertThat(largestSize).isNotNull();
         assertThat(largestSize.width).isEqualTo(expectedResolution[0]);
         assertThat(largestSize.height).isEqualTo(expectedResolution[1]);

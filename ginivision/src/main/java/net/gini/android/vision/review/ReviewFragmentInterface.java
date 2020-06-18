@@ -6,6 +6,7 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.analysis.AnalysisFragmentCompat;
+import net.gini.android.vision.analysis.AnalysisFragmentListener;
 import net.gini.android.vision.analysis.AnalysisFragmentStandard;
 import net.gini.android.vision.network.GiniVisionNetworkService;
 
@@ -32,7 +33,8 @@ public interface ReviewFragmentInterface {
      *
      * @deprecated When a {@link GiniVision} instance is available the document is analyzed
      * internally by using the configured {@link GiniVisionNetworkService} implementation. The
-     * extractions will be returned in {@link ReviewFragmentListener#onExtractionsAvailable(Map)}.
+     * extractions will be returned in the Analysis Screen in
+     * {@link AnalysisFragmentListener#onExtractionsAvailable(Map, Map)}.
      */
     @Deprecated
     void onDocumentAnalyzed();

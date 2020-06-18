@@ -2,12 +2,12 @@ package net.gini.android.vision.screen.screenshots.screens.screenapi;
 
 import static net.gini.android.vision.screen.screenshots.Helper.isObjectAvailable;
 
-import android.support.test.uiautomator.UiDevice;
-import android.support.test.uiautomator.UiObject;
-import android.support.test.uiautomator.UiObjectNotFoundException;
-import android.support.test.uiautomator.UiSelector;
-
 import net.gini.android.vision.screen.screenshots.screens.Screen;
+
+import androidx.test.uiautomator.UiDevice;
+import androidx.test.uiautomator.UiObject;
+import androidx.test.uiautomator.UiObjectNotFoundException;
+import androidx.test.uiautomator.UiSelector;
 
 public class ReviewScreen implements Screen {
 
@@ -28,7 +28,7 @@ public class ReviewScreen implements Screen {
     }
 
     public void proceedToAnalysis() throws UiObjectNotFoundException {
-        UiObject button = mUiDevice.findObject(new UiSelector().resourceId(NEXT_BUTTON_RES_ID));
+        final UiObject button = mUiDevice.findObject(new UiSelector().resourceId(NEXT_BUTTON_RES_ID));
         button.clickAndWaitForNewWindow();
     }
 }

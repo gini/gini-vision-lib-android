@@ -18,6 +18,7 @@ import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
+import net.gini.android.vision.analysis.AnalysisFragmentListener;
 import net.gini.android.vision.camera.CameraActivity;
 import net.gini.android.vision.network.GiniVisionNetworkApi;
 import net.gini.android.vision.network.GiniVisionNetworkService;
@@ -402,8 +403,8 @@ public class ReviewActivity extends AppCompatActivity implements ReviewFragmentL
      *
      * @deprecated When a {@link GiniVision} and a {@link GiniVisionNetworkService} instance is
      * available rotation is handled internally. The document is analyzed by using the configured
-     * {@link GiniVisionNetworkService} implementation. The extractions will be returned in {@link
-     * ReviewFragmentListener#onExtractionsAvailable(Map)}.
+     * {@link GiniVisionNetworkService} implementation. The extractions will be returned in the
+     * Analysis Screen in {@link AnalysisFragmentListener#onExtractionsAvailable(Map, Map)}.
      */
     @Override
     public void onDocumentWasRotated(@NonNull final Document document, final int oldRotation,
