@@ -536,7 +536,11 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     }
 
     private boolean shouldShowHintPopUp() {
-        if (!isDocumentImportEnabled() || mInterfaceHidden) {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return false;
+        }
+        if (!isDocumentImportEnabled(activity) || mInterfaceHidden) {
             return false;
         }
         final Context context = mFragment.getActivity();
@@ -783,7 +787,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             }
         }
         final FlashButtonPosition flashButtonPosition = getFlashButtonPosition(
-                isDocumentImportEnabled(), isMultiPageEnabled());
+                isDocumentImportEnabled(activity), isMultiPageEnabled());
         switch (flashButtonPosition) {
             case LEFT_OF_CAMERA_TRIGGER:
                 mButtonCameraFlash = view.findViewById(R.id.gv_button_camera_flash_left_of_trigger);
@@ -805,17 +809,17 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         if (activity == null) {
             return;
         }
-        if (!mInterfaceHidden
-                && isDocumentImportEnabled() && FileChooserActivity.canChooseFiles(activity)) {
+        if (!mInterfaceHidden && isDocumentImportEnabled(activity)) {
             mImportDocumentButtonEnabled = true;
             mImportButtonContainer.setVisibility(View.VISIBLE);
             showImportDocumentButtonAnimated();
         }
     }
 
-    private boolean isDocumentImportEnabled() {
+    private boolean isDocumentImportEnabled(@NonNull final Activity activity) {
         return getDocumentImportEnabledFileTypes(mGiniVisionFeatureConfiguration)
-                != DocumentImportEnabledFileTypes.NONE;
+                != DocumentImportEnabledFileTypes.NONE
+                && FileChooserActivity.canChooseFiles(activity);
     }
 
     private void setInputHandlers() {
