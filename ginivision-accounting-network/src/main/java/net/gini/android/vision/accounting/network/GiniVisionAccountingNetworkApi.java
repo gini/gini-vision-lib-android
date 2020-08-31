@@ -111,15 +111,13 @@ public class GiniVisionAccountingNetworkApi implements GiniVisionNetworkApi {
     }
 
     @Override
-    public void sendFeedback(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
-            @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions,
-            @NonNull final GiniVisionNetworkCallback<Void, Error> callback) {
-        throw new UnsupportedOperationException("Sending feedback for compound extractions is not possible yet.");
+    public void deleteGiniUserCredentials() {
+        mAccountingNetworkService.getGiniApi().getCredentialsStore().deleteUserCredentials();
     }
 
     @Override
-    public void deleteGiniUserCredentials() {
-        mAccountingNetworkService.getGiniApi().getCredentialsStore().deleteUserCredentials();
+    public void setUpdatedCompoundExtractions(@NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions) {
+        // Not used
     }
 
     /**
