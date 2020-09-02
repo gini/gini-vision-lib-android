@@ -213,7 +213,7 @@ class ExtractionsActivity : AppCompatActivity() {
                         Toast.LENGTH_LONG).show()
             }
 
-            override fun success(result: Void) {
+            override fun success(result: Void?) {
                 hideProgressIndicator()
                 Toast.makeText(this@ExtractionsActivity,
                         "Feedback successful",

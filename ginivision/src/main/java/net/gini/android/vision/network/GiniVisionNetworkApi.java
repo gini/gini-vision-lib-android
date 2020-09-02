@@ -36,23 +36,20 @@ public interface GiniVisionNetworkApi {
             @NonNull final GiniVisionNetworkCallback<Void, Error> callback);
 
     /**
-     * Call this method with the extractions and compound extractions the user has seen and accepted. The {@link
-     * GiniVisionSpecificExtraction}s and {@link GiniVisionCompoundExtraction}s must contain the final user corrected and/or accepted
-     * values.
-     *
-     * @param extractions         a map of extraction labels and specific extractions
-     * @param compoundExtractions a map of extraction labels and compound extractions
-     * @param callback            a callback implementation to return the outcome
-     */
-    void sendFeedback(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
-            @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions,
-            @NonNull final GiniVisionNetworkCallback<Void, Error> callback);
-
-    /**
-     * Delete the anonymous gini user credentials. These were automatically generated when the first
-     * document was uploaded.
+     * Delete the anonymous gini user credentials. These were automatically generated when the first document was uploaded.
      * <p>
      * By deleting the credentials, new ones will be generated at the next upload.
      */
     void deleteGiniUserCredentials();
+
+    /**
+     * This method is called by the Gini Vision Library with the compound extractions (e.g., line items) the user has seen. Contains changes
+     * made by the user.
+     * <p>
+     * <b>Note:</b> If the compound extractions are modified in your app, then call this method to have the latest changes available when
+     * the feedback is sent.
+     *
+     * @param compoundExtractions the updated compound extractions
+     */
+    void setUpdatedCompoundExtractions(@NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions);
 }

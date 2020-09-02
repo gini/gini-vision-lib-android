@@ -1,8 +1,10 @@
 package net.gini.android.vision.network;
 
 import net.gini.android.DocumentTaskManager;
+import net.gini.android.models.Document;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.internal.camera.api.UIExecutor;
+import net.gini.android.vision.network.model.CompoundExtractionsMapper;
 import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.network.model.SpecificExtractionMapper;
@@ -11,6 +13,7 @@ import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collections;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
@@ -42,9 +45,10 @@ public class GiniVisionDefaultNetworkApi implements GiniVisionNetworkApi {
     private final GiniVisionDefaultNetworkService mDefaultNetworkService;
     private final UIExecutor mUIExecutor = new UIExecutor();
 
+    private Map<String, GiniVisionCompoundExtraction> mUpdatedCompoundExtractions = Collections.emptyMap();
+
     /**
-     * Creates a new {@link GiniVisionDefaultNetworkApi.Builder} to configure and create a new
-     * instance.
+     * Creates a new {@link GiniVisionDefaultNetworkApi.Builder} to configure and create a new instance.
      *
      * @return a new {@link GiniVisionDefaultNetworkApi.Builder}
      */
@@ -69,8 +73,17 @@ public class GiniVisionDefaultNetworkApi implements GiniVisionNetworkApi {
             LOG.debug("Send feedback for api document {} using extractions {}", document.getId(),
                     extractions);
             try {
-                documentTaskManager.sendFeedbackForExtractions(document,
-                        SpecificExtractionMapper.mapToApiSdk(extractions))
+                final Task<Document> feedbackTask;
+                if (mUpdatedCompoundExtractions.isEmpty()) {
+                    feedbackTask = documentTaskManager.sendFeedbackForExtractions(document,
+                            SpecificExtractionMapper.mapToApiSdk(extractions));
+                } else {
+                    feedbackTask = documentTaskManager.sendFeedbackForExtractions(document,
+                            SpecificExtractionMapper.mapToApiSdk(extractions),
+                            CompoundExtractionsMapper.mapToApiSdk(mUpdatedCompoundExtractions));
+                }
+
+                feedbackTask
                         .continueWith(new Continuation<net.gini.android.models.Document, Object>() {
                             @Override
                             public Object then(
@@ -108,15 +121,13 @@ public class GiniVisionDefaultNetworkApi implements GiniVisionNetworkApi {
     }
 
     @Override
-    public void sendFeedback(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
-            @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions,
-            @NonNull final GiniVisionNetworkCallback<Void, Error> callback) {
-        throw new UnsupportedOperationException("Sending feedback for compound extractions is not possible yet.");
+    public void deleteGiniUserCredentials() {
+        mDefaultNetworkService.getGiniApi().getCredentialsStore().deleteUserCredentials();
     }
 
     @Override
-    public void deleteGiniUserCredentials() {
-        mDefaultNetworkService.getGiniApi().getCredentialsStore().deleteUserCredentials();
+    public void setUpdatedCompoundExtractions(@NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions) {
+        mUpdatedCompoundExtractions = compoundExtractions;
     }
 
     /**

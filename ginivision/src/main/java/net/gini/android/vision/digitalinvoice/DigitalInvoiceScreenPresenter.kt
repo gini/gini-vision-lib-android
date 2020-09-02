@@ -2,6 +2,7 @@ package net.gini.android.vision.digitalinvoice
 
 import android.app.Activity
 import androidx.annotation.VisibleForTesting
+import net.gini.android.vision.GiniVision
 import net.gini.android.vision.network.model.GiniVisionCompoundExtraction
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction
 
@@ -59,6 +60,9 @@ internal open class DigitalInvoiceScreenPresenter(activity: Activity,
     override fun pay() {
         digitalInvoice.updateLineItemExtractionsWithReviewedLineItems()
         digitalInvoice.updateAmountToPayExtractionWithTotalGrossPrice()
+        if (GiniVision.hasInstance()) {
+            GiniVision.getInstance().giniVisionNetworkApi?.setUpdatedCompoundExtractions(digitalInvoice.compoundExtractions)
+        }
         listener?.onPayInvoice(digitalInvoice.extractions, digitalInvoice.compoundExtractions)
     }
 
