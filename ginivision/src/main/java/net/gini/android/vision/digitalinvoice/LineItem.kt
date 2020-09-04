@@ -4,9 +4,6 @@ import android.os.Parcelable
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 import java.math.BigDecimal
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
-import java.text.ParseException
 import java.util.*
 
 /**
@@ -14,13 +11,6 @@ import java.util.*
  *
  * Copyright (c) 2019 Gini GmbH.
  */
-
-@JvmSynthetic
-internal val RAW_GROSS_PRICE_FORMAT = DecimalFormat("0.00",
-        DecimalFormatSymbols.getInstance(Locale.ENGLISH)).apply { isParseBigDecimal = true }
-
-@JvmSynthetic
-internal val GROSS_PRICE_STRING_REGEX = "^[0-9]+([.,])[0-9]+\$".toRegex()
 
 /**
  * The `LineItem` class contains information from a line item extraction.
@@ -57,60 +47,9 @@ class LineItem(
     @IgnoredOnParcel
     val rawCurrency: String
 
-    companion object {
-
-        @JvmSynthetic
-        internal fun createRawGrossPrice(grossPrice: BigDecimal, currency: String) = "${RAW_GROSS_PRICE_FORMAT.format(
-                grossPrice)}:$currency"
-
-
-        @Throws(NumberFormatException::class, IllegalArgumentException::class)
-        @JvmSynthetic
-        internal fun parseGrossPriceExtraction(rawGrossPrice: String): Triple<BigDecimal, String, Currency?> {
-            rawGrossPrice.split(":").let { substrings ->
-                if (substrings.size != 2) {
-                    throw java.lang.NumberFormatException(
-                            "Invalid gross price format. Expected <Gross Price>:<Currency Code>, but got: $rawGrossPrice")
-                }
-                val grossPrice = parseGrossPrice(substrings[0])
-                val rawCurrency = substrings[1]
-                val currency = Currency.getInstance(substrings[1])
-                return Triple(grossPrice, rawCurrency, currency)
-            }
-        }
-
-        private fun parseGrossPrice(grossPrice: String): BigDecimal =
-                if (grossPrice matches GROSS_PRICE_STRING_REGEX) {
-                    when {
-                        grossPrice.contains(".") -> {
-                            parseGrossPriceWithLocale(grossPrice, Locale.ENGLISH)
-                        }
-                        grossPrice.contains(",") -> {
-                            parseGrossPriceWithLocale(grossPrice, Locale.GERMAN)
-                        }
-                        else -> {
-                            throw NumberFormatException("Unknown number format locale")
-                        }
-                    }
-                } else {
-                    throw NumberFormatException("Invalid number format")
-                }
-
-        private fun parseGrossPriceWithLocale(grossPrice: String, locale: Locale) = DecimalFormat("0.00",
-                DecimalFormatSymbols.getInstance(locale))
-                .apply { isParseBigDecimal = true }
-                .run {
-                    try {
-                        parse(grossPrice) as BigDecimal
-                    } catch (e: ParseException) {
-                        throw NumberFormatException(e.message)
-                    }
-                }
-    }
-
     init {
         val (grossPrice, rawCurrency, currency) = try {
-            parseGrossPriceExtraction(rawGrossPrice)
+            parsePriceString(rawGrossPrice)
         } catch (e: Exception) {
             Triple(BigDecimal.ZERO, "", null)
         }

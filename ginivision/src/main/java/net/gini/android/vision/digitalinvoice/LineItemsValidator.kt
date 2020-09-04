@@ -82,7 +82,7 @@ internal val grossPriceParcelable: Validate = { compoundExtractions ->
     compoundExtractions["lineItems"]?.specificExtractionMaps?.forEach { map ->
         map["baseGross"]?.value?.let { grossPriceString ->
             try {
-                LineItem.parseGrossPriceExtraction(grossPriceString)
+                parsePriceString(grossPriceString)
             } catch (e: Exception) {
                 throw GrossPriceParsingException(cause = e)
             }
@@ -97,7 +97,7 @@ internal val singleCurrency: Validate = { compoundExtractions ->
         } else {
             val firstCurrency = try {
                 lineItemRows[0]["baseGross"]?.value?.let { grossPriceString ->
-                    val (_, _, currency) = LineItem.parseGrossPriceExtraction(grossPriceString)
+                    val (_, _, currency) = parsePriceString(grossPriceString)
                     currency
                 }
             } catch (e: Exception) {
@@ -109,7 +109,7 @@ internal val singleCurrency: Validate = { compoundExtractions ->
                 val sameCurrency = lineItemRows.subList(1, lineItemRows.size).fold(true, { sameCurrency, row ->
                     val currency = try {
                         row["baseGross"]?.value?.let { grossPriceString ->
-                            val (_, _, currency) = LineItem.parseGrossPriceExtraction(grossPriceString)
+                            val (_, _, currency) = parsePriceString(grossPriceString)
                             currency
                         }
                     } catch (e: Exception) {

@@ -168,4 +168,8 @@
     <dimen name="gv_digital_invoice_line_item_details_gross_price_margin_bottom">32dp</dimen>
     <dimen name="gv_digital_invoice_line_item_details_save_button_height">56dp</dimen>
 
+    <dimen name="gv_digital_invoice_addon_horizontal_padding">16dp</dimen>
+    <dimen name="gv_digital_invoice_addon_vertical_padding">8dp</dimen>
+    <dimen name="gv_digital_invoice_addon_name_margin_right">72dp</dimen>
+
 </resources>

@@ -156,4 +156,7 @@
     <color name="gv_digital_invoice_line_item_details_save_button">#009edc</color>
     <color name="gv_digital_invoice_line_item_details_save_button_text">#fff</color>
 
+    <color name="gv_digital_invoice_addon_name_text">#000</color>
+    <color name="gv_digital_invoice_addon_price_text">#000</color>
+
 </resources>
