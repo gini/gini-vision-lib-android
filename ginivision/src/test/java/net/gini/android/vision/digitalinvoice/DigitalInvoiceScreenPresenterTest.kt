@@ -189,6 +189,7 @@ class DigitalInvoiceScreenPresenterTest {
     open class ViewWithSelectedReturnReason(val reason: String?) : View {
         override fun showLineItems(lineItems: List<SelectableLineItem>) {}
         override fun showSelectedAndTotalLineItems(selected: Int, total: Int) {}
+        override fun showAddons(addons: List<DigitalInvoiceAddon>) {}
         override fun enablePayButton(selected: Int, total: Int) {}
         override fun disablePayButton(selected: Int, total: Int) {}
         override fun showSelectedLineItemsSum(integralPart: String, fractionalPart: String) {}

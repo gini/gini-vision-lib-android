@@ -1,5 +1,4 @@
 apply plugin: 'checkstyle'
-apply plugin: 'findbugs'
 apply plugin: 'pmd'
 
 /*
@@ -31,22 +30,6 @@ task checkstyle(type: Checkstyle) {
     include '**/*.java'
     exclude '**/gen/**', '**/androidTest/**', '**/test/**', '**/testShared/**', '**/com/ortiz/**'
     classpath = files()
-}
-
-task findbugs(type: FindBugs, dependsOn: 'assembleDebug') {
-    ignoreFailures = true
-    effort = "max"
-    excludeFilter = new File("${project.rootDir}/config/findbugs/findbugs-filter.xml")
-    classes = files("${project.projectDir}/build/intermediates/javac/debug/classes")
-
-    source 'src'
-    include '**/*.java'
-    exclude '**/gen/**', '**/androidTest/**', '**/test/**', '**/testShared/**'
-    classpath = files()
-    reports {
-        xml.enabled = true
-        html.enabled = false
-    }
 }
 
 pmd {

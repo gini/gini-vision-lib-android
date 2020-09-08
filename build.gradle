@@ -7,12 +7,14 @@ buildscript {
     repositories {
         google()
         jcenter()
+        // For com.hiya:jacoco-android
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.3'
-        classpath('com.dicedmelon.gradle:jacoco-android:0.1.4') {
-            exclude group: 'org.codehaus.groovy', module: 'groovy-all'
-        }
+        classpath 'com.android.tools.build:gradle:4.0.1'
+        classpath('com.hiya:jacoco-android:0.2')
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.10.1"
 
