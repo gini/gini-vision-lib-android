@@ -84,7 +84,7 @@ pipeline {
             }
             steps {
                 sh './gradlew ginivision:jacocoTestDebugUnitTestReport -Dorg.gradle.java.home=$JAVA9'
-                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision/build/reports/jacoco/jacocoTestDebugUnitTestReport/html', reportFiles: 'index.html', reportName: 'Code Coverage Report', reportTitles: ''])
+                publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision/build/jacoco/jacocoHtml', reportFiles: 'index.html', reportName: 'Code Coverage Report', reportTitles: ''])
             }
         }
         stage('Javadoc Coverage') {
@@ -199,9 +199,9 @@ pipeline {
                 }
             }
             steps {
-                sh 'cd ginivision/build/reports/coverage && zip -r testCoverage.zip debug && cd -'
+                sh 'cd ginivision/build/jacoco && zip -r testCoverage.zip jacocoHtml && cd -'
                 sh 'cd ginivision/build/reports && zip -r javadocCoverage.zip javadoc-coverage && cd -'
-                archiveArtifacts 'ginivision/build/outputs/aar/*.aar,ginivision/build/reports/coverage/testCoverage.zip,ginivision/build/reports/javadocCoverage.zip'
+                archiveArtifacts 'ginivision/build/outputs/aar/*.aar,ginivision/build/jacoco/testCoverage.zip,ginivision/build/reports/javadocCoverage.zip'
             }
         }
         stage('Build Example Apps') {
