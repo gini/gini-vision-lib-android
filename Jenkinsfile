@@ -106,18 +106,6 @@ pipeline {
                 }
             }
         }
-            post {
-                always {
-                    junit allowEmptyResults: true, testResults: 'ginivision/build/outputs/androidTest-results/connected/*.xml'
-                    script {
-                        def emulatorPort = sh returnStdout: true, script: "cat emulator_port_2_$BUILD_NUMBER"
-                        emulatorPort = emulatorPort.trim().replaceAll("\r", "").replaceAll("\n", "")
-                        emulator.stop(emulatorPort)
-                        sh "rm emulator_port_2_$BUILD_NUMBER || true"
-                    }
-                }
-            }
-        }
         stage('Code Coverage') {
             when {
                 anyOf {
