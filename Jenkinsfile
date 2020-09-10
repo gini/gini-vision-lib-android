@@ -67,45 +67,6 @@ pipeline {
                 }
             }
         }
-        stage('Instrumentation Tests - Phone') {
-            when {
-                anyOf {
-                    not {
-                        branch 'master'
-                    }
-                    allOf {
-                        branch 'master'
-                        expression {
-                            def tag = sh(returnStdout: true, script: 'git tag --contains $(git rev-parse HEAD)').trim()
-                            return !tag.isEmpty()
-                        }
-                    }
-                }
-            }
-            steps {
-                lock('emulator-phone') {
-                    script {
-                        def emulatorPort = emulator.start("api-29-pixel-android-studio", "pixel", "-prop persist.sys.language=en -prop persist.sys.country=US -gpu host -camera-back emulated -no-snapshot-save", 5562)
-                        sh "echo $emulatorPort > emulator_port_1_$BUILD_NUMBER"
-                        adb.setAnimationDurationScale("emulator-$emulatorPort", 0)
-                        withEnv(["PATH+TOOLS=$ANDROID_HOME/tools", "PATH+TOOLS_BIN=$ANDROID_HOME/tools/bin", "PATH+PLATFORM_TOOLS=$ANDROID_HOME/platform-tools"]) {
-                            sh "ANDROID_SERIAL=emulator-$emulatorPort ./gradlew ginivision:connectedAndroidTest"
-                        }
-                    }
-                }
-            }
-            post {
-                always {
-                    junit allowEmptyResults: true, testResults: 'ginivision/build/outputs/androidTest-results/connected/*.xml'
-                    script {
-                        def emulatorPort = sh returnStdout: true, script: "cat emulator_port_1_$BUILD_NUMBER"
-                        emulatorPort = emulatorPort.trim().replaceAll("\r", "").replaceAll("\n", "")
-                        emulator.stop(emulatorPort)
-                        sh "rm emulator_port_1_$BUILD_NUMBER || true"
-                    }
-                }
-            }
-        }
         stage('Code Coverage') {
             when {
                 anyOf {
