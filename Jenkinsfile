@@ -109,6 +109,36 @@ pipeline {
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision-accounting-network/build/reports/javadoc-coverage', reportFiles: 'index.html', reportName: 'GVL Accounting Network Javadoc Coverage Report', reportTitles: ''])
             }
         }
+        stage('Code Analysis') {
+            when {
+                anyOf {
+                    not {
+                        branch 'master'
+                    }
+                    allOf {
+                        branch 'master'
+                        expression {
+                            def tag = sh(returnStdout: true, script: 'git tag --contains $(git rev-parse HEAD)').trim()
+                            return !tag.isEmpty()
+                        }
+                    }
+                }
+            }
+            steps {
+                sh './gradlew ginivision:lint ginivision:checkstyle ginivision:pmd'
+                sh './gradlew ginivision-network:lint ginivision-network:checkstyle ginivision-network:pmd'
+                sh './gradlew ginivision-accounting-network:lint ginivision-accounting-network:checkstyle ginivision-accounting-network:pmd'
+                androidLint canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'ginivision/build/reports/lint-results.xml', unHealthy: ''
+                androidLint canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'ginivision-network/build/reports/lint-results.xml', unHealthy: ''
+                androidLint canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'ginivision-accounting-network/build/reports/lint-results.xml', unHealthy: ''
+                checkstyle canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'ginivision/build/reports/checkstyle/checkstyle.xml', unHealthy: ''
+                checkstyle canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'ginivision-network/build/reports/checkstyle/checkstyle.xml', unHealthy: ''
+                checkstyle canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'ginivision-accounting-network/build/reports/checkstyle/checkstyle.xml', unHealthy: ''
+                pmd canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'ginivision/build/reports/pmd/pmd.xml', unHealthy: ''
+                pmd canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'ginivision-network/build/reports/pmd/pmd.xml', unHealthy: ''
+                pmd canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'ginivision-accounting-network/build/reports/pmd/pmd.xml', unHealthy: ''
+            }
+        }
         stage('Build Documentation') {
             when {
                 anyOf {
