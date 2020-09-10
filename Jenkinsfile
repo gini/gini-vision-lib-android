@@ -250,9 +250,9 @@ pipeline {
                 }
             }
             steps {
-                sh 'cd ginivision/build/reports/jacoco/jacocoTestDebugUnitTestReport && zip -r testCoverage.zip html && cd -'
+                sh 'cd ginivision/build/reports/coverage && zip -r testCoverage.zip debug && cd -'
                 sh 'cd ginivision/build/reports && zip -r javadocCoverage.zip javadoc-coverage && cd -'
-                archiveArtifacts 'ginivision/build/outputs/aar/*.aar,ginivision/build/reports/jacoco/jacocoTestDebugUnitTestReport/testCoverage.zip,ginivision/build/reports/javadocCoverage.zip'
+                archiveArtifacts 'ginivision/build/outputs/aar/*.aar,ginivision/build/reports/coverage/testCoverage.zip,ginivision/build/reports/javadocCoverage.zip'
             }
         }
         stage('Build Example Apps') {
