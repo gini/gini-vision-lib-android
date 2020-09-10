@@ -106,33 +106,6 @@ pipeline {
                 }
             }
         }
-        stage('Instrumentation Tests - Tablet') {
-            when {
-                anyOf {
-                    not {
-                        branch 'master'
-                    }
-                    allOf {
-                        branch 'master'
-                        expression {
-                            def tag = sh(returnStdout: true, script: 'git tag --contains $(git rev-parse HEAD)').trim()
-                            return !tag.isEmpty()
-                        }
-                    }
-                }
-            }
-            steps {
-                lock('emulator-tablet') {
-                    script {
-                        def emulatorPort = emulator.start("api-29-nexus-9-android-studio", "nexus_9", "-prop persist.sys.language=en -prop persist.sys.country=US -gpu host -camera-back emulated -no-snapshot-save", 5570)
-                        sh "echo $emulatorPort > emulator_port_2_$BUILD_NUMBER"
-                        adb.setAnimationDurationScale("emulator-$emulatorPort", 0)
-                        withEnv(["PATH+TOOLS=$ANDROID_HOME/tools", "PATH+TOOLS_BIN=$ANDROID_HOME/tools/bin", "PATH+PLATFORM_TOOLS=$ANDROID_HOME/platform-tools"]) {
-                            sh "ANDROID_SERIAL=emulator-$emulatorPort ./gradlew ginivision:connectedAndroidTest"
-                        }
-                    }
-                }
-            }
             post {
                 always {
                     junit allowEmptyResults: true, testResults: 'ginivision/build/outputs/androidTest-results/connected/*.xml'
