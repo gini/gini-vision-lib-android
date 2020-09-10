@@ -43,31 +43,6 @@ pipeline {
                 '''
             }
         }
-        stage('Create AVDs') {
-            when {
-                anyOf {
-                    not {
-                        branch 'master'
-                    }
-                    allOf {
-                        branch 'master'
-                        expression {
-                            def tag = sh(returnStdout: true, script: 'git tag --contains $(git rev-parse HEAD)').trim()
-                            return !tag.isEmpty()
-                        }
-                    }
-                }
-            }
-            steps {
-                lock('avd-creation') {
-                    script {
-                        avd.deleteCorrupt()
-                        avd.create("api-25-pixel", "system-images;android-25;google_apis;x86", "pixel")
-                        avd.create("api-25-nexus-9", "system-images;android-25;google_apis;x86", "Nexus 9")
-                    }
-                }
-            }
-        }
         stage('Unit Tests') {
             when {
                 anyOf {
@@ -110,7 +85,7 @@ pipeline {
             steps {
                 lock('emulator-phone') {
                     script {
-                        def emulatorPort = emulator.start(avd.createName("api-25-pixel"), "pixel", "-prop persist.sys.language=en -prop persist.sys.country=US -gpu host -camera-back emulated -no-snapshot", 5562)
+                        def emulatorPort = emulator.start("api-29-pixel-android-studio", "pixel", "-prop persist.sys.language=en -prop persist.sys.country=US -gpu host -camera-back emulated -no-snapshot-save", 5562)
                         sh "echo $emulatorPort > emulator_port_1_$BUILD_NUMBER"
                         adb.setAnimationDurationScale("emulator-$emulatorPort", 0)
                         withEnv(["PATH+TOOLS=$ANDROID_HOME/tools", "PATH+TOOLS_BIN=$ANDROID_HOME/tools/bin", "PATH+PLATFORM_TOOLS=$ANDROID_HOME/platform-tools"]) {
@@ -149,7 +124,7 @@ pipeline {
             steps {
                 lock('emulator-tablet') {
                     script {
-                        def emulatorPort = emulator.start(avd.createName("api-25-nexus-9"), "nexus_9", "-prop persist.sys.language=en -prop persist.sys.country=US -gpu host -camera-back emulated -no-snapshot", 5570)
+                        def emulatorPort = emulator.start("api-29-nexus-9-android-studio", "nexus_9", "-prop persist.sys.language=en -prop persist.sys.country=US -gpu host -camera-back emulated -no-snapshot-save", 5570)
                         sh "echo $emulatorPort > emulator_port_2_$BUILD_NUMBER"
                         adb.setAnimationDurationScale("emulator-$emulatorPort", 0)
                         withEnv(["PATH+TOOLS=$ANDROID_HOME/tools", "PATH+TOOLS_BIN=$ANDROID_HOME/tools/bin", "PATH+PLATFORM_TOOLS=$ANDROID_HOME/platform-tools"]) {
