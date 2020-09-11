@@ -141,11 +141,10 @@
     </plurals>
     <string name="gv_digital_invoice_line_item_details_selected">ausgewählt</string>
 
-    <!-- TODO: translate to German -->
-    <string name="gv_digital_invoice_addon_discount">Discount</string>
-    <string name="gv_digital_invoice_addon_giftcard">Giftcard</string>
-    <string name="gv_digital_invoice_addon_other_discounts">Other discounts</string>
-    <string name="gv_digital_invoice_addon_other_charges">Other charges</string>
-    <string name="gv_digital_invoice_addon_shipment">Shipment</string>
+    <string name="gv_digital_invoice_addon_discount">Rabatt</string>
+    <string name="gv_digital_invoice_addon_giftcard">Gutschein</string>
+    <string name="gv_digital_invoice_addon_other_discounts">Weitere Abzüge</string>
+    <string name="gv_digital_invoice_addon_other_charges">Weitere Kosten</string>
+    <string name="gv_digital_invoice_addon_shipment">Versandkosten</string>
 
 </resources>
