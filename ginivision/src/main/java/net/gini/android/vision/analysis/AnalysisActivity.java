@@ -468,6 +468,12 @@ public class AnalysisActivity extends AppCompatActivity implements
             extractionsBundle.putParcelable(extraction.getKey(), extraction.getValue());
         }
         result.putExtra(CameraActivity.EXTRA_OUT_EXTRACTIONS, extractionsBundle);
+        final Bundle compoundExtractionsBundle = new Bundle();
+        for (final Map.Entry<String, GiniVisionCompoundExtraction> extraction
+                : compoundExtractions.entrySet()) {
+            compoundExtractionsBundle.putParcelable(extraction.getKey(), extraction.getValue());
+        }
+        result.putExtra(CameraActivity.EXTRA_OUT_COMPOUND_EXTRACTIONS, compoundExtractionsBundle);
         setResult(RESULT_OK, result);
         finish();
         clearMemory();
