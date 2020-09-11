@@ -112,7 +112,6 @@
                 android:digits="0123456789,."
                 android:gravity="end"
                 android:hint="@string/gv_digital_invoice_line_item_details_gross_price_label"
-                android:inputType="numberDecimal"
                 android:selectAllOnFocus="true"
                 android:background="@android:color/transparent"
                 android:textAppearance="@style/GiniVisionTheme.DigitalInvoice.LineItemDetails.InputField.TextStyle"
