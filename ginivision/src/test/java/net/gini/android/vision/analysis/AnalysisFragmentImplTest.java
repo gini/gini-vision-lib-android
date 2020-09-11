@@ -254,12 +254,12 @@ public class AnalysisFragmentImplTest {
                             futureRef.set(future);
                         }
                     });
-
-            // Then
-            final CompletableFuture<Void> future = futureRef.get();
-            assertThat(future).isNotNull();
-            assertThat(future.isDone()).isTrue();
         }
+
+        // Then
+        final CompletableFuture<Void> future = futureRef.get();
+        assertThat(future).isNotNull();
+        assertThat(future.isDone()).isTrue();
     }
 
     @Test

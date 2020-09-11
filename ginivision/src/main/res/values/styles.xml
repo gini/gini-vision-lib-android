@@ -372,6 +372,27 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="Root.GiniVisionTheme.DigitalInvoice.Addon.Name.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/gv_digital_invoice_addon_name_text</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Root.GiniVisionTheme.DigitalInvoice.Addon.Price.Integral.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/gv_digital_invoice_addon_price_text</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Root.GiniVisionTheme.DigitalInvoice.Addon.Price.Fractional.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/gv_digital_invoice_addon_price_text</item>
+        <item name="android:textSize">9sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <!-- Text styles used in the layouts which are overridable for customization -->
 
     <style name="GiniVisionTheme.Camera.Error.NoPermission.TextStyle" parent="Root.GiniVisionTheme.Camera.Error.NoPermission.TextStyle" />
@@ -477,5 +498,11 @@
     <style name="GiniVisionTheme.DigitalInvoice.WhatIsThisDialog.Title.TextStyle" parent="Root.GiniVisionTheme.DigitalInvoice.WhatIsThisDialog.Title.TextStyle" />
 
     <style name="GiniVisionTheme.DigitalInvoice.WhatIsThisDialog.Response.TextStyle" parent="Root.GiniVisionTheme.DigitalInvoice.WhatIsThisDialog.Response.TextStyle" />
+
+    <style name="GiniVisionTheme.DigitalInvoice.Addon.Name.TextStyle" parent="Root.GiniVisionTheme.DigitalInvoice.Addon.Name.TextStyle" />
+
+    <style name="GiniVisionTheme.DigitalInvoice.Addon.Price.Integral.TextStyle" parent="Root.GiniVisionTheme.DigitalInvoice.Addon.Price.Integral.TextStyle" />
+
+    <style name="GiniVisionTheme.DigitalInvoice.Addon.Price.Fractional.TextStyle" parent="Root.GiniVisionTheme.DigitalInvoice.Addon.Price.Fractional.TextStyle" />
 
 </resources>

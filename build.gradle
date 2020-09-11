@@ -2,17 +2,19 @@
 
 
 buildscript {
-    ext.kotlinVersion = '1.3.61'
+    ext.kotlinVersion = '1.4.0'
 
     repositories {
         google()
         jcenter()
+        // For com.hiya:jacoco-android
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.3'
-        classpath('com.dicedmelon.gradle:jacoco-android:0.1.4') {
-            exclude group: 'org.codehaus.groovy', module: 'groovy-all'
-        }
+        classpath 'com.android.tools.build:gradle:4.0.1'
+        classpath('com.hiya:jacoco-android:0.2')
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.10.1"
 
@@ -58,12 +60,12 @@ ext {
 
 ext.deps = [
         // Android
-        androidxCore               : 'androidx.core:core:1.1.0',
-        androidxAppCompat          : 'androidx.appcompat:appcompat:1.0.0',
-        androidxFragment           : 'androidx.fragment:fragment:1.1.0',
+        androidxCore               : 'androidx.core:core:1.3.1',
+        androidxAppCompat          : 'androidx.appcompat:appcompat:1.2.0',
+        androidxFragment           : 'androidx.fragment:fragment:1.2.5',
         androidxViewPager          : 'androidx.viewpager:viewpager:1.0.0',
         androidxLegacySupportV13   : 'androidx.legacy:legacy-support-v13:1.0.0',
-        materialDesign             : 'com.google.android.material:material:1.1.0',
+        materialDesign             : 'com.google.android.material:material:1.2.0',
         androidxCoordinatorLayout  : 'androidx.coordinatorlayout:coordinatorlayout:1.1.0',
         androidxConstraintLayout   : 'androidx.constraintlayout:constraintlayout:1.1.0',
         androidxRecyclerView       : 'androidx.recyclerview:recyclerview:1.1.0',
@@ -75,24 +77,24 @@ ext.deps = [
         // Exif editing library. IMPORTANT: notify backend when the version is changed
         commonsImaging             : 'org.apache.commons:commons-imaging:1.0.0gini',
         // Logging
-        slf4j                      : 'org.slf4j:slf4j-api:1.7.21',
+        slf4j                      : 'org.slf4j:slf4j-api:1.7.30',
         // Backport/standalone version of CompletableFuture
         completableFuture          : 'org.glassfish.jersey.bundles.repackaged:jersey-jsr166e:2.23.1',
         // Test dependencies
-        junit                      : 'junit:junit:4.12',
+        junit                      : 'junit:junit:4.13',
         truth                      : 'com.google.truth:truth:0.28',
         mockito                    : 'org.mockito:mockito-core:2.24.5',
         mockitoAndroid             : 'org.mockito:mockito-android:2.24.5',
         mockitoKotlin              : 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0',
-        androidxTestCore           : 'androidx.test:core:1.2.0',
-        androidxTestJUnit          : 'androidx.test.ext:junit:1.1.1',
-        androidxTestRunner         : 'androidx.test:runner:1.2.0',
-        androidxTestRules          : 'androidx.test:rules:1.2.0',
-        androidxTestOrchestrator   : 'androidx.test:orchestrator:1.2.0',
-        androidxTestEspressoCore   : 'androidx.test.espresso:espresso-core:3.2.0',
-        androidxTestEspressoIntents: 'androidx.test.espresso:espresso-intents:3.2.0',
+        androidxTestCore           : 'androidx.test:core:1.3.0',
+        androidxTestJUnit          : 'androidx.test.ext:junit:1.1.2',
+        androidxTestRunner         : 'androidx.test:runner:1.3.0',
+        androidxTestRules          : 'androidx.test:rules:1.3.0',
+        androidxTestOrchestrator   : 'androidx.test:orchestrator:1.3.0',
+        androidxTestEspressoCore   : 'androidx.test.espresso:espresso-core:3.3.0',
+        androidxTestEspressoIntents: 'androidx.test.espresso:espresso-intents:3.3.0',
         androidxTestUiAutomator    : 'androidx.test.uiautomator:uiautomator:2.2.0',
-        androidxMultidex           : 'androidx.multidex:multidex:2.0.0',
-        robolectric                : 'org.robolectric:robolectric:4.3.1'
+        androidxMultidex           : 'androidx.multidex:multidex:2.0.1',
+        robolectric                : 'org.robolectric:robolectric:4.4'
 
 ]

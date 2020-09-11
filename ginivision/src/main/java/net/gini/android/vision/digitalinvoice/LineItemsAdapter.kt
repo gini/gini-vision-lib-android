@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
+import kotlinx.android.synthetic.main.gv_item_digital_invoice_addon.view.*
 import kotlinx.android.synthetic.main.gv_item_digital_invoice_footer.view.*
 import kotlinx.android.synthetic.main.gv_item_digital_invoice_header.view.*
 import kotlinx.android.synthetic.main.gv_item_digital_invoice_line_item.view.*
@@ -49,6 +50,11 @@ internal class LineItemsAdapter(context: Context, val listener: LineItemsAdapter
             field = value
             notifyDataSetChanged()
         }
+    var addons: List<DigitalInvoiceAddon> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
     var selectedAndTotalItems: String = ""
         set(value) {
             field = value
@@ -65,13 +71,16 @@ internal class LineItemsAdapter(context: Context, val listener: LineItemsAdapter
     override fun onCreateViewHolder(parent: ViewGroup, viewTypeId: Int) =
             ViewHolder.forViewTypeId(viewTypeId, layoutInflater, parent)
 
-    override fun getItemCount(): Int = lineItems.size + 2
+    override fun getItemCount(): Int = lineItems.size + addons.size + 2
 
-    private fun footerPosition() = lineItems.size + 1
+    private fun footerPosition() = lineItems.size + addons.size + 1
+
+    private fun addonsRange() = (lineItems.size + 1)..(lineItems.size + addons.size + 1)
 
     override fun getItemViewType(position: Int): Int = when (position) {
         0 -> Header.id
         footerPosition() -> Footer.id
+        in addonsRange() -> Addon.id
         else -> LineItem.id
     }
 
@@ -87,6 +96,11 @@ internal class LineItemsAdapter(context: Context, val listener: LineItemsAdapter
                     viewHolder.bind(it, lineItems)
                 }
             }
+            is ViewHolder.AddonViewHolder -> {
+                addonForPosition(position, addons, lineItems)?.let {
+                    viewHolder.bind(it, addons)
+                }
+            }
             is ViewHolder.FooterViewHolder -> viewHolder.bind(totalGrossPriceIntegralAndFractionalParts)
         }
     }
@@ -98,8 +112,14 @@ internal class LineItemsAdapter(context: Context, val listener: LineItemsAdapter
 
 @JvmSynthetic
 internal fun lineItemForPosition(position: Int,
-                        lineItems: List<SelectableLineItem>): SelectableLineItem? =
+                                 lineItems: List<SelectableLineItem>): SelectableLineItem? =
         lineItems.getOrElse(position - 1) { null }
+
+@JvmSynthetic
+internal fun addonForPosition(position: Int,
+                              addons: List<DigitalInvoiceAddon>,
+                              lineItems: List<SelectableLineItem>): DigitalInvoiceAddon? =
+        addons.getOrElse(position - lineItems.size - 1) { null }
 
 /**
  * Internal use only.
@@ -132,15 +152,25 @@ internal sealed class ViewType {
      *
      * @suppress
      */
-    internal object Footer : ViewType() {
+    internal object Addon : ViewType() {
         override val id: Int = 3
+    }
+
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
+    internal object Footer : ViewType() {
+        override val id: Int = 4
     }
 
     internal companion object {
         fun from(viewTypeId: Int): ViewType = when (viewTypeId) {
             1 -> Header
             2 -> LineItem
-            3 -> Footer
+            3 -> Addon
+            4 -> Footer
             else -> throw IllegalStateException("Unknow adapter view type id: $viewTypeId")
         }
     }
@@ -287,6 +317,30 @@ internal sealed class ViewHolder<in T>(itemView: View, val viewType: ViewType) :
      *
      * @suppress
      */
+    internal class AddonViewHolder(itemView: View) : ViewHolder<DigitalInvoiceAddon>(itemView, Addon) {
+        private val addonName = itemView.gv_addon_name
+        private val priceIntegralPart: TextView = itemView.gv_addon_price_total_integral_part
+        private val priceFractionalPart: TextView = itemView.gv_addon_price_total_fractional_part
+
+        override fun bind(data: DigitalInvoiceAddon, allData: List<DigitalInvoiceAddon>?) {
+            @SuppressLint("SetTextI18n")
+            addonName.text = "${itemView.context.getString(data.nameStringRes)}:"
+            DigitalInvoice.addonPriceIntegralAndFractionalParts(data).let { (integral, fractional) ->
+                priceIntegralPart.text = integral
+                @SuppressLint("SetTextI18n")
+                priceFractionalPart.text = fractional
+            }
+        }
+
+        override fun unbind() {
+        }
+    }
+
+    /**
+     * Internal use only.
+     *
+     * @suppress
+     */
     internal class FooterViewHolder(itemView: View) : ViewHolder<Pair<String, String>>(itemView, Footer) {
         private val integralPart = itemView.gv_gross_price_total_integral_part
         private val fractionalPart = itemView.gv_gross_price_total_fractional_part
@@ -308,6 +362,9 @@ internal sealed class ViewHolder<in T>(itemView: View, val viewType: ViewType) :
                     layoutInflater.inflate(R.layout.gv_item_digital_invoice_header, parent, false))
             LineItem -> LineItemViewHolder(
                     layoutInflater.inflate(R.layout.gv_item_digital_invoice_line_item, parent,
+                            false))
+            Addon -> AddonViewHolder(
+                    layoutInflater.inflate(R.layout.gv_item_digital_invoice_addon, parent,
                             false))
             Footer -> FooterViewHolder(
                     layoutInflater.inflate(R.layout.gv_item_digital_invoice_footer, parent, false))

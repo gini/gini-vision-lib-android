@@ -56,15 +56,6 @@ class LineItemTest {
     }
 
     @Test
-    fun `should create raw gross price in english format`() {
-        // Given
-        val rawGrossPrice = LineItem.createRawGrossPrice(BigDecimal("12.13"), "EUR")
-
-        // Then
-        assertThat(rawGrossPrice).isEqualTo("12.13:EUR")
-    }
-
-    @Test
     fun `should default gross price to 0 when the raw gross price format is not supported`() {
         val lineItem = LineItem("id", "description", 3, "100,200.13:EUR")
 

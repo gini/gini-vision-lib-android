@@ -59,7 +59,7 @@ internal open class DigitalInvoiceScreenPresenter(activity: Activity,
 
     override fun pay() {
         digitalInvoice.updateLineItemExtractionsWithReviewedLineItems()
-        digitalInvoice.updateAmountToPayExtractionWithTotalGrossPrice()
+        digitalInvoice.updateAmountToPayExtractionWithTotalPrice()
         if (GiniVision.hasInstance()) {
             GiniVision.getInstance().giniVisionNetworkApi?.setUpdatedCompoundExtractions(digitalInvoice.compoundExtractions)
         }
@@ -82,6 +82,7 @@ internal open class DigitalInvoiceScreenPresenter(activity: Activity,
     internal fun updateView() {
         view.apply {
             showLineItems(digitalInvoice.selectableLineItems)
+            showAddons(digitalInvoice.addons)
             digitalInvoice.selectedAndTotalLineItemsCount().let { (selected, total) ->
                 showSelectedAndTotalLineItems(selected, total)
                 if (selected > 0) {
@@ -90,7 +91,7 @@ internal open class DigitalInvoiceScreenPresenter(activity: Activity,
                     disablePayButton(0, total)
                 }
             }
-            digitalInvoice.lineItemsTotalGrossPriceSumIntegralAndFractionalParts().let { (integral, fractional) ->
+            digitalInvoice.totalPriceIntegralAndFractionalParts().let { (integral, fractional) ->
                 showSelectedLineItemsSum(integral, fractional)
             }
         }

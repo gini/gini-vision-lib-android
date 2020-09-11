@@ -56,4 +56,14 @@ class BigDecimalExtensionsTest {
         // Then
         assertThat(result).isEqualTo("${currency.symbol}028")
     }
+
+    @Test
+    fun `should create price string in english format`() {
+        // Given
+
+        val priceString = BigDecimal("12.13").toPriceString("EUR")
+
+        // Then
+        assertThat(priceString).isEqualTo("12.13:EUR")
+    }
 }

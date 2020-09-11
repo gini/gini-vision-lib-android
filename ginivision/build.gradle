@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'jacoco-android'
+apply plugin: 'com.hiya.jacoco-android'
 apply plugin: 'org.jetbrains.dokka'
 
 jacoco {
@@ -167,30 +167,4 @@ task javadocJar(type: Jar, dependsOn: generateJavadocWithDokka) {
 artifacts {
     archives sourcesJar
     archives javadocJar
-}
-
-task unifyConnectedTestCoverage {
-    description = "Adds the connected tests' coverage to the JacocoReport tasks."
-    doLast {
-        unifyTestCoverage(firstSubfolderOf("${buildDir}/outputs/code_coverage/debugAndroidTest/connected"))
-    }
-}
-
-static def firstSubfolderOf(dir) {
-    File directory = new File(dir)
-    if (directory.list().length == 0) {
-        return
-    }
-    def subdir = directory.list()[0]
-    return new File(directory, subdir)
-}
-
-def unifyTestCoverage(coverageFilesPath) {
-    tasks.withType(JacocoReport) { task ->
-        File execDataDir = file(coverageFilesPath)
-        if (execDataDir.exists() && execDataDir.isDirectory() && execDataDir.listFiles().length > 0) {
-            File[] execDataDirContents = execDataDir.listFiles()
-            task.executionData.from(files { execDataDirContents })
-        }
-    }
 }

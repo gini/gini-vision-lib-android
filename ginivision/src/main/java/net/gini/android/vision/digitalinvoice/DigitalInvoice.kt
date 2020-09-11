@@ -40,23 +40,36 @@ internal class DigitalInvoice(extractions: Map<String, GiniVisionSpecificExtract
     val selectableLineItems
         get() = _selectableLineItems
 
+    private var _addons: List<DigitalInvoiceAddon>
+    val addons
+        get() = _addons
+
     init {
         _selectableLineItems = lineItemsFromCompoundExtractions(compoundExtractions).map { SelectableLineItem(lineItem = it) }
+
+        _addons = extractions.mapNotNull { (_, extraction) -> DigitalInvoiceAddon.createFromOrNull(extraction) }
     }
 
     companion object {
         fun lineItemTotalGrossPriceIntegralAndFractionalParts(lineItem: LineItem): Pair<String, String> {
             return lineItem.run {
-                Pair(grossPriceIntegralPartWithCurrencySymbol(totalGrossPrice, currency),
+                Pair(priceIntegralPartWithCurrencySymbol(totalGrossPrice, currency),
                         totalGrossPrice.fractionalPart(FRACTION_FORMAT))
             }
         }
 
+        fun addonPriceIntegralAndFractionalParts(addon: DigitalInvoiceAddon): Pair<String, String> {
+            return addon.run {
+                Pair(priceIntegralPartWithCurrencySymbol(price, currency),
+                        price.fractionalPart(FRACTION_FORMAT))
+            }
+        }
+
         @VisibleForTesting
-        fun grossPriceIntegralPartWithCurrencySymbol(grossPrice: BigDecimal, currency: Currency?) =
+        fun priceIntegralPartWithCurrencySymbol(price: BigDecimal, currency: Currency?) =
                 currency?.let { c ->
-                    grossPrice.integralPartWithCurrency(c, INTEGRAL_FORMAT)
-                } ?: grossPrice.integralPart(INTEGRAL_FORMAT)
+                    price.integralPartWithCurrency(c, INTEGRAL_FORMAT)
+                } ?: price.integralPart(INTEGRAL_FORMAT)
     }
 
     private fun lineItemsFromCompoundExtractions(compoundExtractions: Map<String, GiniVisionCompoundExtraction>): List<LineItem> =
@@ -88,11 +101,11 @@ internal class DigitalInvoice(extractions: Map<String, GiniVisionSpecificExtract
         }
     }
 
-    fun lineItemsTotalGrossPriceSumIntegralAndFractionalParts(): Pair<String, String> {
-        val sum = selectedLineItemsTotalGrossPriceSum()
+    fun totalPriceIntegralAndFractionalParts(): Pair<String, String> {
+        val price = totalPrice()
         val currency = lineItemsCurency()
-        return Pair(grossPriceIntegralPartWithCurrencySymbol(sum, currency),
-                sum.fractionalPart(FRACTION_FORMAT))
+        return Pair(priceIntegralPartWithCurrencySymbol(price, currency),
+                price.fractionalPart(FRACTION_FORMAT))
     }
 
     @VisibleForTesting
@@ -103,6 +116,14 @@ internal class DigitalInvoice(extractions: Map<String, GiniVisionSpecificExtract
             selectableLineItems.fold<SelectableLineItem, BigDecimal>(BigDecimal.ZERO) { sum, sli ->
                 if (sli.selected) sum.add(sli.lineItem.totalGrossPrice) else sum
             }
+
+    private fun addonsPriceSum(): BigDecimal =
+            addons.fold<DigitalInvoiceAddon, BigDecimal>(BigDecimal.ZERO) { sum, addon ->
+                sum.add(addon.price)
+            }
+
+    private fun totalPrice(): BigDecimal =
+            selectedLineItemsTotalGrossPriceSum().add(addonsPriceSum())
 
     fun selectedAndTotalLineItemsCount(): Pair<Int, Int> =
             Pair(selectedLineItemsCount(), totalLineItemsCount())
@@ -139,9 +160,8 @@ internal class DigitalInvoice(extractions: Map<String, GiniVisionSpecificExtract
         }
     }
 
-    fun updateAmountToPayExtractionWithTotalGrossPrice() {
-        val totalPrice = LineItem.createRawGrossPrice(selectedLineItemsTotalGrossPriceSum(),
-                selectableLineItems.firstOrNull()?.lineItem?.rawCurrency ?: "EUR")
+    fun updateAmountToPayExtractionWithTotalPrice() {
+        val totalPrice = totalPrice().toPriceString(selectableLineItems.firstOrNull()?.lineItem?.rawCurrency ?: "EUR")
 
         _extractions = if (extractions.containsKey("amountToPay")) {
             extractions.mapValues { (name, extraction) ->

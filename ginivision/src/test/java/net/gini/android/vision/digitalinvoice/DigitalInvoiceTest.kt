@@ -121,7 +121,7 @@ class DigitalInvoiceTest {
         val currency = Currency.getInstance("EUR")
 
         // When
-        val integralPartWithCurrency = DigitalInvoice.grossPriceIntegralPartWithCurrencySymbol(grossPrice, currency)
+        val integralPartWithCurrency = DigitalInvoice.priceIntegralPartWithCurrencySymbol(grossPrice, currency)
 
         // Then
         assertThat(integralPartWithCurrency).isEqualTo("${Currency.getInstance("EUR").symbol}1")
@@ -134,7 +134,7 @@ class DigitalInvoiceTest {
         val grossPrice = BigDecimal("1.99")
 
         // When
-        val integralPartWithCurrency = DigitalInvoice.grossPriceIntegralPartWithCurrencySymbol(grossPrice, null)
+        val integralPartWithCurrency = DigitalInvoice.priceIntegralPartWithCurrencySymbol(grossPrice, null)
 
         // Then
         assertThat(integralPartWithCurrency).isEqualTo("1")
@@ -159,7 +159,7 @@ class DigitalInvoiceTest {
         val digitalInvoice = DigitalInvoice(emptyMap(), createLineItemsFixture())
 
         // When
-        val (integral, fractional) = digitalInvoice.lineItemsTotalGrossPriceSumIntegralAndFractionalParts()
+        val (integral, fractional) = digitalInvoice.totalPriceIntegralAndFractionalParts()
 
         // Then
         assertThat(integral).isEqualTo("${Currency.getInstance("EUR").symbol}48")
@@ -253,7 +253,7 @@ class DigitalInvoiceTest {
         digitalInvoice.deselectLineItem(digitalInvoice.selectableLineItems[0], "Nem kell")
 
         // When
-        digitalInvoice.updateAmountToPayExtractionWithTotalGrossPrice()
+        digitalInvoice.updateAmountToPayExtractionWithTotalPrice()
 
         // Then
         assertThat(digitalInvoice.extractions["amountToPay"]!!.value).isEqualTo("28.58:EUR")
@@ -271,7 +271,7 @@ class DigitalInvoiceTest {
         digitalInvoice.deselectLineItem(digitalInvoice.selectableLineItems[1], "Nem kell")
 
         // When
-        digitalInvoice.updateAmountToPayExtractionWithTotalGrossPrice()
+        digitalInvoice.updateAmountToPayExtractionWithTotalPrice()
 
         // Then
         assertThat(digitalInvoice.extractions["amountToPay"]!!.value).isEqualTo("24.17:EUR")

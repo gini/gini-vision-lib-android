@@ -2,10 +2,10 @@ package net.gini.android.vision.digitalinvoice.details
 
 import android.app.Activity
 import net.gini.android.vision.digitalinvoice.DigitalInvoice
-import net.gini.android.vision.digitalinvoice.LineItem
 import net.gini.android.vision.digitalinvoice.SelectableLineItem
 import net.gini.android.vision.digitalinvoice.details.LineItemDetailsScreenContract.Presenter
 import net.gini.android.vision.digitalinvoice.details.LineItemDetailsScreenContract.View
+import net.gini.android.vision.digitalinvoice.toPriceString
 import java.math.BigDecimal
 import java.text.DecimalFormat
 import java.text.ParseException
@@ -120,8 +120,7 @@ internal class LineItemDetailsScreenPresenter(activity: Activity, view: View,
         }
         selectableLineItem = selectableLineItem.copy(
                 lineItem = selectableLineItem.lineItem.copy(
-                        rawGrossPrice = LineItem.createRawGrossPrice(grossPrice,
-                                selectableLineItem.lineItem.rawCurrency)
+                        rawGrossPrice = grossPrice.toPriceString(selectableLineItem.lineItem.rawCurrency)
                 )
         ).also {
             view.apply {

@@ -183,6 +183,10 @@ class DigitalInvoiceFragment : Fragment(), DigitalInvoiceScreenContract.View,
         (gv_line_items.adapter as LineItemsAdapter?)?.selectedAndTotalItems = "${selected}/${total}"
     }
 
+    override fun showAddons(addons: List<DigitalInvoiceAddon>) {
+        (gv_line_items.adapter as LineItemsAdapter?)?.addons = addons
+    }
+
     /**
      * Internal use only.
      *
