@@ -63,6 +63,7 @@ pipeline {
             }
             post {
                 always {
+                    junit allowEmptyResults: true, testResults: 'ginivision/build/outputs/test-results/testDebugUnitTest/*.xml'
                     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision/build/reports/tests/testDebugUnitTest', reportFiles: 'index.html', reportName: 'Unit Test Results', reportTitles: ''])
                 }
             }
