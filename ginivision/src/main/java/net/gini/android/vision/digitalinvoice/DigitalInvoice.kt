@@ -123,7 +123,7 @@ internal class DigitalInvoice(extractions: Map<String, GiniVisionSpecificExtract
             }
 
     private fun totalPrice(): BigDecimal =
-            selectedLineItemsTotalGrossPriceSum().add(addonsPriceSum())
+            selectedLineItemsTotalGrossPriceSum().add(addonsPriceSum()).max(BigDecimal.ZERO)
 
     fun selectedAndTotalLineItemsCount(): Pair<Int, Int> =
             Pair(selectedLineItemsCount(), totalLineItemsCount())
