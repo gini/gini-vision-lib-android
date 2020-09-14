@@ -112,7 +112,7 @@ class LineItemDetailsScreenPresenterTest {
     open class ViewWithSelectedReturnReason(val reason: String?) : View {
         override fun showDescription(description: String) {}
         override fun showQuantity(quantity: Int) {}
-        override fun showGrossPrice(amount: String, currency: String) {}
+        override fun showGrossPrice(displayedGrossPrice: String, currency: String) {}
         override fun showCheckbox(selected: Boolean, quantity: Int) {}
         override fun showTotalGrossPrice(integralPart: String, fractionalPart: String) {}
         override fun enableSaveButton() {}
