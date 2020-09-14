@@ -2,15 +2,13 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/buildSrc/buildSrc.iml" filepath="$PROJECT_DIR$/buildSrc/buildSrc.iml" group="gini-vision-lib-android/buildSrc" />
-      <module fileurl="file://$PROJECT_DIR$/componentapiexample/componentapiexample.iml" filepath="$PROJECT_DIR$/componentapiexample/componentapiexample.iml" group="gini-vision-lib-android/componentapiexample" />
-      <module fileurl="file://$PROJECT_DIR$/gini-vision-lib-android.iml" filepath="$PROJECT_DIR$/gini-vision-lib-android.iml" group="gini-vision-lib-android" />
-      <module fileurl="file://$PROJECT_DIR$/buildSrc/gini-vision-lib-android-buildSrc.iml" filepath="$PROJECT_DIR$/buildSrc/gini-vision-lib-android-buildSrc.iml" group="gini-vision-lib-android/buildSrc" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/componentapiexample/componentapiexample.iml" filepath="$PROJECT_DIR$/.idea/modules/componentapiexample/componentapiexample.iml" group="gini-vision-lib-android/componentapiexample" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/gini-vision-lib-android.iml" filepath="$PROJECT_DIR$/.idea/modules/gini-vision-lib-android.iml" group="gini-vision-lib-android" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/gini-vision-lib-android_buildSrc.iml" filepath="$PROJECT_DIR$/.idea/modules/gini-vision-lib-android_buildSrc.iml" group="gini-vision-lib-android/gini-vision-lib-android_buildSrc" />
-      <module fileurl="file://$PROJECT_DIR$/ginivision/ginivision.iml" filepath="$PROJECT_DIR$/ginivision/ginivision.iml" group="gini-vision-lib-android/ginivision" />
-      <module fileurl="file://$PROJECT_DIR$/ginivision-accounting-network/ginivision-accounting-network.iml" filepath="$PROJECT_DIR$/ginivision-accounting-network/ginivision-accounting-network.iml" group="gini-vision-lib-android/ginivision-accounting-network" />
-      <module fileurl="file://$PROJECT_DIR$/ginivision-network/ginivision-network.iml" filepath="$PROJECT_DIR$/ginivision-network/ginivision-network.iml" group="gini-vision-lib-android/ginivision-network" />
-      <module fileurl="file://$PROJECT_DIR$/screenapiexample/screenapiexample.iml" filepath="$PROJECT_DIR$/screenapiexample/screenapiexample.iml" group="gini-vision-lib-android/screenapiexample" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ginivision/ginivision.iml" filepath="$PROJECT_DIR$/.idea/modules/ginivision/ginivision.iml" group="gini-vision-lib-android/ginivision" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ginivision-accounting-network/ginivision-accounting-network.iml" filepath="$PROJECT_DIR$/.idea/modules/ginivision-accounting-network/ginivision-accounting-network.iml" group="gini-vision-lib-android/ginivision-accounting-network" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ginivision-network/ginivision-network.iml" filepath="$PROJECT_DIR$/.idea/modules/ginivision-network/ginivision-network.iml" group="gini-vision-lib-android/ginivision-network" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/screenapiexample/screenapiexample.iml" filepath="$PROJECT_DIR$/.idea/modules/screenapiexample/screenapiexample.iml" group="gini-vision-lib-android/screenapiexample" />
     </modules>
   </component>
 </project>
