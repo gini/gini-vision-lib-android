@@ -15,6 +15,11 @@ import androidx.annotation.NonNull;
  *
  * Copyright (c) 2020 Gini GmbH.
  */
+
+/**
+ * Helper class to map the {@link CompoundExtraction} from the Gini API SDK to the Gini Vision
+ * Library's {@link GiniVisionCompoundExtraction} and vice versa.
+ */
 public final class CompoundExtractionsMapper {
 
     @NonNull

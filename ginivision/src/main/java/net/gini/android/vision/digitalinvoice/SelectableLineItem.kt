@@ -2,6 +2,7 @@ package net.gini.android.vision.digitalinvoice
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
+import net.gini.android.vision.network.model.GiniVisionReturnReason
 import java.util.*
 
 /**
@@ -18,7 +19,7 @@ import java.util.*
 @Parcelize
 class SelectableLineItem(
         var selected: Boolean = true,
-        var reason: String? = null,
+        var reason: GiniVisionReturnReason? = null,
         val lineItem: LineItem
 ) : Parcelable {
 
@@ -33,7 +34,7 @@ class SelectableLineItem(
 
     @JvmSynthetic
     fun copy(selected: Boolean = this.selected,
-             reason: String? = this.reason,
+             reason: GiniVisionReturnReason? = this.reason,
              lineItem: LineItem = this.lineItem) = SelectableLineItem(selected, reason,
             lineItem.copy())
 }

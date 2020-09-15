@@ -9,6 +9,7 @@ import net.gini.android.vision.digitalinvoice.LineItem
 import net.gini.android.vision.digitalinvoice.ReturnReasonDialogResultCallback
 import net.gini.android.vision.digitalinvoice.SelectableLineItem
 import net.gini.android.vision.digitalinvoice.details.LineItemDetailsScreenContract.View
+import net.gini.android.vision.network.model.GiniVisionReturnReason
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -39,13 +40,13 @@ class LineItemDetailsScreenPresenterTest {
             Locale.ENGLISH)).apply { isParseBigDecimal = true }
 
     private val returnReasonsFixture = listOf(
-            "Looks different than site image",
-            "Poor quality/fault",
-            "Doesn't fit properly",
-            "Doesn't suite me",
-            "Received wrong item",
-            "Parcel damaged",
-            "Arrived too late"
+            GiniVisionReturnReason("r1", mapOf("de" to "Andere farbe als beworben")),
+            GiniVisionReturnReason("r2", mapOf("de" to "Schlechte Qualität")),
+            GiniVisionReturnReason("r3", mapOf("de" to "Passt nicht")),
+            GiniVisionReturnReason("r4", mapOf("de" to "Gefällt nicht")),
+            GiniVisionReturnReason("r5", mapOf("de" to "Falsches Artikel")),
+            GiniVisionReturnReason("r6", mapOf("de" to "Beschädigt")),
+            GiniVisionReturnReason("r7", mapOf("de" to "Zu spät geliefert")),
     )
 
     @Before
@@ -59,7 +60,7 @@ class LineItemDetailsScreenPresenterTest {
         val sli = SelectableLineItem(selected = true,
                 lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
                         rawGrossPrice = "1.19:EUR"))
-        LineItemDetailsScreenPresenter(activity, view, sli, decimalFormat).run {
+        LineItemDetailsScreenPresenter(activity, view, sli, grossPriceFormat = decimalFormat).run {
             // When
             start()
 
@@ -83,7 +84,7 @@ class LineItemDetailsScreenPresenterTest {
         val sli = SelectableLineItem(selected = true,
                 lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
                         rawGrossPrice = "1.19:EUR"))
-        LineItemDetailsScreenPresenter(activity, view, sli, germanDecimalFormat).run {
+        LineItemDetailsScreenPresenter(activity, view, sli, grossPriceFormat = germanDecimalFormat).run {
             // When
             start()
 
@@ -109,7 +110,7 @@ class LineItemDetailsScreenPresenterTest {
         }
     }
 
-    open class ViewWithSelectedReturnReason(val reason: String?) : View {
+    open class ViewWithSelectedReturnReason(val reason: GiniVisionReturnReason?) : View {
         override fun showDescription(description: String) {}
         override fun showQuantity(quantity: Int) {}
         override fun showGrossPrice(displayedGrossPrice: String, currency: String) {}
@@ -121,7 +122,7 @@ class LineItemDetailsScreenPresenterTest {
         override fun disableInput() {}
         override fun setPresenter(presenter: LineItemDetailsScreenContract.Presenter) {}
 
-        override fun showReturnReasonDialog(reasons: List<String>,
+        override fun showReturnReasonDialog(reasons: List<GiniVisionReturnReason>,
                                             resultCallback: ReturnReasonDialogResultCallback) {
             resultCallback(reason)
         }
@@ -130,14 +131,12 @@ class LineItemDetailsScreenPresenterTest {
     @Test
     fun `should deselect line item when a reason was selected, if there are return reasons`() {
         // Given
-        val view = spy(ViewWithSelectedReturnReason("Item is not for me"))
+        val view = spy(ViewWithSelectedReturnReason(GiniVisionReturnReason("r1", mapOf("de" to "Pfui Deifi"))))
 
         val sli = SelectableLineItem(selected = true,
                 lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
                         rawGrossPrice = "1.19:EUR"))
-        LineItemDetailsScreenPresenter(activity, view, sli).run {
-            returnReasons = returnReasonsFixture
-
+        LineItemDetailsScreenPresenter(activity, view, sli, returnReasons = returnReasonsFixture).run {
             // When
             deselectLineItem()
 
@@ -151,19 +150,16 @@ class LineItemDetailsScreenPresenterTest {
     @Test
     fun `should pass return reason to deselected item`() {
         // Given
-        val view = spy(ViewWithSelectedReturnReason("Item is not for me"))
+        val view = spy(ViewWithSelectedReturnReason(GiniVisionReturnReason("r1", mapOf("de" to "Pfui Deifi"))))
 
         val sli = SelectableLineItem(selected = true,
                 lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
                         rawGrossPrice = "1.19:EUR"))
-        LineItemDetailsScreenPresenter(activity, view, sli).run {
-            returnReasons = returnReasonsFixture
-
-            // When
+        LineItemDetailsScreenPresenter(activity, view, sli, returnReasons = returnReasonsFixture).run { // When
             deselectLineItem()
 
             // Then
-            assertThat(selectableLineItem.reason).isEqualTo("Item is not for me")
+            assertThat(selectableLineItem.reason?.labelInLocalLanguageOrGerman).isEqualTo("Pfui Deifi")
         }
     }
 
@@ -175,10 +171,7 @@ class LineItemDetailsScreenPresenterTest {
         val sli = SelectableLineItem(selected = true,
                 lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
                         rawGrossPrice = "1.19:EUR"))
-        LineItemDetailsScreenPresenter(activity, view, sli).run {
-            returnReasons = returnReasonsFixture
-
-            // When
+        LineItemDetailsScreenPresenter(activity, view, sli, returnReasons = returnReasonsFixture).run { // When
             deselectLineItem()
 
             // Then
@@ -263,7 +256,7 @@ class LineItemDetailsScreenPresenterTest {
         val sli = SelectableLineItem(selected = true,
                 lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
                         rawGrossPrice = "1.19:EUR"))
-        LineItemDetailsScreenPresenter(activity, view, sli, decimalFormat).run {
+        LineItemDetailsScreenPresenter(activity, view, sli, grossPriceFormat = decimalFormat).run {
             // When
             setGrossPrice("19.99")
 
@@ -281,7 +274,7 @@ class LineItemDetailsScreenPresenterTest {
         val sli = SelectableLineItem(selected = true,
                 lineItem = LineItem(id = "1", description = "Line Item 1", quantity = 3,
                         rawGrossPrice = "1.19:EUR"))
-        LineItemDetailsScreenPresenter(activity, view, sli, decimalFormat).run {
+        LineItemDetailsScreenPresenter(activity, view, sli, grossPriceFormat = decimalFormat).run {
             // When
             start()
             // Using german format (comma decimal separator)

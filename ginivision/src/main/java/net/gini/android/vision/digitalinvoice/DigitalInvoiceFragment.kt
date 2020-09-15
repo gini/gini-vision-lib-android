@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.gv_fragment_digital_invoice.*
 import net.gini.android.vision.R
 import net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones
 import net.gini.android.vision.network.model.GiniVisionCompoundExtraction
+import net.gini.android.vision.network.model.GiniVisionReturnReason
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction
 
 /**
@@ -22,6 +23,7 @@ import net.gini.android.vision.network.model.GiniVisionSpecificExtraction
 
 private const val ARGS_EXTRACTIONS = "GV_ARGS_EXTRACTIONS"
 private const val ARGS_COMPOUND_EXTRACTIONS = "GV_ARGS_COMPOUND_EXTRACTIONS"
+private const val ARGS_RETURN_REASONS = "GV_ARGS_RETURN_REASONS"
 
 private const val TAG_RETURN_REASON_DIALOG = "TAG_RETURN_REASON_DIALOG"
 private const val TAG_WHAT_IS_THIS_DIALOG = "TAG_WHAT_IS_THIS_DIALOG"
@@ -64,6 +66,7 @@ class DigitalInvoiceFragment : Fragment(), DigitalInvoiceScreenContract.View,
 
     private var extractions: Map<String, GiniVisionSpecificExtraction> = emptyMap()
     private var compoundExtractions: Map<String, GiniVisionCompoundExtraction> = emptyMap()
+    private var returnReasons: List<GiniVisionReturnReason> = emptyList()
 
     companion object {
 
@@ -78,7 +81,8 @@ class DigitalInvoiceFragment : Fragment(), DigitalInvoiceScreenContract.View,
          */
         @JvmStatic
         fun createInstance(extractions: Map<String, GiniVisionSpecificExtraction>,
-                           compoundExtractions: Map<String, GiniVisionCompoundExtraction>) = DigitalInvoiceFragment().apply {
+                           compoundExtractions: Map<String, GiniVisionCompoundExtraction>,
+                           returnReasons: List<GiniVisionReturnReason>) = DigitalInvoiceFragment().apply {
             arguments = Bundle().apply {
                 putBundle(ARGS_EXTRACTIONS, Bundle().apply {
                     extractions.forEach { putParcelable(it.key, it.value) }
@@ -86,6 +90,7 @@ class DigitalInvoiceFragment : Fragment(), DigitalInvoiceScreenContract.View,
                 putBundle(ARGS_COMPOUND_EXTRACTIONS, Bundle().apply {
                     compoundExtractions.forEach { putParcelable(it.key, it.value) }
                 })
+                putParcelableArrayList(ARGS_RETURN_REASONS, ArrayList(returnReasons))
             }
         }
     }
@@ -115,10 +120,12 @@ class DigitalInvoiceFragment : Fragment(), DigitalInvoiceScreenContract.View,
             getBundle(ARGS_COMPOUND_EXTRACTIONS)?.run {
                 compoundExtractions = keySet().map { it to getParcelable<GiniVisionCompoundExtraction>(it)!! }.toMap()
             }
+            returnReasons = getParcelableArrayList(ARGS_RETURN_REASONS) ?: emptyList()
         }
     }
 
-    private fun createPresenter(activity: Activity) = DigitalInvoiceScreenPresenter(activity, this, extractions, compoundExtractions)
+    private fun createPresenter(activity: Activity) =
+            DigitalInvoiceScreenPresenter(activity, this, extractions, compoundExtractions, returnReasons)
 
     /**
      * Internal use only.
@@ -222,7 +229,7 @@ class DigitalInvoiceFragment : Fragment(), DigitalInvoiceScreenContract.View,
      *
      * @suppress
      */
-    override fun showReturnReasonDialog(reasons: List<String>,
+    override fun showReturnReasonDialog(reasons: List<GiniVisionReturnReason>,
                                         resultCallback: ReturnReasonDialogResultCallback) {
         fragmentManager?.let { fm ->
             ReturnReasonDialog.createInstance(reasons).run {

@@ -233,10 +233,10 @@ internal sealed class ViewHolder<in T>(itemView: View, val viewType: ViewType) :
                 disable()
             }
             checkbox.isChecked = data.selected
-            if (data.reason != null) {
-                quantityLabel.text = data.reason
+            data.reason?.let { reason ->
+                quantityLabel.text = reason.labelInLocalLanguageOrGerman
                 quantity.visibility = View.INVISIBLE
-            } else {
+            } ?: run {
                 quantityLabel.text =
                         itemView.resources.getText(R.string.gv_digital_invoice_line_item_quantity)
                 quantity.visibility = View.VISIBLE

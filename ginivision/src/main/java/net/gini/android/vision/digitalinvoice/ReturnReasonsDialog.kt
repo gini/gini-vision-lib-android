@@ -10,6 +10,9 @@ import android.widget.ArrayAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.gv_fragment_return_reason_dialog.*
 import net.gini.android.vision.R
+import net.gini.android.vision.network.model.GiniVisionReturnReason
+import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Created by Alpar Szotyori on 22.01.2020.
@@ -19,7 +22,7 @@ import net.gini.android.vision.R
 
 private const val ARG_RETURN_REASONS = "GV_ARG_SELECTABLE_LINE_ITEM"
 
-internal typealias ReturnReasonDialogResultCallback = (String?) -> Unit
+internal typealias ReturnReasonDialogResultCallback = (GiniVisionReturnReason?) -> Unit
 
 /**
  * Internal use only.
@@ -28,7 +31,7 @@ internal typealias ReturnReasonDialogResultCallback = (String?) -> Unit
  */
 internal class ReturnReasonDialog : BottomSheetDialogFragment() {
 
-    private lateinit var reasons: List<String>
+    private lateinit var reasons: List<GiniVisionReturnReason>
 
     var callback: ReturnReasonDialogResultCallback? = null
 
@@ -36,9 +39,9 @@ internal class ReturnReasonDialog : BottomSheetDialogFragment() {
 
     companion object {
         @JvmStatic
-        fun createInstance(reasons: List<String>) = ReturnReasonDialog().apply {
+        fun createInstance(reasons: List<GiniVisionReturnReason>) = ReturnReasonDialog().apply {
             arguments = Bundle().apply {
-                putStringArrayList(ARG_RETURN_REASONS, ArrayList(reasons))
+                putParcelableArrayList(ARG_RETURN_REASONS, ArrayList(reasons))
             }
         }
     }
@@ -54,8 +57,8 @@ internal class ReturnReasonDialog : BottomSheetDialogFragment() {
     }
 
     private fun readArguments() {
-        arguments?.let {
-            reasons = it.getStringArrayList(ARG_RETURN_REASONS)?.toList() ?: emptyList()
+        arguments?.run {
+            reasons = getParcelableArrayList(ARG_RETURN_REASONS) ?: emptyList()
         }
     }
 
@@ -71,7 +74,7 @@ internal class ReturnReasonDialog : BottomSheetDialogFragment() {
     private fun initListView() {
         activity?.let {
             gv_return_reasons_list.adapter =
-                    ArrayAdapter<String>(it, R.layout.gv_item_return_reason, reasons)
+                    ArrayAdapter<String>(it, R.layout.gv_item_return_reason, localizedReasons())
             gv_return_reasons_list.onItemClickListener =
                     AdapterView.OnItemClickListener { _, _, position, _ ->
                         callback?.invoke(reasons[position])
@@ -79,6 +82,8 @@ internal class ReturnReasonDialog : BottomSheetDialogFragment() {
                     }
         }
     }
+
+    private fun localizedReasons() = reasons.map { it.labelInLocalLanguageOrGerman }
 
     override fun onCancel(dialog: DialogInterface) {
         callback?.invoke(null)

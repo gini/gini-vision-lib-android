@@ -3,6 +3,7 @@ package net.gini.android.vision.digitalinvoice
 import android.app.Activity
 import net.gini.android.vision.GiniVisionBasePresenter
 import net.gini.android.vision.GiniVisionBaseView
+import net.gini.android.vision.network.model.GiniVisionReturnReason
 
 /**
  * Created by Alpar Szotyori on 05.12.2019.
@@ -29,7 +30,7 @@ interface DigitalInvoiceScreenContract {
         fun enablePayButton(selected: Int, total: Int)
         fun disablePayButton(selected: Int, total: Int)
         fun showSelectedLineItemsSum(integralPart: String, fractionalPart: String)
-        fun showReturnReasonDialog(reasons: List<String>,
+        fun showReturnReasonDialog(reasons: List<GiniVisionReturnReason>,
                                    resultCallback: ReturnReasonDialogResultCallback)
     }
 

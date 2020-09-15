@@ -4,6 +4,7 @@ import android.app.Activity
 import net.gini.android.vision.GiniVisionBasePresenter
 import net.gini.android.vision.GiniVisionBaseView
 import net.gini.android.vision.digitalinvoice.ReturnReasonDialogResultCallback
+import net.gini.android.vision.network.model.GiniVisionReturnReason
 
 /**
  * Created by Alpar Szotyori on 17.12.2019.
@@ -33,7 +34,7 @@ interface LineItemDetailsScreenContract {
         fun disableSaveButton()
         fun enableInput()
         fun disableInput()
-        fun showReturnReasonDialog(reasons: List<String>,
+        fun showReturnReasonDialog(reasons: List<GiniVisionReturnReason>,
                                    resultCallback: ReturnReasonDialogResultCallback)
     }
 

@@ -18,7 +18,9 @@ import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.network.model.CompoundExtractionsMapper;
 import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
+import net.gini.android.vision.network.model.GiniVisionReturnReason;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
+import net.gini.android.vision.network.model.ReturnReasonsMapper;
 import net.gini.android.vision.network.model.SpecificExtractionMapper;
 import net.gini.android.vision.util.CancellationToken;
 import net.gini.android.vision.util.NoOpCancellationToken;
@@ -28,6 +30,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -266,11 +269,13 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                                             SpecificExtractionMapper.mapToGVL(task.getResult().getSpecificExtractions());
                                     final Map<String, GiniVisionCompoundExtraction> compoundExtractions =
                                             CompoundExtractionsMapper.mapToGVL(task.getResult().getCompoundExtractions());
-                                    LOG.debug("Document analysis success for documents {}: extractions = {}; compoundExtractions = {}",
-                                            giniApiDocumentIdRotationMap, extractions, compoundExtractions);
+                                    final List<GiniVisionReturnReason> returnReasons =
+                                            ReturnReasonsMapper.mapToGVL((task.getResult().getReturnReasons()));
+                                    LOG.debug("Document analysis success for documents {}: extractions = {}; compoundExtractions = {}; returnReasons = {}",
+                                            giniApiDocumentIdRotationMap, extractions, compoundExtractions, returnReasons);
                                     callback.success(
                                             new AnalysisResult(compositeDocument.get().getId(),
-                                                    extractions, compoundExtractions));
+                                                    extractions, compoundExtractions, returnReasons));
                                 } else {
                                     LOG.debug("Document analysis cancelled for documents {}",
                                             giniApiDocumentIdRotationMap);

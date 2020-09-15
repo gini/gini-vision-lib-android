@@ -2,6 +2,7 @@ package net.gini.android.vision.digitalinvoice
 
 import com.google.common.truth.Truth.assertThat
 import net.gini.android.vision.network.model.GiniVisionCompoundExtraction
+import net.gini.android.vision.network.model.GiniVisionReturnReason
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -206,7 +207,7 @@ class DigitalInvoiceTest {
     fun `should select line item and reset the reason`() {
         // Given
         val digitalInvoice = DigitalInvoice(emptyMap(), createLineItemsFixture())
-        digitalInvoice.deselectLineItem(digitalInvoice.selectableLineItems[0], "I don't want that")
+        digitalInvoice.deselectLineItem(digitalInvoice.selectableLineItems[0], GiniVisionReturnReason("r1", mapOf("de" to "Pfui Deifi")))
 
         // When
         digitalInvoice.selectLineItem(digitalInvoice.selectableLineItems[0])
@@ -223,18 +224,18 @@ class DigitalInvoiceTest {
         digitalInvoice.selectLineItem(digitalInvoice.selectableLineItems[0])
 
         // When
-        digitalInvoice.deselectLineItem(digitalInvoice.selectableLineItems[0], "I don't want that")
+        digitalInvoice.deselectLineItem(digitalInvoice.selectableLineItems[0], GiniVisionReturnReason("r1", mapOf("de" to "Pfui Deifi")))
 
         // Then
         assertThat(digitalInvoice.selectableLineItems[0].selected).isFalse()
-        assertThat(digitalInvoice.selectableLineItems[0].reason).isEqualTo("I don't want that")
+        assertThat(digitalInvoice.selectableLineItems[0].reason?.labelInLocalLanguageOrGerman).isEqualTo("Pfui Deifi")
     }
 
     @Test
     fun `should return selected and total line items count`() {
         // Given
         val digitalInvoice = DigitalInvoice(emptyMap(), createLineItemsFixture())
-        digitalInvoice.deselectLineItem(digitalInvoice.selectableLineItems[0], "Nem kell")
+        digitalInvoice.deselectLineItem(digitalInvoice.selectableLineItems[0], GiniVisionReturnReason("r1", mapOf("de" to "Pfui Deifi")))
 
         // When
         val (selected, total) = digitalInvoice.selectedAndTotalLineItemsCount()
@@ -250,7 +251,7 @@ class DigitalInvoiceTest {
         val extractions = mapOf("amountToPay" to GiniVisionSpecificExtraction("amountToPay", "1.99:EUR", "amount", null, emptyList()))
 
         val digitalInvoice = DigitalInvoice(extractions, createLineItemsFixture())
-        digitalInvoice.deselectLineItem(digitalInvoice.selectableLineItems[0], "Nem kell")
+        digitalInvoice.deselectLineItem(digitalInvoice.selectableLineItems[0], GiniVisionReturnReason("r1", mapOf("de" to "Pfui Deifi")))
 
         // When
         digitalInvoice.updateAmountToPayExtractionWithTotalPrice()
@@ -268,7 +269,7 @@ class DigitalInvoiceTest {
     fun `should add amountToPay to extractions with the total price of selected line items`() {
         // Given
         val digitalInvoice = DigitalInvoice(emptyMap(), createLineItemsFixture())
-        digitalInvoice.deselectLineItem(digitalInvoice.selectableLineItems[1], "Nem kell")
+        digitalInvoice.deselectLineItem(digitalInvoice.selectableLineItems[1], GiniVisionReturnReason("r1", mapOf("de" to "Pfui Deifi")))
 
         // When
         digitalInvoice.updateAmountToPayExtractionWithTotalPrice()
@@ -282,7 +283,7 @@ class DigitalInvoiceTest {
         // Given
         val digitalInvoice = DigitalInvoice(emptyMap(), createLineItemsFixture())
 
-        digitalInvoice.deselectLineItem(digitalInvoice.selectableLineItems[0], "I don't want this")
+        digitalInvoice.deselectLineItem(digitalInvoice.selectableLineItems[0], GiniVisionReturnReason("r1", mapOf("de" to "Pfui Deifi")))
 
         // When
         digitalInvoice.updateLineItemExtractionsWithReviewedLineItems()
