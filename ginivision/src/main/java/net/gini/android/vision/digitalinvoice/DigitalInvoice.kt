@@ -27,7 +27,7 @@ internal val FRACTION_FORMAT = DecimalFormat(".00").apply { roundingMode = Round
  * @suppress
  */
 internal class DigitalInvoice(extractions: Map<String, GiniVisionSpecificExtraction>,
-                     compoundExtractions: Map<String, GiniVisionCompoundExtraction>) {
+                              compoundExtractions: Map<String, GiniVisionCompoundExtraction>) {
 
     private var _extractions: Map<String, GiniVisionSpecificExtraction> = extractions
     val extractions
@@ -141,7 +141,7 @@ internal class DigitalInvoice(extractions: Map<String, GiniVisionSpecificExtract
                 "lineItems" -> GiniVisionCompoundExtraction(name,
                         extraction.specificExtractionMaps.mapIndexed { index, lineItemExtractions ->
                             selectableLineItems.find { it.lineItem.id.toInt() == index }?.let { sli ->
-                                lineItemExtractions.mapValues { (name, lineItemExtraction) ->
+                                var extractions = lineItemExtractions.mapValues { (name, lineItemExtraction) ->
                                     when (name) {
                                         "description" -> copyGiniVisionSpecificExtraction(lineItemExtraction, sli.lineItem.description)
                                         "baseGross" -> copyGiniVisionSpecificExtraction(lineItemExtraction, sli.lineItem.rawGrossPrice)
@@ -153,7 +153,12 @@ internal class DigitalInvoice(extractions: Map<String, GiniVisionSpecificExtract
                                                 })
                                         else -> lineItemExtraction
                                     }
+                                }.toMutableMap()
+                                sli.reason?.let { returnReason ->
+                                    extractions.put("returnReason", GiniVisionSpecificExtraction(
+                                            "returnReason", returnReason.id, "", null, emptyList()))
                                 }
+                                extractions
                             }
                         }.filterNotNull())
                 else -> extraction

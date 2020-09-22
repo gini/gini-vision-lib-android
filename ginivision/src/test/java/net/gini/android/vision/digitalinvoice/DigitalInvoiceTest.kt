@@ -293,6 +293,20 @@ class DigitalInvoiceTest {
     }
 
     @Test
+    fun `should add return reason to the 'lineItems' compound extractions for deselected line items`() {
+        // Given
+        val digitalInvoice = DigitalInvoice(emptyMap(), createLineItemsFixture())
+
+        digitalInvoice.deselectLineItem(digitalInvoice.selectableLineItems[0], GiniVisionReturnReason("r1", mapOf("de" to "Pfui Deifi")))
+
+        // When
+        digitalInvoice.updateLineItemExtractionsWithReviewedLineItems()
+
+        // Then
+        assertThat(digitalInvoice.compoundExtractions["lineItems"]!!.specificExtractionMaps[0]["returnReason"]!!.value).isEqualTo("r1")
+    }
+
+    @Test
     fun `should update the 'lineItems' compound extractions with the line item changes`() {
         // Given
         val digitalInvoice = DigitalInvoice(emptyMap(), createLineItemsFixture())
