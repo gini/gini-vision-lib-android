@@ -1988,9 +1988,11 @@ Digital Invoice Screen
       <area shape="rect" alt="" title="Edit Button" coords="251,275,276,301" href="customization-guide.html#digital-invoice-7-3" target="" />
       <area shape="rect" alt="" title="Quantity Label" coords="108,329,137,355" href="customization-guide.html#digital-invoice-7-4" target="" />
       <area shape="rect" alt="" title="Price" coords="233,327,263,354" href="customization-guide.html#digital-invoice-7-5" target="" />
-      <area shape="rect" alt="" title="Total Price" coords="226,371,262,405" href="customization-guide.html#digital-invoice-8" target="" />
-      <area shape="rect" alt="" title="Notice" coords="29,417,63,452" href="customization-guide.html#digital-invoice-9" target="" />
-      <area shape="rect" alt="" title="Pay Button" coords="201,485,238,521" href="customization-guide.html#digital-invoice-10" target="" />
+      <area shape="rect" alt="" title="Addons" coords="182,365,216,397" href="customization-guide.html#digital-invoice-8" target="" />
+      <area shape="rect" alt="" title="Total Price" coords="231,406,261,437" href="customization-guide.html#digital-invoice-9" target="" />
+      <area shape="rect" alt="" title="Notice" coords="31,445,63,477" href="customization-guide.html#digital-invoice-10" target="" />
+      <area shape="rect" alt="" title="Pay Button" coords="206,486,238,520" href="customization-guide.html#digital-invoice-11" target="" />
+
       <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
     </map>
 
@@ -2000,9 +2002,19 @@ Digital Invoice Screen
 
     <map id="what-is-this-dialog-map" name="what-is-this-dialog-map">
       <area shape="rect" alt="" title="Title" coords="87,334,121,365" href="customization-guide.html#what-is-this-dialog" target="" />
-      <area shape="rect" alt="" title="Message" coords="284,370,317,404" href="customization-guide.html#digital-invoice-12" target="" />
-      <area shape="rect" alt="" title="Positive Response" coords="128,457,164,489" href="customization-guide.html#digital-invoice-13" target="" />
-      <area shape="rect" alt="" title="Negative Response" coords="182,500,217,535" href="customization-guide.html#digital-invoice-14" target="" />
+      <area shape="rect" alt="" title="Message" coords="284,370,317,404" href="customization-guide.html#digital-invoice-13" target="" />
+      <area shape="rect" alt="" title="Positive Response" coords="128,457,164,489" href="customization-guide.html#digital-invoice-14" target="" />
+      <area shape="rect" alt="" title="Negative Response" coords="182,500,217,535" href="customization-guide.html#digital-invoice-15" target="" />
+      <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
+    </map>
+
+.. raw:: html
+
+    <img src="_static/customization/Return Reason Picker.png" usemap="#return-reason-picker-map" width="324" height="576">
+
+    <map id="return-reason-picker-map" name="return-reason-picker-map">
+      <area shape="rect" alt="" title="Title" coords="166,204,197,237" href="customization-guide.html#return-reason-dialog" target="" />
+      <area shape="rect" alt="" title="Return Reason" coords="216,245,249,279" href="customization-guide.html#digital-invoice-17" target="" />
       <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
     </map>
 
@@ -2282,7 +2294,67 @@ All Action Bar customizations except the title are global to all Activities.
 
 .. _digital-invoice-8:
 
-8. Total Price
+8. Discounts or Additional Costs (Addons)
+^^^^
+
+- **Label**
+
+  - **Text Style**
+
+    Via overriding the style named ``GiniVisionTheme.DigitalInvoice.Addon.Name.TextStyle`` (with
+    parent style ``Root.GiniVisionTheme.DigitalInvoice.Addon.Name.TextStyle``).
+  
+  - **Font**
+  
+    Via overriding the style named ``GiniVisionTheme.DigitalInvoice.Addon.Name.TextStyle`` (with
+    parent style ``Root.GiniVisionTheme.DigitalInvoice.Addon.Name.TextStyle``) and setting an
+    item named ``fontFamily`` with the name of a font family or a font resource.
+  
+  - **Color**
+  
+    Via the color resource named ``gv_digital_invoice_addon_name_text``.
+
+- **Price**
+
+  - **Integral Part**
+  
+    - **Text Style**
+  
+      Via overriding the style named ``GiniVisionTheme.DigitalInvoice.Addon.Price.Integral.TextStyle`` (with
+      parent style ``Root.GiniVisionTheme.DigitalInvoice.Addon.Price.Integral.TextStyle``).
+  
+    - **Font**
+  
+      Via overriding the style named ``GiniVisionTheme.DigitalInvoice.Addon.Price.Integral.TextStyle`` (with
+      parent style ``Root.GiniVisionTheme.DigitalInvoice.Addon.Price.Integral.TextStyle``) and setting an
+      item named ``fontFamily`` with the name of a font family or a font resource.
+  
+    - **Color**
+  
+      Via the color resource named ``gv_digital_invoice_addon_price_text``.
+  
+  - **Fractional Part**
+  
+    - **Text Style**
+  
+      Via overriding the style named ``GiniVisionTheme.DigitalInvoice.Addon.Price.Fractional.TextStyle`` (with
+      parent style ``Root.GiniVisionTheme.DigitalInvoice.Addon.Price.Fractional.TextStyle``).
+  
+    - **Font**
+  
+      Via overriding the style named ``GiniVisionTheme.DigitalInvoice.Addon.Price.Fractional.TextStyle`` (with
+      parent style ``Root.GiniVisionTheme.DigitalInvoice.Addon.Price.Fractional.TextStyle``) and setting an
+      item named ``fontFamily`` with the name of a font family or a font resource.
+  
+    - **Color**
+  
+      Via the color resource named ``gv_digital_invoice_addon_price_text``.
+
+:ref:`Back to screenshot. <digital-invoice>`
+
+.. _digital-invoice-9:
+
+9. Total Price
 ^^^^
 
 - **Integral Part**
@@ -2321,9 +2393,9 @@ All Action Bar customizations except the title are global to all Activities.
 
 :ref:`Back to screenshot. <digital-invoice>`
 
-.. _digital-invoice-9:
+.. _digital-invoice-10:
 
-9. Notice
+10. Notice
 ^^^^
 
 - **Text**
@@ -2347,9 +2419,9 @@ All Action Bar customizations except the title are global to all Activities.
 
 :ref:`Back to screenshot. <digital-invoice>`
 
-.. _digital-invoice-10:
+.. _digital-invoice-11:
 
-10. Pay Button
+11. Pay Button
 ^^^^
 
 - **Title**
@@ -2378,9 +2450,9 @@ All Action Bar customizations except the title are global to all Activities.
 
 :ref:`Back to screenshot. <digital-invoice>`
 
-.. _digital-invoice-11:
+.. _digital-invoice-12:
 
-11. Title
+12. Title
 ~~~~~
 
 - **Text**
@@ -2404,9 +2476,9 @@ All Action Bar customizations except the title are global to all Activities.
 
 :ref:`Back to screenshot. <digital-invoice>`
 
-.. _digital-invoice-12:
+.. _digital-invoice-13:
 
-12. Message
+13. Message
 ~~~~~
 
 - **Text**
@@ -2430,9 +2502,9 @@ All Action Bar customizations except the title are global to all Activities.
 
 :ref:`Back to screenshot. <digital-invoice>`
 
-.. _digital-invoice-13:
+.. _digital-invoice-14:
 
-13. Positive Response
+14. Positive Response
 ~~~~~
 
 - **Text**
@@ -2456,9 +2528,9 @@ All Action Bar customizations except the title are global to all Activities.
 
 :ref:`Back to screenshot. <digital-invoice>`
 
-.. _digital-invoice-14:
+.. _digital-invoice-15:
 
-14. Negative Response
+15. Negative Response
 ~~~~~
 
 - **Text**
@@ -2479,6 +2551,65 @@ All Action Bar customizations except the title are global to all Activities.
 - **Color**
 
   Via the color resource named ``gv_digital_invoice_what_is_this_dialog_response_text``.
+
+:ref:`Back to screenshot. <digital-invoice>`
+
+.. _return-reason-dialog:
+
+Return Reason Dialog
+^^^^
+
+- **Background Color**
+
+  Via the color resource named ``gv_digital_invoice_return_reason_dialog_background``.
+
+:ref:`Back to screenshot. <digital-invoice>`
+
+.. _digital-invoice-16:
+
+16. Return Reason Dialog Title
+~~~~~
+
+- **Text**
+
+  Via the string resource named ``gv_digital_invoice_return_reason_dialog_title``.
+
+- **Text Style**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.ReturnReasonDialog.Title.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.ReturnReasonDialog.Title.TextStyle``).
+
+- **Font**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.ReturnReasonDialog.Title.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.ReturnReasonDialog.Title.TextStyle``) and setting an
+  item named ``fontFamily`` with the name of a font family or a font resource.
+
+- **Color**
+
+  Via the color resource named ``gv_digital_invoice_return_reason_dialog_title``.
+
+:ref:`Back to screenshot. <digital-invoice>`
+
+.. _digital-invoice-17:
+
+17. Return Reason Item
+~~~~~
+
+- **Text Style**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.ReturnReasonDialog.Item.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.ReturnReasonDialog.Item.TextStyle``).
+
+- **Font**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.ReturnReasonDialog.Item.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.ReturnReasonDialog.Item.TextStyle``) and setting an
+  item named ``fontFamily`` with the name of a font family or a font resource.
+
+- **Color**
+
+  Via the color resource named ``gv_digital_invoice_return_reason_dialog_item_text``.
 
 :ref:`Back to screenshot. <digital-invoice>`
 

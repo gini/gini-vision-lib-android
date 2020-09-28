@@ -138,6 +138,7 @@
     <color name="gv_digital_invoice_footer_notice_text">#696969</color>
     <color name="gv_digital_invoice_pay_button">#009edc</color>
     <color name="gv_digital_invoice_pay_button_text">#fff</color>
+    <color name="gv_digital_invoice_return_reason_dialog_background">#fff</color>
     <color name="gv_digital_invoice_return_reason_dialog_title">#696969</color>
     <color name="gv_digital_invoice_return_reason_dialog_divider">#d8d8d8</color>
     <color name="gv_digital_invoice_return_reason_dialog_item_text">#000</color>
