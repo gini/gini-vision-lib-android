@@ -28,11 +28,13 @@ import net.gini.android.vision.example.BaseExampleApp;
 import net.gini.android.vision.example.DocumentAnalyzer;
 import net.gini.android.vision.example.SingleDocumentAnalyzer;
 import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
+import net.gini.android.vision.network.model.GiniVisionReturnReason;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
@@ -216,8 +218,9 @@ public abstract class BaseAnalysisScreenHandler implements AnalysisFragmentListe
 
     @Override
     public void onProceedToReturnAssistant(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
-            @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions) {
-        mActivity.startActivity(DigitalInvoiceExampleActivity.newInstance(mActivity, extractions, compoundExtractions));
+            @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions,
+            @NonNull final List<GiniVisionReturnReason> returnReasons) {
+        mActivity.startActivity(DigitalInvoiceExampleActivity.newInstance(mActivity, extractions, compoundExtractions, returnReasons));
         mActivity.setResult(RESULT_OK);
         mActivity.finish();
     }

@@ -13,8 +13,10 @@ import net.gini.android.vision.component.ExtractionsActivity;
 import net.gini.android.vision.component.R;
 import net.gini.android.vision.component.noresults.standard.NoResultsExampleActivity;
 import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
+import net.gini.android.vision.network.model.GiniVisionReturnReason;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
+import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
@@ -65,8 +67,9 @@ public class AnalysisExampleActivity extends Activity implements
 
     @Override
     public void onProceedToReturnAssistant(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
-            @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions) {
-        mAnalysisScreenHandler.onProceedToReturnAssistant(extractions, compoundExtractions);
+            @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions,
+            @NonNull final List<GiniVisionReturnReason> returnReasons) {
+        mAnalysisScreenHandler.onProceedToReturnAssistant(extractions, compoundExtractions, returnReasons);
     }
 
     @Override
