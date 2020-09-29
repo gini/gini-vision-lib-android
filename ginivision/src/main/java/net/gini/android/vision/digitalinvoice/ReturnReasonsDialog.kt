@@ -83,7 +83,7 @@ internal class ReturnReasonDialog : BottomSheetDialogFragment() {
         }
     }
 
-    private fun localizedReasons() = reasons.map { it.labelInLocalLanguageOrGerman }
+    private fun localizedReasons() = reasons.map { it.labelInLocalLanguageOrGerman ?: "" }
 
     override fun onCancel(dialog: DialogInterface) {
         callback?.invoke(null)
