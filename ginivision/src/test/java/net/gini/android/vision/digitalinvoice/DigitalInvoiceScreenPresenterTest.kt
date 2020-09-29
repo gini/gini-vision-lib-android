@@ -5,6 +5,7 @@ import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.*
 import net.gini.android.vision.digitalinvoice.DigitalInvoiceScreenContract.View
 import net.gini.android.vision.network.model.GiniVisionCompoundExtraction
+import net.gini.android.vision.network.model.GiniVisionReturnReason
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction
 import org.junit.Before
 import org.junit.Test
@@ -54,13 +55,13 @@ class DigitalInvoiceScreenPresenterTest {
     ))
 
     private val returnReasonsFixture = listOf(
-            "Looks different than site image",
-            "Poor quality/fault",
-            "Doesn't fit properly",
-            "Doesn't suite me",
-            "Received wrong item",
-            "Parcel damaged",
-            "Arrived too late"
+            GiniVisionReturnReason("r1", mapOf("de" to "Andere farbe als beworben")),
+            GiniVisionReturnReason("r2", mapOf("de" to "Schlechte Qualität")),
+            GiniVisionReturnReason("r3", mapOf("de" to "Passt nicht")),
+            GiniVisionReturnReason("r4", mapOf("de" to "Gefällt nicht")),
+            GiniVisionReturnReason("r5", mapOf("de" to "Falsches Artikel")),
+            GiniVisionReturnReason("r6", mapOf("de" to "Beschädigt")),
+            GiniVisionReturnReason("r7", mapOf("de" to "Zu spät geliefert")),
     )
 
     private fun totalLineItemsCount(selectableLineItems: List<SelectableLineItem>) = selectableLineItems.fold(
@@ -151,7 +152,7 @@ class DigitalInvoiceScreenPresenterTest {
     fun `should show sum of only selected line items when updating the view`() {
         // Given
         DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
-            digitalInvoice.deselectLineItem(digitalInvoice.selectableLineItems[0], "Ich will es nicht")
+            digitalInvoice.deselectLineItem(digitalInvoice.selectableLineItems[0], GiniVisionReturnReason("r1", mapOf("de" to "Ich will es nicht")))
 
             // When
             updateView()
@@ -186,7 +187,7 @@ class DigitalInvoiceScreenPresenterTest {
         }
     }
 
-    open class ViewWithSelectedReturnReason(val reason: String?) : View {
+    open class ViewWithSelectedReturnReason(val reason: GiniVisionReturnReason?) : View {
         override fun showLineItems(lineItems: List<SelectableLineItem>) {}
         override fun showSelectedAndTotalLineItems(selected: Int, total: Int) {}
         override fun showAddons(addons: List<DigitalInvoiceAddon>) {}
@@ -195,7 +196,7 @@ class DigitalInvoiceScreenPresenterTest {
         override fun showSelectedLineItemsSum(integralPart: String, fractionalPart: String) {}
         override fun setPresenter(presenter: DigitalInvoiceScreenContract.Presenter) {}
 
-        override fun showReturnReasonDialog(reasons: List<String>,
+        override fun showReturnReasonDialog(reasons: List<GiniVisionReturnReason>,
                                             resultCallback: ReturnReasonDialogResultCallback) {
             resultCallback(reason)
         }
@@ -204,17 +205,16 @@ class DigitalInvoiceScreenPresenterTest {
     @Test
     fun `should update view when deselecting a line item after a reason was selected`() {
         // Given
-        view = spy(ViewWithSelectedReturnReason("Item is not for me"))
+        view = spy(ViewWithSelectedReturnReason(GiniVisionReturnReason("r1", mapOf("de" to "Hässlich"))))
 
-        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
-            returnReasons = returnReasonsFixture
+        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture(), returnReasons = returnReasonsFixture)
+                .run {
+                    // When
+                    deselectLineItem(digitalInvoice.selectableLineItems.first())
 
-            // When
-            deselectLineItem(digitalInvoice.selectableLineItems.first())
-
-            // Then
-            verify(view).showLineItems(digitalInvoice.selectableLineItems)
-        }
+                    // Then
+                    verify(view).showLineItems(digitalInvoice.selectableLineItems)
+                }
     }
 
     @Test
@@ -222,22 +222,21 @@ class DigitalInvoiceScreenPresenterTest {
         // Given
         view = spy(ViewWithSelectedReturnReason(null))
 
-        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
-            returnReasons = returnReasonsFixture
+        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture(), returnReasons = returnReasonsFixture)
+                .run {
+                    // When
+                    deselectLineItem(digitalInvoice.selectableLineItems.first())
 
-            // When
-            deselectLineItem(digitalInvoice.selectableLineItems.first())
-
-            // Then
-            verify(view).showLineItems(digitalInvoice.selectableLineItems)
-        }
+                    // Then
+                    verify(view).showLineItems(digitalInvoice.selectableLineItems)
+                }
     }
 
     @Test
     fun `should select line item`() {
         // Given
         DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
-            digitalInvoice.deselectLineItem(digitalInvoice.selectableLineItems[0], "Nem kell")
+            digitalInvoice.deselectLineItem(digitalInvoice.selectableLineItems[0], GiniVisionReturnReason("r1", mapOf("de" to "Pfui")))
 
             // When
             selectLineItem(digitalInvoice.selectableLineItems[0])
@@ -250,21 +249,20 @@ class DigitalInvoiceScreenPresenterTest {
     @Test
     fun `should show return reason dialog when deselecting a line item, if there are return reasons`() {
         // Given
-        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
-            returnReasons = returnReasonsFixture
+        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture(), returnReasons = returnReasonsFixture)
+                .run {
+                    // When
+                    deselectLineItem(digitalInvoice.selectableLineItems.first())
 
-            // When
-            deselectLineItem(digitalInvoice.selectableLineItems.first())
-
-            // Then
-            verify(view).showReturnReasonDialog(any(), any())
-        }
+                    // Then
+                    verify(view).showReturnReasonDialog(any(), any())
+                }
     }
 
     @Test
     fun `should deselect line item when a reason was selected`() {
         // Given
-        view = ViewWithSelectedReturnReason("Item is not for me")
+        view = ViewWithSelectedReturnReason(GiniVisionReturnReason("r1", mapOf("de" to "Brauch ich nicht")))
 
         DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
             // When
@@ -333,17 +331,16 @@ class DigitalInvoiceScreenPresenterTest {
     @Test
     fun `should pass return reason to deselected item`() {
         // Given
-        view = ViewWithSelectedReturnReason("Item is not for me")
+        view = ViewWithSelectedReturnReason(GiniVisionReturnReason("r1", mapOf("de" to "Hässlich")))
 
-        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
-            returnReasons = returnReasonsFixture
+        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture(), returnReasons = returnReasonsFixture)
+                .run {
+                    // When
+                    deselectLineItem(digitalInvoice.selectableLineItems.first())
 
-            // When
-            deselectLineItem(digitalInvoice.selectableLineItems.first())
-
-            // Then
-            assertThat(digitalInvoice.selectableLineItems.first().reason).isEqualTo("Item is not for me")
-        }
+                    // Then
+                    assertThat(digitalInvoice.selectableLineItems.first().reason?.labelInLocalLanguageOrGerman).isEqualTo("Hässlich")
+                }
     }
 
     @Test
@@ -351,14 +348,12 @@ class DigitalInvoiceScreenPresenterTest {
         // Given
         view = ViewWithSelectedReturnReason(null)
 
-        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
-            returnReasons = returnReasonsFixture
+        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture(), returnReasons = returnReasonsFixture)
+                .run { // When
+                    deselectLineItem(digitalInvoice.selectableLineItems.first())
 
-            // When
-            deselectLineItem(digitalInvoice.selectableLineItems.first())
-
-            // Then
-            assertThat(digitalInvoice.selectableLineItems.first().selected).isTrue()
+                    // Then
+                    assertThat(digitalInvoice.selectableLineItems.first().selected).isTrue()
         }
     }
 
@@ -398,7 +393,7 @@ class DigitalInvoiceScreenPresenterTest {
     @Test
     fun `should update amount in extractions when the 'Pay' button was clicked`() {
         // Given
-        view = ViewWithSelectedReturnReason("Item is not for me")
+        view = ViewWithSelectedReturnReason(GiniVisionReturnReason("r1", mapOf("de" to "Qualitätsmängel")))
 
         val extractions = mapOf("amountToPay" to GiniVisionSpecificExtraction("amountToPay", "1.99:EUR", "amount", null, emptyList()))
 
@@ -419,7 +414,7 @@ class DigitalInvoiceScreenPresenterTest {
     @Test
     fun `should update the 'lineItems' compound extractions when the 'Pay' button was clicked`() {
         // Given
-        view = ViewWithSelectedReturnReason("Item is not for me")
+        view = ViewWithSelectedReturnReason(GiniVisionReturnReason("r1", mapOf("de" to "Pfui Deifi")))
 
         DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
             listener = mock()

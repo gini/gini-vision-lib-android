@@ -5,10 +5,12 @@ import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.network.GiniVisionNetworkService;
 import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
+import net.gini.android.vision.network.model.GiniVisionReturnReason;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.noresults.NoResultsFragmentCompat;
 import net.gini.android.vision.noresults.NoResultsFragmentStandard;
 
+import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
@@ -69,5 +71,6 @@ public interface AnalysisFragmentListener {
     void onDefaultPDFAppAlertDialogCancelled();
 
     void onProceedToReturnAssistant(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
-            @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions);
+            @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions,
+            @NonNull final List<GiniVisionReturnReason> returnReasons);
 }

@@ -4,6 +4,7 @@ import android.app.Activity
 import androidx.annotation.VisibleForTesting
 import net.gini.android.vision.GiniVision
 import net.gini.android.vision.network.model.GiniVisionCompoundExtraction
+import net.gini.android.vision.network.model.GiniVisionReturnReason
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction
 
 /**
@@ -15,14 +16,14 @@ import net.gini.android.vision.network.model.GiniVisionSpecificExtraction
 internal open class DigitalInvoiceScreenPresenter(activity: Activity,
                                                   view: DigitalInvoiceScreenContract.View,
                                                   val extractions: Map<String, GiniVisionSpecificExtraction> = emptyMap(),
-                                                  val compoundExtractions: Map<String, GiniVisionCompoundExtraction> = emptyMap()) :
+                                                  val compoundExtractions: Map<String, GiniVisionCompoundExtraction> = emptyMap(),
+                                                  val returnReasons: List<GiniVisionReturnReason> = emptyList()) :
         DigitalInvoiceScreenContract.Presenter(activity, view) {
 
     override var listener: DigitalInvoiceFragmentListener? = null
 
     @VisibleForTesting
     val digitalInvoice: DigitalInvoice
-    var returnReasons: List<String> = emptyList()
 
     init {
         view.setPresenter(this)
@@ -37,6 +38,7 @@ internal open class DigitalInvoiceScreenPresenter(activity: Activity,
     override fun deselectLineItem(lineItem: SelectableLineItem) {
         if (returnReasons.isEmpty()) {
             digitalInvoice.deselectLineItem(lineItem, null)
+            updateView()
         } else {
             view.showReturnReasonDialog(returnReasons) { selectedReason ->
                 if (selectedReason != null) {
@@ -44,9 +46,9 @@ internal open class DigitalInvoiceScreenPresenter(activity: Activity,
                 } else {
                     digitalInvoice.selectLineItem(lineItem)
                 }
+                updateView()
             }
         }
-        updateView()
     }
 
     override fun editLineItem(lineItem: SelectableLineItem) {

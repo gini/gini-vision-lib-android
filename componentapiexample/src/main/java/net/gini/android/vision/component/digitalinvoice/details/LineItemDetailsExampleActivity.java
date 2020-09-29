@@ -4,13 +4,18 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 
 import net.gini.android.vision.component.R;
 import net.gini.android.vision.digitalinvoice.SelectableLineItem;
 import net.gini.android.vision.digitalinvoice.details.LineItemDetailsFragment;
 import net.gini.android.vision.digitalinvoice.details.LineItemDetailsFragmentListener;
+import net.gini.android.vision.network.model.GiniVisionReturnReason;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -26,14 +31,18 @@ public class LineItemDetailsExampleActivity extends AppCompatActivity implements
         LineItemDetailsFragmentListener {
 
     private static final String EXTRA_IN_SELECTABLE_LINE_ITEM = "EXTRA_IN_SELECTABLE_LINE_ITEM";
+    private static final String EXTRA_IN_RETURN_REASONS = "EXTRA_IN_RETURN_REASONS";
     public static final String EXTRA_OUT_SELECTABLE_LINE_ITEM = "EXTRA_OUT_SELECTABLE_LINE_ITEM";
 
     private LineItemDetailsFragment mLineItemDetailsFragment;
     private SelectableLineItem mSelectableLineItem;
+    private List<GiniVisionReturnReason> mReturnReasons;
 
-    public static Intent newInstance(@NonNull final Context context, @NonNull final SelectableLineItem selectableLineItem) {
+    public static Intent newInstance(@NonNull final Context context, @NonNull final SelectableLineItem selectableLineItem,
+            @NonNull final List<GiniVisionReturnReason> returnReasons) {
         final Intent intent = new Intent(context, LineItemDetailsExampleActivity.class);
         intent.putExtra(EXTRA_IN_SELECTABLE_LINE_ITEM, selectableLineItem);
+        intent.putParcelableArrayListExtra(EXTRA_IN_RETURN_REASONS, new ArrayList<Parcelable>(returnReasons));
         return intent;
     }
 
@@ -63,6 +72,7 @@ public class LineItemDetailsExampleActivity extends AppCompatActivity implements
 
     private void readExtras() {
         mSelectableLineItem = getIntent().getParcelableExtra(EXTRA_IN_SELECTABLE_LINE_ITEM);
+        mReturnReasons = getIntent().getParcelableArrayListExtra(EXTRA_IN_RETURN_REASONS);
     }
 
     private void setUpActionBar() {
@@ -79,7 +89,7 @@ public class LineItemDetailsExampleActivity extends AppCompatActivity implements
     }
 
     private void createLineItemDetailsFragment() {
-        mLineItemDetailsFragment = LineItemDetailsFragment.createInstance(mSelectableLineItem);
+        mLineItemDetailsFragment = LineItemDetailsFragment.createInstance(mSelectableLineItem, mReturnReasons);
     }
 
     private void showLineItemDetailsFragment() {

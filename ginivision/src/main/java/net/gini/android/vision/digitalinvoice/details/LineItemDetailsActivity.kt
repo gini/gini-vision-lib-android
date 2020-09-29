@@ -10,9 +10,11 @@ import net.gini.android.vision.camera.CameraActivity
 import net.gini.android.vision.digitalinvoice.DigitalInvoiceActivity
 import net.gini.android.vision.digitalinvoice.SelectableLineItem
 import net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp
+import net.gini.android.vision.network.model.GiniVisionReturnReason
 
 private const val LINE_ITEM_DETAILS_FRAGMENT = "LINE_ITEM_DETAILS_FRAGMENT"
 private const val EXTRA_IN_SELECTABLE_LINE_ITEM = "EXTRA_IN_SELECTABLE_LINE_ITEM"
+private const val EXTRA_IN_RETURN_REASONS = "EXTRA_IN_RETURN_REASONS"
 
 /**
  * When you use the Screen API, the `LineItemDetailsActivity` displays a line item to be edited by the user. The user can modify the
@@ -53,15 +55,18 @@ class LineItemDetailsActivity : AppCompatActivity(), LineItemDetailsFragmentList
 
         @JvmSynthetic
         internal fun createIntent(
-                activity: Activity, selectableLineItem: SelectableLineItem) = Intent(activity,
+                activity: Activity, selectableLineItem: SelectableLineItem,
+                returnReasons: List<GiniVisionReturnReason>) = Intent(activity,
                 LineItemDetailsActivity::class.java).apply {
             putExtra(EXTRA_IN_SELECTABLE_LINE_ITEM, selectableLineItem)
+            putParcelableArrayListExtra(EXTRA_IN_RETURN_REASONS, ArrayList(returnReasons))
         }
     }
 
     private var fragment: LineItemDetailsFragment? = null
 
     private lateinit var lineItem: SelectableLineItem
+    private lateinit var returnReasons: List<GiniVisionReturnReason>
 
     /**
      * Internal use only.
@@ -99,6 +104,7 @@ class LineItemDetailsActivity : AppCompatActivity(), LineItemDetailsFragmentList
                 ("LineItemDetailsActivity requires a SelectableLineItem. " +
                         "Set it as an extra using the EXTRA_IN_SELECTABLE_LINE_ITEM key.")
             }
+            returnReasons = it.getParcelableArrayList(EXTRA_IN_RETURN_REASONS) ?: emptyList()
         }
     }
 
@@ -113,7 +119,7 @@ class LineItemDetailsActivity : AppCompatActivity(), LineItemDetailsFragmentList
             LINE_ITEM_DETAILS_FRAGMENT) != null
 
     private fun createFragment() {
-        fragment = LineItemDetailsFragment.createInstance(lineItem)
+        fragment = LineItemDetailsFragment.createInstance(lineItem, returnReasons)
     }
 
     private fun showFragment() = fragment?.let {

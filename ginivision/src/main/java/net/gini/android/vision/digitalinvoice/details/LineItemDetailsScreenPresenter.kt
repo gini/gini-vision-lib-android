@@ -6,6 +6,7 @@ import net.gini.android.vision.digitalinvoice.SelectableLineItem
 import net.gini.android.vision.digitalinvoice.details.LineItemDetailsScreenContract.Presenter
 import net.gini.android.vision.digitalinvoice.details.LineItemDetailsScreenContract.View
 import net.gini.android.vision.digitalinvoice.toPriceString
+import net.gini.android.vision.network.model.GiniVisionReturnReason
 import java.math.BigDecimal
 import java.text.DecimalFormat
 import java.text.ParseException
@@ -25,13 +26,12 @@ internal val GROSS_PRICE_FORMAT = DecimalFormat("#,##0.00").apply { isParseBigDe
  * @suppress
  */
 internal class LineItemDetailsScreenPresenter(activity: Activity, view: View,
-                                     var selectableLineItem: SelectableLineItem,
-                                     private val grossPriceFormat: DecimalFormat = GROSS_PRICE_FORMAT) :
+                                              var selectableLineItem: SelectableLineItem,
+                                              val returnReasons: List<GiniVisionReturnReason> = emptyList(),
+                                              private val grossPriceFormat: DecimalFormat = GROSS_PRICE_FORMAT) :
         Presenter(activity, view) {
 
     override var listener: LineItemDetailsFragmentListener? = null
-
-    var returnReasons: List<String> = emptyList()
 
     private val originalLineItem: SelectableLineItem = selectableLineItem.copy()
 
@@ -47,10 +47,7 @@ internal class LineItemDetailsScreenPresenter(activity: Activity, view: View,
         selectableLineItem.reason = null
         view.apply {
             enableInput()
-            selectableLineItem.run {
-                showCheckbox(selected, lineItem.quantity)
-                updateSaveButton(this, originalLineItem)
-            }
+            updateCheckboxAndSaveButton()
         }
     }
 
@@ -62,6 +59,7 @@ internal class LineItemDetailsScreenPresenter(activity: Activity, view: View,
             selectableLineItem.selected = false
             selectableLineItem.reason = null
             view.disableInput()
+            updateCheckboxAndSaveButton()
         } else {
             view.showReturnReasonDialog(returnReasons) { selectedReason ->
                 if (selectedReason != null) {
@@ -73,13 +71,15 @@ internal class LineItemDetailsScreenPresenter(activity: Activity, view: View,
                     selectableLineItem.reason = null
                     view.enableInput()
                 }
+                updateCheckboxAndSaveButton()
             }
         }
-        selectableLineItem.let {
-            view.apply {
-                showCheckbox(it.selected, it.lineItem.quantity)
-                updateSaveButton(it, originalLineItem)
-            }
+    }
+
+    private fun updateCheckboxAndSaveButton() = selectableLineItem.let {
+        view.apply {
+            showCheckbox(it.selected, it.lineItem.quantity)
+            updateSaveButton(it, originalLineItem)
         }
     }
 
@@ -100,13 +100,9 @@ internal class LineItemDetailsScreenPresenter(activity: Activity, view: View,
         }
         selectableLineItem = selectableLineItem.copy(
                 lineItem = selectableLineItem.lineItem.copy(quantity = quantity)
-        ).also {
-            view.apply {
-                showTotalGrossPrice(it)
-                showCheckbox(it.selected, it.lineItem.quantity)
-                updateSaveButton(it, originalLineItem)
-            }
-        }
+        )
+        view.showTotalGrossPrice(selectableLineItem)
+        updateCheckboxAndSaveButton()
     }
 
     override fun setGrossPrice(displayedGrossPrice: String) {
@@ -137,15 +133,14 @@ internal class LineItemDetailsScreenPresenter(activity: Activity, view: View,
     override fun start() {
         view.apply {
             selectableLineItem.run {
-                showCheckbox(selected, lineItem.quantity)
                 lineItem.run {
                     showDescription(description)
                     showQuantity(quantity)
                     showGrossPrice(grossPriceFormat.format(grossPrice), currency?.symbol ?: "")
                 }
                 showTotalGrossPrice(this)
-                updateSaveButton(this, originalLineItem)
             }
+            updateCheckboxAndSaveButton()
         }
     }
 

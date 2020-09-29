@@ -11,6 +11,7 @@ import net.gini.android.vision.camera.CameraActivity
 import net.gini.android.vision.digitalinvoice.details.LineItemDetailsActivity
 import net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp
 import net.gini.android.vision.network.model.GiniVisionCompoundExtraction
+import net.gini.android.vision.network.model.GiniVisionReturnReason
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction
 
 /**
@@ -26,6 +27,8 @@ private const val EDIT_LINE_ITEM_REQUEST = 1
 private const val EXTRA_IN_EXTRACTIONS = "EXTRA_IN_EXTRACTIONS"
 
 private const val EXTRA_IN_COMPOUND_EXTRACTIONS = "EXTRA_IN_COMPOUND_EXTRACTIONS"
+
+private const val EXTRA_IN_RETURN_REASONS = "EXTRA_IN_RETURN_REASONS"
 
 /**
  * When you use the Screen API, the `DigitalInvoiceActivity` displays the line items extracted from an invoice document and their total
@@ -67,6 +70,7 @@ class DigitalInvoiceActivity : AppCompatActivity(), DigitalInvoiceFragmentListen
     private var fragment: DigitalInvoiceFragment? = null
     private lateinit var extractions: Map<String, GiniVisionSpecificExtraction>
     private lateinit var compoundExtractions: Map<String, GiniVisionCompoundExtraction>
+    private lateinit var returnReasons: List<GiniVisionReturnReason>
 
     companion object {
 
@@ -77,7 +81,8 @@ class DigitalInvoiceActivity : AppCompatActivity(), DigitalInvoiceFragmentListen
          */
         @JvmStatic
         fun createIntent(activity: Activity, extractions: Map<String, GiniVisionSpecificExtraction>,
-                         compoundExtractions: Map<String, GiniVisionCompoundExtraction>) =
+                         compoundExtractions: Map<String, GiniVisionCompoundExtraction>,
+                         returnReasons: List<GiniVisionReturnReason>) =
                 Intent(activity, DigitalInvoiceActivity::class.java).apply {
                     putExtra(EXTRA_IN_EXTRACTIONS, Bundle().apply {
                         extractions.forEach { putParcelable(it.key, it.value) }
@@ -85,6 +90,7 @@ class DigitalInvoiceActivity : AppCompatActivity(), DigitalInvoiceFragmentListen
                     putExtra(EXTRA_IN_COMPOUND_EXTRACTIONS, Bundle().apply {
                         compoundExtractions.forEach { putParcelable(it.key, it.value) }
                     })
+                    putParcelableArrayListExtra(EXTRA_IN_RETURN_REASONS, ArrayList(returnReasons))
                 }
     }
 
@@ -125,6 +131,7 @@ class DigitalInvoiceActivity : AppCompatActivity(), DigitalInvoiceFragmentListen
         compoundExtractions = intent.extras?.getBundle(EXTRA_IN_COMPOUND_EXTRACTIONS)?.run {
             keySet().map { it to getParcelable<GiniVisionCompoundExtraction>(it)!! }.toMap()
         } ?: emptyMap()
+        returnReasons = intent.extras?.getParcelableArrayList(EXTRA_IN_RETURN_REASONS) ?: emptyList()
     }
 
     private fun initFragment() {
@@ -138,7 +145,7 @@ class DigitalInvoiceActivity : AppCompatActivity(), DigitalInvoiceFragmentListen
             RETURN_ASSISTANT_FRAGMENT) != null
 
     private fun createFragment() {
-        fragment = DigitalInvoiceFragment.createInstance(extractions, compoundExtractions)
+        fragment = DigitalInvoiceFragment.createInstance(extractions, compoundExtractions, returnReasons)
     }
 
     private fun showFragment() = fragment?.let {
@@ -159,7 +166,7 @@ class DigitalInvoiceActivity : AppCompatActivity(), DigitalInvoiceFragmentListen
      * @suppress
      */
     override fun onEditLineItem(selectableLineItem: SelectableLineItem) {
-        startActivityForResult(LineItemDetailsActivity.createIntent(this, selectableLineItem),
+        startActivityForResult(LineItemDetailsActivity.createIntent(this, selectableLineItem, returnReasons),
                 EDIT_LINE_ITEM_REQUEST)
     }
 

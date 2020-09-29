@@ -32,11 +32,13 @@ internal fun BigDecimal.fractionalPart(decimalFormat: DecimalFormat): String = d
 internal val PRICE_STRING_FORMAT = DecimalFormat("0.00",
         DecimalFormatSymbols.getInstance(Locale.ENGLISH)).apply { isParseBigDecimal = true }
 
+@JvmSynthetic
 internal fun BigDecimal.toPriceString(currency: String) = "${PRICE_STRING_FORMAT.format(this)}:$currency"
 
 @JvmSynthetic
 internal val PRICE_STRING_REGEX = "^-?[0-9]+([.,])[0-9]+\$".toRegex()
 
+@JvmSynthetic
 internal fun parsePriceString(priceString: String): Triple<BigDecimal, String, Currency?> =
         priceString.split(":").let { substrings ->
             if (substrings.size != 2) {

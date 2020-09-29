@@ -2,6 +2,7 @@ package net.gini.android.vision.digitalinvoice
 
 import androidx.annotation.VisibleForTesting
 import net.gini.android.vision.network.model.GiniVisionCompoundExtraction
+import net.gini.android.vision.network.model.GiniVisionReturnReason
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction
 import java.math.BigDecimal
 import java.math.RoundingMode
@@ -94,7 +95,7 @@ internal class DigitalInvoice(extractions: Map<String, GiniVisionSpecificExtract
         }
     }
 
-    fun deselectLineItem(selectableLineItem: SelectableLineItem, reason: String?) {
+    fun deselectLineItem(selectableLineItem: SelectableLineItem, reason: GiniVisionReturnReason?) {
         selectableLineItems.find { sli -> sli.lineItem.id == selectableLineItem.lineItem.id }?.let { sli ->
             sli.selected = false
             sli.reason = reason

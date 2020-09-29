@@ -15,6 +15,7 @@ import net.gini.android.vision.digitalinvoice.ReturnReasonDialog
 import net.gini.android.vision.digitalinvoice.ReturnReasonDialogResultCallback
 import net.gini.android.vision.digitalinvoice.SelectableLineItem
 import net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones
+import net.gini.android.vision.network.model.GiniVisionReturnReason
 
 /**
  * Created by Alpar Szotyori on 17.12.2019.
@@ -23,6 +24,7 @@ import net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrienta
  */
 
 private const val ARG_SELECTABLE_LINE_ITEM = "GV_ARG_SELECTABLE_LINE_ITEM"
+private const val ARGS_RETURN_REASONS = "GV_ARGS_RETURN_REASONS"
 private const val TAG_RETURN_REASON_DIALOG = "TAG_RETURN_REASON_DIALOG"
 
 /**
@@ -63,6 +65,7 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
     private var presenter: LineItemDetailsScreenContract.Presenter? = null
 
     private lateinit var lineItem: SelectableLineItem
+    private lateinit var returnReasons: List<GiniVisionReturnReason>
 
     private var descriptionTextWatcher: TextWatcher? = null
     private var quantityTextWatcher: TextWatcher? = null
@@ -80,9 +83,11 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
          */
         @JvmStatic
         fun createInstance(
-                selectableLineItem: SelectableLineItem) = LineItemDetailsFragment().apply {
+                selectableLineItem: SelectableLineItem,
+                returnReasons: List<GiniVisionReturnReason>) = LineItemDetailsFragment().apply {
             arguments = Bundle().apply {
                 putParcelable(ARG_SELECTABLE_LINE_ITEM, selectableLineItem)
+                putParcelableArrayList(ARGS_RETURN_REASONS, ArrayList(returnReasons))
             }
         }
     }
@@ -105,15 +110,16 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
     }
 
     private fun readArguments() {
-        arguments?.let {
-            lineItem = it.getParcelable(ARG_SELECTABLE_LINE_ITEM) ?: SelectableLineItem(
+        arguments?.run {
+            lineItem = getParcelable(ARG_SELECTABLE_LINE_ITEM) ?: SelectableLineItem(
                     selected = false,
                     lineItem = LineItem("", "", 0, ""))
+            returnReasons = getParcelableArrayList(ARGS_RETURN_REASONS) ?: emptyList()
         }
     }
 
     private fun createPresenter(activity: Activity) = LineItemDetailsScreenPresenter(activity, this,
-            lineItem)
+            lineItem, returnReasons)
 
     private fun initListener() {
         if (activity is LineItemDetailsFragmentListener) {
@@ -298,7 +304,7 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
      *
      * @suppress
      */
-    override fun showReturnReasonDialog(reasons: List<String>,
+    override fun showReturnReasonDialog(reasons: List<GiniVisionReturnReason>,
                                         resultCallback: ReturnReasonDialogResultCallback) {
         fragmentManager?.let { fm ->
             ReturnReasonDialog.createInstance(reasons).run {

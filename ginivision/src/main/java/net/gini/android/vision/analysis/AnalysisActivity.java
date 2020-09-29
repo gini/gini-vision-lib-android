@@ -18,12 +18,14 @@ import net.gini.android.vision.digitalinvoice.DigitalInvoiceActivity;
 import net.gini.android.vision.network.GiniVisionNetworkApi;
 import net.gini.android.vision.network.GiniVisionNetworkService;
 import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
+import net.gini.android.vision.network.model.GiniVisionReturnReason;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.noresults.NoResultsActivity;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.review.ReviewActivity;
 import net.gini.android.vision.tracking.AnalysisScreenEvent;
 
+import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
@@ -501,8 +503,10 @@ public class AnalysisActivity extends AppCompatActivity implements
 
     @Override
     public void onProceedToReturnAssistant(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
-            @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions) {
-        startActivityForResult(DigitalInvoiceActivity.createIntent(this, extractions, compoundExtractions), RETURN_ASSISTANT_REQUEST);
+            @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions,
+            @NonNull final List<GiniVisionReturnReason> returnReasons) {
+        startActivityForResult(DigitalInvoiceActivity.createIntent(this, extractions, compoundExtractions, returnReasons),
+                RETURN_ASSISTANT_REQUEST);
     }
 
     @Override

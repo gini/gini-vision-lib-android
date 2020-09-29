@@ -12,13 +12,16 @@ import net.gini.android.vision.digitalinvoice.DigitalInvoiceFragment;
 import net.gini.android.vision.digitalinvoice.DigitalInvoiceFragmentListener;
 import net.gini.android.vision.digitalinvoice.SelectableLineItem;
 import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
+import net.gini.android.vision.network.model.GiniVisionReturnReason;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
@@ -39,6 +42,7 @@ public class DigitalInvoiceExampleActivity extends AppCompatActivity implements
 
     private static final String EXTRA_IN_EXTRACTIONS = "EXTRA_IN_EXTRACTIONS";
     private static final String EXTRA_IN_COMPOUND_EXTRACTIONS = "EXTRA_IN_COMPOUND_EXTRACTIONS";
+    private static final String EXTRA_IN_RETURN_REASONS = "EXTRA_IN_RETURN_REASONS";
 
     private static final int EDIT_LINE_ITEM_REQUEST = 1;
 
@@ -46,13 +50,16 @@ public class DigitalInvoiceExampleActivity extends AppCompatActivity implements
 
     private Map<String, GiniVisionSpecificExtraction> mExtractions = Collections.emptyMap();
     private Map<String, GiniVisionCompoundExtraction> mCompoundExtractions = Collections.emptyMap();
+    private List<GiniVisionReturnReason> mReturnReasons = Collections.emptyList();
 
     public static Intent newInstance(@NonNull final Context context,
             @NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
-            @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions) {
+            @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions,
+            @NonNull final List<GiniVisionReturnReason> returnReasons) {
         final Intent intent = new Intent(context, DigitalInvoiceExampleActivity.class);
         intent.putExtra(EXTRA_IN_EXTRACTIONS, mapToBundle(extractions));
         intent.putExtra(EXTRA_IN_COMPOUND_EXTRACTIONS, mapToBundle(compoundExtractions));
+        intent.putParcelableArrayListExtra(EXTRA_IN_RETURN_REASONS, new ArrayList<Parcelable>(returnReasons));
         return intent;
     }
 
@@ -108,7 +115,7 @@ public class DigitalInvoiceExampleActivity extends AppCompatActivity implements
 
     @Override
     public void onEditLineItem(final SelectableLineItem selectableLineItem) {
-        startActivityForResult(LineItemDetailsExampleActivity.newInstance(this, selectableLineItem), EDIT_LINE_ITEM_REQUEST);
+        startActivityForResult(LineItemDetailsExampleActivity.newInstance(this, selectableLineItem, mReturnReasons), EDIT_LINE_ITEM_REQUEST);
     }
 
     @Override
@@ -126,6 +133,7 @@ public class DigitalInvoiceExampleActivity extends AppCompatActivity implements
     private void readExtras() {
         mExtractions = bundleToMap(getIntent().getBundleExtra(EXTRA_IN_EXTRACTIONS));
         mCompoundExtractions = bundleToMap(getIntent().getBundleExtra(EXTRA_IN_COMPOUND_EXTRACTIONS));
+        mReturnReasons = getIntent().getParcelableArrayListExtra(EXTRA_IN_RETURN_REASONS);
     }
 
     private void setUpActionBar() {
@@ -142,7 +150,7 @@ public class DigitalInvoiceExampleActivity extends AppCompatActivity implements
     }
 
     private void createDigitalInvoiceFragment() {
-        mDigitalInvoiceFragment = DigitalInvoiceFragment.createInstance(mExtractions, mCompoundExtractions);
+        mDigitalInvoiceFragment = DigitalInvoiceFragment.createInstance(mExtractions, mCompoundExtractions, mReturnReasons);
     }
 
     private void showDigitalInvoiceFragment() {
