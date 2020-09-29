@@ -100,6 +100,8 @@ dependencies {
     androidTestImplementation deps.androidxMultidex
 
     androidTestUtil deps.androidxTestOrchestrator
+
+    dokkaHtmlPlugin 'org.jetbrains.dokka:kotlin-as-java-plugin:1.4.10'
 }
 
 apply from: rootProject.file('gradle/codequality.gradle')
@@ -107,36 +109,40 @@ apply from: rootProject.file('gradle/maven.gradle')
 apply from: rootProject.file('gradle/javadoc_coverage.gradle')
 apply from: rootProject.file('gradle/multidex_for_tests.gradle')
 
-dokka {
-    outputFormat = 'html'
-    outputDirectory = "$buildDir/dokka"
-    configuration {
-        includes = ['module.md'] + packageDocumentationPaths(android.sourceSets.main.java.srcDirs[0])
-        perPackageOption {
-            prefix = 'com.ortiz'
-            suppress = true
-        }
-        perPackageOption {
-            prefix = 'net.gini.android.vision.internal'
-            suppress = true
-        }
-        perPackageOption {
-            prefix = 'net.gini.android.vision.internal'
-            suppress = true
-        }
-        perPackageOption {
-            prefix = 'net.gini.android.vision.util'
-            suppress = true
-        }
-        perPackageOption {
-            prefix = 'net.gini.android.vision.review.multipage.previews'
-            suppress = true
-        }
-        perPackageOption {
-            prefix = 'net.gini.android.vision.review.multipage.thumbnails'
-            suppress = true
+dokkaHtml {
+    outputDirectory.set(file("$buildDir/dokka"))
+    dokkaSourceSets {
+        named("main") {
+            noAndroidSdkLink.set(false)
+
+            includes.from(files("module.md", packageDocumentationPaths(android.sourceSets.main.java.srcDirs[0])))
+
+            perPackageOption {
+                prefix.set('com.ortiz')
+                suppress.set(true)
+            }
+            perPackageOption {
+                prefix.set('net.gini.android.vision.internal')
+                suppress.set(true)
+            }
+            perPackageOption {
+                prefix.set('net.gini.android.vision.util')
+                suppress.set(true)
+            }
+            perPackageOption {
+                prefix.set('net.gini.android.vision.review.multipage.previews')
+                suppress.set(true)
+            }
+            perPackageOption {
+                prefix.set('net.gini.android.vision.review.multipage.thumbnails')
+                suppress.set(true)
+            }
         }
     }
+}
+
+dokkaJavadoc {
+    outputDirectory.set(file("$buildDir/dokka-javadoc"))
 }
 
 static def packageDocumentationPaths(srcDir) {
@@ -149,19 +155,14 @@ static def packageDocumentationPaths(srcDir) {
     return packageDocs
 }
 
-task generateJavadocWithDokka(type: org.jetbrains.dokka.gradle.DokkaTask) {
-    outputFormat = 'javadoc'
-    outputDirectory = "$buildDir/dokka-javadoc"
-}
-
 task sourcesJar(type: Jar, dependsOn: 'assembleRelease') {
     archiveClassifier.set('sources')
     from android.sourceSets.main.java.srcDirs
 }
 
-task javadocJar(type: Jar, dependsOn: generateJavadocWithDokka) {
+task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
     archiveClassifier.set('javadoc')
-    from generateJavadocWithDokka.outputDirectory
+    from dokkaJavadoc.outputDirectory
 }
 
 artifacts {

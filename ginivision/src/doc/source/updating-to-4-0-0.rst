@@ -1,13 +1,13 @@
 Updating to 4.0.0
 ====
 
-Migrating to this version should be straightforward. The only change which might have a big impact on you is that we now use the AndroidX
+Migrating to this version should be straightforward. The only change which might have a big impact is that we now use the AndroidX
 libraries instead of the discontinued Android Support libraries.
 
 Return Assistant
 ----
 
-The main feature of this release is the Return Assistant. Users often order multiple items and decide to return some of them. The Return
+The main feature of this release is the Return Assistant. Users who order multiple items might decide to return some of them. The Return
 Assistant helps them by showing the line items from the scanned invoice. They can then deselect the items they are returning and the total
 price is automatically updated to contain only the items they are keeping. This dynamically calculated total price is returned to the client
 applications in the ``amountToPay`` extraction.
@@ -39,7 +39,8 @@ The Return Assistant consists of two screens: the Digital Invoice Screen and the
 Digital Invoice Screen
 ~~~~
 
-This is the main screen of the Return Assistant. It displays the line items from the invoice along with their total price.
+This is the main screen of the Return Assistant. It displays the line items from the invoice along with additional costs, discounts and the total price.
+It also allows users to pick a return reason when deselecting a line item.
 
 If you use the Screen API, then this screen is shown by the Analysis Screen when line item extractions were received.
 
@@ -63,7 +64,7 @@ Line Item Details Screen
 This screen shows the details of a line item and allows the user to edit them. The changes are taken over by the Digital Invoice Screen when
 the user taps on the save button.
 
-If you use the Screen API, then this screen is shown by the Digital Invoice Screen when a user taps a line item.
+If you use the Screen API, then this screen is shown by the Digital Invoice Screen when a user taps on a line item.
 
 If you use the Component API, then you need to implement the ``DigitalInvoiceFragmentListener`` and show the ``LineItemDetailsFragment``
 when the ``onEditLineItem()`` method is called.
@@ -104,6 +105,9 @@ If you use the Component API, then you need to update your classes implementing 
 
 If you don't use the Return Assistant you can just implement a no-op version of ``onProceedToReturnAssistant()`` and ignore the second
 parameter of ``onExtractionsAvailable()``.
+
+If you use an own implementation of the `GiniVisionNetworkApi` interface, then you will need to implement the ``setUpdatedCompoundExtractions()`` 
+method. This method is only relevent if you use the Return Assistant. In this case you need to store the received compound extractions map and pass it on to either the Gini API SDK or directly to the Gini API in your ``sendFeedback()`` method implementation.
 
 AndroidX
 ----
