@@ -69,7 +69,7 @@ ext.deps = [
         // Google Mobile Vision API
         playServicesVision         : 'com.google.android.gms:play-services-vision:17.0.2',
         // Exif editing library. IMPORTANT: notify backend when the version is changed
-        commonsImaging             : 'org.apache.commons:commons-imaging:1.0.0gini',
+        commonsImaging             : 'org.apache.commons:commons-imaging:1.0-alpha1',
         // Logging
         slf4j                      : 'org.slf4j:slf4j-api:1.7.21',
         // Backport/standalone version of CompletableFuture

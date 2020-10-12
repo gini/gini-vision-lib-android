@@ -42,31 +42,6 @@ pipeline {
                 '''
             }
         }
-        stage('Create AVDs') {
-            when {
-                anyOf {
-                    not {
-                        branch 'master'
-                    }
-                    allOf {
-                        branch 'master'
-                        expression {
-                            def tag = sh(returnStdout: true, script: 'git tag --contains $(git rev-parse HEAD)').trim()
-                            return !tag.isEmpty()
-                        }
-                    }
-                }
-            }
-            steps {
-                lock('avd-creation') {
-                    script {
-                        avd.deleteCorrupt()
-                        avd.create("api-25-pixel", "system-images;android-25;google_apis;x86", "pixel")
-                        avd.create("api-25-nexus-9", "system-images;android-25;google_apis;x86", "Nexus 9")
-                    }
-                }
-            }
-        }
         stage('Unit Tests') {
             when {
                 anyOf {
@@ -91,84 +66,6 @@ pipeline {
                 }
             }
         }
-        stage('Instrumentation Tests - Phone') {
-            when {
-                anyOf {
-                    not {
-                        branch 'master'
-                    }
-                    allOf {
-                        branch 'master'
-                        expression {
-                            def tag = sh(returnStdout: true, script: 'git tag --contains $(git rev-parse HEAD)').trim()
-                            return !tag.isEmpty()
-                        }
-                    }
-                }
-            }
-            steps {
-                lock('emulator-phone') {
-                    script {
-                        def emulatorPort = emulator.start(avd.createName("api-25-pixel"), "pixel", "-prop persist.sys.language=en -prop persist.sys.country=US -gpu host -camera-back emulated -no-snapshot", 5562)
-                        sh "echo $emulatorPort > emulator_port_1_$BUILD_NUMBER"
-                        adb.setAnimationDurationScale("emulator-$emulatorPort", 0)
-                        withEnv(["PATH+TOOLS=$ANDROID_HOME/tools", "PATH+TOOLS_BIN=$ANDROID_HOME/tools/bin", "PATH+PLATFORM_TOOLS=$ANDROID_HOME/platform-tools"]) {
-                            sh "ANDROID_SERIAL=emulator-$emulatorPort ./gradlew ginivision:connectedAndroidTest"
-                        }
-                    }
-                }
-            }
-            post {
-                always {
-                    junit allowEmptyResults: true, testResults: 'ginivision/build/outputs/androidTest-results/connected/*.xml'
-                    script {
-                        def emulatorPort = sh returnStdout: true, script: "cat emulator_port_1_$BUILD_NUMBER"
-                        emulatorPort = emulatorPort.trim().replaceAll("\r", "").replaceAll("\n", "")
-                        emulator.stop(emulatorPort)
-                        sh "rm emulator_port_1_$BUILD_NUMBER || true"
-                    }
-                }
-            }
-        }
-        stage('Instrumentation Tests - Tablet') {
-            when {
-                anyOf {
-                    not {
-                        branch 'master'
-                    }
-                    allOf {
-                        branch 'master'
-                        expression {
-                            def tag = sh(returnStdout: true, script: 'git tag --contains $(git rev-parse HEAD)').trim()
-                            return !tag.isEmpty()
-                        }
-                    }
-                }
-            }
-            steps {
-                lock('emulator-tablet') {
-                    script {
-                        def emulatorPort = emulator.start(avd.createName("api-25-nexus-9"), "nexus_9", "-prop persist.sys.language=en -prop persist.sys.country=US -gpu host -camera-back emulated -no-snapshot", 5570)
-                        sh "echo $emulatorPort > emulator_port_2_$BUILD_NUMBER"
-                        adb.setAnimationDurationScale("emulator-$emulatorPort", 0)
-                        withEnv(["PATH+TOOLS=$ANDROID_HOME/tools", "PATH+TOOLS_BIN=$ANDROID_HOME/tools/bin", "PATH+PLATFORM_TOOLS=$ANDROID_HOME/platform-tools"]) {
-                            sh "ANDROID_SERIAL=emulator-$emulatorPort ./gradlew ginivision:connectedAndroidTest"
-                        }
-                    }
-                }
-            }
-            post {
-                always {
-                    junit allowEmptyResults: true, testResults: 'ginivision/build/outputs/androidTest-results/connected/*.xml'
-                    script {
-                        def emulatorPort = sh returnStdout: true, script: "cat emulator_port_2_$BUILD_NUMBER"
-                        emulatorPort = emulatorPort.trim().replaceAll("\r", "").replaceAll("\n", "")
-                        emulator.stop(emulatorPort)
-                        sh "rm emulator_port_2_$BUILD_NUMBER || true"
-                    }
-                }
-            }
-        }
         stage('Code Coverage') {
             when {
                 anyOf {
@@ -185,7 +82,7 @@ pipeline {
                 }
             }
             steps {
-                sh './gradlew ginivision:unifyConnectedTestCoverage ginivision:jacocoTestDebugUnitTestReport'
+                sh './gradlew ginivision:jacocoTestDebugUnitTestReport'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision/build/reports/jacoco/jacocoTestDebugUnitTestReport/html', reportFiles: 'index.html', reportName: 'Code Coverage Report', reportTitles: ''])
             }
         }
