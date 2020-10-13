@@ -528,6 +528,12 @@ public class MainActivity extends AppCompatActivity {
                 case BACK:
                     LOG.info("Go back to the camera");
                     break;
+                case UPLOAD_ERROR:
+                    final Throwable error = (Throwable) event.getDetails().get(ReviewScreenEvent.UPLOAD_ERROR_DETAILS_MAP_KEY.ERROR_OBJECT);
+                    LOG.info("Upload failed:\nmessage: {}\nerror:",
+                            event.getDetails().get(ReviewScreenEvent.UPLOAD_ERROR_DETAILS_MAP_KEY.MESSAGE),
+                            error);
+                    break;
             }
         }
 
@@ -535,7 +541,10 @@ public class MainActivity extends AppCompatActivity {
         public void onAnalysisScreenEvent(final Event<AnalysisScreenEvent> event) {
             switch (event.getType()) {
                 case ERROR:
-                    LOG.info("Analysis failed {}", event.getDetails().get(AnalysisScreenEvent.ERROR_DETAILS_MAP_KEY.MESSAGE));
+                    final Throwable error = (Throwable) event.getDetails().get(AnalysisScreenEvent.ERROR_DETAILS_MAP_KEY.ERROR_OBJECT);
+                    LOG.info("Analysis failed:\nmessage: {}\nerror:",
+                            event.getDetails().get(AnalysisScreenEvent.ERROR_DETAILS_MAP_KEY.MESSAGE),
+                            error);
                     break;
                 case RETRY:
                     LOG.info("Retry analysis");

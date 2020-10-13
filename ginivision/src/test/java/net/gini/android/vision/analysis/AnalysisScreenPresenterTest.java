@@ -56,6 +56,7 @@ import org.mockito.Mock;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CancellationException;
@@ -982,6 +983,9 @@ public class AnalysisScreenPresenterTest {
 
         final ImageDocument imageDocument = new ImageDocumentFake();
 
+        final Exception exception = new Exception("Something is not working");
+        GiniVision.getInstance().internal().setReviewScreenAnalysisError(exception);
+
         final String errorMessage = "Something went wrong";
         final AnalysisScreenPresenter presenter = createPresenter(imageDocument, errorMessage);
 
@@ -989,8 +993,10 @@ public class AnalysisScreenPresenterTest {
         presenter.start();
 
         // Then
-        verify(eventTracker).onAnalysisScreenEvent(new Event<>(AnalysisScreenEvent.ERROR,
-                Collections.singletonMap(AnalysisScreenEvent.ERROR_DETAILS_MAP_KEY.MESSAGE, errorMessage)));
+        final Map<String, Object> errorDetails = new HashMap<>();
+        errorDetails.put(AnalysisScreenEvent.ERROR_DETAILS_MAP_KEY.MESSAGE, errorMessage);
+        errorDetails.put(AnalysisScreenEvent.ERROR_DETAILS_MAP_KEY.ERROR_OBJECT, exception);
+        verify(eventTracker).onAnalysisScreenEvent(new Event<>(AnalysisScreenEvent.ERROR, errorDetails));
     }
 
     @Test
@@ -1003,7 +1009,8 @@ public class AnalysisScreenPresenterTest {
 
         final CompletableFuture<AnalysisInteractor.ResultHolder> analysisFuture =
                 new CompletableFuture<>();
-        analysisFuture.completeExceptionally(new RuntimeException("error message"));
+        final RuntimeException exception = new RuntimeException("error message");
+        analysisFuture.completeExceptionally(exception);
 
         final AnalysisScreenPresenter presenter = createPresenterWithAnalysisFuture(imageDocument,
                 analysisFuture);
@@ -1012,8 +1019,10 @@ public class AnalysisScreenPresenterTest {
         presenter.start();
 
         // Then
-        verify(eventTracker).onAnalysisScreenEvent(new Event<>(AnalysisScreenEvent.ERROR,
-                Collections.singletonMap(AnalysisScreenEvent.ERROR_DETAILS_MAP_KEY.MESSAGE, "error message")));
+        final Map<String, Object> errorDetails = new HashMap<>();
+        errorDetails.put(AnalysisScreenEvent.ERROR_DETAILS_MAP_KEY.MESSAGE, exception.getMessage());
+        errorDetails.put(AnalysisScreenEvent.ERROR_DETAILS_MAP_KEY.ERROR_OBJECT, exception);
+        verify(eventTracker).onAnalysisScreenEvent(new Event<>(AnalysisScreenEvent.ERROR, errorDetails));
     }
 
     @Test
