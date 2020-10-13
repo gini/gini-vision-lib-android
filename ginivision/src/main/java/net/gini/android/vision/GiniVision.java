@@ -136,6 +136,7 @@ public class GiniVision {
                 sInstance.mNetworkRequestsManager.cleanup();
             }
             sInstance.mImageMultiPageDocumentMemoryStore.clear();
+            sInstance.internal().setReviewScreenAnalysisError(null);
             sInstance = null; // NOPMD
         }
         ImageDiskStore.clear(context);
@@ -828,6 +829,8 @@ public class GiniVision {
 
         private final GiniVision mGiniVision;
 
+        private Throwable mReviewScreenAnalysisError;
+
         public Internal(@NonNull final GiniVision giniVision) {
             mGiniVision = giniVision;
         }
@@ -862,6 +865,15 @@ public class GiniVision {
 
         public EventTracker getEventTracker() {
             return mGiniVision.getEventTracker();
+        }
+
+        @Nullable
+        public Throwable getReviewScreenAnalysisError() {
+            return mReviewScreenAnalysisError;
+        }
+
+        public void setReviewScreenAnalysisError(@Nullable final Throwable analysisError) {
+            mReviewScreenAnalysisError = analysisError;
         }
     }
 

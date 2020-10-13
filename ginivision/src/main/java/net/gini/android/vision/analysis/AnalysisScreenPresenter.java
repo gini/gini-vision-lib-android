@@ -2,8 +2,6 @@ package net.gini.android.vision.analysis;
 
 import static net.gini.android.vision.tracking.EventTrackingHelper.trackAnalysisScreenEvent;
 
-import static java.util.Collections.singletonMap;
-
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -39,6 +37,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -473,8 +472,17 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
 
     private void showErrorIfAvailableAndAnalyzeDocument() {
         if (mDocumentAnalysisErrorMessage != null) {
-            trackAnalysisScreenEvent(AnalysisScreenEvent.ERROR,
-                    singletonMap(ERROR_DETAILS_MAP_KEY.MESSAGE, mDocumentAnalysisErrorMessage));
+            final Map<String, Object> errorDetails = new HashMap<>();
+            errorDetails.put(ERROR_DETAILS_MAP_KEY.MESSAGE, mDocumentAnalysisErrorMessage);
+
+            if (GiniVision.hasInstance()) {
+                final Throwable reviewScreenAnalysisError = GiniVision.getInstance().internal().getReviewScreenAnalysisError();
+                if (reviewScreenAnalysisError != null) {
+                    errorDetails.put(ERROR_DETAILS_MAP_KEY.ERROR_OBJECT, reviewScreenAnalysisError);
+                }
+            }
+
+            trackAnalysisScreenEvent(AnalysisScreenEvent.ERROR, errorDetails);
             showError(mDocumentAnalysisErrorMessage,
                     getActivity().getString(
                             R.string.gv_document_analysis_error_retry),
@@ -491,8 +499,10 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
     }
 
     private void handleAnalysisError(final Throwable throwable) {
-        trackAnalysisScreenEvent(AnalysisScreenEvent.ERROR,
-                singletonMap(ERROR_DETAILS_MAP_KEY.MESSAGE, throwable.getMessage()));
+        final Map<String, Object> errorDetails = new HashMap<>();
+        errorDetails.put(ERROR_DETAILS_MAP_KEY.MESSAGE, throwable.getMessage());
+        errorDetails.put(ERROR_DETAILS_MAP_KEY.ERROR_OBJECT, throwable);
+        trackAnalysisScreenEvent(AnalysisScreenEvent.ERROR, errorDetails);
         showError(getActivity().getString(R.string.gv_document_analysis_error),
                 getActivity().getString(R.string.gv_document_analysis_error_retry),
                 new View.OnClickListener() {

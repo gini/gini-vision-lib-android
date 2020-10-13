@@ -21,7 +21,7 @@ public final class EventTrackingHelper {
     /**
      * @exclude
      */
-    public static void trackOnboardingScreenEvent(@NonNull final OnboardingScreenEvent event, @NonNull final Map<String, String> details) {
+    public static void trackOnboardingScreenEvent(@NonNull final OnboardingScreenEvent event, @NonNull final Map<String, Object> details) {
         if (GiniVision.hasInstance()) {
             GiniVision.getInstance().internal().getEventTracker().onOnboardingScreenEvent(new Event<>(event, details));
         }
@@ -31,13 +31,13 @@ public final class EventTrackingHelper {
      * @exclude
      */
     public static void trackOnboardingScreenEvent(@NonNull final OnboardingScreenEvent event) {
-        trackOnboardingScreenEvent(event, Collections.<String, String>emptyMap());
+        trackOnboardingScreenEvent(event, Collections.<String, Object>emptyMap());
     }
 
     /**
      * @exclude
      */
-    public static void trackCameraScreenEvent(@NonNull final CameraScreenEvent event, @NonNull final Map<String, String> details) {
+    public static void trackCameraScreenEvent(@NonNull final CameraScreenEvent event, @NonNull final Map<String, Object> details) {
         if (GiniVision.hasInstance()) {
             GiniVision.getInstance().internal().getEventTracker().onCameraScreenEvent(new Event<>(event, details));
         }
@@ -47,13 +47,13 @@ public final class EventTrackingHelper {
      * @exclude
      */
     public static void trackCameraScreenEvent(@NonNull final CameraScreenEvent event) {
-        trackCameraScreenEvent(event, Collections.<String, String>emptyMap());
+        trackCameraScreenEvent(event, Collections.<String, Object>emptyMap());
     }
 
     /**
      * @exclude
      */
-    public static void trackReviewScreenEvent(@NonNull final ReviewScreenEvent event, @NonNull final Map<String, String> details) {
+    public static void trackReviewScreenEvent(@NonNull final ReviewScreenEvent event, @NonNull final Map<String, Object> details) {
         if (GiniVision.hasInstance()) {
             GiniVision.getInstance().internal().getEventTracker().onReviewScreenEvent(new Event<>(event, details));
         }
@@ -63,13 +63,13 @@ public final class EventTrackingHelper {
      * @exclude
      */
     public static void trackReviewScreenEvent(@NonNull final ReviewScreenEvent event) {
-        trackReviewScreenEvent(event, Collections.<String, String>emptyMap());
+        trackReviewScreenEvent(event, Collections.<String, Object>emptyMap());
     }
 
     /**
      * @exclude
      */
-    public static void trackAnalysisScreenEvent(@NonNull final AnalysisScreenEvent event, @NonNull final Map<String, String> details) {
+    public static void trackAnalysisScreenEvent(@NonNull final AnalysisScreenEvent event, @NonNull final Map<String, Object> details) {
         if (GiniVision.hasInstance()) {
             GiniVision.getInstance().internal().getEventTracker().onAnalysisScreenEvent(new Event<>(event, details));
         }
@@ -79,7 +79,7 @@ public final class EventTrackingHelper {
      * @exclude
      */
     public static void trackAnalysisScreenEvent(@NonNull final AnalysisScreenEvent event) {
-        trackAnalysisScreenEvent(event, Collections.<String, String>emptyMap());
+        trackAnalysisScreenEvent(event, Collections.<String, Object>emptyMap());
     }
 
     private EventTrackingHelper() {

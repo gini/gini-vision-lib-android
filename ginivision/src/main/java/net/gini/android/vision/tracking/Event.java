@@ -19,12 +19,12 @@ import java.util.Map;
 public class Event<T extends Enum<T>> {
 
     private final T type;
-    private final Map<String, String> details;
+    private final Map<String, Object> details;
 
     /**
      * @exclude
      */
-    public Event(@NonNull final T type, @NonNull final Map<String, String> details) {
+    public Event(@NonNull final T type, @NonNull final Map<String, Object> details) {
         this.type = type;
         this.details = details;
     }
@@ -33,7 +33,7 @@ public class Event<T extends Enum<T>> {
      * @exclude
      */
     public Event(@NonNull final T type) {
-        this(type, Collections.<String, String>emptyMap());
+        this(type, Collections.<String, Object>emptyMap());
     }
 
     /**
@@ -52,7 +52,7 @@ public class Event<T extends Enum<T>> {
      * @return a map containing details about the event
      */
     @NonNull
-    public Map<String, String> getDetails() {
+    public Map<String, Object> getDetails() {
         return details;
     }
 

@@ -24,5 +24,27 @@ public enum ReviewScreenEvent {
     /**
      * Triggers when the user presses the next button.(<b>Screen API + Component API</b>)
      */
-    NEXT
+    NEXT,
+    /**
+     * Triggers when upload failed.(<b>Screen API + Component API</b>)
+     *
+     * <p> Use the keys in {@link ReviewScreenEvent.UPLOAD_ERROR_DETAILS_MAP_KEY} to get details about the event from the details map.
+     */
+    UPLOAD_ERROR;
+
+    /**
+     * Keys to retrieve details about the {@link ReviewScreenEvent#UPLOAD_ERROR} event.
+     */
+    public static class UPLOAD_ERROR_DETAILS_MAP_KEY {
+
+        /**
+         * Error message key in the details map. Value type is {@link String}.
+         */
+        public static String MESSAGE = "MESSAGE";
+
+        /**
+         * Error object key in the details map. Value type is {@link Throwable}.
+         */
+        public static String ERROR_OBJECT = "ERROR_OBJECT";
+    }
 }
