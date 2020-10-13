@@ -413,18 +413,18 @@ check in the table below whether all the events you are interested in are trigge
 Some events may supply additional details in a map.</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="14%" />
-<col width="14%" />
-<col width="33%" />
-<col width="31%" />
-<col width="8%" />
+<col width="12%" />
+<col width="12%" />
+<col width="35%" />
+<col width="27%" />
+<col width="13%" />
 </colgroup>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">API</th>
 <th class="head">Domain</th>
 <th class="head">Event enum value and details map keys</th>
 <th class="head">Comment</th>
-<th class="head">Introduced in</th>
+<th class="head">Introduced in (updated in)</th>
 </tr>
 </thead>
 <tbody valign="top">
@@ -470,20 +470,29 @@ Some events may supply additional details in a map.</p>
 <td>User advances from the review screen</td>
 <td>3.12.0</td>
 </tr>
-<tr class="row-odd"><td>Screen</td>
+<tr class="row-odd"><td>Screen + Component</td>
+<td>Review Screen</td>
+<td><tt class="docutils literal"><span class="pre">ReviewScreenEvent.UPLOAD_ERROR</span></tt>
+<tt class="docutils literal"><span class="pre">ReviewScreenEvent.UPLOAD_ERROR_DETAILS_MAP_KEY.MESSAGE</span></tt>
+<tt class="docutils literal"><span class="pre">ReviewScreenEvent.UPLOAD_ERROR_DETAILS_MAP_KEY.ERROR_OBJECT</span></tt></td>
+<td>Upload error in the review screen</td>
+<td>3.15.0</td>
+</tr>
+<tr class="row-even"><td>Screen</td>
 <td>Analysis Screen</td>
 <td><tt class="docutils literal"><span class="pre">AnalysisScreenEvent.CANCEL</span></tt></td>
 <td>User cancels the process during analysis</td>
 <td>3.12.0</td>
 </tr>
-<tr class="row-even"><td>Screen + Component</td>
+<tr class="row-odd"><td>Screen + Component</td>
 <td>Analysis Screen</td>
 <td><tt class="docutils literal"><span class="pre">AnalysisScreenEvent.ERROR</span></tt>
-<tt class="docutils literal"><span class="pre">AnalysisScreenEvent.ERROR_DETAILS_MAP_KEY.MESSAGE</span></tt></td>
+<tt class="docutils literal"><span class="pre">AnalysisScreenEvent.ERROR_DETAILS_MAP_KEY.MESSAGE</span></tt>
+<tt class="docutils literal"><span class="pre">AnalysisScreenEvent.ERROR_DETAILS_MAP_KEY.ERROR_OBJECT</span></tt></td>
 <td>The analysis ended with an error.</td>
-<td>3.12.0</td>
+<td>3.12.0 (3.15.0)</td>
 </tr>
-<tr class="row-odd"><td>Screen + Component</td>
+<tr class="row-even"><td>Screen + Component</td>
 <td>Analysis Screen</td>
 <td><tt class="docutils literal"><span class="pre">AnalysisScreenEvent.RETRY</span></tt></td>
 <td>The user decides to retry after an analysis error.</td>
