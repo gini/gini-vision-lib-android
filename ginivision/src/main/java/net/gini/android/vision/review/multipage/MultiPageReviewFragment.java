@@ -42,6 +42,7 @@ import net.gini.android.vision.review.multipage.thumbnails.ThumbnailsAdapter;
 import net.gini.android.vision.review.multipage.thumbnails.ThumbnailsAdapterListener;
 import net.gini.android.vision.review.multipage.thumbnails.ThumbnailsTouchHelperCallback;
 import net.gini.android.vision.tracking.ReviewScreenEvent;
+import net.gini.android.vision.tracking.ReviewScreenEvent.UPLOAD_ERROR_DETAILS_MAP_KEY;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -111,14 +112,17 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
 
     private static final Logger LOG = LoggerFactory.getLogger(MultiPageReviewFragment.class);
 
-    private final Map<String, Boolean> mDocumentUploadResults = new HashMap<>();
-    private ImageMultiPageDocument mMultiPageDocument;
+    @VisibleForTesting
+    Map<String, Boolean> mDocumentUploadResults = new HashMap<>();
+    @VisibleForTesting
+    ImageMultiPageDocument mMultiPageDocument;
     private MultiPageReviewFragmentListener mListener;
     private ViewPager mPreviewsPager;
     private PreviewsAdapter mPreviewsAdapter;
     private TextView mPageIndicator;
     private RecyclerView mThumbnailsRecycler;
-    private ThumbnailsAdapter mThumbnailsAdapter;
+    @VisibleForTesting
+    ThumbnailsAdapter mThumbnailsAdapter;
     private RecyclerView.SmoothScroller mThumbnailsScroller;
     private ImageButton mButtonNext;
     private ImageButton mRotateButton;
@@ -569,7 +573,8 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
         }
     }
 
-    private void uploadDocument(final ImageDocument document) {
+    @VisibleForTesting
+    void uploadDocument(final ImageDocument document) {
         if (!GiniVision.hasInstance()) {
             return;
         }
@@ -596,6 +601,7 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
                             final Throwable throwable) {
                         if (throwable != null
                                 && !NetworkRequestsManager.isCancellation(throwable)) {
+                            trackUploadError(throwable);
                             final String errorMessage = getString(
                                     R.string.gv_document_analysis_error);
                             showErrorOnPreview(errorMessage, document);
@@ -612,6 +618,13 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
                         return null;
                     }
                 });
+    }
+
+    private void trackUploadError(@NonNull final Throwable throwable) {
+        final Map<String, Object> errorDetails = new HashMap<>();
+        errorDetails.put(UPLOAD_ERROR_DETAILS_MAP_KEY.MESSAGE, throwable.getMessage());
+        errorDetails.put(UPLOAD_ERROR_DETAILS_MAP_KEY.ERROR_OBJECT, throwable);
+        trackReviewScreenEvent(ReviewScreenEvent.UPLOAD_ERROR, errorDetails);
     }
 
     private void showErrorOnPreview(final String errorMessage, final ImageDocument imageDocument) {

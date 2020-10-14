@@ -18,10 +18,10 @@ import androidx.annotation.Nullable;
 public final class SizeSelectionHelper {
 
     @Nullable
-    public static Size getLargestSize(@NonNull final List<Camera.Size> sizes) {
+    public static Size getLargestAllowedSize(@NonNull final List<Camera.Size> sizes, final int maxArea) {
         Camera.Size largest = null;
         for (final Camera.Size size : sizes) {
-            if (largest == null || getArea(largest) < getArea(size)) {
+            if ((largest == null || getArea(largest) < getArea(size)) && getArea(size) <= maxArea) {
                 largest = size;
             }
         }
@@ -29,10 +29,10 @@ public final class SizeSelectionHelper {
     }
 
     @Nullable
-    public static Size getLargestSizeWithSimilarAspectRatio(
-            @NonNull final List<Camera.Size> sizes, @NonNull final Size referenceSize) {
+    public static Size getLargestAllowedSizeWithSimilarAspectRatio(
+            @NonNull final List<Camera.Size> sizes, @NonNull final Size referenceSize, final int maxArea) {
         final List<Camera.Size> sameAspectSizes = getSameAspectRatioSizes(sizes, referenceSize);
-        return getLargestSize(sameAspectSizes);
+        return getLargestAllowedSize(sameAspectSizes, maxArea);
     }
 
     @NonNull

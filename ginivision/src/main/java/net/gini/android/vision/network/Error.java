@@ -7,6 +7,7 @@ package net.gini.android.vision.network;
  */
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * Used by the {@link GiniVisionNetworkService} and {@link GiniVisionNetworkApi} to return error
@@ -15,6 +16,7 @@ import androidx.annotation.NonNull;
 public class Error {
 
     private final String mMessage;
+    private final Throwable mCause;
 
     /**
      * Create a new error.
@@ -23,12 +25,33 @@ public class Error {
      */
     public Error(@NonNull final String message) {
         mMessage = message;
+        mCause = null;
+    }
+
+    /**
+     * Create a new error with a cause.
+     *
+     * @param message error message
+     * @param cause the cause of the error
+     */
+    public Error(@NonNull final String message, @NonNull final Throwable cause) {
+        mMessage = message;
+        mCause = cause;
     }
 
     /**
      * @return error message
      */
+    @NonNull
     public String getMessage() {
         return mMessage;
+    }
+
+    /**
+     * @return error cause
+     */
+    @Nullable
+    public Throwable getCause() {
+        return mCause;
     }
 }

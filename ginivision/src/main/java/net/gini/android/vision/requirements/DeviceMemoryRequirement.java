@@ -31,8 +31,8 @@ class DeviceMemoryRequirement implements Requirement {
         try {
             final Camera.Parameters parameters = mCameraHolder.getCameraParameters();
             if (parameters != null) {
-                final Size pictureSize = SizeSelectionHelper.getLargestSize(
-                        parameters.getSupportedPictureSizes());
+                final Size pictureSize = SizeSelectionHelper.getLargestAllowedSize(
+                        parameters.getSupportedPictureSizes(), CameraResolutionRequirement.MAX_PICTURE_AREA);
                 if (pictureSize == null) {
                     result = false;
                     details =
@@ -56,7 +56,8 @@ class DeviceMemoryRequirement implements Requirement {
     /**
      * Given a photo size, return whether there is (currently) enough memory available.
      *
-     * @param photoSize       the size of photos that will be used for image processing
+     * @param photoSize the size of photos that will be used for image processing
+     *
      * @return whether there is enough memory for the image processing to succeed
      */
     @VisibleForTesting

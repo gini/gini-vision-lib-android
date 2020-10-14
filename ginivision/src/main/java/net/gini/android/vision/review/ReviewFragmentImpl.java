@@ -267,7 +267,7 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
                                     final NetworkRequestResult<GiniVisionDocument> requestResult,
                                     final Throwable throwable) {
                                 if (throwable != null && !isCancellation(throwable)) {
-                                    handleAnalysisError();
+                                    handleAnalysisError(throwable);
                                 } else if (requestResult != null) {
                                     mDocumentWasUploaded = true;
                                 }
@@ -282,10 +282,13 @@ class ReviewFragmentImpl implements ReviewFragmentInterface {
         }
     }
 
-    private void handleAnalysisError() {
+    private void handleAnalysisError(@NonNull final Throwable throwable) {
         final Activity activity = mFragment.getActivity();
         if (activity == null) {
             return;
+        }
+        if (GiniVision.hasInstance()) {
+            GiniVision.getInstance().internal().setReviewScreenAnalysisError(throwable);
         }
         mDocumentAnalysisErrorMessage = activity.getString(R.string.gv_document_analysis_error);
     }

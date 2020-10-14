@@ -95,7 +95,7 @@ public class NetworkRequestsManager {
                                                 document.getId(),
                                                 error.getMessage());
                                         future.completeExceptionally(
-                                                new RuntimeException(error.getMessage()));
+                                                new RuntimeException(error.getMessage(), error.getCause()));
                                     }
 
                                     @Override
@@ -265,7 +265,7 @@ public class NetworkRequestsManager {
                                         error.getMessage());
                                 future.completeExceptionally(
                                         new RuntimeException(
-                                                error.getMessage()));
+                                                error.getMessage(), error.getCause()));
                             }
 
                             @Override
@@ -377,7 +377,7 @@ public class NetworkRequestsManager {
                                 LOG.error("Document analysis failed for {}: {}",
                                         multiPageDocument.getId(), error.getMessage());
                                 future.completeExceptionally(
-                                        new RuntimeException(error.getMessage()));
+                                        new RuntimeException(error.getMessage(), error.getCause()));
                             }
 
                             @Override

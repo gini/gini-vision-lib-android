@@ -66,20 +66,24 @@ Events
 Event types are partitioned into different domains according to the screens that they appear at. Each domain has a number of event types.
 Some events may supply additional details in a map.
 
-========================  ========================  =========================================================  =====================================================  =============
-API                       Domain                    Event enum value and details map keys                      Comment                                                Introduced in
-========================  ========================  =========================================================  =====================================================  =============
-Screen + Component        Onboarding                ``OnboardingScreenEvent.START``                            Onboarding started                                     3.12.0
-Screen + Component        Onboarding                ``OnboardingScreenEvent.FINISH``                           User completes onboarding                              3.12.0
-Screen                    Camera Screen             ``CameraScreenEvent.EXIT``                                 User closes the camera screen                          3.12.0
-Screen                    Camera Screen             ``CameraScreenEvent.HELP``                                 User taps "Help" on the camera screen                  3.12.0
-Screen + Component        Camera Screen             ``CameraScreenEvent.TAKE_PICTURE``                         User takes a picture                                   3.12.0
-Screen                    Review Screen             ``ReviewScreenEvent.BACK``                                 User goes back from the review screen                  3.12.0
-Screen + Component        Review Screen             ``ReviewScreenEvent.NEXT``                                 User advances from the review screen                   3.12.0
-Screen                    Analysis Screen           ``AnalysisScreenEvent.CANCEL``                             User cancels the process during analysis               3.12.0
-Screen + Component        Analysis Screen           ``AnalysisScreenEvent.ERROR``                              The analysis ended with an error.                      3.12.0
+========================  ========================  ===================================================================  =====================================================  ==========================
+API                       Domain                    Event enum value and details map keys                                Comment                                                Introduced in (updated in)
+========================  ========================  ===================================================================  =====================================================  ==========================
+Screen + Component        Onboarding                ``OnboardingScreenEvent.START``                                      Onboarding started                                     3.12.0
+Screen + Component        Onboarding                ``OnboardingScreenEvent.FINISH``                                     User completes onboarding                              3.12.0
+Screen                    Camera Screen             ``CameraScreenEvent.EXIT``                                           User closes the camera screen                          3.12.0
+Screen                    Camera Screen             ``CameraScreenEvent.HELP``                                           User taps "Help" on the camera screen                  3.12.0
+Screen + Component        Camera Screen             ``CameraScreenEvent.TAKE_PICTURE``                                   User takes a picture                                   3.12.0
+Screen                    Review Screen             ``ReviewScreenEvent.BACK``                                           User goes back from the review screen                  3.12.0
+Screen + Component        Review Screen             ``ReviewScreenEvent.NEXT``                                           User advances from the review screen                   3.12.0
+Screen + Component        Review Screen             ``ReviewScreenEvent.UPLOAD_ERROR``                                   Upload error in the review screen                      3.15.0
+                                                    ``ReviewScreenEvent.UPLOAD_ERROR_DETAILS_MAP_KEY.MESSAGE``
+                                                    ``ReviewScreenEvent.UPLOAD_ERROR_DETAILS_MAP_KEY.ERROR_OBJECT``
+Screen                    Analysis Screen           ``AnalysisScreenEvent.CANCEL``                                       User cancels the process during analysis               3.12.0
+Screen + Component        Analysis Screen           ``AnalysisScreenEvent.ERROR``                                        The analysis ended with an error.                      3.12.0 (3.15.0)
                                                     ``AnalysisScreenEvent.ERROR_DETAILS_MAP_KEY.MESSAGE``
-Screen + Component        Analysis Screen           ``AnalysisScreenEvent.RETRY``                              The user decides to retry after an analysis error.     3.12.0
-========================  ========================  =========================================================  =====================================================  =============
+                                                    ``AnalysisScreenEvent.ERROR_DETAILS_MAP_KEY.ERROR_OBJECT``
+Screen + Component        Analysis Screen           ``AnalysisScreenEvent.RETRY``                                        The user decides to retry after an analysis error.     3.12.0
+========================  ========================  ===================================================================  =====================================================  ==========================
 
 The supported events are listed for each screen in a dedicated enum. You can view these enums in our `Javadoc <http://developer.gini.net/gini-vision-lib-android/javadoc/net/gini/android/vision/tracking/package-summary.html>`_.

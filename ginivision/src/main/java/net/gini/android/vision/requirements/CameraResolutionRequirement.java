@@ -2,17 +2,24 @@ package net.gini.android.vision.requirements;
 
 import android.hardware.Camera;
 
+import androidx.annotation.NonNull;
+
 import net.gini.android.vision.internal.camera.api.SizeSelectionHelper;
 import net.gini.android.vision.internal.util.Size;
 
 import java.util.Locale;
 
-import androidx.annotation.NonNull;
-
-class CameraResolutionRequirement implements Requirement {
+/**
+ * Internal use only.
+ *
+ * @exclude
+ */
+public class CameraResolutionRequirement implements Requirement {
 
     // We require ~8MP or higher picture resolutions
-    private static final int MIN_PICTURE_AREA = 7900000;
+    private static final int MIN_PICTURE_AREA = 7_900_000;
+    // We allow up to 13MP picture resolutions
+    public static final int MAX_PICTURE_AREA = 13_000_000;
 
     private final CameraHolder mCameraHolder;
 
@@ -35,8 +42,8 @@ class CameraResolutionRequirement implements Requirement {
         try {
             final Camera.Parameters parameters = mCameraHolder.getCameraParameters();
             if (parameters != null) {
-                final Size pictureSize = SizeSelectionHelper.getLargestSize(
-                        parameters.getSupportedPictureSizes());
+                final Size pictureSize = SizeSelectionHelper.getLargestAllowedSize(
+                        parameters.getSupportedPictureSizes(), MAX_PICTURE_AREA);
                 if (pictureSize == null) {
                     result = false;
                     details = "Camera has no picture resolutions";
@@ -47,8 +54,8 @@ class CameraResolutionRequirement implements Requirement {
                     return new RequirementReport(getId(), result, details);
                 }
 
-                final Size previewSize = SizeSelectionHelper.getLargestSizeWithSimilarAspectRatio(
-                        parameters.getSupportedPreviewSizes(), pictureSize);
+                final Size previewSize = SizeSelectionHelper.getLargestAllowedSizeWithSimilarAspectRatio(
+                        parameters.getSupportedPreviewSizes(), pictureSize, MAX_PICTURE_AREA);
                 if (previewSize == null) {
                     result = false;
                     details = String.format(Locale.US,

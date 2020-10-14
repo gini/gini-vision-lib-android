@@ -38,8 +38,13 @@ public enum AnalysisScreenEvent {
     public static final class ERROR_DETAILS_MAP_KEY {
 
         /**
-         * Error message key in the details map.
+         * Error message key in the details map. Value type is {@link String}.
          */
-        public static final String MESSAGE = "MESSAGE";
+        public static String MESSAGE = "MESSAGE";
+
+        /**
+         * Error object key in the details map. Value type is {@link Throwable}.
+         */
+        public static String ERROR_OBJECT = "ERROR_OBJECT";
     }
 }

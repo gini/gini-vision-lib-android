@@ -124,7 +124,7 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                     public Void then(final Task<net.gini.android.models.Document> task)
                             throws Exception {
                         if (task.isFaulted()) {
-                            final Error error = new Error(getTaskErrorMessage(task));
+                            final Error error = new Error(getTaskErrorMessage(task), task.getError());
                             LOG.error("Document upload failed for {}: {}", document.getId(),
                                     error.getMessage());
                             callback.failure(error);
@@ -162,7 +162,7 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                     @Override
                     public Void then(final Task<String> task) throws Exception {
                         if (task.isFaulted()) {
-                            final Error error = new Error(getTaskErrorMessage(task));
+                            final Error error = new Error(getTaskErrorMessage(task), task.getError());
                             LOG.error("Document deletion failed for api id {}: {}",
                                     giniApiDocumentId,
                                     error.getMessage());
@@ -259,7 +259,7 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                                     final Task<ExtractionsContainer> task)
                                     throws Exception {
                                 if (task.isFaulted()) {
-                                    final Error error = new Error(getTaskErrorMessage(task));
+                                    final Error error = new Error(getTaskErrorMessage(task), task.getError());
                                     LOG.error("Document analysis failed for documents {}: {}",
                                             giniApiDocumentIdRotationMap, error.getMessage());
                                     callback.failure(error);
