@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.gv_fragment_digital_invoice.*
 import net.gini.android.vision.R
 import net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones
+import net.gini.android.vision.internal.util.parentFragmentManagerOrNull
 import net.gini.android.vision.network.model.GiniVisionCompoundExtraction
 import net.gini.android.vision.network.model.GiniVisionReturnReason
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction
@@ -231,7 +232,7 @@ class DigitalInvoiceFragment : Fragment(), DigitalInvoiceScreenContract.View,
      */
     override fun showReturnReasonDialog(reasons: List<GiniVisionReturnReason>,
                                         resultCallback: ReturnReasonDialogResultCallback) {
-        fragmentManager?.let { fm ->
+        parentFragmentManagerOrNull()?.let { fm ->
             ReturnReasonDialog.createInstance(reasons).run {
                 callback = resultCallback
                 show(fm, TAG_RETURN_REASON_DIALOG)
@@ -306,7 +307,7 @@ class DigitalInvoiceFragment : Fragment(), DigitalInvoiceScreenContract.View,
      * @suppress
      */
     override fun onWhatIsThisButtonClicked() {
-        fragmentManager?.let { fm ->
+        parentFragmentManagerOrNull()?.let { fm ->
             WhatIsThisDialog.createInstance().run {
                 callback = { isHelpful ->
                     if (isHelpful != null) {

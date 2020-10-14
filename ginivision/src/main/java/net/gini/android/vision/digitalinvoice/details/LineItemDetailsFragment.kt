@@ -15,6 +15,7 @@ import net.gini.android.vision.digitalinvoice.ReturnReasonDialog
 import net.gini.android.vision.digitalinvoice.ReturnReasonDialogResultCallback
 import net.gini.android.vision.digitalinvoice.SelectableLineItem
 import net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones
+import net.gini.android.vision.internal.util.parentFragmentManagerOrNull
 import net.gini.android.vision.network.model.GiniVisionReturnReason
 
 /**
@@ -306,7 +307,7 @@ class LineItemDetailsFragment : Fragment(), LineItemDetailsScreenContract.View,
      */
     override fun showReturnReasonDialog(reasons: List<GiniVisionReturnReason>,
                                         resultCallback: ReturnReasonDialogResultCallback) {
-        fragmentManager?.let { fm ->
+        parentFragmentManagerOrNull()?.let { fm ->
             ReturnReasonDialog.createInstance(reasons).run {
                 callback = resultCallback
                 show(fm, TAG_RETURN_REASON_DIALOG)
