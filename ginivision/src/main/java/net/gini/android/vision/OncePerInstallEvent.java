@@ -5,6 +5,7 @@ package net.gini.android.vision;
  *
  * @suppress
  */
-enum OncePerInstallEvent {
-    SHOW_ONBOARDING
+public enum OncePerInstallEvent {
+    SHOW_ONBOARDING,
+    SHOW_DIGITAL_INVOICE_ONBOARDING
 }

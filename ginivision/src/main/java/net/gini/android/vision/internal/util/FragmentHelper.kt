@@ -8,4 +8,4 @@ import androidx.fragment.app.Fragment
  * Copyright (c) 2020 Gini GmbH.
  */
 
-internal fun Fragment.parentFragmentManagerOrNull() = if (isAdded) { parentFragmentManager} else { null }
+internal fun Fragment.parentFragmentManagerOrNull() = if (isAdded) { parentFragmentManager } else { null }

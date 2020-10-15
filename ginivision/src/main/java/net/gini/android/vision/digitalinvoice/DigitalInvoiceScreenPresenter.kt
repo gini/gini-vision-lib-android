@@ -3,6 +3,9 @@ package net.gini.android.vision.digitalinvoice
 import android.app.Activity
 import androidx.annotation.VisibleForTesting
 import net.gini.android.vision.GiniVision
+import net.gini.android.vision.OncePerInstallEvent
+import net.gini.android.vision.OncePerInstallEvent.SHOW_DIGITAL_INVOICE_ONBOARDING
+import net.gini.android.vision.OncePerInstallEventStore
 import net.gini.android.vision.network.model.GiniVisionCompoundExtraction
 import net.gini.android.vision.network.model.GiniVisionReturnReason
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction
@@ -22,12 +25,15 @@ internal open class DigitalInvoiceScreenPresenter(activity: Activity,
 
     override var listener: DigitalInvoiceFragmentListener? = null
 
+    private val oncePerInstallEventStore: OncePerInstallEventStore
+
     @VisibleForTesting
     val digitalInvoice: DigitalInvoice
 
     init {
         view.setPresenter(this)
         digitalInvoice = DigitalInvoice(extractions, compoundExtractions)
+        oncePerInstallEventStore = OncePerInstallEventStore(activity)
     }
 
     override fun selectLineItem(lineItem: SelectableLineItem) {
@@ -75,6 +81,10 @@ internal open class DigitalInvoiceScreenPresenter(activity: Activity,
 
     override fun start() {
         updateView()
+        if (!oncePerInstallEventStore.containsEvent(SHOW_DIGITAL_INVOICE_ONBOARDING)) {
+            oncePerInstallEventStore.saveEvent(SHOW_DIGITAL_INVOICE_ONBOARDING)
+            view.showOnboarding()
+        }
     }
 
     override fun stop() {

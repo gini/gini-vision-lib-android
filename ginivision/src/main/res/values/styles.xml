@@ -393,6 +393,13 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="Root.GiniVisionTheme.DigitalInvoice.Onboarding.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/gv_digital_invoice_onboarding_text</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <!-- Text styles used in the layouts which are overridable for customization -->
 
     <style name="GiniVisionTheme.Camera.Error.NoPermission.TextStyle" parent="Root.GiniVisionTheme.Camera.Error.NoPermission.TextStyle" />
@@ -504,5 +511,7 @@
     <style name="GiniVisionTheme.DigitalInvoice.Addon.Price.Integral.TextStyle" parent="Root.GiniVisionTheme.DigitalInvoice.Addon.Price.Integral.TextStyle" />
 
     <style name="GiniVisionTheme.DigitalInvoice.Addon.Price.Fractional.TextStyle" parent="Root.GiniVisionTheme.DigitalInvoice.Addon.Price.Fractional.TextStyle" />
+
+    <style name="GiniVisionTheme.DigitalInvoice.Onboarding.TextStyle" parent="Root.GiniVisionTheme.DigitalInvoice.Onboarding.TextStyle" />
 
 </resources>

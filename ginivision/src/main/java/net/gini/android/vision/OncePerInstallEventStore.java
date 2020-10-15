@@ -3,17 +3,17 @@ package net.gini.android.vision;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.annotation.VisibleForTesting;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import androidx.annotation.VisibleForTesting;
 
 /**
  * Internal use only.
  *
  * @suppress
  */
-class OncePerInstallEventStore {
+public class OncePerInstallEventStore {
 
     private static final Logger LOG = LoggerFactory.getLogger(OncePerInstallEventStore.class);
 

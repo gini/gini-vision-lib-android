@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.gv_fragment_digital_invoice.*
 import net.gini.android.vision.R
+import net.gini.android.vision.digitalinvoice.onboarding.DigitalInvoiceOnboardingFragment
+import net.gini.android.vision.digitalinvoice.onboarding.DigitalInvoiceOnboardingFragmentListener
 import net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones
 import net.gini.android.vision.internal.util.parentFragmentManagerOrNull
 import net.gini.android.vision.network.model.GiniVisionCompoundExtraction
@@ -28,6 +30,7 @@ private const val ARGS_RETURN_REASONS = "GV_ARGS_RETURN_REASONS"
 
 private const val TAG_RETURN_REASON_DIALOG = "TAG_RETURN_REASON_DIALOG"
 private const val TAG_WHAT_IS_THIS_DIALOG = "TAG_WHAT_IS_THIS_DIALOG"
+private const val TAG_ONBOARDING = "TAG_ONBOARDING"
 
 /**
  * When you use the Component API the `DigitalInvoiceFragment` displays the line items extracted from an invoice document and their total
@@ -55,7 +58,7 @@ private const val TAG_WHAT_IS_THIS_DIALOG = "TAG_WHAT_IS_THIS_DIALOG"
  * See the [DigitalInvoiceActivity] for details.
  */
 class DigitalInvoiceFragment : Fragment(), DigitalInvoiceScreenContract.View,
-        DigitalInvoiceFragmentInterface, LineItemsAdapterListener {
+        DigitalInvoiceFragmentInterface, LineItemsAdapterListener, DigitalInvoiceOnboardingFragmentListener {
 
     override var listener: DigitalInvoiceFragmentListener?
         get() = this.presenter?.listener
@@ -240,6 +243,20 @@ class DigitalInvoiceFragment : Fragment(), DigitalInvoiceScreenContract.View,
         }
     }
 
+    override fun showOnboarding() {
+        (view?.parent as? View)?.let { container ->
+            parentFragmentManagerOrNull()?.let { fm ->
+                fm.beginTransaction().run {
+                    val onboarding = DigitalInvoiceOnboardingFragment.createInstance().apply {
+                        listener = this@DigitalInvoiceFragment
+                    }
+                    add(container.id, onboarding, TAG_ONBOARDING)
+                    commit()
+                }
+            }
+        }
+    }
+
     private fun updatePayButtonTitle(selected: Int, total: Int) {
         @SuppressLint("SetTextI18n")
         gv_pay_button.text = resources.getString(R.string.gv_digital_invoice_pay, selected, total)
@@ -321,6 +338,18 @@ class DigitalInvoiceFragment : Fragment(), DigitalInvoiceScreenContract.View,
 
     override fun updateLineItem(selectableLineItem: SelectableLineItem) {
         presenter?.updateLineItem(selectableLineItem)
+    }
+
+    override fun onCloseOnboarding() {
+        parentFragmentManagerOrNull()?.let { fm ->
+            (fm.findFragmentByTag(TAG_ONBOARDING) as? DigitalInvoiceOnboardingFragment)?.let { onboardingFragment ->
+                onboardingFragment.listener = null
+                fm.beginTransaction().run {
+                    remove(onboardingFragment)
+                    commit()
+                }
+            }
+        }
     }
 
 }
