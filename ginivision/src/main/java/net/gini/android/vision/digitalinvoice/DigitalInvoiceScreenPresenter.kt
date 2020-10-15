@@ -20,12 +20,11 @@ internal open class DigitalInvoiceScreenPresenter(activity: Activity,
                                                   view: DigitalInvoiceScreenContract.View,
                                                   val extractions: Map<String, GiniVisionSpecificExtraction> = emptyMap(),
                                                   val compoundExtractions: Map<String, GiniVisionCompoundExtraction> = emptyMap(),
-                                                  val returnReasons: List<GiniVisionReturnReason> = emptyList()) :
+                                                  val returnReasons: List<GiniVisionReturnReason> = emptyList(),
+                                                  val oncePerInstallEventStore: OncePerInstallEventStore = OncePerInstallEventStore(activity)) :
         DigitalInvoiceScreenContract.Presenter(activity, view) {
 
     override var listener: DigitalInvoiceFragmentListener? = null
-
-    private val oncePerInstallEventStore: OncePerInstallEventStore
 
     @VisibleForTesting
     val digitalInvoice: DigitalInvoice
@@ -33,7 +32,6 @@ internal open class DigitalInvoiceScreenPresenter(activity: Activity,
     init {
         view.setPresenter(this)
         digitalInvoice = DigitalInvoice(extractions, compoundExtractions)
-        oncePerInstallEventStore = OncePerInstallEventStore(activity)
     }
 
     override fun selectLineItem(lineItem: SelectableLineItem) {

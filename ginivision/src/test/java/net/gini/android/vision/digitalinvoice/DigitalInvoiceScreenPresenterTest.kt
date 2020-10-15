@@ -3,6 +3,8 @@ package net.gini.android.vision.digitalinvoice
 import android.app.Activity
 import com.google.common.truth.Truth.assertThat
 import com.nhaarman.mockitokotlin2.*
+import net.gini.android.vision.OncePerInstallEvent
+import net.gini.android.vision.OncePerInstallEventStore
 import net.gini.android.vision.digitalinvoice.DigitalInvoiceScreenContract.View
 import net.gini.android.vision.network.model.GiniVisionCompoundExtraction
 import net.gini.android.vision.network.model.GiniVisionReturnReason
@@ -12,6 +14,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.Mock
+import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations.initMocks
 import java.util.*
 
@@ -30,6 +33,9 @@ class DigitalInvoiceScreenPresenterTest {
 
     @Mock
     private lateinit var view: View
+
+    @Mock
+    private lateinit var oncePerInstallEventStore: OncePerInstallEventStore
 
     private fun createLineItemsFixture() = mutableMapOf("lineItems" to GiniVisionCompoundExtraction("lineItems",
             mutableListOf(
@@ -75,7 +81,9 @@ class DigitalInvoiceScreenPresenterTest {
     @Test
     fun `should show line items when updating the view`() {
         // Given
-        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
+        DigitalInvoiceScreenPresenter(activity, view,
+                compoundExtractions = createLineItemsFixture(),
+                oncePerInstallEventStore = oncePerInstallEventStore).run {
             // When
             updateView()
 
@@ -87,7 +95,9 @@ class DigitalInvoiceScreenPresenterTest {
     @Test
     fun `should show selected and total line items when updating the view`() {
         // Given
-        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
+        DigitalInvoiceScreenPresenter(activity, view,
+                compoundExtractions = createLineItemsFixture(),
+                oncePerInstallEventStore = oncePerInstallEventStore).run {
             // When
             digitalInvoice.selectableLineItems.run {
                 first().selected = false
@@ -107,7 +117,9 @@ class DigitalInvoiceScreenPresenterTest {
     @Test
     fun `should enable pay button, if there are selected items when updating the view`() {
         // Given
-        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
+        DigitalInvoiceScreenPresenter(activity, view,
+                compoundExtractions = createLineItemsFixture(),
+                oncePerInstallEventStore = oncePerInstallEventStore).run {
             // When
             digitalInvoice.selectableLineItems.run {
                 updateView()
@@ -123,7 +135,9 @@ class DigitalInvoiceScreenPresenterTest {
     @Test
     fun `should disable pay button, if there are no selected items when updating the view`() {
         // Given
-        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
+        DigitalInvoiceScreenPresenter(activity, view,
+                compoundExtractions = createLineItemsFixture(),
+                oncePerInstallEventStore = oncePerInstallEventStore).run {
             // When
             digitalInvoice.selectableLineItems.run {
                 forEach { it.selected = false }
@@ -138,7 +152,9 @@ class DigitalInvoiceScreenPresenterTest {
     @Test
     fun `should show selected line items sum when updating the view`() {
         // Given
-        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
+        DigitalInvoiceScreenPresenter(activity, view,
+                compoundExtractions = createLineItemsFixture(),
+                oncePerInstallEventStore = oncePerInstallEventStore).run {
             // When
             updateView()
 
@@ -151,7 +167,9 @@ class DigitalInvoiceScreenPresenterTest {
     @Test
     fun `should show sum of only selected line items when updating the view`() {
         // Given
-        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
+        DigitalInvoiceScreenPresenter(activity, view,
+                compoundExtractions = createLineItemsFixture(),
+                oncePerInstallEventStore = oncePerInstallEventStore).run {
             digitalInvoice.deselectLineItem(digitalInvoice.selectableLineItems[0], GiniVisionReturnReason("r1", mapOf("de" to "Ich will es nicht")))
 
             // When
@@ -166,7 +184,9 @@ class DigitalInvoiceScreenPresenterTest {
     @Test
     fun `should update view on start`() {
         // Given
-        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
+        DigitalInvoiceScreenPresenter(activity, view,
+                compoundExtractions = createLineItemsFixture(),
+                oncePerInstallEventStore = oncePerInstallEventStore).run {
             // When
             start()
 
@@ -178,7 +198,9 @@ class DigitalInvoiceScreenPresenterTest {
     @Test
     fun `should update view when selecting a line item`() {
         // Given
-        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
+        DigitalInvoiceScreenPresenter(activity, view,
+                compoundExtractions = createLineItemsFixture(),
+                oncePerInstallEventStore = oncePerInstallEventStore).run {
             // When
             selectLineItem(digitalInvoice.selectableLineItems.first())
 
@@ -195,6 +217,7 @@ class DigitalInvoiceScreenPresenterTest {
         override fun disablePayButton(selected: Int, total: Int) {}
         override fun showSelectedLineItemsSum(integralPart: String, fractionalPart: String) {}
         override fun setPresenter(presenter: DigitalInvoiceScreenContract.Presenter) {}
+        override fun showOnboarding() {}
 
         override fun showReturnReasonDialog(reasons: List<GiniVisionReturnReason>,
                                             resultCallback: ReturnReasonDialogResultCallback) {
@@ -207,7 +230,10 @@ class DigitalInvoiceScreenPresenterTest {
         // Given
         view = spy(ViewWithSelectedReturnReason(GiniVisionReturnReason("r1", mapOf("de" to "Hässlich"))))
 
-        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture(), returnReasons = returnReasonsFixture)
+        DigitalInvoiceScreenPresenter(activity, view,
+                compoundExtractions = createLineItemsFixture(),
+                oncePerInstallEventStore = oncePerInstallEventStore,
+                returnReasons = returnReasonsFixture)
                 .run {
                     // When
                     deselectLineItem(digitalInvoice.selectableLineItems.first())
@@ -222,7 +248,10 @@ class DigitalInvoiceScreenPresenterTest {
         // Given
         view = spy(ViewWithSelectedReturnReason(null))
 
-        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture(), returnReasons = returnReasonsFixture)
+        DigitalInvoiceScreenPresenter(activity, view,
+                compoundExtractions = createLineItemsFixture(),
+                oncePerInstallEventStore = oncePerInstallEventStore,
+                returnReasons = returnReasonsFixture)
                 .run {
                     // When
                     deselectLineItem(digitalInvoice.selectableLineItems.first())
@@ -235,7 +264,9 @@ class DigitalInvoiceScreenPresenterTest {
     @Test
     fun `should select line item`() {
         // Given
-        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
+        DigitalInvoiceScreenPresenter(activity, view,
+                compoundExtractions = createLineItemsFixture(),
+                oncePerInstallEventStore = oncePerInstallEventStore).run {
             digitalInvoice.deselectLineItem(digitalInvoice.selectableLineItems[0], GiniVisionReturnReason("r1", mapOf("de" to "Pfui")))
 
             // When
@@ -249,7 +280,10 @@ class DigitalInvoiceScreenPresenterTest {
     @Test
     fun `should show return reason dialog when deselecting a line item, if there are return reasons`() {
         // Given
-        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture(), returnReasons = returnReasonsFixture)
+        DigitalInvoiceScreenPresenter(activity, view,
+                compoundExtractions = createLineItemsFixture(),
+                oncePerInstallEventStore = oncePerInstallEventStore,
+                returnReasons = returnReasonsFixture)
                 .run {
                     // When
                     deselectLineItem(digitalInvoice.selectableLineItems.first())
@@ -264,7 +298,9 @@ class DigitalInvoiceScreenPresenterTest {
         // Given
         view = ViewWithSelectedReturnReason(GiniVisionReturnReason("r1", mapOf("de" to "Brauch ich nicht")))
 
-        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
+        DigitalInvoiceScreenPresenter(activity, view,
+                compoundExtractions = createLineItemsFixture(),
+                oncePerInstallEventStore = oncePerInstallEventStore).run {
             // When
             deselectLineItem(digitalInvoice.selectableLineItems.first())
 
@@ -276,7 +312,9 @@ class DigitalInvoiceScreenPresenterTest {
     @Test
     fun `should not show return reason dialog, if there are no return reasons`() {
         // Given
-        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
+        DigitalInvoiceScreenPresenter(activity, view,
+                compoundExtractions = createLineItemsFixture(),
+                oncePerInstallEventStore = oncePerInstallEventStore).run {
             // When
             deselectLineItem(digitalInvoice.selectableLineItems.first())
 
@@ -288,7 +326,9 @@ class DigitalInvoiceScreenPresenterTest {
     @Test
     fun `should update view when deselecting a line item, if there are no return reasons`() {
         // Given
-        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
+        DigitalInvoiceScreenPresenter(activity, view,
+                compoundExtractions = createLineItemsFixture(),
+                oncePerInstallEventStore = oncePerInstallEventStore).run {
             // When
             deselectLineItem(digitalInvoice.selectableLineItems.first())
 
@@ -300,7 +340,9 @@ class DigitalInvoiceScreenPresenterTest {
     @Test
     fun `should invoke edit line item on listener`() {
         // Given
-        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
+        DigitalInvoiceScreenPresenter(activity, view,
+                compoundExtractions = createLineItemsFixture(),
+                oncePerInstallEventStore = oncePerInstallEventStore).run {
             listener = mock()
 
 
@@ -315,7 +357,9 @@ class DigitalInvoiceScreenPresenterTest {
     @Test
     fun `should update line item`() {
         // Given
-        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
+        DigitalInvoiceScreenPresenter(activity, view,
+                compoundExtractions = createLineItemsFixture(),
+                oncePerInstallEventStore = oncePerInstallEventStore).run {
             val modifiedLineItem = digitalInvoice.selectableLineItems[0]
                     .copy(lineItem = digitalInvoice.selectableLineItems[0].lineItem
                             .copy(description = "Line Item X", quantity = 8, rawGrossPrice = "99.19:EUR"))
@@ -333,7 +377,10 @@ class DigitalInvoiceScreenPresenterTest {
         // Given
         view = ViewWithSelectedReturnReason(GiniVisionReturnReason("r1", mapOf("de" to "Hässlich")))
 
-        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture(), returnReasons = returnReasonsFixture)
+        DigitalInvoiceScreenPresenter(activity, view,
+                compoundExtractions = createLineItemsFixture(),
+                oncePerInstallEventStore = oncePerInstallEventStore,
+                returnReasons = returnReasonsFixture)
                 .run {
                     // When
                     deselectLineItem(digitalInvoice.selectableLineItems.first())
@@ -348,7 +395,10 @@ class DigitalInvoiceScreenPresenterTest {
         // Given
         view = ViewWithSelectedReturnReason(null)
 
-        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture(), returnReasons = returnReasonsFixture)
+        DigitalInvoiceScreenPresenter(activity, view,
+                compoundExtractions = createLineItemsFixture(),
+                oncePerInstallEventStore = oncePerInstallEventStore,
+                returnReasons = returnReasonsFixture)
                 .run { // When
                     deselectLineItem(digitalInvoice.selectableLineItems.first())
 
@@ -362,7 +412,9 @@ class DigitalInvoiceScreenPresenterTest {
         // Given
         view = ViewWithSelectedReturnReason(null)
 
-        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
+        DigitalInvoiceScreenPresenter(activity, view,
+                compoundExtractions = createLineItemsFixture(),
+                oncePerInstallEventStore = oncePerInstallEventStore).run {
             // When
             deselectLineItem(digitalInvoice.selectableLineItems.first())
 
@@ -374,7 +426,9 @@ class DigitalInvoiceScreenPresenterTest {
     @Test
     fun `should create LineItems from the 'lineItems' compound extraction`() {
         // Given
-        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
+        DigitalInvoiceScreenPresenter(activity, view,
+                compoundExtractions = createLineItemsFixture(),
+                oncePerInstallEventStore = oncePerInstallEventStore).run {
             // Then
             val specificExtractionMaps = compoundExtractions["lineItems"]?.specificExtractionMaps
             digitalInvoice.selectableLineItems[0].lineItem.run {
@@ -397,7 +451,9 @@ class DigitalInvoiceScreenPresenterTest {
 
         val extractions = mapOf("amountToPay" to GiniVisionSpecificExtraction("amountToPay", "1.99:EUR", "amount", null, emptyList()))
 
-        DigitalInvoiceScreenPresenter(activity, view, extractions, compoundExtractions = createLineItemsFixture()).run {
+        DigitalInvoiceScreenPresenter(activity, view, extractions,
+                compoundExtractions = createLineItemsFixture(),
+                oncePerInstallEventStore = oncePerInstallEventStore).run {
             listener = mock()
 
             deselectLineItem(digitalInvoice.selectableLineItems[0])
@@ -416,7 +472,9 @@ class DigitalInvoiceScreenPresenterTest {
         // Given
         view = ViewWithSelectedReturnReason(GiniVisionReturnReason("r1", mapOf("de" to "Pfui Deifi")))
 
-        DigitalInvoiceScreenPresenter(activity, view, compoundExtractions = createLineItemsFixture()).run {
+        DigitalInvoiceScreenPresenter(activity, view, 
+                compoundExtractions = createLineItemsFixture(),
+                oncePerInstallEventStore = oncePerInstallEventStore).run {
             listener = mock()
 
             deselectLineItem(digitalInvoice.selectableLineItems[0])
@@ -441,6 +499,44 @@ class DigitalInvoiceScreenPresenterTest {
                                 && specificExtractionMaps[1]["quantity"]?.value.equals("99")
                                 && specificExtractionMaps[2]["baseGross"]?.value.equals("203.19:EUR")
                     })
+        }
+    }
+
+    @Test
+    fun `should show onboarding on first run`() {
+        // Given
+        `when`(oncePerInstallEventStore.containsEvent(eq(OncePerInstallEvent.SHOW_DIGITAL_INVOICE_ONBOARDING)))
+                .thenReturn(false)
+
+        DigitalInvoiceScreenPresenter(activity, view,
+                compoundExtractions = createLineItemsFixture(),
+                oncePerInstallEventStore = oncePerInstallEventStore).run {
+            listener = mock()
+
+            // When
+            start()
+
+            // Then
+            verify(view).showOnboarding()
+        }
+    }
+
+    @Test
+    fun `should not show onboarding on subsequent runs`() {
+        // Given
+        `when`(oncePerInstallEventStore.containsEvent(eq(OncePerInstallEvent.SHOW_DIGITAL_INVOICE_ONBOARDING)))
+                .thenReturn(true)
+
+        DigitalInvoiceScreenPresenter(activity, view,
+                compoundExtractions = createLineItemsFixture(),
+                oncePerInstallEventStore = oncePerInstallEventStore).run {
+            listener = mock()
+
+            // When
+            start()
+
+            // Then
+            verify(view, never()).showOnboarding()
         }
     }
 
