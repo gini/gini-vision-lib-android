@@ -120,7 +120,7 @@ class ExtractionsActivity : AppCompatActivity() {
                 createPictureDir()?.let { picDir ->
                     val jpegFile = File(picDir, jpegFilename)
                     var fileOutputStream: FileOutputStream? = null
-                    return try {
+                    try {
                         fileOutputStream = FileOutputStream(jpegFile).apply {
                             write(picture, 0, picture.size)
                         }
