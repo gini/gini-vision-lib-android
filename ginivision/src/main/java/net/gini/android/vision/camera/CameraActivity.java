@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -504,7 +503,7 @@ public class CameraActivity extends GiniVisionActivity implements CameraFragment
     }
 
     @Override
-    protected void onCreate(final Bundle savedInstanceState) {        
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         translateTitle();
         setContentView(R.layout.gv_activity_camera);

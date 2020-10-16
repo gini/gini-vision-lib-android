@@ -27,7 +27,7 @@ public abstract class GiniVisionActivity extends AppCompatActivity {
             int labelRes = getPackageManager().getActivityInfo(getComponentName(), 0).labelRes;
             setTitle(getResources().getString(labelRes));
         } catch (PackageManager.NameNotFoundException e) {
-            Log.e("CameraActivity", "Error getting label resource for Activity.", e);
+            Log.e(getClass().getSimpleName(), "Error getting label resource for Activity.", e);
         }
     }
 
