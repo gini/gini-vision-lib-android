@@ -6,12 +6,12 @@ import static net.gini.android.vision.internal.util.ActivityHelper.forcePortrait
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
 import net.gini.android.vision.GiniVision;
+import net.gini.android.vision.GiniVisionActivity;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
@@ -130,11 +130,12 @@ import net.gini.android.vision.review.ReviewActivity;
  * </ul>
  * </p>
  */
-public class FileImportActivity extends AppCompatActivity {
+public class FileImportActivity extends GiniVisionActivity {
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        translateTitle();
         setContentView(R.layout.gv_activity_file_import);
         forcePortraitOrientationOnPhones(this);
 

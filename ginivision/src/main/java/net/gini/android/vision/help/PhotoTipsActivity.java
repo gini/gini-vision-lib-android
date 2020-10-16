@@ -4,11 +4,11 @@ import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsU
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 
 import net.gini.android.vision.GiniVision;
+import net.gini.android.vision.GiniVisionActivity;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.camera.CameraActivity;
@@ -100,13 +100,14 @@ import net.gini.android.vision.review.ReviewActivity;
  * </ul>
  * </p>
  */
-public class PhotoTipsActivity extends AppCompatActivity {
+public class PhotoTipsActivity extends GiniVisionActivity {
 
     static final int RESULT_SHOW_CAMERA_SCREEN = RESULT_FIRST_USER + 1;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        translateTitle();
         if (FeatureConfiguration.isMultiPageEnabled()) {
             setContentView(R.layout.gv_activity_photo_tips_with_multipage);
         } else {

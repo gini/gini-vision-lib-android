@@ -9,11 +9,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
+import net.gini.android.vision.GiniVisionActivity;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
@@ -161,7 +161,7 @@ import java.util.Map;
  *
  * </ul>
  */
-public class ReviewActivity extends AppCompatActivity implements ReviewFragmentListener,
+public class ReviewActivity extends GiniVisionActivity implements ReviewFragmentListener,
         ReviewFragmentInterface {
 
     /**
@@ -219,6 +219,7 @@ public class ReviewActivity extends AppCompatActivity implements ReviewFragmentL
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        translateTitle();
         setContentView(R.layout.gv_activity_review);
         readExtras();
         if (savedInstanceState == null) {

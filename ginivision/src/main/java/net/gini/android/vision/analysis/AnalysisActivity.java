@@ -7,12 +7,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
+import net.gini.android.vision.GiniVisionActivity;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
@@ -206,7 +206,7 @@ import java.util.Map;
  *
  * </ul>
  */
-public class AnalysisActivity extends AppCompatActivity implements
+public class AnalysisActivity extends GiniVisionActivity implements
         AnalysisFragmentListener, AnalysisFragmentInterface {
 
     /**
@@ -288,6 +288,7 @@ public class AnalysisActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        translateTitle();
         setContentView(R.layout.gv_activity_analysis);
         setTitle("");
         readExtras();

@@ -30,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by Alpar Szotyori on 22.02.2018.
@@ -76,6 +77,7 @@ public class GiniVision {
     private final boolean mBackButtonsEnabled;
     private final boolean mIsFlashOnByDefault;
     private final EventTracker mEventTracker;
+    private final Locale mCustomLocale;
 
     /**
      * Retrieve the current instance.
@@ -168,6 +170,7 @@ public class GiniVision {
         mBackButtonsEnabled = builder.areBackButtonsEnabled();
         mIsFlashOnByDefault = builder.isFlashOnByDefault();
         mEventTracker = builder.getEventTracker();
+        mCustomLocale = builder.getCustomLocale();
     }
 
     /**
@@ -330,6 +333,15 @@ public class GiniVision {
      */
     public boolean isFlashOnByDefault() {
         return mIsFlashOnByDefault;
+    }
+
+    /**
+     * Returns the custom {@link Locale} or {@code null} if not set.
+     * 
+     * @return a {@link Locale} or {@code null}
+     */
+    public Locale getCustomLocale() {
+        return mCustomLocale;
     }
 
     /**
@@ -521,6 +533,7 @@ public class GiniVision {
             public void onAnalysisScreenEvent(@NotNull final Event<AnalysisScreenEvent> event) {
             }
         };
+        private Locale mCustomLocale = null;
 
         /**
          * Create a new {@link GiniVision} instance.
@@ -818,6 +831,22 @@ public class GiniVision {
 
         EventTracker getEventTracker() {
             return mEventTracker;
+        }
+
+        /**
+         * Sets a custom locale. If no custom locale is set or the given locale is null, the devices locale will be used.
+         * 
+         * @param customLocale a {@link Locale} or {@code null}.
+         * 
+         * @return the {@link Builder} instance
+         */
+        public Builder setCustomLocale(final Locale customLocale) {
+            mCustomLocale = customLocale;
+            return this;
+        }
+
+        Locale getCustomLocale() {
+            return mCustomLocale;
         }
     }
 

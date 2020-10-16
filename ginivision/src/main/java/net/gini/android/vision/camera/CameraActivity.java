@@ -12,13 +12,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
 import net.gini.android.vision.GiniVision;
+import net.gini.android.vision.GiniVisionActivity;
 import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
@@ -37,6 +38,7 @@ import net.gini.android.vision.review.multipage.MultiPageReviewActivity;
 import net.gini.android.vision.tracking.CameraScreenEvent;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -345,7 +347,7 @@ import java.util.Map;
  *
  * </ul>
  **/
-public class CameraActivity extends AppCompatActivity implements CameraFragmentListener,
+public class CameraActivity extends GiniVisionActivity implements CameraFragmentListener,
         CameraFragmentInterface {
 
     /**
@@ -502,9 +504,11 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     }
 
     @Override
-    protected void onCreate(final Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {        
         super.onCreate(savedInstanceState);
+        translateTitle();
         setContentView(R.layout.gv_activity_camera);
+        
         readExtras();
         createGiniVisionCoordinator();
         if (savedInstanceState == null) {

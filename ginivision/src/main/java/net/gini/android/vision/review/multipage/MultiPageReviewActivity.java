@@ -9,10 +9,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import net.gini.android.vision.GiniVision;
+import net.gini.android.vision.GiniVisionActivity;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.camera.CameraActivity;
@@ -203,7 +203,7 @@ import java.util.List;
  *
  * </ul>
  */
-public class MultiPageReviewActivity extends AppCompatActivity implements
+public class MultiPageReviewActivity extends GiniVisionActivity implements
         MultiPageReviewFragmentListener {
 
     private static final String MP_REVIEW_FRAGMENT = "MP_REVIEW_FRAGMENT";
@@ -218,6 +218,7 @@ public class MultiPageReviewActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        translateTitle();
         setContentView(R.layout.gv_activity_multi_page_review);
         if (savedInstanceState == null) {
             initFragment();

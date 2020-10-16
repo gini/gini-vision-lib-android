@@ -4,12 +4,12 @@ import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsU
 import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 
 import net.gini.android.vision.GiniVision;
+import net.gini.android.vision.GiniVisionActivity;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
@@ -95,7 +95,7 @@ import net.gini.android.vision.review.ReviewActivity;
  * </ul>
  * </p>
  */
-public class SupportedFormatsActivity extends AppCompatActivity {
+public class SupportedFormatsActivity extends GiniVisionActivity {
 
     /**
      * @exclude
@@ -111,6 +111,7 @@ public class SupportedFormatsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        translateTitle();
         setContentView(R.layout.gv_activity_supported_formats);
         readExtras();
         setUpFormatsList();

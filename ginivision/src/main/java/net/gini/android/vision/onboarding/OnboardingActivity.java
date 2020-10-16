@@ -5,10 +5,10 @@ import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsU
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import net.gini.android.vision.GiniVision;
+import net.gini.android.vision.GiniVisionActivity;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.analysis.AnalysisActivity;
@@ -154,7 +154,7 @@ import java.util.ArrayList;
  *
  * </ul>
  */
-public class OnboardingActivity extends AppCompatActivity implements OnboardingFragmentListener {
+public class OnboardingActivity extends GiniVisionActivity implements OnboardingFragmentListener {
 
     /**
      * @exclude
@@ -171,6 +171,7 @@ public class OnboardingActivity extends AppCompatActivity implements OnboardingF
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        translateTitle();
         setContentView(R.layout.gv_activity_onboarding);
         readExtras();
         initFragment();
