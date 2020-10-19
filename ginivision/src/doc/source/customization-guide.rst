@@ -1968,7 +1968,7 @@ Via the string resources named ``gv_file_import_default_app_dialog_negative_butt
 
 .. _digital-invoice-onboarding:
 
-Digital Invoice Onboarding Screen
+Digital Invoice Onboarding Screen (Return Assistant)
 ----
 
 .. raw:: html
@@ -2127,7 +2127,7 @@ All Action Bar customizations except the title are global to all Activities.
 
 .. _digital-invoice:
 
-Digital Invoice Screen
+Digital Invoice Screen (Return Assistant)
 ----
 
 .. raw:: html
