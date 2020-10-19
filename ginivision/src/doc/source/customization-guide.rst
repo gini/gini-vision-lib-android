@@ -1976,7 +1976,15 @@ Digital Invoice Onboarding Screen
     <img src="_static/customization/Digital Invoice Onboarding Screen.png" usemap="#digital-invoice-onboarding-map" width="324" height="576">
 
     <map id="digital-invoice-onboarding-map" name="digital-invoice-onboarding-map">
-
+      <area shape="rect" alt="" title="Action Bar" coords="192,24,223,58" href="customization-guide.html#digital-invoice-onboarding-1" target="" />
+      <area shape="rect" alt="" title="Image" coords="85,110,118,141" href="customization-guide.html#digital-invoice-onboarding-2" target="" />
+      <area shape="rect" alt="" title="Background" coords="13,169,44,200" href="customization-guide.html#digital-invoice-onboarding-3" target="" />
+      <area shape="rect" alt="" title="New Badge" coords="206,196,238,230" href="customization-guide.html#digital-invoice-onboarding-4" target="" />
+      <area shape="rect" alt="" title="Text 1" coords="4,257,36,290" href="customization-guide.html#digital-invoice-onboarding-5" target="" />
+      <area shape="rect" alt="" title="Line Item Image" coords="176,370,208,402" href="customization-guide.html#digital-invoice-onboarding-6" target="" />
+      <area shape="rect" alt="" title="Text 2" coords="18,434,51,467" href="customization-guide.html#digital-invoice-onboarding-7" target="" />
+      <area shape="rect" alt="" title="Done Button" coords="219,488,251,518" href="customization-guide.html#digital-invoice-onboarding-8" target="" />
+      <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
     </map>
 
 .. _digital-invoice-onboarding-1:
