@@ -121,7 +121,7 @@
     <string name="gv_digital_invoice_scan_success">Scan war erfolgreich!\nDu kannst nun die Artikel abwählen, die du zurückschicken willst.</string>
     <string name="gv_digital_invoice_items">Artikel</string>
     <string name="gv_digital_invoice_what_is_this_button">Was ist das?</string>
-    <string name="gv_digital_invoice_line_item_edit">Editieren</string>
+    <string name="gv_digital_invoice_line_item_edit">Bearbeiten</string>
     <string name="gv_digital_invoice_line_item_quantity">Anzahl:</string>
     <string name="gv_digital_invoice_footer_notice">Überprüfe, ob so alles in Ordnung ist und editiere, bevor du bezahlst.</string>
     <string name="gv_digital_invoice_pay">Bezahle %1$d/%2$d</string>
@@ -147,8 +147,8 @@
     <string name="gv_digital_invoice_addon_other_charges">Weitere Kosten</string>
     <string name="gv_digital_invoice_addon_shipment">Versandkosten</string>
 
-    <string name="gv_digital_invoice_onboarding_text_1">Du kannst jetzt die Artikel abwählen, die du nicht brauchst. Du bezahlst nur die Artikel die du behaltest, den Rest kannst du zurückschicken.</string>
-    <string name="gv_digital_invoice_onboarding_text_2">Hier kannst du die Anzahl identischer Artikel bearbeiten.</string>
-    <string name="gv_digital_invoice_onboarding_done_button_title">I hab\'s!</string>
+    <string name="gv_digital_invoice_onboarding_text_1">Du kannst jetzt die Artikel abwählen, die du nicht brauchst. Du bezahlst nur die Artikel, die du behältst. Den Rest kannst du zurückschicken.</string>
+    <string name="gv_digital_invoice_onboarding_text_2">Hier kannst du die Anzahl gleicher Artikel bearbeiten.</string>
+    <string name="gv_digital_invoice_onboarding_done_button_title">Verstanden</string>
 
 </resources>
