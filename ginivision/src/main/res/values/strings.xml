@@ -148,7 +148,7 @@
     <string name="gv_digital_invoice_addon_shipment">Versandkosten</string>
 
     <string name="gv_digital_invoice_onboarding_text_1">Du kannst jetzt die Artikel abwählen, die du nicht brauchst. Du bezahlst nur die Artikel, die du behältst. Den Rest kannst du zurückschicken.</string>
-    <string name="gv_digital_invoice_onboarding_text_2">Hier kannst du die Anzahl gleicher Artikel bearbeiten.</string>
+    <string name="gv_digital_invoice_onboarding_text_2">Hier kannst du die Anzahl gleicher Artikel ändern.</string>
     <string name="gv_digital_invoice_onboarding_done_button_title">Verstanden</string>
 
 </resources>
