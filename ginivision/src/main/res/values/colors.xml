@@ -160,4 +160,9 @@
     <color name="gv_digital_invoice_addon_name_text">#000</color>
     <color name="gv_digital_invoice_addon_price_text">#000</color>
 
+    <color name="gv_digital_invoice_onboarding_fragment_background">#fff</color>
+    <color name="gv_digital_invoice_onboarding_text">#20BAA7</color>
+    <color name="gv_digital_invoice_onboarding_done_button">#1AE2AE</color>
+    <color name="gv_digital_invoice_onboarding_done_button_text">#fff</color>
+
 </resources>

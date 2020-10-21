@@ -32,6 +32,7 @@ interface DigitalInvoiceScreenContract {
         fun showSelectedLineItemsSum(integralPart: String, fractionalPart: String)
         fun showReturnReasonDialog(reasons: List<GiniVisionReturnReason>,
                                    resultCallback: ReturnReasonDialogResultCallback)
+        fun showOnboarding()
     }
 
     /**

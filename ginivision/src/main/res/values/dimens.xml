@@ -172,4 +172,13 @@
     <dimen name="gv_digital_invoice_addon_vertical_padding">8dp</dimen>
     <dimen name="gv_digital_invoice_addon_name_margin_right">72dp</dimen>
 
+    <dimen name="gv_digital_invoice_onboarding_hero_image_vertical_margin">32dp</dimen>
+    <dimen name="gv_digital_invoice_onboarding_new_badge_vertical_margin">32dp</dimen>
+    <dimen name="gv_digital_invoice_onboarding_text_1_horiztonal_margin">40dp</dimen>
+    <dimen name="gv_digital_invoice_onboarding_help_1_vertical_margin">32dp</dimen>
+    <dimen name="gv_digital_invoice_onboarding_text_2_horiztonal_margin">40dp</dimen>
+    <dimen name="gv_digital_invoice_onboarding_text_2_vertical_margin">96dp</dimen>
+    <dimen name="gv_digital_invoice_onboarding_done_button_height">56dp</dimen>
+    <dimen name="gv_digital_invoice_onboarding_done_button_margin">16dp</dimen>
+
 </resources>

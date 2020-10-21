@@ -1966,9 +1966,168 @@ Via the string resources named ``gv_file_import_default_app_dialog_negative_butt
 
 :ref:`Back to screenshot. <file-import>`
 
+.. _digital-invoice-onboarding:
+
+Digital Invoice Onboarding Screen (Return Assistant)
+----
+
+.. raw:: html
+
+    <img src="_static/customization/Digital Invoice Onboarding Screen.png" usemap="#digital-invoice-onboarding-map" width="324" height="576">
+
+    <map id="digital-invoice-onboarding-map" name="digital-invoice-onboarding-map">
+      <area shape="rect" alt="" title="Action Bar" coords="192,24,223,58" href="customization-guide.html#digital-invoice-onboarding-1" target="" />
+      <area shape="rect" alt="" title="Image" coords="85,110,118,141" href="customization-guide.html#digital-invoice-onboarding-2" target="" />
+      <area shape="rect" alt="" title="Background" coords="13,169,44,200" href="customization-guide.html#digital-invoice-onboarding-3" target="" />
+      <area shape="rect" alt="" title="New Badge" coords="206,196,238,230" href="customization-guide.html#digital-invoice-onboarding-4" target="" />
+      <area shape="rect" alt="" title="Text 1" coords="4,257,36,290" href="customization-guide.html#digital-invoice-onboarding-5" target="" />
+      <area shape="rect" alt="" title="Line Item Image" coords="176,370,208,402" href="customization-guide.html#digital-invoice-onboarding-6" target="" />
+      <area shape="rect" alt="" title="Text 2" coords="18,434,51,467" href="customization-guide.html#digital-invoice-onboarding-7" target="" />
+      <area shape="rect" alt="" title="Done Button" coords="219,488,251,518" href="customization-guide.html#digital-invoice-onboarding-8" target="" />
+      <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
+    </map>
+
+.. _digital-invoice-onboarding-1:
+
+1. Action Bar
+^^^^
+
+All Action Bar customizations except the title are global to all Activities.
+
+- **Title**
+
+  Via the string resource named ``gv_title_digital_invoice``.
+
+- **Title Color**
+
+  Via the color resource named ``gv_action_bar_title``.
+
+- **Back Button Icon**
+
+  Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named ``gv_action_bar_back``.
+
+- **Background Color**
+
+  Via the color resource named ``gv_action_bar``.
+
+- **Status Bar Background Color**
+
+  Via the color resource named ``gv_status_bar``.
+
+:ref:`Back to screenshot. <digital-invoice-onboarding>`
+
+.. _digital-invoice-onboarding-2:
+
+2. Image
+^^^^
+
+  Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named ``gv_digital_invoice_image.png``.
+
+:ref:`Back to screenshot. <digital-invoice-onboarding>`
+
+.. _digital-invoice-onboarding-3:
+
+3. Background
+^^^^
+
+- **Color**
+
+  Via the color resource named ``gv_digital_invoice_onboarding_fragment_background``.
+
+:ref:`Back to screenshot. <digital-invoice-onboarding>`
+
+.. _digital-invoice-onboarding-4:
+
+4. "New" Badge
+^^^^
+
+  Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named ``gv_new_badge.png``.
+
+:ref:`Back to screenshot. <digital-invoice-onboarding>`
+
+.. _digital-invoice-onboarding-5:
+
+5. Onboarding Text 1
+^^^^
+
+- **Text**
+
+  Via the string resource named ``gv_digital_invoice_onboarding_text_1``.
+
+- **Text Style**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.Onboarding.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.Onboarding.TextStyle``).
+
+- **Font**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.Onboarding.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.Onboarding.TextStyle``) and setting an
+  item named ``fontFamily`` with the name of a font family or a font resource.
+
+- **Color**
+
+  Via the color resource named ``gv_digital_invoice_onboarding_text``.
+
+:ref:`Back to screenshot. <digital-invoice-onboarding>`
+
+.. _digital-invoice-onboarding-6:
+
+6. Line Item Image
+^^^^
+
+  Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named ``gv_digital_invoice_item_help.png``.
+
+:ref:`Back to screenshot. <digital-invoice-onboarding>`
+
+.. _digital-invoice-onboarding-7:
+
+7. Onboarding Text 2
+^^^^
+
+- **Text**
+
+  Via the string resource named ``gv_digital_invoice_onboarding_text_2``.
+
+- **Text Style**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.Onboarding.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.Onboarding.TextStyle``).
+
+- **Font**
+
+  Via overriding the style named ``GiniVisionTheme.DigitalInvoice.Onboarding.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.DigitalInvoice.Onboarding.TextStyle``) and setting an
+  item named ``fontFamily`` with the name of a font family or a font resource.
+
+- **Color**
+
+  Via the color resource named ``gv_digital_invoice_onboarding_text``.
+
+:ref:`Back to screenshot. <digital-invoice-onboarding>`
+
+.. _digital-invoice-onboarding-8:
+
+8. Done Button
+^^^^
+
+- **Title**
+
+  Via the string resource named ``gv_digital_invoice_onboarding_done_button_title``.
+
+- **Text Color**
+
+  Via the color resource named ``gv_digital_invoice_onboarding_done_button_text``.
+
+- **Background Color**
+
+  Via the color resource named ``gv_digital_invoice_onboarding_done_button``.
+
+:ref:`Back to screenshot. <digital-invoice-onboarding>`
+
 .. _digital-invoice:
 
-Digital Invoice Screen
+Digital Invoice Screen (Return Assistant)
 ----
 
 .. raw:: html
