@@ -19,6 +19,9 @@ android {
 
         // Use the test runner with JUnit4 support
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+
+        buildConfigField 'int', 'VERSION_CODE', "${rootProject.ext.versionCode}"
+        buildConfigField 'String', 'VERSION_NAME', "\"${rootProject.ext.versionName}\""
     }
 
     buildTypes {
