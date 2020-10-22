@@ -1,11 +1,13 @@
 package net.gini.android.vision.help;
 
-import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
-import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
@@ -18,10 +20,8 @@ import net.gini.android.vision.review.ReviewActivity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
+import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 
 /**
  * <h3>Screen API and Component API</h3>
@@ -188,6 +188,9 @@ public class HelpActivity extends AppCompatActivity {
             case SUPPORTED_FORMATS:
                 launchSupportedFormats();
                 break;
+            case RETURN_ASSISTANT:
+                launchReturnAssistant();
+                break;
             default:
                 throw new IllegalStateException("Unknown HelpItem: " + helpItem);
         }
@@ -207,6 +210,11 @@ public class HelpActivity extends AppCompatActivity {
         final Intent intent = new Intent(this, SupportedFormatsActivity.class);
         intent.putExtra(SupportedFormatsActivity.EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION,
                 mGiniVisionFeatureConfiguration);
+        startActivity(intent);
+    }
+
+    private void launchReturnAssistant() {
+        final Intent intent = new Intent(this, ReturnAssistantHelpActivity.class);
         startActivity(intent);
     }
 }

@@ -11,6 +11,7 @@
     <string name="gv_title_supported_formats">Unterstützte Formate</string>
     <string name="gv_title_file_import">Dokumente aus anderen Apps öffnen</string>
     <string name="gv_title_analysis" />
+    <string name="gv_title_return_assistant_help">Retouren Assistent</string>
 
     <string name="gv_title_multi_page_review">Fotos überprüfen</string>
     <string name="gv_show_onboarding">Hilfe</string>
@@ -86,6 +87,7 @@
     <string name="gv_help_item_photo_tips_title">Tipps für beste Ergebnisse aus Fotos</string>
     <string name="gv_help_item_file_import_guide_title">Dokumente aus anderen Apps öffnen</string>
     <string name="gv_help_item_supported_formats_title">Unterstützte Formate</string>
+    <string name="gv_help_item_return_assistant_title">Retouren Assistent</string>
 
     <string name="gv_photo_tips_headline">Zur Erkennung aller Daten bitte folgende Tipps beim Abfotografieren beachten:</string>
     <string name="gv_photo_tips_camera_button">Zur Kamera</string>
