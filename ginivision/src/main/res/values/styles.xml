@@ -400,6 +400,19 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="Root.GiniVisionTheme.Help.ReturnAssistant.Section.Title.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/gv_return_assistant_help_section_title</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Root.GiniVisionTheme.Help.ReturnAssistant.Section.Body.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/gv_return_assistant_help_section_body</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
     <!-- Text styles used in the layouts which are overridable for customization -->
 
     <style name="GiniVisionTheme.Camera.Error.NoPermission.TextStyle" parent="Root.GiniVisionTheme.Camera.Error.NoPermission.TextStyle" />
@@ -513,5 +526,9 @@
     <style name="GiniVisionTheme.DigitalInvoice.Addon.Price.Fractional.TextStyle" parent="Root.GiniVisionTheme.DigitalInvoice.Addon.Price.Fractional.TextStyle" />
 
     <style name="GiniVisionTheme.DigitalInvoice.Onboarding.TextStyle" parent="Root.GiniVisionTheme.DigitalInvoice.Onboarding.TextStyle" />
+
+    <style name="GiniVisionTheme.Help.ReturnAssistant.Section.Title.TextStyle" parent="Root.GiniVisionTheme.Help.ReturnAssistant.Section.Title.TextStyle" />
+
+    <style name="GiniVisionTheme.Help.ReturnAssistant.Section.Body.TextStyle" parent="Root.GiniVisionTheme.Help.ReturnAssistant.Section.Body.TextStyle" />
 
 </resources>

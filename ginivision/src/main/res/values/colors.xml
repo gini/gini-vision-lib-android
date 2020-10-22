@@ -165,4 +165,9 @@
     <color name="gv_digital_invoice_onboarding_done_button">#1AE2AE</color>
     <color name="gv_digital_invoice_onboarding_done_button_text">#fff</color>
 
+    <color name="gv_return_assistant_help_section_title">#009EDC</color>
+    <color name="gv_return_assistant_help_section_body">#000</color>
+    <color name="gv_return_assistant_help_back_button">#009EDC</color>
+    <color name="gv_return_assistant_help_back_button_text">#fff</color>
+
 </resources>

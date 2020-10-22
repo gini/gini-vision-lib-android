@@ -11,7 +11,7 @@
     <string name="gv_title_supported_formats">Unterstützte Formate</string>
     <string name="gv_title_file_import">Dokumente aus anderen Apps öffnen</string>
     <string name="gv_title_analysis" />
-    <string name="gv_title_return_assistant_help">Retouren Assistent</string>
+    <string name="gv_title_return_assistant_help">Retourenassistent</string>
 
     <string name="gv_title_multi_page_review">Fotos überprüfen</string>
     <string name="gv_show_onboarding">Hilfe</string>
@@ -87,7 +87,7 @@
     <string name="gv_help_item_photo_tips_title">Tipps für beste Ergebnisse aus Fotos</string>
     <string name="gv_help_item_file_import_guide_title">Dokumente aus anderen Apps öffnen</string>
     <string name="gv_help_item_supported_formats_title">Unterstützte Formate</string>
-    <string name="gv_help_item_return_assistant_title">Retouren Assistent</string>
+    <string name="gv_help_item_return_assistant_title">Retourenassistent</string>
 
     <string name="gv_photo_tips_headline">Zur Erkennung aller Daten bitte folgende Tipps beim Abfotografieren beachten:</string>
     <string name="gv_photo_tips_camera_button">Zur Kamera</string>
@@ -152,5 +152,14 @@
     <string name="gv_digital_invoice_onboarding_text_1">Du kannst jetzt die Artikel abwählen, die du nicht brauchst. Du bezahlst nur die Artikel, die du behältst. Den Rest kannst du zurückschicken.</string>
     <string name="gv_digital_invoice_onboarding_text_2">Hier kannst du die Anzahl gleicher Artikel ändern.</string>
     <string name="gv_digital_invoice_onboarding_done_button_title">Verstanden</string>
+
+    <string name="gv_return_assistant_help_title">Der neue Retourenassistent</string>
+    <string name="gv_return_assistant_help_section_1_body_1">Nachdem Sie eine Rechnung abfotografiert haben, können Sie nun Rechnungsposten abwählen die Sie nicht möchten. Sie bezahlen nur für die Dinge die Sie behalten und können den Rest retournieren.</string>
+    <string name="gv_return_assistant_help_section_1_body_2">Wenn Sie auf die Edit Schaltfläche des Rechnungspostens drücken, können Sie die Anzahl verändern, sowie den Preis korrigieren.</string>
+    <string name="gv_return_assistant_help_section_2_title">Anzahl ändern</string>
+    <string name="gv_return_assistant_help_section_2_body">Wenn Sie auf die Edit Schaltfläche des Rechnungspostens drücken, können Sie die Anzahl verändern, sowie den Preis korrigieren.</string>
+    <string name="gv_return_assistant_help_section_3_body">Sollte der Preis mal nicht perfekt ausgelesen worden sein, können Sie diesen einfach manuell korrigieren. Der Gesamtpreis aktualisiert sich automatisch.</string>
+    <string name="gv_return_assistant_help_section_3_title">Preis korrigieren</string>
+    <string name="gv_return_assistant_help_back_button_title">Zurück</string>
 
 </resources>
