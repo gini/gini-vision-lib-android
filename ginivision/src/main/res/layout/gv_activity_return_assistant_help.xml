@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gv_return_assistant_help_activity_background"
     tools:context=".help.ReturnAssistantHelpActivity">
 
     <RelativeLayout
