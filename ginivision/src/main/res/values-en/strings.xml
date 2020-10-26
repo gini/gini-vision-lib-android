@@ -134,13 +134,13 @@
     <string name="gv_digital_invoice_onboarding_text_2">You can edit the quantity of multiple identical items here.</string>
     <string name="gv_digital_invoice_onboarding_done_button_title">Got it!</string>
 
-    <string name="gv_return_assistant_help_title">Der neue Retourenassistent</string>
-    <string name="gv_return_assistant_help_section_1_body_1">Nachdem Sie eine Rechnung abfotografiert haben, können Sie nun Rechnungsposten abwählen die Sie nicht möchten. Sie bezahlen nur für die Dinge die Sie behalten und können den Rest retournieren.</string>
-    <string name="gv_return_assistant_help_section_1_body_2">Wenn Sie auf die Edit Schaltfläche des Rechnungspostens drücken, können Sie die Anzahl verändern, sowie den Preis korrigieren.</string>
-    <string name="gv_return_assistant_help_section_2_title">Anzahl ändern</string>
-    <string name="gv_return_assistant_help_section_2_body">Wenn Sie auf die Edit Schaltfläche des Rechnungspostens drücken, können Sie die Anzahl verändern, sowie den Preis korrigieren.</string>
-    <string name="gv_return_assistant_help_section_3_body">Sollte der Preis mal nicht perfekt ausgelesen worden sein, können Sie diesen einfach manuell korrigieren. Der Gesamtpreis aktualisiert sich automatisch.</string>
-    <string name="gv_return_assistant_help_section_3_title">Preis korrigieren</string>
+    <string name="gv_return_assistant_help_title">The new Return Assistant</string>
+    <string name="gv_return_assistant_help_section_1_body_1">You can now deselect invoice items that you do not want. You only pay for the things you keep and can return the rest. </string>
+    <string name="gv_return_assistant_help_section_1_body_2">By clicking on the Edit button of any invoice item, you can change the quantity and correct the price.</string>
+    <string name="gv_return_assistant_help_section_2_title">Change the quantity</string>
+    <string name="gv_return_assistant_help_section_2_body">For example, if you want to keep a lower number than you ordered, just change the quantity. The total price will be updated automatically.</string>
+    <string name="gv_return_assistant_help_section_3_body">If the price has not been read out perfectly, you can simply correct it manually. The total price is updated automatically. </string>
+    <string name="gv_return_assistant_help_section_3_title">Fix the price</string>
     <string name="gv_return_assistant_help_back_button_title">Back</string>
 
 </resources>
