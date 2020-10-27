@@ -181,4 +181,14 @@
     <dimen name="gv_digital_invoice_onboarding_done_button_height">56dp</dimen>
     <dimen name="gv_digital_invoice_onboarding_done_button_margin">16dp</dimen>
 
+    <dimen name="gv_return_assistant_help_title_horizontal_margin">32dp</dimen>
+    <dimen name="gv_return_assistant_help_title_vertical_margin">32dp</dimen>
+    <dimen name="gv_return_assistant_help_section_body_horizontal_margin">32dp</dimen>
+    <dimen name="gv_return_assistant_help_section_body_vertical_margin">32dp</dimen>
+    <dimen name="gv_return_assistant_help_section_title_vertical_margin">48dp</dimen>
+    <dimen name="gv_return_assistant_help_back_button_height">56dp</dimen>
+    <dimen name="gv_return_assistant_help_back_button_margin">16dp</dimen>
+    <dimen name="gv_return_assistant_help_illustration_vertical_margin">32dp</dimen>
+    <dimen name="gv_return_assistant_help_back_button_vertical_margin">48dp</dimen>
+
 </resources>

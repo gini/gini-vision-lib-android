@@ -1,11 +1,12 @@
 package net.gini.android.vision.help;
 
-import static net.gini.android.vision.internal.util.FeatureConfiguration.isFileImportEnabled;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
@@ -14,8 +15,7 @@ import net.gini.android.vision.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import static net.gini.android.vision.internal.util.FeatureConfiguration.isFileImportEnabled;
 
 /**
  * Internal use only.
@@ -45,6 +45,10 @@ class HelpItemsAdapter extends RecyclerView.Adapter<HelpItemsAdapter.HelpItemsVi
         if (GiniVision.hasInstance()
                 && GiniVision.getInstance().isSupportedFormatsHelpScreenEnabled()) {
             items.add(HelpItem.SUPPORTED_FORMATS);
+        }
+        if (GiniVision.hasInstance()
+                && GiniVision.getInstance().isReturnAssistantEnabled()) {
+            items.add(HelpItem.RETURN_ASSISTANT);
         }
         return items;
     }

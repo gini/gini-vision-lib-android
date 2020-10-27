@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gv_return_assistant_help_activity_background"
+    tools:context=".help.ReturnAssistantHelpActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/gv_section_1_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="@dimen/gv_return_assistant_help_title_horizontal_margin"
+            android:layout_marginTop="@dimen/gv_return_assistant_help_title_vertical_margin"
+            android:layout_marginEnd="@dimen/gv_return_assistant_help_title_horizontal_margin"
+            android:gravity="center"
+            android:text="@string/gv_return_assistant_help_title"
+            android:textAppearance="@style/GiniVisionTheme.Help.ReturnAssistant.Section.Title.TextStyle" />
+
+        <TextView
+            android:id="@+id/gv_section_1_body_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/gv_section_1_title"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="@dimen/gv_return_assistant_help_section_body_horizontal_margin"
+            android:layout_marginTop="@dimen/gv_return_assistant_help_section_body_vertical_margin"
+            android:layout_marginEnd="@dimen/gv_return_assistant_help_section_body_horizontal_margin"
+            android:gravity="center"
+            android:lineSpacingMultiplier="1.2"
+            android:text="@string/gv_return_assistant_help_section_1_body_1"
+            android:textAppearance="@style/GiniVisionTheme.Help.ReturnAssistant.Section.Body.TextStyle" />
+
+        <ImageView
+            android:id="@+id/gv_section_1_illustration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/gv_section_1_body_1"
+            android:layout_centerHorizontal="true"
+            app:srcCompat="@drawable/gv_digital_invoice_item_help"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/gv_section_1_body_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/gv_section_1_illustration"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="@dimen/gv_return_assistant_help_section_body_horizontal_margin"
+            android:layout_marginEnd="@dimen/gv_return_assistant_help_section_body_horizontal_margin"
+            android:gravity="center"
+            android:lineSpacingMultiplier="1.2"
+            android:text="@string/gv_return_assistant_help_section_1_body_2"
+            android:textAppearance="@style/GiniVisionTheme.Help.ReturnAssistant.Section.Body.TextStyle" />
+
+        <TextView
+            android:id="@+id/gv_section_2_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/gv_section_1_body_2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="@dimen/gv_return_assistant_help_title_horizontal_margin"
+            android:layout_marginTop="@dimen/gv_return_assistant_help_section_title_vertical_margin"
+            android:layout_marginEnd="@dimen/gv_return_assistant_help_title_horizontal_margin"
+            android:gravity="center"
+            android:text="@string/gv_return_assistant_help_section_2_title"
+            android:textAppearance="@style/GiniVisionTheme.Help.ReturnAssistant.Section.Title.TextStyle" />
+
+        <ImageView
+            android:id="@+id/gv_section_2_illustration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/gv_section_2_title"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/gv_return_assistant_help_illustration_vertical_margin"
+            app:srcCompat="@drawable/gv_return_assistant_help_quantity"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/gv_section_2_body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/gv_section_2_illustration"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="@dimen/gv_return_assistant_help_section_body_horizontal_margin"
+            android:layout_marginEnd="@dimen/gv_return_assistant_help_section_body_horizontal_margin"
+            android:layout_marginTop="@dimen/gv_return_assistant_help_section_body_vertical_margin"
+            android:gravity="center"
+            android:lineSpacingMultiplier="1.2"
+            android:text="@string/gv_return_assistant_help_section_2_body"
+            android:textAppearance="@style/GiniVisionTheme.Help.ReturnAssistant.Section.Body.TextStyle" />
+
+        <TextView
+            android:id="@+id/gv_section_3_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/gv_section_2_body"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="@dimen/gv_return_assistant_help_title_horizontal_margin"
+            android:layout_marginTop="@dimen/gv_return_assistant_help_section_title_vertical_margin"
+            android:layout_marginEnd="@dimen/gv_return_assistant_help_title_horizontal_margin"
+            android:gravity="center"
+            android:text="@string/gv_return_assistant_help_section_3_title"
+            android:textAppearance="@style/GiniVisionTheme.Help.ReturnAssistant.Section.Title.TextStyle" />
+
+        <ImageView
+            android:id="@+id/gv_section_3_illustration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/gv_section_3_title"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/gv_return_assistant_help_illustration_vertical_margin"
+            app:srcCompat="@drawable/gv_return_assistant_help_price"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/gv_section_3_body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/gv_section_3_illustration"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="@dimen/gv_return_assistant_help_section_body_horizontal_margin"
+            android:layout_marginEnd="@dimen/gv_return_assistant_help_section_body_horizontal_margin"
+            android:layout_marginTop="@dimen/gv_return_assistant_help_section_body_vertical_margin"
+            android:gravity="center"
+            android:lineSpacingMultiplier="1.2"
+            android:text="@string/gv_return_assistant_help_section_3_body"
+            android:textAppearance="@style/GiniVisionTheme.Help.ReturnAssistant.Section.Body.TextStyle" />
+
+        <Button
+            android:id="@+id/gv_back_button"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/gv_return_assistant_help_back_button_height"
+            android:layout_below="@id/gv_section_3_body"
+            android:layout_marginLeft="@dimen/gv_return_assistant_help_back_button_margin"
+            android:layout_marginTop="@dimen/gv_return_assistant_help_back_button_vertical_margin"
+            android:layout_marginRight="@dimen/gv_return_assistant_help_back_button_margin"
+            android:layout_marginBottom="@dimen/gv_return_assistant_help_back_button_margin"
+            android:backgroundTint="@color/gv_return_assistant_help_back_button"
+            android:text="@string/gv_return_assistant_help_back_button_title"
+            android:textColor="@color/gv_return_assistant_help_back_button_text" />
+
+    </RelativeLayout>
+
+</ScrollView>

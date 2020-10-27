@@ -5,6 +5,10 @@ Customization of the Views is provided mostly via overriding of app resources: d
 colors, texts, etc. Onboarding can also be customized to show your own pages, each consisting of an
 image and a short text.
 
+.. contents::
+   :depth: 1
+   :local:
+
 .. _onboarding:
 
 Onboarding Screen
@@ -1911,6 +1915,319 @@ All Action Bar customizations except the title are global to all Activities.
 
 :ref:`Back to screenshot. <file-import>`
 
+.. _return-assistant-help:
+
+Return Assistant Help
+----
+
+.. raw:: html
+
+    <img src="_static/customization/Return Assistant Help Screen 1.png" usemap="#return-assistant-help-part-1" width="324" height="576">
+
+    <map id="return-assistant-help-part-1" name="return-assistant-help-part-1">
+        <area shape="rect" alt="" title="Action Bar" coords="192,25,223,56" href="customization-guide.html#return-assistant-help-1" target="" />
+        <area shape="rect" alt="" title="Background" coords="15,78,50,110" href="customization-guide.html#return-assistant-help-2" target="" />
+        <area shape="rect" alt="" title="Title" coords="256,92,287,125" href="customization-guide.html#return-assistant-help-3" target="" />
+        <area shape="rect" alt="" title="Section 1 Body 1" coords="2,172,35,206" href="customization-guide.html#return-assistant-help-4" target="" />
+        <area shape="rect" alt="" title="Section 1 Illustration" coords="163,298,195,332" href="customization-guide.html#return-assistant-help-5" target="" />
+        <area shape="rect" alt="" title="Section 1 Body 2" coords="1,371,36,403" href="customization-guide.html#return-assistant-help-6" target="" />
+        <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
+    </map>
+
+    <img src="_static/customization/Return Assistant Help Screen 2.png" usemap="#return-assistant-help-part-2" width="324" height="576">
+
+    <map id="return-assistant-help-part-2" name="return-assistant-help-part-2">
+        <area shape="rect" alt="" title="Section 2 Title" coords="51,67,83,99" href="customization-guide.html#return-assistant-help-7" target="" />
+        <area shape="rect" alt="" title="Section 2 Illustration" coords="146,295,176,328" href="customization-guide.html#return-assistant-help-8" target="" />
+        <area shape="rect" alt="" title="Section 2 Body" coords="22,486,55,518" href="customization-guide.html#return-assistant-help-9" target="" />
+        <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
+    </map>
+
+    <img src="_static/customization/Return Assistant Help Screen 3.png" usemap="#return-assistant-help-part-3" width="324" height="576">
+
+    <map id="return-assistant-help-part-3" name="return-assistant-help-part-3">
+        <area shape="rect" alt="" title="Section 3 Title" coords="40,65,73,99" href="customization-guide.html#return-assistant-help-10" target="" />
+        <area shape="rect" alt="" title="Section 3 Illustration" coords="143,293,179,329" href="customization-guide.html#return-assistant-help-11" target="" />
+        <area shape="rect" alt="" title="Section 3 Body" coords="20,471,53,504" href="customization-guide.html#return-assistant-help-12" target="" />
+        <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
+    </map>
+
+    <img src="_static/customization/Return Assistant Help Screen 4.png" usemap="#return-assistant-help-part-4" width="324" height="576">
+
+    <map id="return-assistant-help-part-4" name="return-assistant-help-part-4">
+        <area shape="rect" alt="" title="Back Button" coords="53,486,87,519" href="customization-guide.html#return-assistant-help-13" target="" />
+        <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
+    </map>
+
+.. _return-assistant-help-1:
+
+1. Action Bar
+^^^^
+
+All Action Bar customizations except the title are global to all Activities.
+
+- **Title**
+
+  Via the string resource named ``gv_title_return_assistant_help``.
+
+- **Title Color**
+
+  Via the color resource named ``gv_action_bar_title``.
+
+- **Back Button Icon**
+
+  Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named ``gv_action_bar_back``.
+
+- **Background Color**
+
+  Via the color resource named ``gv_action_bar``.
+
+- **Status Bar Background Color**
+
+  Via the color resource named ``gv_status_bar``.
+
+:ref:`Back to screenshot. <return-assistant-help>`
+
+.. _return-assistant-help-2:
+
+2. Background
+^^^^
+
+- **Color**
+
+  Via the color resource named ``gv_return_assistant_help_activity_background``.
+
+:ref:`Back to screenshot. <return-assistant-help>`
+
+.. _return-assistant-help-3:
+
+3. Title
+^^^^
+
+- **Text**
+
+  Via the string resource named ``gv_return_assistant_help_title``.
+
+- **Text Style**
+
+  Via overriding the style named ``GiniVisionTheme.Help.ReturnAssistant.Section.Title.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.Help.ReturnAssistant.Section.Title.TextStyle``).
+
+- **Font**
+
+  Via overriding the style named ``GiniVisionTheme.Help.ReturnAssistant.Section.Title.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.Help.ReturnAssistant.Section.Title.TextStyle``) and setting an
+  item named ``fontFamily`` with the name of a font family or a font resource.
+
+- **Color**
+
+  Via the color resource named ``gv_return_assistant_help_section_title``.
+
+:ref:`Back to screenshot. <return-assistant-help>`
+
+.. _return-assistant-help-4:
+
+4. Section 1 Body 1
+^^^^
+
+- **Text**
+
+  Via the string resource named ``gv_return_assistant_help_section_1_body_1``.
+
+- **Text Style**
+
+  Via overriding the style named ``GiniVisionTheme.Help.ReturnAssistant.Section.Body.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.Help.ReturnAssistant.Section.Body.TextStyle``).
+
+- **Font**
+
+  Via overriding the style named ``GiniVisionTheme.Help.ReturnAssistant.Section.Body.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.Help.ReturnAssistant.Section.Body.TextStyle``) and setting an
+  item named ``fontFamily`` with the name of a font family or a font resource.
+
+- **Color**
+
+  Via the color resource named ``gv_return_assistant_help_section_body``.
+
+:ref:`Back to screenshot. <return-assistant-help>`
+
+.. _return-assistant-help-5:
+
+5. Section 1 Illustration
+^^^^
+
+Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named ``gv_digital_invoice_item_help.png``. Image should be localized for German and English.
+
+:ref:`Back to screenshot. <return-assistant-help>`
+
+.. _return-assistant-help-6:
+
+6. Section 1 Body 2
+^^^^
+
+- **Text**
+
+  Via the string resource named ``gv_return_assistant_help_section_1_body_2``.
+
+- **Text Style**
+
+  Via overriding the style named ``GiniVisionTheme.Help.ReturnAssistant.Section.Body.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.Help.ReturnAssistant.Section.Body.TextStyle``).
+
+- **Font**
+
+  Via overriding the style named ``GiniVisionTheme.Help.ReturnAssistant.Section.Body.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.Help.ReturnAssistant.Section.Body.TextStyle``) and setting an
+  item named ``fontFamily`` with the name of a font family or a font resource.
+
+- **Color**
+
+  Via the color resource named ``gv_return_assistant_help_section_body``.
+
+:ref:`Back to screenshot. <return-assistant-help>`
+
+.. _return-assistant-help-7:
+
+7. Section 2 Title
+^^^^
+
+- **Text**
+
+  Via the string resource named ``gv_return_assistant_help_section_2_title``.
+
+- **Text Style**
+
+  Via overriding the style named ``GiniVisionTheme.Help.ReturnAssistant.Section.Title.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.Help.ReturnAssistant.Section.Title.TextStyle``).
+
+- **Font**
+
+  Via overriding the style named ``GiniVisionTheme.Help.ReturnAssistant.Section.Title.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.Help.ReturnAssistant.Section.Title.TextStyle``) and setting an
+  item named ``fontFamily`` with the name of a font family or a font resource.
+
+- **Color**
+
+  Via the color resource named ``gv_return_assistant_help_section_title``.
+
+:ref:`Back to screenshot. <return-assistant-help>`
+
+.. _return-assistant-help-8:
+
+8. Section 2 Illustration
+^^^^
+
+  Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named ``gv_return_assistant_help_quantity.png``. Image should be localized for German and English.
+
+:ref:`Back to screenshot. <return-assistant-help>`
+
+.. _return-assistant-help-9:
+
+9. Section 2 Body
+^^^^
+
+- **Text**
+
+  Via the string resource named ``gv_return_assistant_help_section_2_body``.
+
+- **Text Style**
+
+  Via overriding the style named ``GiniVisionTheme.Help.ReturnAssistant.Section.Body.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.Help.ReturnAssistant.Section.Body.TextStyle``).
+
+- **Font**
+
+  Via overriding the style named ``GiniVisionTheme.Help.ReturnAssistant.Section.Body.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.Help.ReturnAssistant.Section.Body.TextStyle``) and setting an
+  item named ``fontFamily`` with the name of a font family or a font resource.
+
+- **Color**
+
+  Via the color resource named ``gv_return_assistant_help_section_body``.
+
+:ref:`Back to screenshot. <return-assistant-help>`
+
+.. _return-assistant-help-10:
+
+10. Section 3 Title
+^^^^
+
+- **Text**
+
+  Via the string resource named ``gv_return_assistant_help_section_3_title``.
+
+- **Text Style**
+
+  Via overriding the style named ``GiniVisionTheme.Help.ReturnAssistant.Section.Title.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.Help.ReturnAssistant.Section.Title.TextStyle``).
+
+- **Font**
+
+  Via overriding the style named ``GiniVisionTheme.Help.ReturnAssistant.Section.Title.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.Help.ReturnAssistant.Section.Title.TextStyle``) and setting an
+  item named ``fontFamily`` with the name of a font family or a font resource.
+
+- **Color**
+
+  Via the color resource named ``gv_return_assistant_help_section_title``.
+
+:ref:`Back to screenshot. <return-assistant-help>`
+
+.. _return-assistant-help-11:
+
+11. Section 3 Illustration
+^^^^
+
+  Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named ``gv_return_assistant_help_price.png``. Image should be localized for German and English.
+
+:ref:`Back to screenshot. <return-assistant-help>`
+
+.. _return-assistant-help-12:
+
+12. Section 3 Body
+^^^^
+
+- **Text**
+
+  Via the string resource named ``gv_return_assistant_help_section_3_body``.
+
+- **Text Style**
+
+  Via overriding the style named ``GiniVisionTheme.Help.ReturnAssistant.Section.Body.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.Help.ReturnAssistant.Section.Body.TextStyle``).
+
+- **Font**
+
+  Via overriding the style named ``GiniVisionTheme.Help.ReturnAssistant.Section.Body.TextStyle`` (with
+  parent style ``Root.GiniVisionTheme.Help.ReturnAssistant.Section.Body.TextStyle``) and setting an
+  item named ``fontFamily`` with the name of a font family or a font resource.
+
+- **Color**
+
+  Via the color resource named ``gv_return_assistant_help_section_body``.
+
+
+:ref:`Back to screenshot. <return-assistant-help>`
+
+.. _return-assistant-help-13:
+
+13. Back Button
+^^^^
+
+- **Title**
+
+  Via the string resource named ``gv_return_assistant_help_back_button_title``.
+
+- **Text Color**
+
+  Via the color resource named ``gv_return_assistant_help_back_button_text``.
+
+- **Background Color**
+
+  Via the color resource named ``gv_return_assistant_help_back_button``.
+
+:ref:`Back to screenshot. <return-assistant-help>`
+
 Clear Defaults Dialog
 ----
 
@@ -2041,7 +2358,7 @@ All Action Bar customizations except the title are global to all Activities.
 4. "New" Badge
 ^^^^
 
-  Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named ``gv_new_badge.png``.
+  Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named ``gv_new_badge.png``. Image should be localized for German and English.
 
 :ref:`Back to screenshot. <digital-invoice-onboarding>`
 
@@ -2076,7 +2393,7 @@ All Action Bar customizations except the title are global to all Activities.
 6. Line Item Image
 ^^^^
 
-  Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named ``gv_digital_invoice_item_help.png``.
+  Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named ``gv_digital_invoice_item_help.png``. Image should be localized for German and English.
 
 :ref:`Back to screenshot. <digital-invoice-onboarding>`
 

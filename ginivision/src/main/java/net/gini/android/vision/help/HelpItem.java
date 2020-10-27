@@ -1,9 +1,9 @@
 package net.gini.android.vision.help;
 
+import androidx.annotation.StringRes;
+
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.R;
-
-import androidx.annotation.StringRes;
 
 /**
  * <p>
@@ -40,7 +40,13 @@ public enum HelpItem {
      *     Item label customizable by overriding the string resource named {@code gv_help_item_supported_formats_title}
      * </p>
      */
-    SUPPORTED_FORMATS(R.string.gv_help_item_supported_formats_title);
+    SUPPORTED_FORMATS(R.string.gv_help_item_supported_formats_title),
+    /**
+     * Shows information about the return assistant.
+     * <p>
+     * Item label customizable by overriding the string resource named {@code gv_help_item_return_assistant_title}
+     */
+    RETURN_ASSISTANT(R.string.gv_help_item_return_assistant_title);
 
     @StringRes
     final int title;
