@@ -1,0 +1,1047 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>GiniVision</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <link href="../../../styles/style.css" rel="Stylesheet">
+    <script type="text/javascript" src="../../../scripts/navigationLoader.js" async="async"></script>
+    <script type="text/javascript" src="../../../scripts/platformContentHandler.js" async="async"></script>
+    <script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+    <script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+    <link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
+    <script>var pathToRoot = "../../../";</script>
+  </head>
+  <body>
+    <div id="container">
+      <div id="leftColumn">
+        <div id="logo"></div>
+        <div id="paneSearch"></div>
+        <div id="sideMenu"></div>
+      </div>
+      <div id="main">
+        <div id="leftToggler"><span class="icon-toggler"></span></div>
+        <div id="searchBar"></div>
+        <script type="text/javascript" src="../../../scripts/pages.js"></script>
+        <script type="text/javascript" src="../../../scripts/main.js"></script>
+        <div id="content" pageIds="net.gini.android.vision/GiniVision///PointingToDeclaration/">
+          <div class="breadcrumbs"><a href="../../index.html">ginivision</a>/<a href="../index.html">net.gini.android.vision</a>/<a href="index.html">GiniVision</a></div>
+          <div class="cover ">
+            <div class="filter-section" id="filter-section"><button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":ginivision:dokkaHtml/release">androidJvm</button></div>
+            <h1 class="cover"><a data-name="ginivision"></a><span>Gini</span><wbr></wbr><span>Vision</span></h1>
+            <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><p class="paragraph"><p class="paragraph">Single entry point for the Gini Vision Library for configuration and interaction. </p><p class="paragraph"> This singleton class is preferred over the previous methods of configuration and interaction. It is only mandatory for new features. You can continue using features from previous releases without any modification. </p><p class="paragraph"> To create and configure a singleton instance use the <a href="new-instance.html">newInstance</a> method and the returned <a href="-builder/index.html">Builder</a> . If an instance is already available you need to call <a href="cleanup.html"></a> before creating a new instance. Failing to do so will throw an exception. </p><p class="paragraph"> After you are done using the Gini Vision Library use the <a href="cleanup.html">cleanup</a> method. This will free up resources used by the library.</p></p><div class="symbol monospace">public class <a href="index.html">GiniVision</a><span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+          </div>
+          <div class="tabbedcontent">
+            <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Types">Types</button><button class="section-tab" data-togglable="Functions">Functions</button></div>
+            <div class="tabs-section-body">
+              <h2 class=""><a data-name="types"></a>Types</h2>
+              <div class="table" data-togglable="Types"><a data-name="net.gini.android.vision/GiniVision.Builder///PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="-builder/index.html">Builder</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision.Builder///PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"><div class="brief "><p class="paragraph">Builder for <a href="index.html">GiniVision</a> . To get an instance call <a href="new-instance.html">newInstance</a> .</p></div></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace">public class <a href="-builder/index.html">Builder</a><span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+<a data-name="net.gini.android.vision/GiniVision.Internal///PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="-internal/index.html">Internal</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision.Internal///PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"><div class="brief "><p class="paragraph">Internal use only.</p></div></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace">public class <a href="-internal/index.html">Internal</a><span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+              </div>
+              <h2 class=""><a data-name="functions"></a>Functions</h2>
+              <div class="table" data-togglable="Functions"><a data-name="net.gini.android.vision/GiniVision/areBackButtonsEnabled/#/PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="are-back-buttons-enabled.html">areBackButtonsEnabled</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision/areBackButtonsEnabled/#/PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"><div class="brief "><p class="paragraph"><p class="paragraph">Screen API only </p><p class="paragraph"> Find out whether back buttons in all Activities have been enabled. <a href="../../net.gini.android.vision.review/-review-activity/index.html">ReviewActivity</a> and <a href="../../net.gini.android.vision.analysis/-analysis-activity/index.html">AnalysisActivity</a> are not affected and always show back buttons. </p><p class="paragraph"> Enabled by default.</p></p></div></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block">boolean <a href="are-back-buttons-enabled.html">areBackButtonsEnabled</a>()<span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+<a data-name="net.gini.android.vision/GiniVision/cleanup/#android.content.Context/PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="cleanup.html">cleanup</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision/cleanup/#android.content.Context/PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"><div class="brief "><p class="paragraph">Destroys the <a href="index.html">GiniVision</a> instance and frees up used resources.</p></div></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block">static synchronized void <a href="cleanup.html">cleanup</a>(<a href="https://developer.android.com/reference/kotlin/android/content/Context.html">Context</a> <a href="cleanup.html">context</a>)<span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+<a data-name="net.gini.android.vision/GiniVision/createDocumentForImportedFile/#android.content.Intent#android.content.Context/PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="create-document-for-imported-file.html">createDocumentForImportedFile</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision/createDocumentForImportedFile/#android.content.Intent#android.content.Context/PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"><div class="brief "><p class="paragraph"><p class="paragraph">Component API </p><p class="paragraph"> When your application receives a file from another application you can use this method to create a Document for launching one of the Gini Vision Library's Review Fragments or Analysis Fragments. </p><p class="paragraph"> If the Document can be reviewed ( <a href="../-document/is-reviewable.html">isReviewable</a> ) launch one of the Review Fragments ( <a href="../../net.gini.android.vision.review/-review-fragment-compat/index.html">net.gini.android.vision.review.ReviewFragmentCompat</a> or ). </p><p class="paragraph"> If the Document cannot be reviewed you must launch one of the Analysis Fragments ( or ).</p></p></div></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block"><div class="block"><div class="block">@<a href="https://developer.android.com/reference/kotlin/androidx/annotation/NonNull.html">NonNull</a>()</div></div>static <a href="../-document/index.html">Document</a> <a href="create-document-for-imported-file.html">createDocumentForImportedFile</a>(<a href="https://developer.android.com/reference/kotlin/android/content/Intent.html">Intent</a> <a href="create-document-for-imported-file.html">intent</a>, <a href="https://developer.android.com/reference/kotlin/android/content/Context.html">Context</a> <a href="create-document-for-imported-file.html">context</a>)<span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+<a data-name="net.gini.android.vision/GiniVision/createDocumentForImportedFiles/#android.content.Intent#android.content.Context#net.gini.android.vision.AsyncCallback&lt;net.gini.android.vision.Document,net.gini.android.vision.ImportedFileValidationException&gt;/PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="create-document-for-imported-files.html">createDocumentForImportedFiles</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision/createDocumentForImportedFiles/#android.content.Intent#android.content.Context#net.gini.android.vision.AsyncCallback&lt;net.gini.android.vision.Document,net.gini.android.vision.ImportedFileValidationException&gt;/PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"><div class="brief "><p class="paragraph"><p class="paragraph">Component API </p><p class="paragraph"> If you have enabled the multi-page feature and your application receives one or multiple files from another application you can use this method to create a Document for launching the Gini Vision Library's <a href="../../net.gini.android.vision.review.multipage/-multi-page-review-fragment/index.html">MultiPageReviewFragment</a> or one of the Analysis Fragments. </p><p class="paragraph"> Importing the files is executed on a secondary thread as it can take several seconds for the process to complete. The callback methods are invoked on the main thread. </p><p class="paragraph"> If the Document can be reviewed ( <a href="../-document/is-reviewable.html">isReviewable</a> ) launch the . </p><p class="paragraph"> If the Document cannot be reviewed you must launch one of the Analysis Fragments ( or ).</p></p></div></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block"><div class="block"><div class="block">@<a href="https://developer.android.com/reference/kotlin/androidx/annotation/NonNull.html">NonNull</a>()</div></div><span data-unresolved-link="net.gini.android.vision.util/CancellationToken///PointingToDeclaration/">CancellationToken</span> <a href="create-document-for-imported-files.html">createDocumentForImportedFiles</a>(<a href="https://developer.android.com/reference/kotlin/android/content/Intent.html">Intent</a> <a href="create-document-for-imported-files.html">intent</a>, <a href="https://developer.android.com/reference/kotlin/android/content/Context.html">Context</a> <a href="create-document-for-imported-files.html">context</a>, <a href="../-async-callback/index.html">AsyncCallback</a>&lt;<a href="../-document/index.html">Document</a>, <a href="../-imported-file-validation-exception/index.html">ImportedFileValidationException</a>&gt; <a href="create-document-for-imported-files.html">callback</a>)<span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+<a data-name="net.gini.android.vision/GiniVision/createIntentForImportedFile/#android.content.Intent#android.content.Context#java.lang.Class&lt;? extends net.gini.android.vision.review.ReviewActivity&gt;#java.lang.Class&lt;? extends net.gini.android.vision.analysis.AnalysisActivity&gt;/PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="create-intent-for-imported-file.html">createIntentForImportedFile</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision/createIntentForImportedFile/#android.content.Intent#android.content.Context#java.lang.Class&lt;? extends net.gini.android.vision.review.ReviewActivity&gt;#java.lang.Class&lt;? extends net.gini.android.vision.analysis.AnalysisActivity&gt;/PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"><div class="brief "><p class="paragraph"><p class="paragraph">Screen API </p><p class="paragraph"> When your application receives a file from another application you can use this method to create an Intent for launching the Gini Vision Library. </p><p class="paragraph"> Start the Intent with <a href="https://developer.android.com/reference/kotlin/android/app/Activity.html#startactivityforresult">startActivityForResult</a> to receive the extractions or a <a href="../-gini-vision-error/index.html">GiniVisionError</a> in case there was an error.</p></p></div></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block"><div class="block"><div class="block">@<a href="https://developer.android.com/reference/kotlin/androidx/annotation/NonNull.html">NonNull</a>()</div></div>static <a href="https://developer.android.com/reference/kotlin/android/content/Intent.html">Intent</a> <a href="create-intent-for-imported-file.html">createIntentForImportedFile</a>(<a href="https://developer.android.com/reference/kotlin/android/content/Intent.html">Intent</a> <a href="create-intent-for-imported-file.html">intent</a>, <a href="https://developer.android.com/reference/kotlin/android/content/Context.html">Context</a> <a href="create-intent-for-imported-file.html">context</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html">Class</a>&lt;? extends <a href="../../net.gini.android.vision.review/-review-activity/index.html">ReviewActivity</a>&gt; <a href="create-intent-for-imported-file.html">reviewActivityClass</a>, <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/Class.html">Class</a>&lt;? extends <a href="../../net.gini.android.vision.analysis/-analysis-activity/index.html">AnalysisActivity</a>&gt; <a href="create-intent-for-imported-file.html">analysisActivityClass</a>)<span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+<a data-name="net.gini.android.vision/GiniVision/createIntentForImportedFiles/#android.content.Intent#android.content.Context#net.gini.android.vision.AsyncCallback&lt;android.content.Intent,net.gini.android.vision.ImportedFileValidationException&gt;/PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="create-intent-for-imported-files.html">createIntentForImportedFiles</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision/createIntentForImportedFiles/#android.content.Intent#android.content.Context#net.gini.android.vision.AsyncCallback&lt;android.content.Intent,net.gini.android.vision.ImportedFileValidationException&gt;/PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"><div class="brief "><p class="paragraph"><p class="paragraph">Screen API </p><p class="paragraph"> If you have enabled the multi-page feature and your application receives one or multiple files from another application you can use this method to create an Intent for launching the Gini Vision Library. </p><p class="paragraph"> Importing the files is executed on a secondary thread as it can take several seconds for the process to complete. The callback methods are invoked on the main thread. </p><p class="paragraph"> In your callback's <code>{@code onSuccess(Intent)}</code> method start the Intent with <a href="https://developer.android.com/reference/kotlin/android/app/Activity.html#startactivityforresult"></a> to receive the extractions or a <a href="../-gini-vision-error/index.html">GiniVisionError</a> in case there was an error.</p></p></div></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block"><div class="block"><div class="block">@<a href="https://developer.android.com/reference/kotlin/androidx/annotation/NonNull.html">NonNull</a>()</div></div><span data-unresolved-link="net.gini.android.vision.util/CancellationToken///PointingToDeclaration/">CancellationToken</span> <a href="create-intent-for-imported-files.html">createIntentForImportedFiles</a>(<a href="https://developer.android.com/reference/kotlin/android/content/Intent.html">Intent</a> <a href="create-intent-for-imported-files.html">intent</a>, <a href="https://developer.android.com/reference/kotlin/android/content/Context.html">Context</a> <a href="create-intent-for-imported-files.html">context</a>, <a href="../-async-callback/index.html">AsyncCallback</a>&lt;<a href="https://developer.android.com/reference/kotlin/android/content/Intent.html">Intent</a>, <a href="../-imported-file-validation-exception/index.html">ImportedFileValidationException</a>&gt; <a href="create-intent-for-imported-files.html">callback</a>)<span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+<a data-name="net.gini.android.vision/GiniVision/getCustomOnboardingPages/#/PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="get-custom-onboarding-pages.html">getCustomOnboardingPages</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision/getCustomOnboardingPages/#/PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"><div class="brief "><p class="paragraph">The custom Onboarding Screen pages, if configured.</p></div></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block"><div class="block"><div class="block">@<a href="https://developer.android.com/reference/kotlin/androidx/annotation/Nullable.html">Nullable</a>()</div></div><a href="https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html">ArrayList</a>&lt;<a href="../../net.gini.android.vision.onboarding/-onboarding-page/index.html">OnboardingPage</a>&gt; <a href="get-custom-onboarding-pages.html">getCustomOnboardingPages</a>()<span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+<a data-name="net.gini.android.vision/GiniVision/getDocumentDataMemoryCache/#/PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="get-document-data-memory-cache.html">getDocumentDataMemoryCache</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision/getDocumentDataMemoryCache/#/PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block"><div class="block"><div class="block">@<a href="https://developer.android.com/reference/kotlin/androidx/annotation/NonNull.html">NonNull</a>()</div></div><span data-unresolved-link="net.gini.android.vision.internal.cache/DocumentDataMemoryCache///PointingToDeclaration/">DocumentDataMemoryCache</span> <a href="get-document-data-memory-cache.html">getDocumentDataMemoryCache</a>()<span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+<a data-name="net.gini.android.vision/GiniVision/getDocumentImportEnabledFileTypes/#/PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="get-document-import-enabled-file-types.html">getDocumentImportEnabledFileTypes</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision/getDocumentImportEnabledFileTypes/#/PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"><div class="brief "><p class="paragraph"><p class="paragraph">Retrieve the file types enabled for document import. </p><p class="paragraph"> Disabled by default.</p></p></div></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block"><div class="block"><div class="block">@<a href="https://developer.android.com/reference/kotlin/androidx/annotation/NonNull.html">NonNull</a>()</div></div><a href="../-document-import-enabled-file-types/index.html">DocumentImportEnabledFileTypes</a> <a href="get-document-import-enabled-file-types.html">getDocumentImportEnabledFileTypes</a>()<span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+<a data-name="net.gini.android.vision/GiniVision/getEventTracker/#/PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="get-event-tracker.html">getEventTracker</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision/getEventTracker/#/PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block"><div class="block"><div class="block">@<a href="https://developer.android.com/reference/kotlin/androidx/annotation/NonNull.html">NonNull</a>()</div></div><a href="../../net.gini.android.vision.tracking/-event-tracker/index.html">EventTracker</a> <a href="get-event-tracker.html">getEventTracker</a>()<span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+<a data-name="net.gini.android.vision/GiniVision/getGiniVisionNetworkApi/#/PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="get-gini-vision-network-api.html">getGiniVisionNetworkApi</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision/getGiniVisionNetworkApi/#/PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"><div class="brief "><p class="paragraph">Retrieve the <a href="../../net.gini.android.vision.network/-gini-vision-network-api/index.html">GiniVisionNetworkApi</a> instance, if available.</p></div></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block"><div class="block"><div class="block">@<a href="https://developer.android.com/reference/kotlin/androidx/annotation/Nullable.html">Nullable</a>()</div></div><a href="../../net.gini.android.vision.network/-gini-vision-network-api/index.html">GiniVisionNetworkApi</a> <a href="get-gini-vision-network-api.html">getGiniVisionNetworkApi</a>()<span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+<a data-name="net.gini.android.vision/GiniVision/getGiniVisionNetworkService/#/PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="get-gini-vision-network-service.html">getGiniVisionNetworkService</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision/getGiniVisionNetworkService/#/PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block"><div class="block"><div class="block">@<a href="https://developer.android.com/reference/kotlin/androidx/annotation/Nullable.html">Nullable</a>()</div></div><a href="../../net.gini.android.vision.network/-gini-vision-network-service/index.html">GiniVisionNetworkService</a> <a href="get-gini-vision-network-service.html">getGiniVisionNetworkService</a>()<span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+<a data-name="net.gini.android.vision/GiniVision/getImageDiskStore/#/PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="get-image-disk-store.html">getImageDiskStore</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision/getImageDiskStore/#/PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block"><div class="block"><div class="block">@<a href="https://developer.android.com/reference/kotlin/androidx/annotation/NonNull.html">NonNull</a>()</div></div><span data-unresolved-link="net.gini.android.vision.internal.storage/ImageDiskStore///PointingToDeclaration/">ImageDiskStore</span> <a href="get-image-disk-store.html">getImageDiskStore</a>()<span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+<a data-name="net.gini.android.vision/GiniVision/getImageMultiPageDocumentMemoryStore/#/PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="get-image-multi-page-document-memory-store.html">getImageMultiPageDocumentMemoryStore</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision/getImageMultiPageDocumentMemoryStore/#/PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block"><div class="block"><div class="block">@<a href="https://developer.android.com/reference/kotlin/androidx/annotation/NonNull.html">NonNull</a>()</div></div><span data-unresolved-link="net.gini.android.vision.internal.document/ImageMultiPageDocumentMemoryStore///PointingToDeclaration/">ImageMultiPageDocumentMemoryStore</span> <a href="get-image-multi-page-document-memory-store.html">getImageMultiPageDocumentMemoryStore</a>()<span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+<a data-name="net.gini.android.vision/GiniVision/getInstance/#/PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="get-instance.html">getInstance</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision/getInstance/#/PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"><div class="brief "><p class="paragraph">Retrieve the current instance.</p></div></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block"><div class="block"><div class="block">@<a href="https://developer.android.com/reference/kotlin/androidx/annotation/NonNull.html">NonNull</a>()</div></div>static synchronized <a href="index.html">GiniVision</a> <a href="get-instance.html">getInstance</a>()<span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+<a data-name="net.gini.android.vision/GiniVision/getNetworkRequestsManager/#/PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="get-network-requests-manager.html">getNetworkRequestsManager</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision/getNetworkRequestsManager/#/PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block"><div class="block"><div class="block">@<a href="https://developer.android.com/reference/kotlin/androidx/annotation/Nullable.html">Nullable</a>()</div></div><span data-unresolved-link="net.gini.android.vision.internal.network/NetworkRequestsManager///PointingToDeclaration/">NetworkRequestsManager</span> <a href="get-network-requests-manager.html">getNetworkRequestsManager</a>()<span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+<a data-name="net.gini.android.vision/GiniVision/getPhotoMemoryCache/#/PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="get-photo-memory-cache.html">getPhotoMemoryCache</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision/getPhotoMemoryCache/#/PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block"><div class="block"><div class="block">@<a href="https://developer.android.com/reference/kotlin/androidx/annotation/NonNull.html">NonNull</a>()</div></div><span data-unresolved-link="net.gini.android.vision.internal.cache/PhotoMemoryCache///PointingToDeclaration/">PhotoMemoryCache</span> <a href="get-photo-memory-cache.html">getPhotoMemoryCache</a>()<span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+<a data-name="net.gini.android.vision/GiniVision/hasInstance/#/PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="has-instance.html">hasInstance</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision/hasInstance/#/PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"><div class="brief "><p class="paragraph">Check whether an instance exists.</p></div></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block">static synchronized boolean <a href="has-instance.html">hasInstance</a>()<span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+<a data-name="net.gini.android.vision/GiniVision/internal/#/PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="internal.html">internal</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision/internal/#/PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"><div class="brief "><p class="paragraph">Internal use only.</p></div></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block"><div class="block"><div class="block">@<a href="https://developer.android.com/reference/kotlin/androidx/annotation/NonNull.html">NonNull</a>()</div></div><a href="-internal/index.html">GiniVision.Internal</a> <a href="internal.html">internal</a>()<span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+<a data-name="net.gini.android.vision/GiniVision/isFileImportEnabled/#/PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="is-file-import-enabled.html">isFileImportEnabled</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision/isFileImportEnabled/#/PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"><div class="brief "><p class="paragraph"><p class="paragraph">Find out whether file import has been enabled. </p><p class="paragraph"> Disabled by default.</p></p></div></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block">boolean <a href="is-file-import-enabled.html">isFileImportEnabled</a>()<span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+<a data-name="net.gini.android.vision/GiniVision/isFlashButtonEnabled/#/PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="is-flash-button-enabled.html">isFlashButtonEnabled</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision/isFlashButtonEnabled/#/PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"><div class="brief "><p class="paragraph"><p class="paragraph">Find out whether the flash button on the Camera Screen has been enabled. </p><p class="paragraph"> Disabled by default.</p></p></div></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block">boolean <a href="is-flash-button-enabled.html">isFlashButtonEnabled</a>()<span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+<a data-name="net.gini.android.vision/GiniVision/isFlashOnByDefault/#/PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="is-flash-on-by-default.html">isFlashOnByDefault</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision/isFlashOnByDefault/#/PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"><div class="brief "><p class="paragraph"><p class="paragraph">Find out whether the camera flash is on or off by default. </p><p class="paragraph"> If not changed, then flash is on by default.</p></p></div></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block">boolean <a href="is-flash-on-by-default.html">isFlashOnByDefault</a>()<span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+<a data-name="net.gini.android.vision/GiniVision/isMultiPageEnabled/#/PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="is-multi-page-enabled.html">isMultiPageEnabled</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision/isMultiPageEnabled/#/PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"><div class="brief "><p class="paragraph"><p class="paragraph">Find out whether scanning multi-page documents has been enabled. </p><p class="paragraph"> Disabled by default</p></p></div></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block">boolean <a href="is-multi-page-enabled.html">isMultiPageEnabled</a>()<span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+<a data-name="net.gini.android.vision/GiniVision/isQRCodeScanningEnabled/#/PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="is-q-r-code-scanning-enabled.html">isQRCodeScanningEnabled</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision/isQRCodeScanningEnabled/#/PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"><div class="brief "><p class="paragraph"><p class="paragraph">Find out whether QRCode scanning has been enabled. </p><p class="paragraph"> Disabled by default.</p></p></div></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block">boolean <a href="is-q-r-code-scanning-enabled.html">isQRCodeScanningEnabled</a>()<span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+<a data-name="net.gini.android.vision/GiniVision/isReturnAssistantEnabled/#/PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="is-return-assistant-enabled.html">isReturnAssistantEnabled</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision/isReturnAssistantEnabled/#/PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"><div class="brief "><p class="paragraph">Find out whether the return assistant has been enabled.</p></div></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block">boolean <a href="is-return-assistant-enabled.html">isReturnAssistantEnabled</a>()<span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+<a data-name="net.gini.android.vision/GiniVision/isSupportedFormatsHelpScreenEnabled/#/PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="is-supported-formats-help-screen-enabled.html">isSupportedFormatsHelpScreenEnabled</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision/isSupportedFormatsHelpScreenEnabled/#/PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"><div class="brief "><p class="paragraph"><p class="paragraph">Find out whether the Supported Formats help screen has been enabled. </p><p class="paragraph"> Enabled by default.</p></p></div></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block">boolean <a href="is-supported-formats-help-screen-enabled.html">isSupportedFormatsHelpScreenEnabled</a>()<span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+<a data-name="net.gini.android.vision/GiniVision/newInstance/#/PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="new-instance.html">newInstance</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision/newInstance/#/PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"><div class="brief "><p class="paragraph">Configure and create a new instance using the returned <a href="-builder/index.html">Builder</a> .</p></div></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block"><div class="block"><div class="block">@<a href="https://developer.android.com/reference/kotlin/androidx/annotation/NonNull.html">NonNull</a>()</div></div>static synchronized <a href="-builder/index.html">GiniVision.Builder</a> <a href="new-instance.html">newInstance</a>()<span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+<a data-name="net.gini.android.vision/GiniVision/setInstance/#net.gini.android.vision.GiniVision/PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="set-instance.html">setInstance</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision/setInstance/#net.gini.android.vision.GiniVision/PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block">static synchronized void <a href="set-instance.html">setInstance</a>(<a href="index.html">GiniVision</a> <a href="set-instance.html">giniVision</a>)<span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+<a data-name="net.gini.android.vision/GiniVision/setShouldShowOnboarding/#boolean/PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="set-should-show-onboarding.html">setShouldShowOnboarding</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision/setShouldShowOnboarding/#boolean/PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"><div class="brief "><p class="paragraph"><p class="paragraph">Screen API only </p><p class="paragraph"> Set to <code>{@code true}</code> to show the Onboarding Screen every time the CameraActivity starts. </p><p class="paragraph"> Default value is <code>{@code false}</code> .</p></p></div></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block">void <a href="set-should-show-onboarding.html">setShouldShowOnboarding</a>(boolean <a href="set-should-show-onboarding.html">shouldShowOnboarding</a>)<span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+<a data-name="net.gini.android.vision/GiniVision/shouldShowOnboarding/#/PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="should-show-onboarding.html">shouldShowOnboarding</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision/shouldShowOnboarding/#/PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"><div class="brief "><p class="paragraph"><p class="paragraph">Screen API only </p><p class="paragraph"> If set to <code>{@code true}</code> , the Onboarding Screen will be shown every every time the CameraActivity starts. </p><p class="paragraph"> Default value is <code>{@code false}</code> . </p><p class="paragraph"> You can change it on the existing GiniVision instance with <a href="set-should-show-onboarding.html"></a> .</p></p></div></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block">boolean <a href="should-show-onboarding.html">shouldShowOnboarding</a>()<span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+<a data-name="net.gini.android.vision/GiniVision/shouldShowOnboardingAtFirstRun/#/PointingToDeclaration/"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow "><span><a href="should-show-onboarding-at-first-run.html">shouldShowOnboardingAtFirstRun</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="net.gini.android.vision/GiniVision/shouldShowOnboardingAtFirstRun/#/PointingToDeclaration/"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.2496 5.3C20.3496 4.5 19.2496 4 18.0496 4C16.8496 4 15.6496 4.5 14.8496 5.3L10.3496 9.8L11.7496 11.2L16.2496 6.7C17.2496 5.7 18.8496 5.7 19.8496 6.7C20.8496 7.7 20.8496 9.3 19.8496 10.3L15.3496 14.8L16.7496 16.2L21.2496 11.7C22.1496 10.8 22.5496 9.7 22.5496 8.5C22.5496 7.3 22.1496 6.2 21.2496 5.3Z"/>
+    <path d="M8.35 16.7998C7.35 17.7998 5.75 17.7998 4.75 16.7998C3.75 15.7998 3.75 14.1998 4.75 13.1998L9.25 8.6998L7.85 7.2998L3.35 11.7998C1.55 13.5998 1.55 16.3998 3.35 18.1998C4.25 19.0998 5.35 19.4998 6.55 19.4998C7.75 19.4998 8.85 19.0998 9.75 18.1998L14.25 13.6998L12.85 12.2998L8.35 16.7998Z"/>
+</svg></span>
+                        <div class="copy-popup-wrapper "><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Link copied to clipboard</span></div>
+                      </span></span>
+                    <div class="platform-tags">
+                      <div class="platform-tag jvm-like">androidJvm</div>
+                    </div>
+                  </div>
+                  <div class="platform-dependent-row keyValue">
+                    <div></div>
+                    <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="brief-with-platform-tags"><div class="inner-brief-with-platform-tags"><div class="brief "><p class="paragraph"><p class="paragraph">Screen API only </p><p class="paragraph"> If set to <code>{@code false}</code> , the Onboarding Screen won't be shown on the first run.</p></p></div></div>
+<span class="pull-right"></span></div>
+
+  <div class="main-subrow">
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block">boolean <a href="should-show-onboarding-at-first-run.html">shouldShowOnboardingAtFirstRun</a>()<span class="top-right-position"><span class="copy-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M5 4H15V16H5V4ZM17 7H19V18V20H17H8V18H17V7Z" fill="black"/>
+                       </svg></span><div class="copy-popup-wrapper popup-to-left"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 14 14 18 9 18C4 18 0 14 0 9C0 4 4 0 9 0C14 0 18 4 18 9ZM14.2 6.2L12.8 4.8L7.5 10.1L5.3 7.8L3.8 9.2L7.5 13L14.2 6.2Z" fill="#4DBB5F"/>
+</svg><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer"><span class="go-to-top-icon"><a href="#container"><svg width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M11.3337 9.66683H0.666992L6.00033 3.66683L11.3337 9.66683Z" fill="black"/>
+    <path d="M0.666992 0.333496H11.3337V1.66683H0.666992V0.333496Z" fill="black"/>
+</svg></a></span><span>© 2020 Copyright</span><span class="pull-right"><span>Sponsored and developed by dokka</span><a href="https://github.com/Kotlin/dokka"><span class="padded-icon"><svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M8 0H2.3949L4.84076 2.44586L0 7.28662L0.713376 8L5.55414 3.15924L8 5.6051V0Z" fill="black"/>
+</svg></span></a></span></div>
+      </div>
+    </div>
+  </body>
+</html>
+
