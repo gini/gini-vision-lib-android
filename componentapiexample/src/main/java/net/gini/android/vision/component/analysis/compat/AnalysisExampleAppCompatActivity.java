@@ -11,10 +11,8 @@ import net.gini.android.vision.analysis.AnalysisFragmentListener;
 import net.gini.android.vision.component.R;
 import net.gini.android.vision.component.noresults.compat.NoResultsExampleAppCompatActivity;
 import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
-import net.gini.android.vision.network.model.GiniVisionReturnReason;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
-import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;

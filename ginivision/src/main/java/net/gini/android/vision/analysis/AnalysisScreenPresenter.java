@@ -1,6 +1,5 @@
 package net.gini.android.vision.analysis;
 
-import static net.gini.android.vision.internal.util.NullabilityHelper.getListOrEmpty;
 import static net.gini.android.vision.internal.util.NullabilityHelper.getMapOrEmpty;
 import static net.gini.android.vision.tracking.EventTrackingHelper.trackAnalysisScreenEvent;
 
@@ -28,7 +27,6 @@ import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.internal.util.FileImportHelper;
 import net.gini.android.vision.internal.util.MimeType;
 import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
-import net.gini.android.vision.network.model.GiniVisionReturnReason;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.tracking.AnalysisScreenEvent;
 import net.gini.android.vision.tracking.AnalysisScreenEvent.ERROR_DETAILS_MAP_KEY;

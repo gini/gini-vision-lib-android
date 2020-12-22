@@ -17,14 +17,12 @@ import net.gini.android.vision.camera.CameraActivity;
 import net.gini.android.vision.network.GiniVisionNetworkApi;
 import net.gini.android.vision.network.GiniVisionNetworkService;
 import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
-import net.gini.android.vision.network.model.GiniVisionReturnReason;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.noresults.NoResultsActivity;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.review.ReviewActivity;
 import net.gini.android.vision.tracking.AnalysisScreenEvent;
 
-import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;

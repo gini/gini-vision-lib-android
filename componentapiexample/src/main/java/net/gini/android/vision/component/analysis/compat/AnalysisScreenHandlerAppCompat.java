@@ -9,17 +9,10 @@ import net.gini.android.vision.analysis.AnalysisFragmentInterface;
 import net.gini.android.vision.component.R;
 import net.gini.android.vision.component.analysis.BaseAnalysisScreenHandler;
 import net.gini.android.vision.component.noresults.compat.NoResultsExampleAppCompatActivity;
-import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
-import net.gini.android.vision.network.model.GiniVisionReturnReason;
-import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Alpar Szotyori on 04.12.2017.

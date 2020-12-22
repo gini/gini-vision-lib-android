@@ -211,7 +211,7 @@ class ExtractionsActivity : AppCompatActivity() {
         abstract var compoundExtractions: List<GiniVisionCompoundExtraction>
     }
 
-    private class ExtractionsViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    private class ExtractionsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var mTextName: TextView
         var mTextValue: TextView
 
