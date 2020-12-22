@@ -188,9 +188,6 @@ public class HelpActivity extends AppCompatActivity {
             case SUPPORTED_FORMATS:
                 launchSupportedFormats();
                 break;
-            case RETURN_ASSISTANT:
-                launchReturnAssistant();
-                break;
             default:
                 throw new IllegalStateException("Unknown HelpItem: " + helpItem);
         }
@@ -210,11 +207,6 @@ public class HelpActivity extends AppCompatActivity {
         final Intent intent = new Intent(this, SupportedFormatsActivity.class);
         intent.putExtra(SupportedFormatsActivity.EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION,
                 mGiniVisionFeatureConfiguration);
-        startActivity(intent);
-    }
-
-    private void launchReturnAssistant() {
-        final Intent intent = new Intent(this, ReturnAssistantHelpActivity.class);
         startActivity(intent);
     }
 }

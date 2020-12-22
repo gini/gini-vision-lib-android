@@ -14,7 +14,6 @@ import net.gini.android.vision.GiniVisionCoordinator;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
 import net.gini.android.vision.camera.CameraActivity;
-import net.gini.android.vision.digitalinvoice.DigitalInvoiceActivity;
 import net.gini.android.vision.network.GiniVisionNetworkApi;
 import net.gini.android.vision.network.GiniVisionNetworkService;
 import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
@@ -499,14 +498,6 @@ public class AnalysisActivity extends AppCompatActivity implements
     @Override
     public void onDefaultPDFAppAlertDialogCancelled() {
         finish();
-    }
-
-    @Override
-    public void onProceedToReturnAssistant(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
-            @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions,
-            @NonNull final List<GiniVisionReturnReason> returnReasons) {
-        startActivityForResult(DigitalInvoiceActivity.createIntent(this, extractions, compoundExtractions, returnReasons),
-                RETURN_ASSISTANT_REQUEST);
     }
 
     @Override

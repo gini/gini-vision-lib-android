@@ -70,7 +70,4 @@ public interface AnalysisFragmentListener {
      */
     void onDefaultPDFAppAlertDialogCancelled();
 
-    void onProceedToReturnAssistant(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
-            @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions,
-            @NonNull final List<GiniVisionReturnReason> returnReasons);
 }

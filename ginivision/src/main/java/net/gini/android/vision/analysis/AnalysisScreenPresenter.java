@@ -15,8 +15,6 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.R;
-import net.gini.android.vision.digitalinvoice.DigitalInvoiceException;
-import net.gini.android.vision.digitalinvoice.LineItemsValidator;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.GiniVisionDocument;
 import net.gini.android.vision.document.GiniVisionDocumentError;
@@ -80,12 +78,6 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
 
         @Override
         public void onDefaultPDFAppAlertDialogCancelled() {
-        }
-
-        @Override
-        public void onProceedToReturnAssistant(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
-                @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions,
-                @NonNull final List<GiniVisionReturnReason> returnReasons) {
         }
 
     };
@@ -359,24 +351,10 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
                                             .onProceedToNoExtractionsScreen(mMultiPageDocument);
                                     return null;
                                 }
-                                if (isReturnAssistantEnabled()) {
-                                    try {
-                                        LineItemsValidator.validate(resultHolder.getCompoundExtractions());
-                                        getAnalysisFragmentListenerOrNoOp()
-                                                .onProceedToReturnAssistant(getMapOrEmpty(resultHolder.getExtractions()),
-                                                        getMapOrEmpty(resultHolder.getCompoundExtractions()),
-                                                        getListOrEmpty(resultHolder.getReturnReasons()));
-                                    } catch (final DigitalInvoiceException notUsed) {
-                                        getAnalysisFragmentListenerOrNoOp()
-                                                .onExtractionsAvailable(getMapOrEmpty(resultHolder.getExtractions()),
-                                                        getMapOrEmpty(resultHolder.getCompoundExtractions()));
-                                    }
-                                } else {
                                     getAnalysisFragmentListenerOrNoOp()
                                             .onExtractionsAvailable(getMapOrEmpty(resultHolder.getExtractions()),
                                                     getMapOrEmpty(resultHolder.getCompoundExtractions()));
-                                }
-                                break;
+
                             case NO_NETWORK_SERVICE:
                                 getAnalysisFragmentListenerOrNoOp().onAnalyzeDocument(
                                         getFirstDocument());

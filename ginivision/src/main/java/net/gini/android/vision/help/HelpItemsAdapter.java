@@ -46,10 +46,6 @@ class HelpItemsAdapter extends RecyclerView.Adapter<HelpItemsAdapter.HelpItemsVi
                 && GiniVision.getInstance().isSupportedFormatsHelpScreenEnabled()) {
             items.add(HelpItem.SUPPORTED_FORMATS);
         }
-        if (GiniVision.hasInstance()
-                && GiniVision.getInstance().isReturnAssistantEnabled()) {
-            items.add(HelpItem.RETURN_ASSISTANT);
-        }
         return items;
     }
 

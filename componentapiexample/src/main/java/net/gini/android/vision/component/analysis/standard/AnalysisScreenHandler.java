@@ -4,12 +4,20 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 
+import androidx.annotation.NonNull;
+
 import net.gini.android.vision.Document;
 import net.gini.android.vision.analysis.AnalysisFragmentInterface;
 import net.gini.android.vision.analysis.AnalysisFragmentStandard;
 import net.gini.android.vision.component.R;
 import net.gini.android.vision.component.analysis.BaseAnalysisScreenHandler;
 import net.gini.android.vision.component.noresults.standard.NoResultsExampleActivity;
+import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
+import net.gini.android.vision.network.model.GiniVisionReturnReason;
+import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Alpar Szotyori on 04.12.2017.
@@ -68,6 +76,5 @@ public class AnalysisScreenHandler extends BaseAnalysisScreenHandler {
     @Override
     protected void setUpActionBar() {
     }
-
 
 }

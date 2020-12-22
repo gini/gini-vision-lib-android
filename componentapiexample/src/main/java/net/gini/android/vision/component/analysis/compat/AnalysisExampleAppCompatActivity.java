@@ -65,13 +65,6 @@ public class AnalysisExampleAppCompatActivity extends AppCompatActivity implemen
     }
 
     @Override
-    public void onProceedToReturnAssistant(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
-            @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions,
-            @NonNull final List<GiniVisionReturnReason> returnReasons) {
-        mAnalysisScreenHandler.onProceedToReturnAssistant(extractions, compoundExtractions, returnReasons);
-    }
-
-    @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_analysis_compat);
