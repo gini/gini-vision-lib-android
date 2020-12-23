@@ -246,13 +246,6 @@ public class AnalysisScreenTest {
             public void onDefaultPDFAppAlertDialogCancelled() {
 
             }
-
-            @Override
-            public void onProceedToReturnAssistant(
-                    @NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
-                    @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions) {
-
-            }
         };
         final Intent intent = new Intent(ApplicationProvider.getApplicationContext(),
                 AnalysisFragmentHostActivityNotListener.class);

@@ -42,7 +42,6 @@ import net.gini.android.vision.internal.util.FileImportHelper;
 import net.gini.android.vision.internal.util.Size;
 import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
 import net.gini.android.vision.network.model.GiniVisionExtraction;
-import net.gini.android.vision.network.model.GiniVisionReturnReason;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.tracking.AnalysisScreenEvent;
 import net.gini.android.vision.tracking.Event;
@@ -667,8 +666,7 @@ public class AnalysisScreenPresenterTest {
         analysisFuture.complete(new AnalysisInteractor.ResultHolder(
                 AnalysisInteractor.Result.SUCCESS_WITH_EXTRACTIONS,
                 Collections.<String, GiniVisionSpecificExtraction>emptyMap(),
-                Collections.singletonMap("lineItems", mock(GiniVisionCompoundExtraction.class)),
-                Collections.<GiniVisionReturnReason>emptyList()
+                Collections.singletonMap("lineItems", mock(GiniVisionCompoundExtraction.class)),Collections.<String, GiniVisionCompoundExtraction>emptyMap()
         ));
 
         final AnalysisScreenPresenter presenter = createPresenterWithAnalysisFuture(imageDocument,
@@ -698,7 +696,7 @@ public class AnalysisScreenPresenterTest {
                 new CompletableFuture<>();
         analysisFuture.complete(new AnalysisInteractor.ResultHolder(
                 AnalysisInteractor.Result.SUCCESS_WITH_EXTRACTIONS,
-                extractions, Collections.<String, GiniVisionCompoundExtraction>emptyMap(), Collections.<GiniVisionReturnReason>emptyList()));
+                extractions, Collections.<String, GiniVisionCompoundExtraction>emptyMap(),Collections.<String, GiniVisionCompoundExtraction>emptyMap()));
 
         final AnalysisScreenPresenter presenter = createPresenterWithAnalysisFuture(imageDocument,
                 analysisFuture);
@@ -745,7 +743,6 @@ public class AnalysisScreenPresenterTest {
         when(mActivity.getString(anyInt())).thenReturn("A String");
 
         final GiniVision giniVision = mock(GiniVision.class);
-        when(giniVision.isReturnAssistantEnabled()).thenReturn(true);
 
         GiniVisionHelper.setGiniVisionInstance(giniVision);
 
@@ -758,7 +755,7 @@ public class AnalysisScreenPresenterTest {
                 new CompletableFuture<>();
         analysisFuture.complete(new AnalysisInteractor.ResultHolder(
                 AnalysisInteractor.Result.SUCCESS_WITH_EXTRACTIONS,
-                extractions, compoundExtractions, Collections.<GiniVisionReturnReason>emptyList()));
+                extractions, compoundExtractions));
 
         final AnalysisScreenPresenter presenter = createPresenterWithAnalysisFuture(imageDocument,
                 analysisFuture);
@@ -769,44 +766,7 @@ public class AnalysisScreenPresenterTest {
         // When
         presenter.start();
 
-        // Then
-        verify(listener).onProceedToReturnAssistant(extractions, compoundExtractions, Collections.<GiniVisionReturnReason>emptyList());
     }
-
-    @Test
-    public void should_notProceedToReturnAssistant_whenAnalysisSucceeded_withLineItems_andReturnAssistant_isNotEnabled()
-            throws Exception {
-        // Given
-        when(mActivity.getString(anyInt())).thenReturn("A String");
-
-        final GiniVision giniVision = mock(GiniVision.class);
-        when(giniVision.isReturnAssistantEnabled()).thenReturn(false);
-
-        GiniVisionHelper.setGiniVisionInstance(giniVision);
-
-        final ImageDocument imageDocument = new ImageDocumentFake();
-
-        final Map<String, GiniVisionSpecificExtraction> extractions = Collections.singletonMap(
-                "extraction", mock(GiniVisionSpecificExtraction.class));
-        final Map<String, GiniVisionCompoundExtraction> compoundExtractions = Collections.singletonMap(
-                "lineItems", mock(GiniVisionCompoundExtraction.class));
-        final CompletableFuture<AnalysisInteractor.ResultHolder> analysisFuture =
-                new CompletableFuture<>();
-        analysisFuture.complete(new AnalysisInteractor.ResultHolder(
-                AnalysisInteractor.Result.SUCCESS_WITH_EXTRACTIONS,
-                extractions, compoundExtractions, Collections.<GiniVisionReturnReason>emptyList()));
-
-        final AnalysisScreenPresenter presenter = createPresenterWithAnalysisFuture(imageDocument,
-                analysisFuture);
-
-        final AnalysisFragmentListener listener = mock(AnalysisFragmentListener.class);
-        presenter.setListener(listener);
-
-        // When
-        presenter.start();
-
-        // Then
-        verify(listener).onExtractionsAvailable(extractions, compoundExtractions);
     }
 
     @Test
