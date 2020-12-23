@@ -13,7 +13,6 @@ import net.gini.android.vision.internal.network.AnalysisNetworkRequestResult;
 import net.gini.android.vision.internal.network.NetworkRequestResult;
 import net.gini.android.vision.internal.network.NetworkRequestsManager;
 import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
-import net.gini.android.vision.network.model.GiniVisionReturnReason;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
 import java.util.ArrayList;
@@ -75,8 +74,7 @@ public class AnalysisInteractor {
                                     } else {
                                         return new ResultHolder(Result.SUCCESS_WITH_EXTRACTIONS,
                                                 extractions,
-                                                compoundExtractions,
-                                                requestResult.getAnalysisResult().getReturnReasons());
+                                                compoundExtractions);
                                     }
                                 }
                                 return null;
@@ -163,23 +161,18 @@ public class AnalysisInteractor {
         private final Result mResult;
         private final Map<String, GiniVisionSpecificExtraction> mExtractions;
         private final Map<String, GiniVisionCompoundExtraction> mCompoundExtractions;
-        private final List<GiniVisionReturnReason> mReturnReasons;
-
         ResultHolder(@NonNull final Result result) {
             this(result, Collections.<String, GiniVisionSpecificExtraction>emptyMap(),
-                    Collections.<String, GiniVisionCompoundExtraction>emptyMap(),
-                    Collections.<GiniVisionReturnReason>emptyList());
+                    Collections.<String, GiniVisionCompoundExtraction>emptyMap());
         }
 
         ResultHolder(
                 @NonNull final Result result,
                 @NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
-                @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions,
-                @NonNull final List<GiniVisionReturnReason> returnReasons) {
+                @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions) {
             mResult = result;
             mExtractions = extractions;
             mCompoundExtractions = compoundExtractions;
-            mReturnReasons = returnReasons;
         }
 
         @NonNull
@@ -195,11 +188,6 @@ public class AnalysisInteractor {
         @NonNull
         public Map<String, GiniVisionCompoundExtraction> getCompoundExtractions() {
             return mCompoundExtractions;
-        }
-
-        @NonNull
-        public List<GiniVisionReturnReason> getReturnReasons() {
-            return mReturnReasons;
         }
     }
 }

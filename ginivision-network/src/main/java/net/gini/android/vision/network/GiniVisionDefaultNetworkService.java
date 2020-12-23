@@ -18,9 +18,7 @@ import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.network.model.CompoundExtractionsMapper;
 import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
-import net.gini.android.vision.network.model.GiniVisionReturnReason;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
-import net.gini.android.vision.network.model.ReturnReasonsMapper;
 import net.gini.android.vision.network.model.SpecificExtractionMapper;
 import net.gini.android.vision.util.CancellationToken;
 import net.gini.android.vision.util.NoOpCancellationToken;
@@ -269,13 +267,11 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                                             SpecificExtractionMapper.mapToGVL(task.getResult().getSpecificExtractions());
                                     final Map<String, GiniVisionCompoundExtraction> compoundExtractions =
                                             CompoundExtractionsMapper.mapToGVL(task.getResult().getCompoundExtractions());
-                                    final List<GiniVisionReturnReason> returnReasons =
-                                            ReturnReasonsMapper.mapToGVL((task.getResult().getReturnReasons()));
                                     LOG.debug("Document analysis success for documents {}: extractions = {}; compoundExtractions = {}; returnReasons = {}",
-                                            giniApiDocumentIdRotationMap, extractions, compoundExtractions, returnReasons);
+                                            giniApiDocumentIdRotationMap, extractions, compoundExtractions);
                                     callback.success(
                                             new AnalysisResult(compositeDocument.get().getId(),
-                                                    extractions, compoundExtractions, returnReasons));
+                                                    extractions, compoundExtractions));
                                 } else {
                                     LOG.debug("Document analysis cancelled for documents {}",
                                             giniApiDocumentIdRotationMap);

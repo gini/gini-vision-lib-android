@@ -49,10 +49,4 @@ public class AnalysisFragmentHostActivity extends
     public void onDefaultPDFAppAlertDialogCancelled() {
 
     }
-
-    @Override
-    public void onProceedToReturnAssistant(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
-            @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions) {
-
-    }
 }
