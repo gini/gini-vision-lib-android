@@ -3,7 +3,6 @@ package net.gini.android.vision.analysis;
 import static com.google.common.truth.Truth.assertAbout;
 import static com.google.common.truth.Truth.assertThat;
 
-import static net.gini.android.vision.analysis.AnalysisActivity.RETURN_ASSISTANT_REQUEST;
 import static net.gini.android.vision.test.DocumentSubject.document;
 import static net.gini.android.vision.test.Helpers.createDocument;
 import static net.gini.android.vision.test.Helpers.getTestJpeg;
@@ -21,7 +20,6 @@ import android.view.Surface;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
-import net.gini.android.vision.digitalinvoice.DigitalInvoiceActivity;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.internal.camera.photo.PhotoFactory;
@@ -279,41 +277,4 @@ public class AnalysisScreenTest {
         assertThat(activity.isAnalysisRequested()).isTrue();
     }
 
-    @Test
-    public void should_startDigitalInvoiceActivity_whenProceedingToReturnAssistant()
-            throws Exception {
-        // Given
-        final Intent intent = getAnalysisActivityIntent();
-        addDocumentExtraToIntent(intent, TEST_JPEG, 0);
-        final AnalysisActivity analysisActivity = mIntentsTestRule.launchActivity(intent);
-
-        // When
-        analysisActivity.onProceedToReturnAssistant(
-                Collections.<String, GiniVisionSpecificExtraction>emptyMap(),
-                Collections.<String, GiniVisionCompoundExtraction>emptyMap());
-
-        // Then
-        intended(IntentMatchers.hasComponent(DigitalInvoiceActivity.class.getName()));
-    }
-
-    @Test
-    public void should_forwardResult_fromDigitalInvoice_andFinish()
-            throws Exception {
-        // Given
-        final AnalysisActivityTestSpy analysisActivity = startAnalysisActivity(TEST_JPEG, 0);
-
-        // When
-        final Intent resultIntent = new Intent();
-        final int resultCode = 42;
-        analysisActivity.onActivityResult(RETURN_ASSISTANT_REQUEST, resultCode,
-                resultIntent);
-
-        // Then
-        final Instrumentation.ActivityResult activityResult = mActivityTestRule.getActivityResult();
-
-        assertThat(activityResult.getResultCode()).isEqualTo(resultCode);
-        assertThat(activityResult.getResultData()).isEqualTo(resultIntent);
-
-        assertThat(analysisActivity.finishWasCalled).isTrue();
-    }
 }

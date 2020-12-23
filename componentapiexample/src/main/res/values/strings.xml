@@ -51,12 +51,6 @@
         <item>ACCOUNTING</item>
     </string-array>
 
-    <string name="digital_invoice_screen_title">Digitale Rechnung</string>
-    <string name="digital_invoice_screen_subtitle">Zahlen Sie nur was Sie behalten</string>
-
-    <string name="line_item_details_screen_title">Details</string>
-    <string name="line_item_details_screen_subtitle">Korrigieren Sie falsche Werte</string>
-
     <!-- String customization examples -->
 
     <!--<string name="gv_title_camera">Dokument fotografieren</string>-->
