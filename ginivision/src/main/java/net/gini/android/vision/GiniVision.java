@@ -79,7 +79,6 @@ public class GiniVision {
     private final boolean mBackButtonsEnabled;
     private final boolean mIsFlashOnByDefault;
     private final EventTracker mEventTracker;
-    private final boolean mReturnAssistantEnabled;
 
     /**
      * Retrieve the current instance.
@@ -176,7 +175,6 @@ public class GiniVision {
         mBackButtonsEnabled = builder.areBackButtonsEnabled();
         mIsFlashOnByDefault = builder.isFlashOnByDefault();
         mEventTracker = builder.getEventTracker();
-        mReturnAssistantEnabled = builder.isReturnAssistantEnabled();
     }
 
     /**
@@ -341,16 +339,6 @@ public class GiniVision {
      */
     public boolean isFlashOnByDefault() {
         return mIsFlashOnByDefault;
-    }
-
-
-    /**
-     * Find out whether the return assistant has been enabled.
-     *
-     * @return {@code true} if the return assistant was enabled
-     */
-    public boolean isReturnAssistantEnabled() {
-        return mReturnAssistantEnabled;
     }
 
     /**
@@ -842,23 +830,6 @@ public class GiniVision {
             return mEventTracker;
         }
 
-        /**
-         * Enable/disable the return assistant feature.
-         *
-         * <p> Disabled by default.
-         *
-         * @param enabled {@code true} to enable the return assistant
-         *
-         * @return the {@link Builder} instance
-         */
-        public Builder setReturnAssistantEnabled(final boolean enabled) {
-            mReturnAssistantEnabled = enabled;
-            return this;
-        }
-
-        boolean isReturnAssistantEnabled() {
-            return mReturnAssistantEnabled;
-        }
     }
 
     /**

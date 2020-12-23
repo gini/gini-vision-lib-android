@@ -369,10 +369,6 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
                 });
     }
 
-    private boolean isReturnAssistantEnabled() {
-        return GiniVision.hasInstance() && GiniVision.getInstance().isReturnAssistantEnabled();
-    }
-
     private void loadDocumentData() {
         LOG.debug("Loading document data");
         mMultiPageDocument.loadData(getActivity(),

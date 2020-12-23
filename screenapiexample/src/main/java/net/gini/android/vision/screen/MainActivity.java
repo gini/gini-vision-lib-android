@@ -328,7 +328,6 @@ public class MainActivity extends AppCompatActivity {
         }
         builder.setFlashButtonEnabled(true);
         builder.setEventTracker(new GVLEventTracker());
-        builder.setReturnAssistantEnabled(true);
         // Uncomment to turn off the camera flash by default
 //        builder.setFlashOnByDefault(false);
         // Uncomment to disable back buttons (except in the review and analysis screens)
