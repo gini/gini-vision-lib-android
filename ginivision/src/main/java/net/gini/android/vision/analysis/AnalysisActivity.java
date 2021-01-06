@@ -239,9 +239,6 @@ public class AnalysisActivity extends AppCompatActivity implements
 
     private static final String ANALYSIS_FRAGMENT = "ANALYSIS_FRAGMENT";
 
-    @VisibleForTesting
-    static final int RETURN_ASSISTANT_REQUEST = 1;
-
     private String mAnalysisErrorMessage;
     private Document mDocument;
     private AnalysisFragmentCompat mFragment;
@@ -496,15 +493,5 @@ public class AnalysisActivity extends AppCompatActivity implements
     @Override
     public void onDefaultPDFAppAlertDialogCancelled() {
         finish();
-    }
-
-    @Override
-    protected void onActivityResult(final int requestCode, final int resultCode,
-            final Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RETURN_ASSISTANT_REQUEST) {
-            setResult(resultCode, data);
-            finish();
-        }
     }
 }
