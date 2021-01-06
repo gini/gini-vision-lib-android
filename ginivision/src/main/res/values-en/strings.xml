@@ -9,7 +9,6 @@
     <string name="gv_title_file_import">Open documents from other apps</string>
     <string name="gv_title_multi_page_review">Check photo quality</string>
     <string name="gv_show_onboarding">Help</string>
-    <string name="gv_select_from_camera_roll">Select photo from camera roll</string>
     <string name="gv_camera_error_no_permission">To photograph a document, please grant us permission to use the camera</string>
     <string name="gv_camera_error_no_permission_button_title">Grant permission</string>
     <string name="gv_camera_image_stack_subtitle">Pages</string>

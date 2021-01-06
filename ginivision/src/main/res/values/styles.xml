@@ -242,14 +242,6 @@
         <item name="gvCustomFont" />
     </style>
 
-    <style name="GiniVisionTheme.BottomSheet.Style" parent="@style/Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/gv_bottom_sheet_background</item>
-    </style>
-
-    <style name="Root.GiniVisionTheme.BottomSheetDialog" parent="Theme.Design.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/GiniVisionTheme.BottomSheet.Style</item>
-    </style>
-
     <!-- Text styles used in the layouts which are overridable for customization -->
 
     <style name="GiniVisionTheme.Camera.Error.NoPermission.TextStyle" parent="Root.GiniVisionTheme.Camera.Error.NoPermission.TextStyle" />
@@ -315,8 +307,6 @@
     <style name="GiniVisionTheme.Review.MultiPage.ThumbnailBadge.TextStyle" parent="Root.GiniVisionTheme.Review.MultiPage.ThumbnailBadge.TextStyle" />
 
     <style name="GiniVisionTheme.Review.MultiPage.PageIndicator.TextStyle" parent="Root.GiniVisionTheme.Review.MultiPage.PageIndicator.TextStyle" />
-
-    <style name="GiniVisionTheme.BottomSheetDialog" parent="Root.GiniVisionTheme.BottomSheetDialog" />
 
 
 </resources>

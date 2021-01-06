@@ -95,7 +95,6 @@
     <color name="gv_supported_formats_item_background">#fff</color>
 
     <color name="gv_supported_formats_item_header">#000</color>
-    <color name="gv_supported_formats_item_header_background">#f2f2f2</color>
     <color name="gv_supported_formats_item_supported_icon_background">#b8e986</color>
     <color name="gv_supported_formats_item_supported_icon_foreground">#fff</color>
     <color name="gv_supported_formats_item_unsupported_icon_background">#ff4f65</color>
@@ -120,5 +119,4 @@
     <color name="gv_multi_page_review_page_indicator_text">#fff</color>
     <color name="gv_multi_page_review_page_indicator_background">#82000000</color>
 
-    <color name="gv_bottom_sheet_background">#fff</color>
 </resources>
