@@ -67,6 +67,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.test.InstrumentationRegistry;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
@@ -74,10 +75,10 @@ import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.RequiresDevice;
 import androidx.test.filters.SdkSuppress;
 import androidx.test.rule.ActivityTestRule;
-import androidx.test.runner.AndroidJUnit4;
 import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiSelector;
@@ -121,7 +122,7 @@ public class CameraScreenTest {
         // Wait a little for the camera to close
         Thread.sleep(CLOSE_CAMERA_PAUSE_DURATION);
         resetDeviceOrientation();
-        GiniVision.cleanup(InstrumentationRegistry.getTargetContext());
+        GiniVision.cleanup(ApplicationProvider.getApplicationContext());
     }
 
     @Test
@@ -142,11 +143,11 @@ public class CameraScreenTest {
     private <T extends CameraActivity> Intent getCameraActivityIntent(
             @NonNull final Class<T> cameraActivityClass,
             @Nullable final GiniVisionFeatureConfiguration featureConfiguration) {
-        final Intent intent = new Intent(InstrumentationRegistry.getTargetContext(),
+        final Intent intent = new Intent(ApplicationProvider.getApplicationContext(),
                 cameraActivityClass);
-        CameraActivity.setReviewActivityExtra(intent, InstrumentationRegistry.getTargetContext(),
+        CameraActivity.setReviewActivityExtra(intent, ApplicationProvider.getApplicationContext(),
                 ReviewActivityTestSpy.class);
-        CameraActivity.setAnalysisActivityExtra(intent, InstrumentationRegistry.getTargetContext(),
+        CameraActivity.setAnalysisActivityExtra(intent, ApplicationProvider.getApplicationContext(),
                 AnalysisActivityTestSpy.class);
         if (featureConfiguration != null) {
             intent.putExtra(CameraActivity.EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION,
@@ -772,7 +773,7 @@ public class CameraScreenTest {
 
             }
         };
-        final Intent intent = new Intent(InstrumentationRegistry.getTargetContext(),
+        final Intent intent = new Intent(ApplicationProvider.getApplicationContext(),
                 CameraFragmentHostActivityNotListener.class);
         final CameraFragmentHostActivityNotListener activity =
                 mCameraFragmentHostActivityNotListenerTR.launchActivity(intent);
@@ -794,7 +795,7 @@ public class CameraScreenTest {
     @Test
     public void should_useActivity_asListener_whenAvailable() throws Exception {
         // Given
-        final Intent intent = new Intent(InstrumentationRegistry.getTargetContext(),
+        final Intent intent = new Intent(ApplicationProvider.getApplicationContext(),
                 CameraFragmentHostActivity.class);
         final CameraFragmentHostActivity activity =
                 mCameraFragmentHostActivityTR.launchActivity(intent);

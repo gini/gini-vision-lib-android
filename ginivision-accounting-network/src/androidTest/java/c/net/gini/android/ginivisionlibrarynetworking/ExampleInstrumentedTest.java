@@ -7,8 +7,8 @@ import android.content.Context;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import androidx.test.InstrumentationRegistry;
-import androidx.test.runner.AndroidJUnit4;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -21,7 +21,7 @@ public class ExampleInstrumentedTest {
     @Test
     public void useAppContext() throws Exception {
         // Context of the app under test.
-        final Context appContext = InstrumentationRegistry.getTargetContext();
+        final Context appContext = ApplicationProvider.getApplicationContext();
 
         assertEquals("c.net.gini.android.ginivisionlibrarynetworking.test",
                 appContext.getPackageName());

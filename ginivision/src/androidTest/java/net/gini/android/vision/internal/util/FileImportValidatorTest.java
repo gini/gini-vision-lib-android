@@ -10,7 +10,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import androidx.test.InstrumentationRegistry;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.filters.RequiresDevice;
 
 /**
@@ -43,7 +43,7 @@ public class FileImportValidatorTest {
     public void should_acceptPDF_withOnePage_andWithoutPassword() throws Exception {
         // Given
         final FileImportValidator fileImportValidator = new FileImportValidator(
-                InstrumentationRegistry.getTargetContext());
+                ApplicationProvider.getApplicationContext());
         // When
         final boolean result = fileImportValidator.matchesCriteria(sPdfContentUri);
         // Then
@@ -55,7 +55,7 @@ public class FileImportValidatorTest {
     public void should_NotAcceptPDF_withOnePage_andWithPassword() throws Exception {
         // Given
         final FileImportValidator fileImportValidator = new FileImportValidator(
-                InstrumentationRegistry.getTargetContext());
+                ApplicationProvider.getApplicationContext());
         // When
         final boolean result = fileImportValidator.matchesCriteria(sPdfWithPasswordContentUri);
         // Then

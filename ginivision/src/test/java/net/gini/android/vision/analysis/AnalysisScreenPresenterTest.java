@@ -666,7 +666,7 @@ public class AnalysisScreenPresenterTest {
         analysisFuture.complete(new AnalysisInteractor.ResultHolder(
                 AnalysisInteractor.Result.SUCCESS_WITH_EXTRACTIONS,
                 Collections.<String, GiniVisionSpecificExtraction>emptyMap(),
-                Collections.singletonMap("lineItems", mock(GiniVisionCompoundExtraction.class)),Collections.<String, GiniVisionCompoundExtraction>emptyMap()
+                Collections.singletonMap("lineItems", mock(GiniVisionCompoundExtraction.class))
         ));
 
         final AnalysisScreenPresenter presenter = createPresenterWithAnalysisFuture(imageDocument,
@@ -696,7 +696,7 @@ public class AnalysisScreenPresenterTest {
                 new CompletableFuture<>();
         analysisFuture.complete(new AnalysisInteractor.ResultHolder(
                 AnalysisInteractor.Result.SUCCESS_WITH_EXTRACTIONS,
-                extractions, Collections.<String, GiniVisionCompoundExtraction>emptyMap(),Collections.<String, GiniVisionCompoundExtraction>emptyMap()));
+                extractions, Collections.<String, GiniVisionCompoundExtraction>emptyMap()));
 
         final AnalysisScreenPresenter presenter = createPresenterWithAnalysisFuture(imageDocument,
                 analysisFuture);
@@ -766,7 +766,6 @@ public class AnalysisScreenPresenterTest {
         // When
         presenter.start();
 
-    }
     }
 
     @Test

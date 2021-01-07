@@ -13,7 +13,7 @@ import org.junit.runner.RunWith;
 
 import java.io.File;
 
-import androidx.test.InstrumentationRegistry;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 /**
@@ -44,7 +44,7 @@ public class UriHelperTest {
         final int expectedSize = getTestFileSize();
         // When
         final int size = UriHelper.getFileSizeFromUri(sContentUri,
-                InstrumentationRegistry.getTargetContext());
+                ApplicationProvider.getApplicationContext());
         // Then
         assertThat(size).isEqualTo(expectedSize);
     }
@@ -60,7 +60,7 @@ public class UriHelperTest {
         final int expectedSize = getTestFileSize();
         // When
         final int size = UriHelper.getFileSizeFromUri(fileUri,
-                InstrumentationRegistry.getTargetContext());
+                ApplicationProvider.getApplicationContext());
         // Then
         assertThat(size).isEqualTo(expectedSize);
     }
@@ -74,7 +74,7 @@ public class UriHelperTest {
     public void should_getFilename_forContentUri() {
         // When
         final String filename = UriHelper.getFilenameFromUri(sContentUri,
-                InstrumentationRegistry.getTargetContext());
+                ApplicationProvider.getApplicationContext());
         // Then
         assertThat(filename).isEqualTo(TEST_FILE);
     }
@@ -85,7 +85,7 @@ public class UriHelperTest {
         final Uri fileUri = getTestFileFileUri();
         // When
         final String filename = UriHelper.getFilenameFromUri(fileUri,
-                InstrumentationRegistry.getTargetContext());
+                ApplicationProvider.getApplicationContext());
         // Then
         assertThat(filename).isEqualTo(TEST_FILE);
     }

@@ -39,7 +39,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
 
 import androidx.annotation.NonNull;
-import androidx.test.InstrumentationRegistry;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 /**
@@ -57,7 +57,7 @@ public class NetworkRequestsManagerTest {
 
     @Before
     public void setup() {
-        mContext = InstrumentationRegistry.getTargetContext();
+        mContext = ApplicationProvider.getApplicationContext();
         mGiniVisionNetworkService = spy(new GiniVisionNetworkServiceStub());
         mDocumentDataMemoryCache = new DocumentDataMemoryCache();
     }

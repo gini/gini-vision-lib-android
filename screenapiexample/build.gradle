@@ -106,19 +106,11 @@ dependencies {
 
     testImplementation deps.junit
 
-    androidTestImplementation(deps.androidxTestRunner, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    androidTestImplementation(deps.androidxTestRunner)
     androidTestImplementation deps.truth
-    androidTestImplementation(deps.androidxTestRules, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    androidTestImplementation(deps.androidxTestEspressoCore, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    androidTestImplementation(deps.androidxTestEspressoIntents, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    androidTestImplementation(deps.androidxTestRules)
+    androidTestImplementation(deps.androidxTestEspressoCore)
+    androidTestImplementation(deps.androidxTestEspressoIntents)
     androidTestImplementation deps.androidxTestUiAutomator
     androidTestImplementation deps.mockito
     androidTestImplementation deps.mockitoAndroid

@@ -3,6 +3,10 @@ package c.net.gini.android.ginivisionlibrarynetworking;
 import static org.junit.Assert.assertEquals;
 
 import android.content.Context;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -17,7 +21,7 @@ public class ExampleInstrumentedTest {
     @Test
     public void useAppContext() throws Exception {
         // Context of the app under test.
-        final Context appContext = InstrumentationRegistry.getTargetContext();
+        final Context appContext = ApplicationProvider.getApplicationContext();
 
         assertEquals("c.net.gini.android.ginivisionlibrarynetworking.test",
                 appContext.getPackageName());

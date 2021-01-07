@@ -26,6 +26,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
@@ -57,7 +58,7 @@ public class OnboardingScreenTest {
     public void tearDown() throws Exception {
         OnboardingFragmentHostActivityNotListener.sListener = null;
         resetDeviceOrientation();
-        GiniVision.cleanup(InstrumentationRegistry.getTargetContext());
+        GiniVision.cleanup(ApplicationProvider.getApplicationContext());
     }
 
     @Test
@@ -187,7 +188,7 @@ public class OnboardingScreenTest {
 
     @NonNull
     private Intent getOnboardingActivityIntent() {
-        return new Intent(InstrumentationRegistry.getTargetContext(), OnboardingActivity.class);
+        return new Intent(ApplicationProvider.getApplicationContext(), OnboardingActivity.class);
     }
 
     @Test
@@ -205,7 +206,7 @@ public class OnboardingScreenTest {
 
             }
         };
-        final Intent intent = new Intent(InstrumentationRegistry.getTargetContext(),
+        final Intent intent = new Intent(ApplicationProvider.getApplicationContext(),
                 OnboardingFragmentHostActivityNotListener.class);
         final OnboardingFragmentHostActivityNotListener activity =
                 mOnboardingFragmentHostActivityNotListenerTR.launchActivity(intent);
@@ -224,7 +225,7 @@ public class OnboardingScreenTest {
     @Test
     public void should_useActivity_asListener_whenAvailable() throws Exception {
         // Given
-        final Intent intent = new Intent(InstrumentationRegistry.getTargetContext(),
+        final Intent intent = new Intent(ApplicationProvider.getApplicationContext(),
                 OnboardingFragmentHostActivity.class);
         final OnboardingFragmentHostActivity activity =
                 mOnboardingFragmentHostActivityTR.launchActivity(intent);

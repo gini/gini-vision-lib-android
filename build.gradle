@@ -96,6 +96,6 @@ ext.deps = [
         androidxTestEspressoIntents: 'androidx.test.espresso:espresso-intents:3.3.0',
         androidxTestUiAutomator    : 'androidx.test.uiautomator:uiautomator:2.2.0',
         androidxMultidex           : 'androidx.multidex:multidex:2.0.1',
-        robolectric                : 'org.robolectric:robolectric:4.4'
+        robolectric                : 'org.robolectric:robolectric:4.5-alpha-3'
 
 ]

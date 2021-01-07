@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import androidx.annotation.NonNull;
-import androidx.test.InstrumentationRegistry;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)
@@ -40,10 +40,10 @@ public class PageIndicatorsTest {
 
     @NonNull
     private OnboardingFragmentImpl.PageIndicators createPageIndicatorsInstance(final int nrOfPages) {
-        final LinearLayout linearLayout = new LinearLayout(InstrumentationRegistry.getTargetContext());
+        final LinearLayout linearLayout = new LinearLayout(ApplicationProvider.getApplicationContext());
         final OnboardingFragmentImpl.PageIndicators pageIndicators =
                 new OnboardingFragmentImpl.PageIndicators(
-                        InstrumentationRegistry.getTargetContext(), nrOfPages, linearLayout);
+                        ApplicationProvider.getApplicationContext(), nrOfPages, linearLayout);
         pageIndicators.create();
         return pageIndicators;
     }

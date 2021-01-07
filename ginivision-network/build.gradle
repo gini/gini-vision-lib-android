@@ -9,7 +9,7 @@ android {
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
     buildTypes {
@@ -44,6 +44,7 @@ dependencies {
     testImplementation deps.mockito
 
     androidTestImplementation deps.androidxTestRunner
+    androidTestImplementation deps.androidxTestJUnit
     androidTestImplementation deps.truth
     androidTestImplementation deps.androidxTestEspressoCore
     androidTestImplementation deps.mockito
