@@ -9,6 +9,9 @@ build/
 # Gradle:
 .gradle/
 
+# Share codestyle across team
+!.idea/codeStyles
+
 # User-specific stuff:
 .idea/**/workspace.xml
 .idea/**/tasks.xml
@@ -30,12 +33,28 @@ checkstyle-idea.xml
 .idea/**/uiDesigner.xml
 **/*.iml
 
+# Gradle and Maven with auto-import
+# When using Gradle or Maven with auto-import, you should exclude module files,
+# since they will be recreated, and may cause churn.  Uncomment if using
+# auto-import.
+.idea/artifacts
+.idea/compiler.xml
+.idea/jarRepositories.xml
+.idea/modules.xml
+.idea/*.iml
+.idea/modules
+*.iml
+*.ipr
+
 # IDEA project files that keep changing:
 .idea/misc.xml
 
 # Gradle:
 .idea/**/gradle.xml
 .idea/**/libraries
+
+# Version control
+vcs.xml
 
 # Android Debugging:
 /captures
