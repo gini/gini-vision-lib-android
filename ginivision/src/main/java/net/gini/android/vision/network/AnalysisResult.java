@@ -1,10 +1,7 @@
 package net.gini.android.vision.network;
 
-import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
@@ -21,7 +18,7 @@ import androidx.annotation.NonNull;
 public class AnalysisResult extends Result {
 
     private final Map<String, GiniVisionSpecificExtraction> extractions;
-    private final Map<String, GiniVisionCompoundExtraction> compoundExtractions;
+
     /**
      * Create a new analysis result for a Gini API document id.
      *
@@ -32,22 +29,6 @@ public class AnalysisResult extends Result {
             @NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
         super(giniApiDocumentId);
         this.extractions = extractions;
-        this.compoundExtractions = Collections.emptyMap();
-    }
-
-    /**
-     * Create a new analysis result for a Gini API document id.
-     *
-     * @param giniApiDocumentId the id of a document in the Gini API
-     * @param extractions       the extractions from the Gini API
-     * @param compoundExtractions the compound extractions from the Gini API
-     */
-    public AnalysisResult(@NonNull final String giniApiDocumentId,
-            @NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
-            @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions) {
-        super(giniApiDocumentId);
-        this.extractions = extractions;
-        this.compoundExtractions = compoundExtractions;
     }
 
     /**
@@ -57,13 +38,4 @@ public class AnalysisResult extends Result {
     public Map<String, GiniVisionSpecificExtraction> getExtractions() {
         return extractions;
     }
-
-    /**
-     * @return map of extraction labels and compound extractions
-     */
-    @NonNull
-    public Map<String, GiniVisionCompoundExtraction> getCompoundExtractions() {
-        return compoundExtractions;
-    }
-
 }

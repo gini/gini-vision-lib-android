@@ -1,7 +1,6 @@
 package net.gini.android.vision.network;
 
 import net.gini.android.vision.GiniVision;
-import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
 import java.util.Map;
@@ -41,15 +40,4 @@ public interface GiniVisionNetworkApi {
      * By deleting the credentials, new ones will be generated at the next upload.
      */
     void deleteGiniUserCredentials();
-
-    /**
-     * This method is called by the Gini Vision Library with the compound extractions (e.g., line items) the user has seen. Contains changes
-     * made by the user.
-     * <p>
-     * <b>Note:</b> If the compound extractions are modified in your app, then call this method to have the latest changes available when
-     * the feedback is sent.
-     *
-     * @param compoundExtractions the updated compound extractions
-     */
-    void setUpdatedCompoundExtractions(@NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions);
 }

@@ -7,7 +7,6 @@ import net.gini.android.vision.network.GiniVisionNetworkCallback;
 import net.gini.android.vision.network.GiniVisionNetworkService;
 import net.gini.android.vision.network.Result;
 import net.gini.android.vision.network.model.GiniVisionBox;
-import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
 import net.gini.android.vision.network.model.GiniVisionExtraction;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.util.CancellationToken;
@@ -59,8 +58,7 @@ public class GiniVisionNetworkServiceStub implements GiniVisionNetworkService {
                         new GiniVisionSpecificExtraction("amountToPay",
                                 "1:00EUR", "amountToPay",
                                 new GiniVisionBox(1, 0,0,0,0),
-                                Collections.<GiniVisionExtraction>emptyList())),
-                Collections.<String, GiniVisionCompoundExtraction>emptyMap());
+                                Collections.<GiniVisionExtraction>emptyList())));
     }
 
     public static class CallbackCancellationToken implements CancellationToken {

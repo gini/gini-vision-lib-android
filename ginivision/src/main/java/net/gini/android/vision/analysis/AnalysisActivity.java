@@ -16,7 +16,6 @@ import net.gini.android.vision.R;
 import net.gini.android.vision.camera.CameraActivity;
 import net.gini.android.vision.network.GiniVisionNetworkApi;
 import net.gini.android.vision.network.GiniVisionNetworkService;
-import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.noresults.NoResultsActivity;
 import net.gini.android.vision.onboarding.OnboardingActivity;
@@ -455,8 +454,7 @@ public class AnalysisActivity extends AppCompatActivity implements
 
     @Override
     public void onExtractionsAvailable(
-            @NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
-            @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions) {
+            @NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
         final Intent result = new Intent();
         final Bundle extractionsBundle = new Bundle();
         for (final Map.Entry<String, GiniVisionSpecificExtraction> extraction
@@ -464,12 +462,6 @@ public class AnalysisActivity extends AppCompatActivity implements
             extractionsBundle.putParcelable(extraction.getKey(), extraction.getValue());
         }
         result.putExtra(CameraActivity.EXTRA_OUT_EXTRACTIONS, extractionsBundle);
-        final Bundle compoundExtractionsBundle = new Bundle();
-        for (final Map.Entry<String, GiniVisionCompoundExtraction> extraction
-                : compoundExtractions.entrySet()) {
-            compoundExtractionsBundle.putParcelable(extraction.getKey(), extraction.getValue());
-        }
-        result.putExtra(CameraActivity.EXTRA_OUT_COMPOUND_EXTRACTIONS, compoundExtractionsBundle);
         setResult(RESULT_OK, result);
         finish();
         clearMemory();

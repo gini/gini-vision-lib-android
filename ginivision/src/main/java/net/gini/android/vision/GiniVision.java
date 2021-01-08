@@ -11,7 +11,6 @@ import net.gini.android.vision.internal.network.NetworkRequestsManager;
 import net.gini.android.vision.internal.storage.ImageDiskStore;
 import net.gini.android.vision.network.GiniVisionNetworkApi;
 import net.gini.android.vision.network.GiniVisionNetworkService;
-import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.review.ReviewActivity;
 import net.gini.android.vision.review.multipage.MultiPageReviewFragment;
@@ -137,9 +136,6 @@ public class GiniVision {
             sInstance.mPhotoMemoryCache.clear();
             if (sInstance.mNetworkRequestsManager != null) {
                 sInstance.mNetworkRequestsManager.cleanup();
-            }
-            if (sInstance.mGiniVisionNetworkApi != null) {
-                sInstance.mGiniVisionNetworkApi.setUpdatedCompoundExtractions(Collections.<String, GiniVisionCompoundExtraction>emptyMap());
             }
             sInstance.mImageMultiPageDocumentMemoryStore.clear();
             sInstance.internal().setReviewScreenAnalysisError(null);

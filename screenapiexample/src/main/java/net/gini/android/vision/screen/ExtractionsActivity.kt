@@ -17,7 +17,6 @@ import net.gini.android.vision.accounting.network.GiniVisionAccountingNetworkSer
 import net.gini.android.vision.example.BaseExampleApp
 import net.gini.android.vision.network.Error
 import net.gini.android.vision.network.GiniVisionNetworkCallback
-import net.gini.android.vision.network.model.GiniVisionCompoundExtraction
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction
 import org.json.JSONException
 import org.slf4j.LoggerFactory
@@ -34,14 +33,12 @@ import java.util.*
  */
 class ExtractionsActivity : AppCompatActivity() {
     private var mExtractions: MutableMap<String, GiniVisionSpecificExtraction> = HashMap()
-    private var mCompoundExtractions: Map<String, GiniVisionCompoundExtraction> = HashMap()
     private val mLegacyExtractions: MutableMap<String, SpecificExtraction> = HashMap()
     private var mExtractionsAdapter: ExtractionsAdapter<Any>? = null
 
     companion object {
         private val LOG = LoggerFactory.getLogger(ExtractionsActivity::class.java)
         const val EXTRA_IN_EXTRACTIONS = "EXTRA_IN_EXTRACTIONS"
-        const val EXTRA_IN_COMPOUND_EXTRACTIONS = "EXTRA_IN_COMPOUND_EXTRACTIONS"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -160,9 +157,6 @@ class ExtractionsActivity : AppCompatActivity() {
                 }
             }
         }
-        mCompoundExtractions = intent.extras?.getParcelable<Bundle>(EXTRA_IN_COMPOUND_EXTRACTIONS)?.run {
-            keySet().map { it to getParcelable<GiniVisionCompoundExtraction>(it)!! }.toMap()
-        } ?: emptyMap()
     }
 
     private fun setUpRecyclerView() {
@@ -170,8 +164,7 @@ class ExtractionsActivity : AppCompatActivity() {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(this@ExtractionsActivity)
             adapter = when {
-                mExtractions.isNotEmpty() -> ExtractionsAdapterImpl(getSortedExtractions(mExtractions),
-                        getSortedExtractions(mCompoundExtractions))
+                mExtractions.isNotEmpty() -> ExtractionsAdapterImpl(getSortedExtractions(mExtractions))
                 mLegacyExtractions.isNotEmpty() -> LegacyExtractionsAdapter(getSortedExtractions(mLegacyExtractions))
                 else -> null
             }
@@ -299,7 +292,6 @@ class ExtractionsActivity : AppCompatActivity() {
     private abstract class ExtractionsAdapter<T> :
             RecyclerView.Adapter<ExtractionsViewHolder>() {
         abstract var extractions: List<T>
-        abstract var compoundExtractions: List<GiniVisionCompoundExtraction>
     }
 
     private class ExtractionsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -312,9 +304,8 @@ class ExtractionsActivity : AppCompatActivity() {
         }
     }
 
-    private class ExtractionsAdapterImpl(
-            override var extractions: List<GiniVisionSpecificExtraction>,
-            override var compoundExtractions: List<GiniVisionCompoundExtraction>) : ExtractionsAdapter<GiniVisionSpecificExtraction>() {
+    private class ExtractionsAdapterImpl(override var extractions: List<GiniVisionSpecificExtraction>)
+        : ExtractionsAdapter<GiniVisionSpecificExtraction>() {
 
         override fun onCreateViewHolder(parent: ViewGroup,
                                         viewType: Int): ExtractionsViewHolder {
@@ -328,28 +319,17 @@ class ExtractionsActivity : AppCompatActivity() {
             extractions.getOrNull(position)?.run {
                 holder.mTextName.text = name
                 holder.mTextValue.text = value
-            } ?: compoundExtractions.getOrNull(position - extractions.size)?.run {
-                holder.mTextName.text = name
-                holder.mTextValue.text = StringBuilder().apply {
-                    specificExtractionMaps.forEach { extractionMap ->
-                        extractionMap.forEach { (name, extraction) ->
-                            append("${name}: ${extraction.value}\n")
-                        }
-                        append("\n")
-                    }
-                }
             }
         }
 
         override fun getItemCount(): Int {
-            return extractions.size + compoundExtractions.size
+            return extractions.size
         }
 
     }
 
-    private class LegacyExtractionsAdapter(
-            override var extractions: List<SpecificExtraction>,
-            override var compoundExtractions: List<GiniVisionCompoundExtraction> = emptyList()) : ExtractionsAdapter<SpecificExtraction>() {
+    private class LegacyExtractionsAdapter(override var extractions: List<SpecificExtraction>)
+        : ExtractionsAdapter<SpecificExtraction>() {
 
         override fun onCreateViewHolder(parent: ViewGroup,
                                         viewType: Int): ExtractionsViewHolder {

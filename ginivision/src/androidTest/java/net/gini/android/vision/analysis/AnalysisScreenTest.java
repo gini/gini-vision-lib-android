@@ -12,9 +12,6 @@ import static net.gini.android.vision.test.Helpers.waitForWindowUpdate;
 
 import static org.junit.Assume.assumeTrue;
 
-import static androidx.test.espresso.intent.Intents.intended;
-
-import android.app.Instrumentation;
 import android.content.Intent;
 import android.view.Surface;
 
@@ -23,7 +20,6 @@ import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.document.DocumentFactory;
 import net.gini.android.vision.document.ImageDocument;
 import net.gini.android.vision.internal.camera.photo.PhotoFactory;
-import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.review.ReviewActivity;
 
@@ -35,7 +31,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -43,7 +38,6 @@ import androidx.annotation.NonNull;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
-import androidx.test.espresso.intent.matcher.IntentMatchers;
 import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.filters.SdkSuppress;
@@ -231,9 +225,7 @@ public class AnalysisScreenTest {
             }
 
             @Override
-            public void onExtractionsAvailable(
-                    @NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
-                    @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions) {
+            public void onExtractionsAvailable(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
 
             }
 

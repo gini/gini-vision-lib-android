@@ -10,7 +10,6 @@ import net.gini.android.vision.analysis.AnalysisFragmentCompat;
 import net.gini.android.vision.analysis.AnalysisFragmentListener;
 import net.gini.android.vision.component.R;
 import net.gini.android.vision.component.noresults.compat.NoResultsExampleAppCompatActivity;
-import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
 import java.util.Map;
@@ -47,9 +46,8 @@ public class AnalysisExampleAppCompatActivity extends AppCompatActivity implemen
     }
 
     @Override
-    public void onExtractionsAvailable(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions,
-            @NonNull final Map<String, GiniVisionCompoundExtraction> compoundExtractions) {
-        mAnalysisScreenHandler.onExtractionsAvailable(extractions, compoundExtractions);
+    public void onExtractionsAvailable(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
+        mAnalysisScreenHandler.onExtractionsAvailable(extractions);
     }
 
     @Override

@@ -24,7 +24,6 @@ import net.gini.android.vision.network.Error;
 import net.gini.android.vision.network.GiniVisionNetworkCallback;
 import net.gini.android.vision.network.GiniVisionNetworkService;
 import net.gini.android.vision.network.Result;
-import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.util.CancellationToken;
 import net.gini.android.vision.util.NoOpCancellationToken;
@@ -270,8 +269,7 @@ public class GiniVisionAccountingNetworkService implements GiniVisionNetworkServ
                                     LOG.debug("Document analysis success for document {}: {}",
                                             giniApiDocumentIdRotationMap, extractions);
                                     callback.success(
-                                            new AnalysisResult(giniApiDocumentId, extractions,
-                                                    Collections.<String, GiniVisionCompoundExtraction>emptyMap()));
+                                            new AnalysisResult(giniApiDocumentId, extractions));
                                 } else {
                                     LOG.debug("Document analysis cancelled for document {}",
                                             giniApiDocumentIdRotationMap);

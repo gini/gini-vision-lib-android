@@ -25,7 +25,6 @@ import net.gini.android.vision.document.QRCodeDocument;
 import net.gini.android.vision.help.HelpActivity;
 import net.gini.android.vision.internal.util.ActivityHelper;
 import net.gini.android.vision.network.GiniVisionNetworkService;
-import net.gini.android.vision.network.model.GiniVisionCompoundExtraction;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.onboarding.OnboardingPage;
@@ -429,12 +428,6 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * and {@link GiniVisionSpecificExtraction} as values.
      */
     public static final String EXTRA_OUT_EXTRACTIONS = "GV_EXTRA_OUT_EXTRACTIONS";
-
-    /**
-     * Returned when compound extractions are available. Contains a Bundle with the extraction labels as keys and {@link
-     * GiniVisionCompoundExtraction} as values.
-     */
-    public static final String EXTRA_OUT_COMPOUND_EXTRACTIONS = "GV_EXTRA_OUT_COMPOUND_EXTRACTIONS";
 
     /**
      * <p> Returned result code in case something went wrong. You should retrieve the {@link
