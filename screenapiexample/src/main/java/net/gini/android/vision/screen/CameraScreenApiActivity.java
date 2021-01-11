@@ -1,6 +1,6 @@
 package net.gini.android.vision.screen;
 
-import static net.gini.android.vision.example.ExampleUtil.getLegacyExtractionsBundle;
+import static net.gini.android.vision.example.shared.ExampleUtil.getLegacyExtractionsBundle;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,9 +16,9 @@ import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.camera.CameraActivity;
 import net.gini.android.vision.document.QRCodeDocument;
-import net.gini.android.vision.example.BaseExampleApp;
-import net.gini.android.vision.example.DocumentAnalyzer;
-import net.gini.android.vision.example.SingleDocumentAnalyzer;
+import net.gini.android.vision.example.shared.BaseExampleApp;
+import net.gini.android.vision.example.shared.DocumentAnalyzer;
+import net.gini.android.vision.example.shared.SingleDocumentAnalyzer;
 import net.gini.android.vision.util.IntentHelper;
 import net.gini.android.vision.util.UriHelper;
 

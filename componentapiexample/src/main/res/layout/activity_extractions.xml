@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="net.gini.android.vision.screen.ExtractionsActivity">
+    tools:context="net.gini.android.vision.component.ExtractionsActivity">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_extractions"

@@ -1,6 +1,6 @@
 package net.gini.android.vision.component;
 
-import net.gini.android.vision.example.BaseExampleApp;
+import net.gini.android.vision.example.shared.BaseExampleApp;
 
 /**
  * Created by Alpar Szotyori on 01.12.2017.

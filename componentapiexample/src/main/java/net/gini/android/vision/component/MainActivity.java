@@ -1,6 +1,6 @@
 package net.gini.android.vision.component;
 
-import static net.gini.android.vision.example.ExampleUtil.isIntentActionViewOrSend;
+import static net.gini.android.vision.example.shared.ExampleUtil.isIntentActionViewOrSend;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -20,8 +20,8 @@ import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.component.camera.compat.CameraExampleAppCompatActivity;
 import net.gini.android.vision.component.camera.standard.CameraExampleActivity;
-import net.gini.android.vision.example.BaseExampleApp;
-import net.gini.android.vision.example.RuntimePermissionHandler;
+import net.gini.android.vision.example.shared.BaseExampleApp;
+import net.gini.android.vision.example.shared.RuntimePermissionHandler;
 import net.gini.android.vision.onboarding.DefaultPagesPhone;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.requirements.GiniVisionRequirements;

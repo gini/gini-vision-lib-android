@@ -2,9 +2,9 @@ package net.gini.android.vision.component.camera;
 
 import static android.app.Activity.RESULT_OK;
 
-import static net.gini.android.vision.example.ExampleUtil.getExtractionsBundle;
-import static net.gini.android.vision.example.ExampleUtil.getLegacyExtractionsBundle;
-import static net.gini.android.vision.example.ExampleUtil.isIntentActionViewOrSend;
+import static net.gini.android.vision.example.shared.ExampleUtil.getExtractionsBundle;
+import static net.gini.android.vision.example.shared.ExampleUtil.getLegacyExtractionsBundle;
+import static net.gini.android.vision.example.shared.ExampleUtil.isIntentActionViewOrSend;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -30,9 +30,9 @@ import net.gini.android.vision.component.R;
 import net.gini.android.vision.component.review.multipage.MultiPageReviewExampleActivity;
 import net.gini.android.vision.document.GiniVisionMultiPageDocument;
 import net.gini.android.vision.document.QRCodeDocument;
-import net.gini.android.vision.example.BaseExampleApp;
-import net.gini.android.vision.example.DocumentAnalyzer;
-import net.gini.android.vision.example.SingleDocumentAnalyzer;
+import net.gini.android.vision.example.shared.BaseExampleApp;
+import net.gini.android.vision.example.shared.DocumentAnalyzer;
+import net.gini.android.vision.example.shared.SingleDocumentAnalyzer;
 import net.gini.android.vision.help.HelpActivity;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 import net.gini.android.vision.onboarding.OnboardingFragmentListener;

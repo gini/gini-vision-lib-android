@@ -1,4 +1,4 @@
-package net.gini.android.vision.example;
+package net.gini.android.vision.example.shared;
 
 import android.content.Intent;
 import android.os.Bundle;

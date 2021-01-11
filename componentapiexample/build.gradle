@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply from: rootProject.file('gradle/git_utils.gradle')
 apply from: rootProject.file('gradle/gini_credentials.gradle')
 
@@ -23,13 +22,11 @@ android {
         versionCode appVersionCode
         versionName appVersionName
 
-        sourceSets {
-            main {
-                java.srcDirs += "$rootProject.projectDir/exampleShared/java"
-            }
-        }
-
         multiDexEnabled true
+    }
+
+    buildFeatures {
+        viewBinding true
     }
 
     signingConfigs {
@@ -54,7 +51,6 @@ android {
             resValue 'string', 'gini_api_client_secret', clientSecret
         }
     }
-
 }
 
 // For testing a released version
@@ -69,6 +65,7 @@ repositories {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(path: ':exampleShared')
     implementation deps.androidxAppCompat
     implementation deps.androidxCoordinatorLayout
     implementation deps.androidxMultidex

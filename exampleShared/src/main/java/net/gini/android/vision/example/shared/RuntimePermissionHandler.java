@@ -1,4 +1,4 @@
-package net.gini.android.vision.example;
+package net.gini.android.vision.example.shared;
 
 import android.Manifest;
 import android.annotation.SuppressLint;

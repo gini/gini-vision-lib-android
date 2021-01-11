@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply from: rootProject.file('gradle/git_utils.gradle')
 apply from: rootProject.file('gradle/gini_credentials.gradle')
 
@@ -26,13 +25,11 @@ android {
         // Use the test runner with JUnit4 support
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
-        sourceSets {
-            main {
-                java.srcDirs += "$rootProject.projectDir/exampleShared/java"
-            }
-        }
-
         multiDexEnabled true
+    }
+
+    buildFeatures {
+        viewBinding true
     }
 
     signingConfigs {
@@ -72,6 +69,7 @@ repositories {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(path: ':exampleShared')
     implementation deps.androidxAppCompat
     implementation deps.androidxCoordinatorLayout
     implementation deps.androidxMultidex

@@ -10,10 +10,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_extractions.*
 import net.gini.android.models.SpecificExtraction
 import net.gini.android.vision.GiniVision
-import net.gini.android.vision.example.BaseExampleApp
+import net.gini.android.vision.component.databinding.ActivityExtractionsBinding
+import net.gini.android.vision.example.shared.BaseExampleApp
 import net.gini.android.vision.network.Error
 import net.gini.android.vision.network.GiniVisionNetworkCallback
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction
@@ -30,6 +30,8 @@ import org.slf4j.LoggerFactory
  * </p>
  */
 class ExtractionsActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityExtractionsBinding
+
     private var mExtractions: MutableMap<String, GiniVisionSpecificExtraction> = HashMap()
     private val mLegacyExtractions: MutableMap<String, SpecificExtraction> = HashMap()
     private var mExtractionsAdapter: ExtractionsAdapter<Any>? = null
@@ -41,15 +43,16 @@ class ExtractionsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_extractions)
+        binding = ActivityExtractionsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         readExtras()
-        setUpRecyclerView()
+        setUpRecyclerView(binding)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.feedback -> {
-                sendFeedback()
+                sendFeedback(binding)
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -68,8 +71,8 @@ class ExtractionsActivity : AppCompatActivity() {
         }
     }
 
-    private fun setUpRecyclerView() {
-        recyclerview_extractions.apply {
+    private fun setUpRecyclerView(binding: ActivityExtractionsBinding) {
+        binding.recyclerviewExtractions.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(this@ExtractionsActivity)
             adapter = when {
@@ -82,7 +85,7 @@ class ExtractionsActivity : AppCompatActivity() {
 
     private fun <T> getSortedExtractions(extractions: Map<String, T>): List<T> = extractions.toSortedMap().values.toList()
 
-    private fun sendFeedback() {
+    private fun sendFeedback(binding: ActivityExtractionsBinding) {
         // An example for sending feedback where we change the amount or add one if it is missing
         // Feedback should be sent only for the user visible fields. Non-visible fields should be filtered out.
         // In a real application the user input should be used as the new value.
@@ -100,7 +103,7 @@ class ExtractionsActivity : AppCompatActivity() {
             Toast.makeText(this, "Added amount of 10.00:EUR", Toast.LENGTH_SHORT).show()
         }
         mExtractionsAdapter?.notifyDataSetChanged()
-        showProgressIndicator()
+        showProgressIndicator(binding)
         val giniVisionNetworkApi = GiniVision.getInstance().giniVisionNetworkApi
         if (giniVisionNetworkApi == null) {
             Toast.makeText(this, "Feedback not sent: missing GiniVisionNetworkApi implementation.",
@@ -109,26 +112,26 @@ class ExtractionsActivity : AppCompatActivity() {
         }
         giniVisionNetworkApi.sendFeedback(mExtractions, object : GiniVisionNetworkCallback<Void, Error> {
             override fun failure(error: Error) {
-                hideProgressIndicator()
+                hideProgressIndicator(binding)
                 Toast.makeText(this@ExtractionsActivity,
                         "Feedback error:\n" + error.message,
                         Toast.LENGTH_LONG).show()
             }
 
             override fun success(result: Void) {
-                hideProgressIndicator()
+                hideProgressIndicator(binding)
                 Toast.makeText(this@ExtractionsActivity,
                         "Feedback successful",
                         Toast.LENGTH_LONG).show()
             }
 
             override fun cancelled() {
-                hideProgressIndicator()
+                hideProgressIndicator(binding)
             }
         })
     }
 
-    private fun legacySendFeedback() {
+    private fun legacySendFeedback(binding: ActivityExtractionsBinding) {
         val documentTaskManager = (application as BaseExampleApp).giniApi.documentTaskManager
         // An example for sending feedback where we change the amount or add one if it is missing
         // Feedback should be sent only for the user visible fields. Non-visible fields should be filtered out.
@@ -152,7 +155,7 @@ class ExtractionsActivity : AppCompatActivity() {
         // We require the Gini API SDK's net.gini.android.models.Document for sending the feedback
         if (document != null) {
             try {
-                showProgressIndicator()
+                showProgressIndicator(binding)
                 documentTaskManager.sendFeedbackForExtractions(document, mLegacyExtractions)
                         .continueWith<Any> { task ->
                             runOnUiThread {
@@ -173,7 +176,7 @@ class ExtractionsActivity : AppCompatActivity() {
                                             "Feedback successful",
                                             Toast.LENGTH_LONG).show()
                                 }
-                                hideProgressIndicator()
+                                hideProgressIndicator(binding)
                             }
                             null
                         }
@@ -188,14 +191,14 @@ class ExtractionsActivity : AppCompatActivity() {
         }
     }
 
-    private fun showProgressIndicator() {
-        recyclerview_extractions.animate().alpha(0.5f)
-        layout_progress.visibility = View.VISIBLE
+    private fun showProgressIndicator(binding: ActivityExtractionsBinding) {
+        binding.recyclerviewExtractions.animate().alpha(0.5f)
+        binding.layoutProgress.visibility = View.VISIBLE
     }
 
-    private fun hideProgressIndicator() {
-        recyclerview_extractions.animate().alpha(1.0f)
-        layout_progress.visibility = View.GONE
+    private fun hideProgressIndicator(binding: ActivityExtractionsBinding) {
+        binding.recyclerviewExtractions.animate().alpha(1.0f)
+        binding.layoutProgress.visibility = View.GONE
     }
 
     private abstract class ExtractionsAdapter<T> :

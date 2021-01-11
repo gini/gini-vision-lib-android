@@ -4,9 +4,9 @@ import static android.app.Activity.RESULT_OK;
 
 import static net.gini.android.vision.component.analysis.compat.AnalysisExampleAppCompatActivity.EXTRA_IN_DOCUMENT;
 import static net.gini.android.vision.component.analysis.compat.AnalysisExampleAppCompatActivity.EXTRA_IN_ERROR_MESSAGE;
-import static net.gini.android.vision.example.ExampleUtil.getExtractionsBundle;
-import static net.gini.android.vision.example.ExampleUtil.getLegacyExtractionsBundle;
-import static net.gini.android.vision.example.ExampleUtil.hasNoPay5Extractions;
+import static net.gini.android.vision.example.shared.ExampleUtil.getExtractionsBundle;
+import static net.gini.android.vision.example.shared.ExampleUtil.getLegacyExtractionsBundle;
+import static net.gini.android.vision.example.shared.ExampleUtil.hasNoPay5Extractions;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -23,9 +23,9 @@ import net.gini.android.vision.analysis.AnalysisFragmentInterface;
 import net.gini.android.vision.analysis.AnalysisFragmentListener;
 import net.gini.android.vision.component.ExtractionsActivity;
 import net.gini.android.vision.component.R;
-import net.gini.android.vision.example.BaseExampleApp;
-import net.gini.android.vision.example.DocumentAnalyzer;
-import net.gini.android.vision.example.SingleDocumentAnalyzer;
+import net.gini.android.vision.example.shared.BaseExampleApp;
+import net.gini.android.vision.example.shared.DocumentAnalyzer;
+import net.gini.android.vision.example.shared.SingleDocumentAnalyzer;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
 import org.slf4j.Logger;

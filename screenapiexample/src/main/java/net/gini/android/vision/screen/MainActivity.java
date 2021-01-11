@@ -1,6 +1,6 @@
 package net.gini.android.vision.screen;
 
-import static net.gini.android.vision.example.ExampleUtil.isPay5Extraction;
+import static net.gini.android.vision.example.shared.ExampleUtil.isPay5Extraction;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
@@ -21,8 +21,8 @@ import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.ImportedFileValidationException;
 import net.gini.android.vision.camera.CameraActivity;
-import net.gini.android.vision.example.BaseExampleApp;
-import net.gini.android.vision.example.RuntimePermissionHandler;
+import net.gini.android.vision.example.shared.BaseExampleApp;
+import net.gini.android.vision.example.shared.RuntimePermissionHandler;
 import net.gini.android.vision.onboarding.DefaultPagesPhone;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.requirements.GiniVisionRequirements;
@@ -43,7 +43,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import ch.qos.logback.classic.LoggerContext;
