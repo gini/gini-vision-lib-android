@@ -7,6 +7,7 @@ import net.gini.android.vision.internal.util.Size;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
+import androidx.core.util.Pair;
 
 class DeviceMemoryRequirement implements Requirement {
 
@@ -31,8 +32,11 @@ class DeviceMemoryRequirement implements Requirement {
         try {
             final Camera.Parameters parameters = mCameraHolder.getCameraParameters();
             if (parameters != null) {
-                final Size pictureSize = SizeSelectionHelper.getLargestAllowedSize(
-                        parameters.getSupportedPictureSizes(), CameraResolutionRequirement.MAX_PICTURE_AREA);
+                final Pair<Size, Size> sizes = SizeSelectionHelper.getBestSize(parameters.getSupportedPictureSizes(),
+                        parameters.getSupportedPreviewSizes(),
+                        CameraResolutionRequirement.MAX_PICTURE_AREA,
+                        CameraResolutionRequirement.MIN_PICTURE_AREA);
+                final Size pictureSize = sizes.first;
                 if (pictureSize == null) {
                     result = false;
                     details =
