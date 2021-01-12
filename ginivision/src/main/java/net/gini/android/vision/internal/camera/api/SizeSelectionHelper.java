@@ -3,6 +3,7 @@ package net.gini.android.vision.internal.camera.api;
 import android.hardware.Camera;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.util.Pair;
 
 import net.gini.android.vision.internal.util.Size;
 
@@ -10,9 +11,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public final class SizeSelectionHelper {
+
+    public static Pair<Size, Size> getBestSize(
+            @NonNull final List<Camera.Size> pictureSizes,
+            @NonNull final List<Camera.Size> previewSizes,
+            final int maxArea,
+            final int minArea
+    ) {
+        Camera.Size bestPicture = null;
+        Size bestPreview = null;
+        for (final Camera.Size size : pictureSizes) {
+            final long area = getArea(size);
+            if (minArea < area && area < maxArea && (bestPicture == null || getArea(bestPicture) < area)) {
+                final Size preview = getLargestAllowedSizeWithSimilarAspectRatio(previewSizes, new Size(size.width, size.height), maxArea);
+                if (preview != null) {
+                    bestPicture = size;
+                    bestPreview = preview;
+                }
+            }
+        }
+        if (bestPicture != null && bestPreview != null) {
+            return new Pair<>(new Size(bestPicture.width, bestPicture.height), bestPreview);
+        }
+        for (final Camera.Size size : pictureSizes) {
+            final long area = getArea(size);
+            if (maxArea < area && (bestPicture == null || area < getArea(bestPicture))) {
+                final Size preview = getLargestAllowedSizeWithSimilarAspectRatio(previewSizes, new Size(size.width, size.height), maxArea);
+                if (preview != null) {
+                    bestPicture = size;
+                    bestPreview = preview;
+                }
+            }
+        }
+        return new Pair<>(new Size(bestPicture.width, bestPicture.height), bestPreview);
+    }
 
     @Nullable
     public static Size getLargestAllowedSize(@NonNull final List<Camera.Size> sizes, final int maxArea) {

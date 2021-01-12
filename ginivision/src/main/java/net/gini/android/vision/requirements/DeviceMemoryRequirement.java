@@ -3,6 +3,7 @@ package net.gini.android.vision.requirements;
 import android.hardware.Camera;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
+import android.support.v4.util.Pair;
 
 import net.gini.android.vision.internal.camera.api.SizeSelectionHelper;
 import net.gini.android.vision.internal.util.Size;
@@ -30,8 +31,11 @@ class DeviceMemoryRequirement implements Requirement {
         try {
             final Camera.Parameters parameters = mCameraHolder.getCameraParameters();
             if (parameters != null) {
-                final Size pictureSize = SizeSelectionHelper.getLargestAllowedSize(
-                        parameters.getSupportedPictureSizes(), CameraResolutionRequirement.MAX_PICTURE_AREA);
+                final Pair<Size, Size> sizes = SizeSelectionHelper.getBestSize(parameters.getSupportedPictureSizes(),
+                        parameters.getSupportedPreviewSizes(),
+                        CameraResolutionRequirement.MAX_PICTURE_AREA,
+                        CameraResolutionRequirement.MIN_PICTURE_AREA);
+                final Size pictureSize = sizes.first;
                 if (pictureSize == null) {
                     result = false;
                     details =

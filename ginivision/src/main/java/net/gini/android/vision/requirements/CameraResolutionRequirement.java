@@ -2,11 +2,10 @@ package net.gini.android.vision.requirements;
 
 import android.hardware.Camera;
 import android.support.annotation.NonNull;
+import android.support.v4.util.Pair;
 
 import net.gini.android.vision.internal.camera.api.SizeSelectionHelper;
 import net.gini.android.vision.internal.util.Size;
-
-import java.util.Locale;
 
 /**
  * Internal use only.
@@ -16,7 +15,7 @@ import java.util.Locale;
 public class CameraResolutionRequirement implements Requirement {
 
     // We require ~8MP or higher picture resolutions
-    private static final int MIN_PICTURE_AREA = 7_900_000;
+    public static final int MIN_PICTURE_AREA = 7_900_000;
     // We allow up to 13MP picture resolutions
     public static final int MAX_PICTURE_AREA = 13_000_000;
 
@@ -41,26 +40,14 @@ public class CameraResolutionRequirement implements Requirement {
         try {
             final Camera.Parameters parameters = mCameraHolder.getCameraParameters();
             if (parameters != null) {
-                final Size pictureSize = SizeSelectionHelper.getLargestAllowedSize(
-                        parameters.getSupportedPictureSizes(), MAX_PICTURE_AREA);
-                if (pictureSize == null) {
+                final Pair<Size, Size> sizes = SizeSelectionHelper.getBestSize(parameters.getSupportedPictureSizes(),
+                        parameters.getSupportedPreviewSizes(),
+                        MAX_PICTURE_AREA,
+                        MIN_PICTURE_AREA
+                );
+                if (sizes.first == null || sizes.second == null) {
                     result = false;
-                    details = "Camera has no picture resolutions";
-                    return new RequirementReport(getId(), result, details);
-                } else if (!isAround8MPOrHigher(pictureSize)) {
-                    result = false;
-                    details = "Largest camera picture resolution is lower than 8MP";
-                    return new RequirementReport(getId(), result, details);
-                }
-
-                final Size previewSize = SizeSelectionHelper.getLargestAllowedSizeWithSimilarAspectRatio(
-                        parameters.getSupportedPreviewSizes(), pictureSize, MAX_PICTURE_AREA);
-                if (previewSize == null) {
-                    result = false;
-                    details = String.format(Locale.US,
-                            "Camera has no preview resolutions matching the picture resolution "
-                                    + "%dx%d",
-                            pictureSize.width, pictureSize.height);
+                    details = "Camera doesn't have a resolution that matches the requirements";
                     return new RequirementReport(getId(), result, details);
                 }
             } else {
@@ -73,10 +60,6 @@ public class CameraResolutionRequirement implements Requirement {
         }
 
         return new RequirementReport(getId(), result, details);
-    }
-
-    private boolean isAround8MPOrHigher(final Size size) {
-        return size.width * size.height >= MIN_PICTURE_AREA;
     }
 
 }
