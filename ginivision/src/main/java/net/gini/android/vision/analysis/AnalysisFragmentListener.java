@@ -1,7 +1,5 @@
 package net.gini.android.vision.analysis;
 
-import android.support.annotation.NonNull;
-
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionError;
@@ -11,6 +9,8 @@ import net.gini.android.vision.noresults.NoResultsFragmentCompat;
 import net.gini.android.vision.noresults.NoResultsFragmentStandard;
 
 import java.util.Map;
+
+import androidx.annotation.NonNull;
 
 /**
  * <p>
@@ -24,9 +24,9 @@ public interface AnalysisFragmentListener {
      * </p>
      * @param document contains the image taken by the camera (original or modified)
      *
-     * @deprecated When a {@link GiniVision} instance is available the document
+     * @Deprecated When a {@link GiniVision} instance is available the document
      * is analyzed internally by using the configured {@link GiniVisionNetworkService}
-     * implementation. The extractions will be returned in {@link AnalysisFragmentListener#onExtractionsAvailable(Map)}.
+     * implementation. The extractions will be returned in {@link AnalysisFragmentListener#onExtractionsAvailable(Map, Map)}.
      */
     @Deprecated
     void onAnalyzeDocument(@NonNull Document document);
@@ -64,4 +64,5 @@ public interface AnalysisFragmentListener {
      * default for opening PDFs.
      */
     void onDefaultPDFAppAlertDialogCancelled();
+
 }

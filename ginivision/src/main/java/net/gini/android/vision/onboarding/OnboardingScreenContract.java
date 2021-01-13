@@ -1,13 +1,13 @@
 package net.gini.android.vision.onboarding;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
 
 import net.gini.android.vision.GiniVisionBasePresenter;
 import net.gini.android.vision.GiniVisionBaseView;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import jersey.repackaged.jsr166e.CompletableFuture;
 
 /**
@@ -17,8 +17,18 @@ import jersey.repackaged.jsr166e.CompletableFuture;
  */
 interface OnboardingScreenContract {
 
-    abstract class View extends GiniVisionBaseView<Presenter> implements
-            OnboardingFragmentInterface {
+    abstract class View implements GiniVisionBaseView<Presenter>, OnboardingFragmentInterface {
+
+        private Presenter mPresenter;
+
+        @Override
+        public void setPresenter(@NonNull final Presenter presenter) {
+            mPresenter = presenter;
+        }
+
+        public Presenter getPresenter() {
+            return mPresenter;
+        }
 
         abstract void showPages(@NonNull final List<OnboardingPage> pages,
                 final boolean showEmptyLastPage);

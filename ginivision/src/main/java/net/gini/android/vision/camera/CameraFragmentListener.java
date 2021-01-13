@@ -1,7 +1,5 @@
 package net.gini.android.vision.camera;
 
-import android.support.annotation.NonNull;
-
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionError;
@@ -11,6 +9,8 @@ import net.gini.android.vision.network.GiniVisionNetworkService;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
 import java.util.Map;
+
+import androidx.annotation.NonNull;
 
 /**
  * <p>
@@ -42,7 +42,7 @@ public interface CameraFragmentListener {
      *
      * @param qrCodeDocument contains payment data from a QR Code
      *
-     * @deprecated When a {@link GiniVision} instance is available the QRCode
+     * @Deprecated When a {@link GiniVision} instance is available the QRCode
      * is analyzed internally by using the configured {@link GiniVisionNetworkService}
      * implementation. The extractions will be returned in {@link CameraFragmentListener#onExtractionsAvailable(Map)}.
      */

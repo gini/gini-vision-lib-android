@@ -3,20 +3,22 @@ package net.gini.android.vision.internal.fileimport.providerchooser;
 import static net.gini.android.vision.internal.fileimport.providerchooser.ProvidersItem.FileProviderItemType.SECTION;
 import static net.gini.android.vision.internal.fileimport.providerchooser.ProvidersItem.FileProviderItemType.SEPARATOR;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.GridLayoutManager.SpanSizeLookup;
-
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
+
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
-public class ProvidersSpanSizeLookup extends SpanSizeLookup {
+public class ProvidersSpanSizeLookup extends GridLayoutManager.SpanSizeLookup {
 
     private final List<ProvidersItem> mItems;
     private final int mGridSpanCount;
 
-    public ProvidersSpanSizeLookup(@NonNull final List<ProvidersItem> items, int gridSpanCount) {
+    public ProvidersSpanSizeLookup(@NonNull final List<ProvidersItem> items, final int gridSpanCount) {
         mItems = items;
         mGridSpanCount = gridSpanCount;
     }

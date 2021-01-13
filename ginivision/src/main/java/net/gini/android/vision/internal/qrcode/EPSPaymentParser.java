@@ -1,8 +1,8 @@
 package net.gini.android.vision.internal.qrcode;
 
 import android.net.Uri;
-import android.support.annotation.NonNull;
 
+import androidx.annotation.NonNull;
 /**
  * Created by Alpar Szotyori on 15.04.2019.
  *
@@ -10,11 +10,13 @@ import android.support.annotation.NonNull;
  */
 
 /**
+ * Internal use only.
+ *
  * QR Code parser for the eps e-payment QR Code url.
  * <p>
  * See the documentation of this format <a href="https://eservice.stuzza.at/de/eps-ueberweisung-dokumentation/category/5-dokumentation.html">here</a>.
  *
- * @exclude
+ * @suppress
  */
 public class EPSPaymentParser implements QRCodeParser<PaymentQRCodeData> {
 

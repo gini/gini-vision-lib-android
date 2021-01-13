@@ -1,11 +1,11 @@
 package net.gini.android.vision.network;
 
-import android.support.annotation.NonNull;
-
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
 import java.util.Map;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Alpar Szotyori on 22.02.2018.
@@ -35,8 +35,7 @@ public interface GiniVisionNetworkApi {
             @NonNull final GiniVisionNetworkCallback<Void, Error> callback);
 
     /**
-     * Delete the anonymous gini user credentials. These were automatically generated when the first
-     * document was uploaded.
+     * Delete the anonymous gini user credentials. These were automatically generated when the first document was uploaded.
      * <p>
      * By deleting the credentials, new ones will be generated at the next upload.
      */

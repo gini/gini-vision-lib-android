@@ -1,12 +1,19 @@
 package net.gini.android.vision;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Alpar Szotyori on 08.05.2019.
  *
  * Copyright (c) 2019 Gini GmbH.
+ */
+
+/**
+ * Internal use only.
+ *
+ * @suppress
  */
 public abstract class GiniVisionBasePresenter<V extends GiniVisionBaseView> {
 

@@ -1,0 +1,77 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
+apply from: rootProject.file('gradle/git_utils.gradle')
+apply from: rootProject.file('gradle/gini_credentials.gradle')
+
+def appVersionCode = gitCommitUnixTime()
+def appVersionName = "${version}-${gitBranch()}-${gitHash()} (${appVersionCode})"
+
+task printVersion {
+    doLast {
+        println "${appVersionName}"
+    }
+}
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode appVersionCode
+        versionName appVersionName
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation deps.androidxAppCompat
+    implementation deps.androidxMultidex
+
+    implementation 'com.karumi:dexter:6.0.2'
+
+    // For backward compatibility
+    implementation('net.gini:gini-android-sdk:2.3.0@aar') {
+        transitive = true
+    }
+
+    // For testing the local version
+    implementation project(path: ':ginivision-network')
+    // For testing a released version
+    //implementation 'net.gini:gini-vision-network-lib:2.5.0'
+
+    // For testing the local version
+    implementation project(path: ':ginivision-accounting-network')
+    // For testing a released version
+    //implementation 'net.gini:gini-vision-accounting-network-lib:2.5.0'
+
+    // For testing the local version
+    implementation project(path: ':ginivision')
+    // For testing a released version
+    //implementation 'net.gini:gini-vision-lib:2.0.0-alpha.1'
+
+}
+
+apply from: rootProject.file('gradle/codequality.gradle')
+apply from: rootProject.file('gradle/multidex_for_tests.gradle')

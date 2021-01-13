@@ -1,13 +1,13 @@
 package net.gini.android.vision.review;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
 import java.util.Map;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * Created by Alpar Szotyori on 21.02.2018.

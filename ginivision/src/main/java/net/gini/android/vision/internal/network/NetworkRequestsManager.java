@@ -7,8 +7,6 @@ package net.gini.android.vision.internal.network;
  */
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.GiniVisionDebug;
@@ -33,10 +31,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CancellationException;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import jersey.repackaged.jsr166e.CompletableFuture;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class NetworkRequestsManager {
 

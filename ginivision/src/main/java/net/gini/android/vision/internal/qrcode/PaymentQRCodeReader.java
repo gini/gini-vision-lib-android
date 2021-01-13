@@ -1,12 +1,12 @@
 package net.gini.android.vision.internal.qrcode;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
-
 import net.gini.android.vision.internal.util.Size;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 
 /**
  * Created by Alpar Szotyori on 08.12.2017.
@@ -15,11 +15,13 @@ import java.util.List;
  */
 
 /**
+ * Internal use only.
+ *
  * Reads the first supported QRCode payment data from images.
  * <p>
  * See {@link PaymentQRCodeParser} for supported formats.
  *
- * @exclude
+ * @suppress
  */
 public class PaymentQRCodeReader {
 
@@ -95,7 +97,9 @@ public class PaymentQRCodeReader {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public interface Listener {
 

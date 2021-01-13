@@ -11,8 +11,6 @@ import android.os.Looper;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.RemoteException;
-import android.support.annotation.NonNull;
-import android.support.v4.content.FileProvider;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.document.DocumentFactory;
@@ -27,7 +25,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.FileProvider;
 import androidx.test.InstrumentationRegistry;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.uiautomator.UiDevice;
 
 public class Helpers {
@@ -51,7 +52,7 @@ public class Helpers {
     }
 
     public static byte[] loadAsset(final String filename) throws IOException {
-        final AssetManager assetManager = InstrumentationRegistry.getTargetContext().getAssets();
+        final AssetManager assetManager = ApplicationProvider.getApplicationContext().getAssets();
         InputStream inputStream = null;
         try {
             inputStream = assetManager.open(filename);
@@ -108,7 +109,7 @@ public class Helpers {
 
     public static void copyAssetToStorage(@NonNull final String assetFilePath,
             @NonNull final String storageDirPath) throws IOException {
-        final AssetManager assetManager = InstrumentationRegistry.getTargetContext().getAssets();
+        final AssetManager assetManager = ApplicationProvider.getApplicationContext().getAssets();
         InputStream inputStream = null;
         OutputStream outputStream = null;
         try {
@@ -151,7 +152,7 @@ public class Helpers {
     private static void saveToFile(@NonNull final String filename, @NonNull final byte[] data)
             throws IOException {
         final File file = new File(
-                InstrumentationRegistry.getTargetContext().getExternalFilesDir(null)
+                ApplicationProvider.getApplicationContext().getExternalFilesDir(null)
                         + File.separator +
                         filename);
         FileOutputStream fileOutputStream = null;
@@ -231,7 +232,7 @@ public class Helpers {
         final File fileProviderDir = createAndGetFileProviderDir();
         final File file = new File(fileProviderDir, assetFilePath);
         Helpers.copyAssetToStorage(assetFilePath, fileProviderDir.getPath());
-        return FileProvider.getUriForFile(InstrumentationRegistry.getTargetContext(),
+        return FileProvider.getUriForFile(ApplicationProvider.getApplicationContext(),
                 "net.gini.android.vision.test.fileprovider", file);
     }
 
@@ -257,7 +258,7 @@ public class Helpers {
 
     @NonNull
     private static File getFileProviderDir() {
-        final Context context = InstrumentationRegistry.getTargetContext();
+        final Context context = ApplicationProvider.getApplicationContext();
         return new File(context.getFilesDir(), "file-provider");
     }
 }

@@ -1,7 +1,5 @@
 package net.gini.android.vision.network;
 
-import android.support.annotation.NonNull;
-
 import net.gini.android.DocumentTaskManager;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.internal.camera.api.UIExecutor;
@@ -14,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
+import androidx.annotation.NonNull;
 import bolts.Continuation;
 import bolts.Task;
 
@@ -43,8 +42,7 @@ public class GiniVisionDefaultNetworkApi implements GiniVisionNetworkApi {
     private final UIExecutor mUIExecutor = new UIExecutor();
 
     /**
-     * Creates a new {@link GiniVisionDefaultNetworkApi.Builder} to configure and create a new
-     * instance.
+     * Creates a new {@link GiniVisionDefaultNetworkApi.Builder} to configure and create a new instance.
      *
      * @return a new {@link GiniVisionDefaultNetworkApi.Builder}
      */

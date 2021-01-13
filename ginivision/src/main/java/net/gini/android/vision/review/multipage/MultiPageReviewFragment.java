@@ -13,19 +13,6 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSmoothScroller;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,6 +50,19 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 import jersey.repackaged.jsr166e.CompletableFuture;
 
 /**
@@ -86,14 +86,14 @@ import jersey.repackaged.jsr166e.CompletableFuture;
  *
  * <li> A {@link GiniVision} instance is required to use the {@code MultiPageReviewFragment}
  *
- * <li> Your Activity hosting this Fragment must extend the {@link android.support.v7.app.AppCompatActivity}
+ * <li> Your Activity hosting this Fragment must extend the {@link androidx.appcompat.app.AppCompatActivity}
  * and use an AppCompat Theme.
  *
  * </ul>
  *
  * <p> Include the {@code MultiPageReviewFragment} into your layout by using the {@link
  * MultiPageReviewFragment#createInstance()} factory method to create an instance and display it
- * using the {@link android.support.v4.app.FragmentManager}.
+ * using the {@link androidx.fragment.app.FragmentManager}.
  *
  * <p> A {@link MultiPageReviewFragmentListener} instance must be available until the {@code
  * MultiPageReviewFragment} is attached to an activity. Failing to do so will throw an exception.
@@ -136,7 +136,9 @@ public class MultiPageReviewFragment extends Fragment implements MultiPageReview
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onCreate(final Bundle savedInstanceState) {

@@ -1,13 +1,16 @@
 package net.gini.android.vision.internal.camera.photo;
 
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 
 import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.document.ImageDocument;
 
+import androidx.annotation.NonNull;
+
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class PhotoFactoryDocumentAsyncTask extends AsyncTask<ImageDocument, Void, Photo> {
 

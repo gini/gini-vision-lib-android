@@ -4,13 +4,14 @@ import static net.gini.android.vision.internal.util.ContextHelper.isTablet;
 import static net.gini.android.vision.tracking.EventTrackingHelper.trackOnboardingScreenEvent;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
 
 import net.gini.android.vision.GiniVisionError;
 import net.gini.android.vision.tracking.OnboardingScreenEvent;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 
 /**
  * Created by Alpar Szotyori on 20.05.2019.

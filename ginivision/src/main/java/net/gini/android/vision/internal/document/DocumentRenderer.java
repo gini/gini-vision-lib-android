@@ -2,14 +2,17 @@ package net.gini.android.vision.internal.document;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.internal.util.Size;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public interface DocumentRenderer {
 
@@ -20,7 +23,9 @@ public interface DocumentRenderer {
             @NonNull final AsyncCallback<Integer, Exception> asyncCallback);
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     interface Callback {
         void onBitmapReady(@Nullable final Bitmap bitmap, final int rotationForDisplay);

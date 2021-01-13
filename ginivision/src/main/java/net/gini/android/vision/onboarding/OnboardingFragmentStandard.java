@@ -6,9 +6,6 @@ import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +14,10 @@ import net.gini.android.vision.internal.util.AlertDialogHelperStandard;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.viewpager.widget.PagerAdapter;
 
 /**
  * <h3>Component API</h3>
@@ -117,7 +118,7 @@ public class OnboardingFragmentStandard extends Fragment implements OnboardingFr
 
 
     /**
-     * @exclude
+     * @suppress
      * @param savedInstanceState
      */
     @Override
@@ -128,7 +129,7 @@ public class OnboardingFragmentStandard extends Fragment implements OnboardingFr
     }
 
     /**
-     * @exclude
+     * @suppress
      * @param inflater
      * @param container
      * @param savedInstanceState

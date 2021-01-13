@@ -1,8 +1,5 @@
 package net.gini.android.vision.review;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionError;
@@ -14,6 +11,9 @@ import net.gini.android.vision.noresults.NoResultsFragmentCompat;
 import net.gini.android.vision.noresults.NoResultsFragmentStandard;
 
 import java.util.Map;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * Interface used by {@link ReviewFragmentStandard} and {@link ReviewFragmentCompat} to dispatch
@@ -34,7 +34,7 @@ public interface ReviewFragmentListener {
      *
      * @param document contains the original image taken by the camera
      *
-     * @deprecated When a {@link GiniVision} instance is available the document is analyzed
+     * @Deprecated When a {@link GiniVision} instance is available the document is analyzed
      * internally by using the configured {@link GiniVisionNetworkService} implementation. The
      * extractions will be returned in the Analysis Screen in
      * {@link AnalysisFragmentListener#onExtractionsAvailable(Map, Map)}.
@@ -52,7 +52,7 @@ public interface ReviewFragmentListener {
      *
      * @param document contains the reviewed image (can be the original one or a modified image)
      *
-     * @deprecated When a {@link GiniVision} instance is available {@link ReviewFragmentListener#onProceedToAnalysisScreen(Document,
+     * @Deprecated When a {@link GiniVision} instance is available {@link ReviewFragmentListener#onProceedToAnalysisScreen(Document,
      * String)} is invoked instead.
      */
     @Deprecated
@@ -67,7 +67,7 @@ public interface ReviewFragmentListener {
      *
      * @param document contains the reviewed image (can be the original one or a modified image)
      *
-     * @deprecated When a {@link GiniVision} instance is available the document is analyzed
+     * @Deprecated When a {@link GiniVision} instance is available the document is analyzed
      * internally by using the configured {@link GiniVisionNetworkService} implementation. The
      * extractions will be returned in the Analysis Screen in
      * {@link AnalysisFragmentListener#onExtractionsAvailable(Map, Map)}.
@@ -85,7 +85,7 @@ public interface ReviewFragmentListener {
      * @param oldRotation the previous rotation in degrees
      * @param newRotation the new rotation in degrees
      *
-     * @deprecated When a {@link GiniVision} and a {@link GiniVisionNetworkService} instance is
+     * @Deprecated When a {@link GiniVision} and a {@link GiniVisionNetworkService} instance is
      * available rotation is handled internally. The document is analyzed by using the configured
      * {@link GiniVisionNetworkService} implementation. The extractions will be returned in the
      * Analysis Screen in {@link AnalysisFragmentListener#onExtractionsAvailable(Map, Map)}.

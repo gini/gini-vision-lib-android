@@ -3,13 +3,14 @@ package net.gini.android.vision.requirements;
 import static net.gini.android.vision.internal.util.ContextHelper.isTablet;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 /**
  * <p>
@@ -36,18 +37,18 @@ public final class GiniVisionRequirements {
      * @param context any {@link Context} instance
      * @return {@link RequirementsReport} containing information about the checks
      */
-    public static RequirementsReport checkRequirements(Context context) {
+    public static RequirementsReport checkRequirements(final Context context) {
         LOG.info("Checking requirements");
-        CameraHolder cameraHolder = new CameraHolder();
+        final CameraHolder cameraHolder = new CameraHolder();
 
-        List<Requirement> requirements;
+        final List<Requirement> requirements;
         if (isTablet(context)) {
             requirements = getTabletRequirements(context, cameraHolder);
         } else {
             requirements = getPhoneRequirements(context, cameraHolder);
         }
 
-        RequirementsReport requirementsReport = new RequirementsChecker(requirements)
+        final RequirementsReport requirementsReport = new RequirementsChecker(requirements)
                 .checkRequirements();
 
         cameraHolder.closeCamera();

@@ -5,8 +5,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.hardware.Camera;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.SurfaceHolder;
 import android.view.View;
 
@@ -15,6 +13,8 @@ import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.PhotoFactory;
 import net.gini.android.vision.internal.util.Size;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import jersey.repackaged.jsr166e.CompletableFuture;
 
 /**

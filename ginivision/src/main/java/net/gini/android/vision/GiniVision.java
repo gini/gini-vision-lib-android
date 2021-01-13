@@ -2,9 +2,6 @@ package net.gini.android.vision;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
 
 import net.gini.android.vision.analysis.AnalysisActivity;
 import net.gini.android.vision.internal.cache.DocumentDataMemoryCache;
@@ -30,6 +27,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Collections;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 
 /**
  * Created by Alpar Szotyori on 22.02.2018.
@@ -172,7 +174,9 @@ public class GiniVision {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @NonNull
     public Internal internal() {
@@ -820,10 +824,13 @@ public class GiniVision {
         EventTracker getEventTracker() {
             return mEventTracker;
         }
+
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static class Internal {
 

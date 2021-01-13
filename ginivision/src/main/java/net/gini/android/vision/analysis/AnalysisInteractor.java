@@ -3,8 +3,6 @@ package net.gini.android.vision.analysis;
 import static net.gini.android.vision.internal.network.NetworkRequestsManager.isCancellation;
 
 import android.app.Application;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionDebug;
@@ -17,17 +15,23 @@ import net.gini.android.vision.internal.network.NetworkRequestsManager;
 import net.gini.android.vision.network.model.GiniVisionSpecificExtraction;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
 import jersey.repackaged.jsr166e.CompletableFuture;
 
 /**
  * Created by Alpar Szotyori on 09.05.2019.
  *
  * Copyright (c) 2019 Gini GmbH.
+ */
+
+/**
+ * Internal use only.
  *
- * @exclude
+ * @suppress
  */
 public class AnalysisInteractor {
 
@@ -133,7 +137,9 @@ public class AnalysisInteractor {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public enum Result {
         SUCCESS_NO_EXTRACTIONS,
@@ -142,7 +148,9 @@ public class AnalysisInteractor {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static final class ResultHolder {
 
@@ -150,20 +158,22 @@ public class AnalysisInteractor {
         private final Map<String, GiniVisionSpecificExtraction> mExtractions;
 
         ResultHolder(@NonNull final Result result) {
-            this(result, null);
+            this(result, Collections.<String, GiniVisionSpecificExtraction>emptyMap());
         }
 
         ResultHolder(
                 @NonNull final Result result,
-                @Nullable final Map<String, GiniVisionSpecificExtraction> extractions) {
+                @NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
             mResult = result;
             mExtractions = extractions;
         }
 
+        @NonNull
         public Result getResult() {
             return mResult;
         }
 
+        @NonNull
         public Map<String, GiniVisionSpecificExtraction> getExtractions() {
             return mExtractions;
         }

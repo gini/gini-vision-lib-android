@@ -1,7 +1,5 @@
 package net.gini.android.vision.internal.qrcode;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import java.math.BigInteger;
@@ -10,6 +8,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * Checks that an IBAN string conforms to the IBAN standard.

@@ -8,13 +8,14 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 import android.app.Activity;
 import android.content.res.Resources;
-import android.support.annotation.NonNull;
 
 import net.gini.android.vision.R;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Alpar Szotyori on 20.05.2019.

@@ -20,8 +20,6 @@ import static org.mockito.Mockito.verify;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.Surface;
 
 import net.gini.android.vision.Document;
@@ -45,7 +43,10 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.test.InstrumentationRegistry;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
@@ -130,12 +131,12 @@ public class ReviewScreenTest {
     }
 
     private Intent getReviewActivityIntent(final byte[] jpeg, final int orientation, @NonNull final ImageDocument.Source source) {
-        final Intent intent = new Intent(InstrumentationRegistry.getTargetContext(),
+        final Intent intent = new Intent(ApplicationProvider.getApplicationContext(),
                 ReviewActivityTestSpy.class);
         intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT,
                 createDocument(jpeg, orientation, "portrait", "phone", source));
         intent.putExtra(ReviewActivity.EXTRA_IN_ANALYSIS_ACTIVITY,
-                new Intent(InstrumentationRegistry.getTargetContext(),
+                new Intent(ApplicationProvider.getApplicationContext(),
                         AnalysisActivityTestSpy.class));
         return intent;
     }
@@ -735,7 +736,7 @@ public class ReviewScreenTest {
 
             }
         };
-        final Intent intent = new Intent(InstrumentationRegistry.getTargetContext(),
+        final Intent intent = new Intent(ApplicationProvider.getApplicationContext(),
                 ReviewFragmentHostActivityNotListener.class);
                 mReviewFragmentHostActivityNotListenerTR.launchActivity(intent);
         // Wait for the activity to start
@@ -748,7 +749,7 @@ public class ReviewScreenTest {
     @Test
     public void should_useActivity_asListener_whenAvailable() throws Exception {
         // Given
-        final Intent intent = new Intent(InstrumentationRegistry.getTargetContext(),
+        final Intent intent = new Intent(ApplicationProvider.getApplicationContext(),
                 ReviewFragmentHostActivity.class);
         final ReviewFragmentHostActivity activity =
                 mReviewFragmentHostActivityTR.launchActivity(intent);

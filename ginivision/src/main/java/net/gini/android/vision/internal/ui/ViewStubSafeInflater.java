@@ -1,15 +1,18 @@
 package net.gini.android.vision.internal.ui;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewStub;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class ViewStubSafeInflater {
 

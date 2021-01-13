@@ -1,10 +1,13 @@
 package net.gini.android.vision.internal.util;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public final class DeviceHelper {
 

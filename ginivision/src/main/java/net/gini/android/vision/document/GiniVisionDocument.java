@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Parcel;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.Document;
@@ -16,13 +14,20 @@ import net.gini.android.vision.util.IntentHelper;
 import java.util.Arrays;
 import java.util.UUID;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class GiniVisionDocument implements Document {
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static final Creator<GiniVisionDocument> CREATOR = new Creator<GiniVisionDocument>() {
         @Override
@@ -109,7 +114,9 @@ public class GiniVisionDocument implements Document {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public int describeContents() {
@@ -117,7 +124,9 @@ public class GiniVisionDocument implements Document {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {

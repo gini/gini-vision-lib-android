@@ -6,14 +6,17 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 
 import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.document.PdfDocument;
 import net.gini.android.vision.internal.util.Size;
 
+import androidx.annotation.NonNull;
+
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public final class Pdf implements Parcelable {
 

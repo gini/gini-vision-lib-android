@@ -2,15 +2,18 @@ package net.gini.android.vision.internal.document;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
 
 import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.document.PdfDocument;
 import net.gini.android.vision.internal.pdf.Pdf;
 import net.gini.android.vision.internal.util.Size;
 
+import androidx.annotation.NonNull;
+
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 class PdfDocumentRenderer implements DocumentRenderer {
 

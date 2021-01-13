@@ -9,10 +9,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -38,6 +34,11 @@ import net.gini.android.vision.tracking.CameraScreenEvent;
 
 import java.util.ArrayList;
 import java.util.Map;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * <h3>Screen API</h3>
@@ -353,7 +354,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * subclass from your application. </p> <p> Use the {@link CameraActivity#setReviewActivityExtra(Intent,
      * Context, Class)} helper to set it. </p>
      *
-     * @deprecated When a {@link GiniVision} instance is available the document is analyzed
+     * @Deprecated When a {@link GiniVision} instance is available the document is analyzed
      * internally by using the configured {@link GiniVisionNetworkService} implementation. The
      * extractions will be returned in the extra called {@link CameraActivity#EXTRA_OUT_EXTRACTIONS}
      * of the {@link CameraActivity}'s result Intent.
@@ -364,7 +365,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * subclass from your application. </p> <p> Use the {@link CameraActivity#setAnalysisActivityExtra(Intent,
      * Context, Class)} helper to set it. </p>
      *
-     * @deprecated When a {@link GiniVision} instance is available the document is analyzed
+     * @Deprecated When a {@link GiniVision} instance is available the document is analyzed
      * internally by using the configured {@link GiniVisionNetworkService} implementation. The
      * extractions will be returned in the extra called {@link CameraActivity#EXTRA_OUT_EXTRACTIONS}
      * of the {@link CameraActivity}'s result Intent.
@@ -373,7 +374,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     /**
      * Optional extra which must contain an {@code ArrayList} with {@link OnboardingPage} objects.
      *
-     * @deprecated Configuration should be applied by creating a {@link GiniVision} instance using
+     * @Deprecated Configuration should be applied by creating a {@link GiniVision} instance using
      * {@link GiniVision#newInstance()} and the returned {@link GiniVision.Builder}.
      */
     public static final String EXTRA_IN_ONBOARDING_PAGES = "GV_EXTRA_IN_ONBOARDING_PAGES";
@@ -382,7 +383,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * should be shown when the Gini Vision Library is started for the first time. </p> <p> Default
      * value is {@code true}. </p>
      *
-     * @deprecated Configuration should be applied by creating a {@link GiniVision} instance using
+     * @Deprecated Configuration should be applied by creating a {@link GiniVision} instance using
      * {@link GiniVision#newInstance()} and the returned {@link GiniVision.Builder}.
      */
     public static final String EXTRA_IN_SHOW_ONBOARDING_AT_FIRST_RUN =
@@ -392,7 +393,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * should be shown when the Gini Vision Library is started. </p> <p> Default value is {@code
      * false}. </p>
      *
-     * @deprecated Configuration should be applied by creating a {@link GiniVision} instance using
+     * @Deprecated Configuration should be applied by creating a {@link GiniVision} instance using
      * {@link GiniVision#newInstance()} and the returned {@link GiniVision.Builder}.
      */
     public static final String EXTRA_IN_SHOW_ONBOARDING = "GV_EXTRA_IN_SHOW_ONBOARDING";
@@ -401,7 +402,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * <p> Optional extra wich must contain a boolean and indicates whether the back button should
      * close the Gini Vision Library. </p> <p> Default value is {@code false}. </p>
      *
-     * @deprecated The option to close the library with the back button from any screen will be
+     * @Deprecated The option to close the library with the back button from any screen will be
      * removed in a future version.
      */
     public static final String EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY =
@@ -410,7 +411,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     /**
      * Optional extra which must contain a {@link GiniVisionFeatureConfiguration} instance.
      *
-     * @deprecated Configuration should be applied by creating a {@link GiniVision} instance using
+     * @Deprecated Configuration should be applied by creating a {@link GiniVision} instance using
      * {@link GiniVision#newInstance()} and the returned {@link GiniVision.Builder}.
      */
     public static final String EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION =
@@ -465,7 +466,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * @param reviewActivityClass class of your {@link ReviewActivity} subclass
      * @param <T>                 type of your {@link ReviewActivity} subclass
      *
-     * @deprecated When a {@link GiniVision} instance is available the document is analyzed
+     * @Deprecated When a {@link GiniVision} instance is available the document is analyzed
      * internally by using the configured {@link GiniVisionNetworkService} implementation. The
      * extractions will be returned in the extra called {@link CameraActivity#EXTRA_OUT_EXTRACTIONS}
      * of the {@link CameraActivity}'s result Intent.
@@ -488,7 +489,7 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
      * @param analysisActivityClass class of your {@link AnalysisActivity} subclass
      * @param <T>                   type of your {@link AnalysisActivity} subclass
      *
-     * @deprecated When a {@link GiniVision} instance is available the document is analyzed
+     * @Deprecated When a {@link GiniVision} instance is available the document is analyzed
      * internally by using the configured {@link GiniVisionNetworkService} implementation. The
      * extractions will be returned in the extra called {@link CameraActivity#EXTRA_OUT_EXTRACTIONS}
      * of the {@link CameraActivity}'s result Intent.
@@ -638,7 +639,9 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
@@ -647,7 +650,9 @@ public class CameraActivity extends AppCompatActivity implements CameraFragmentL
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {

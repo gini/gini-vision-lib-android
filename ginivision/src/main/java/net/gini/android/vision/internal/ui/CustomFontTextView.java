@@ -6,6 +6,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 /**
+ * Internal use only.
+ *
  * Custom TextView with an additional 'gvCustomFont' attribute. System font names or font file paths (full path in the assets folder)
  * can be used.
  *
@@ -29,9 +31,9 @@ import android.util.AttributeSet;
  *      gini:gvCustomFont="myFonts/Cave-Story.ttf" />
  * }</pre>
  *
- * @exclude
+ * @suppress
  */
-public class CustomFontTextView extends android.support.v7.widget.AppCompatTextView {
+public class CustomFontTextView extends androidx.appcompat.widget.AppCompatTextView {
 
     public CustomFontTextView(final Context context) {
         super(context);

@@ -1,12 +1,12 @@
 package net.gini.android.vision.onboarding;
 
-import android.support.annotation.NonNull;
-
 /**
  * Created by Alpar Szotyori on 21.02.2018.
  *
  * Copyright (c) 2018 Gini GmbH.
  */
+
+import androidx.annotation.NonNull;
 
 /**
  * <p>

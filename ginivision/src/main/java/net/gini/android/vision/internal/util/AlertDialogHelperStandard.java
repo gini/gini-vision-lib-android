@@ -3,9 +3,9 @@ package net.gini.android.vision.internal.util;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 /**
  * Created by Alpar Szotyori on 04.02.2019.
  *
@@ -13,7 +13,9 @@ import android.support.annotation.Nullable;
  */
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public final class AlertDialogHelperStandard {
 

@@ -2,14 +2,15 @@ package net.gini.android.vision.component.noresults.compat;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 
 import net.gini.android.vision.component.R;
 import net.gini.android.vision.component.camera.compat.CameraExampleAppCompatActivity;
 import net.gini.android.vision.component.noresults.BaseNoResultsScreenHandler;
 import net.gini.android.vision.noresults.NoResultsFragmentCompat;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 /**
  * Created by Alpar Szotyori on 04.12.2017.

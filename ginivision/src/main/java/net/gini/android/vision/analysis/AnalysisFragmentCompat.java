@@ -3,10 +3,6 @@ package net.gini.android.vision.analysis;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +11,11 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 import net.gini.android.vision.internal.util.AlertDialogHelperCompat;
 import net.gini.android.vision.review.ReviewFragmentListener;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+import androidx.fragment.app.Fragment;
 
 /**
  * <h3>Component API</h3>
@@ -36,12 +37,12 @@ import net.gini.android.vision.review.ReviewFragmentListener;
  * </p>
  * <p>
  * <b>Note:</b> Your Activity hosting this Fragment must extend the {@link
- * android.support.v7.app.AppCompatActivity} and use an AppCompat Theme.
+ * androidx.appcompat.app.AppCompatActivity} and use an AppCompat Theme.
  * </p>
  * <p>
  * Include the {@code AnalyzeDocumentFragmentCompat} into your layout by using the {@link
  * AnalysisFragmentCompat#createInstance(Document, String)} factory method to create an instance and
- * display it using the {@link android.support.v4.app.FragmentManager}.
+ * display it using the {@link androidx.fragment.app.FragmentManager}.
  * </p>
  * <p>
  * An {@link AnalysisFragmentListener} instance must be available until the {@code
@@ -77,7 +78,9 @@ public class AnalysisFragmentCompat extends Fragment implements FragmentImplCall
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -95,7 +98,9 @@ public class AnalysisFragmentCompat extends Fragment implements FragmentImplCall
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Nullable
     @Override
@@ -105,7 +110,9 @@ public class AnalysisFragmentCompat extends Fragment implements FragmentImplCall
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onDestroy() {
@@ -119,7 +126,9 @@ public class AnalysisFragmentCompat extends Fragment implements FragmentImplCall
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onStart() {
@@ -128,7 +137,9 @@ public class AnalysisFragmentCompat extends Fragment implements FragmentImplCall
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onStop() {

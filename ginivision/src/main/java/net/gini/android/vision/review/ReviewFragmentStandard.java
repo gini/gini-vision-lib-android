@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +12,9 @@ import net.gini.android.vision.Document;
 import net.gini.android.vision.camera.CameraFragmentListener;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 import net.gini.android.vision.internal.util.AlertDialogHelperStandard;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * <h3>Component API</h3>
@@ -62,7 +63,9 @@ public class ReviewFragmentStandard extends Fragment implements FragmentImplCall
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -73,7 +76,9 @@ public class ReviewFragmentStandard extends Fragment implements FragmentImplCall
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Nullable
     @Override
@@ -83,7 +88,9 @@ public class ReviewFragmentStandard extends Fragment implements FragmentImplCall
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onStart() {
@@ -92,7 +99,9 @@ public class ReviewFragmentStandard extends Fragment implements FragmentImplCall
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onStop() {
@@ -107,7 +116,9 @@ public class ReviewFragmentStandard extends Fragment implements FragmentImplCall
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void onDestroy() {

@@ -49,7 +49,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 
@@ -63,6 +62,7 @@ import java.util.concurrent.CancellationException;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import jersey.repackaged.jsr166e.CompletableFuture;
 
 /**
@@ -70,7 +70,7 @@ import jersey.repackaged.jsr166e.CompletableFuture;
  *
  * Copyright (c) 2019 Gini GmbH.
  */
-@RunWith(JUnit4.class)
+@RunWith(AndroidJUnit4.class)
 public class AnalysisScreenPresenterTest {
 
     @Mock

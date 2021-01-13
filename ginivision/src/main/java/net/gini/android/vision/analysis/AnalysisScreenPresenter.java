@@ -1,14 +1,12 @@
 package net.gini.android.vision.analysis;
 
+import static net.gini.android.vision.internal.util.NullabilityHelper.getMapOrEmpty;
 import static net.gini.android.vision.tracking.EventTrackingHelper.trackAnalysisScreenEvent;
 
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
 import android.view.View;
 
 import net.gini.android.vision.AsyncCallback;
@@ -42,13 +40,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 import jersey.repackaged.jsr166e.CompletableFuture;
 
 /**
  * Created by Alpar Szotyori on 08.05.2019.
  *
  * Copyright (c) 2019 Gini GmbH.
- *
  */
 class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
 
@@ -65,8 +65,7 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
         }
 
         @Override
-        public void onExtractionsAvailable(
-                @NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
+        public void onExtractionsAvailable(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
         }
 
         @Override
@@ -76,6 +75,7 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
         @Override
         public void onDefaultPDFAppAlertDialogCancelled() {
         }
+
     };
 
     private final GiniVisionMultiPageDocument<GiniVisionDocument, GiniVisionDocumentError>
@@ -342,9 +342,14 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
                                 break;
                             case SUCCESS_WITH_EXTRACTIONS:
                                 mAnalysisCompleted = true;
-                                getAnalysisFragmentListenerOrNoOp()
-                                        .onExtractionsAvailable(resultHolder.getExtractions());
-                                break;
+                                if (resultHolder.getExtractions().isEmpty()) {
+                                    getAnalysisFragmentListenerOrNoOp()
+                                            .onProceedToNoExtractionsScreen(mMultiPageDocument);
+                                    return null;
+                                }
+                                    getAnalysisFragmentListenerOrNoOp()
+                                            .onExtractionsAvailable(getMapOrEmpty(resultHolder.getExtractions()));
+
                             case NO_NETWORK_SERVICE:
                                 getAnalysisFragmentListenerOrNoOp().onAnalyzeDocument(
                                         getFirstDocument());

@@ -1,6 +1,6 @@
 package net.gini.android.vision.requirements;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * <p>

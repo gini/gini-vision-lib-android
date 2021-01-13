@@ -2,9 +2,6 @@ package net.gini.android.vision.review.multipage.previews;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,8 +21,14 @@ import net.gini.android.vision.review.RotatableImageViewContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class PreviewFragment extends Fragment {
 
@@ -237,7 +240,9 @@ public class PreviewFragment extends Fragment {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public enum ErrorButtonAction {
         RETRY,

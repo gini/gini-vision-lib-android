@@ -1,9 +1,10 @@
 package net.gini.android.vision.onboarding;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
+
+import androidx.annotation.NonNull;
 
 final class OnboardingPageFragmentHelper {
 

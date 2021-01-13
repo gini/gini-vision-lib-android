@@ -3,8 +3,6 @@ package net.gini.android.vision.internal.camera.photo;
 import static org.apache.commons.imaging.Imaging.getMetadata;
 
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import net.gini.android.vision.BuildConfig;
@@ -32,8 +30,13 @@ import java.nio.charset.Charset;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 class Exif {
 

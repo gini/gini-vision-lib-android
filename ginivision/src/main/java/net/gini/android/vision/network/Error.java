@@ -6,8 +6,8 @@ package net.gini.android.vision.network;
  * Copyright (c) 2018 Gini GmbH.
  */
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * Used by the {@link GiniVisionNetworkService} and {@link GiniVisionNetworkApi} to return error

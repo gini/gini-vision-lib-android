@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply from: rootProject.file('gradle/git_utils.gradle')
 apply from: rootProject.file('gradle/gini_credentials.gradle')
 
@@ -24,13 +25,11 @@ android {
         // Use the test runner with JUnit4 support
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
 
-        sourceSets {
-            main {
-                java.srcDirs += "$rootProject.projectDir/exampleShared/java"
-            }
-        }
-
         multiDexEnabled true
+    }
+
+    buildFeatures {
+        viewBinding true
     }
 
     signingConfigs {
@@ -64,14 +63,18 @@ repositories {
     maven {
         url 'https://repo.gini.net/nexus/content/repositories/open'
     }
+    mavenCentral()
 }
 
 dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation deps.appCompatv7
-    implementation 'com.android.support:multidex:1.0.3'
+    implementation project(path: ':exampleShared')
+    implementation deps.androidxAppCompat
+    implementation deps.androidxCoordinatorLayout
+    implementation deps.androidxMultidex
 
-    implementation 'com.karumi:dexter:4.2.0'
+    implementation 'com.karumi:dexter:6.0.2'
 
     implementation 'com.github.tony19:logback-android-core:1.1.1-6'
     implementation('com.github.tony19:logback-android-classic:1.1.1-6') {
@@ -101,19 +104,11 @@ dependencies {
 
     testImplementation deps.junit
 
-    androidTestImplementation(deps.androidxTestRunner, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    androidTestImplementation(deps.androidxTestRunner)
     androidTestImplementation deps.truth
-    androidTestImplementation(deps.androidxTestRules, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    androidTestImplementation(deps.androidxTestEspressoCore, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    androidTestImplementation(deps.androidxTestEspressoIntents, {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
+    androidTestImplementation(deps.androidxTestRules)
+    androidTestImplementation(deps.androidxTestEspressoCore)
+    androidTestImplementation(deps.androidxTestEspressoIntents)
     androidTestImplementation deps.androidxTestUiAutomator
     androidTestImplementation deps.mockito
     androidTestImplementation deps.mockitoAndroid

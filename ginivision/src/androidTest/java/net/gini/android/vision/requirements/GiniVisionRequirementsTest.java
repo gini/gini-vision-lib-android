@@ -13,7 +13,7 @@ import org.junit.runner.RunWith;
 import java.util.List;
 import java.util.Locale;
 
-import androidx.test.InstrumentationRegistry;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)
@@ -26,7 +26,7 @@ public class GiniVisionRequirementsTest {
     public void should_fulfillRequirements() throws InterruptedException {
         grantCameraPermission();
         final RequirementsReport report = GiniVisionRequirements.checkRequirements(
-                InstrumentationRegistry.getTargetContext());
+                ApplicationProvider.getApplicationContext());
         assertWithMessage(unfulfilledRequirementsMessage(report))
                 .that(report.isFulfilled()).isTrue();
     }

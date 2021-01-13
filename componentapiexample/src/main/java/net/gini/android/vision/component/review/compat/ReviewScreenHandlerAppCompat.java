@@ -2,9 +2,6 @@ package net.gini.android.vision.component.review.compat;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.component.R;
@@ -13,6 +10,10 @@ import net.gini.android.vision.component.noresults.compat.NoResultsExampleAppCom
 import net.gini.android.vision.component.review.BaseReviewScreenHandler;
 import net.gini.android.vision.review.ReviewFragmentCompat;
 import net.gini.android.vision.review.ReviewFragmentInterface;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 /**
  * Created by Alpar Szotyori on 04.12.2017.

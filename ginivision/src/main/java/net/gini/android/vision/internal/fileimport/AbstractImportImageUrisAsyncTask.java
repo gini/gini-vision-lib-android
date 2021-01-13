@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 
 import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.Document;
@@ -27,6 +26,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
+import androidx.annotation.NonNull;
+
 /**
  * Created by Alpar Szotyori on 25.05.2018.
  *
@@ -34,7 +35,9 @@ import java.io.IOException;
  */
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public abstract class AbstractImportImageUrisAsyncTask extends
         AsyncTask<Uri, Integer, ImageMultiPageDocument> {

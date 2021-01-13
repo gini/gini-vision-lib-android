@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'jacoco-android'
+apply plugin: 'com.hiya.jacoco-android'
+apply plugin: 'org.jetbrains.dokka'
 
 jacoco {
     toolVersion = "0.8.3"
@@ -18,6 +18,9 @@ android {
 
         // Use the test runner with JUnit4 support
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+
+        buildConfigField 'int', 'VERSION_CODE', "${rootProject.ext.versionCode}"
+        buildConfigField 'String', 'VERSION_NAME', "\"${rootProject.ext.versionName}\""
     }
 
     buildTypes {
@@ -57,18 +60,23 @@ android {
 
 dependencies {
     api deps.slf4j
-    api deps.appCompatv7
-    api deps.supportv4
-    api deps.supportv13
-    api deps.supportDesign
-    api deps.playServicesVision
+    implementation deps.androidxCore
+    implementation deps.androidxAppCompat
+    implementation deps.androidxFragment
+    implementation deps.androidxViewPager
+    implementation deps.androidxRecyclerView
+    implementation deps.androidxLegacySupportV13
+    implementation deps.materialDesign
+    implementation deps.androidxCardView
+    implementation deps.androidxAnnotations
+    implementation deps.playServicesVision
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation deps.commonsImaging
-    implementation deps.completableFuture
+    implementation 'org.glassfish.jersey.bundles.repackaged:jersey-jsr166e:2.25.1'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation fileTree(dir: '${project.rootDir}/tools/doccheck-doclet', include: ['*.jar'])
-    implementation deps.supportCardView
+    implementation deps.androidxCardView
 
     testImplementation deps.junit
     testImplementation deps.truth
@@ -94,6 +102,8 @@ dependencies {
     androidTestImplementation deps.androidxMultidex
 
     androidTestUtil deps.androidxTestOrchestrator
+
+    dokkaHtmlPlugin 'org.jetbrains.dokka:kotlin-as-java-plugin:1.4.10'
 }
 
 apply from: rootProject.file('gradle/codequality.gradle')
@@ -101,47 +111,63 @@ apply from: rootProject.file('gradle/maven.gradle')
 apply from: rootProject.file('gradle/javadoc_coverage.gradle')
 apply from: rootProject.file('gradle/multidex_for_tests.gradle')
 
-task generateJavadoc(type: GenerateJavadoc) {
-    projectTitle = "Gini Vision Library for Android"
+dokkaHtml {
+    outputDirectory.set(file("$buildDir/dokka"))
+    dokkaSourceSets {
+        named("main") {
+            noAndroidSdkLink.set(false)
+
+            includes.from(files("module.md", packageDocumentationPaths(android.sourceSets.main.java.srcDirs[0])))
+
+            perPackageOption {
+                prefix.set('com.ortiz')
+                suppress.set(true)
+            }
+            perPackageOption {
+                prefix.set('net.gini.android.vision.internal')
+                suppress.set(true)
+            }
+            perPackageOption {
+                prefix.set('net.gini.android.vision.util')
+                suppress.set(true)
+            }
+            perPackageOption {
+                prefix.set('net.gini.android.vision.review.multipage.previews')
+                suppress.set(true)
+            }
+            perPackageOption {
+                prefix.set('net.gini.android.vision.review.multipage.thumbnails')
+                suppress.set(true)
+            }
+        }
+    }
+}
+
+dokkaJavadoc {
+    outputDirectory.set(file("$buildDir/dokka-javadoc"))
+}
+
+static def packageDocumentationPaths(srcDir) {
+    def packageDocs = []
+    srcDir.eachFileRecurse {
+        if (it.name == 'package.md') {
+            packageDocs.add(it.getAbsolutePath())
+        }
+    }
+    return packageDocs
 }
 
 task sourcesJar(type: Jar, dependsOn: 'assembleRelease') {
-    classifier = 'sources'
+    archiveClassifier.set('sources')
     from android.sourceSets.main.java.srcDirs
 }
 
-task javadocJar(type: Jar, dependsOn: generateJavadoc) {
-    classifier = 'javadoc'
-    from destinationDir
+task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
+    archiveClassifier.set('javadoc')
+    from dokkaJavadoc.outputDirectory
 }
 
 artifacts {
     archives sourcesJar
     archives javadocJar
-}
-
-task unifyConnectedTestCoverage {
-    description = "Adds the connected tests' coverage to the JacocoReport tasks."
-    doLast {
-        unifyTestCoverage(firstSubfolderOf("${buildDir}/outputs/code_coverage/debugAndroidTest/connected"))
-    }
-}
-
-static def firstSubfolderOf(dir) {
-    File directory = new File(dir)
-    if (directory.list().length == 0) {
-        return
-    }
-    def subdir = directory.list()[0]
-    return new File(directory, subdir)
-}
-
-def unifyTestCoverage(coverageFilesPath) {
-    tasks.withType(JacocoReport) { task ->
-        File execDataDir = file(coverageFilesPath)
-        if (execDataDir.exists() && execDataDir.isDirectory() && execDataDir.listFiles().length > 0) {
-            File[] execDataDirContents = execDataDir.listFiles()
-            task.executionData.from(files { execDataDirContents })
-        }
-    }
 }

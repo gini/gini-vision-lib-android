@@ -2,10 +2,11 @@ package net.gini.android.vision.noresults;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
+
+import androidx.annotation.NonNull;
 
 final class NoResultsFragmentHelper {
 

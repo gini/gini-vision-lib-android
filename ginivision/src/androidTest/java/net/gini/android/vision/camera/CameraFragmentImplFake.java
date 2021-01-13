@@ -1,7 +1,6 @@
 package net.gini.android.vision.camera;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
 
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
 import net.gini.android.vision.document.QRCodeDocument;
@@ -9,6 +8,8 @@ import net.gini.android.vision.internal.camera.api.CameraControllerFake;
 import net.gini.android.vision.internal.camera.api.CameraInterface;
 import net.gini.android.vision.internal.qrcode.PaymentQRCodeData;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Alpar Szotyori on 15.12.2017.

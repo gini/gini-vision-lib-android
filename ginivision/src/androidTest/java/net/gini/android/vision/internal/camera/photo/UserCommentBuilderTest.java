@@ -2,14 +2,13 @@ package net.gini.android.vision.internal.camera.photo;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import android.support.annotation.NonNull;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 /**

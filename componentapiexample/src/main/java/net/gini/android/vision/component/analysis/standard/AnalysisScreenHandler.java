@@ -69,5 +69,4 @@ public class AnalysisScreenHandler extends BaseAnalysisScreenHandler {
     protected void setUpActionBar() {
     }
 
-
 }

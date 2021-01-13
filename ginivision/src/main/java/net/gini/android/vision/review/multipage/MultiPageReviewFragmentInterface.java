@@ -1,12 +1,12 @@
 package net.gini.android.vision.review.multipage;
 
-import android.support.annotation.NonNull;
-
 /**
  * Created by Alpar Szotyori on 07.05.2018.
  *
  * Copyright (c) 2018 Gini GmbH.
  */
+
+import androidx.annotation.NonNull;
 
 /**
  * Methods which the Multi-Page Review Fragment must implement.
