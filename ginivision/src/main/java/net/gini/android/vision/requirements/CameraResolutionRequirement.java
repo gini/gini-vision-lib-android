@@ -45,7 +45,7 @@ public class CameraResolutionRequirement implements Requirement {
                         MAX_PICTURE_AREA,
                         MIN_PICTURE_AREA
                 );
-                if (sizes.first == null || sizes.second == null) {
+                if (sizes == null) {
                     result = false;
                     details = "Camera doesn't have a resolution that matches the requirements";
                     return new RequirementReport(getId(), result, details);

@@ -466,7 +466,7 @@ public class CameraController implements CameraInterface {
 
         final Pair<Size, Size> sizes = getBestSize(pictureSizes, previewSizes, CameraResolutionRequirement.MAX_PICTURE_AREA,
                 CameraResolutionRequirement.MIN_PICTURE_AREA);
-        if (sizes.first != null && sizes.second != null) {
+        if (sizes != null) {
             mPictureSize = sizes.first;
             params.setPictureSize(mPictureSize.width, mPictureSize.height);
             LOG.debug("Picture size ({}, {})", mPictureSize.width, mPictureSize.height);
