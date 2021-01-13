@@ -29,7 +29,7 @@ public class CameraResolutionRequirementTest {
 
         assertThat(requirement.check().isFulfilled()).isFalse();
         assertThat(requirement.check().getDetails()).isEqualTo(
-                "Camera has no preview resolutions matching the picture resolution 3840x2160");
+                "Camera doesn't have a resolution that matches the requirements");
     }
 
     @Test
@@ -44,7 +44,7 @@ public class CameraResolutionRequirementTest {
 
         assertThat(requirement.check().isFulfilled()).isFalse();
         assertThat(requirement.check().getDetails()).isEqualTo(
-                "Largest camera picture resolution is lower than 8MP");
+                "Camera doesn't have a resolution that matches the requirements");
     }
 
     @Test
