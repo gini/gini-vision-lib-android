@@ -222,7 +222,7 @@ public class CameraController implements CameraInterface {
                         // Otherwise we set the new completable and exit the loop
                     } while (!mFocusingFuture.compareAndSet(null, focused));
 
-                    mCamera.cancelAutoFocus();
+                    safeCancelAutoFocus(mCamera);
                     final Rect focusRect = calculateTapArea(x, y, getBackFacingCameraOrientation(),
                             view.getWidth(), view.getHeight());
                     LOG.debug("Focus rect calculated (l:{}, t:{}, r:{}, b:{})", focusRect.left,
@@ -271,6 +271,16 @@ public class CameraController implements CameraInterface {
         });
     }
 
+    private void safeCancelAutoFocus(Camera mCamera) {
+        if (isFocusModeSupported(Camera.Parameters.FOCUS_MODE_AUTO, mCamera)) {
+            try {
+                mCamera.cancelAutoFocus();
+            } catch (RuntimeException exception) {
+                // do nothing
+            }
+        }
+    }
+
     @Override
     public void disableTapToFocus(@NonNull final View tapView) {
         LOG.info("Tap to focus disabled");
@@ -306,7 +316,7 @@ public class CameraController implements CameraInterface {
             // Otherwise we set the new completable and exit the loop
         } while (!mFocusingFuture.compareAndSet(null, completed));
 
-        mCamera.cancelAutoFocus();
+        safeCancelAutoFocus(mCamera);
         mCamera.autoFocus(new Camera.AutoFocusCallback() {
             @Override
             public void onAutoFocus(final boolean success, final Camera camera) {
