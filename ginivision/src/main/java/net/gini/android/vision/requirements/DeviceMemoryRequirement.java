@@ -36,12 +36,11 @@ class DeviceMemoryRequirement implements Requirement {
                         parameters.getSupportedPreviewSizes(),
                         CameraResolutionRequirement.MAX_PICTURE_AREA,
                         CameraResolutionRequirement.MIN_PICTURE_AREA);
-                final Size pictureSize = sizes.first;
-                if (pictureSize == null) {
+                if (sizes == null) {
                     result = false;
                     details =
                             "Cannot determine memory requirement as the camera has no picture resolution with a 4:3 aspect ratio";
-                } else if (!sufficientMemoryAvailable(pictureSize)) {
+                } else if (!sufficientMemoryAvailable(sizes.first)) {
                     result = false;
                     details = "Insufficient memory available";
                 }
