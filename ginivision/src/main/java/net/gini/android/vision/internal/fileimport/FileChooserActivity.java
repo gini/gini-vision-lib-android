@@ -17,16 +17,6 @@ import android.content.pm.ResolveInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.transition.AutoTransition;
-import android.support.transition.Transition;
-import android.support.transition.TransitionListenerAdapter;
-import android.support.transition.TransitionManager;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -53,8 +43,21 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.AutoTransition;
+import androidx.transition.Transition;
+import androidx.transition.TransitionListenerAdapter;
+import androidx.transition.TransitionManager;
+
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class FileChooserActivity extends AppCompatActivity implements AlertDialogFragmentListener {
 
@@ -254,6 +257,7 @@ public class FileChooserActivity extends AppCompatActivity implements AlertDialo
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode,
             final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQ_CODE_CHOOSE_FILE) {
             setResult(resultCode, data);
         } else {

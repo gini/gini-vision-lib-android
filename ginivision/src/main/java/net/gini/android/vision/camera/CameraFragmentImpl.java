@@ -27,17 +27,6 @@ import android.graphics.Point;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.UiThread;
-import android.support.annotation.VisibleForTesting;
-import android.support.transition.Transition;
-import android.support.transition.TransitionListenerAdapter;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.view.ViewPropertyAnimatorCompat;
-import android.support.v4.view.ViewPropertyAnimatorListener;
-import android.support.v4.view.ViewPropertyAnimatorListenerAdapter;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.View;
@@ -105,6 +94,17 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.UiThread;
+import androidx.annotation.VisibleForTesting;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.ViewPropertyAnimatorCompat;
+import androidx.core.view.ViewPropertyAnimatorListener;
+import androidx.core.view.ViewPropertyAnimatorListenerAdapter;
+import androidx.transition.Transition;
+import androidx.transition.TransitionListenerAdapter;
 import jersey.repackaged.jsr166e.CompletableFuture;
 
 class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader.Listener {
@@ -448,6 +448,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 updateImageStack();
             } else {
                 mInMultiPageState = false;
+                mMultiPageDocument = null;
                 mImageStack.removeImages();
             }
         }
@@ -535,7 +536,11 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     }
 
     private boolean shouldShowHintPopUp() {
-        if (!isDocumentImportEnabled() || mInterfaceHidden) {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return false;
+        }
+        if (!isDocumentImportEnabled(activity) || mInterfaceHidden) {
             return false;
         }
         final Context context = mFragment.getActivity();
@@ -782,7 +787,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             }
         }
         final FlashButtonPosition flashButtonPosition = getFlashButtonPosition(
-                isDocumentImportEnabled(), isMultiPageEnabled());
+                isDocumentImportEnabled(activity), isMultiPageEnabled());
         switch (flashButtonPosition) {
             case LEFT_OF_CAMERA_TRIGGER:
                 mButtonCameraFlash = view.findViewById(R.id.gv_button_camera_flash_left_of_trigger);
@@ -804,17 +809,17 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         if (activity == null) {
             return;
         }
-        if (!mInterfaceHidden
-                && isDocumentImportEnabled() && FileChooserActivity.canChooseFiles(activity)) {
+        if (!mInterfaceHidden && isDocumentImportEnabled(activity)) {
             mImportDocumentButtonEnabled = true;
             mImportButtonContainer.setVisibility(View.VISIBLE);
             showImportDocumentButtonAnimated();
         }
     }
 
-    private boolean isDocumentImportEnabled() {
+    private boolean isDocumentImportEnabled(@NonNull final Activity activity) {
         return getDocumentImportEnabledFileTypes(mGiniVisionFeatureConfiguration)
-                != DocumentImportEnabledFileTypes.NONE;
+                != DocumentImportEnabledFileTypes.NONE
+                && FileChooserActivity.canChooseFiles(activity);
     }
 
     private void setInputHandlers() {

@@ -1,15 +1,13 @@
 package net.gini.android.vision.help;
 
-import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
-import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionFeatureConfiguration;
@@ -21,6 +19,9 @@ import net.gini.android.vision.review.ReviewActivity;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
+import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
 
 /**
  * <h3>Screen API and Component API</h3>
@@ -98,7 +99,7 @@ public class HelpActivity extends AppCompatActivity {
     /**
      * Optional extra which must contain a {@link GiniVisionFeatureConfiguration} instance.
      *
-     * @deprecated Configuration should be applied by creating a {@link GiniVision} instance using
+     * @Deprecated Configuration should be applied by creating a {@link GiniVision} instance using
      * {@link GiniVision#newInstance()} and the returned {@link GiniVision.Builder}.
      */
     public static final String EXTRA_IN_GINI_VISION_FEATURE_CONFIGURATION =

@@ -35,7 +35,7 @@ public enum AnalysisScreenEvent {
     /**
      * Keys to retrieve details about the {@link AnalysisScreenEvent#ERROR} event.
      */
-    public static class ERROR_DETAILS_MAP_KEY {
+    public static final class ERROR_DETAILS_MAP_KEY {
 
         /**
          * Error message key in the details map. Value type is {@link String}.

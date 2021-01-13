@@ -3,8 +3,6 @@ package net.gini.android.vision.analysis;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import net.gini.android.vision.GiniVisionBasePresenter;
 import net.gini.android.vision.GiniVisionBaseView;
@@ -12,6 +10,8 @@ import net.gini.android.vision.internal.util.Size;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import jersey.repackaged.jsr166e.CompletableFuture;
 
 /**
@@ -22,8 +22,18 @@ import jersey.repackaged.jsr166e.CompletableFuture;
  */
 interface AnalysisScreenContract {
 
-    abstract class View extends GiniVisionBaseView<Presenter> implements
-            AnalysisFragmentInterface {
+    abstract class View implements GiniVisionBaseView<Presenter>, AnalysisFragmentInterface {
+
+        private Presenter mPresenter;
+
+        @Override
+        public void setPresenter(@NonNull final Presenter presenter) {
+            mPresenter = presenter;
+        }
+
+        public Presenter getPresenter() {
+            return mPresenter;
+        }
 
         abstract void showScanAnimation();
 

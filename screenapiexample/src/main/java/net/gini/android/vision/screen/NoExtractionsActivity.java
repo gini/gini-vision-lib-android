@@ -1,9 +1,10 @@
 package net.gini.android.vision.screen;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * <p>
@@ -24,7 +25,7 @@ public class NoExtractionsActivity extends AppCompatActivity {
     private Button mButtonNew;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_no_extractions);
         bindViews();
@@ -38,7 +39,7 @@ public class NoExtractionsActivity extends AppCompatActivity {
     private void setInputHandlers() {
         mButtonNew.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 setResult(RESULT_START_GINI_VISION);
                 finish();
             }

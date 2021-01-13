@@ -1,7 +1,8 @@
 package net.gini.android.vision.requirements;
 
 import android.hardware.Camera;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 class CameraHolder {
 

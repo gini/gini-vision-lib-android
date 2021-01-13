@@ -2,8 +2,6 @@ package net.gini.android.vision.document;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.internal.qrcode.PaymentQRCodeData;
@@ -13,6 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.UnsupportedEncodingException;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 
 /**
  * Created by Alpar Szotyori on 12.01.2018.
@@ -41,7 +42,7 @@ public final class QRCodeDocument extends GiniVisionDocument {
      * @param paymentQRCodeData contents of a payment QR Code
      * @return new instance
      *
-     * @exclude
+     * @suppress
      */
     public static QRCodeDocument fromPaymentQRCodeData(
             @NonNull final PaymentQRCodeData paymentQRCodeData) {
@@ -71,7 +72,9 @@ public final class QRCodeDocument extends GiniVisionDocument {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public int describeContents() {
@@ -79,7 +82,9 @@ public final class QRCodeDocument extends GiniVisionDocument {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void writeToParcel(@NonNull final Parcel dest, final int flags) {
@@ -88,7 +93,9 @@ public final class QRCodeDocument extends GiniVisionDocument {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static final Creator<QRCodeDocument> CREATOR = new Parcelable.Creator<QRCodeDocument>() {
         @Override
@@ -103,7 +110,9 @@ public final class QRCodeDocument extends GiniVisionDocument {
     };
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @VisibleForTesting
     PaymentQRCodeData getPaymentData() {

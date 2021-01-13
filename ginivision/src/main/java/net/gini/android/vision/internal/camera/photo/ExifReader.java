@@ -2,9 +2,6 @@ package net.gini.android.vision.internal.camera.photo;
 
 import static org.apache.commons.imaging.Imaging.getMetadata;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
 import org.apache.commons.imaging.ImageReadException;
 import org.apache.commons.imaging.formats.jpeg.JpegImageMetadata;
 import org.apache.commons.imaging.formats.tiff.TiffField;
@@ -15,8 +12,13 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 final class ExifReader {
 
@@ -29,7 +31,7 @@ final class ExifReader {
                 throw new ExifReaderException("No jpeg metadata found");
             }
             return new ExifReader(jpegMetadata);
-        } catch (IOException | ImageReadException | ClassCastException e) {
+        } catch (final IOException | ImageReadException | ClassCastException e) {
             throw new ExifReaderException("Could not read jpeg metadata: " + e.getMessage(), e);
         }
     }

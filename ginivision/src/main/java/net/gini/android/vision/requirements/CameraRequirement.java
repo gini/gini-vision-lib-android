@@ -1,12 +1,12 @@
 package net.gini.android.vision.requirements;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 class CameraRequirement implements Requirement {
 
     private final CameraHolder mCameraHolder;
 
-    CameraRequirement(CameraHolder cameraHolder) {
+    CameraRequirement(final CameraHolder cameraHolder) {
         mCameraHolder = cameraHolder;
     }
 
@@ -26,7 +26,7 @@ class CameraRequirement implements Requirement {
                 result = false;
                 details = "No back-facing camera found";
             }
-        } catch (RuntimeException e) {
+        } catch (final RuntimeException e) {
             result = false;
             details = "Camera could not be opened: " + e.getMessage();
         }

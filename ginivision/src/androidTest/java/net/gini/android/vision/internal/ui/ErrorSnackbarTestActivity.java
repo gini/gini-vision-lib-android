@@ -1,10 +1,11 @@
 package net.gini.android.vision.internal.ui;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.RelativeLayout;
 
 import net.gini.android.vision.test.R;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class ErrorSnackbarTestActivity extends AppCompatActivity {
 
@@ -12,7 +13,7 @@ public class ErrorSnackbarTestActivity extends AppCompatActivity {
     private RelativeLayout mSubviewLayout;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_error_snackbar);
         bindViews();

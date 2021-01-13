@@ -2,12 +2,13 @@ package net.gini.android.vision.analysis;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
+
+import androidx.annotation.Nullable;
 
 /**
  * Created by Alpar Szotyori on 15.05.2019.

@@ -1,14 +1,16 @@
 package net.gini.android.vision.onboarding;
 
-import android.support.annotation.NonNull;
-import android.support.v4.view.PagerAdapter;
-
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.viewpager.widget.PagerAdapter;
+
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public interface OnboardingFragmentImplCallback extends FragmentImplCallback {
 

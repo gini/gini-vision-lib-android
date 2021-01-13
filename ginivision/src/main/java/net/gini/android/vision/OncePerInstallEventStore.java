@@ -2,15 +2,18 @@ package net.gini.android.vision;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.VisibleForTesting;
+
+import androidx.annotation.VisibleForTesting;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
-class OncePerInstallEventStore {
+public class OncePerInstallEventStore {
 
     private static final Logger LOG = LoggerFactory.getLogger(OncePerInstallEventStore.class);
 
@@ -18,16 +21,16 @@ class OncePerInstallEventStore {
 
     private final SharedPreferences mSharedPreferences;
 
-    public OncePerInstallEventStore(Context context) {
+    public OncePerInstallEventStore(final Context context) {
         mSharedPreferences = context.getSharedPreferences(ONCE_PER_INSTALL_EVENTS,
                 Context.MODE_PRIVATE);
     }
 
-    public boolean containsEvent(OncePerInstallEvent event) {
+    public boolean containsEvent(final OncePerInstallEvent event) {
         return mSharedPreferences.contains(event.name());
     }
 
-    public void saveEvent(OncePerInstallEvent event) {
+    public void saveEvent(final OncePerInstallEvent event) {
         mSharedPreferences.edit()
                 .putBoolean(event.name(), true)
                 .apply();
@@ -35,7 +38,7 @@ class OncePerInstallEventStore {
     }
 
     @VisibleForTesting
-    void clearEvent(OncePerInstallEvent event) {
+    void clearEvent(final OncePerInstallEvent event) {
         mSharedPreferences.edit()
                 .remove(event.name())
                 .apply();

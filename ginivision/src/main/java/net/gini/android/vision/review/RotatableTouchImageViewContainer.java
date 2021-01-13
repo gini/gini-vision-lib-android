@@ -1,12 +1,13 @@
 package net.gini.android.vision.review;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
 import com.ortiz.touch.TouchImageView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * Created by Alpar Szotyori on 19.02.2018.
@@ -15,7 +16,9 @@ import com.ortiz.touch.TouchImageView;
  */
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class RotatableTouchImageViewContainer extends RotatableImageViewContainer {
 

@@ -13,10 +13,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.ParcelFileDescriptor;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.annotation.VisibleForTesting;
 
 import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.internal.util.Size;
@@ -26,10 +22,17 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.annotation.VisibleForTesting;
+
 /**
+ * Internal use only.
+ *
  * This class is not thread safe due to the underlying {@link PdfRenderer}.
  *
- * @exclude
+ * @suppress
  */
 @RequiresApi(21)
 class RendererLollipop implements Renderer {

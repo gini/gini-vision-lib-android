@@ -13,7 +13,6 @@ import static net.gini.android.vision.test.Helpers.waitForWindowUpdate;
 import static org.junit.Assume.assumeTrue;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.view.Surface;
 
 import net.gini.android.vision.Document;
@@ -35,9 +34,11 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import androidx.annotation.NonNull;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.filters.SdkSuppress;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -63,6 +64,10 @@ public class AnalysisScreenTest {
     public ActivityTestRule<AnalysisFragmentHostActivity>
             mAnalysisFragmentHostActivityTR = new ActivityTestRule<>(
             AnalysisFragmentHostActivity.class, true, false);
+
+    @Rule
+    public IntentsTestRule<AnalysisActivity> mIntentsTestRule = new IntentsTestRule<>(
+            AnalysisActivity.class, true, false);
 
     @BeforeClass
     public static void setupClass() throws IOException {
@@ -181,8 +186,7 @@ public class AnalysisScreenTest {
     private AnalysisActivityTestSpy startAnalysisActivity(final byte[] jpeg,
             final int orientation) {
         final Intent intent = getAnalysisActivityIntent();
-        intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, DocumentFactory.newImageDocumentFromPhoto(
-                PhotoFactory.newPhotoFromJpeg(jpeg, orientation, "portrait", "phone", ImageDocument.Source.newCameraSource())));
+        addDocumentExtraToIntent(intent, jpeg, orientation);
         return mActivityTestRule.launchActivity(intent);
     }
 
@@ -191,12 +195,11 @@ public class AnalysisScreenTest {
                 AnalysisActivityTestSpy.class);
     }
 
-    private Intent getAnalysisActivityIntentWithDocument(final byte[] jpeg, final int orientation) {
-        final Intent intent = new Intent(ApplicationProvider.getApplicationContext(),
-                AnalysisActivityTestSpy.class);
-        intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT,
-                createDocument(jpeg, orientation, "portrait", "phone", ImageDocument.Source.newCameraSource()));
-        return intent;
+    private void addDocumentExtraToIntent(final Intent intent, final byte[] jpeg,
+            final int orientation) {
+        intent.putExtra(ReviewActivity.EXTRA_IN_DOCUMENT, DocumentFactory.newImageDocumentFromPhoto(
+                PhotoFactory.newPhotoFromJpeg(jpeg, orientation, "portrait", "phone",
+                        ImageDocument.Source.newCameraSource())));
     }
 
     @Test(expected = IllegalStateException.class)
@@ -222,8 +225,7 @@ public class AnalysisScreenTest {
             }
 
             @Override
-            public void onExtractionsAvailable(
-                    @NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
+            public void onExtractionsAvailable(@NonNull final Map<String, GiniVisionSpecificExtraction> extractions) {
 
             }
 
@@ -259,4 +261,5 @@ public class AnalysisScreenTest {
         // Then
         assertThat(activity.isAnalysisRequested()).isTrue();
     }
+
 }

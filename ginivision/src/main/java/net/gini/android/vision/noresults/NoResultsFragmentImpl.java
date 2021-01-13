@@ -7,8 +7,6 @@ import static net.gini.android.vision.internal.util.ActivityHelper.forcePortrait
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +14,9 @@ import android.view.ViewGroup;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.R;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 class NoResultsFragmentImpl {
 
@@ -36,7 +37,7 @@ class NoResultsFragmentImpl {
         mDocument = document;
     }
 
-    void setListener(@Nullable NoResultsFragmentListener listener) {
+    void setListener(@Nullable final NoResultsFragmentListener listener) {
         if (listener == null) {
             mListener = NO_OP_LISTENER;
         } else {
@@ -50,8 +51,8 @@ class NoResultsFragmentImpl {
 
     View onCreateView(final LayoutInflater inflater, final ViewGroup container,
             final Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.gv_fragment_noresults, container, false);
-        View backButton = view.findViewById(R.id.gv_button_no_results_back);
+        final View view = inflater.inflate(R.layout.gv_fragment_noresults, container, false);
+        final View backButton = view.findViewById(R.id.gv_button_no_results_back);
         if (isDocumentFromCameraScreen()) {
             backButton.setOnClickListener(new View.OnClickListener() {
                 @Override

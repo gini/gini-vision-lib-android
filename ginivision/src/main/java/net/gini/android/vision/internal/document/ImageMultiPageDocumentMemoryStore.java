@@ -1,9 +1,9 @@
 package net.gini.android.vision.internal.document;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
 import net.gini.android.vision.document.ImageMultiPageDocument;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * Created by Alpar Szotyori on 08.05.2018.
@@ -12,7 +12,9 @@ import net.gini.android.vision.document.ImageMultiPageDocument;
  */
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class ImageMultiPageDocumentMemoryStore {
 

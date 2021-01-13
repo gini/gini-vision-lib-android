@@ -3,11 +3,6 @@ package net.gini.android.vision.onboarding;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +11,12 @@ import net.gini.android.vision.internal.util.AlertDialogHelperCompat;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.PagerAdapter;
 
 /**
  * <h3>Component API</h3>
@@ -26,11 +27,11 @@ import java.util.List;
  * </p>
  * <p>
  * <b>Note:</b> Your Activity hosting this Fragment must extend the {@link
- * android.support.v7.app.AppCompatActivity} and use an AppCompat Theme.
+ * androidx.appcompat.app.AppCompatActivity} and use an AppCompat Theme.
  * </p>
  * <p>
  * Include the {@code OnboardingFragmentCompat} into your layout either directly with {@code
- * <fragment>} in your Activity's layout or using the {@link android.support.v4.app.FragmentManager}.
+ * <fragment>} in your Activity's layout or using the {@link androidx.fragment.app.FragmentManager}.
  * </p>
  * <p>
  * The default way of showing the Onboarding Screen is as an overlay above the camera preview with a
@@ -144,7 +145,7 @@ public class OnboardingFragmentCompat extends Fragment implements OnboardingFrag
     /**
      * @param savedInstanceState
      *
-     * @exclude
+     * @suppress
      */
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -167,7 +168,7 @@ public class OnboardingFragmentCompat extends Fragment implements OnboardingFrag
      *
      * @return
      *
-     * @exclude
+     * @suppress
      */
     @Nullable
     @Override

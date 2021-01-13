@@ -1,13 +1,16 @@
 package net.gini.android.vision.internal.pdf;
 
 import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
 
 import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.internal.util.Size;
 
+import androidx.annotation.NonNull;
+
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 class RendererPreLollipop implements Renderer {
 

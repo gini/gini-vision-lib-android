@@ -1,9 +1,6 @@
 package net.gini.android.vision.network;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.XmlRes;
 import android.text.TextUtils;
 
 import com.android.volley.Cache;
@@ -15,7 +12,7 @@ import net.gini.android.SdkBuilder;
 import net.gini.android.authorization.CredentialsStore;
 import net.gini.android.authorization.SessionManager;
 import net.gini.android.authorization.SharedPreferencesCredentialsStore;
-import net.gini.android.models.SpecificExtraction;
+import net.gini.android.models.ExtractionsContainer;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.document.GiniVisionMultiPageDocument;
@@ -34,6 +31,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.XmlRes;
 import bolts.Continuation;
 import bolts.Task;
 
@@ -224,9 +224,9 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                         })
                 .onSuccessTask(
                         new Continuation<net.gini.android.models.Document,
-                                Task<Map<String, SpecificExtraction>>>() {
+                                Task<ExtractionsContainer>>() {
                             @Override
-                            public Task<Map<String, SpecificExtraction>> then(
+                            public Task<ExtractionsContainer> then(
                                     final Task<net.gini.android.models.Document> task)
                                     throws Exception {
                                 if (isCancelled.get()) {
@@ -243,15 +243,15 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                                             giniApiDocumentIdRotationMap);
                                     return Task.cancelled();
                                 }
-                                return mGiniApi.getDocumentTaskManager().getExtractions(
+                                return mGiniApi.getDocumentTaskManager().getAllExtractions(
                                         giniApiDocument);
                             }
                         })
                 .continueWith(
-                        new Continuation<Map<String, SpecificExtraction>, Void>() {
+                        new Continuation<ExtractionsContainer, Void>() {
                             @Override
                             public Void then(
-                                    final Task<Map<String, SpecificExtraction>> task)
+                                    final Task<ExtractionsContainer> task)
                                     throws Exception {
                                 if (task.isFaulted()) {
                                     final Error error = new Error(getTaskErrorMessage(task), task.getError());
@@ -261,8 +261,8 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
                                 } else if (task.getResult() != null) {
                                     mAnalyzedGiniApiDocument = compositeDocument.get();
                                     final Map<String, GiniVisionSpecificExtraction> extractions =
-                                            SpecificExtractionMapper.mapToGVL(task.getResult());
-                                    LOG.debug("Document analysis success for documents {}: {}",
+                                            SpecificExtractionMapper.mapToGVL(task.getResult().getSpecificExtractions());
+                                    LOG.debug("Document analysis success for documents {}: extractions = {}; compoundExtractions = {}; returnReasons = {}",
                                             giniApiDocumentIdRotationMap, extractions);
                                     callback.success(
                                             new AnalysisResult(compositeDocument.get().getId(),

@@ -1,8 +1,8 @@
 package net.gini.android.vision.requirements;
 
-import android.support.annotation.NonNull;
-
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 /**
  * <p>

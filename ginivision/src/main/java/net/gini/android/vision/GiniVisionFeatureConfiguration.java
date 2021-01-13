@@ -2,8 +2,9 @@ package net.gini.android.vision;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * Using this class the features of the Gini Vision Library can be configured.
@@ -11,12 +12,14 @@ import android.support.annotation.Nullable;
  * Use the builder by invoking {@link GiniVisionFeatureConfiguration#buildNewConfiguration()} to
  * configure and create a new instance.
  *
- * @deprecated Use {@link GiniVision#newInstance()} and the returned {@link GiniVision.Builder} instead.
+ * @Deprecated Use {@link GiniVision#newInstance()} and the returned {@link GiniVision.Builder} instead.
  */
 public class GiniVisionFeatureConfiguration implements Parcelable {
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static final Creator<GiniVisionFeatureConfiguration> CREATOR =
             new Creator<GiniVisionFeatureConfiguration>() {
@@ -48,7 +51,9 @@ public class GiniVisionFeatureConfiguration implements Parcelable {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public int describeContents() {
@@ -56,7 +61,9 @@ public class GiniVisionFeatureConfiguration implements Parcelable {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void writeToParcel(final Parcel parcel, final int i) {

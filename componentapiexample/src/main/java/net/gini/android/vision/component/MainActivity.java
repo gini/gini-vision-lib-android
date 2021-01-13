@@ -1,15 +1,12 @@
 package net.gini.android.vision.component;
 
-import static net.gini.android.vision.example.ExampleUtil.isIntentActionViewOrSend;
+import static net.gini.android.vision.example.shared.ExampleUtil.isIntentActionViewOrSend;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -23,8 +20,8 @@ import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.GiniVisionDebug;
 import net.gini.android.vision.component.camera.compat.CameraExampleAppCompatActivity;
 import net.gini.android.vision.component.camera.standard.CameraExampleActivity;
-import net.gini.android.vision.example.BaseExampleApp;
-import net.gini.android.vision.example.RuntimePermissionHandler;
+import net.gini.android.vision.example.shared.BaseExampleApp;
+import net.gini.android.vision.example.shared.RuntimePermissionHandler;
 import net.gini.android.vision.onboarding.DefaultPagesPhone;
 import net.gini.android.vision.onboarding.OnboardingPage;
 import net.gini.android.vision.requirements.GiniVisionRequirements;
@@ -33,6 +30,10 @@ import net.gini.android.vision.requirements.RequirementsReport;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Entry point for the component api example app.

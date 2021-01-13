@@ -1,6 +1,6 @@
 package net.gini.android.vision.screen;
 
-import static net.gini.android.vision.example.ExampleUtil.getLegacyExtractionsBundle;
+import static net.gini.android.vision.example.shared.ExampleUtil.getLegacyExtractionsBundle;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,16 +11,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 
 import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.camera.CameraActivity;
 import net.gini.android.vision.document.QRCodeDocument;
-import net.gini.android.vision.example.BaseExampleApp;
-import net.gini.android.vision.example.DocumentAnalyzer;
-import net.gini.android.vision.example.SingleDocumentAnalyzer;
+import net.gini.android.vision.example.shared.BaseExampleApp;
+import net.gini.android.vision.example.shared.DocumentAnalyzer;
+import net.gini.android.vision.example.shared.SingleDocumentAnalyzer;
 import net.gini.android.vision.util.IntentHelper;
 import net.gini.android.vision.util.UriHelper;
 
@@ -31,6 +29,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 /**
  * Implements callbacks for the Gini Vision Library's {@link CameraActivity}. For example to perform

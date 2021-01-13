@@ -3,12 +3,6 @@
     package="net.gini.android.vision">
 
     <application>
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
-        <meta-data
-            android:name="com.google.android.gms.vision.DEPENDENCIES"
-            android:value="barcode" />
         <activity
             android:name=".camera.CameraActivity"
             android:exported="false"
@@ -62,6 +56,15 @@
             android:exported="false"
             android:label="@string/gv_title_multi_page_review"
             android:theme="@style/GiniVisionTheme" />
+
+
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="barcode" />
     </application>
 
 </manifest>

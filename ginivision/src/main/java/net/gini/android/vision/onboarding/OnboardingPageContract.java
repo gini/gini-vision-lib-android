@@ -1,12 +1,13 @@
 package net.gini.android.vision.onboarding;
 
 import android.app.Activity;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
 
 import net.gini.android.vision.GiniVisionBasePresenter;
 import net.gini.android.vision.GiniVisionBaseView;
+
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 
 /**
  * Created by Alpar Szotyori on 20.05.2019.
@@ -15,7 +16,18 @@ import net.gini.android.vision.GiniVisionBaseView;
  */
 interface OnboardingPageContract {
 
-    abstract class View extends GiniVisionBaseView<Presenter> {
+    abstract class View implements GiniVisionBaseView<Presenter> {
+
+        private Presenter mPresenter;
+
+        @Override
+        public void setPresenter(@NonNull final Presenter presenter) {
+            mPresenter = presenter;
+        }
+
+        public Presenter getPresenter() {
+            return mPresenter;
+        }
 
         abstract void showImage(@DrawableRes final int imageResId, final boolean rotated);
 

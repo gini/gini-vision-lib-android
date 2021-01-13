@@ -5,7 +5,9 @@ import net.gini.android.vision.R;
 import java.util.ArrayList;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public enum ConditionalPages {
     MULTI_PAGE(new OnboardingPage(R.string.gv_onboarding_multi_page, R.drawable.gv_onboarding_multipage));

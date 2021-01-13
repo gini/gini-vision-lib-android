@@ -1,12 +1,14 @@
 package net.gini.android.vision.internal.camera.photo;
 
-import android.support.annotation.NonNull;
-
 import net.gini.android.vision.Document;
 import net.gini.android.vision.document.ImageDocument;
 
+import androidx.annotation.NonNull;
+
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public final class PhotoFactory {
 

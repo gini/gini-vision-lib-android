@@ -1,24 +1,25 @@
 package net.gini.android.vision.screen;
 
-import static net.gini.android.vision.example.ExampleUtil.getLegacyExtractionsBundle;
-import static net.gini.android.vision.example.ExampleUtil.hasNoPay5Extractions;
+import static net.gini.android.vision.example.shared.ExampleUtil.getLegacyExtractionsBundle;
+import static net.gini.android.vision.example.shared.ExampleUtil.hasNoPay5Extractions;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
 
 import net.gini.android.models.SpecificExtraction;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.GiniVisionDebug;
-import net.gini.android.vision.example.BaseExampleApp;
-import net.gini.android.vision.example.DocumentAnalyzer;
-import net.gini.android.vision.example.SingleDocumentAnalyzer;
+import net.gini.android.vision.example.shared.BaseExampleApp;
+import net.gini.android.vision.example.shared.DocumentAnalyzer;
+import net.gini.android.vision.example.shared.SingleDocumentAnalyzer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Map;
+
+import androidx.annotation.NonNull;
 
 /**
  * Implements callbacks required by the Gini Vision Library's {@link net.gini.android.vision.analysis.AnalysisActivity}

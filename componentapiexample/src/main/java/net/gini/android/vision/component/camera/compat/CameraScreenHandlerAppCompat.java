@@ -2,10 +2,6 @@ package net.gini.android.vision.component.camera.compat;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.camera.CameraFragmentCompat;
@@ -15,6 +11,11 @@ import net.gini.android.vision.component.analysis.standard.AnalysisExampleActivi
 import net.gini.android.vision.component.camera.BaseCameraScreenHandler;
 import net.gini.android.vision.component.review.compat.ReviewExampleAppCompatActivity;
 import net.gini.android.vision.onboarding.OnboardingFragmentCompat;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 /**
  * Created by Alpar Szotyori on 04.12.2017.

@@ -2,7 +2,6 @@ package net.gini.android.vision.internal.cache;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
 import android.util.LruCache;
 
 import net.gini.android.vision.AsyncCallback;
@@ -12,6 +11,8 @@ import net.gini.android.vision.internal.camera.photo.PhotoFactoryDocumentAsyncTa
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+
 /**
  * Created by Alpar Szotyori on 16.03.2018.
  *
@@ -19,7 +20,9 @@ import java.util.List;
  */
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class PhotoMemoryCache extends MemoryCache<ImageDocument, Photo> {
 

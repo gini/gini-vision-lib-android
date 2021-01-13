@@ -7,7 +7,9 @@ package net.gini.android.vision.review.multipage.thumbnails;
  */
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public interface ThumbnailsAdapterListener {
 

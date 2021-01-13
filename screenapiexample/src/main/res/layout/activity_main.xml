@@ -15,11 +15,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_centerInParent="true"
-        style="@android:style/Widget.Holo.Button.Borderless"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:text="@string/start_gini_vision_library"
         android:textColor="@color/colorPrimary"
-        android:textSize="22sp"
-        android:textStyle="bold"
         android:layout_marginBottom="8dp"/>
 
     <TextView

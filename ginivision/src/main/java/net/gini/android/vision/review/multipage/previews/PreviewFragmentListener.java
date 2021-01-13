@@ -1,8 +1,8 @@
 package net.gini.android.vision.review.multipage.previews;
 
-import android.support.annotation.NonNull;
-
 import net.gini.android.vision.document.ImageDocument;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Alpar Szotyori on 11.05.2018.
@@ -11,7 +11,9 @@ import net.gini.android.vision.document.ImageDocument;
  */
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public interface PreviewFragmentListener {
 

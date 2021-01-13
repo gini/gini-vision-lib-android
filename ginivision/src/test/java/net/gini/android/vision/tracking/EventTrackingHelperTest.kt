@@ -1,5 +1,6 @@
 package net.gini.android.vision.tracking
 
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.nhaarman.mockitokotlin2.*
 import net.gini.android.vision.GiniVision
 import net.gini.android.vision.GiniVisionHelper
@@ -7,7 +8,6 @@ import net.gini.android.vision.tracking.EventTrackingHelper.*
 import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
 
 /**
  * Created by Alpar Szotyori on 02.03.2020.
@@ -15,7 +15,7 @@ import org.junit.runners.JUnit4
  * Copyright (c) 2020 Gini GmbH.
  */
 
-@RunWith(JUnit4::class)
+@RunWith(AndroidJUnit4::class)
 class EventTrackingHelperTest {
 
     @After

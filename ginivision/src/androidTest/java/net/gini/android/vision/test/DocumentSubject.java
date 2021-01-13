@@ -2,7 +2,6 @@ package net.gini.android.vision.test;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.support.annotation.Nullable;
 
 import com.google.common.truth.FailureStrategy;
 import com.google.common.truth.Subject;
@@ -10,6 +9,8 @@ import com.google.common.truth.SubjectFactory;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.internal.camera.photo.JpegByteArraySubject;
+
+import androidx.annotation.Nullable;
 
 public class DocumentSubject extends Subject<DocumentSubject, Document> {
 
@@ -33,8 +34,8 @@ public class DocumentSubject extends Subject<DocumentSubject, Document> {
         mJpegByteArraySubject = new JpegByteArraySubject(failureStrategy, subject.getJpeg());
     }
 
-    public void isEqualToDocument(Document other) {
-        Document document = getSubject();
+    public void isEqualToDocument(final Document other) {
+        final Document document = getSubject();
         if (document == null) {
             fail("is equal to another Document - subject is null");
         }
@@ -43,10 +44,10 @@ public class DocumentSubject extends Subject<DocumentSubject, Document> {
         }
 
         //noinspection ConstantConditions - null check done above
-        Bitmap bitmap = BitmapFactory.decodeByteArray(document.getJpeg(), 0,
+        final Bitmap bitmap = BitmapFactory.decodeByteArray(document.getJpeg(), 0,
                 document.getJpeg().length);
         //noinspection ConstantConditions - null check done above
-        Bitmap otherBitmap = BitmapFactory.decodeByteArray(other.getJpeg(), 0,
+        final Bitmap otherBitmap = BitmapFactory.decodeByteArray(other.getJpeg(), 0,
                 other.getJpeg().length);
 
         if (!bitmap.sameAs(otherBitmap)) {
@@ -56,9 +57,9 @@ public class DocumentSubject extends Subject<DocumentSubject, Document> {
         }
     }
 
-    public void hasSameContentIdInUserCommentAs(Document other) {
+    public void hasSameContentIdInUserCommentAs(final Document other) {
         isNotNull();
-        String verb = "has same User Comment ContentId";
+        final String verb = "has same User Comment ContentId";
 
         if (other == null) {
             fail(verb, (Object) null);

@@ -4,7 +4,6 @@
     package="net.gini.android.vision.test">
 
     <application
-        android:name="android.support.multidex.MultiDexApplication"
         android:largeHeap="true"
         tools:replace="android:appComponentFactory"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory">

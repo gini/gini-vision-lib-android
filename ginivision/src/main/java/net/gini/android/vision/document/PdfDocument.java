@@ -4,11 +4,12 @@ package net.gini.android.vision.document;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Parcel;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
 
 import net.gini.android.vision.internal.util.MimeType;
 import net.gini.android.vision.util.IntentHelper;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 
 /**
  * <p>
@@ -48,7 +49,9 @@ public class PdfDocument extends GiniVisionDocument {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public int describeContents() {
@@ -56,7 +59,9 @@ public class PdfDocument extends GiniVisionDocument {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {
@@ -64,7 +69,9 @@ public class PdfDocument extends GiniVisionDocument {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static final Creator<PdfDocument> CREATOR = new Creator<PdfDocument>() {
         @Override
@@ -79,7 +86,9 @@ public class PdfDocument extends GiniVisionDocument {
     };
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     private PdfDocument(final Parcel in) {
         super(in);

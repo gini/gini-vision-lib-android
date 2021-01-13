@@ -6,7 +6,6 @@
     <dimen name="gv_camera_image_stack_top_margin">8dp</dimen>
     <dimen name="gv_camera_image_stack_right_margin">8dp</dimen>
     <dimen name="gv_camera_image_stack_left_margin">20dp</dimen>
-    <dimen name="gv_camera_image_stack_bottom_margin">0dp</dimen>
 
     <dimen name="gv_multi_page_review_bottom_toolbar_height">56dp</dimen>
     <dimen name="gv_multi_page_review_thumbnail_cards_container_horizontal_padding">8dp</dimen>

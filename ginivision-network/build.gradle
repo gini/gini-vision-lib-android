@@ -9,7 +9,7 @@ android {
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
     buildTypes {
@@ -33,9 +33,9 @@ dependencies {
     api deps.slf4j
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation deps.supportAnnotations
+    implementation deps.androidxAnnotations
     implementation project(path: ':ginivision')
-    api('net.gini:gini-android-sdk:2.3.0@aar') {
+    api('net.gini:gini-android-sdk:2.7.0@aar') {
         transitive = true
     }
 
@@ -44,6 +44,7 @@ dependencies {
     testImplementation deps.mockito
 
     androidTestImplementation deps.androidxTestRunner
+    androidTestImplementation deps.androidxTestJUnit
     androidTestImplementation deps.truth
     androidTestImplementation deps.androidxTestEspressoCore
     androidTestImplementation deps.mockito

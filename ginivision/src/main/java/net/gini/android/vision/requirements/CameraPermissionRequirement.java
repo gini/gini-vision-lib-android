@@ -3,13 +3,14 @@ package net.gini.android.vision.requirements;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 class CameraPermissionRequirement implements Requirement {
 
     private final Context mContext;
 
-    CameraPermissionRequirement(Context context) {
+    CameraPermissionRequirement(final Context context) {
         mContext = context;
     }
 
@@ -25,7 +26,7 @@ class CameraPermissionRequirement implements Requirement {
         boolean result = true;
         String details = "";
 
-        int check = mContext.getPackageManager().checkPermission(Manifest.permission.CAMERA,
+        final int check = mContext.getPackageManager().checkPermission(Manifest.permission.CAMERA,
                 mContext.getPackageName());
         if (check != PackageManager.PERMISSION_GRANTED) {
             result = false;

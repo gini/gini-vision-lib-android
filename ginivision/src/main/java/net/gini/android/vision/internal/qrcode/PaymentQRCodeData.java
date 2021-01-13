@@ -2,8 +2,6 @@ package net.gini.android.vision.internal.qrcode;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.JsonWriter;
 
@@ -13,6 +11,9 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.StringWriter;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 /**
  * Created by Alpar Szotyori on 08.12.2017.
  *
@@ -20,11 +21,13 @@ import java.io.StringWriter;
  */
 
 /**
+ * Internal use only.
+ *
  * Contains payment information required for transactions that were parsed from a payment QR Code.
  * <p>
  * See {@link PaymentQRCodeParser} for supported formats.
  *
- * @exclude
+ * @suppress
  */
 public class PaymentQRCodeData implements Parcelable {
 

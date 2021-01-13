@@ -2,17 +2,18 @@ package net.gini.android.vision.onboarding;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.support.annotation.NonNull;
-import android.support.v13.app.FragmentPagerAdapter;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.legacy.app.FragmentPagerAdapter;
 
 class ViewPagerAdapterStandard extends FragmentPagerAdapter {
 
     private final List<OnboardingPage> mPages;
 
-    public ViewPagerAdapterStandard(@NonNull FragmentManager fm,
-            @NonNull List<OnboardingPage> pages) {
+    public ViewPagerAdapterStandard(@NonNull final FragmentManager fm,
+            @NonNull final List<OnboardingPage> pages) {
         super(fm);
         mPages = pages;
     }
@@ -28,7 +29,7 @@ class ViewPagerAdapterStandard extends FragmentPagerAdapter {
     }
 
     @Override
-    public Fragment getItem(int position) {
+    public Fragment getItem(final int position) {
         return OnboardingPageFragmentStandard.createInstance(getPages().get(position));
     }
 }

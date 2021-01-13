@@ -1,9 +1,9 @@
 package net.gini.android.vision.tracking;
 
-import android.support.annotation.NonNull;
-
 import java.util.Collections;
 import java.util.Map;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by Alpar Szotyori on 27.02.2020.
@@ -22,7 +22,9 @@ public class Event<T extends Enum<T>> {
     private final Map<String, Object> details;
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public Event(@NonNull final T type, @NonNull final Map<String, Object> details) {
         this.type = type;
@@ -30,7 +32,9 @@ public class Event<T extends Enum<T>> {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public Event(@NonNull final T type) {
         this(type, Collections.<String, Object>emptyMap());
@@ -57,7 +61,9 @@ public class Event<T extends Enum<T>> {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public boolean equals(final Object o) {
@@ -77,7 +83,9 @@ public class Event<T extends Enum<T>> {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public int hashCode() {
@@ -87,14 +95,16 @@ public class Event<T extends Enum<T>> {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @NonNull
     @Override
     public String toString() {
-        return "Event{" +
-                "type=" + type +
-                ", details=" + details +
-                '}';
+        return "Event{"
+                + "type=" + type
+                + ", details=" + details
+                + '}';
     }
 }

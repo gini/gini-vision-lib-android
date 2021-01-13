@@ -4,15 +4,18 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 
 import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.util.UriHelper;
 
 import java.io.IOException;
 
+import androidx.annotation.NonNull;
+
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class UriReaderAsyncTask extends AsyncTask<Uri, Void, byte[]> {
 

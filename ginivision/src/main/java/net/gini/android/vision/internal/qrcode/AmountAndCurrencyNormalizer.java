@@ -1,11 +1,12 @@
 package net.gini.android.vision.internal.qrcode;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import java.math.BigDecimal;
 import java.util.Locale;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * Created by Alpar Szotyori on 12.12.2017.

@@ -1,14 +1,14 @@
 package net.gini.android.vision.analysis;
 
 
-import android.support.annotation.DrawableRes;
-import android.support.annotation.StringRes;
-
 import net.gini.android.vision.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import androidx.annotation.DrawableRes;
+import androidx.annotation.StringRes;
 
 enum AnalysisHint {
 

@@ -5,10 +5,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,6 +25,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
+
 /**
  * Created by Alpar Szotyori on 08.05.2018.
  *
@@ -36,7 +37,9 @@ import java.util.List;
  */
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class ThumbnailsAdapter extends
         RecyclerView.Adapter<ThumbnailsAdapter.ViewHolder> implements
@@ -389,7 +392,9 @@ public class ThumbnailsAdapter extends
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public enum UploadState {
         NOT_STARTED,

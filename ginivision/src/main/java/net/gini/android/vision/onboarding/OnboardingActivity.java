@@ -3,9 +3,6 @@ package net.gini.android.vision.onboarding;
 import static net.gini.android.vision.internal.util.ActivityHelper.enableHomeAsUp;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import net.gini.android.vision.GiniVision;
@@ -16,6 +13,10 @@ import net.gini.android.vision.camera.CameraActivity;
 import net.gini.android.vision.review.ReviewActivity;
 
 import java.util.ArrayList;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * <h3>Screen API</h3>
@@ -157,8 +158,8 @@ import java.util.ArrayList;
 public class OnboardingActivity extends AppCompatActivity implements OnboardingFragmentListener {
 
     /**
-     * @exclude
-     * @deprecated Configuration should be applied by creating a {@link GiniVision} instance using
+     * @suppress
+     * @Deprecated Configuration should be applied by creating a {@link GiniVision} instance using
      * {@link GiniVision#newInstance()} and the returned {@link GiniVision.Builder}.
      */
     public static final String EXTRA_ONBOARDING_PAGES = "GV_EXTRA_PAGES";

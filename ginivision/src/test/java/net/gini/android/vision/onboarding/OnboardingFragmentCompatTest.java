@@ -6,7 +6,6 @@ import static org.mockito.Mockito.when;
 
 import android.app.Application;
 import android.content.res.Resources;
-import android.support.v4.app.FragmentActivity;
 
 import net.gini.android.vision.R;
 
@@ -15,6 +14,7 @@ import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 
+import androidx.fragment.app.FragmentActivity;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 /**

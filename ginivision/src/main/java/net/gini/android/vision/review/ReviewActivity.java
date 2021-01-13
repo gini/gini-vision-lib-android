@@ -6,10 +6,6 @@ import static net.gini.android.vision.tracking.EventTrackingHelper.trackReviewSc
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import net.gini.android.vision.Document;
@@ -28,6 +24,11 @@ import net.gini.android.vision.onboarding.OnboardingActivity;
 import net.gini.android.vision.tracking.ReviewScreenEvent;
 
 import java.util.Map;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * <h3>Screen API</h3>
@@ -165,34 +166,48 @@ public class ReviewActivity extends AppCompatActivity implements ReviewFragmentL
         ReviewFragmentInterface {
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static final String EXTRA_IN_DOCUMENT = "GV_EXTRA_IN_DOCUMENT";
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static final String EXTRA_IN_ANALYSIS_ACTIVITY = "GV_EXTRA_IN_ANALYSIS_ACTIVITY";
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static final String EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY =
             "GV_EXTRA_IN_BACK_BUTTON_SHOULD_CLOSE_LIBRARY";
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static final String EXTRA_OUT_DOCUMENT = "GV_EXTRA_OUT_DOCUMENT";
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static final String EXTRA_OUT_ERROR = "GV_EXTRA_OUT_ERROR";
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static final int RESULT_ERROR = RESULT_FIRST_USER + 1;
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static final int RESULT_NO_EXTRACTIONS = RESULT_FIRST_USER + 2;
 
@@ -321,7 +336,7 @@ public class ReviewActivity extends AppCompatActivity implements ReviewFragmentL
     /**
      * @param document contains the original image taken by the camera
      *
-     * @deprecated When a {@link GiniVision} instance is available the document is analyzed
+     * @Deprecated When a {@link GiniVision} instance is available the document is analyzed
      * internally by using the configured {@link GiniVisionNetworkService} implementation. The
      * extractions will be returned in the extra called {@link CameraActivity#EXTRA_OUT_EXTRACTIONS}
      * of the {@link CameraActivity}'s result Intent.
@@ -383,7 +398,7 @@ public class ReviewActivity extends AppCompatActivity implements ReviewFragmentL
      *
      * @param result the {@link Intent} which will be returned as the result data.
      *
-     * @deprecated When a {@link GiniVision} instance is available the document is analyzed
+     * @Deprecated When a {@link GiniVision} instance is available the document is analyzed
      * internally by using the configured {@link GiniVisionNetworkService} implementation. The
      * extractions will be returned in the extra called {@link CameraActivity#EXTRA_OUT_EXTRACTIONS}
      * of the {@link CameraActivity}'s result Intent.
@@ -401,7 +416,7 @@ public class ReviewActivity extends AppCompatActivity implements ReviewFragmentL
      * @param oldRotation the previous rotation in degrees
      * @param newRotation the new rotation in degrees
      *
-     * @deprecated When a {@link GiniVision} and a {@link GiniVisionNetworkService} instance is
+     * @Deprecated When a {@link GiniVision} and a {@link GiniVisionNetworkService} instance is
      * available rotation is handled internally. The document is analyzed by using the configured
      * {@link GiniVisionNetworkService} implementation. The extractions will be returned in the
      * Analysis Screen in {@link AnalysisFragmentListener#onExtractionsAvailable(Map, Map)}.
@@ -413,7 +428,7 @@ public class ReviewActivity extends AppCompatActivity implements ReviewFragmentL
     }
 
     /**
-     * @deprecated When a {@link GiniVision} instance is available the document is analyzed
+     * @Deprecated When a {@link GiniVision} instance is available the document is analyzed
      * internally by using the configured {@link GiniVisionNetworkService} implementation. The
      * extractions will be returned in the extra called {@link CameraActivity#EXTRA_OUT_EXTRACTIONS}
      * of the {@link CameraActivity}'s result Intent.
@@ -425,7 +440,7 @@ public class ReviewActivity extends AppCompatActivity implements ReviewFragmentL
     }
 
     /**
-     * @deprecated When a {@link GiniVision} instance is available the document is analyzed
+     * @Deprecated When a {@link GiniVision} instance is available the document is analyzed
      * internally by using the configured {@link GiniVisionNetworkService} implementation.
      */
     @Deprecated
@@ -449,7 +464,7 @@ public class ReviewActivity extends AppCompatActivity implements ReviewFragmentL
      *
      * @param message an error message to be shown to the user
      *
-     * @deprecated When a {@link GiniVision} instance is available the document is analyzed
+     * @Deprecated When a {@link GiniVision} instance is available the document is analyzed
      * internally by using the configured {@link GiniVisionNetworkService} implementation.
      */
     @Deprecated
@@ -464,6 +479,7 @@ public class ReviewActivity extends AppCompatActivity implements ReviewFragmentL
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode,
             final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == ANALYSE_DOCUMENT_REQUEST) {
             if (resultCode == RESULT_NO_EXTRACTIONS) {
                 finish();

@@ -2,12 +2,13 @@ package net.gini.android.vision.internal.qrcode;
 
 import static net.gini.android.vision.internal.qrcode.AmountAndCurrencyNormalizer.normalizeAmount;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * Created by Alpar Szotyori on 11.12.2017.

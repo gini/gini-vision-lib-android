@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.ImageFormat;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
 import android.util.SparseArray;
 
 import com.google.android.gms.vision.Frame;
@@ -20,6 +19,8 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+
 /**
  * Created by Alpar Szotyori on 11.12.2017.
  *
@@ -27,9 +28,11 @@ import java.util.List;
  */
 
 /**
+ * Internal use only.
+ *
  * QRCode detector task using the Google Mobile Vision API.
  *
- * @exclude
+ * @suppress
  */
 public class QRCodeDetectorTaskGoogleVision implements QRCodeDetectorTask {
 

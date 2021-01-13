@@ -9,9 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Parcel;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
 
 import net.gini.android.vision.GiniVision;
 import net.gini.android.vision.internal.camera.photo.Photo;
@@ -20,6 +17,10 @@ import net.gini.android.vision.util.IntentHelper;
 import net.gini.android.vision.util.UriHelper;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 
 /**
  * A document containing an image.
@@ -250,21 +251,27 @@ public class ImageDocument extends GiniVisionDocument {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public String getDeviceOrientation() {
         return mDeviceOrientation;
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public String getDeviceType() {
         return mDeviceType;
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public int describeContents() {
@@ -272,7 +279,9 @@ public class ImageDocument extends GiniVisionDocument {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {
@@ -285,7 +294,9 @@ public class ImageDocument extends GiniVisionDocument {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public static final Creator<ImageDocument> CREATOR = new Creator<ImageDocument>() {
         @Override

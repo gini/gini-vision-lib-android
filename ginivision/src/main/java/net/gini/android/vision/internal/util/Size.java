@@ -1,9 +1,11 @@
 package net.gini.android.vision.internal.util;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class Size implements Comparable<Size> {
     public final int width;

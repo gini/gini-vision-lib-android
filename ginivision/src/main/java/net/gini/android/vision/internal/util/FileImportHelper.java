@@ -6,8 +6,6 @@ import static net.gini.android.vision.internal.util.ApplicationHelper.startAppli
 import android.app.Activity;
 import android.app.Application;
 import android.content.DialogInterface;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.R;
@@ -15,6 +13,8 @@ import net.gini.android.vision.document.GiniVisionDocument;
 
 import java.util.concurrent.CancellationException;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import jersey.repackaged.jsr166e.CompletableFuture;
 
 /**
@@ -24,7 +24,9 @@ import jersey.repackaged.jsr166e.CompletableFuture;
  */
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public final class FileImportHelper {
 
@@ -67,7 +69,9 @@ public final class FileImportHelper {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public interface ShowAlertCallback {
 

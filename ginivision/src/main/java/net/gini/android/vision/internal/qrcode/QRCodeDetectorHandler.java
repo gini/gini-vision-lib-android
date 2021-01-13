@@ -3,12 +3,13 @@ package net.gini.android.vision.internal.qrcode;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.annotation.Nullable;
 
 import net.gini.android.vision.internal.camera.api.UIExecutor;
 import net.gini.android.vision.internal.util.Size;
 
 import java.util.List;
+
+import androidx.annotation.Nullable;
 
 /**
  * Created by Alpar Szotyori on 11.12.2017.

@@ -2,9 +2,6 @@ package net.gini.android.vision.internal.camera.photo;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.document.ImageDocument;
@@ -17,8 +14,14 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.UUID;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 class MutablePhoto extends ImmutablePhoto implements Parcelable {
 
@@ -220,7 +223,7 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
         }
         try {
             mRequiredTags = Exif.readRequiredTags(data);
-        } catch (IOException | ImageReadException e) {
+        } catch (final IOException | ImageReadException e) {
             LOG.error("Could not read exif tags", e);
         }
     }
@@ -261,7 +264,7 @@ class MutablePhoto extends ImmutablePhoto implements Parcelable {
 
             final byte[] jpeg = exifBuilder.build().writeToJpeg(data);
             setData(jpeg);
-        } catch (ImageReadException | ImageWriteException | IOException e) {
+        } catch (final ImageReadException | ImageWriteException | IOException e) {
             LOG.error("Could not add required exif tags", e);
         }
     }

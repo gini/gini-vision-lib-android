@@ -2,8 +2,8 @@ package net.gini.android.vision.document;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 
+import androidx.annotation.NonNull;
 /**
  * Created by Alpar Szotyori on 15.03.2018.
  *
@@ -11,7 +11,9 @@ import android.support.annotation.NonNull;
  */
 
 /**
- * @exclude
+ * Internal use only.
+ *
+ * @suppress
  */
 public class GiniVisionDocumentError implements Parcelable {
 
@@ -64,7 +66,9 @@ public class GiniVisionDocumentError implements Parcelable {
     }
 
     /**
-     * @exclude
+     * Internal use only.
+     *
+     * @suppress
      */
     public enum ErrorCode {
         UPLOAD_FAILED,
