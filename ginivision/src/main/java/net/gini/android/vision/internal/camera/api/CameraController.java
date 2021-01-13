@@ -1,13 +1,5 @@
 package net.gini.android.vision.internal.camera.api;
 
-import static net.gini.android.vision.internal.camera.api.CameraParametersHelper.isFlashModeSupported;
-import static net.gini.android.vision.internal.camera.api.CameraParametersHelper.isFocusModeSupported;
-import static net.gini.android.vision.internal.camera.api.CameraParametersHelper.isUsingFocusMode;
-import static net.gini.android.vision.internal.camera.api.SizeSelectionHelper.getLargestAllowedSize;
-import static net.gini.android.vision.internal.camera.api.SizeSelectionHelper.getLargestAllowedSizeWithSimilarAspectRatio;
-import static net.gini.android.vision.internal.util.DeviceHelper.getDeviceOrientation;
-import static net.gini.android.vision.internal.util.DeviceHelper.getDeviceType;
-
 import android.app.Activity;
 import android.graphics.Matrix;
 import android.graphics.Point;
@@ -19,6 +11,11 @@ import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+import androidx.core.util.Pair;
 
 import net.gini.android.vision.Document;
 import net.gini.android.vision.internal.camera.photo.Photo;
@@ -34,10 +31,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
 import jersey.repackaged.jsr166e.CompletableFuture;
+
+import static net.gini.android.vision.internal.camera.api.CameraParametersHelper.isFlashModeSupported;
+import static net.gini.android.vision.internal.camera.api.CameraParametersHelper.isFocusModeSupported;
+import static net.gini.android.vision.internal.camera.api.CameraParametersHelper.isUsingFocusMode;
+import static net.gini.android.vision.internal.camera.api.SizeSelectionHelper.getBestSize;
+import static net.gini.android.vision.internal.util.DeviceHelper.getDeviceOrientation;
+import static net.gini.android.vision.internal.util.DeviceHelper.getDeviceType;
 
 /**
  * Internal use only.
@@ -464,8 +465,7 @@ public class CameraController implements CameraInterface {
         }
 
         final Camera.Parameters params = mCamera.getParameters();
-        selectPictureSize(params);
-        selectPreviewSize(params);
+        selectPictureAndPreviewSize(params);
         selectFocusMode(params);
         selectFlashMode(params);
         mCamera.setParameters(params);
@@ -473,28 +473,22 @@ public class CameraController implements CameraInterface {
         setCameraDisplayOrientation(activity, mCamera);
     }
 
-    private void selectPictureSize(final Camera.Parameters params) {
+    private void selectPictureAndPreviewSize(final Camera.Parameters params) {
         final List<Camera.Size> pictureSizes = params.getSupportedPictureSizes();
-        final Size pictureSize = getLargestAllowedSize(pictureSizes, CameraResolutionRequirement.MAX_PICTURE_AREA);
-        if (pictureSize != null) {
-            mPictureSize = pictureSize;
+        final List<Camera.Size> previewSizes = params.getSupportedPreviewSizes();
+
+        final Pair<Size, Size> sizes = getBestSize(pictureSizes, previewSizes, CameraResolutionRequirement.MAX_PICTURE_AREA,
+                CameraResolutionRequirement.MIN_PICTURE_AREA);
+        if (sizes != null) {
+            mPictureSize = sizes.first;
             params.setPictureSize(mPictureSize.width, mPictureSize.height);
             LOG.debug("Picture size ({}, {})", mPictureSize.width, mPictureSize.height);
-        } else {
-            LOG.warn("No suitable picture size found");
-        }
-    }
 
-    private void selectPreviewSize(final Camera.Parameters params) {
-        final List<Camera.Size> previewSizes = params.getSupportedPreviewSizes();
-        final Size previewSize = getLargestAllowedSizeWithSimilarAspectRatio(previewSizes, mPictureSize,
-                CameraResolutionRequirement.MAX_PICTURE_AREA);
-        if (previewSize != null) {
-            mPreviewSize = previewSize;
+            mPreviewSize = sizes.second;
             params.setPreviewSize(mPreviewSize.width, mPreviewSize.height);
             LOG.debug("Preview size ({}, {})", mPreviewSize.width, mPreviewSize.height);
         } else {
-            LOG.warn("No suitable preview size found");
+            LOG.warn("No suitable picture and preview size found");
         }
     }
 

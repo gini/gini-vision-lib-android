@@ -7,6 +7,7 @@ import net.gini.android.vision.internal.util.Size;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
+import androidx.core.util.Pair;
 
 class DeviceMemoryRequirement implements Requirement {
 
@@ -31,13 +32,15 @@ class DeviceMemoryRequirement implements Requirement {
         try {
             final Camera.Parameters parameters = mCameraHolder.getCameraParameters();
             if (parameters != null) {
-                final Size pictureSize = SizeSelectionHelper.getLargestAllowedSize(
-                        parameters.getSupportedPictureSizes(), CameraResolutionRequirement.MAX_PICTURE_AREA);
-                if (pictureSize == null) {
+                final Pair<Size, Size> sizes = SizeSelectionHelper.getBestSize(parameters.getSupportedPictureSizes(),
+                        parameters.getSupportedPreviewSizes(),
+                        CameraResolutionRequirement.MAX_PICTURE_AREA,
+                        CameraResolutionRequirement.MIN_PICTURE_AREA);
+                if (sizes == null) {
                     result = false;
                     details =
                             "Cannot determine memory requirement as the camera has no picture resolution with a 4:3 aspect ratio";
-                } else if (!sufficientMemoryAvailable(pictureSize)) {
+                } else if (!sufficientMemoryAvailable(sizes.first)) {
                     result = false;
                     details = "Insufficient memory available";
                 }
