@@ -48,7 +48,7 @@ public class DeviceMemoryRequirementTest {
     @Test
     public void should_reportFulfilled_ifEnoughMemory_isAvailable() {
         CameraHolder cameraHolder = getCameraHolder(
-                Collections.singletonList(createSize(800, 600)));
+                Collections.singletonList(createSize(3264, 2448)));
 
         DeviceMemoryRequirement requirement = new DeviceMemoryRequirement(cameraHolder);
 
@@ -78,6 +78,7 @@ public class DeviceMemoryRequirementTest {
             pictureSizes = Arrays.asList(size4to3, sizeOther);
         }
         when(parameters.getSupportedPictureSizes()).thenReturn(pictureSizes);
+        when(parameters.getSupportedPreviewSizes()).thenReturn(pictureSizes);
         return cameraHolder;
     }
 
