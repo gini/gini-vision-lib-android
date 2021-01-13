@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10};
+var methods = {"i0":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -138,21 +138,6 @@ extends <a href="../../../../../net/gini/android/vision/network/Result.html" tit
 <div class="block">Create a new analysis result for a Gini API document id.</div>
 </td>
 </tr>
-<tr class="rowColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../net/gini/android/vision/network/AnalysisResult.html#AnalysisResult-java.lang.String-java.util.Map-java.util.Map-">AnalysisResult</a></span>(java.lang.String&nbsp;giniApiDocumentId,
-              java.util.Map&nbsp;extractions,
-              java.util.Map&nbsp;compoundExtractions)</code>
-<div class="block">Create a new analysis result for a Gini API document id.</div>
-</td>
-</tr>
-<tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../../net/gini/android/vision/network/AnalysisResult.html#AnalysisResult-java.lang.String-java.util.Map-java.util.Map-java.util.List-">AnalysisResult</a></span>(java.lang.String&nbsp;giniApiDocumentId,
-              java.util.Map&nbsp;extractions,
-              java.util.Map&nbsp;compoundExtractions,
-              java.util.List&nbsp;returnReasons)</code>
-<div class="block">Create a new analysis result for a Gini API document id.</div>
-</td>
-</tr>
 </table>
 </li>
 </ul>
@@ -170,15 +155,7 @@ extends <a href="../../../../../net/gini/android/vision/network/Result.html" tit
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>java.util.Map</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../net/gini/android/vision/network/AnalysisResult.html#getCompoundExtractions--">getCompoundExtractions</a></span>()</code>&nbsp;</td>
-</tr>
-<tr id="i1" class="rowColor">
-<td class="colFirst"><code>java.util.Map</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../net/gini/android/vision/network/AnalysisResult.html#getExtractions--">getExtractions</a></span>()</code>&nbsp;</td>
-</tr>
-<tr id="i2" class="altColor">
-<td class="colFirst"><code>java.util.List</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../net/gini/android/vision/network/AnalysisResult.html#getReturnReasons--">getReturnReasons</a></span>()</code>&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -212,7 +189,7 @@ extends <a href="../../../../../net/gini/android/vision/network/Result.html" tit
 <a name="AnalysisResult-java.lang.String-java.util.Map-">
 <!--   -->
 </a>
-<ul class="blockList">
+<ul class="blockListLast">
 <li class="blockList">
 <h4>AnalysisResult</h4>
 <pre>public&nbsp;AnalysisResult(java.lang.String&nbsp;giniApiDocumentId,
@@ -222,43 +199,6 @@ extends <a href="../../../../../net/gini/android/vision/network/Result.html" tit
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>giniApiDocumentId</code> - the id of a document in the Gini API</dd>
 <dd><code>extractions</code> - the extractions from the Gini API</dd>
-</dl>
-</li>
-</ul>
-<a name="AnalysisResult-java.lang.String-java.util.Map-java.util.Map-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>AnalysisResult</h4>
-<pre>public&nbsp;AnalysisResult(java.lang.String&nbsp;giniApiDocumentId,
-                      java.util.Map&nbsp;extractions,
-                      java.util.Map&nbsp;compoundExtractions)</pre>
-<div class="block">Create a new analysis result for a Gini API document id.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>giniApiDocumentId</code> - the id of a document in the Gini API</dd>
-<dd><code>extractions</code> - the extractions from the Gini API</dd>
-<dd><code>compoundExtractions</code> - the compound extractions from the Gini API</dd>
-</dl>
-</li>
-</ul>
-<a name="AnalysisResult-java.lang.String-java.util.Map-java.util.Map-java.util.List-">
-<!--   -->
-</a>
-<ul class="blockListLast">
-<li class="blockList">
-<h4>AnalysisResult</h4>
-<pre>public&nbsp;AnalysisResult(java.lang.String&nbsp;giniApiDocumentId,
-                      java.util.Map&nbsp;extractions,
-                      java.util.Map&nbsp;compoundExtractions,
-                      java.util.List&nbsp;returnReasons)</pre>
-<div class="block">Create a new analysis result for a Gini API document id.</div>
-<dl>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>giniApiDocumentId</code> - the id of a document in the Gini API</dd>
-<dd><code>extractions</code> - the extractions from the Gini API</dd>
-<dd><code>compoundExtractions</code> - the compound extractions from the Gini API</dd>
 </dl>
 </li>
 </ul>
@@ -273,39 +213,13 @@ extends <a href="../../../../../net/gini/android/vision/network/Result.html" tit
 <a name="getExtractions--">
 <!--   -->
 </a>
-<ul class="blockList">
+<ul class="blockListLast">
 <li class="blockList">
 <h4>getExtractions</h4>
 <pre>public&nbsp;java.util.Map&nbsp;getExtractions()</pre>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>map of extraction labels and specific extractions</dd>
-</dl>
-</li>
-</ul>
-<a name="getCompoundExtractions--">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>getCompoundExtractions</h4>
-<pre>public&nbsp;java.util.Map&nbsp;getCompoundExtractions()</pre>
-<dl>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>map of extraction labels and compound extractions</dd>
-</dl>
-</li>
-</ul>
-<a name="getReturnReasons--">
-<!--   -->
-</a>
-<ul class="blockListLast">
-<li class="blockList">
-<h4>getReturnReasons</h4>
-<pre>public&nbsp;java.util.List&nbsp;getReturnReasons()</pre>
-<dl>
-<dt><span class="returnLabel">Returns:</span></dt>
-<dd>list of return reasons</dd>
 </dl>
 </li>
 </ul>

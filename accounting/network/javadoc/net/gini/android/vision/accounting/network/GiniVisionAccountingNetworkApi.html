@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":9,"i1":10,"i2":10,"i3":10};
+var methods = {"i0":9,"i1":10,"i2":10};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -180,12 +180,6 @@ implements <a href="../../../../../../net/gini/android/vision/network/GiniVision
 <div class="block">Call this method with the extractions the user has seen and accepted.</div>
 </td>
 </tr>
-<tr id="i3" class="rowColor">
-<td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../../net/gini/android/vision/accounting/network/GiniVisionAccountingNetworkApi.html#setUpdatedCompoundExtractions-java.util.Map-">setUpdatedCompoundExtractions</a></span>(java.util.Map&nbsp;compoundExtractions)</code>
-<div class="block">This method is called by the Gini Vision Library with the compound extractions (e.g., line items) the user has seen.</div>
-</td>
-</tr>
 </table>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.java.lang.Object">
@@ -245,7 +239,7 @@ implements <a href="../../../../../../net/gini/android/vision/network/GiniVision
 <a name="deleteGiniUserCredentials--">
 <!--   -->
 </a>
-<ul class="blockList">
+<ul class="blockListLast">
 <li class="blockList">
 <h4>deleteGiniUserCredentials</h4>
 <pre>public&nbsp;void&nbsp;deleteGiniUserCredentials()</pre>
@@ -256,27 +250,6 @@ implements <a href="../../../../../../net/gini/android/vision/network/GiniVision
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../../net/gini/android/vision/network/GiniVisionNetworkApi.html#deleteGiniUserCredentials--">deleteGiniUserCredentials</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../../net/gini/android/vision/network/GiniVisionNetworkApi.html" title="interface in net.gini.android.vision.network">GiniVisionNetworkApi</a></code></dd>
-</dl>
-</li>
-</ul>
-<a name="setUpdatedCompoundExtractions-java.util.Map-">
-<!--   -->
-</a>
-<ul class="blockListLast">
-<li class="blockList">
-<h4>setUpdatedCompoundExtractions</h4>
-<pre>public&nbsp;void&nbsp;setUpdatedCompoundExtractions(java.util.Map&nbsp;compoundExtractions)</pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from interface:&nbsp;<code><a href="../../../../../../net/gini/android/vision/network/GiniVisionNetworkApi.html#setUpdatedCompoundExtractions-java.util.Map-">GiniVisionNetworkApi</a></code></span></div>
-<div class="block">This method is called by the Gini Vision Library with the compound extractions (e.g., line items) the user has seen. Contains changes
- made by the user.
- <p>
- <b>Note:</b> If the compound extractions are modified in your app, then call this method to have the latest changes available when
- the feedback is sent.</div>
-<dl>
-<dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../../../net/gini/android/vision/network/GiniVisionNetworkApi.html#setUpdatedCompoundExtractions-java.util.Map-">setUpdatedCompoundExtractions</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../../net/gini/android/vision/network/GiniVisionNetworkApi.html" title="interface in net.gini.android.vision.network">GiniVisionNetworkApi</a></code></dd>
-<dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>compoundExtractions</code> - the updated compound extractions</dd>
 </dl>
 </li>
 </ul>
