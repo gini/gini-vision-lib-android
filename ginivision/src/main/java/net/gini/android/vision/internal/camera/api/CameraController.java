@@ -276,7 +276,7 @@ public class CameraController implements CameraInterface {
             try {
                 mCamera.cancelAutoFocus();
             } catch (RuntimeException exception) {
-                // do nothing
+                LOG.error("Failed to cancel autofocus");
             }
         }
     }
