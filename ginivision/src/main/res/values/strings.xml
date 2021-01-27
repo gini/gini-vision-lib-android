@@ -126,10 +126,10 @@
     <string name="gv_digital_invoice_line_item_edit">Bearbeiten</string>
     <string name="gv_digital_invoice_line_item_quantity">Anzahl:</string>
     <string name="gv_digital_invoice_footer_notice">Überprüfe, ob so alles in Ordnung ist und editiere, bevor du bezahlst.</string>
-    <string name="gv_digital_invoice_pay">Bezahle %1$d/%2$d</string>
+    <string name="gv_digital_invoice_pay">Bezahlen %1$d/%2$d</string>
     <string name="gv_digital_invoice_return_reason_dialog_title">Der Grund der Rücksendung</string>
     <string name="gv_digital_invoice_what_is_this_dialog_title">Was ist das?</string>
-    <string name="gv_digital_invoice_what_is_this_dialog_message">Wir haben die Artikel aus deiner Rechnung extrahiert. Wenn du einige Artikel zurückschicken willst oder deine Rechnung nur zum Teil bezahlen willst, kannst du Artikel abwählen und der zu bezahlende Betrag wird neu berechnet.</string>
+    <string name="gv_digital_invoice_what_is_this_dialog_message">Wir haben die Artikel aus deiner Rechnung extrahiert. Wenn du einige Artikel zurückschicken oder du deine Rechnung nur teilweise bezahlen möchtest, kannst du einzelne Artikel abwählen und der zu bezahlende Betrag wird automatisch neu berechnet.</string>
     <string name="gv_digital_invoice_what_is_this_dialog_positive_response">Ja, das ist hilfreich</string>
     <string name="gv_digital_invoice_what_is_this_dialog_negative_response">Nein, nicht mehr angezeigen</string>
 
