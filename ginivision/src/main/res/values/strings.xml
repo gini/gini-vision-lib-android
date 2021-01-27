@@ -149,9 +149,9 @@
     <string name="gv_digital_invoice_addon_other_charges">Weitere Kosten</string>
     <string name="gv_digital_invoice_addon_shipment">Versandkosten</string>
 
-    <string name="gv_digital_invoice_onboarding_text_1">Du kannst jetzt die Artikel abwählen, die du nicht brauchst. Du bezahlst nur die Artikel, die du behältst. Den Rest kannst du zurückschicken.</string>
-    <string name="gv_digital_invoice_onboarding_text_2">Hier kannst du die Anzahl gleicher Artikel ändern.</string>
-    <string name="gv_digital_invoice_onboarding_done_button_title">Verstanden</string>
+    <string name="gv_digital_invoice_onboarding_text_1">Wähle ab, welche Artikel du nicht bezahlen und zurückschicken möchtest.</string>
+    <string name="gv_digital_invoice_onboarding_text_2">Hier kannst du die Anzahl der einzelnen Artikel bearbeiten.</string>
+    <string name="gv_digital_invoice_onboarding_done_button_title">Ich hab\'s!</string>
 
     <string name="gv_return_assistant_help_title">Der neue Retourenassistent</string>
     <string name="gv_return_assistant_help_section_1_body_1">Nachdem Sie eine Rechnung abfotografiert haben, können Sie nun Rechnungsposten abwählen die Sie nicht möchten. Sie bezahlen nur für die Dinge die Sie behalten und können den Rest retournieren.</string>
