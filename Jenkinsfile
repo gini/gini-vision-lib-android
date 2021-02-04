@@ -252,7 +252,7 @@ pipeline {
         }
         stage('Release Library Snapshot') {
             when {
-                branch 'develop'
+                branch 'feature-return-assistant-and-latest-fixes'
             }
             steps {
                 sh '''
