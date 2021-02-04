@@ -130,8 +130,8 @@
     <string name="gv_digital_invoice_addon_other_discounts">Other discounts</string>
     <string name="gv_digital_invoice_addon_other_charges">Other charges</string>
     <string name="gv_digital_invoice_addon_shipment">Shipment</string>
-    <string name="gv_digital_invoice_onboarding_text_1">You can now deselect items you do not want. You only pay for what you keep, so you can return the rest.</string>
-    <string name="gv_digital_invoice_onboarding_text_2">You can edit the quantity of multiple identical items here.</string>
+    <string name="gv_digital_invoice_onboarding_text_1">Select which items you do not want to pay for and send back.</string>
+    <string name="gv_digital_invoice_onboarding_text_2">You can edit the quantity of individual items here.</string>
     <string name="gv_digital_invoice_onboarding_done_button_title">Got it!</string>
 
     <string name="gv_return_assistant_help_title">The new Return Assistant</string>
