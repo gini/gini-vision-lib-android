@@ -34,7 +34,7 @@ internal class LineItemsValidator {
                 descriptionAvailable,
                 quantityAvailable,
                 grossPriceAvailable,
-                articleNumberAvailable,
+//                articleNumberAvailable,
                 quantityParcelable,
                 grossPriceParcelable,
                 singleCurrency
