@@ -167,22 +167,6 @@ class LineItemsValidatorTest {
     }
 
     @Test
-    fun `article number not available`() {
-        // When
-        var valid = true
-        try {
-            LineItemsValidator.validate(createLineItemsFixture().apply {
-                get("lineItems")!!.specificExtractionMaps[0].remove("artNumber")
-            })
-        } catch (e: ArticleNumberMissingException) {
-            valid = false
-        }
-
-        // Then
-        assertThat(valid).isFalse()
-    }
-
-    @Test
     fun `quantity parcelable`() {
         // When
         var valid = true
