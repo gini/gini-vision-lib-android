@@ -18,7 +18,7 @@ Table of contents
 .. toctree::
     :maxdepth: 2
 
-    Gini Vision Javadoc <http://developer.gini.net/gini-vision-lib-android/javadoc/index.html>
+    Gini Vision Javadoc <http://developer.gini.net/gini-vision-lib-android/javadoc/ginivision/index.html>
     Network Library Javadoc <http://developer.gini.net/gini-vision-lib-android/network/javadoc/index.html>
     Accounting Network Library Javadoc <http://developer.gini.net/gini-vision-lib-android/accounting/network/javadoc/index.html>
     customization-guide
