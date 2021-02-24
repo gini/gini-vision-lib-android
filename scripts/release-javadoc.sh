@@ -22,14 +22,12 @@ git_password=$2
 rm -rf gh-pages
 git clone -b gh-pages https://"$git_user":"$git_password"@github.com/gini/gini-vision-lib-android.git gh-pages
 
-rm -rf gh-pages/javadoc
+rm -rf gh-pages/ginivision
 rm -rf gh-pages/network/javadoc
 rm -rf gh-pages/accounting/network/javadoc
-mkdir -p gh-pages/javadoc
 mkdir -p gh-pages/network
 mkdir -p gh-pages/accounting/network
 cp -a ginivision/build/dokka/ gh-pages
-mv gh-pages/ginivision/* gh-pages/javadoc
 cp -a ginivision-network/build/docs/javadoc gh-pages/network/
 cp -a ginivision-accounting-network/build/docs/javadoc gh-pages/accounting/network/
 cd gh-pages
