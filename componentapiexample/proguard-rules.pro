@@ -25,7 +25,7 @@
 # Ignore warnings for the jsr166e backport (the missing sun.misc.Unsafe class is handled at runtime)
 -dontwarn jersey.repackaged.jsr166e.**
 # Don't obfuscate the jsr166e backport
--keepnames class jersey.repackaged.jsr166e.** { *; }
+-keep class jersey.repackaged.jsr166e.** { *; }
 
 # Ignore warnings for Commons Imaging (it is safe to ignore the missing java.awt.* warnings)
 -dontwarn org.apache.commons.imaging.**
