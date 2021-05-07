@@ -25,13 +25,19 @@ public final class SizeSelectionHelper {
             @NonNull final List<Camera.Size> pictureSizes,
             @NonNull final List<Camera.Size> previewSizes,
             final int maxArea,
-            final int minArea
+            final int minArea,
+            final float minAspectRatio
     ) {
         Camera.Size bestPicture = null;
         Size bestPreview = null;
         for (final Camera.Size size : pictureSizes) {
             final long area = getArea(size);
-            if (minArea < area && area < maxArea && (bestPicture == null || getArea(bestPicture) < area)) {
+            final boolean isAreaInBounds = minArea < area && area < maxArea;
+            final boolean isNewAreaLarger = bestPicture == null || getArea(bestPicture) < area;
+            final boolean isAspectRatioLargeEnough = size.width > size.height ?
+                    (float) size.width / size.height >= minAspectRatio :
+                    (float) size.height / size.width >= minAspectRatio;
+            if (isAreaInBounds && isNewAreaLarger && isAspectRatioLargeEnough) {
                 final Size preview = getClosestSizeWithSimilarAspectRatio(previewSizes, new Size(size.width, size.height), maxArea);
                 if (preview != null) {
                     bestPicture = size;

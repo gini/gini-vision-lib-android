@@ -19,6 +19,8 @@ public class CameraResolutionRequirement implements Requirement {
     public static final int MIN_PICTURE_AREA = 7_900_000;
     // We allow up to 13MP picture resolutions
     public static final int MAX_PICTURE_AREA = 13_000_000;
+    // We require an aspect ratio of at least 4:3
+    public static final float MIN_ASPECT_RATIO = 1.33f;
 
     private final CameraHolder mCameraHolder;
 
@@ -44,7 +46,8 @@ public class CameraResolutionRequirement implements Requirement {
                 final Pair<Size, Size> sizes = SizeSelectionHelper.getBestSize(parameters.getSupportedPictureSizes(),
                         parameters.getSupportedPreviewSizes(),
                         MAX_PICTURE_AREA,
-                        MIN_PICTURE_AREA
+                        MIN_PICTURE_AREA,
+                        MIN_ASPECT_RATIO
                 );
                 if (sizes == null) {
                     result = false;
