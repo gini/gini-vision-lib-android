@@ -35,7 +35,8 @@ class DeviceMemoryRequirement implements Requirement {
                 final Pair<Size, Size> sizes = SizeSelectionHelper.getBestSize(parameters.getSupportedPictureSizes(),
                         parameters.getSupportedPreviewSizes(),
                         CameraResolutionRequirement.MAX_PICTURE_AREA,
-                        CameraResolutionRequirement.MIN_PICTURE_AREA);
+                        CameraResolutionRequirement.MIN_PICTURE_AREA,
+                        CameraResolutionRequirement.MIN_ASPECT_RATIO);
                 if (sizes == null) {
                     result = false;
                     details =
