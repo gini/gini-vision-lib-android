@@ -5,10 +5,6 @@ Customization of the Views is provided mostly via overriding of app resources: d
 colors, texts, etc. Onboarding can also be customized to show your own pages, each consisting of an
 image and a short text.
 
-.. contents::
-   :depth: 1
-   :local:
-
 .. _onboarding:
 
 Onboarding Screen
@@ -1914,7 +1910,6 @@ All Action Bar customizations except the title are global to all Activities.
     Via overriding the string resource named ``gv_file_import_section_3_clear_app_defaults_body``.
 
 :ref:`Back to screenshot. <file-import>`
-
 
 Clear Defaults Dialog
 ----
