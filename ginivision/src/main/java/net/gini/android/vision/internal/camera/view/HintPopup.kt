@@ -30,10 +30,6 @@ internal class HintPopup(
     }
 
     fun show() {
-        if (popupView.alpha != 0f) {
-            return;
-        }
-
         popupView.visibility = View.VISIBLE
         popupArrow.visibility = View.VISIBLE
         clearUploadHintPopUpAnimations()
@@ -41,8 +37,12 @@ internal class HintPopup(
                 popupView)
                 .alpha(1f)
                 .setDuration(animationDuration)
+                .setListener(object: ViewPropertyAnimatorListenerAdapter() {
+                    override fun onAnimationEnd(view: View?) {
+                        isShown = true
+                    }
+                })
                 .apply {
-                    isShown = true
                     start()
                 }
         popupAnimation = ViewCompat.animate(
@@ -55,10 +55,6 @@ internal class HintPopup(
     }
 
     fun hide(animatorListener: ViewPropertyAnimatorListenerAdapter?) {
-        if (popupView.alpha != 1f) {
-            animatorListener?.onAnimationEnd(popupView)
-        }
-
         clearUploadHintPopUpAnimations()
         popupArrowAnimation = ViewCompat.animate(popupView)
                 .alpha(0f)

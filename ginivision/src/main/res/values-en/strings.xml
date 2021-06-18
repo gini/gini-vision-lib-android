@@ -45,6 +45,7 @@
     <string name="gv_noresults_headline">Tips for best results:</string>
     <string name="gv_noresults_back_button">To the camera</string>
     <string name="gv_document_import_hint_text">Now documents can be conveniently uploaded for analysis.</string>
+    <string name="gv_qr_code_scanner_hint_text">Have you checked out the QR code scanner yet?</string>
     <string name="gv_document_import_error">The document could not be opened. Please try a different document.</string>
     <string name="gv_storage_permission_denied">Permission to access files is required to upload saved invoices.</string>
     <string name="gv_storage_permission_denied_positive_button">Grant permission</string>

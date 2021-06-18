@@ -148,6 +148,60 @@
 
     </RelativeLayout>
 
+    <ImageView
+        android:id="@+id/gv_qr_code_scanner_hint_container_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/gv_button_camera_trigger"
+        android:layout_alignEnd="@+id/gv_button_camera_trigger"
+        android:layout_alignStart="@+id/gv_button_camera_trigger"
+        android:layout_marginBottom="@dimen/gv_camera_qr_code_scanner_hint_arrow_margin"
+        android:alpha="0"
+        android:src="@drawable/gv_hint_arrow_down"
+        app:tint="@color/gv_document_import_hint_background"
+        android:visibility="gone"
+        tools:alpha="1"
+        tools:visibility="visible" />
+
+    <RelativeLayout
+        android:id="@+id/gv_qr_code_scanner_hint_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/gv_qr_code_scanner_hint_container_arrow"
+        android:layout_marginLeft="@dimen/gv_camera_upload_hint_container_horizontal_margin"
+        android:layout_marginRight="@dimen/gv_camera_upload_hint_container_horizontal_margin"
+        android:alpha="0"
+        android:background="@color/gv_document_import_hint_background"
+        android:paddingBottom="@dimen/gv_camera_upload_hint_container_padding"
+        android:paddingEnd="@dimen/gv_camera_upload_hint_container_padding_right"
+        android:paddingStart="@dimen/gv_camera_upload_hint_container_padding"
+        android:paddingTop="@dimen/gv_camera_upload_hint_container_padding"
+        android:visibility="gone"
+        tools:alpha="1"
+        tools:visibility="visible">
+
+        <net.gini.android.vision.internal.ui.CustomFontTextView
+            style="@style/GiniVisionTheme.Camera.DocumentImportHint.TextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/gv_camera_upload_hint_text_right_margin"
+            android:layout_toStartOf="@+id/gv_document_import_hint_close_button"
+            android:text="@string/gv_qr_code_scanner_hint_text" />
+
+        <ImageView
+            android:id="@+id/gv_qr_code_scanner_hint_close_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/gv_camera_upload_hint_container_close_button_padding"
+            android:src="@drawable/gv_hint_close"
+            app:tint="@color/gv_hint_close" />
+
+    </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/gv_qrcode_detected_popup_container"
         android:layout_width="match_parent"
