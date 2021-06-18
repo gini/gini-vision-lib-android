@@ -76,6 +76,7 @@
     <string name="gv_supported_format_printed_invoices">Computer-generated invoices and remittance slips</string>
     <string name="gv_supported_format_single_page_as_jpeg_png_gif">1-sided photos of format jpeg, png or gif</string>
     <string name="gv_supported_format_pdf">PDF documents of up to 10 pages</string>
+    <string name="gv_supported_format_qr_code">QR Codes</string>
     <string name="gv_unsupported_format_handwriting">Handwriting</string>
     <string name="gv_unsupported_format_photos_of_screens">Photos of monitors or screens</string>
     <string name="gv_supported_format_section_header">The following formats are supported:</string>
