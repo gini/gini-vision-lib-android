@@ -71,6 +71,18 @@
         <item name="gvCustomFont" />
     </style>
 
+    <style name="Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.UnsupportedMessage1.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gv_unsupported_qrcode_detected_popup_message_1</item>
+        <item name="gvCustomFont" />
+    </style>
+
+    <style name="Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.UnsupportedMessage2.TextStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gv_unsupported_qrcode_detected_popup_message_2</item>
+        <item name="gvCustomFont" />
+    </style>
+
     <style name="Root.GiniVisionTheme.Camera.DocumentImportSubtitle.TextStyle" parent="TextAppearance.AppCompat">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/gv_camera_document_import_subtitle_text</item>
@@ -253,6 +265,10 @@
     <style name="GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle" parent="Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle" />
 
     <style name="GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle" parent="Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle" />
+
+    <style name="GiniVisionTheme.Camera.QRCodeDetectedPopup.UnsupportedMessage1.TextStyle" parent="Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.UnsupportedMessage1.TextStyle" />
+
+    <style name="GiniVisionTheme.Camera.QRCodeDetectedPopup.UnsupportedMessage2.TextStyle" parent="Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.UnsupportedMessage2.TextStyle" />
 
     <style name="GiniVisionTheme.Camera.DocumentImportSubtitle.TextStyle" parent="Root.GiniVisionTheme.Camera.DocumentImportSubtitle.TextStyle" />
 

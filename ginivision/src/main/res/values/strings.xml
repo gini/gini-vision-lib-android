@@ -18,12 +18,16 @@
     <string name="gv_camera_error_no_permission_button_title">Zugriff erlauben</string>
     <string name="gv_camera_image_stack_subtitle">Seiten</string>
     <string name="gv_camera_document_import_subtitle">Importieren</string>
+
     <string name="gv_document_error_multi_page_limit_review_pages_button">Seitenübersicht</string>
-
     <string name="gv_document_error_multi_page_limit_cancel_button">Abbrechen</string>
-    <string name="gv_qrcode_detected_popup_message_1">QR verwenden?</string>
 
+    <string name="gv_qrcode_detected_popup_message_1">QR verwenden?</string>
     <string name="gv_qrcode_detected_popup_message_2">Hier geht’s weiter.</string>
+
+    <string name="gv_unsupported_qrcode_detected_popup_message_1">Dieser QR-Code enthält keine Bezahlinformationen.</string>
+    <string name="gv_unsupported_qrcode_detected_popup_message_2">X</string>
+
     <string name="gv_onboarding_lighting">Beim Abfotografieren der Rechnung oder des Überweisungsträgers auf gute Beleuchtung achten</string>
     <string name="gv_onboarding_flat">Seite glatt streichen</string>
     <string name="gv_onboarding_parallel">Gerät parallel über die Seite halten</string>
