@@ -795,6 +795,12 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     }
 
     private void setInputHandlers() {
+        mCameraPreviewShade.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                closeUploadHintPopUp();
+            }
+        });
         mButtonCameraTrigger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -990,6 +996,9 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     }
 
     private void closeUploadHintPopUp() {
+        if (mUploadHintContainer.getVisibility() == View.GONE) {
+            return;
+        }
         hideUploadHintPopUp(new ViewPropertyAnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(final View view) {
