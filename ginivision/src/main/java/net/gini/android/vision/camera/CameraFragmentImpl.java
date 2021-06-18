@@ -460,6 +460,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     @VisibleForTesting
     void showUploadHintPopUp() {
         disableCameraTriggerButtonAnimated(0.3f);
+        disableFlashButtonAnimated(0.3f);
         mUploadHintContainer.setVisibility(View.VISIBLE);
         mUploadHintContainerArrow.setVisibility(View.VISIBLE);
         mCameraPreviewShade.setVisibility(View.VISIBLE);
@@ -1002,6 +1003,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             animatorListener) {
         if (!mInterfaceHidden) {
             enableCameraTriggerButtonAnimated();
+            enableFlashButtonAnimated();
         }
         clearUploadHintPopUpAnimations();
         mUploadHintContainerAnimation = ViewCompat.animate(mUploadHintContainer)
@@ -1639,6 +1641,18 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         mButtonCameraTrigger.setEnabled(true);
     }
 
+    private void disableFlashButtonAnimated(final float alpha) {
+        mButtonCameraFlash.clearAnimation();
+        mButtonCameraFlash.animate().alpha(alpha).start();
+        mButtonCameraFlash.setEnabled(false);
+    }
+
+    private void enableFlashButtonAnimated() {
+        mButtonCameraFlash.clearAnimation();
+        mButtonCameraFlash.animate().alpha(1.0f).start();
+        mButtonCameraFlash.setEnabled(true);
+    }
+
     @Override
     public void showInterface() {
         if (!mInterfaceHidden || isNoPermissionViewVisible()) {
@@ -1652,11 +1666,11 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         showCameraTriggerButtonAnimated();
         showDocumentCornerGuidesAnimated();
         showImageStackAnimated();
+        showFlashButtonAnimated();
         if (mImportDocumentButtonEnabled) {
             showUploadHintPopUpOnFirstExecution();
             showImportDocumentButtonAnimated();
         }
-        showFlashButtonAnimated();
     }
 
     private void showImageStackAnimated() {
