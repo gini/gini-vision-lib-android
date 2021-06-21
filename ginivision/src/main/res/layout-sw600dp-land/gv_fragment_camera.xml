@@ -138,7 +138,7 @@
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:layout_marginEnd="@dimen/gv_camera_upload_hint_text_right_margin"
-            android:layout_toStartOf="@+id/gv_document_import_hint_close_button"
+            android:layout_toStartOf="@+id/gv_qr_code_scanner_hint_close_button"
             android:text="@string/gv_qr_code_scanner_hint_text" />
 
         <ImageView
