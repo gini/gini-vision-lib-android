@@ -61,6 +61,7 @@
     <string name="gv_noresults_back_button">Zur Kamera</string>
 
     <string name="gv_document_import_hint_text">Es können jetzt auch ganz einfach Dateien hochgeladen werden.</string>
+    <string name="gv_qr_code_scanner_hint_text">Haben Sie schon den QR-Codeleser ausprobiert?</string>
 
     <string name="gv_document_import_error">Ihre Datei konnte nicht geöffnet werden. Bitte versuchen sie es mit einer anderen Datei.</string>
     <string name="gv_storage_permission_denied">Nur mit Datei-Zugriff können gespeicherte Rechnungen hochgeladen werden.</string>
@@ -95,6 +96,7 @@
     <string name="gv_supported_format_printed_invoices">Computer-erstellte Überweisungsträger und Rechnungen</string>
     <string name="gv_supported_format_single_page_as_jpeg_png_gif">Einseitige Bilder im jpeg, png oder gif Format</string>
     <string name="gv_supported_format_pdf">PDF Dokumente von bis zu 10 Seiten</string>
+    <string name="gv_supported_format_qr_code">QR Codes</string>
     <string name="gv_unsupported_format_handwriting">Handschrift</string>
     <string name="gv_unsupported_format_photos_of_screens">Fotos von Bildschirmen</string>
     <string name="gv_supported_format_section_header">Folgende Formate werden unterstützt:</string>

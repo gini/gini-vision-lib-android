@@ -56,6 +56,7 @@ import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.PhotoEdit;
 import net.gini.android.vision.internal.camera.view.CameraPreviewSurface;
 import net.gini.android.vision.internal.camera.view.FlashButtonHelper.FlashButtonPosition;
+import net.gini.android.vision.internal.camera.view.HintPopup;
 import net.gini.android.vision.internal.camera.view.QRCodePopup;
 import net.gini.android.vision.internal.fileimport.FileChooserActivity;
 import net.gini.android.vision.internal.network.AnalysisNetworkRequestResult;
@@ -92,6 +93,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import jersey.repackaged.jsr166e.CompletableFuture;
 import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
 import kotlin.jvm.functions.Function1;
 
 import static android.app.Activity.RESULT_CANCELED;
@@ -151,7 +153,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     };
 
     private static final int REQ_CODE_CHOOSE_FILE = 1;
-    private static final String SHOW_HINT_POP_UP = "SHOW_HINT_POP_UP";
+    private static final String SHOW_UPLOAD_HINT_POP_UP = "SHOW_HINT_POP_UP";
+    private static final String SHOW_QRCODE_SCANNER_HINT_POP_UP = "SHOW_QR_CODE_SCANNER_HINT_POP_UP";
     private static final String IN_MULTI_PAGE_STATE_KEY = "IN_MULTI_PAGE_STATE_KEY";
     private static final String IS_FLASH_ENABLED_KEY = "IS_FLASH_ENABLED_KEY";
 
@@ -186,12 +189,16 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     private View mUploadHintCloseButton;
     private View mUploadHintContainer;
     private View mUploadHintContainerArrow;
+    private View mQRCodeScannerHintCloseButton;
+    private View mQRCodeScannerHintContainer;
+    private View mQRCodeScannerHintContainerArrow;
     private View mCameraPreviewShade;
     private View mActivityIndicatorBackground;
     private ProgressBar mActivityIndicator;
-    private ViewPropertyAnimatorCompat mUploadHintContainerArrowAnimation;
     private ViewPropertyAnimatorCompat mCameraPreviewShadeAnimation;
-    private ViewPropertyAnimatorCompat mUploadHintContainerAnimation;
+
+    private HintPopup mUploadHintPopup;
+    private HintPopup mQRCodeScannerHintPopup;
 
     private ViewStubSafeInflater mViewStubInflater;
 
@@ -301,7 +308,50 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         bindViews(view);
         setInputHandlers();
         setSurfaceViewCallback();
+        createPopups();
         return view;
+    }
+
+    private void createPopups() {
+        mPaymentQRCodePopup =
+                new QRCodePopup<>(mFragment, mQRCodeDetectedPopupContainer,
+                        DEFAULT_ANIMATION_DURATION, getHideQRCodeDetectedPopupDelayMs(),
+                        getDifferentQRCodeDetectedPopupDelayMs(),
+                        new Function1<PaymentQRCodeData, Unit>() {
+                            @Override
+                            public Unit invoke(@Nullable PaymentQRCodeData paymentQRCodeData) {
+                                if (paymentQRCodeData == null) {
+                                    return null;
+                                }
+                                handlePaymentQRCodeData(paymentQRCodeData);
+                                return null;
+                            }
+                        });
+
+        mUnsupportedQRCodePopup =
+                new QRCodePopup<>(mFragment, mUnsupportedQRCodeDetectedPopupContainer,
+                        DEFAULT_ANIMATION_DURATION, getHideQRCodeDetectedPopupDelayMs(),
+                        getDifferentQRCodeDetectedPopupDelayMs());
+
+        mUploadHintPopup = new HintPopup(mUploadHintContainer, mUploadHintContainerArrow,
+                mUploadHintCloseButton, DEFAULT_ANIMATION_DURATION,
+                new Function0<Unit>() {
+                    @Override
+                    public Unit invoke() {
+                        closeUploadHintPopUp(true);
+                        return null;
+                    }
+                });
+
+        mQRCodeScannerHintPopup = new HintPopup(mQRCodeScannerHintContainer,
+                mQRCodeScannerHintContainerArrow, mQRCodeScannerHintCloseButton,
+                DEFAULT_ANIMATION_DURATION, new Function0<Unit>() {
+            @Override
+            public Unit invoke() {
+                closeQRCodeScannerHintPopUp();
+                return null;
+            }
+        });
     }
 
     public void onStart() {
@@ -314,26 +364,6 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         initViews();
         initCameraController(activity);
         if (isQRCodeScanningEnabled(mGiniVisionFeatureConfiguration)) {
-            mPaymentQRCodePopup =
-                    new QRCodePopup<>(mFragment, mQRCodeDetectedPopupContainer,
-                            DEFAULT_ANIMATION_DURATION, getHideQRCodeDetectedPopupDelayMs(),
-                            getDifferentQRCodeDetectedPopupDelayMs(),
-                            new Function1<PaymentQRCodeData, Unit>() {
-                                @Override
-                                public Unit invoke(@Nullable PaymentQRCodeData paymentQRCodeData) {
-                                    if (paymentQRCodeData == null) {
-                                        return null;
-                                    }
-                                    handlePaymentQRCodeData(paymentQRCodeData);
-                                    return null;
-                                }
-                            });
-
-            mUnsupportedQRCodePopup =
-                    new QRCodePopup<>(mFragment, mUnsupportedQRCodeDetectedPopupContainer,
-                            DEFAULT_ANIMATION_DURATION, getHideQRCodeDetectedPopupDelayMs(),
-                            getDifferentQRCodeDetectedPopupDelayMs());
-
             initQRCodeReader(activity);
         }
 
@@ -359,7 +389,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                                     mCameraPreview.setPreviewSize(previewSize);
                                     startPreview(surfaceHolder);
                                     enableTapToFocus();
-                                    showUploadHintPopUpOnFirstExecution();
+                                    showHintPopUpsOnFirstExecution();
                                     initFlashButton();
                                 } else {
                                     handleError(GiniVisionError.ErrorCode.CAMERA_NO_PREVIEW,
@@ -452,29 +482,52 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
 
 
     private void showUploadHintPopUpOnFirstExecution() {
-        if (shouldShowHintPopUp()) {
+        if (mInterfaceHidden) {
+            return;
+        }
+        if (shouldShowUploadHintPopUp()) {
             showUploadHintPopUp();
+        }
+    }
+
+    private void showQrcodeScannerHintPopUpOnFirstExecution() {
+        if (mInterfaceHidden) {
+            return;
+        }
+        if (shouldShowQRCodeScannerHintPopup()) {
+            showQRCodeScannerHintPopUp();
+        }
+    }
+
+    private void showHintPopUpsOnFirstExecution() {
+        if (mInterfaceHidden) {
+            return;
+        }
+        if (shouldShowUploadHintPopUp()) {
+            showUploadHintPopUp();
+        } else if (shouldShowQRCodeScannerHintPopup()) {
+            showQRCodeScannerHintPopUp();
         }
     }
 
     @VisibleForTesting
     void showUploadHintPopUp() {
         disableCameraTriggerButtonAnimated(0.3f);
-        mUploadHintContainer.setVisibility(View.VISIBLE);
-        mUploadHintContainerArrow.setVisibility(View.VISIBLE);
+        disableFlashButtonAnimated(0.3f);
+        showHintPopup(mUploadHintPopup);
+    }
+
+    private void showQRCodeScannerHintPopUp() {
+        disableImportButtonAnimated(0.3f);
+        disableFlashButtonAnimated(0.3f);
+        showHintPopup(mQRCodeScannerHintPopup);
+    }
+
+    private void showHintPopup(@NonNull final HintPopup hintPopup) {
+        clearHintPopupRelatedAnimations();
+        hintPopup.show();
         mCameraPreviewShade.setVisibility(View.VISIBLE);
         mCameraPreviewShade.setClickable(true);
-        clearUploadHintPopUpAnimations();
-        mUploadHintContainerAnimation = ViewCompat.animate(
-                mUploadHintContainer)
-                .alpha(1)
-                .setDuration(DEFAULT_ANIMATION_DURATION);
-        mUploadHintContainerAnimation.start();
-        mUploadHintContainerArrowAnimation = ViewCompat.animate(
-                mUploadHintContainerArrow)
-                .alpha(1)
-                .setDuration(DEFAULT_ANIMATION_DURATION);
-        mUploadHintContainerArrowAnimation.start();
         mCameraPreviewShadeAnimation = ViewCompat.animate(
                 mCameraPreviewShade)
                 .alpha(1)
@@ -482,17 +535,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         mCameraPreviewShadeAnimation.start();
     }
 
-    private void clearUploadHintPopUpAnimations() {
-        if (mUploadHintContainerAnimation != null) {
-            mUploadHintContainerAnimation.cancel();
-            mUploadHintContainer.clearAnimation();
-            mUploadHintContainerAnimation.setListener(null);
-        }
-        if (mUploadHintContainerArrowAnimation != null) {
-            mUploadHintContainerArrowAnimation.cancel();
-            mUploadHintContainerArrow.clearAnimation();
-            mUploadHintContainerArrowAnimation.setListener(null);
-        }
+    private void clearHintPopupRelatedAnimations() {
         if (mCameraPreviewShadeAnimation != null) {
             mCameraPreviewShadeAnimation.cancel();
             mCameraPreviewShade.clearAnimation();
@@ -500,7 +543,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         }
     }
 
-    private boolean shouldShowHintPopUp() {
+    private boolean shouldShowUploadHintPopUp() {
         final Activity activity = mFragment.getActivity();
         if (activity == null) {
             return false;
@@ -512,7 +555,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         if (context != null) {
             final SharedPreferences gvSharedPrefs = context.getSharedPreferences(GV_SHARED_PREFS,
                     Context.MODE_PRIVATE);
-            return gvSharedPrefs.getBoolean(SHOW_HINT_POP_UP, true);
+            return gvSharedPrefs.getBoolean(SHOW_UPLOAD_HINT_POP_UP, true);
         }
         return false;
     }
@@ -623,7 +666,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
 
     void onStop() {
         closeCamera();
-        clearUploadHintPopUpAnimations();
+        clearHintPopupRelatedAnimations();
+        mUploadHintPopup.hide(null);
         if (mPaymentQRCodePopup != null) {
             mPaymentQRCodePopup.hide();
         }
@@ -735,6 +779,9 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         mUploadHintContainer = view.findViewById(R.id.gv_document_import_hint_container);
         mUploadHintContainerArrow = view.findViewById(R.id.gv_document_import_hint_container_arrow);
         mUploadHintCloseButton = view.findViewById(R.id.gv_document_import_hint_close_button);
+        mQRCodeScannerHintContainer = view.findViewById(R.id.gv_qr_code_scanner_hint_container);
+        mQRCodeScannerHintContainerArrow = view.findViewById(R.id.gv_qr_code_scanner_hint_container_arrow);
+        mQRCodeScannerHintCloseButton = view.findViewById(R.id.gv_qr_code_scanner_hint_close_button);
         mCameraPreviewShade = view.findViewById(R.id.gv_camera_preview_shade);
         mActivityIndicatorBackground =
                 view.findViewById(R.id.gv_activity_indicator_background);
@@ -794,10 +841,21 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     }
 
     private void setInputHandlers() {
+        mCameraPreviewShade.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                closeUploadHintPopUp(true);
+                closeQRCodeScannerHintPopUp();
+            }
+        });
         mButtonCameraTrigger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                onCameraTriggerClicked();
+                if (mQRCodeScannerHintPopup.isShown()) {
+                    closeQRCodeScannerHintPopUp();
+                } else {
+                    onCameraTriggerClicked();
+                }
             }
         });
         mButtonCameraFlash.setOnClickListener(new View.OnClickListener() {
@@ -810,14 +868,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         mImportButtonContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                closeUploadHintPopUp();
+                closeUploadHintPopUp(false);
                 showFileChooser();
-            }
-        });
-        mUploadHintCloseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                closeUploadHintPopUp();
             }
         });
         mImageStack.setOnClickListener(new View.OnClickListener() {
@@ -988,52 +1040,100 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         showError(activity.getString(R.string.gv_document_analysis_error), 3000);
     }
 
-    private void closeUploadHintPopUp() {
-        hideUploadHintPopUp(new ViewPropertyAnimatorListenerAdapter() {
+    private void closeUploadHintPopUp(final boolean showQRCodeScannerHint) {
+        if (!mUploadHintPopup.isShown()) {
+            return;
+        }
+        hideUploadHintPopup(new ViewPropertyAnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(final View view) {
                 final Context context = view.getContext();
-                savePopUpShown(context);
+                saveUploadHintPopUpShown(context);
+                if (showQRCodeScannerHint && shouldShowQRCodeScannerHintPopup()) {
+                    showQRCodeScannerHintPopUp();
+                }
             }
         });
     }
 
-    private void hideUploadHintPopUp(@Nullable final ViewPropertyAnimatorListenerAdapter
-            animatorListener) {
+    private void hideUploadHintPopup(@Nullable final ViewPropertyAnimatorListenerAdapter
+                                             animatorListener) {
         if (!mInterfaceHidden) {
             enableCameraTriggerButtonAnimated();
+            enableFlashButtonAnimated();
         }
-        clearUploadHintPopUpAnimations();
-        mUploadHintContainerAnimation = ViewCompat.animate(mUploadHintContainer)
-                .alpha(0)
-                .setDuration(DEFAULT_ANIMATION_DURATION)
-                .setListener(new ViewPropertyAnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(final View view) {
-                        mUploadHintContainerArrow.setVisibility(View.GONE);
-                        mUploadHintContainer.setVisibility(View.GONE);
-                        mCameraPreviewShade.setVisibility(View.GONE);
-                        mCameraPreviewShade.setClickable(false);
-                        if (animatorListener != null) {
-                            animatorListener.onAnimationEnd(view);
-                        }
-                    }
-                });
-        mUploadHintContainerAnimation.start();
-        mUploadHintContainerArrowAnimation = ViewCompat.animate(mUploadHintContainerArrow)
-                .alpha(0)
-                .setDuration(DEFAULT_ANIMATION_DURATION);
-        mUploadHintContainerArrowAnimation.start();
+        hideHintPopup(mUploadHintPopup, animatorListener);
+    }
+
+    private void hideHintPopup(@NonNull final HintPopup hintPopup,
+                               @Nullable final ViewPropertyAnimatorListenerAdapter
+            animatorListener) {
+        clearHintPopupRelatedAnimations();
+        hintPopup.hide(new ViewPropertyAnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(View view) {
+                mCameraPreviewShade.setVisibility(View.GONE);
+                mCameraPreviewShade.setClickable(false);
+                if (animatorListener != null) {
+                    animatorListener.onAnimationEnd(view);
+                }
+            }
+        });
         mCameraPreviewShadeAnimation = ViewCompat.animate(mCameraPreviewShade)
                 .alpha(0)
                 .setDuration(DEFAULT_ANIMATION_DURATION);
         mCameraPreviewShadeAnimation.start();
     }
 
-    private void savePopUpShown(final Context context) {
+    private void closeQRCodeScannerHintPopUp() {
+        if (!mQRCodeScannerHintPopup.isShown()) {
+            return;
+        }
+        hideQRCodeScannerHintPopup(new ViewPropertyAnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(final View view) {
+                final Context context = view.getContext();
+                saveQRCodeScannerHintPopUpShown(context);
+            }
+        });
+    }
+
+    private boolean shouldShowQRCodeScannerHintPopup() {
+        final Activity activity = mFragment.getActivity();
+        if (activity == null) {
+            return false;
+        }
+        if (!isQRCodeScanningEnabled(mGiniVisionFeatureConfiguration) || mInterfaceHidden) {
+            return false;
+        }
+        final Context context = mFragment.getActivity();
+        if (context != null) {
+            final SharedPreferences gvSharedPrefs = context.getSharedPreferences(GV_SHARED_PREFS,
+                    Context.MODE_PRIVATE);
+            return gvSharedPrefs.getBoolean(SHOW_QRCODE_SCANNER_HINT_POP_UP, true);
+        }
+        return false;
+    }
+
+    private void hideQRCodeScannerHintPopup(@Nullable final ViewPropertyAnimatorListenerAdapter
+                                             animatorListener) {
+        if (!mInterfaceHidden) {
+            enableFlashButtonAnimated();
+            enableImportButtonAnimated();
+        }
+        hideHintPopup(mQRCodeScannerHintPopup, animatorListener);
+    }
+
+    private void saveUploadHintPopUpShown(final Context context) {
         final SharedPreferences gvSharedPrefs = context.getSharedPreferences(GV_SHARED_PREFS,
                 Context.MODE_PRIVATE);
-        gvSharedPrefs.edit().putBoolean(SHOW_HINT_POP_UP, false).apply();
+        gvSharedPrefs.edit().putBoolean(SHOW_UPLOAD_HINT_POP_UP, false).apply();
+    }
+
+    private void saveQRCodeScannerHintPopUpShown(final Context context) {
+        final SharedPreferences gvSharedPrefs = context.getSharedPreferences(GV_SHARED_PREFS,
+                Context.MODE_PRIVATE);
+        gvSharedPrefs.edit().putBoolean(SHOW_QRCODE_SCANNER_HINT_POP_UP, false).apply();
     }
 
     private void showFileChooser() {
@@ -1639,6 +1739,30 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         mButtonCameraTrigger.setEnabled(true);
     }
 
+    private void disableFlashButtonAnimated(final float alpha) {
+        mButtonCameraFlash.clearAnimation();
+        mButtonCameraFlash.animate().alpha(alpha).start();
+        mButtonCameraFlash.setEnabled(false);
+    }
+
+    private void enableFlashButtonAnimated() {
+        mButtonCameraFlash.clearAnimation();
+        mButtonCameraFlash.animate().alpha(1.0f).start();
+        mButtonCameraFlash.setEnabled(true);
+    }
+
+    private void enableImportButtonAnimated() {
+        mImportButtonContainer.clearAnimation();
+        mImportButtonContainer.animate().alpha(1.0f).start();
+        mButtonImportDocument.setEnabled(true);
+    }
+
+    private void disableImportButtonAnimated(final float alpha) {
+        mImportButtonContainer.clearAnimation();
+        mImportButtonContainer.animate().alpha(alpha).start();
+        mButtonImportDocument.setEnabled(false);
+    }
+
     @Override
     public void showInterface() {
         if (!mInterfaceHidden || isNoPermissionViewVisible()) {
@@ -1652,11 +1776,13 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         showCameraTriggerButtonAnimated();
         showDocumentCornerGuidesAnimated();
         showImageStackAnimated();
+        showFlashButtonAnimated();
         if (mImportDocumentButtonEnabled) {
             showUploadHintPopUpOnFirstExecution();
             showImportDocumentButtonAnimated();
+        } else {
+            showQrcodeScannerHintPopUpOnFirstExecution();
         }
-        showFlashButtonAnimated();
     }
 
     private void showImageStackAnimated() {
@@ -1687,9 +1813,10 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         hideDocumentCornerGuidesAnimated();
         hideImageStackAnimated();
         if (mImportDocumentButtonEnabled) {
-            hideUploadHintPopUp(null);
+            hideUploadHintPopup(null);
             hideImportDocumentButtonAnimated();
         }
+        hideQRCodeScannerHintPopup(null);
         hideFlashButtonAnimated();
     }
 

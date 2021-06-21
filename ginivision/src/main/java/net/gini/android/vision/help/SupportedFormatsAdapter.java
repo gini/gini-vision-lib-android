@@ -4,6 +4,7 @@ import static net.gini.android.vision.help.SupportedFormatsAdapter.ItemType.FORM
 import static net.gini.android.vision.help.SupportedFormatsAdapter.ItemType.HEADER;
 import static net.gini.android.vision.internal.util.FeatureConfiguration.getDocumentImportEnabledFileTypes;
 import static net.gini.android.vision.internal.util.FeatureConfiguration.isFileImportEnabled;
+import static net.gini.android.vision.internal.util.FeatureConfiguration.isQRCodeScanningEnabled;
 
 import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
@@ -55,6 +56,9 @@ class SupportedFormatsAdapter extends
         } else if (getDocumentImportEnabledFileTypes(giniVisionFeatureConfiguration)
                 == DocumentImportEnabledFileTypes.PDF) {
             items.add(SupportedFormat.PDF);
+        }
+        if (isQRCodeScanningEnabled(giniVisionFeatureConfiguration)) {
+            items.add(SupportedFormat.QR_CODE);
         }
         items.add(SectionHeader.UNSUPPORTED_FORMATS);
         Collections.addAll(items, UnsupportedFormat.values());
@@ -146,7 +150,8 @@ class SupportedFormatsAdapter extends
     private enum SupportedFormat implements FormatInfo {
         PRINTED_INVOICES(R.string.gv_supported_format_printed_invoices),
         SINGLE_PAGE_AS_JPEG_PNG_GIF(R.string.gv_supported_format_single_page_as_jpeg_png_gif),
-        PDF(R.string.gv_supported_format_pdf);
+        PDF(R.string.gv_supported_format_pdf),
+        QR_CODE(R.string.gv_supported_format_qr_code);
 
         @DrawableRes
         private final int mIconBackground;
