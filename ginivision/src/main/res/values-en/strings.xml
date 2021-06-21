@@ -17,6 +17,8 @@
     <string name="gv_document_error_multi_page_limit_cancel_button">Cancel</string>
     <string name="gv_qrcode_detected_popup_message_1">Use QR code?</string>
     <string name="gv_qrcode_detected_popup_message_2">Continue</string>
+    <string name="gv_unsupported_qrcode_detected_popup_message_1">This QR Code does not contain any payment information.</string>
+    <string name="gv_unsupported_qrcode_detected_popup_message_2">X</string>
     <string name="gv_onboarding_lighting">Ensure good lighting when photographing the invoice or remittance slip</string>
     <string name="gv_onboarding_flat">Flatten the page</string>
     <string name="gv_onboarding_parallel">Hold device parallel over the page</string>

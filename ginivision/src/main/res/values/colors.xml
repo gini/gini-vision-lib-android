@@ -27,6 +27,10 @@
     <color name="gv_qrcode_detected_popup_message_1">#000</color>
     <color name="gv_qrcode_detected_popup_message_2">#009edc</color>
 
+    <color name="gv_unsupported_qrcode_detected_popup_background">#eeffffff</color>
+    <color name="gv_unsupported_qrcode_detected_popup_message_1">#e30b5d</color>
+    <color name="gv_unsupported_qrcode_detected_popup_message_2">#e30b5d</color>
+
     <color name="gv_document_import_hint_background">#ffffff</color>
     <color name="gv_document_import_hint_text">#000000</color>
 

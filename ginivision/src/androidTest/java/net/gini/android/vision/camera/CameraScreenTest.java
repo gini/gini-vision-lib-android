@@ -57,6 +57,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatcher;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 
 import java.io.IOException;
@@ -665,7 +666,8 @@ public class CameraScreenTest {
                 cameraActivityFake.getCameraFragmentImplFake();
         Thread.sleep(CameraFragmentImpl.DEFAULT_ANIMATION_DURATION + 100);
         Mockito.verify(cameraFragmentImplFake, times(2))
-                .showQRCodeDetectedPopup(anyLong());
+                .mPaymentQRCodePopup.show(ArgumentMatchers.<PaymentQRCodeData>any(),
+                anyLong());
     }
 
     @Test

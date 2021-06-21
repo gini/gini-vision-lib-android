@@ -1,21 +1,5 @@
 package net.gini.android.vision.camera;
 
-import static android.app.Activity.RESULT_CANCELED;
-import static android.app.Activity.RESULT_OK;
-
-import static net.gini.android.vision.camera.Util.cameraExceptionToGiniVisionError;
-import static net.gini.android.vision.document.ImageDocument.ImportMethod;
-import static net.gini.android.vision.internal.camera.view.FlashButtonHelper.getFlashButtonPosition;
-import static net.gini.android.vision.internal.network.NetworkRequestsManager.isCancellation;
-import static net.gini.android.vision.internal.qrcode.EPSPaymentParser.EXTRACTION_ENTITY_NAME;
-import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
-import static net.gini.android.vision.internal.util.AndroidHelper.isMarshmallowOrLater;
-import static net.gini.android.vision.internal.util.ContextHelper.isTablet;
-import static net.gini.android.vision.internal.util.FeatureConfiguration.getDocumentImportEnabledFileTypes;
-import static net.gini.android.vision.internal.util.FeatureConfiguration.isMultiPageEnabled;
-import static net.gini.android.vision.internal.util.FeatureConfiguration.isQRCodeScanningEnabled;
-import static net.gini.android.vision.tracking.EventTrackingHelper.trackCameraScreenEvent;
-
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
@@ -39,6 +23,17 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.UiThread;
+import androidx.annotation.VisibleForTesting;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.ViewPropertyAnimatorCompat;
+import androidx.core.view.ViewPropertyAnimatorListenerAdapter;
+import androidx.transition.Transition;
+import androidx.transition.TransitionListenerAdapter;
+
 import net.gini.android.vision.AsyncCallback;
 import net.gini.android.vision.Document;
 import net.gini.android.vision.DocumentImportEnabledFileTypes;
@@ -61,6 +56,7 @@ import net.gini.android.vision.internal.camera.photo.Photo;
 import net.gini.android.vision.internal.camera.photo.PhotoEdit;
 import net.gini.android.vision.internal.camera.view.CameraPreviewSurface;
 import net.gini.android.vision.internal.camera.view.FlashButtonHelper.FlashButtonPosition;
+import net.gini.android.vision.internal.camera.view.QRCodePopup;
 import net.gini.android.vision.internal.fileimport.FileChooserActivity;
 import net.gini.android.vision.internal.network.AnalysisNetworkRequestResult;
 import net.gini.android.vision.internal.network.NetworkRequestResult;
@@ -94,18 +90,24 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.UiThread;
-import androidx.annotation.VisibleForTesting;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.ViewPropertyAnimatorCompat;
-import androidx.core.view.ViewPropertyAnimatorListener;
-import androidx.core.view.ViewPropertyAnimatorListenerAdapter;
-import androidx.transition.Transition;
-import androidx.transition.TransitionListenerAdapter;
 import jersey.repackaged.jsr166e.CompletableFuture;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
+
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
+import static net.gini.android.vision.camera.Util.cameraExceptionToGiniVisionError;
+import static net.gini.android.vision.document.ImageDocument.ImportMethod;
+import static net.gini.android.vision.internal.camera.view.FlashButtonHelper.getFlashButtonPosition;
+import static net.gini.android.vision.internal.network.NetworkRequestsManager.isCancellation;
+import static net.gini.android.vision.internal.qrcode.EPSPaymentParser.EXTRACTION_ENTITY_NAME;
+import static net.gini.android.vision.internal.util.ActivityHelper.forcePortraitOrientationOnPhones;
+import static net.gini.android.vision.internal.util.AndroidHelper.isMarshmallowOrLater;
+import static net.gini.android.vision.internal.util.ContextHelper.isTablet;
+import static net.gini.android.vision.internal.util.FeatureConfiguration.getDocumentImportEnabledFileTypes;
+import static net.gini.android.vision.internal.util.FeatureConfiguration.isMultiPageEnabled;
+import static net.gini.android.vision.internal.util.FeatureConfiguration.isQRCodeScanningEnabled;
+import static net.gini.android.vision.tracking.EventTrackingHelper.trackCameraScreenEvent;
 
 class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader.Listener {
 
@@ -155,7 +157,10 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
 
     private final FragmentImplCallback mFragment;
     private final GiniVisionFeatureConfiguration mGiniVisionFeatureConfiguration;
-    private HideQRCodeDetectedRunnable mHideQRCodeDetectedPopupRunnable;
+
+    @VisibleForTesting
+    QRCodePopup<PaymentQRCodeData> mPaymentQRCodePopup;
+    private QRCodePopup<String> mUnsupportedQRCodePopup;
 
     private View mImageCorners;
     private ImageStack mImageStack;
@@ -177,7 +182,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     private LinearLayout mLayoutNoPermission;
     private ImageButton mButtonImportDocument;
     private View mQRCodeDetectedPopupContainer;
-    private PaymentQRCodeData mPaymentQRCodeData;
+    private View mUnsupportedQRCodeDetectedPopupContainer;
     private View mUploadHintCloseButton;
     private View mUploadHintContainer;
     private View mUploadHintContainerArrow;
@@ -187,7 +192,6 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     private ViewPropertyAnimatorCompat mUploadHintContainerArrowAnimation;
     private ViewPropertyAnimatorCompat mCameraPreviewShadeAnimation;
     private ViewPropertyAnimatorCompat mUploadHintContainerAnimation;
-    private ViewPropertyAnimatorCompat mQRCodeDetectedPopupAnimation;
 
     private ViewStubSafeInflater mViewStubInflater;
 
@@ -214,42 +218,43 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
 
     @Override
     public void onPaymentQRCodeDataAvailable(@NonNull final PaymentQRCodeData paymentQRCodeData) {
+        handleQRCodeDetected(paymentQRCodeData, paymentQRCodeData.getUnparsedContent());
+    }
+
+    @Override
+    public void onNonPaymentQRCodeDetected(@NonNull String qrCodeContent) {
+        handleQRCodeDetected(null, qrCodeContent);
+    }
+
+    private void handleQRCodeDetected(@Nullable final PaymentQRCodeData paymentQRCodeData,
+                                      @NonNull final String qrCodeContent) {
         if (mUploadHintContainer.getVisibility() == View.VISIBLE
                 || mInterfaceHidden
                 || mActivityIndicator.getVisibility() == View.VISIBLE) {
-            hideQRCodeDetectedPopup(null);
-            mPaymentQRCodeData = null; // NOPMD
+            mPaymentQRCodePopup.hide();
+            mUnsupportedQRCodePopup.hide();
             return;
         }
 
-        final View view = mFragment.getView();
-        if (view == null) {
-            return;
-        }
-
-        if (mPaymentQRCodeData == null
-                || mQRCodeDetectedPopupContainer.getVisibility() == View.GONE) {
-            showQRCodeDetectedPopup(0);
-            view.removeCallbacks(mHideQRCodeDetectedPopupRunnable);
-            view.postDelayed(mHideQRCodeDetectedPopupRunnable,
-                    getHideQRCodeDetectedPopupDelayMs());
+        if (paymentQRCodeData == null) {
+            final boolean showWithDelay = mPaymentQRCodePopup.isShown();
+            mPaymentQRCodePopup.hide(new ViewPropertyAnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(View view) {
+                    mUnsupportedQRCodePopup.show(qrCodeContent,
+                            showWithDelay ? getDifferentQRCodeDetectedPopupDelayMs() : 0);
+                }
+            });
         } else {
-            if (mPaymentQRCodeData.equals(paymentQRCodeData)) {
-                view.removeCallbacks(mHideQRCodeDetectedPopupRunnable);
-                view.postDelayed(mHideQRCodeDetectedPopupRunnable,
-                        getHideQRCodeDetectedPopupDelayMs());
-            } else {
-                view.removeCallbacks(mHideQRCodeDetectedPopupRunnable);
-                hideQRCodeDetectedPopup(new ViewPropertyAnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(final View view) {
-                        showQRCodeDetectedPopup(
-                                getDifferentQRCodeDetectedPopupDelayMs());
-                    }
-                });
-            }
+            final boolean showWithDelay = mUnsupportedQRCodePopup.isShown();
+            mUnsupportedQRCodePopup.hide(new ViewPropertyAnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(View view) {
+                    mPaymentQRCodePopup.show(paymentQRCodeData,
+                            showWithDelay ? getDifferentQRCodeDetectedPopupDelayMs() : 0);
+                }
+            });
         }
-        mPaymentQRCodeData = paymentQRCodeData;
     }
 
     @VisibleForTesting
@@ -260,65 +265,6 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     @VisibleForTesting
     long getDifferentQRCodeDetectedPopupDelayMs() {
         return DIFFERENT_QRCODE_DETECTED_POPUP_DELAY_MS;
-    }
-
-    private class HideQRCodeDetectedRunnable implements Runnable {
-
-        @Override
-        public void run() {
-            hideQRCodeDetectedPopup(null);
-            mPaymentQRCodeData = null; // NOPMD
-        }
-    }
-
-    @VisibleForTesting
-    void showQRCodeDetectedPopup(final long startDelay) {
-        if (mQRCodeDetectedPopupContainer.getAlpha() != 0) {
-            return;
-        }
-        clearQRCodeDetectedPopUpAnimation();
-        mQRCodeDetectedPopupContainer.setVisibility(View.VISIBLE);
-        mQRCodeDetectedPopupAnimation = ViewCompat.animate(mQRCodeDetectedPopupContainer)
-                .alpha(1.0f)
-                .setStartDelay(startDelay)
-                .setDuration(DEFAULT_ANIMATION_DURATION);
-        mQRCodeDetectedPopupAnimation.start();
-    }
-
-    private void hideQRCodeDetectedPopup(
-            @Nullable final ViewPropertyAnimatorListener animatorListener) {
-        if (mQRCodeDetectedPopupContainer.getAlpha() != 1) {
-            if (animatorListener != null) {
-                animatorListener.onAnimationEnd(mQRCodeDetectedPopupContainer);
-            }
-            return;
-        }
-        clearQRCodeDetectedPopUpAnimation();
-        mQRCodeDetectedPopupAnimation = ViewCompat.animate(mQRCodeDetectedPopupContainer)
-                .alpha(0.0f)
-                .setDuration(DEFAULT_ANIMATION_DURATION)
-                .setListener(new ViewPropertyAnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(final View view) {
-                        mQRCodeDetectedPopupContainer.setVisibility(View.GONE);
-                        if (animatorListener != null) {
-                            animatorListener.onAnimationEnd(view);
-                        }
-                    }
-                });
-        mQRCodeDetectedPopupAnimation.start();
-    }
-
-    private void clearQRCodeDetectedPopUpAnimation() {
-        if (mQRCodeDetectedPopupAnimation != null) {
-            mQRCodeDetectedPopupAnimation.cancel();
-            mQRCodeDetectedPopupContainer.clearAnimation();
-            mQRCodeDetectedPopupAnimation.setListener(null);
-        }
-        final View view = mFragment.getView();
-        if (view != null) {
-            view.removeCallbacks(mHideQRCodeDetectedPopupRunnable);
-        }
     }
 
     @Override
@@ -368,7 +314,26 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         initViews();
         initCameraController(activity);
         if (isQRCodeScanningEnabled(mGiniVisionFeatureConfiguration)) {
-            mHideQRCodeDetectedPopupRunnable = new HideQRCodeDetectedRunnable();
+            mPaymentQRCodePopup =
+                    new QRCodePopup<>(mFragment, mQRCodeDetectedPopupContainer,
+                            DEFAULT_ANIMATION_DURATION, getHideQRCodeDetectedPopupDelayMs(),
+                            getDifferentQRCodeDetectedPopupDelayMs(),
+                            new Function1<PaymentQRCodeData, Unit>() {
+                                @Override
+                                public Unit invoke(@Nullable PaymentQRCodeData paymentQRCodeData) {
+                                    if (paymentQRCodeData == null) {
+                                        return null;
+                                    }
+                                    handlePaymentQRCodeData(paymentQRCodeData);
+                                    return null;
+                                }
+                            });
+
+            mUnsupportedQRCodePopup =
+                    new QRCodePopup<>(mFragment, mUnsupportedQRCodeDetectedPopupContainer,
+                            DEFAULT_ANIMATION_DURATION, getHideQRCodeDetectedPopupDelayMs(),
+                            getDifferentQRCodeDetectedPopupDelayMs());
+
             initQRCodeReader(activity);
         }
 
@@ -659,7 +624,12 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     void onStop() {
         closeCamera();
         clearUploadHintPopUpAnimations();
-        clearQRCodeDetectedPopUpAnimation();
+        if (mPaymentQRCodePopup != null) {
+            mPaymentQRCodePopup.hide();
+        }
+        if (mUnsupportedQRCodePopup != null) {
+            mUnsupportedQRCodePopup.hide();
+        }
     }
 
     void onDestroy() {
@@ -770,8 +740,9 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 view.findViewById(R.id.gv_activity_indicator_background);
         mActivityIndicator = view.findViewById(R.id.gv_activity_indicator);
         mQRCodeDetectedPopupContainer = view.findViewById(
-
                 R.id.gv_qrcode_detected_popup_container);
+        mUnsupportedQRCodeDetectedPopupContainer = view.findViewById(
+                R.id.gv_unsupported_qrcode_detected_popup_container);
         mImageStack = view.findViewById(R.id.gv_image_stack);
     }
 
@@ -849,13 +820,6 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 closeUploadHintPopUp();
             }
         });
-        mQRCodeDetectedPopupContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                hideQRCodeDetectedPopup(null);
-                handlePaymentQRCodeData();
-            }
-        });
         mImageStack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -897,34 +861,30 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 });
     }
 
-    private void handlePaymentQRCodeData() {
-        if (mPaymentQRCodeData == null) {
-            return;
-        }
-        switch (mPaymentQRCodeData.getFormat()) {
+    private void handlePaymentQRCodeData(@NonNull final PaymentQRCodeData paymentQRCodeData) {
+        switch (paymentQRCodeData.getFormat()) {
             case EPC069_12:
             case BEZAHL_CODE:
                 mQRCodeDocument = QRCodeDocument.fromPaymentQRCodeData(
-                        mPaymentQRCodeData);
+                        paymentQRCodeData);
                 analyzeQRCode(mQRCodeDocument);
                 break;
             case EPS_PAYMENT:
-                handleEPSPaymentQRCode();
+                handleEPSPaymentQRCode(paymentQRCodeData);
                 break;
             default:
-                LOG.error("Unknown payment QR Code format: {}", mPaymentQRCodeData);
+                LOG.error("Unknown payment QR Code format: {}", paymentQRCodeData);
                 break;
         }
-        mPaymentQRCodeData = null; // NOPMD
     }
 
-    private void handleEPSPaymentQRCode() {
+    private void handleEPSPaymentQRCode(@NonNull final PaymentQRCodeData paymentQRCodeData) {
         final GiniVisionExtraction extraction = new GiniVisionExtraction(
-                mPaymentQRCodeData.getUnparsedContent(), EXTRACTION_ENTITY_NAME,
+                paymentQRCodeData.getUnparsedContent(), EXTRACTION_ENTITY_NAME,
                 null);
         final GiniVisionSpecificExtraction specificExtraction = new GiniVisionSpecificExtraction(
                 EXTRACTION_ENTITY_NAME,
-                mPaymentQRCodeData.getUnparsedContent(),
+                paymentQRCodeData.getUnparsedContent(),
                 EXTRACTION_ENTITY_NAME,
                 null,
                 Collections.singletonList(extraction)
