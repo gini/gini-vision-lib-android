@@ -430,8 +430,11 @@ All Action Bar customizations except the title are global to all Activities.
 
 .. _camera-8:
 
-8. Document Import Hint
+8. Hints
 ^^^^
+
+8.1 Document Import Hint
+~~~~
 
 - **Background Color**
 
@@ -446,6 +449,34 @@ All Action Bar customizations except the title are global to all Activities.
   - **Text**
 
     Via the string resource named ``gv_document_import_hint_text``.
+
+  - **Text Style**
+
+    Via overriding the style named ``GiniVisionTheme.Camera.DocumentImportHint.TextStyle`` (with
+    parent style ``Root.GiniVisionTheme.Camera.DocumentImportHint.TextStyle``).
+
+  - **Font**
+
+    Via overriding the style named ``GiniVisionTheme.Camera.DocumentImportHint.TextStyle`` (with
+    parent style ``Root.GiniVisionTheme.Camera.DocumentImportHint.TextStyle``) and setting an
+    item named ``gvCustomFont`` with the path to the font file in your assets folder.
+
+8.2 QR Code Scanner Hint
+~~~~
+
+- **Background Color**
+
+  Via the color resource named ``gv_document_import_hint_background``.
+
+- **Close Icon Color**
+
+  Via the color resource name ``gv_hint_close``.
+
+- **Message**
+
+  - **Text**
+
+    Via the string resource named ``gv_qr_code_scanner_hint_text``.
 
   - **Text Style**
 
