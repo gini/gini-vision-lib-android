@@ -1467,22 +1467,26 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     private void enableInteraction() {
         if (mCameraPreview == null
                 || mButtonImportDocument == null
+                || mImportButtonContainer == null
                 || mButtonCameraTrigger == null) {
             return;
         }
         mCameraPreview.setEnabled(true);
         mButtonImportDocument.setEnabled(true);
+        mImportButtonContainer.setEnabled(true);
         mButtonCameraTrigger.setEnabled(true);
     }
 
     private void disableInteraction() {
         if (mCameraPreview == null
                 || mButtonImportDocument == null
+                || mImportButtonContainer == null
                 || mButtonCameraTrigger == null) {
             return;
         }
         mCameraPreview.setEnabled(false);
         mButtonImportDocument.setEnabled(false);
+        mImportButtonContainer.setEnabled(false);
         mButtonCameraTrigger.setEnabled(false);
     }
 
@@ -1755,12 +1759,14 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         mImportButtonContainer.clearAnimation();
         mImportButtonContainer.animate().alpha(1.0f).start();
         mButtonImportDocument.setEnabled(true);
+        mImportButtonContainer.setEnabled(true);
     }
 
     private void disableImportButtonAnimated(final float alpha) {
         mImportButtonContainer.clearAnimation();
         mImportButtonContainer.animate().alpha(alpha).start();
         mButtonImportDocument.setEnabled(false);
+        mImportButtonContainer.setEnabled(false);
     }
 
     @Override
@@ -1792,6 +1798,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     private void showImportDocumentButtonAnimated() {
         mImportButtonContainer.animate().alpha(1.0f);
         mButtonImportDocument.setEnabled(true);
+        mImportButtonContainer.setEnabled(true);
     }
 
     private void showFlashButtonAnimated() {
@@ -1827,6 +1834,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
     private void hideImportDocumentButtonAnimated() {
         mImportButtonContainer.animate().alpha(0.0f);
         mButtonImportDocument.setEnabled(false);
+        mImportButtonContainer.setEnabled(false);
     }
 
     private void showNoPermissionView() {
