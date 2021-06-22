@@ -23,6 +23,9 @@ internal class HintPopup(
     var isShown = false
         private set
 
+    var isLastPopup = false
+        @JvmName("setIsLastPopup") set
+
     init {
         closeButton.setOnClickListener {
             onCloseClicked()

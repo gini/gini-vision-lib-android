@@ -338,7 +338,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
                 new Function0<Unit>() {
                     @Override
                     public Unit invoke() {
-                        closeUploadHintPopUp(true);
+                        closeUploadHintPopUp();
                         return null;
                     }
                 });
@@ -844,7 +844,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         mCameraPreviewShade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                closeUploadHintPopUp(true);
+                closeUploadHintPopUp();
                 closeQRCodeScannerHintPopUp();
             }
         });
@@ -868,7 +868,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         mImportButtonContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                closeUploadHintPopUp(false);
+                mUploadHintPopup.setIsLastPopup(true);
+                closeUploadHintPopUp();
                 showFileChooser();
             }
         });
@@ -1040,7 +1041,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         showError(activity.getString(R.string.gv_document_analysis_error), 3000);
     }
 
-    private void closeUploadHintPopUp(final boolean showQRCodeScannerHint) {
+    private void closeUploadHintPopUp() {
         if (!mUploadHintPopup.isShown()) {
             return;
         }
@@ -1049,7 +1050,7 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
             public void onAnimationEnd(final View view) {
                 final Context context = view.getContext();
                 saveUploadHintPopUpShown(context);
-                if (showQRCodeScannerHint && shouldShowQRCodeScannerHintPopup()) {
+                if (shouldShowQRCodeScannerHintPopup()) {
                     showQRCodeScannerHintPopUp();
                 }
             }
@@ -1103,7 +1104,9 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         if (activity == null) {
             return false;
         }
-        if (!isQRCodeScanningEnabled(mGiniVisionFeatureConfiguration) || mInterfaceHidden) {
+        if (!isQRCodeScanningEnabled(mGiniVisionFeatureConfiguration)
+                || mInterfaceHidden
+                || mUploadHintPopup.isLastPopup()) {
             return false;
         }
         final Context context = mFragment.getActivity();
