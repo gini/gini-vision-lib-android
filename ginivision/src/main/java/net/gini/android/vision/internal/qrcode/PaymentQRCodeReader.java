@@ -32,6 +32,10 @@ public class PaymentQRCodeReader {
         public void onPaymentQRCodeDataAvailable(
                 @NonNull final PaymentQRCodeData paymentQRCodeData) {
         }
+
+        @Override
+        public void onNonPaymentQRCodeDetected(@NonNull final String qrCodeContent) {
+        }
     };
 
     /**
@@ -62,6 +66,7 @@ public class PaymentQRCodeReader {
                         mListener.onPaymentQRCodeDataAvailable(paymentData);
                         return;
                     } catch (final IllegalArgumentException ignored) {
+                        mListener.onNonPaymentQRCodeDetected(qrCodeContent);
                     }
                 }
             }
@@ -109,5 +114,12 @@ public class PaymentQRCodeReader {
          * @param paymentQRCodeData the payment data found on the image
          */
         void onPaymentQRCodeDataAvailable(@NonNull final PaymentQRCodeData paymentQRCodeData);
+
+        /**
+         * Called when a QRCode was found without a supported payment data format.
+         *
+         * @param qrCodeContent the content of the QRCode
+         */
+        void onNonPaymentQRCodeDetected(@NonNull final String qrCodeContent);
     }
 }
