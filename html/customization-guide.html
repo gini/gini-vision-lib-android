@@ -101,7 +101,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#help-menu-item">5. Help Menu Item</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#background">6. Background</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#document-import-button">7. Document Import Button</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#document-import-hint">8. Document Import Hint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hints">8. Hints</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#images-stack">9. Images Stack</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#qrcode-detected-popup">10. QRCode Detected Popup</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#read-storage-permission-dialogs">11. Read Storage Permission Dialogs</a></li>
@@ -725,8 +725,10 @@ item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></t
 </ul>
 <p><a class="reference internal" href="#camera"><em>Back to screenshots.</em></a></p>
 </div>
+<div class="section" id="hints">
+<span id="camera-8"></span><h3>8. Hints<a class="headerlink" href="#hints" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="document-import-hint">
-<span id="camera-8"></span><h3>8. Document Import Hint<a class="headerlink" href="#document-import-hint" title="Permalink to this headline">¶</a></h3>
+<h4>8.1 Document Import Hint<a class="headerlink" href="#document-import-hint" title="Permalink to this headline">¶</a></h4>
 <ul>
 <li><p class="first"><strong>Background Color</strong></p>
 <p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_document_import_hint_background</span></tt>.</p>
@@ -751,7 +753,35 @@ item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></t
 </ul>
 </li>
 </ul>
+</div>
+<div class="section" id="qr-code-scanner-hint">
+<h4>8.2 QR Code Scanner Hint<a class="headerlink" href="#qr-code-scanner-hint" title="Permalink to this headline">¶</a></h4>
+<ul>
+<li><p class="first"><strong>Background Color</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_document_import_hint_background</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Close Icon Color</strong></p>
+<p>Via the color resource name <tt class="docutils literal"><span class="pre">gv_hint_close</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Message</strong></p>
+<ul>
+<li><p class="first"><strong>Text</strong></p>
+<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_qr_code_scanner_hint_text</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Text Style</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.DocumentImportHint.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.DocumentImportHint.TextStyle</span></tt>).</p>
+</li>
+<li><p class="first"><strong>Font</strong></p>
+<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.DocumentImportHint.TextStyle</span></tt> (with
+parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.DocumentImportHint.TextStyle</span></tt>) and setting an
+item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+</li>
+</ul>
+</li>
+</ul>
 <p><a class="reference internal" href="#camera"><em>Back to screenshots.</em></a></p>
+</div>
 </div>
 <div class="section" id="images-stack">
 <span id="camera-9"></span><h3>9. Images Stack<a class="headerlink" href="#images-stack" title="Permalink to this headline">¶</a></h3>
@@ -799,28 +829,66 @@ named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> wi
 <span id="camera-10"></span><h3>10. QRCode Detected Popup<a class="headerlink" href="#qrcode-detected-popup" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Background Color</strong></p>
+<ul>
+<li><p class="first"><strong>Payable QRCode</strong></p>
 <p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_qrcode_detected_popup_background</span></tt>.</p>
+</li>
+<li><p class="first"><strong>Unsupported QRCode</strong></p>
+<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_unsupported_qrcode_detected_popup_background</span></tt>.</p>
+</li>
+</ul>
 </li>
 <li><p class="first"><strong>Message</strong></p>
 <ul>
 <li><p class="first"><strong>Text</strong></p>
+<ul>
+<li><p class="first"><strong>Payable QRCode</strong></p>
 <p>Via the string resources named <tt class="docutils literal"><span class="pre">gv_qrcode_detected_popup_message_1</span></tt> and
 <tt class="docutils literal"><span class="pre">gv_qrcode_detected_popup_message_2</span></tt>.</p>
 </li>
+<li><p class="first"><strong>Unsupported QRCode</strong></p>
+<p>Via the string resources named <tt class="docutils literal"><span class="pre">gv_unsupported_qrcode_detected_popup_message_1</span></tt> and
+<tt class="docutils literal"><span class="pre">gv_unsupported_qrcode_detected_popup_message_2</span></tt>.</p>
+</li>
+</ul>
+</li>
 <li><p class="first"><strong>Text Style</strong></p>
+<ul>
+<li><p class="first"><strong>Payable QRCode</strong></p>
 <p>Via overriding the styles named
 <tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle</span></tt> (with parent style
 <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle</span></tt>) and
 <tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle</span></tt> (with parent style
 <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle</span></tt>).</p>
 </li>
+<li><p class="first"><strong>Unsupported QRCode</strong></p>
+<p>Via overriding the styles named
+<tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.QRCodeDetectedPopup.UnsupportedMessage1.TextStyle</span></tt> (with parent style
+<tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.UnsupportedMessage1.TextStyle</span></tt>) and
+<tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.QRCodeDetectedPopup.UnsupportedMessage2.TextStyle</span></tt> (with parent style
+<tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.UnsupportedMessage2.TextStyle</span></tt>).</p>
+</li>
+</ul>
+</li>
 <li><p class="first"><strong>Font</strong></p>
+<ul>
+<li><p class="first"><strong>Payable QRCode</strong></p>
 <p>Via overriding the styles named
 <tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle</span></tt> (with parent style
 <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle</span></tt>) and
 <tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle</span></tt> (with parent style
 <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle</span></tt>). and setting an
 item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+</li>
+<li><p class="first"><strong>Unsupported QRCode</strong></p>
+<p>Via overriding the styles named
+<tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.QRCodeDetectedPopup.UnsupportedMessage1.TextStyle</span></tt> (with parent style
+<tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.UnsupportedMessage1.TextStyle</span></tt>) and
+<tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.QRCodeDetectedPopup.UnsupportedMessage2.TextStyle</span></tt> (with parent style
+<tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.UnsupportedMessage2.TextStyle</span></tt>). and setting an
+item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+</li>
+</ul>
 </li>
 </ul>
 </li>
