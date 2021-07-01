@@ -89,18 +89,30 @@ dependencies {
 
     // For testing the local version
     implementation project(path: ':ginivision-network')
-    // For testing a released version
-    //implementation 'net.gini:gini-vision-network-lib:2.5.0'
+    // For testing a released version or a snapshot
+//    implementation ('net.gini:gini-vision-network-lib') {
+//        version {
+//            strictly '4.1.0-20210701.150110-2'
+//        }
+//    }
 
     // For testing the local version
     implementation project(path: ':ginivision-accounting-network')
-    // For testing a released version
-    //implementation 'net.gini:gini-vision-accounting-network-lib:2.5.0'
+    // For testing a released version or a snapshot
+//    implementation ('net.gini:gini-vision-accounting-network-lib') {
+//        version {
+//            strictly '4.1.0-20210701.150114-2'
+//        }
+//    }
 
     // For testing the local version
     implementation project(path: ':ginivision')
-    // For testing a released version
-    //implementation 'net.gini:gini-vision-lib:2.0.0-alpha.1'
+    // For testing a released version or a snapshot
+//    implementation ('net.gini:gini-vision-lib') {
+//        version {
+//            strictly '4.1.0-20210701.150106-2'
+//        }
+//    }
 
     testImplementation deps.junit
 

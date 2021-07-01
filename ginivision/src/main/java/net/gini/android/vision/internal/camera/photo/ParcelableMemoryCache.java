@@ -1,8 +1,14 @@
 package net.gini.android.vision.internal.camera.photo;
 
 import android.graphics.Bitmap;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,12 +20,9 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 /**
  * Internal use only.
- *
+ * <p>
  * This singleton cache keeps references to byte arrays and Bitmaps to be preserved between
  * parceling and unparceling.
  *
@@ -34,11 +37,66 @@ public enum ParcelableMemoryCache {
 
     private static final boolean DEBUG = false;
     private static final Logger LOG;
+
     static {
         if (DEBUG) {
             LOG = LoggerFactory.getLogger(ParcelableMemoryCache.class);
         } else {
             LOG = NOPLogger.NOP_LOGGER;
+        }
+    }
+
+    private static final long REMOVE_DELAY_MS = 1000;
+
+    private static final int STORE_BYTE_ARRAY = 1;
+    private static final int REMOVE_BYTE_ARRAY = 2;
+    private static final int STORE_BITMAP = 3;
+    private static final int REMOVE_BITMAP = 4;
+    private static final int REMOVE_ENTRIES_WITH_TAG = 5;
+
+    private static final Handler mHandler = new Handler(Looper.getMainLooper(), new Handler.Callback() {
+        @Override
+        public boolean handleMessage(@NonNull Message msg) {
+            switch (msg.what) {
+                case STORE_BYTE_ARRAY:
+                    INSTANCE.doStoreByteArray((TokenWithPayload<byte[]>) msg.obj);
+                    return true;
+                case REMOVE_BYTE_ARRAY:
+                    INSTANCE.doRemoveByteArray((Token) msg.obj);
+                    return true;
+                case STORE_BITMAP:
+                    INSTANCE.doStoreBitmap((TokenWithPayload<Bitmap>) msg.obj);
+                    return true;
+                case REMOVE_BITMAP:
+                    INSTANCE.doRemoveBitmap((Token) msg.obj);
+                    return true;
+                case REMOVE_ENTRIES_WITH_TAG:
+                    INSTANCE.doRemoveEntriesWithTag((String) msg.obj);
+                    return true;
+                default:
+                    return false;
+            }
+        }
+    });
+
+    private static class TokenWithPayload<P> {
+        private final Token token;
+        private final P payload;
+        private final String tag;
+
+        private TokenWithPayload(@NonNull final Token token,
+                                 @NonNull final P payload,
+                                 @NonNull final String tag) {
+            this.token = token;
+            this.payload = payload;
+            this.tag = tag;
+        }
+
+        private TokenWithPayload(@NonNull final Token token,
+                                 @NonNull final P payload) {
+            this.token = token;
+            this.payload = payload;
+            this.tag = null;
         }
     }
 
@@ -143,29 +201,51 @@ public enum ParcelableMemoryCache {
                 mBitmapCache.size());
     }
 
+    @NonNull
     public Token storeByteArray(@NonNull final byte[] documentJpeg) {
         final Token token = Token.next();
-        mByteArrayCache.put(token, documentJpeg);
-        LOG.debug("Store byte array for token {}", token);
-        logCacheSizes();
+        final Message msg = mHandler.obtainMessage(STORE_BYTE_ARRAY,
+                new TokenWithPayload<>(token, documentJpeg));
+        mHandler.sendMessage(msg);
         return token;
     }
 
+    @NonNull
     public Token storeByteArray(@NonNull final byte[] documentJpeg, @NonNull final String tag) {
         final Token token = Token.next(tag);
-        mByteArrayCache.put(token, documentJpeg);
-        LOG.debug("Store byte array for token {} with tag {}", token, tag);
-        logCacheSizes();
+        final Message msg = mHandler.obtainMessage(STORE_BYTE_ARRAY,
+                new TokenWithPayload<>(token, documentJpeg, tag));
+        mHandler.sendMessage(msg);
         return token;
+    }
+
+    private void doStoreByteArray(@NonNull final TokenWithPayload<byte[]> tokenWithPayload) {
+        mByteArrayCache.put(tokenWithPayload.token, tokenWithPayload.payload);
+        if (tokenWithPayload.tag != null) {
+            LOG.debug("Store byte array for token {} with tag {}", tokenWithPayload.token,
+                    tokenWithPayload.tag);
+        } else {
+            LOG.debug("Store byte array for token {}", tokenWithPayload.token);
+        }
+        logCacheSizes();
     }
 
     public void removeByteArray(@NonNull final Token token) {
+        mHandler.sendMessageDelayed(mHandler.obtainMessage(REMOVE_BYTE_ARRAY, token),
+                REMOVE_DELAY_MS);
+    }
+
+    private void doRemoveByteArray(@NonNull final Token token) {
         mByteArrayCache.remove(token);
         LOG.debug("Remove byte array for token {}", token);
         logCacheSizes();
     }
 
     public void removeEntriesWithTag(@NonNull final String tag) {
+        mHandler.sendMessage(mHandler.obtainMessage(REMOVE_ENTRIES_WITH_TAG, tag));
+    }
+
+    private void doRemoveEntriesWithTag(@NonNull final String tag) {
         removeByteArraysWithTag(tag);
         removeBitmapsWithTag(tag);
         LOG.debug("Remove entries for tag {}", tag);
@@ -181,7 +261,7 @@ public enum ParcelableMemoryCache {
     }
 
     private void removeTokensWithTag(final Set<Token> tokens,
-            @NonNull final String tag) {
+                                     @NonNull final String tag) {
         final Iterator<Token> iterator = tokens.iterator();
         while (iterator.hasNext()) {
             final Token token = iterator.next();
@@ -202,10 +282,10 @@ public enum ParcelableMemoryCache {
     public Token storeBitmap(@Nullable final Bitmap documentBitmap) {
         final Token token = Token.next();
         if (documentBitmap != null) {
-            mBitmapCache.put(token, documentBitmap);
+            final Message msg = mHandler.obtainMessage(STORE_BITMAP,
+                    new TokenWithPayload<>(token, documentBitmap));
+            mHandler.sendMessage(msg);
         }
-        LOG.debug("Store bitmap for token {}", token);
-        logCacheSizes();
         return token;
     }
 
@@ -213,14 +293,30 @@ public enum ParcelableMemoryCache {
     public Token storeBitmap(@Nullable final Bitmap documentBitmap, @NonNull final String tag) {
         final Token token = Token.next(tag);
         if (documentBitmap != null) {
-            mBitmapCache.put(token, documentBitmap);
+            final Message msg = mHandler.obtainMessage(STORE_BITMAP,
+                    new TokenWithPayload<>(token, documentBitmap, tag));
+            mHandler.sendMessage(msg);
         }
-        LOG.debug("Store bitmap for token {} with tag {}", token, tag);
-        logCacheSizes();
         return token;
     }
 
+    private void doStoreBitmap(@NonNull final TokenWithPayload<Bitmap> tokenWithPayload) {
+        mBitmapCache.put(tokenWithPayload.token, tokenWithPayload.payload);
+        if (tokenWithPayload.tag != null) {
+            LOG.debug("Store bitmap for token {} with tag {}", tokenWithPayload.token,
+                    tokenWithPayload.tag);
+        } else {
+            LOG.debug("Store bitmap for token {}", tokenWithPayload.token);
+        }
+        logCacheSizes();
+    }
+
     public void removeBitmap(@NonNull final Token token) {
+        mHandler.sendMessageDelayed(mHandler.obtainMessage(REMOVE_BITMAP, token),
+                REMOVE_DELAY_MS);
+    }
+
+    private void doRemoveBitmap(@NonNull final Token token) {
         mBitmapCache.remove(token);
         LOG.debug("Remove bitmap for token {}", token);
         logCacheSizes();
