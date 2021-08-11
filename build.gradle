@@ -6,7 +6,6 @@ buildscript {
 
     repositories {
         google()
-        jcenter()
         // For com.hiya:jacoco-android
         maven {
             url "https://plugins.gradle.org/m2/"
@@ -28,7 +27,6 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
         maven {
             // For Commons Imaging
             url 'https://repo.gini.net/nexus/content/repositories/open'

@@ -35,7 +35,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation deps.androidxAnnotations
     implementation project(path: ':ginivision')
-    api('net.gini:gini-android-sdk:2.7.0@aar') {
+    api('net.gini:gini-android-sdk:2.9.0@aar') {
         transitive = true
     }
 
