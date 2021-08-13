@@ -306,7 +306,7 @@ pipeline {
             steps {
                 sh '''
                     ./gradlew publishReleasePublicationToOpenRepository \
-                    -PmavenRepoUrl=https://repo.gini.net/nexus/content/repositories/open \
+                    -PmavenOpenRepoUrl=https://repo.gini.net/nexus/content/repositories/open \
                     -PrepoUser=$NEXUS_MAVEN_USR \
                     -PrepoPassword=$NEXUS_MAVEN_PSW \
                     -Dorg.gradle.java.home=$JAVA11
