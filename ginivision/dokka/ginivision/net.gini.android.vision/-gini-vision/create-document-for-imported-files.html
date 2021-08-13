@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>createDocumentForImportedFiles</title>
+<link href="../../../../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script><script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../../styles/style.css" rel="Stylesheet"><link href="../../../styles/logo-styles.css" rel="Stylesheet"><link href="../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../styles/main.css" rel="Stylesheet"><script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../../scripts/main.js" async="async"></script>  </head>
+  <body>
+    <div id="container">
+      <div id="leftColumn"><a href="../../../index.html">
+          <div id="logo"></div>
+        </a>
+        <div id="paneSearch"></div>
+        <div id="sideMenu"></div>
+      </div>
+      <div id="main">
+        <div id="leftToggler"><span class="icon-toggler"></span></div>
+<script type="text/javascript" src="../../../scripts/main.js"></script>        <div class="main-content" id="content" pageIds="ginivision::net.gini.android.vision/GiniVision/createDocumentForImportedFiles/#android.content.Intent#android.content.Context#net.gini.android.vision.AsyncCallback&lt;net.gini.android.vision.Document,net.gini.android.vision.ImportedFileValidationException&gt;/PointingToDeclaration//1339440567">
+          <div class="navigation-wrapper" id="navigation-wrapper">
+            <div class="breadcrumbs"><a href="../../../index.html">ginivision</a>/<a href="../index.html">net.gini.android.vision</a>/<a href="index.html">GiniVision</a>/<a href="create-document-for-imported-files.html">createDocumentForImportedFiles</a></div>
+            <div class="pull-right d-flex">
+              <div id="searchBar"></div>
+            </div>
+          </div>
+          <div class="cover ">
+            <h1 class="cover"><span>create</span><wbr></wbr><span>Document</span><wbr></wbr><span>For</span><wbr></wbr><span>Imported</span><wbr></wbr><span>Files</span></h1>
+          </div>
+<div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block"><div class="block"><div class="block">@<a href="https://developer.android.com/reference/kotlin/androidx/annotation/NonNull.html">NonNull</a>()</div></div><a href="../../net.gini.android.vision.util/-cancellation-token/index.html">CancellationToken</a> <a href="create-document-for-imported-files.html">createDocumentForImportedFiles</a>(<span>@<a href="https://developer.android.com/reference/kotlin/androidx/annotation/NonNull.html">NonNull</a>() </span><a href="https://developer.android.com/reference/kotlin/android/content/Intent.html">Intent</a> intent, <span>@<a href="https://developer.android.com/reference/kotlin/androidx/annotation/NonNull.html">NonNull</a>() </span><a href="https://developer.android.com/reference/kotlin/android/content/Context.html">Context</a> context, <span>@<a href="https://developer.android.com/reference/kotlin/androidx/annotation/NonNull.html">NonNull</a>() </span><a href="../-async-callback/index.html">AsyncCallback</a>&lt;<a href="../-document/index.html">Document</a>, <a href="../-imported-file-validation-exception/index.html">ImportedFileValidationException</a>&gt; callback)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+<p class="paragraph">Component API </p><p class="paragraph"> If you have enabled the multi-page feature and your application receives one or multiple files from another application you can use this method to create a Document for launching the Gini Vision Library's <a href="../../net.gini.android.vision.review.multipage/-multi-page-review-fragment/index.html">MultiPageReviewFragment</a> or one of the Analysis Fragments. </p><p class="paragraph"> Importing the files is executed on a secondary thread as it can take several seconds for the process to complete. The callback methods are invoked on the main thread. </p><p class="paragraph"> If the Document can be reviewed (<a href="../-document/is-reviewable.html">isReviewable</a>) launch the . </p><p class="paragraph"> If the Document cannot be reviewed you must launch one of the Analysis Fragments ( or ).</p><h4 class="">Return</h4><p class="paragraph">a <a href="../../net.gini.android.vision.util/-cancellation-token/index.html">CancellationToken</a> for cancelling the import process</p><h2 class="">Parameters</h2><div data-togglable="Parameters"><div class="platform-hinted WithExtraAttributes" data-platform-hinted="data-platform-hinted" data-togglable="Parameters"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">intent</span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">the Intent your app received</p></div></div></div></div></div><div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">context</span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">Android context</p></div></div></div></div></div><div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">callback</span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">A <a href="../-async-callback/index.html">AsyncCallback</a> implementation</p></div></div></div></div></div></div></div></div></div></div></div>
+        </div>
+        <div class="footer"><span class="go-to-top-icon"><a href="#content"></a></span><span>© 2021 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
+      </div>
+    </div>
+  </body>
+</html>
+
