@@ -1,7 +1,10 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'com.hiya.jacoco-android'
-apply plugin: 'org.jetbrains.dokka'
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'com.hiya.jacoco-android'
+    id 'org.jetbrains.dokka'
+    id 'maven-publish'
+}
 
 jacoco {
     toolVersion = "0.8.3"
@@ -103,11 +106,10 @@ dependencies {
 
     androidTestUtil deps.androidxTestOrchestrator
 
-    dokkaHtmlPlugin 'org.jetbrains.dokka:kotlin-as-java-plugin:1.4.10'
+    dokkaHtmlPlugin "org.jetbrains.dokka:kotlin-as-java-plugin:$dokkaVersion"
 }
 
 apply from: rootProject.file('gradle/codequality.gradle')
-apply from: rootProject.file('gradle/maven.gradle')
 apply from: rootProject.file('gradle/javadoc_coverage.gradle')
 apply from: rootProject.file('gradle/multidex_for_tests.gradle')
 
@@ -167,7 +169,4 @@ task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
     from dokkaJavadoc.outputDirectory
 }
 
-artifacts {
-    archives sourcesJar
-    archives javadocJar
-}
+apply from: rootProject.file('gradle/maven.gradle')

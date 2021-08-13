@@ -11,7 +11,8 @@ pipeline {
         EXAMPLE_APP_CLIENT_CREDENTIALS = credentials('gini-vision-library-android_gini-api-client-credentials')
         COMPONENT_API_EXAMPLE_APP_HOCKEYAPP_API_TOKEN = credentials('gini-vision-library-android_component-api-example-app-hockeyapp-api-token')
         SCREEN_API_EXAMPLE_APP_HOCKEYAPP_API_TOKEN = credentials('gini-vision-library-android_screen-api-example-app-hockeyapp-api-token')
-        JAVA9 = '/Users/mobilecd/java-vm/jdk-9.0.4.jdk/Contents/Home'
+        JAVA8 = '/Library/Java/JavaVirtualMachines/jdk1.8.0_112.jdk/Contents/Home'
+        JAVA11 = '/Library/Java/JavaVirtualMachines/temurin-11.jdk/Contents/Home'
     }
     stages {
         stage('Import Pipeline Libraries') {
@@ -39,7 +40,8 @@ pipeline {
                     ./gradlew clean \
                     ginivision:assembleDebug ginivision:assembleRelease \
                     ginivision-network:assembleDebug ginivision-network:assembleRelease \
-                    ginivision-accounting-network:assembleDebug ginivision-accounting-network:assembleRelease
+                    ginivision-accounting-network:assembleDebug ginivision-accounting-network:assembleRelease \
+                    -Dorg.gradle.java.home=$JAVA11
                 '''
             }
         }
@@ -59,7 +61,7 @@ pipeline {
                 }
             }
             steps {
-                sh './gradlew ginivision:testDebugUnitTest -Dorg.gradle.java.home=$JAVA9'
+                sh './gradlew ginivision:testDebugUnitTest -Dorg.gradle.java.home=$JAVA11'
             }
             post {
                 always {
@@ -84,7 +86,7 @@ pipeline {
                 }
             }
             steps {
-                sh './gradlew ginivision:jacocoTestDebugUnitTestReport -Dorg.gradle.java.home=$JAVA9'
+                sh './gradlew ginivision:jacocoTestDebugUnitTestReport -Dorg.gradle.java.home=$JAVA11'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision/build/jacoco/jacocoHtml', reportFiles: 'index.html', reportName: 'Code Coverage Report', reportTitles: ''])
             }
         }
@@ -104,7 +106,7 @@ pipeline {
                 }
             }
             steps {
-                sh './gradlew generateJavadocCoverage'
+                sh './gradlew generateJavadocCoverage -Dorg.gradle.java.home=$JAVA8 -PandroidGradlePluginVersion="4.2.2"'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision/build/reports/javadoc-coverage', reportFiles: 'index.html', reportName: 'GVL Javadoc Coverage Report', reportTitles: ''])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision-network/build/reports/javadoc-coverage', reportFiles: 'index.html', reportName: 'GVL Network Javadoc Coverage Report', reportTitles: ''])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision-accounting-network/build/reports/javadoc-coverage', reportFiles: 'index.html', reportName: 'GVL Accounting Network Javadoc Coverage Report', reportTitles: ''])
@@ -126,9 +128,9 @@ pipeline {
                 }
             }
             steps {
-                sh './gradlew ginivision:lint ginivision:checkstyle ginivision:pmd'
-                sh './gradlew ginivision-network:lint ginivision-network:checkstyle ginivision-network:pmd'
-                sh './gradlew ginivision-accounting-network:lint ginivision-accounting-network:checkstyle ginivision-accounting-network:pmd'
+                sh './gradlew ginivision:lint ginivision:checkstyle ginivision:pmd -Dorg.gradle.java.home=$JAVA11'
+                sh './gradlew ginivision-network:lint ginivision-network:checkstyle ginivision-network:pmd -Dorg.gradle.java.home=$JAVA11'
+                sh './gradlew ginivision-accounting-network:lint ginivision-accounting-network:checkstyle ginivision-accounting-network:pmd -Dorg.gradle.java.home=$JAVA11'
                 androidLint canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'ginivision/build/reports/lint-results.xml', unHealthy: ''
                 androidLint canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'ginivision-network/build/reports/lint-results.xml', unHealthy: ''
                 androidLint canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'ginivision-accounting-network/build/reports/lint-results.xml', unHealthy: ''
@@ -178,7 +180,7 @@ pipeline {
                 }
             }
             steps {
-                sh './gradlew ginivision:dokkaHtml ginivision-network:generateJavadoc ginivision-accounting-network:generateJavadoc'
+                sh './gradlew ginivision:dokkaHtml ginivision-network:generateJavadoc ginivision-accounting-network:generateJavadoc -Dorg.gradle.java.home=$JAVA8 -PandroidGradlePluginVersion="4.2.2"'
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision/build/dokka/ginivision', reportFiles: 'index.html', reportName: 'GVL KDoc', reportTitles: ''])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision-network/build/docs/javadoc', reportFiles: 'index.html', reportName: 'GVL Network Javadoc', reportTitles: ''])
                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'ginivision-accounting-network/build/docs/javadoc', reportFiles: 'index.html', reportName: 'GVL Accounting Network Javadoc', reportTitles: ''])
@@ -221,9 +223,27 @@ pipeline {
                 }
             }
             steps {
-                sh './gradlew screenapiexample::clean screenapiexample::assembleRelease -PreleaseKeystoreFile=screen_api_example.jks -PreleaseKeystorePassword="$SCREEN_API_EXAMPLE_APP_KEYSTORE_PSW" -PreleaseKeyAlias=screen_api_example -PreleaseKeyPassword="$SCREEN_API_EXAMPLE_APP_KEY_PSW" -PclientId=$EXAMPLE_APP_CLIENT_CREDENTIALS_USR -PclientSecret=$EXAMPLE_APP_CLIENT_CREDENTIALS_PSW'
-                sh './gradlew componentapiexample::clean componentapiexample::assembleRelease -PreleaseKeystoreFile=component_api_example.jks -PreleaseKeystorePassword="$COMPONENT_API_EXAMPLE_APP_KEYSTORE_PSW" -PreleaseKeyAlias=component_api_example -PreleaseKeyPassword="$COMPONENT_API_EXAMPLE_APP_KEY_PSW" -PclientId=$EXAMPLE_APP_CLIENT_CREDENTIALS_USR -PclientSecret=$EXAMPLE_APP_CLIENT_CREDENTIALS_PSW'
-                archiveArtifacts 'screenapiexample/build/outputs/apk/release/screenapiexample-release.apk,componentapiexample/build/outputs/apk/release/componentapiexample-release.apk,screenapiexample/build/outputs/mapping/release/mapping.txt,componentapiexample/build/outputs/mapping/release/mapping.txt'
+                sh '''
+                    ./gradlew screenapiexample::clean screenapiexample::assembleRelease \
+                    -PreleaseKeystoreFile=screen_api_example.jks -PreleaseKeystorePassword="$SCREEN_API_EXAMPLE_APP_KEYSTORE_PSW" \
+                    -PreleaseKeyAlias=screen_api_example -PreleaseKeyPassword="$SCREEN_API_EXAMPLE_APP_KEY_PSW" \
+                    -PclientId=$EXAMPLE_APP_CLIENT_CREDENTIALS_USR -PclientSecret=$EXAMPLE_APP_CLIENT_CREDENTIALS_PSW \
+                    -Dorg.gradle.java.home=$JAVA11
+                '''
+                sh '''
+                    ./gradlew componentapiexample::clean componentapiexample::assembleRelease \
+                    -PreleaseKeystoreFile=component_api_example.jks -PreleaseKeystorePassword="$COMPONENT_API_EXAMPLE_APP_KEYSTORE_PSW" \
+                    -PreleaseKeyAlias=component_api_example -PreleaseKeyPassword="$COMPONENT_API_EXAMPLE_APP_KEY_PSW" \
+                    -PclientId=$EXAMPLE_APP_CLIENT_CREDENTIALS_USR -PclientSecret=$EXAMPLE_APP_CLIENT_CREDENTIALS_PSW \
+                    -Dorg.gradle.java.home=$JAVA11
+                '''
+                archiveArtifacts '''
+                    screenapiexample/build/outputs/apk/release/screenapiexample-release.apk,\
+                    componentapiexample/build/outputs/apk/release/componentapiexample-release.apk,\
+                    screenapiexample/build/outputs/mapping/release/mapping.txt,\
+                    componentapiexample/build/outputs/mapping/release/mapping.txt \
+                    -Dorg.gradle.java.home=$JAVA11
+                '''
             }
         }
         stage('Release Documentation') {
@@ -235,7 +255,7 @@ pipeline {
                 expression {
                     boolean publish = false
                     try {
-                        def version = sh(returnStdout: true, script: './gradlew -q printLibraryVersion').trim()
+                        def version = sh(returnStdout: true, script: './gradlew -q printLibraryVersion -Dorg.gradle.java.home=$JAVA11').trim()
                         def sha = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
                         input "Release documentation for ${version} from branch ${env.BRANCH_NAME} commit ${sha}?"
                         publish = true
@@ -256,12 +276,11 @@ pipeline {
             }
             steps {
                 sh '''
-                    ./gradlew ginivision:uploadArchives \
-                    ginivision-network:uploadArchives \
-                    ginivision-accounting-network:uploadArchives \
+                    ./gradlew publishReleasePublicationToSnapshotsRepository \
                     -PmavenSnapshotsRepoUrl=https://repo.gini.net/nexus/content/repositories/snapshots \
                     -PrepoUser=$NEXUS_MAVEN_USR \
-                    -PrepoPassword=$NEXUS_MAVEN_PSW
+                    -PrepoPassword=$NEXUS_MAVEN_PSW \
+                    -Dorg.gradle.java.home=$JAVA11
                 '''
             }
         }
@@ -274,7 +293,7 @@ pipeline {
                 expression {
                     boolean publish = false
                     try {
-                        def version = sh(returnStdout: true, script: './gradlew -q printLibraryVersion').trim()
+                        def version = sh(returnStdout: true, script: './gradlew -q printLibraryVersion -Dorg.gradle.java.home=$JAVA11').trim()
                         def sha = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
                         input "Release ${version} from branch ${env.BRANCH_NAME} commit ${sha}?"
                         publish = true
@@ -286,12 +305,11 @@ pipeline {
             }
             steps {
                 sh '''
-                    ./gradlew ginivision:uploadArchives \
-                    ginivision-network:uploadArchives \
-                    ginivision-accounting-network:uploadArchives \
+                    ./gradlew publishReleasePublicationToOpenRepository \
                     -PmavenRepoUrl=https://repo.gini.net/nexus/content/repositories/open \
                     -PrepoUser=$NEXUS_MAVEN_USR \
-                    -PrepoPassword=$NEXUS_MAVEN_PSW
+                    -PrepoPassword=$NEXUS_MAVEN_PSW \
+                    -Dorg.gradle.java.home=$JAVA11
                 '''
             }
         }

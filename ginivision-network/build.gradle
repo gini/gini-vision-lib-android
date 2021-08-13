@@ -1,4 +1,7 @@
-apply plugin: 'com.android.library'
+plugins {
+    id 'com.android.library'
+    id 'maven-publish'
+}
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -35,7 +38,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation deps.androidxAnnotations
     implementation project(path: ':ginivision')
-    api('net.gini:gini-android-sdk:2.7.0@aar') {
+    api('net.gini:gini-android-sdk:2.9.0@aar') {
         transitive = true
     }
 
@@ -52,7 +55,6 @@ dependencies {
 }
 
 apply from: rootProject.file('gradle/codequality.gradle')
-apply from: rootProject.file('gradle/maven.gradle')
 apply from: rootProject.file('gradle/javadoc_coverage.gradle')
 
 task generateJavadoc(type: GenerateJavadoc) {
@@ -70,8 +72,4 @@ task javadocJar(type: Jar, dependsOn: generateJavadoc) {
     classifier = 'javadoc'
     from destinationDir
 }
-
-artifacts {
-    archives sourcesJar
-    archives javadocJar
-}
+apply from: rootProject.file('gradle/maven.gradle')
