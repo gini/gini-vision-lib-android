@@ -1,71 +1,85 @@
-apply plugin: 'maven'
-
-// In order to upload to the repo, you can create a file ~/.gradle/gradle.properties with
-//
+// Publishing requires the following parameters (you can either pass them in as gradle parameters with -P<paramName>=...
+// or you can add them to a gradle.properties file (for ex. in your global ~/.gradle/gradle.properties file)):
 // repoUser=<your user name>
 // repoPassword=<your password>
-// mavenSnapshotsRepoUrl=<url for snapshots>
-// mavenRepoUrl=<url for releases>
-// mavenLocalRepoUrl=<url for local releases>
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            pom.groupId = groupId
-            pom.artifactId = artifactId
-            pom.version = version
-            if (project.hasProperty('devVersionSuffix')) {
-                pom.version = "${pom.version}.${devVersionSuffix}"
-            }
-            if (project.hasProperty('mavenSnapshotsRepoUrl')) {
-                pom.version = "${pom.version}-SNAPSHOT"
-            }
+//
+// Also at least one of the following parameters are required:
+// mavenOpenRepoUrl=<URL>
+// mavenSnapshotsRepoUrl=<URL>
+// mavenLocalRepoUrl=<URL>
 
-            pom.project {
-                licenses {
-                    license {
-                        name 'Private License'
-                        url 'https://raw.githubusercontent.com/gini/gini-vision-lib-android/master/LICENSE.md'
-                        distribution 'repo'
+// Because the components are created only during the afterEvaluate phase, we must
+// configure our publications using the afterEvaluate() lifecycle method
+afterEvaluate {
+
+    // Create source and javadoc artifacts
+    def sourcesArtifact = artifacts.add('archives', sourcesJar)
+    def javadocArtifact = artifacts.add('archives', javadocJar)
+
+    publishing {
+        publications {
+            // Creates a Maven publication called "release"
+            release(MavenPublication) {
+                // Applies the component for the release build variant
+                from components.release
+
+                // Adds additional artifacts
+                artifact sourcesArtifact
+                artifact javadocArtifact
+
+                // Customizes attributes of the publication
+                groupId = project.groupId
+                artifactId = project.artifactId
+                version = project.version
+
+                if (project.hasProperty('devVersionSuffix')) {
+                    version = "${version}.${devVersionSuffix}"
+                }
+                if (project.hasProperty('mavenSnapshotsRepoUrl')) {
+                    version = "${version}-SNAPSHOT"
+                }
+
+                pom {
+                    licenses {
+                        license {
+                            name = 'Private License'
+                            url = 'https://raw.githubusercontent.com/gini/gini-vision-lib-android/master/LICENSE.md'
+                            distribution = 'repo'
+                        }
+                    }
+                    organization {
+                        name = 'Gini GmbH'
+                        url = 'https://www.gini.net/'
                     }
                 }
-                organization {
-                    name 'Gini GmbH'
-                    url 'https://www.gini.net/'
-                }
             }
+        }
 
-            pom.whenConfigured { pom ->
-                pom.dependencies.forEach { dep ->
-                    if (dep.getArtifactId().startsWith("gini-")) {
-                        dep.setGroupId(groupId)
+        repositories {
+            if (project.hasProperty('mavenOpenRepoUrl')) {
+                maven {
+                    name = "open"
+                    url = mavenOpenRepoUrl
+                    credentials {
+                        username = project.hasProperty('repoUser') ? repoUser : 'invalidUserName'
+                        password = project.hasProperty('repoPassword') ? repoPassword : 'invalidPassword'
                     }
                 }
             }
-
             if (project.hasProperty('mavenSnapshotsRepoUrl')) {
-                repository(url: mavenSnapshotsRepoUrl) {
-                    authentication(
-                            userName: project.hasProperty('repoUser') ? repoUser : "invalidUserName",
-                            password: project.hasProperty('repoPassword') ? repoPassword : "invalidPassword"
-                    )
+                maven {
+                    name = "snapshots"
+                    url = mavenSnapshotsRepoUrl
+                    credentials {
+                        username = project.hasProperty('repoUser') ? repoUser : 'invalidUserName'
+                        password = project.hasProperty('repoPassword') ? repoPassword : 'invalidPassword'
+                    }
                 }
             }
-
-            if (project.hasProperty('mavenRepoUrl')) {
-                repository(url: mavenRepoUrl) {
-                    authentication(
-                            userName: project.hasProperty('repoUser') ? repoUser : 'invalidUserName',
-                            password: project.hasProperty('repoPassword') ? repoPassword : 'invalidPassword'
-                    )
-                }
-            }
-
             if (project.hasProperty('mavenLocalRepoUrl')) {
-                repository(url: mavenLocalRepoUrl) {
-                    authentication(
-                            userName: project.hasProperty('repoUser') ? repoUser : 'invalidUserName',
-                            password: project.hasProperty('repoPassword') ? repoPassword : 'invalidPassword'
-                    )
+                maven {
+                    name = "local"
+                    url = mavenLocalRepoUrl
                 }
             }
         }

@@ -1,8 +1,10 @@
 import org.gradle.api.Task
+import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.javadoc.Javadoc
 
 class GenerateJavadoc extends Javadoc {
 
+    @Input
     String projectTitle = "Unknown Title"
 
     @Override

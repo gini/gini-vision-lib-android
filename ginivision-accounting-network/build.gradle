@@ -1,4 +1,7 @@
-apply plugin: 'com.android.library'
+plugins {
+    id 'com.android.library'
+    id 'maven-publish'
+}
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -52,7 +55,6 @@ dependencies {
 }
 
 apply from: rootProject.file('gradle/codequality.gradle')
-apply from: rootProject.file('gradle/maven.gradle')
 apply from: rootProject.file('gradle/javadoc_coverage.gradle')
 
 task generateJavadoc(type: GenerateJavadoc) {
@@ -71,7 +73,4 @@ task javadocJar(type: Jar, dependsOn: generateJavadoc) {
     from destinationDir
 }
 
-artifacts {
-    archives sourcesJar
-    archives javadocJar
-}
+apply from: rootProject.file('gradle/maven.gradle')
