@@ -31,6 +31,7 @@
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
 
     
 
@@ -52,6 +53,7 @@
   
 
   
+        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="Gini Vision Library for Android 2.0 documentation" href="index.html"/>
         <link rel="next" title="Updating to 4.0.0" href="updating-to-4-0-0.html"/>
         <link rel="prev" title="Customization Guide" href="customization-guide.html"/> 
@@ -81,7 +83,7 @@
         
         
             <ul class="current">
-<li class="toctree-l1"><a class="reference external" href="http://developer.gini.net/gini-vision-lib-android/ginivision/index.html">Gini Vision Javadoc</a></li>
+<li class="toctree-l1"><a class="reference external" href="http://developer.gini.net/gini-vision-lib-android/ginivision/dokka/index.html">Gini Vision Javadoc</a></li>
 <li class="toctree-l1"><a class="reference external" href="http://developer.gini.net/gini-vision-lib-android/network/javadoc/index.html">Network Library Javadoc</a></li>
 <li class="toctree-l1"><a class="reference external" href="http://developer.gini.net/gini-vision-lib-android/accounting/network/javadoc/index.html">Accounting Network Library Javadoc</a></li>
 <li class="toctree-l1"><a class="reference internal" href="customization-guide.html">Customization Guide</a><ul>
@@ -175,7 +177,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Event Tracking</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Event Tracking</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#events">Events</a></li>
 </ul>
 </li>
@@ -227,7 +229,7 @@
 <li class="toctree-l2"><a class="reference internal" href="updating-to-2-4-0.html#new-features">New Features</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#feature-configuration">Feature Configuration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#document-import">Document Import</a></li>
-<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#file-import-open-with">File Import (&#8220;Open With&#8221;)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#file-import-open-with">File Import (“Open With”)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#tips-in-the-analysis-screen">Tips in the Analysis Screen</a></li>
 <li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#help-screens">Help Screens</a></li>
 <li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#no-results-screen">No Results Screen</a></li>
@@ -361,55 +363,55 @@
 <h1>Event Tracking<a class="headerlink" href="#event-tracking" title="Permalink to this headline">¶</a></h1>
 <p>In version <a class="reference external" href="https://github.com/gini/gini-vision-lib-android/releases/tag/3.12.0">3.12.0</a> we introduced the possibility to track various
 events which occur during the usage of the Gini Vision Library.</p>
-<p>To subscribe to the events you need to implement the <tt class="docutils literal"><span class="pre">EventTracker</span></tt> interface and pass it to the
-builder when creating a new <tt class="docutils literal"><span class="pre">GiniVision</span></tt> instance.</p>
-<div class="highlight-java"><div class="highlight"><pre><span class="n">GiniVision</span><span class="o">.</span><span class="na">newInstance</span><span class="o">()</span>
-    <span class="o">.</span><span class="na">setEventTracker</span><span class="o">(</span><span class="k">new</span> <span class="n">MyEventTracker</span><span class="o">());</span>
-    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+<p>To subscribe to the events you need to implement the <code class="docutils literal notranslate"><span class="pre">EventTracker</span></code> interface and pass it to the
+builder when creating a new <code class="docutils literal notranslate"><span class="pre">GiniVision</span></code> instance.</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">GiniVision</span><span class="p">.</span><span class="na">newInstance</span><span class="p">()</span>
+    <span class="p">.</span><span class="na">setEventTracker</span><span class="p">(</span><span class="k">new</span> <span class="n">MyEventTracker</span><span class="p">());</span>
+    <span class="p">.</span><span class="na">build</span><span class="p">();</span>
 </pre></div>
 </div>
-<p>In <tt class="docutils literal"><span class="pre">MyEventTracker</span></tt> you can handle the events you are interested in.</p>
-<div class="highlight-java"><div class="highlight"><pre><span class="kd">class</span> <span class="nc">MyEventTracker</span> <span class="kd">implements</span> <span class="n">EventTracker</span> <span class="o">{</span>
+<p>In <code class="docutils literal notranslate"><span class="pre">MyEventTracker</span></code> you can handle the events you are interested in.</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kd">class</span> <span class="nc">MyEventTracker</span> <span class="kd">implements</span> <span class="n">EventTracker</span> <span class="p">{</span>
 
     <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCameraScreenEvent</span><span class="o">(</span><span class="kd">final</span> <span class="n">Event</span><span class="o">&lt;</span><span class="n">CameraScreenEvent</span><span class="o">&gt;</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">switch</span> <span class="o">(</span><span class="n">event</span><span class="o">.</span><span class="na">getType</span><span class="o">())</span> <span class="o">{</span>
-            <span class="k">case</span> <span class="n">TAKE_PICTURE</span><span class="o">:</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCameraScreenEvent</span><span class="p">(</span><span class="kd">final</span> <span class="n">Event</span><span class="o">&lt;</span><span class="n">CameraScreenEvent</span><span class="o">&gt;</span> <span class="n">event</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">switch</span> <span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="na">getType</span><span class="p">())</span> <span class="p">{</span>
+            <span class="k">case</span> <span class="n">TAKE_PICTURE</span><span class="p">:</span>
                 <span class="c1">// handle the picture taken event</span>
-                <span class="k">break</span><span class="o">;</span>
-            <span class="k">case</span> <span class="n">HELP</span><span class="o">:</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="k">case</span> <span class="n">HELP</span><span class="p">:</span>
                 <span class="c1">// handle the show help event</span>
-                <span class="k">break</span><span class="o">;</span>
-            <span class="k">case</span> <span class="n">EXIT</span><span class="o">:</span>
+                <span class="k">break</span><span class="p">;</span>
+            <span class="k">case</span> <span class="n">EXIT</span><span class="p">:</span>
                 <span class="c1">// handle the exit event</span>
-                <span class="k">break</span><span class="o">;</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
+                <span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
 
     <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onOnboardingScreenEvent</span><span class="o">(</span><span class="kd">final</span> <span class="n">Event</span><span class="o">&lt;</span><span class="n">OnboardingScreenEvent</span><span class="o">&gt;</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
-        <span class="o">(...)</span>
-    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onOnboardingScreenEvent</span><span class="p">(</span><span class="kd">final</span> <span class="n">Event</span><span class="o">&lt;</span><span class="n">OnboardingScreenEvent</span><span class="o">&gt;</span> <span class="n">event</span><span class="p">)</span> <span class="p">{</span>
+        <span class="p">(...)</span>
+    <span class="p">}</span>
 
     <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onAnalysisScreenEvent</span><span class="o">(</span><span class="kd">final</span> <span class="n">Event</span><span class="o">&lt;</span><span class="n">AnalysisScreenEvent</span><span class="o">&gt;</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
-        <span class="o">(...)</span>
-    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onAnalysisScreenEvent</span><span class="p">(</span><span class="kd">final</span> <span class="n">Event</span><span class="o">&lt;</span><span class="n">AnalysisScreenEvent</span><span class="o">&gt;</span> <span class="n">event</span><span class="p">)</span> <span class="p">{</span>
+        <span class="p">(...)</span>
+    <span class="p">}</span>
 
     <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onReviewScreenEvent</span><span class="o">(</span><span class="kd">final</span> <span class="n">Event</span><span class="o">&lt;</span><span class="n">ReviewScreenEvent</span><span class="o">&gt;</span> <span class="n">event</span><span class="o">)</span> <span class="o">{</span>
-        <span class="o">(...)</span>
-    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onReviewScreenEvent</span><span class="p">(</span><span class="kd">final</span> <span class="n">Event</span><span class="o">&lt;</span><span class="n">ReviewScreenEvent</span><span class="o">&gt;</span> <span class="n">event</span><span class="p">)</span> <span class="p">{</span>
+        <span class="p">(...)</span>
+    <span class="p">}</span>
 
-<span class="o">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p>If you use the Screen API all events will be triggered automatically.</p>
-<p>If you use the Component API some events will not be triggered (for ex. events which rely on <tt class="docutils literal"><span class="pre">Activity#onBackPressed()</span></tt>). You can
+<p>If you use the Component API some events will not be triggered (for ex. events which rely on <code class="docutils literal notranslate"><span class="pre">Activity#onBackPressed()</span></code>). You can
 check in the table below whether all the events you are interested in are triggered.</p>
-<p class="last">To manually trigger events just call the relevant method of your <tt class="docutils literal"><span class="pre">EventTracker</span></tt> implementation with the required event.</p>
+<p class="last">To manually trigger events just call the relevant method of your <code class="docutils literal notranslate"><span class="pre">EventTracker</span></code> implementation with the required event.</p>
 </div>
 <div class="section" id="events">
 <h2>Events<a class="headerlink" href="#events" title="Permalink to this headline">¶</a></h2>
@@ -434,71 +436,71 @@ Some events may supply additional details in a map.</p>
 <tbody valign="top">
 <tr class="row-even"><td>Screen + Component</td>
 <td>Onboarding</td>
-<td><tt class="docutils literal"><span class="pre">OnboardingScreenEvent.START</span></tt></td>
+<td><code class="docutils literal notranslate"><span class="pre">OnboardingScreenEvent.START</span></code></td>
 <td>Onboarding started</td>
 <td>3.12.0</td>
 </tr>
 <tr class="row-odd"><td>Screen + Component</td>
 <td>Onboarding</td>
-<td><tt class="docutils literal"><span class="pre">OnboardingScreenEvent.FINISH</span></tt></td>
+<td><code class="docutils literal notranslate"><span class="pre">OnboardingScreenEvent.FINISH</span></code></td>
 <td>User completes onboarding</td>
 <td>3.12.0</td>
 </tr>
 <tr class="row-even"><td>Screen</td>
 <td>Camera Screen</td>
-<td><tt class="docutils literal"><span class="pre">CameraScreenEvent.EXIT</span></tt></td>
+<td><code class="docutils literal notranslate"><span class="pre">CameraScreenEvent.EXIT</span></code></td>
 <td>User closes the camera screen</td>
 <td>3.12.0</td>
 </tr>
 <tr class="row-odd"><td>Screen</td>
 <td>Camera Screen</td>
-<td><tt class="docutils literal"><span class="pre">CameraScreenEvent.HELP</span></tt></td>
-<td>User taps &#8220;Help&#8221; on the camera screen</td>
+<td><code class="docutils literal notranslate"><span class="pre">CameraScreenEvent.HELP</span></code></td>
+<td>User taps “Help” on the camera screen</td>
 <td>3.12.0</td>
 </tr>
 <tr class="row-even"><td>Screen + Component</td>
 <td>Camera Screen</td>
-<td><tt class="docutils literal"><span class="pre">CameraScreenEvent.TAKE_PICTURE</span></tt></td>
+<td><code class="docutils literal notranslate"><span class="pre">CameraScreenEvent.TAKE_PICTURE</span></code></td>
 <td>User takes a picture</td>
 <td>3.12.0</td>
 </tr>
 <tr class="row-odd"><td>Screen</td>
 <td>Review Screen</td>
-<td><tt class="docutils literal"><span class="pre">ReviewScreenEvent.BACK</span></tt></td>
+<td><code class="docutils literal notranslate"><span class="pre">ReviewScreenEvent.BACK</span></code></td>
 <td>User goes back from the review screen</td>
 <td>3.12.0</td>
 </tr>
 <tr class="row-even"><td>Screen + Component</td>
 <td>Review Screen</td>
-<td><tt class="docutils literal"><span class="pre">ReviewScreenEvent.NEXT</span></tt></td>
+<td><code class="docutils literal notranslate"><span class="pre">ReviewScreenEvent.NEXT</span></code></td>
 <td>User advances from the review screen</td>
 <td>3.12.0</td>
 </tr>
 <tr class="row-odd"><td>Screen + Component</td>
 <td>Review Screen</td>
-<td><tt class="docutils literal"><span class="pre">ReviewScreenEvent.UPLOAD_ERROR</span></tt>
-<tt class="docutils literal"><span class="pre">ReviewScreenEvent.UPLOAD_ERROR_DETAILS_MAP_KEY.MESSAGE</span></tt>
-<tt class="docutils literal"><span class="pre">ReviewScreenEvent.UPLOAD_ERROR_DETAILS_MAP_KEY.ERROR_OBJECT</span></tt></td>
+<td><code class="docutils literal notranslate"><span class="pre">ReviewScreenEvent.UPLOAD_ERROR</span></code>
+<code class="docutils literal notranslate"><span class="pre">ReviewScreenEvent.UPLOAD_ERROR_DETAILS_MAP_KEY.MESSAGE</span></code>
+<code class="docutils literal notranslate"><span class="pre">ReviewScreenEvent.UPLOAD_ERROR_DETAILS_MAP_KEY.ERROR_OBJECT</span></code></td>
 <td>Upload error in the review screen</td>
 <td>3.15.0</td>
 </tr>
 <tr class="row-even"><td>Screen</td>
 <td>Analysis Screen</td>
-<td><tt class="docutils literal"><span class="pre">AnalysisScreenEvent.CANCEL</span></tt></td>
+<td><code class="docutils literal notranslate"><span class="pre">AnalysisScreenEvent.CANCEL</span></code></td>
 <td>User cancels the process during analysis</td>
 <td>3.12.0</td>
 </tr>
 <tr class="row-odd"><td>Screen + Component</td>
 <td>Analysis Screen</td>
-<td><tt class="docutils literal"><span class="pre">AnalysisScreenEvent.ERROR</span></tt>
-<tt class="docutils literal"><span class="pre">AnalysisScreenEvent.ERROR_DETAILS_MAP_KEY.MESSAGE</span></tt>
-<tt class="docutils literal"><span class="pre">AnalysisScreenEvent.ERROR_DETAILS_MAP_KEY.ERROR_OBJECT</span></tt></td>
+<td><code class="docutils literal notranslate"><span class="pre">AnalysisScreenEvent.ERROR</span></code>
+<code class="docutils literal notranslate"><span class="pre">AnalysisScreenEvent.ERROR_DETAILS_MAP_KEY.MESSAGE</span></code>
+<code class="docutils literal notranslate"><span class="pre">AnalysisScreenEvent.ERROR_DETAILS_MAP_KEY.ERROR_OBJECT</span></code></td>
 <td>The analysis ended with an error.</td>
 <td>3.12.0 (3.15.0)</td>
 </tr>
 <tr class="row-even"><td>Screen + Component</td>
 <td>Analysis Screen</td>
-<td><tt class="docutils literal"><span class="pre">AnalysisScreenEvent.RETRY</span></tt></td>
+<td><code class="docutils literal notranslate"><span class="pre">AnalysisScreenEvent.RETRY</span></code></td>
 <td>The user decides to retry after an analysis error.</td>
 <td>3.12.0</td>
 </tr>

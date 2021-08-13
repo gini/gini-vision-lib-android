@@ -31,6 +31,7 @@
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
 
     
 
@@ -52,6 +53,7 @@
   
 
   
+        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="Gini Vision Library for Android 2.0 documentation" href="index.html"/>
         <link rel="next" title="Changelog" href="changelog.html"/>
         <link rel="prev" title="Updating to 2.4.0" href="updating-to-2-4-0.html"/> 
@@ -81,7 +83,7 @@
         
         
             <ul class="current">
-<li class="toctree-l1"><a class="reference external" href="http://developer.gini.net/gini-vision-lib-android/ginivision/index.html">Gini Vision Javadoc</a></li>
+<li class="toctree-l1"><a class="reference external" href="http://developer.gini.net/gini-vision-lib-android/ginivision/dokka/index.html">Gini Vision Javadoc</a></li>
 <li class="toctree-l1"><a class="reference external" href="http://developer.gini.net/gini-vision-lib-android/network/javadoc/index.html">Network Library Javadoc</a></li>
 <li class="toctree-l1"><a class="reference external" href="http://developer.gini.net/gini-vision-lib-android/accounting/network/javadoc/index.html">Accounting Network Library Javadoc</a></li>
 <li class="toctree-l1"><a class="reference internal" href="customization-guide.html">Customization Guide</a><ul>
@@ -227,7 +229,7 @@
 <li class="toctree-l2"><a class="reference internal" href="updating-to-2-4-0.html#new-features">New Features</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#feature-configuration">Feature Configuration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#document-import">Document Import</a></li>
-<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#file-import-open-with">File Import (&#8220;Open With&#8221;)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#file-import-open-with">File Import (“Open With”)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#tips-in-the-analysis-screen">Tips in the Analysis Screen</a></li>
 <li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#help-screens">Help Screens</a></li>
 <li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#no-results-screen">No Results Screen</a></li>
@@ -236,7 +238,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">How to Upload PDFs and Images (pre-2.4.0)</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">How to Upload PDFs and Images (pre-2.4.0)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#general-considerations">General considerations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#registering-pdf-and-image-file-types">Registering PDF and image file types</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#documentation">Documentation</a></li>
@@ -359,7 +361,7 @@
             
   <div class="section" id="how-to-upload-pdfs-and-images-pre-2-4-0">
 <h1>How to Upload PDFs and Images (pre-2.4.0)<a class="headerlink" href="#how-to-upload-pdfs-and-images-pre-2-4-0" title="Permalink to this headline">¶</a></h1>
-<p>Since version 2.4.0 the <a class="reference internal" href="updating-to-2-4-0.html#file-import"><em>File Import (&#8220;Open With&#8221;)</em></a> feature should be used.</p>
+<p>Since version 2.4.0 the <a class="reference internal" href="updating-to-2-4-0.html#file-import"><span class="std std-ref">File Import (“Open With”)</span></a> feature should be used.</p>
 <div class="section" id="general-considerations">
 <h2>General considerations<a class="headerlink" href="#general-considerations" title="Permalink to this headline">¶</a></h2>
 <p>Enabling your app to open PDFs and images allows your users to open any kind of files which are identified by the OS as PDFs or images. Make sure to check the MIME type and that the file size is below an acceptable threshold (5MB for example). It is also advisable to check the first bytes of the incoming files to determine their type and allow only PDFs and known image types.</p>
@@ -367,7 +369,7 @@
 <div class="section" id="registering-pdf-and-image-file-types">
 <h2>Registering PDF and image file types<a class="headerlink" href="#registering-pdf-and-image-file-types" title="Permalink to this headline">¶</a></h2>
 <p>Add the following intent filter to the <em>Activity</em> in your <em>AndroidManifest.xml</em> you wish to receive incoming PDFs and images:</p>
-<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;activity</span> <span class="na">android:name=</span><span class="s">&quot;.ui.MyActivity&quot;</span><span class="nt">&gt;</span>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;activity</span> <span class="na">android:name=</span><span class="s">&quot;.ui.MyActivity&quot;</span><span class="nt">&gt;</span>
     <span class="nt">&lt;intent-filter</span> <span class="na">android:label=</span><span class="s">&quot;@string/app_name&quot;</span><span class="nt">&gt;</span>
         <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">&quot;android.intent.action.VIEW&quot;</span> <span class="nt">/&gt;</span>
         <span class="nt">&lt;action</span> <span class="na">android:name=</span><span class="s">&quot;android.intent.action.SEND&quot;</span> <span class="nt">/&gt;</span>
@@ -392,17 +394,17 @@
 <div class="section" id="reading-files-from-external-storage">
 <h2>Reading files from external storage<a class="headerlink" href="#reading-files-from-external-storage" title="Permalink to this headline">¶</a></h2>
 <p>Since Android 4.4 (API Level 19) the <a class="reference external" href="https://developer.android.com/reference/android/Manifest.permission.html#READ_EXTERNAL_STORAGE">READ_EXTERNAL_STORAGE</a> permission has to be declared to access files outside of the app-specific directories. Declare this permission in your <em>AndroidManifest.xml</em>:</p>
-<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.READ_EXTERNAL_STORAGE&quot;</span> <span class="nt">/&gt;</span>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;uses-permission</span> <span class="na">android:name=</span><span class="s">&quot;android.permission.READ_EXTERNAL_STORAGE&quot;</span> <span class="nt">/&gt;</span>
 </pre></div>
 </div>
 <p>Since the introduction of <a class="reference external" href="https://developer.android.com/training/permissions/requesting.html">Run Time Permissions</a> with Android 6.0 (API Level 23) your app also has to request permission from the user before accessing a PDF or an image file outside of the app-specific directories.</p>
 <p>We recommend checking for the permission whenever your app receives a PDF or an image and before accessing it. If an explanation is requested by the system to be shown to the user we highly recommend providing one.</p>
 <p>It is required to handle the case where the user did not grant permissions. We recommend showing an explanation and providing a link to your app’s <em>App info</em> page in the <em>Settings</em> app with a short guide on how to grant the permission there.</p>
 <p>The Intent for opening the <em>App info</em> page can be created as follows:</p>
-<div class="highlight-java"><div class="highlight"><pre><span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="o">(</span><span class="n">Settings</span><span class="o">.</span><span class="na">ACTION_APPLICATION_DETAILS_SETTINGS</span><span class="o">);</span>
-<span class="n">Uri</span> <span class="n">uri</span> <span class="o">=</span> <span class="n">Uri</span><span class="o">.</span><span class="na">fromParts</span><span class="o">(</span><span class="n">Uri</span><span class="o">.</span><span class="s">&quot;package&quot;</span><span class="o">,</span> <span class="n">BuildConfig</span><span class="o">.</span><span class="na">APPLICATION_ID</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
-<span class="n">intent</span><span class="o">.</span><span class="na">setData</span><span class="o">(</span><span class="n">uri</span><span class="o">);</span>
-<span class="n">startActivity</span><span class="o">(</span><span class="n">intent</span><span class="o">);</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">Intent</span> <span class="n">intent</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Intent</span><span class="p">(</span><span class="n">Settings</span><span class="p">.</span><span class="na">ACTION_APPLICATION_DETAILS_SETTINGS</span><span class="p">);</span>
+<span class="n">Uri</span> <span class="n">uri</span> <span class="o">=</span> <span class="n">Uri</span><span class="p">.</span><span class="na">fromParts</span><span class="p">(</span><span class="n">Uri</span><span class="p">.</span><span class="s">&quot;package&quot;</span><span class="p">,</span> <span class="n">BuildConfig</span><span class="p">.</span><span class="na">APPLICATION_ID</span><span class="p">,</span> <span class="kc">null</span><span class="p">);</span>
+<span class="n">intent</span><span class="p">.</span><span class="na">setData</span><span class="p">(</span><span class="n">uri</span><span class="p">);</span>
+<span class="n">startActivity</span><span class="p">(</span><span class="n">intent</span><span class="p">);</span>
 </pre></div>
 </div>
 <div class="section" id="id1">
@@ -414,73 +416,73 @@
 </div>
 <div class="section" id="handling-incoming-pdfs-and-images">
 <h2>Handling incoming PDFs and images<a class="headerlink" href="#handling-incoming-pdfs-and-images" title="Permalink to this headline">¶</a></h2>
-<p>When your app is requested to handle a PDF or an image your <em>Activity</em> (declaring the intent filter we mentioned previously) is launched or resumed with an Intent having <tt class="docutils literal"><span class="pre">ACTION_VIEW</span></tt> or <tt class="docutils literal"><span class="pre">ACTION_SEND</span></tt>.</p>
+<p>When your app is requested to handle a PDF or an image your <em>Activity</em> (declaring the intent filter we mentioned previously) is launched or resumed with an Intent having <code class="docutils literal notranslate"><span class="pre">ACTION_VIEW</span></code> or <code class="docutils literal notranslate"><span class="pre">ACTION_SEND</span></code>.</p>
 <p>Checking whether the Intent has the required action:</p>
-<div class="highlight-java"><div class="highlight"><pre><span class="n">String</span> <span class="n">action</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="na">getAction</span><span class="o">();</span>
-<span class="k">if</span> <span class="o">(</span><span class="n">Intent</span><span class="o">.</span><span class="na">ACTION_VIEW</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">action</span><span class="o">)</span> <span class="o">||</span> <span class="n">Intent</span><span class="o">.</span><span class="na">ACTION_SEND</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">action</span><span class="o">))</span> <span class="o">{</span>
-    <span class="o">...</span>
-<span class="o">}</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">String</span> <span class="n">action</span> <span class="o">=</span> <span class="n">intent</span><span class="p">.</span><span class="na">getAction</span><span class="p">();</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">Intent</span><span class="p">.</span><span class="na">ACTION_VIEW</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">action</span><span class="p">)</span> <span class="o">||</span> <span class="n">Intent</span><span class="p">.</span><span class="na">ACTION_SEND</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">action</span><span class="p">))</span> <span class="p">{</span>
+    <span class="p">...</span>
+<span class="p">}</span>
 </pre></div>
 </div>
-<p>The Intent will contain an <tt class="docutils literal"><span class="pre">Uri</span></tt> pointing to the PDF or image. The <tt class="docutils literal"><span class="pre">Uri</span></tt> can be in the <tt class="docutils literal"><span class="pre">data</span></tt> field or since Android 4.1 (API Level 16) it can also be in the <tt class="docutils literal"><span class="pre">clipData</span></tt> field.</p>
+<p>The Intent will contain an <code class="docutils literal notranslate"><span class="pre">Uri</span></code> pointing to the PDF or image. The <code class="docutils literal notranslate"><span class="pre">Uri</span></code> can be in the <code class="docutils literal notranslate"><span class="pre">data</span></code> field or since Android 4.1 (API Level 16) it can also be in the <code class="docutils literal notranslate"><span class="pre">clipData</span></code> field.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">To also support <a class="reference external" href="https://developer.android.com/reference/android/content/Intent.html#ACTION_VIEW">ACTION_VIEW</a> we recommend using <tt class="docutils literal"><span class="pre">data</span></tt> and <tt class="docutils literal"><span class="pre">clipData</span></tt>. The <a class="reference external" href="https://developer.android.com/training/sharing/receive.html">Androd example</a> uses <tt class="docutils literal"><span class="pre">intent.getParcelableExtra(Intent.EXTRA_STREAM)</span></tt> to extract the <tt class="docutils literal"><span class="pre">Uri</span></tt>, but this works only with <a class="reference external" href="https://developer.android.com/reference/android/content/Intent.html#ACTION_SEND">ACTION_SEND</a>.</p>
+<p class="last">To also support <a class="reference external" href="https://developer.android.com/reference/android/content/Intent.html#ACTION_VIEW">ACTION_VIEW</a> we recommend using <code class="docutils literal notranslate"><span class="pre">data</span></code> and <code class="docutils literal notranslate"><span class="pre">clipData</span></code>. The <a class="reference external" href="https://developer.android.com/training/sharing/receive.html">Androd example</a> uses <code class="docutils literal notranslate"><span class="pre">intent.getParcelableExtra(Intent.EXTRA_STREAM)</span></code> to extract the <code class="docutils literal notranslate"><span class="pre">Uri</span></code>, but this works only with <a class="reference external" href="https://developer.android.com/reference/android/content/Intent.html#ACTION_SEND">ACTION_SEND</a>.</p>
 </div>
-<p>Getting the <tt class="docutils literal"><span class="pre">Uri</span></tt> from the Intent:</p>
-<div class="highlight-java"><div class="highlight"><pre><span class="n">Uri</span> <span class="n">uri</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="na">getData</span><span class="o">();</span>
-<span class="k">if</span> <span class="o">(</span><span class="n">uri</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">Build</span><span class="o">.</span><span class="na">VERSION</span><span class="o">.</span><span class="na">SDK_INT</span> <span class="o">&gt;=</span> <span class="n">Build</span><span class="o">.</span><span class="na">VERSION_CODES</span><span class="o">.</span><span class="na">JELLY_BEAN</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">ClipData</span> <span class="n">clipData</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="na">getClipData</span><span class="o">();</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">clipData</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">clipData</span><span class="o">.</span><span class="na">getItemCount</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">uri</span> <span class="o">=</span> <span class="n">clipData</span><span class="o">.</span><span class="na">getItemAt</span><span class="o">(</span><span class="mi">0</span><span class="o">).</span><span class="na">getUri</span><span class="o">();</span>
-    <span class="o">}</span>
-<span class="o">}</span>
+<p>Getting the <code class="docutils literal notranslate"><span class="pre">Uri</span></code> from the Intent:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">Uri</span> <span class="n">uri</span> <span class="o">=</span> <span class="n">intent</span><span class="p">.</span><span class="na">getData</span><span class="p">();</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">uri</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">Build</span><span class="p">.</span><span class="na">VERSION</span><span class="p">.</span><span class="na">SDK_INT</span> <span class="o">&gt;=</span> <span class="n">Build</span><span class="p">.</span><span class="na">VERSION_CODES</span><span class="p">.</span><span class="na">JELLY_BEAN</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">ClipData</span> <span class="n">clipData</span> <span class="o">=</span> <span class="n">intent</span><span class="p">.</span><span class="na">getClipData</span><span class="p">();</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">clipData</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">clipData</span><span class="p">.</span><span class="na">getItemCount</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">uri</span> <span class="o">=</span> <span class="n">clipData</span><span class="p">.</span><span class="na">getItemAt</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="na">getUri</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
-<p>We recommend checking the MIME type of Intent. The MIME type can be in the <tt class="docutils literal"><span class="pre">type</span></tt> field or since Android 4.1 (API Level 16) it can also be in the <tt class="docutils literal"><span class="pre">clipData</span></tt> field.</p>
+<p>We recommend checking the MIME type of Intent. The MIME type can be in the <code class="docutils literal notranslate"><span class="pre">type</span></code> field or since Android 4.1 (API Level 16) it can also be in the <code class="docutils literal notranslate"><span class="pre">clipData</span></code> field.</p>
 <p>Getting the MIME type from the Intent:</p>
-<div class="highlight-java"><div class="highlight"><pre><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">mimeTypes</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
-<span class="n">String</span> <span class="n">type</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="na">getContentResolver</span><span class="o">().</span><span class="na">getType</span><span class="o">(</span><span class="n">data</span><span class="o">);</span>
-<span class="k">if</span> <span class="o">(</span><span class="n">type</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">type</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="na">getType</span><span class="o">();</span>
-<span class="o">}</span>
-<span class="k">if</span> <span class="o">(</span><span class="n">type</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">String</span> <span class="n">extension</span> <span class="o">=</span> <span class="n">MimeTypeMap</span><span class="o">.</span><span class="na">getFileExtensionFromUrl</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">extension</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-        <span class="kd">final</span> <span class="n">MimeTypeMap</span> <span class="n">mime</span> <span class="o">=</span> <span class="n">MimeTypeMap</span><span class="o">.</span><span class="na">getSingleton</span><span class="o">();</span>
-        <span class="n">type</span> <span class="o">=</span> <span class="n">mime</span><span class="o">.</span><span class="na">getMimeTypeFromExtension</span><span class="o">(</span><span class="n">extension</span><span class="o">);</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-<span class="k">if</span> <span class="o">(</span><span class="n">type</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">mimeTypes</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">type</span><span class="o">);</span>
-<span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">Build</span><span class="o">.</span><span class="na">VERSION</span><span class="o">.</span><span class="na">SDK_INT</span> <span class="o">&gt;=</span> <span class="n">Build</span><span class="o">.</span><span class="na">VERSION_CODES</span><span class="o">.</span><span class="na">JELLY_BEAN</span><span class="o">)</span> <span class="o">{</span>
-    <span class="n">ClipData</span> <span class="n">clipData</span> <span class="o">=</span> <span class="n">intent</span><span class="o">.</span><span class="na">getClipData</span><span class="o">();</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">clipData</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">ClipDescription</span> <span class="n">description</span> <span class="o">=</span> <span class="n">clipData</span><span class="o">.</span><span class="na">getDescription</span><span class="o">();</span>
-        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">description</span><span class="o">.</span><span class="na">getMimeTypeCount</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-            <span class="n">type</span> <span class="o">=</span> <span class="n">description</span><span class="o">.</span><span class="na">getMimeType</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
-            <span class="n">mimeTypes</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">type</span><span class="o">);</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-<span class="o">}</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">mimeTypes</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">String</span> <span class="n">type</span> <span class="o">=</span> <span class="n">context</span><span class="p">.</span><span class="na">getContentResolver</span><span class="p">().</span><span class="na">getType</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">type</span> <span class="o">==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">type</span> <span class="o">=</span> <span class="n">intent</span><span class="p">.</span><span class="na">getType</span><span class="p">();</span>
+<span class="p">}</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">type</span> <span class="o">==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">String</span> <span class="n">extension</span> <span class="o">=</span> <span class="n">MimeTypeMap</span><span class="p">.</span><span class="na">getFileExtensionFromUrl</span><span class="p">(</span><span class="n">url</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">extension</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">final</span> <span class="n">MimeTypeMap</span> <span class="n">mime</span> <span class="o">=</span> <span class="n">MimeTypeMap</span><span class="p">.</span><span class="na">getSingleton</span><span class="p">();</span>
+        <span class="n">type</span> <span class="o">=</span> <span class="n">mime</span><span class="p">.</span><span class="na">getMimeTypeFromExtension</span><span class="p">(</span><span class="n">extension</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">type</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">mimeTypes</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">type</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">Build</span><span class="p">.</span><span class="na">VERSION</span><span class="p">.</span><span class="na">SDK_INT</span> <span class="o">&gt;=</span> <span class="n">Build</span><span class="p">.</span><span class="na">VERSION_CODES</span><span class="p">.</span><span class="na">JELLY_BEAN</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">ClipData</span> <span class="n">clipData</span> <span class="o">=</span> <span class="n">intent</span><span class="p">.</span><span class="na">getClipData</span><span class="p">();</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">clipData</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">ClipDescription</span> <span class="n">description</span> <span class="o">=</span> <span class="n">clipData</span><span class="p">.</span><span class="na">getDescription</span><span class="p">();</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">description</span><span class="p">.</span><span class="na">getMimeTypeCount</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">type</span> <span class="o">=</span> <span class="n">description</span><span class="p">.</span><span class="na">getMimeType</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+            <span class="n">mimeTypes</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">type</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
-<p>Having the <tt class="docutils literal"><span class="pre">Uri</span></tt>, the contents of the PDF or image files can be read using the <tt class="docutils literal"><span class="pre">ContentResolver</span></tt>.</p>
+<p>Having the <code class="docutils literal notranslate"><span class="pre">Uri</span></code>, the contents of the PDF or image files can be read using the <code class="docutils literal notranslate"><span class="pre">ContentResolver</span></code>.</p>
 <p>Reading the PDF or image into a byte array:</p>
-<div class="highlight-java"><div class="highlight"><pre><span class="kt">byte</span><span class="o">[]</span> <span class="n">bytes</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
-<span class="n">ContentResolver</span> <span class="n">contentResolver</span> <span class="o">=</span> <span class="n">activity</span><span class="o">.</span><span class="na">getContentResolver</span><span class="o">()</span>
-<span class="n">InputStream</span> <span class="n">inputStream</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
-<span class="k">try</span> <span class="o">{</span>
-    <span class="n">inputStream</span> <span class="o">=</span> <span class="n">contentResolver</span><span class="o">.</span><span class="na">openInputStream</span><span class="o">(</span><span class="n">uri</span><span class="o">);</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">inputStream</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="kt">byte</span><span class="o">[]</span> <span class="n">bytes</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+<span class="n">ContentResolver</span> <span class="n">contentResolver</span> <span class="o">=</span> <span class="n">activity</span><span class="p">.</span><span class="na">getContentResolver</span><span class="p">()</span>
+<span class="n">InputStream</span> <span class="n">inputStream</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+<span class="k">try</span> <span class="p">{</span>
+    <span class="n">inputStream</span> <span class="o">=</span> <span class="n">contentResolver</span><span class="p">.</span><span class="na">openInputStream</span><span class="p">(</span><span class="n">uri</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">inputStream</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
         <span class="c1">// ByteStreams is a utility class from Google’s Guava library</span>
-        <span class="n">bytes</span> <span class="o">=</span> <span class="n">ByteStreams</span><span class="o">.</span><span class="na">toByteArray</span><span class="o">(</span><span class="n">inputStream</span><span class="o">);</span>
-    <span class="o">}</span>
-<span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
-    <span class="k">if</span> <span class="o">(</span><span class="n">inputStream</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">inputStream</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
-    <span class="o">}</span>
-<span class="o">}</span>
+        <span class="n">bytes</span> <span class="o">=</span> <span class="n">ByteStreams</span><span class="p">.</span><span class="na">toByteArray</span><span class="p">(</span><span class="n">inputStream</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span> <span class="k">finally</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">inputStream</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">inputStream</span><span class="p">.</span><span class="na">close</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>The byte array from the example above can be directly uploaded to the Gini API for information extraction.</p>
@@ -497,7 +499,7 @@
 <h2>Showing a preview of the PDF’s first page<a class="headerlink" href="#showing-a-preview-of-the-pdfs-first-page" title="Permalink to this headline">¶</a></h2>
 <p>We recommend showing a preview of the PDF’s first page or of the image while the document is being analyzed. Rendering PDFs is possible since Android 5.0 (API Level 21). On older versions we recommend showing a placeholder image.</p>
 <p>The following code shows how to generate a preview of the PDF’s first page on Android 5.0 and newer versions:</p>
-<div class="highlight-java"><div class="highlight"><pre>Bitmap bitmap = null;
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span>Bitmap bitmap = null;
 ContentResolver contentResolver = activity.getContentResolver();
 ParcelFileDescriptor fileDescriptor = contentResolver.openFileDescriptor(uri, &quot;r&quot;);
 if (fileDescriptor != null) {

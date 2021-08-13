@@ -31,6 +31,7 @@
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
 
     
 
@@ -52,6 +53,7 @@
   
 
   
+        <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="Gini Vision Library for Android 2.0 documentation" href="index.html"/>
         <link rel="next" title="Event Tracking" href="event-tracking.html"/>
         <link rel="prev" title="Gini Vision Library for Android" href="index.html"/> 
@@ -81,10 +83,10 @@
         
         
             <ul class="current">
-<li class="toctree-l1"><a class="reference external" href="http://developer.gini.net/gini-vision-lib-android/ginivision/index.html">Gini Vision Javadoc</a></li>
+<li class="toctree-l1"><a class="reference external" href="http://developer.gini.net/gini-vision-lib-android/ginivision/dokka/index.html">Gini Vision Javadoc</a></li>
 <li class="toctree-l1"><a class="reference external" href="http://developer.gini.net/gini-vision-lib-android/network/javadoc/index.html">Network Library Javadoc</a></li>
 <li class="toctree-l1"><a class="reference external" href="http://developer.gini.net/gini-vision-lib-android/accounting/network/javadoc/index.html">Accounting Network Library Javadoc</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Customization Guide</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Customization Guide</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#onboarding-screen">Onboarding Screen</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#action-bar">1. Action Bar</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#next-button">2. Next Button</a></li>
@@ -227,7 +229,7 @@
 <li class="toctree-l2"><a class="reference internal" href="updating-to-2-4-0.html#new-features">New Features</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#feature-configuration">Feature Configuration</a></li>
 <li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#document-import">Document Import</a></li>
-<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#file-import-open-with">File Import (&#8220;Open With&#8221;)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#file-import-open-with">File Import (“Open With”)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#tips-in-the-analysis-screen">Tips in the Analysis Screen</a></li>
 <li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#help-screens">Help Screens</a></li>
 <li class="toctree-l3"><a class="reference internal" href="updating-to-2-4-0.html#no-results-screen">No Results Screen</a></li>
@@ -392,64 +394,64 @@ image and a short text.</p>
 <p>All Action Bar customizations except the title are global to all Activities.</p>
 <ul>
 <li><p class="first"><strong>Title</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_title_onboarding</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_title_onboarding</span></code>.</p>
 </li>
 <li><p class="first"><strong>Title Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar_title</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_action_bar_title</span></code>.</p>
 </li>
 <li><p class="first"><strong>Back Button Icon</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_action_bar_back</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_action_bar_back</span></code>.</p>
 </li>
 <li><p class="first"><strong>Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_action_bar</span></code>.</p>
 </li>
 <li><p class="first"><strong>Status Bar Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_status_bar</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_status_bar</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#onboarding"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#onboarding"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 <div class="section" id="next-button">
 <span id="onboarding-2"></span><h3>2. Next Button<a class="headerlink" href="#next-button" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Icon</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_onboarding_fab_next.png</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_onboarding_fab_next.png</span></code>.</p>
 </li>
 <li><p class="first"><strong>Color</strong></p>
-<p>Via the color resources named <tt class="docutils literal"><span class="pre">gv_onboarding_fab</span></tt> and <tt class="docutils literal"><span class="pre">gv_onboarding_fab_pressed</span></tt>.</p>
+<p>Via the color resources named <code class="docutils literal notranslate"><span class="pre">gv_onboarding_fab</span></code> and <code class="docutils literal notranslate"><span class="pre">gv_onboarding_fab_pressed</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#onboarding"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#onboarding"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 <div class="section" id="page-indicators">
 <span id="onboarding-3"></span><h3>3. Page Indicators<a class="headerlink" href="#page-indicators" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Active</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_onboarding_indicator_active.png</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_onboarding_indicator_active.png</span></code>.</p>
 </li>
 <li><p class="first"><strong>Inactive</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_onboarding_indicator_inactive.png</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_onboarding_indicator_inactive.png</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#onboarding"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#onboarding"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 <div class="section" id="onboarding-message">
 <span id="onboarding-4"></span><h3>4. Onboarding Message<a class="headerlink" href="#onboarding-message" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_onboarding_message</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_onboarding_message</span></code>.</p>
 </li>
 <li><p class="first"><strong>Text Style</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Onboarding.Message.TextStyle</span></tt> (with parent style
-<tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Onboarding.Message.TextStyle</span></tt>).</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Onboarding.Message.TextStyle</span></code> (with parent style
+<code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Onboarding.Message.TextStyle</span></code>).</p>
 </li>
 <li><p class="first"><strong>Font</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Onboarding.Message.TextStyle</span></tt> (with parent style
-<tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Onboarding.Message.TextStyle</span></tt>) and setting an item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Onboarding.Message.TextStyle</span></code> (with parent style
+<code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Onboarding.Message.TextStyle</span></code>) and setting an item named <code class="docutils literal notranslate"><span class="pre">gvCustomFont</span></code>
 with the path to the font file in your assets folder.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#onboarding"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#onboarding"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 <div class="section" id="onboarding-pages">
 <span id="onboarding-5"></span><h3>5. Onboarding Pages<a class="headerlink" href="#onboarding-pages" title="Permalink to this headline">¶</a></h3>
@@ -461,30 +463,30 @@ with the path to the font file in your assets folder.</p>
 <li><p class="first"><strong>First Page</strong></p>
 <ul>
 <li><p class="first"><strong>Image</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_onboarding_flat.png</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_onboarding_flat.png</span></code>.</p>
 </li>
 <li><p class="first"><strong>Text</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_onboarding_flat</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_onboarding_flat</span></code>.</p>
 </li>
 </ul>
 </li>
 <li><p class="first"><strong>Second Page</strong></p>
 <ul>
 <li><p class="first"><strong>Image</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_onboarding_parallel.png</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_onboarding_parallel.png</span></code>.</p>
 </li>
 <li><p class="first"><strong>Text</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_onboarding_parallel</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_onboarding_parallel</span></code>.</p>
 </li>
 </ul>
 </li>
 <li><p class="first"><strong>Third Page</strong></p>
 <ul>
 <li><p class="first"><strong>Image</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_onboarding_align.png</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_onboarding_align.png</span></code>.</p>
 </li>
 <li><p class="first"><strong>Text</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_onboarding_align</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_onboarding_align</span></code>.</p>
 </li>
 </ul>
 </li>
@@ -492,15 +494,15 @@ with the path to the font file in your assets folder.</p>
 <p>Visible only if the multi-page feature has been enabled.</p>
 <ul>
 <li><p class="first"><strong>Image</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_onboarding_multipage.png</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_onboarding_multipage.png</span></code>.</p>
 </li>
 <li><p class="first"><strong>Text</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_onboarding_multipage</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_onboarding_multipage</span></code>.</p>
 </li>
 </ul>
 </li>
 </ul>
-<p><a class="reference internal" href="#onboarding"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#onboarding"><span class="std std-ref">Back to screenshot.</span></a></p>
 </li>
 <li><p class="first"><strong>Tablet</strong></p>
 <ul>
@@ -508,10 +510,10 @@ with the path to the font file in your assets folder.</p>
 <ul>
 <li><p class="first"><strong>Image</strong></p>
 <p>Via images for sw600dp-mdpi, sw600dp-hdpi, sw600dp-xhdpi, sw600dp-xxhdpi, sw600dp-xxxhdpi
-named <tt class="docutils literal"><span class="pre">gv_onboarding_lighting.png</span></tt>.</p>
+named <code class="docutils literal notranslate"><span class="pre">gv_onboarding_lighting.png</span></code>.</p>
 </li>
 <li><p class="first"><strong>Text</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_onboarding_ligthing</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_onboarding_ligthing</span></code>.</p>
 </li>
 </ul>
 </li>
@@ -519,10 +521,10 @@ named <tt class="docutils literal"><span class="pre">gv_onboarding_lighting.png<
 <ul>
 <li><p class="first"><strong>Image</strong></p>
 <p>Via images for sw600dp-mdpi, sw600dp-hdpi, sw600dp-xhdpi, sw600dp-xxhdpi, sw600dp-xxxhdpi
-named <tt class="docutils literal"><span class="pre">gv_onboarding_flat.png</span></tt>.</p>
+named <code class="docutils literal notranslate"><span class="pre">gv_onboarding_flat.png</span></code>.</p>
 </li>
 <li><p class="first"><strong>Text</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_onboarding_flat</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_onboarding_flat</span></code>.</p>
 </li>
 </ul>
 </li>
@@ -530,10 +532,10 @@ named <tt class="docutils literal"><span class="pre">gv_onboarding_flat.png</spa
 <ul>
 <li><p class="first"><strong>Image</strong></p>
 <p>Via images for sw600dp-mdpi, sw600dp-hdpi, sw600dp-xhdpi, sw600dp-xxhdpi, sw600dp-xxxhdpi
-named <tt class="docutils literal"><span class="pre">gv_onboarding_parallel.png</span></tt>.</p>
+named <code class="docutils literal notranslate"><span class="pre">gv_onboarding_parallel.png</span></code>.</p>
 </li>
 <li><p class="first"><strong>Text</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_onboarding_parallel</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_onboarding_parallel</span></code>.</p>
 </li>
 </ul>
 </li>
@@ -541,10 +543,10 @@ named <tt class="docutils literal"><span class="pre">gv_onboarding_parallel.png<
 <ul>
 <li><p class="first"><strong>Image</strong></p>
 <p>Via images for sw600dp-mdpi, sw600dp-hdpi, sw600dp-xhdpi, sw600dp-xxhdpi, sw600dp-xxxhdpi
-named <tt class="docutils literal"><span class="pre">gv_onboarding_align.png</span></tt>.</p>
+named <code class="docutils literal notranslate"><span class="pre">gv_onboarding_align.png</span></code>.</p>
 </li>
 <li><p class="first"><strong>Text</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_onboarding_align</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_onboarding_align</span></code>.</p>
 </li>
 </ul>
 </li>
@@ -552,40 +554,40 @@ named <tt class="docutils literal"><span class="pre">gv_onboarding_align.png</sp
 <p>Visible only if the multi-page feature has been enabled.</p>
 <ul>
 <li><p class="first"><strong>Image</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_onboarding_multipage.png</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_onboarding_multipage.png</span></code>.</p>
 </li>
 <li><p class="first"><strong>Text</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_onboarding_multipage</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_onboarding_multipage</span></code>.</p>
 </li>
 </ul>
 </li>
 </ul>
-<p><a class="reference internal" href="#onboarding"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#onboarding"><span class="std std-ref">Back to screenshot.</span></a></p>
 </li>
 </ul>
 </li>
 <li><p class="first"><strong>Custom Pages</strong></p>
 <p>You can change the number of displayed pages and their content (image and short text) by setting
-an <tt class="docutils literal"><span class="pre">ArrayList</span></tt> containing <tt class="docutils literal"><span class="pre">OnboardingPage</span></tt> objects when building a <tt class="docutils literal"><span class="pre">GiniVision</span></tt> instance
-with <tt class="docutils literal"><span class="pre">setCustomOnboardingPages()</span></tt>.</p>
-<p>If you don&#8217;t use <tt class="docutils literal"><span class="pre">GiniVision</span></tt> yet you can also provide the list using the extra
-<tt class="docutils literal"><span class="pre">CameraActivity.EXTRA_IN_ONBOARDING_PAGES</span></tt> for the Screen API and
-<tt class="docutils literal"><span class="pre">OnboardingFragmentCompat.createInstance(ArrayList&lt;OnboardingPage&gt;)</span></tt> or
-<tt class="docutils literal"><span class="pre">OnboardingFragmentStandard.createInstance(ArrayList&lt;OnboardingPage&gt;)</span></tt> for the Component API.</p>
-<p><a class="reference internal" href="#onboarding"><em>Back to screenshot.</em></a></p>
+an <code class="docutils literal notranslate"><span class="pre">ArrayList</span></code> containing <code class="docutils literal notranslate"><span class="pre">OnboardingPage</span></code> objects when building a <code class="docutils literal notranslate"><span class="pre">GiniVision</span></code> instance
+with <code class="docutils literal notranslate"><span class="pre">setCustomOnboardingPages()</span></code>.</p>
+<p>If you don’t use <code class="docutils literal notranslate"><span class="pre">GiniVision</span></code> yet you can also provide the list using the extra
+<code class="docutils literal notranslate"><span class="pre">CameraActivity.EXTRA_IN_ONBOARDING_PAGES</span></code> for the Screen API and
+<code class="docutils literal notranslate"><span class="pre">OnboardingFragmentCompat.createInstance(ArrayList&lt;OnboardingPage&gt;)</span></code> or
+<code class="docutils literal notranslate"><span class="pre">OnboardingFragmentStandard.createInstance(ArrayList&lt;OnboardingPage&gt;)</span></code> for the Component API.</p>
+<p><a class="reference internal" href="#onboarding"><span class="std std-ref">Back to screenshot.</span></a></p>
 </li>
 <li><p class="first"><strong>Background</strong></p>
 <ul>
 <li><p class="first"><strong>Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_background</span></tt>. <strong>Note</strong>: this color resource is global to all
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_background</span></code>. <strong>Note</strong>: this color resource is global to all
 Activities.</p>
 </li>
 <li><p class="first"><strong>Transparency</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_onboarding_page_fragment_background_alpha</span></tt> which must
-contain a real number between <tt class="docutils literal"><span class="pre">[0,1]</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_onboarding_page_fragment_background_alpha</span></code> which must
+contain a real number between <code class="docutils literal notranslate"><span class="pre">[0,1]</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#onboarding"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#onboarding"><span class="std std-ref">Back to screenshot.</span></a></p>
 </li>
 </ul>
 </div>
@@ -631,99 +633,99 @@ contain a real number between <tt class="docutils literal"><span class="pre">[0,
 <p>All Action Bar customizations except the title are global to all Activities.</p>
 <ul>
 <li><p class="first"><strong>Title</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_title_camera</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_title_camera</span></code>.</p>
 </li>
 <li><p class="first"><strong>Title Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar_title</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_action_bar_title</span></code>.</p>
 </li>
 <li><p class="first"><strong>Back Button Icon</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_action_bar_back</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_action_bar_back</span></code>.</p>
 </li>
 <li><p class="first"><strong>Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_action_bar</span></code>.</p>
 </li>
 <li><p class="first"><strong>Status Bar Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_status_bar</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_status_bar</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#camera"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#camera"><span class="std std-ref">Back to screenshots.</span></a></p>
 </div>
 <div class="section" id="document-corner-guides">
 <span id="camera-2"></span><h3>2. Document Corner Guides<a class="headerlink" href="#document-corner-guides" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_camera_preview_corners</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_camera_preview_corners</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#camera"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#camera"><span class="std std-ref">Back to screenshots.</span></a></p>
 </div>
 <div class="section" id="camera-trigger-button">
 <span id="camera-3"></span><h3>3. Camera Trigger Button<a class="headerlink" href="#camera-trigger-button" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Normal</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_camera_trigger_default.png</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_camera_trigger_default.png</span></code>.</p>
 </li>
 <li><p class="first"><strong>Pressed</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_camera_trigger_pressed.png</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_camera_trigger_pressed.png</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#camera"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#camera"><span class="std std-ref">Back to screenshots.</span></a></p>
 </div>
 <div class="section" id="tap-to-focus-indicator">
 <span id="camera-4"></span><h3>4. Tap to Focus Indicator<a class="headerlink" href="#tap-to-focus-indicator" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Icon</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_camera_focus_indicator.png</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_camera_focus_indicator.png</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#camera"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#camera"><span class="std std-ref">Back to screenshots.</span></a></p>
 </div>
 <div class="section" id="help-menu-item">
 <span id="camera-5"></span><h3>5. Help Menu Item<a class="headerlink" href="#help-menu-item" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Icon</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_help_icon.png</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_help_icon.png</span></code>.</p>
 </li>
 <li><p class="first"><strong>Title</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_show_onboarding</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_show_onboarding</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#camera"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#camera"><span class="std std-ref">Back to screenshots.</span></a></p>
 </div>
 <div class="section" id="background">
 <span id="camera-6"></span><h3>6. Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_background</span></tt>. <strong>Note</strong>: this color resource is global to all
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_background</span></code>. <strong>Note</strong>: this color resource is global to all
 Activities.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#camera"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#camera"><span class="std std-ref">Back to screenshots.</span></a></p>
 </div>
 <div class="section" id="document-import-button">
 <span id="camera-7"></span><h3>7. Document Import Button<a class="headerlink" href="#document-import-button" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Icon</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_document_import_icon.png</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_document_import_icon.png</span></code>.</p>
 </li>
 <li><p class="first"><strong>Subtitle</strong></p>
 <ul>
 <li><p class="first"><strong>Text</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_camera_document_import_subtitle</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_camera_document_import_subtitle</span></code>.</p>
 </li>
 <li><p class="first"><strong>Text Style</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.DocumentImportSubtitle.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.DocumentImportSubtitle.TextStyle</span></tt>).</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Camera.DocumentImportSubtitle.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Camera.DocumentImportSubtitle.TextStyle</span></code>).</p>
 </li>
 <li><p class="first"><strong>Font</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.DocumentImportSubtitle.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.DocumentImportSubtitle.TextStyle</span></tt>) and setting an
-item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Camera.DocumentImportSubtitle.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Camera.DocumentImportSubtitle.TextStyle</span></code>) and setting an
+item named <code class="docutils literal notranslate"><span class="pre">gvCustomFont</span></code> with the path to the font file in your assets folder.</p>
 </li>
 </ul>
 </li>
 </ul>
-<p><a class="reference internal" href="#camera"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#camera"><span class="std std-ref">Back to screenshots.</span></a></p>
 </div>
 <div class="section" id="hints">
 <span id="camera-8"></span><h3>8. Hints<a class="headerlink" href="#hints" title="Permalink to this headline">¶</a></h3>
@@ -731,24 +733,24 @@ item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></t
 <h4>8.1 Document Import Hint<a class="headerlink" href="#document-import-hint" title="Permalink to this headline">¶</a></h4>
 <ul>
 <li><p class="first"><strong>Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_document_import_hint_background</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_document_import_hint_background</span></code>.</p>
 </li>
 <li><p class="first"><strong>Close Icon Color</strong></p>
-<p>Via the color resource name <tt class="docutils literal"><span class="pre">gv_hint_close</span></tt>.</p>
+<p>Via the color resource name <code class="docutils literal notranslate"><span class="pre">gv_hint_close</span></code>.</p>
 </li>
 <li><p class="first"><strong>Message</strong></p>
 <ul>
 <li><p class="first"><strong>Text</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_document_import_hint_text</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_document_import_hint_text</span></code>.</p>
 </li>
 <li><p class="first"><strong>Text Style</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.DocumentImportHint.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.DocumentImportHint.TextStyle</span></tt>).</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Camera.DocumentImportHint.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Camera.DocumentImportHint.TextStyle</span></code>).</p>
 </li>
 <li><p class="first"><strong>Font</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.DocumentImportHint.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.DocumentImportHint.TextStyle</span></tt>) and setting an
-item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Camera.DocumentImportHint.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Camera.DocumentImportHint.TextStyle</span></code>) and setting an
+item named <code class="docutils literal notranslate"><span class="pre">gvCustomFont</span></code> with the path to the font file in your assets folder.</p>
 </li>
 </ul>
 </li>
@@ -758,29 +760,29 @@ item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></t
 <h4>8.2 QR Code Scanner Hint<a class="headerlink" href="#qr-code-scanner-hint" title="Permalink to this headline">¶</a></h4>
 <ul>
 <li><p class="first"><strong>Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_document_import_hint_background</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_document_import_hint_background</span></code>.</p>
 </li>
 <li><p class="first"><strong>Close Icon Color</strong></p>
-<p>Via the color resource name <tt class="docutils literal"><span class="pre">gv_hint_close</span></tt>.</p>
+<p>Via the color resource name <code class="docutils literal notranslate"><span class="pre">gv_hint_close</span></code>.</p>
 </li>
 <li><p class="first"><strong>Message</strong></p>
 <ul>
 <li><p class="first"><strong>Text</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_qr_code_scanner_hint_text</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_qr_code_scanner_hint_text</span></code>.</p>
 </li>
 <li><p class="first"><strong>Text Style</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.DocumentImportHint.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.DocumentImportHint.TextStyle</span></tt>).</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Camera.DocumentImportHint.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Camera.DocumentImportHint.TextStyle</span></code>).</p>
 </li>
 <li><p class="first"><strong>Font</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.DocumentImportHint.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.DocumentImportHint.TextStyle</span></tt>) and setting an
-item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Camera.DocumentImportHint.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Camera.DocumentImportHint.TextStyle</span></code>) and setting an
+item named <code class="docutils literal notranslate"><span class="pre">gvCustomFont</span></code> with the path to the font file in your assets folder.</p>
 </li>
 </ul>
 </li>
 </ul>
-<p><a class="reference internal" href="#camera"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#camera"><span class="std std-ref">Back to screenshots.</span></a></p>
 </div>
 </div>
 <div class="section" id="images-stack">
@@ -789,41 +791,41 @@ item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></t
 <li><p class="first"><strong>Badge</strong></p>
 <ul>
 <li><p class="first"><strong>Text Style</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.ImageStackBadge.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.ImageStackBadge.TextStyle</span></tt>).</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Camera.ImageStackBadge.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Camera.ImageStackBadge.TextStyle</span></code>).</p>
 </li>
 <li><p class="first"><strong>Font</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.ImageStackBadge.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.ImageStackBadge.TextStyle</span></tt>) and setting an
-item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Camera.ImageStackBadge.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Camera.ImageStackBadge.TextStyle</span></code>) and setting an
+item named <code class="docutils literal notranslate"><span class="pre">gvCustomFont</span></code> with the path to the font file in your assets folder.</p>
 </li>
 <li><p class="first"><strong>Background Color</strong></p>
-<p>Via the color resources named <tt class="docutils literal"><span class="pre">gv_camera_image_stack_badge_background</span></tt> and
-<tt class="docutils literal"><span class="pre">gv_camera_image_stack_badge_background_border</span></tt>.</p>
+<p>Via the color resources named <code class="docutils literal notranslate"><span class="pre">gv_camera_image_stack_badge_background</span></code> and
+<code class="docutils literal notranslate"><span class="pre">gv_camera_image_stack_badge_background_border</span></code>.</p>
 </li>
 <li><p class="first"><strong>Background Size</strong></p>
-<p>Via the dimension resource named <tt class="docutils literal"><span class="pre">gv_camera_image_stack_badge_size</span></tt>.</p>
+<p>Via the dimension resource named <code class="docutils literal notranslate"><span class="pre">gv_camera_image_stack_badge_size</span></code>.</p>
 </li>
 </ul>
 </li>
 <li><p class="first"><strong>Subtitle</strong></p>
 <ul>
 <li><p class="first"><strong>Text</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_camera_image_stack_subtitle</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_camera_image_stack_subtitle</span></code>.</p>
 </li>
 <li><p class="first"><strong>Text Style</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.ImageStackSubtitle.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.ImageStackSubtitle.TextStyle</span></tt>).</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Camera.ImageStackSubtitle.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Camera.ImageStackSubtitle.TextStyle</span></code>).</p>
 </li>
 <li><p class="first"><strong>Font</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.ImageStackSubtitle.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.ImageStackSubtitle.TextStyle</span></tt>) and setting an item
-named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Camera.ImageStackSubtitle.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Camera.ImageStackSubtitle.TextStyle</span></code>) and setting an item
+named <code class="docutils literal notranslate"><span class="pre">gvCustomFont</span></code> with the path to the font file in your assets folder.</p>
 </li>
 </ul>
 </li>
 </ul>
-<p><a class="reference internal" href="#camera"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#camera"><span class="std std-ref">Back to screenshots.</span></a></p>
 </div>
 <div class="section" id="qrcode-detected-popup">
 <span id="camera-10"></span><h3>10. QRCode Detected Popup<a class="headerlink" href="#qrcode-detected-popup" title="Permalink to this headline">¶</a></h3>
@@ -831,10 +833,10 @@ named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> wi
 <li><p class="first"><strong>Background Color</strong></p>
 <ul>
 <li><p class="first"><strong>Payable QRCode</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_qrcode_detected_popup_background</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_qrcode_detected_popup_background</span></code>.</p>
 </li>
 <li><p class="first"><strong>Unsupported QRCode</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_unsupported_qrcode_detected_popup_background</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_unsupported_qrcode_detected_popup_background</span></code>.</p>
 </li>
 </ul>
 </li>
@@ -843,12 +845,12 @@ named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> wi
 <li><p class="first"><strong>Text</strong></p>
 <ul>
 <li><p class="first"><strong>Payable QRCode</strong></p>
-<p>Via the string resources named <tt class="docutils literal"><span class="pre">gv_qrcode_detected_popup_message_1</span></tt> and
-<tt class="docutils literal"><span class="pre">gv_qrcode_detected_popup_message_2</span></tt>.</p>
+<p>Via the string resources named <code class="docutils literal notranslate"><span class="pre">gv_qrcode_detected_popup_message_1</span></code> and
+<code class="docutils literal notranslate"><span class="pre">gv_qrcode_detected_popup_message_2</span></code>.</p>
 </li>
 <li><p class="first"><strong>Unsupported QRCode</strong></p>
-<p>Via the string resources named <tt class="docutils literal"><span class="pre">gv_unsupported_qrcode_detected_popup_message_1</span></tt> and
-<tt class="docutils literal"><span class="pre">gv_unsupported_qrcode_detected_popup_message_2</span></tt>.</p>
+<p>Via the string resources named <code class="docutils literal notranslate"><span class="pre">gv_unsupported_qrcode_detected_popup_message_1</span></code> and
+<code class="docutils literal notranslate"><span class="pre">gv_unsupported_qrcode_detected_popup_message_2</span></code>.</p>
 </li>
 </ul>
 </li>
@@ -856,17 +858,17 @@ named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> wi
 <ul>
 <li><p class="first"><strong>Payable QRCode</strong></p>
 <p>Via overriding the styles named
-<tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle</span></tt> (with parent style
-<tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle</span></tt>) and
-<tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle</span></tt> (with parent style
-<tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle</span></tt>).</p>
+<code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle</span></code> (with parent style
+<code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle</span></code>) and
+<code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle</span></code> (with parent style
+<code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle</span></code>).</p>
 </li>
 <li><p class="first"><strong>Unsupported QRCode</strong></p>
 <p>Via overriding the styles named
-<tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.QRCodeDetectedPopup.UnsupportedMessage1.TextStyle</span></tt> (with parent style
-<tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.UnsupportedMessage1.TextStyle</span></tt>) and
-<tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.QRCodeDetectedPopup.UnsupportedMessage2.TextStyle</span></tt> (with parent style
-<tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.UnsupportedMessage2.TextStyle</span></tt>).</p>
+<code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Camera.QRCodeDetectedPopup.UnsupportedMessage1.TextStyle</span></code> (with parent style
+<code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.UnsupportedMessage1.TextStyle</span></code>) and
+<code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Camera.QRCodeDetectedPopup.UnsupportedMessage2.TextStyle</span></code> (with parent style
+<code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.UnsupportedMessage2.TextStyle</span></code>).</p>
 </li>
 </ul>
 </li>
@@ -874,26 +876,26 @@ named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> wi
 <ul>
 <li><p class="first"><strong>Payable QRCode</strong></p>
 <p>Via overriding the styles named
-<tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle</span></tt> (with parent style
-<tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle</span></tt>) and
-<tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle</span></tt> (with parent style
-<tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle</span></tt>). and setting an
-item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+<code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle</span></code> (with parent style
+<code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.Message1.TextStyle</span></code>) and
+<code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle</span></code> (with parent style
+<code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.Message2.TextStyle</span></code>). and setting an
+item named <code class="docutils literal notranslate"><span class="pre">gvCustomFont</span></code> with the path to the font file in your assets folder.</p>
 </li>
 <li><p class="first"><strong>Unsupported QRCode</strong></p>
 <p>Via overriding the styles named
-<tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.QRCodeDetectedPopup.UnsupportedMessage1.TextStyle</span></tt> (with parent style
-<tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.UnsupportedMessage1.TextStyle</span></tt>) and
-<tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.QRCodeDetectedPopup.UnsupportedMessage2.TextStyle</span></tt> (with parent style
-<tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.UnsupportedMessage2.TextStyle</span></tt>). and setting an
-item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+<code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Camera.QRCodeDetectedPopup.UnsupportedMessage1.TextStyle</span></code> (with parent style
+<code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.UnsupportedMessage1.TextStyle</span></code>) and
+<code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Camera.QRCodeDetectedPopup.UnsupportedMessage2.TextStyle</span></code> (with parent style
+<code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Camera.QRCodeDetectedPopup.UnsupportedMessage2.TextStyle</span></code>). and setting an
+item named <code class="docutils literal notranslate"><span class="pre">gvCustomFont</span></code> with the path to the font file in your assets folder.</p>
 </li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
-<p><a class="reference internal" href="#camera"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#camera"><span class="std std-ref">Back to screenshots.</span></a></p>
 </div>
 <div class="section" id="read-storage-permission-dialogs">
 <span id="camera-11"></span><h3>11. Read Storage Permission Dialogs<a class="headerlink" href="#read-storage-permission-dialogs" title="Permalink to this headline">¶</a></h3>
@@ -901,48 +903,48 @@ item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></t
 <li><p class="first"><strong>Permission Rationale Dialog</strong></p>
 <ul>
 <li><p class="first"><strong>Message</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_storage_permission_rationale</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_storage_permission_rationale</span></code>.</p>
 </li>
 <li><p class="first"><strong>Positive Button Text</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_storage_permission_rationale_positive_button</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_storage_permission_rationale_positive_button</span></code>.</p>
 </li>
 <li><p class="first"><strong>Negative Button Text</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_storage_permission_rationale_negative_button</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_storage_permission_rationale_negative_button</span></code>.</p>
 </li>
 <li><p class="first"><strong>Button Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_accent</span></tt>. <strong>Note</strong>: this color resource is global.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_accent</span></code>. <strong>Note</strong>: this color resource is global.</p>
 </li>
 </ul>
 </li>
 <li><p class="first"><strong>Permission Denied Dialog</strong></p>
 <ul>
 <li><p class="first"><strong>Message</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_storage_permission_denied</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_storage_permission_denied</span></code>.</p>
 </li>
 <li><p class="first"><strong>Positive Button Text</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_storage_permission_denied_positive_button</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_storage_permission_denied_positive_button</span></code>.</p>
 </li>
 <li><p class="first"><strong>Negative Button Text</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_storage_permission_denied_negative_button</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_storage_permission_denied_negative_button</span></code>.</p>
 </li>
 <li><p class="first"><strong>Button Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_accent</span></tt>. <strong>Note</strong>: this color resource is global.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_accent</span></code>. <strong>Note</strong>: this color resource is global.</p>
 </li>
 </ul>
 </li>
 </ul>
-<p><a class="reference internal" href="#camera"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#camera"><span class="std std-ref">Back to screenshots.</span></a></p>
 </div>
 <div class="section" id="no-camera-permission">
 <span id="camera-12"></span><h3>12. No Camera Permission<a class="headerlink" href="#no-camera-permission" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Icon</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_no_camera.png</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_no_camera.png</span></code>.</p>
 </li>
 <li><p class="first"><strong>Message</strong></p>
 <ul>
 <li><p class="first"><strong>Text</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_camera_error_no_permission</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_camera_error_no_permission</span></code>.</p>
 </li>
 </ul>
 <blockquote>
@@ -950,43 +952,43 @@ item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></t
 <li><strong>Text Style</strong></li>
 </ul>
 <blockquote>
-<div><p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.Error.NoPermission.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.Error.NoPermission.TextStyle</span></tt>).</p>
+<div><p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Camera.Error.NoPermission.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Camera.Error.NoPermission.TextStyle</span></code>).</p>
 </div></blockquote>
 </div></blockquote>
 <ul>
 <li><p class="first"><strong>Font</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.Error.NoPermission.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.Error.NoPermission.TextStyle</span></tt>) and setting an
-item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Camera.Error.NoPermission.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Camera.Error.NoPermission.TextStyle</span></code>) and setting an
+item named <code class="docutils literal notranslate"><span class="pre">gvCustomFont</span></code> with the path to the font file in your assets folder.</p>
 </li>
 </ul>
 </li>
 <li><p class="first"><strong>Button</strong></p>
 <ul>
 <li><p class="first"><strong>Title</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_camera_error_no_permission_button_title</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_camera_error_no_permission_button_title</span></code>.</p>
 </li>
 <li><p class="first"><strong>Text Style</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle</span></tt>).</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle</span></code>).</p>
 </li>
 <li><p class="first"><strong>Font</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle</span></tt>) and setting an
-item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Camera.Error.NoPermission.Button.TextStyle</span></code>) and setting an
+item named <code class="docutils literal notranslate"><span class="pre">gvCustomFont</span></code> with the path to the font file in your assets folder.</p>
 </li>
 </ul>
 </li>
 </ul>
-<p><a class="reference internal" href="#camera"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#camera"><span class="std std-ref">Back to screenshots.</span></a></p>
 </div>
 <div class="section" id="multi-page-limit-alert">
 <span id="camera-13"></span><h3>13. Multi-Page Limit Alert<a class="headerlink" href="#multi-page-limit-alert" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Message</strong></p>
 <blockquote>
-<div><p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_document_error_too_many_pages</span></tt>.</p>
+<div><p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_document_error_too_many_pages</span></code>.</p>
 </div></blockquote>
 </li>
 </ul>
@@ -995,27 +997,27 @@ item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></t
 <li><strong>Positive Button Text</strong></li>
 </ul>
 <blockquote>
-<div><p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_document_error_multi_page_limit_review_pages_button</span></tt>.</p>
+<div><p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_document_error_multi_page_limit_review_pages_button</span></code>.</p>
 <ul class="simple">
 <li><strong>Negative Button Text</strong></li>
 </ul>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_document_error_multi_page_limit_cancel_button</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_document_error_multi_page_limit_cancel_button</span></code>.</p>
 <ul class="simple">
 <li><strong>Button Color</strong></li>
 </ul>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_accent</span></tt>. <strong>Note</strong>: this color resource is global.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_accent</span></code>. <strong>Note</strong>: this color resource is global.</p>
 </div></blockquote>
 </div></blockquote>
-<p><a class="reference internal" href="#camera"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#camera"><span class="std std-ref">Back to screenshots.</span></a></p>
 </div>
 <div class="section" id="flash-toggle-button">
 <span id="camera-14"></span><h3>14. Flash Toggle Button<a class="headerlink" href="#flash-toggle-button" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Icon</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_camera_flash_on.png</span></tt> and <tt class="docutils literal"><span class="pre">gv_camera_flash_off.png</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_camera_flash_on.png</span></code> and <code class="docutils literal notranslate"><span class="pre">gv_camera_flash_off.png</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#camera"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#camera"><span class="std std-ref">Back to screenshots.</span></a></p>
 </div>
 </div>
 <div class="section" id="review-screen">
@@ -1034,77 +1036,77 @@ item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></t
 <p>All Action Bar customizations except the title are global to all Activities.</p>
 <ul>
 <li><p class="first"><strong>Title</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_title_review</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_title_review</span></code>.</p>
 </li>
 <li><p class="first"><strong>Title Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar_title</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_action_bar_title</span></code>.</p>
 </li>
 <li><p class="first"><strong>Back Button Icon</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_action_bar_back</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_action_bar_back</span></code>.</p>
 </li>
 <li><p class="first"><strong>Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_action_bar</span></code>.</p>
 </li>
 <li><p class="first"><strong>Status Bar Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_status_bar</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_status_bar</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#review"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#review"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 <div class="section" id="review-2">
 <span id="id3"></span><h3>2. Next Button<a class="headerlink" href="#review-2" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Icon</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_review_fab_next.png</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_review_fab_next.png</span></code>.</p>
 </li>
 <li><p class="first"><strong>Color</strong></p>
-<p>Via the color resources named <tt class="docutils literal"><span class="pre">gv_review_fab</span></tt> and <tt class="docutils literal"><span class="pre">gv_review_fab_pressed</span></tt>.</p>
+<p>Via the color resources named <code class="docutils literal notranslate"><span class="pre">gv_review_fab</span></code> and <code class="docutils literal notranslate"><span class="pre">gv_review_fab_pressed</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#review"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#review"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 <div class="section" id="rotate-button">
 <span id="review-3"></span><h3>3. Rotate Button<a class="headerlink" href="#rotate-button" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Icon</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_review_button_rotate.png</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_review_button_rotate.png</span></code>.</p>
 </li>
 <li><p class="first"><strong>Color</strong></p>
-<p>Via the color resources named <tt class="docutils literal"><span class="pre">gv_review_fab_mini</span></tt> and <tt class="docutils literal"><span class="pre">gv_review_fab_mini_pressed</span></tt>.</p>
+<p>Via the color resources named <code class="docutils literal notranslate"><span class="pre">gv_review_fab_mini</span></code> and <code class="docutils literal notranslate"><span class="pre">gv_review_fab_mini_pressed</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#review"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#review"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 <div class="section" id="advice">
 <span id="review-4"></span><h3>4. Advice<a class="headerlink" href="#advice" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Text</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_review_bottom_panel_text</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_review_bottom_panel_text</span></code>.</p>
 </li>
 <li><p class="first"><strong>Text Style</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Review.BottomPanel.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Review.BottomPanel.TextStyle</span></tt>).</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Review.BottomPanel.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Review.BottomPanel.TextStyle</span></code>).</p>
 <ul class="simple">
 <li><strong>Font</strong></li>
 </ul>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Review.BottomPanel.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Review.BottomPanel.TextStyle</span></tt>) and setting an
-item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Review.BottomPanel.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Review.BottomPanel.TextStyle</span></code>) and setting an
+item named <code class="docutils literal notranslate"><span class="pre">gvCustomFont</span></code> with the path to the font file in your assets folder.</p>
 </li>
 <li><p class="first"><strong>Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_review_bottom_panel_background</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_review_bottom_panel_background</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#review"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#review"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 <div class="section" id="review-5">
 <span id="id4"></span><h3>5. Background<a class="headerlink" href="#review-5" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_background</span></tt>. <strong>Note</strong>: this color resource is global to all Activities.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_background</span></code>. <strong>Note</strong>: this color resource is global to all Activities.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#review"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#review"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 </div>
 <div class="section" id="analysis-screen">
@@ -1127,74 +1129,74 @@ item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></t
 <p>All Action Bar customizations except the title are global to all Activities.</p>
 <ul>
 <li><p class="first"><strong>Back Button Icon</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_action_bar_back</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_action_bar_back</span></code>.</p>
 </li>
 <li><p class="first"><strong>Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_action_bar</span></code>.</p>
 </li>
 <li><p class="first"><strong>Status Bar Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_status_bar</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_status_bar</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#analysis"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#analysis"><span class="std std-ref">Back to screenshots.</span></a></p>
 </div>
 <div class="section" id="activity-indicator">
 <span id="analysis-2"></span><h3>2. Activity Indicator<a class="headerlink" href="#activity-indicator" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_analysis_activity_indicator</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_analysis_activity_indicator</span></code>.</p>
 </li>
 <li><p class="first"><strong>Message</strong></p>
 <ul>
 <li><p class="first"><strong>Text</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_analysis_activity_indicator_message</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_analysis_activity_indicator_message</span></code>.</p>
 </li>
 <li><p class="first"><strong>Text Style</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Analysis.AnalysingMessage.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Analysis.AnalysingMessage.TextStyle</span></tt>).</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Analysis.AnalysingMessage.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Analysis.AnalysingMessage.TextStyle</span></code>).</p>
 </li>
 <li><p class="first"><strong>Font</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Analysis.AnalysingMessage.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Analysis.AnalysingMessage.TextStyle</span></tt>) and setting an
-item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Analysis.AnalysingMessage.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Analysis.AnalysingMessage.TextStyle</span></code>) and setting an
+item named <code class="docutils literal notranslate"><span class="pre">gvCustomFont</span></code> with the path to the font file in your assets folder.</p>
 </li>
 </ul>
 </li>
 </ul>
-<p><a class="reference internal" href="#analysis"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#analysis"><span class="std std-ref">Back to screenshots.</span></a></p>
 </div>
 <div class="section" id="pdf-info-panel">
 <span id="analysis-3"></span><h3>3. PDF Info Panel<a class="headerlink" href="#pdf-info-panel" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_analysis_pdf_info_background</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_analysis_pdf_info_background</span></code>.</p>
 </li>
 <li><p class="first"><strong>Filename</strong></p>
 <ul>
 <li><p class="first"><strong>Text Style</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Analysis.PdfFilename.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Analysis.PdfFilename.TextStyle</span></tt>).</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Analysis.PdfFilename.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Analysis.PdfFilename.TextStyle</span></code>).</p>
 </li>
 <li><p class="first"><strong>Font</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Analysis.PdfFilename.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Analysis.PdfFilename.TextStyle</span></tt>) and setting an
-item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Analysis.PdfFilename.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Analysis.PdfFilename.TextStyle</span></code>) and setting an
+item named <code class="docutils literal notranslate"><span class="pre">gvCustomFont</span></code> with the path to the font file in your assets folder.</p>
 </li>
 </ul>
 </li>
 <li><p class="first"><strong>Page Count</strong></p>
 <ul>
 <li><p class="first"><strong>Text Style</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Analysis.PdfPageCount.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Analysis.PdfPageCount.TextStyle</span></tt>).</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Analysis.PdfPageCount.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Analysis.PdfPageCount.TextStyle</span></code>).</p>
 </li>
 <li><p class="first"><strong>Font</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Analysis.PdfPageCount.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Analysis.PdfPageCount.TextStyle</span></tt>) and setting an
-item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Analysis.PdfPageCount.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Analysis.PdfPageCount.TextStyle</span></code>) and setting an
+item named <code class="docutils literal notranslate"><span class="pre">gvCustomFont</span></code> with the path to the font file in your assets folder.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#analysis"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#analysis"><span class="std std-ref">Back to screenshots.</span></a></p>
 </li>
 </ul>
 </div>
@@ -1204,46 +1206,46 @@ item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></t
 <li><p class="first"><strong>Message</strong></p>
 <ul>
 <li><p class="first"><strong>Text Style</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Snackbar.Error.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Snackbar.Error.TextStyle</span></tt>).</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Snackbar.Error.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Snackbar.Error.TextStyle</span></code>).</p>
 </li>
 <li><p class="first"><strong>Font</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Snackbar.Error.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Snackbar.Error.TextStyle</span></tt>) and setting an
-item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Snackbar.Error.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Snackbar.Error.TextStyle</span></code>) and setting an
+item named <code class="docutils literal notranslate"><span class="pre">gvCustomFont</span></code> with the path to the font file in your assets folder.</p>
 </li>
 </ul>
 </li>
 <li><p class="first"><strong>Button</strong></p>
 <ul>
 <li><p class="first"><strong>Text Style</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Snackbar.Error.Button.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Snackbar.Error.Button.TextStyle</span></tt>).</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Snackbar.Error.Button.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Snackbar.Error.Button.TextStyle</span></code>).</p>
 </li>
 <li><p class="first"><strong>Font</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Snackbar.Error.Button.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Snackbar.Error.Button.TextStyle</span></tt>) and setting an
-item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Snackbar.Error.Button.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Snackbar.Error.Button.TextStyle</span></code>) and setting an
+item named <code class="docutils literal notranslate"><span class="pre">gvCustomFont</span></code> with the path to the font file in your assets folder.</p>
 </li>
 <li><p class="first"><strong>Retry Button Text</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_document_analysis_error_retry</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_document_analysis_error_retry</span></code>.</p>
 </li>
 </ul>
 </li>
 <li><p class="first"><strong>Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_snackbar_error_background</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_snackbar_error_background</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#analysis"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#analysis"><span class="std std-ref">Back to screenshots.</span></a></p>
 </div>
 <div class="section" id="analysis-5">
 <span id="id6"></span><h3>5. Background<a class="headerlink" href="#analysis-5" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_background</span></tt>. <strong>Note</strong>: this color resource is global to all Activities.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_background</span></code>. <strong>Note</strong>: this color resource is global to all Activities.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#analysis"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#analysis"><span class="std std-ref">Back to screenshots.</span></a></p>
 </div>
 </div>
 <div class="section" id="multi-page-review-screen">
@@ -1281,87 +1283,87 @@ item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></t
 <p>All Action Bar customizations except the title are global to all Activities.</p>
 <ul>
 <li><p class="first"><strong>Title</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_title_multi_page_review</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_title_multi_page_review</span></code>.</p>
 </li>
 <li><p class="first"><strong>Title Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar_title</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_action_bar_title</span></code>.</p>
 </li>
 <li><p class="first"><strong>Back Button Icon</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_action_bar_back</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_action_bar_back</span></code>.</p>
 </li>
 <li><p class="first"><strong>Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_action_bar</span></code>.</p>
 </li>
 <li><p class="first"><strong>Status Bar Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_status_bar</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_status_bar</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#multi-page-review"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#multi-page-review"><span class="std std-ref">Back to screenshots.</span></a></p>
 </div>
 <div class="section" id="multi-page-review-2">
 <span id="id8"></span><h3>2. Page Indicators<a class="headerlink" href="#multi-page-review-2" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Text Style</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Review.MultiPage.PageIndicator.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Review.MultiPage.PageIndicator.TextStyle</span></tt>).</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Review.MultiPage.PageIndicator.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Review.MultiPage.PageIndicator.TextStyle</span></code>).</p>
 </li>
 <li><p class="first"><strong>Font</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Review.MultiPage.PageIndicator.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Review.MultiPage.PageIndicator.TextStyle</span></tt>) and setting an
-item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Review.MultiPage.PageIndicator.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Review.MultiPage.PageIndicator.TextStyle</span></code>) and setting an
+item named <code class="docutils literal notranslate"><span class="pre">gvCustomFont</span></code> with the path to the font file in your assets folder.</p>
 </li>
 <li><p class="first"><strong>Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_multi_page_review_page_indicator_background</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_multi_page_review_page_indicator_background</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#multi-page-review"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#multi-page-review"><span class="std std-ref">Back to screenshots.</span></a></p>
 </div>
 <div class="section" id="multi-page-review-3">
 <span id="id9"></span><h3>3. Next Button<a class="headerlink" href="#multi-page-review-3" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Icon</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_review_fab_checkmark.png</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_review_fab_checkmark.png</span></code>.</p>
 </li>
 <li><p class="first"><strong>Color</strong></p>
-<p>Via the color resources named <tt class="docutils literal"><span class="pre">gv_review_fab</span></tt> and <tt class="docutils literal"><span class="pre">gv_review_fab_pressed</span></tt>.</p>
+<p>Via the color resources named <code class="docutils literal notranslate"><span class="pre">gv_review_fab</span></code> and <code class="docutils literal notranslate"><span class="pre">gv_review_fab_pressed</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#multi-page-review"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#multi-page-review"><span class="std std-ref">Back to screenshots.</span></a></p>
 </div>
 <div class="section" id="thumbnails-panel">
 <span id="multi-page-review-4"></span><h3>4. Thumbnails Panel<a class="headerlink" href="#thumbnails-panel" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_multi_page_review_thumbnails_panel_background</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_multi_page_review_thumbnails_panel_background</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#multi-page-review"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#multi-page-review"><span class="std std-ref">Back to screenshots.</span></a></p>
 </div>
 <div class="section" id="thumbnail-card">
 <span id="multi-page-review-5"></span><h3>5. Thumbnail Card<a class="headerlink" href="#thumbnail-card" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_multi_page_review_thumbnail_card_background</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_multi_page_review_thumbnail_card_background</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#multi-page-review"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#multi-page-review"><span class="std std-ref">Back to screenshots.</span></a></p>
 <div class="section" id="badge">
 <span id="multi-page-review-5-1"></span><h4>5.1 Badge<a class="headerlink" href="#badge" title="Permalink to this headline">¶</a></h4>
 <ul>
 <li><p class="first"><strong>Text Style</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Review.MultiPage.ThumbnailBadge.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Review.MultiPage.ThumbnailBadge.TextStyle</span></tt>).</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Review.MultiPage.ThumbnailBadge.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Review.MultiPage.ThumbnailBadge.TextStyle</span></code>).</p>
 </li>
 <li><p class="first"><strong>Font</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Review.MultiPage.ThumbnailBadge.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Review.MultiPage.ThumbnailBadge.TextStyle</span></tt>) and setting an
-item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Review.MultiPage.ThumbnailBadge.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Review.MultiPage.ThumbnailBadge.TextStyle</span></code>) and setting an
+item named <code class="docutils literal notranslate"><span class="pre">gvCustomFont</span></code> with the path to the font file in your assets folder.</p>
 </li>
 <li><p class="first"><strong>Background Border Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_multi_page_thumbnail_badge_background_border</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_multi_page_thumbnail_badge_background_border</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#multi-page-review"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#multi-page-review"><span class="std std-ref">Back to screenshots.</span></a></p>
 </div>
 <div class="section" id="drag-indicator-bumps">
 <span id="multi-page-review-5-2"></span><h4>5.2 Drag Indicator Bumps<a class="headerlink" href="#drag-indicator-bumps" title="Permalink to this headline">¶</a></h4>
@@ -1369,17 +1371,17 @@ item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></t
 <li><strong>Icon</strong></li>
 </ul>
 <blockquote>
-<div>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_bumps_icon.png</span></tt>.</div></blockquote>
-<p><a class="reference internal" href="#multi-page-review"><em>Back to screenshots.</em></a></p>
+<div>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_bumps_icon.png</span></code>.</div></blockquote>
+<p><a class="reference internal" href="#multi-page-review"><span class="std std-ref">Back to screenshots.</span></a></p>
 </div>
 <div class="section" id="highlight-strip">
 <span id="multi-page-review-5-3"></span><h4>5.3 Highlight Strip<a class="headerlink" href="#highlight-strip" title="Permalink to this headline">¶</a></h4>
 <ul>
 <li><p class="first"><strong>Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_multi_page_thumbnail_highlight_strip</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_multi_page_thumbnail_highlight_strip</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#multi-page-review"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#multi-page-review"><span class="std std-ref">Back to screenshots.</span></a></p>
 </div>
 <div class="section" id="multi-page-review-5-4">
 <span id="id10"></span><h4>5.4 Activity Indicator<a class="headerlink" href="#multi-page-review-5-4" title="Permalink to this headline">¶</a></h4>
@@ -1387,58 +1389,58 @@ item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></t
 <li><strong>Color</strong></li>
 </ul>
 <blockquote>
-<div>Via the color resource named <tt class="docutils literal"><span class="pre">gv_analysis_activity_indicator</span></tt>.</div></blockquote>
-<p><a class="reference internal" href="#multi-page-review"><em>Back to screenshots.</em></a></p>
+<div>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_analysis_activity_indicator</span></code>.</div></blockquote>
+<p><a class="reference internal" href="#multi-page-review"><span class="std std-ref">Back to screenshots.</span></a></p>
 </div>
 <div class="section" id="upload-success-icon">
 <span id="multi-page-review-5-5"></span><h4>5.5 Upload Success Icon<a class="headerlink" href="#upload-success-icon" title="Permalink to this headline">¶</a></h4>
 <ul>
 <li><p class="first"><strong>Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_multi_page_thumbnail_upload_success_icon_background</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_multi_page_thumbnail_upload_success_icon_background</span></code>.</p>
 </li>
 <li><p class="first"><strong>Tick Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_multi_page_thumbnail_upload_success_icon_foreground</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_multi_page_thumbnail_upload_success_icon_foreground</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#multi-page-review"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#multi-page-review"><span class="std std-ref">Back to screenshots.</span></a></p>
 </div>
 <div class="section" id="upload-failure-icon">
 <span id="multi-page-review-5-6"></span><h4>5.6 Upload Failure Icon<a class="headerlink" href="#upload-failure-icon" title="Permalink to this headline">¶</a></h4>
 <ul>
 <li><p class="first"><strong>Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_multi_page_thumbnail_upload_failure_icon_background</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_multi_page_thumbnail_upload_failure_icon_background</span></code>.</p>
 </li>
 <li><p class="first"><strong>Cross Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_multi_page_thumbnail_upload_failure_icon_foreground</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_multi_page_thumbnail_upload_failure_icon_foreground</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#multi-page-review"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#multi-page-review"><span class="std std-ref">Back to screenshots.</span></a></p>
 </div>
 </div>
 <div class="section" id="add-pages-card">
 <span id="multi-page-review-6"></span><h3>6. Add Pages Card<a class="headerlink" href="#add-pages-card" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Icon</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_multi_page_add_page_icon.png</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_multi_page_add_page_icon.png</span></code>.</p>
 </li>
 <li><p class="first"><strong>Subtitle</strong></p>
 <ul>
 <li><p class="first"><strong>Text</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_multi_page_review_add_pages_subtitle</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_multi_page_review_add_pages_subtitle</span></code>.</p>
 </li>
 <li><p class="first"><strong>Text Style</strong></p>
 </li>
 </ul>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Review.MultiPage.AddPagesSubtitle.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Review.MultiPage.AddPagesSubtitle.TextStyle</span></tt>).</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Review.MultiPage.AddPagesSubtitle.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Review.MultiPage.AddPagesSubtitle.TextStyle</span></code>).</p>
 <ul>
 <li><p class="first"><strong>Font</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Review.MultiPage.AddPagesSubtitle.TextStyle</span></tt>
-(with parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Review.MultiPage.AddPagesSubtitle.TextStyle</span></tt>) and
-setting an item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Review.MultiPage.AddPagesSubtitle.TextStyle</span></code>
+(with parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Review.MultiPage.AddPagesSubtitle.TextStyle</span></code>) and
+setting an item named <code class="docutils literal notranslate"><span class="pre">gvCustomFont</span></code> with the path to the font file in your assets folder.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#multi-page-review"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#multi-page-review"><span class="std std-ref">Back to screenshots.</span></a></p>
 </li>
 </ul>
 </div>
@@ -1446,90 +1448,90 @@ setting an item named <tt class="docutils literal"><span class="pre">gvCustomFon
 <span id="multi-page-review-7"></span><h3>7. Reorder Pages Tip<a class="headerlink" href="#reorder-pages-tip" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Text</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_multi_page_review_reorder_pages_tip</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_multi_page_review_reorder_pages_tip</span></code>.</p>
 </li>
 <li><p class="first"><strong>Text Style</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Review.MultiPage.ReorderPagesTip.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Review.MultiPage.ReorderPagesTip.TextStyle</span></tt>).</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Review.MultiPage.ReorderPagesTip.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Review.MultiPage.ReorderPagesTip.TextStyle</span></code>).</p>
 </li>
 <li><p class="first"><strong>Font</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Review.MultiPage.ReorderPagesTip.TextStyle</span></tt>
-(with parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Review.MultiPage.ReorderPagesTip.TextStyle</span></tt>) and
-setting an item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Review.MultiPage.ReorderPagesTip.TextStyle</span></code>
+(with parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Review.MultiPage.ReorderPagesTip.TextStyle</span></code>) and
+setting an item named <code class="docutils literal notranslate"><span class="pre">gvCustomFont</span></code> with the path to the font file in your assets folder.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#multi-page-review"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#multi-page-review"><span class="std std-ref">Back to screenshots.</span></a></p>
 </div>
 <div class="section" id="bottom-toolbar">
 <span id="multi-page-review-8"></span><h3>8. Bottom Toolbar<a class="headerlink" href="#bottom-toolbar" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Rotate Icon</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_rotate_icon.png</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_rotate_icon.png</span></code>.</p>
 </li>
 <li><p class="first"><strong>Delete Icon</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_delete_icon.png</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_delete_icon.png</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#multi-page-review"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#multi-page-review"><span class="std std-ref">Back to screenshots.</span></a></p>
 </div>
 <div class="section" id="image-error">
 <span id="multi-page-review-9"></span><h3>9. Image Error<a class="headerlink" href="#image-error" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_snackbar_error_background</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_snackbar_error_background</span></code>.</p>
 </li>
 <li><p class="first"><strong>Message</strong></p>
 <ul>
 <li><p class="first"><strong>Text Style</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Snackbar.Error.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Snackbar.Error.TextStyle</span></tt>).</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Snackbar.Error.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Snackbar.Error.TextStyle</span></code>).</p>
 </li>
 <li><p class="first"><strong>Font</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Snackbar.Error.TextStyle</span></tt>
-(with parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Snackbar.Error.TextStyle</span></tt>) and
-setting an item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Snackbar.Error.TextStyle</span></code>
+(with parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Snackbar.Error.TextStyle</span></code>) and
+setting an item named <code class="docutils literal notranslate"><span class="pre">gvCustomFont</span></code> with the path to the font file in your assets folder.</p>
 </li>
 </ul>
 </li>
 <li><p class="first"><strong>Button</strong></p>
 <ul>
 <li><p class="first"><strong>Text Style</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Snackbar.Error.Button.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Snackbar.Error.Button.TextStyle</span></tt>).</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Snackbar.Error.Button.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Snackbar.Error.Button.TextStyle</span></code>).</p>
 </li>
 <li><p class="first"><strong>Font</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Snackbar.Error.Button.TextStyle</span></tt>
-(with parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Snackbar.Error.Button.TextStyle</span></tt>) and
-setting an item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Snackbar.Error.Button.TextStyle</span></code>
+(with parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Snackbar.Error.Button.TextStyle</span></code>) and
+setting an item named <code class="docutils literal notranslate"><span class="pre">gvCustomFont</span></code> with the path to the font file in your assets folder.</p>
 </li>
 <li><p class="first"><strong>Retry Text (Analysis)</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_document_analysis_error_retry</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_document_analysis_error_retry</span></code>.</p>
 </li>
 <li><p class="first"><strong>Delete Text (Imported Image)</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_multi_page_review_delete_invalid_document</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_multi_page_review_delete_invalid_document</span></code>.</p>
 </li>
 </ul>
 </li>
 </ul>
-<p><a class="reference internal" href="#multi-page-review"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#multi-page-review"><span class="std std-ref">Back to screenshots.</span></a></p>
 </div>
 <div class="section" id="imported-image-delete-last-page-dialog">
 <span id="multi-page-review-10"></span><h3>10. Imported Image Delete Last Page Dialog<a class="headerlink" href="#imported-image-delete-last-page-dialog" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Message</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_multi_page_review_file_import_delete_last_page_dialog_message</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_multi_page_review_file_import_delete_last_page_dialog_message</span></code>.</p>
 </li>
 <li><p class="first"><strong>Positive Button Title</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_multi_page_review_file_import_delete_last_page_dialog_positive_button</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_multi_page_review_file_import_delete_last_page_dialog_positive_button</span></code>.</p>
 </li>
 <li><p class="first"><strong>Negative Button Title</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_multi_page_review_file_import_delete_last_page_dialog_negative_button</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_multi_page_review_file_import_delete_last_page_dialog_negative_button</span></code>.</p>
 </li>
 <li><p class="first"><strong>Button Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_accent</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_accent</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#multi-page-review"><em>Back to screenshots.</em></a></p>
+<p><a class="reference internal" href="#multi-page-review"><span class="std std-ref">Back to screenshots.</span></a></p>
 </div>
 </div>
 <div class="section" id="help-screen">
@@ -1546,51 +1548,51 @@ setting an item named <tt class="docutils literal"><span class="pre">gvCustomFon
 <p>All Action Bar customizations except the title are global to all Activities.</p>
 <ul>
 <li><p class="first"><strong>Title</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_title_help</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_title_help</span></code>.</p>
 </li>
 <li><p class="first"><strong>Title Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar_title</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_action_bar_title</span></code>.</p>
 </li>
 <li><p class="first"><strong>Back Button Icon</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_action_bar_back</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_action_bar_back</span></code>.</p>
 </li>
 <li><p class="first"><strong>Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_action_bar</span></code>.</p>
 </li>
 <li><p class="first"><strong>Status Bar Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_status_bar</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_status_bar</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#help-screen"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#help-screen"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 <div class="section" id="help-screen-2">
 <span id="id13"></span><h3>2. Background<a class="headerlink" href="#help-screen-2" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_help_activity_background</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_help_activity_background</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#help-screen"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#help-screen"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 <div class="section" id="help-list-item">
 <span id="help-screen-3"></span><h3>3. Help List Item<a class="headerlink" href="#help-list-item" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Background Color</strong></p>
-<p>Via the color resource name <tt class="docutils literal"><span class="pre">gv_help_item_background</span></tt>.</p>
+<p>Via the color resource name <code class="docutils literal notranslate"><span class="pre">gv_help_item_background</span></code>.</p>
 </li>
 <li><p class="first"><strong>Text Style</strong></p>
 <blockquote>
-<div><p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Help.Item.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Help.Item.TextStyle</span></tt>).</p>
+<div><p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Help.Item.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Help.Item.TextStyle</span></code>).</p>
 </div></blockquote>
 </li>
 <li><p class="first"><strong>Font</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Help.Item.TextStyle</span></tt>
-(with parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Help.Item.TextStyle</span></tt>) and
-setting an item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Help.Item.TextStyle</span></code>
+(with parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Help.Item.TextStyle</span></code>) and
+setting an item named <code class="docutils literal notranslate"><span class="pre">gvCustomFont</span></code> with the path to the font file in your assets folder.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#help-screen"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#help-screen"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 </div>
 <div class="section" id="photo-tips-screen">
@@ -1619,122 +1621,122 @@ setting an item named <tt class="docutils literal"><span class="pre">gvCustomFon
 <p>All Action Bar customizations except the title are global to all Activities.</p>
 <ul>
 <li><p class="first"><strong>Title</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_title_photo_tips</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_title_photo_tips</span></code>.</p>
 </li>
 <li><p class="first"><strong>Title Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar_title</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_action_bar_title</span></code>.</p>
 </li>
 <li><p class="first"><strong>Back Button Icon</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_action_bar_back</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_action_bar_back</span></code>.</p>
 </li>
 <li><p class="first"><strong>Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_action_bar</span></code>.</p>
 </li>
 <li><p class="first"><strong>Status Bar Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_status_bar</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_status_bar</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#photo-tips"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#photo-tips"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 <div class="section" id="photo-tips-2">
 <span id="id15"></span><h3>2. Background<a class="headerlink" href="#photo-tips-2" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_photo_tips_activity_background</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_photo_tips_activity_background</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#photo-tips"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#photo-tips"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 <div class="section" id="header">
 <span id="photo-tips-3"></span><h3>3. Header<a class="headerlink" href="#header" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Text Style</strong></p>
 <blockquote>
-<div><p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Help.PhotoTips.Header.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Help.PhotoTips.Header.TextStyle</span></tt>).</p>
+<div><p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Help.PhotoTips.Header.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Help.PhotoTips.Header.TextStyle</span></code>).</p>
 </div></blockquote>
 </li>
 <li><p class="first"><strong>Font</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Help.PhotoTips.Header.TextStyle</span></tt>
-(with parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Help.PhotoTips.Header.TextStyle</span></tt>) and
-setting an item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Help.PhotoTips.Header.TextStyle</span></code>
+(with parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Help.PhotoTips.Header.TextStyle</span></code>) and
+setting an item named <code class="docutils literal notranslate"><span class="pre">gvCustomFont</span></code> with the path to the font file in your assets folder.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#photo-tips"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#photo-tips"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 <div class="section" id="tip">
 <span id="photo-tips-4"></span><h3>4. Tip<a class="headerlink" href="#tip" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Text Style</strong></p>
 <blockquote>
-<div><p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Help.PhotoTips.Tip.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Help.PhotoTips.Tip.TextStyle</span></tt>).</p>
+<div><p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Help.PhotoTips.Tip.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Help.PhotoTips.Tip.TextStyle</span></code>).</p>
 </div></blockquote>
 </li>
 <li><p class="first"><strong>Font</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Help.PhotoTips.Tip.TextStyle</span></tt>
-(with parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Help.PhotoTips.Tip.TextStyle</span></tt>) and
-setting an item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Help.PhotoTips.Tip.TextStyle</span></code>
+(with parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Help.PhotoTips.Tip.TextStyle</span></code>) and
+setting an item named <code class="docutils literal notranslate"><span class="pre">gvCustomFont</span></code> with the path to the font file in your assets folder.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#photo-tips"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#photo-tips"><span class="std std-ref">Back to screenshot.</span></a></p>
 <div class="section" id="good-lighting">
 <span id="photo-tips-4-1"></span><h4>4.1 Good Lighting<a class="headerlink" href="#good-lighting" title="Permalink to this headline">¶</a></h4>
 <ul>
 <li><p class="first"><strong>Icon</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_photo_tip_lighting.png</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_photo_tip_lighting.png</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#photo-tips"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#photo-tips"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 <div class="section" id="document-should-be-flat">
 <span id="photo-tips-4-2"></span><h4>4.2 Document Should be Flat<a class="headerlink" href="#document-should-be-flat" title="Permalink to this headline">¶</a></h4>
 <ul>
 <li><p class="first"><strong>Icon</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_photo_tip_flat.png</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_photo_tip_flat.png</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#photo-tips"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#photo-tips"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 <div class="section" id="device-parallel-to-document">
 <span id="photo-tips-4-3"></span><h4>4.3 Device Parallel to Document<a class="headerlink" href="#device-parallel-to-document" title="Permalink to this headline">¶</a></h4>
 <ul>
 <li><p class="first"><strong>Icon</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi,xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_photo_tip_parallel.png</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi,xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_photo_tip_parallel.png</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#photo-tips"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#photo-tips"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 <div class="section" id="document-aligned-with-corner-guides">
 <span id="photo-tips-4-4"></span><h4>4.4 Document Aligned with Corner Guides<a class="headerlink" href="#document-aligned-with-corner-guides" title="Permalink to this headline">¶</a></h4>
 <ul>
 <li><p class="first"><strong>Icon</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi,xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_photo_tip_align.png</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi,xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_photo_tip_align.png</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#photo-tips"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#photo-tips"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 <div class="section" id="document-with-multiple-pages">
 <span id="photo-tips-4-5"></span><h4>4.5 Document with Multiple Pages<a class="headerlink" href="#document-with-multiple-pages" title="Permalink to this headline">¶</a></h4>
 <ul>
 <li><p class="first"><strong>Icon</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi,xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_photo_tip_multipage.png</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi,xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_photo_tip_multipage.png</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#photo-tips"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#photo-tips"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 </div>
 <div class="section" id="back-to-camera-button">
 <span id="photo-tips-5"></span><h3>5. Back To Camera Button<a class="headerlink" href="#back-to-camera-button" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_photo_tips_button</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_photo_tips_button</span></code>.</p>
 </li>
 <li><p class="first"><strong>Text Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_photo_tips_button_text</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_photo_tips_button_text</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#photo-tips"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#photo-tips"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 </div>
 <div class="section" id="supported-formats-screen">
@@ -1754,87 +1756,87 @@ setting an item named <tt class="docutils literal"><span class="pre">gvCustomFon
 <p>All Action Bar customizations except the title are global to all Activities.</p>
 <ul>
 <li><p class="first"><strong>Title</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_title_supported_formats</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_title_supported_formats</span></code>.</p>
 </li>
 <li><p class="first"><strong>Title Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar_title</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_action_bar_title</span></code>.</p>
 </li>
 <li><p class="first"><strong>Back Button Icon</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_action_bar_back</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_action_bar_back</span></code>.</p>
 </li>
 <li><p class="first"><strong>Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_action_bar</span></code>.</p>
 </li>
 <li><p class="first"><strong>Status Bar Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_status_bar</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_status_bar</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#supported-formats"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#supported-formats"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 <div class="section" id="supported-formats-2">
 <span id="id17"></span><h3>2. Background<a class="headerlink" href="#supported-formats-2" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_supported_formats_activity_background</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_supported_formats_activity_background</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#supported-formats"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#supported-formats"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 <div class="section" id="supported-formats-3">
 <span id="id18"></span><h3>3. Header<a class="headerlink" href="#supported-formats-3" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Text Style</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Help.SupportedFormats.Item.Header.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Help.SupportedFormats.Item.Header.TextStyle</span></tt>).</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Help.SupportedFormats.Item.Header.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Help.SupportedFormats.Item.Header.TextStyle</span></code>).</p>
 </li>
 <li><p class="first"><strong>Font</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Help.SupportedFormats.Item.Header.TextStyle</span></tt>
-(with parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Help.SupportedFormats.Item.Header.TextStyle</span></tt>) and
-setting an item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Help.SupportedFormats.Item.Header.TextStyle</span></code>
+(with parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Help.SupportedFormats.Item.Header.TextStyle</span></code>) and
+setting an item named <code class="docutils literal notranslate"><span class="pre">gvCustomFont</span></code> with the path to the font file in your assets folder.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#supported-formats"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#supported-formats"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 <div class="section" id="format-info-list-item">
 <span id="supported-formats-4"></span><h3>4. Format Info List Item<a class="headerlink" href="#format-info-list-item" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Text Style</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Help.SupportedFormats.Item.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Help.SupportedFormats.Item.TextStyle</span></tt>).</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Help.SupportedFormats.Item.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Help.SupportedFormats.Item.TextStyle</span></code>).</p>
 </li>
 <li><p class="first"><strong>Font</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Help.SupportedFormats.Item.TextStyle</span></tt>
-(with parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Help.SupportedFormats.Item.TextStyle</span></tt>) and
-setting an item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Help.SupportedFormats.Item.TextStyle</span></code>
+(with parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Help.SupportedFormats.Item.TextStyle</span></code>) and
+setting an item named <code class="docutils literal notranslate"><span class="pre">gvCustomFont</span></code> with the path to the font file in your assets folder.</p>
 </li>
 <li><p class="first"><strong>Background Color</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">gv_supported_formats_item_background</span></tt>.</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">gv_supported_formats_item_background</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#supported-formats"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#supported-formats"><span class="std std-ref">Back to screenshot.</span></a></p>
 <div class="section" id="supported-format-icon">
 <span id="supported-formats-4-1"></span><h4>4.1 Supported Format Icon<a class="headerlink" href="#supported-format-icon" title="Permalink to this headline">¶</a></h4>
 <ul>
 <li><p class="first"><strong>Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_supported_formats_item_supported_icon_background</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_supported_formats_item_supported_icon_background</span></code>.</p>
 </li>
 <li><p class="first"><strong>Tick Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_supported_formats_item_supported_icon_foreground</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_supported_formats_item_supported_icon_foreground</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#supported-formats"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#supported-formats"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 <div class="section" id="unsupported-format-icon">
 <span id="supported-formats-4-2"></span><h4>4.2 Unsupported Format Icon<a class="headerlink" href="#unsupported-format-icon" title="Permalink to this headline">¶</a></h4>
 <ul>
 <li><p class="first"><strong>Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_supported_formats_item_unsupported_icon_background</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_supported_formats_item_unsupported_icon_background</span></code>.</p>
 </li>
 <li><p class="first"><strong>Cross Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_supported_formats_item_unsupported_icon_foreground</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_supported_formats_item_unsupported_icon_foreground</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#supported-formats"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#supported-formats"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 </div>
 </div>
@@ -1859,58 +1861,58 @@ setting an item named <tt class="docutils literal"><span class="pre">gvCustomFon
 <p>All Action Bar customizations except the title are global to all Activities.</p>
 <ul>
 <li><p class="first"><strong>Title</strong></p>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_title_file_import</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_title_file_import</span></code>.</p>
 </li>
 <li><p class="first"><strong>Title Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar_title</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_action_bar_title</span></code>.</p>
 </li>
 <li><p class="first"><strong>Back Button Icon</strong></p>
-<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <tt class="docutils literal"><span class="pre">gv_action_bar_back</span></tt>.</p>
+<p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named <code class="docutils literal notranslate"><span class="pre">gv_action_bar_back</span></code>.</p>
 </li>
 <li><p class="first"><strong>Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_action_bar</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_action_bar</span></code>.</p>
 </li>
 <li><p class="first"><strong>Status Bar Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_status_bar</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_status_bar</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#file-import"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#file-import"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 <div class="section" id="file-import-2">
 <span id="id20"></span><h3>2. Background<a class="headerlink" href="#file-import-2" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_file_import_activity_background</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_file_import_activity_background</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#file-import"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#file-import"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 <div class="section" id="file-import-3">
 <span id="id21"></span><h3>3. Header<a class="headerlink" href="#file-import-3" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Text</strong></p>
-<p>Via overriding the string resource named <tt class="docutils literal"><span class="pre">gv_file_import_header</span></tt>.</p>
+<p>Via overriding the string resource named <code class="docutils literal notranslate"><span class="pre">gv_file_import_header</span></code>.</p>
 </li>
 <li><p class="first"><strong>Text Style</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Help.FileImport.Header.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Help.FileImport.Header.TextStyle</span></tt>).</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Help.FileImport.Header.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Help.FileImport.Header.TextStyle</span></code>).</p>
 </li>
 <li><p class="first"><strong>Font</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Help.FileImport.Header.TextStyle</span></tt>
-(with parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Help.FileImport.Header.TextStyle</span></tt>) and
-setting an item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Help.FileImport.Header.TextStyle</span></code>
+(with parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Help.FileImport.Header.TextStyle</span></code>) and
+setting an item named <code class="docutils literal notranslate"><span class="pre">gvCustomFont</span></code> with the path to the font file in your assets folder.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#file-import"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#file-import"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 <div class="section" id="separator-line">
 <span id="file-import-4"></span><h3>4. Separator Line<a class="headerlink" href="#separator-line" title="Permalink to this headline">¶</a></h3>
 <ul>
 <li><p class="first"><strong>Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_file_import_separator</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_file_import_separator</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#file-import"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#file-import"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 <div class="section" id="section">
 <span id="file-import-5"></span><h3>5. Section<a class="headerlink" href="#section" title="Permalink to this headline">¶</a></h3>
@@ -1918,52 +1920,52 @@ setting an item named <tt class="docutils literal"><span class="pre">gvCustomFon
 <span id="file-import-5-1"></span><h4>5.1 Number<a class="headerlink" href="#number" title="Permalink to this headline">¶</a></h4>
 <ul>
 <li><p class="first"><strong>Background Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_file_import_section_number_background</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_file_import_section_number_background</span></code>.</p>
 </li>
 <li><p class="first"><strong>Text Color</strong></p>
-<p>Via the color resource named <tt class="docutils literal"><span class="pre">gv_file_import_section_number</span></tt>.</p>
+<p>Via the color resource named <code class="docutils literal notranslate"><span class="pre">gv_file_import_section_number</span></code>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#file-import"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#file-import"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 <div class="section" id="title">
 <span id="file-import-5-2"></span><h4>5.2 Title<a class="headerlink" href="#title" title="Permalink to this headline">¶</a></h4>
 <ul>
 <li><p class="first"><strong>Text Style</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Help.FileImport.Section.Title.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Help.FileImport.Section.Title.TextStyle</span></tt>).</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Help.FileImport.Section.Title.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Help.FileImport.Section.Title.TextStyle</span></code>).</p>
 </li>
 <li><p class="first"><strong>Font</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Help.FileImport.Section.Title.TextStyle</span></tt>
-(with parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Help.FileImport.Section.Title.TextStyle</span></tt>) and
-setting an item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Help.FileImport.Section.Title.TextStyle</span></code>
+(with parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Help.FileImport.Section.Title.TextStyle</span></code>) and
+setting an item named <code class="docutils literal notranslate"><span class="pre">gvCustomFont</span></code> with the path to the font file in your assets folder.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#file-import"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#file-import"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 <div class="section" id="body">
 <span id="file-import-5-3"></span><h4>5.3 Body<a class="headerlink" href="#body" title="Permalink to this headline">¶</a></h4>
 <ul>
 <li><p class="first"><strong>Text Style</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Help.FileImport.Section.Body.TextStyle</span></tt> (with
-parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Help.FileImport.Section.Body.TextStyle</span></tt>).</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Help.FileImport.Section.Body.TextStyle</span></code> (with
+parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Help.FileImport.Section.Body.TextStyle</span></code>).</p>
 </li>
 <li><p class="first"><strong>Font</strong></p>
-<p>Via overriding the style named <tt class="docutils literal"><span class="pre">GiniVisionTheme.Help.FileImport.Section.Body.TextStyle</span></tt>
-(with parent style <tt class="docutils literal"><span class="pre">Root.GiniVisionTheme.Help.FileImport.Section.Body.TextStyle</span></tt>) and
-setting an item named <tt class="docutils literal"><span class="pre">gvCustomFont</span></tt> with the path to the font file in your assets folder.</p>
+<p>Via overriding the style named <code class="docutils literal notranslate"><span class="pre">GiniVisionTheme.Help.FileImport.Section.Body.TextStyle</span></code>
+(with parent style <code class="docutils literal notranslate"><span class="pre">Root.GiniVisionTheme.Help.FileImport.Section.Body.TextStyle</span></code>) and
+setting an item named <code class="docutils literal notranslate"><span class="pre">gvCustomFont</span></code> with the path to the font file in your assets folder.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#file-import"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#file-import"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 <div class="section" id="illustration">
 <span id="file-import-5-4"></span><h4>5.4 Illustration<a class="headerlink" href="#illustration" title="Permalink to this headline">¶</a></h4>
 <ul>
 <li><p class="first">Image</p>
-<p>Via image resources as specified in the section illustrations <a class="reference internal" href="#file-import-6"><em>below</em></a>.</p>
+<p>Via image resources as specified in the section illustrations <a class="reference internal" href="#file-import-6"><span class="std std-ref">below</span></a>.</p>
 </li>
 </ul>
-<p><a class="reference internal" href="#file-import"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#file-import"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 </div>
 <div class="section" id="sections">
@@ -1972,14 +1974,14 @@ setting an item named <tt class="docutils literal"><span class="pre">gvCustomFon
 <li><p class="first"><strong>Section 1</strong></p>
 <ul>
 <li><p class="first"><strong>Title</strong></p>
-<p>Via overriding the string resource named <tt class="docutils literal"><span class="pre">gv_file_import_section_1_title</span></tt>.</p>
+<p>Via overriding the string resource named <code class="docutils literal notranslate"><span class="pre">gv_file_import_section_1_title</span></code>.</p>
 </li>
 <li><p class="first"><strong>Body</strong></p>
-<p>Via overriding the string resource named <tt class="docutils literal"><span class="pre">gv_file_import_section_1_body</span></tt>.</p>
+<p>Via overriding the string resource named <code class="docutils literal notranslate"><span class="pre">gv_file_import_section_1_body</span></code>.</p>
 </li>
 <li><p class="first"><strong>Illustration</strong></p>
 <p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named
-<tt class="docutils literal"><span class="pre">gv_file_import_section_1_illustration.png</span></tt>.</p>
+<code class="docutils literal notranslate"><span class="pre">gv_file_import_section_1_illustration.png</span></code>.</p>
 <p><strong>Note</strong>: For creating your custom illustration you may use <a class="reference external" href="https://github.com/gini/gini-vision-lib-assets/blob/master/Gini-Vision-Lib-Design-Elements/Illustrations/PDF/android_pdf_open_with_illustration_1.pdf">this template</a>
 from the <a class="reference external" href="https://github.com/gini/gini-vision-lib-assets">Gini Vision Library UI Assets</a> repository.</p>
 </li>
@@ -1988,14 +1990,14 @@ from the <a class="reference external" href="https://github.com/gini/gini-vision
 <li><p class="first"><strong>Section 2</strong></p>
 <ul>
 <li><p class="first"><strong>Title</strong></p>
-<p>Via overriding the string resource named <tt class="docutils literal"><span class="pre">gv_file_import_section_2_title</span></tt>.</p>
+<p>Via overriding the string resource named <code class="docutils literal notranslate"><span class="pre">gv_file_import_section_2_title</span></code>.</p>
 </li>
 <li><p class="first"><strong>Body</strong></p>
-<p>Via overriding the string resource named <tt class="docutils literal"><span class="pre">gv_file_import_section_2_body</span></tt>.</p>
+<p>Via overriding the string resource named <code class="docutils literal notranslate"><span class="pre">gv_file_import_section_2_body</span></code>.</p>
 </li>
 <li><p class="first"><strong>Illustration</strong></p>
 <p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named
-<tt class="docutils literal"><span class="pre">gv_file_import_section_2_illustration.png</span></tt>.</p>
+<code class="docutils literal notranslate"><span class="pre">gv_file_import_section_2_illustration.png</span></code>.</p>
 <p><strong>Note</strong>: For creating your custom illustration you may use <a class="reference external" href="https://github.com/gini/gini-vision-lib-assets/blob/master/Gini-Vision-Lib-Design-Elements/Illustrations/PDF/android_pdf_open_with_illustration_2.pdf">this template</a>
 from the <a class="reference external" href="https://github.com/gini/gini-vision-lib-assets">Gini Vision Library UI Assets</a> repository.</p>
 </li>
@@ -2006,14 +2008,14 @@ from the <a class="reference external" href="https://github.com/gini/gini-vision
 <li><p class="first"><strong>Section 3</strong></p>
 <ul>
 <li><p class="first"><strong>Title</strong></p>
-<p>Via overriding the string resource named <tt class="docutils literal"><span class="pre">gv_file_import_section_3_title</span></tt>.</p>
+<p>Via overriding the string resource named <code class="docutils literal notranslate"><span class="pre">gv_file_import_section_3_title</span></code>.</p>
 </li>
 <li><p class="first"><strong>Body</strong></p>
-<p>Via overriding the string resource named <tt class="docutils literal"><span class="pre">gv_file_import_section_3_body</span></tt> and <tt class="docutils literal"><span class="pre">gv_file_import_section_3_body_2</span></tt>.</p>
+<p>Via overriding the string resource named <code class="docutils literal notranslate"><span class="pre">gv_file_import_section_3_body</span></code> and <code class="docutils literal notranslate"><span class="pre">gv_file_import_section_3_body_2</span></code>.</p>
 </li>
 <li><p class="first"><strong>Illustration</strong></p>
 <p>Via images for mdpi, hdpi, xhdpi, xxhdpi, xxxhdpi named
-<tt class="docutils literal"><span class="pre">gv_file_import_section_3_illustration.png</span></tt>.
+<code class="docutils literal notranslate"><span class="pre">gv_file_import_section_3_illustration.png</span></code>.
 <strong>Note</strong>: For creating your custom illustration you may use <a class="reference external" href="https://github.com/gini/gini-vision-lib-assets/blob/master/Gini-Vision-Lib-Design-Elements/Illustrations/PDF/android_pdf_open_with_illustration_3.pdf">this template</a>
 from the <a class="reference external" href="https://github.com/gini/gini-vision-lib-assets">Gini Vision Library UI Assets</a> repository.</p>
 </li>
@@ -2021,16 +2023,16 @@ from the <a class="reference external" href="https://github.com/gini/gini-vision
 <ul class="simple">
 <li><strong>Title</strong></li>
 </ul>
-<p>Via overriding the string resource named <tt class="docutils literal"><span class="pre">gv_file_import_section_3_clear_app_defaults_title</span></tt>.</p>
+<p>Via overriding the string resource named <code class="docutils literal notranslate"><span class="pre">gv_file_import_section_3_clear_app_defaults_title</span></code>.</p>
 <ul class="simple">
 <li><strong>Body</strong></li>
 </ul>
-<p>Via overriding the string resource named <tt class="docutils literal"><span class="pre">gv_file_import_section_3_clear_app_defaults_body</span></tt>.</p>
+<p>Via overriding the string resource named <code class="docutils literal notranslate"><span class="pre">gv_file_import_section_3_clear_app_defaults_body</span></code>.</p>
 </li>
 </ul>
 </li>
 </ul>
-<p><a class="reference internal" href="#file-import"><em>Back to screenshot.</em></a></p>
+<p><a class="reference internal" href="#file-import"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 </div>
 <div class="section" id="clear-defaults-dialog">
@@ -2045,29 +2047,29 @@ from the <a class="reference external" href="https://github.com/gini/gini-vision
     <!-- Created by Online Image Map Editor (http://www.maschek.hu/imagemap/index) -->
 </map><div class="section" id="message">
 <span id="clear-defaults-1"></span><h3>1. Message<a class="headerlink" href="#message" title="Permalink to this headline">¶</a></h3>
-<p>Via the string resource named <tt class="docutils literal"><span class="pre">gv_file_import_default_app_dialog_message</span></tt>.</p>
+<p>Via the string resource named <code class="docutils literal notranslate"><span class="pre">gv_file_import_default_app_dialog_message</span></code>.</p>
 <div class="section" id="file-type">
 <span id="clear-defaults-1-1"></span><h4>1.1 File Type<a class="headerlink" href="#file-type" title="Permalink to this headline">¶</a></h4>
 <ul>
 <li><p class="first"><strong>PDF</strong></p>
-<p>Via the string resources named <tt class="docutils literal"><span class="pre">gv_file_import_default_app_dialog_pdf_file_type</span></tt>.</p>
+<p>Via the string resources named <code class="docutils literal notranslate"><span class="pre">gv_file_import_default_app_dialog_pdf_file_type</span></code>.</p>
 </li>
 <li><p class="first"><strong>Image</strong></p>
-<p>Via the string resources named <tt class="docutils literal"><span class="pre">gv_file_import_default_app_dialog_image_file_type</span></tt>.</p>
+<p>Via the string resources named <code class="docutils literal notranslate"><span class="pre">gv_file_import_default_app_dialog_image_file_type</span></code>.</p>
 </li>
 <li><p class="first"><strong>Document (Other)</strong></p>
-<p>Via the string resources named <tt class="docutils literal"><span class="pre">gv_file_import_default_app_dialog_document_file_type</span></tt>.</p>
+<p>Via the string resources named <code class="docutils literal notranslate"><span class="pre">gv_file_import_default_app_dialog_document_file_type</span></code>.</p>
 </li>
 </ul>
 </div>
 <div class="section" id="positive-button-title">
 <span id="clear-defaults-2"></span><h4>2. Positive Button Title<a class="headerlink" href="#positive-button-title" title="Permalink to this headline">¶</a></h4>
-<p>Via the string resources named <tt class="docutils literal"><span class="pre">gv_file_import_default_app_dialog_positive_button</span></tt>.</p>
+<p>Via the string resources named <code class="docutils literal notranslate"><span class="pre">gv_file_import_default_app_dialog_positive_button</span></code>.</p>
 </div>
 <div class="section" id="negative-button-title">
 <span id="clear-defaults-3"></span><h4>3. Negative Button Title<a class="headerlink" href="#negative-button-title" title="Permalink to this headline">¶</a></h4>
-<p>Via the string resources named <tt class="docutils literal"><span class="pre">gv_file_import_default_app_dialog_negative_button</span></tt>.</p>
-<p><a class="reference internal" href="#file-import"><em>Back to screenshot.</em></a></p>
+<p>Via the string resources named <code class="docutils literal notranslate"><span class="pre">gv_file_import_default_app_dialog_negative_button</span></code>.</p>
+<p><a class="reference internal" href="#file-import"><span class="std std-ref">Back to screenshot.</span></a></p>
 </div>
 </div>
 </div>
