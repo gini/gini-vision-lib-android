@@ -349,7 +349,7 @@ class AnalysisScreenPresenter extends AnalysisScreenContract.Presenter {
                                 }
                                     getAnalysisFragmentListenerOrNoOp()
                                             .onExtractionsAvailable(getMapOrEmpty(resultHolder.getExtractions()));
-
+                                break;
                             case NO_NETWORK_SERVICE:
                                 getAnalysisFragmentListenerOrNoOp().onAnalyzeDocument(
                                         getFirstDocument());
