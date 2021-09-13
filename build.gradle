@@ -37,6 +37,13 @@ allprojects {
             url 'https://repo.gini.net/nexus/content/repositories/snapshots'
         }
         mavenCentral()
+        // For bolts-android 1.5.0 used by gini-android-sdk
+        //noinspection JcenterRepositoryObsolete
+        jcenter()
+        // For bolts-tasks and bolts-applinks 1.4.1-SNAPSHOT (which they should have released as version 1.5.0)
+        maven {
+            url "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
     }
 }
 

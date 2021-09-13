@@ -52,7 +52,7 @@ dependencies {
     implementation 'com.karumi:dexter:6.0.2'
 
     // For backward compatibility
-    implementation('net.gini:gini-android-sdk:2.9.0@aar') {
+    implementation('net.gini:gini-android-sdk:2.9.1@aar') {
         transitive = true
     }
 
