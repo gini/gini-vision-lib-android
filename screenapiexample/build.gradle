@@ -67,14 +67,13 @@ repositories {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(path: ':exampleShared')
-    implementation deps.androidxAppCompat
-    implementation deps.androidxCoordinatorLayout
+    implementation "androidx.appcompat:appcompat:$deps.androidxAppCompat"
+    implementation "androidx.coordinatorlayout:coordinatorlayout:$deps.androidxCoordinatorLayout"
     implementation deps.androidxMultidex
 
-    implementation 'com.karumi:dexter:6.0.2'
+    implementation 'com.karumi:dexter:6.2.3'
 
     implementation 'com.github.tony19:logback-android-core:1.1.1-6'
     implementation('com.github.tony19:logback-android-classic:1.1.1-6') {
