@@ -2,7 +2,7 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>MultiPageReviewFragment</title>
-<link href="../../../../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script><script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../../styles/style.css" rel="Stylesheet"><link href="../../../styles/logo-styles.css" rel="Stylesheet"><link href="../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../styles/main.css" rel="Stylesheet"><script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../../scripts/main.js" async="async"></script>  </head>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script><script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../../styles/style.css" rel="Stylesheet"><link href="../../../styles/logo-styles.css" rel="Stylesheet"><link href="../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../styles/main.css" rel="Stylesheet"><script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../../scripts/main.js" async="async"></script>  </head>
   <body>
     <div id="container">
       <div id="leftColumn"><a href="../../../index.html">
@@ -21,8 +21,10 @@
             </div>
           </div>
           <div class="cover ">
-            <h1 class="cover"><span>Multi</span><wbr></wbr><span>Page</span><wbr></wbr><span>Review</span><wbr></wbr><span>Fragment</span></h1>
-            <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace">public class <a href="index.html">MultiPageReviewFragment</a> extends <a href="https://developer.android.com/reference/kotlin/androidx/fragment/app/Fragment.html">Fragment</a> implements <a href="../-multi-page-review-fragment-interface/index.html">MultiPageReviewFragmentInterface</a>, <a href="../../net.gini.android.vision.review.multipage.previews/-preview-fragment-listener/index.html">PreviewFragmentListener</a>, <a href="../../net.gini.android.vision.internal.ui/-fragment-impl-callback/index.html">FragmentImplCallback</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div>Component API<p class="paragraph"> When you use the Compontent API and have enabled the multi-page feature, the <code>{@code * MultiPageReviewFragment}</code> displays the photographed or imported images and allows the user to review them by checking the order, sharpness, quality and orientation of the images. The user can correct the order by dragging the thumbnails of the images and can also correct the orientation by rotating the images. </p><p class="paragraph">Important:</p><ul><li> A <a href="../../net.gini.android.vision/-gini-vision/index.html">GiniVision</a> instance is required to use the <code>{@code MultiPageReviewFragment}</code></li><li> Your Activity hosting this Fragment must extend the <a href="https://developer.android.com/reference/kotlin/androidx/appcompat/app/AppCompatActivity.html">androidx.appcompat.app.AppCompatActivity</a> and use an AppCompat Theme. </li></ul><p class="paragraph"> Include the <code>{@code MultiPageReviewFragment}</code> into your layout by using the <a href="create-instance.html"></a> factory method to create an instance and display it using the <a href="https://developer.android.com/reference/kotlin/androidx/fragment/app/FragmentManager.html">androidx.fragment.app.FragmentManager</a>. </p><p class="paragraph"> A <a href="../-multi-page-review-fragment-listener/index.html">MultiPageReviewFragmentListener</a> instance must be available until the <code>{@code * MultiPageReviewFragment}</code> is attached to an activity. Failing to do so will throw an exception. The listener instance can be provided either implicitly by making the hosting Activity implement the <a href="../-multi-page-review-fragment-listener/index.html">MultiPageReviewFragmentListener</a> interface or explicitly by setting the listener using <a href="set-listener.html">setListener</a>. </p><p class="paragraph"> Your Activity is automatically set as the listener in <a href="on-create.html">onCreate</a>. </p>Customizing the Multi-Page Review Screen See the <a href="../-multi-page-review-activity/index.html">MultiPageReviewActivity</a> for details.</div></div>
+            <h1 class="cover"><span>Multi</span><wbr></wbr><span>Page</span><wbr></wbr><span>Review</span><wbr></wbr><span><span>Fragment</span></span></h1>
+            <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace">public class <a href="index.html">MultiPageReviewFragment</a> extends <a href="https://developer.android.com/reference/kotlin/androidx/fragment/app/Fragment.html">Fragment</a> implements <a href="../-multi-page-review-fragment-interface/index.html">MultiPageReviewFragmentInterface</a>, <a href="../../net.gini.android.vision.review.multipage.previews/-preview-fragment-listener/index.html">PreviewFragmentListener</a>, <a href="../../net.gini.android.vision.internal.ui/-fragment-impl-callback/index.html">FragmentImplCallback</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div>Component API<p class="paragraph"> When you use the Compontent API and have enabled the multi-page feature, the <code>
+MultiPageReviewFragment</code> displays the photographed or imported images and allows the user to review them by checking the order, sharpness, quality and orientation of the images. The user can correct the order by dragging the thumbnails of the images and can also correct the orientation by rotating the images. </p><p class="paragraph"><strong>Important:</strong></p><ul><li> A <a href="../../net.gini.android.vision/-gini-vision/index.html">GiniVision</a> instance is required to use the <code>MultiPageReviewFragment</code></li><li> Your Activity hosting this Fragment must extend the <a href="https://developer.android.com/reference/kotlin/androidx/appcompat/app/AppCompatActivity.html">androidx.appcompat.app.AppCompatActivity</a> and use an AppCompat Theme. </li></ul><p class="paragraph"> Include the <code>MultiPageReviewFragment</code> into your layout by using the <a href="create-instance.html">createInstance</a> factory method to create an instance and display it using the <a href="https://developer.android.com/reference/kotlin/androidx/fragment/app/FragmentManager.html">androidx.fragment.app.FragmentManager</a>. </p><p class="paragraph"> A <a href="../-multi-page-review-fragment-listener/index.html">MultiPageReviewFragmentListener</a> instance must be available until the <code>
+MultiPageReviewFragment</code> is attached to an activity. Failing to do so will throw an exception. The listener instance can be provided either implicitly by making the hosting Activity implement the <a href="../-multi-page-review-fragment-listener/index.html">MultiPageReviewFragmentListener</a> interface or explicitly by setting the listener using <a href="set-listener.html">setListener</a>. </p><p class="paragraph"> Your Activity is automatically set as the listener in <a href="on-create.html">onCreate</a>. </p>Customizing the Multi-Page Review Screen See the <a href="../-multi-page-review-activity/index.html">MultiPageReviewActivity</a> for details.</div></div>
           </div>
           <div class="tabbedcontent">
             <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Functions">Functions</button></div>
@@ -31,7 +33,7 @@
               <div class="table" data-togglable="Functions"><a data-name="-1695337961%2FFunctions%2F1339440567" anchor-label="createInstance" id="-1695337961%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="create-instance.html">createInstance</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1695337961%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="create-instance.html"><span>create</span><wbr></wbr><span><span>Instance</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1695337961%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -48,7 +50,7 @@
 <a data-name="1976747391%2FFunctions%2F1339440567" anchor-label="dump" id="1976747391%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1976747391%2FFunctions%2F1339440567">dump</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1976747391%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1976747391%2FFunctions%2F1339440567"><span><span>dump</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1976747391%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -65,7 +67,7 @@
 <a data-name="1659982693%2FFunctions%2F1339440567" anchor-label="equals" id="1659982693%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1659982693%2FFunctions%2F1339440567">equals</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1659982693%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1659982693%2FFunctions%2F1339440567"><span><span>equals</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1659982693%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -82,7 +84,7 @@
 <a data-name="1637974522%2FFunctions%2F1339440567" anchor-label="getActivity" id="1637974522%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1392314466%2FFunctions%2F1339440567">getActivity</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1637974522%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-1392314466%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span><span>Activity</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1637974522%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -99,7 +101,7 @@
 <a data-name="-2104435926%2FFunctions%2F1339440567" anchor-label="getAllowEnterTransitionOverlap" id="-2104435926%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-2104435926%2FFunctions%2F1339440567">getAllowEnterTransitionOverlap</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2104435926%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-2104435926%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span>Allow</span><wbr></wbr><span>Enter</span><wbr></wbr><span>Transition</span><wbr></wbr><span><span>Overlap</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2104435926%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -116,7 +118,7 @@
 <a data-name="-1667327596%2FFunctions%2F1339440567" anchor-label="getAllowReturnTransitionOverlap" id="-1667327596%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1667327596%2FFunctions%2F1339440567">getAllowReturnTransitionOverlap</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1667327596%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-1667327596%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span>Allow</span><wbr></wbr><span>Return</span><wbr></wbr><span>Transition</span><wbr></wbr><span><span>Overlap</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1667327596%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -133,7 +135,7 @@
 <a data-name="1376006423%2FFunctions%2F1339440567" anchor-label="getArguments" id="1376006423%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1376006423%2FFunctions%2F1339440567">getArguments</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1376006423%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1376006423%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span><span>Arguments</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1376006423%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -150,7 +152,7 @@
 <a data-name="-1890433940%2FFunctions%2F1339440567" anchor-label="getChildFragmentManager" id="-1890433940%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1890433940%2FFunctions%2F1339440567">getChildFragmentManager</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1890433940%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-1890433940%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span>Child</span><wbr></wbr><span>Fragment</span><wbr></wbr><span><span>Manager</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1890433940%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -167,7 +169,7 @@
 <a data-name="-894920994%2FFunctions%2F1339440567" anchor-label="getContext" id="-894920994%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-894920994%2FFunctions%2F1339440567">getContext</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-894920994%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-894920994%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span><span>Context</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-894920994%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -184,7 +186,7 @@
 <a data-name="-323725993%2FFunctions%2F1339440567" anchor-label="getDefaultViewModelProviderFactory" id="-323725993%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-323725993%2FFunctions%2F1339440567">getDefaultViewModelProviderFactory</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-323725993%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-323725993%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span>Default</span><wbr></wbr><span>View</span><wbr></wbr><span>Model</span><wbr></wbr><span>Provider</span><wbr></wbr><span><span>Factory</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-323725993%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -201,7 +203,7 @@
 <a data-name="201197568%2FFunctions%2F1339440567" anchor-label="getEnterTransition" id="201197568%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#201197568%2FFunctions%2F1339440567">getEnterTransition</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="201197568%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#201197568%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span>Enter</span><wbr></wbr><span><span>Transition</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="201197568%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -218,7 +220,7 @@
 <a data-name="-440830438%2FFunctions%2F1339440567" anchor-label="getExitTransition" id="-440830438%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-440830438%2FFunctions%2F1339440567">getExitTransition</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-440830438%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-440830438%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span>Exit</span><wbr></wbr><span><span>Transition</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-440830438%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -235,7 +237,7 @@
 <a data-name="997068048%2FFunctions%2F1339440567" anchor-label="getFragmentManager" id="997068048%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#997068048%2FFunctions%2F1339440567">getFragmentManager</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="997068048%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#997068048%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span>Fragment</span><wbr></wbr><span><span>Manager</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="997068048%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -252,7 +254,7 @@
 <a data-name="36530981%2FFunctions%2F1339440567" anchor-label="getHost" id="36530981%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#36530981%2FFunctions%2F1339440567">getHost</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="36530981%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#36530981%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span><span>Host</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="36530981%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -269,7 +271,7 @@
 <a data-name="1859866386%2FFunctions%2F1339440567" anchor-label="getId" id="1859866386%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1859866386%2FFunctions%2F1339440567">getId</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1859866386%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1859866386%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span><span>Id</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1859866386%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -286,7 +288,7 @@
 <a data-name="-1878541096%2FFunctions%2F1339440567" anchor-label="getLayoutInflater" id="-1878541096%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1878541096%2FFunctions%2F1339440567">getLayoutInflater</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1878541096%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-1878541096%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span>Layout</span><wbr></wbr><span><span>Inflater</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1878541096%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -303,7 +305,7 @@
 <a data-name="-1524104829%2FFunctions%2F1339440567" anchor-label="getLifecycle" id="-1524104829%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1524104829%2FFunctions%2F1339440567">getLifecycle</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1524104829%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-1524104829%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span><span>Lifecycle</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1524104829%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -320,7 +322,7 @@
 <a data-name="-522630445%2FFunctions%2F1339440567" anchor-label="getLoaderManager" id="-522630445%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-522630445%2FFunctions%2F1339440567">getLoaderManager</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-522630445%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-522630445%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span>Loader</span><wbr></wbr><span><span>Manager</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-522630445%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -337,7 +339,7 @@
 <a data-name="-429298701%2FFunctions%2F1339440567" anchor-label="getParentFragment" id="-429298701%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-429298701%2FFunctions%2F1339440567">getParentFragment</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-429298701%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-429298701%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span>Parent</span><wbr></wbr><span><span>Fragment</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-429298701%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -354,7 +356,7 @@
 <a data-name="-994094118%2FFunctions%2F1339440567" anchor-label="getParentFragmentManager" id="-994094118%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-994094118%2FFunctions%2F1339440567">getParentFragmentManager</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-994094118%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-994094118%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span>Parent</span><wbr></wbr><span>Fragment</span><wbr></wbr><span><span>Manager</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-994094118%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -371,7 +373,7 @@
 <a data-name="-941167821%2FFunctions%2F1339440567" anchor-label="getReenterTransition" id="-941167821%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-941167821%2FFunctions%2F1339440567">getReenterTransition</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-941167821%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-941167821%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span>Reenter</span><wbr></wbr><span><span>Transition</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-941167821%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -388,7 +390,7 @@
 <a data-name="1269998376%2FFunctions%2F1339440567" anchor-label="getResources" id="1269998376%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1269998376%2FFunctions%2F1339440567">getResources</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1269998376%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1269998376%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span><span>Resources</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1269998376%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -405,7 +407,7 @@
 <a data-name="-1302712237%2FFunctions%2F1339440567" anchor-label="getRetainInstance" id="-1302712237%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1302712237%2FFunctions%2F1339440567">getRetainInstance</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1302712237%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-1302712237%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span>Retain</span><wbr></wbr><span><span>Instance</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1302712237%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -422,7 +424,7 @@
 <a data-name="-656431928%2FFunctions%2F1339440567" anchor-label="getReturnTransition" id="-656431928%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-656431928%2FFunctions%2F1339440567">getReturnTransition</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-656431928%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-656431928%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span>Return</span><wbr></wbr><span><span>Transition</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-656431928%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -439,7 +441,7 @@
 <a data-name="-477985530%2FFunctions%2F1339440567" anchor-label="getSavedStateRegistry" id="-477985530%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-477985530%2FFunctions%2F1339440567">getSavedStateRegistry</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-477985530%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-477985530%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span>Saved</span><wbr></wbr><span>State</span><wbr></wbr><span><span>Registry</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-477985530%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -456,7 +458,7 @@
 <a data-name="399237655%2FFunctions%2F1339440567" anchor-label="getSharedElementEnterTransition" id="399237655%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#399237655%2FFunctions%2F1339440567">getSharedElementEnterTransition</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="399237655%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#399237655%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span>Shared</span><wbr></wbr><span>Element</span><wbr></wbr><span>Enter</span><wbr></wbr><span><span>Transition</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="399237655%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -473,7 +475,7 @@
 <a data-name="1187843473%2FFunctions%2F1339440567" anchor-label="getSharedElementReturnTransition" id="1187843473%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1187843473%2FFunctions%2F1339440567">getSharedElementReturnTransition</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1187843473%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1187843473%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span>Shared</span><wbr></wbr><span>Element</span><wbr></wbr><span>Return</span><wbr></wbr><span><span>Transition</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1187843473%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -490,7 +492,7 @@
 <a data-name="-1741549929%2FFunctions%2F1339440567" anchor-label="getString" id="-1741549929%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1741549929%2FFunctions%2F1339440567">getString</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1741549929%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-1741549929%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span><span>String</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1741549929%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -507,7 +509,7 @@
 <a data-name="1623323475%2FFunctions%2F1339440567" anchor-label="getTag" id="1623323475%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1623323475%2FFunctions%2F1339440567">getTag</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1623323475%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1623323475%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span><span>Tag</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1623323475%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -524,7 +526,7 @@
 <a data-name="1431108588%2FFunctions%2F1339440567" anchor-label="getTargetFragment" id="1431108588%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1431108588%2FFunctions%2F1339440567">getTargetFragment</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1431108588%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1431108588%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span>Target</span><wbr></wbr><span><span>Fragment</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1431108588%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -541,7 +543,7 @@
 <a data-name="1545265474%2FFunctions%2F1339440567" anchor-label="getTargetRequestCode" id="1545265474%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1545265474%2FFunctions%2F1339440567">getTargetRequestCode</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1545265474%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1545265474%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span>Target</span><wbr></wbr><span>Request</span><wbr></wbr><span><span>Code</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1545265474%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -558,7 +560,7 @@
 <a data-name="1737239987%2FFunctions%2F1339440567" anchor-label="getText" id="1737239987%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1737239987%2FFunctions%2F1339440567">getText</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1737239987%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1737239987%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span><span>Text</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1737239987%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -575,7 +577,7 @@
 <a data-name="1543775263%2FFunctions%2F1339440567" anchor-label="getUserVisibleHint" id="1543775263%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1543775263%2FFunctions%2F1339440567">getUserVisibleHint</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1543775263%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1543775263%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span>User</span><wbr></wbr><span>Visible</span><wbr></wbr><span><span>Hint</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1543775263%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -592,7 +594,7 @@
 <a data-name="-1315404594%2FFunctions%2F1339440567" anchor-label="getView" id="-1315404594%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-2101162808%2FFunctions%2F1339440567">getView</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1315404594%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-2101162808%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span><span>View</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1315404594%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -609,7 +611,7 @@
 <a data-name="-1335541729%2FFunctions%2F1339440567" anchor-label="getViewLifecycleOwner" id="-1335541729%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1335541729%2FFunctions%2F1339440567">getViewLifecycleOwner</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1335541729%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-1335541729%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span>View</span><wbr></wbr><span>Lifecycle</span><wbr></wbr><span><span>Owner</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1335541729%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -626,7 +628,7 @@
 <a data-name="1291737097%2FFunctions%2F1339440567" anchor-label="getViewLifecycleOwnerLiveData" id="1291737097%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1291737097%2FFunctions%2F1339440567">getViewLifecycleOwnerLiveData</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1291737097%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1291737097%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span>View</span><wbr></wbr><span>Lifecycle</span><wbr></wbr><span>Owner</span><wbr></wbr><span>Live</span><wbr></wbr><span><span>Data</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1291737097%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -643,7 +645,7 @@
 <a data-name="1620751024%2FFunctions%2F1339440567" anchor-label="getViewModelStore" id="1620751024%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1620751024%2FFunctions%2F1339440567">getViewModelStore</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1620751024%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1620751024%2FFunctions%2F1339440567"><span>get</span><wbr></wbr><span>View</span><wbr></wbr><span>Model</span><wbr></wbr><span><span>Store</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1620751024%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -660,7 +662,7 @@
 <a data-name="1923845372%2FFunctions%2F1339440567" anchor-label="hashCode" id="1923845372%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1923845372%2FFunctions%2F1339440567">hashCode</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1923845372%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1923845372%2FFunctions%2F1339440567"><span>hash</span><wbr></wbr><span><span>Code</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1923845372%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -677,7 +679,7 @@
 <a data-name="-1109029772%2FFunctions%2F1339440567" anchor-label="hasOptionsMenu" id="-1109029772%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1109029772%2FFunctions%2F1339440567">hasOptionsMenu</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1109029772%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-1109029772%2FFunctions%2F1339440567"><span>has</span><wbr></wbr><span>Options</span><wbr></wbr><span><span>Menu</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1109029772%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -694,7 +696,7 @@
 <a data-name="1487767532%2FFunctions%2F1339440567" anchor-label="instantiate" id="1487767532%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1487767532%2FFunctions%2F1339440567">instantiate</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1487767532%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1487767532%2FFunctions%2F1339440567"><span><span>instantiate</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1487767532%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -711,7 +713,7 @@
 <a data-name="10501709%2FFunctions%2F1339440567" anchor-label="isAdded" id="10501709%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#10501709%2FFunctions%2F1339440567">isAdded</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="10501709%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#10501709%2FFunctions%2F1339440567"><span>is</span><wbr></wbr><span><span>Added</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="10501709%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -728,7 +730,7 @@
 <a data-name="-2090944773%2FFunctions%2F1339440567" anchor-label="isDetached" id="-2090944773%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-2090944773%2FFunctions%2F1339440567">isDetached</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2090944773%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-2090944773%2FFunctions%2F1339440567"><span>is</span><wbr></wbr><span><span>Detached</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2090944773%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -745,7 +747,7 @@
 <a data-name="1170272195%2FFunctions%2F1339440567" anchor-label="isHidden" id="1170272195%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1170272195%2FFunctions%2F1339440567">isHidden</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1170272195%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1170272195%2FFunctions%2F1339440567"><span>is</span><wbr></wbr><span><span>Hidden</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1170272195%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -762,7 +764,7 @@
 <a data-name="1394830430%2FFunctions%2F1339440567" anchor-label="isInLayout" id="1394830430%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1394830430%2FFunctions%2F1339440567">isInLayout</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1394830430%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1394830430%2FFunctions%2F1339440567"><span>is</span><wbr></wbr><span>In</span><wbr></wbr><span><span>Layout</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1394830430%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -779,7 +781,7 @@
 <a data-name="-1619983206%2FFunctions%2F1339440567" anchor-label="isMenuVisible" id="-1619983206%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1619983206%2FFunctions%2F1339440567">isMenuVisible</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1619983206%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-1619983206%2FFunctions%2F1339440567"><span>is</span><wbr></wbr><span>Menu</span><wbr></wbr><span><span>Visible</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1619983206%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -796,7 +798,7 @@
 <a data-name="-412912372%2FFunctions%2F1339440567" anchor-label="isRemoving" id="-412912372%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-412912372%2FFunctions%2F1339440567">isRemoving</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-412912372%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-412912372%2FFunctions%2F1339440567"><span>is</span><wbr></wbr><span><span>Removing</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-412912372%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -813,7 +815,7 @@
 <a data-name="-44659370%2FFunctions%2F1339440567" anchor-label="isResumed" id="-44659370%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-44659370%2FFunctions%2F1339440567">isResumed</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-44659370%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-44659370%2FFunctions%2F1339440567"><span>is</span><wbr></wbr><span><span>Resumed</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-44659370%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -830,7 +832,7 @@
 <a data-name="1493362295%2FFunctions%2F1339440567" anchor-label="isStateSaved" id="1493362295%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1493362295%2FFunctions%2F1339440567">isStateSaved</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1493362295%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1493362295%2FFunctions%2F1339440567"><span>is</span><wbr></wbr><span>State</span><wbr></wbr><span><span>Saved</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1493362295%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -847,7 +849,7 @@
 <a data-name="-1139708133%2FFunctions%2F1339440567" anchor-label="isVisible" id="-1139708133%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1139708133%2FFunctions%2F1339440567">isVisible</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1139708133%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-1139708133%2FFunctions%2F1339440567"><span>is</span><wbr></wbr><span><span>Visible</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1139708133%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -864,7 +866,7 @@
 <a data-name="-741357300%2FFunctions%2F1339440567" anchor-label="onActivityCreated" id="-741357300%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-741357300%2FFunctions%2F1339440567">onActivityCreated</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-741357300%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-741357300%2FFunctions%2F1339440567"><span>on</span><wbr></wbr><span>Activity</span><wbr></wbr><span><span>Created</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-741357300%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -881,7 +883,7 @@
 <a data-name="-864809548%2FFunctions%2F1339440567" anchor-label="onActivityResult" id="-864809548%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-864809548%2FFunctions%2F1339440567">onActivityResult</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-864809548%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-864809548%2FFunctions%2F1339440567"><span>on</span><wbr></wbr><span>Activity</span><wbr></wbr><span><span>Result</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-864809548%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -898,7 +900,7 @@
 <a data-name="60886964%2FFunctions%2F1339440567" anchor-label="onAttach" id="60886964%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#60886964%2FFunctions%2F1339440567">onAttach</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="60886964%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#60886964%2FFunctions%2F1339440567"><span>on</span><wbr></wbr><span><span>Attach</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="60886964%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -915,7 +917,7 @@
 <a data-name="1028326221%2FFunctions%2F1339440567" anchor-label="onAttachFragment" id="1028326221%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1028326221%2FFunctions%2F1339440567">onAttachFragment</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1028326221%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1028326221%2FFunctions%2F1339440567"><span>on</span><wbr></wbr><span>Attach</span><wbr></wbr><span><span>Fragment</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1028326221%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -932,7 +934,7 @@
 <a data-name="-1387860172%2FFunctions%2F1339440567" anchor-label="onConfigurationChanged" id="-1387860172%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1387860172%2FFunctions%2F1339440567">onConfigurationChanged</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1387860172%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-1387860172%2FFunctions%2F1339440567"><span>on</span><wbr></wbr><span>Configuration</span><wbr></wbr><span><span>Changed</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1387860172%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -949,7 +951,7 @@
 <a data-name="1152721665%2FFunctions%2F1339440567" anchor-label="onContextItemSelected" id="1152721665%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1152721665%2FFunctions%2F1339440567">onContextItemSelected</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1152721665%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1152721665%2FFunctions%2F1339440567"><span>on</span><wbr></wbr><span>Context</span><wbr></wbr><span>Item</span><wbr></wbr><span><span>Selected</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1152721665%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -966,7 +968,7 @@
 <a data-name="721295944%2FFunctions%2F1339440567" anchor-label="onCreate" id="721295944%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="on-create.html">onCreate</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="721295944%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="on-create.html"><span>on</span><wbr></wbr><span><span>Create</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="721295944%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -975,7 +977,7 @@
   <div>
     <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block">void <a href="on-create.html">onCreate</a>(<a href="https://developer.android.com/reference/kotlin/android/os/Bundle.html">Bundle</a> savedInstanceState)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
-<a data-name="721295944%2FFunctions%2F1339440567" anchor-label="onCreate" id="721295944%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a><div class="brief "><a data-name="721295944%2FFunctions%2F1339440567" anchor-label="onCreate" id="721295944%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>Internal use only.</div></div>
+<div class="brief ">Internal use only.</div></div>
 </div>
                     </div>
                   </div>
@@ -983,7 +985,7 @@
 <a data-name="1484561512%2FFunctions%2F1339440567" anchor-label="onCreateAnimation" id="1484561512%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1484561512%2FFunctions%2F1339440567">onCreateAnimation</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1484561512%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1484561512%2FFunctions%2F1339440567"><span>on</span><wbr></wbr><span>Create</span><wbr></wbr><span><span>Animation</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1484561512%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1000,7 +1002,7 @@
 <a data-name="253835245%2FFunctions%2F1339440567" anchor-label="onCreateAnimator" id="253835245%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#253835245%2FFunctions%2F1339440567">onCreateAnimator</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="253835245%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#253835245%2FFunctions%2F1339440567"><span>on</span><wbr></wbr><span>Create</span><wbr></wbr><span><span>Animator</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="253835245%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1017,7 +1019,7 @@
 <a data-name="-2015111795%2FFunctions%2F1339440567" anchor-label="onCreateContextMenu" id="-2015111795%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-2015111795%2FFunctions%2F1339440567">onCreateContextMenu</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2015111795%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-2015111795%2FFunctions%2F1339440567"><span>on</span><wbr></wbr><span>Create</span><wbr></wbr><span>Context</span><wbr></wbr><span><span>Menu</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2015111795%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1034,7 +1036,7 @@
 <a data-name="-217945273%2FFunctions%2F1339440567" anchor-label="onCreateOptionsMenu" id="-217945273%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-217945273%2FFunctions%2F1339440567">onCreateOptionsMenu</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-217945273%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-217945273%2FFunctions%2F1339440567"><span>on</span><wbr></wbr><span>Create</span><wbr></wbr><span>Options</span><wbr></wbr><span><span>Menu</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-217945273%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1051,7 +1053,7 @@
 <a data-name="-1605309750%2FFunctions%2F1339440567" anchor-label="onCreateView" id="-1605309750%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="on-create-view.html">onCreateView</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1605309750%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="on-create-view.html"><span>on</span><wbr></wbr><span>Create</span><wbr></wbr><span><span>View</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1605309750%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1068,7 +1070,7 @@
 <a data-name="-1194072615%2FFunctions%2F1339440567" anchor-label="onDeleteDocument" id="-1194072615%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="on-delete-document.html">onDeleteDocument</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1194072615%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="on-delete-document.html"><span>on</span><wbr></wbr><span>Delete</span><wbr></wbr><span><span>Document</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1194072615%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1085,7 +1087,7 @@
 <a data-name="265497911%2FFunctions%2F1339440567" anchor-label="onDestroy" id="265497911%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="on-destroy.html">onDestroy</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="265497911%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="on-destroy.html"><span>on</span><wbr></wbr><span><span>Destroy</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="265497911%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1102,7 +1104,7 @@
 <a data-name="1227008757%2FFunctions%2F1339440567" anchor-label="onDestroyOptionsMenu" id="1227008757%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1227008757%2FFunctions%2F1339440567">onDestroyOptionsMenu</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1227008757%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1227008757%2FFunctions%2F1339440567"><span>on</span><wbr></wbr><span>Destroy</span><wbr></wbr><span>Options</span><wbr></wbr><span><span>Menu</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1227008757%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1119,7 +1121,7 @@
 <a data-name="-1639382877%2FFunctions%2F1339440567" anchor-label="onDestroyView" id="-1639382877%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1639382877%2FFunctions%2F1339440567">onDestroyView</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1639382877%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-1639382877%2FFunctions%2F1339440567"><span>on</span><wbr></wbr><span>Destroy</span><wbr></wbr><span><span>View</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1639382877%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1136,7 +1138,7 @@
 <a data-name="2119788197%2FFunctions%2F1339440567" anchor-label="onDetach" id="2119788197%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#2119788197%2FFunctions%2F1339440567">onDetach</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2119788197%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#2119788197%2FFunctions%2F1339440567"><span>on</span><wbr></wbr><span><span>Detach</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2119788197%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1153,7 +1155,7 @@
 <a data-name="1964133502%2FFunctions%2F1339440567" anchor-label="onGetLayoutInflater" id="1964133502%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1964133502%2FFunctions%2F1339440567">onGetLayoutInflater</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1964133502%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1964133502%2FFunctions%2F1339440567"><span>on</span><wbr></wbr><span>Get</span><wbr></wbr><span>Layout</span><wbr></wbr><span><span>Inflater</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1964133502%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1170,7 +1172,7 @@
 <a data-name="1303383874%2FFunctions%2F1339440567" anchor-label="onHiddenChanged" id="1303383874%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1303383874%2FFunctions%2F1339440567">onHiddenChanged</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1303383874%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1303383874%2FFunctions%2F1339440567"><span>on</span><wbr></wbr><span>Hidden</span><wbr></wbr><span><span>Changed</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1303383874%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1187,7 +1189,7 @@
 <a data-name="-2093349454%2FFunctions%2F1339440567" anchor-label="onInflate" id="-2093349454%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-2093349454%2FFunctions%2F1339440567">onInflate</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2093349454%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-2093349454%2FFunctions%2F1339440567"><span>on</span><wbr></wbr><span><span>Inflate</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2093349454%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1204,7 +1206,7 @@
 <a data-name="746154733%2FFunctions%2F1339440567" anchor-label="onLowMemory" id="746154733%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#746154733%2FFunctions%2F1339440567">onLowMemory</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="746154733%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#746154733%2FFunctions%2F1339440567"><span>on</span><wbr></wbr><span>Low</span><wbr></wbr><span><span>Memory</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="746154733%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1221,7 +1223,7 @@
 <a data-name="1278990730%2FFunctions%2F1339440567" anchor-label="onMultiWindowModeChanged" id="1278990730%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1278990730%2FFunctions%2F1339440567">onMultiWindowModeChanged</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1278990730%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1278990730%2FFunctions%2F1339440567"><span>on</span><wbr></wbr><span>Multi</span><wbr></wbr><span>Window</span><wbr></wbr><span>Mode</span><wbr></wbr><span><span>Changed</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1278990730%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1238,7 +1240,7 @@
 <a data-name="-1166370000%2FFunctions%2F1339440567" anchor-label="onOptionsItemSelected" id="-1166370000%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1166370000%2FFunctions%2F1339440567">onOptionsItemSelected</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1166370000%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-1166370000%2FFunctions%2F1339440567"><span>on</span><wbr></wbr><span>Options</span><wbr></wbr><span>Item</span><wbr></wbr><span><span>Selected</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1166370000%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1255,7 +1257,7 @@
 <a data-name="-1591805024%2FFunctions%2F1339440567" anchor-label="onOptionsMenuClosed" id="-1591805024%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1591805024%2FFunctions%2F1339440567">onOptionsMenuClosed</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1591805024%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-1591805024%2FFunctions%2F1339440567"><span>on</span><wbr></wbr><span>Options</span><wbr></wbr><span>Menu</span><wbr></wbr><span><span>Closed</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1591805024%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1272,7 +1274,7 @@
 <a data-name="531470267%2FFunctions%2F1339440567" anchor-label="onPause" id="531470267%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="on-pause.html">onPause</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="531470267%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="on-pause.html"><span>on</span><wbr></wbr><span><span>Pause</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="531470267%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1289,7 +1291,7 @@
 <a data-name="178150958%2FFunctions%2F1339440567" anchor-label="onPictureInPictureModeChanged" id="178150958%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#178150958%2FFunctions%2F1339440567">onPictureInPictureModeChanged</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="178150958%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#178150958%2FFunctions%2F1339440567"><span>on</span><wbr></wbr><span>Picture</span><wbr></wbr><span>In</span><wbr></wbr><span>Picture</span><wbr></wbr><span>Mode</span><wbr></wbr><span><span>Changed</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="178150958%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1306,7 +1308,7 @@
 <a data-name="-383159753%2FFunctions%2F1339440567" anchor-label="onPrepareOptionsMenu" id="-383159753%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-383159753%2FFunctions%2F1339440567">onPrepareOptionsMenu</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-383159753%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-383159753%2FFunctions%2F1339440567"><span>on</span><wbr></wbr><span>Prepare</span><wbr></wbr><span>Options</span><wbr></wbr><span><span>Menu</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-383159753%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1323,7 +1325,7 @@
 <a data-name="-2048988240%2FFunctions%2F1339440567" anchor-label="onPrimaryNavigationFragmentChanged" id="-2048988240%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-2048988240%2FFunctions%2F1339440567">onPrimaryNavigationFragmentChanged</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2048988240%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-2048988240%2FFunctions%2F1339440567"><span>on</span><wbr></wbr><span>Primary</span><wbr></wbr><span>Navigation</span><wbr></wbr><span>Fragment</span><wbr></wbr><span><span>Changed</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2048988240%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1340,7 +1342,7 @@
 <a data-name="-1987429091%2FFunctions%2F1339440567" anchor-label="onRequestPermissionsResult" id="-1987429091%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1987429091%2FFunctions%2F1339440567">onRequestPermissionsResult</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1987429091%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-1987429091%2FFunctions%2F1339440567"><span>on</span><wbr></wbr><span>Request</span><wbr></wbr><span>Permissions</span><wbr></wbr><span><span>Result</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1987429091%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1357,7 +1359,7 @@
 <a data-name="-2118666421%2FFunctions%2F1339440567" anchor-label="onResume" id="-2118666421%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-2118666421%2FFunctions%2F1339440567">onResume</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2118666421%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-2118666421%2FFunctions%2F1339440567"><span>on</span><wbr></wbr><span><span>Resume</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2118666421%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1374,7 +1376,7 @@
 <a data-name="-933694338%2FFunctions%2F1339440567" anchor-label="onRetryUpload" id="-933694338%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="on-retry-upload.html">onRetryUpload</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-933694338%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="on-retry-upload.html"><span>on</span><wbr></wbr><span>Retry</span><wbr></wbr><span><span>Upload</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-933694338%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1391,7 +1393,7 @@
 <a data-name="-916594574%2FFunctions%2F1339440567" anchor-label="onSaveInstanceState" id="-916594574%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-916594574%2FFunctions%2F1339440567">onSaveInstanceState</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-916594574%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-916594574%2FFunctions%2F1339440567"><span>on</span><wbr></wbr><span>Save</span><wbr></wbr><span>Instance</span><wbr></wbr><span><span>State</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-916594574%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1408,7 +1410,7 @@
 <a data-name="1152895695%2FFunctions%2F1339440567" anchor-label="onStart" id="1152895695%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="on-start.html">onStart</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1152895695%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="on-start.html"><span>on</span><wbr></wbr><span><span>Start</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1152895695%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1425,7 +1427,7 @@
 <a data-name="134319062%2FFunctions%2F1339440567" anchor-label="onStop" id="134319062%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#134319062%2FFunctions%2F1339440567">onStop</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="134319062%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#134319062%2FFunctions%2F1339440567"><span>on</span><wbr></wbr><span><span>Stop</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="134319062%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1442,7 +1444,7 @@
 <a data-name="1869045642%2FFunctions%2F1339440567" anchor-label="onViewCreated" id="1869045642%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1869045642%2FFunctions%2F1339440567">onViewCreated</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1869045642%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1869045642%2FFunctions%2F1339440567"><span>on</span><wbr></wbr><span>View</span><wbr></wbr><span><span>Created</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1869045642%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1459,7 +1461,7 @@
 <a data-name="-2039095595%2FFunctions%2F1339440567" anchor-label="onViewStateRestored" id="-2039095595%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-2039095595%2FFunctions%2F1339440567">onViewStateRestored</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2039095595%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-2039095595%2FFunctions%2F1339440567"><span>on</span><wbr></wbr><span>View</span><wbr></wbr><span>State</span><wbr></wbr><span><span>Restored</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2039095595%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1476,7 +1478,7 @@
 <a data-name="-261385076%2FFunctions%2F1339440567" anchor-label="postponeEnterTransition" id="-261385076%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-261385076%2FFunctions%2F1339440567">postponeEnterTransition</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-261385076%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-261385076%2FFunctions%2F1339440567"><span>postpone</span><wbr></wbr><span>Enter</span><wbr></wbr><span><span>Transition</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-261385076%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1490,10 +1492,27 @@
                     </div>
                   </div>
                 </div>
+<a data-name="-1822012266%2FFunctions%2F1339440567" anchor-label="registerForActivityResult" id="-1822012266%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="index.html#-1822012266%2FFunctions%2F1339440567"><span>register</span><wbr></wbr><span>For</span><wbr></wbr><span>Activity</span><wbr></wbr><span><span>Result</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1822012266%2FFunctions%2F1339440567"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title"><div class="divergent-group" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release"><div class="with-platform-tags"><span class="pull-right"></span></div>
+
+  <div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block">final <a href="https://developer.android.com/reference/kotlin/androidx/activity/result/ActivityResultLauncher.html">ActivityResultLauncher</a>&lt;<a href="https://developer.android.com/reference/kotlin/androidx/activity/ComponentActivity.html#registerforactivityresult">I</a>&gt; <a href="index.html#-1822012266%2FFunctions%2F1339440567">registerForActivityResult</a>&lt;I, O&gt;(<a href="https://developer.android.com/reference/kotlin/androidx/activity/result/contract/ActivityResultContract.html">ActivityResultContract</a>&lt;<a href="https://developer.android.com/reference/kotlin/androidx/activity/ComponentActivity.html#registerforactivityresult">I</a>, <a href="https://developer.android.com/reference/kotlin/androidx/activity/ComponentActivity.html#registerforactivityresult">O</a>&gt; contract, <a href="https://developer.android.com/reference/kotlin/androidx/activity/result/ActivityResultCallback.html">ActivityResultCallback</a>&lt;<a href="https://developer.android.com/reference/kotlin/androidx/activity/ComponentActivity.html#registerforactivityresult">O</a>&gt; callback)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+  </div>
+</div>
+</div>
+                    </div>
+                  </div>
+                </div>
 <a data-name="89649092%2FFunctions%2F1339440567" anchor-label="registerForContextMenu" id="89649092%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#89649092%2FFunctions%2F1339440567">registerForContextMenu</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="89649092%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#89649092%2FFunctions%2F1339440567"><span>register</span><wbr></wbr><span>For</span><wbr></wbr><span>Context</span><wbr></wbr><span><span>Menu</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="89649092%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1510,7 +1529,7 @@
 <a data-name="-146501297%2FFunctions%2F1339440567" anchor-label="requestPermissions" id="-146501297%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-146501297%2FFunctions%2F1339440567">requestPermissions</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-146501297%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-146501297%2FFunctions%2F1339440567"><span>request</span><wbr></wbr><span><span>Permissions</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-146501297%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1527,7 +1546,7 @@
 <a data-name="-1398509457%2FFunctions%2F1339440567" anchor-label="requireActivity" id="-1398509457%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1398509457%2FFunctions%2F1339440567">requireActivity</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1398509457%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-1398509457%2FFunctions%2F1339440567"><span>require</span><wbr></wbr><span><span>Activity</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1398509457%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1544,7 +1563,7 @@
 <a data-name="1183961702%2FFunctions%2F1339440567" anchor-label="requireArguments" id="1183961702%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1183961702%2FFunctions%2F1339440567">requireArguments</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1183961702%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1183961702%2FFunctions%2F1339440567"><span>require</span><wbr></wbr><span><span>Arguments</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1183961702%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1561,7 +1580,7 @@
 <a data-name="628899821%2FFunctions%2F1339440567" anchor-label="requireContext" id="628899821%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#628899821%2FFunctions%2F1339440567">requireContext</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="628899821%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#628899821%2FFunctions%2F1339440567"><span>require</span><wbr></wbr><span><span>Context</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="628899821%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1578,7 +1597,7 @@
 <a data-name="-259311841%2FFunctions%2F1339440567" anchor-label="requireFragmentManager" id="-259311841%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-259311841%2FFunctions%2F1339440567">requireFragmentManager</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-259311841%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-259311841%2FFunctions%2F1339440567"><span>require</span><wbr></wbr><span>Fragment</span><wbr></wbr><span><span>Manager</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-259311841%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1595,7 +1614,7 @@
 <a data-name="2126902390%2FFunctions%2F1339440567" anchor-label="requireHost" id="2126902390%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#2126902390%2FFunctions%2F1339440567">requireHost</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2126902390%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#2126902390%2FFunctions%2F1339440567"><span>require</span><wbr></wbr><span><span>Host</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2126902390%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1612,7 +1631,7 @@
 <a data-name="84362244%2FFunctions%2F1339440567" anchor-label="requireParentFragment" id="84362244%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#84362244%2FFunctions%2F1339440567">requireParentFragment</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="84362244%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#84362244%2FFunctions%2F1339440567"><span>require</span><wbr></wbr><span>Parent</span><wbr></wbr><span><span>Fragment</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="84362244%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1629,7 +1648,7 @@
 <a data-name="-10791399%2FFunctions%2F1339440567" anchor-label="requireView" id="-10791399%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-10791399%2FFunctions%2F1339440567">requireView</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-10791399%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-10791399%2FFunctions%2F1339440567"><span>require</span><wbr></wbr><span><span>View</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-10791399%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1646,7 +1665,7 @@
 <a data-name="1062451492%2FFunctions%2F1339440567" anchor-label="setAllowEnterTransitionOverlap" id="1062451492%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1062451492%2FFunctions%2F1339440567">setAllowEnterTransitionOverlap</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1062451492%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1062451492%2FFunctions%2F1339440567"><span>set</span><wbr></wbr><span>Allow</span><wbr></wbr><span>Enter</span><wbr></wbr><span>Transition</span><wbr></wbr><span><span>Overlap</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1062451492%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1663,7 +1682,7 @@
 <a data-name="-956446958%2FFunctions%2F1339440567" anchor-label="setAllowReturnTransitionOverlap" id="-956446958%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-956446958%2FFunctions%2F1339440567">setAllowReturnTransitionOverlap</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-956446958%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-956446958%2FFunctions%2F1339440567"><span>set</span><wbr></wbr><span>Allow</span><wbr></wbr><span>Return</span><wbr></wbr><span>Transition</span><wbr></wbr><span><span>Overlap</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-956446958%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1680,7 +1699,7 @@
 <a data-name="-464666254%2FFunctions%2F1339440567" anchor-label="setArguments" id="-464666254%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-464666254%2FFunctions%2F1339440567">setArguments</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-464666254%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-464666254%2FFunctions%2F1339440567"><span>set</span><wbr></wbr><span><span>Arguments</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-464666254%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1697,7 +1716,7 @@
 <a data-name="810575968%2FFunctions%2F1339440567" anchor-label="setEnterSharedElementCallback" id="810575968%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#810575968%2FFunctions%2F1339440567">setEnterSharedElementCallback</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="810575968%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#810575968%2FFunctions%2F1339440567"><span>set</span><wbr></wbr><span>Enter</span><wbr></wbr><span>Shared</span><wbr></wbr><span>Element</span><wbr></wbr><span><span>Callback</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="810575968%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1714,7 +1733,7 @@
 <a data-name="754930713%2FFunctions%2F1339440567" anchor-label="setEnterTransition" id="754930713%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#754930713%2FFunctions%2F1339440567">setEnterTransition</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="754930713%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#754930713%2FFunctions%2F1339440567"><span>set</span><wbr></wbr><span>Enter</span><wbr></wbr><span><span>Transition</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="754930713%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1731,7 +1750,7 @@
 <a data-name="1509670498%2FFunctions%2F1339440567" anchor-label="setExitSharedElementCallback" id="1509670498%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1509670498%2FFunctions%2F1339440567">setExitSharedElementCallback</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1509670498%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1509670498%2FFunctions%2F1339440567"><span>set</span><wbr></wbr><span>Exit</span><wbr></wbr><span>Shared</span><wbr></wbr><span>Element</span><wbr></wbr><span><span>Callback</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1509670498%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1748,7 +1767,7 @@
 <a data-name="838257307%2FFunctions%2F1339440567" anchor-label="setExitTransition" id="838257307%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#838257307%2FFunctions%2F1339440567">setExitTransition</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="838257307%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#838257307%2FFunctions%2F1339440567"><span>set</span><wbr></wbr><span>Exit</span><wbr></wbr><span><span>Transition</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="838257307%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1765,7 +1784,7 @@
 <a data-name="1283185116%2FFunctions%2F1339440567" anchor-label="setHasOptionsMenu" id="1283185116%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1283185116%2FFunctions%2F1339440567">setHasOptionsMenu</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1283185116%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1283185116%2FFunctions%2F1339440567"><span>set</span><wbr></wbr><span>Has</span><wbr></wbr><span>Options</span><wbr></wbr><span><span>Menu</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1283185116%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1782,7 +1801,7 @@
 <a data-name="400073525%2FFunctions%2F1339440567" anchor-label="setInitialSavedState" id="400073525%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#400073525%2FFunctions%2F1339440567">setInitialSavedState</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="400073525%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#400073525%2FFunctions%2F1339440567"><span>set</span><wbr></wbr><span>Initial</span><wbr></wbr><span>Saved</span><wbr></wbr><span><span>State</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="400073525%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1799,7 +1818,7 @@
 <a data-name="1960131437%2FFunctions%2F1339440567" anchor-label="setListener" id="1960131437%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="set-listener.html">setListener</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1960131437%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="set-listener.html"><span>set</span><wbr></wbr><span><span>Listener</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1960131437%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1808,7 +1827,7 @@
   <div>
     <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":ginivision:dokkaHtml/release"><div class="symbol monospace block">void <a href="set-listener.html">setListener</a>(<span>@<a href="https://developer.android.com/reference/kotlin/androidx/annotation/NonNull.html">NonNull</a>() </span><a href="../-multi-page-review-fragment-listener/index.html">MultiPageReviewFragmentListener</a> listener)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
-<a data-name="1960131437%2FFunctions%2F1339440567" anchor-label="setListener" id="1960131437%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a><div class="brief "><a data-name="1960131437%2FFunctions%2F1339440567" anchor-label="setListener" id="1960131437%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>Set a listener for multi-page review events.</div></div>
+<div class="brief ">Set a listener for multi-page review events.</div></div>
 </div>
                     </div>
                   </div>
@@ -1816,7 +1835,7 @@
 <a data-name="908339594%2FFunctions%2F1339440567" anchor-label="setMenuVisibility" id="908339594%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#908339594%2FFunctions%2F1339440567">setMenuVisibility</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="908339594%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#908339594%2FFunctions%2F1339440567"><span>set</span><wbr></wbr><span>Menu</span><wbr></wbr><span><span>Visibility</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="908339594%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1833,7 +1852,7 @@
 <a data-name="-1080598964%2FFunctions%2F1339440567" anchor-label="setReenterTransition" id="-1080598964%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1080598964%2FFunctions%2F1339440567">setReenterTransition</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1080598964%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-1080598964%2FFunctions%2F1339440567"><span>set</span><wbr></wbr><span>Reenter</span><wbr></wbr><span><span>Transition</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1080598964%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1850,7 +1869,7 @@
 <a data-name="-639176589%2FFunctions%2F1339440567" anchor-label="setRetainInstance" id="-639176589%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-639176589%2FFunctions%2F1339440567">setRetainInstance</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-639176589%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-639176589%2FFunctions%2F1339440567"><span>set</span><wbr></wbr><span>Retain</span><wbr></wbr><span><span>Instance</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-639176589%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1867,7 +1886,7 @@
 <a data-name="528896073%2FFunctions%2F1339440567" anchor-label="setReturnTransition" id="528896073%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#528896073%2FFunctions%2F1339440567">setReturnTransition</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="528896073%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#528896073%2FFunctions%2F1339440567"><span>set</span><wbr></wbr><span>Return</span><wbr></wbr><span><span>Transition</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="528896073%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1884,7 +1903,7 @@
 <a data-name="941031832%2FFunctions%2F1339440567" anchor-label="setSharedElementEnterTransition" id="941031832%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#941031832%2FFunctions%2F1339440567">setSharedElementEnterTransition</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="941031832%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#941031832%2FFunctions%2F1339440567"><span>set</span><wbr></wbr><span>Shared</span><wbr></wbr><span>Element</span><wbr></wbr><span>Enter</span><wbr></wbr><span><span>Transition</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="941031832%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1901,7 +1920,7 @@
 <a data-name="2003063466%2FFunctions%2F1339440567" anchor-label="setSharedElementReturnTransition" id="2003063466%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#2003063466%2FFunctions%2F1339440567">setSharedElementReturnTransition</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2003063466%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#2003063466%2FFunctions%2F1339440567"><span>set</span><wbr></wbr><span>Shared</span><wbr></wbr><span>Element</span><wbr></wbr><span>Return</span><wbr></wbr><span><span>Transition</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2003063466%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1918,7 +1937,7 @@
 <a data-name="-152473794%2FFunctions%2F1339440567" anchor-label="setTargetFragment" id="-152473794%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-152473794%2FFunctions%2F1339440567">setTargetFragment</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-152473794%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-152473794%2FFunctions%2F1339440567"><span>set</span><wbr></wbr><span>Target</span><wbr></wbr><span><span>Fragment</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-152473794%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1935,7 +1954,7 @@
 <a data-name="-1901727601%2FFunctions%2F1339440567" anchor-label="setUserVisibleHint" id="-1901727601%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1901727601%2FFunctions%2F1339440567">setUserVisibleHint</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1901727601%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-1901727601%2FFunctions%2F1339440567"><span>set</span><wbr></wbr><span>User</span><wbr></wbr><span>Visible</span><wbr></wbr><span><span>Hint</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1901727601%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1952,7 +1971,7 @@
 <a data-name="1126603657%2FFunctions%2F1339440567" anchor-label="shouldShowRequestPermissionRationale" id="1126603657%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1126603657%2FFunctions%2F1339440567">shouldShowRequestPermissionRationale</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1126603657%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1126603657%2FFunctions%2F1339440567"><span>should</span><wbr></wbr><span>Show</span><wbr></wbr><span>Request</span><wbr></wbr><span>Permission</span><wbr></wbr><span><span>Rationale</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1126603657%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1969,7 +1988,7 @@
 <a data-name="-38593765%2FFunctions%2F1339440567" anchor-label="showAlertDialog" id="-38593765%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="show-alert-dialog.html">showAlertDialog</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-38593765%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="show-alert-dialog.html"><span>show</span><wbr></wbr><span>Alert</span><wbr></wbr><span><span>Dialog</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-38593765%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -1986,7 +2005,7 @@
 <a data-name="227708674%2FFunctions%2F1339440567" anchor-label="startActivity" id="227708674%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-791839070%2FFunctions%2F1339440567">startActivity</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="227708674%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-791839070%2FFunctions%2F1339440567"><span>start</span><wbr></wbr><span><span>Activity</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="227708674%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -2003,7 +2022,7 @@
 <a data-name="-2045662782%2FFunctions%2F1339440567" anchor-label="startActivityForResult" id="-2045662782%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-882748858%2FFunctions%2F1339440567">startActivityForResult</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2045662782%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-882748858%2FFunctions%2F1339440567"><span>start</span><wbr></wbr><span>Activity</span><wbr></wbr><span>For</span><wbr></wbr><span><span>Result</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2045662782%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -2020,7 +2039,7 @@
 <a data-name="-1702918450%2FFunctions%2F1339440567" anchor-label="startIntentSenderForResult" id="-1702918450%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#-1702918450%2FFunctions%2F1339440567">startIntentSenderForResult</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1702918450%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#-1702918450%2FFunctions%2F1339440567"><span>start</span><wbr></wbr><span>Intent</span><wbr></wbr><span>Sender</span><wbr></wbr><span>For</span><wbr></wbr><span><span>Result</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1702918450%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -2037,7 +2056,7 @@
 <a data-name="874132930%2FFunctions%2F1339440567" anchor-label="startPostponedEnterTransition" id="874132930%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#874132930%2FFunctions%2F1339440567">startPostponedEnterTransition</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="874132930%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#874132930%2FFunctions%2F1339440567"><span>start</span><wbr></wbr><span>Postponed</span><wbr></wbr><span>Enter</span><wbr></wbr><span><span>Transition</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="874132930%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -2054,7 +2073,7 @@
 <a data-name="1745679307%2FFunctions%2F1339440567" anchor-label="toString" id="1745679307%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1745679307%2FFunctions%2F1339440567">toString</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1745679307%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1745679307%2FFunctions%2F1339440567"><span>to</span><wbr></wbr><span><span>String</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1745679307%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -2071,7 +2090,7 @@
 <a data-name="1066523869%2FFunctions%2F1339440567" anchor-label="unregisterForContextMenu" id="1066523869%2FFunctions%2F1339440567" data-filterable-set=":ginivision:dokkaHtml/release"></a>
                 <div class="table-row" data-filterable-current=":ginivision:dokkaHtml/release" data-filterable-set=":ginivision:dokkaHtml/release">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#1066523869%2FFunctions%2F1339440567">unregisterForContextMenu</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1066523869%2FFunctions%2F1339440567"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#1066523869%2FFunctions%2F1339440567"><span>unregister</span><wbr></wbr><span>For</span><wbr></wbr><span>Context</span><wbr></wbr><span><span>Menu</span></span></a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1066523869%2FFunctions%2F1339440567"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
