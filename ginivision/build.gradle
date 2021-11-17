@@ -62,25 +62,26 @@ android {
 }
 
 dependencies {
-    api deps.slf4j
-    implementation deps.androidxCore
-    implementation deps.androidxAppCompat
-    implementation deps.androidxFragment
-    implementation deps.androidxViewPager
-    implementation deps.androidxRecyclerView
-    implementation deps.androidxLegacySupportV13
-    implementation deps.materialDesign
-    implementation deps.androidxCardView
-    implementation deps.androidxAnnotations
-    implementation deps.playServicesVision
+    api "org.slf4j:slf4j-api:$deps.slf4j"
+    implementation "androidx.core:core:$deps.androidxCore"
+    implementation "androidx.appcompat:appcompat:$deps.androidxAppCompat"
+    implementation "androidx.fragment:fragment:$deps.androidxFragment"
+    implementation "androidx.viewpager:viewpager:$deps.androidxViewPager"
+    implementation "androidx.recyclerview:recyclerview:$deps.androidxRecyclerView"
+    implementation "androidx.legacy:legacy-support-v13:$deps.androidxLegacySupportV13"
+    implementation "com.google.android.material:material:$deps.materialDesign"
+    implementation "androidx.cardview:cardview:$deps.androidxCardView"
+    implementation "androidx.annotation:annotation:androidxAnnotations"
+    implementation "com.google.android.gms:play-services-vision:$deps.playServicesVision"
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
-    implementation deps.commonsImaging
-    implementation 'org.glassfish.jersey.bundles.repackaged:jersey-jsr166e:2.25.1'
+    implementation "org.apache.commons:commons-imaging:$deps.commonsImaging"
+    implementation "org.glassfish.jersey.bundles.repackaged:jersey-jsr166e:$deps.completableFuture"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation fileTree(dir: '${project.rootDir}/tools/doccheck-doclet', include: ['*.jar'])
-    implementation deps.androidxCardView
+    implementation "androidx.cardview:cardview:$deps.androidxCardView"
 
+    //noinspection FragmentGradleConfiguration
+    testImplementation "androidx.fragment:fragment-testing:$deps.androidxFragmentTesting"
     testImplementation deps.junit
     testImplementation deps.truth
     testImplementation deps.mockito

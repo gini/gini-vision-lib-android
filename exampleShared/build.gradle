@@ -43,13 +43,11 @@ android {
 }
 
 dependencies {
-
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation deps.androidxAppCompat
+    implementation "androidx.appcompat:appcompat:$deps.androidxAppCompat"
     implementation deps.androidxMultidex
 
-    implementation 'com.karumi:dexter:6.0.2'
+    implementation 'com.karumi:dexter:6.2.3'
 
     // For backward compatibility
     implementation('net.gini:gini-android-sdk:2.9.1@aar') {

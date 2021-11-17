@@ -15,6 +15,17 @@
             android:name="net.gini.android.vision.onboarding.OnboardingFragmentHostActivity"
             android:theme="@style/GiniVisionTheme" />
 
+        <!-- Workaround to fix manifest merger errors in example app builds when adding -->
+        <!-- "androidx.fragment:fragment-testing" to debugImplementation: -->
+        <activity
+            android:name="androidx.fragment.app.testing.FragmentScenario$EmptyFragmentActivity"
+            android:exported="true"
+            android:multiprocess="true"
+            android:taskAffinity="">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
