@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -207,6 +207,12 @@ extends java.lang.Object</pre>
 </td>
 </tr>
 <tr id="i12" class="altColor">
+<td class="colFirst"><code><a href="../../../../../net/gini/android/vision/network/GiniVisionDefaultNetworkService.Builder.html" title="class in net.gini.android.vision.network">GiniVisionDefaultNetworkService.Builder</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../net/gini/android/vision/network/GiniVisionDefaultNetworkService.Builder.html#setTrustManager-javax.net.ssl.TrustManager-">setTrustManager</a></span>(javax.net.ssl.TrustManager&nbsp;trustManager)</code>
+<div class="block">Set a custom <code>TrustManager</code> implementation to have full control over which certificates to trust.</div>
+</td>
+</tr>
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code><a href="../../../../../net/gini/android/vision/network/GiniVisionDefaultNetworkService.Builder.html" title="class in net.gini.android.vision.network">GiniVisionDefaultNetworkService.Builder</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../net/gini/android/vision/network/GiniVisionDefaultNetworkService.Builder.html#setUserCenterBaseUrl-java.lang.String-">setUserCenterBaseUrl</a></span>(java.lang.String&nbsp;userCenterBaseUrl)</code>
 <div class="block">Set the base URL of the Gini User Center API.</div>
@@ -439,7 +445,7 @@ extends java.lang.Object</pre>
 <a name="setDocumentMetadata-DocumentMetadata-">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>setDocumentMetadata</h4>
 <pre>public&nbsp;<a href="../../../../../net/gini/android/vision/network/GiniVisionDefaultNetworkService.Builder.html" title="class in net.gini.android.vision.network">GiniVisionDefaultNetworkService.Builder</a>&nbsp;setDocumentMetadata(DocumentMetadata&nbsp;documentMetadata)</pre>
@@ -449,6 +455,26 @@ extends java.lang.Object</pre>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>documentMetadata</code> - a <code>DocumentMetadata</code> instance containing additional
                          information for the uploaded documents</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the <a href="../../../../../net/gini/android/vision/network/GiniVisionDefaultNetworkService.Builder.html" title="class in net.gini.android.vision.network"><code>GiniVisionDefaultNetworkService.Builder</code></a> instance</dd>
+</dl>
+</li>
+</ul>
+<a name="setTrustManager-javax.net.ssl.TrustManager-">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>setTrustManager</h4>
+<pre>public&nbsp;<a href="../../../../../net/gini/android/vision/network/GiniVisionDefaultNetworkService.Builder.html" title="class in net.gini.android.vision.network">GiniVisionDefaultNetworkService.Builder</a>&nbsp;setTrustManager(javax.net.ssl.TrustManager&nbsp;trustManager)</pre>
+<div class="block">Set a custom <code>TrustManager</code> implementation to have full control over which certificates to trust.
+ <p>
+ Please be aware that if you set a custom TrustManager implementation here than it will override any
+ <a href="https://developer.android.com/training/articles/security-config">network security configuration</a>
+ you may have set.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>trustManager</code> - A <code>TrustManager</code> implementation.</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the <a href="../../../../../net/gini/android/vision/network/GiniVisionDefaultNetworkService.Builder.html" title="class in net.gini.android.vision.network"><code>GiniVisionDefaultNetworkService.Builder</code></a> instance</dd>
 </dl>
