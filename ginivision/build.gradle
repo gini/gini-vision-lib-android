@@ -73,6 +73,7 @@ dependencies {
     implementation "androidx.cardview:cardview:$deps.androidxCardView"
     implementation "androidx.annotation:annotation:androidxAnnotations"
     implementation "com.google.android.gms:play-services-vision:$deps.playServicesVision"
+    implementation "com.google.android.gms:play-services-mlkit-barcode-scanning:$deps.mlKitBarcodeScanning"
 
     implementation "org.apache.commons:commons-imaging:$deps.commonsImaging"
     implementation "org.glassfish.jersey.bundles.repackaged:jersey-jsr166e:$deps.completableFuture"

@@ -66,6 +66,7 @@ import net.gini.android.vision.internal.qrcode.PaymentQRCodeData;
 import net.gini.android.vision.internal.qrcode.PaymentQRCodeReader;
 import net.gini.android.vision.internal.qrcode.QRCodeDetectorTask;
 import net.gini.android.vision.internal.qrcode.QRCodeDetectorTaskGoogleVision;
+import net.gini.android.vision.internal.qrcode.QRCodeDetectorTaskMLKit;
 import net.gini.android.vision.internal.storage.ImageDiskStore;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;
 import net.gini.android.vision.internal.ui.FragmentImplCallback;
@@ -453,8 +454,8 @@ class CameraFragmentImpl implements CameraFragmentInterface, PaymentQRCodeReader
         if (mPaymentQRCodeReader != null) {
             return;
         }
-        final QRCodeDetectorTaskGoogleVision qrCodeDetectorTask =
-                new QRCodeDetectorTaskGoogleVision(activity);
+        final QRCodeDetectorTask qrCodeDetectorTask =
+                new QRCodeDetectorTaskMLKit();
         qrCodeDetectorTask.checkAvailability(new QRCodeDetectorTask.Callback() {
             @Override
             public void onResult(final boolean isAvailable) {
