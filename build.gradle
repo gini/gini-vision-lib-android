@@ -65,7 +65,7 @@ task printLibraryVersion {
 ext {
     compileSdkVersion = 31
     minSdkVersion = 19
-    targetSdkVersion = 31
+    targetSdkVersion = 30
     versionCode = libVersionCode
     versionName = libVersionName
 }
