@@ -35,8 +35,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.XmlRes;
 
-import javax.net.ssl.TrustManager;
-
 import bolts.Continuation;
 import bolts.Task;
 
@@ -349,7 +347,6 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
         private int mMaxNumberOfRetries;
         private float mBackoffMultiplier;
         private DocumentMetadata mDocumentMetadata;
-        private TrustManager mTrustManager;
 
         Builder(@NonNull final Context context) {
             mContext = context;
@@ -393,9 +390,6 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
             }
             if (mBackoffMultiplier >= 0) {
                 sdkBuilder.setConnectionBackOffMultiplier(mBackoffMultiplier);
-            }
-            if (mTrustManager != null) {
-                sdkBuilder.setTrustManager(mTrustManager);
             }
             final Gini giniApi = sdkBuilder.build();
             return new GiniVisionDefaultNetworkService(giniApi, mDocumentMetadata);
@@ -569,20 +563,6 @@ public class GiniVisionDefaultNetworkService implements GiniVisionNetworkService
             return this;
         }
 
-        /**
-         * Set a custom {@link TrustManager} implementation to have full control over which certificates to trust.
-         * <p>
-         * Please be aware that if you set a custom TrustManager implementation here than it will override any
-         * <a href="https://developer.android.com/training/articles/security-config">network security configuration</a>
-         * you may have set.
-         *
-         * @param trustManager A {@link TrustManager} implementation.
-         * @return the {@link Builder} instance
-         */
-        public Builder setTrustManager(@NonNull final TrustManager trustManager) {
-            mTrustManager = trustManager;
-            return this;
-        }
     }
 
 }
