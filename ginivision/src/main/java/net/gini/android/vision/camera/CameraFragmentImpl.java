@@ -65,7 +65,6 @@ import net.gini.android.vision.internal.network.NetworkRequestsManager;
 import net.gini.android.vision.internal.qrcode.PaymentQRCodeData;
 import net.gini.android.vision.internal.qrcode.PaymentQRCodeReader;
 import net.gini.android.vision.internal.qrcode.QRCodeDetectorTask;
-import net.gini.android.vision.internal.qrcode.QRCodeDetectorTaskGoogleVision;
 import net.gini.android.vision.internal.qrcode.QRCodeDetectorTaskMLKit;
 import net.gini.android.vision.internal.storage.ImageDiskStore;
 import net.gini.android.vision.internal.ui.ErrorSnackbar;

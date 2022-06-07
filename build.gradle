@@ -84,8 +84,7 @@ ext.deps = [
         androidxCardView           : '1.0.0',
         androidxAnnotations        : '1.3.0',
 
-        // Google Mobile Vision API
-        playServicesVision         : '20.1.3',
+        // Google ML Kit for QR code scanning
         mlKitBarcodeScanning       : '18.0.0',
         // Exif editing library. IMPORTANT: notify backend when the version is changed
         commonsImaging             : '1.0-alpha2',
