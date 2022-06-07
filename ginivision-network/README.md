@@ -48,8 +48,8 @@ app/build.gradle:
 
 ```
 dependencies {
-    implementation 'net.gini:gini-vision-lib:4.3.0'
-    implementation 'net.gini:gini-vision-network-lib:4.3.0'
+    implementation 'net.gini:gini-vision-lib:4.3.1-target-sdk-30'
+    implementation 'net.gini:gini-vision-network-lib:4.3.1-target-sdk-30'
 }
 ```
 
