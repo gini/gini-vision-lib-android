@@ -39,7 +39,7 @@ import java.util.concurrent.ExecutionException;
  */
 public class QRCodeDetectorTaskMLKit implements QRCodeDetectorTask {
 
-    private static final boolean DEBUG = true;
+    private static final boolean DEBUG = false;
     private static final Logger LOG = LoggerFactory.getLogger(QRCodeDetectorTaskMLKit.class);
     private final BarcodeScanner mBarcodeScanner;
 
